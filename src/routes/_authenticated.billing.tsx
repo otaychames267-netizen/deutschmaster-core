@@ -1,0 +1,101 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { toast } from "sonner";
+import { format, addDays } from "date-fns";
+
+export const Route = createFileRoute("/_authenticated/billing")({
+  head: () => ({ meta: [{ title: "Billing — DeutschMaster" }] }),
+  component: BillingPage,
+});
+
+function BillingPage() {
+  const { user } = useAuth();
+  const [plans, setPlans] = useState<any[]>([]);
+  const [sub, setSub] = useState<any>(null);
+  const [payments, setPayments] = useState<any[]>([]);
+  const [invoices, setInvoices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  const reload = async () => {
+    if (!user) return;
+    const [pl, sb, pay, inv] = await Promise.all([
+      supabase.from("plans").select("*").eq("active", true).order("price_eur"),
+      supabase.from("subscriptions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
+      supabase.from("payments").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
+      supabase.from("invoices").select("*").eq("user_id", user.id).order("issued_at", { ascending: false }),
+    ]);
+    setPlans(pl.data ?? []); setSub(sb.data); setPayments(pay.data ?? []); setInvoices(inv.data ?? []);
+  };
+  useEffect(() => { reload(); }, [user]);
+
+  const claimTrial = async (planCode: string) => {
+    if (!user) return;
+    setLoading(true);
+    const { data: existing } = await supabase.from("trial_claims").select("id").eq("user_id", user.id).maybeSingle();
+    if (existing) { toast.error("You have already used your free trial."); setLoading(false); return; }
+    const expires = addDays(new Date(), 3).toISOString();
+    const { error: tcErr } = await supabase.from("trial_claims").insert({ user_id: user.id, email: user.email ?? "" });
+    if (tcErr) { toast.error(tcErr.message); setLoading(false); return; }
+    toast.success("Trial activated — please contact admin for full activation.");
+    setLoading(false); reload();
+  };
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-2xl font-bold">Billing & Subscription</h1>
+      <Card>
+        <CardHeader><CardTitle>Current Plan</CardTitle></CardHeader>
+        <CardContent>
+          {sub ? (
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="font-medium">{sub.plan_code}</p>
+                <p className="text-sm text-muted-foreground">Expires {format(new Date(sub.expires_at), "PPP")}</p>
+              </div>
+              <Badge variant={sub.status === "active" ? "default" : sub.status === "trial" ? "secondary" : "destructive"}>{sub.status}</Badge>
+            </div>
+          ) : <p className="text-sm text-muted-foreground">No active subscription.</p>}
+        </CardContent>
+      </Card>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {plans.map((p) => (
+          <Card key={p.code}>
+            <CardHeader><CardTitle>{p.name}</CardTitle></CardHeader>
+            <CardContent className="space-y-3">
+              <p className="text-sm text-muted-foreground">{p.description}</p>
+              <p className="text-2xl font-bold">{Number(p.price_tnd).toFixed(0)} TND <span className="text-xs text-muted-foreground">/ €{Number(p.price_eur).toFixed(2)}</span></p>
+              <Button onClick={() => claimTrial(p.code)} disabled={loading} className="w-full">Start 3-day trial</Button>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <Card>
+        <CardHeader><CardTitle>Payment History</CardTitle></CardHeader>
+        <CardContent>
+          {payments.length === 0 ? <p className="text-sm text-muted-foreground">No payments yet.</p> : (
+            <Table><TableHeader><TableRow><TableHead>Date</TableHead><TableHead>Amount</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
+            <TableBody>{payments.map((p) => (<TableRow key={p.id}><TableCell>{format(new Date(p.created_at), "PP")}</TableCell><TableCell>{p.amount} {p.currency}</TableCell><TableCell><Badge variant="outline">{p.status}</Badge></TableCell></TableRow>))}</TableBody></Table>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader><CardTitle>Invoices</CardTitle></CardHeader>
+        <CardContent>
+          {invoices.length === 0 ? <p className="text-sm text-muted-foreground">No invoices yet.</p> : (
+            <Table><TableHeader><TableRow><TableHead>Number</TableHead><TableHead>Date</TableHead><TableHead>Amount</TableHead><TableHead>PDF</TableHead></TableRow></TableHeader>
+            <TableBody>{invoices.map((i) => (<TableRow key={i.id}><TableCell>{i.invoice_number}</TableCell><TableCell>{format(new Date(i.issued_at), "PP")}</TableCell><TableCell>{i.amount} {i.currency}</TableCell><TableCell>{i.pdf_url ? <a href={i.pdf_url} className="text-accent">Download</a> : "—"}</TableCell></TableRow>))}</TableBody></Table>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
