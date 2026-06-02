@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { recordLoginSuccess, expireOverdueSubscriptions } from "@/lib/session-tracking";
 
 interface AuthState {
   user: User | null;
@@ -19,13 +20,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, sess) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, sess) => {
       setSession(sess);
       setUser(sess?.user ?? null);
       if (sess?.user) {
+        const uid = sess.user.id;
         setTimeout(async () => {
-          const { data } = await supabase.from("user_roles").select("role").eq("user_id", sess.user.id).eq("role", "admin").maybeSingle();
+          const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle();
           setIsAdmin(!!data);
+          // Track sign-in events (covers OAuth + password)
+          if (event === "SIGNED_IN") {
+            recordLoginSuccess(uid).catch(() => {});
+          }
+          expireOverdueSubscriptions().catch(() => {});
         }, 0);
       } else {
         setIsAdmin(false);
@@ -36,7 +43,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(sess?.user ?? null);
       setLoading(false);
       if (sess?.user) {
-        supabase.from("user_roles").select("role").eq("user_id", sess.user.id).eq("role", "admin").maybeSingle().then(({ data }) => setIsAdmin(!!data));
+        const uid = sess.user.id;
+        supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle().then(({ data }) => setIsAdmin(!!data));
+        expireOverdueSubscriptions().catch(() => {});
       }
     });
     return () => subscription.unsubscribe();
