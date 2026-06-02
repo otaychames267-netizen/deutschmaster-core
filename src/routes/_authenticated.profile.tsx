@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { TwoFactorSetup } from "@/components/TwoFactorSetup";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   head: () => ({ meta: [{ title: "Profile — DeutschMaster" }] }),
@@ -19,10 +19,17 @@ function ProfilePage() {
   const { user } = useAuth();
   const [p, setP] = useState<any>(null);
   const [saving, setSaving] = useState(false);
+  const [mfaEnrolled, setMfaEnrolled] = useState(false);
+
+  const loadMfa = async () => {
+    const { data } = await supabase.auth.mfa.listFactors();
+    setMfaEnrolled(!!data?.totp?.find((f) => f.status === "verified"));
+  };
 
   useEffect(() => {
     if (!user) return;
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setP(data));
+    loadMfa();
   }, [user]);
 
   if (!p) return <p className="text-muted-foreground">Loading...</p>;
@@ -31,7 +38,7 @@ function ProfilePage() {
     setSaving(true);
     const { error } = await supabase.from("profiles").update({
       full_name: p.full_name, country: p.country, level: p.level, target_level: p.target_level,
-      exam_date: p.exam_date || null, study_goal: p.study_goal, two_fa_enabled: p.two_fa_enabled,
+      exam_date: p.exam_date || null, study_goal: p.study_goal,
     }).eq("id", user!.id);
     setSaving(false);
     if (error) toast.error(error.message); else toast.success("Profile updated");
@@ -77,9 +84,8 @@ function ProfilePage() {
 
       <Card>
         <CardHeader><CardTitle>Two-Factor Authentication</CardTitle></CardHeader>
-        <CardContent className="flex items-center justify-between">
-          <div><p className="font-medium">Authenticator app (TOTP)</p><p className="text-sm text-muted-foreground">Add extra protection to your account.</p></div>
-          <Switch checked={!!p.two_fa_enabled} onCheckedChange={(v) => { setP({ ...p, two_fa_enabled: v }); supabase.from("profiles").update({ two_fa_enabled: v }).eq("id", user!.id); }} />
+        <CardContent>
+          <TwoFactorSetup enrolled={mfaEnrolled} onChange={loadMfa} />
         </CardContent>
       </Card>
 

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { format, addDays } from "date-fns";
+import { format } from "date-fns";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   head: () => ({ meta: [{ title: "Billing — DeutschMaster" }] }),
@@ -20,7 +20,6 @@ function BillingPage() {
   const [sub, setSub] = useState<any>(null);
   const [payments, setPayments] = useState<any[]>([]);
   const [invoices, setInvoices] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
   const reload = async () => {
     if (!user) return;
@@ -34,16 +33,10 @@ function BillingPage() {
   };
   useEffect(() => { reload(); }, [user]);
 
-  const claimTrial = async (planCode: string) => {
-    if (!user) return;
-    setLoading(true);
-    const { data: existing } = await supabase.from("trial_claims").select("id").eq("user_id", user.id).maybeSingle();
-    if (existing) { toast.error("You have already used your free trial."); setLoading(false); return; }
-    const expires = addDays(new Date(), 3).toISOString();
-    const { error: tcErr } = await supabase.from("trial_claims").insert({ user_id: user.id, email: user.email ?? "" });
-    if (tcErr) { toast.error(tcErr.message); setLoading(false); return; }
-    toast.success("Trial activated — please contact admin for full activation.");
-    setLoading(false); reload();
+  const subscribe = async (planCode: string) => {
+    // Stripe Checkout will be wired here once Stripe credentials are added.
+    // See PHASE_1_CHECKLIST.md for the required env vars and webhook URL.
+    toast.info(`Stripe Checkout for "${planCode}" will be enabled once payment credentials are configured.`);
   };
 
   return (
@@ -71,7 +64,9 @@ function BillingPage() {
             <CardContent className="space-y-3">
               <p className="text-sm text-muted-foreground">{p.description}</p>
               <p className="text-2xl font-bold">{Number(p.price_tnd).toFixed(0)} TND <span className="text-xs text-muted-foreground">/ €{Number(p.price_eur).toFixed(2)}</span></p>
-              <Button onClick={() => claimTrial(p.code)} disabled={loading} className="w-full">Start 3-day trial</Button>
+              <Button onClick={() => subscribe(p.code)} className="w-full" disabled={sub?.status === "trial" || sub?.status === "active"}>
+                {sub?.status === "trial" || sub?.status === "active" ? "Active plan" : "Subscribe"}
+              </Button>
             </CardContent>
           </Card>
         ))}
