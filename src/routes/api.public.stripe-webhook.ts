@@ -77,7 +77,7 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
             case "invoice.payment_failed": {
               const s = event.data.object;
               await supabaseAdmin.from("subscriptions")
-                .update({ status: "past_due" })
+                .update({ status: "suspended" })
                 .eq("stripe_subscription_id", s.subscription);
               break;
             }
