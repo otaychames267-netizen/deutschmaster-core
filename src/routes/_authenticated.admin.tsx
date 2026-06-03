@@ -21,6 +21,7 @@ function AdminLayout() {
         <Link to="/admin/subscriptions" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Subscriptions</Link>
         <Link to="/admin/plans" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Plans</Link>
         <Link to="/admin/analytics" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Analytics</Link>
+        <Link to="/admin/messages" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Messages</Link>
       </nav>
       <Outlet />
     </div>
