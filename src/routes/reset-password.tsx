@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/Header";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/reset-password")({
   head: () => ({ meta: [{ title: "Reset Password — DeutschMaster" }] }),
@@ -23,7 +24,11 @@ function ResetPage() {
       <Header />
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
-          <CardHeader><CardTitle>{t("auth.reset")}</CardTitle></CardHeader>
+          <CardHeader>
+            <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-2"><ArrowLeft className="h-3 w-3" /> Back to login</Link>
+            <CardTitle>{t("auth.reset")}</CardTitle>
+            <p className="text-sm text-muted-foreground mt-1">Choose a new password to finish signing in.</p>
+          </CardHeader>
           <CardContent>
             <form className="space-y-3" onSubmit={async (e) => {
               e.preventDefault();
@@ -34,7 +39,7 @@ function ResetPage() {
               const { error } = await supabase.auth.updateUser({ password: pw });
               setLoading(false);
               if (error) toast.error(error.message);
-              else { toast.success("Password updated"); nav({ to: "/dashboard" }); }
+              else { toast.success("Password updated successfully"); nav({ to: "/dashboard", replace: true }); }
             }}>
               <div><Label>{t("auth.new_password")}</Label><Input name="password" type="password" required minLength={8} /></div>
               <Button type="submit" disabled={loading} className="w-full">{t("auth.reset")}</Button>

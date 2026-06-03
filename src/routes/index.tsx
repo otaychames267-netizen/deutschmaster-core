@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -10,9 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Headphones, PenTool, Mic, Award, Globe2, Check, GraduationCap } from "lucide-react";
+import { BookOpen, Headphones, PenTool, Mic, Award, Globe2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,6 +32,7 @@ type Plan = { code: string; name: string; description: string | null; price_eur:
 function Landing() {
   const { t } = useTranslation();
   const [plans, setPlans] = useState<Plan[]>([]);
+  const { user } = useAuth();
   useEffect(() => {
     supabase.from("plans").select("code,name,description,price_eur,price_tnd,price_usd").eq("active", true).then(({ data }) => setPlans((data as Plan[]) ?? []));
   }, []);
@@ -96,7 +98,7 @@ function Landing() {
                   </CardHeader>
                   <CardContent>
                     <Button className="w-full" variant={p.code === "premium" ? "default" : "outline"} asChild>
-                      <Link to="/register">{t("pricing.choose")}</Link>
+                      <Link to={user ? "/billing" : "/register"}>{t("pricing.choose")}</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -158,27 +160,25 @@ function Landing() {
 function ContactForm() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
+  const formRef = useRef<HTMLFormElement | null>(null);
   return (
     <form
+      ref={formRef}
       className="space-y-4"
       onSubmit={async (e) => {
         e.preventDefault();
         setLoading(true);
         const fd = new FormData(e.currentTarget);
         const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          toast.error("Please sign in to send a message.");
-          setLoading(false);
-          return;
-        }
-        const { error } = await supabase.from("support_tickets").insert({
-          user_id: user.id,
-          subject: `Contact from ${fd.get("name")} <${fd.get("email")}>`,
-          message: String(fd.get("message") ?? ""),
+        const { error } = await supabase.from("contact_messages").insert({
+          name: String(fd.get("name") ?? "").trim(),
+          email: String(fd.get("email") ?? "").trim(),
+          message: String(fd.get("message") ?? "").trim(),
+          user_id: user?.id ?? null,
         });
         setLoading(false);
         if (error) toast.error(error.message);
-        else { toast.success(t("contact.sent")); (e.target as HTMLFormElement).reset(); }
+        else { toast.success(t("contact.sent")); formRef.current?.reset(); }
       }}
     >
       <div><Label htmlFor="name">{t("contact.name")}</Label><Input id="name" name="name" required /></div>

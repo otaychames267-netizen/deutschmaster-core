@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/Header";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({ meta: [{ title: "Forgot Password — DeutschMaster" }] }),
@@ -23,10 +24,16 @@ function ForgotPage() {
       <Header />
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
-          <CardHeader><CardTitle>{t("auth.forgot")}</CardTitle></CardHeader>
+          <CardHeader>
+            <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-2"><ArrowLeft className="h-3 w-3" /> Back to login</Link>
+            <CardTitle>{t("auth.forgot")}</CardTitle>
+          </CardHeader>
           <CardContent>
             {sent ? (
-              <p className="text-sm text-muted-foreground">Check your inbox for a reset link.</p>
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">Check your inbox for a reset link. The link will take you straight to a page where you can set a new password.</p>
+                <p className="text-xs text-muted-foreground">Didn't receive it? Check spam or try again in a minute.</p>
+              </div>
             ) : (
               <form className="space-y-3" onSubmit={async (e) => {
                 e.preventDefault();
