@@ -86,6 +86,36 @@ export type Database = {
         }
         Relationships: []
       }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       devices: {
         Row: {
           device_fingerprint: string
@@ -358,6 +388,7 @@ export type Database = {
           full_name: string | null
           id: string
           level: Database["public"]["Enums"]["user_level"] | null
+          onboarding_completed: boolean
           preferred_language: string
           study_goal: string | null
           suspended: boolean
@@ -375,6 +406,7 @@ export type Database = {
           full_name?: string | null
           id: string
           level?: Database["public"]["Enums"]["user_level"] | null
+          onboarding_completed?: boolean
           preferred_language?: string
           study_goal?: string | null
           suspended?: boolean
@@ -392,6 +424,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           level?: Database["public"]["Enums"]["user_level"] | null
+          onboarding_completed?: boolean
           preferred_language?: string
           study_goal?: string | null
           suspended?: boolean

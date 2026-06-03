@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Header } from "@/components/Header";
 import { toast } from "sonner";
+import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/register")({ component: RegisterPage });
 
@@ -23,7 +24,10 @@ function RegisterPage() {
       <Header />
       <main className="flex-1 flex items-center justify-center p-4">
         <Card className="w-full max-w-md">
-          <CardHeader><CardTitle>{t("auth.sign_up")}</CardTitle></CardHeader>
+          <CardHeader>
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-2"><ArrowLeft className="h-3 w-3" /> Back to home</Link>
+            <CardTitle>{t("auth.sign_up")}</CardTitle>
+          </CardHeader>
           <CardContent>
             <Button variant="outline" className="w-full mb-4" onClick={async () => {
               await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/dashboard" });
@@ -41,7 +45,7 @@ function RegisterPage() {
               });
               setLoading(false);
               if (error) toast.error(error.message);
-              else { toast.success(t("auth.verify_email")); navigate({ to: "/dashboard" }); }
+              else { toast.success("Account created. Welcome to DeutschMaster!"); navigate({ to: "/dashboard", replace: true }); }
             }}>
               <div><Label>{t("auth.full_name")}</Label><Input name="full_name" required /></div>
               <div><Label>{t("auth.email")}</Label><Input name="email" type="email" required /></div>

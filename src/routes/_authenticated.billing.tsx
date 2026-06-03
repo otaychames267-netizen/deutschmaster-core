@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
-import { format } from "date-fns";
+import { format, differenceInDays } from "date-fns";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   head: () => ({ meta: [{ title: "Billing — DeutschMaster" }] }),
@@ -46,12 +46,22 @@ function BillingPage() {
         <CardHeader><CardTitle>Current Plan</CardTitle></CardHeader>
         <CardContent>
           {sub ? (
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="font-medium">{sub.plan_code}</p>
-                <p className="text-sm text-muted-foreground">Expires {format(new Date(sub.expires_at), "PPP")}</p>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium capitalize">{sub.plan_code}</p>
+                  <p className="text-sm text-muted-foreground">Started {format(new Date(sub.started_at), "PPP")} · Expires {format(new Date(sub.expires_at), "PPP")}</p>
+                </div>
+                <Badge variant={sub.status === "active" ? "default" : sub.status === "trial" ? "secondary" : "destructive"}>{sub.status}</Badge>
               </div>
-              <Badge variant={sub.status === "active" ? "default" : sub.status === "trial" ? "secondary" : "destructive"}>{sub.status}</Badge>
+              {(sub.status === "trial" || sub.is_trial) && (
+                <div className="rounded-md border border-accent/30 bg-accent/5 p-3 text-sm">
+                  <p className="font-medium">Free trial active</p>
+                  <p className="text-muted-foreground">
+                    {Math.max(0, differenceInDays(new Date(sub.expires_at), new Date()))} day(s) remaining. Upgrade any time to keep full access.
+                  </p>
+                </div>
+              )}
             </div>
           ) : <p className="text-sm text-muted-foreground">No active subscription.</p>}
         </CardContent>
