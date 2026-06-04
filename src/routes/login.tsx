@@ -1,8 +1,9 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,7 +20,34 @@ export const Route = createFileRoute("/login")({
 function LoginPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const redirectStarted = useRef(false);
+
+  const redirectToDashboard = (message = "Login successful — redirecting to your dashboard.") => {
+    if (redirectStarted.current) return;
+    redirectStarted.current = true;
+    setLoading(true);
+    setSuccessMessage(message);
+    toast.success(message);
+
+    window.setTimeout(() => {
+      navigate({ to: "/dashboard", replace: true });
+      window.setTimeout(() => {
+        if (window.location.pathname !== "/dashboard") {
+          window.location.replace(new URL("/dashboard", window.location.origin).toString());
+        }
+      }, 250);
+    }, 700);
+  };
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      redirectToDashboard();
+    }
+  }, [authLoading, user]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -30,6 +58,11 @@ function LoginPage() {
             <CardTitle>{t("auth.sign_in")}</CardTitle>
           </CardHeader>
           <CardContent>
+            {successMessage && (
+              <div className="mb-4 rounded-md border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-foreground">
+                {successMessage}
+              </div>
+            )}
             <Button variant="outline" className="w-full mb-4" onClick={async () => {
               await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/dashboard" });
             }}>{t("auth.continue_google")}</Button>
@@ -40,10 +73,9 @@ function LoginPage() {
               const fd = new FormData(e.currentTarget);
               const { data, error } = await supabase.auth.signInWithPassword({ email: String(fd.get("email")), password: String(fd.get("password")) });
               if (error) { setLoading(false); toast.error(error.message); return; }
-              toast.success("Login successful — redirecting…");
-              // Hard navigation so AuthProvider initializes from the freshly stored session.
-              if (data.session) window.location.assign("/dashboard");
-              else { setLoading(false); navigate({ to: "/dashboard", replace: true }); }
+              const { data: restored } = await supabase.auth.getSession();
+              if (data.session || restored.session) redirectToDashboard();
+              else { setLoading(false); toast.error("Login succeeded, but the session was not restored. Please try again."); }
             }}>
               <div><Label>{t("auth.email")}</Label><Input name="email" type="email" required /></div>
               <div><Label>{t("auth.password")}</Label><Input name="password" type="password" required /></div>
