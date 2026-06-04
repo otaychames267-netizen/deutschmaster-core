@@ -50,7 +50,7 @@ function Dashboard() {
             {isTrial && <p className="text-xs text-muted-foreground mt-1">Trial started {format(new Date(sub.started_at), "PP")}</p>}
             {remaining !== null && <p className="text-xs text-muted-foreground mt-1">{remaining} days remaining · expires {format(new Date(sub.expires_at), "PP")}</p>}
             {isTrial && <Button asChild size="sm" variant="outline" className="mt-3 w-full"><Link to="/billing">Upgrade plan</Link></Button>}
-          </>) : (<><p className="text-sm text-muted-foreground mb-2">No active subscription</p><Button asChild size="sm"><Link to="/billing">Start free trial</Link></Button></>)}
+          </>) : (<><p className="text-sm text-muted-foreground mb-2">No active subscription</p><Button asChild size="sm"><Link to="/billing">View plans</Link></Button></>)}
         </CardContent></Card>
         <Card><CardHeader><CardTitle className="text-base">Current Level</CardTitle></CardHeader><CardContent>
           <p className="text-2xl font-bold">{formatLevel(profile?.level)}</p>

@@ -38,10 +38,12 @@ function LoginPage() {
               e.preventDefault();
               setLoading(true);
               const fd = new FormData(e.currentTarget);
-              const { error } = await supabase.auth.signInWithPassword({ email: String(fd.get("email")), password: String(fd.get("password")) });
-              setLoading(false);
-              if (error) toast.error(error.message);
-              else { toast.success("Login successful"); navigate({ to: "/dashboard", replace: true }); }
+              const { data, error } = await supabase.auth.signInWithPassword({ email: String(fd.get("email")), password: String(fd.get("password")) });
+              if (error) { setLoading(false); toast.error(error.message); return; }
+              toast.success("Login successful — redirecting…");
+              // Hard navigation so AuthProvider initializes from the freshly stored session.
+              if (data.session) window.location.assign("/dashboard");
+              else { setLoading(false); navigate({ to: "/dashboard", replace: true }); }
             }}>
               <div><Label>{t("auth.email")}</Label><Input name="email" type="email" required /></div>
               <div><Label>{t("auth.password")}</Label><Input name="password" type="password" required /></div>

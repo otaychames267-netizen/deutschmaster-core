@@ -38,14 +38,20 @@ function RegisterPage() {
               if (!accept) { toast.error("Please accept the terms."); return; }
               setLoading(true);
               const fd = new FormData(e.currentTarget);
-              const { error } = await supabase.auth.signUp({
+              const { data, error } = await supabase.auth.signUp({
                 email: String(fd.get("email")),
                 password: String(fd.get("password")),
                 options: { emailRedirectTo: window.location.origin + "/dashboard", data: { full_name: String(fd.get("full_name")) } },
               });
-              setLoading(false);
-              if (error) toast.error(error.message);
-              else { toast.success("Account created. Welcome to DeutschMaster!"); navigate({ to: "/dashboard", replace: true }); }
+              if (error) { setLoading(false); toast.error(error.message); return; }
+              if (data.session) {
+                toast.success("Account created successfully — redirecting…");
+                window.location.assign("/onboarding");
+              } else {
+                setLoading(false);
+                toast.success("Account created. Please check your email to confirm your address, then sign in.");
+                navigate({ to: "/login", replace: true });
+              }
             }}>
               <div><Label>{t("auth.full_name")}</Label><Input name="full_name" required /></div>
               <div><Label>{t("auth.email")}</Label><Input name="email" type="email" required /></div>
