@@ -30,15 +30,9 @@ function RegisterPage() {
     setLoading(true);
     setSuccessMessage(message);
     toast.success(message);
-
     window.setTimeout(() => {
-      navigate({ to: "/onboarding", replace: true });
-      window.setTimeout(() => {
-        if (window.location.pathname !== "/onboarding") {
-          window.location.replace(new URL("/onboarding", window.location.origin).toString());
-        }
-      }, 250);
-    }, 700);
+      window.location.assign("/onboarding");
+    }, 400);
   };
 
   useEffect(() => {
