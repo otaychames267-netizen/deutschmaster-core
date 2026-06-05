@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { LayoutDashboard, User, CreditCard, Shield, Bell, Settings } from "lucide-react";
+import { LayoutDashboard, User, CreditCard, Shield, Bell, Settings, GraduationCap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -48,6 +48,7 @@ function AuthLayout() {
         <aside className="md:w-56 shrink-0">
           <nav className="flex md:flex-col gap-1 text-sm overflow-x-auto">
             <SideLink to="/dashboard" icon={<LayoutDashboard className="h-4 w-4" />}>{t("nav.dashboard")}</SideLink>
+            <SideLink to="/learn" icon={<GraduationCap className="h-4 w-4" />}>Learn</SideLink>
             <SideLink to="/profile" icon={<User className="h-4 w-4" />}>{t("nav.profile")}</SideLink>
             <SideLink to="/billing" icon={<CreditCard className="h-4 w-4" />}>{t("nav.billing")}</SideLink>
             <SideLink to="/security" icon={<Shield className="h-4 w-4" />}>{t("nav.security")}</SideLink>
