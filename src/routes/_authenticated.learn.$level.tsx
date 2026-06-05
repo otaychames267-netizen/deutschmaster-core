@@ -4,19 +4,34 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { PenLine, Mic, Puzzle, FileText, Dumbbell, LineChart, ArrowLeft, Construction } from "lucide-react";
+import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, ArrowLeft, Construction } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/learn/$level")({
   component: LevelPage,
 });
 
-const SECTIONS = [
-  { id: "schriftlich", label: "Schriftlich", icon: PenLine, desc: "Writing — Briefe, E-Mails, structured composition." },
-  { id: "muendlich", label: "Mündlich", icon: Mic, desc: "Speaking — Vorstellung, Diskussion, Präsentation." },
-  { id: "sprachbausteine", label: "Sprachbausteine", icon: Puzzle, desc: "Grammar and language elements — fill-in and choice tasks." },
-  { id: "models", label: "Models", icon: FileText, desc: "Past exam models with full answer keys." },
-  { id: "exercises", label: "Exercises", icon: Dumbbell, desc: "Targeted drills for every skill." },
-  { id: "progress", label: "Progress", icon: LineChart, desc: "Your activity, accuracy, and skill breakdown." },
+const EXAM_AREAS = [
+  {
+    id: "schriftlich",
+    label: "Schriftlich",
+    icon: PenLine,
+    desc: "Written TELC exam area with reading, listening, language elements, and writing.",
+    modules: [
+      { label: "Lesen", icon: BookOpen, desc: "Reading comprehension tasks and model texts." },
+      { label: "Hören", icon: Headphones, desc: "Listening comprehension tasks and audio practice." },
+      { label: "Sprachbausteine", icon: Puzzle, desc: "Language elements, grammar patterns, and gap-fill practice." },
+      { label: "Schreiben", icon: Edit3, desc: "Letters, emails, formal writing, and scoring structure." },
+    ],
+  },
+  {
+    id: "muendlich",
+    label: "Mündlich",
+    icon: Mic,
+    desc: "Oral TELC exam area focused on speaking performance.",
+    modules: [
+      { label: "Sprechen", icon: Speech, desc: "Introductions, discussions, presentations, and partner tasks." },
+    ],
+  },
 ] as const;
 
 function LevelPage() {
@@ -47,27 +62,38 @@ function LevelPage() {
       </div>
 
       <Tabs value={tab} onValueChange={setTab}>
-        <TabsList className="flex flex-wrap h-auto">
-          {SECTIONS.map((s) => (
-            <TabsTrigger key={s.id} value={s.id} className="flex items-center gap-1.5">
-              <s.icon className="h-3.5 w-3.5" /> {s.label}
+        <TabsList className="grid w-full max-w-xl grid-cols-2">
+          {EXAM_AREAS.map((area) => (
+            <TabsTrigger key={area.id} value={area.id} className="flex items-center gap-1.5">
+              <area.icon className="h-3.5 w-3.5" /> {area.label}
             </TabsTrigger>
           ))}
         </TabsList>
-        {SECTIONS.map((s) => (
-          <TabsContent key={s.id} value={s.id} className="mt-4">
+        {EXAM_AREAS.map((area) => (
+          <TabsContent key={area.id} value={area.id} className="mt-4">
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center gap-2"><s.icon className="h-5 w-5 text-accent" /> {s.label} — {label}</CardTitle>
-                <CardDescription>{s.desc}</CardDescription>
+                <CardTitle className="flex items-center gap-2"><area.icon className="h-5 w-5 text-accent" /> {area.label} — {label}</CardTitle>
+                <CardDescription>{area.desc}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="rounded-md border border-dashed p-6 text-center space-y-2 bg-muted/30">
-                  <Construction className="h-8 w-8 mx-auto text-muted-foreground" />
-                  <p className="font-medium">Content arriving in the next phase</p>
-                  <p className="text-sm text-muted-foreground max-w-md mx-auto">
-                    The {s.label.toLowerCase()} module structure is in place. Lessons, exercises, and model tasks will land here next.
-                  </p>
+                <div className="grid gap-3 md:grid-cols-2">
+                  {area.modules.map((module) => (
+                    <Card key={module.label} className="bg-muted/20">
+                      <CardContent className="pt-5 space-y-3">
+                        <div className="flex items-start gap-3">
+                          <div className="rounded-md bg-accent/10 p-2 text-accent-foreground"><module.icon className="h-5 w-5" /></div>
+                          <div>
+                            <p className="font-medium">{module.label}</p>
+                            <p className="text-sm text-muted-foreground">{module.desc}</p>
+                          </div>
+                        </div>
+                        <div className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+                          <Construction className="mr-1 inline h-4 w-4" /> Lessons, model tasks, exercises, and progress tracking will be added here in Phase 2.
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </CardContent>
             </Card>
