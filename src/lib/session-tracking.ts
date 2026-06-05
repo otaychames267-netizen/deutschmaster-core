@@ -77,7 +77,7 @@ export async function recordLoginSuccess(userId: string, success = true) {
   }
 }
 
-/** Expire any overdue trials/subscriptions for this user. Safe to call on every session start. */
+/** Subscription expiry is handled by trusted backend flows. */
 export async function expireOverdueSubscriptions() {
-  await supabase.rpc("expire_overdue_subscriptions");
+  return;
 }
