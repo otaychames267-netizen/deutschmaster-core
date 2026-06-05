@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useNavigate, useLocation, useNavigate as _u } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useLocation, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/Footer";
@@ -7,7 +7,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Moon, Sun, Globe, User as UserIcon } from "lucide-react";
+import { Moon, Sun, Globe, User as UserIcon, GraduationCap } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 import { useTranslation } from "react-i18next";
 
@@ -38,7 +38,9 @@ function AuthLayout() {
   if (loc.pathname.startsWith("/onboarding")) {
     return (
       <div className="min-h-screen flex flex-col">
-        <Header />
+        <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-background/80 px-4 backdrop-blur">
+          <Link to="/" className="flex items-center gap-2 font-bold"><GraduationCap className="h-5 w-5 text-accent" /> DeutschMaster</Link>
+        </header>
         <main className="flex-1"><Outlet /></main>
         <Footer />
       </div>
@@ -55,5 +57,38 @@ function AuthLayout() {
         </SidebarInset>
       </div>
     </SidebarProvider>
+  );
+}
+
+const LANGS = [
+  { code: "en", label: "English" }, { code: "de", label: "Deutsch" }, { code: "ar", label: "العربية" },
+  { code: "fr", label: "Français" }, { code: "es", label: "Español" }, { code: "it", label: "Italiano" }, { code: "tr", label: "Türkçe" },
+];
+
+function TopBar() {
+  const { theme, toggle } = useTheme();
+  const { i18n } = useTranslation();
+  const { user, signOut } = useAuth();
+  const nav = useNavigate();
+  return (
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur md:px-4">
+      <SidebarTrigger />
+      <div className="flex-1" />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><Globe className="h-4 w-4" /></Button></DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {LANGS.map((l) => <DropdownMenuItem key={l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</DropdownMenuItem>)}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <Button variant="ghost" size="icon" onClick={toggle}>{theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}</Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><UserIcon className="h-4 w-4" /></Button></DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem className="text-xs text-muted-foreground" disabled>{user?.email}</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => nav({ to: "/profile" })}>Profile</DropdownMenuItem>
+          <DropdownMenuItem onClick={async () => { await signOut(); window.location.href = "/"; }}>Sign out</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </header>
   );
 }
