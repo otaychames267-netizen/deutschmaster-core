@@ -1,11 +1,15 @@
-import { createFileRoute, Outlet, useNavigate, Link, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useLocation, useNavigate as _u } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Moon, Sun, Globe, User as UserIcon } from "lucide-react";
+import { useTheme } from "@/lib/theme";
+import { useTranslation } from "react-i18next";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthLayout,
@@ -45,12 +49,9 @@ function AuthLayout() {
       <div className="min-h-screen flex w-full bg-muted/20">
         <AppSidebar />
         <SidebarInset className="flex flex-col min-w-0">
-          <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur">
-            <SidebarTrigger />
-            <div className="flex-1" />
-            <Header />
-          </header>
+          <TopBar />
           <main className="flex-1 px-4 py-6 md:px-6 animate-in fade-in duration-200"><Outlet /></main>
+          <Footer />
         </SidebarInset>
       </div>
     </SidebarProvider>
