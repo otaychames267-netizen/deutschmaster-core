@@ -21,11 +21,13 @@ function Dashboard() {
   const ensureTrial = useServerFn(ensureUserTrial);
   const [profile, setProfile] = useState<any>(null);
   const [sub, setSub] = useState<any>(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(true);
   const [notifs, setNotifs] = useState<any[]>([]);
 
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
+    setSubscriptionLoading(true);
     (async () => {
       const [profileResult, subscriptionResult, notificationResult] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
@@ -36,7 +38,7 @@ function Dashboard() {
       let subscription = subscriptionResult.data;
       if (!subscription) {
         try {
-          const ensured = await ensureTrial({});
+          const ensured = await ensureTrial();
           subscription = ensured.subscription;
         } catch (error) {
           console.error("Trial activation fallback failed", error);
@@ -47,6 +49,7 @@ function Dashboard() {
       setProfile(profileResult.data);
       setSub(subscription);
       setNotifs(notificationResult.data ?? []);
+      setSubscriptionLoading(false);
     })();
     return () => { cancelled = true; };
   }, [user, ensureTrial]);
@@ -92,18 +95,18 @@ function Dashboard() {
                   {isTrial ? <Sparkles className="h-5 w-5 text-accent" /> : <Award className="h-5 w-5 text-primary" />}
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-semibold">
-                      {isTrial ? "Free trial active" : isActive ? `${planLabel} plan active` : `Subscription ${sub.status}`}
+                      {isTrial ? "Free Trial Active" : isActive ? `${planLabel} plan active` : `Subscription ${sub.status}`}
                     </p>
                     <Badge variant={isActive ? "default" : isTrial ? "secondary" : "destructive"}>{sub.status}</Badge>
+                    {isTrial && <Badge variant="outline">Day {trialDay}/3</Badge>}
                   </div>
                   {isTrial && remaining !== null && (
-                    <p className="text-sm text-muted-foreground mt-0.5">
-                      <Clock className="h-3 w-3 inline mr-1" />
-                      <span className="font-medium text-foreground">{remaining} day{remaining === 1 ? "" : "s"} remaining</span>
-                      {sub.expires_at && <> · expires {format(new Date(sub.expires_at), "PPP")}</>}
-                    </p>
+                    <div className="text-sm text-muted-foreground mt-0.5 space-y-0.5">
+                      <p><Clock className="h-3 w-3 inline mr-1" /><span className="font-medium text-foreground">{remaining} day{remaining === 1 ? "" : "s"} remaining</span></p>
+                      {sub.expires_at && <p>Trial expiration date: {format(new Date(sub.expires_at), "PPP")}</p>}
+                    </div>
                   )}
                   {!isTrial && sub.expires_at && (
                     <p className="text-sm text-muted-foreground mt-0.5">Renews / ends {format(new Date(sub.expires_at), "PPP")}</p>
@@ -113,6 +116,16 @@ function Dashboard() {
               <Button asChild variant={isTrial ? "default" : "outline"} size="sm">
                 <Link to="/billing">{isTrial ? "Upgrade plan" : "Manage billing"} <ArrowRight className="h-4 w-4 ml-1" /></Link>
               </Button>
+            </div>
+          </CardContent>
+        </Card>
+      ) : subscriptionLoading ? (
+        <Card className="border-accent bg-accent/5">
+          <CardContent className="pt-6 flex items-center gap-3">
+            <Sparkles className="h-5 w-5 text-accent" />
+            <div>
+              <p className="font-medium">Activating your free trial…</p>
+              <p className="text-sm text-muted-foreground">Your 3-day TELC preparation trial will appear here.</p>
             </div>
           </CardContent>
         </Card>
@@ -172,18 +185,25 @@ function Dashboard() {
           <h2 className="text-lg font-semibold">Your {levelLabel ?? "TELC"} sections</h2>
           <Link to="/learn/$level" params={{ level: levelSlug }} className="text-sm text-accent hover:underline">Open level →</Link>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {SECTIONS.map((s) => (
-            <Link key={s.id} to="/learn/$level" params={{ level: levelSlug }} className="group">
+        <div className="grid gap-4 md:grid-cols-2">
+          {EXAM_AREAS.map((area) => (
+            <Link key={area.id} to="/learn/$level" params={{ level: levelSlug }} className="group">
               <Card className="h-full transition hover:border-accent hover:shadow-sm">
-                <CardContent className="pt-5">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-md bg-accent/10 text-accent-foreground"><s.icon className="h-5 w-5" /></div>
+                <CardContent className="pt-5 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 rounded-md bg-accent/10 text-accent-foreground"><area.icon className="h-5 w-5" /></div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium group-hover:text-accent transition-colors">{s.label}</p>
-                      <p className="text-xs text-muted-foreground truncate">{s.desc}</p>
+                      <p className="font-medium group-hover:text-accent transition-colors">{area.label}</p>
+                      <p className="text-xs text-muted-foreground">{area.desc}</p>
                     </div>
                     <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent transition-colors" />
+                  </div>
+                  <div className="flex flex-wrap gap-2 pl-11">
+                    {area.modules.map((module) => (
+                      <span key={module.label} className="inline-flex items-center gap-1 rounded-md border bg-muted/30 px-2 py-1 text-xs text-muted-foreground">
+                        <module.icon className="h-3 w-3" /> {module.label}
+                      </span>
+                    ))}
                   </div>
                 </CardContent>
               </Card>
