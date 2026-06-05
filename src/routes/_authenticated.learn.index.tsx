@@ -58,10 +58,9 @@ function LearnIndex() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <ul className="text-sm space-y-1 text-muted-foreground">
-                  <li>• Schriftlich (Writing)</li>
-                  <li>• Mündlich (Speaking)</li>
-                  <li>• Sprachbausteine (Language elements)</li>
-                  <li>• Model exams & exercises</li>
+                  <li>• Schriftlich: Lesen, Hören, Sprachbausteine, Schreiben</li>
+                  <li>• Mündlich: Sprechen</li>
+                  <li>• Models, exercises & progress inside the matching exam area</li>
                 </ul>
                 <div className="flex gap-2">
                   <Button asChild className="flex-1" variant={isCurrent ? "default" : "outline"}>
