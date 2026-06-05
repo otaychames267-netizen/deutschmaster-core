@@ -31,15 +31,11 @@ function LoginPage() {
     setLoading(true);
     setSuccessMessage(message);
     toast.success(message);
-
+    // Hard redirect ensures the auth state is fully picked up by the
+    // _authenticated layout and avoids any race with React state updates.
     window.setTimeout(() => {
-      navigate({ to: "/dashboard", replace: true });
-      window.setTimeout(() => {
-        if (window.location.pathname !== "/dashboard") {
-          window.location.replace(new URL("/dashboard", window.location.origin).toString());
-        }
-      }, 250);
-    }, 700);
+      window.location.assign("/dashboard");
+    }, 400);
   };
 
   useEffect(() => {
