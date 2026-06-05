@@ -1,13 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { ensureUserTrial } from "@/lib/trial.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { differenceInDays, format } from "date-fns";
 import { Progress } from "@/components/ui/progress";
-import { PenLine, Mic, Puzzle, FileText, Dumbbell, LineChart, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap } from "lucide-react";
+import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — DeutschMaster" }] }),
@@ -16,18 +18,42 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 
 function Dashboard() {
   const { user } = useAuth();
+  const ensureTrial = useServerFn(ensureUserTrial);
   const [profile, setProfile] = useState<any>(null);
   const [sub, setSub] = useState<any>(null);
   const [notifs, setNotifs] = useState<any[]>([]);
 
   useEffect(() => {
     if (!user) return;
-    supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setProfile(data));
-    supabase.from("subscriptions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle().then(({ data }) => setSub(data));
-    supabase.from("notifications").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(5).then(({ data }) => setNotifs(data ?? []));
-  }, [user]);
+    let cancelled = false;
+    (async () => {
+      const [profileResult, subscriptionResult, notificationResult] = await Promise.all([
+        supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
+        supabase.from("subscriptions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
+        supabase.from("notifications").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(5),
+      ]);
 
-  const remaining = sub?.expires_at ? Math.max(0, differenceInDays(new Date(sub.expires_at), new Date())) : null;
+      let subscription = subscriptionResult.data;
+      if (!subscription) {
+        try {
+          const ensured = await ensureTrial({});
+          subscription = ensured.subscription;
+        } catch (error) {
+          console.error("Trial activation fallback failed", error);
+        }
+      }
+
+      if (cancelled) return;
+      setProfile(profileResult.data);
+      setSub(subscription);
+      setNotifs(notificationResult.data ?? []);
+    })();
+    return () => { cancelled = true; };
+  }, [user, ensureTrial]);
+
+  const DAY_MS = 24 * 60 * 60 * 1000;
+  const remaining = sub?.expires_at ? Math.max(0, Math.ceil((new Date(sub.expires_at).getTime() - Date.now()) / DAY_MS)) : null;
+  const trialDay = sub?.started_at ? Math.min(3, Math.max(1, Math.floor((Date.now() - new Date(sub.started_at).getTime()) / DAY_MS) + 1)) : 1;
   const examDays = profile?.exam_date ? differenceInDays(new Date(profile.exam_date), new Date()) : null;
 
   const profileFields = ["full_name","country","level","target_level","exam_date","study_goal"];
@@ -41,13 +67,9 @@ function Dashboard() {
   const levelLabel = formatLevel(profile?.level);
   const levelSlug = profile?.level === "TELC_B2" ? "b2" : "b1";
 
-  const SECTIONS = [
-    { id: "schriftlich", label: "Schriftlich", icon: PenLine, desc: "Writing tasks & letters" },
-    { id: "muendlich", label: "Mündlich", icon: Mic, desc: "Speaking & presentations" },
-    { id: "sprachbausteine", label: "Sprachbausteine", icon: Puzzle, desc: "Grammar building blocks" },
-    { id: "models", label: "Models", icon: FileText, desc: "Past exam papers" },
-    { id: "exercises", label: "Exercises", icon: Dumbbell, desc: "Targeted drills" },
-    { id: "progress", label: "Progress", icon: LineChart, desc: "Track your stats" },
+  const EXAM_AREAS = [
+    { id: "schriftlich", label: "Schriftlich", icon: PenLine, desc: "Written TELC exam area", modules: [{ label: "Lesen", icon: BookOpen }, { label: "Hören", icon: Headphones }, { label: "Sprachbausteine", icon: Puzzle }, { label: "Schreiben", icon: Edit3 }] },
+    { id: "muendlich", label: "Mündlich", icon: Mic, desc: "Oral TELC exam area", modules: [{ label: "Sprechen", icon: Speech }] },
   ];
 
   return (
