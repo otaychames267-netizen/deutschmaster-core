@@ -239,5 +239,3 @@ function StatRow({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-  );
-}
