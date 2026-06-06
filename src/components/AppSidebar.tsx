@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, GraduationCap, User, CreditCard, Shield, Bell, Settings, LogOut } from "lucide-react";
+import { LayoutDashboard, GraduationCap, User, CreditCard, Shield, Bell, Settings, LogOut, LifeBuoy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import {
@@ -33,6 +33,7 @@ export function AppSidebar() {
     { to: "/billing", icon: CreditCard, label: t("nav.billing") },
     { to: "/security", icon: Shield, label: t("nav.security") },
     { to: "/notifications", icon: Bell, label: "Notifications" },
+    { to: "/help", icon: LifeBuoy, label: "Help & Support" },
   ];
 
   return (
