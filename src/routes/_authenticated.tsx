@@ -26,9 +26,10 @@ function AuthLayout() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const { data } = await supabase.from("profiles").select("onboarding_completed").eq("id", user.id).maybeSingle();
+      const { data } = await supabase.from("profiles").select("onboarding_completed, level").eq("id", user.id).maybeSingle();
       setChecking(false);
-      if (data && !data.onboarding_completed && !loc.pathname.startsWith("/onboarding")) {
+      const needsOnboarding = !data || !data.onboarding_completed || !data.level;
+      if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
         nav({ to: "/onboarding", replace: true });
       }
     })();

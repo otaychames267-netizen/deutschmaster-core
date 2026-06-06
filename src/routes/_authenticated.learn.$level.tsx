@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, ArrowLeft, Construction } from "lucide-react";
+import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, ArrowLeft, Construction, MessageSquare, Users, ClipboardList } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/learn/$level")({
   component: LevelPage,
@@ -29,7 +29,10 @@ const EXAM_AREAS = [
     icon: Mic,
     desc: "Oral TELC exam area focused on speaking performance.",
     modules: [
-      { label: "Sprechen", icon: Speech, desc: "Introductions, discussions, presentations, and partner tasks." },
+      { label: "Teil 1 — Über eine Erfahrung sprechen (Präsentation)", icon: Speech, desc: "Structured presentation. Includes tips & structure templates." },
+      { label: "Teil 2 — Diskussion", icon: MessageSquare, desc: "Debate a topic with arguments and counter-arguments. Tips & structure included." },
+      { label: "Teil 3 — Gemeinsam etwas planen", icon: Users, desc: "Plan something together with a partner. Tips & structure included." },
+      { label: "Prüfungssimulation Mündlich", icon: ClipboardList, desc: "Full oral exam simulation across all three Teile." },
     ],
   },
 ] as const;

@@ -39,6 +39,17 @@ function ProfilePage() {
   if (!p) return <p className="text-muted-foreground">Loading...</p>;
 
   const save = async () => {
+    if (p.level && p.level !== "TELC_B1" && p.level !== "TELC_B2") {
+      return toast.error("Please pick a valid level");
+    }
+    // confirm if level changed
+    const { data: current } = await supabase.from("profiles").select("level").eq("id", user!.id).maybeSingle();
+    if (current?.level && p.level && current.level !== p.level) {
+      const ok = window.confirm(
+        `Switch your preparation from ${current.level.replace("_"," ")} to ${p.level.replace("_"," ")}? All content (exercises, models, dashboard) will reload for the new level.`
+      );
+      if (!ok) return;
+    }
     setSaving(true);
     const { error } = await supabase.from("profiles").update({
       full_name: p.full_name, country: p.country, level: p.level, target_level: p.target_level,
