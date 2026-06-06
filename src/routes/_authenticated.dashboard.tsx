@@ -9,9 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { differenceInDays, format } from "date-fns";
 import { Progress } from "@/components/ui/progress";
-import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { toast } from "sonner";
+import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, MessageSquare, Users, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity, Settings2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — DeutschMaster" }] }),
@@ -25,7 +23,6 @@ function Dashboard() {
   const [sub, setSub] = useState<any>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(true);
   const [notifs, setNotifs] = useState<any[]>([]);
-  const [savingLevel, setSavingLevel] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -73,16 +70,6 @@ function Dashboard() {
   const levelLabel = formatLevel(profile?.level);
   const levelSlug = profile?.level === "TELC_B2" ? "b2" : "b1";
 
-  const setLevel = async (lv: "TELC_B1" | "TELC_B2") => {
-    if (!user || savingLevel || profile?.level === lv) return;
-    setSavingLevel(true);
-    const { error } = await supabase.from("profiles").update({ level: lv, target_level: lv }).eq("id", user.id);
-    setSavingLevel(false);
-    if (error) return toast.error(error.message);
-    setProfile((p: any) => ({ ...p, level: lv, target_level: lv }));
-    toast.success(`Switched to ${lv.replace("_", " ")}`);
-  };
-
   const EXAM_AREAS = [
     {
       id: "schriftlich",
@@ -102,8 +89,12 @@ function Dashboard() {
       label: "Mündlich",
       icon: Mic,
       tagline: "Oral exam",
-      desc: "Presentations, discussions & partner tasks",
-      modules: [{ label: "Sprechen", icon: Speech }],
+      desc: "Presentation, discussion & partner planning",
+      modules: [
+        { label: "Teil 1 · Präsentation", icon: Speech },
+        { label: "Teil 2 · Diskussion", icon: MessageSquare },
+        { label: "Teil 3 · Planen", icon: Users },
+      ],
     },
   ];
 
@@ -115,15 +106,11 @@ function Dashboard() {
           <h1 className="text-3xl font-bold tracking-tight">Welcome back, {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]}</h1>
           <p className="text-sm text-muted-foreground">{levelLabel ? `Your ${levelLabel} preparation hub` : "Pick a level to get started"}</p>
         </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2 rounded-lg border bg-card px-2 py-1 shadow-sm">
-            <span className="text-xs text-muted-foreground px-1">Level</span>
-            <ToggleGroup type="single" value={profile?.level ?? ""} onValueChange={(v) => v && setLevel(v as "TELC_B1" | "TELC_B2")} size="sm" disabled={savingLevel}>
-              <ToggleGroupItem value="TELC_B1" className="text-xs font-semibold data-[state=on]:bg-accent data-[state=on]:text-accent-foreground">B1</ToggleGroupItem>
-              <ToggleGroupItem value="TELC_B2" className="text-xs font-semibold data-[state=on]:bg-accent data-[state=on]:text-accent-foreground">B2</ToggleGroupItem>
-            </ToggleGroup>
-          </div>
-        </div>
+        {levelLabel && (
+          <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground">
+            <Link to="/profile"><Settings2 className="h-3.5 w-3.5 mr-1" /> Change level in Profile</Link>
+          </Button>
+        )}
       </div>
 
       {/* TOP ROW — 4 stat cards above the fold */}
