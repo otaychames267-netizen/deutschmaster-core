@@ -84,16 +84,35 @@ function Dashboard() {
   };
 
   const EXAM_AREAS = [
-    { id: "schriftlich", label: "Schriftlich", icon: PenLine, desc: "Written TELC exam area", modules: [{ label: "Lesen", icon: BookOpen }, { label: "Hören", icon: Headphones }, { label: "Sprachbausteine", icon: Puzzle }, { label: "Schreiben", icon: Edit3 }] },
-    { id: "muendlich", label: "Mündlich", icon: Mic, desc: "Oral TELC exam area", modules: [{ label: "Sprechen", icon: Speech }] },
+    {
+      id: "schriftlich",
+      label: "Schriftlich",
+      icon: PenLine,
+      tagline: "Written exam",
+      desc: "Reading, listening, language elements & writing",
+      modules: [
+        { label: "Lesen", icon: BookOpen },
+        { label: "Hören", icon: Headphones },
+        { label: "Sprachbausteine", icon: Puzzle },
+        { label: "Schreiben", icon: Edit3 },
+      ],
+    },
+    {
+      id: "muendlich",
+      label: "Mündlich",
+      icon: Mic,
+      tagline: "Oral exam",
+      desc: "Presentations, discussions & partner tasks",
+      modules: [{ label: "Sprechen", icon: Speech }],
+    },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-5">
+    <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Header row: greeting + level toggle */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Welcome back, {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]}</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Welcome back, {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]}</h1>
           <p className="text-sm text-muted-foreground">{levelLabel ? `Your ${levelLabel} preparation hub` : "Pick a level to get started"}</p>
         </div>
         <div className="flex items-center gap-3">
@@ -104,12 +123,11 @@ function Dashboard() {
               <ToggleGroupItem value="TELC_B2" className="text-xs font-semibold data-[state=on]:bg-accent data-[state=on]:text-accent-foreground">B2</ToggleGroupItem>
             </ToggleGroup>
           </div>
-          <Button asChild size="sm"><Link to="/learn/$level" params={{ level: levelSlug }}><GraduationCap className="h-4 w-4 mr-1" /> Continue</Link></Button>
         </div>
       </div>
 
       {/* TOP ROW — 4 stat cards above the fold */}
-      <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
         <StatCard icon={GraduationCap} label="Current level" value={levelLabel ?? "—"} sub={`Target: ${formatLevel(profile?.target_level) ?? "—"}`} accent />
         <StatCard icon={Calendar} label="Exam countdown" value={profile?.exam_date ? `${examDays}d` : "—"} sub={profile?.exam_date ? format(new Date(profile.exam_date), "PP") : "Set in profile"} />
         <TrialStatCard sub={sub} loading={subscriptionLoading} isTrial={isTrial} isActive={isActive} trialDay={trialDay} remaining={remaining} planLabel={planLabel} />
@@ -118,32 +136,36 @@ function Dashboard() {
         </StatCard>
       </div>
 
-      {/* SECOND ROW — Schriftlich + Mündlich */}
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* HERO ROW — Schriftlich + Mündlich — dominant learning entrypoints */}
+      <div className="grid gap-5 md:grid-cols-2">
         {EXAM_AREAS.map((area) => (
           <Link key={area.id} to="/learn/$level" params={{ level: levelSlug }} className="group block">
-            <Card className="h-full overflow-hidden border-border/60 transition-all hover:border-accent hover:shadow-md hover:-translate-y-0.5">
-              <CardHeader className="pb-3">
-                <div className="flex items-start gap-3">
-                  <div className="rounded-lg bg-accent/10 p-2.5 text-accent-foreground ring-1 ring-accent/20">
-                    <area.icon className="h-5 w-5" />
+            <Card className="relative h-full overflow-hidden border-border/60 transition-all duration-300 hover:border-accent/60 hover:shadow-2xl hover:-translate-y-1 active:translate-y-0">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity" />
+              <CardHeader className="pb-4 relative">
+                <div className="flex items-start justify-between mb-2">
+                  <div className="rounded-xl bg-accent/15 p-3.5 text-accent ring-1 ring-accent/30 group-hover:scale-110 transition-transform duration-300">
+                    <area.icon className="h-7 w-7" />
                   </div>
-                  <div className="flex-1">
-                    <CardTitle className="text-base flex items-center justify-between">
-                      {area.label}
-                      <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-accent" />
-                    </CardTitle>
-                    <CardDescription className="text-xs mt-0.5">{area.desc}</CardDescription>
-                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">{area.tagline}</span>
                 </div>
+                <CardTitle className="text-3xl font-bold tracking-tight flex items-center justify-between">
+                  {area.label}
+                  <ArrowRight className="h-5 w-5 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-accent" />
+                </CardTitle>
+                <CardDescription className="text-sm">{area.desc}</CardDescription>
               </CardHeader>
-              <CardContent className="pt-0">
-                <div className="grid grid-cols-2 gap-1.5">
+              <CardContent className="relative">
+                <div className="grid grid-cols-2 gap-2">
                   {area.modules.map((m) => (
-                    <div key={m.label} className="flex items-center gap-1.5 rounded-md border bg-muted/30 px-2 py-1.5 text-xs">
-                      <m.icon className="h-3 w-3 text-accent" /> <span className="truncate">{m.label}</span>
+                    <div key={m.label} className="flex items-center gap-2 rounded-lg border border-border/60 bg-card/50 backdrop-blur px-3 py-2.5 text-sm transition-colors group-hover:border-accent/30">
+                      <m.icon className="h-4 w-4 text-accent shrink-0" /> <span className="truncate font-medium">{m.label}</span>
                     </div>
                   ))}
+                </div>
+                <div className="mt-4 flex items-center gap-2 text-sm font-medium text-accent">
+                  <GraduationCap className="h-4 w-4" /> Open {area.label} →
                 </div>
               </CardContent>
             </Card>
