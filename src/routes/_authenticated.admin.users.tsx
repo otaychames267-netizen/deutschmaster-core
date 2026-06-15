@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/admin/users")({
 });
 
 function AdminUsers() {
-  const [users, setUsers] = useState<Array<{ id: string; email: string; full_name: string | null; level: string | null; suspended: boolean; created_at: string; sub?: { plan_code: string; status: string; is_trial: boolean; expires_at: string } | null }>>([]);
+  const [users, setUsers] = useState<Array<{ id: string; email: string | null; full_name: string | null; suspended: boolean | null; created_at: string; sub: { plan_code: string; status: string; is_trial: boolean; expires_at: string } | null }>>([]);
   const [q, setQ] = useState("");
 
   const reload = async () => {
@@ -22,7 +22,7 @@ function AdminUsers() {
     const { data: subs } = await supabase.from("subscriptions").select("user_id,plan_code,status,is_trial,expires_at");
     const subMap = new Map<string, { plan_code: string; status: string; is_trial: boolean; expires_at: string }>();
     (subs ?? []).forEach((s) => subMap.set(s.user_id, { plan_code: s.plan_code, status: s.status, is_trial: s.is_trial, expires_at: s.expires_at }));
-    setUsers((profiles ?? []).map((p) => ({ ...p, sub: subMap.get(p.id) ?? null })));
+    setUsers((profiles ?? []).map((p) => ({ id: p.id, email: p.email, full_name: p.full_name, suspended: p.suspended, created_at: p.created_at, sub: subMap.get(p.id) ?? null })));
   };
   useEffect(() => { reload(); }, []);
 
