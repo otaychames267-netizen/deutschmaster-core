@@ -1,91 +1,114 @@
-# DeutschMaster — Phase 1 Build Plan
+# Lingovia Admin Panel — Foundation Plan
 
-This is a large scope. I'll build it in ordered milestones inside a single phase, each verified before the next. No exam/training content, no AI.
+Goal: give you a complete admin workspace so you can manage exercises, audio, users, subscriptions, and analytics without code changes.
 
-## Stack & infrastructure
-- TanStack Start (already scaffolded) + Tailwind v4 + shadcn
-- **Lovable Cloud** (Supabase) for DB, auth, storage
-- **Lovable Built-in Payments (Stripe)** for subscriptions — supports EUR/USD natively with auto currency conversion. TND is not supported by Stripe as a settlement currency; I'll display TND prices via FX conversion but charge in EUR/USD. (Flagging this — see "Decisions needed" below.)
-- **Lovable Emails** for transactional email
-- i18n via `i18next` + `react-i18next` (ar, de, en, fr, es, it, tr) with RTL for Arabic
-- next-themes-style light/dark via CSS tokens
-- PWA: manifest + icons only (no service worker — preview-safe per platform rules)
+Existing admin routes already in the project:
+`_authenticated.admin.tsx`, `admin.index`, `admin.users`, `admin.plans`, `admin.subscriptions`, `admin.messages`, `admin.analytics`. We'll keep them and add the missing pieces (content/questions, audio, backup) plus rebuild the existing ones around a real schema.
 
-## Milestones
+---
 
-### M1 — Design system & landing
-- Premium educational theme, oklch tokens, dark/light
-- Routes: `/` landing (Hero, Features, Pricing, Testimonials, Success Stories, FAQ, Contact)
-- Legal: `/privacy`, `/terms`, `/refund`, `/cookies`
-- Header with language selector + theme toggle, footer
-- SEO meta per route, sitemap.xml, robots.txt
+## 1. Database (new migration)
 
-### M2 — i18n
-- 7 languages with namespaced JSON dictionaries
-- Language selector persists to profile + localStorage
-- RTL handling for Arabic
+New tables in `public`:
 
-### M3 — Auth (Lovable Cloud)
-- Email/password + Google
-- Email verification, forgot/reset password, change password
-- Remember me, session management
-- `/login`, `/register`, `/forgot-password`, `/reset-password`
-- `_authenticated` layout guard
+- `exercises` — the core question bank
+  - `level` (enum: `b1`, `b2`)
+  - `module` (enum: `lesen`, `sprachbausteine`, `hoeren`, `schreiben`, `muendlich`)
+  - `teil` (smallint 1–3)
+  - `position` (smallint, ordering within teil)
+  - `title`, `prompt` (the question/instruction text)
+  - `passage` (long text, for Lesen)
+  - `audio_id` (FK → `audio_assets.id`, nullable, for Hören)
+  - `kind` (enum: `multiple_choice`, `true_false`, `matching`, `cloze`, `open_text`)
+  - `options` (jsonb — answer choices)
+  - `correct` (jsonb — solution(s))
+  - `explanation` (text)
+  - `status` (enum: `draft`, `published`, `hidden`)
+  - `tags` (text[])
 
-### M4 — Database schema (migrations)
-Tables with RLS + grants:
-- `profiles` (name, avatar, country, language, level, exam_date, target_level, study_goal)
-- `user_roles` + `app_role` enum (`admin`,`student`) + `has_role()` SECURITY DEFINER
-- `subscriptions` (plan, status, period, trial flag)
-- `plans` (admin-editable pricing)
-- `payments` / `invoices`
-- `notifications`
-- `login_history`, `devices`
-- `trial_claims` (anti-abuse: one trial per user + device/email fingerprint)
-- Placeholder tables (empty, RLS-locked) for future phases: `reading_models`, `listening_models`, `writing_topics`, `speaking_topics`, `pdf_files`, `certificates`, `referrals`, `support_tickets`, `ratings`, `challenges`, `badges`
+- `audio_assets`
+  - `title`, `description`
+  - `storage_path` (object key in `audio` bucket)
+  - `duration_seconds`, `transcript`
 
-### M5 — Subscriptions & payments (Stripe seamless)
-- Plans seeded: Schriftlich, Mündlich, Premium Complete
-- 3-day free trial, one-time per user (enforced via `trial_claims` + email/device check)
-- Checkout flow, webhook (`/api/public/stripe-webhook`) updates `subscriptions`
-- Auto-block on expiry (server-side guard helper)
-- Currency display in TND/EUR/USD via FX rates; charge in Stripe-supported currency
-- Pages: `/billing`, `/billing/history`, `/billing/invoices`
+- `user_exercise_attempts` — feeds Statistik + admin analytics
+  - `user_id`, `exercise_id`, `score` (0–100), `is_correct`, `answer` (jsonb), `completed_at`
 
-### M6 — User dashboard
-- `/dashboard`: subscription status, remaining days, level, trial status, notifications, exam countdown, referral placeholder card
-- `/profile`: edit all profile fields, change password, 2FA toggle (TOTP)
-- `/security`: login history, devices, security alerts
+- `plans` already exists — we'll only add admin CRUD on top.
+- `subscriptions` already exists — admin can edit `plan_code`, `status`, `expires_at`, toggle `is_trial`.
 
-### M7 — Notifications & email
-- In-app notifications table + bell UI
-- Auto emails: welcome, verify, reset, subscription confirmation (Lovable Emails templates)
+RLS:
+- `exercises`, `audio_assets`: `SELECT` for `authenticated` when `status = 'published'`; full CRUD for admins via `has_role(auth.uid(),'admin')`.
+- `user_exercise_attempts`: user can insert/select own rows; admins can select all.
 
-### M8 — Admin dashboard (`/admin`, role-gated)
-- Overview: totals, revenue, active subs, recent payments, system/backup status
-- Users: list, search, suspend, delete, change plan
-- Subscriptions: list, activate, cancel, extend
-- Plans/pricing editor
-- Analytics: revenue, growth, active users, subscription stats (Recharts)
+Storage:
+- New private bucket `audio`. Admins upload; authenticated users get signed URLs via a server fn.
 
-### M9 — Security & abuse
-- Session management, 2FA (TOTP), login alerts via email
-- Trial-abuse guard (email + device fingerprint dedupe). **No backend rate limiting** per platform policy.
+## 2. Admin routes (rebuild + new)
 
-### M10 — PWA + backup notice
-- `manifest.json` + icons, `display: standalone`, no service worker
-- Backup: Lovable Cloud has automated Supabase backups — surface status in admin (informational)
+```
+/admin                       Overview cards + quick links
+/admin/exercises             List + filters (level, module, teil, status, search)
+/admin/exercises/new         Create
+/admin/exercises/$id         Edit (incl. delete, publish/hide)
+/admin/audio                 List + upload + edit + delete
+/admin/users                 List, search, view detail, role toggle
+/admin/users/$id             Subscription edit, activity, trial controls
+/admin/plans                 CRUD on plans (price, features, active)
+/admin/subscriptions         All subscriptions, filter by status/plan, edit
+/admin/analytics             Stats dashboard (totals, actives, top exercises, avg score)
+/admin/backup                Export / import JSON
+```
 
-## Technical notes
-- Stripe is the only seamless provider compatible with subscriptions on Lovable. Local TND processors are not integrated; will surface TND as display currency only.
-- 2FA via TOTP using `otplib` + QR via `qrcode`.
-- No service worker (Lovable preview constraint); PWA = installable manifest only.
-- Rate limiting omitted per platform policy.
+All under existing `_authenticated.admin.tsx` gate (admin role required).
 
-## Decisions needed before I start
-1. **Payment currency**: OK to charge in EUR (with TND/USD shown as converted display prices)? Stripe cannot settle in TND.
-2. **Stripe**: I'll enable Lovable's built-in Stripe Payments (no account/keys needed for test mode). Confirm?
-3. **Admin account**: I'll create the first admin by promoting the first user who signs up with an email you specify. What email?
-4. **Brand colors**: any preference, or should I propose a premium German-academic palette (deep navy + warm gold accents on neutral surfaces)?
+## 3. Server functions (`src/lib/admin/*.functions.ts`)
 
-Once you confirm these 4, I'll enable Cloud + Stripe and start executing M1→M10 in order, verifying each milestone.
+Each uses `requireSupabaseAuth` + an admin-role check before doing anything.
+
+- `listExercises`, `getExercise`, `upsertExercise`, `deleteExercise`, `setExerciseStatus`
+- `listAudio`, `createAudioAsset`, `deleteAudioAsset`, `getAudioSignedUrl`, `getAudioUploadUrl`
+- `listUsers` (joins profiles + subscriptions + roles), `getUser`, `setUserRole`
+- `listSubscriptions`, `updateSubscription`, `extendTrial`
+- `listPlans`, `upsertPlan`, `togglePlanActive`
+- `getAdminStats` — total users, active (30d), premium count, top 10 exercises by attempts, avg score, daily activity for last 30 days
+- `exportBackup` — returns JSON dump of exercises + audio metadata + plans
+- `importBackup` — accepts JSON, upserts rows (admin only, with confirmation)
+
+User-facing wiring:
+- Schriftlich/Mündlich "Teil" pages will fetch published exercises from the bank via a public server fn (`listPublishedExercises`) so the platform truly runs from the DB.
+- Submitting an exercise records a `user_exercise_attempts` row → drives Statistik + Continue Learning.
+
+## 4. UI
+
+- Reuse shadcn `Table`, `Dialog`, `Form` (react-hook-form + zod), `Tabs`, `Select`.
+- Exercise editor: structured form with dynamic options list, JSON-safe answer/correct fields, live preview panel showing how the question will render to a student.
+- Audio manager: drag-drop upload to Storage (signed upload URL), inline player using signed playback URL.
+- Backup: "Download JSON" button + drop-zone for import with diff summary before apply.
+
+## 5. Out of scope (this phase)
+
+- No new payment integration work — admin only edits existing `subscriptions` rows.
+- Statistik student page already exists; admin analytics is separate.
+- We will NOT migrate existing hard-coded Teil content in this phase; once you create exercises in the bank they'll show up on the student side. We can backfill in a follow-up.
+
+---
+
+## Build order
+
+1. Migration (tables, enums, RLS, grants) + `audio` bucket.
+2. Server fns + admin role guard helper.
+3. `/admin/exercises` (list, create, edit, delete, publish).
+4. `/admin/audio` (upload, list, delete).
+5. `/admin/users`, `/admin/subscriptions`, `/admin/plans` rebuilt against real data.
+6. `/admin/analytics` against `user_exercise_attempts` + `profiles` + `subscriptions`.
+7. `/admin/backup` export/import.
+8. Wire one student Teil page to read from the bank as a proof-of-concept.
+
+This is a multi-step build; I'll ship it in the order above, pausing only if a decision is needed.
+
+## Questions before I start
+
+1. **Admin role**: are you already assigned the `admin` role in `user_roles`? If not, I'll add a migration that grants it to your account (I'll need your email).
+2. **Backup scope**: export exercises + audio metadata + plans only, or also user data (profiles, subscriptions, attempts)? User data export has privacy implications.
+3. **Backfill**: do you want me to seed the question bank with the current hard-coded Teil placeholders so the student pages stay populated, or start the bank empty?
