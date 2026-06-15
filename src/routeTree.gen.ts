@@ -34,9 +34,15 @@ import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.h
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated.billing'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedSchriftlichIndexRouteImport } from './routes/_authenticated.schriftlich.index'
+import { Route as AuthenticatedMuendlichIndexRouteImport } from './routes/_authenticated.muendlich.index'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated.learn.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api.public.stripe-webhook'
+import { Route as AuthenticatedSchriftlichVorbereitungRouteImport } from './routes/_authenticated.schriftlich.vorbereitung'
+import { Route as AuthenticatedSchriftlichPruefungRouteImport } from './routes/_authenticated.schriftlich.pruefung'
+import { Route as AuthenticatedMuendlichVorbereitungRouteImport } from './routes/_authenticated.muendlich.vorbereitung'
+import { Route as AuthenticatedMuendlichPruefungRouteImport } from './routes/_authenticated.muendlich.pruefung'
 import { Route as AuthenticatedLearnLevelRouteImport } from './routes/_authenticated.learn.$level'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
 import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_authenticated.admin.subscriptions'
@@ -170,6 +176,18 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedSchriftlichIndexRoute =
+  AuthenticatedSchriftlichIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedSchriftlichRoute,
+  } as any)
+const AuthenticatedMuendlichIndexRoute =
+  AuthenticatedMuendlichIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedMuendlichRoute,
+  } as any)
 const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -185,6 +203,30 @@ const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
   path: '/api/public/stripe-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSchriftlichVorbereitungRoute =
+  AuthenticatedSchriftlichVorbereitungRouteImport.update({
+    id: '/vorbereitung',
+    path: '/vorbereitung',
+    getParentRoute: () => AuthenticatedSchriftlichRoute,
+  } as any)
+const AuthenticatedSchriftlichPruefungRoute =
+  AuthenticatedSchriftlichPruefungRouteImport.update({
+    id: '/pruefung',
+    path: '/pruefung',
+    getParentRoute: () => AuthenticatedSchriftlichRoute,
+  } as any)
+const AuthenticatedMuendlichVorbereitungRoute =
+  AuthenticatedMuendlichVorbereitungRouteImport.update({
+    id: '/vorbereitung',
+    path: '/vorbereitung',
+    getParentRoute: () => AuthenticatedMuendlichRoute,
+  } as any)
+const AuthenticatedMuendlichPruefungRoute =
+  AuthenticatedMuendlichPruefungRouteImport.update({
+    id: '/pruefung',
+    path: '/pruefung',
+    getParentRoute: () => AuthenticatedMuendlichRoute,
+  } as any)
 const AuthenticatedLearnLevelRoute = AuthenticatedLearnLevelRouteImport.update({
   id: '/$level',
   path: '/$level',
@@ -235,13 +277,13 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/help': typeof AuthenticatedHelpRoute
   '/learn': typeof AuthenticatedLearnRouteWithChildren
-  '/muendlich': typeof AuthenticatedMuendlichRoute
+  '/muendlich': typeof AuthenticatedMuendlichRouteWithChildren
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/referrals': typeof AuthenticatedReferralsRoute
-  '/schriftlich': typeof AuthenticatedSchriftlichRoute
+  '/schriftlich': typeof AuthenticatedSchriftlichRouteWithChildren
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -250,9 +292,15 @@ export interface FileRoutesByFullPath {
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
+  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
+  '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
+  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
+  '/muendlich/': typeof AuthenticatedMuendlichIndexRoute
+  '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -268,13 +316,11 @@ export interface FileRoutesByTo {
   '/billing': typeof AuthenticatedBillingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/help': typeof AuthenticatedHelpRoute
-  '/muendlich': typeof AuthenticatedMuendlichRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/referrals': typeof AuthenticatedReferralsRoute
-  '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -283,9 +329,15 @@ export interface FileRoutesByTo {
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
+  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
+  '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
+  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
+  '/muendlich': typeof AuthenticatedMuendlichIndexRoute
+  '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -305,13 +357,13 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/learn': typeof AuthenticatedLearnRouteWithChildren
-  '/_authenticated/muendlich': typeof AuthenticatedMuendlichRoute
+  '/_authenticated/muendlich': typeof AuthenticatedMuendlichRouteWithChildren
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
   '/_authenticated/referrals': typeof AuthenticatedReferralsRoute
-  '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRoute
+  '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRouteWithChildren
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -320,9 +372,15 @@ export interface FileRoutesById {
   '/_authenticated/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/_authenticated/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
+  '/_authenticated/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
+  '/_authenticated/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
+  '/_authenticated/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
+  '/_authenticated/muendlich/': typeof AuthenticatedMuendlichIndexRoute
+  '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -357,9 +415,15 @@ export interface FileRouteTypes {
     | '/admin/subscriptions'
     | '/admin/users'
     | '/learn/$level'
+    | '/muendlich/pruefung'
+    | '/muendlich/vorbereitung'
+    | '/schriftlich/pruefung'
+    | '/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
     | '/admin/'
     | '/learn/'
+    | '/muendlich/'
+    | '/schriftlich/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -375,13 +439,11 @@ export interface FileRouteTypes {
     | '/billing'
     | '/dashboard'
     | '/help'
-    | '/muendlich'
     | '/notifications'
     | '/onboarding'
     | '/profile'
     | '/pruefung'
     | '/referrals'
-    | '/schriftlich'
     | '/security'
     | '/statistik'
     | '/admin/analytics'
@@ -390,9 +452,15 @@ export interface FileRouteTypes {
     | '/admin/subscriptions'
     | '/admin/users'
     | '/learn/$level'
+    | '/muendlich/pruefung'
+    | '/muendlich/vorbereitung'
+    | '/schriftlich/pruefung'
+    | '/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
     | '/admin'
     | '/learn'
+    | '/muendlich'
+    | '/schriftlich'
   id:
     | '__root__'
     | '/'
@@ -426,9 +494,15 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/subscriptions'
     | '/_authenticated/admin/users'
     | '/_authenticated/learn/$level'
+    | '/_authenticated/muendlich/pruefung'
+    | '/_authenticated/muendlich/vorbereitung'
+    | '/_authenticated/schriftlich/pruefung'
+    | '/_authenticated/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
     | '/_authenticated/admin/'
     | '/_authenticated/learn/'
+    | '/_authenticated/muendlich/'
+    | '/_authenticated/schriftlich/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -623,6 +697,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/schriftlich/': {
+      id: '/_authenticated/schriftlich/'
+      path: '/'
+      fullPath: '/schriftlich/'
+      preLoaderRoute: typeof AuthenticatedSchriftlichIndexRouteImport
+      parentRoute: typeof AuthenticatedSchriftlichRoute
+    }
+    '/_authenticated/muendlich/': {
+      id: '/_authenticated/muendlich/'
+      path: '/'
+      fullPath: '/muendlich/'
+      preLoaderRoute: typeof AuthenticatedMuendlichIndexRouteImport
+      parentRoute: typeof AuthenticatedMuendlichRoute
+    }
     '/_authenticated/learn/': {
       id: '/_authenticated/learn/'
       path: '/'
@@ -643,6 +731,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/public/stripe-webhook'
       preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/schriftlich/vorbereitung': {
+      id: '/_authenticated/schriftlich/vorbereitung'
+      path: '/vorbereitung'
+      fullPath: '/schriftlich/vorbereitung'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungRouteImport
+      parentRoute: typeof AuthenticatedSchriftlichRoute
+    }
+    '/_authenticated/schriftlich/pruefung': {
+      id: '/_authenticated/schriftlich/pruefung'
+      path: '/pruefung'
+      fullPath: '/schriftlich/pruefung'
+      preLoaderRoute: typeof AuthenticatedSchriftlichPruefungRouteImport
+      parentRoute: typeof AuthenticatedSchriftlichRoute
+    }
+    '/_authenticated/muendlich/vorbereitung': {
+      id: '/_authenticated/muendlich/vorbereitung'
+      path: '/vorbereitung'
+      fullPath: '/muendlich/vorbereitung'
+      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungRouteImport
+      parentRoute: typeof AuthenticatedMuendlichRoute
+    }
+    '/_authenticated/muendlich/pruefung': {
+      id: '/_authenticated/muendlich/pruefung'
+      path: '/pruefung'
+      fullPath: '/muendlich/pruefung'
+      preLoaderRoute: typeof AuthenticatedMuendlichPruefungRouteImport
+      parentRoute: typeof AuthenticatedMuendlichRoute
     }
     '/_authenticated/learn/$level': {
       id: '/_authenticated/learn/$level'
@@ -723,19 +839,58 @@ const AuthenticatedLearnRouteChildren: AuthenticatedLearnRouteChildren = {
 const AuthenticatedLearnRouteWithChildren =
   AuthenticatedLearnRoute._addFileChildren(AuthenticatedLearnRouteChildren)
 
+interface AuthenticatedMuendlichRouteChildren {
+  AuthenticatedMuendlichPruefungRoute: typeof AuthenticatedMuendlichPruefungRoute
+  AuthenticatedMuendlichVorbereitungRoute: typeof AuthenticatedMuendlichVorbereitungRoute
+  AuthenticatedMuendlichIndexRoute: typeof AuthenticatedMuendlichIndexRoute
+}
+
+const AuthenticatedMuendlichRouteChildren: AuthenticatedMuendlichRouteChildren =
+  {
+    AuthenticatedMuendlichPruefungRoute: AuthenticatedMuendlichPruefungRoute,
+    AuthenticatedMuendlichVorbereitungRoute:
+      AuthenticatedMuendlichVorbereitungRoute,
+    AuthenticatedMuendlichIndexRoute: AuthenticatedMuendlichIndexRoute,
+  }
+
+const AuthenticatedMuendlichRouteWithChildren =
+  AuthenticatedMuendlichRoute._addFileChildren(
+    AuthenticatedMuendlichRouteChildren,
+  )
+
+interface AuthenticatedSchriftlichRouteChildren {
+  AuthenticatedSchriftlichPruefungRoute: typeof AuthenticatedSchriftlichPruefungRoute
+  AuthenticatedSchriftlichVorbereitungRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+  AuthenticatedSchriftlichIndexRoute: typeof AuthenticatedSchriftlichIndexRoute
+}
+
+const AuthenticatedSchriftlichRouteChildren: AuthenticatedSchriftlichRouteChildren =
+  {
+    AuthenticatedSchriftlichPruefungRoute:
+      AuthenticatedSchriftlichPruefungRoute,
+    AuthenticatedSchriftlichVorbereitungRoute:
+      AuthenticatedSchriftlichVorbereitungRoute,
+    AuthenticatedSchriftlichIndexRoute: AuthenticatedSchriftlichIndexRoute,
+  }
+
+const AuthenticatedSchriftlichRouteWithChildren =
+  AuthenticatedSchriftlichRoute._addFileChildren(
+    AuthenticatedSchriftlichRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedLearnRoute: typeof AuthenticatedLearnRouteWithChildren
-  AuthenticatedMuendlichRoute: typeof AuthenticatedMuendlichRoute
+  AuthenticatedMuendlichRoute: typeof AuthenticatedMuendlichRouteWithChildren
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
   AuthenticatedReferralsRoute: typeof AuthenticatedReferralsRoute
-  AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRoute
+  AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRouteWithChildren
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
 }
@@ -746,13 +901,13 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedLearnRoute: AuthenticatedLearnRouteWithChildren,
-  AuthenticatedMuendlichRoute: AuthenticatedMuendlichRoute,
+  AuthenticatedMuendlichRoute: AuthenticatedMuendlichRouteWithChildren,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
   AuthenticatedReferralsRoute: AuthenticatedReferralsRoute,
-  AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRoute,
+  AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRouteWithChildren,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
 }
