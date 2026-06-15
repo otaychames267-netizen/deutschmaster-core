@@ -50,6 +50,7 @@ import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
+import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
@@ -267,6 +268,12 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminExercisesNewRoute =
+  AuthenticatedAdminExercisesNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedAdminExercisesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -294,7 +301,7 @@ export interface FileRoutesByFullPath {
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
-  '/admin/exercises': typeof AuthenticatedAdminExercisesRoute
+  '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
@@ -309,6 +316,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof AuthenticatedLearnIndexRoute
   '/muendlich/': typeof AuthenticatedMuendlichIndexRoute
   '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -332,7 +340,7 @@ export interface FileRoutesByTo {
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
-  '/admin/exercises': typeof AuthenticatedAdminExercisesRoute
+  '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
@@ -347,6 +355,7 @@ export interface FileRoutesByTo {
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/muendlich': typeof AuthenticatedMuendlichIndexRoute
   '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
+  '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -376,7 +385,7 @@ export interface FileRoutesById {
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
-  '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRoute
+  '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/_authenticated/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
@@ -391,6 +400,7 @@ export interface FileRoutesById {
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
   '/_authenticated/muendlich/': typeof AuthenticatedMuendlichIndexRoute
   '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -435,6 +445,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/muendlich/'
     | '/schriftlich/'
+    | '/admin/exercises/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -473,6 +484,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/muendlich'
     | '/schriftlich'
+    | '/admin/exercises/new'
   id:
     | '__root__'
     | '/'
@@ -516,6 +528,7 @@ export interface FileRouteTypes {
     | '/_authenticated/learn/'
     | '/_authenticated/muendlich/'
     | '/_authenticated/schriftlich/'
+    | '/_authenticated/admin/exercises/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -822,12 +835,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/exercises/new': {
+      id: '/_authenticated/admin/exercises/new'
+      path: '/new'
+      fullPath: '/admin/exercises/new'
+      preLoaderRoute: typeof AuthenticatedAdminExercisesNewRouteImport
+      parentRoute: typeof AuthenticatedAdminExercisesRoute
+    }
   }
 }
 
+interface AuthenticatedAdminExercisesRouteChildren {
+  AuthenticatedAdminExercisesNewRoute: typeof AuthenticatedAdminExercisesNewRoute
+}
+
+const AuthenticatedAdminExercisesRouteChildren: AuthenticatedAdminExercisesRouteChildren =
+  {
+    AuthenticatedAdminExercisesNewRoute: AuthenticatedAdminExercisesNewRoute,
+  }
+
+const AuthenticatedAdminExercisesRouteWithChildren =
+  AuthenticatedAdminExercisesRoute._addFileChildren(
+    AuthenticatedAdminExercisesRouteChildren,
+  )
+
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
-  AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRoute
+  AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
   AuthenticatedAdminSubscriptionsRoute: typeof AuthenticatedAdminSubscriptionsRoute
@@ -837,7 +871,8 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
-  AuthenticatedAdminExercisesRoute: AuthenticatedAdminExercisesRoute,
+  AuthenticatedAdminExercisesRoute:
+    AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
   AuthenticatedAdminSubscriptionsRoute: AuthenticatedAdminSubscriptionsRoute,
