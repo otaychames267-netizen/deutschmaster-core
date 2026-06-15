@@ -30,9 +30,9 @@ function AdminExercises() {
 
   const reload = async () => {
     let qry = supabase.from("exercises").select("id,level,module,teil,position,title,status,updated_at").order("updated_at", { ascending: false }).limit(500);
-    if (level !== "all") qry = qry.eq("level", level);
-    if (mod !== "all") qry = qry.eq("module", mod);
-    if (status !== "all") qry = qry.eq("status", status);
+    if (level !== "all") qry = qry.eq("level", level as any);
+    if (mod !== "all") qry = qry.eq("module", mod as any);
+    if (status !== "all") qry = qry.eq("status", status as any);
     const { data, error } = await qry;
     if (error) toast.error(error.message);
     setRows((data ?? []) as Row[]);
