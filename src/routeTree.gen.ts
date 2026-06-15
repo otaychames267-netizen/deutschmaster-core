@@ -20,6 +20,7 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedStatistikRouteImport } from './routes/_authenticated.statistik'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated.security'
 import { Route as AuthenticatedSchriftlichRouteImport } from './routes/_authenticated.schriftlich'
 import { Route as AuthenticatedPruefungRouteImport } from './routes/_authenticated.pruefung'
@@ -95,6 +96,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedStatistikRoute = AuthenticatedStatistikRouteImport.update({
+  id: '/statistik',
+  path: '/statistik',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
   id: '/security',
@@ -230,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
+  '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -261,6 +268,7 @@ export interface FileRoutesByTo {
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
+  '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -296,6 +304,7 @@ export interface FileRoutesById {
   '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
   '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
+  '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -331,6 +340,7 @@ export interface FileRouteTypes {
     | '/pruefung'
     | '/schriftlich'
     | '/security'
+    | '/statistik'
     | '/admin/analytics'
     | '/admin/messages'
     | '/admin/plans'
@@ -362,6 +372,7 @@ export interface FileRouteTypes {
     | '/pruefung'
     | '/schriftlich'
     | '/security'
+    | '/statistik'
     | '/admin/analytics'
     | '/admin/messages'
     | '/admin/plans'
@@ -396,6 +407,7 @@ export interface FileRouteTypes {
     | '/_authenticated/pruefung'
     | '/_authenticated/schriftlich'
     | '/_authenticated/security'
+    | '/_authenticated/statistik'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/plans'
@@ -500,6 +512,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/statistik': {
+      id: '/_authenticated/statistik'
+      path: '/statistik'
+      fullPath: '/statistik'
+      preLoaderRoute: typeof AuthenticatedStatistikRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/security': {
       id: '/_authenticated/security'
@@ -698,6 +717,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
   AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRoute
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
+  AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -713,6 +733,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
   AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRoute,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
+  AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
