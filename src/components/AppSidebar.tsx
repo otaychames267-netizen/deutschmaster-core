@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, GraduationCap, User, CreditCard, Shield, Bell, Settings, LogOut, LifeBuoy, PenLine, Mic, ClipboardList, BarChart3, UserPlus } from "lucide-react";
+import { LayoutDashboard, GraduationCap, User, CreditCard, Bell, Settings, LogOut, PenLine, Mic, Moon, Sun } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
+import { useTheme } from "@/lib/theme";
 import {
   Sidebar,
   SidebarContent,
@@ -20,24 +21,23 @@ export function AppSidebar() {
   const { t } = useTranslation();
   const { isAdmin, signOut } = useAuth();
   const { state } = useSidebar();
+  const { theme, toggle } = useTheme();
   const collapsed = state === "collapsed";
   const currentPath = useRouterState({ select: (r) => r.location.pathname });
   const isActive = (p: string) => p === "/dashboard" ? currentPath === p : currentPath.startsWith(p);
 
-  const study = [
+  const menu = [
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  ];
+  const modules = [
     { to: "/schriftlich", icon: PenLine, label: "Schriftlich" },
     { to: "/muendlich", icon: Mic, label: "Mündlich" },
-    { to: "/pruefung", icon: ClipboardList, label: "Prüfungssimulation" },
-    { to: "/statistik", icon: BarChart3, label: "Statistik" },
-    { to: "/referrals", icon: UserPlus, label: "Freunde einladen" },
   ];
   const account = [
     { to: "/profile", icon: User, label: "Profil" },
-    { to: "/billing", icon: CreditCard, label: t("nav.billing") },
-    { to: "/security", icon: Shield, label: "Einstellungen" },
-    { to: "/notifications", icon: Bell, label: "Notifications" },
-    { to: "/help", icon: LifeBuoy, label: "Help & Support" },
+    { to: "/billing", icon: CreditCard, label: "Abrechnung" },
+    { to: "/security", icon: Settings, label: "Einstellungen" },
+    { to: "/notifications", icon: Bell, label: "Benachrichtigungen" },
   ];
 
   return (
@@ -50,12 +50,26 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Lernen</SidebarGroupLabel>
+          <SidebarGroupLabel>Menü</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {study.map((it) => (
+              {menu.map((it) => (
                 <SidebarMenuItem key={it.to}>
                   <SidebarMenuButton asChild isActive={isActive(it.to)} tooltip={it.label}>
+                    <Link to={it.to}><it.icon className="h-4 w-4" /><span>{it.label}</span></Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Prüfungsmodule</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {modules.map((it) => (
+                <SidebarMenuItem key={it.to}>
+                  <SidebarMenuButton asChild isActive={isActive(it.to)} tooltip={it.label} className="font-medium">
                     <Link to={it.to}><it.icon className="h-4 w-4" /><span>{it.label}</span></Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -74,6 +88,12 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={toggle} tooltip={theme === "dark" ? "Light Mode" : "Dark Mode"}>
+                  {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               {isAdmin && (
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild isActive={isActive("/admin")} tooltip={t("nav.admin")}>
@@ -88,8 +108,8 @@ export function AppSidebar() {
       <SidebarFooter className="border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => signOut().then(() => (window.location.href = "/"))} tooltip={t("nav.logout")}>
-              <LogOut className="h-4 w-4" /><span>{t("nav.logout")}</span>
+            <SidebarMenuButton onClick={() => signOut().then(() => (window.location.href = "/"))} tooltip="Abmelden">
+              <LogOut className="h-4 w-4" /><span>Abmelden</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

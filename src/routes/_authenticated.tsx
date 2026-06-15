@@ -7,7 +7,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Moon, Sun, Globe, User as UserIcon, GraduationCap } from "lucide-react";
+import { Moon, Sun, Globe, User as UserIcon, GraduationCap, Bell, CreditCard } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 import { useTranslation } from "react-i18next";
 
@@ -76,6 +76,8 @@ function TopBar() {
     <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur md:px-4">
       <SidebarTrigger />
       <div className="flex-1" />
+      <Button variant="ghost" size="icon" onClick={() => nav({ to: "/billing" })} title="Abrechnung"><CreditCard className="h-4 w-4" /></Button>
+      <Button variant="ghost" size="icon" onClick={() => nav({ to: "/notifications" })} title="Benachrichtigungen"><Bell className="h-4 w-4" /></Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><Globe className="h-4 w-4" /></Button></DropdownMenuTrigger>
         <DropdownMenuContent align="end">
