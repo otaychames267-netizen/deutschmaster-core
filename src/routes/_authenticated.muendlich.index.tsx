@@ -14,6 +14,7 @@ function MuendlichIndex() {
         icon={Mic}
         title="Mündlich"
         subtitle="Wähle, wie du heute sprechen möchtest."
+        breadcrumbs={[{ label: "Dashboard", to: "/dashboard" }, { label: "Mündlich" }]}
       />
       <div className="grid gap-5 md:grid-cols-2">
         <ChoiceCard

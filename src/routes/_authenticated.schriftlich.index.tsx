@@ -14,6 +14,7 @@ function SchriftlichIndex() {
         icon={PenLine}
         title="Schriftlich"
         subtitle="Wähle, wie du heute lernen möchtest."
+        breadcrumbs={[{ label: "Dashboard", to: "/dashboard" }, { label: "Schriftlich" }]}
       />
       <div className="grid gap-5 md:grid-cols-2">
         <ChoiceCard
