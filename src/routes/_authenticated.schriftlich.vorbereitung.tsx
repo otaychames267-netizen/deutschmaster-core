@@ -35,22 +35,22 @@ function SchriftlichVorbereitung() {
       <ModuleGroupWithProgress title="Lesen" progress={0}>
         <PartCard icon={BookOpen} title="Teil 1" desc="Globalverständnis — Überschriften zuordnen." />
         <PartCard icon={BookOpen} title="Teil 2" desc="Detailverständnis — Aussagen prüfen." />
-        <PartCard icon={BookOpen} title="Teil 3" desc="Selektives Lesen — Anzeigen & Texte." locked="premium" />
+        <PartCard icon={BookOpen} title="Teil 3" desc="Selektives Lesen — Anzeigen & Texte." locked />
       </ModuleGroupWithProgress>
 
       <ModuleGroupWithProgress title="Sprachbausteine" progress={0}>
         <PartCard icon={Puzzle} title="Teil 1" desc="Grammatik — Lückentext mit Auswahl." />
-        <PartCard icon={Puzzle} title="Teil 2" desc="Wortschatz — Passende Wörter einsetzen." locked="premium" />
+        <PartCard icon={Puzzle} title="Teil 2" desc="Wortschatz — Passende Wörter einsetzen." locked />
       </ModuleGroupWithProgress>
 
       <ModuleGroupWithProgress title="Hören" progress={0}>
         <PartCard icon={Headphones} title="Teil 1" desc="Globalverständnis — Kurze Ansagen." />
-        <PartCard icon={Headphones} title="Teil 2" desc="Detailverständnis — Gespräche." locked="premium" />
-        <PartCard icon={Headphones} title="Teil 3" desc="Selektives Hören — Interviews & Berichte." locked="premium" />
+        <PartCard icon={Headphones} title="Teil 2" desc="Detailverständnis — Gespräche." locked />
+        <PartCard icon={Headphones} title="Teil 3" desc="Selektives Hören — Interviews & Berichte." locked />
       </ModuleGroupWithProgress>
 
       <ModuleGroupWithProgress title="Schreiben" progress={0}>
-        <PartCard icon={Edit3} title="Brief / E-Mail" desc="Formelles und halbformelles Schreiben." locked="premium" />
+        <PartCard icon={Edit3} title="Brief / E-Mail" desc="Formelles und halbformelles Schreiben." locked />
       </ModuleGroupWithProgress>
     </div>
   );
