@@ -5,7 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
   en: { translation: {
     nav: { features: "Features", pricing: "Pricing", faq: "FAQ", contact: "Contact", login: "Login", signup: "Sign Up", dashboard: "Dashboard", logout: "Logout", profile: "Profile", billing: "Billing", security: "Security", admin: "Admin" },
-    hero: { title: "Lingovia", subtitle: "Professional German Exam Preparation Platform", description: "Prepare for TELC B1 & B2 with structured lessons, exam simulations and AI-powered feedback.", cta_trial: "Start Free Trial", cta_plans: "View Plans", cta_login: "Login" },
+    hero: { title: "Lingovia", subtitle: "Master German with Confidence", description: "Prepare for TELC B1 & B2 with structured lessons, exam simulations and AI-powered feedback.", cta_trial: "Start Free Trial", cta_plans: "View Plans", cta_login: "Login" },
     features: { title: "Everything you need to pass", reading: "Reading", reading_desc: "Authentic TELC reading models with explanations.", listening: "Listening", listening_desc: "Audio exercises with transcripts.", writing: "Writing", writing_desc: "Letter & essay practice with AI feedback.", speaking: "Speaking", speaking_desc: "Realistic oral exam simulations.", certificates: "Certificates", certificates_desc: "Earn certificates as you progress.", multi: "7 Languages", multi_desc: "Study interface in your native language." },
     pricing: { title: "Simple, transparent pricing", monthly: "per month", trial: "3-day free trial included", choose: "Choose plan" },
     testimonials: { title: "Trusted by thousands of learners" },
