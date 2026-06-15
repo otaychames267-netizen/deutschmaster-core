@@ -49,6 +49,7 @@ import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
+import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated.admin.backup'
 import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authenticated.admin.audio'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
@@ -264,6 +265,12 @@ const AuthenticatedAdminExercisesRoute =
     path: '/exercises',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminBackupRoute =
+  AuthenticatedAdminBackupRouteImport.update({
+    id: '/backup',
+    path: '/backup',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAudioRoute = AuthenticatedAdminAudioRouteImport.update({
   id: '/audio',
   path: '/audio',
@@ -315,6 +322,7 @@ export interface FileRoutesByFullPath {
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
+  '/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -356,6 +364,7 @@ export interface FileRoutesByTo {
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
+  '/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -403,6 +412,7 @@ export interface FileRoutesById {
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/audio': typeof AuthenticatedAdminAudioRoute
+  '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -450,6 +460,7 @@ export interface FileRouteTypes {
     | '/statistik'
     | '/admin/analytics'
     | '/admin/audio'
+    | '/admin/backup'
     | '/admin/exercises'
     | '/admin/messages'
     | '/admin/plans'
@@ -491,6 +502,7 @@ export interface FileRouteTypes {
     | '/statistik'
     | '/admin/analytics'
     | '/admin/audio'
+    | '/admin/backup'
     | '/admin/exercises'
     | '/admin/messages'
     | '/admin/plans'
@@ -537,6 +549,7 @@ export interface FileRouteTypes {
     | '/_authenticated/statistik'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/audio'
+    | '/_authenticated/admin/backup'
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/plans'
@@ -853,6 +866,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminExercisesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/backup': {
+      id: '/_authenticated/admin/backup'
+      path: '/backup'
+      fullPath: '/admin/backup'
+      preLoaderRoute: typeof AuthenticatedAdminBackupRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/audio': {
       id: '/_authenticated/admin/audio'
       path: '/audio'
@@ -903,6 +923,7 @@ const AuthenticatedAdminExercisesRouteWithChildren =
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
   AuthenticatedAdminAudioRoute: typeof AuthenticatedAdminAudioRoute
+  AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
@@ -914,6 +935,7 @@ interface AuthenticatedAdminRouteChildren {
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
   AuthenticatedAdminAudioRoute: AuthenticatedAdminAudioRoute,
+  AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
   AuthenticatedAdminExercisesRoute:
     AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
