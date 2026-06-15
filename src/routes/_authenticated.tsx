@@ -7,7 +7,7 @@ import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/s
 import { AppSidebar } from "@/components/AppSidebar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Moon, Sun, Globe, User as UserIcon, GraduationCap, Bell, CreditCard } from "lucide-react";
+import { Moon, Sun, Globe, User as UserIcon, GraduationCap, Bell, CreditCard, X } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 import { useTranslation } from "react-i18next";
 
@@ -72,9 +72,51 @@ function TopBar() {
   const { i18n } = useTranslation();
   const { user, signOut } = useAuth();
   const nav = useNavigate();
+  const [showHint, setShowHint] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const seen = window.localStorage.getItem("dm-sidebar-hint-seen");
+    if (!seen) {
+      const t = setTimeout(() => setShowHint(true), 600);
+      return () => clearTimeout(t);
+    }
+  }, []);
+  const dismissHint = () => {
+    setShowHint(false);
+    try { window.localStorage.setItem("dm-sidebar-hint-seen", "1"); } catch {}
+  };
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-2 border-b bg-background/80 px-3 backdrop-blur md:px-4">
-      <SidebarTrigger />
+      <div className="relative">
+        <SidebarTrigger onClick={dismissHint} />
+        {showHint && (
+          <div
+            role="dialog"
+            className="absolute left-0 top-full mt-2 z-50 w-64 rounded-lg border border-accent/40 bg-popover text-popover-foreground shadow-xl p-3 animate-in fade-in slide-in-from-top-1"
+          >
+            <div className="absolute -top-1.5 left-3 h-3 w-3 rotate-45 border-l border-t border-accent/40 bg-popover" />
+            <div className="flex items-start gap-2">
+              <div className="flex-1 text-xs leading-snug">
+                <p className="font-semibold mb-0.5">Tipp</p>
+                <p className="text-muted-foreground">Click here to expand your learning workspace.</p>
+              </div>
+              <button
+                onClick={dismissHint}
+                aria-label="Hinweis schließen"
+                className="text-muted-foreground hover:text-foreground transition"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <button
+              onClick={dismissHint}
+              className="mt-2 text-[11px] font-medium text-accent hover:underline"
+            >
+              Verstanden
+            </button>
+          </div>
+        )}
+      </div>
       <div className="flex-1" />
       <Button variant="ghost" size="icon" onClick={() => nav({ to: "/billing" })} title="Abrechnung"><CreditCard className="h-4 w-4" /></Button>
       <Button variant="ghost" size="icon" onClick={() => nav({ to: "/notifications" })} title="Benachrichtigungen"><Bell className="h-4 w-4" /></Button>
