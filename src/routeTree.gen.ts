@@ -44,16 +44,20 @@ import { Route as AuthenticatedSchriftlichPruefungRouteImport } from './routes/_
 import { Route as AuthenticatedMuendlichVorbereitungRouteImport } from './routes/_authenticated.muendlich.vorbereitung'
 import { Route as AuthenticatedMuendlichPruefungRouteImport } from './routes/_authenticated.muendlich.pruefung'
 import { Route as AuthenticatedLearnLevelRouteImport } from './routes/_authenticated.learn.$level'
+import { Route as AuthenticatedExamIdRouteImport } from './routes/_authenticated.exam.$id'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
 import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_authenticated.admin.subscriptions'
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
+import { Route as AuthenticatedAdminPdfImportRouteImport } from './routes/_authenticated.admin.pdf-import'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
 import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated.admin.backup'
 import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authenticated.admin.audio'
+import { Route as AuthenticatedAdminAttemptsRouteImport } from './routes/_authenticated.admin.attempts'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
+import { Route as AuthenticatedPracticeLevelModuleTeilRouteImport } from './routes/_authenticated.practice.$level.$module.$teil'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
@@ -237,6 +241,11 @@ const AuthenticatedLearnLevelRoute = AuthenticatedLearnLevelRouteImport.update({
   path: '/$level',
   getParentRoute: () => AuthenticatedLearnRoute,
 } as any)
+const AuthenticatedExamIdRoute = AuthenticatedExamIdRouteImport.update({
+  id: '/exam/$id',
+  path: '/exam/$id',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -253,6 +262,12 @@ const AuthenticatedAdminPlansRoute = AuthenticatedAdminPlansRouteImport.update({
   path: '/plans',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminPdfImportRoute =
+  AuthenticatedAdminPdfImportRouteImport.update({
+    id: '/pdf-import',
+    path: '/pdf-import',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminMessagesRoute =
   AuthenticatedAdminMessagesRouteImport.update({
     id: '/messages',
@@ -276,6 +291,12 @@ const AuthenticatedAdminAudioRoute = AuthenticatedAdminAudioRouteImport.update({
   path: '/audio',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminAttemptsRoute =
+  AuthenticatedAdminAttemptsRouteImport.update({
+    id: '/attempts',
+    path: '/attempts',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminAnalyticsRoute =
   AuthenticatedAdminAnalyticsRouteImport.update({
     id: '/analytics',
@@ -293,6 +314,12 @@ const AuthenticatedAdminExercisesIdRoute =
     id: '/$id',
     path: '/$id',
     getParentRoute: () => AuthenticatedAdminExercisesRoute,
+  } as any)
+const AuthenticatedPracticeLevelModuleTeilRoute =
+  AuthenticatedPracticeLevelModuleTeilRouteImport.update({
+    id: '/practice/$level/$module/$teil',
+    path: '/practice/$level/$module/$teil',
+    getParentRoute: () => AuthenticatedRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -321,13 +348,16 @@ export interface FileRoutesByFullPath {
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
   '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
   '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
@@ -340,6 +370,7 @@ export interface FileRoutesByFullPath {
   '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -363,13 +394,16 @@ export interface FileRoutesByTo {
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
   '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
   '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
@@ -382,6 +416,7 @@ export interface FileRoutesByTo {
   '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -411,13 +446,16 @@ export interface FileRoutesById {
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/_authenticated/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
+  '/_authenticated/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/_authenticated/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/exam/$id': typeof AuthenticatedExamIdRoute
   '/_authenticated/learn/$level': typeof AuthenticatedLearnLevelRoute
   '/_authenticated/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
   '/_authenticated/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
@@ -430,6 +468,7 @@ export interface FileRoutesById {
   '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
   '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/_authenticated/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -459,13 +498,16 @@ export interface FileRouteTypes {
     | '/security'
     | '/statistik'
     | '/admin/analytics'
+    | '/admin/attempts'
     | '/admin/audio'
     | '/admin/backup'
     | '/admin/exercises'
     | '/admin/messages'
+    | '/admin/pdf-import'
     | '/admin/plans'
     | '/admin/subscriptions'
     | '/admin/users'
+    | '/exam/$id'
     | '/learn/$level'
     | '/muendlich/pruefung'
     | '/muendlich/vorbereitung'
@@ -478,6 +520,7 @@ export interface FileRouteTypes {
     | '/schriftlich/'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
+    | '/practice/$level/$module/$teil'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -501,13 +544,16 @@ export interface FileRouteTypes {
     | '/security'
     | '/statistik'
     | '/admin/analytics'
+    | '/admin/attempts'
     | '/admin/audio'
     | '/admin/backup'
     | '/admin/exercises'
     | '/admin/messages'
+    | '/admin/pdf-import'
     | '/admin/plans'
     | '/admin/subscriptions'
     | '/admin/users'
+    | '/exam/$id'
     | '/learn/$level'
     | '/muendlich/pruefung'
     | '/muendlich/vorbereitung'
@@ -520,6 +566,7 @@ export interface FileRouteTypes {
     | '/schriftlich'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
+    | '/practice/$level/$module/$teil'
   id:
     | '__root__'
     | '/'
@@ -548,13 +595,16 @@ export interface FileRouteTypes {
     | '/_authenticated/security'
     | '/_authenticated/statistik'
     | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/attempts'
     | '/_authenticated/admin/audio'
     | '/_authenticated/admin/backup'
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/messages'
+    | '/_authenticated/admin/pdf-import'
     | '/_authenticated/admin/plans'
     | '/_authenticated/admin/subscriptions'
     | '/_authenticated/admin/users'
+    | '/_authenticated/exam/$id'
     | '/_authenticated/learn/$level'
     | '/_authenticated/muendlich/pruefung'
     | '/_authenticated/muendlich/vorbereitung'
@@ -567,6 +617,7 @@ export interface FileRouteTypes {
     | '/_authenticated/schriftlich/'
     | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
+    | '/_authenticated/practice/$level/$module/$teil'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -831,6 +882,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLearnLevelRouteImport
       parentRoute: typeof AuthenticatedLearnRoute
     }
+    '/_authenticated/exam/$id': {
+      id: '/_authenticated/exam/$id'
+      path: '/exam/$id'
+      fullPath: '/exam/$id'
+      preLoaderRoute: typeof AuthenticatedExamIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/admin/users': {
       id: '/_authenticated/admin/users'
       path: '/users'
@@ -850,6 +908,13 @@ declare module '@tanstack/react-router' {
       path: '/plans'
       fullPath: '/admin/plans'
       preLoaderRoute: typeof AuthenticatedAdminPlansRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/pdf-import': {
+      id: '/_authenticated/admin/pdf-import'
+      path: '/pdf-import'
+      fullPath: '/admin/pdf-import'
+      preLoaderRoute: typeof AuthenticatedAdminPdfImportRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/messages': {
@@ -880,6 +945,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAudioRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/attempts': {
+      id: '/_authenticated/admin/attempts'
+      path: '/attempts'
+      fullPath: '/admin/attempts'
+      preLoaderRoute: typeof AuthenticatedAdminAttemptsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/analytics': {
       id: '/_authenticated/admin/analytics'
       path: '/analytics'
@@ -900,6 +972,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/exercises/$id'
       preLoaderRoute: typeof AuthenticatedAdminExercisesIdRouteImport
       parentRoute: typeof AuthenticatedAdminExercisesRoute
+    }
+    '/_authenticated/practice/$level/$module/$teil': {
+      id: '/_authenticated/practice/$level/$module/$teil'
+      path: '/practice/$level/$module/$teil'
+      fullPath: '/practice/$level/$module/$teil'
+      preLoaderRoute: typeof AuthenticatedPracticeLevelModuleTeilRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
   }
 }
@@ -922,10 +1001,12 @@ const AuthenticatedAdminExercisesRouteWithChildren =
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminAttemptsRoute: typeof AuthenticatedAdminAttemptsRoute
   AuthenticatedAdminAudioRoute: typeof AuthenticatedAdminAudioRoute
   AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
+  AuthenticatedAdminPdfImportRoute: typeof AuthenticatedAdminPdfImportRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
   AuthenticatedAdminSubscriptionsRoute: typeof AuthenticatedAdminSubscriptionsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
@@ -934,11 +1015,13 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminAttemptsRoute: AuthenticatedAdminAttemptsRoute,
   AuthenticatedAdminAudioRoute: AuthenticatedAdminAudioRoute,
   AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
   AuthenticatedAdminExercisesRoute:
     AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
+  AuthenticatedAdminPdfImportRoute: AuthenticatedAdminPdfImportRoute,
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
   AuthenticatedAdminSubscriptionsRoute: AuthenticatedAdminSubscriptionsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
@@ -1015,6 +1098,8 @@ interface AuthenticatedRouteChildren {
   AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRouteWithChildren
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
+  AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
+  AuthenticatedPracticeLevelModuleTeilRoute: typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -1032,6 +1117,9 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRouteWithChildren,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
+  AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
+  AuthenticatedPracticeLevelModuleTeilRoute:
+    AuthenticatedPracticeLevelModuleTeilRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
