@@ -51,6 +51,7 @@ import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
+import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
@@ -274,6 +275,12 @@ const AuthenticatedAdminExercisesNewRoute =
     path: '/new',
     getParentRoute: () => AuthenticatedAdminExercisesRoute,
   } as any)
+const AuthenticatedAdminExercisesIdRoute =
+  AuthenticatedAdminExercisesIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminExercisesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -316,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof AuthenticatedLearnIndexRoute
   '/muendlich/': typeof AuthenticatedMuendlichIndexRoute
   '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRoutesByTo {
@@ -355,6 +363,7 @@ export interface FileRoutesByTo {
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/muendlich': typeof AuthenticatedMuendlichIndexRoute
   '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
+  '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRoutesById {
@@ -400,6 +409,7 @@ export interface FileRoutesById {
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
   '/_authenticated/muendlich/': typeof AuthenticatedMuendlichIndexRoute
   '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRouteTypes {
@@ -445,6 +455,7 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/muendlich/'
     | '/schriftlich/'
+    | '/admin/exercises/$id'
     | '/admin/exercises/new'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -484,6 +495,7 @@ export interface FileRouteTypes {
     | '/learn'
     | '/muendlich'
     | '/schriftlich'
+    | '/admin/exercises/$id'
     | '/admin/exercises/new'
   id:
     | '__root__'
@@ -528,6 +540,7 @@ export interface FileRouteTypes {
     | '/_authenticated/learn/'
     | '/_authenticated/muendlich/'
     | '/_authenticated/schriftlich/'
+    | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
   fileRoutesById: FileRoutesById
 }
@@ -842,15 +855,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminExercisesNewRouteImport
       parentRoute: typeof AuthenticatedAdminExercisesRoute
     }
+    '/_authenticated/admin/exercises/$id': {
+      id: '/_authenticated/admin/exercises/$id'
+      path: '/$id'
+      fullPath: '/admin/exercises/$id'
+      preLoaderRoute: typeof AuthenticatedAdminExercisesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminExercisesRoute
+    }
   }
 }
 
 interface AuthenticatedAdminExercisesRouteChildren {
+  AuthenticatedAdminExercisesIdRoute: typeof AuthenticatedAdminExercisesIdRoute
   AuthenticatedAdminExercisesNewRoute: typeof AuthenticatedAdminExercisesNewRoute
 }
 
 const AuthenticatedAdminExercisesRouteChildren: AuthenticatedAdminExercisesRouteChildren =
   {
+    AuthenticatedAdminExercisesIdRoute: AuthenticatedAdminExercisesIdRoute,
     AuthenticatedAdminExercisesNewRoute: AuthenticatedAdminExercisesNewRoute,
   }
 
