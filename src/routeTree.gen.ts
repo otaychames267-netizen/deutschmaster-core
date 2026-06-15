@@ -20,10 +20,15 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedStatistikRouteImport } from './routes/_authenticated.statistik'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated.security'
+import { Route as AuthenticatedSchriftlichRouteImport } from './routes/_authenticated.schriftlich'
+import { Route as AuthenticatedReferralsRouteImport } from './routes/_authenticated.referrals'
+import { Route as AuthenticatedPruefungRouteImport } from './routes/_authenticated.pruefung'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
+import { Route as AuthenticatedMuendlichRouteImport } from './routes/_authenticated.muendlich'
 import { Route as AuthenticatedLearnRouteImport } from './routes/_authenticated.learn'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.help'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
@@ -93,9 +98,30 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedStatistikRoute = AuthenticatedStatistikRouteImport.update({
+  id: '/statistik',
+  path: '/statistik',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
   id: '/security',
   path: '/security',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSchriftlichRoute =
+  AuthenticatedSchriftlichRouteImport.update({
+    id: '/schriftlich',
+    path: '/schriftlich',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedReferralsRoute = AuthenticatedReferralsRouteImport.update({
+  id: '/referrals',
+  path: '/referrals',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPruefungRoute = AuthenticatedPruefungRouteImport.update({
+  id: '/pruefung',
+  path: '/pruefung',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
@@ -114,6 +140,11 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedMuendlichRoute = AuthenticatedMuendlichRouteImport.update({
+  id: '/muendlich',
+  path: '/muendlich',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedLearnRoute = AuthenticatedLearnRouteImport.update({
   id: '/learn',
   path: '/learn',
@@ -204,10 +235,15 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/help': typeof AuthenticatedHelpRoute
   '/learn': typeof AuthenticatedLearnRouteWithChildren
+  '/muendlich': typeof AuthenticatedMuendlichRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/pruefung': typeof AuthenticatedPruefungRoute
+  '/referrals': typeof AuthenticatedReferralsRoute
+  '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
+  '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -232,10 +268,15 @@ export interface FileRoutesByTo {
   '/billing': typeof AuthenticatedBillingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/help': typeof AuthenticatedHelpRoute
+  '/muendlich': typeof AuthenticatedMuendlichRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/pruefung': typeof AuthenticatedPruefungRoute
+  '/referrals': typeof AuthenticatedReferralsRoute
+  '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
+  '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -264,10 +305,15 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/learn': typeof AuthenticatedLearnRouteWithChildren
+  '/_authenticated/muendlich': typeof AuthenticatedMuendlichRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
+  '/_authenticated/referrals': typeof AuthenticatedReferralsRoute
+  '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
+  '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -296,10 +342,15 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/help'
     | '/learn'
+    | '/muendlich'
     | '/notifications'
     | '/onboarding'
     | '/profile'
+    | '/pruefung'
+    | '/referrals'
+    | '/schriftlich'
     | '/security'
+    | '/statistik'
     | '/admin/analytics'
     | '/admin/messages'
     | '/admin/plans'
@@ -324,10 +375,15 @@ export interface FileRouteTypes {
     | '/billing'
     | '/dashboard'
     | '/help'
+    | '/muendlich'
     | '/notifications'
     | '/onboarding'
     | '/profile'
+    | '/pruefung'
+    | '/referrals'
+    | '/schriftlich'
     | '/security'
+    | '/statistik'
     | '/admin/analytics'
     | '/admin/messages'
     | '/admin/plans'
@@ -355,10 +411,15 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/help'
     | '/_authenticated/learn'
+    | '/_authenticated/muendlich'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
+    | '/_authenticated/pruefung'
+    | '/_authenticated/referrals'
+    | '/_authenticated/schriftlich'
     | '/_authenticated/security'
+    | '/_authenticated/statistik'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/plans'
@@ -464,11 +525,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/statistik': {
+      id: '/_authenticated/statistik'
+      path: '/statistik'
+      fullPath: '/statistik'
+      preLoaderRoute: typeof AuthenticatedStatistikRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/security': {
       id: '/_authenticated/security'
       path: '/security'
       fullPath: '/security'
       preLoaderRoute: typeof AuthenticatedSecurityRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/schriftlich': {
+      id: '/_authenticated/schriftlich'
+      path: '/schriftlich'
+      fullPath: '/schriftlich'
+      preLoaderRoute: typeof AuthenticatedSchriftlichRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/referrals': {
+      id: '/_authenticated/referrals'
+      path: '/referrals'
+      fullPath: '/referrals'
+      preLoaderRoute: typeof AuthenticatedReferralsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/pruefung': {
+      id: '/_authenticated/pruefung'
+      path: '/pruefung'
+      fullPath: '/pruefung'
+      preLoaderRoute: typeof AuthenticatedPruefungRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/profile': {
@@ -490,6 +579,13 @@ declare module '@tanstack/react-router' {
       path: '/notifications'
       fullPath: '/notifications'
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/muendlich': {
+      id: '/_authenticated/muendlich'
+      path: '/muendlich'
+      fullPath: '/muendlich'
+      preLoaderRoute: typeof AuthenticatedMuendlichRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/learn': {
@@ -633,10 +729,15 @@ interface AuthenticatedRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedLearnRoute: typeof AuthenticatedLearnRouteWithChildren
+  AuthenticatedMuendlichRoute: typeof AuthenticatedMuendlichRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
+  AuthenticatedReferralsRoute: typeof AuthenticatedReferralsRoute
+  AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRoute
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
+  AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -645,10 +746,15 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedLearnRoute: AuthenticatedLearnRouteWithChildren,
+  AuthenticatedMuendlichRoute: AuthenticatedMuendlichRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
+  AuthenticatedReferralsRoute: AuthenticatedReferralsRoute,
+  AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRoute,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
+  AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

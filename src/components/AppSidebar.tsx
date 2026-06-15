@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, GraduationCap, User, CreditCard, Shield, Bell, Settings, LogOut, LifeBuoy } from "lucide-react";
+import { LayoutDashboard, GraduationCap, User, CreditCard, Shield, Bell, Settings, LogOut, LifeBuoy, PenLine, Mic, ClipboardList, BarChart3, UserPlus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import {
@@ -24,14 +24,18 @@ export function AppSidebar() {
   const currentPath = useRouterState({ select: (r) => r.location.pathname });
   const isActive = (p: string) => p === "/dashboard" ? currentPath === p : currentPath.startsWith(p);
 
-  const main = [
-    { to: "/dashboard", icon: LayoutDashboard, label: t("nav.dashboard") },
-    { to: "/learn", icon: GraduationCap, label: "Learn" },
+  const study = [
+    { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { to: "/schriftlich", icon: PenLine, label: "Schriftlich" },
+    { to: "/muendlich", icon: Mic, label: "Mündlich" },
+    { to: "/pruefung", icon: ClipboardList, label: "Prüfungssimulation" },
+    { to: "/statistik", icon: BarChart3, label: "Statistik" },
+    { to: "/referrals", icon: UserPlus, label: "Freunde einladen" },
   ];
   const account = [
-    { to: "/profile", icon: User, label: t("nav.profile") },
+    { to: "/profile", icon: User, label: "Profil" },
     { to: "/billing", icon: CreditCard, label: t("nav.billing") },
-    { to: "/security", icon: Shield, label: t("nav.security") },
+    { to: "/security", icon: Shield, label: "Einstellungen" },
     { to: "/notifications", icon: Bell, label: "Notifications" },
     { to: "/help", icon: LifeBuoy, label: "Help & Support" },
   ];
@@ -46,10 +50,10 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Study</SidebarGroupLabel>
+          <SidebarGroupLabel>Lernen</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {main.map((it) => (
+              {study.map((it) => (
                 <SidebarMenuItem key={it.to}>
                   <SidebarMenuButton asChild isActive={isActive(it.to)} tooltip={it.label}>
                     <Link to={it.to}><it.icon className="h-4 w-4" /><span>{it.label}</span></Link>
@@ -60,7 +64,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarGroupLabel>Konto</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {account.map((it) => (
