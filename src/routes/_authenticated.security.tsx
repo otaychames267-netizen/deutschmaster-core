@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/security")({
-  head: () => ({ meta: [{ title: "Security — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Security — Lingovia" }] }),
   component: SecurityPage,
 });
 

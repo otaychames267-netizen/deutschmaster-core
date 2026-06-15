@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { GraduationCap, Check, Sparkles, Clock, Lock, Rocket } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
-  head: () => ({ meta: [{ title: "Welcome — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Welcome — Lingovia" }] }),
   component: Onboarding,
 });
 
@@ -29,7 +29,7 @@ function Onboarding() {
     }).eq("id", user.id);
     setSaving(false);
     if (error) return toast.error(error.message);
-    toast.success("You're all set — welcome to DeutschMaster!");
+    toast.success("You're all set — welcome to Lingovia!");
     nav({ to: "/dashboard", replace: true });
   };
 

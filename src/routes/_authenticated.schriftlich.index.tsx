@@ -3,7 +3,7 @@ import { PenLine, GraduationCap, ClipboardList } from "lucide-react";
 import { SectionHeader, ChoiceCard } from "@/components/section/SectionShell";
 
 export const Route = createFileRoute("/_authenticated/schriftlich/")({
-  head: () => ({ meta: [{ title: "Schriftlich — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Schriftlich — Lingovia" }] }),
   component: SchriftlichIndex,
 });
 

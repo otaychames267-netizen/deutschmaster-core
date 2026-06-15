@@ -9,7 +9,7 @@ import { UserPlus, Gift, Sparkles, Copy, Check, Share2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/referrals")({
-  head: () => ({ meta: [{ title: "Freunde einladen — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Freunde einladen — Lingovia" }] }),
   component: ReferralsPage,
 });
 

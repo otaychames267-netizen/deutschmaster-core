@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { format, differenceInDays } from "date-fns";
 
 export const Route = createFileRoute("/_authenticated/billing")({
-  head: () => ({ meta: [{ title: "Billing — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Billing — Lingovia" }] }),
   component: BillingPage,
 });
 

@@ -8,7 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 
 export const Route = createFileRoute("/_authenticated/notifications")({
-  head: () => ({ meta: [{ title: "Notifications — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Notifications — Lingovia" }] }),
   component: NotificationsPage,
 });
 

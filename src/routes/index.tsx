@@ -18,9 +18,9 @@ import { useAuth } from "@/lib/auth";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "DeutschMaster — Professional TELC B1 & B2 Exam Preparation" },
+      { title: "Lingovia — Professional TELC B1 & B2 Exam Preparation" },
       { name: "description", content: "Master TELC B1 & B2 German exams with structured lessons, exam simulations, AI feedback and 7-language interface." },
-      { property: "og:title", content: "DeutschMaster — Professional TELC Preparation" },
+      { property: "og:title", content: "Lingovia — Professional TELC Preparation" },
       { property: "og:description", content: "Structured lessons, exam simulations, AI feedback. Start your free 3-day trial." },
     ],
   }),

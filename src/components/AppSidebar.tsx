@@ -46,7 +46,7 @@ export function AppSidebar() {
       <SidebarHeader className="border-b">
         <Link to="/dashboard" className="flex items-center gap-2 px-2 py-2 font-bold">
           <GraduationCap className="h-6 w-6 text-accent shrink-0" />
-          {!collapsed && <span className="truncate">DeutschMaster</span>}
+          {!collapsed && <span className="truncate">Lingovia</span>}
         </Link>
       </SidebarHeader>
       <SidebarContent>

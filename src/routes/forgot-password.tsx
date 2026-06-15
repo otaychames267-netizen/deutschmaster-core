@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/forgot-password")({
-  head: () => ({ meta: [{ title: "Forgot Password — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Forgot Password — Lingovia" }] }),
   component: ForgotPage,
 });
 

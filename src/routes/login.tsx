@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Login — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Login — Lingovia" }] }),
   component: LoginPage,
 });
 

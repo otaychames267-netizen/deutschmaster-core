@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/reset-password")({
-  head: () => ({ meta: [{ title: "Reset Password — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Reset Password — Lingovia" }] }),
   component: ResetPage,
 });
 

@@ -41,7 +41,7 @@ function AuthLayout() {
     return (
       <div className="min-h-screen flex flex-col">
         <header className="sticky top-0 z-30 flex h-14 items-center border-b bg-background/80 px-4 backdrop-blur">
-          <Link to="/" className="flex items-center gap-2 font-bold"><GraduationCap className="h-5 w-5 text-accent" /> DeutschMaster</Link>
+          <Link to="/" className="flex items-center gap-2 font-bold"><GraduationCap className="h-5 w-5 text-accent" /> Lingovia</Link>
         </header>
         <main className="flex-1"><Outlet /></main>
         <Footer />

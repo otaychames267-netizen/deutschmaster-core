@@ -12,7 +12,7 @@ import { Progress } from "@/components/ui/progress";
 import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, MessageSquare, Users, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity, Flame, Target, UserPlus, ClipboardList, PlayCircle, BarChart3, X, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Dashboard — Lingovia" }] }),
   component: Dashboard,
 });
 
@@ -131,7 +131,7 @@ function Dashboard() {
             <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-accent font-semibold">
               <Sparkles className="h-3.5 w-3.5" /> Start here
             </div>
-            <CardTitle className="text-xl">Willkommen bei DeutschMaster</CardTitle>
+            <CardTitle className="text-xl">Willkommen bei Lingovia</CardTitle>
             <CardDescription>Folge diesen 4 Schritten, um schnell loszulegen.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">

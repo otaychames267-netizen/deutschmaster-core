@@ -3,7 +3,7 @@ import { Mic, GraduationCap, ClipboardList } from "lucide-react";
 import { SectionHeader, ChoiceCard } from "@/components/section/SectionShell";
 
 export const Route = createFileRoute("/_authenticated/muendlich/")({
-  head: () => ({ meta: [{ title: "Mündlich — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Mündlich — Lingovia" }] }),
   component: MuendlichIndex,
 });
 

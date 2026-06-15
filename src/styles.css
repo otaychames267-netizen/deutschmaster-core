@@ -63,7 +63,7 @@
 
 :root {
   --radius: 0.625rem;
-  /* DeutschMaster — deep navy + warm gold premium academic theme */
+  /* Lingovia — deep navy + warm gold premium academic theme */
   --background: oklch(0.99 0.005 240);
   --foreground: oklch(0.18 0.04 260);
   --card: oklch(1 0 0);
