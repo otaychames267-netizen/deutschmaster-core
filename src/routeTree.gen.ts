@@ -22,6 +22,7 @@ import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated.security'
 import { Route as AuthenticatedSchriftlichRouteImport } from './routes/_authenticated.schriftlich'
+import { Route as AuthenticatedPruefungRouteImport } from './routes/_authenticated.pruefung'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
@@ -106,6 +107,11 @@ const AuthenticatedSchriftlichRoute =
     path: '/schriftlich',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedPruefungRoute = AuthenticatedPruefungRouteImport.update({
+  id: '/pruefung',
+  path: '/pruefung',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -221,6 +227,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/pruefung': typeof AuthenticatedPruefungRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/pruefung': typeof AuthenticatedPruefungRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
   '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -319,6 +328,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/onboarding'
     | '/profile'
+    | '/pruefung'
     | '/schriftlich'
     | '/security'
     | '/admin/analytics'
@@ -349,6 +359,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/onboarding'
     | '/profile'
+    | '/pruefung'
     | '/schriftlich'
     | '/security'
     | '/admin/analytics'
@@ -382,6 +393,7 @@ export interface FileRouteTypes {
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
+    | '/_authenticated/pruefung'
     | '/_authenticated/schriftlich'
     | '/_authenticated/security'
     | '/_authenticated/admin/analytics'
@@ -501,6 +513,13 @@ declare module '@tanstack/react-router' {
       path: '/schriftlich'
       fullPath: '/schriftlich'
       preLoaderRoute: typeof AuthenticatedSchriftlichRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/pruefung': {
+      id: '/_authenticated/pruefung'
+      path: '/pruefung'
+      fullPath: '/pruefung'
+      preLoaderRoute: typeof AuthenticatedPruefungRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/profile': {
@@ -676,6 +695,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
   AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRoute
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
 }
@@ -690,6 +710,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
   AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRoute,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
 }
