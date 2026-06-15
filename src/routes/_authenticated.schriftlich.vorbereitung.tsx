@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { GraduationCap, BookOpen, Puzzle, Headphones, Edit3 } from "lucide-react";
 import { SectionHeader, ModuleGroupWithProgress, PartCard } from "@/components/section/SectionShell";
 
@@ -8,6 +9,14 @@ export const Route = createFileRoute("/_authenticated/schriftlich/vorbereitung")
 });
 
 function SchriftlichVorbereitung() {
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "dm-last-activity",
+        JSON.stringify({ label: "Schriftlich → Vorbereitung", to: "/schriftlich/vorbereitung" })
+      );
+    } catch {}
+  }, []);
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <SectionHeader
