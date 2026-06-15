@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { differenceInDays, format } from "date-fns";
 import { Progress } from "@/components/ui/progress";
-import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, MessageSquare, Users, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity, Settings2, Flame, Target, UserPlus, ClipboardList } from "lucide-react";
+import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, MessageSquare, Users, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity, Flame, Target, UserPlus, ClipboardList, PlayCircle, BarChart3, X, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — DeutschMaster" }] }),
@@ -23,6 +23,23 @@ function Dashboard() {
   const [sub, setSub] = useState<any>(null);
   const [subscriptionLoading, setSubscriptionLoading] = useState(true);
   const [notifs, setNotifs] = useState<any[]>([]);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [lastActivity, setLastActivity] = useState<{ label: string; to: string } | null>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const seen = window.localStorage.getItem("dm-welcome-seen");
+      if (!seen) setShowWelcome(true);
+      const raw = window.localStorage.getItem("dm-last-activity");
+      if (raw) setLastActivity(JSON.parse(raw));
+    } catch {}
+  }, []);
+
+  const dismissWelcome = () => {
+    setShowWelcome(false);
+    try { window.localStorage.setItem("dm-welcome-seen", "1"); } catch {}
+  };
 
   useEffect(() => {
     if (!user) return;
@@ -102,6 +119,43 @@ function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in duration-300">
+      {/* WELCOME ONBOARDING POPUP */}
+      {showWelcome && (
+        <Card className="relative border-accent/40 bg-gradient-to-br from-accent/10 via-card to-card overflow-hidden">
+          <button
+            onClick={dismissWelcome}
+            aria-label="Schließen"
+            className="absolute right-3 top-3 text-muted-foreground hover:text-foreground transition"
+          ><X className="h-4 w-4" /></button>
+          <CardHeader className="pb-3">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-accent font-semibold">
+              <Sparkles className="h-3.5 w-3.5" /> Start here
+            </div>
+            <CardTitle className="text-xl">Willkommen bei DeutschMaster</CardTitle>
+            <CardDescription>Folge diesen 4 Schritten, um schnell loszulegen.</CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { n: 1, label: "Open Schriftlich", to: "/schriftlich" },
+              { n: 2, label: "Complete Lesen Teil 1", to: "/schriftlich/vorbereitung" },
+              { n: 3, label: "Complete Hören Teil 1", to: "/schriftlich/vorbereitung" },
+              { n: 4, label: "Try your first simulation", to: "/pruefung" },
+            ].map((s) => (
+              <Link key={s.n} to={s.to} className="group rounded-lg border border-border/60 bg-card/60 p-3 hover:border-accent/50 hover:shadow-md transition">
+                <div className="flex items-center gap-2">
+                  <span className="h-6 w-6 rounded-full bg-accent/15 text-accent text-xs font-bold grid place-items-center ring-1 ring-accent/30">{s.n}</span>
+                  <span className="text-sm font-medium truncate">{s.label}</span>
+                  <ArrowRight className="h-3.5 w-3.5 ml-auto text-muted-foreground group-hover:text-accent group-hover:translate-x-0.5 transition" />
+                </div>
+              </Link>
+            ))}
+          </CardContent>
+          <div className="px-6 pb-4">
+            <button onClick={dismissWelcome} className="text-xs text-muted-foreground hover:text-foreground">Diesen Hinweis nicht mehr anzeigen</button>
+          </div>
+        </Card>
+      )}
+
       {/* WELCOME BANNER */}
       <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-accent/10 via-card to-card p-6 md:p-7">
         <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
@@ -121,6 +175,43 @@ function Dashboard() {
             {profile?.exam_date && <Badge variant="secondary"><Calendar className="h-3 w-3 mr-1" /> Prüfung in {examDays}d</Badge>}
           </div>
         </div>
+      </div>
+
+      {/* CONTINUE LEARNING + EXAM COUNTDOWN */}
+      <div className="grid gap-4 md:grid-cols-3">
+        <Card className="md:col-span-2 border-accent/30 bg-gradient-to-br from-accent/5 via-card to-card">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base flex items-center gap-2"><PlayCircle className="h-4 w-4 text-accent" /> Continue learning</CardTitle>
+            <CardDescription>
+              {lastActivity ? `Letzte Aktivität: ${lastActivity.label}` : "Noch keine Aktivität — starte unten mit Schriftlich oder Mündlich."}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button asChild className="w-full sm:w-auto">
+              <Link to={lastActivity?.to ?? "/schriftlich/vorbereitung"}>
+                {lastActivity ? "Weiterlernen" : "Jetzt starten"} <ArrowRight className="h-4 w-4 ml-1" />
+              </Link>
+            </Button>
+          </CardContent>
+        </Card>
+        <Card className={profile?.exam_date ? "border-accent/30" : ""}>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2"><Calendar className="h-4 w-4 text-accent" /> My exam date</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {profile?.exam_date ? (
+              <>
+                <p className="text-3xl font-bold tabular-nums">{examDays}<span className="text-base font-medium text-muted-foreground"> days</span></p>
+                <p className="text-xs text-muted-foreground mt-0.5">{format(new Date(profile.exam_date), "PPP")}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm text-muted-foreground mb-2">Set your exam date to start the countdown.</p>
+                <Button asChild size="sm" variant="outline"><Link to="/profile">Set exam date</Link></Button>
+              </>
+            )}
+          </CardContent>
+        </Card>
       </div>
 
       {/* HERO ROW — Schriftlich + Mündlich */}
@@ -212,7 +303,7 @@ function Dashboard() {
         </Link>
       </div>
 
-      {/* THIRD ROW — recent activity + study stats */}
+      {/* THIRD ROW — recent activity + link to full statistics */}
       <div className="grid gap-4 lg:grid-cols-3">
         <Card className="lg:col-span-2">
           <CardHeader className="pb-3 flex flex-row items-center justify-between">
@@ -232,15 +323,19 @@ function Dashboard() {
             ))}
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader className="pb-3"><CardTitle className="text-base flex items-center gap-2"><TrendingUp className="h-4 w-4 text-accent" /> Study statistics</CardTitle></CardHeader>
-          <CardContent className="space-y-3 text-sm">
-            <StatRow label="Lessons completed" value="0" />
-            <StatRow label="Exercises done" value="0" />
-            <StatRow label="Study streak" value="0 days" />
-            <p className="text-xs text-muted-foreground pt-2 border-t">Detailed analytics arrive with Phase 2 content.</p>
-          </CardContent>
-        </Card>
+        <Link to="/statistik" className="group">
+          <Card className="h-full hover:border-accent/50 hover:shadow-md transition">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2"><BarChart3 className="h-4 w-4 text-accent" /> Full statistics</CardTitle>
+              <CardDescription>Lernzeit, Übungen, Streak & Mock-Ergebnisse.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <span className="text-sm text-accent inline-flex items-center group-hover:underline">
+                Statistik öffnen <ArrowRight className="h-3.5 w-3.5 ml-1 group-hover:translate-x-0.5 transition" />
+              </span>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
     </div>
   );
