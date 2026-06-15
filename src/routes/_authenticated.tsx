@@ -27,11 +27,12 @@ function AuthLayout() {
     if (!user) return;
     (async () => {
       const { data } = await supabase.from("profiles").select("onboarding_completed, level").eq("id", user.id).maybeSingle();
-      setChecking(false);
       const needsOnboarding = !data || !data.onboarding_completed || !data.level;
       if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
         nav({ to: "/onboarding", replace: true });
+        return;
       }
+      setChecking(false);
     })();
   }, [user, loc.pathname, nav]);
   if (loading || !user) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
