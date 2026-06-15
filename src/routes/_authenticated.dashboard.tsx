@@ -101,10 +101,10 @@ function Dashboard() {
   return (
     <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Header row: greeting + level toggle */}
-      <div className="flex items-start justify-between flex-wrap gap-3">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Welcome back, {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]}</h1>
-          <p className="text-sm text-muted-foreground">{levelLabel ? `Your ${levelLabel} preparation hub` : "Pick a level to get started"}</p>
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Welcome back, {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]}</h1>
+          <p className="text-sm text-muted-foreground">{levelLabel ? `Your ${levelLabel} preparation hub — choose where to study` : "Pick a level to get started"}</p>
         </div>
         {levelLabel && (
           <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground">
@@ -113,31 +113,21 @@ function Dashboard() {
         )}
       </div>
 
-      {/* TOP ROW — 4 stat cards above the fold */}
-      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-        <StatCard icon={GraduationCap} label="Current level" value={levelLabel ?? "—"} sub={`Target: ${formatLevel(profile?.target_level) ?? "—"}`} accent />
-        <StatCard icon={Calendar} label="Exam countdown" value={profile?.exam_date ? `${examDays}d` : "—"} sub={profile?.exam_date ? format(new Date(profile.exam_date), "PP") : "Set in profile"} />
-        <TrialStatCard sub={sub} loading={subscriptionLoading} isTrial={isTrial} isActive={isActive} trialDay={trialDay} remaining={remaining} planLabel={planLabel} />
-        <StatCard icon={TrendingUp} label="Profile" value={`${completion}%`} sub={completion < 100 ? "Complete your profile" : "All set"}>
-          <Progress value={completion} className="h-1.5 mt-2" />
-        </StatCard>
-      </div>
-
-      {/* HERO ROW — Schriftlich + Mündlich — dominant learning entrypoints */}
+      {/* HERO ROW — Schriftlich + Mündlich — dominant learning entrypoints, above the fold */}
       <div className="grid gap-5 md:grid-cols-2">
         {EXAM_AREAS.map((area) => (
           <Link key={area.id} to="/learn/$level" params={{ level: levelSlug }} className="group block">
-            <Card className="relative h-full overflow-hidden border-border/60 transition-all duration-300 hover:border-accent/60 hover:shadow-2xl hover:-translate-y-1 active:translate-y-0">
+            <Card className="relative h-full overflow-hidden border-border/60 transition-all duration-300 hover:border-accent/60 hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 min-h-[260px]">
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity" />
               <CardHeader className="pb-4 relative">
                 <div className="flex items-start justify-between mb-2">
-                  <div className="rounded-xl bg-accent/15 p-3.5 text-accent ring-1 ring-accent/30 group-hover:scale-110 transition-transform duration-300">
-                    <area.icon className="h-7 w-7" />
+                  <div className="rounded-xl bg-accent/15 p-4 text-accent ring-1 ring-accent/30 group-hover:scale-110 transition-transform duration-300">
+                    <area.icon className="h-8 w-8" />
                   </div>
                   <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">{area.tagline}</span>
                 </div>
-                <CardTitle className="text-3xl font-bold tracking-tight flex items-center justify-between">
+                <CardTitle className="text-3xl md:text-4xl font-bold tracking-tight flex items-center justify-between">
                   {area.label}
                   <ArrowRight className="h-5 w-5 text-muted-foreground transition-all group-hover:translate-x-1 group-hover:text-accent" />
                 </CardTitle>
@@ -158,6 +148,16 @@ function Dashboard() {
             </Card>
           </Link>
         ))}
+      </div>
+
+      {/* SECONDARY ROW — 4 stat cards */}
+      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+        <StatCard icon={GraduationCap} label="Current level" value={levelLabel ?? "—"} sub={`Target: ${formatLevel(profile?.target_level) ?? "—"}`} accent />
+        <StatCard icon={Calendar} label="Exam countdown" value={profile?.exam_date ? `${examDays}d` : "—"} sub={profile?.exam_date ? format(new Date(profile.exam_date), "PP") : "Set in profile"} />
+        <TrialStatCard sub={sub} loading={subscriptionLoading} isTrial={isTrial} isActive={isActive} trialDay={trialDay} remaining={remaining} planLabel={planLabel} />
+        <StatCard icon={TrendingUp} label="Profile" value={`${completion}%`} sub={completion < 100 ? "Complete your profile" : "All set"}>
+          <Progress value={completion} className="h-1.5 mt-2" />
+        </StatCard>
       </div>
 
       {/* THIRD ROW — recent activity + study stats */}
