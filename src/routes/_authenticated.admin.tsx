@@ -18,7 +18,9 @@ function AdminLayout() {
       <nav className="flex flex-wrap gap-2 text-sm border-b pb-2">
         <Link to="/admin" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent" activeOptions={{ exact: true }}>Overview</Link>
         <Link to="/admin/exercises" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Exercises</Link>
+        <Link to="/admin/pdf-import" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">PDF Import</Link>
         <Link to="/admin/audio" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Audio</Link>
+        <Link to="/admin/attempts" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Open answers</Link>
         <Link to="/admin/users" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Users</Link>
         <Link to="/admin/subscriptions" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Subscriptions</Link>
         <Link to="/admin/plans" className="px-3 py-1.5 rounded hover:bg-accent/10 [&.active]:bg-accent/15 [&.active]:text-accent">Plans</Link>

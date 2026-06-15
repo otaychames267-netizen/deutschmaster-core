@@ -135,14 +135,16 @@ export function PartCard({
   desc,
   icon: Icon,
   locked,
+  to,
 }: {
   title: string;
   desc: string;
   icon: any;
   locked?: boolean;
+  to?: string;
 }) {
-  return (
-    <div className="relative rounded-lg border border-border/60 bg-card p-4 transition hover:border-accent/50 hover:shadow-md">
+  const body = (
+    <>
       <div className="flex items-start gap-3">
         <div className="rounded-md bg-accent/10 p-2 text-accent ring-1 ring-accent/20">
           <Icon className="h-4 w-4" />
@@ -157,6 +159,9 @@ export function PartCard({
           ) : null}
         </div>
       </div>
-    </div>
+    </>
   );
+  const classes = "relative block rounded-lg border border-border/60 bg-card p-4 transition hover:border-accent/50 hover:shadow-md";
+  if (to && !locked) return <Link to={to} className={classes}>{body}</Link>;
+  return <div className={classes}>{body}</div>;
 }

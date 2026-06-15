@@ -1,27 +1,39 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { BarChart3, Clock, Flame, Target, TrendingUp, BookOpenCheck } from "lucide-react";
+import { getMyProgress } from "@/lib/exercises/progress.functions";
 
 export const Route = createFileRoute("/_authenticated/statistik")({
   head: () => ({ meta: [{ title: "Statistik — Lingovia" }] }),
   component: StatistikPage,
 });
 
+const MODULE_LABELS: Record<string, string> = {
+  lesen: "Lesen", hoeren: "Hören", sprachbausteine: "Sprachbausteine", schreiben: "Schreiben", muendlich: "Mündlich",
+};
+
+type Progress = Awaited<ReturnType<typeof getMyProgress>>;
+
 function StatistikPage() {
+  const fetchProgress = useServerFn(getMyProgress);
+  const [p, setP] = useState<Progress | null>(null);
+  useEffect(() => { fetchProgress().then((r) => setP(r as Progress)).catch(() => {}); }, [fetchProgress]);
+
   const stats = [
-    { icon: Clock, label: "Lernzeit (Woche)", value: "0 min", sub: "Ziel: 150 min" },
-    { icon: BookOpenCheck, label: "Abgeschlossene Übungen", value: "0", sub: "Alle Bereiche" },
-    { icon: Flame, label: "Lernserie", value: "0 Tage", sub: "Heute lernen, um zu starten" },
-    { icon: Target, label: "Tagesziel", value: "0 / 30 min", sub: "Heute" },
+    { icon: Clock, label: "Heute gelernt", value: `${p?.minutesToday ?? 0} min`, sub: "Ziel: 30 min" },
+    { icon: BookOpenCheck, label: "Versuche (60 Tage)", value: String(p?.totalAttempts ?? 0), sub: `Genauigkeit ${p?.accuracy ?? 0}%` },
+    { icon: Flame, label: "Lernserie", value: `${p?.streak ?? 0} Tage`, sub: (p?.streak ?? 0) > 0 ? "Weiter so!" : "Heute lernen, um zu starten" },
+    { icon: Target, label: "Tagesziel", value: `${p?.minutesToday ?? 0} / 30 min`, sub: "Heute" },
   ];
-  const areas = [
-    { label: "Lesen", value: 0 },
-    { label: "Hören", value: 0 },
-    { label: "Sprachbausteine", value: 0 },
-    { label: "Schreiben", value: 0 },
-    { label: "Mündlich", value: 0 },
-  ];
+  const areas = (["lesen", "hoeren", "sprachbausteine", "schreiben", "muendlich"] as const).map((k) => {
+    const m = p?.modules?.[k];
+    const pct = m && m.total ? Math.round((m.completed / m.total) * 100) : 0;
+    return { label: MODULE_LABELS[k], value: pct, sub: m ? `${m.completed}/${m.total} · Ø ${m.avg}%` : "—" };
+  });
+
   return (
     <div className="max-w-6xl mx-auto space-y-6">
       <div className="flex items-start gap-3">
@@ -51,7 +63,7 @@ function StatistikPage() {
           {areas.map((a) => (
             <div key={a.label} className="space-y-1">
               <div className="flex items-center justify-between text-sm">
-                <span>{a.label}</span><span className="text-muted-foreground">{a.value}%</span>
+                <span>{a.label}</span><span className="text-muted-foreground">{a.value}% · {a.sub}</span>
               </div>
               <Progress value={a.value} className="h-1.5" />
             </div>
