@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { GraduationCap, BookOpen, Puzzle, Headphones, Edit3 } from "lucide-react";
 import { SectionHeader, ModuleGroupWithProgress, PartCard } from "@/components/section/SectionShell";
 
@@ -8,6 +9,14 @@ export const Route = createFileRoute("/_authenticated/schriftlich/vorbereitung")
 });
 
 function SchriftlichVorbereitung() {
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "dm-last-activity",
+        JSON.stringify({ label: "Schriftlich → Vorbereitung", to: "/schriftlich/vorbereitung" })
+      );
+    } catch {}
+  }, []);
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <SectionHeader
@@ -24,20 +33,20 @@ function SchriftlichVorbereitung() {
       />
 
       <ModuleGroupWithProgress title="Lesen" progress={0}>
-        <PartCard icon={BookOpen} title="Teil 1" desc="Globalverständnis — Überschriften zuordnen." progress={0} />
-        <PartCard icon={BookOpen} title="Teil 2" desc="Detailverständnis — Aussagen prüfen." progress={0} />
+        <PartCard icon={BookOpen} title="Teil 1" desc="Globalverständnis — Überschriften zuordnen." />
+        <PartCard icon={BookOpen} title="Teil 2" desc="Detailverständnis — Aussagen prüfen." />
         <PartCard icon={BookOpen} title="Teil 3" desc="Selektives Lesen — Anzeigen & Texte." locked="premium" />
       </ModuleGroupWithProgress>
 
       <ModuleGroupWithProgress title="Sprachbausteine" progress={0}>
-        <PartCard icon={Puzzle} title="Teil 1" desc="Grammatik — Lückentext mit Auswahl." progress={0} />
+        <PartCard icon={Puzzle} title="Teil 1" desc="Grammatik — Lückentext mit Auswahl." />
         <PartCard icon={Puzzle} title="Teil 2" desc="Wortschatz — Passende Wörter einsetzen." locked="premium" />
       </ModuleGroupWithProgress>
 
       <ModuleGroupWithProgress title="Hören" progress={0}>
-        <PartCard icon={Headphones} title="Teil 1" desc="Globalverständnis — Kurze Ansagen." progress={0} />
+        <PartCard icon={Headphones} title="Teil 1" desc="Globalverständnis — Kurze Ansagen." />
         <PartCard icon={Headphones} title="Teil 2" desc="Detailverständnis — Gespräche." locked="premium" />
-        <PartCard icon={Headphones} title="Teil 3" desc="Selektives Hören — Interviews & Berichte." locked="platinum" />
+        <PartCard icon={Headphones} title="Teil 3" desc="Selektives Hören — Interviews & Berichte." locked="premium" />
       </ModuleGroupWithProgress>
 
       <ModuleGroupWithProgress title="Schreiben" progress={0}>

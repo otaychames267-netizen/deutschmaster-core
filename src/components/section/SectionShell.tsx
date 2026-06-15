@@ -157,17 +157,9 @@ export function PartCard({
             {progress === 100 && <CheckCircle2 className="h-4 w-4 text-accent shrink-0" />}
           </div>
           <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
-          {typeof progress === "number" && (
-            <div className="mt-2 flex items-center gap-2">
-              <Progress value={progress} className="h-1.5 flex-1" />
-              <span className="text-[11px] text-muted-foreground tabular-nums shrink-0">
-                {progress >= 100 ? "✓" : `${progress}%`}
-              </span>
-            </div>
-          )}
           {locked && (
             <Badge className="mt-2 text-[10px] bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20">
-              <Lock className="h-3 w-3 mr-1" /> {locked === "platinum" ? "Upgrade to Platinum" : "Premium"}
+              <Lock className="h-3 w-3 mr-1" /> Premium
             </Badge>
           )}
           {!locked && comingSoon && typeof progress !== "number" && (
