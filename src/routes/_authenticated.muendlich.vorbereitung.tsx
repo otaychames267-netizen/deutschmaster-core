@@ -34,8 +34,8 @@ function MuendlichVorbereitung() {
 
       <ModuleGroupWithProgress title="Prüfungsteile" progress={0}>
         <PartCard icon={Speech} title="Teil 1 — Präsentation" desc="Strukturiertes Kurzreferat mit Redemitteln." />
-        <PartCard icon={MessageSquare} title="Teil 2 — Diskussion" desc="Argumente und Gegenargumente formulieren." locked="premium" />
-        <PartCard icon={Users} title="Teil 3 — Planen" desc="Gemeinsam etwas mit einer Partnerin / einem Partner planen." locked="premium" />
+        <PartCard icon={MessageSquare} title="Teil 2 — Diskussion" desc="Argumente und Gegenargumente formulieren." locked />
+        <PartCard icon={Users} title="Teil 3 — Planen" desc="Gemeinsam etwas mit einer Partnerin / einem Partner planen." locked />
       </ModuleGroupWithProgress>
     </div>
   );

@@ -134,16 +134,12 @@ export function PartCard({
   title,
   desc,
   icon: Icon,
-  comingSoon = true,
-  progress,
   locked,
 }: {
   title: string;
   desc: string;
   icon: any;
-  comingSoon?: boolean;
-  progress?: number;
-  locked?: "premium" | "platinum";
+  locked?: boolean;
 }) {
   return (
     <div className="relative rounded-lg border border-border/60 bg-card p-4 transition hover:border-accent/50 hover:shadow-md">
@@ -152,19 +148,13 @@ export function PartCard({
           <Icon className="h-4 w-4" />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center justify-between gap-2">
-            <p className="font-medium text-sm truncate">{title}</p>
-            {progress === 100 && <CheckCircle2 className="h-4 w-4 text-accent shrink-0" />}
-          </div>
+          <p className="font-medium text-sm truncate">{title}</p>
           <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
-          {locked && (
+          {locked ? (
             <Badge className="mt-2 text-[10px] bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30 hover:bg-amber-500/20">
               <Lock className="h-3 w-3 mr-1" /> Premium
             </Badge>
-          )}
-          {!locked && comingSoon && typeof progress !== "number" && (
-            <Badge variant="secondary" className="mt-2 text-[10px]">Demnächst</Badge>
-          )}
+          ) : null}
         </div>
       </div>
     </div>
