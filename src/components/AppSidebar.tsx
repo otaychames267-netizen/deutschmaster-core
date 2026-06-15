@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, GraduationCap, User, CreditCard, Bell, Settings, LogOut, PenLine, Mic, Moon, Sun } from "lucide-react";
+import { LayoutDashboard, GraduationCap, User, CreditCard, Bell, Settings, LogOut, PenLine, Mic, Moon, Sun, BarChart3 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
@@ -32,6 +32,7 @@ export function AppSidebar() {
   const modules = [
     { to: "/schriftlich", icon: PenLine, label: "Schriftlich" },
     { to: "/muendlich", icon: Mic, label: "Mündlich" },
+    { to: "/statistik", icon: BarChart3, label: "Statistik" },
   ];
   const account = [
     { to: "/profile", icon: User, label: "Profil" },
