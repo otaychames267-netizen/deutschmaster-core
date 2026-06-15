@@ -48,7 +48,12 @@ import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_authenticated.admin.subscriptions'
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
+import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
+import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated.admin.backup'
+import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authenticated.admin.audio'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
+import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
+import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
@@ -254,11 +259,40 @@ const AuthenticatedAdminMessagesRoute =
     path: '/messages',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminExercisesRoute =
+  AuthenticatedAdminExercisesRouteImport.update({
+    id: '/exercises',
+    path: '/exercises',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminBackupRoute =
+  AuthenticatedAdminBackupRouteImport.update({
+    id: '/backup',
+    path: '/backup',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminAudioRoute = AuthenticatedAdminAudioRouteImport.update({
+  id: '/audio',
+  path: '/audio',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminAnalyticsRoute =
   AuthenticatedAdminAnalyticsRouteImport.update({
     id: '/analytics',
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminExercisesNewRoute =
+  AuthenticatedAdminExercisesNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AuthenticatedAdminExercisesRoute,
+  } as any)
+const AuthenticatedAdminExercisesIdRoute =
+  AuthenticatedAdminExercisesIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedAdminExercisesRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -287,6 +321,9 @@ export interface FileRoutesByFullPath {
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/audio': typeof AuthenticatedAdminAudioRoute
+  '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
@@ -301,6 +338,8 @@ export interface FileRoutesByFullPath {
   '/learn/': typeof AuthenticatedLearnIndexRoute
   '/muendlich/': typeof AuthenticatedMuendlichIndexRoute
   '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
+  '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -324,6 +363,9 @@ export interface FileRoutesByTo {
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/audio': typeof AuthenticatedAdminAudioRoute
+  '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
@@ -338,6 +380,8 @@ export interface FileRoutesByTo {
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/muendlich': typeof AuthenticatedMuendlichIndexRoute
   '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
+  '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
+  '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -367,6 +411,9 @@ export interface FileRoutesById {
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/audio': typeof AuthenticatedAdminAudioRoute
+  '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
   '/_authenticated/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
@@ -381,6 +428,8 @@ export interface FileRoutesById {
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
   '/_authenticated/muendlich/': typeof AuthenticatedMuendlichIndexRoute
   '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
+  '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -410,6 +459,9 @@ export interface FileRouteTypes {
     | '/security'
     | '/statistik'
     | '/admin/analytics'
+    | '/admin/audio'
+    | '/admin/backup'
+    | '/admin/exercises'
     | '/admin/messages'
     | '/admin/plans'
     | '/admin/subscriptions'
@@ -424,6 +476,8 @@ export interface FileRouteTypes {
     | '/learn/'
     | '/muendlich/'
     | '/schriftlich/'
+    | '/admin/exercises/$id'
+    | '/admin/exercises/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -447,6 +501,9 @@ export interface FileRouteTypes {
     | '/security'
     | '/statistik'
     | '/admin/analytics'
+    | '/admin/audio'
+    | '/admin/backup'
+    | '/admin/exercises'
     | '/admin/messages'
     | '/admin/plans'
     | '/admin/subscriptions'
@@ -461,6 +518,8 @@ export interface FileRouteTypes {
     | '/learn'
     | '/muendlich'
     | '/schriftlich'
+    | '/admin/exercises/$id'
+    | '/admin/exercises/new'
   id:
     | '__root__'
     | '/'
@@ -489,6 +548,9 @@ export interface FileRouteTypes {
     | '/_authenticated/security'
     | '/_authenticated/statistik'
     | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/audio'
+    | '/_authenticated/admin/backup'
+    | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/plans'
     | '/_authenticated/admin/subscriptions'
@@ -503,6 +565,8 @@ export interface FileRouteTypes {
     | '/_authenticated/learn/'
     | '/_authenticated/muendlich/'
     | '/_authenticated/schriftlich/'
+    | '/_authenticated/admin/exercises/$id'
+    | '/_authenticated/admin/exercises/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -795,6 +859,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/exercises': {
+      id: '/_authenticated/admin/exercises'
+      path: '/exercises'
+      fullPath: '/admin/exercises'
+      preLoaderRoute: typeof AuthenticatedAdminExercisesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/backup': {
+      id: '/_authenticated/admin/backup'
+      path: '/backup'
+      fullPath: '/admin/backup'
+      preLoaderRoute: typeof AuthenticatedAdminBackupRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/audio': {
+      id: '/_authenticated/admin/audio'
+      path: '/audio'
+      fullPath: '/admin/audio'
+      preLoaderRoute: typeof AuthenticatedAdminAudioRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/analytics': {
       id: '/_authenticated/admin/analytics'
       path: '/analytics'
@@ -802,11 +887,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/exercises/new': {
+      id: '/_authenticated/admin/exercises/new'
+      path: '/new'
+      fullPath: '/admin/exercises/new'
+      preLoaderRoute: typeof AuthenticatedAdminExercisesNewRouteImport
+      parentRoute: typeof AuthenticatedAdminExercisesRoute
+    }
+    '/_authenticated/admin/exercises/$id': {
+      id: '/_authenticated/admin/exercises/$id'
+      path: '/$id'
+      fullPath: '/admin/exercises/$id'
+      preLoaderRoute: typeof AuthenticatedAdminExercisesIdRouteImport
+      parentRoute: typeof AuthenticatedAdminExercisesRoute
+    }
   }
 }
 
+interface AuthenticatedAdminExercisesRouteChildren {
+  AuthenticatedAdminExercisesIdRoute: typeof AuthenticatedAdminExercisesIdRoute
+  AuthenticatedAdminExercisesNewRoute: typeof AuthenticatedAdminExercisesNewRoute
+}
+
+const AuthenticatedAdminExercisesRouteChildren: AuthenticatedAdminExercisesRouteChildren =
+  {
+    AuthenticatedAdminExercisesIdRoute: AuthenticatedAdminExercisesIdRoute,
+    AuthenticatedAdminExercisesNewRoute: AuthenticatedAdminExercisesNewRoute,
+  }
+
+const AuthenticatedAdminExercisesRouteWithChildren =
+  AuthenticatedAdminExercisesRoute._addFileChildren(
+    AuthenticatedAdminExercisesRouteChildren,
+  )
+
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminAudioRoute: typeof AuthenticatedAdminAudioRoute
+  AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
+  AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
   AuthenticatedAdminSubscriptionsRoute: typeof AuthenticatedAdminSubscriptionsRoute
@@ -816,6 +934,10 @@ interface AuthenticatedAdminRouteChildren {
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminAudioRoute: AuthenticatedAdminAudioRoute,
+  AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
+  AuthenticatedAdminExercisesRoute:
+    AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
   AuthenticatedAdminSubscriptionsRoute: AuthenticatedAdminSubscriptionsRoute,

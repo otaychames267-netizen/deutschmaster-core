@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      audio_assets: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          duration_seconds: number | null
+          id: string
+          storage_path: string
+          title: string
+          transcript: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          storage_path: string
+          title: string
+          transcript?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          duration_seconds?: number | null
+          id?: string
+          storage_path?: string
+          title?: string
+          transcript?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       badges: {
         Row: {
           awarded_at: string
@@ -142,6 +178,77 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      exercises: {
+        Row: {
+          audio_id: string | null
+          correct: Json
+          created_at: string
+          created_by: string | null
+          explanation: string | null
+          id: string
+          kind: Database["public"]["Enums"]["exercise_kind"]
+          level: Database["public"]["Enums"]["exercise_level"]
+          module: Database["public"]["Enums"]["exercise_module"]
+          options: Json
+          passage: string | null
+          position: number
+          prompt: string
+          status: Database["public"]["Enums"]["exercise_status"]
+          tags: string[]
+          teil: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          audio_id?: string | null
+          correct?: Json
+          created_at?: string
+          created_by?: string | null
+          explanation?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["exercise_kind"]
+          level: Database["public"]["Enums"]["exercise_level"]
+          module: Database["public"]["Enums"]["exercise_module"]
+          options?: Json
+          passage?: string | null
+          position?: number
+          prompt: string
+          status?: Database["public"]["Enums"]["exercise_status"]
+          tags?: string[]
+          teil: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          audio_id?: string | null
+          correct?: Json
+          created_at?: string
+          created_by?: string | null
+          explanation?: string | null
+          id?: string
+          kind?: Database["public"]["Enums"]["exercise_kind"]
+          level?: Database["public"]["Enums"]["exercise_level"]
+          module?: Database["public"]["Enums"]["exercise_module"]
+          options?: Json
+          passage?: string | null
+          position?: number
+          prompt?: string
+          status?: Database["public"]["Enums"]["exercise_status"]
+          tags?: string[]
+          teil?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercises_audio_id_fkey"
+            columns: ["audio_id"]
+            isOneToOne: false
+            referencedRelation: "audio_assets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       invoices: {
         Row: {
@@ -644,6 +751,47 @@ export type Database = {
         }
         Relationships: []
       }
+      user_exercise_attempts: {
+        Row: {
+          answer: Json | null
+          completed_at: string
+          duration_seconds: number | null
+          exercise_id: string
+          id: string
+          is_correct: boolean | null
+          score: number | null
+          user_id: string
+        }
+        Insert: {
+          answer?: Json | null
+          completed_at?: string
+          duration_seconds?: number | null
+          exercise_id: string
+          id?: string
+          is_correct?: boolean | null
+          score?: number | null
+          user_id: string
+        }
+        Update: {
+          answer?: Json | null
+          completed_at?: string
+          duration_seconds?: number | null
+          exercise_id?: string
+          id?: string
+          is_correct?: boolean | null
+          score?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_exercise_attempts_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -705,6 +853,20 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "student"
+      exercise_kind:
+        | "multiple_choice"
+        | "true_false"
+        | "matching"
+        | "cloze"
+        | "open_text"
+      exercise_level: "b1" | "b2"
+      exercise_module:
+        | "lesen"
+        | "sprachbausteine"
+        | "hoeren"
+        | "schreiben"
+        | "muendlich"
+      exercise_status: "draft" | "published" | "hidden"
       payment_status: "pending" | "succeeded" | "failed" | "refunded"
       plan_code: "schriftlich" | "muendlich" | "premium"
       subscription_status:
@@ -842,6 +1004,22 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "student"],
+      exercise_kind: [
+        "multiple_choice",
+        "true_false",
+        "matching",
+        "cloze",
+        "open_text",
+      ],
+      exercise_level: ["b1", "b2"],
+      exercise_module: [
+        "lesen",
+        "sprachbausteine",
+        "hoeren",
+        "schreiben",
+        "muendlich",
+      ],
+      exercise_status: ["draft", "published", "hidden"],
       payment_status: ["pending", "succeeded", "failed", "refunded"],
       plan_code: ["schriftlich", "muendlich", "premium"],
       subscription_status: [
