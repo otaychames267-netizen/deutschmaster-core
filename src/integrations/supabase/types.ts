@@ -179,6 +179,54 @@ export type Database = {
         }
         Relationships: []
       }
+      exam_sessions: {
+        Row: {
+          created_at: string
+          ends_at: string
+          exercise_ids: string[]
+          id: string
+          level: Database["public"]["Enums"]["exercise_level"]
+          mode: Database["public"]["Enums"]["exam_mode"]
+          score_breakdown: Json | null
+          score_total: number | null
+          started_at: string
+          status: Database["public"]["Enums"]["exam_status"]
+          submitted_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          ends_at: string
+          exercise_ids?: string[]
+          id?: string
+          level: Database["public"]["Enums"]["exercise_level"]
+          mode: Database["public"]["Enums"]["exam_mode"]
+          score_breakdown?: Json | null
+          score_total?: number | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["exam_status"]
+          submitted_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          ends_at?: string
+          exercise_ids?: string[]
+          id?: string
+          level?: Database["public"]["Enums"]["exercise_level"]
+          mode?: Database["public"]["Enums"]["exam_mode"]
+          score_breakdown?: Json | null
+          score_total?: number | null
+          started_at?: string
+          status?: Database["public"]["Enums"]["exam_status"]
+          submitted_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       exercises: {
         Row: {
           audio_id: string | null
@@ -446,6 +494,45 @@ export type Database = {
           level?: Database["public"]["Enums"]["user_level"] | null
           title?: string
           url?: string
+        }
+        Relationships: []
+      }
+      pdf_imports: {
+        Row: {
+          created_at: string
+          extracted_candidates: Json
+          extracted_text: string | null
+          id: string
+          notes: string | null
+          original_name: string | null
+          status: string
+          storage_path: string
+          updated_at: string
+          uploaded_by: string
+        }
+        Insert: {
+          created_at?: string
+          extracted_candidates?: Json
+          extracted_text?: string | null
+          id?: string
+          notes?: string | null
+          original_name?: string | null
+          status?: string
+          storage_path: string
+          updated_at?: string
+          uploaded_by: string
+        }
+        Update: {
+          created_at?: string
+          extracted_candidates?: Json
+          extracted_text?: string | null
+          id?: string
+          notes?: string | null
+          original_name?: string | null
+          status?: string
+          storage_path?: string
+          updated_at?: string
+          uploaded_by?: string
         }
         Relationships: []
       }
@@ -756,9 +843,11 @@ export type Database = {
           answer: Json | null
           completed_at: string
           duration_seconds: number | null
+          exam_session_id: string | null
           exercise_id: string
           id: string
           is_correct: boolean | null
+          needs_review: boolean
           score: number | null
           user_id: string
         }
@@ -766,9 +855,11 @@ export type Database = {
           answer?: Json | null
           completed_at?: string
           duration_seconds?: number | null
+          exam_session_id?: string | null
           exercise_id: string
           id?: string
           is_correct?: boolean | null
+          needs_review?: boolean
           score?: number | null
           user_id: string
         }
@@ -776,13 +867,22 @@ export type Database = {
           answer?: Json | null
           completed_at?: string
           duration_seconds?: number | null
+          exam_session_id?: string | null
           exercise_id?: string
           id?: string
           is_correct?: boolean | null
+          needs_review?: boolean
           score?: number | null
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "user_exercise_attempts_exam_session_id_fkey"
+            columns: ["exam_session_id"]
+            isOneToOne: false
+            referencedRelation: "exam_sessions"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "user_exercise_attempts_exercise_id_fkey"
             columns: ["exercise_id"]
@@ -853,6 +953,8 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "student"
+      exam_mode: "schriftlich" | "muendlich"
+      exam_status: "in_progress" | "submitted" | "expired"
       exercise_kind:
         | "multiple_choice"
         | "true_false"
@@ -1004,6 +1106,8 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "student"],
+      exam_mode: ["schriftlich", "muendlich"],
+      exam_status: ["in_progress", "submitted", "expired"],
       exercise_kind: [
         "multiple_choice",
         "true_false",

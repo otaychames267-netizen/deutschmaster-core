@@ -1,0 +1,50 @@
+import { createServerFn } from "@tanstack/react-start";
+import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { gradeAnswer, type ExerciseKind } from "./grading";
+
+type SubmitInput = {
+  exerciseId: string;
+  answer: unknown;
+  durationSeconds?: number;
+  examSessionId?: string | null;
+};
+
+export const submitAttempt = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: SubmitInput) => d)
+  .handler(async ({ data, context }) => {
+    const { data: ex, error } = await context.supabase
+      .from("exercises")
+      .select("id,kind,correct,explanation,status")
+      .eq("id", data.exerciseId)
+      .maybeSingle();
+    if (error || !ex) throw new Error(error?.message ?? "Exercise not found");
+    if (ex.status !== "published") throw new Error("Exercise is not available");
+
+    const result = gradeAnswer(
+      ex.kind as ExerciseKind,
+      data.answer,
+      (ex.correct as unknown[]) ?? [],
+    );
+
+    const { error: insErr } = await context.supabase.from("user_exercise_attempts").insert({
+      user_id: context.userId,
+      exercise_id: ex.id,
+      answer: data.answer as never,
+      score: result.score,
+      is_correct: result.isCorrect,
+      duration_seconds: data.durationSeconds ?? null,
+      needs_review: result.needsReview,
+      exam_session_id: data.examSessionId ?? null,
+      completed_at: new Date().toISOString(),
+    });
+    if (insErr) throw new Error(insErr.message);
+
+    return {
+      score: result.score,
+      isCorrect: result.isCorrect,
+      needsReview: result.needsReview,
+      correct: ex.correct,
+      explanation: ex.explanation,
+    };
+  });

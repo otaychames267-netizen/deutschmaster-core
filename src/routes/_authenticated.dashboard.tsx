@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { ensureUserTrial } from "@/lib/trial.functions";
+import { getMyProgress } from "@/lib/exercises/progress.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,12 @@ function Dashboard() {
   const [notifs, setNotifs] = useState<any[]>([]);
   const [showWelcome, setShowWelcome] = useState(false);
   const [lastActivity, setLastActivity] = useState<{ label: string; to: string } | null>(null);
+  const fetchProgress = useServerFn(getMyProgress);
+  const [progress, setProgress] = useState<{ streak: number; minutesToday: number; accuracy: number; totalAttempts: number } | null>(null);
+  useEffect(() => {
+    if (!user) return;
+    fetchProgress().then((p) => setProgress({ streak: p.streak, minutesToday: p.minutesToday, accuracy: p.accuracy, totalAttempts: p.totalAttempts })).catch(() => {});
+  }, [user, fetchProgress]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -280,16 +287,16 @@ function Dashboard() {
         <Card className="border-border/60">
           <CardContent className="pt-5 pb-4">
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium uppercase tracking-wide"><Target className="h-3.5 w-3.5" /> Tagesziel</div>
-            <p className="text-2xl font-bold mt-1.5">0 / 30 min</p>
-            <Progress value={0} className="h-1.5 mt-2" />
-            <p className="text-xs text-muted-foreground mt-1.5">Heute lernen, um dein Ziel zu erreichen.</p>
+            <p className="text-2xl font-bold mt-1.5">{progress?.minutesToday ?? 0} / 30 min</p>
+            <Progress value={Math.min(100, Math.round(((progress?.minutesToday ?? 0) / 30) * 100))} className="h-1.5 mt-2" />
+            <p className="text-xs text-muted-foreground mt-1.5">{(progress?.minutesToday ?? 0) >= 30 ? "Ziel erreicht!" : "Heute lernen, um dein Ziel zu erreichen."}</p>
           </CardContent>
         </Card>
         <Card className="border-border/60">
           <CardContent className="pt-5 pb-4">
             <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium uppercase tracking-wide"><Flame className="h-3.5 w-3.5" /> Lernserie</div>
-            <p className="text-2xl font-bold mt-1.5">0 Tage</p>
-            <p className="text-xs text-muted-foreground">Starte heute deine Serie.</p>
+            <p className="text-2xl font-bold mt-1.5">{progress?.streak ?? 0} Tage</p>
+            <p className="text-xs text-muted-foreground">{(progress?.streak ?? 0) > 0 ? `Genauigkeit: ${progress?.accuracy ?? 0}%` : "Starte heute deine Serie."}</p>
           </CardContent>
         </Card>
         <Link to="/referrals" className="group">

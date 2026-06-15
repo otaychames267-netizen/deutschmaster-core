@@ -1,114 +1,154 @@
-# Lingovia Admin Panel — Foundation Plan
+# Phase 2 — TELC Exercise Engine
 
-Goal: give you a complete admin workspace so you can manage exercises, audio, users, subscriptions, and analytics without code changes.
+Goal: students can take database-driven exercises, get auto-corrected, see progress, and run timed exam simulations. Admins can later import PDF content into the question bank without code changes.
 
-Existing admin routes already in the project:
-`_authenticated.admin.tsx`, `admin.index`, `admin.users`, `admin.plans`, `admin.subscriptions`, `admin.messages`, `admin.analytics`. We'll keep them and add the missing pieces (content/questions, audio, backup) plus rebuild the existing ones around a real schema.
+## 1. Exercise Runtime (student-facing)
 
----
+New shared component `src/components/exercise/ExerciseRunner.tsx` that renders any `exercises` row by `kind`:
+- `multiple_choice` — radio list, single correct
+- `true_false` — two-option radio
+- `matching` — left items ↔ right items (drag or select)
+- `cloze` — passage with `___` gaps + inputs/dropdowns
+- `open_text` — textarea (Schreiben Brief / open answers)
 
-## 1. Database (new migration)
+Each Teil route (`Lesen Teil 1/2/3`, `Sprachbausteine 1/2`, `Hören 1/2/3`, `Schreiben Brief`) becomes a thin wrapper that:
+1. Calls a new server fn `listPublishedExercises({ level, module, teil })`.
+2. Renders an `ExerciseSession` (list + current item navigator + submit button).
+3. On submit, calls `submitAttempt({ exerciseId, answer })`.
 
-New tables in `public`:
+Hören uses the existing `audio_assets` signed-URL flow (already built).
 
-- `exercises` — the core question bank
-  - `level` (enum: `b1`, `b2`)
-  - `module` (enum: `lesen`, `sprachbausteine`, `hoeren`, `schreiben`, `muendlich`)
-  - `teil` (smallint 1–3)
-  - `position` (smallint, ordering within teil)
-  - `title`, `prompt` (the question/instruction text)
-  - `passage` (long text, for Lesen)
-  - `audio_id` (FK → `audio_assets.id`, nullable, for Hören)
-  - `kind` (enum: `multiple_choice`, `true_false`, `matching`, `cloze`, `open_text`)
-  - `options` (jsonb — answer choices)
-  - `correct` (jsonb — solution(s))
-  - `explanation` (text)
-  - `status` (enum: `draft`, `published`, `hidden`)
-  - `tags` (text[])
+## 2. Automatic Correction
 
-- `audio_assets`
-  - `title`, `description`
-  - `storage_path` (object key in `audio` bucket)
-  - `duration_seconds`, `transcript`
+New server fn `submitAttempt` (auth-required) in `src/lib/exercises/attempts.functions.ts`:
+- Loads the exercise (RLS scoped, published only).
+- Grades by `kind`:
+  - MC / TF: exact match against `correct[0]`.
+  - Cloze: per-gap exact match, normalized (lowercase, trim, German umlaut variants), score = correct/total.
+  - Matching: per-pair check, score = correct/total.
+  - Open text: stored ungraded (`score = null`, `needs_review = true`) — admin can grade later from `/admin/attempts` (Phase 2.5).
+- Inserts into `user_exercise_attempts` with `score`, `is_correct`, `answer`, `completed_at`, `duration_seconds`.
+- Returns `{ correct, score, explanation, correctAnswer }` for instant feedback.
 
-- `user_exercise_attempts` — feeds Statistik + admin analytics
-  - `user_id`, `exercise_id`, `score` (0–100), `is_correct`, `answer` (jsonb), `completed_at`
+## 3. Student Progress Tracking
 
-- `plans` already exists — we'll only add admin CRUD on top.
-- `subscriptions` already exists — admin can edit `plan_code`, `status`, `expires_at`, toggle `is_trial`.
+Update `/dashboard` and `/statistik`:
+- Server fn `getMyProgress()` returns per-module completion %, attempts count, average score, current streak (consecutive days with ≥1 attempt), last 30-day activity.
+- Dashboard widgets: Streak, Today's activity, Weekly accuracy, Module progress bars (Lesen/Sprachbausteine/Hören/Schreiben).
+- `/statistik` page: full breakdown by Teil with sparkline + recent attempts table.
 
-RLS:
-- `exercises`, `audio_assets`: `SELECT` for `authenticated` when `status = 'published'`; full CRUD for admins via `has_role(auth.uid(),'admin')`.
-- `user_exercise_attempts`: user can insert/select own rows; admins can select all.
+Streak/percentages auto-update because everything reads live from `user_exercise_attempts`.
 
-Storage:
-- New private bucket `audio`. Admins upload; authenticated users get signed URLs via a server fn.
+## 4. Exam Mode (Prüfungssimulation)
 
-## 2. Admin routes (rebuild + new)
+New routes `/_authenticated/schriftlich/pruefung` and `/_authenticated/muendlich/pruefung` already exist as shells. Wire them up:
 
+- New table `exam_sessions` (`user_id`, `level`, `mode` schriftlich|muendlich, `started_at`, `ends_at`, `submitted_at`, `score_total`, `score_breakdown` jsonb, `status` in_progress|submitted|expired).
+- New server fn `startExam({ level, mode })`:
+  - Picks a balanced set of published exercises per Teil (configurable counts matching TELC structure).
+  - Returns session id + ordered exercise ids + total duration (e.g. B2 schriftlich = 190 min).
+- `submitExamAnswer({ sessionId, exerciseId, answer })` — stores attempts linked to session, no instant feedback (`needs_review` open texts).
+- `finishExam({ sessionId })` — locks session, computes per-module score, returns summary.
+- Client: timer component (counts down, persists in `ends_at`, auto-submits on expiry), single-question-at-a-time UI, no back navigation to previous questions in strict mode (toggle).
+- Results page: per-module score, accuracy, time used, open-text answers flagged for review.
+
+## 5. PDF-to-Exercise Foundation (admin-only)
+
+Add to `/admin/exercises` a new "Import from PDF" tab:
+- Upload PDF → store in a new private `pdf_imports` bucket.
+- Server fn `parsePdfImport({ storagePath })` uses `pdf-parse` (pure-JS, worker-compatible) to extract text.
+- Heuristic splitter pre-fills a **review queue**: detect "Teil 1", numbered questions, A/B/C/D options, fill-in gaps.
+- Admin sees a side-by-side editor: extracted candidates on left, editable `ExerciseEditor` form on right, "Publish" or "Discard" per item.
+- Nothing auto-publishes — every imported exercise is a draft until the admin saves it.
+
+This is the foundation only. No OCR for scanned PDFs in Phase 2 (note as Phase 3 follow-up).
+
+## 6. Database Migration
+
+Single migration:
+
+```sql
+-- exam sessions
+CREATE TYPE exam_mode AS ENUM ('schriftlich','muendlich');
+CREATE TYPE exam_status AS ENUM ('in_progress','submitted','expired');
+
+CREATE TABLE public.exam_sessions (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  level exercise_level NOT NULL,
+  mode exam_mode NOT NULL,
+  exercise_ids uuid[] NOT NULL,
+  started_at timestamptz NOT NULL DEFAULT now(),
+  ends_at timestamptz NOT NULL,
+  submitted_at timestamptz,
+  score_total numeric,
+  score_breakdown jsonb,
+  status exam_status NOT NULL DEFAULT 'in_progress',
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+GRANT SELECT, INSERT, UPDATE ON public.exam_sessions TO authenticated;
+GRANT ALL ON public.exam_sessions TO service_role;
+ALTER TABLE public.exam_sessions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "own exam sessions" ON public.exam_sessions
+  FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "admin read all exam sessions" ON public.exam_sessions
+  FOR SELECT USING (public.has_role(auth.uid(),'admin'));
+
+-- link attempts to exam sessions + flag review
+ALTER TABLE public.user_exercise_attempts
+  ADD COLUMN exam_session_id uuid REFERENCES public.exam_sessions(id) ON DELETE SET NULL,
+  ADD COLUMN needs_review boolean NOT NULL DEFAULT false,
+  ADD COLUMN duration_seconds integer;
+
+-- pdf import staging
+CREATE TABLE public.pdf_imports (
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  uploaded_by uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  storage_path text NOT NULL,
+  status text NOT NULL DEFAULT 'pending',
+  extracted_candidates jsonb DEFAULT '[]',
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.pdf_imports TO authenticated;
+GRANT ALL ON public.pdf_imports TO service_role;
+ALTER TABLE public.pdf_imports ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "admin manage pdf imports" ON public.pdf_imports
+  FOR ALL USING (public.has_role(auth.uid(),'admin'))
+  WITH CHECK (public.has_role(auth.uid(),'admin'));
 ```
-/admin                       Overview cards + quick links
-/admin/exercises             List + filters (level, module, teil, status, search)
-/admin/exercises/new         Create
-/admin/exercises/$id         Edit (incl. delete, publish/hide)
-/admin/audio                 List + upload + edit + delete
-/admin/users                 List, search, view detail, role toggle
-/admin/users/$id             Subscription edit, activity, trial controls
-/admin/plans                 CRUD on plans (price, features, active)
-/admin/subscriptions         All subscriptions, filter by status/plan, edit
-/admin/analytics             Stats dashboard (totals, actives, top exercises, avg score)
-/admin/backup                Export / import JSON
-```
 
-All under existing `_authenticated.admin.tsx` gate (admin role required).
+Plus a `pdf_imports` private storage bucket.
 
-## 3. Server functions (`src/lib/admin/*.functions.ts`)
+## 7. Out of scope (deferred to Phase 3)
+- AI grading of open-text Schreiben/Sprechen answers (Lovable AI).
+- OCR for scanned PDFs.
+- Certificate generation after exam pass.
+- Leaderboards / social.
 
-Each uses `requireSupabaseAuth` + an admin-role check before doing anything.
+## File map
 
-- `listExercises`, `getExercise`, `upsertExercise`, `deleteExercise`, `setExerciseStatus`
-- `listAudio`, `createAudioAsset`, `deleteAudioAsset`, `getAudioSignedUrl`, `getAudioUploadUrl`
-- `listUsers` (joins profiles + subscriptions + roles), `getUser`, `setUserRole`
-- `listSubscriptions`, `updateSubscription`, `extendTrial`
-- `listPlans`, `upsertPlan`, `togglePlanActive`
-- `getAdminStats` — total users, active (30d), premium count, top 10 exercises by attempts, avg score, daily activity for last 30 days
-- `exportBackup` — returns JSON dump of exercises + audio metadata + plans
-- `importBackup` — accepts JSON, upserts rows (admin only, with confirmation)
+New:
+- `src/components/exercise/ExerciseRunner.tsx`
+- `src/components/exercise/ExerciseSession.tsx`
+- `src/components/exercise/ExamTimer.tsx`
+- `src/lib/exercises/exercises.functions.ts` (list/get published)
+- `src/lib/exercises/attempts.functions.ts` (submit, grade)
+- `src/lib/exercises/exam.functions.ts` (start/answer/finish)
+- `src/lib/exercises/progress.functions.ts` (dashboard stats)
+- `src/lib/exercises/grading.ts` (pure grading helpers)
+- `src/lib/admin/pdf-import.functions.ts`
+- `src/routes/_authenticated.admin.pdf-import.tsx`
+- `src/routes/_authenticated.admin.attempts.tsx` (review open texts)
 
-User-facing wiring:
-- Schriftlich/Mündlich "Teil" pages will fetch published exercises from the bank via a public server fn (`listPublishedExercises`) so the platform truly runs from the DB.
-- Submitting an exercise records a `user_exercise_attempts` row → drives Statistik + Continue Learning.
+Edit:
+- All Teil pages under `schriftlich/vorbereitung` + `muendlich/vorbereitung` → use `ExerciseSession`.
+- `schriftlich.pruefung.tsx` + `muendlich.pruefung.tsx` → wire exam flow.
+- `dashboard.tsx` + `statistik.tsx` → live progress widgets.
+- `admin.tsx` nav → add "PDF Import" and "Open answers" tabs.
 
-## 4. UI
-
-- Reuse shadcn `Table`, `Dialog`, `Form` (react-hook-form + zod), `Tabs`, `Select`.
-- Exercise editor: structured form with dynamic options list, JSON-safe answer/correct fields, live preview panel showing how the question will render to a student.
-- Audio manager: drag-drop upload to Storage (signed upload URL), inline player using signed playback URL.
-- Backup: "Download JSON" button + drop-zone for import with diff summary before apply.
-
-## 5. Out of scope (this phase)
-
-- No new payment integration work — admin only edits existing `subscriptions` rows.
-- Statistik student page already exists; admin analytics is separate.
-- We will NOT migrate existing hard-coded Teil content in this phase; once you create exercises in the bank they'll show up on the student side. We can backfill in a follow-up.
-
----
-
-## Build order
-
-1. Migration (tables, enums, RLS, grants) + `audio` bucket.
-2. Server fns + admin role guard helper.
-3. `/admin/exercises` (list, create, edit, delete, publish).
-4. `/admin/audio` (upload, list, delete).
-5. `/admin/users`, `/admin/subscriptions`, `/admin/plans` rebuilt against real data.
-6. `/admin/analytics` against `user_exercise_attempts` + `profiles` + `subscriptions`.
-7. `/admin/backup` export/import.
-8. Wire one student Teil page to read from the bank as a proof-of-concept.
-
-This is a multi-step build; I'll ship it in the order above, pausing only if a decision is needed.
-
-## Questions before I start
-
-1. **Admin role**: are you already assigned the `admin` role in `user_roles`? If not, I'll add a migration that grants it to your account (I'll need your email).
-2. **Backup scope**: export exercises + audio metadata + plans only, or also user data (profiles, subscriptions, attempts)? User data export has privacy implications.
-3. **Backfill**: do you want me to seed the question bank with the current hard-coded Teil placeholders so the student pages stay populated, or start the bank empty?
+## Confirm before I start
+1. **B2 schriftlich duration** — use standard TELC (Lesen 90' + Sprachbausteine 15' + Hören 30' + Schreiben 30' = 165' + break)? Or configurable per exam?
+2. **Open-text grading** — manual admin review only for Phase 2 (AI grading deferred), correct?
+3. **Exam strictness** — allow students to navigate back to previous questions, or strict one-way like real TELC?
