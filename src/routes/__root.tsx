@@ -83,10 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "DeutschMaster — Professional German Exam Preparation" },
+      { title: "Lingovia — Professional German Exam Preparation" },
       { name: "description", content: "Prepare for TELC B1 & B2 German exams with structured lessons, exam simulations and AI-powered feedback." },
-      { name: "author", content: "DeutschMaster" },
-      { property: "og:title", content: "DeutschMaster — Professional German Exam Preparation" },
+      { name: "author", content: "Lingovia" },
+      { property: "og:title", content: "Lingovia — Professional German Exam Preparation" },
       { property: "og:description", content: "Prepare for TELC B1 & B2 with structured lessons and AI feedback." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

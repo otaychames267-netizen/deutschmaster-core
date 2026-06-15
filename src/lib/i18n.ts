@@ -5,7 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const resources = {
   en: { translation: {
     nav: { features: "Features", pricing: "Pricing", faq: "FAQ", contact: "Contact", login: "Login", signup: "Sign Up", dashboard: "Dashboard", logout: "Logout", profile: "Profile", billing: "Billing", security: "Security", admin: "Admin" },
-    hero: { title: "DeutschMaster", subtitle: "Professional German Exam Preparation Platform", description: "Prepare for TELC B1 & B2 with structured lessons, exam simulations and AI-powered feedback.", cta_trial: "Start Free Trial", cta_plans: "View Plans", cta_login: "Login" },
+    hero: { title: "Lingovia", subtitle: "Professional German Exam Preparation Platform", description: "Prepare for TELC B1 & B2 with structured lessons, exam simulations and AI-powered feedback.", cta_trial: "Start Free Trial", cta_plans: "View Plans", cta_login: "Login" },
     features: { title: "Everything you need to pass", reading: "Reading", reading_desc: "Authentic TELC reading models with explanations.", listening: "Listening", listening_desc: "Audio exercises with transcripts.", writing: "Writing", writing_desc: "Letter & essay practice with AI feedback.", speaking: "Speaking", speaking_desc: "Realistic oral exam simulations.", certificates: "Certificates", certificates_desc: "Earn certificates as you progress.", multi: "7 Languages", multi_desc: "Study interface in your native language." },
     pricing: { title: "Simple, transparent pricing", monthly: "per month", trial: "3-day free trial included", choose: "Choose plan" },
     testimonials: { title: "Trusted by thousands of learners" },
@@ -16,7 +16,7 @@ const resources = {
   }},
   de: { translation: {
     nav: { features: "Funktionen", pricing: "Preise", faq: "FAQ", contact: "Kontakt", login: "Anmelden", signup: "Registrieren", dashboard: "Dashboard", logout: "Abmelden", profile: "Profil", billing: "Abrechnung", security: "Sicherheit", admin: "Admin" },
-    hero: { title: "DeutschMaster", subtitle: "Professionelle Vorbereitung auf die TELC-Prüfung", description: "Bereiten Sie sich auf TELC B1 & B2 mit strukturierten Lektionen, Prüfungssimulationen und KI-Feedback vor.", cta_trial: "Kostenlos testen", cta_plans: "Pläne ansehen", cta_login: "Anmelden" },
+    hero: { title: "Lingovia", subtitle: "Professionelle Vorbereitung auf die TELC-Prüfung", description: "Bereiten Sie sich auf TELC B1 & B2 mit strukturierten Lektionen, Prüfungssimulationen und KI-Feedback vor.", cta_trial: "Kostenlos testen", cta_plans: "Pläne ansehen", cta_login: "Anmelden" },
     features: { title: "Alles, was Sie brauchen", reading: "Lesen", reading_desc: "Authentische TELC-Lesemodelle mit Erklärungen.", listening: "Hören", listening_desc: "Audio-Übungen mit Transkripten.", writing: "Schreiben", writing_desc: "Brief- und Aufsatzpraxis mit KI-Feedback.", speaking: "Sprechen", speaking_desc: "Realistische mündliche Prüfungssimulationen.", certificates: "Zertifikate", certificates_desc: "Verdienen Sie Zertifikate, während Sie Fortschritte machen.", multi: "7 Sprachen", multi_desc: "Lernoberfläche in Ihrer Muttersprache." },
     pricing: { title: "Einfache, transparente Preise", monthly: "pro Monat", trial: "3 Tage kostenlos testen", choose: "Plan wählen" },
     testimonials: { title: "Tausende vertrauen uns" },
@@ -27,7 +27,7 @@ const resources = {
   }},
   ar: { translation: {
     nav: { features: "الميزات", pricing: "الأسعار", faq: "الأسئلة", contact: "اتصل", login: "تسجيل الدخول", signup: "إنشاء حساب", dashboard: "لوحة التحكم", logout: "خروج", profile: "الملف", billing: "الفواتير", security: "الأمان", admin: "المشرف" },
-    hero: { title: "DeutschMaster", subtitle: "منصة احترافية للتحضير لامتحان الألمانية", description: "استعد لـ TELC B1 و B2 بدروس منظمة ومحاكاة الامتحان وتعليقات الذكاء الاصطناعي.", cta_trial: "ابدأ تجربة مجانية", cta_plans: "عرض الخطط", cta_login: "تسجيل الدخول" },
+    hero: { title: "Lingovia", subtitle: "منصة احترافية للتحضير لامتحان الألمانية", description: "استعد لـ TELC B1 و B2 بدروس منظمة ومحاكاة الامتحان وتعليقات الذكاء الاصطناعي.", cta_trial: "ابدأ تجربة مجانية", cta_plans: "عرض الخطط", cta_login: "تسجيل الدخول" },
     features: { title: "كل ما تحتاجه للنجاح", reading: "القراءة", reading_desc: "نماذج قراءة TELC أصلية مع شروحات.", listening: "الاستماع", listening_desc: "تمارين صوتية مع نصوص.", writing: "الكتابة", writing_desc: "تدريب على الرسائل والمقالات مع تعليقات AI.", speaking: "التحدث", speaking_desc: "محاكاة واقعية للامتحان الشفوي.", certificates: "الشهادات", certificates_desc: "احصل على شهادات أثناء تقدمك.", multi: "7 لغات", multi_desc: "واجهة الدراسة بلغتك الأم." },
     pricing: { title: "أسعار بسيطة وشفافة", monthly: "شهرياً", trial: "تجربة مجانية لمدة 3 أيام", choose: "اختر الخطة" },
     testimonials: { title: "موثوق من قبل آلاف المتعلمين" },
@@ -38,7 +38,7 @@ const resources = {
   }},
   fr: { translation: {
     nav: { features: "Fonctionnalités", pricing: "Tarifs", faq: "FAQ", contact: "Contact", login: "Connexion", signup: "Inscription", dashboard: "Tableau de bord", logout: "Déconnexion", profile: "Profil", billing: "Facturation", security: "Sécurité", admin: "Admin" },
-    hero: { title: "DeutschMaster", subtitle: "Plateforme professionnelle de préparation à l'examen TELC", description: "Préparez TELC B1 & B2 avec des leçons structurées, simulations et retours IA.", cta_trial: "Essai gratuit", cta_plans: "Voir les plans", cta_login: "Connexion" },
+    hero: { title: "Lingovia", subtitle: "Plateforme professionnelle de préparation à l'examen TELC", description: "Préparez TELC B1 & B2 avec des leçons structurées, simulations et retours IA.", cta_trial: "Essai gratuit", cta_plans: "Voir les plans", cta_login: "Connexion" },
     features: { title: "Tout ce qu'il faut pour réussir", reading: "Lecture", reading_desc: "Modèles de lecture TELC avec explications.", listening: "Écoute", listening_desc: "Exercices audio avec transcriptions.", writing: "Écriture", writing_desc: "Lettres et essais avec retours IA.", speaking: "Oral", speaking_desc: "Simulations d'examen oral réalistes.", certificates: "Certificats", certificates_desc: "Gagnez des certificats au fil de votre progression.", multi: "7 langues", multi_desc: "Interface dans votre langue maternelle." },
     pricing: { title: "Tarifs simples et transparents", monthly: "par mois", trial: "Essai gratuit de 3 jours", choose: "Choisir" },
     testimonials: { title: "Approuvé par des milliers d'apprenants" },
@@ -49,7 +49,7 @@ const resources = {
   }},
   es: { translation: {
     nav: { features: "Características", pricing: "Precios", faq: "FAQ", contact: "Contacto", login: "Entrar", signup: "Registro", dashboard: "Panel", logout: "Salir", profile: "Perfil", billing: "Facturación", security: "Seguridad", admin: "Admin" },
-    hero: { title: "DeutschMaster", subtitle: "Plataforma profesional de preparación TELC", description: "Prepárate para TELC B1 y B2 con lecciones, simulaciones y feedback IA.", cta_trial: "Prueba gratis", cta_plans: "Ver planes", cta_login: "Entrar" },
+    hero: { title: "Lingovia", subtitle: "Plataforma profesional de preparación TELC", description: "Prepárate para TELC B1 y B2 con lecciones, simulaciones y feedback IA.", cta_trial: "Prueba gratis", cta_plans: "Ver planes", cta_login: "Entrar" },
     features: { title: "Todo para aprobar", reading: "Lectura", reading_desc: "Modelos TELC con explicaciones.", listening: "Escucha", listening_desc: "Audios con transcripciones.", writing: "Escritura", writing_desc: "Cartas y ensayos con IA.", speaking: "Oral", speaking_desc: "Simulaciones realistas.", certificates: "Certificados", certificates_desc: "Gana certificados.", multi: "7 idiomas", multi_desc: "Interfaz en tu idioma." },
     pricing: { title: "Precios simples", monthly: "al mes", trial: "Prueba gratis 3 días", choose: "Elegir" },
     testimonials: { title: "Confianza de miles" },
@@ -60,7 +60,7 @@ const resources = {
   }},
   it: { translation: {
     nav: { features: "Funzionalità", pricing: "Prezzi", faq: "FAQ", contact: "Contatti", login: "Accedi", signup: "Registrati", dashboard: "Dashboard", logout: "Esci", profile: "Profilo", billing: "Fatturazione", security: "Sicurezza", admin: "Admin" },
-    hero: { title: "DeutschMaster", subtitle: "Preparazione professionale all'esame TELC", description: "Preparati a TELC B1 e B2 con lezioni, simulazioni e feedback AI.", cta_trial: "Prova gratuita", cta_plans: "Vedi piani", cta_login: "Accedi" },
+    hero: { title: "Lingovia", subtitle: "Preparazione professionale all'esame TELC", description: "Preparati a TELC B1 e B2 con lezioni, simulazioni e feedback AI.", cta_trial: "Prova gratuita", cta_plans: "Vedi piani", cta_login: "Accedi" },
     features: { title: "Tutto per superarlo", reading: "Lettura", reading_desc: "Modelli TELC con spiegazioni.", listening: "Ascolto", listening_desc: "Audio con trascrizioni.", writing: "Scrittura", writing_desc: "Lettere e saggi con AI.", speaking: "Parlato", speaking_desc: "Simulazioni realistiche.", certificates: "Certificati", certificates_desc: "Ottieni certificati.", multi: "7 lingue", multi_desc: "Interfaccia nella tua lingua." },
     pricing: { title: "Prezzi semplici", monthly: "al mese", trial: "3 giorni gratis", choose: "Scegli" },
     testimonials: { title: "Scelto da migliaia" },
@@ -71,7 +71,7 @@ const resources = {
   }},
   tr: { translation: {
     nav: { features: "Özellikler", pricing: "Fiyatlar", faq: "SSS", contact: "İletişim", login: "Giriş", signup: "Kayıt", dashboard: "Panel", logout: "Çıkış", profile: "Profil", billing: "Faturalama", security: "Güvenlik", admin: "Yönetici" },
-    hero: { title: "DeutschMaster", subtitle: "Profesyonel TELC sınav hazırlık platformu", description: "TELC B1 ve B2 için yapılandırılmış dersler, simülasyonlar ve AI geri bildirimi.", cta_trial: "Ücretsiz dene", cta_plans: "Planları gör", cta_login: "Giriş" },
+    hero: { title: "Lingovia", subtitle: "Profesyonel TELC sınav hazırlık platformu", description: "TELC B1 ve B2 için yapılandırılmış dersler, simülasyonlar ve AI geri bildirimi.", cta_trial: "Ücretsiz dene", cta_plans: "Planları gör", cta_login: "Giriş" },
     features: { title: "Başarmak için ihtiyacınız olan her şey", reading: "Okuma", reading_desc: "Açıklamalı TELC modelleri.", listening: "Dinleme", listening_desc: "Transkriptli ses alıştırmaları.", writing: "Yazma", writing_desc: "AI geri bildirimli mektup ve denemeler.", speaking: "Konuşma", speaking_desc: "Gerçekçi sözlü simülasyonlar.", certificates: "Sertifikalar", certificates_desc: "İlerledikçe sertifika kazanın.", multi: "7 dil", multi_desc: "Ana dilinizde arayüz." },
     pricing: { title: "Basit, şeffaf fiyatlandırma", monthly: "aylık", trial: "3 gün ücretsiz", choose: "Seç" },
     testimonials: { title: "Binlerce öğrencinin güveni" },

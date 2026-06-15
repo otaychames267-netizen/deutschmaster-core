@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { LifeBuoy, Mail, MessageSquare, BookOpen } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/help")({
-  head: () => ({ meta: [{ title: "Help & Support — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Help & Support — Lingovia" }] }),
   component: HelpPage,
 });
 
@@ -27,7 +27,7 @@ function HelpPage() {
 
       <div className="grid gap-4 md:grid-cols-3">
         <HelpCard icon={BookOpen} title="Getting started" desc="Pick your level, complete onboarding, and open Schriftlich or Mündlich." />
-        <HelpCard icon={MessageSquare} title="Contact support" desc="Email support@deutschmaster.app — we reply within 24 hours." />
+        <HelpCard icon={MessageSquare} title="Contact support" desc="Email support@lingovia.app — we reply within 24 hours." />
         <HelpCard icon={Mail} title="Feedback" desc="Tell us what's missing — your feedback shapes the roadmap." />
       </div>
 
@@ -54,7 +54,7 @@ function HelpPage() {
             <p className="font-semibold">Still need help?</p>
             <p className="text-sm text-muted-foreground">Our team is happy to assist with any questions about your prep.</p>
           </div>
-          <Button asChild><a href="mailto:support@deutschmaster.app"><Mail className="h-4 w-4 mr-2" /> Contact support</a></Button>
+          <Button asChild><a href="mailto:support@lingovia.app"><Mail className="h-4 w-4 mr-2" /> Contact support</a></Button>
         </CardContent>
       </Card>
     </div>

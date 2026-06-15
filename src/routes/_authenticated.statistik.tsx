@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress";
 import { BarChart3, Clock, Flame, Target, TrendingUp, BookOpenCheck } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/statistik")({
-  head: () => ({ meta: [{ title: "Statistik — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Statistik — Lingovia" }] }),
   component: StatistikPage,
 });
 

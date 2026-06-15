@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/profile")({
-  head: () => ({ meta: [{ title: "Profile — DeutschMaster" }] }),
+  head: () => ({ meta: [{ title: "Profile — Lingovia" }] }),
   component: ProfilePage,
 });
 

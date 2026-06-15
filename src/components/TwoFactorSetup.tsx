@@ -21,7 +21,7 @@ export function TwoFactorSetup({ enrolled, onChange }: Props) {
 
   const startEnroll = async () => {
     setEnrolling(true);
-    const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", friendlyName: "DeutschMaster" });
+    const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", friendlyName: "Lingovia" });
     if (error) { toast.error(error.message); setEnrolling(false); return; }
     setQr(data.totp.qr_code);
     setSecret(data.totp.secret);
