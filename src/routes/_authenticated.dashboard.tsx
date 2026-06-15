@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { differenceInDays, format } from "date-fns";
 import { Progress } from "@/components/ui/progress";
-import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, MessageSquare, Users, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity, Settings2 } from "lucide-react";
+import { PenLine, Mic, BookOpen, Headphones, Puzzle, Edit3, Speech, MessageSquare, Users, Sparkles, Clock, Calendar, Award, ArrowRight, GraduationCap, TrendingUp, Activity, Settings2, Flame, Target, UserPlus, ClipboardList } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({ meta: [{ title: "Dashboard — DeutschMaster" }] }),
@@ -75,6 +75,7 @@ function Dashboard() {
       id: "schriftlich",
       label: "Schriftlich",
       icon: PenLine,
+      to: "/schriftlich" as const,
       tagline: "Written exam",
       desc: "Reading, listening, language elements & writing",
       modules: [
@@ -88,6 +89,7 @@ function Dashboard() {
       id: "muendlich",
       label: "Mündlich",
       icon: Mic,
+      to: "/muendlich" as const,
       tagline: "Oral exam",
       desc: "Presentation, discussion & partner planning",
       modules: [
@@ -100,23 +102,31 @@ function Dashboard() {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 animate-in fade-in duration-300">
-      {/* Header row: greeting + level toggle */}
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Welcome back, {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]}</h1>
-          <p className="text-sm text-muted-foreground">{levelLabel ? `Your ${levelLabel} preparation hub — choose where to study` : "Pick a level to get started"}</p>
+      {/* WELCOME BANNER */}
+      <div className="relative overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-br from-accent/10 via-card to-card p-6 md:p-7">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4" />
+        <div className="relative flex items-start justify-between flex-wrap gap-4">
+          <div className="min-w-0">
+            <p className="text-xs uppercase tracking-widest text-accent font-semibold mb-1">Willkommen zurück</p>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+              {profile?.full_name?.split(" ")[0] || user?.email?.split("@")[0]} 👋
+            </h1>
+            <p className="text-sm text-muted-foreground mt-1">
+              {levelLabel ? `Dein ${levelLabel}-Vorbereitungshub — wähle, wo du heute lernen möchtest.` : "Wähle ein Level, um zu starten."}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {levelLabel && <Badge variant="outline" className="bg-card/60"><GraduationCap className="h-3 w-3 mr-1" /> {levelLabel}</Badge>}
+            {isTrial && <Badge className="bg-accent/15 text-accent hover:bg-accent/20 border-accent/30"><Sparkles className="h-3 w-3 mr-1" /> Trial · Tag {trialDay}/3</Badge>}
+            {profile?.exam_date && <Badge variant="secondary"><Calendar className="h-3 w-3 mr-1" /> Prüfung in {examDays}d</Badge>}
+          </div>
         </div>
-        {levelLabel && (
-          <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground">
-            <Link to="/profile"><Settings2 className="h-3.5 w-3.5 mr-1" /> Change level in Profile</Link>
-          </Button>
-        )}
       </div>
 
-      {/* HERO ROW — Schriftlich + Mündlich — dominant learning entrypoints, above the fold */}
+      {/* HERO ROW — Schriftlich + Mündlich */}
       <div className="grid gap-5 md:grid-cols-2">
         {EXAM_AREAS.map((area) => (
-          <Link key={area.id} to="/learn/$level" params={{ level: levelSlug }} className="group block">
+          <Link key={area.id} to={area.to} className="group block">
             <Card className="relative h-full overflow-hidden border-border/60 transition-all duration-300 hover:border-accent/60 hover:shadow-2xl hover:-translate-y-1 active:translate-y-0 min-h-[260px]">
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 opacity-60 group-hover:opacity-100 transition-opacity" />
@@ -150,6 +160,20 @@ function Dashboard() {
         ))}
       </div>
 
+      {/* PRÜFUNGSSIMULATION strip */}
+      <Link to="/pruefung" className="block group">
+        <Card className="border-border/60 hover:border-accent/50 transition hover:shadow-lg">
+          <CardContent className="py-4 px-5 flex items-center gap-4">
+            <div className="rounded-lg bg-accent/15 p-2.5 text-accent ring-1 ring-accent/30"><ClipboardList className="h-5 w-5" /></div>
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold">Prüfungssimulation</p>
+              <p className="text-xs text-muted-foreground">Realistische TELC-Prüfung — Schriftlich & Mündlich (Phase 2)</p>
+            </div>
+            <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-accent group-hover:translate-x-0.5 transition" />
+          </CardContent>
+        </Card>
+      </Link>
+
       {/* SECONDARY ROW — 4 stat cards */}
       <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
         <StatCard icon={GraduationCap} label="Current level" value={levelLabel ?? "—"} sub={`Target: ${formatLevel(profile?.target_level) ?? "—"}`} accent />
@@ -158,6 +182,34 @@ function Dashboard() {
         <StatCard icon={TrendingUp} label="Profile" value={`${completion}%`} sub={completion < 100 ? "Complete your profile" : "All set"}>
           <Progress value={completion} className="h-1.5 mt-2" />
         </StatCard>
+      </div>
+
+      {/* MOTIVATION ROW — daily goal, streak, weekly progress */}
+      <div className="grid gap-3 md:grid-cols-3">
+        <Card className="border-border/60">
+          <CardContent className="pt-5 pb-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium uppercase tracking-wide"><Target className="h-3.5 w-3.5" /> Tagesziel</div>
+            <p className="text-2xl font-bold mt-1.5">0 / 30 min</p>
+            <Progress value={0} className="h-1.5 mt-2" />
+            <p className="text-xs text-muted-foreground mt-1.5">Heute lernen, um dein Ziel zu erreichen.</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border/60">
+          <CardContent className="pt-5 pb-4">
+            <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium uppercase tracking-wide"><Flame className="h-3.5 w-3.5" /> Lernserie</div>
+            <p className="text-2xl font-bold mt-1.5">0 Tage</p>
+            <p className="text-xs text-muted-foreground">Starte heute deine Serie.</p>
+          </CardContent>
+        </Card>
+        <Link to="/referrals" className="group">
+          <Card className="border-border/60 hover:border-accent/50 hover:shadow-md transition h-full">
+            <CardContent className="pt-5 pb-4">
+              <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium uppercase tracking-wide"><UserPlus className="h-3.5 w-3.5" /> Freunde einladen</div>
+              <p className="text-base font-bold mt-1.5">+3 Tage Trial pro Freund</p>
+              <p className="text-xs text-accent group-hover:underline mt-1 inline-flex items-center">Jetzt einladen <ArrowRight className="h-3 w-3 ml-0.5" /></p>
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       {/* THIRD ROW — recent activity + study stats */}

@@ -23,6 +23,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedStatistikRouteImport } from './routes/_authenticated.statistik'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated.security'
 import { Route as AuthenticatedSchriftlichRouteImport } from './routes/_authenticated.schriftlich'
+import { Route as AuthenticatedReferralsRouteImport } from './routes/_authenticated.referrals'
 import { Route as AuthenticatedPruefungRouteImport } from './routes/_authenticated.pruefung'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
@@ -113,6 +114,11 @@ const AuthenticatedSchriftlichRoute =
     path: '/schriftlich',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedReferralsRoute = AuthenticatedReferralsRouteImport.update({
+  id: '/referrals',
+  path: '/referrals',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedPruefungRoute = AuthenticatedPruefungRouteImport.update({
   id: '/pruefung',
   path: '/pruefung',
@@ -234,6 +240,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
+  '/referrals': typeof AuthenticatedReferralsRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
@@ -266,6 +273,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
+  '/referrals': typeof AuthenticatedReferralsRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
@@ -302,6 +310,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
+  '/_authenticated/referrals': typeof AuthenticatedReferralsRoute
   '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRoute
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
@@ -338,6 +347,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/profile'
     | '/pruefung'
+    | '/referrals'
     | '/schriftlich'
     | '/security'
     | '/statistik'
@@ -370,6 +380,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/profile'
     | '/pruefung'
+    | '/referrals'
     | '/schriftlich'
     | '/security'
     | '/statistik'
@@ -405,6 +416,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
     | '/_authenticated/pruefung'
+    | '/_authenticated/referrals'
     | '/_authenticated/schriftlich'
     | '/_authenticated/security'
     | '/_authenticated/statistik'
@@ -532,6 +544,13 @@ declare module '@tanstack/react-router' {
       path: '/schriftlich'
       fullPath: '/schriftlich'
       preLoaderRoute: typeof AuthenticatedSchriftlichRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/referrals': {
+      id: '/_authenticated/referrals'
+      path: '/referrals'
+      fullPath: '/referrals'
+      preLoaderRoute: typeof AuthenticatedReferralsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/pruefung': {
@@ -715,6 +734,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
+  AuthenticatedReferralsRoute: typeof AuthenticatedReferralsRoute
   AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRoute
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
@@ -731,6 +751,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
+  AuthenticatedReferralsRoute: AuthenticatedReferralsRoute,
   AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRoute,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
