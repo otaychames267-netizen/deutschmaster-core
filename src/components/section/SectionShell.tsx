@@ -13,7 +13,7 @@ export function useTelcLevel() {
     if (!user) return;
     supabase.from("profiles").select("level").eq("id", user.id).maybeSingle()
       .then(({ data }) => setLevel(data?.level ?? null));
-  }, [user]);
+  }, [user?.id]);
   return level === "TELC_B2" ? "TELC B2" : level === "TELC_B1" ? "TELC B1" : "—";
 }
 
