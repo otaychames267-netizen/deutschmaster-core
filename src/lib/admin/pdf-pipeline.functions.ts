@@ -81,12 +81,16 @@ Rules — never violate:
 - Preserve section headers like "Teil 1", "Teil 2", "Lesen", "Hören", "Schreiben", "Sprachbausteine", "Mündlicher Ausdruck".
 - If the PDF is scanned, OCR it. Preserve diacritics (ä ö ü ß).
 - If you cannot read a character with confidence, transcribe as [?].
+ - If ANY content cannot be extracted with 100% confidence, mark it with [?] AND add it to "low_confidence_items" AND set "needs_manual_review": true. Do NOT guess.
+ - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
   "kind": "exam" | "answer_key",
   "level": "b1" | "b2" | null,
   "page_count": number,
+  "needs_manual_review": boolean,
+  "low_confidence_items": [{ "page": number, "teil": number|null, "reason": string, "snippet": string }],
   "blocks": [
     { "type": "section",     "teil": number|null, "module": string|null, "text": string, "page": number },
     { "type": "instruction", "teil": number|null, "text": string, "page": number },
