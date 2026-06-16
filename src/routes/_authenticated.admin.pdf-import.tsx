@@ -723,3 +723,55 @@ function FidelityPanel({
     </Card>
   );
 }
+function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefresh: () => Promise<unknown> }) {
+  const [refreshing, setRefreshing] = useState(false);
+  const handle = async () => {
+    setRefreshing(true);
+    try { await onRefresh(); } finally { setRefreshing(false); }
+  };
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-start justify-between gap-2 space-y-0">
+        <div>
+          <CardTitle className="flex items-center gap-2"><FileSearch className="size-4" />Alle Importe</CardTitle>
+          <CardDescription>Jeder hochgeladene PDF erscheint hier sofort. {imports.length} Eintrag(e).</CardDescription>
+        </div>
+        <Button size="sm" variant="outline" onClick={handle} disabled={refreshing}>
+          {refreshing ? "Aktualisiere…" : "Aktualisieren"}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        {imports.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Noch keine Importe.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="text-left text-muted-foreground">
+                <tr>
+                  <th className="py-1 pr-2">Hochgeladen</th>
+                  <th className="py-1 pr-2">Typ</th>
+                  <th className="py-1 pr-2">Level</th>
+                  <th className="py-1 pr-2">Datei</th>
+                  <th className="py-1 pr-2">Status</th>
+                  <th className="py-1 pr-2">Import-ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {imports.map(i => (
+                  <tr key={i.id} className="border-t">
+                    <td className="py-1 pr-2 whitespace-nowrap">{new Date(i.created_at).toLocaleString()}</td>
+                    <td className="py-1 pr-2"><Badge variant={i.kind === "exam" ? "default" : "secondary"}>{i.kind === "exam" ? "Prüfung" : "Schlüssel"}</Badge></td>
+                    <td className="py-1 pr-2">{i.level?.toUpperCase() ?? "—"}</td>
+                    <td className="py-1 pr-2 max-w-[280px] truncate" title={i.original_name ?? ""}>{i.original_name ?? "—"}</td>
+                    <td className="py-1 pr-2"><Badge variant="outline">{i.status}</Badge></td>
+                    <td className="py-1 pr-2 font-mono text-[10px] text-muted-foreground">{i.id}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
