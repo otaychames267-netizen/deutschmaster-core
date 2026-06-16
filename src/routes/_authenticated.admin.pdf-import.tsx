@@ -12,6 +12,7 @@ import {
   checkSuperAdmin,
   runFidelityCheck,
   getLatestFidelityReport,
+  deletePdfImport,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle } from "lucide-react";
+import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
@@ -37,6 +38,8 @@ type PdfImportRow = {
   linked_import_id: string | null;
   created_at: string;
   ocr_used: boolean;
+  error_message: string | null;
+  storage_path?: string | null;
 };
 
 type UploadStep =
