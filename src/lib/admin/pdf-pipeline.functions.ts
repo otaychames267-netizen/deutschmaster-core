@@ -227,9 +227,43 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     answerKeyImportId?: string | null;
     level: "b1" | "b2";
     moduleHint?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich" | null;
+    teil: number;
+    writingCategory?: string | null;
+    muendlichPart?: 1 | 2 | 3 | null;
+    contentType?: "vorbereitung" | "pruefungssimulation" | null;
+    confirmMaterialAsExercises?: boolean | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
+
+    // ---- Admin classification gate (manual, never automatic) ----
+    if (!data.level) throw new Error("Level (B1/B2) ist erforderlich.");
+    if (!data.moduleHint) throw new Error("Modul ist erforderlich.");
+    const module = data.moduleHint;
+    const adminTeil = Number(data.teil);
+    if (!Number.isInteger(adminTeil) || adminTeil < 1 || adminTeil > 3) {
+      throw new Error("Teil ist erforderlich (1–3).");
+    }
+    if (module === "sprachbausteine" && adminTeil > 2) {
+      throw new Error("Sprachbausteine hat nur Teil 1 und Teil 2.");
+    }
+    if (module === "schreiben") {
+      const allowed = ["beschwerde","brief","email","bitte_um_informationen","anfrage","stellungnahme","sonstiges"];
+      if (!data.writingCategory || !allowed.includes(data.writingCategory)) {
+        throw new Error("Schreiben: Bitte Kategorie manuell wählen.");
+      }
+    }
+    if (module === "muendlich") {
+      if (![1,2,3].includes(Number(data.muendlichPart))) {
+        throw new Error("Mündlich: Bitte Teil (1 Präsentation / 2 Diskussion / 3 Planen) wählen.");
+      }
+      if (!data.contentType || !["vorbereitung","pruefungssimulation"].includes(data.contentType)) {
+        throw new Error("Mündlich: Bitte 'Vorbereitung' oder 'Prüfungssimulation' wählen.");
+      }
+      if (data.contentType === "vorbereitung" && !data.confirmMaterialAsExercises) {
+        throw new Error("Mündlich/Vorbereitung-Material wird nicht automatisch in Übungen umgewandelt. Setzen Sie das Bestätigungs-Häkchen, wenn das gewünscht ist.");
+      }
+    }
 
     const { data: ext } = await context.supabase
       .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
@@ -245,28 +279,25 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
 
-    // Group questions per teil; pick an instruction/passage per teil
-    type Q = { teil: number; number: string; text: string; options: { label: string; text: string }[] };
-    const questionsByTeil = new Map<number, Q[]>();
-    const instructionsByTeil = new Map<number, string>();
-    const passagesByTeil = new Map<number, { title: string | null; text: string }>();
-
+    // Admin chose the destination Teil. We file ALL extracted content under that Teil,
+    // verbatim — the model's detected `teil` is NOT used to override the admin choice.
+    type Q = { number: string; text: string; options: { label: string; text: string }[] };
+    const questions: Q[] = [];
+    let firstInstruction: string | null = null;
+    let firstPassage: { title: string | null; text: string } | null = null;
     for (const b of blocks) {
-      const teil = Number(b?.teil) || 0;
-      if (!teil) continue;
-      if (b.type === "instruction" && !instructionsByTeil.has(teil)) {
-        instructionsByTeil.set(teil, String(b.text ?? ""));
-      } else if (b.type === "passage" && !passagesByTeil.has(teil)) {
-        passagesByTeil.set(teil, { title: b.title ?? null, text: String(b.text ?? "") });
+      if (b.type === "instruction" && firstInstruction === null) {
+        firstInstruction = String(b.text ?? "");
+      } else if (b.type === "passage" && firstPassage === null) {
+        firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
       } else if (b.type === "question") {
-        const arr = questionsByTeil.get(teil) ?? [];
-        arr.push({
-          teil,
-          number: String(b.number ?? arr.length + 1),
+        questions.push({
+          number: String(b.number ?? questions.length + 1),
           text: String(b.text ?? ""),
-          options: Array.isArray(b.options) ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") })) : [],
+          options: Array.isArray(b.options)
+            ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") }))
+            : [],
         });
-        questionsByTeil.set(teil, arr);
       }
     }
 
@@ -278,8 +309,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
       for (const b of kblocks) {
         if (b.type === "answer_key_entry") {
-          const k = `${Number(b.teil) || 0}::${String(b.number ?? "").trim()}`;
-          answerByTeilNumber.set(k, String(b.answer ?? "").trim());
+          // Key entries are matched by item number only — Teil is fixed by the admin.
+          answerByTeilNumber.set(String(b.number ?? "").trim(), String(b.answer ?? "").trim());
         }
       }
       // Link the answer key PDF to the exam
@@ -288,53 +319,54 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         .eq("id", data.answerKeyImportId);
     }
 
-    const moduleVal = data.moduleHint ?? "lesen";
+    const moduleVal = module;
     const createdExerciseIds: string[] = [];
-    const insertedKeys: number = (() => 0)();
     let keyCount = 0;
 
-    for (const [teil, qs] of questionsByTeil.entries()) {
-      const passage = passagesByTeil.get(teil);
-      const instruction = instructionsByTeil.get(teil) ?? "";
-      let position = 1;
-      for (const q of qs) {
-        const kind = q.options.length >= 2 ? "multiple_choice" : "open_text";
-        const optionTexts = q.options.map(o => o.text);
-        const { data: ex, error: exErr } = await context.supabase
-          .from("exercises")
-          .insert({
-            level: data.level,
-            module: moduleVal,
-            teil,
-            position: position++,
-            title: `${moduleVal.toUpperCase()} Teil ${teil} — Aufgabe ${q.number}`,
-            prompt: q.text,
-            passage: passage ? passage.text : (instruction || null),
-            kind,
-            options: optionTexts,
-            correct: [],
-            status: "draft",
-            created_by: context.userId,
-            source_pdf_import_id: data.examImportId,
-            original_numbering: q.number,
-          })
-          .select("id")
-          .single();
-        if (exErr || !ex) continue;
-        createdExerciseIds.push(ex.id);
+    const teil = adminTeil;
+    const passage = firstPassage;
+    const instruction = firstInstruction ?? "";
+    let position = 1;
+    for (const q of questions) {
+      const kind = q.options.length >= 2 ? "multiple_choice" : "open_text";
+      const optionTexts = q.options.map(o => o.text);
+      const { data: ex, error: exErr } = await context.supabase
+        .from("exercises")
+        .insert({
+          level: data.level,
+          module: moduleVal,
+          teil,
+          position: position++,
+          title: `${moduleVal.toUpperCase()} Teil ${teil} — Aufgabe ${q.number}`,
+          prompt: q.text,
+          passage: passage ? passage.text : (instruction || null),
+          kind,
+          options: optionTexts,
+          correct: [],
+          status: "draft",
+          created_by: context.userId,
+          source_pdf_import_id: data.examImportId,
+          original_numbering: q.number,
+          writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
+          muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
+          content_type: moduleVal === "muendlich" ? (data.contentType ?? null) : null,
+        })
+        .select("id")
+        .single();
+      if (exErr || !ex) continue;
+      createdExerciseIds.push(ex.id);
 
-        const ansLookup = answerByTeilNumber.get(`${teil}::${q.number}`);
-        if (ansLookup) {
-          await context.supabase.from("exercise_answer_keys").insert({
-            exercise_id: ex.id,
-            item_number: q.number,
-            correct_answer: ansLookup,
-            source: "pdf",
-            key_version: 1,
-            pdf_import_id: data.answerKeyImportId ?? null,
-          });
-          keyCount++;
-        }
+      const ansLookup = answerByTeilNumber.get(q.number);
+      if (ansLookup) {
+        await context.supabase.from("exercise_answer_keys").insert({
+          exercise_id: ex.id,
+          item_number: q.number,
+          correct_answer: ansLookup,
+          source: "pdf",
+          key_version: 1,
+          pdf_import_id: data.answerKeyImportId ?? null,
+        });
+        keyCount++;
       }
     }
 
