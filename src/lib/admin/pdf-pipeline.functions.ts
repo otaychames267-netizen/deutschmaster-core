@@ -286,94 +286,129 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
 
-    // Admin chose the destination Teil. We file ALL extracted content under that Teil,
-    // verbatim — the model's detected `teil` is NOT used to override the admin choice.
+    // Detect the source kind (combined PDFs carry their own answer key)
+    const { data: examImp } = await context.supabase
+      .from("pdf_imports").select("kind").eq("id", data.examImportId).maybeSingle();
+    const sourceKind: string = examImp?.kind ?? "exam";
+
+    // Group blocks by model variant ("1", "2", "3", … or null for single-model PDFs).
+    // Each model produces its OWN exercise(s) — content is never merged across models.
     type Q = { number: string; text: string; options: { label: string; text: string }[] };
-    const questions: Q[] = [];
-    let firstInstruction: string | null = null;
-    let firstPassage: { title: string | null; text: string } | null = null;
+    type Group = {
+      model: string | null;
+      firstInstruction: string | null;
+      firstPassage: { title: string | null; text: string } | null;
+      questions: Q[];
+      answers: Map<string, string>; // item_number -> correct answer (from combined PDF)
+    };
+    const groups = new Map<string, Group>();
+    const groupOf = (model: any): Group => {
+      const key = model == null || model === "" ? "__single__" : String(model);
+      let g = groups.get(key);
+      if (!g) {
+        g = {
+          model: key === "__single__" ? null : key,
+          firstInstruction: null, firstPassage: null, questions: [], answers: new Map(),
+        };
+        groups.set(key, g);
+      }
+      return g;
+    };
     for (const b of blocks) {
-      if (b.type === "instruction" && firstInstruction === null) {
-        firstInstruction = String(b.text ?? "");
-      } else if (b.type === "passage" && firstPassage === null) {
-        firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
+      const g = groupOf(b?.model);
+      if (b.type === "instruction" && g.firstInstruction === null) {
+        g.firstInstruction = String(b.text ?? "");
+      } else if (b.type === "passage" && g.firstPassage === null) {
+        g.firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
       } else if (b.type === "question") {
-        questions.push({
-          number: String(b.number ?? questions.length + 1),
+        g.questions.push({
+          number: String(b.number ?? g.questions.length + 1),
           text: String(b.text ?? ""),
           options: Array.isArray(b.options)
             ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") }))
             : [],
         });
+      } else if (b.type === "answer_key_entry") {
+        g.answers.set(String(b.number ?? "").trim(), String(b.answer ?? "").trim());
       }
     }
 
-    // Build answer-key lookup if provided
-    const answerByTeilNumber = new Map<string, string>();
-    if (data.answerKeyImportId) {
+    // External answer-key PDF (optional, ignored when source is combined)
+    if (data.answerKeyImportId && sourceKind !== "combined") {
       const { data: keyExt } = await context.supabase
         .from("pdf_extractions").select("blocks").eq("import_id", data.answerKeyImportId).maybeSingle();
       const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
       for (const b of kblocks) {
         if (b.type === "answer_key_entry") {
-          // Key entries are matched by item number only — Teil is fixed by the admin.
-          answerByTeilNumber.set(String(b.number ?? "").trim(), String(b.answer ?? "").trim());
+          const g = groupOf(b?.model);
+          g.answers.set(String(b.number ?? "").trim(), String(b.answer ?? "").trim());
         }
       }
-      // Link the answer key PDF to the exam
       await context.supabase.from("pdf_imports")
         .update({ linked_import_id: data.examImportId })
         .eq("id", data.answerKeyImportId);
     }
 
     const moduleVal = module;
+    const teil = adminTeil;
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
 
-    const teil = adminTeil;
-    const passage = firstPassage;
-    const instruction = firstInstruction ?? "";
-    let position = 1;
-    for (const q of questions) {
-      const kind = q.options.length >= 2 ? "multiple_choice" : "open_text";
-      const optionTexts = q.options.map(o => o.text);
-      const { data: ex, error: exErr } = await context.supabase
-        .from("exercises")
-        .insert({
-          level: data.level,
-          module: moduleVal,
-          teil,
-          position: position++,
-          title: `${moduleVal.toUpperCase()} Teil ${teil} — Aufgabe ${q.number}`,
-          prompt: q.text,
-          passage: passage ? passage.text : (instruction || null),
-          kind,
-          options: optionTexts,
-          correct: [],
-          status: "draft",
-          created_by: context.userId,
-          source_pdf_import_id: data.examImportId,
-          original_numbering: q.number,
-          writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
-          muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
-          content_type: moduleVal === "muendlich" ? (data.contentType ?? null) : null,
-        })
-        .select("id")
-        .single();
-      if (exErr || !ex) continue;
-      createdExerciseIds.push(ex.id);
+    // Sort groups so Modell 1 < Modell 2 < Modell 3 < unnamed
+    const ordered = [...groups.values()].sort((a, b) => {
+      if (a.model === b.model) return 0;
+      if (a.model === null) return 1;
+      if (b.model === null) return -1;
+      return String(a.model).localeCompare(String(b.model), undefined, { numeric: true });
+    });
 
-      const ansLookup = answerByTeilNumber.get(q.number);
-      if (ansLookup) {
-        await context.supabase.from("exercise_answer_keys").insert({
-          exercise_id: ex.id,
-          item_number: q.number,
-          correct_answer: ansLookup,
-          source: "pdf",
-          key_version: 1,
-          pdf_import_id: data.answerKeyImportId ?? null,
-        });
-        keyCount++;
+    for (const g of ordered) {
+      const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
+      const passage = g.firstPassage;
+      const instruction = g.firstInstruction ?? "";
+      let position = 1;
+      for (const q of g.questions) {
+        const kind = q.options.length >= 2 ? "multiple_choice" : "open_text";
+        const optionTexts = q.options.map((o) => o.text);
+        const { data: ex, error: exErr } = await context.supabase
+          .from("exercises")
+          .insert({
+            level: data.level,
+            module: moduleVal,
+            teil,
+            position: position++,
+            title: `${moduleVal.toUpperCase()} Teil ${teil}${variantSuffix} — Aufgabe ${q.number}`,
+            prompt: q.text,
+            passage: passage ? passage.text : (instruction || null),
+            kind,
+            options: optionTexts,
+            correct: [],
+            status: "draft",
+            created_by: context.userId,
+            source_pdf_import_id: data.examImportId,
+            original_numbering: q.number,
+            model_variant: g.model,
+            writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
+            muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
+            content_type: moduleVal === "muendlich" ? (data.contentType ?? null) : null,
+          })
+          .select("id")
+          .single();
+        if (exErr || !ex) continue;
+        createdExerciseIds.push(ex.id);
+
+        const ansLookup = g.answers.get(q.number);
+        if (ansLookup) {
+          await context.supabase.from("exercise_answer_keys").insert({
+            exercise_id: ex.id,
+            item_number: q.number,
+            correct_answer: ansLookup,
+            source: "pdf",
+            key_version: 1,
+            pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
+          });
+          keyCount++;
+        }
       }
     }
 
@@ -381,7 +416,11 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       .update({ status: "built" })
       .eq("id", data.examImportId);
 
-    return { exerciseCount: createdExerciseIds.length, keyCount };
+    return {
+      exerciseCount: createdExerciseIds.length,
+      keyCount,
+      modelsBuilt: ordered.map((g) => g.model ?? "single"),
+    };
   });
 
 /**
@@ -548,8 +587,16 @@ export const gradeImportedAttempt = createServerFn({ method: "POST" })
       key_version: key.key_version,
     });
 
-    // Do NOT return the correct answer — students may see only pass/fail.
-    return { graded: true, isCorrect, keyVersion: key.key_version };
+    // The student has just submitted their own answer — returning the correct answer
+    // for THIS item enables the inline correction view ("Correct answer: …"). The
+    // answer-key table as a whole remains hidden (RLS); only the single item the
+    // student just attempted is revealed.
+    return {
+      graded: true,
+      isCorrect,
+      keyVersion: key.key_version,
+      correctAnswer: target,
+    };
   });
 
 /**
