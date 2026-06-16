@@ -10,6 +10,8 @@ import {
   buildExercisesFromExtraction,
   publishExercise,
   checkSuperAdmin,
+  runFidelityCheck,
+  getLatestFidelityReport,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,7 +20,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck } from "lucide-react";
+import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
@@ -45,6 +47,8 @@ function PdfImportPage() {
   const buildExercises = useServerFn(buildExercisesFromExtraction);
   const publish = useServerFn(publishExercise);
   const checkRole = useServerFn(checkSuperAdmin);
+  const fidelityRun = useServerFn(runFidelityCheck);
+  const fidelityGet = useServerFn(getLatestFidelityReport);
 
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -135,6 +139,7 @@ function PdfImportPage() {
           <TabsTrigger value="upload"><Upload className="size-3.5 mr-1" />Hochladen</TabsTrigger>
           <TabsTrigger value="extract"><FileSearch className="size-3.5 mr-1" />Extraktion</TabsTrigger>
           <TabsTrigger value="build"><Hammer className="size-3.5 mr-1" />Übungen bauen</TabsTrigger>
+          <TabsTrigger value="fidelity"><ScanSearch className="size-3.5 mr-1" />Treuekontrolle</TabsTrigger>
           <TabsTrigger value="publish"><ShieldCheck className="size-3.5 mr-1" />Veröffentlichen</TabsTrigger>
         </TabsList>
 
@@ -259,7 +264,16 @@ function PdfImportPage() {
         </TabsContent>
 
         <TabsContent value="publish">
-          <PublishDraftList publish={publish} isSuperAdmin={isSuperAdmin} />
+          <PublishDraftList publish={publish} isSuperAdmin={isSuperAdmin} fidelityGet={fidelityGet} />
+        </TabsContent>
+
+        <TabsContent value="fidelity">
+          <FidelityPanel
+            examImports={examImports}
+            run={fidelityRun}
+            get={fidelityGet}
+            isSuperAdmin={isSuperAdmin}
+          />
         </TabsContent>
       </Tabs>
     </div>
@@ -287,8 +301,14 @@ function UploadRow({ onUpload, busy }: { onUpload: (f: File, lvl: "b1" | "b2") =
 }
 
 function PublishDraftList({ publish, isSuperAdmin }: { publish: any; isSuperAdmin: boolean }) {
+  // Replaced below
+  return null as any;
+}
+
+function PublishDraftListImpl({ publish, isSuperAdmin, fidelityGet }: { publish: any; isSuperAdmin: boolean; fidelityGet: any }) {
   const [drafts, setDrafts] = useState<any[]>([]);
   const [busy, setBusy] = useState(false);
+  const [reports, setReports] = useState<Record<string, any>>({});
   const load = async () => {
     const { data } = await supabase
       .from("exercises")
@@ -298,6 +318,13 @@ function PublishDraftList({ publish, isSuperAdmin }: { publish: any; isSuperAdmi
       .order("created_at", { ascending: false })
       .limit(200);
     setDrafts(data ?? []);
+    // Fetch latest fidelity report per unique source_pdf_import_id
+    const ids = Array.from(new Set((data ?? []).map((d: any) => d.source_pdf_import_id).filter(Boolean)));
+    const next: Record<string, any> = {};
+    for (const id of ids) {
+      try { const r = await fidelityGet({ data: { examImportId: id } }); next[id] = r.report; } catch {}
+    }
+    setReports(next);
   };
   useEffect(() => { load().catch(() => {}); }, []);
 
@@ -320,22 +347,117 @@ function PublishDraftList({ publish, isSuperAdmin }: { publish: any; isSuperAdmi
       </CardHeader>
       <CardContent className="space-y-2">
         {drafts.length === 0 && <p className="text-sm text-muted-foreground">Keine PDF-Entwürfe.</p>}
-        {drafts.map(d => (
-          <div key={d.id} className="flex items-center justify-between gap-2 rounded-md border p-2">
-            <div className="min-w-0">
-              <p className="text-sm truncate">{d.title}</p>
-              <div className="flex gap-1 mt-0.5">
-                <Badge variant="outline">{d.level?.toUpperCase()}</Badge>
-                <Badge variant="outline">{d.module}</Badge>
-                <Badge variant="outline">Teil {d.teil}</Badge>
-                {d.original_numbering && <Badge variant="secondary">#{d.original_numbering}</Badge>}
+        {drafts.map(d => {
+          const rep = d.source_pdf_import_id ? reports[d.source_pdf_import_id] : null;
+          const passed = rep?.status === "pass";
+          return (
+            <div key={d.id} className="flex items-center justify-between gap-2 rounded-md border p-2">
+              <div className="min-w-0">
+                <p className="text-sm truncate">{d.title}</p>
+                <div className="flex flex-wrap gap-1 mt-0.5">
+                  <Badge variant="outline">{d.level?.toUpperCase()}</Badge>
+                  <Badge variant="outline">{d.module}</Badge>
+                  <Badge variant="outline">Teil {d.teil}</Badge>
+                  {d.original_numbering && <Badge variant="secondary">#{d.original_numbering}</Badge>}
+                  {rep ? (
+                    <Badge variant={passed ? "default" : "destructive"}>
+                      Treuekontrolle: {passed ? "bestanden" : "fehlgeschlagen"}
+                    </Badge>
+                  ) : (
+                    <Badge variant="destructive">Treuekontrolle fehlt</Badge>
+                  )}
+                </div>
               </div>
+              <Button size="sm" disabled={busy || !isSuperAdmin || !passed} onClick={() => onPublish(d.id)}>
+                <Check className="size-3.5 mr-1" />Veröffentlichen
+              </Button>
             </div>
-            <Button size="sm" disabled={busy || !isSuperAdmin} onClick={() => onPublish(d.id)}>
-              <Check className="size-3.5 mr-1" />Veröffentlichen
-            </Button>
+          );
+        })}
+      </CardContent>
+    </Card>
+  );
+}
+
+function FidelityPanel({
+  examImports, run, get, isSuperAdmin,
+}: { examImports: PdfImportRow[]; run: any; get: any; isSuperAdmin: boolean }) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [report, setReport] = useState<any>(null);
+
+  useEffect(() => {
+    if (!selected) { setReport(null); return; }
+    get({ data: { examImportId: selected } }).then((r: any) => setReport(r.report)).catch(() => setReport(null));
+  }, [selected, get]);
+
+  const onRun = async () => {
+    if (!selected) return;
+    setBusy(true);
+    try {
+      const r = await run({ data: { examImportId: selected } });
+      toast[r.status === "pass" ? "success" : "error"](
+        r.status === "pass" ? "Treuekontrolle bestanden — Veröffentlichen freigegeben." : "Treuekontrolle fehlgeschlagen — manuelle Prüfung erforderlich."
+      );
+      const latest = await get({ data: { examImportId: selected } });
+      setReport(latest.report);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Treuekontrolle fehlgeschlagen");
+    } finally { setBusy(false); }
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2"><ScanSearch className="size-4" />100 %-Treuekontrolle</CardTitle>
+        <CardDescription>
+          Vergleicht die Extraktion (Quelle der Wahrheit) Zeichen für Zeichen mit den erstellten Übungen.
+          Erkennt hinzugefügten, entfernten oder geänderten Inhalt sowie Nummerierungs- und Abschnittsunterschiede.
+          Veröffentlichung ist erst nach bestandener Kontrolle möglich.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+          <Select value={selected ?? ""} onValueChange={(v) => setSelected(v || null)}>
+            <SelectTrigger><SelectValue placeholder="Prüfungs-PDF wählen…" /></SelectTrigger>
+            <SelectContent>
+              {examImports.map(i => <SelectItem key={i.id} value={i.id}>{i.original_name ?? i.id}</SelectItem>)}
+            </SelectContent>
+          </Select>
+          <Button onClick={onRun} disabled={busy || !selected || !isSuperAdmin}>
+            <ScanSearch className="size-4 mr-1" />Kontrolle ausführen
+          </Button>
+        </div>
+
+        {report && (
+          <div className="rounded-md border p-3 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant={report.status === "pass" ? "default" : "destructive"}>
+                {report.status === "pass" ? "BESTANDEN" : "FEHLGESCHLAGEN"}
+              </Badge>
+              <Badge variant="outline">Hinzugefügt: {report.added_count}</Badge>
+              <Badge variant="outline">Entfernt: {report.removed_count}</Badge>
+              <Badge variant="outline">Geändert: {report.modified_count}</Badge>
+              <Badge variant="outline">Nummerierung: {report.numbering_diff_count}</Badge>
+              <Badge variant="outline">Abschnitte: {report.section_diff_count}</Badge>
+            </div>
+            {report.status !== "pass" && (
+              <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-sm">
+                <AlertTriangle className="size-4 mt-0.5 shrink-0" />
+                <p>Veröffentlichung gesperrt. Unterschiede manuell prüfen und Übungen erneut bauen, bis die Kontrolle besteht.</p>
+              </div>
+            )}
+            <details className="text-xs">
+              <summary className="cursor-pointer text-muted-foreground">Detailbericht anzeigen</summary>
+              <pre className="max-h-[480px] overflow-auto bg-muted/40 rounded p-2 whitespace-pre-wrap mt-2">
+                {JSON.stringify(report.details, null, 2)}
+              </pre>
+            </details>
           </div>
-        ))}
+        )}
+        {!report && selected && (
+          <p className="text-sm text-muted-foreground">Noch kein Bericht für diese PDF. Führen Sie die Kontrolle aus.</p>
+        )}
       </CardContent>
     </Card>
   );
