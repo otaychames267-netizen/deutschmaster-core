@@ -289,6 +289,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       }
     }
 
+    // Mark the import as currently building exercises.
+    await context.supabase
+      .from("pdf_imports")
+      .update({ status: "building", error_message: null })
+      .eq("id", data.examImportId);
+
+    try {
     const { data: ext } = await context.supabase
       .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
     if (!ext) throw new Error("Run extraction on the exam PDF first");
@@ -441,7 +448,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     }
 
     await context.supabase.from("pdf_imports")
-      .update({ status: "built" })
+      .update({ status: "built", error_message: null })
       .eq("id", data.examImportId);
 
     return {
@@ -449,6 +456,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       keyCount,
       modelsBuilt: ordered.map((g) => g.model ?? "single"),
     };
+    } catch (err: any) {
+      const msg = String(err?.message ?? err);
+      await context.supabase.from("pdf_imports")
+        .update({ status: "build_failed", error_message: msg })
+        .eq("id", data.examImportId);
+      throw err;
+    }
   });
 
 /**
