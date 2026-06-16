@@ -253,7 +253,7 @@ function PdfImportPage() {
               </div>
               <div className="space-y-1.5">
                 <Label>Modul</Label>
-                <Select value={buildModule} onValueChange={(v) => setBuildModule(v as any)}>
+                <Select value={buildModule} onValueChange={(v) => { setBuildModule(v as any); setBuildTeil(1); }}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="lesen">Lesen</SelectItem>
@@ -264,7 +264,80 @@ function PdfImportPage() {
                   </SelectContent>
                 </Select>
               </div>
+
+              {(buildModule === "lesen" || buildModule === "hoeren" || buildModule === "sprachbausteine") && (
+                <div className="space-y-1.5">
+                  <Label>Teil</Label>
+                  <Select value={String(buildTeil)} onValueChange={(v) => setBuildTeil(Number(v))}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">Teil 1</SelectItem>
+                      <SelectItem value="2">Teil 2</SelectItem>
+                      {buildModule !== "sprachbausteine" && <SelectItem value="3">Teil 3</SelectItem>}
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {buildModule === "schreiben" && (
+                <div className="space-y-1.5 sm:col-span-2">
+                  <Label>Schreiben — Kategorie (manuell)</Label>
+                  <Select value={writingCategory} onValueChange={setWritingCategory}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="beschwerde">Beschwerde</SelectItem>
+                      <SelectItem value="brief">Brief</SelectItem>
+                      <SelectItem value="email">E-Mail</SelectItem>
+                      <SelectItem value="bitte_um_informationen">Bitte um Informationen</SelectItem>
+                      <SelectItem value="anfrage">Anfrage</SelectItem>
+                      <SelectItem value="stellungnahme">Stellungnahme</SelectItem>
+                      <SelectItem value="sonstiges">Sonstiges</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
+
+              {buildModule === "muendlich" && (
+                <>
+                  <div className="space-y-1.5">
+                    <Label>Mündlich — Teil</Label>
+                    <Select value={String(muendlichPart)} onValueChange={(v) => setMuendlichPart(Number(v) as 1|2|3)}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="1">Teil 1 — Präsentation</SelectItem>
+                        <SelectItem value="2">Teil 2 — Diskussion</SelectItem>
+                        <SelectItem value="3">Teil 3 — Planen</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label>Inhaltstyp (manuell)</Label>
+                    <Select value={contentType} onValueChange={(v) => setContentType(v as any)}>
+                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="vorbereitung">Vorbereitung</SelectItem>
+                        <SelectItem value="pruefungssimulation">Prüfungssimulation</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  {contentType === "vorbereitung" && (
+                    <div className="sm:col-span-2 flex items-start gap-2 rounded-md border border-amber-300 bg-amber-50 dark:bg-amber-950/30 p-2 text-sm">
+                      <AlertTriangle className="size-4 mt-0.5 shrink-0" />
+                      <label className="flex items-start gap-2 cursor-pointer">
+                        <input type="checkbox" className="mt-1" checked={confirmMaterial} onChange={(e) => setConfirmMaterial(e.target.checked)} />
+                        <span>
+                          <b>Vorbereitungs-Material</b> (Redemittel, Wortschatz, Strategien, Tipps, Beispiele) wird normalerweise nicht in Übungen umgewandelt. Aktivieren Sie dies nur, wenn Sie es <i>ausdrücklich</i> wünschen.
+                        </span>
+                      </label>
+                    </div>
+                  )}
+                </>
+              )}
+
               <div className="sm:col-span-2">
+                <p className="text-xs text-muted-foreground mb-2">
+                  Das System darf nichts automatisch klassifizieren. Sie entscheiden Level, Modul, Teil und Kategorie. Inhalt aus der PDF bleibt unverändert (verbatim).
+                </p>
                 <Button onClick={build} disabled={busy || !isSuperAdmin || !selectedExamId}>
                   <Hammer className="size-4 mr-1" />Übungen erstellen (Entwurf)
                 </Button>
