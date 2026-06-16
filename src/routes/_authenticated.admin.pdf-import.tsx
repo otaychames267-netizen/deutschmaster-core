@@ -573,11 +573,12 @@ function PdfImportPage() {
 }
 
 function UploadSlot({
-  slot, onLevel, onUpload,
+  slot, onLevel, onUpload, onRetry,
 }: {
   slot: SlotState;
   onLevel: (lvl: "b1" | "b2") => void;
   onUpload: (f: File) => void;
+  onRetry: () => void;
 }) {
   const inFlight = slot.phase === "uploading" || slot.phase === "storing" || slot.phase === "saving";
   const phaseLabel: Record<SlotState["phase"], string> = {
@@ -631,6 +632,21 @@ function UploadSlot({
             <Badge variant={phaseVariant[slot.phase]}>{phaseLabel[slot.phase]}</Badge>
           </div>
 
+          {(slot.phase === "storing" || slot.phase === "uploading") && (
+            <div className="space-y-1">
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full bg-primary transition-[width] duration-150"
+                  style={{ width: `${slot.progress}%` }}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground tabular-nums">
+                {slot.progress}% hochgeladen
+                {slot.fileSize ? ` · ${((slot.fileSize * slot.progress / 100) / 1024 / 1024).toFixed(1)} / ${(slot.fileSize / 1024 / 1024).toFixed(1)} MB` : ""}
+              </p>
+            </div>
+          )}
+
           {slot.error && (
             <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-xs">
               <AlertTriangle className="size-3.5 mt-0.5 shrink-0" />
@@ -640,6 +656,11 @@ function UploadSlot({
                 <p className="opacity-70 mt-1">
                   Die Datei wurde <b>nicht</b> entfernt — bitte die Ursache prüfen und erneut hochladen.
                 </p>
+                {slot.lastFile && (
+                  <Button size="sm" variant="outline" className="mt-2" onClick={onRetry}>
+                    Erneut hochladen
+                  </Button>
+                )}
               </div>
             </div>
           )}
