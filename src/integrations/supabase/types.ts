@@ -578,6 +578,56 @@ export type Database = {
           },
         ]
       }
+      pdf_fidelity_reports: {
+        Row: {
+          added_count: number
+          created_at: string
+          created_by: string | null
+          details: Json
+          exam_import_id: string
+          id: string
+          modified_count: number
+          numbering_diff_count: number
+          removed_count: number
+          section_diff_count: number
+          status: string
+        }
+        Insert: {
+          added_count?: number
+          created_at?: string
+          created_by?: string | null
+          details?: Json
+          exam_import_id: string
+          id?: string
+          modified_count?: number
+          numbering_diff_count?: number
+          removed_count?: number
+          section_diff_count?: number
+          status: string
+        }
+        Update: {
+          added_count?: number
+          created_at?: string
+          created_by?: string | null
+          details?: Json
+          exam_import_id?: string
+          id?: string
+          modified_count?: number
+          numbering_diff_count?: number
+          removed_count?: number
+          section_diff_count?: number
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pdf_fidelity_reports_exam_import_id_fkey"
+            columns: ["exam_import_id"]
+            isOneToOne: false
+            referencedRelation: "pdf_imports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pdf_files: {
         Row: {
           created_at: string
