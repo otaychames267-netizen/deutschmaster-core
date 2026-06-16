@@ -790,7 +790,11 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
                 {imports.map(i => (
                   <tr key={i.id} className="border-t">
                     <td className="py-1 pr-2 whitespace-nowrap">{new Date(i.created_at).toLocaleString()}</td>
-                    <td className="py-1 pr-2"><Badge variant={i.kind === "exam" ? "default" : "secondary"}>{i.kind === "exam" ? "Prüfung" : "Schlüssel"}</Badge></td>
+                    <td className="py-1 pr-2">
+                      <Badge variant={i.kind === "answer_key" ? "secondary" : "default"}>
+                        {i.kind === "exam" ? "Prüfung" : i.kind === "combined" ? "Kombiniert" : "Schlüssel"}
+                      </Badge>
+                    </td>
                     <td className="py-1 pr-2">{i.level?.toUpperCase() ?? "—"}</td>
                     <td className="py-1 pr-2 max-w-[280px] truncate" title={i.original_name ?? ""}>{i.original_name ?? "—"}</td>
                     <td className="py-1 pr-2"><Badge variant="outline">{i.status}</Badge></td>
@@ -803,5 +807,53 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function ModelsDetectedPreview({
+  importId, fetchExtraction,
+}: { importId: string | null; fetchExtraction: any }) {
+  const [models, setModels] = useState<string[] | null>(null);
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [hasKey, setHasKey] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!importId) { setModels(null); setCounts({}); setHasKey(false); return; }
+    fetchExtraction({ data: { importId } }).then((r: any) => {
+      if (cancelled) return;
+      const blocks: any[] = Array.isArray(r?.extraction?.blocks) ? r.extraction.blocks : [];
+      const qCounts: Record<string, number> = {};
+      const seen = new Set<string>();
+      let keyEntries = 0;
+      for (const b of blocks) {
+        const m = b?.model == null || b.model === "" ? "single" : String(b.model);
+        seen.add(m);
+        if (b.type === "question") qCounts[m] = (qCounts[m] ?? 0) + 1;
+        if (b.type === "answer_key_entry") keyEntries++;
+      }
+      setModels([...seen].sort((a, b) => a.localeCompare(b, undefined, { numeric: true })));
+      setCounts(qCounts);
+      setHasKey(keyEntries > 0);
+    }).catch(() => { if (!cancelled) { setModels(null); setCounts({}); setHasKey(false); } });
+    return () => { cancelled = true; };
+  }, [importId, fetchExtraction]);
+
+  if (!importId || !models || models.length === 0) return null;
+  return (
+    <div className="rounded-md border p-2 text-xs space-y-1">
+      <p className="font-medium">Erkannte Inhalte</p>
+      <div className="flex flex-wrap gap-1">
+        {models.map(m => (
+          <Badge key={m} variant="outline">
+            {m === "single" ? "Ein Modell" : `Modell ${m}`} · {counts[m] ?? 0} Aufgabe(n)
+          </Badge>
+        ))}
+        {hasKey && <Badge variant="default">Lösungsschlüssel enthalten</Badge>}
+      </div>
+      <p className="text-muted-foreground">
+        Pro Modell wird ein eigener Übungssatz erstellt — Inhalte werden nicht zusammengeführt.
+      </p>
+    </div>
   );
 }
