@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -23,6 +23,7 @@ function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [mfaEnrolled, setMfaEnrolled] = useState(false);
   const [resending, setResending] = useState(false);
+  const loadedForUserRef = useRef<string | null>(null);
   const emailVerified = !!user?.email_confirmed_at;
 
   const loadMfa = async () => {
@@ -32,6 +33,8 @@ function ProfilePage() {
 
   useEffect(() => {
     if (!user) return;
+    if (loadedForUserRef.current === user.id) return;
+    loadedForUserRef.current = user.id;
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setP(data));
     loadMfa();
   }, [user?.id]);
