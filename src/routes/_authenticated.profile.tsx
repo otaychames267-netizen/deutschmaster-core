@@ -34,7 +34,7 @@ function ProfilePage() {
     if (!user) return;
     supabase.from("profiles").select("*").eq("id", user.id).maybeSingle().then(({ data }) => setP(data));
     loadMfa();
-  }, [user]);
+  }, [user?.id]);
 
   if (!p) return <p className="text-muted-foreground">Loading...</p>;
 

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { listPublishedExercises } from "@/lib/exercises/exercises.functions";
 import { submitAttempt } from "@/lib/exercises/attempts.functions";
@@ -22,6 +22,7 @@ export function ExerciseSession({
 }) {
   const list = useServerFn(listPublishedExercises);
   const submit = useServerFn(submitAttempt);
+  const listRef = useRef(list);
   const [loading, setLoading] = useState(true);
   const [exercises, setExercises] = useState<ExerciseDTO[]>([]);
   const [audioUrls, setAudioUrls] = useState<Record<string, string>>({});
@@ -29,9 +30,14 @@ export function ExerciseSession({
   const [done, setDone] = useState<Set<string>>(new Set());
 
   useEffect(() => {
+    listRef.current = list;
+  }, [list]);
+
+  useEffect(() => {
     let cancel = false;
     setLoading(true);
-    list({ data: { level, module, teil } })
+    console.debug("[Lingovia diagnostics] ExerciseSession list fetch", { level, module, teil });
+    listRef.current({ data: { level, module, teil } })
       .then((r) => {
         if (cancel) return;
         setExercises(r.exercises as ExerciseDTO[]);
@@ -40,7 +46,7 @@ export function ExerciseSession({
       .catch((e) => toast.error(e.message ?? "Konnte Übungen nicht laden"))
       .finally(() => !cancel && setLoading(false));
     return () => { cancel = true; };
-  }, [level, module, teil, list]);
+  }, [level, module, teil]);
 
   const current = exercises[index];
   const progress = useMemo(() => exercises.length ? Math.round((done.size / exercises.length) * 100) : 0, [done, exercises]);

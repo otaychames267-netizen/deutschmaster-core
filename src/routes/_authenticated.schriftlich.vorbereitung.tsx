@@ -17,7 +17,7 @@ function SchriftlichVorbereitung() {
     if (!user) return;
     supabase.from("profiles").select("level").eq("id", user.id).maybeSingle()
       .then(({ data }) => setLevel(data?.level === "TELC_B1" ? "b1" : "b2"));
-  }, [user]);
+  }, [user?.id]);
   useEffect(() => {
     try {
       localStorage.setItem(

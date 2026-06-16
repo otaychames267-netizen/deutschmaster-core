@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, useNavigate, useLocation, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { Footer } from "@/components/Footer";
 import { supabase } from "@/integrations/supabase/client";
@@ -20,21 +20,30 @@ function AuthLayout() {
   const nav = useNavigate();
   const loc = useLocation();
   const [checking, setChecking] = useState(true);
+  const lastOnboardingCheckRef = useRef<string | null>(null);
   useEffect(() => {
-    if (!loading && !user) nav({ to: "/login" });
-  }, [user, loading, nav]);
+    if (!loading && !user) {
+      console.debug("[Lingovia diagnostics] AuthLayout redirect to login", { pathname: loc.pathname });
+      nav({ to: "/login" });
+    }
+  }, [user?.id, loading, loc.pathname, nav]);
   useEffect(() => {
     if (!user) return;
+    const checkKey = `${user.id}:${loc.pathname}`;
+    if (lastOnboardingCheckRef.current === checkKey) return;
+    lastOnboardingCheckRef.current = checkKey;
     (async () => {
+      console.debug("[Lingovia diagnostics] AuthLayout onboarding check", { userId: user.id, pathname: loc.pathname });
       const { data } = await supabase.from("profiles").select("onboarding_completed, level").eq("id", user.id).maybeSingle();
       const needsOnboarding = !data || !data.onboarding_completed || !data.level;
       if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
+        console.debug("[Lingovia diagnostics] AuthLayout redirect to onboarding", { pathname: loc.pathname });
         nav({ to: "/onboarding", replace: true });
         return;
       }
       setChecking(false);
     })();
-  }, [user, loc.pathname, nav]);
+  }, [user?.id, loc.pathname, nav]);
   if (loading || !user) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
   if (checking && !loc.pathname.startsWith("/onboarding")) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
   if (loc.pathname.startsWith("/onboarding")) {

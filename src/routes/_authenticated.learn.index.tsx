@@ -21,7 +21,7 @@ function LearnIndex() {
     if (!user) return;
     supabase.from("profiles").select("level").eq("id", user.id).maybeSingle()
       .then(({ data }) => setProfileLevel(data?.level ?? null));
-  }, [user]);
+  }, [user?.id]);
 
   const pickLevel = async (lv: "TELC_B1" | "TELC_B2") => {
     if (!user) return;

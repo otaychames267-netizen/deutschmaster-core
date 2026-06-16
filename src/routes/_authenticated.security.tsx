@@ -27,7 +27,7 @@ function SecurityPage() {
     ]);
     setLogins(lh.data ?? []); setDevices(dv.data ?? []);
   };
-  useEffect(() => { reload(); }, [user]);
+  useEffect(() => { reload(); }, [user?.id]);
 
   const trust = async (id: string, trusted: boolean) => {
     const { error } = await supabase.from("devices").update({ trusted }).eq("id", id);

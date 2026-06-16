@@ -11,7 +11,7 @@ function AdminLayout() {
   const nav = useNavigate();
   useEffect(() => {
     if (!loading && user && !isAdmin) nav({ to: "/dashboard" });
-  }, [isAdmin, loading, user, nav]);
+  }, [isAdmin, loading, user?.id, nav]);
   if (loading || !isAdmin) return <p className="text-muted-foreground">Checking admin access...</p>;
   return (
     <div className="space-y-4">

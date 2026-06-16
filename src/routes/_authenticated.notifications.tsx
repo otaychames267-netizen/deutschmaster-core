@@ -21,7 +21,7 @@ function NotificationsPage() {
     const { data } = await supabase.from("notifications").select("*").eq("user_id", user.id).order("created_at", { ascending: false });
     setItems(data ?? []);
   };
-  useEffect(() => { reload(); }, [user]);
+  useEffect(() => { reload(); }, [user?.id]);
 
   const markRead = async (id: string) => {
     await supabase.from("notifications").update({ read: true }).eq("id", id);

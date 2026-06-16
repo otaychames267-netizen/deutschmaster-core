@@ -31,7 +31,7 @@ function BillingPage() {
     ]);
     setPlans(pl.data ?? []); setSub(sb.data); setPayments(pay.data ?? []); setInvoices(inv.data ?? []);
   };
-  useEffect(() => { reload(); }, [user]);
+  useEffect(() => { reload(); }, [user?.id]);
 
   const subscribe = async (planCode: string) => {
     // Stripe Checkout will be wired here once Stripe credentials are added.

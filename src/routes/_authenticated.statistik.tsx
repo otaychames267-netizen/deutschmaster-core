@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -19,8 +19,15 @@ type Progress = Awaited<ReturnType<typeof getMyProgress>>;
 
 function StatistikPage() {
   const fetchProgress = useServerFn(getMyProgress);
+  const fetchProgressRef = useRef(fetchProgress);
   const [p, setP] = useState<Progress | null>(null);
-  useEffect(() => { fetchProgress().then((r) => setP(r as Progress)).catch(() => {}); }, [fetchProgress]);
+  useEffect(() => {
+    fetchProgressRef.current = fetchProgress;
+  }, [fetchProgress]);
+  useEffect(() => {
+    console.debug("[Lingovia diagnostics] Statistik progress fetch");
+    fetchProgressRef.current().then((r) => setP(r as Progress)).catch(() => {});
+  }, []);
 
   const stats = [
     { icon: Clock, label: "Heute gelernt", value: `${p?.minutesToday ?? 0} min`, sub: "Ziel: 30 min" },
