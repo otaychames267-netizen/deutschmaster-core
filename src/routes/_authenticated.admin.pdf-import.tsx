@@ -311,7 +311,7 @@ function PdfImportPage() {
         </TabsList>
 
         <TabsContent value="upload" className="space-y-3">
-          <ImportsList imports={imports} onRefresh={() => refresh()} />
+          <ImportsList imports={imports} onRefresh={() => refresh()} onDelete={onDelete} canDelete={isSuperAdmin} />
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Prüfungs-PDF hochladen (nur Aufgaben)</CardTitle>
@@ -349,7 +349,7 @@ function PdfImportPage() {
         </TabsContent>
 
         <TabsContent value="extract" className="space-y-3">
-          <ImportsList imports={imports} onRefresh={() => refresh()} />
+          <ImportsList imports={imports} onRefresh={() => refresh()} onDelete={onDelete} canDelete={isSuperAdmin} />
           <Card>
             <CardHeader>
               <CardTitle>Importierte PDFs</CardTitle>
@@ -368,10 +368,16 @@ function PdfImportPage() {
                       <Badge variant="outline">{i.status}</Badge>
                     </div>
                     <p className="text-sm truncate mt-0.5">{i.original_name ?? i.id}</p>
+                    {i.error_message && (
+                      <p className="text-xs text-destructive mt-0.5 break-words">⚠ {i.error_message}</p>
+                    )}
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <Button size="sm" variant="ghost" onClick={() => preview(i.id)}>Vorschau</Button>
                     <Button size="sm" onClick={() => runExtract(i.id)} disabled={busy || !isSuperAdmin}>Extrahieren</Button>
+                    <Button size="sm" variant="ghost" className="text-destructive" onClick={() => onDelete(i)} disabled={busy || !isSuperAdmin} title="Endgültig löschen">
+                      <Trash2 className="size-3.5" />
+                    </Button>
                   </div>
                 </div>
               ))}
