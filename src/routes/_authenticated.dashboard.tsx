@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { ensureUserTrial } from "@/lib/trial.functions";
@@ -28,10 +28,12 @@ function Dashboard() {
   const [lastActivity, setLastActivity] = useState<{ label: string; to: string } | null>(null);
   const fetchProgress = useServerFn(getMyProgress);
   const [progress, setProgress] = useState<{ streak: number; minutesToday: number; accuracy: number; totalAttempts: number } | null>(null);
+  const loadProgress = useCallback(() => fetchProgress(), [fetchProgress]);
+  const ensureTrialForUser = useCallback(() => ensureTrial(), [ensureTrial]);
   useEffect(() => {
     if (!user) return;
-    fetchProgress().then((p) => setProgress({ streak: p.streak, minutesToday: p.minutesToday, accuracy: p.accuracy, totalAttempts: p.totalAttempts })).catch(() => {});
-  }, [user, fetchProgress]);
+    loadProgress().then((p) => setProgress({ streak: p.streak, minutesToday: p.minutesToday, accuracy: p.accuracy, totalAttempts: p.totalAttempts })).catch(() => {});
+  }, [user?.id, loadProgress]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -62,7 +64,7 @@ function Dashboard() {
       let subscription = subscriptionResult.data;
       if (!subscription) {
         try {
-          const ensured = await ensureTrial();
+          const ensured = await ensureTrialForUser();
           subscription = ensured.subscription;
         } catch (error) {
           console.error("Trial activation fallback failed", error);
@@ -76,7 +78,7 @@ function Dashboard() {
       setSubscriptionLoading(false);
     })();
     return () => { cancelled = true; };
-  }, [user, ensureTrial]);
+  }, [user?.id, ensureTrialForUser]);
 
   const DAY_MS = 24 * 60 * 60 * 1000;
   const remaining = sub?.expires_at ? Math.max(0, Math.ceil((new Date(sub.expires_at).getTime() - Date.now()) / DAY_MS)) : null;
