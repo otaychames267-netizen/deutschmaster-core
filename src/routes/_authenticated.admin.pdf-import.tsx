@@ -53,11 +53,14 @@ type SlotState = {
   error: string | null;
   log: UploadStep[];
   importId: string | null;
+  progress: number; // 0..100 during storage PUT
+  lastFile: File | null; // for "Retry upload" without re-selecting
 };
 
 const initialSlot = (): SlotState => ({
   fileName: null, fileSize: null, level: "b2",
   phase: "idle", error: null, log: [], importId: null,
+  progress: 0, lastFile: null,
 });
 
 function PdfImportPage() {
@@ -170,10 +173,10 @@ function PdfImportPage() {
       }));
       return;
     }
-    if (file.size > 50 * 1024 * 1024) {
+    if (file.size > 200 * 1024 * 1024) {
       setSlot((s) => ({
         ...s, phase: "error",
-        error: `Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB, max. 50 MB).`,
+        error: `Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB, max. 200 MB).`,
         fileName: file.name, fileSize: file.size,
       }));
       return;
@@ -182,6 +185,7 @@ function PdfImportPage() {
     setSlot({
       fileName: file.name, fileSize: file.size, level,
       phase: "uploading", error: null, importId: null,
+      progress: 0, lastFile: file,
       log: [{ ts: Date.now(), label: "Upload gestartet", status: "info",
               detail: `${file.name} · ${(file.size / 1024).toFixed(1)} KB · Slot: ${kind}` }],
     });
@@ -191,24 +195,24 @@ function PdfImportPage() {
     setSlot((s) => ({ ...s, phase: "storing" }));
     pushLog({ label: "Speichere in Storage", status: "info", detail: `Pfad: ${path}` });
     try {
-      // Storage upload with a 90s safety timeout — if the network hangs we
-      // want to surface a clear error instead of leaving the UI on
-      // "Speichere in Storage…" forever.
-      const uploadPromise = supabase.storage.from("pdf-imports").upload(path, file, {
-        contentType: "application/pdf", upsert: false,
+      // Direct XHR PUT to Storage REST API. This gives us real progress
+      // events (the Supabase JS SDK currently doesn't surface them) and a
+      // generous 10-minute timeout so larger TELC PDFs on slow networks
+      // do not silently fail.
+      const t0 = performance.now();
+      await uploadWithProgress({
+        file, path,
+        onProgress: (pct) => {
+          setSlot((s) => ({ ...s, progress: pct }));
+          // Coarse log: 10/25/50/75/90/100
+          if ([10, 25, 50, 75, 90, 100].includes(pct)) {
+            pushLog({ label: `Upload ${pct}%`, status: "info",
+                      detail: `${((file.size * pct / 100) / 1024 / 1024).toFixed(1)} MB von ${(file.size / 1024 / 1024).toFixed(1)} MB` });
+          }
+        },
       });
-      const timeoutPromise = new Promise<{ error: { message: string } }>((resolve) =>
-        setTimeout(() => resolve({ error: { message: "Zeitüberschreitung beim Storage-Upload (90 s). Netzwerk prüfen und erneut versuchen." } }), 90_000),
-      );
-      const { error: stErr } = (await Promise.race([uploadPromise, timeoutPromise])) as { error: { message: string } | null };
-      if (stErr) {
-        console.error("[pdf-import] storage error", stErr);
-        pushLog({ label: "Storage-Fehler", status: "error", detail: stErr.message });
-        setSlot((s) => ({ ...s, phase: "error", error: `Storage: ${stErr.message}` }));
-        toast.error(`Storage-Upload fehlgeschlagen: ${stErr.message}`);
-        return;
-      }
-      pushLog({ label: "Storage gespeichert", status: "ok", detail: path });
+      pushLog({ label: "Storage gespeichert", status: "ok",
+                detail: `${path} · ${((performance.now() - t0) / 1000).toFixed(1)} s` });
       console.info("[pdf-import] storage ok", { path });
 
       setSlot((s) => ({ ...s, phase: "saving" }));
@@ -238,6 +242,15 @@ function PdfImportPage() {
       setSlot((s) => ({ ...s, phase: "error", error: msg }));
       toast.error(`Upload fehlgeschlagen: ${msg}`);
     }
+  };
+
+  const retryUpload = (kind: "exam" | "answer_key" | "combined") => {
+    const slot = kind === "exam" ? examSlot : kind === "answer_key" ? keySlot : combinedSlot;
+    if (!slot.lastFile) {
+      toast.error("Keine Datei zum erneuten Hochladen vorhanden.");
+      return;
+    }
+    upload(slot.lastFile, kind, slot.level);
   };
 
   const runExtract = async (id: string) => {
