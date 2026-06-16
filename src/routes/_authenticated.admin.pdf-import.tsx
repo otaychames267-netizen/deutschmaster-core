@@ -444,22 +444,103 @@ function PdfImportPage() {
   );
 }
 
-function UploadRow({ onUpload, busy }: { onUpload: (f: File, lvl: "b1" | "b2") => void; busy: boolean }) {
-  const [level, setLevel] = useState<"b1" | "b2">("b2");
+function UploadSlot({
+  slot, onLevel, onUpload,
+}: {
+  slot: SlotState;
+  onLevel: (lvl: "b1" | "b2") => void;
+  onUpload: (f: File) => void;
+}) {
+  const inFlight = slot.phase === "uploading" || slot.phase === "storing" || slot.phase === "saving";
+  const phaseLabel: Record<SlotState["phase"], string> = {
+    idle: "Bereit", uploading: "Wird hochgeladen…", storing: "Speichere in Storage…",
+    saving: "Speichere in Datenbank…", done: "Erfolgreich hochgeladen", error: "Fehler",
+  };
+  const phaseVariant: Record<SlotState["phase"], "default" | "secondary" | "destructive" | "outline"> = {
+    idle: "outline", uploading: "secondary", storing: "secondary", saving: "secondary",
+    done: "default", error: "destructive",
+  };
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
-      <div className="space-y-1.5">
-        <Label>Level</Label>
-        <Select value={level} onValueChange={(v) => setLevel(v as "b1"|"b2")}>
-          <SelectTrigger><SelectValue /></SelectTrigger>
-          <SelectContent><SelectItem value="b1">B1</SelectItem><SelectItem value="b2">B2</SelectItem></SelectContent>
-        </Select>
+    <div className="space-y-3">
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="space-y-1.5">
+          <Label>Level</Label>
+          <Select value={slot.level} onValueChange={(v) => onLevel(v as "b1" | "b2")}>
+            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="b1">B1</SelectItem>
+              <SelectItem value="b2">B2</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="space-y-1.5">
+          <Label>PDF</Label>
+          <Input
+            type="file"
+            accept="application/pdf,.pdf"
+            disabled={inFlight}
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) onUpload(f);
+              // Reset the input value so re-selecting the same file re-triggers onChange after an error.
+              e.target.value = "";
+            }}
+          />
+        </div>
       </div>
-      <div className="space-y-1.5">
-        <Label>PDF</Label>
-        <Input type="file" accept="application/pdf" disabled={busy}
-          onChange={(e) => { const f = e.target.files?.[0]; if (f) onUpload(f, level); }} />
-      </div>
+
+      {(slot.fileName || slot.phase !== "idle") && (
+        <div className="rounded-md border p-2 text-sm space-y-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="min-w-0">
+              <p className="truncate font-medium">{slot.fileName ?? "—"}</p>
+              {slot.fileSize != null && (
+                <p className="text-xs text-muted-foreground">
+                  {(slot.fileSize / 1024).toFixed(1)} KB · Level {slot.level.toUpperCase()}
+                </p>
+              )}
+            </div>
+            <Badge variant={phaseVariant[slot.phase]}>{phaseLabel[slot.phase]}</Badge>
+          </div>
+
+          {slot.error && (
+            <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-xs">
+              <AlertTriangle className="size-3.5 mt-0.5 shrink-0" />
+              <div>
+                <p className="font-medium">Upload fehlgeschlagen</p>
+                <p className="opacity-90 break-words">{slot.error}</p>
+                <p className="opacity-70 mt-1">
+                  Die Datei wurde <b>nicht</b> entfernt — bitte die Ursache prüfen und erneut hochladen.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {slot.log.length > 0 && (
+            <details>
+              <summary className="cursor-pointer text-xs text-muted-foreground">
+                Upload-Protokoll ({slot.log.length} Schritte)
+              </summary>
+              <ul className="mt-1 space-y-0.5 text-xs">
+                {slot.log.map((step, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-muted-foreground tabular-nums w-16 shrink-0">
+                      {new Date(step.ts).toLocaleTimeString()}
+                    </span>
+                    <span className={
+                      step.status === "error" ? "text-destructive"
+                      : step.status === "ok" ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-foreground"
+                    }>
+                      {step.label}{step.detail ? ` — ${step.detail}` : ""}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </details>
+          )}
+        </div>
+      )}
     </div>
   );
 }
