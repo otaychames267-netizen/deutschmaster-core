@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const TRIAL_DAYS = 3;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -9,6 +8,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 export const ensureUserTrial = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const userId = context.userId;
 
     const { data: existingSubscription, error: existingError } = await supabaseAdmin

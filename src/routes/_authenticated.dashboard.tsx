@@ -30,6 +30,8 @@ function Dashboard() {
   const [progress, setProgress] = useState<{ streak: number; minutesToday: number; accuracy: number; totalAttempts: number } | null>(null);
   const fetchProgressRef = useRef(fetchProgress);
   const ensureTrialRef = useRef(ensureTrial);
+  const progressLoadedForUserRef = useRef<string | null>(null);
+  const dashboardLoadedForUserRef = useRef<string | null>(null);
 
   useEffect(() => {
     fetchProgressRef.current = fetchProgress;
@@ -38,6 +40,8 @@ function Dashboard() {
 
   useEffect(() => {
     if (!user) return;
+    if (progressLoadedForUserRef.current === user.id) return;
+    progressLoadedForUserRef.current = user.id;
     console.debug("[Lingovia diagnostics] Dashboard progress fetch", { userId: user.id });
     fetchProgressRef.current().then((p) => setProgress({ streak: p.streak, minutesToday: p.minutesToday, accuracy: p.accuracy, totalAttempts: p.totalAttempts })).catch(() => {});
   }, [user?.id]);
@@ -59,9 +63,12 @@ function Dashboard() {
 
   useEffect(() => {
     if (!user) return;
+    if (dashboardLoadedForUserRef.current === user.id) return;
+    dashboardLoadedForUserRef.current = user.id;
     let cancelled = false;
     setSubscriptionLoading(true);
     (async () => {
+      console.debug("[Lingovia diagnostics] Dashboard profile/subscription fetch", { userId: user.id });
       const [profileResult, subscriptionResult, notificationResult] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
         supabase.from("subscriptions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),

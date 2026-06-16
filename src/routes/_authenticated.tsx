@@ -20,21 +20,29 @@ function AuthLayout() {
   const nav = useNavigate();
   const loc = useLocation();
   const [checking, setChecking] = useState(true);
-  const lastOnboardingCheckRef = useRef<string | null>(null);
+  const checkedOnboardingUserRef = useRef<string | null>(null);
+  const redirectedToLoginRef = useRef(false);
   useEffect(() => {
     if (!loading && !user) {
+      if (redirectedToLoginRef.current) return;
+      redirectedToLoginRef.current = true;
       console.debug("[Lingovia diagnostics] AuthLayout redirect to login", { pathname: loc.pathname });
-      nav({ to: "/login" });
+      nav({ to: "/login", replace: true });
     }
   }, [user?.id, loading, loc.pathname, nav]);
   useEffect(() => {
     if (!user) return;
-    const checkKey = `${user.id}:${loc.pathname}`;
-    if (lastOnboardingCheckRef.current === checkKey) return;
-    lastOnboardingCheckRef.current = checkKey;
+    redirectedToLoginRef.current = false;
+    if (checkedOnboardingUserRef.current === user.id) {
+      setChecking(false);
+      return;
+    }
+    checkedOnboardingUserRef.current = user.id;
+    let cancelled = false;
     (async () => {
       console.debug("[Lingovia diagnostics] AuthLayout onboarding check", { userId: user.id, pathname: loc.pathname });
       const { data } = await supabase.from("profiles").select("onboarding_completed, level").eq("id", user.id).maybeSingle();
+      if (cancelled) return;
       const needsOnboarding = !data || !data.onboarding_completed || !data.level;
       if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
         console.debug("[Lingovia diagnostics] AuthLayout redirect to onboarding", { pathname: loc.pathname });
@@ -43,6 +51,7 @@ function AuthLayout() {
       }
       setChecking(false);
     })();
+    return () => { cancelled = true; };
   }, [user?.id, loc.pathname, nav]);
   if (loading || !user) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
   if (checking && !loc.pathname.startsWith("/onboarding")) return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
