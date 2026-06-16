@@ -84,7 +84,8 @@ Rules — never violate:
  - If ANY content cannot be extracted with 100% confidence, mark it with [?] AND add it to "low_confidence_items" AND set "needs_manual_review": true. Do NOT guess.
  - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
  - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
- - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions.
+- If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
+- If the SAME reading text / passage is reused across several models (e.g. one text serves Modell 1, Modell 2 and Modell 3), emit ONE passage block per model — duplicate the passage verbatim and tag each copy with its respective "model". Do NOT merge models. Questions and answer_key_entry blocks for each model must remain isolated.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
@@ -361,6 +362,17 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       if (b.model === null) return -1;
       return String(a.model).localeCompare(String(b.model), undefined, { numeric: true });
     });
+
+    // Shared-passage fallback: if a model group has no passage/instruction of
+    // its own (because the PDF prints the reading text once and reuses it for
+    // every Modell), borrow ONLY the text from another group. Questions and
+    // answers are NEVER shared across models — each model keeps its own.
+    const sharedPassage = ordered.find((g) => g.firstPassage)?.firstPassage ?? null;
+    const sharedInstruction = ordered.find((g) => g.firstInstruction)?.firstInstruction ?? null;
+    for (const g of ordered) {
+      if (!g.firstPassage && sharedPassage) g.firstPassage = sharedPassage;
+      if (!g.firstInstruction && sharedInstruction) g.firstInstruction = sharedInstruction;
+    }
 
     for (const g of ordered) {
       const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
