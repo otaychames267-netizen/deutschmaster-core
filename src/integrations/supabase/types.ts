@@ -292,6 +292,7 @@ export type Database = {
           id: string
           kind: Database["public"]["Enums"]["exercise_kind"]
           level: Database["public"]["Enums"]["exercise_level"]
+          model_variant: string | null
           module: Database["public"]["Enums"]["exercise_module"]
           muendlich_part: number | null
           options: Json
@@ -317,6 +318,7 @@ export type Database = {
           id?: string
           kind?: Database["public"]["Enums"]["exercise_kind"]
           level: Database["public"]["Enums"]["exercise_level"]
+          model_variant?: string | null
           module: Database["public"]["Enums"]["exercise_module"]
           muendlich_part?: number | null
           options?: Json
@@ -342,6 +344,7 @@ export type Database = {
           id?: string
           kind?: Database["public"]["Enums"]["exercise_kind"]
           level?: Database["public"]["Enums"]["exercise_level"]
+          model_variant?: string | null
           module?: Database["public"]["Enums"]["exercise_module"]
           muendlich_part?: number | null
           options?: Json

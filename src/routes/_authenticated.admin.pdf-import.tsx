@@ -31,7 +31,7 @@ export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
 type PdfImportRow = {
   id: string;
   original_name: string | null;
-  kind: "exam" | "answer_key";
+  kind: "exam" | "answer_key" | "combined";
   level: string | null;
   status: string;
   linked_import_id: string | null;
@@ -73,6 +73,7 @@ function PdfImportPage() {
   const [imports, setImports] = useState<PdfImportRow[]>([]);
   const [examSlot, setExamSlot] = useState<SlotState>(initialSlot());
   const [keySlot, setKeySlot] = useState<SlotState>(initialSlot());
+  const [combinedSlot, setCombinedSlot] = useState<SlotState>(initialSlot());
   const [selectedExamId, setSelectedExamId] = useState<string | null>(null);
   const [selectedKeyId, setSelectedKeyId] = useState<string | null>(null);
   const [extractionPreview, setExtractionPreview] = useState<any>(null);
@@ -103,8 +104,8 @@ function PdfImportPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const upload = async (file: File, kind: "exam" | "answer_key", level: "b1" | "b2") => {
-    const setSlot = kind === "exam" ? setExamSlot : setKeySlot;
+  const upload = async (file: File, kind: "exam" | "answer_key" | "combined", level: "b1" | "b2") => {
+    const setSlot = kind === "exam" ? setExamSlot : kind === "answer_key" ? setKeySlot : setCombinedSlot;
     const pushLog = (entry: Omit<UploadStep, "ts">) =>
       setSlot((s) => ({ ...s, log: [...s.log, { ts: Date.now(), ...entry }] }));
 
@@ -162,7 +163,7 @@ function PdfImportPage() {
       console.info("[pdf-import] db ok", res);
 
       setSlot((s) => ({ ...s, phase: "done", importId: res.id }));
-      toast.success(`${kind === "exam" ? "Prüfungs-PDF" : "Lösungsschlüssel"} hochgeladen`);
+      toast.success(`${kind === "exam" ? "Prüfungs-PDF" : kind === "answer_key" ? "Lösungsschlüssel" : "Kombiniertes PDF"} hochgeladen`);
       pushLog({ label: "Aktualisiere Importliste", status: "info" });
       const rows = await refresh();
       const found = rows.find((r) => r.id === res.id);
@@ -231,8 +232,11 @@ function PdfImportPage() {
     } finally { setBusy(false); }
   };
 
-  const examImports = imports.filter(i => i.kind === "exam");
+  // Both pure exam PDFs and combined PDFs can be the "source" for building exercises
+  const examImports = imports.filter(i => i.kind === "exam" || i.kind === "combined");
   const keyImports = imports.filter(i => i.kind === "answer_key");
+  const selectedSource = imports.find(i => i.id === selectedExamId);
+  const sourceIsCombined = selectedSource?.kind === "combined";
 
   return (
     <div className="space-y-4">
@@ -255,8 +259,8 @@ function PdfImportPage() {
           <ImportsList imports={imports} onRefresh={() => refresh()} />
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Prüfungs-PDF hochladen</CardTitle>
-              <CardDescription>Original-TELC-PDF. Inhalt bleibt unverändert (verbatim). Auch gescannte PDFs werden per OCR (Gemini Vision) verarbeitet.</CardDescription>
+              <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Prüfungs-PDF hochladen (nur Aufgaben)</CardTitle>
+              <CardDescription>Original-TELC-PDF ohne Lösungsteil. Inhalt bleibt unverändert (verbatim). Auch gescannte PDFs werden per OCR (Gemini Vision) verarbeitet.</CardDescription>
             </CardHeader>
             <CardContent>
               <UploadSlot slot={examSlot} onLevel={(lvl) => setExamSlot((s) => ({ ...s, level: lvl }))}
@@ -265,12 +269,26 @@ function PdfImportPage() {
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2"><Key className="size-4" />Lösungsschlüssel hochladen</CardTitle>
+              <CardTitle className="flex items-center gap-2"><Key className="size-4" />Lösungsschlüssel hochladen (separat)</CardTitle>
               <CardDescription>Antwortenheft / Lösungs-PDF. Wird im Hintergrund gespeichert und nur für Korrektur verwendet — Lernende sehen den Schlüssel <b>nie</b>.</CardDescription>
             </CardHeader>
             <CardContent>
               <UploadSlot slot={keySlot} onLevel={(lvl) => setKeySlot((s) => ({ ...s, level: lvl }))}
                 onUpload={(f) => upload(f, "answer_key", keySlot.level)} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Kombiniertes PDF hochladen (Aufgaben + Lösungen)</CardTitle>
+              <CardDescription>
+                Eine einzige PDF mit Übungen, Texten, Antwortbögen, Modell&#x2011;Lösungen und ggf. mehreren Modellen (Modell 1 / 2 / 3).
+                Beim Extrahieren werden Aufgaben <b>und</b> Lösungsschlüssel verbatim erkannt; Modelle werden getrennt erstellt.
+                Lernende sehen den Lösungsteil <b>nie</b>.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <UploadSlot slot={combinedSlot} onLevel={(lvl) => setCombinedSlot((s) => ({ ...s, level: lvl }))}
+                onUpload={(f) => upload(f, "combined", combinedSlot.level)} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -288,7 +306,9 @@ function PdfImportPage() {
                 <div key={i.id} className="flex items-center justify-between gap-2 rounded-md border p-2">
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-center gap-1.5">
-                      <Badge variant={i.kind === "exam" ? "default" : "secondary"}>{i.kind === "exam" ? "Prüfung" : "Schlüssel"}</Badge>
+                      <Badge variant={i.kind === "exam" ? "default" : i.kind === "combined" ? "default" : "secondary"}>
+                        {i.kind === "exam" ? "Prüfung" : i.kind === "combined" ? "Kombiniert" : "Schlüssel"}
+                      </Badge>
                       {i.level && <Badge variant="outline">{i.level.toUpperCase()}</Badge>}
                       <Badge variant="outline">{i.status}</Badge>
                     </div>
@@ -329,17 +349,27 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label>Prüfungs-PDF</Label>
+                <Label>Quelle (Prüfungs-PDF oder kombiniert)</Label>
                 <Select value={selectedExamId ?? ""} onValueChange={(v) => setSelectedExamId(v || null)}>
                   <SelectTrigger><SelectValue placeholder="Wählen…" /></SelectTrigger>
                   <SelectContent>
-                    {examImports.map(i => <SelectItem key={i.id} value={i.id}>{i.original_name ?? i.id}</SelectItem>)}
+                    {examImports.map(i => (
+                      <SelectItem key={i.id} value={i.id}>
+                        {i.kind === "combined" ? "[Kombiniert] " : ""}{i.original_name ?? i.id}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
+                {sourceIsCombined && (
+                  <p className="text-xs text-muted-foreground">
+                    Kombinierte PDF: Lösungsschlüssel wird automatisch aus derselben Datei gelesen — kein separater Schlüssel nötig.
+                  </p>
+                )}
+                <ModelsDetectedPreview importId={selectedExamId} fetchExtraction={fetchExtraction} />
               </div>
               <div className="space-y-1.5">
-                <Label>Lösungsschlüssel (optional)</Label>
-                <Select value={selectedKeyId ?? ""} onValueChange={(v) => setSelectedKeyId(v || null)}>
+                <Label>Lösungsschlüssel (optional, nicht für kombinierte PDF)</Label>
+                <Select value={selectedKeyId ?? ""} onValueChange={(v) => setSelectedKeyId(v || null)} disabled={sourceIsCombined}>
                   <SelectTrigger><SelectValue placeholder="— keiner —" /></SelectTrigger>
                   <SelectContent>
                     {keyImports.map(i => <SelectItem key={i.id} value={i.id}>{i.original_name ?? i.id}</SelectItem>)}
@@ -760,7 +790,11 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
                 {imports.map(i => (
                   <tr key={i.id} className="border-t">
                     <td className="py-1 pr-2 whitespace-nowrap">{new Date(i.created_at).toLocaleString()}</td>
-                    <td className="py-1 pr-2"><Badge variant={i.kind === "exam" ? "default" : "secondary"}>{i.kind === "exam" ? "Prüfung" : "Schlüssel"}</Badge></td>
+                    <td className="py-1 pr-2">
+                      <Badge variant={i.kind === "answer_key" ? "secondary" : "default"}>
+                        {i.kind === "exam" ? "Prüfung" : i.kind === "combined" ? "Kombiniert" : "Schlüssel"}
+                      </Badge>
+                    </td>
                     <td className="py-1 pr-2">{i.level?.toUpperCase() ?? "—"}</td>
                     <td className="py-1 pr-2 max-w-[280px] truncate" title={i.original_name ?? ""}>{i.original_name ?? "—"}</td>
                     <td className="py-1 pr-2"><Badge variant="outline">{i.status}</Badge></td>
@@ -773,5 +807,53 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function ModelsDetectedPreview({
+  importId, fetchExtraction,
+}: { importId: string | null; fetchExtraction: any }) {
+  const [models, setModels] = useState<string[] | null>(null);
+  const [counts, setCounts] = useState<Record<string, number>>({});
+  const [hasKey, setHasKey] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!importId) { setModels(null); setCounts({}); setHasKey(false); return; }
+    fetchExtraction({ data: { importId } }).then((r: any) => {
+      if (cancelled) return;
+      const blocks: any[] = Array.isArray(r?.extraction?.blocks) ? r.extraction.blocks : [];
+      const qCounts: Record<string, number> = {};
+      const seen = new Set<string>();
+      let keyEntries = 0;
+      for (const b of blocks) {
+        const m = b?.model == null || b.model === "" ? "single" : String(b.model);
+        seen.add(m);
+        if (b.type === "question") qCounts[m] = (qCounts[m] ?? 0) + 1;
+        if (b.type === "answer_key_entry") keyEntries++;
+      }
+      setModels([...seen].sort((a, b) => a.localeCompare(b, undefined, { numeric: true })));
+      setCounts(qCounts);
+      setHasKey(keyEntries > 0);
+    }).catch(() => { if (!cancelled) { setModels(null); setCounts({}); setHasKey(false); } });
+    return () => { cancelled = true; };
+  }, [importId, fetchExtraction]);
+
+  if (!importId || !models || models.length === 0) return null;
+  return (
+    <div className="rounded-md border p-2 text-xs space-y-1">
+      <p className="font-medium">Erkannte Inhalte</p>
+      <div className="flex flex-wrap gap-1">
+        {models.map(m => (
+          <Badge key={m} variant="outline">
+            {m === "single" ? "Ein Modell" : `Modell ${m}`} · {counts[m] ?? 0} Aufgabe(n)
+          </Badge>
+        ))}
+        {hasKey && <Badge variant="default">Lösungsschlüssel enthalten</Badge>}
+      </div>
+      <p className="text-muted-foreground">
+        Pro Modell wird ein eigener Übungssatz erstellt — Inhalte werden nicht zusammengeführt.
+      </p>
+    </div>
   );
 }
