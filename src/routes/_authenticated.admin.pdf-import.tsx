@@ -312,13 +312,22 @@ function PdfImportPage() {
       toast.info("Extrahiere mit Gemini Vision … das kann 30–60 s dauern.");
       console.info("[pdf-import] extraction start", { importId: id });
       const r = await extract({ data: { importId: id } });
-      console.info("[pdf-import] extraction ok", r);
-      toast.success(`Extraktion fertig: ${r.blockCount} Blöcke`);
+      console.info("[pdf-import] extraction result", r);
+      if ((r as any)?.ok === false) {
+        const det = (r as any).details ?? (r as any).error ?? "Unbekannter Fehler";
+        console.error("[pdf-import] extraction failed at step", (r as any).step, det);
+        toast.error(`Extraktion fehlgeschlagen [${(r as any).step}]: ${(r as any).error}`, { duration: 12000 });
+        await refresh();
+        return;
+      }
+      toast.success(`Extraktion fertig: ${(r as any).blockCount} Blöcke`);
       await refresh();
       await preview(id);
     } catch (e: any) {
       console.error("[pdf-import] extraction failed", e);
-      toast.error(`Extraktion fehlgeschlagen: ${e?.message ?? e}`);
+      const msg = e?.message ?? String(e);
+      toast.error(`Extraktion fehlgeschlagen: ${msg}. Klicken Sie auf „Logs" in der Importliste für Details.`, { duration: 12000 });
+      await refresh();
     } finally { setBusy(false); }
   };
 
