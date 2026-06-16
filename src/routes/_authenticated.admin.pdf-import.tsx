@@ -85,8 +85,16 @@ function PdfImportPage() {
   const [confirmMaterial, setConfirmMaterial] = useState(false);
 
   const refresh = async () => {
-    const r = await fetchImports();
-    setImports(r.items as PdfImportRow[]);
+    try {
+      const r = await fetchImports();
+      setImports(r.items as PdfImportRow[]);
+      console.info("[pdf-import] refresh ok", { count: r.items?.length ?? 0 });
+      return r.items as PdfImportRow[];
+    } catch (e: any) {
+      console.error("[pdf-import] refresh failed", e);
+      toast.error(`Liste laden fehlgeschlagen: ${e?.message ?? e}`);
+      return [];
+    }
   };
 
   useEffect(() => {
@@ -155,7 +163,18 @@ function PdfImportPage() {
 
       setSlot((s) => ({ ...s, phase: "done", importId: res.id }));
       toast.success(`${kind === "exam" ? "Prüfungs-PDF" : "Lösungsschlüssel"} hochgeladen`);
-      await refresh();
+      pushLog({ label: "Aktualisiere Importliste", status: "info" });
+      const rows = await refresh();
+      const found = rows.find((r) => r.id === res.id);
+      if (!found) {
+        const msg = `Datenbank-Eintrag erstellt (ID ${res.id}), erscheint aber nicht in der Liste. Bitte „Aktualisieren" drücken oder Logs prüfen.`;
+        pushLog({ label: "Liste inkonsistent", status: "error", detail: msg });
+        setSlot((s) => ({ ...s, phase: "error", error: msg, importId: res.id }));
+        toast.error(msg);
+      } else {
+        pushLog({ label: "Import bereit für Extraktion", status: "ok",
+                  detail: `Status: ${found.status}` });
+      }
     } catch (e: any) {
       const msg = e?.message ?? String(e);
       console.error("[pdf-import] upload failed", e);
@@ -233,6 +252,7 @@ function PdfImportPage() {
         </TabsList>
 
         <TabsContent value="upload" className="space-y-3">
+          <ImportsList imports={imports} onRefresh={() => refresh()} />
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Prüfungs-PDF hochladen</CardTitle>
@@ -256,6 +276,7 @@ function PdfImportPage() {
         </TabsContent>
 
         <TabsContent value="extract" className="space-y-3">
+          <ImportsList imports={imports} onRefresh={() => refresh()} />
           <Card>
             <CardHeader>
               <CardTitle>Importierte PDFs</CardTitle>
@@ -697,6 +718,58 @@ function FidelityPanel({
         )}
         {!report && selected && (
           <p className="text-sm text-muted-foreground">Noch kein Bericht für diese PDF. Führen Sie die Kontrolle aus.</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefresh: () => Promise<unknown> }) {
+  const [refreshing, setRefreshing] = useState(false);
+  const handle = async () => {
+    setRefreshing(true);
+    try { await onRefresh(); } finally { setRefreshing(false); }
+  };
+  return (
+    <Card>
+      <CardHeader className="flex flex-row items-start justify-between gap-2 space-y-0">
+        <div>
+          <CardTitle className="flex items-center gap-2"><FileSearch className="size-4" />Alle Importe</CardTitle>
+          <CardDescription>Jeder hochgeladene PDF erscheint hier sofort. {imports.length} Eintrag(e).</CardDescription>
+        </div>
+        <Button size="sm" variant="outline" onClick={handle} disabled={refreshing}>
+          {refreshing ? "Aktualisiere…" : "Aktualisieren"}
+        </Button>
+      </CardHeader>
+      <CardContent>
+        {imports.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Noch keine Importe.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="text-left text-muted-foreground">
+                <tr>
+                  <th className="py-1 pr-2">Hochgeladen</th>
+                  <th className="py-1 pr-2">Typ</th>
+                  <th className="py-1 pr-2">Level</th>
+                  <th className="py-1 pr-2">Datei</th>
+                  <th className="py-1 pr-2">Status</th>
+                  <th className="py-1 pr-2">Import-ID</th>
+                </tr>
+              </thead>
+              <tbody>
+                {imports.map(i => (
+                  <tr key={i.id} className="border-t">
+                    <td className="py-1 pr-2 whitespace-nowrap">{new Date(i.created_at).toLocaleString()}</td>
+                    <td className="py-1 pr-2"><Badge variant={i.kind === "exam" ? "default" : "secondary"}>{i.kind === "exam" ? "Prüfung" : "Schlüssel"}</Badge></td>
+                    <td className="py-1 pr-2">{i.level?.toUpperCase() ?? "—"}</td>
+                    <td className="py-1 pr-2 max-w-[280px] truncate" title={i.original_name ?? ""}>{i.original_name ?? "—"}</td>
+                    <td className="py-1 pr-2"><Badge variant="outline">{i.status}</Badge></td>
+                    <td className="py-1 pr-2 font-mono text-[10px] text-muted-foreground">{i.id}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </CardContent>
     </Card>
