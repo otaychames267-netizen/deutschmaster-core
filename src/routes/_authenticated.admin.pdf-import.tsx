@@ -264,7 +264,7 @@ function PdfImportPage() {
         </TabsContent>
 
         <TabsContent value="publish">
-          <PublishDraftList publish={publish} isSuperAdmin={isSuperAdmin} fidelityGet={fidelityGet} />
+          <PublishDraftListImpl publish={publish} isSuperAdmin={isSuperAdmin} fidelityGet={fidelityGet} />
         </TabsContent>
 
         <TabsContent value="fidelity">
@@ -298,11 +298,6 @@ function UploadRow({ onUpload, busy }: { onUpload: (f: File, lvl: "b1" | "b2") =
       </div>
     </div>
   );
-}
-
-function PublishDraftList({ publish, isSuperAdmin }: { publish: any; isSuperAdmin: boolean }) {
-  // Replaced below
-  return null as any;
 }
 
 function PublishDraftListImpl({ publish, isSuperAdmin, fidelityGet }: { publish: any; isSuperAdmin: boolean; fidelityGet: any }) {
