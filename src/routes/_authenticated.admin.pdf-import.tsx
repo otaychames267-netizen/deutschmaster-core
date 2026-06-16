@@ -332,7 +332,8 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent>
               <UploadSlot slot={examSlot} onLevel={(lvl) => setExamSlot((s) => ({ ...s, level: lvl }))}
-                onUpload={(f) => upload(f, "exam", examSlot.level)} />
+                onUpload={(f) => upload(f, "exam", examSlot.level)}
+                onRetry={() => retryUpload("exam")} />
             </CardContent>
           </Card>
           <Card>
@@ -342,7 +343,8 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent>
               <UploadSlot slot={keySlot} onLevel={(lvl) => setKeySlot((s) => ({ ...s, level: lvl }))}
-                onUpload={(f) => upload(f, "answer_key", keySlot.level)} />
+                onUpload={(f) => upload(f, "answer_key", keySlot.level)}
+                onRetry={() => retryUpload("answer_key")} />
             </CardContent>
           </Card>
           <Card>
@@ -356,7 +358,8 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent>
               <UploadSlot slot={combinedSlot} onLevel={(lvl) => setCombinedSlot((s) => ({ ...s, level: lvl }))}
-                onUpload={(f) => upload(f, "combined", combinedSlot.level)} />
+                onUpload={(f) => upload(f, "combined", combinedSlot.level)}
+                onRetry={() => retryUpload("combined")} />
             </CardContent>
           </Card>
         </TabsContent>
