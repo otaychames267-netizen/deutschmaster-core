@@ -191,9 +191,16 @@ function PdfImportPage() {
     setSlot((s) => ({ ...s, phase: "storing" }));
     pushLog({ label: "Speichere in Storage", status: "info", detail: `Pfad: ${path}` });
     try {
-      const { error: stErr } = await supabase.storage.from("pdf-imports").upload(path, file, {
+      // Storage upload with a 90s safety timeout — if the network hangs we
+      // want to surface a clear error instead of leaving the UI on
+      // "Speichere in Storage…" forever.
+      const uploadPromise = supabase.storage.from("pdf-imports").upload(path, file, {
         contentType: "application/pdf", upsert: false,
       });
+      const timeoutPromise = new Promise<{ error: { message: string } }>((resolve) =>
+        setTimeout(() => resolve({ error: { message: "Zeitüberschreitung beim Storage-Upload (90 s). Netzwerk prüfen und erneut versuchen." } }), 90_000),
+      );
+      const { error: stErr } = (await Promise.race([uploadPromise, timeoutPromise])) as { error: { message: string } | null };
       if (stErr) {
         console.error("[pdf-import] storage error", stErr);
         pushLog({ label: "Storage-Fehler", status: "error", detail: stErr.message });
