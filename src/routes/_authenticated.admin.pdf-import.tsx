@@ -814,7 +814,14 @@ function FidelityPanel({
     </Card>
   );
 }
-function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefresh: () => Promise<unknown> }) {
+function ImportsList({
+  imports, onRefresh, onDelete, canDelete,
+}: {
+  imports: PdfImportRow[];
+  onRefresh: () => Promise<unknown>;
+  onDelete?: (row: PdfImportRow) => void | Promise<void>;
+  canDelete?: boolean;
+}) {
   const [refreshing, setRefreshing] = useState(false);
   const handle = async () => {
     setRefreshing(true);
@@ -845,6 +852,7 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
                   <th className="py-1 pr-2">Datei</th>
                   <th className="py-1 pr-2">Status</th>
                   <th className="py-1 pr-2">Import-ID</th>
+                  {onDelete && <th className="py-1 pr-2">Aktion</th>}
                 </tr>
               </thead>
               <tbody>
@@ -857,9 +865,30 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
                       </Badge>
                     </td>
                     <td className="py-1 pr-2">{i.level?.toUpperCase() ?? "—"}</td>
-                    <td className="py-1 pr-2 max-w-[280px] truncate" title={i.original_name ?? ""}>{i.original_name ?? "—"}</td>
-                    <td className="py-1 pr-2"><Badge variant="outline">{i.status}</Badge></td>
+                    <td className="py-1 pr-2 max-w-[280px]" title={i.original_name ?? ""}>
+                      <p className="truncate">{i.original_name ?? "—"}</p>
+                      {i.error_message && (
+                        <p className="text-destructive text-[10px] break-words mt-0.5">⚠ {i.error_message}</p>
+                      )}
+                    </td>
+                    <td className="py-1 pr-2">
+                      <Badge variant={i.status.endsWith("_failed") ? "destructive" : "outline"}>{i.status}</Badge>
+                    </td>
                     <td className="py-1 pr-2 font-mono text-[10px] text-muted-foreground">{i.id}</td>
+                    {onDelete && (
+                      <td className="py-1 pr-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-6 px-2 text-destructive"
+                          disabled={!canDelete}
+                          onClick={() => onDelete(i)}
+                          title={canDelete ? "Endgültig löschen" : "Nur Super-Admin"}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
