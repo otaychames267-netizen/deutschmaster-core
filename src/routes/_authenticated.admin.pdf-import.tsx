@@ -12,6 +12,7 @@ import {
   checkSuperAdmin,
   runFidelityCheck,
   getLatestFidelityReport,
+  deletePdfImport,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle } from "lucide-react";
+import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
@@ -37,6 +38,8 @@ type PdfImportRow = {
   linked_import_id: string | null;
   created_at: string;
   ocr_used: boolean;
+  error_message: string | null;
+  storage_path?: string | null;
 };
 
 type UploadStep =
@@ -67,6 +70,7 @@ function PdfImportPage() {
   const checkRole = useServerFn(checkSuperAdmin);
   const fidelityRun = useServerFn(runFidelityCheck);
   const fidelityGet = useServerFn(getLatestFidelityReport);
+  const deleteImport = useServerFn(deletePdfImport);
 
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -103,6 +107,50 @@ function PdfImportPage() {
     refresh().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Auto-refresh while any import is in a transient state so the admin never
+  // sees a "stuck" row without explanation.
+  useEffect(() => {
+    const transient = imports.some(i =>
+      ["pending", "extracting", "building"].includes(i.status),
+    );
+    if (!transient) return;
+    const t = setInterval(() => { refresh().catch(() => {}); }, 4000);
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imports]);
+
+  const onDelete = async (row: PdfImportRow) => {
+    const label = row.original_name ?? row.id;
+    if (!window.confirm(
+      `PDF endgültig löschen?\n\n"${label}"\n\nEntfernt: Storage-Datei, Extraktion, Treuekontroll-Berichte, Entwurf-Übungen und deren Lösungsschlüssel (inkl. aller Modelle). Veröffentlichte Übungen werden NICHT gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
+    )) return;
+    try {
+      const r = await deleteImport({ data: { importId: row.id } });
+      toast.success(
+        `Gelöscht: ${r.removed.exercises} Übung(en), ${r.removed.answerKeys} Schlüssel, ` +
+        `${r.removed.extraction} Extraktion, ${r.removed.fidelityReports} Bericht(e), ` +
+        `Storage ${r.removed.storage ? "ok" : "—"}.`,
+      );
+      await refresh();
+      if (selectedExamId === row.id) setSelectedExamId(null);
+      if (selectedKeyId === row.id) setSelectedKeyId(null);
+      if (extractionPreview?.import?.id === row.id) setExtractionPreview(null);
+    } catch (e: any) {
+      const msg = e?.message ?? String(e);
+      if (/veröffentlichte/.test(msg) && window.confirm(`${msg}\n\nTrotzdem löschen (inkl. veröffentlichte Übungen)?`)) {
+        try {
+          await deleteImport({ data: { importId: row.id, force: true } });
+          toast.success("Gelöscht (inkl. veröffentlichte Übungen).");
+          await refresh();
+        } catch (e2: any) {
+          toast.error(e2?.message ?? "Löschen fehlgeschlagen");
+        }
+      } else {
+        toast.error(msg);
+      }
+    }
+  };
 
   const upload = async (file: File, kind: "exam" | "answer_key" | "combined", level: "b1" | "b2") => {
     const setSlot = kind === "exam" ? setExamSlot : kind === "answer_key" ? setKeySlot : setCombinedSlot;
@@ -143,9 +191,16 @@ function PdfImportPage() {
     setSlot((s) => ({ ...s, phase: "storing" }));
     pushLog({ label: "Speichere in Storage", status: "info", detail: `Pfad: ${path}` });
     try {
-      const { error: stErr } = await supabase.storage.from("pdf-imports").upload(path, file, {
+      // Storage upload with a 90s safety timeout — if the network hangs we
+      // want to surface a clear error instead of leaving the UI on
+      // "Speichere in Storage…" forever.
+      const uploadPromise = supabase.storage.from("pdf-imports").upload(path, file, {
         contentType: "application/pdf", upsert: false,
       });
+      const timeoutPromise = new Promise<{ error: { message: string } }>((resolve) =>
+        setTimeout(() => resolve({ error: { message: "Zeitüberschreitung beim Storage-Upload (90 s). Netzwerk prüfen und erneut versuchen." } }), 90_000),
+      );
+      const { error: stErr } = (await Promise.race([uploadPromise, timeoutPromise])) as { error: { message: string } | null };
       if (stErr) {
         console.error("[pdf-import] storage error", stErr);
         pushLog({ label: "Storage-Fehler", status: "error", detail: stErr.message });
@@ -256,7 +311,7 @@ function PdfImportPage() {
         </TabsList>
 
         <TabsContent value="upload" className="space-y-3">
-          <ImportsList imports={imports} onRefresh={() => refresh()} />
+          <ImportsList imports={imports} onRefresh={() => refresh()} onDelete={onDelete} canDelete={isSuperAdmin} />
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Prüfungs-PDF hochladen (nur Aufgaben)</CardTitle>
@@ -294,7 +349,7 @@ function PdfImportPage() {
         </TabsContent>
 
         <TabsContent value="extract" className="space-y-3">
-          <ImportsList imports={imports} onRefresh={() => refresh()} />
+          <ImportsList imports={imports} onRefresh={() => refresh()} onDelete={onDelete} canDelete={isSuperAdmin} />
           <Card>
             <CardHeader>
               <CardTitle>Importierte PDFs</CardTitle>
@@ -313,10 +368,16 @@ function PdfImportPage() {
                       <Badge variant="outline">{i.status}</Badge>
                     </div>
                     <p className="text-sm truncate mt-0.5">{i.original_name ?? i.id}</p>
+                    {i.error_message && (
+                      <p className="text-xs text-destructive mt-0.5 break-words">⚠ {i.error_message}</p>
+                    )}
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <Button size="sm" variant="ghost" onClick={() => preview(i.id)}>Vorschau</Button>
                     <Button size="sm" onClick={() => runExtract(i.id)} disabled={busy || !isSuperAdmin}>Extrahieren</Button>
+                    <Button size="sm" variant="ghost" className="text-destructive" onClick={() => onDelete(i)} disabled={busy || !isSuperAdmin} title="Endgültig löschen">
+                      <Trash2 className="size-3.5" />
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -753,7 +814,14 @@ function FidelityPanel({
     </Card>
   );
 }
-function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefresh: () => Promise<unknown> }) {
+function ImportsList({
+  imports, onRefresh, onDelete, canDelete,
+}: {
+  imports: PdfImportRow[];
+  onRefresh: () => Promise<unknown>;
+  onDelete?: (row: PdfImportRow) => void | Promise<void>;
+  canDelete?: boolean;
+}) {
   const [refreshing, setRefreshing] = useState(false);
   const handle = async () => {
     setRefreshing(true);
@@ -784,6 +852,7 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
                   <th className="py-1 pr-2">Datei</th>
                   <th className="py-1 pr-2">Status</th>
                   <th className="py-1 pr-2">Import-ID</th>
+                  {onDelete && <th className="py-1 pr-2">Aktion</th>}
                 </tr>
               </thead>
               <tbody>
@@ -796,9 +865,30 @@ function ImportsList({ imports, onRefresh }: { imports: PdfImportRow[]; onRefres
                       </Badge>
                     </td>
                     <td className="py-1 pr-2">{i.level?.toUpperCase() ?? "—"}</td>
-                    <td className="py-1 pr-2 max-w-[280px] truncate" title={i.original_name ?? ""}>{i.original_name ?? "—"}</td>
-                    <td className="py-1 pr-2"><Badge variant="outline">{i.status}</Badge></td>
+                    <td className="py-1 pr-2 max-w-[280px]" title={i.original_name ?? ""}>
+                      <p className="truncate">{i.original_name ?? "—"}</p>
+                      {i.error_message && (
+                        <p className="text-destructive text-[10px] break-words mt-0.5">⚠ {i.error_message}</p>
+                      )}
+                    </td>
+                    <td className="py-1 pr-2">
+                      <Badge variant={i.status.endsWith("_failed") ? "destructive" : "outline"}>{i.status}</Badge>
+                    </td>
                     <td className="py-1 pr-2 font-mono text-[10px] text-muted-foreground">{i.id}</td>
+                    {onDelete && (
+                      <td className="py-1 pr-2">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-6 px-2 text-destructive"
+                          disabled={!canDelete}
+                          onClick={() => onDelete(i)}
+                          title={canDelete ? "Endgültig löschen" : "Nur Super-Admin"}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </Button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

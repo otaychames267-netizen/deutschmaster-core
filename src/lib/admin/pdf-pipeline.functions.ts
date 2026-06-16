@@ -56,6 +56,13 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
 
+    // Mark as extracting so the admin sees progress in the list.
+    await context.supabase
+      .from("pdf_imports")
+      .update({ status: "extracting", error_message: null })
+      .eq("id", data.importId);
+
+    try {
     // Fetch import row + signed URL to PDF
     const { data: imp, error: impErr } = await context.supabase
       .from("pdf_imports")
@@ -180,10 +187,19 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
         status: "extracted",
         ocr_used: true,
         level: parsed?.level ?? imp.level ?? null,
+        error_message: null,
       })
       .eq("id", data.importId);
 
     return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence, modelsDetected };
+    } catch (err: any) {
+      const msg = String(err?.message ?? err);
+      await context.supabase
+        .from("pdf_imports")
+        .update({ status: "extraction_failed", error_message: msg })
+        .eq("id", data.importId);
+      throw err;
+    }
   });
 
 /**
@@ -216,7 +232,7 @@ export const listPdfImports = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const { data, error } = await context.supabase
       .from("pdf_imports")
-      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used")
+      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used, error_message, storage_path")
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw new Error(error.message);
@@ -273,6 +289,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       }
     }
 
+    // Mark the import as currently building exercises.
+    await context.supabase
+      .from("pdf_imports")
+      .update({ status: "building", error_message: null })
+      .eq("id", data.examImportId);
+
+    try {
     const { data: ext } = await context.supabase
       .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
     if (!ext) throw new Error("Run extraction on the exam PDF first");
@@ -425,7 +448,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     }
 
     await context.supabase.from("pdf_imports")
-      .update({ status: "built" })
+      .update({ status: "built", error_message: null })
       .eq("id", data.examImportId);
 
     return {
@@ -433,6 +456,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       keyCount,
       modelsBuilt: ordered.map((g) => g.model ?? "single"),
     };
+    } catch (err: any) {
+      const msg = String(err?.message ?? err);
+      await context.supabase.from("pdf_imports")
+        .update({ status: "build_failed", error_message: msg })
+        .eq("id", data.examImportId);
+      throw err;
+    }
   });
 
 /**
@@ -786,4 +816,105 @@ export const getLatestFidelityReport = createServerFn({ method: "POST" })
       .limit(1)
       .maybeSingle();
     return { report };
+  });
+
+/**
+ * Permanently delete a PDF import and EVERYTHING derived from it:
+ * the storage file, the extraction, fidelity reports, draft exercises
+ * created from it, and their answer keys (including all model variants).
+ * Published exercises are NOT deleted — they must be unpublished manually.
+ */
+export const deletePdfImport = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { importId: string; force?: boolean }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+
+    const { data: imp, error: impErr } = await context.supabase
+      .from("pdf_imports")
+      .select("id, storage_path, kind")
+      .eq("id", data.importId)
+      .maybeSingle();
+    if (impErr) throw new Error(impErr.message);
+    if (!imp) throw new Error("Import nicht gefunden.");
+
+    const removed = {
+      storage: false,
+      extraction: 0,
+      fidelityReports: 0,
+      exercises: 0,
+      answerKeys: 0,
+      linkedKeyImports: 0,
+    };
+
+    // Draft exercises built from this import
+    const { data: exs } = await context.supabase
+      .from("exercises")
+      .select("id, status")
+      .eq("source_pdf_import_id", data.importId);
+    const exerciseIds = (exs ?? []).map((e: any) => e.id);
+    const published = (exs ?? []).filter((e: any) => e.status === "published");
+    if (published.length > 0 && !data.force) {
+      throw new Error(
+        `Es gibt ${published.length} bereits veröffentlichte Übung(en) aus diesem Import. ` +
+        `Bitte zuerst zurückziehen oder Löschung mit "force" bestätigen.`,
+      );
+    }
+
+    if (exerciseIds.length > 0) {
+      const { count: akCount } = await context.supabase
+        .from("exercise_answer_keys")
+        .delete({ count: "exact" })
+        .in("exercise_id", exerciseIds);
+      removed.answerKeys = akCount ?? 0;
+
+      const { count: exCount } = await context.supabase
+        .from("exercises")
+        .delete({ count: "exact" })
+        .in("id", exerciseIds);
+      removed.exercises = exCount ?? 0;
+    }
+
+    // Answer keys that reference this import directly (no exercise yet)
+    await context.supabase
+      .from("exercise_answer_keys")
+      .delete()
+      .eq("pdf_import_id", data.importId);
+
+    // Fidelity reports for this exam import
+    const { count: frCount } = await context.supabase
+      .from("pdf_fidelity_reports")
+      .delete({ count: "exact" })
+      .eq("exam_import_id", data.importId);
+    removed.fidelityReports = frCount ?? 0;
+
+    // Extraction rows for this import
+    const { count: extCount } = await context.supabase
+      .from("pdf_extractions")
+      .delete({ count: "exact" })
+      .eq("import_id", data.importId);
+    removed.extraction = extCount ?? 0;
+
+    // Detach any answer-key imports that pointed at this exam
+    const { count: linkedCount } = await context.supabase
+      .from("pdf_imports")
+      .update({ linked_import_id: null }, { count: "exact" })
+      .eq("linked_import_id", data.importId);
+    removed.linkedKeyImports = linkedCount ?? 0;
+
+    // Remove the file from storage (best-effort; do not fail the whole delete)
+    if (imp.storage_path) {
+      const { error: storageErr } = await context.supabase.storage
+        .from("pdf-imports")
+        .remove([imp.storage_path]);
+      if (!storageErr) removed.storage = true;
+    }
+
+    const { error: delErr } = await context.supabase
+      .from("pdf_imports")
+      .delete()
+      .eq("id", data.importId);
+    if (delErr) throw new Error(delErr.message);
+
+    return { ok: true, removed };
   });
