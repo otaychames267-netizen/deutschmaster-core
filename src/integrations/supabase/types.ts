@@ -284,6 +284,7 @@ export type Database = {
       exercises: {
         Row: {
           audio_id: string | null
+          content_type: string | null
           correct: Json
           created_at: string
           created_by: string | null
@@ -292,6 +293,7 @@ export type Database = {
           kind: Database["public"]["Enums"]["exercise_kind"]
           level: Database["public"]["Enums"]["exercise_level"]
           module: Database["public"]["Enums"]["exercise_module"]
+          muendlich_part: number | null
           options: Json
           original_numbering: string | null
           passage: string | null
@@ -303,9 +305,11 @@ export type Database = {
           teil: number
           title: string
           updated_at: string
+          writing_category: string | null
         }
         Insert: {
           audio_id?: string | null
+          content_type?: string | null
           correct?: Json
           created_at?: string
           created_by?: string | null
@@ -314,6 +318,7 @@ export type Database = {
           kind?: Database["public"]["Enums"]["exercise_kind"]
           level: Database["public"]["Enums"]["exercise_level"]
           module: Database["public"]["Enums"]["exercise_module"]
+          muendlich_part?: number | null
           options?: Json
           original_numbering?: string | null
           passage?: string | null
@@ -325,9 +330,11 @@ export type Database = {
           teil: number
           title: string
           updated_at?: string
+          writing_category?: string | null
         }
         Update: {
           audio_id?: string | null
+          content_type?: string | null
           correct?: Json
           created_at?: string
           created_by?: string | null
@@ -336,6 +343,7 @@ export type Database = {
           kind?: Database["public"]["Enums"]["exercise_kind"]
           level?: Database["public"]["Enums"]["exercise_level"]
           module?: Database["public"]["Enums"]["exercise_module"]
+          muendlich_part?: number | null
           options?: Json
           original_numbering?: string | null
           passage?: string | null
@@ -347,6 +355,7 @@ export type Database = {
           teil?: number
           title?: string
           updated_at?: string
+          writing_category?: string | null
         }
         Relationships: [
           {
