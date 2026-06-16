@@ -56,6 +56,13 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY;
     if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
 
+    // Mark as extracting so the admin sees progress in the list.
+    await context.supabase
+      .from("pdf_imports")
+      .update({ status: "extracting", error_message: null })
+      .eq("id", data.importId);
+
+    try {
     // Fetch import row + signed URL to PDF
     const { data: imp, error: impErr } = await context.supabase
       .from("pdf_imports")
@@ -180,10 +187,19 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
         status: "extracted",
         ocr_used: true,
         level: parsed?.level ?? imp.level ?? null,
+        error_message: null,
       })
       .eq("id", data.importId);
 
     return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence, modelsDetected };
+    } catch (err: any) {
+      const msg = String(err?.message ?? err);
+      await context.supabase
+        .from("pdf_imports")
+        .update({ status: "extraction_failed", error_message: msg })
+        .eq("id", data.importId);
+      throw err;
+    }
   });
 
 /**
@@ -216,7 +232,7 @@ export const listPdfImports = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const { data, error } = await context.supabase
       .from("pdf_imports")
-      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used")
+      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used, error_message, storage_path")
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw new Error(error.message);
