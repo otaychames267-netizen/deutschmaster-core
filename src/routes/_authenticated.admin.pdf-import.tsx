@@ -85,8 +85,16 @@ function PdfImportPage() {
   const [confirmMaterial, setConfirmMaterial] = useState(false);
 
   const refresh = async () => {
-    const r = await fetchImports();
-    setImports(r.items as PdfImportRow[]);
+    try {
+      const r = await fetchImports();
+      setImports(r.items as PdfImportRow[]);
+      console.info("[pdf-import] refresh ok", { count: r.items?.length ?? 0 });
+      return r.items as PdfImportRow[];
+    } catch (e: any) {
+      console.error("[pdf-import] refresh failed", e);
+      toast.error(`Liste laden fehlgeschlagen: ${e?.message ?? e}`);
+      return [];
+    }
   };
 
   useEffect(() => {
@@ -155,7 +163,18 @@ function PdfImportPage() {
 
       setSlot((s) => ({ ...s, phase: "done", importId: res.id }));
       toast.success(`${kind === "exam" ? "Prüfungs-PDF" : "Lösungsschlüssel"} hochgeladen`);
-      await refresh();
+      pushLog({ label: "Aktualisiere Importliste", status: "info" });
+      const rows = await refresh();
+      const found = rows.find((r) => r.id === res.id);
+      if (!found) {
+        const msg = `Datenbank-Eintrag erstellt (ID ${res.id}), erscheint aber nicht in der Liste. Bitte „Aktualisieren" drücken oder Logs prüfen.`;
+        pushLog({ label: "Liste inkonsistent", status: "error", detail: msg });
+        setSlot((s) => ({ ...s, phase: "error", error: msg, importId: res.id }));
+        toast.error(msg);
+      } else {
+        pushLog({ label: "Import bereit für Extraktion", status: "ok",
+                  detail: `Status: ${found.status}` });
+      }
     } catch (e: any) {
       const msg = e?.message ?? String(e);
       console.error("[pdf-import] upload failed", e);
