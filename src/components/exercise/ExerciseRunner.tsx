@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, XCircle, Clock3 } from "lucide-react";
+import { CheckCircle2, XCircle, Clock3, Check, X } from "lucide-react";
 
 export type ExerciseDTO = {
   id: string;
@@ -111,9 +111,23 @@ export function ExerciseRunner({
 
       {exercise.kind === "true_false" && (
         <div className="flex gap-2">
-          {(opts.length ? opts : ["Richtig", "Falsch"]).map((o) => (
-            <Button key={o} type="button" variant={answer === o ? "default" : "outline"} disabled={!!result} onClick={() => setAnswer(o)}>{o}</Button>
-          ))}
+          {(opts.length ? opts : ["Richtig", "Falsch"]).map((o) => {
+            const selected = answer === o;
+            const isRight = result && correctSet.has(o);
+            const isWrong = result && selected && !correctSet.has(o);
+            return (
+              <Button
+                key={o}
+                type="button"
+                variant={selected ? "default" : "outline"}
+                disabled={!!result}
+                onClick={() => setAnswer(o)}
+                className={`${isRight ? "border-green-500 bg-green-500/10 text-foreground" : ""} ${isWrong ? "border-red-500 bg-red-500/10 text-foreground" : ""}`}
+              >
+                {o}
+              </Button>
+            );
+          })}
         </div>
       )}
 
@@ -123,6 +137,7 @@ export function ExerciseRunner({
           gapCount={countGaps(exercise.passage, opts)}
           options={opts}
           locked={!!result}
+          correct={result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -132,6 +147,7 @@ export function ExerciseRunner({
           pairs={opts}
           answer={(answer ?? {}) as Record<string, string>}
           locked={!!result}
+          correct={result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -157,6 +173,7 @@ export function ExerciseRunner({
             )}
           </div>
           {result.explanation && <p className="text-muted-foreground whitespace-pre-wrap">{result.explanation}</p>}
+          <p className="text-xs text-muted-foreground">Die richtigen Antworten sind direkt bei jeder Frage markiert.</p>
         </div>
       )}
     </div>
@@ -187,8 +204,8 @@ function countGaps(passage: string | null | undefined, options: string[]): numbe
 }
 
 function ClozeInputs({
-  answer, gapCount, options, locked, onChange,
-}: { answer: string[]; gapCount: number; options: string[]; locked: boolean; onChange: (a: string[]) => void }) {
+  answer, gapCount, options, locked, correct, onChange,
+}: { answer: string[]; gapCount: number; options: string[]; locked: boolean; correct: string[] | null; onChange: (a: string[]) => void }) {
   const setAt = (i: number, v: string) => {
     const next = [...answer];
     while (next.length < gapCount) next.push("");
@@ -197,50 +214,97 @@ function ClozeInputs({
   };
   return (
     <div className="grid gap-2 sm:grid-cols-2">
-      {Array.from({ length: gapCount }).map((_, i) => (
-        <div key={i} className="space-y-1">
-          <label className="text-xs text-muted-foreground">Lücke {i + 1}</label>
-          {options.length > 0 ? (
-            <select
-              disabled={locked}
-              value={answer[i] ?? ""}
-              onChange={(e) => setAt(i, e.target.value)}
-              className="w-full rounded-md border bg-background px-2 py-1.5 text-sm"
-            >
-              <option value="">—</option>
-              {options.map((o) => <option key={o} value={o}>{o}</option>)}
-            </select>
-          ) : (
-            <Input disabled={locked} value={answer[i] ?? ""} onChange={(e) => setAt(i, e.target.value)} />
-          )}
-        </div>
-      ))}
+      {Array.from({ length: gapCount }).map((_, i) => {
+        const expected = correct?.[i];
+        const given = String(answer[i] ?? "").trim();
+        const ok = expected != null && given.toLowerCase() === String(expected).trim().toLowerCase();
+        return (
+          <div key={i} className="space-y-1">
+            <label className="text-xs text-muted-foreground flex items-center gap-2">
+              <span>Frage {i + 1}</span>
+              {locked && expected != null && (
+                ok ? (
+                  <span className="inline-flex items-center gap-1 text-green-600"><Check className="size-3" /> {expected}</span>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-red-600"><X className="size-3" /> → <span className="text-foreground font-medium">{expected}</span></span>
+                )
+              )}
+            </label>
+            {options.length > 0 ? (
+              <select
+                disabled={locked}
+                value={answer[i] ?? ""}
+                onChange={(e) => setAt(i, e.target.value)}
+                className={`w-full rounded-md border bg-background px-2 py-1.5 text-sm ${locked && expected != null ? (ok ? "border-green-500" : "border-red-500") : ""}`}
+              >
+                <option value="">—</option>
+                {options.map((o) => <option key={o} value={o}>{o}</option>)}
+              </select>
+            ) : (
+              <Input
+                disabled={locked}
+                value={answer[i] ?? ""}
+                onChange={(e) => setAt(i, e.target.value)}
+                className={locked && expected != null ? (ok ? "border-green-500" : "border-red-500") : ""}
+              />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 function MatchingInputs({
-  pairs, answer, locked, onChange,
-}: { pairs: string[]; answer: Record<string, string>; locked: boolean; onChange: (a: Record<string, string>) => void }) {
+  pairs, answer, locked, correct, onChange,
+}: { pairs: string[]; answer: Record<string, string>; locked: boolean; correct: string[] | null; onChange: (a: Record<string, string>) => void }) {
   // pairs are stored as "left|right"
   const lefts = pairs.map((p) => p.split("|")[0] ?? p);
   const rights = pairs.map((p) => p.split("|")[1] ?? "").filter(Boolean);
+  // Build the expected map from correct pairs (also "left|right")
+  const expectedMap = useMemo(() => {
+    const m = new Map<string, string>();
+    if (correct) {
+      for (const c of correct) {
+        const [l, r] = String(c).split("|");
+        if (l) m.set(l, r ?? "");
+      }
+    }
+    // fallback: assume the source `pairs` already encode the correct mapping
+    if (m.size === 0) for (const p of pairs) {
+      const [l, r] = p.split("|");
+      if (l && r) m.set(l, r);
+    }
+    return m;
+  }, [correct, pairs]);
   return (
     <div className="space-y-2">
-      {lefts.map((l) => (
-        <div key={l} className="grid grid-cols-2 gap-2 items-center">
-          <span className="text-sm font-medium">{l}</span>
-          <select
-            disabled={locked}
-            value={answer[l] ?? ""}
-            onChange={(e) => onChange({ ...answer, [l]: e.target.value })}
-            className="rounded-md border bg-background px-2 py-1.5 text-sm"
-          >
-            <option value="">—</option>
-            {rights.map((r) => <option key={r} value={r}>{r}</option>)}
-          </select>
-        </div>
-      ))}
+      {lefts.map((l) => {
+        const expected = expectedMap.get(l);
+        const given = String(answer[l] ?? "").trim();
+        const ok = expected != null && given.toLowerCase() === String(expected).trim().toLowerCase();
+        return (
+          <div key={l} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-center">
+            <span className="text-sm font-medium">{l}</span>
+            <select
+              disabled={locked}
+              value={answer[l] ?? ""}
+              onChange={(e) => onChange({ ...answer, [l]: e.target.value })}
+              className={`rounded-md border bg-background px-2 py-1.5 text-sm ${locked && expected != null ? (ok ? "border-green-500" : "border-red-500") : ""}`}
+            >
+              <option value="">—</option>
+              {rights.map((r) => <option key={r} value={r}>{r}</option>)}
+            </select>
+            {locked && expected != null && (
+              ok ? (
+                <span className="inline-flex items-center gap-1 text-green-600 text-xs"><Check className="size-3" /> {expected}</span>
+              ) : (
+                <span className="inline-flex items-center gap-1 text-red-600 text-xs"><X className="size-3" /> → <span className="text-foreground font-medium">{expected}</span></span>
+              )
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
