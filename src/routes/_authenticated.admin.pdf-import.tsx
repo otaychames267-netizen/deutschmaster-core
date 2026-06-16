@@ -29,6 +29,58 @@ export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
   component: PdfImportPage,
 });
 
+/**
+ * Upload a file to Supabase Storage via direct XHR PUT so we get real
+ * progress events and can apply a generous 10-minute timeout. We grab the
+ * caller's access token from the JS client's persisted session, which is
+ * the same auth the SDK uses, so RLS on storage.objects applies normally.
+ * Throws on non-2xx with the underlying server error message.
+ */
+async function uploadWithProgress(opts: {
+  file: File;
+  path: string;
+  onProgress: (pct: number) => void;
+}): Promise<void> {
+  const { file, path, onProgress } = opts;
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+  const { data: sess } = await supabase.auth.getSession();
+  const token = sess.session?.access_token;
+  if (!token) throw new Error("Nicht angemeldet (kein Access-Token).");
+  const url = `${SUPABASE_URL}/storage/v1/object/pdf-imports/${path}`;
+  await new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.timeout = 10 * 60 * 1000; // 10 min
+    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    xhr.setRequestHeader("Content-Type", "application/pdf");
+    xhr.setRequestHeader("x-upsert", "false");
+    xhr.setRequestHeader("cache-control", "max-age=3600");
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const pct = Math.min(100, Math.round((e.loaded / e.total) * 100));
+        onProgress(pct);
+      }
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress(100);
+        resolve();
+      } else {
+        let msg = `HTTP ${xhr.status}`;
+        try {
+          const j = JSON.parse(xhr.responseText);
+          msg = j.message || j.error || xhr.responseText || msg;
+        } catch { if (xhr.responseText) msg = xhr.responseText; }
+        reject(new Error(`Storage-Upload abgelehnt: ${msg}`));
+      }
+    };
+    xhr.onerror = () => reject(new Error("Netzwerkfehler beim Storage-Upload (Verbindung unterbrochen)."));
+    xhr.ontimeout = () => reject(new Error("Zeitüberschreitung beim Storage-Upload nach 10 Minuten. Bitte mit besserer Verbindung erneut versuchen."));
+    xhr.onabort = () => reject(new Error("Upload abgebrochen."));
+    xhr.send(file);
+  });
+}
+
 type PdfImportRow = {
   id: string;
   original_name: string | null;
@@ -53,11 +105,14 @@ type SlotState = {
   error: string | null;
   log: UploadStep[];
   importId: string | null;
+  progress: number; // 0..100 during storage PUT
+  lastFile: File | null; // for "Retry upload" without re-selecting
 };
 
 const initialSlot = (): SlotState => ({
   fileName: null, fileSize: null, level: "b2",
   phase: "idle", error: null, log: [], importId: null,
+  progress: 0, lastFile: null,
 });
 
 function PdfImportPage() {
@@ -170,10 +225,10 @@ function PdfImportPage() {
       }));
       return;
     }
-    if (file.size > 50 * 1024 * 1024) {
+    if (file.size > 200 * 1024 * 1024) {
       setSlot((s) => ({
         ...s, phase: "error",
-        error: `Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB, max. 50 MB).`,
+        error: `Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB, max. 200 MB).`,
         fileName: file.name, fileSize: file.size,
       }));
       return;
@@ -182,6 +237,7 @@ function PdfImportPage() {
     setSlot({
       fileName: file.name, fileSize: file.size, level,
       phase: "uploading", error: null, importId: null,
+      progress: 0, lastFile: file,
       log: [{ ts: Date.now(), label: "Upload gestartet", status: "info",
               detail: `${file.name} · ${(file.size / 1024).toFixed(1)} KB · Slot: ${kind}` }],
     });
@@ -191,24 +247,24 @@ function PdfImportPage() {
     setSlot((s) => ({ ...s, phase: "storing" }));
     pushLog({ label: "Speichere in Storage", status: "info", detail: `Pfad: ${path}` });
     try {
-      // Storage upload with a 90s safety timeout — if the network hangs we
-      // want to surface a clear error instead of leaving the UI on
-      // "Speichere in Storage…" forever.
-      const uploadPromise = supabase.storage.from("pdf-imports").upload(path, file, {
-        contentType: "application/pdf", upsert: false,
+      // Direct XHR PUT to Storage REST API. This gives us real progress
+      // events (the Supabase JS SDK currently doesn't surface them) and a
+      // generous 10-minute timeout so larger TELC PDFs on slow networks
+      // do not silently fail.
+      const t0 = performance.now();
+      await uploadWithProgress({
+        file, path,
+        onProgress: (pct) => {
+          setSlot((s) => ({ ...s, progress: pct }));
+          // Coarse log: 10/25/50/75/90/100
+          if ([10, 25, 50, 75, 90, 100].includes(pct)) {
+            pushLog({ label: `Upload ${pct}%`, status: "info",
+                      detail: `${((file.size * pct / 100) / 1024 / 1024).toFixed(1)} MB von ${(file.size / 1024 / 1024).toFixed(1)} MB` });
+          }
+        },
       });
-      const timeoutPromise = new Promise<{ error: { message: string } }>((resolve) =>
-        setTimeout(() => resolve({ error: { message: "Zeitüberschreitung beim Storage-Upload (90 s). Netzwerk prüfen und erneut versuchen." } }), 90_000),
-      );
-      const { error: stErr } = (await Promise.race([uploadPromise, timeoutPromise])) as { error: { message: string } | null };
-      if (stErr) {
-        console.error("[pdf-import] storage error", stErr);
-        pushLog({ label: "Storage-Fehler", status: "error", detail: stErr.message });
-        setSlot((s) => ({ ...s, phase: "error", error: `Storage: ${stErr.message}` }));
-        toast.error(`Storage-Upload fehlgeschlagen: ${stErr.message}`);
-        return;
-      }
-      pushLog({ label: "Storage gespeichert", status: "ok", detail: path });
+      pushLog({ label: "Storage gespeichert", status: "ok",
+                detail: `${path} · ${((performance.now() - t0) / 1000).toFixed(1)} s` });
       console.info("[pdf-import] storage ok", { path });
 
       setSlot((s) => ({ ...s, phase: "saving" }));
@@ -238,6 +294,15 @@ function PdfImportPage() {
       setSlot((s) => ({ ...s, phase: "error", error: msg }));
       toast.error(`Upload fehlgeschlagen: ${msg}`);
     }
+  };
+
+  const retryUpload = (kind: "exam" | "answer_key" | "combined") => {
+    const slot = kind === "exam" ? examSlot : kind === "answer_key" ? keySlot : combinedSlot;
+    if (!slot.lastFile) {
+      toast.error("Keine Datei zum erneuten Hochladen vorhanden.");
+      return;
+    }
+    upload(slot.lastFile, kind, slot.level);
   };
 
   const runExtract = async (id: string) => {
@@ -319,7 +384,8 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent>
               <UploadSlot slot={examSlot} onLevel={(lvl) => setExamSlot((s) => ({ ...s, level: lvl }))}
-                onUpload={(f) => upload(f, "exam", examSlot.level)} />
+                onUpload={(f) => upload(f, "exam", examSlot.level)}
+                onRetry={() => retryUpload("exam")} />
             </CardContent>
           </Card>
           <Card>
@@ -329,7 +395,8 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent>
               <UploadSlot slot={keySlot} onLevel={(lvl) => setKeySlot((s) => ({ ...s, level: lvl }))}
-                onUpload={(f) => upload(f, "answer_key", keySlot.level)} />
+                onUpload={(f) => upload(f, "answer_key", keySlot.level)}
+                onRetry={() => retryUpload("answer_key")} />
             </CardContent>
           </Card>
           <Card>
@@ -343,7 +410,8 @@ function PdfImportPage() {
             </CardHeader>
             <CardContent>
               <UploadSlot slot={combinedSlot} onLevel={(lvl) => setCombinedSlot((s) => ({ ...s, level: lvl }))}
-                onUpload={(f) => upload(f, "combined", combinedSlot.level)} />
+                onUpload={(f) => upload(f, "combined", combinedSlot.level)}
+                onRetry={() => retryUpload("combined")} />
             </CardContent>
           </Card>
         </TabsContent>
@@ -557,11 +625,12 @@ function PdfImportPage() {
 }
 
 function UploadSlot({
-  slot, onLevel, onUpload,
+  slot, onLevel, onUpload, onRetry,
 }: {
   slot: SlotState;
   onLevel: (lvl: "b1" | "b2") => void;
   onUpload: (f: File) => void;
+  onRetry: () => void;
 }) {
   const inFlight = slot.phase === "uploading" || slot.phase === "storing" || slot.phase === "saving";
   const phaseLabel: Record<SlotState["phase"], string> = {
@@ -615,6 +684,21 @@ function UploadSlot({
             <Badge variant={phaseVariant[slot.phase]}>{phaseLabel[slot.phase]}</Badge>
           </div>
 
+          {(slot.phase === "storing" || slot.phase === "uploading") && (
+            <div className="space-y-1">
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                <div
+                  className="h-full bg-primary transition-[width] duration-150"
+                  style={{ width: `${slot.progress}%` }}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground tabular-nums">
+                {slot.progress}% hochgeladen
+                {slot.fileSize ? ` · ${((slot.fileSize * slot.progress / 100) / 1024 / 1024).toFixed(1)} / ${(slot.fileSize / 1024 / 1024).toFixed(1)} MB` : ""}
+              </p>
+            </div>
+          )}
+
           {slot.error && (
             <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-xs">
               <AlertTriangle className="size-3.5 mt-0.5 shrink-0" />
@@ -624,6 +708,11 @@ function UploadSlot({
                 <p className="opacity-70 mt-1">
                   Die Datei wurde <b>nicht</b> entfernt — bitte die Ursache prüfen und erneut hochladen.
                 </p>
+                {slot.lastFile && (
+                  <Button size="sm" variant="outline" className="mt-2" onClick={onRetry}>
+                    Erneut hochladen
+                  </Button>
+                )}
               </div>
             </div>
           )}
