@@ -13,6 +13,11 @@ interface AuthState {
 
 const AuthContext = createContext<AuthState>({ user: null, session: null, loading: true, isAdmin: false, signOut: async () => {} });
 
+async function checkAdmin(userId: string) {
+  const { data } = await supabase.from("user_roles").select("role").eq("user_id", userId).eq("role", "admin").maybeSingle();
+  return !!data;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -21,13 +26,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, sess) => {
+      console.debug("[Lingovia diagnostics] Auth state change", { event, userId: sess?.user?.id ?? null });
       setSession(sess);
       setUser(sess?.user ?? null);
       if (sess?.user) {
         const uid = sess.user.id;
         setTimeout(async () => {
-          const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle();
-          setIsAdmin(!!data);
+          setIsAdmin(await checkAdmin(uid));
           // Track sign-in events (covers OAuth + password)
           if (event === "SIGNED_IN") {
             recordLoginSuccess(uid).catch(() => {});
@@ -38,15 +43,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsAdmin(false);
       }
     });
-    supabase.auth.getSession().then(({ data: { session: sess } }) => {
+    supabase.auth.getSession().then(async ({ data: { session: sess } }) => {
+      console.debug("[Lingovia diagnostics] Initial auth session", { userId: sess?.user?.id ?? null });
       setSession(sess);
       setUser(sess?.user ?? null);
-      setLoading(false);
       if (sess?.user) {
         const uid = sess.user.id;
-        supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").maybeSingle().then(({ data }) => setIsAdmin(!!data));
+        setIsAdmin(await checkAdmin(uid));
         expireOverdueSubscriptions().catch(() => {});
       }
+      setLoading(false);
     });
     return () => subscription.unsubscribe();
   }, []);
