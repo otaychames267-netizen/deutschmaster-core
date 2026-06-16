@@ -54,7 +54,18 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
     const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("LOVABLE_API_KEY missing");
+    const log = (m: string, extra?: any) => {
+      try { console.log(`[extractPdfVerbatim] ${m}`, extra ?? ""); } catch {}
+    };
+    let step = "init";
+    if (!apiKey) {
+      const msg = "LOVABLE_API_KEY missing in server environment";
+      await context.supabase.from("pdf_imports")
+        .update({ status: "extraction_failed", error_message: `[${step}] ${msg}` })
+        .eq("id", data.importId);
+      return { ok: false as const, step, error: msg };
+    }
+    log("starting", { importId: data.importId, keyPresent: true });
 
     // Mark as extracting so the admin sees progress in the list.
     await context.supabase
@@ -63,6 +74,7 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
       .eq("id", data.importId);
 
     try {
+    step = "load_import_row";
     // Fetch import row + signed URL to PDF
     const { data: imp, error: impErr } = await context.supabase
       .from("pdf_imports")
@@ -70,16 +82,23 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
       .eq("id", data.importId)
       .single();
     if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
+    log("import row loaded", { storage_path: imp.storage_path, kind: imp.kind });
 
+    step = "storage_download";
     // Download PDF from storage and base64-encode
     const { data: file, error: dlErr } = await context.supabase.storage
       .from("pdf-imports")
       .download(imp.storage_path);
-    if (dlErr || !file) throw new Error(dlErr?.message ?? "PDF download failed");
+    if (dlErr || !file) throw new Error(`Storage download failed: ${dlErr?.message ?? "no file"} (path=${imp.storage_path})`);
     const buf = new Uint8Array(await (file as Blob).arrayBuffer());
+    const fileSize = buf.byteLength;
+    log("pdf downloaded", { bytes: fileSize, sizeMB: +(fileSize/1024/1024).toFixed(2) });
+    if (fileSize === 0) throw new Error(`Downloaded PDF is empty (0 bytes, path=${imp.storage_path})`);
+    step = "base64_encode";
     let bin = "";
     for (let i = 0; i < buf.byteLength; i++) bin += String.fromCharCode(buf[i]);
     const b64 = typeof btoa !== "undefined" ? btoa(bin) : Buffer.from(buf).toString("base64");
+    log("base64 encoded", { b64Length: b64.length });
 
     const system = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
@@ -121,6 +140,8 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
           ? "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag."
           : "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim.";
 
+    step = "gemini_request";
+    log("calling Gemini", { model: "google/gemini-2.5-pro", kind: imp.kind, sizeMB: +(fileSize/1024/1024).toFixed(2) });
     const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -143,17 +164,28 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
         response_format: { type: "json_object" },
       }),
     });
+    log("gemini status", { status: resp.status });
     if (!resp.ok) {
       const t = await resp.text().catch(() => "");
+      log("gemini error body", t.slice(0, 1000));
       if (resp.status === 429) throw new Error("AI rate limit — please retry in a moment.");
       if (resp.status === 402) throw new Error("AI credits exhausted. Add credits in workspace settings.");
-      throw new Error(`Gemini extraction failed (${resp.status}): ${t.slice(0, 300)}`);
+      throw new Error(`Gemini extraction failed (HTTP ${resp.status}): ${t.slice(0, 800) || "<empty body>"}`);
     }
-    const json = await resp.json();
+    step = "gemini_parse";
+    const json = await resp.json().catch((e) => { throw new Error(`Gemini response was not JSON: ${e?.message ?? e}`); });
     const raw = json?.choices?.[0]?.message?.content ?? "{}";
+    const finishReason = json?.choices?.[0]?.finish_reason ?? json?.choices?.[0]?.finishReason ?? null;
+    log("gemini parsed", { finishReason, rawLength: typeof raw === "string" ? raw.length : -1, usage: json?.usage });
+    if (typeof raw === "string" && raw.trim().length < 5) {
+      throw new Error(`Gemini returned empty content (finish_reason=${finishReason ?? "?"}). Full response: ${JSON.stringify(json).slice(0, 1200)}`);
+    }
     let parsed: any;
     try { parsed = typeof raw === "string" ? JSON.parse(raw) : raw; }
-    catch { throw new Error("Could not parse Gemini JSON output"); }
+    catch (e: any) {
+      const snippet = typeof raw === "string" ? raw.slice(0, 800) : JSON.stringify(raw).slice(0, 800);
+      throw new Error(`Could not parse Gemini JSON output: ${e?.message ?? e}. Snippet: ${snippet}`);
+    }
 
     const blocks = Array.isArray(parsed?.blocks) ? parsed.blocks : [];
     const pageCount = Number.isFinite(parsed?.page_count) ? parsed.page_count : null;
@@ -194,11 +226,16 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
     return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence, modelsDetected };
     } catch (err: any) {
       const msg = String(err?.message ?? err);
+      const stack = err?.stack ? String(err.stack).slice(0, 2000) : "";
+      const full = `[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
+      try { console.error("[extractPdfVerbatim] FAILED", { step, msg, stack }); } catch {}
       await context.supabase
         .from("pdf_imports")
-        .update({ status: "extraction_failed", error_message: msg })
+        .update({ status: "extraction_failed", error_message: full })
         .eq("id", data.importId);
-      throw err;
+      // Return instead of throw so the client receives the full diagnostic
+      // (TanStack RPC otherwise masks server errors as "Internal server error").
+      return { ok: false as const, step, error: msg, stack, details: full };
     }
   });
 
