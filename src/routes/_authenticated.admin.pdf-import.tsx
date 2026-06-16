@@ -29,6 +29,58 @@ export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
   component: PdfImportPage,
 });
 
+/**
+ * Upload a file to Supabase Storage via direct XHR PUT so we get real
+ * progress events and can apply a generous 10-minute timeout. We grab the
+ * caller's access token from the JS client's persisted session, which is
+ * the same auth the SDK uses, so RLS on storage.objects applies normally.
+ * Throws on non-2xx with the underlying server error message.
+ */
+async function uploadWithProgress(opts: {
+  file: File;
+  path: string;
+  onProgress: (pct: number) => void;
+}): Promise<void> {
+  const { file, path, onProgress } = opts;
+  const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string;
+  const { data: sess } = await supabase.auth.getSession();
+  const token = sess.session?.access_token;
+  if (!token) throw new Error("Nicht angemeldet (kein Access-Token).");
+  const url = `${SUPABASE_URL}/storage/v1/object/pdf-imports/${path}`;
+  await new Promise<void>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", url, true);
+    xhr.timeout = 10 * 60 * 1000; // 10 min
+    xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    xhr.setRequestHeader("Content-Type", "application/pdf");
+    xhr.setRequestHeader("x-upsert", "false");
+    xhr.setRequestHeader("cache-control", "max-age=3600");
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable) {
+        const pct = Math.min(100, Math.round((e.loaded / e.total) * 100));
+        onProgress(pct);
+      }
+    };
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        onProgress(100);
+        resolve();
+      } else {
+        let msg = `HTTP ${xhr.status}`;
+        try {
+          const j = JSON.parse(xhr.responseText);
+          msg = j.message || j.error || xhr.responseText || msg;
+        } catch { if (xhr.responseText) msg = xhr.responseText; }
+        reject(new Error(`Storage-Upload abgelehnt: ${msg}`));
+      }
+    };
+    xhr.onerror = () => reject(new Error("Netzwerkfehler beim Storage-Upload (Verbindung unterbrochen)."));
+    xhr.ontimeout = () => reject(new Error("Zeitüberschreitung beim Storage-Upload nach 10 Minuten. Bitte mit besserer Verbindung erneut versuchen."));
+    xhr.onabort = () => reject(new Error("Upload abgebrochen."));
+    xhr.send(file);
+  });
+}
+
 type PdfImportRow = {
   id: string;
   original_name: string | null;
