@@ -58,6 +58,11 @@ function PdfImportPage() {
   const [extractionPreview, setExtractionPreview] = useState<any>(null);
   const [buildLevel, setBuildLevel] = useState<"b1" | "b2">("b2");
   const [buildModule, setBuildModule] = useState<"lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich">("lesen");
+  const [buildTeil, setBuildTeil] = useState<number>(1);
+  const [writingCategory, setWritingCategory] = useState<string>("brief");
+  const [muendlichPart, setMuendlichPart] = useState<1 | 2 | 3>(1);
+  const [contentType, setContentType] = useState<"vorbereitung" | "pruefungssimulation">("pruefungssimulation");
+  const [confirmMaterial, setConfirmMaterial] = useState(false);
 
   const refresh = async () => {
     const r = await fetchImports();
@@ -114,6 +119,11 @@ function PdfImportPage() {
           answerKeyImportId: selectedKeyId,
           level: buildLevel,
           moduleHint: buildModule,
+          teil: buildTeil,
+          writingCategory: buildModule === "schreiben" ? writingCategory : null,
+          muendlichPart: buildModule === "muendlich" ? muendlichPart : null,
+          contentType: buildModule === "muendlich" ? contentType : null,
+          confirmMaterialAsExercises: confirmMaterial,
         },
       });
       toast.success(`${r.exerciseCount} Übungen erstellt, ${r.keyCount} Lösungen verknüpft (Entwurf)`);
