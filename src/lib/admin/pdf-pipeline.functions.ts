@@ -20,7 +20,7 @@ export const createPdfImportV2 = createServerFn({ method: "POST" })
   .inputValidator((d: {
     storagePath: string;
     originalName: string;
-    kind: "exam" | "answer_key";
+    kind: "exam" | "answer_key" | "combined";
     level?: "b1" | "b2" | null;
     linkedImportId?: string | null;
   }) => d)
@@ -83,29 +83,35 @@ Rules — never violate:
 - If you cannot read a character with confidence, transcribe as [?].
  - If ANY content cannot be extracted with 100% confidence, mark it with [?] AND add it to "low_confidence_items" AND set "needs_manual_review": true. Do NOT guess.
  - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
+ - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
+ - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
-  "kind": "exam" | "answer_key",
+  "kind": "exam" | "answer_key" | "combined",
   "level": "b1" | "b2" | null,
   "page_count": number,
   "needs_manual_review": boolean,
+  "models_detected": [string],
   "low_confidence_items": [{ "page": number, "teil": number|null, "reason": string, "snippet": string }],
   "blocks": [
-    { "type": "section",     "teil": number|null, "module": string|null, "text": string, "page": number },
-    { "type": "instruction", "teil": number|null, "text": string, "page": number },
-    { "type": "passage",     "teil": number|null, "title": string|null, "text": string, "page": number },
-    { "type": "question",    "teil": number|null, "number": string, "text": string, "options": [{"label":"a","text":"..."}], "page": number },
-    { "type": "answer_key_entry", "teil": number|null, "number": string, "answer": string, "page": number },
-    { "type": "image_ref",   "teil": number|null, "description": string, "page": number },
-    { "type": "audio_ref",   "teil": number|null, "description": string, "page": number }
+    { "type": "section",     "model": string|null, "teil": number|null, "module": string|null, "text": string, "page": number },
+    { "type": "instruction", "model": string|null, "teil": number|null, "text": string, "page": number },
+    { "type": "passage",     "model": string|null, "teil": number|null, "title": string|null, "text": string, "page": number },
+    { "type": "question",    "model": string|null, "teil": number|null, "number": string, "text": string, "options": [{"label":"a","text":"..."}], "page": number },
+    { "type": "answer_key_entry", "model": string|null, "teil": number|null, "number": string, "answer": string, "page": number },
+    { "type": "image_ref",   "model": string|null, "teil": number|null, "description": string, "page": number },
+    { "type": "audio_ref",   "model": string|null, "teil": number|null, "description": string, "page": number }
   ]
 }
-Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) PDF.`;
+Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR a combined PDF.`;
 
-    const userInstruction = imp.kind === "answer_key"
-      ? "This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim."
-      : "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim.";
+    const userInstruction =
+      imp.kind === "answer_key"
+        ? "This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim."
+        : imp.kind === "combined"
+          ? "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag."
+          : "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim.";
 
     const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
@@ -145,6 +151,7 @@ Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüsse
     const pageCount = Number.isFinite(parsed?.page_count) ? parsed.page_count : null;
     const needsReview = Boolean(parsed?.needs_manual_review);
     const lowConfidence = Array.isArray(parsed?.low_confidence_items) ? parsed.low_confidence_items : [];
+    const modelsDetected = Array.isArray(parsed?.models_detected) ? parsed.models_detected : [];
 
     // Upsert extraction row
     const { data: existing } = await context.supabase
@@ -156,13 +163,13 @@ Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüsse
     if (existing?.id) {
       const { error: upErr } = await context.supabase
         .from("pdf_extractions")
-        .update({ blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence }) })
+        .update({ blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence, models_detected: modelsDetected }) })
         .eq("id", existing.id);
       if (upErr) throw new Error(upErr.message);
     } else {
       const { error: insErr } = await context.supabase
         .from("pdf_extractions")
-        .insert({ import_id: data.importId, blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence }) });
+        .insert({ import_id: data.importId, blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence, models_detected: modelsDetected }) });
       if (insErr) throw new Error(insErr.message);
     }
 
@@ -175,7 +182,7 @@ Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüsse
       })
       .eq("id", data.importId);
 
-    return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence };
+    return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence, modelsDetected };
   });
 
 /**
