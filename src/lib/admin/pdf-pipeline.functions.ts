@@ -81,12 +81,16 @@ Rules — never violate:
 - Preserve section headers like "Teil 1", "Teil 2", "Lesen", "Hören", "Schreiben", "Sprachbausteine", "Mündlicher Ausdruck".
 - If the PDF is scanned, OCR it. Preserve diacritics (ä ö ü ß).
 - If you cannot read a character with confidence, transcribe as [?].
+ - If ANY content cannot be extracted with 100% confidence, mark it with [?] AND add it to "low_confidence_items" AND set "needs_manual_review": true. Do NOT guess.
+ - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
   "kind": "exam" | "answer_key",
   "level": "b1" | "b2" | null,
   "page_count": number,
+  "needs_manual_review": boolean,
+  "low_confidence_items": [{ "page": number, "teil": number|null, "reason": string, "snippet": string }],
   "blocks": [
     { "type": "section",     "teil": number|null, "module": string|null, "text": string, "page": number },
     { "type": "instruction", "teil": number|null, "text": string, "page": number },
@@ -139,6 +143,8 @@ Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüsse
 
     const blocks = Array.isArray(parsed?.blocks) ? parsed.blocks : [];
     const pageCount = Number.isFinite(parsed?.page_count) ? parsed.page_count : null;
+    const needsReview = Boolean(parsed?.needs_manual_review);
+    const lowConfidence = Array.isArray(parsed?.low_confidence_items) ? parsed.low_confidence_items : [];
 
     // Upsert extraction row
     const { data: existing } = await context.supabase
@@ -150,13 +156,13 @@ Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüsse
     if (existing?.id) {
       const { error: upErr } = await context.supabase
         .from("pdf_extractions")
-        .update({ blocks, page_count: pageCount })
+        .update({ blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence }) })
         .eq("id", existing.id);
       if (upErr) throw new Error(upErr.message);
     } else {
       const { error: insErr } = await context.supabase
         .from("pdf_extractions")
-        .insert({ import_id: data.importId, blocks, page_count: pageCount });
+        .insert({ import_id: data.importId, blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence }) });
       if (insErr) throw new Error(insErr.message);
     }
 
@@ -169,7 +175,7 @@ Only include answer_key_entry blocks if this is an answer-key (Lösungsschlüsse
       })
       .eq("id", data.importId);
 
-    return { ok: true, blockCount: blocks.length, pageCount };
+    return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence };
   });
 
 /**
@@ -226,8 +232,16 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     await assertSuperAdmin(context);
 
     const { data: ext } = await context.supabase
-      .from("pdf_extractions").select("blocks").eq("import_id", data.examImportId).maybeSingle();
+      .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
     if (!ext) throw new Error("Run extraction on the exam PDF first");
+    try {
+      const meta = ext.raw_text ? JSON.parse(ext.raw_text) : null;
+      if (meta?.needs_manual_review) {
+        throw new Error("Extraction flagged for manual review — resolve low-confidence items before building exercises.");
+      }
+    } catch (e: any) {
+      if (e?.message?.startsWith("Extraction flagged")) throw e;
+    }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
 
