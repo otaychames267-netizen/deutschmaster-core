@@ -921,6 +921,7 @@ function ImportsList({
   canDelete?: boolean;
 }) {
   const [refreshing, setRefreshing] = useState(false);
+  const [logRow, setLogRow] = useState<PdfImportRow | null>(null);
   const handle = async () => {
     setRefreshing(true);
     try { await onRefresh(); } finally { setRefreshing(false); }
@@ -966,7 +967,7 @@ function ImportsList({
                     <td className="py-1 pr-2 max-w-[280px]" title={i.original_name ?? ""}>
                       <p className="truncate">{i.original_name ?? "—"}</p>
                       {i.error_message && (
-                        <p className="text-destructive text-[10px] break-words mt-0.5">⚠ {i.error_message}</p>
+                        <p className="text-destructive text-[10px] break-words mt-0.5 line-clamp-3">⚠ {i.error_message}</p>
                       )}
                     </td>
                     <td className="py-1 pr-2">
@@ -975,16 +976,27 @@ function ImportsList({
                     <td className="py-1 pr-2 font-mono text-[10px] text-muted-foreground">{i.id}</td>
                     {onDelete && (
                       <td className="py-1 pr-2">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="h-6 px-2 text-destructive"
-                          disabled={!canDelete}
-                          onClick={() => onDelete(i)}
-                          title={canDelete ? "Endgültig löschen" : "Nur Super-Admin"}
-                        >
-                          <Trash2 className="size-3.5" />
-                        </Button>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-6 px-2"
+                            onClick={() => setLogRow(i)}
+                            title="Logs / Fehlerdetails anzeigen"
+                          >
+                            <FileSearch className="size-3.5" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-6 px-2 text-destructive"
+                            disabled={!canDelete}
+                            onClick={() => onDelete(i)}
+                            title={canDelete ? "Endgültig löschen" : "Nur Super-Admin"}
+                          >
+                            <Trash2 className="size-3.5" />
+                          </Button>
+                        </div>
                       </td>
                     )}
                   </tr>
@@ -994,6 +1006,42 @@ function ImportsList({
           </div>
         )}
       </CardContent>
+      {logRow && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+          onClick={() => setLogRow(null)}
+        >
+          <div
+            className="max-h-[80vh] w-full max-w-2xl overflow-auto rounded-lg bg-background p-4 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-2 mb-2">
+              <div>
+                <h3 className="font-semibold">Import-Logs</h3>
+                <p className="text-xs text-muted-foreground font-mono break-all">{logRow.id}</p>
+              </div>
+              <Button size="sm" variant="ghost" onClick={() => setLogRow(null)}>Schließen</Button>
+            </div>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs mb-3">
+              <div><span className="text-muted-foreground">Datei:</span> {logRow.original_name ?? "—"}</div>
+              <div><span className="text-muted-foreground">Typ:</span> {logRow.kind}</div>
+              <div><span className="text-muted-foreground">Level:</span> {logRow.level ?? "—"}</div>
+              <div><span className="text-muted-foreground">Status:</span> {logRow.status}</div>
+              <div className="col-span-2"><span className="text-muted-foreground">Storage:</span> <span className="font-mono break-all">{logRow.storage_path ?? "—"}</span></div>
+              <div className="col-span-2"><span className="text-muted-foreground">Erstellt:</span> {new Date(logRow.created_at).toLocaleString()}</div>
+            </div>
+            <h4 className="text-sm font-semibold mb-1">Fehler / Diagnose</h4>
+            {logRow.error_message ? (
+              <pre className="whitespace-pre-wrap break-words rounded bg-muted p-3 text-[11px] text-destructive font-mono">{logRow.error_message}</pre>
+            ) : (
+              <p className="text-xs text-muted-foreground">Keine Fehler gespeichert. Browser-Konsole und Server-Logs prüfen für Details.</p>
+            )}
+            <p className="text-[10px] text-muted-foreground mt-3">
+              Vollständige Server-Logs erscheinen in der Browser-Konsole (mit Präfix <code>[extractPdfVerbatim]</code>) und in den Cloud-Logs.
+            </p>
+          </div>
+        </div>
+      )}
     </Card>
   );
 }
