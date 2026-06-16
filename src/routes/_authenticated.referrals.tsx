@@ -22,7 +22,7 @@ function ReferralsPage() {
     if (!user) return;
     const code = user.id.slice(0, 8);
     setLink(`${window.location.origin}/register?ref=${code}`);
-  }, [user]);
+  }, [user?.id]);
 
   const copy = async () => {
     await navigator.clipboard.writeText(link);
