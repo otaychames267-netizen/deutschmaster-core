@@ -276,6 +276,7 @@ function PdfImportPage() {
         </TabsContent>
 
         <TabsContent value="extract" className="space-y-3">
+          <ImportsList imports={imports} onRefresh={() => refresh()} />
           <Card>
             <CardHeader>
               <CardTitle>Importierte PDFs</CardTitle>
