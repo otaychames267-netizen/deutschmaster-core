@@ -512,3 +512,180 @@ export const gradeImportedAttempt = createServerFn({ method: "POST" })
     // Do NOT return the correct answer — students may see only pass/fail.
     return { graded: true, isCorrect, keyVersion: key.key_version };
   });
+
+/**
+ * Run a 100% fidelity check between the original PDF extraction (source of truth)
+ * and the exercises built from it. Detects added / removed / modified content,
+ * numbering differences and section differences.
+ *
+ * Persists one row in pdf_fidelity_reports. Publishing is blocked unless a
+ * passing report exists (enforced by the guard_exercise_publish trigger).
+ */
+export const runFidelityCheck = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { examImportId: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+
+    const { data: ext } = await context.supabase
+      .from("pdf_extractions")
+      .select("blocks, raw_text")
+      .eq("import_id", data.examImportId)
+      .maybeSingle();
+    if (!ext) throw new Error("Extraktion fehlt — bitte zuerst extrahieren.");
+
+    let extractionMeta: any = null;
+    try { extractionMeta = ext.raw_text ? JSON.parse(ext.raw_text) : null; } catch {}
+    if (extractionMeta?.needs_manual_review) {
+      // Hard fail — record and stop
+      const { data: fail } = await context.supabase
+        .from("pdf_fidelity_reports")
+        .insert({
+          exam_import_id: data.examImportId,
+          status: "fail",
+          added_count: 0,
+          removed_count: 0,
+          modified_count: 0,
+          numbering_diff_count: 0,
+          section_diff_count: 0,
+          details: { reason: "extraction_needs_manual_review", lowConfidenceItems: extractionMeta?.low_confidence_items ?? [] },
+          created_by: context.userId,
+        })
+        .select("id")
+        .single();
+      return { status: "fail" as const, reportId: fail?.id, reason: "extraction_needs_manual_review" };
+    }
+
+    const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
+
+    // Build "source" canonical items keyed by teil::number for questions,
+    // plus a list of sections and instructions per teil.
+    type SrcQ = { teil: number; number: string; text: string; options: string[] };
+    const srcQuestions = new Map<string, SrcQ>();
+    const srcSections = new Set<number>();
+    const srcInstructions = new Map<number, string>();
+    const srcPassages = new Map<number, string>();
+    for (const b of blocks) {
+      const teil = Number(b?.teil) || 0;
+      if (b.type === "section" && teil) srcSections.add(teil);
+      if (b.type === "instruction" && teil) srcInstructions.set(teil, String(b.text ?? ""));
+      if (b.type === "passage" && teil) srcPassages.set(teil, String(b.text ?? ""));
+      if (b.type === "question" && teil) {
+        srcQuestions.set(`${teil}::${String(b.number ?? "").trim()}`, {
+          teil,
+          number: String(b.number ?? "").trim(),
+          text: String(b.text ?? ""),
+          options: Array.isArray(b.options) ? b.options.map((o: any) => String(o?.text ?? "")) : [],
+        });
+      }
+    }
+
+    // Load exercises built from this import
+    const { data: exercises } = await context.supabase
+      .from("exercises")
+      .select("id, teil, title, prompt, passage, options, original_numbering, status")
+      .eq("source_pdf_import_id", data.examImportId);
+
+    const builtKeys = new Set<string>();
+    const exerciseTeils = new Set<number>();
+    const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
+    const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
+
+    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
+
+    for (const ex of exercises ?? []) {
+      const teil = Number(ex.teil) || 0;
+      const num = String(ex.original_numbering ?? "").trim();
+      if (teil) exerciseTeils.add(teil);
+      const key = `${teil}::${num}`;
+      builtKeys.add(key);
+      const src = srcQuestions.get(key);
+      if (!src) {
+        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: key });
+        continue;
+      }
+      if (norm(src.text) !== norm(ex.prompt)) {
+        modified.push({ key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      }
+      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
+      if (src.options.length !== builtOpts.length) {
+        modified.push({ key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
+      } else {
+        for (let i = 0; i < src.options.length; i++) {
+          if (norm(src.options[i]) !== norm(builtOpts[i])) {
+            modified.push({ key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
+          }
+        }
+      }
+    }
+
+    // Removed = present in source but not in built exercises
+    const removed: string[] = [];
+    for (const k of srcQuestions.keys()) if (!builtKeys.has(k)) removed.push(k);
+
+    // Added = present in built but not in source
+    const added: string[] = [];
+    for (const k of builtKeys) if (!srcQuestions.has(k)) added.push(k);
+
+    // Section diffs (teil sets)
+    const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
+    for (const t of srcSections) if (!exerciseTeils.has(t)) sectionDiffs.push({ teil: t, in: "source" });
+    for (const t of exerciseTeils) if (!srcSections.has(t)) sectionDiffs.push({ teil: t, in: "built" });
+
+    const status: "pass" | "fail" =
+      added.length === 0 &&
+      removed.length === 0 &&
+      modified.length === 0 &&
+      numberingDiffs.length === 0 &&
+      sectionDiffs.length === 0
+        ? "pass"
+        : "fail";
+
+    const { data: report, error: repErr } = await context.supabase
+      .from("pdf_fidelity_reports")
+      .insert({
+        exam_import_id: data.examImportId,
+        status,
+        added_count: added.length,
+        removed_count: removed.length,
+        modified_count: modified.length,
+        numbering_diff_count: numberingDiffs.length,
+        section_diff_count: sectionDiffs.length,
+        details: { added, removed, modified, numberingDiffs, sectionDiffs },
+        created_by: context.userId,
+      })
+      .select("id")
+      .single();
+    if (repErr) throw new Error(repErr.message);
+
+    return {
+      status,
+      reportId: report?.id,
+      summary: {
+        added: added.length,
+        removed: removed.length,
+        modified: modified.length,
+        numberingDiffs: numberingDiffs.length,
+        sectionDiffs: sectionDiffs.length,
+      },
+      details: { added, removed, modified, numberingDiffs, sectionDiffs },
+    };
+  });
+
+/**
+ * Get the latest fidelity report for an import (admin).
+ */
+export const getLatestFidelityReport = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { examImportId: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { data: report } = await context.supabase
+      .from("pdf_fidelity_reports")
+      .select("*")
+      .eq("exam_import_id", data.examImportId)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    return { report };
+  });
