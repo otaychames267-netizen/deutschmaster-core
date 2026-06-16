@@ -452,3 +452,49 @@ export const checkSuperAdmin = createServerFn({ method: "POST" })
     const { data } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "super_admin" });
     return { isSuperAdmin: Boolean(data) };
   });
+
+/**
+ * Grade a student's answer for a PDF-imported exercise WITHOUT revealing the answer.
+ * Looks up exercise_answer_keys server-side and returns only is_correct + reference (if any).
+ * Also persists the attempt with the latest key_version.
+ */
+export const gradeImportedAttempt = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { exerciseId: string; answer: string; durationSeconds?: number | null }) => d)
+  .handler(async ({ data, context }) => {
+    // No role check — any signed-in student may grade their own attempt
+    const { data: keys } = await context.supabase
+      .from("exercise_answer_keys")
+      .select("correct_answer, key_version, reference_answer")
+      .eq("exercise_id", data.exerciseId)
+      .order("key_version", { ascending: false })
+      .limit(1);
+    // RLS hides exercise_answer_keys from students — so use admin client here, server-only:
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: adminKeys } = await supabaseAdmin
+      .from("exercise_answer_keys")
+      .select("correct_answer, key_version")
+      .eq("exercise_id", data.exerciseId)
+      .order("key_version", { ascending: false })
+      .limit(1);
+    const key = (adminKeys && adminKeys[0]) || (keys && keys[0]);
+    if (!key) return { graded: false, isCorrect: null, message: "No answer key available" };
+
+    const target = typeof key.correct_answer === "string"
+      ? key.correct_answer
+      : JSON.stringify(key.correct_answer);
+    const isCorrect = String(data.answer).trim().toLowerCase() === String(target).trim().toLowerCase();
+
+    await supabaseAdmin.from("user_exercise_attempts").insert({
+      user_id: context.userId,
+      exercise_id: data.exerciseId,
+      answer: data.answer,
+      is_correct: isCorrect,
+      score: isCorrect ? 100 : 0,
+      duration_seconds: data.durationSeconds ?? null,
+      key_version: key.key_version,
+    });
+
+    // Do NOT return the correct answer — students may see only pass/fail.
+    return { graded: true, isCorrect, keyVersion: key.key_version };
+  });
