@@ -227,6 +227,60 @@ export type Database = {
         }
         Relationships: []
       }
+      exercise_answer_keys: {
+        Row: {
+          correct_answer: Json
+          created_at: string
+          exercise_id: string
+          id: string
+          item_number: string
+          key_version: number
+          pdf_import_id: string | null
+          reference_answer: string | null
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          correct_answer: Json
+          created_at?: string
+          exercise_id: string
+          id?: string
+          item_number: string
+          key_version?: number
+          pdf_import_id?: string | null
+          reference_answer?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          correct_answer?: Json
+          created_at?: string
+          exercise_id?: string
+          id?: string
+          item_number?: string
+          key_version?: number
+          pdf_import_id?: string | null
+          reference_answer?: string | null
+          source?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "exercise_answer_keys_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercise_answer_keys_pdf_import_id_fkey"
+            columns: ["pdf_import_id"]
+            isOneToOne: false
+            referencedRelation: "pdf_imports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       exercises: {
         Row: {
           audio_id: string | null
@@ -239,9 +293,11 @@ export type Database = {
           level: Database["public"]["Enums"]["exercise_level"]
           module: Database["public"]["Enums"]["exercise_module"]
           options: Json
+          original_numbering: string | null
           passage: string | null
           position: number
           prompt: string
+          source_pdf_import_id: string | null
           status: Database["public"]["Enums"]["exercise_status"]
           tags: string[]
           teil: number
@@ -259,9 +315,11 @@ export type Database = {
           level: Database["public"]["Enums"]["exercise_level"]
           module: Database["public"]["Enums"]["exercise_module"]
           options?: Json
+          original_numbering?: string | null
           passage?: string | null
           position?: number
           prompt: string
+          source_pdf_import_id?: string | null
           status?: Database["public"]["Enums"]["exercise_status"]
           tags?: string[]
           teil: number
@@ -279,9 +337,11 @@ export type Database = {
           level?: Database["public"]["Enums"]["exercise_level"]
           module?: Database["public"]["Enums"]["exercise_module"]
           options?: Json
+          original_numbering?: string | null
           passage?: string | null
           position?: number
           prompt?: string
+          source_pdf_import_id?: string | null
           status?: Database["public"]["Enums"]["exercise_status"]
           tags?: string[]
           teil?: number
@@ -294,6 +354,13 @@ export type Database = {
             columns: ["audio_id"]
             isOneToOne: false
             referencedRelation: "audio_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercises_source_pdf_import_id_fkey"
+            columns: ["source_pdf_import_id"]
+            isOneToOne: false
+            referencedRelation: "pdf_imports"
             referencedColumns: ["id"]
           },
         ]
@@ -473,6 +540,44 @@ export type Database = {
           },
         ]
       }
+      pdf_extractions: {
+        Row: {
+          blocks: Json
+          created_at: string
+          id: string
+          import_id: string
+          page_count: number | null
+          raw_text: string | null
+          updated_at: string
+        }
+        Insert: {
+          blocks?: Json
+          created_at?: string
+          id?: string
+          import_id: string
+          page_count?: number | null
+          raw_text?: string | null
+          updated_at?: string
+        }
+        Update: {
+          blocks?: Json
+          created_at?: string
+          id?: string
+          import_id?: string
+          page_count?: number | null
+          raw_text?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pdf_extractions_import_id_fkey"
+            columns: ["import_id"]
+            isOneToOne: false
+            referencedRelation: "pdf_imports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pdf_files: {
         Row: {
           created_at: string
@@ -503,7 +608,11 @@ export type Database = {
           extracted_candidates: Json
           extracted_text: string | null
           id: string
+          kind: string
+          level: string | null
+          linked_import_id: string | null
           notes: string | null
+          ocr_used: boolean
           original_name: string | null
           status: string
           storage_path: string
@@ -515,7 +624,11 @@ export type Database = {
           extracted_candidates?: Json
           extracted_text?: string | null
           id?: string
+          kind?: string
+          level?: string | null
+          linked_import_id?: string | null
           notes?: string | null
+          ocr_used?: boolean
           original_name?: string | null
           status?: string
           storage_path: string
@@ -527,14 +640,26 @@ export type Database = {
           extracted_candidates?: Json
           extracted_text?: string | null
           id?: string
+          kind?: string
+          level?: string | null
+          linked_import_id?: string | null
           notes?: string | null
+          ocr_used?: boolean
           original_name?: string | null
           status?: string
           storage_path?: string
           updated_at?: string
           uploaded_by?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "pdf_imports_linked_import_id_fkey"
+            columns: ["linked_import_id"]
+            isOneToOne: false
+            referencedRelation: "pdf_imports"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       plans: {
         Row: {
@@ -707,6 +832,47 @@ export type Database = {
         }
         Relationships: []
       }
+      regrade_audits: {
+        Row: {
+          attempts_affected: number
+          created_at: string
+          exercise_id: string
+          id: string
+          items_changed: number
+          key_version: number
+          notes: string | null
+          performed_by: string | null
+        }
+        Insert: {
+          attempts_affected?: number
+          created_at?: string
+          exercise_id: string
+          id?: string
+          items_changed?: number
+          key_version: number
+          notes?: string | null
+          performed_by?: string | null
+        }
+        Update: {
+          attempts_affected?: number
+          created_at?: string
+          exercise_id?: string
+          id?: string
+          items_changed?: number
+          key_version?: number
+          notes?: string | null
+          performed_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "regrade_audits_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "exercises"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       speaking_topics: {
         Row: {
           created_at: string
@@ -847,7 +1013,9 @@ export type Database = {
           exercise_id: string
           id: string
           is_correct: boolean | null
+          key_version: number | null
           needs_review: boolean
+          regraded_at: string | null
           score: number | null
           user_id: string
         }
@@ -859,7 +1027,9 @@ export type Database = {
           exercise_id: string
           id?: string
           is_correct?: boolean | null
+          key_version?: number | null
           needs_review?: boolean
+          regraded_at?: string | null
           score?: number | null
           user_id: string
         }
@@ -871,7 +1041,9 @@ export type Database = {
           exercise_id?: string
           id?: string
           is_correct?: boolean | null
+          key_version?: number | null
           needs_review?: boolean
+          regraded_at?: string | null
           score?: number | null
           user_id?: string
         }
