@@ -252,6 +252,7 @@ function PdfImportPage() {
         </TabsList>
 
         <TabsContent value="upload" className="space-y-3">
+          <ImportsList imports={imports} onRefresh={() => refresh()} />
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2"><FileText className="size-4" />Prüfungs-PDF hochladen</CardTitle>
