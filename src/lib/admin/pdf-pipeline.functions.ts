@@ -363,6 +363,17 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       return String(a.model).localeCompare(String(b.model), undefined, { numeric: true });
     });
 
+    // Shared-passage fallback: if a model group has no passage/instruction of
+    // its own (because the PDF prints the reading text once and reuses it for
+    // every Modell), borrow ONLY the text from another group. Questions and
+    // answers are NEVER shared across models — each model keeps its own.
+    const sharedPassage = ordered.find((g) => g.firstPassage)?.firstPassage ?? null;
+    const sharedInstruction = ordered.find((g) => g.firstInstruction)?.firstInstruction ?? null;
+    for (const g of ordered) {
+      if (!g.firstPassage && sharedPassage) g.firstPassage = sharedPassage;
+      if (!g.firstInstruction && sharedInstruction) g.firstInstruction = sharedInstruction;
+    }
+
     for (const g of ordered) {
       const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
       const passage = g.firstPassage;
