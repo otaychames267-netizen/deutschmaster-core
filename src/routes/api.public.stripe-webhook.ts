@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 /**
  * Stripe webhook receiver — SCAFFOLD ONLY.
@@ -38,6 +37,7 @@ export const Route = createFileRoute("/api/public/stripe-webhook")({
         }
 
         try {
+          const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
           switch (event.type) {
             case "checkout.session.completed": {
               const s = event.data.object;
