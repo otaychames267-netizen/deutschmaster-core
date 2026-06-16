@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { getExamSession, finishExam } from "@/lib/exercises/exam.functions";
 import { submitAttempt } from "@/lib/exercises/attempts.functions";
@@ -22,6 +22,7 @@ function ExamRunner() {
   const load = useServerFn(getExamSession);
   const submit = useServerFn(submitAttempt);
   const finish = useServerFn(finishExam);
+  const loadRef = useRef(load);
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<any>(null);
   const [exercises, setExercises] = useState<ExerciseDTO[]>([]);
@@ -32,8 +33,13 @@ function ExamRunner() {
   const [result, setResult] = useState<{ total: number; breakdown: Record<string, { count: number; avg: number }>; needsReview: number } | null>(null);
 
   useEffect(() => {
+    loadRef.current = load;
+  }, [load]);
+
+  useEffect(() => {
     let cancel = false;
-    load({ data: { sessionId: id } })
+    console.debug("[Lingovia diagnostics] Exam session fetch", { sessionId: id });
+    loadRef.current({ data: { sessionId: id } })
       .then((r) => {
         if (cancel) return;
         setSession(r.session);
@@ -47,7 +53,7 @@ function ExamRunner() {
       .catch((e) => toast.error(e?.message ?? "Konnte Prüfung nicht laden"))
       .finally(() => !cancel && setLoading(false));
     return () => { cancel = true; };
-  }, [id, load]);
+  }, [id]);
 
   const doFinish = async () => {
     setFinishing(true);
