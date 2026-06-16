@@ -667,6 +667,7 @@ export type Database = {
       pdf_imports: {
         Row: {
           created_at: string
+          error_message: string | null
           extracted_candidates: Json
           extracted_text: string | null
           id: string
@@ -683,6 +684,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          error_message?: string | null
           extracted_candidates?: Json
           extracted_text?: string | null
           id?: string
@@ -699,6 +701,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          error_message?: string | null
           extracted_candidates?: Json
           extracted_text?: string | null
           id?: string
