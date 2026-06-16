@@ -39,6 +39,24 @@ type PdfImportRow = {
   ocr_used: boolean;
 };
 
+type UploadStep =
+  | { ts: number; label: string; status: "info" | "ok" | "error"; detail?: string };
+
+type SlotState = {
+  fileName: string | null;
+  fileSize: number | null;
+  level: "b1" | "b2";
+  phase: "idle" | "uploading" | "storing" | "saving" | "done" | "error";
+  error: string | null;
+  log: UploadStep[];
+  importId: string | null;
+};
+
+const initialSlot = (): SlotState => ({
+  fileName: null, fileSize: null, level: "b2",
+  phase: "idle", error: null, log: [], importId: null,
+});
+
 function PdfImportPage() {
   const createImport = useServerFn(createPdfImportV2);
   const extract = useServerFn(extractPdfVerbatim);
@@ -53,6 +71,8 @@ function PdfImportPage() {
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [busy, setBusy] = useState(false);
   const [imports, setImports] = useState<PdfImportRow[]>([]);
+  const [examSlot, setExamSlot] = useState<SlotState>(initialSlot());
+  const [keySlot, setKeySlot] = useState<SlotState>(initialSlot());
   const [selectedExamId, setSelectedExamId] = useState<string | null>(null);
   const [selectedKeyId, setSelectedKeyId] = useState<string | null>(null);
   const [extractionPreview, setExtractionPreview] = useState<any>(null);
@@ -76,17 +96,73 @@ function PdfImportPage() {
   }, []);
 
   const upload = async (file: File, kind: "exam" | "answer_key", level: "b1" | "b2") => {
-    setBusy(true);
+    const setSlot = kind === "exam" ? setExamSlot : setKeySlot;
+    const pushLog = (entry: Omit<UploadStep, "ts">) =>
+      setSlot((s) => ({ ...s, log: [...s.log, { ts: Date.now(), ...entry }] }));
+
+    // Validation
+    if (!file) {
+      setSlot((s) => ({ ...s, phase: "error", error: "Keine Datei ausgewählt." }));
+      return;
+    }
+    if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
+      setSlot((s) => ({
+        ...s, phase: "error",
+        error: `Datei ist kein PDF (Typ: ${file.type || "unbekannt"}).`,
+        fileName: file.name, fileSize: file.size,
+      }));
+      return;
+    }
+    if (file.size > 50 * 1024 * 1024) {
+      setSlot((s) => ({
+        ...s, phase: "error",
+        error: `Datei zu groß (${(file.size / 1024 / 1024).toFixed(1)} MB, max. 50 MB).`,
+        fileName: file.name, fileSize: file.size,
+      }));
+      return;
+    }
+
+    setSlot({
+      fileName: file.name, fileSize: file.size, level,
+      phase: "uploading", error: null, importId: null,
+      log: [{ ts: Date.now(), label: "Upload gestartet", status: "info",
+              detail: `${file.name} · ${(file.size / 1024).toFixed(1)} KB · Slot: ${kind}` }],
+    });
+    console.info("[pdf-import] upload start", { kind, level, name: file.name, size: file.size });
+
+    const path = `${kind}/${Date.now()}-${file.name.replace(/[^a-z0-9.\-_]/gi, "_")}`;
+    setSlot((s) => ({ ...s, phase: "storing" }));
+    pushLog({ label: "Speichere in Storage", status: "info", detail: `Pfad: ${path}` });
     try {
-      const path = `${kind}/${Date.now()}-${file.name.replace(/[^a-z0-9.\-_]/gi, "_")}`;
-      const { error } = await supabase.storage.from("pdf-imports").upload(path, file);
-      if (error) throw error;
-      await createImport({ data: { storagePath: path, originalName: file.name, kind, level } });
+      const { error: stErr } = await supabase.storage.from("pdf-imports").upload(path, file, {
+        contentType: "application/pdf", upsert: false,
+      });
+      if (stErr) {
+        console.error("[pdf-import] storage error", stErr);
+        pushLog({ label: "Storage-Fehler", status: "error", detail: stErr.message });
+        setSlot((s) => ({ ...s, phase: "error", error: `Storage: ${stErr.message}` }));
+        toast.error(`Storage-Upload fehlgeschlagen: ${stErr.message}`);
+        return;
+      }
+      pushLog({ label: "Storage gespeichert", status: "ok", detail: path });
+      console.info("[pdf-import] storage ok", { path });
+
+      setSlot((s) => ({ ...s, phase: "saving" }));
+      pushLog({ label: "Datenbank-Eintrag wird erstellt", status: "info" });
+      const res = await createImport({ data: { storagePath: path, originalName: file.name, kind, level } });
+      pushLog({ label: "Datenbank-Eintrag erstellt", status: "ok", detail: `ID: ${res.id}` });
+      console.info("[pdf-import] db ok", res);
+
+      setSlot((s) => ({ ...s, phase: "done", importId: res.id }));
       toast.success(`${kind === "exam" ? "Prüfungs-PDF" : "Lösungsschlüssel"} hochgeladen`);
       await refresh();
     } catch (e: any) {
-      toast.error(e?.message ?? "Upload fehlgeschlagen");
-    } finally { setBusy(false); }
+      const msg = e?.message ?? String(e);
+      console.error("[pdf-import] upload failed", e);
+      pushLog({ label: "Fehler", status: "error", detail: msg });
+      setSlot((s) => ({ ...s, phase: "error", error: msg }));
+      toast.error(`Upload fehlgeschlagen: ${msg}`);
+    }
   };
 
   const runExtract = async (id: string) => {
@@ -94,12 +170,15 @@ function PdfImportPage() {
     setBusy(true);
     try {
       toast.info("Extrahiere mit Gemini Vision … das kann 30–60 s dauern.");
+      console.info("[pdf-import] extraction start", { importId: id });
       const r = await extract({ data: { importId: id } });
+      console.info("[pdf-import] extraction ok", r);
       toast.success(`Extraktion fertig: ${r.blockCount} Blöcke`);
       await refresh();
       await preview(id);
     } catch (e: any) {
-      toast.error(e?.message ?? "Extraktion fehlgeschlagen");
+      console.error("[pdf-import] extraction failed", e);
+      toast.error(`Extraktion fehlgeschlagen: ${e?.message ?? e}`);
     } finally { setBusy(false); }
   };
 
@@ -160,7 +239,8 @@ function PdfImportPage() {
               <CardDescription>Original-TELC-PDF. Inhalt bleibt unverändert (verbatim). Auch gescannte PDFs werden per OCR (Gemini Vision) verarbeitet.</CardDescription>
             </CardHeader>
             <CardContent>
-              <UploadRow onUpload={(f, lvl) => upload(f, "exam", lvl)} busy={busy} />
+              <UploadSlot slot={examSlot} onLevel={(lvl) => setExamSlot((s) => ({ ...s, level: lvl }))}
+                onUpload={(f) => upload(f, "exam", examSlot.level)} />
             </CardContent>
           </Card>
           <Card>
@@ -169,7 +249,8 @@ function PdfImportPage() {
               <CardDescription>Antwortenheft / Lösungs-PDF. Wird im Hintergrund gespeichert und nur für Korrektur verwendet — Lernende sehen den Schlüssel <b>nie</b>.</CardDescription>
             </CardHeader>
             <CardContent>
-              <UploadRow onUpload={(f, lvl) => upload(f, "answer_key", lvl)} busy={busy} />
+              <UploadSlot slot={keySlot} onLevel={(lvl) => setKeySlot((s) => ({ ...s, level: lvl }))}
+                onUpload={(f) => upload(f, "answer_key", keySlot.level)} />
             </CardContent>
           </Card>
         </TabsContent>
