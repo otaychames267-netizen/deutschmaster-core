@@ -111,9 +111,23 @@ export function ExerciseRunner({
 
       {exercise.kind === "true_false" && (
         <div className="flex gap-2">
-          {(opts.length ? opts : ["Richtig", "Falsch"]).map((o) => (
-            <Button key={o} type="button" variant={answer === o ? "default" : "outline"} disabled={!!result} onClick={() => setAnswer(o)}>{o}</Button>
-          ))}
+          {(opts.length ? opts : ["Richtig", "Falsch"]).map((o) => {
+            const selected = answer === o;
+            const isRight = result && correctSet.has(o);
+            const isWrong = result && selected && !correctSet.has(o);
+            return (
+              <Button
+                key={o}
+                type="button"
+                variant={selected ? "default" : "outline"}
+                disabled={!!result}
+                onClick={() => setAnswer(o)}
+                className={`${isRight ? "border-green-500 bg-green-500/10 text-foreground" : ""} ${isWrong ? "border-red-500 bg-red-500/10 text-foreground" : ""}`}
+              >
+                {o}
+              </Button>
+            );
+          })}
         </div>
       )}
 
