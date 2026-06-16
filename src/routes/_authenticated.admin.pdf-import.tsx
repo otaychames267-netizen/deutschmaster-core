@@ -70,6 +70,7 @@ function PdfImportPage() {
   const checkRole = useServerFn(checkSuperAdmin);
   const fidelityRun = useServerFn(runFidelityCheck);
   const fidelityGet = useServerFn(getLatestFidelityReport);
+  const deleteImport = useServerFn(deletePdfImport);
 
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -106,6 +107,50 @@ function PdfImportPage() {
     refresh().catch(() => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Auto-refresh while any import is in a transient state so the admin never
+  // sees a "stuck" row without explanation.
+  useEffect(() => {
+    const transient = imports.some(i =>
+      ["pending", "extracting", "building"].includes(i.status),
+    );
+    if (!transient) return;
+    const t = setInterval(() => { refresh().catch(() => {}); }, 4000);
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imports]);
+
+  const onDelete = async (row: PdfImportRow) => {
+    const label = row.original_name ?? row.id;
+    if (!window.confirm(
+      `PDF endgültig löschen?\n\n"${label}"\n\nEntfernt: Storage-Datei, Extraktion, Treuekontroll-Berichte, Entwurf-Übungen und deren Lösungsschlüssel (inkl. aller Modelle). Veröffentlichte Übungen werden NICHT gelöscht. Diese Aktion kann nicht rückgängig gemacht werden.`,
+    )) return;
+    try {
+      const r = await deleteImport({ data: { importId: row.id } });
+      toast.success(
+        `Gelöscht: ${r.removed.exercises} Übung(en), ${r.removed.answerKeys} Schlüssel, ` +
+        `${r.removed.extraction} Extraktion, ${r.removed.fidelityReports} Bericht(e), ` +
+        `Storage ${r.removed.storage ? "ok" : "—"}.`,
+      );
+      await refresh();
+      if (selectedExamId === row.id) setSelectedExamId(null);
+      if (selectedKeyId === row.id) setSelectedKeyId(null);
+      if (extractionPreview?.import?.id === row.id) setExtractionPreview(null);
+    } catch (e: any) {
+      const msg = e?.message ?? String(e);
+      if (/veröffentlichte/.test(msg) && window.confirm(`${msg}\n\nTrotzdem löschen (inkl. veröffentlichte Übungen)?`)) {
+        try {
+          await deleteImport({ data: { importId: row.id, force: true } });
+          toast.success("Gelöscht (inkl. veröffentlichte Übungen).");
+          await refresh();
+        } catch (e2: any) {
+          toast.error(e2?.message ?? "Löschen fehlgeschlagen");
+        }
+      } else {
+        toast.error(msg);
+      }
+    }
+  };
 
   const upload = async (file: File, kind: "exam" | "answer_key" | "combined", level: "b1" | "b2") => {
     const setSlot = kind === "exam" ? setExamSlot : kind === "answer_key" ? setKeySlot : setCombinedSlot;
