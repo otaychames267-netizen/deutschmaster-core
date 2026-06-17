@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { PDFDocument } from "pdf-lib";
 
 type Ctx = { supabase: any; userId: string };
 
@@ -67,11 +68,22 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
     }
     log("starting", { importId: data.importId, keyPresent: true });
 
-    // Mark as extracting so the admin sees progress in the list.
+    // Mark as extracting so the admin sees progress in the list, and stamp the
+    // start time so the 5-min watchdog can detect stuck jobs.
     await context.supabase
       .from("pdf_imports")
-      .update({ status: "extracting", error_message: null })
+      .update({
+        status: "extracting",
+        error_message: null,
+        extraction_started_at: new Date().toISOString(),
+      })
       .eq("id", data.importId);
+
+    // Hard 5-minute deadline for the whole extraction (sum of all chunk calls).
+    const HARD_DEADLINE_MS = 5 * 60 * 1000;
+    const deadlineAt = Date.now() + HARD_DEADLINE_MS;
+    const ac = new AbortController();
+    const watchdog = setTimeout(() => ac.abort(), HARD_DEADLINE_MS);
 
     try {
     step = "load_import_row";
@@ -94,11 +106,33 @@ export const extractPdfVerbatim = createServerFn({ method: "POST" })
     const fileSize = buf.byteLength;
     log("pdf downloaded", { bytes: fileSize, sizeMB: +(fileSize/1024/1024).toFixed(2) });
     if (fileSize === 0) throw new Error(`Downloaded PDF is empty (0 bytes, path=${imp.storage_path})`);
-    step = "base64_encode";
-    let bin = "";
-    for (let i = 0; i < buf.byteLength; i++) bin += String.fromCharCode(buf[i]);
-    const b64 = typeof btoa !== "undefined" ? btoa(bin) : Buffer.from(buf).toString("base64");
-    log("base64 encoded", { b64Length: b64.length });
+
+    // ---- Chunk the PDF into small page-batches so each Gemini call stays
+    // inside the model's output-token budget. Large scanned TELC PDFs
+    // (15–20 MB, 20+ pages) cannot be extracted in a single request — the
+    // response gets truncated and returns empty content.
+    step = "pdf_parse";
+    const sourceDoc = await PDFDocument.load(buf, { ignoreEncryption: true });
+    const totalPages = sourceDoc.getPageCount();
+    const CHUNK_PAGES = 5; // ~5 pages per Gemini call
+    log("pdf parsed", { totalPages, chunkSize: CHUNK_PAGES });
+
+    const chunks: Array<{ startPage: number; endPage: number; b64: string }> = [];
+    for (let i = 0; i < totalPages; i += CHUNK_PAGES) {
+      step = `chunk_build_${i}`;
+      const indices: number[] = [];
+      for (let p = i; p < Math.min(i + CHUNK_PAGES, totalPages); p++) indices.push(p);
+      const chunkDoc = await PDFDocument.create();
+      const copied = await chunkDoc.copyPages(sourceDoc, indices);
+      for (const page of copied) chunkDoc.addPage(page);
+      const bytes = await chunkDoc.save();
+      // base64
+      let bin = "";
+      for (let k = 0; k < bytes.byteLength; k++) bin += String.fromCharCode(bytes[k]);
+      const b64 = typeof btoa !== "undefined" ? btoa(bin) : Buffer.from(bytes).toString("base64");
+      chunks.push({ startPage: i + 1, endPage: i + indices.length, b64 });
+    }
+    log("chunks built", { count: chunks.length });
 
     const system = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
@@ -140,58 +174,90 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
           ? "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag."
           : "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim.";
 
-    step = "gemini_request";
-    log("calling Gemini", { model: "google/gemini-2.5-pro", kind: imp.kind, sizeMB: +(fileSize/1024/1024).toFixed(2) });
-    const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Lovable-API-Key": apiKey,
-        "X-Lovable-AIG-SDK": "raw",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
-        messages: [
-          { role: "system", content: system },
-          {
-            role: "user",
-            content: [
-              { type: "text", text: userInstruction },
-              { type: "file", file: { filename: "exam.pdf", file_data: `data:application/pdf;base64,${b64}` } },
-            ],
-          },
-        ],
-        response_format: { type: "json_object" },
-      }),
-    });
-    log("gemini status", { status: resp.status });
-    if (!resp.ok) {
-      const t = await resp.text().catch(() => "");
-      log("gemini error body", t.slice(0, 1000));
-      if (resp.status === 429) throw new Error("AI rate limit — please retry in a moment.");
-      if (resp.status === 402) throw new Error("AI credits exhausted. Add credits in workspace settings.");
-      throw new Error(`Gemini extraction failed (HTTP ${resp.status}): ${t.slice(0, 800) || "<empty body>"}`);
-    }
-    step = "gemini_parse";
-    const json = await resp.json().catch((e) => { throw new Error(`Gemini response was not JSON: ${e?.message ?? e}`); });
-    const raw = json?.choices?.[0]?.message?.content ?? "{}";
-    const finishReason = json?.choices?.[0]?.finish_reason ?? json?.choices?.[0]?.finishReason ?? null;
-    log("gemini parsed", { finishReason, rawLength: typeof raw === "string" ? raw.length : -1, usage: json?.usage });
-    if (typeof raw === "string" && raw.trim().length < 5) {
-      throw new Error(`Gemini returned empty content (finish_reason=${finishReason ?? "?"}). Full response: ${JSON.stringify(json).slice(0, 1200)}`);
-    }
-    let parsed: any;
-    try { parsed = typeof raw === "string" ? JSON.parse(raw) : raw; }
-    catch (e: any) {
-      const snippet = typeof raw === "string" ? raw.slice(0, 800) : JSON.stringify(raw).slice(0, 800);
-      throw new Error(`Could not parse Gemini JSON output: ${e?.message ?? e}. Snippet: ${snippet}`);
+    // ---- Call Gemini once per chunk and aggregate ----
+    const allBlocks: any[] = [];
+    const allLowConfidence: any[] = [];
+    const modelsSet = new Set<string>();
+    let needsReview = false;
+    let detectedLevel: string | null = null;
+
+    for (let ci = 0; ci < chunks.length; ci++) {
+      const c = chunks[ci];
+      if (Date.now() > deadlineAt) {
+        throw new Error(`Watchdog: extraction exceeded 5-minute deadline at chunk ${ci + 1}/${chunks.length} (pages ${c.startPage}-${c.endPage}).`);
+      }
+      step = `gemini_request_chunk_${ci + 1}`;
+      const chunkInstruction = `${userInstruction}\n\nThis is chunk ${ci + 1} of ${chunks.length}. It contains PDF pages ${c.startPage}–${c.endPage} of a ${totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (i.e. add ${c.startPage - 1} to the in-chunk page if needed — pages in this chunk are numbered ${c.startPage}–${c.endPage}). Extract every block on these pages verbatim. Do not skip pages.`;
+      log(`calling Gemini chunk ${ci + 1}/${chunks.length}`, { pages: `${c.startPage}-${c.endPage}`, b64Len: c.b64.length });
+      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        signal: ac.signal,
+        headers: {
+          "Content-Type": "application/json",
+          "Lovable-API-Key": apiKey,
+          "X-Lovable-AIG-SDK": "raw",
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-pro",
+          messages: [
+            { role: "system", content: system },
+            {
+              role: "user",
+              content: [
+                { type: "text", text: chunkInstruction },
+                { type: "file", file: { filename: `exam-chunk-${ci + 1}.pdf`, file_data: `data:application/pdf;base64,${c.b64}` } },
+              ],
+            },
+          ],
+          response_format: { type: "json_object" },
+        }),
+      });
+      log(`gemini status chunk ${ci + 1}`, { status: resp.status });
+      if (!resp.ok) {
+        const t = await resp.text().catch(() => "");
+        log(`gemini error body chunk ${ci + 1}`, t.slice(0, 1000));
+        if (resp.status === 429) throw new Error(`AI rate limit on chunk ${ci + 1}/${chunks.length} — please retry in a moment.`);
+        if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${ci + 1}/${chunks.length}. Add credits in workspace settings.`);
+        throw new Error(`Gemini extraction failed on chunk ${ci + 1}/${chunks.length} (HTTP ${resp.status}, pages ${c.startPage}-${c.endPage}): ${t.slice(0, 600) || "<empty body>"}`);
+      }
+      const json = await resp.json().catch((e) => { throw new Error(`Gemini response was not JSON on chunk ${ci + 1}: ${e?.message ?? e}`); });
+      const raw = json?.choices?.[0]?.message?.content ?? "{}";
+      const finishReason = json?.choices?.[0]?.finish_reason ?? json?.choices?.[0]?.finishReason ?? null;
+      log(`gemini parsed chunk ${ci + 1}`, { finishReason, rawLength: typeof raw === "string" ? raw.length : -1, usage: json?.usage });
+      if (typeof raw === "string" && raw.trim().length < 5) {
+        throw new Error(`Gemini returned empty content on chunk ${ci + 1}/${chunks.length} (finish_reason=${finishReason ?? "?"}, pages ${c.startPage}-${c.endPage}).`);
+      }
+      let parsed: any;
+      try { parsed = typeof raw === "string" ? JSON.parse(raw) : raw; }
+      catch (e: any) {
+        const snippet = typeof raw === "string" ? raw.slice(0, 600) : JSON.stringify(raw).slice(0, 600);
+        throw new Error(`Could not parse Gemini JSON on chunk ${ci + 1}/${chunks.length}: ${e?.message ?? e}. Snippet: ${snippet}`);
+      }
+      const chunkBlocks: any[] = Array.isArray(parsed?.blocks) ? parsed.blocks : [];
+      // Normalize page numbers to absolute pages (some models obey instruction,
+      // some emit 1..n inside the chunk — clamp safely).
+      for (const b of chunkBlocks) {
+        const p = Number(b?.page);
+        if (Number.isFinite(p) && p > 0 && p <= (c.endPage - c.startPage + 1)) {
+          // Looks like an in-chunk number — translate.
+          b.page = c.startPage + (p - 1);
+        } else if (!Number.isFinite(p) || p < c.startPage || p > c.endPage) {
+          // Fallback: stamp to chunk start.
+          b.page = c.startPage;
+        }
+        allBlocks.push(b);
+      }
+      if (Array.isArray(parsed?.low_confidence_items)) allLowConfidence.push(...parsed.low_confidence_items);
+      if (Array.isArray(parsed?.models_detected)) for (const m of parsed.models_detected) if (m != null) modelsSet.add(String(m));
+      if (parsed?.needs_manual_review) needsReview = true;
+      if (!detectedLevel && (parsed?.level === "b1" || parsed?.level === "b2")) detectedLevel = parsed.level;
     }
 
-    const blocks = Array.isArray(parsed?.blocks) ? parsed.blocks : [];
-    const pageCount = Number.isFinite(parsed?.page_count) ? parsed.page_count : null;
-    const needsReview = Boolean(parsed?.needs_manual_review);
-    const lowConfidence = Array.isArray(parsed?.low_confidence_items) ? parsed.low_confidence_items : [];
-    const modelsDetected = Array.isArray(parsed?.models_detected) ? parsed.models_detected : [];
+    const blocks = allBlocks;
+    const pageCount = totalPages;
+    const lowConfidence = allLowConfidence;
+    const modelsDetected = [...modelsSet];
+    log("aggregated", { blockCount: blocks.length, models: modelsDetected, pageCount });
 
     // Upsert extraction row
     const { data: existing } = await context.supabase
@@ -218,7 +284,7 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
       .update({
         status: "extracted",
         ocr_used: true,
-        level: parsed?.level ?? imp.level ?? null,
+        level: detectedLevel ?? imp.level ?? null,
         error_message: null,
       })
       .eq("id", data.importId);
@@ -227,7 +293,9 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
     } catch (err: any) {
       const msg = String(err?.message ?? err);
       const stack = err?.stack ? String(err.stack).slice(0, 2000) : "";
-      const full = `[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
+      const aborted = err?.name === "AbortError";
+      const prefix = aborted ? "[watchdog 5-min timeout] " : "";
+      const full = `${prefix}[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
       try { console.error("[extractPdfVerbatim] FAILED", { step, msg, stack }); } catch {}
       await context.supabase
         .from("pdf_imports")
@@ -236,7 +304,72 @@ Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR
       // Return instead of throw so the client receives the full diagnostic
       // (TanStack RPC otherwise masks server errors as "Internal server error").
       return { ok: false as const, step, error: msg, stack, details: full };
+    } finally {
+      clearTimeout(watchdog);
     }
+  });
+
+/**
+ * Watchdog: mark any extraction/build job whose start timestamp is older than
+ * 5 minutes as failed. Called from the admin page poller so orphaned rows
+ * (e.g. killed worker, network drop, redeploy) never stay "extracting" forever.
+ */
+export const reapStuckExtractions = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const cutoffISO = new Date(Date.now() - 5 * 60 * 1000).toISOString();
+    // Extracting jobs older than 5 min
+    const { data: stuckExtract } = await context.supabase
+      .from("pdf_imports")
+      .select("id, status")
+      .in("status", ["extracting", "pending"])
+      .lt("extraction_started_at", cutoffISO);
+    let reaped = 0;
+    for (const row of stuckExtract ?? []) {
+      await context.supabase
+        .from("pdf_imports")
+        .update({
+          status: "extraction_failed",
+          error_message: "[watchdog] Job stuck in '" + row.status + "' for more than 5 minutes — auto-failed. Re-run extraction or delete and re-upload.",
+        })
+        .eq("id", row.id);
+      reaped++;
+    }
+    // Building jobs older than 5 min
+    const { data: stuckBuild } = await context.supabase
+      .from("pdf_imports")
+      .select("id")
+      .eq("status", "building")
+      .lt("extraction_started_at", cutoffISO);
+    for (const row of stuckBuild ?? []) {
+      await context.supabase
+        .from("pdf_imports")
+        .update({
+          status: "build_failed",
+          error_message: "[watchdog] Build stuck for more than 5 minutes — auto-failed.",
+        })
+        .eq("id", row.id);
+      reaped++;
+    }
+    // Also stamp pending rows that never got an extraction_started_at, using created_at as fallback.
+    const { data: stalePending } = await context.supabase
+      .from("pdf_imports")
+      .select("id, created_at")
+      .eq("status", "pending")
+      .is("extraction_started_at", null)
+      .lt("created_at", cutoffISO);
+    for (const row of stalePending ?? []) {
+      await context.supabase
+        .from("pdf_imports")
+        .update({
+          status: "extraction_failed",
+          error_message: "[watchdog] Import remained in 'pending' for more than 5 minutes without ever starting extraction.",
+        })
+        .eq("id", row.id);
+      reaped++;
+    }
+    return { reaped };
   });
 
 /**
