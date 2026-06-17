@@ -462,7 +462,11 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     // Mark the import as currently building exercises.
     await context.supabase
       .from("pdf_imports")
-      .update({ status: "building", error_message: null })
+      .update({
+        status: "building",
+        error_message: null,
+        extraction_started_at: new Date().toISOString(),
+      })
       .eq("id", data.examImportId);
 
     try {
