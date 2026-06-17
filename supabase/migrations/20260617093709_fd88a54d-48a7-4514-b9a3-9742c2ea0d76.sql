@@ -1,0 +1,1 @@
+ALTER TABLE public.pdf_imports ADD COLUMN IF NOT EXISTS extraction_started_at timestamptz;

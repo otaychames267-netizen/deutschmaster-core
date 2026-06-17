@@ -670,6 +670,7 @@ export type Database = {
           error_message: string | null
           extracted_candidates: Json
           extracted_text: string | null
+          extraction_started_at: string | null
           id: string
           kind: string
           level: string | null
@@ -687,6 +688,7 @@ export type Database = {
           error_message?: string | null
           extracted_candidates?: Json
           extracted_text?: string | null
+          extraction_started_at?: string | null
           id?: string
           kind?: string
           level?: string | null
@@ -704,6 +706,7 @@ export type Database = {
           error_message?: string | null
           extracted_candidates?: Json
           extracted_text?: string | null
+          extraction_started_at?: string | null
           id?: string
           kind?: string
           level?: string | null
