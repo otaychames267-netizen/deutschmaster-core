@@ -277,34 +277,97 @@ function MatchingInputs({
     }
     return m;
   }, [correct, pairs]);
+  // Lesen Teil 3 interaction: student selects a question first, then taps the
+  // matching title letter. No dropdowns, no need to click the text first.
+  const [activeLeft, setActiveLeft] = useState<string | null>(null);
+  useEffect(() => {
+    if (locked) setActiveLeft(null);
+  }, [locked]);
   return (
-    <div className="space-y-2">
-      {lefts.map((l) => {
-        const expected = expectedMap.get(l);
-        const given = String(answer[l] ?? "").trim();
-        const ok = expected != null && given.toLowerCase() === String(expected).trim().toLowerCase();
-        return (
-          <div key={l} className="grid grid-cols-[1fr_1fr_auto] gap-2 items-center">
-            <span className="text-sm font-medium">{l}</span>
-            <select
+    <div className="space-y-4">
+      {/* Questions */}
+      <div className="space-y-2">
+        {lefts.map((l) => {
+          const expected = expectedMap.get(l);
+          const given = String(answer[l] ?? "").trim();
+          const ok = expected != null && given.toLowerCase() === String(expected).trim().toLowerCase();
+          const isActive = activeLeft === l && !locked;
+          const stateClass = locked && expected != null
+            ? (ok ? "border-green-500 bg-green-500/5" : "border-red-500 bg-red-500/5")
+            : isActive
+              ? "border-primary ring-2 ring-primary/30"
+              : "border-border hover:border-primary/50";
+          return (
+            <button
+              key={l}
+              type="button"
               disabled={locked}
-              value={answer[l] ?? ""}
-              onChange={(e) => onChange({ ...answer, [l]: e.target.value })}
-              className={`rounded-md border bg-background px-2 py-1.5 text-sm ${locked && expected != null ? (ok ? "border-green-500" : "border-red-500") : ""}`}
+              onClick={() => setActiveLeft(activeLeft === l ? null : l)}
+              className={`w-full flex items-center justify-between gap-3 rounded-md border bg-background px-3 py-2 text-left text-sm transition-colors ${stateClass} ${locked ? "cursor-default" : "cursor-pointer"}`}
             >
-              <option value="">—</option>
-              {rights.map((r) => <option key={r} value={r}>{r}</option>)}
-            </select>
-            {locked && expected != null && (
-              ok ? (
-                <span className="inline-flex items-center gap-1 text-green-600 text-xs"><Check className="size-3" /> {expected}</span>
-              ) : (
-                <span className="inline-flex items-center gap-1 text-red-600 text-xs"><X className="size-3" /> → <span className="text-foreground font-medium">{expected}</span></span>
-              )
+              <span className="font-medium">{l}</span>
+              <span className="flex items-center gap-2">
+                {given ? (
+                  <span className={`inline-flex items-center justify-center min-w-7 h-7 rounded-md border font-semibold ${locked ? (ok ? "border-green-500 text-green-700" : "border-red-500 text-red-700") : "border-primary text-primary"}`}>
+                    {given}
+                  </span>
+                ) : (
+                  <span className="text-xs text-muted-foreground">{locked ? "—" : "Antwort wählen ↓"}</span>
+                )}
+                {locked && expected != null && !ok && (
+                  <span className="inline-flex items-center gap-1 text-red-600 text-xs">
+                    <X className="size-3" /> → <span className="text-foreground font-semibold">{expected}</span>
+                  </span>
+                )}
+                {locked && expected != null && ok && (
+                  <Check className="size-4 text-green-600" />
+                )}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Title picker — only visible while a question is selected */}
+      {!locked && activeLeft && (
+        <div className="rounded-md border bg-muted/30 p-3">
+          <p className="text-xs text-muted-foreground mb-2">
+            Wählen Sie den passenden Titel für <span className="font-semibold text-foreground">{activeLeft}</span>:
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {rights.map((r) => {
+              const isPicked = String(answer[activeLeft] ?? "") === r;
+              return (
+                <button
+                  key={r}
+                  type="button"
+                  onClick={() => {
+                    onChange({ ...answer, [activeLeft]: r });
+                    // Auto-advance to the next unanswered question.
+                    const next = lefts.find((l) => l !== activeLeft && !answer[l]);
+                    setActiveLeft(next ?? null);
+                  }}
+                  className={`rounded-md border px-3 py-1.5 text-sm font-medium transition-colors ${isPicked ? "border-primary bg-primary text-primary-foreground" : "border-border bg-background hover:border-primary hover:bg-primary/5"}`}
+                >
+                  {r}
+                </button>
+              );
+            })}
+            {answer[activeLeft] && (
+              <button
+                type="button"
+                onClick={() => {
+                  const { [activeLeft]: _, ...rest } = answer;
+                  onChange(rest);
+                }}
+                className="rounded-md border border-dashed px-3 py-1.5 text-xs text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
+              >
+                Auswahl löschen
+              </button>
             )}
           </div>
-        );
-      })}
+        </div>
+      )}
     </div>
   );
 }
