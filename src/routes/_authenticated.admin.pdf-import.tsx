@@ -13,6 +13,7 @@ import {
   runFidelityCheck,
   getLatestFidelityReport,
   deletePdfImport,
+  reapStuckExtractions,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -118,6 +119,7 @@ const initialSlot = (): SlotState => ({
 function PdfImportPage() {
   const createImport = useServerFn(createPdfImportV2);
   const extract = useServerFn(extractPdfVerbatim);
+  const reap = useServerFn(reapStuckExtractions);
   const fetchExtraction = useServerFn(getExtraction);
   const fetchImports = useServerFn(listPdfImports);
   const buildExercises = useServerFn(buildExercisesFromExtraction);
@@ -170,7 +172,11 @@ function PdfImportPage() {
       ["pending", "extracting", "building"].includes(i.status),
     );
     if (!transient) return;
-    const t = setInterval(() => { refresh().catch(() => {}); }, 4000);
+    const t = setInterval(() => {
+      // Reap stuck jobs (>5 min) then refresh — this guarantees the UI never
+      // shows a row stuck in "extracting" forever, even if the worker died.
+      reap({ data: {} } as any).catch(() => {}).finally(() => refresh().catch(() => {}));
+    }, 4000);
     return () => clearInterval(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imports]);
