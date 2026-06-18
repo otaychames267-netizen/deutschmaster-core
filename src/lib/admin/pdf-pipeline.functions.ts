@@ -557,6 +557,7 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
     const apiKey = process.env.LOVABLE_API_KEY ?? "";
     if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     let step = "load_import_row";
+    let failurePages = "?";
     try {
       const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
       if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
@@ -566,6 +567,7 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       if (data.chunkIndex < 0 || data.chunkIndex >= totalChunks) throw new Error(`Invalid chunkIndex ${data.chunkIndex}; expected 0..${totalChunks - 1}`);
       const startIdx = data.chunkIndex * CHUNK_PAGES;
       const endIdxExclusive = Math.min(startIdx + CHUNK_PAGES, totalPages);
+      failurePages = `${startIdx + 1}-${endIdxExclusive}`;
       const pageIndices = Array.from({ length: endIdxExclusive - startIdx }, (_, i) => startIdx + i);
       step = "chunk_build";
       const chunkDoc = await PDFDocument.create();
@@ -598,36 +600,22 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       const stack = String(err?.stack ?? "").slice(0, 6000);
       const full = `[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
 
-      // Fault tolerance: if this is a per-chunk failure (gemini/parse/repair),
-      // mark THIS chunk as failed-but-skipped, keep the import in `extracting`,
-      // and let the client continue with the next chunk. Hard infrastructure
-      // failures (storage download, missing import row, credits exhausted) still
-      // fail the import.
-      const isHardFailure = /Forbidden|Import not found|Storage download failed|Downloaded PDF is empty|LOVABLE_API_KEY|credits exhausted/i.test(msg)
-        || step === "load_import_row" || step === "storage_download_pdf_parse";
-
-      if (isHardFailure) {
-        await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
-        await appendImportLog(context.supabase, data.importId, { event: "extraction_failed", step, error: msg, stack });
-        return { ok: false as const, step, error: msg, stack, details: full, hard: true };
-      }
-
-      // Soft failure: record this chunk as failed in meta and let the loop continue.
+      // No silent skipping: every failed chunk is persisted with its page range,
+      // then the import is marked failed so admins see the real blocker instead
+      // of an "extracted" import with missing TELC content.
       try {
         const { data: existing } = await context.supabase.from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
         let meta: ExtractionMeta = {};
         try { meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { meta = {}; }
         const failed = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
-        const completed = new Set<number>(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
-        // mark as "completed" so finalize doesn't treat it as missing — but record the failure
-        completed.add(data.chunkIndex);
-        failed.push({ chunk: data.chunkIndex, pages: `?`, reason: msg.slice(0, 600), model: "gemini" });
-        const nextMeta: ExtractionMeta = { ...meta, chunks_completed: [...completed].sort((a, b) => a - b), chunks_failed: failed, needs_manual_review: true };
+        failed.push({ chunk: data.chunkIndex, pages: failurePages, reason: msg.slice(0, 1200), model: "gemini" });
+        const nextMeta: ExtractionMeta = { ...meta, chunks_failed: failed, needs_manual_review: true };
         const blocks = Array.isArray(existing?.blocks) ? existing.blocks : [];
         await upsertExtraction(context.supabase, data.importId, blocks, Number((existing as any)?.page_count ?? 0) || 0, nextMeta);
       } catch {}
-      await appendImportLog(context.supabase, data.importId, { event: "chunk_skipped", step, chunkIndex: data.chunkIndex, error: msg, stack });
-      return { ok: true as const, skipped: true, chunkIndex: data.chunkIndex, step, error: msg, details: full };
+      await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
+      await appendImportLog(context.supabase, data.importId, { event: "chunk_failed", step, chunkIndex: data.chunkIndex, pages: failurePages, error: msg, stack });
+      return { ok: false as const, chunkIndex: data.chunkIndex, pages: failurePages, step, error: msg, stack, details: full, hard: true };
     }
   });
 
