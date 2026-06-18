@@ -122,6 +122,8 @@ const initialSlot = (): SlotState => ({
 function PdfImportPage() {
   const createImport = useServerFn(createPdfImportV2);
   const extract = useServerFn(extractPdfVerbatim);
+  const extractChunk = useServerFn(extractPdfChunk);
+  const finalizeExtraction = useServerFn(finalizePdfExtraction);
   const reap = useServerFn(reapStuckExtractions);
   const fetchExtraction = useServerFn(getExtraction);
   const fetchImports = useServerFn(listPdfImports);
@@ -318,18 +320,32 @@ function PdfImportPage() {
     if (!isSuperAdmin) { toast.error("Nur Super-Admin"); return; }
     setBusy(true);
     try {
-      toast.info("Extrahiere mit Gemini Vision … das kann 30–60 s dauern.");
+      toast.info("Extraktion gestartet — Chunks werden einzeln verarbeitet.");
       console.info("[pdf-import] extraction start", { importId: id });
-      const r = await extract({ data: { importId: id } });
-      console.info("[pdf-import] extraction result", r);
-      if ((r as any)?.ok === false) {
-        const det = (r as any).details ?? (r as any).error ?? "Unbekannter Fehler";
-        console.error("[pdf-import] extraction failed at step", (r as any).step, det);
-        toast.error(`Extraktion fehlgeschlagen [${(r as any).step}]: ${(r as any).error}`, { duration: 12000 });
+      const started = await extract({ data: { importId: id } });
+      console.info("[pdf-import] extraction initialized", started);
+      const total = Number((started as any).chunkCount ?? 0);
+      for (let chunkIndex = 0; chunkIndex < total; chunkIndex++) {
+        toast.info(`Extrahiere Chunk ${chunkIndex + 1}/${total} …`);
+        const r = await extractChunk({ data: { importId: id, chunkIndex } });
+        console.info("[pdf-import] chunk result", r);
+        if ((r as any)?.ok === false) {
+          const det = (r as any).details ?? (r as any).error ?? "Unbekannter Fehler";
+          console.error("[pdf-import] extraction failed at step", (r as any).step, det);
+          toast.error(`Extraktion fehlgeschlagen [${(r as any).step}]: ${(r as any).error}`, { duration: 12000 });
+          await refresh();
+          return;
+        }
+        await refresh();
+      }
+      const done = await finalizeExtraction({ data: { importId: id } });
+      console.info("[pdf-import] extraction finalized", done);
+      if ((done as any)?.ok === false) {
+        toast.error(`Extraktion fehlgeschlagen: ${(done as any).error}`, { duration: 12000 });
         await refresh();
         return;
       }
-      toast.success(`Extraktion fertig: ${(r as any).blockCount} Blöcke`);
+      toast.success(`Extraktion fertig: ${(done as any).blockCount} Blöcke`);
       await refresh();
       await preview(id);
     } catch (e: any) {
