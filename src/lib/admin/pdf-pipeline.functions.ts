@@ -74,6 +74,9 @@ Rules — never violate:
 - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
 - If the SAME reading text / passage is reused across several models (e.g. one text serves Modell 1, Modell 2 and Modell 3), emit ONE passage block per model — duplicate the passage verbatim and tag each copy with its respective "model". Do NOT merge models. Questions and answer_key_entry blocks for each model must remain isolated.
  - GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
+ - IGNORE INDEX / OVERVIEW PAGES: Many TELC PDFs start with a "Themenliste", table of contents, or topic-overview page that lists only titles (e.g. "Parking", "Traumfrau", "Verpackungen", "Ernährung", "Kreditkarten", "Karneval", "Kellner"), sometimes with Arabic translations next to each title. These pages are NOT exercises. Do NOT emit passage, instruction, question or answer_key_entry blocks for them. You may emit a single "section" block named "Themenliste" if useful, but never invent questions from a topic list.
+ - IGNORE OWNER / DISTRIBUTION METADATA: Do NOT emit blocks containing WhatsApp group names, Telegram/Facebook groups, channel names, owner names, translator credits, file names, watermarks, copyright notes, page footers, or non-exam headers (e.g. "Fließend Deutsch B2 Telc – Inssaf", "Gruppe WhatsApp", phone numbers, social handles, URLs that are not part of the printed exam text). Strip these silently — never include them in passage / instruction / question / option text.
+ - A "real exercise" requires at least one of: (a) an instruction + a passage with associated questions, (b) a question with answer choices, or (c) a matching/cloze task. A bare list of topic titles is NOT a real exercise and must be skipped.
  - STRICT JSON: Return ONLY valid JSON. Use double quotes for all strings. Escape every double quote inside a string as \\". Escape newlines inside strings as \\n. Do not emit trailing commas, comments, single quotes around keys, or markdown code fences. Keep each "text" value as a single JSON string with newlines escaped. Prefer shorter passage chunks over emitting unescaped control characters.
 
 Return STRICT JSON with this shape (no markdown fences):
@@ -129,6 +132,25 @@ async function appendImportLog(supabase: any, importId: string, entry: Record<st
 
 function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[] {
   const out: any[] = [];
+  // Patterns for owner/distribution noise that must never appear in exam content.
+  const NOISE_RX = /(whats\s*app|telegram|facebook|instagram|tiktok|youtube|gruppe\s+whatsapp|fließend\s+deutsch.*telc|inssaf|t\.me\/|wa\.me\/|https?:\/\/|©|copyright|all rights reserved)/i;
+  const ARABIC_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  const stripArabic = (s: string) => s.replace(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g, "").replace(/[ \t]{2,}/g, " ").replace(/[ \t]+([.,;:!?])/g, "$1").trim();
+  const isNoiseText = (s: string) => {
+    const t = (s ?? "").trim();
+    if (!t) return true;
+    if (NOISE_RX.test(t)) return true;
+    return false;
+  };
+  // A "themenliste" / index passage is mostly short title-lines and no real sentences.
+  const isIndexPassage = (text: string) => {
+    const t = (text ?? "").trim();
+    if (!t) return false;
+    const lines = t.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    if (lines.length < 3) return false;
+    const titleLike = lines.filter((l) => l.length <= 40 && !/[.!?]$/.test(l)).length;
+    return titleLike / lines.length >= 0.75;
+  };
   const visit = (b: any) => {
     if (!b || typeof b !== "object") return;
     if (Array.isArray(b.blocks)) for (const child of b.blocks) visit(child);
@@ -144,10 +166,23 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
     const base: any = { ...b, type, model, teil: Number.isFinite(teil) ? teil : null, page };
     if (type === "question") {
       base.number = String(b.number ?? b.question_number ?? b.id ?? "");
-      base.text = String(b.text ?? b.question ?? "");
+      base.text = stripArabic(String(b.text ?? b.question ?? ""));
       base.options = Array.isArray(b.options)
-        ? b.options.map((o: any) => ({ label: String(o.label ?? o.id ?? ""), text: String(o.text ?? "") }))
+        ? b.options.map((o: any) => ({ label: String(o.label ?? o.id ?? ""), text: stripArabic(String(o.text ?? "")) }))
         : [];
+      if (isNoiseText(base.text) && base.options.length === 0) return;
+    } else if (type === "instruction") {
+      base.text = stripArabic(String(b.text ?? ""));
+      if (isNoiseText(base.text)) return;
+    } else if (type === "passage") {
+      base.text = stripArabic(String(b.text ?? ""));
+      if (isNoiseText(base.text)) return;
+      if (isIndexPassage(base.text)) return; // skip Themenliste / index pages
+      // Title may keep Arabic per spec (helps identify topics), but strip noise tokens.
+      if (b.title) base.title = String(b.title);
+    } else if (type === "answer_key_entry") {
+      base.answer = stripArabic(String(b.answer ?? ""));
+      if (!base.answer) return;
     }
     out.push(base);
   };
