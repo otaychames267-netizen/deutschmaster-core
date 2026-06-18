@@ -530,23 +530,56 @@ async function callGeminiDirectOnce(args: {
 
 export const startPdfExtraction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { importId: string }) => d)
+  .inputValidator((d: { importId: string; resume?: boolean }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
     const apiKey = process.env.LOVABLE_API_KEY ?? "";
     if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
     if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
-    await context.supabase.from("pdf_imports").update({ status: "extracting", error_message: null, notes: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
     const { buf, doc, totalPages } = await downloadPdf(context.supabase, imp.storage_path);
     const pageDimensions = Array.from({ length: totalPages }, (_, i) => {
       const p = doc.getPage(i); return { page: i + 1, width: p.getWidth(), height: p.getHeight() };
     });
     const chunkCount = Math.ceil(totalPages / CHUNK_PAGES);
-    const meta: ExtractionMeta = { needs_manual_review: false, low_confidence_items: [], models_detected: [], chunks_total: chunkCount, chunks_completed: [], chunk_size: CHUNK_PAGES, diagnostics: [] };
-    await upsertExtraction(context.supabase, data.importId, [], totalPages, meta);
-    await appendImportLog(context.supabase, data.importId, { event: "extraction_started", model: EXTRACTION_MODEL, fileBytes: buf.byteLength, totalPages, chunkSize: CHUNK_PAGES, chunkCount, pageDimensions });
-    return { ok: true, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount, fileBytes: buf.byteLength };
+
+    // Resumable extraction: when the admin re-runs an extraction, preserve
+    // already-extracted blocks + chunks_completed so we never re-bill chunks
+    // that already succeeded. Only chunks_failed is cleared so failed chunks
+    // get a fresh attempt.
+    const { data: existing } = await context.supabase
+      .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+    let prevMeta: ExtractionMeta = {};
+    try { prevMeta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { prevMeta = {}; }
+    const prevCompleted = Array.isArray(prevMeta.chunks_completed) ? prevMeta.chunks_completed.filter((n) => Number.isInteger(n) && n >= 0 && n < chunkCount) : [];
+    const resume = Boolean(data.resume) && prevCompleted.length > 0;
+    const keptBlocks = resume && Array.isArray(existing?.blocks) ? existing!.blocks : [];
+    const meta: ExtractionMeta = {
+      needs_manual_review: false,
+      low_confidence_items: resume && Array.isArray(prevMeta.low_confidence_items) ? prevMeta.low_confidence_items : [],
+      models_detected: resume && Array.isArray(prevMeta.models_detected) ? prevMeta.models_detected : [],
+      chunks_total: chunkCount,
+      chunks_completed: resume ? prevCompleted : [],
+      chunks_failed: [], // always reset — re-run gives failures a fresh attempt
+      chunk_size: CHUNK_PAGES,
+      diagnostics: [],
+    };
+    await context.supabase.from("pdf_imports").update({
+      status: "extracting",
+      error_message: null,
+      notes: resume ? null : null,
+      extraction_started_at: new Date().toISOString(),
+    }).eq("id", data.importId);
+    await upsertExtraction(context.supabase, data.importId, keptBlocks, totalPages, meta);
+    await appendImportLog(context.supabase, data.importId, {
+      event: resume ? "extraction_resumed" : "extraction_started",
+      model: EXTRACTION_MODEL, fileBytes: buf.byteLength, totalPages, chunkSize: CHUNK_PAGES,
+      chunkCount, completedChunks: meta.chunks_completed, pageDimensions,
+    });
+    return {
+      ok: true, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount,
+      fileBytes: buf.byteLength, completedChunks: meta.chunks_completed ?? [], resumed: resume,
+    };
   });
 
 export const extractPdfChunk = createServerFn({ method: "POST" })
