@@ -431,6 +431,99 @@ async function callGeminiChunk(args: CallChunkArgs) {
   throw lastErr ?? new Error("Gemini chunk failed after all retries");
 }
 
+/** Direct Google Generative Language API call. Used when the Lovable AI
+ *  Gateway returns 402/429 and a personal GEMINI_API_KEY is configured.
+ *  Returns the same shape as callGeminiChunkOnce. */
+async function callGeminiDirectOnce(args: {
+  importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
+  startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
+  model: string; attempt: number;
+}) {
+  const directKey = process.env.GEMINI_API_KEY;
+  if (!directKey) throw new Error("GEMINI_API_KEY missing; cannot use direct Gemini fallback");
+  const directModel = toDirectGeminiModel(args.model);
+  const b64 = bytesToBase64(args.pdfBytes);
+  const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages. If the PDF contains Arabic text or bilingual annotations, IGNORE the Arabic completely and extract only the German content. Return STRICT JSON only — no markdown, no comments, no trailing commas. Escape every double quote and newline inside string values.`;
+  const body = {
+    systemInstruction: { role: "system", parts: [{ text: extractionSystemPrompt }] },
+    contents: [{
+      role: "user",
+      parts: [
+        { text: chunkInstruction },
+        { inlineData: { mimeType: "application/pdf", data: b64 } },
+      ],
+    }],
+    generationConfig: { temperature: 0, maxOutputTokens: 16000, responseMimeType: "application/json" },
+  };
+  const payload = JSON.stringify(body);
+  await appendImportLog(args.supabase, args.importId, {
+    event: "gemini_direct_request_sent", model: directModel, attempt: args.attempt,
+    chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, pages: `${args.startPage}-${args.endPage}`,
+    requestBytes: utf8Bytes(payload), pdfChunkBytes: args.pdfBytes.byteLength,
+  });
+  const started = Date.now();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+  try {
+    const url = `${GEMINI_DIRECT_BASE}/${directModel}:generateContent?key=${encodeURIComponent(directKey)}`;
+    const resp = await fetch(url, {
+      method: "POST", signal: controller.signal,
+      headers: { "Content-Type": "application/json" }, body: payload,
+    });
+    const rawBody = await resp.text();
+    const durationMs = Date.now() - started;
+    await appendImportLog(args.supabase, args.importId, {
+      event: "gemini_direct_response_received", model: directModel, attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, status: resp.status, ok: resp.ok,
+      durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
+    });
+    if (!resp.ok) {
+      if (resp.status === 429) throw new Error(`Direct Gemini rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody.slice(0, 800)}`);
+      throw new Error(`Direct Gemini failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
+    }
+    let apiJson: any;
+    try { apiJson = JSON.parse(rawBody); }
+    catch (e: any) { throw new Error(`Direct Gemini response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}`); }
+    const parts = apiJson?.candidates?.[0]?.content?.parts ?? [];
+    const content = parts.map((p: any) => typeof p?.text === "string" ? p.text : "").join("");
+    const finishReason = apiJson?.candidates?.[0]?.finishReason ?? null;
+    if (typeof content !== "string" || content.trim().length < 5) {
+      throw new Error(`Direct Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`);
+    }
+    let parsed: any;
+    let repaired = false;
+    let repairNote: string | undefined;
+    try { parsed = JSON.parse(content); }
+    catch (firstErr: any) {
+      try {
+        const r = repairAndParseJson(content);
+        parsed = r.parsed; repaired = true; repairNote = r.note;
+        await appendImportLog(args.supabase, args.importId, {
+          event: "gemini_direct_json_repaired", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+          model: directModel, attempt: args.attempt, repairNote, finishReason,
+          firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
+        });
+      } catch (repairErr: any) {
+        throw new Error(`Could not parse direct Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`);
+      }
+    }
+    return { parsed, finishReason, usage: apiJson?.usageMetadata, durationMs, repaired, repairNote };
+  } catch (err: any) {
+    const durationMs = Date.now() - started;
+    const msg = err?.name === "AbortError"
+      ? `Direct Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
+      : String(err?.message ?? err);
+    await appendImportLog(args.supabase, args.importId, {
+      event: "gemini_direct_request_failed", model: directModel, attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg,
+      stack: String(err?.stack ?? "").slice(0, 4000),
+    });
+    throw new Error(msg);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export const startPdfExtraction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { importId: string }) => d)
