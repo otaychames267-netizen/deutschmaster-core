@@ -46,6 +46,7 @@ export const createPdfImportV2 = createServerFn({ method: "POST" })
 
 const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 const EXTRACTION_MODEL = "google/gemini-2.5-flash";
+const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-pro";
 const CHUNK_PAGES = 2;
 const GEMINI_TIMEOUT_MS = 85_000;
 
@@ -55,6 +56,7 @@ type ExtractionMeta = {
   models_detected?: string[];
   chunks_total?: number;
   chunks_completed?: number[];
+  chunks_failed?: { chunk: number; pages: string; reason: string; model?: string }[];
   chunk_size?: number;
   diagnostics?: any[];
 };
@@ -71,6 +73,8 @@ Rules — never violate:
  - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
 - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
 - If the SAME reading text / passage is reused across several models (e.g. one text serves Modell 1, Modell 2 and Modell 3), emit ONE passage block per model — duplicate the passage verbatim and tag each copy with its respective "model". Do NOT merge models. Questions and answer_key_entry blocks for each model must remain isolated.
+ - GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
+ - STRICT JSON: Return ONLY valid JSON. Use double quotes for all strings. Escape every double quote inside a string as \\". Escape newlines inside strings as \\n. Do not emit trailing commas, comments, single quotes around keys, or markdown code fences. Keep each "text" value as a single JSON string with newlines escaped. Prefer shorter passage chunks over emitting unescaped control characters.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
@@ -170,14 +174,96 @@ async function upsertExtraction(supabase: any, importId: string, blocks: any[], 
   if (error) throw new Error(error.message);
 }
 
-async function callGeminiChunk(args: {
+function detectTruncated(text: string): boolean {
+  const t = text.trim();
+  if (!t) return true;
+  let braces = 0, brackets = 0, inStr = false, esc = false;
+  for (const c of t) {
+    if (esc) { esc = false; continue; }
+    if (c === "\\") { esc = true; continue; }
+    if (c === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (c === "{") braces++;
+    else if (c === "}") braces--;
+    else if (c === "[") brackets++;
+    else if (c === "]") brackets--;
+  }
+  return inStr || braces !== 0 || brackets !== 0;
+}
+
+/** Robust JSON extraction: strip code fences, slice to JSON span, sanitize control chars,
+ * drop trailing commas, close any unbalanced quotes/brackets/braces. Used as a fallback
+ * after a strict JSON.parse fails so a single malformed chunk does not kill the import. */
+function repairAndParseJson(raw: string): { parsed: any; repaired: boolean; note?: string } {
+  if (raw == null) throw new Error("empty response");
+  let s = String(raw).trim();
+  // strip markdown fences
+  s = s.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+  // strict parse first
+  try { return { parsed: JSON.parse(s), repaired: false }; } catch {}
+
+  // slice to outermost JSON span
+  const start = s.search(/[\{\[]/);
+  if (start === -1) throw new Error("no JSON object found");
+  const opener = s[start];
+  const closer = opener === "{" ? "}" : "]";
+  const lastClose = s.lastIndexOf(closer);
+  let body = lastClose > start ? s.slice(start, lastClose + 1) : s.slice(start);
+
+  // remove raw control characters that frequently appear inside string values
+  // when Gemini emits a literal newline instead of \n
+  body = body.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+  // collapse trailing commas before } or ]
+  body = body.replace(/,(\s*[}\]])/g, "$1");
+
+  try { return { parsed: JSON.parse(body), repaired: true, note: "sliced+sanitized" }; } catch {}
+
+  // walk the string and balance quotes/brackets so we can salvage a truncated tail
+  let inStr = false, esc = false;
+  let braces = 0, brackets = 0;
+  let lastSafe = -1;
+  for (let i = 0; i < body.length; i++) {
+    const c = body[i];
+    if (esc) { esc = false; continue; }
+    if (c === "\\") { esc = true; continue; }
+    if (c === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (c === "{") braces++;
+    else if (c === "}") { braces--; if (braces >= 0 && brackets >= 0) lastSafe = i; }
+    else if (c === "[") brackets++;
+    else if (c === "]") { brackets--; if (braces >= 0 && brackets >= 0) lastSafe = i; }
+  }
+
+  // truncate to the last balanced position
+  let cand = lastSafe > 0 ? body.slice(0, lastSafe + 1) : body;
+  // close anything still open (best effort)
+  inStr = false; esc = false; braces = 0; brackets = 0;
+  for (const c of cand) {
+    if (esc) { esc = false; continue; }
+    if (c === "\\") { esc = true; continue; }
+    if (c === '"') { inStr = !inStr; continue; }
+    if (inStr) continue;
+    if (c === "{") braces++; else if (c === "}") braces--;
+    else if (c === "[") brackets++; else if (c === "]") brackets--;
+  }
+  if (inStr) cand += '"';
+  while (brackets-- > 0) cand += "]";
+  while (braces-- > 0) cand += "}";
+  cand = cand.replace(/,(\s*[}\]])/g, "$1");
+
+  try { return { parsed: JSON.parse(cand), repaired: true, note: "rebalanced" }; }
+  catch (e: any) { throw new Error(`JSON repair failed: ${e?.message ?? e}`); }
+}
+
+async function callGeminiChunkOnce(args: {
   apiKey: string; importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
   startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
+  model: string; attempt: number;
 }) {
   const b64 = bytesToBase64(args.pdfBytes);
-  const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages.`;
+  const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages. If the PDF contains Arabic text or bilingual annotations, IGNORE the Arabic completely and extract only the German content. Return STRICT JSON only — no markdown, no comments, no trailing commas. Escape every double quote and newline inside string values.`;
   const body = {
-    model: EXTRACTION_MODEL,
+    model: args.model,
     messages: [
       { role: "system", content: extractionSystemPrompt },
       { role: "user", content: [
@@ -187,11 +273,11 @@ async function callGeminiChunk(args: {
     ],
     response_format: { type: "json_object" },
     temperature: 0,
-    max_tokens: 12000,
+    max_tokens: 16000,
   };
   const payload = JSON.stringify(body);
   await appendImportLog(args.supabase, args.importId, {
-    event: "gemini_request_sent", model: EXTRACTION_MODEL, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+    event: "gemini_request_sent", model: args.model, attempt: args.attempt, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
     pages: `${args.startPage}-${args.endPage}`, requestBytes: utf8Bytes(payload), pdfChunkBytes: args.pdfBytes.byteLength,
     fileParts: 1, imageParts: 0, imageDimensions: "n/a: PDF is sent directly; no PDF-to-image conversion is performed", pdfPageDimensions: args.dimensions,
   });
@@ -208,7 +294,7 @@ async function callGeminiChunk(args: {
     const rawBody = await resp.text();
     const durationMs = Date.now() - started;
     await appendImportLog(args.supabase, args.importId, {
-      event: "gemini_response_received", model: EXTRACTION_MODEL, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+      event: "gemini_response_received", model: args.model, attempt: args.attempt, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
       status: resp.status, ok: resp.ok, durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
     });
     if (!resp.ok) {
@@ -223,19 +309,71 @@ async function callGeminiChunk(args: {
     const finishReason = gatewayJson?.choices?.[0]?.finish_reason ?? gatewayJson?.choices?.[0]?.finishReason ?? null;
     if (typeof content === "string" && content.trim().length < 5) throw new Error(`Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`);
     let parsed: any;
-    try { parsed = typeof content === "string" ? JSON.parse(content) : content; }
-    catch (e: any) { throw new Error(`Could not parse Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${e?.message ?? e}. Content: ${String(content).slice(0, 1200)}`); }
-    return { parsed, finishReason, usage: gatewayJson?.usage, durationMs };
+    let repaired = false;
+    let repairNote: string | undefined;
+    if (typeof content !== "string") {
+      parsed = content;
+    } else {
+      try { parsed = JSON.parse(content); }
+      catch (firstErr: any) {
+        try {
+          const r = repairAndParseJson(content);
+          parsed = r.parsed; repaired = true; repairNote = r.note;
+          await appendImportLog(args.supabase, args.importId, {
+            event: "gemini_json_repaired", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, model: args.model,
+            attempt: args.attempt, repairNote, finishReason, firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
+            truncatedHeuristic: detectTruncated(content), contentBytes: utf8Bytes(content),
+            contentTail: content.slice(-800),
+          });
+        } catch (repairErr: any) {
+          await appendImportLog(args.supabase, args.importId, {
+            event: "gemini_json_unrecoverable", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, model: args.model,
+            attempt: args.attempt, finishReason, firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
+            repairError: String(repairErr?.message ?? repairErr).slice(0, 500),
+            contentBytes: utf8Bytes(content), contentHead: content.slice(0, 2000), contentTail: content.slice(-2000),
+          });
+          throw new Error(`Could not parse Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`);
+        }
+      }
+    }
+    return { parsed, finishReason, usage: gatewayJson?.usage, durationMs, repaired, repairNote };
   } catch (err: any) {
     const durationMs = Date.now() - started;
     const msg = err?.name === "AbortError"
       ? `Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
       : String(err?.message ?? err);
-    await appendImportLog(args.supabase, args.importId, { event: "gemini_request_failed", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg, stack: String(err?.stack ?? "").slice(0, 4000) });
+    await appendImportLog(args.supabase, args.importId, { event: "gemini_request_failed", model: args.model, attempt: args.attempt, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg, stack: String(err?.stack ?? "").slice(0, 4000) });
     throw new Error(msg);
   } finally {
     clearTimeout(timeout);
   }
+}
+
+/** Call Gemini for a single chunk with automatic retry + model fallback.
+ * Order: flash attempt 1 → flash attempt 2 → pro attempt 1. Returns the last
+ * successful parsed payload or throws after the final attempt. */
+type CallChunkArgs = Omit<Parameters<typeof callGeminiChunkOnce>[0], "model" | "attempt">;
+async function callGeminiChunk(args: CallChunkArgs) {
+  const attempts: { model: string }[] = [
+    { model: EXTRACTION_MODEL },
+    { model: EXTRACTION_MODEL },
+    { model: EXTRACTION_FALLBACK_MODEL },
+  ];
+  let lastErr: any;
+  for (let i = 0; i < attempts.length; i++) {
+    try {
+      return await callGeminiChunkOnce({ ...args, model: attempts[i].model, attempt: i + 1 });
+    } catch (e: any) {
+      lastErr = e;
+      // do not retry on credit exhaustion
+      if (/credits exhausted/i.test(String(e?.message ?? ""))) throw e;
+      await appendImportLog(args.supabase, args.importId, {
+        event: "chunk_attempt_failed", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+        attempt: i + 1, model: attempts[i].model, error: String(e?.message ?? e).slice(0, 1200),
+      });
+    }
+  }
+  throw lastErr ?? new Error("Gemini chunk failed after all retries");
 }
 
 export const startPdfExtraction = createServerFn({ method: "POST" })
@@ -307,9 +445,37 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       const msg = String(err?.message ?? err);
       const stack = String(err?.stack ?? "").slice(0, 6000);
       const full = `[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
-      await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
-      await appendImportLog(context.supabase, data.importId, { event: "extraction_failed", step, error: msg, stack });
-      return { ok: false as const, step, error: msg, stack, details: full };
+
+      // Fault tolerance: if this is a per-chunk failure (gemini/parse/repair),
+      // mark THIS chunk as failed-but-skipped, keep the import in `extracting`,
+      // and let the client continue with the next chunk. Hard infrastructure
+      // failures (storage download, missing import row, credits exhausted) still
+      // fail the import.
+      const isHardFailure = /Forbidden|Import not found|Storage download failed|Downloaded PDF is empty|LOVABLE_API_KEY|credits exhausted/i.test(msg)
+        || step === "load_import_row" || step === "storage_download_pdf_parse";
+
+      if (isHardFailure) {
+        await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
+        await appendImportLog(context.supabase, data.importId, { event: "extraction_failed", step, error: msg, stack });
+        return { ok: false as const, step, error: msg, stack, details: full, hard: true };
+      }
+
+      // Soft failure: record this chunk as failed in meta and let the loop continue.
+      try {
+        const { data: existing } = await context.supabase.from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+        let meta: ExtractionMeta = {};
+        try { meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { meta = {}; }
+        const failed = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
+        const completed = new Set<number>(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
+        // mark as "completed" so finalize doesn't treat it as missing — but record the failure
+        completed.add(data.chunkIndex);
+        failed.push({ chunk: data.chunkIndex, pages: `?`, reason: msg.slice(0, 600), model: "gemini" });
+        const nextMeta: ExtractionMeta = { ...meta, chunks_completed: [...completed].sort((a, b) => a - b), chunks_failed: failed, needs_manual_review: true };
+        const blocks = Array.isArray(existing?.blocks) ? existing.blocks : [];
+        await upsertExtraction(context.supabase, data.importId, blocks, Number((existing as any)?.page_count ?? 0) || 0, nextMeta);
+      } catch {}
+      await appendImportLog(context.supabase, data.importId, { event: "chunk_skipped", step, chunkIndex: data.chunkIndex, error: msg, stack });
+      return { ok: true as const, skipped: true, chunkIndex: data.chunkIndex, step, error: msg, details: full };
     }
   });
 
@@ -323,11 +489,17 @@ export const finalizePdfExtraction = createServerFn({ method: "POST" })
     let meta: ExtractionMeta = {};
     try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
     const completed = new Set(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
+    const failedChunks = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
     const total = Number(meta.chunks_total ?? 0);
     if (total > 0 && completed.size < total) throw new Error(`Extraction incomplete: ${completed.size}/${total} chunks completed.`);
-    await context.supabase.from("pdf_imports").update({ status: "extracted", ocr_used: true, error_message: null }).eq("id", data.importId);
-    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
-    return { ok: true, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review), lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [] };
+    const allFailed = failedChunks.length > 0 && failedChunks.length === total;
+    const finalStatus = allFailed ? "extraction_failed" : "extracted";
+    const errMessage = allFailed
+      ? `All ${total} chunks failed. See logs for per-chunk errors.`
+      : (failedChunks.length > 0 ? `${failedChunks.length}/${total} chunks failed and were skipped — flagged for manual review.` : null);
+    await context.supabase.from("pdf_imports").update({ status: finalStatus, ocr_used: true, error_message: errMessage }).eq("id", data.importId);
+    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, chunksFailed: failedChunks.length, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
+    return { ok: !allFailed, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review) || failedChunks.length > 0, lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [], failedChunks };
   });
 
 export const extractPdfVerbatim = startPdfExtraction;
