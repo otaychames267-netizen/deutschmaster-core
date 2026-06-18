@@ -5,12 +5,14 @@ import { PDFDocument } from "pdf-lib";
 type Ctx = { supabase: any; userId: string };
 
 async function assertAdmin(ctx: Ctx) {
-  const { data } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
-  if (!data) throw new Error("Forbidden: admin only");
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", ctx.userId).in("role", ["admin", "super_admin"]).limit(1);
+  if (!data || data.length === 0) throw new Error("Forbidden: admin only");
 }
 async function assertSuperAdmin(ctx: Ctx) {
-  const { data } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "super_admin" });
-  if (!data) throw new Error("Forbidden: super_admin only");
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", ctx.userId).eq("role", "super_admin").limit(1);
+  if (!data || data.length === 0) throw new Error("Forbidden: super_admin only");
 }
 
 /**
@@ -61,6 +63,9 @@ function toDirectGeminiModel(model: string): string {
 
 type ExtractionMeta = {
   needs_manual_review?: boolean;
+  manual_review_resolved?: boolean;
+  manual_review_resolved_at?: string;
+  manual_review_resolved_by?: string;
   low_confidence_items?: any[];
   models_detected?: string[];
   chunks_total?: number;
@@ -69,6 +74,44 @@ type ExtractionMeta = {
   chunk_size?: number;
   diagnostics?: any[];
 };
+
+const ARABIC_TEXT_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+
+function isNonExamLowConfidenceItem(item: any) {
+  const snippet = String(item?.snippet ?? "").trim();
+  const reason = String(item?.reason ?? "");
+  const hasArabicSignal = ARABIC_TEXT_RX.test(snippet) || /arabic|arabisch|arabischen|arabische|arabischer/i.test(reason);
+  const hasGermanLatinText = /[A-Za-zÄÖÜäöüß]/.test(snippet);
+  const onlyUnclearMarks = /^[?\s.,;:!()\[\]{}\-–—_"'`´]*$/.test(snippet);
+  return hasArabicSignal && (!hasGermanLatinText || onlyUnclearMarks);
+}
+
+function getExtractionReviewState(meta: ExtractionMeta) {
+  const lowConfidenceItems = Array.isArray(meta.low_confidence_items) ? meta.low_confidence_items : [];
+  const blockingLowConfidenceItems = lowConfidenceItems.filter((item) => !isNonExamLowConfidenceItem(item));
+  const ignoredLowConfidenceItems = lowConfidenceItems.filter((item) => isNonExamLowConfidenceItem(item));
+  const failedChunks = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
+  const completedChunks = Array.isArray(meta.chunks_completed) ? meta.chunks_completed : [];
+  const chunksTotal = Number(meta.chunks_total ?? 0);
+  const incomplete = chunksTotal > 0 && completedChunks.length < chunksTotal;
+  const manualReviewResolved = Boolean(meta.manual_review_resolved);
+  return {
+    needsManualReview: Boolean(meta.needs_manual_review),
+    manualReviewResolved,
+    lowConfidenceItems,
+    blockingLowConfidenceItems,
+    ignoredLowConfidenceItems,
+    failedChunks,
+    completedChunks,
+    chunksTotal,
+    incomplete,
+    canBuild: failedChunks.length === 0 && !incomplete && (manualReviewResolved || blockingLowConfidenceItems.length === 0),
+  };
+}
+
+function normalizeItemNumber(value: any) {
+  return String(value ?? "").trim().replace(/\.$/, "");
+}
 
 const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
@@ -563,6 +606,9 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
     const keptBlocks = resume && Array.isArray(existing?.blocks) ? existing!.blocks : [];
     const meta: ExtractionMeta = {
       needs_manual_review: false,
+      manual_review_resolved: resume ? Boolean(prevMeta.manual_review_resolved) : false,
+      manual_review_resolved_at: resume ? prevMeta.manual_review_resolved_at : undefined,
+      manual_review_resolved_by: resume ? prevMeta.manual_review_resolved_by : undefined,
       low_confidence_items: resume && Array.isArray(prevMeta.low_confidence_items) ? prevMeta.low_confidence_items : [],
       models_detected: resume && Array.isArray(prevMeta.models_detected) ? prevMeta.models_detected : [],
       chunks_total: chunkCount,
@@ -629,7 +675,7 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       const models = new Set<string>(Array.isArray(meta.models_detected) ? meta.models_detected : []);
       if (Array.isArray(result.parsed?.models_detected)) for (const m of result.parsed.models_detected) if (m != null) models.add(String(m));
       const lowConfidence = [...(Array.isArray(meta.low_confidence_items) ? meta.low_confidence_items : []), ...(Array.isArray(result.parsed?.low_confidence_items) ? result.parsed.low_confidence_items : [])];
-      const nextMeta: ExtractionMeta = { ...meta, chunks_total: totalChunks, chunks_completed: [...completed].sort((a, b) => a - b), chunk_size: CHUNK_PAGES, needs_manual_review: Boolean(meta.needs_manual_review || result.parsed?.needs_manual_review), low_confidence_items: lowConfidence, models_detected: [...models] };
+      const nextMeta: ExtractionMeta = { ...meta, chunks_total: totalChunks, chunks_completed: [...completed].sort((a, b) => a - b), chunk_size: CHUNK_PAGES, needs_manual_review: Boolean(meta.needs_manual_review || result.parsed?.needs_manual_review), manual_review_resolved: false, manual_review_resolved_at: undefined, manual_review_resolved_by: undefined, low_confidence_items: lowConfidence, models_detected: [...models] };
       const blocks = [...keptBlocks, ...chunkBlocks].sort((a, b) => Number(a?.page ?? 0) - Number(b?.page ?? 0));
       await upsertExtraction(context.supabase, data.importId, blocks, totalPages, nextMeta);
       await context.supabase.from("pdf_imports").update({ status: "extracting", ocr_used: true, level: result.parsed?.level === "b1" || result.parsed?.level === "b2" ? result.parsed.level : imp.level, error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
@@ -678,8 +724,9 @@ export const finalizePdfExtraction = createServerFn({ method: "POST" })
       ? `${failedChunks.length}/${total} chunks failed. Extraction is incomplete; no exercises will be built until every chunk succeeds.`
       : null;
     await context.supabase.from("pdf_imports").update({ status: finalStatus, ocr_used: true, error_message: errMessage }).eq("id", data.importId);
-    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, chunksFailed: failedChunks.length, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
-    return { ok: !hasFailedChunks, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review) || failedChunks.length > 0, lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [], failedChunks };
+    const review = getExtractionReviewState(meta);
+    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, chunksFailed: failedChunks.length, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [], blockingLowConfidenceItems: review.blockingLowConfidenceItems.length, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length });
+    return { ok: !hasFailedChunks, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: review.needsManualReview, manualReviewResolved: review.manualReviewResolved, canBuild: review.canBuild, lowConfidenceItems: review.lowConfidenceItems, blockingLowConfidenceItems: review.blockingLowConfidenceItems, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems, modelsDetected: meta.models_detected ?? [], failedChunks };
   });
 
 export const extractPdfVerbatim = startPdfExtraction;
@@ -765,7 +812,43 @@ export const getExtraction = createServerFn({ method: "POST" })
       .select("blocks, page_count, raw_text, updated_at")
       .eq("import_id", data.importId)
       .maybeSingle();
-    return { import: imp, extraction: ext };
+    let meta: ExtractionMeta = {};
+    try { meta = ext?.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    return { import: imp, extraction: ext, review: getExtractionReviewState(meta) };
+  });
+
+export const resolveExtractionReview = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { importId: string; note?: string | null }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    const { data: ext } = await context.supabase
+      .from("pdf_extractions")
+      .select("blocks, raw_text, page_count")
+      .eq("import_id", data.importId)
+      .maybeSingle();
+    if (!ext) throw new Error("No extraction row found");
+    let meta: ExtractionMeta = {};
+    try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    const review = getExtractionReviewState(meta);
+    if (review.failedChunks.length > 0 || review.incomplete) {
+      throw new Error("Extraction is incomplete or has failed chunks — re-run/continue extraction before review can be resolved.");
+    }
+    const nextMeta: ExtractionMeta = {
+      ...meta,
+      needs_manual_review: false,
+      manual_review_resolved: true,
+      manual_review_resolved_at: new Date().toISOString(),
+      manual_review_resolved_by: context.userId,
+      diagnostics: [
+        ...(Array.isArray(meta.diagnostics) ? meta.diagnostics : []),
+        { event: "manual_review_resolved", by: context.userId, at: new Date().toISOString(), note: data.note ?? null, blockingLowConfidenceItems: review.blockingLowConfidenceItems.length, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length },
+      ],
+    };
+    await upsertExtraction(context.supabase, data.importId, Array.isArray(ext.blocks) ? ext.blocks : [], Number(ext.page_count ?? 0), nextMeta);
+    await context.supabase.from("pdf_imports").update({ status: "extracted", error_message: null }).eq("id", data.importId);
+    await appendImportLog(context.supabase, data.importId, { event: "manual_review_resolved", blockingLowConfidenceItems: review.blockingLowConfidenceItems.length, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length, note: data.note ?? null });
+    return { ok: true, review: getExtractionReviewState(nextMeta) };
   });
 
 /**
@@ -850,16 +933,19 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     const { data: ext } = await context.supabase
       .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
     if (!ext) throw new Error("Run extraction on the exam PDF first");
-    try {
-      const meta = ext.raw_text ? JSON.parse(ext.raw_text) : null;
-      if (meta?.needs_manual_review) {
-        throw new Error("Extraction flagged for manual review — resolve low-confidence items before building exercises.");
-      }
-    } catch (e: any) {
-      if (e?.message?.startsWith("Extraction flagged")) throw e;
+    let meta: ExtractionMeta = {};
+    try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    const review = getExtractionReviewState(meta);
+    if (review.failedChunks.length > 0 || review.incomplete) {
+      throw new Error("Extraction incomplete — finish all chunks before building exercises.");
+    }
+    if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
+      throw new Error(`Extraction has ${review.blockingLowConfidenceItems.length} low-confidence item(s). Open the Review tab and approve or re-extract before building exercises.`);
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
+    const moduleVal = module;
+    const teil = adminTeil;
 
     // Detect the source kind (combined PDFs carry their own answer key)
     const { data: examImp } = await context.supabase
@@ -896,15 +982,21 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       } else if (b.type === "passage" && g.firstPassage === null) {
         g.firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
       } else if (b.type === "question") {
+        const blockModule = String(b?.module ?? "").toLowerCase();
+        if (blockModule && blockModule !== moduleVal) continue;
+        const blockTeil: number = Number(b?.teil) || teil;
+        if (blockTeil !== teil) continue;
+        const normalizedNumber = normalizeItemNumber(b.number ?? g.questions.length + 1);
+        if (g.questions.some((existing) => normalizeItemNumber(existing.number) === normalizedNumber && existing.text === String(b.text ?? ""))) continue;
         g.questions.push({
-          number: String(b.number ?? g.questions.length + 1),
+          number: normalizedNumber,
           text: String(b.text ?? ""),
           options: Array.isArray(b.options)
             ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") }))
             : [],
         });
       } else if (b.type === "answer_key_entry") {
-        g.answers.set(String(b.number ?? "").trim(), String(b.answer ?? "").trim());
+        g.answers.set(normalizeItemNumber(b.number), String(b.answer ?? "").trim());
       }
     }
 
@@ -916,7 +1008,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       for (const b of kblocks) {
         if (b.type === "answer_key_entry") {
           const g = groupOf(b?.model);
-          g.answers.set(String(b.number ?? "").trim(), String(b.answer ?? "").trim());
+          g.answers.set(normalizeItemNumber(b.number), String(b.answer ?? "").trim());
         }
       }
       await context.supabase.from("pdf_imports")
@@ -924,10 +1016,20 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         .eq("id", data.answerKeyImportId);
     }
 
-    const moduleVal = module;
-    const teil = adminTeil;
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
+
+    const { data: existingDrafts } = await context.supabase
+      .from("exercises")
+      .select("id")
+      .eq("source_pdf_import_id", data.examImportId)
+      .eq("status", "draft");
+    const existingDraftIds = (existingDrafts ?? []).map((row: any) => row.id);
+    if (existingDraftIds.length > 0) {
+      await context.supabase.from("exercise_answer_keys").delete().in("exercise_id", existingDraftIds);
+      await context.supabase.from("exercises").delete().in("id", existingDraftIds);
+      await appendImportLog(context.supabase, data.examImportId, { event: "stale_drafts_removed_before_rebuild", count: existingDraftIds.length });
+    }
 
     // Sort groups so Modell 1 < Modell 2 < Modell 3 < unnamed
     const ordered = [...groups.values()].sort((a, b) => {
@@ -1177,8 +1279,9 @@ export const replaceAnswerKey = createServerFn({ method: "POST" })
 export const checkSuperAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase.rpc("has_role", { _user_id: context.userId, _role: "super_admin" });
-    return { isSuperAdmin: Boolean(data) };
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", context.userId).eq("role", "super_admin").limit(1);
+    return { isSuperAdmin: Boolean(data && data.length > 0) };
   });
 
 /**
@@ -1258,7 +1361,8 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     let extractionMeta: any = null;
     try { extractionMeta = ext.raw_text ? JSON.parse(ext.raw_text) : null; } catch {}
-    if (extractionMeta?.needs_manual_review) {
+    const review = getExtractionReviewState(extractionMeta ?? {});
+    if (review.failedChunks.length > 0 || review.incomplete || (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved)) {
       // Hard fail — record and stop
       const { data: fail } = await context.supabase
         .from("pdf_fidelity_reports")
@@ -1270,43 +1374,58 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
           modified_count: 0,
           numbering_diff_count: 0,
           section_diff_count: 0,
-          details: { reason: "extraction_needs_manual_review", lowConfidenceItems: extractionMeta?.low_confidence_items ?? [] },
+          details: { reason: "extraction_review_not_resolved", lowConfidenceItems: review.lowConfidenceItems, blockingLowConfidenceItems: review.blockingLowConfidenceItems, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems, failedChunks: review.failedChunks, incomplete: review.incomplete },
           created_by: context.userId,
         })
         .select("id")
         .single();
-      return { status: "fail" as const, reportId: fail?.id, reason: "extraction_needs_manual_review" };
+      return { status: "fail" as const, reportId: fail?.id, reason: "extraction_review_not_resolved" };
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
 
-    // Build "source" canonical items keyed by teil::number for questions,
-    // plus a list of sections and instructions per teil.
+    // Load exercises built from this import
+    const { data: exercises } = await context.supabase
+      .from("exercises")
+      .select("id, level, module, teil, title, prompt, passage, options, original_numbering, status, model_variant")
+      .eq("source_pdf_import_id", data.examImportId);
+
+    const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
+    const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
+    const exerciseScopeKeys = new Set<string>((exercises ?? []).map((ex: any) => {
+      const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
+      const teil = Number(ex.teil) || 0;
+      const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
+      return `${model}::${teil}::${num}`;
+    }));
+
+    // Build source canonical items keyed by model::teil::number for questions,
+    // restricted to the same exercise scope that was actually built.
     type SrcQ = { teil: number; number: string; text: string; options: string[] };
     const srcQuestions = new Map<string, SrcQ>();
     const srcSections = new Set<number>();
     const srcInstructions = new Map<number, string>();
     const srcPassages = new Map<number, string>();
     for (const b of blocks) {
-      const teil = Number(b?.teil) || 0;
+      const blockModule = String(b?.module ?? "").toLowerCase();
+      if (builtModule && blockModule && blockModule !== builtModule) continue;
+      const teil = Number(b?.teil) || builtTeilFallback || 0;
       if (b.type === "section" && teil) srcSections.add(teil);
       if (b.type === "instruction" && teil) srcInstructions.set(teil, String(b.text ?? ""));
       if (b.type === "passage" && teil) srcPassages.set(teil, String(b.text ?? ""));
       if (b.type === "question" && teil) {
-        srcQuestions.set(`${teil}::${String(b.number ?? "").trim()}`, {
+        const model = b?.model == null || b.model === "" ? "single" : String(b.model);
+        const number = String(b.number ?? "").trim().replace(/\.$/, "");
+        const key = `${model}::${teil}::${number}`;
+        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(key)) continue;
+        srcQuestions.set(key, {
           teil,
-          number: String(b.number ?? "").trim(),
+          number,
           text: String(b.text ?? ""),
-          options: Array.isArray(b.options) ? b.options.map((o: any) => String(o?.text ?? "")) : [],
+          options: Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [],
         });
       }
     }
-
-    // Load exercises built from this import
-    const { data: exercises } = await context.supabase
-      .from("exercises")
-      .select("id, teil, title, prompt, passage, options, original_numbering, status")
-      .eq("source_pdf_import_id", data.examImportId);
 
     const builtKeys = new Set<string>();
     const exerciseTeils = new Set<number>();
@@ -1317,9 +1436,10 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     for (const ex of exercises ?? []) {
       const teil = Number(ex.teil) || 0;
-      const num = String(ex.original_numbering ?? "").trim();
+      const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
       if (teil) exerciseTeils.add(teil);
-      const key = `${teil}::${num}`;
+      const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
+      const key = `${model}::${teil}::${num}`;
       builtKeys.add(key);
       const src = srcQuestions.get(key);
       if (!src) {
