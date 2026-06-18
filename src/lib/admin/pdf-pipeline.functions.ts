@@ -646,12 +646,14 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       if (![1,2,3].includes(Number(data.muendlichPart))) {
         throw new Error("Mündlich: Bitte Teil (1 Präsentation / 2 Diskussion / 3 Planen) wählen.");
       }
-      if (!data.contentType || !["vorbereitung","pruefungssimulation"].includes(data.contentType)) {
-        throw new Error("Mündlich: Bitte 'Vorbereitung' oder 'Prüfungssimulation' wählen.");
-      }
-      if (data.contentType === "vorbereitung" && !data.confirmMaterialAsExercises) {
-        throw new Error("Mündlich/Vorbereitung-Material wird nicht automatisch in Übungen umgewandelt. Setzen Sie das Bestätigungs-Häkchen, wenn das gewünscht ist.");
-      }
+    }
+
+    // Content type is REQUIRED for EVERY module (Vorbereitung vs. Prüfungssimulation).
+    if (!data.contentType || !["vorbereitung","pruefungssimulation"].includes(data.contentType)) {
+      throw new Error("Bitte Inhaltstyp wählen: 'Vorbereitung' oder 'Prüfungssimulation'.");
+    }
+    if (data.contentType === "vorbereitung" && !data.confirmMaterialAsExercises) {
+      throw new Error("Vorbereitungs-Material wird nicht automatisch in Übungen umgewandelt. Setzen Sie das Bestätigungs-Häkchen, wenn das gewünscht ist.");
     }
 
     // Mark the import as currently building exercises.
