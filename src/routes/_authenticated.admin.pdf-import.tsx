@@ -325,16 +325,21 @@ function PdfImportPage() {
       const started = await extract({ data: { importId: id } });
       console.info("[pdf-import] extraction initialized", started);
       const total = Number((started as any).chunkCount ?? 0);
+      let skipped = 0;
       for (let chunkIndex = 0; chunkIndex < total; chunkIndex++) {
         toast.info(`Extrahiere Chunk ${chunkIndex + 1}/${total} …`);
-        const r = await extractChunk({ data: { importId: id, chunkIndex } });
+        const r: any = await extractChunk({ data: { importId: id, chunkIndex } });
         console.info("[pdf-import] chunk result", r);
-        if ((r as any)?.ok === false) {
-          const det = (r as any).details ?? (r as any).error ?? "Unbekannter Fehler";
-          console.error("[pdf-import] extraction failed at step", (r as any).step, det);
-          toast.error(`Extraktion fehlgeschlagen [${(r as any).step}]: ${(r as any).error}`, { duration: 12000 });
+        if (r?.ok === false && r?.hard) {
+          const det = r.details ?? r.error ?? "Unbekannter Fehler";
+          console.error("[pdf-import] hard failure at step", r.step, det);
+          toast.error(`Extraktion abgebrochen [${r.step}]: ${r.error}`, { duration: 12000 });
           await refresh();
           return;
+        }
+        if (r?.skipped) {
+          skipped++;
+          toast.warning(`Chunk ${chunkIndex + 1}/${total} übersprungen — wird zur manuellen Prüfung markiert.`, { duration: 6000 });
         }
         await refresh();
       }
@@ -345,7 +350,12 @@ function PdfImportPage() {
         await refresh();
         return;
       }
-      toast.success(`Extraktion fertig: ${(done as any).blockCount} Blöcke`);
+      const failedCount = Array.isArray((done as any).failedChunks) ? (done as any).failedChunks.length : skipped;
+      if (failedCount > 0) {
+        toast.warning(`Extraktion fertig mit Hinweisen: ${(done as any).blockCount} Blöcke, ${failedCount} Chunks übersprungen (manuelle Prüfung empfohlen).`, { duration: 12000 });
+      } else {
+        toast.success(`Extraktion fertig: ${(done as any).blockCount} Blöcke`);
+      }
       await refresh();
       await preview(id);
     } catch (e: any) {
