@@ -50,6 +50,15 @@ const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-pro";
 const CHUNK_PAGES = 2;
 const GEMINI_TIMEOUT_MS = 85_000;
 
+// Direct Google Generative Language API fallback. Used automatically when the
+// Lovable AI Gateway returns 402 (credits exhausted) or 429 (rate limit) and
+// the operator has provisioned a personal GEMINI_API_KEY.
+const GEMINI_DIRECT_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+function toDirectGeminiModel(model: string): string {
+  // gateway form "google/gemini-2.5-flash" → direct form "gemini-2.5-flash"
+  return model.replace(/^google\//, "");
+}
+
 type ExtractionMeta = {
   needs_manual_review?: boolean;
   low_confidence_items?: any[];
@@ -295,6 +304,11 @@ async function callGeminiChunkOnce(args: {
   startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
   model: string; attempt: number;
 }) {
+  // If no Lovable API key is configured but a personal Gemini key is, skip
+  // the gateway entirely and call Google directly.
+  if (!args.apiKey && process.env.GEMINI_API_KEY) {
+    return await callGeminiDirectOnce({ ...args });
+  }
   const b64 = bytesToBase64(args.pdfBytes);
   const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages. If the PDF contains Arabic text or bilingual annotations, IGNORE the Arabic completely and extract only the German content. Return STRICT JSON only — no markdown, no comments, no trailing commas. Escape every double quote and newline inside string values.`;
   const body = {
@@ -333,8 +347,18 @@ async function callGeminiChunkOnce(args: {
       status: resp.status, ok: resp.ok, durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
     });
     if (!resp.ok) {
+      // If Lovable AI Gateway is out of credits or rate-limited, try the
+      // operator-provided GEMINI_API_KEY against Google's direct API.
+      if ((resp.status === 402 || resp.status === 429) && process.env.GEMINI_API_KEY) {
+        await appendImportLog(args.supabase, args.importId, {
+          event: "gemini_direct_fallback_triggered", model: args.model, attempt: args.attempt,
+          chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, gatewayStatus: resp.status,
+        });
+        const direct = await callGeminiDirectOnce({ ...args });
+        return direct;
+      }
       if (resp.status === 429) throw new Error(`AI rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
-      if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
+      if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks} (set GEMINI_API_KEY to enable direct Gemini fallback): ${rawBody}`);
       throw new Error(`Gemini extraction failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}, pages ${args.startPage}-${args.endPage}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
     }
     let gatewayJson: any;
@@ -411,13 +435,106 @@ async function callGeminiChunk(args: CallChunkArgs) {
   throw lastErr ?? new Error("Gemini chunk failed after all retries");
 }
 
+/** Direct Google Generative Language API call. Used when the Lovable AI
+ *  Gateway returns 402/429 and a personal GEMINI_API_KEY is configured.
+ *  Returns the same shape as callGeminiChunkOnce. */
+async function callGeminiDirectOnce(args: {
+  importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
+  startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
+  model: string; attempt: number;
+}) {
+  const directKey = process.env.GEMINI_API_KEY;
+  if (!directKey) throw new Error("GEMINI_API_KEY missing; cannot use direct Gemini fallback");
+  const directModel = toDirectGeminiModel(args.model);
+  const b64 = bytesToBase64(args.pdfBytes);
+  const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages. If the PDF contains Arabic text or bilingual annotations, IGNORE the Arabic completely and extract only the German content. Return STRICT JSON only — no markdown, no comments, no trailing commas. Escape every double quote and newline inside string values.`;
+  const body = {
+    systemInstruction: { role: "system", parts: [{ text: extractionSystemPrompt }] },
+    contents: [{
+      role: "user",
+      parts: [
+        { text: chunkInstruction },
+        { inlineData: { mimeType: "application/pdf", data: b64 } },
+      ],
+    }],
+    generationConfig: { temperature: 0, maxOutputTokens: 16000, responseMimeType: "application/json" },
+  };
+  const payload = JSON.stringify(body);
+  await appendImportLog(args.supabase, args.importId, {
+    event: "gemini_direct_request_sent", model: directModel, attempt: args.attempt,
+    chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, pages: `${args.startPage}-${args.endPage}`,
+    requestBytes: utf8Bytes(payload), pdfChunkBytes: args.pdfBytes.byteLength,
+  });
+  const started = Date.now();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+  try {
+    const url = `${GEMINI_DIRECT_BASE}/${directModel}:generateContent?key=${encodeURIComponent(directKey)}`;
+    const resp = await fetch(url, {
+      method: "POST", signal: controller.signal,
+      headers: { "Content-Type": "application/json" }, body: payload,
+    });
+    const rawBody = await resp.text();
+    const durationMs = Date.now() - started;
+    await appendImportLog(args.supabase, args.importId, {
+      event: "gemini_direct_response_received", model: directModel, attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, status: resp.status, ok: resp.ok,
+      durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
+    });
+    if (!resp.ok) {
+      if (resp.status === 429) throw new Error(`Direct Gemini rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody.slice(0, 800)}`);
+      throw new Error(`Direct Gemini failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
+    }
+    let apiJson: any;
+    try { apiJson = JSON.parse(rawBody); }
+    catch (e: any) { throw new Error(`Direct Gemini response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}`); }
+    const parts = apiJson?.candidates?.[0]?.content?.parts ?? [];
+    const content = parts.map((p: any) => typeof p?.text === "string" ? p.text : "").join("");
+    const finishReason = apiJson?.candidates?.[0]?.finishReason ?? null;
+    if (typeof content !== "string" || content.trim().length < 5) {
+      throw new Error(`Direct Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`);
+    }
+    let parsed: any;
+    let repaired = false;
+    let repairNote: string | undefined;
+    try { parsed = JSON.parse(content); }
+    catch (firstErr: any) {
+      try {
+        const r = repairAndParseJson(content);
+        parsed = r.parsed; repaired = true; repairNote = r.note;
+        await appendImportLog(args.supabase, args.importId, {
+          event: "gemini_direct_json_repaired", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+          model: directModel, attempt: args.attempt, repairNote, finishReason,
+          firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
+        });
+      } catch (repairErr: any) {
+        throw new Error(`Could not parse direct Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`);
+      }
+    }
+    return { parsed, finishReason, usage: apiJson?.usageMetadata, durationMs, repaired, repairNote };
+  } catch (err: any) {
+    const durationMs = Date.now() - started;
+    const msg = err?.name === "AbortError"
+      ? `Direct Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
+      : String(err?.message ?? err);
+    await appendImportLog(args.supabase, args.importId, {
+      event: "gemini_direct_request_failed", model: directModel, attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg,
+      stack: String(err?.stack ?? "").slice(0, 4000),
+    });
+    throw new Error(msg);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export const startPdfExtraction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { importId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("LOVABLE_API_KEY missing in server environment");
+    const apiKey = process.env.LOVABLE_API_KEY ?? "";
+    if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
     if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
     await context.supabase.from("pdf_imports").update({ status: "extracting", error_message: null, notes: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
@@ -437,8 +554,8 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
   .inputValidator((d: { importId: string; chunkIndex: number }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("LOVABLE_API_KEY missing in server environment");
+    const apiKey = process.env.LOVABLE_API_KEY ?? "";
+    if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     let step = "load_import_row";
     try {
       const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
