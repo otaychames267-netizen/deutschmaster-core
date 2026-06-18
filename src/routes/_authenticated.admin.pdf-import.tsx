@@ -16,6 +16,7 @@ import {
   getLatestFidelityReport,
   deletePdfImport,
   reapStuckExtractions,
+  resolveExtractionReview,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -133,6 +134,7 @@ function PdfImportPage() {
   const fidelityRun = useServerFn(runFidelityCheck);
   const fidelityGet = useServerFn(getLatestFidelityReport);
   const deleteImport = useServerFn(deletePdfImport);
+  const resolveReview = useServerFn(resolveExtractionReview);
 
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -446,6 +448,7 @@ function PdfImportPage() {
         <TabsList>
           <TabsTrigger value="upload"><Upload className="size-3.5 mr-1" />Hochladen</TabsTrigger>
           <TabsTrigger value="extract"><FileSearch className="size-3.5 mr-1" />Extraktion</TabsTrigger>
+          <TabsTrigger value="review"><AlertTriangle className="size-3.5 mr-1" />Review</TabsTrigger>
           <TabsTrigger value="build"><Hammer className="size-3.5 mr-1" />Übungen bauen</TabsTrigger>
           <TabsTrigger value="fidelity"><ScanSearch className="size-3.5 mr-1" />Treuekontrolle</TabsTrigger>
           <TabsTrigger value="publish"><ShieldCheck className="size-3.5 mr-1" />Veröffentlichen</TabsTrigger>
@@ -550,6 +553,16 @@ function PdfImportPage() {
               </CardContent>
             </Card>
           )}
+        </TabsContent>
+
+        <TabsContent value="review">
+          <ExtractionReviewPanel
+            examImports={examImports}
+            fetchExtraction={fetchExtraction}
+            resolveReview={resolveReview}
+            isSuperAdmin={isSuperAdmin}
+            onResolved={refresh}
+          />
         </TabsContent>
 
         <TabsContent value="build" className="space-y-3">
@@ -824,6 +837,93 @@ function UploadSlot({
           )}
         </div>
       )}
+    </div>
+  );
+}
+
+function ExtractionReviewPanel({
+  examImports, fetchExtraction, resolveReview, isSuperAdmin, onResolved,
+}: { examImports: PdfImportRow[]; fetchExtraction: any; resolveReview: any; isSuperAdmin: boolean; onResolved: () => Promise<unknown> }) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const [data, setData] = useState<any>(null);
+  const [busy, setBusy] = useState(false);
+  const load = async (id: string | null = selected) => {
+    if (!id) { setData(null); return; }
+    const r = await fetchExtraction({ data: { importId: id } });
+    setData(r);
+  };
+  useEffect(() => { load().catch(() => setData(null)); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [selected]);
+  const review = data?.review ?? {};
+  const blocking = Array.isArray(review.blockingLowConfidenceItems) ? review.blockingLowConfidenceItems : [];
+  const ignored = Array.isArray(review.ignoredLowConfidenceItems) ? review.ignoredLowConfidenceItems : [];
+  const failed = Array.isArray(review.failedChunks) ? review.failedChunks : [];
+  const onResolve = async () => {
+    if (!selected) return;
+    setBusy(true);
+    try {
+      await resolveReview({ data: { importId: selected, note: "Admin reviewed extraction low-confidence items in the PDF import workflow." } });
+      toast.success("Review erledigt — Übungen können gebaut werden.");
+      await load(selected);
+      await onResolved();
+    } catch (e: any) {
+      toast.error(e?.message ?? "Review konnte nicht abgeschlossen werden");
+    } finally { setBusy(false); }
+  };
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2"><AlertTriangle className="size-4" />Extraktions-Review</CardTitle>
+        <CardDescription>Zeigt alle gespeicherten Low-Confidence- und Chunk-Hinweise aus der Extraktion und gibt den Build nach Prüfung frei.</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+          <Select value={selected ?? ""} onValueChange={(v) => setSelected(v || null)}>
+            <SelectTrigger><SelectValue placeholder="Prüfungs-PDF oder kombiniertes PDF wählen…" /></SelectTrigger>
+            <SelectContent>{examImports.map(i => <SelectItem key={i.id} value={i.id}>{i.original_name ?? i.id}</SelectItem>)}</SelectContent>
+          </Select>
+          <Button variant="outline" onClick={() => load()} disabled={!selected || busy}>Review laden</Button>
+        </div>
+        {data?.extraction && (
+          <div className="space-y-3">
+            <div className="flex flex-wrap gap-1.5">
+              <Badge variant={review.canBuild ? "default" : "destructive"}>{review.canBuild ? "Build freigegeben" : "Build blockiert"}</Badge>
+              <Badge variant="outline">Blöcke: {data.extraction.blocks?.length ?? 0}</Badge>
+              <Badge variant="outline">Low-Confidence: {(review.lowConfidenceItems ?? []).length}</Badge>
+              <Badge variant={blocking.length ? "destructive" : "outline"}>Blockierend: {blocking.length}</Badge>
+              <Badge variant="outline">Ignoriert: {ignored.length}</Badge>
+              <Badge variant={failed.length ? "destructive" : "outline"}>Fehlgeschlagene Chunks: {failed.length}</Badge>
+            </div>
+            {failed.length > 0 && <ReviewList title="Fehlgeschlagene Chunks" items={failed} tone="error" />}
+            {blocking.length > 0 && <ReviewList title="Blockierende Low-Confidence-Items" items={blocking} tone="error" />}
+            {ignored.length > 0 && <ReviewList title="Nicht blockierend ignoriert (nicht-deutscher Zusatzinhalt)" items={ignored} />}
+            {blocking.length === 0 && failed.length === 0 && (
+              <div className="rounded-md border border-emerald-300 bg-emerald-50 p-3 text-sm text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+                Die gespeicherten Hinweise betreffen keinen deutschen TELC-Prüfungsinhalt oder sind bereits geprüft. Der Build ist nicht blockiert.
+              </div>
+            )}
+            {blocking.length > 0 && (
+              <Button onClick={onResolve} disabled={busy || !isSuperAdmin || failed.length > 0}>{busy ? "Speichere…" : "Review als geprüft freigeben"}</Button>
+            )}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function ReviewList({ title, items, tone }: { title: string; items: any[]; tone?: "error" }) {
+  return (
+    <div className={`rounded-md border p-3 ${tone === "error" ? "border-destructive/40" : ""}`}>
+      <p className="text-sm font-semibold mb-2">{title}</p>
+      <div className="max-h-64 overflow-auto space-y-2 text-xs">
+        {items.map((item, idx) => (
+          <div key={idx} className="rounded bg-muted/40 p-2">
+            <div className="flex flex-wrap gap-2 text-muted-foreground"><span>Seite: {item.page ?? item.pages ?? "—"}</span><span>Teil: {item.teil ?? "—"}</span></div>
+            <p className="mt-1"><b>Grund:</b> {item.reason ?? item.error ?? "—"}</p>
+            {item.snippet && <p className="mt-1 break-words"><b>Snippet:</b> {item.snippet}</p>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

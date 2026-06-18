@@ -18,6 +18,7 @@ export const listPublishedExercises = createServerFn({ method: "POST" })
       .eq("module", data.module)
       .eq("teil", data.teil)
       .eq("status", "published")
+      .order("created_at", { ascending: true })
       .order("position", { ascending: true });
     if (error) throw new Error(error.message);
 
