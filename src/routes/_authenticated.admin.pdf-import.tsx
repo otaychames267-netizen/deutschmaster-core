@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import {
   createPdfImportV2,
-  extractPdfVerbatim,
+  startPdfExtraction,
   extractPdfChunk,
   finalizePdfExtraction,
   getExtraction,
@@ -121,7 +121,7 @@ const initialSlot = (): SlotState => ({
 
 function PdfImportPage() {
   const createImport = useServerFn(createPdfImportV2);
-  const extract = useServerFn(extractPdfVerbatim);
+  const extract = useServerFn(startPdfExtraction);
   const extractChunk = useServerFn(extractPdfChunk);
   const finalizeExtraction = useServerFn(finalizePdfExtraction);
   const reap = useServerFn(reapStuckExtractions);
