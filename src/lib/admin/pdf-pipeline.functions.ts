@@ -132,6 +132,25 @@ async function appendImportLog(supabase: any, importId: string, entry: Record<st
 
 function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[] {
   const out: any[] = [];
+  // Patterns for owner/distribution noise that must never appear in exam content.
+  const NOISE_RX = /(whats\s*app|telegram|facebook|instagram|tiktok|youtube|gruppe\s+whatsapp|fließend\s+deutsch.*telc|inssaf|t\.me\/|wa\.me\/|https?:\/\/|©|copyright|all rights reserved)/i;
+  const ARABIC_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+  const stripArabic = (s: string) => s.replace(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g, "").replace(/[ \t]{2,}/g, " ").replace(/[ \t]+([.,;:!?])/g, "$1").trim();
+  const isNoiseText = (s: string) => {
+    const t = (s ?? "").trim();
+    if (!t) return true;
+    if (NOISE_RX.test(t)) return true;
+    return false;
+  };
+  // A "themenliste" / index passage is mostly short title-lines and no real sentences.
+  const isIndexPassage = (text: string) => {
+    const t = (text ?? "").trim();
+    if (!t) return false;
+    const lines = t.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+    if (lines.length < 3) return false;
+    const titleLike = lines.filter((l) => l.length <= 40 && !/[.!?]$/.test(l)).length;
+    return titleLike / lines.length >= 0.75;
+  };
   const visit = (b: any) => {
     if (!b || typeof b !== "object") return;
     if (Array.isArray(b.blocks)) for (const child of b.blocks) visit(child);
@@ -147,10 +166,23 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
     const base: any = { ...b, type, model, teil: Number.isFinite(teil) ? teil : null, page };
     if (type === "question") {
       base.number = String(b.number ?? b.question_number ?? b.id ?? "");
-      base.text = String(b.text ?? b.question ?? "");
+      base.text = stripArabic(String(b.text ?? b.question ?? ""));
       base.options = Array.isArray(b.options)
-        ? b.options.map((o: any) => ({ label: String(o.label ?? o.id ?? ""), text: String(o.text ?? "") }))
+        ? b.options.map((o: any) => ({ label: String(o.label ?? o.id ?? ""), text: stripArabic(String(o.text ?? "")) }))
         : [];
+      if (isNoiseText(base.text) && base.options.length === 0) return;
+    } else if (type === "instruction") {
+      base.text = stripArabic(String(b.text ?? ""));
+      if (isNoiseText(base.text)) return;
+    } else if (type === "passage") {
+      base.text = stripArabic(String(b.text ?? ""));
+      if (isNoiseText(base.text)) return;
+      if (isIndexPassage(base.text)) return; // skip Themenliste / index pages
+      // Title may keep Arabic per spec (helps identify topics), but strip noise tokens.
+      if (b.title) base.title = String(b.title);
+    } else if (type === "answer_key_entry") {
+      base.answer = stripArabic(String(b.answer ?? ""));
+      if (!base.answer) return;
     }
     out.push(base);
   };
