@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   createPdfImportV2,
   extractPdfVerbatim,
+  extractPdfChunk,
+  finalizePdfExtraction,
   getExtraction,
   listPdfImports,
   buildExercisesFromExtraction,
@@ -92,6 +94,7 @@ type PdfImportRow = {
   created_at: string;
   ocr_used: boolean;
   error_message: string | null;
+  notes?: string | null;
   storage_path?: string | null;
 };
 
