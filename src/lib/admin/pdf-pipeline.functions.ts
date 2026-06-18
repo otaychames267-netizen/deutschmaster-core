@@ -444,9 +444,37 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       const msg = String(err?.message ?? err);
       const stack = String(err?.stack ?? "").slice(0, 6000);
       const full = `[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
-      await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
-      await appendImportLog(context.supabase, data.importId, { event: "extraction_failed", step, error: msg, stack });
-      return { ok: false as const, step, error: msg, stack, details: full };
+
+      // Fault tolerance: if this is a per-chunk failure (gemini/parse/repair),
+      // mark THIS chunk as failed-but-skipped, keep the import in `extracting`,
+      // and let the client continue with the next chunk. Hard infrastructure
+      // failures (storage download, missing import row, credits exhausted) still
+      // fail the import.
+      const isHardFailure = /Forbidden|Import not found|Storage download failed|Downloaded PDF is empty|LOVABLE_API_KEY|credits exhausted/i.test(msg)
+        || step === "load_import_row" || step === "storage_download_pdf_parse";
+
+      if (isHardFailure) {
+        await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
+        await appendImportLog(context.supabase, data.importId, { event: "extraction_failed", step, error: msg, stack });
+        return { ok: false as const, step, error: msg, stack, details: full, hard: true };
+      }
+
+      // Soft failure: record this chunk as failed in meta and let the loop continue.
+      try {
+        const { data: existing } = await context.supabase.from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+        let meta: ExtractionMeta = {};
+        try { meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { meta = {}; }
+        const failed = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
+        const completed = new Set<number>(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
+        // mark as "completed" so finalize doesn't treat it as missing — but record the failure
+        completed.add(data.chunkIndex);
+        failed.push({ chunk: data.chunkIndex, pages: `?`, reason: msg.slice(0, 600), model: "gemini" });
+        const nextMeta: ExtractionMeta = { ...meta, chunks_completed: [...completed].sort((a, b) => a - b), chunks_failed: failed, needs_manual_review: true };
+        const blocks = Array.isArray(existing?.blocks) ? existing.blocks : [];
+        await upsertExtraction(context.supabase, data.importId, blocks, Number((existing as any)?.page_count ?? 0) || 0, nextMeta);
+      } catch {}
+      await appendImportLog(context.supabase, data.importId, { event: "chunk_skipped", step, chunkIndex: data.chunkIndex, error: msg, stack });
+      return { ok: true as const, skipped: true, chunkIndex: data.chunkIndex, step, error: msg, details: full };
     }
   });
 
@@ -460,11 +488,17 @@ export const finalizePdfExtraction = createServerFn({ method: "POST" })
     let meta: ExtractionMeta = {};
     try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
     const completed = new Set(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
+    const failedChunks = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
     const total = Number(meta.chunks_total ?? 0);
     if (total > 0 && completed.size < total) throw new Error(`Extraction incomplete: ${completed.size}/${total} chunks completed.`);
-    await context.supabase.from("pdf_imports").update({ status: "extracted", ocr_used: true, error_message: null }).eq("id", data.importId);
-    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
-    return { ok: true, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review), lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [] };
+    const allFailed = failedChunks.length > 0 && failedChunks.length === total;
+    const finalStatus = allFailed ? "extraction_failed" : "extracted";
+    const errMessage = allFailed
+      ? `All ${total} chunks failed. See logs for per-chunk errors.`
+      : (failedChunks.length > 0 ? `${failedChunks.length}/${total} chunks failed and were skipped — flagged for manual review.` : null);
+    await context.supabase.from("pdf_imports").update({ status: finalStatus, ocr_used: true, error_message: errMessage }).eq("id", data.importId);
+    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, chunksFailed: failedChunks.length, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
+    return { ok: !allFailed, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review) || failedChunks.length > 0, lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [], failedChunks };
   });
 
 export const extractPdfVerbatim = startPdfExtraction;
