@@ -247,3 +247,43 @@ export function ExerciseSession({
     </div>
   );
 }
+
+export function groupByPassage(exercises: ExerciseDTO[]): ExerciseDTO[][] {
+  const out: ExerciseDTO[][] = [];
+  for (const ex of exercises) {
+    const last = out[out.length - 1];
+    const sharedPassage = ex.passage && last && last[0].passage === ex.passage;
+    if (sharedPassage) last.push(ex);
+    else out.push([ex]);
+  }
+  return out;
+}
+
+/** Derive a unique student-facing title for each passage group. */
+export function deriveGroupTitles(groups: ExerciseDTO[][]): string[] {
+  const raw = groups.map((g) => {
+    const ex = g[0];
+    // Prefer the first non-empty title from the group's exercises.
+    const t = g.map((e) => (e.title ?? "").trim()).find((x) => x.length > 0);
+    if (t) return cleanTitle(t);
+    // Else: first non-empty line of the passage.
+    const passLine = (ex.passage ?? "").split(/\r?\n/).map((l) => l.trim()).find((l) => l.length > 0);
+    if (passLine) return cleanTitle(passLine.slice(0, 80));
+    // Else: prompt fallback.
+    return cleanTitle((ex.prompt ?? "Aufgabe").slice(0, 80));
+  });
+  // Dedup: append " 1", " 2"… when the same base title appears more than once.
+  const counts = new Map<string, number>();
+  for (const t of raw) counts.set(t, (counts.get(t) ?? 0) + 1);
+  const seen = new Map<string, number>();
+  return raw.map((t) => {
+    if ((counts.get(t) ?? 0) <= 1) return t;
+    const n = (seen.get(t) ?? 0) + 1;
+    seen.set(t, n);
+    return `${t} ${n}`;
+  });
+}
+
+function cleanTitle(s: string): string {
+  return s.replace(/\s+/g, " ").replace(/^["„»«]+|["“”»«]+$/g, "").trim();
+}
