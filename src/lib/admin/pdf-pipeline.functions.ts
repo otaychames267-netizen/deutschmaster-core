@@ -976,11 +976,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           })
           .select("id")
           .single();
-        if (exErr || !ex) continue;
+        if (exErr || !ex) {
+          throw new Error(`Exercise insert failed for item ${q.number}: ${exErr?.message ?? "no exercise row returned"}`);
+        }
         createdExerciseIds.push(ex.id);
 
         if (rawAns) {
-          await context.supabase.from("exercise_answer_keys").insert({
+          const { error: keyErr } = await context.supabase.from("exercise_answer_keys").insert({
             exercise_id: ex.id,
             item_number: q.number,
             correct_answer: rawAns,
@@ -988,9 +990,15 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             key_version: 1,
             pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
           });
+          if (keyErr) throw new Error(`Answer-key insert failed for item ${q.number}: ${keyErr.message}`);
           keyCount++;
         }
       }
+    }
+
+    if (createdExerciseIds.length === 0) {
+      const questionCount = ordered.reduce((sum, g) => sum + g.questions.length, 0);
+      throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Check extraction block structure, options, and database insert errors.`);
     }
 
     await context.supabase.from("pdf_imports")
