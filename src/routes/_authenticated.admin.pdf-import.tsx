@@ -1061,8 +1061,14 @@ function ImportsList({
             ) : (
               <p className="text-xs text-muted-foreground">Keine Fehler gespeichert. Browser-Konsole und Server-Logs prüfen für Details.</p>
             )}
+            <h4 className="text-sm font-semibold mb-1 mt-3">Pipeline-Logs</h4>
+            {logRow.notes ? (
+              <pre className="max-h-[420px] overflow-auto whitespace-pre-wrap break-words rounded bg-muted p-3 text-[11px] font-mono">{logRow.notes}</pre>
+            ) : (
+              <p className="text-xs text-muted-foreground">Noch keine Pipeline-Logs gespeichert.</p>
+            )}
             <p className="text-[10px] text-muted-foreground mt-3">
-              Vollständige Server-Logs erscheinen in der Browser-Konsole (mit Präfix <code>[extractPdfVerbatim]</code>) und in den Cloud-Logs.
+              Enthält pro Chunk: Request an Gemini, Request-Größe, PDF-Seitengrößen, Modell, Dauer, Response-Status, Raw-Response und Stacktrace bei Fehlern.
             </p>
           </div>
         </div>
