@@ -1476,3 +1476,56 @@ export const deletePdfImport = createServerFn({ method: "POST" })
 
     return { ok: true, removed };
   });
+// ----------------------------------------------------------------------------
+// Topic-title extraction: derive a short, student-friendly title from a German
+// passage. Picks the most frequent capitalised content noun (German nouns are
+// capitalised), which is almost always the topic the passage is about.
+// Returns "" if no good candidate exists; callers fall back to the question
+// number. Never returns generic placeholders like "Text 1".
+// ----------------------------------------------------------------------------
+function deriveTopicTitle(text: string): string {
+  const raw = (text ?? "").trim();
+  if (!raw) return "";
+
+  // 1. Email/letter "Betreff:" line wins outright.
+  const subj = raw.match(/Betreff\s*:\s*([^\n\r]{2,80})/i);
+  if (subj) return cleanT(subj[1]);
+
+  // 2. A short, title-like first line (no terminal punctuation, ≤ 60 chars).
+  const firstLine = raw.split(/\r?\n/).map((l) => l.trim()).find((l) => l.length > 0) ?? "";
+  if (firstLine && firstLine.length <= 60 && !/[.!?:]$/.test(firstLine) && firstLine.split(/\s+/).length <= 8) {
+    return cleanT(firstLine);
+  }
+
+  // 3. Most frequent capitalised noun, excluding sentence-start function words.
+  const stop = new Set([
+    "Der","Die","Das","Den","Dem","Des","Ein","Eine","Einen","Einem","Einer","Eines",
+    "Und","Aber","Oder","Denn","Sondern","Wenn","Weil","Dass","Ob","Als","Wie","Wo",
+    "Ich","Du","Er","Sie","Es","Wir","Ihr","Mein","Dein","Sein","Unser","Euer","Ihre",
+    "Hier","Dort","Heute","Morgen","Gestern","Jetzt","Auch","Nicht","Nur","Schon","Noch",
+    "Mit","Ohne","Für","Gegen","Bei","Von","Zu","Aus","Nach","Vor","Über","Unter","Auf","An","In","Am","Im",
+    "Liebe","Lieber","Hallo","Sehr","Geehrte","Geehrter","Herr","Frau","Beste","Viele","Grüße","Grüsse","Mit","Freundliche",
+    "Was","Wer","Wann","Warum","Wieso","Welche","Welcher","Welches",
+  ]);
+  const freq = new Map<string, number>();
+  const words = raw.match(/\b[A-ZÄÖÜ][a-zäöüß-]{3,}\b/g) ?? [];
+  for (const w of words) {
+    if (stop.has(w)) continue;
+    freq.set(w, (freq.get(w) ?? 0) + 1);
+  }
+  if (freq.size === 0) return cleanT(firstLine.slice(0, 60));
+  const top = [...freq.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+  if (top && top[1] >= 2) return top[0];
+
+  // 4. Last resort: trimmed first sentence (max ~6 words).
+  const sent = raw.split(/[.!?]\s+/)[0] ?? "";
+  return cleanT(sent.split(/\s+/).slice(0, 6).join(" "));
+}
+
+function cleanT(s: string): string {
+  return (s ?? "")
+    .replace(/\s+/g, " ")
+    .replace(/^["„»«'`]+|["“”»«'`]+$/g, "")
+    .replace(/[.,;:!?]+$/, "")
+    .trim();
+}
