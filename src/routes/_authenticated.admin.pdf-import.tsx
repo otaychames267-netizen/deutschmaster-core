@@ -316,24 +316,46 @@ function PdfImportPage() {
     upload(slot.lastFile, kind, slot.level);
   };
 
-  const runExtract = async (id: string) => {
+  const runExtract = async (id: string, opts?: { resume?: boolean; onlyChunk?: number }) => {
     if (!isSuperAdmin) { toast.error("Nur Super-Admin"); return; }
     setBusy(true);
     try {
-      toast.info("Extraktion gestartet — Chunks werden einzeln verarbeitet.");
-      console.info("[pdf-import] extraction start", { importId: id });
-      const started = await extract({ data: { importId: id } });
+      const resume = Boolean(opts?.resume);
+      const onlyChunk = opts?.onlyChunk;
+      toast.info(
+        onlyChunk !== undefined
+          ? `Test-Lauf: nur Chunk ${onlyChunk + 1} wird verarbeitet.`
+          : resume
+            ? "Extraktion wird fortgesetzt — abgeschlossene Chunks werden übersprungen."
+            : "Extraktion gestartet — Chunks werden einzeln verarbeitet.",
+      );
+      console.info("[pdf-import] extraction start", { importId: id, resume, onlyChunk });
+      const started = await extract({ data: { importId: id, resume } });
       console.info("[pdf-import] extraction initialized", started);
       const total = Number((started as any).chunkCount ?? 0);
+      const alreadyDone: number[] = Array.isArray((started as any).completedChunks)
+        ? (started as any).completedChunks
+        : [];
+      const doneSet = new Set<number>(alreadyDone);
+      if (alreadyDone.length > 0) {
+        toast.info(`${alreadyDone.length}/${total} Chunks bereits abgeschlossen — werden übersprungen.`);
+      }
       let skipped = 0;
-      for (let chunkIndex = 0; chunkIndex < total; chunkIndex++) {
+      const indices: number[] = onlyChunk !== undefined
+        ? [onlyChunk]
+        : Array.from({ length: total }, (_, i) => i).filter((i) => !doneSet.has(i));
+      for (let n = 0; n < indices.length; n++) {
+        const chunkIndex = indices[n];
         toast.info(`Extrahiere Chunk ${chunkIndex + 1}/${total} …`);
         const r: any = await extractChunk({ data: { importId: id, chunkIndex } });
         console.info("[pdf-import] chunk result", r);
         if (r?.ok === false && r?.hard) {
           const det = r.details ?? r.error ?? "Unbekannter Fehler";
           console.error("[pdf-import] hard failure at step", r.step, det);
-          toast.error(`Extraktion abgebrochen [${r.step}]: ${r.error}`, { duration: 12000 });
+          toast.error(
+            `Chunk ${chunkIndex + 1}/${total} fehlgeschlagen [${r.step}]: ${r.error}. Erfolgreiche Chunks bleiben gespeichert — „Fortsetzen" startet nur die fehlgeschlagenen erneut.`,
+            { duration: 14000 },
+          );
           await refresh();
           return;
         }
@@ -342,6 +364,16 @@ function PdfImportPage() {
           toast.warning(`Chunk ${chunkIndex + 1}/${total} übersprungen — wird zur manuellen Prüfung markiert.`, { duration: 6000 });
         }
         await refresh();
+        // Throttle between chunks so the gateway rate-limit window can reset
+        // (gateway is ~per-second; 1.2s between calls keeps us well under).
+        if (n < indices.length - 1) {
+          await new Promise((res) => setTimeout(res, 1200));
+        }
+      }
+      if (onlyChunk !== undefined) {
+        toast.success(`Test-Lauf für Chunk ${onlyChunk + 1} abgeschlossen — Extraktion NICHT finalisiert.`);
+        await refresh();
+        return;
       }
       const done = await finalizeExtraction({ data: { importId: id } });
       console.info("[pdf-import] extraction finalized", done);
@@ -486,7 +518,13 @@ function PdfImportPage() {
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <Button size="sm" variant="ghost" onClick={() => preview(i.id)}>Vorschau</Button>
+                    <Button size="sm" variant="outline" onClick={() => runExtract(i.id, { onlyChunk: 0 })} disabled={busy || !isSuperAdmin} title="Nur Chunk 1 (Seiten 1–2) zum Test verarbeiten — kostet ~1 Anfrage">
+                      Test (1 Chunk)
+                    </Button>
                     <Button size="sm" onClick={() => runExtract(i.id)} disabled={busy || !isSuperAdmin}>Extrahieren</Button>
+                    <Button size="sm" variant="secondary" onClick={() => runExtract(i.id, { resume: true })} disabled={busy || !isSuperAdmin} title="Bereits abgeschlossene Chunks überspringen, nur fehlende/fehlgeschlagene neu verarbeiten">
+                      Fortsetzen
+                    </Button>
                     <Button size="sm" variant="ghost" className="text-destructive" onClick={() => onDelete(i)} disabled={busy || !isSuperAdmin} title="Endgültig löschen">
                       <Trash2 className="size-3.5" />
                     </Button>
