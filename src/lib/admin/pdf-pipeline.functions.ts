@@ -342,8 +342,18 @@ async function callGeminiChunkOnce(args: {
       status: resp.status, ok: resp.ok, durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
     });
     if (!resp.ok) {
+      // If Lovable AI Gateway is out of credits or rate-limited, try the
+      // operator-provided GEMINI_API_KEY against Google's direct API.
+      if ((resp.status === 402 || resp.status === 429) && process.env.GEMINI_API_KEY) {
+        await appendImportLog(args.supabase, args.importId, {
+          event: "gemini_direct_fallback_triggered", model: args.model, attempt: args.attempt,
+          chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, gatewayStatus: resp.status,
+        });
+        const direct = await callGeminiDirectOnce({ ...args });
+        return direct;
+      }
       if (resp.status === 429) throw new Error(`AI rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
-      if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
+      if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks} (set GEMINI_API_KEY to enable direct Gemini fallback): ${rawBody}`);
       throw new Error(`Gemini extraction failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}, pages ${args.startPage}-${args.endPage}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
     }
     let gatewayJson: any;
