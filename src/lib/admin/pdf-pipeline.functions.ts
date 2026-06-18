@@ -940,6 +940,16 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           o.label ? `${o.label}) ${o.text}` : o.text,
         );
 
+        // Prefer the official PDF passage title; otherwise derive a short
+        // topic from the passage so students see "Parkplatzsuche" instead of
+        // "LESEN Teil 2 — Aufgabe 3" in the library.
+        const passageTitle = (passage?.title ?? "").trim();
+        const derivedTitle = deriveTopicTitle(passage?.text ?? instruction ?? "");
+        const studentTitle =
+          passageTitle ||
+          derivedTitle ||
+          `Aufgabe ${q.number}${variantSuffix}`;
+
         // Resolve the official answer (a letter like "B") into the matching
         // option text so the existing grader (which compares against
         // exercises.correct) accepts the student's selection. We keep the
@@ -961,7 +971,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             module: moduleVal,
             teil,
             position: position++,
-            title: `${moduleVal.toUpperCase()} Teil ${teil}${variantSuffix} — Aufgabe ${q.number}`,
+            title: studentTitle,
             prompt: q.text,
             passage: passage ? passage.text : (instruction || null),
             kind,
