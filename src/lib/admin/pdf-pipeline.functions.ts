@@ -529,8 +529,8 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
   .inputValidator((d: { importId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("LOVABLE_API_KEY missing in server environment");
+    const apiKey = process.env.LOVABLE_API_KEY ?? "";
+    if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
     if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
     await context.supabase.from("pdf_imports").update({ status: "extracting", error_message: null, notes: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
@@ -550,8 +550,8 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
   .inputValidator((d: { importId: string; chunkIndex: number }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY;
-    if (!apiKey) throw new Error("LOVABLE_API_KEY missing in server environment");
+    const apiKey = process.env.LOVABLE_API_KEY ?? "";
+    if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     let step = "load_import_row";
     try {
       const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
