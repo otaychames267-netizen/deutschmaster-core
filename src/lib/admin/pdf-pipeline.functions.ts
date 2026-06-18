@@ -392,7 +392,7 @@ export const getExtraction = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const { data: imp } = await context.supabase
       .from("pdf_imports")
-      .select("id, original_name, kind, level, status, linked_import_id, created_at")
+      .select("id, original_name, kind, level, status, linked_import_id, created_at, error_message, notes")
       .eq("id", data.importId)
       .single();
     const { data: ext } = await context.supabase
@@ -412,7 +412,7 @@ export const listPdfImports = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const { data, error } = await context.supabase
       .from("pdf_imports")
-      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used, error_message, storage_path")
+      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used, error_message, storage_path, notes")
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw new Error(error.message);
