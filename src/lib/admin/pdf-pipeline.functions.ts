@@ -796,7 +796,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             model_variant: g.model,
             writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
             muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
-            content_type: moduleVal === "muendlich" ? (data.contentType ?? null) : null,
+            content_type: data.contentType ?? null,
           })
           .select("id")
           .single();
