@@ -44,97 +44,22 @@ export const createPdfImportV2 = createServerFn({ method: "POST" })
     return { id: row.id as string };
   });
 
-/**
- * Extract verbatim content from a PDF using Gemini Vision via Lovable AI.
- * Works for both digital and scanned PDFs (OCR via the model).
- * Stores blocks in pdf_extractions. NEVER rewrites/translates/summarizes.
- */
-export const extractPdfVerbatim = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: { importId: string }) => d)
-  .handler(async ({ data, context }) => {
-    await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY;
-    const log = (m: string, extra?: any) => {
-      try { console.log(`[extractPdfVerbatim] ${m}`, extra ?? ""); } catch {}
-    };
-    let step = "init";
-    if (!apiKey) {
-      const msg = "LOVABLE_API_KEY missing in server environment";
-      await context.supabase.from("pdf_imports")
-        .update({ status: "extraction_failed", error_message: `[${step}] ${msg}` })
-        .eq("id", data.importId);
-      return { ok: false as const, step, error: msg };
-    }
-    log("starting", { importId: data.importId, keyPresent: true });
+const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
+const EXTRACTION_MODEL = "google/gemini-2.5-flash";
+const CHUNK_PAGES = 2;
+const GEMINI_TIMEOUT_MS = 85_000;
 
-    // Mark as extracting so the admin sees progress in the list, and stamp the
-    // start time so the 5-min watchdog can detect stuck jobs.
-    await context.supabase
-      .from("pdf_imports")
-      .update({
-        status: "extracting",
-        error_message: null,
-        extraction_started_at: new Date().toISOString(),
-      })
-      .eq("id", data.importId);
+type ExtractionMeta = {
+  needs_manual_review?: boolean;
+  low_confidence_items?: any[];
+  models_detected?: string[];
+  chunks_total?: number;
+  chunks_completed?: number[];
+  chunk_size?: number;
+  diagnostics?: any[];
+};
 
-    // Hard 5-minute deadline for the whole extraction (sum of all chunk calls).
-    const HARD_DEADLINE_MS = 5 * 60 * 1000;
-    const deadlineAt = Date.now() + HARD_DEADLINE_MS;
-    const ac = new AbortController();
-    const watchdog = setTimeout(() => ac.abort(), HARD_DEADLINE_MS);
-
-    try {
-    step = "load_import_row";
-    // Fetch import row + signed URL to PDF
-    const { data: imp, error: impErr } = await context.supabase
-      .from("pdf_imports")
-      .select("id, storage_path, kind, level")
-      .eq("id", data.importId)
-      .single();
-    if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
-    log("import row loaded", { storage_path: imp.storage_path, kind: imp.kind });
-
-    step = "storage_download";
-    // Download PDF from storage and base64-encode
-    const { data: file, error: dlErr } = await context.supabase.storage
-      .from("pdf-imports")
-      .download(imp.storage_path);
-    if (dlErr || !file) throw new Error(`Storage download failed: ${dlErr?.message ?? "no file"} (path=${imp.storage_path})`);
-    const buf = new Uint8Array(await (file as Blob).arrayBuffer());
-    const fileSize = buf.byteLength;
-    log("pdf downloaded", { bytes: fileSize, sizeMB: +(fileSize/1024/1024).toFixed(2) });
-    if (fileSize === 0) throw new Error(`Downloaded PDF is empty (0 bytes, path=${imp.storage_path})`);
-
-    // ---- Chunk the PDF into small page-batches so each Gemini call stays
-    // inside the model's output-token budget. Large scanned TELC PDFs
-    // (15–20 MB, 20+ pages) cannot be extracted in a single request — the
-    // response gets truncated and returns empty content.
-    step = "pdf_parse";
-    const sourceDoc = await PDFDocument.load(buf, { ignoreEncryption: true });
-    const totalPages = sourceDoc.getPageCount();
-    const CHUNK_PAGES = 5; // ~5 pages per Gemini call
-    log("pdf parsed", { totalPages, chunkSize: CHUNK_PAGES });
-
-    const chunks: Array<{ startPage: number; endPage: number; b64: string }> = [];
-    for (let i = 0; i < totalPages; i += CHUNK_PAGES) {
-      step = `chunk_build_${i}`;
-      const indices: number[] = [];
-      for (let p = i; p < Math.min(i + CHUNK_PAGES, totalPages); p++) indices.push(p);
-      const chunkDoc = await PDFDocument.create();
-      const copied = await chunkDoc.copyPages(sourceDoc, indices);
-      for (const page of copied) chunkDoc.addPage(page);
-      const bytes = await chunkDoc.save();
-      // base64
-      let bin = "";
-      for (let k = 0; k < bytes.byteLength; k++) bin += String.fromCharCode(bytes[k]);
-      const b64 = typeof btoa !== "undefined" ? btoa(bin) : Buffer.from(bytes).toString("base64");
-      chunks.push({ startPage: i + 1, endPage: i + indices.length, b64 });
-    }
-    log("chunks built", { count: chunks.length });
-
-    const system = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
+const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
 - Do NOT translate, paraphrase, summarize, simplify, improve, or invent content.
 - Preserve original German text character-by-character including punctuation, capitalization, numbering, and item labels (A/B/C, 1./2./3., a)/b), etc.).
@@ -167,147 +92,232 @@ Return STRICT JSON with this shape (no markdown fences):
 }
 Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR a combined PDF.`;
 
-    const userInstruction =
-      imp.kind === "answer_key"
-        ? "This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim."
-        : imp.kind === "combined"
-          ? "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag."
-          : "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim.";
+function userInstructionFor(kind: string) {
+  if (kind === "answer_key") return "This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim.";
+  if (kind === "combined") return "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag.";
+  return "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim.";
+}
 
-    // ---- Call Gemini once per chunk and aggregate ----
-    const allBlocks: any[] = [];
-    const allLowConfidence: any[] = [];
-    const modelsSet = new Set<string>();
-    let needsReview = false;
-    let detectedLevel: string | null = null;
+function safeJson(value: unknown) {
+  try { return JSON.stringify(value); } catch { return String(value); }
+}
 
-    for (let ci = 0; ci < chunks.length; ci++) {
-      const c = chunks[ci];
-      if (Date.now() > deadlineAt) {
-        throw new Error(`Watchdog: extraction exceeded 5-minute deadline at chunk ${ci + 1}/${chunks.length} (pages ${c.startPage}-${c.endPage}).`);
-      }
-      step = `gemini_request_chunk_${ci + 1}`;
-      const chunkInstruction = `${userInstruction}\n\nThis is chunk ${ci + 1} of ${chunks.length}. It contains PDF pages ${c.startPage}–${c.endPage} of a ${totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (i.e. add ${c.startPage - 1} to the in-chunk page if needed — pages in this chunk are numbered ${c.startPage}–${c.endPage}). Extract every block on these pages verbatim. Do not skip pages.`;
-      log(`calling Gemini chunk ${ci + 1}/${chunks.length}`, { pages: `${c.startPage}-${c.endPage}`, b64Len: c.b64.length });
-      const resp = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        signal: ac.signal,
-        headers: {
-          "Content-Type": "application/json",
-          "Lovable-API-Key": apiKey,
-          "X-Lovable-AIG-SDK": "raw",
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-pro",
-          messages: [
-            { role: "system", content: system },
-            {
-              role: "user",
-              content: [
-                { type: "text", text: chunkInstruction },
-                { type: "file", file: { filename: `exam-chunk-${ci + 1}.pdf`, file_data: `data:application/pdf;base64,${c.b64}` } },
-              ],
-            },
-          ],
-          response_format: { type: "json_object" },
-        }),
-      });
-      log(`gemini status chunk ${ci + 1}`, { status: resp.status });
-      if (!resp.ok) {
-        const t = await resp.text().catch(() => "");
-        log(`gemini error body chunk ${ci + 1}`, t.slice(0, 1000));
-        if (resp.status === 429) throw new Error(`AI rate limit on chunk ${ci + 1}/${chunks.length} — please retry in a moment.`);
-        if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${ci + 1}/${chunks.length}. Add credits in workspace settings.`);
-        throw new Error(`Gemini extraction failed on chunk ${ci + 1}/${chunks.length} (HTTP ${resp.status}, pages ${c.startPage}-${c.endPage}): ${t.slice(0, 600) || "<empty body>"}`);
-      }
-      const json = await resp.json().catch((e) => { throw new Error(`Gemini response was not JSON on chunk ${ci + 1}: ${e?.message ?? e}`); });
-      const raw = json?.choices?.[0]?.message?.content ?? "{}";
-      const finishReason = json?.choices?.[0]?.finish_reason ?? json?.choices?.[0]?.finishReason ?? null;
-      log(`gemini parsed chunk ${ci + 1}`, { finishReason, rawLength: typeof raw === "string" ? raw.length : -1, usage: json?.usage });
-      if (typeof raw === "string" && raw.trim().length < 5) {
-        throw new Error(`Gemini returned empty content on chunk ${ci + 1}/${chunks.length} (finish_reason=${finishReason ?? "?"}, pages ${c.startPage}-${c.endPage}).`);
-      }
-      let parsed: any;
-      try { parsed = typeof raw === "string" ? JSON.parse(raw) : raw; }
-      catch (e: any) {
-        const snippet = typeof raw === "string" ? raw.slice(0, 600) : JSON.stringify(raw).slice(0, 600);
-        throw new Error(`Could not parse Gemini JSON on chunk ${ci + 1}/${chunks.length}: ${e?.message ?? e}. Snippet: ${snippet}`);
-      }
-      const chunkBlocks: any[] = Array.isArray(parsed?.blocks) ? parsed.blocks : [];
-      // Normalize page numbers to absolute pages (some models obey instruction,
-      // some emit 1..n inside the chunk — clamp safely).
-      for (const b of chunkBlocks) {
-        const p = Number(b?.page);
-        if (Number.isFinite(p) && p > 0 && p <= (c.endPage - c.startPage + 1)) {
-          // Looks like an in-chunk number — translate.
-          b.page = c.startPage + (p - 1);
-        } else if (!Number.isFinite(p) || p < c.startPage || p > c.endPage) {
-          // Fallback: stamp to chunk start.
-          b.page = c.startPage;
-        }
-        allBlocks.push(b);
-      }
-      if (Array.isArray(parsed?.low_confidence_items)) allLowConfidence.push(...parsed.low_confidence_items);
-      if (Array.isArray(parsed?.models_detected)) for (const m of parsed.models_detected) if (m != null) modelsSet.add(String(m));
-      if (parsed?.needs_manual_review) needsReview = true;
-      if (!detectedLevel && (parsed?.level === "b1" || parsed?.level === "b2")) detectedLevel = parsed.level;
+async function appendImportLog(supabase: any, importId: string, entry: Record<string, unknown>) {
+  const line = JSON.stringify({ ts: new Date().toISOString(), ...entry });
+  const { data } = await supabase.from("pdf_imports").select("notes").eq("id", importId).maybeSingle();
+  const next = `${data?.notes ? `${data.notes}\n` : ""}${line}`.slice(-120_000);
+  await supabase.from("pdf_imports").update({ notes: next, extraction_started_at: new Date().toISOString() }).eq("id", importId);
+  try { console.log("[extractPdfVerbatim]", line); } catch {}
+}
+
+function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[] {
+  const out: any[] = [];
+  const visit = (b: any) => {
+    if (!b || typeof b !== "object") return;
+    if (Array.isArray(b.blocks)) for (const child of b.blocks) visit(child);
+    const rawType = String(b.type ?? "").toLowerCase();
+    const type = ["section", "instruction", "passage", "question", "answer_key_entry", "image_ref", "audio_ref"].includes(rawType) ? rawType : null;
+    if (!type) return;
+    const p = Number(b.page);
+    const page = Number.isFinite(p) && p > 0 && p <= (endPage - startPage + 1)
+      ? startPage + p - 1
+      : Number.isFinite(p) && p >= startPage && p <= endPage ? p : startPage;
+    const model = ["multiple_choice", "true_false", "cloze", "matching", "open_text"].includes(String(b.model ?? "")) ? null : (b.model ?? null);
+    const teil = b.teil == null || b.teil === "" ? null : Number(b.teil);
+    const base: any = { ...b, type, model, teil: Number.isFinite(teil) ? teil : null, page };
+    if (type === "question") {
+      base.number = String(b.number ?? b.question_number ?? b.id ?? "");
+      base.text = String(b.text ?? b.question ?? "");
+      base.options = Array.isArray(b.options)
+        ? b.options.map((o: any) => ({ label: String(o.label ?? o.id ?? ""), text: String(o.text ?? "") }))
+        : [];
     }
+    out.push(base);
+  };
+  for (const b of blocks) visit(b);
+  return out;
+}
 
-    const blocks = allBlocks;
-    const pageCount = totalPages;
-    const lowConfidence = allLowConfidence;
-    const modelsDetected = [...modelsSet];
-    log("aggregated", { blockCount: blocks.length, models: modelsDetected, pageCount });
+async function downloadPdf(supabase: any, storagePath: string) {
+  const { data: file, error } = await supabase.storage.from("pdf-imports").download(storagePath);
+  if (error || !file) throw new Error(`Storage download failed: ${error?.message ?? "no file"} (path=${storagePath})`);
+  const buf = new Uint8Array(await (file as Blob).arrayBuffer());
+  if (buf.byteLength === 0) throw new Error(`Downloaded PDF is empty (0 bytes, path=${storagePath})`);
+  const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
+  return { buf, doc, totalPages: doc.getPageCount() };
+}
 
-    // Upsert extraction row
-    const { data: existing } = await context.supabase
-      .from("pdf_extractions")
-      .select("id")
-      .eq("import_id", data.importId)
-      .maybeSingle();
+async function upsertExtraction(supabase: any, importId: string, blocks: any[], pageCount: number, meta: ExtractionMeta) {
+  const { data: existing } = await supabase.from("pdf_extractions").select("id").eq("import_id", importId).maybeSingle();
+  const row = { blocks, page_count: pageCount, raw_text: JSON.stringify(meta) };
+  const q = existing?.id
+    ? supabase.from("pdf_extractions").update(row).eq("id", existing.id)
+    : supabase.from("pdf_extractions").insert({ import_id: importId, ...row });
+  const { error } = await q;
+  if (error) throw new Error(error.message);
+}
 
-    if (existing?.id) {
-      const { error: upErr } = await context.supabase
-        .from("pdf_extractions")
-        .update({ blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence, models_detected: modelsDetected }) })
-        .eq("id", existing.id);
-      if (upErr) throw new Error(upErr.message);
-    } else {
-      const { error: insErr } = await context.supabase
-        .from("pdf_extractions")
-        .insert({ import_id: data.importId, blocks, page_count: pageCount, raw_text: JSON.stringify({ needs_manual_review: needsReview, low_confidence_items: lowConfidence, models_detected: modelsDetected }) });
-      if (insErr) throw new Error(insErr.message);
+async function callGeminiChunk(args: {
+  apiKey: string; importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
+  startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
+}) {
+  const b64 = Buffer.from(args.pdfBytes).toString("base64");
+  const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages.`;
+  const body = {
+    model: EXTRACTION_MODEL,
+    messages: [
+      { role: "system", content: extractionSystemPrompt },
+      { role: "user", content: [
+        { type: "text", text: chunkInstruction },
+        { type: "file", file: { filename: `exam-chunk-${args.chunkIndex + 1}.pdf`, file_data: `data:application/pdf;base64,${b64}` } },
+      ] },
+    ],
+    response_format: { type: "json_object" },
+    temperature: 0,
+    max_tokens: 12000,
+  };
+  const payload = JSON.stringify(body);
+  await appendImportLog(args.supabase, args.importId, {
+    event: "gemini_request_sent", model: EXTRACTION_MODEL, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+    pages: `${args.startPage}-${args.endPage}`, requestBytes: Buffer.byteLength(payload), pdfChunkBytes: args.pdfBytes.byteLength,
+    fileParts: 1, imageParts: 0, imageDimensions: "n/a: PDF is sent directly; no PDF-to-image conversion is performed", pdfPageDimensions: args.dimensions,
+  });
+  const started = Date.now();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+  try {
+    const resp = await fetch(AI_GATEWAY_URL, {
+      method: "POST",
+      signal: controller.signal,
+      headers: { "Content-Type": "application/json", "Lovable-API-Key": args.apiKey, "X-Lovable-AIG-SDK": "raw-pdf-extraction" },
+      body: payload,
+    });
+    const rawBody = await resp.text();
+    const durationMs = Date.now() - started;
+    await appendImportLog(args.supabase, args.importId, {
+      event: "gemini_response_received", model: EXTRACTION_MODEL, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+      status: resp.status, ok: resp.ok, durationMs, responseBytes: Buffer.byteLength(rawBody), rawBody: rawBody.slice(0, 12_000),
+    });
+    if (!resp.ok) {
+      if (resp.status === 429) throw new Error(`AI rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
+      if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
+      throw new Error(`Gemini extraction failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}, pages ${args.startPage}-${args.endPage}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
     }
+    let gatewayJson: any;
+    try { gatewayJson = JSON.parse(rawBody); }
+    catch (e: any) { throw new Error(`Gemini gateway response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}. Raw: ${rawBody.slice(0, 1200)}`); }
+    const content = gatewayJson?.choices?.[0]?.message?.content ?? "{}";
+    const finishReason = gatewayJson?.choices?.[0]?.finish_reason ?? gatewayJson?.choices?.[0]?.finishReason ?? null;
+    if (typeof content === "string" && content.trim().length < 5) throw new Error(`Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`);
+    let parsed: any;
+    try { parsed = typeof content === "string" ? JSON.parse(content) : content; }
+    catch (e: any) { throw new Error(`Could not parse Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${e?.message ?? e}. Content: ${String(content).slice(0, 1200)}`); }
+    return { parsed, finishReason, usage: gatewayJson?.usage, durationMs };
+  } catch (err: any) {
+    const durationMs = Date.now() - started;
+    const msg = err?.name === "AbortError"
+      ? `Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
+      : String(err?.message ?? err);
+    await appendImportLog(args.supabase, args.importId, { event: "gemini_request_failed", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg, stack: String(err?.stack ?? "").slice(0, 4000) });
+    throw new Error(msg);
+  } finally {
+    clearTimeout(timeout);
+  }
+}
 
-    await context.supabase
-      .from("pdf_imports")
-      .update({
-        status: "extracted",
-        ocr_used: true,
-        level: detectedLevel ?? imp.level ?? null,
-        error_message: null,
-      })
-      .eq("id", data.importId);
+export const startPdfExtraction = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { importId: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) throw new Error("LOVABLE_API_KEY missing in server environment");
+    const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
+    if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
+    await context.supabase.from("pdf_imports").update({ status: "extracting", error_message: null, notes: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
+    const { buf, doc, totalPages } = await downloadPdf(context.supabase, imp.storage_path);
+    const pageDimensions = Array.from({ length: totalPages }, (_, i) => {
+      const p = doc.getPage(i); return { page: i + 1, width: p.getWidth(), height: p.getHeight() };
+    });
+    const chunkCount = Math.ceil(totalPages / CHUNK_PAGES);
+    const meta: ExtractionMeta = { needs_manual_review: false, low_confidence_items: [], models_detected: [], chunks_total: chunkCount, chunks_completed: [], chunk_size: CHUNK_PAGES, diagnostics: [] };
+    await upsertExtraction(context.supabase, data.importId, [], totalPages, meta);
+    await appendImportLog(context.supabase, data.importId, { event: "extraction_started", model: EXTRACTION_MODEL, fileBytes: buf.byteLength, totalPages, chunkSize: CHUNK_PAGES, chunkCount, pageDimensions });
+    return { ok: true, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount, fileBytes: buf.byteLength };
+  });
 
-    return { ok: true, blockCount: blocks.length, pageCount, needsManualReview: needsReview, lowConfidenceItems: lowConfidence, modelsDetected };
+export const extractPdfChunk = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { importId: string; chunkIndex: number }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    const apiKey = process.env.LOVABLE_API_KEY;
+    if (!apiKey) throw new Error("LOVABLE_API_KEY missing in server environment");
+    let step = "load_import_row";
+    try {
+      const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
+      if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
+      step = "storage_download_pdf_parse";
+      const { doc, totalPages } = await downloadPdf(context.supabase, imp.storage_path);
+      const totalChunks = Math.ceil(totalPages / CHUNK_PAGES);
+      if (data.chunkIndex < 0 || data.chunkIndex >= totalChunks) throw new Error(`Invalid chunkIndex ${data.chunkIndex}; expected 0..${totalChunks - 1}`);
+      const startIdx = data.chunkIndex * CHUNK_PAGES;
+      const endIdxExclusive = Math.min(startIdx + CHUNK_PAGES, totalPages);
+      const pageIndices = Array.from({ length: endIdxExclusive - startIdx }, (_, i) => startIdx + i);
+      step = "chunk_build";
+      const chunkDoc = await PDFDocument.create();
+      const copied = await chunkDoc.copyPages(doc, pageIndices);
+      for (const page of copied) chunkDoc.addPage(page);
+      const bytes = await chunkDoc.save();
+      const dimensions = copied.map((p, i) => ({ page: startIdx + i + 1, width: p.getWidth(), height: p.getHeight() }));
+      step = `gemini_request_chunk_${data.chunkIndex + 1}`;
+      const result = await callGeminiChunk({ apiKey, supabase: context.supabase, importId: data.importId, kind: imp.kind, chunkIndex: data.chunkIndex, totalChunks, startPage: startIdx + 1, endPage: endIdxExclusive, totalPages, pdfBytes: bytes, dimensions });
+      const chunkBlocks = flattenBlocks(Array.isArray(result.parsed?.blocks) ? result.parsed.blocks : [], startIdx + 1, endIdxExclusive);
+      step = "persist_chunk";
+      const { data: existing } = await context.supabase.from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+      const existingBlocks = Array.isArray(existing?.blocks) ? existing.blocks : [];
+      const keptBlocks = existingBlocks.filter((b: any) => Number(b?.page) < startIdx + 1 || Number(b?.page) > endIdxExclusive);
+      let meta: ExtractionMeta = {};
+      try { meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { meta = {}; }
+      const completed = new Set<number>(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
+      completed.add(data.chunkIndex);
+      const models = new Set<string>(Array.isArray(meta.models_detected) ? meta.models_detected : []);
+      if (Array.isArray(result.parsed?.models_detected)) for (const m of result.parsed.models_detected) if (m != null) models.add(String(m));
+      const lowConfidence = [...(Array.isArray(meta.low_confidence_items) ? meta.low_confidence_items : []), ...(Array.isArray(result.parsed?.low_confidence_items) ? result.parsed.low_confidence_items : [])];
+      const nextMeta: ExtractionMeta = { ...meta, chunks_total: totalChunks, chunks_completed: [...completed].sort((a, b) => a - b), chunk_size: CHUNK_PAGES, needs_manual_review: Boolean(meta.needs_manual_review || result.parsed?.needs_manual_review), low_confidence_items: lowConfidence, models_detected: [...models] };
+      const blocks = [...keptBlocks, ...chunkBlocks].sort((a, b) => Number(a?.page ?? 0) - Number(b?.page ?? 0));
+      await upsertExtraction(context.supabase, data.importId, blocks, totalPages, nextMeta);
+      await context.supabase.from("pdf_imports").update({ status: "extracting", ocr_used: true, level: result.parsed?.level === "b1" || result.parsed?.level === "b2" ? result.parsed.level : imp.level, error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
+      await appendImportLog(context.supabase, data.importId, { event: "chunk_persisted", chunk: `${data.chunkIndex + 1}/${totalChunks}`, blocksInChunk: chunkBlocks.length, totalBlocks: blocks.length, finishReason: result.finishReason, usage: result.usage });
+      return { ok: true, chunkIndex: data.chunkIndex, totalChunks, pages: `${startIdx + 1}-${endIdxExclusive}`, blocksInChunk: chunkBlocks.length, totalBlocks: blocks.length, completedChunks: nextMeta.chunks_completed?.length ?? 0 };
     } catch (err: any) {
       const msg = String(err?.message ?? err);
-      const stack = err?.stack ? String(err.stack).slice(0, 2000) : "";
-      const aborted = err?.name === "AbortError";
-      const prefix = aborted ? "[watchdog 5-min timeout] " : "";
-      const full = `${prefix}[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
-      try { console.error("[extractPdfVerbatim] FAILED", { step, msg, stack }); } catch {}
-      await context.supabase
-        .from("pdf_imports")
-        .update({ status: "extraction_failed", error_message: full })
-        .eq("id", data.importId);
-      // Return instead of throw so the client receives the full diagnostic
-      // (TanStack RPC otherwise masks server errors as "Internal server error").
+      const stack = String(err?.stack ?? "").slice(0, 6000);
+      const full = `[step=${step}] ${msg}${stack ? `\n\nStack:\n${stack}` : ""}`;
+      await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
+      await appendImportLog(context.supabase, data.importId, { event: "extraction_failed", step, error: msg, stack });
       return { ok: false as const, step, error: msg, stack, details: full };
-    } finally {
-      clearTimeout(watchdog);
     }
   });
+
+export const finalizePdfExtraction = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { importId: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    const { data: ext } = await context.supabase.from("pdf_extractions").select("blocks, raw_text, page_count").eq("import_id", data.importId).maybeSingle();
+    if (!ext) throw new Error("No extraction row found");
+    let meta: ExtractionMeta = {};
+    try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    const completed = new Set(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
+    const total = Number(meta.chunks_total ?? 0);
+    if (total > 0 && completed.size < total) throw new Error(`Extraction incomplete: ${completed.size}/${total} chunks completed.`);
+    await context.supabase.from("pdf_imports").update({ status: "extracted", ocr_used: true, error_message: null }).eq("id", data.importId);
+    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
+    return { ok: true, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review), lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [] };
+  });
+
+export const extractPdfVerbatim = startPdfExtraction;
 
 /**
  * Watchdog: mark any extraction/build job whose start timestamp is older than
