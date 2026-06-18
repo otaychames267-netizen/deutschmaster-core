@@ -7,32 +7,24 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { ArrowLeft, ArrowRight, Loader2, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
-import { ExamTimer } from "./ExamTimer";
 import { toast } from "sonner";
 
 type Module = "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich";
 type Mode = "practice" | "exam";
-
-// Official TELC durations per module (minutes). Per-Teil split is approximate
-// — the exam is scored per module, so we budget each Teil with its slice.
-const EXAM_MINUTES: Record<Module, number> = {
-  lesen: 30,            // Lesen total 90 min / ~3 Teile
-  sprachbausteine: 15,
-  hoeren: 10,
-  schreiben: 30,
-  muendlich: 15,
-};
 
 export function ExerciseSession({
   level,
   module,
   teil,
   mode = "practice",
+  passageIndex,
 }: {
   level: "b1" | "b2";
   module: Module;
   teil: number;
   mode?: Mode;
+  /** When set, restrict the session to a single passage group (library item). */
+  passageIndex?: number;
 }) {
   const list = useServerFn(listPublishedExercises);
   const submit = useServerFn(submitAttempt);
@@ -46,7 +38,6 @@ export function ExerciseSession({
   const [examAnswers, setExamAnswers] = useState<Record<string, unknown>>({});
   const [examResults, setExamResults] = useState<Record<string, { isCorrect: boolean; correct: unknown; explanation: string | null }> | null>(null);
   const [submittingExam, setSubmittingExam] = useState(false);
-  const [examEndsAt, setExamEndsAt] = useState<string | null>(null);
   const [retryIds, setRetryIds] = useState<Set<string> | null>(null);
 
   useEffect(() => {
@@ -60,35 +51,28 @@ export function ExerciseSession({
     listRef.current({ data: { level, module, teil } })
       .then((r) => {
         if (cancel) return;
-        const all = r.exercises as ExerciseDTO[];
+        let all = r.exercises as ExerciseDTO[];
+        if (typeof passageIndex === "number") {
+          // Filter down to the single passage-group the library opened.
+          const grp = groupByPassage(all)[passageIndex];
+          all = grp ?? [];
+        }
         setExercises(retryIds ? all.filter((e) => retryIds.has(e.id)) : all);
         setAudioUrls(r.audioUrls);
         setGroupIndex(0);
         setExamAnswers({});
         setExamResults(null);
         setDone(new Set());
-        setExamEndsAt(
-          mode === "exam"
-            ? new Date(Date.now() + EXAM_MINUTES[module] * 60_000).toISOString()
-            : null,
-        );
       })
       .catch((e) => toast.error(e.message ?? "Konnte Übungen nicht laden"))
       .finally(() => !cancel && setLoading(false));
     return () => { cancel = true; };
-  }, [level, module, teil, mode, retryIds]);
+  }, [level, module, teil, mode, retryIds, passageIndex]);
 
   // Group consecutive exercises that share the same passage into one screen
   // (real TELC layout: one Lesetext + its questions 1..n).
   const groups = useMemo(() => {
-    const out: ExerciseDTO[][] = [];
-    for (const ex of exercises) {
-      const last = out[out.length - 1];
-      const sharedPassage = ex.passage && last && last[0].passage === ex.passage;
-      if (sharedPassage) last.push(ex);
-      else out.push([ex]);
-    }
-    return out;
+    return groupByPassage(exercises);
   }, [exercises]);
 
   const currentGroup = groups[groupIndex];
@@ -200,9 +184,6 @@ export function ExerciseSession({
           </div>
           <Progress value={progress} className="h-1.5" />
         </div>
-        {mode === "exam" && examEndsAt && (
-          <ExamTimer endsAt={examEndsAt} onExpire={() => { if (!examResults && !submittingExam) submitExam(); }} />
-        )}
       </div>
 
       {/* Shared passage shown once at top of the group */}
