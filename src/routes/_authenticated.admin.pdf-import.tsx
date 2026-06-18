@@ -385,7 +385,7 @@ function PdfImportPage() {
           teil: buildTeil,
           writingCategory: buildModule === "schreiben" ? writingCategory : null,
           muendlichPart: buildModule === "muendlich" ? muendlichPart : null,
-          contentType: buildModule === "muendlich" ? contentType : null,
+          contentType,
           confirmMaterialAsExercises: confirmMaterial,
         },
       });
