@@ -304,6 +304,7 @@ async function callGeminiChunkOnce(args: {
   startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
   model: string; attempt: number;
 }) {
+  // (callGeminiDirectOnce is hoisted below)
   const b64 = bytesToBase64(args.pdfBytes);
   const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages. If the PDF contains Arabic text or bilingual annotations, IGNORE the Arabic completely and extract only the German content. Return STRICT JSON only — no markdown, no comments, no trailing commas. Escape every double quote and newline inside string values.`;
   const body = {
