@@ -4,7 +4,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import {
   createPdfImportV2,
-  extractPdfVerbatim,
+  startPdfExtraction,
+  extractPdfChunk,
+  finalizePdfExtraction,
   getExtraction,
   listPdfImports,
   buildExercisesFromExtraction,
@@ -92,6 +94,7 @@ type PdfImportRow = {
   created_at: string;
   ocr_used: boolean;
   error_message: string | null;
+  notes?: string | null;
   storage_path?: string | null;
 };
 
@@ -118,7 +121,9 @@ const initialSlot = (): SlotState => ({
 
 function PdfImportPage() {
   const createImport = useServerFn(createPdfImportV2);
-  const extract = useServerFn(extractPdfVerbatim);
+  const extract = useServerFn(startPdfExtraction);
+  const extractChunk = useServerFn(extractPdfChunk);
+  const finalizeExtraction = useServerFn(finalizePdfExtraction);
   const reap = useServerFn(reapStuckExtractions);
   const fetchExtraction = useServerFn(getExtraction);
   const fetchImports = useServerFn(listPdfImports);
@@ -315,18 +320,32 @@ function PdfImportPage() {
     if (!isSuperAdmin) { toast.error("Nur Super-Admin"); return; }
     setBusy(true);
     try {
-      toast.info("Extrahiere mit Gemini Vision … das kann 30–60 s dauern.");
+      toast.info("Extraktion gestartet — Chunks werden einzeln verarbeitet.");
       console.info("[pdf-import] extraction start", { importId: id });
-      const r = await extract({ data: { importId: id } });
-      console.info("[pdf-import] extraction result", r);
-      if ((r as any)?.ok === false) {
-        const det = (r as any).details ?? (r as any).error ?? "Unbekannter Fehler";
-        console.error("[pdf-import] extraction failed at step", (r as any).step, det);
-        toast.error(`Extraktion fehlgeschlagen [${(r as any).step}]: ${(r as any).error}`, { duration: 12000 });
+      const started = await extract({ data: { importId: id } });
+      console.info("[pdf-import] extraction initialized", started);
+      const total = Number((started as any).chunkCount ?? 0);
+      for (let chunkIndex = 0; chunkIndex < total; chunkIndex++) {
+        toast.info(`Extrahiere Chunk ${chunkIndex + 1}/${total} …`);
+        const r = await extractChunk({ data: { importId: id, chunkIndex } });
+        console.info("[pdf-import] chunk result", r);
+        if ((r as any)?.ok === false) {
+          const det = (r as any).details ?? (r as any).error ?? "Unbekannter Fehler";
+          console.error("[pdf-import] extraction failed at step", (r as any).step, det);
+          toast.error(`Extraktion fehlgeschlagen [${(r as any).step}]: ${(r as any).error}`, { duration: 12000 });
+          await refresh();
+          return;
+        }
+        await refresh();
+      }
+      const done = await finalizeExtraction({ data: { importId: id } });
+      console.info("[pdf-import] extraction finalized", done);
+      if ((done as any)?.ok === false) {
+        toast.error(`Extraktion fehlgeschlagen: ${(done as any).error}`, { duration: 12000 });
         await refresh();
         return;
       }
-      toast.success(`Extraktion fertig: ${(r as any).blockCount} Blöcke`);
+      toast.success(`Extraktion fertig: ${(done as any).blockCount} Blöcke`);
       await refresh();
       await preview(id);
     } catch (e: any) {
@@ -1042,8 +1061,14 @@ function ImportsList({
             ) : (
               <p className="text-xs text-muted-foreground">Keine Fehler gespeichert. Browser-Konsole und Server-Logs prüfen für Details.</p>
             )}
+            <h4 className="text-sm font-semibold mb-1 mt-3">Pipeline-Logs</h4>
+            {logRow.notes ? (
+              <pre className="max-h-[420px] overflow-auto whitespace-pre-wrap break-words rounded bg-muted p-3 text-[11px] font-mono">{logRow.notes}</pre>
+            ) : (
+              <p className="text-xs text-muted-foreground">Noch keine Pipeline-Logs gespeichert.</p>
+            )}
             <p className="text-[10px] text-muted-foreground mt-3">
-              Vollständige Server-Logs erscheinen in der Browser-Konsole (mit Präfix <code>[extractPdfVerbatim]</code>) und in den Cloud-Logs.
+              Enthält pro Chunk: Request an Gemini, Request-Größe, PDF-Seitengrößen, Modell, Dauer, Response-Status, Raw-Response und Stacktrace bei Fehlern.
             </p>
           </div>
         </div>
