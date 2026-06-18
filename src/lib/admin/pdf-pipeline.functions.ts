@@ -413,14 +413,21 @@ async function callGeminiChunkOnce(args: {
  * successful parsed payload or throws after the final attempt. */
 type CallChunkArgs = Omit<Parameters<typeof callGeminiChunkOnce>[0], "model" | "attempt">;
 async function callGeminiChunk(args: CallChunkArgs) {
-  const attempts: { model: string }[] = [
-    { model: EXTRACTION_MODEL },
-    { model: EXTRACTION_MODEL },
-    { model: EXTRACTION_FALLBACK_MODEL },
+  // 4 attempts with exponential backoff so transient 429s on the gateway
+  // (single biggest cause of "extraction_failed" so far) don't poison an
+  // otherwise-good chunk. Each attempt that returns 429/timeout waits longer.
+  const attempts: { model: string; backoffMs: number }[] = [
+    { model: EXTRACTION_MODEL, backoffMs: 0 },
+    { model: EXTRACTION_MODEL, backoffMs: 4_000 },
+    { model: EXTRACTION_MODEL, backoffMs: 12_000 },
+    { model: EXTRACTION_FALLBACK_MODEL, backoffMs: 8_000 },
   ];
   let lastErr: any;
   for (let i = 0; i < attempts.length; i++) {
     try {
+      if (attempts[i].backoffMs > 0) {
+        await new Promise((r) => setTimeout(r, attempts[i].backoffMs));
+      }
       return await callGeminiChunkOnce({ ...args, model: attempts[i].model, attempt: i + 1 });
     } catch (e: any) {
       lastErr = e;
