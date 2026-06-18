@@ -42,11 +42,13 @@ export function ExerciseRunner({
   const [answer, setAnswer] = useState<unknown>(initialAnswer ?? defaultAnswer(exercise));
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<GradedResult | null>(null);
+  const [revealed, setRevealed] = useState(false);
   const [startedAt] = useState<number>(() => Date.now());
 
   useEffect(() => {
     setAnswer(initialAnswer ?? defaultAnswer(exercise));
     setResult(null);
+    setRevealed(false);
   }, [exercise.id]);
 
   const submit = async () => {
@@ -54,7 +56,7 @@ export function ExerciseRunner({
     const dur = Math.max(1, Math.round((Date.now() - startedAt) / 1000));
     try {
       const r = await onSubmit(answer, dur);
-      if (r && !hideFeedback) setResult(r);
+      if (r && !hideFeedback) { setResult(r); setRevealed(false); }
     } finally {
       setSubmitting(false);
     }
@@ -66,9 +68,9 @@ export function ExerciseRunner({
   }, [exercise.options]);
 
   const correctSet = useMemo(() => {
-    if (!result || !Array.isArray(result.correct)) return new Set<string>();
+    if (!result || !revealed || !Array.isArray(result.correct)) return new Set<string>();
     return new Set((result.correct as unknown[]).map((x) => String(x)));
-  }, [result]);
+  }, [result, revealed]);
 
   return (
     <div className="space-y-4">
@@ -90,8 +92,16 @@ export function ExerciseRunner({
         <div className="space-y-2">
           {opts.map((o) => {
             const selected = answer === o;
-            const isWrong = result && selected && !correctSet.has(o);
-            const isRight = result && correctSet.has(o);
+            // Before "Lösung anzeigen": only mark the student's own selection
+            // (green if it matches the official answer, red otherwise).
+            // Never reveal the correct option until the student requests it.
+            const officialCorrect = result && Array.isArray(result.correct)
+              ? new Set((result.correct as unknown[]).map((x) => String(x)))
+              : null;
+            const selectedIsCorrect = !!(officialCorrect && selected && officialCorrect.has(o));
+            const selectedIsWrong   = !!(result && selected && officialCorrect && !officialCorrect.has(o));
+            const isRight = revealed && correctSet.has(o);
+            const isWrong = !revealed && selectedIsWrong;
             return (
               <button
                 key={o}
@@ -100,7 +110,7 @@ export function ExerciseRunner({
                 onClick={() => setAnswer(o)}
                 className={`w-full text-left rounded-md border px-3 py-2 text-sm transition ${
                   selected ? "border-accent bg-accent/10" : "hover:bg-accent/5"
-                } ${isRight ? "border-green-500 bg-green-500/10" : ""} ${isWrong ? "border-red-500 bg-red-500/10" : ""}`}
+                } ${isRight ? "border-green-500 bg-green-500/10" : ""} ${isWrong ? "border-red-500 bg-red-500/10" : ""} ${!revealed && selectedIsCorrect ? "border-green-500 bg-green-500/10" : ""}`}
               >
                 {o}
               </button>
@@ -113,8 +123,12 @@ export function ExerciseRunner({
         <div className="flex gap-2">
           {(opts.length ? opts : ["Richtig", "Falsch"]).map((o) => {
             const selected = answer === o;
-            const isRight = result && correctSet.has(o);
-            const isWrong = result && selected && !correctSet.has(o);
+            const officialCorrect = result && Array.isArray(result.correct)
+              ? new Set((result.correct as unknown[]).map((x) => String(x))) : null;
+            const selectedIsCorrect = !!(officialCorrect && selected && officialCorrect.has(o));
+            const selectedIsWrong   = !!(result && selected && officialCorrect && !officialCorrect.has(o));
+            const isRight = revealed && correctSet.has(o);
+            const isWrong = !revealed && selectedIsWrong;
             return (
               <Button
                 key={o}
@@ -122,7 +136,7 @@ export function ExerciseRunner({
                 variant={selected ? "default" : "outline"}
                 disabled={!!result}
                 onClick={() => setAnswer(o)}
-                className={`${isRight ? "border-green-500 bg-green-500/10 text-foreground" : ""} ${isWrong ? "border-red-500 bg-red-500/10 text-foreground" : ""}`}
+                className={`${isRight ? "border-green-500 bg-green-500/10 text-foreground" : ""} ${isWrong ? "border-red-500 bg-red-500/10 text-foreground" : ""} ${!revealed && selectedIsCorrect ? "border-green-500 bg-green-500/10 text-foreground" : ""}`}
               >
                 {o}
               </Button>
@@ -137,7 +151,7 @@ export function ExerciseRunner({
           gapCount={countGaps(exercise.passage, opts)}
           options={opts}
           locked={!!result}
-          correct={result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
+          correct={revealed && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -147,7 +161,7 @@ export function ExerciseRunner({
           pairs={opts}
           answer={(answer ?? {}) as Record<string, string>}
           locked={!!result}
-          correct={result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
+          correct={revealed && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -172,8 +186,21 @@ export function ExerciseRunner({
               <><XCircle className="size-4 text-red-500" /> Nicht ganz ({result.score}%)</>
             )}
           </div>
-          {result.explanation && <p className="text-muted-foreground whitespace-pre-wrap">{result.explanation}</p>}
-          <p className="text-xs text-muted-foreground">Die richtigen Antworten sind direkt bei jeder Frage markiert.</p>
+          {!revealed ? (
+            <div className="flex flex-wrap items-center gap-2">
+              <Button size="sm" variant="outline" onClick={() => setRevealed(true)}>
+                Lösung anzeigen
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                Die offizielle Korrektur und Erklärung werden erst nach Klick angezeigt.
+              </span>
+            </div>
+          ) : (
+            <>
+              {result.explanation && <p className="text-muted-foreground whitespace-pre-wrap">{result.explanation}</p>}
+              <p className="text-xs text-muted-foreground">Die richtigen Antworten sind direkt bei jeder Frage markiert.</p>
+            </>
+          )}
         </div>
       )}
     </div>
