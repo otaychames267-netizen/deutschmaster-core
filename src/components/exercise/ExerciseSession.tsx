@@ -263,14 +263,16 @@ export function groupByPassage(exercises: ExerciseDTO[]): ExerciseDTO[][] {
 export function deriveGroupTitles(groups: ExerciseDTO[][]): string[] {
   const raw = groups.map((g) => {
     const ex = g[0];
-    // Prefer the first non-empty title from the group's exercises.
-    const t = g.map((e) => (e.title ?? "").trim()).find((x) => x.length > 0);
-    if (t) return cleanTitle(t);
-    // Else: first non-empty line of the passage.
-    const passLine = (ex.passage ?? "").split(/\r?\n/).map((l) => l.trim()).find((l) => l.length > 0);
-    if (passLine) return cleanTitle(passLine.slice(0, 80));
-    // Else: prompt fallback.
-    return cleanTitle((ex.prompt ?? "Aufgabe").slice(0, 80));
+    // Prefer the first non-empty, non-generic title from the group's exercises.
+    const candidate = g
+      .map((e) => (e.title ?? "").trim())
+      .find((x) => x.length > 0 && !isGenericTitle(x));
+    if (candidate) return cleanTitle(candidate);
+    // Else: derive a topic from the passage (German heuristic).
+    const topic = deriveTopic(ex.passage ?? ex.prompt ?? "");
+    if (topic) return topic;
+    // Last resort: short prompt extract — never "Text N".
+    return cleanTitle((ex.prompt ?? "Aufgabe").slice(0, 60));
   });
   // Dedup: append " 1", " 2"… when the same base title appears more than once.
   const counts = new Map<string, number>();
@@ -284,6 +286,47 @@ export function deriveGroupTitles(groups: ExerciseDTO[][]): string[] {
   });
 }
 
+function isGenericTitle(t: string): boolean {
+  return /^(lesen|sprachbausteine|hören|hoeren|schreiben|mündlich|muendlich)\s+teil\b/i.test(t)
+      || /^(text|passage|aufgabe)\s*\d+$/i.test(t);
+}
+
+function deriveTopic(text: string): string {
+  const raw = (text ?? "").trim();
+  if (!raw) return "";
+  const subj = raw.match(/Betreff\s*:\s*([^\n\r]{2,80})/i);
+  if (subj) return cleanTitle(subj[1]);
+  const firstLine = raw.split(/\r?\n/).map((l) => l.trim()).find((l) => l.length > 0) ?? "";
+  if (firstLine && firstLine.length <= 60 && !/[.!?:]$/.test(firstLine) && firstLine.split(/\s+/).length <= 8) {
+    return cleanTitle(firstLine);
+  }
+  const stop = new Set([
+    "Der","Die","Das","Den","Dem","Des","Ein","Eine","Einen","Einem","Einer","Eines",
+    "Und","Aber","Oder","Denn","Sondern","Wenn","Weil","Dass","Ob","Als","Wie","Wo",
+    "Ich","Du","Er","Sie","Es","Wir","Ihr","Mein","Dein","Sein","Unser","Euer","Ihre",
+    "Hier","Dort","Heute","Morgen","Gestern","Jetzt","Auch","Nicht","Nur","Schon","Noch",
+    "Mit","Ohne","Für","Gegen","Bei","Von","Zu","Aus","Nach","Vor","Über","Unter","Auf","An","In","Am","Im",
+    "Liebe","Lieber","Hallo","Sehr","Geehrte","Geehrter","Herr","Frau","Beste","Viele","Grüße","Grüsse","Freundliche",
+    "Was","Wer","Wann","Warum","Wieso","Welche","Welcher","Welches",
+  ]);
+  const freq = new Map<string, number>();
+  const words = raw.match(/\b[A-ZÄÖÜ][a-zäöüß-]{3,}\b/g) ?? [];
+  for (const w of words) {
+    if (stop.has(w)) continue;
+    freq.set(w, (freq.get(w) ?? 0) + 1);
+  }
+  if (freq.size > 0) {
+    const top = [...freq.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0];
+    if (top && top[1] >= 2) return top[0];
+  }
+  const sent = raw.split(/[.!?]\s+/)[0] ?? "";
+  return cleanTitle(sent.split(/\s+/).slice(0, 6).join(" "));
+}
+
 function cleanTitle(s: string): string {
-  return s.replace(/\s+/g, " ").replace(/^["„»«]+|["“”»«]+$/g, "").trim();
+  return (s ?? "")
+    .replace(/\s+/g, " ")
+    .replace(/^["„»«'`]+|["“”»«'`]+$/g, "")
+    .replace(/[.,;:!?]+$/, "")
+    .trim();
 }
