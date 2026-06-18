@@ -102,6 +102,19 @@ function safeJson(value: unknown) {
   try { return JSON.stringify(value); } catch { return String(value); }
 }
 
+function utf8Bytes(text: string) {
+  return new TextEncoder().encode(text).byteLength;
+}
+
+function bytesToBase64(bytes: Uint8Array) {
+  let binary = "";
+  const step = 0x8000;
+  for (let i = 0; i < bytes.length; i += step) {
+    binary += String.fromCharCode(...bytes.slice(i, i + step));
+  }
+  return btoa(binary);
+}
+
 async function appendImportLog(supabase: any, importId: string, entry: Record<string, unknown>) {
   const line = JSON.stringify({ ts: new Date().toISOString(), ...entry });
   const { data } = await supabase.from("pdf_imports").select("notes").eq("id", importId).maybeSingle();
@@ -161,7 +174,7 @@ async function callGeminiChunk(args: {
   apiKey: string; importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
   startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
 }) {
-  const b64 = Buffer.from(args.pdfBytes).toString("base64");
+  const b64 = bytesToBase64(args.pdfBytes);
   const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages.`;
   const body = {
     model: EXTRACTION_MODEL,
@@ -179,7 +192,7 @@ async function callGeminiChunk(args: {
   const payload = JSON.stringify(body);
   await appendImportLog(args.supabase, args.importId, {
     event: "gemini_request_sent", model: EXTRACTION_MODEL, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
-    pages: `${args.startPage}-${args.endPage}`, requestBytes: Buffer.byteLength(payload), pdfChunkBytes: args.pdfBytes.byteLength,
+    pages: `${args.startPage}-${args.endPage}`, requestBytes: utf8Bytes(payload), pdfChunkBytes: args.pdfBytes.byteLength,
     fileParts: 1, imageParts: 0, imageDimensions: "n/a: PDF is sent directly; no PDF-to-image conversion is performed", pdfPageDimensions: args.dimensions,
   });
   const started = Date.now();
@@ -196,7 +209,7 @@ async function callGeminiChunk(args: {
     const durationMs = Date.now() - started;
     await appendImportLog(args.supabase, args.importId, {
       event: "gemini_response_received", model: EXTRACTION_MODEL, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
-      status: resp.status, ok: resp.ok, durationMs, responseBytes: Buffer.byteLength(rawBody), rawBody: rawBody.slice(0, 12_000),
+      status: resp.status, ok: resp.ok, durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
     });
     if (!resp.ok) {
       if (resp.status === 429) throw new Error(`AI rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
