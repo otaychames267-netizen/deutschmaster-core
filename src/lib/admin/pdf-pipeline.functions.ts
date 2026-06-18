@@ -632,14 +632,14 @@ export const finalizePdfExtraction = createServerFn({ method: "POST" })
     const failedChunks = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
     const total = Number(meta.chunks_total ?? 0);
     if (total > 0 && completed.size < total) throw new Error(`Extraction incomplete: ${completed.size}/${total} chunks completed.`);
-    const allFailed = failedChunks.length > 0 && failedChunks.length === total;
-    const finalStatus = allFailed ? "extraction_failed" : "extracted";
-    const errMessage = allFailed
-      ? `All ${total} chunks failed. See logs for per-chunk errors.`
-      : (failedChunks.length > 0 ? `${failedChunks.length}/${total} chunks failed and were skipped — flagged for manual review.` : null);
+    const hasFailedChunks = failedChunks.length > 0;
+    const finalStatus = hasFailedChunks ? "extraction_failed" : "extracted";
+    const errMessage = hasFailedChunks
+      ? `${failedChunks.length}/${total} chunks failed. Extraction is incomplete; no exercises will be built until every chunk succeeds.`
+      : null;
     await context.supabase.from("pdf_imports").update({ status: finalStatus, ocr_used: true, error_message: errMessage }).eq("id", data.importId);
     await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, chunksFailed: failedChunks.length, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [] });
-    return { ok: !allFailed, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review) || failedChunks.length > 0, lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [], failedChunks };
+    return { ok: !hasFailedChunks, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: Boolean(meta.needs_manual_review) || failedChunks.length > 0, lowConfidenceItems: meta.low_confidence_items ?? [], modelsDetected: meta.models_detected ?? [], failedChunks };
   });
 
 export const extractPdfVerbatim = startPdfExtraction;
