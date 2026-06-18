@@ -518,7 +518,13 @@ function PdfImportPage() {
                   </div>
                   <div className="flex gap-2 shrink-0">
                     <Button size="sm" variant="ghost" onClick={() => preview(i.id)}>Vorschau</Button>
+                    <Button size="sm" variant="outline" onClick={() => runExtract(i.id, { onlyChunk: 0 })} disabled={busy || !isSuperAdmin} title="Nur Chunk 1 (Seiten 1–2) zum Test verarbeiten — kostet ~1 Anfrage">
+                      Test (1 Chunk)
+                    </Button>
                     <Button size="sm" onClick={() => runExtract(i.id)} disabled={busy || !isSuperAdmin}>Extrahieren</Button>
+                    <Button size="sm" variant="secondary" onClick={() => runExtract(i.id, { resume: true })} disabled={busy || !isSuperAdmin} title="Bereits abgeschlossene Chunks überspringen, nur fehlende/fehlgeschlagene neu verarbeiten">
+                      Fortsetzen
+                    </Button>
                     <Button size="sm" variant="ghost" className="text-destructive" onClick={() => onDelete(i)} disabled={busy || !isSuperAdmin} title="Endgültig löschen">
                       <Trash2 className="size-3.5" />
                     </Button>
