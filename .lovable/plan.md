@@ -1,154 +1,107 @@
-# Phase 2 — TELC Exercise Engine
 
-Goal: students can take database-driven exercises, get auto-corrected, see progress, and run timed exam simulations. Admins can later import PDF content into the question bank without code changes.
+# DeutschMaster Audit & Implementation Roadmap
 
-## 1. Exercise Runtime (student-facing)
+This is a read-only audit of the current project plus a phased roadmap. No code is changed by this plan — approve it and I will execute Phase 1.
 
-New shared component `src/components/exercise/ExerciseRunner.tsx` that renders any `exercises` row by `kind`:
-- `multiple_choice` — radio list, single correct
-- `true_false` — two-option radio
-- `matching` — left items ↔ right items (drag or select)
-- `cloze` — passage with `___` gaps + inputs/dropdowns
-- `open_text` — textarea (Schreiben Brief / open answers)
+## 1. What I inspected
 
-Each Teil route (`Lesen Teil 1/2/3`, `Sprachbausteine 1/2`, `Hören 1/2/3`, `Schreiben Brief`) becomes a thin wrapper that:
-1. Calls a new server fn `listPublishedExercises({ level, module, teil })`.
-2. Renders an `ExerciseSession` (list + current item navigator + submit button).
-3. On submit, calls `submitAttempt({ exerciseId, answer })`.
+- Database schema and row counts (all 31 public tables).
+- PDF import pipeline (`src/lib/admin/pdf-pipeline.functions.ts`, 1442 lines, with Gemini fallback already wired).
+- Exercise data layer (`src/lib/exercises/*`).
+- Student runner (`ExerciseRunner.tsx`, `ExerciseSession.tsx`).
+- Student & admin routes under `src/routes/`.
 
-Hören uses the existing `audio_assets` signed-URL flow (already built).
+## 2. Current state — what already works
 
-## 2. Automatic Correction
+**Database (solid foundation, do not redesign).**
+- `exercises` — already keyed by `level / module / teil / position`, supports `kind` (multiple_choice, true_false, cloze, matching, open_text), `options` JSON, `passage`, `audio_id`, `status` (`draft|published`), `source_pdf_import_id`, `original_numbering`, `content_type` (`vorbereitung|pruefungssimulation`).
+- `exercise_answer_keys` — separate table, versioned (`key_version`), linked to import. Correctly isolated from student-visible content.
+- `exam_sessions` + `user_exercise_attempts` — full session model: timer (`ends_at`), `exercise_ids[]`, `score_total/breakdown`, per-attempt `is_correct`, `needs_review`, `key_version`.
+- `pdf_imports`, `pdf_extractions`, `pdf_fidelity_reports` — full extraction + fidelity audit trail. A publish-guard trigger already blocks publishing without a passing fidelity report.
+- RLS is in place on all student/admin tables.
 
-New server fn `submitAttempt` (auth-required) in `src/lib/exercises/attempts.functions.ts`:
-- Loads the exercise (RLS scoped, published only).
-- Grades by `kind`:
-  - MC / TF: exact match against `correct[0]`.
-  - Cloze: per-gap exact match, normalized (lowercase, trim, German umlaut variants), score = correct/total.
-  - Matching: per-pair check, score = correct/total.
-  - Open text: stored ungraded (`score = null`, `needs_review = true`) — admin can grade later from `/admin/attempts` (Phase 2.5).
-- Inserts into `user_exercise_attempts` with `score`, `is_correct`, `answer`, `completed_at`, `duration_seconds`.
-- Returns `{ correct, score, explanation, correctAnswer }` for instant feedback.
+**Student runner.**
+- `ExerciseRunner` already handles MCQ, true/false, cloze, matching, open text — with the "Lösung anzeigen" gate (solutions hidden until the student clicks). This matches the spec.
+- `ExerciseSession` already loads published exercises by `level/module/teil`, paginates, tracks done set, saves attempts.
 
-## 3. Student Progress Tracking
+**Exam mode.**
+- `exam_sessions` + `_authenticated.exam.$id.tsx` + `_authenticated.pruefung.tsx` exist (timer + submit at end).
 
-Update `/dashboard` and `/statistik`:
-- Server fn `getMyProgress()` returns per-module completion %, attempts count, average score, current streak (consecutive days with ≥1 attempt), last 30-day activity.
-- Dashboard widgets: Streak, Today's activity, Weekly accuracy, Module progress bars (Lesen/Sprachbausteine/Hören/Schreiben).
-- `/statistik` page: full breakdown by Teil with sparkline + recent attempts table.
+**PDF pipeline.**
+- Lovable AI Gateway + Gemini fallback are working (verified previously).
+- Chunked extraction, JSON repair, fidelity report.
 
-Streak/percentages auto-update because everything reads live from `user_exercise_attempts`.
+## 3. What is broken or missing
 
-## 4. Exam Mode (Prüfungssimulation)
+**Content (the actual blocker).**
+- `exercises`: 0 rows. `exercise_answer_keys`: 0 rows. `pdf_imports`: 1 row, status `extracted` — extraction ran but no exercises were ever materialised into the DB.
+- Result: every student page shows "Noch keine Übungen veröffentlicht." The platform is empty even though extraction works.
 
-New routes `/_authenticated/schriftlich/pruefung` and `/_authenticated/muendlich/pruefung` already exist as shells. Wire them up:
+**Pipeline gap (root cause of the emptiness).**
+- The pipeline produces JSON candidates (`pdf_imports.extracted_candidates`) and a fidelity report, but the step that converts those candidates into rows in `exercises` + `exercise_answer_keys` either is not wired to the admin UI or never persists. Admins see raw JSON, not a publishable exam.
+- No clean separation in the persistence step between: exam content (texts, questions, options, instructions, images) vs. answer keys vs. explanations.
+- No skip rules enforced at persistence time for Themenliste / overview / WhatsApp / Telegram / translator notes / watermarks (the spec requires these to never enter the DB).
 
-- New table `exam_sessions` (`user_id`, `level`, `mode` schriftlich|muendlich, `started_at`, `ends_at`, `submitted_at`, `score_total`, `score_breakdown` jsonb, `status` in_progress|submitted|expired).
-- New server fn `startExam({ level, mode })`:
-  - Picks a balanced set of published exercises per Teil (configurable counts matching TELC structure).
-  - Returns session id + ordered exercise ids + total duration (e.g. B2 schriftlich = 190 min).
-- `submitExamAnswer({ sessionId, exerciseId, answer })` — stores attempts linked to session, no instant feedback (`needs_review` open texts).
-- `finishExam({ sessionId })` — locks session, computes per-module score, returns summary.
-- Client: timer component (counts down, persists in `ends_at`, auto-submits on expiry), single-question-at-a-time UI, no back navigation to previous questions in strict mode (toggle).
-- Results page: per-module score, accuracy, time used, open-text answers flagged for review.
+**Student experience gaps.**
+- No two-mode toggle. The runner grades immediately on "Antwort prüfen"; there is no "Practice (instant feedback) vs Exam (feedback only at end)" switch surfaced to the student.
+- No grouped "Reading Text → its questions 1–5" UI. `ExerciseSession` shows one exercise at a time, which breaks the Lesen Teil 2/3 experience where the same passage covers 5 questions.
+- No final review screen listing all questions with student answer / correct answer / explanation after exam submit.
+- No question navigator (jump to Q3, see which are unanswered) — only Prev/Next.
 
-## 5. PDF-to-Exercise Foundation (admin-only)
+**Module coverage.**
+- Lesen + Sprachbausteine: schema + runner ready; only missing content + grouping UI.
+- Hören: `audio_assets` table + `audio` bucket exist; runner plays audio; missing audio ingestion in the admin import flow and a player tied to multi-question sets.
+- Schreiben: `writing_topics` exists; `open_text` kind works; missing answer save + later-review UI; no AI grading yet (deferred).
+- Mündlich: `speaking_topics` exists; no recording UI yet (explicitly deferred per spec).
 
-Add to `/admin/exercises` a new "Import from PDF" tab:
-- Upload PDF → store in a new private `pdf_imports` bucket.
-- Server fn `parsePdfImport({ storagePath })` uses `pdf-parse` (pure-JS, worker-compatible) to extract text.
-- Heuristic splitter pre-fills a **review queue**: detect "Teil 1", numbered questions, A/B/C/D options, fill-in gaps.
-- Admin sees a side-by-side editor: extracted candidates on left, editable `ExerciseEditor` form on right, "Publish" or "Discard" per item.
-- Nothing auto-publishes — every imported exercise is a draft until the admin saves it.
+**Admin import UX.**
+- After extraction, admin sees JSON/extraction metadata rather than a "Review & Publish" view per exercise. The spec requires admins to never need to read JSON either.
 
-This is the foundation only. No OCR for scanned PDFs in Phase 2 (note as Phase 3 follow-up).
+## 4. Recommended development order
 
-## 6. Database Migration
+Build vertically (one module fully working) before going wide. Reading is the right first vertical: the schema, runner, and one example PDF are all closest to ready.
 
-Single migration:
+| Phase | Goal | Outcome for students |
+|-------|------|----------------------|
+| 1 | Persistence + Reading content live | Students can take a real Lesen exam end-to-end |
+| 2 | Practice/Exam mode toggle + review screen | Two real modes, post-exam review with explanations |
+| 3 | Sprachbausteine content | Second module live (same shape as Reading) |
+| 4 | Hören (audio ingestion + grouped player) | Third module live |
+| 5 | Schreiben save & review | Writing answers stored + reviewable |
+| 6 | Mündlich tasks + (later) recording | Speaking prep available |
+| 7 | Admin "Review & Publish" UI (no JSON) | Admins approve exercises in a human view |
 
-```sql
--- exam sessions
-CREATE TYPE exam_mode AS ENUM ('schriftlich','muendlich');
-CREATE TYPE exam_status AS ENUM ('in_progress','submitted','expired');
+## 5. Phase 1 — detailed (what I'd build first, on approval)
 
-CREATE TABLE public.exam_sessions (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  level exercise_level NOT NULL,
-  mode exam_mode NOT NULL,
-  exercise_ids uuid[] NOT NULL,
-  started_at timestamptz NOT NULL DEFAULT now(),
-  ends_at timestamptz NOT NULL,
-  submitted_at timestamptz,
-  score_total numeric,
-  score_breakdown jsonb,
-  status exam_status NOT NULL DEFAULT 'in_progress',
-  created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now()
-);
-GRANT SELECT, INSERT, UPDATE ON public.exam_sessions TO authenticated;
-GRANT ALL ON public.exam_sessions TO service_role;
-ALTER TABLE public.exam_sessions ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "own exam sessions" ON public.exam_sessions
-  FOR ALL USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
-CREATE POLICY "admin read all exam sessions" ON public.exam_sessions
-  FOR SELECT USING (public.has_role(auth.uid(),'admin'));
+Goal: turn the existing extracted import into real, published Reading exercises a student can actually take.
 
--- link attempts to exam sessions + flag review
-ALTER TABLE public.user_exercise_attempts
-  ADD COLUMN exam_session_id uuid REFERENCES public.exam_sessions(id) ON DELETE SET NULL,
-  ADD COLUMN needs_review boolean NOT NULL DEFAULT false,
-  ADD COLUMN duration_seconds integer;
+1. **Materialiser server fn** (`src/lib/admin/materialize-exam.functions.ts`):
+   - Reads `pdf_imports.extracted_candidates` + the fidelity report.
+   - Filters out non-exam blocks (Themenliste, overview/title pages, WhatsApp/Telegram/Facebook/group names, translator notes, watermarks) by section heading + regex blocklist.
+   - Inserts one `exercises` row per question, preserving `original_numbering`, exact `prompt`, exact `options`, exact `passage`. Groups questions that share a Reading text by storing the same `passage` and consecutive `position` values (Teil-level grouping is implicit via `level/module/teil`).
+   - Inserts matching `exercise_answer_keys` rows from the answer-key candidates (separate table, never embedded in the student-visible row).
+   - Stays `status='draft'` until admin clicks Publish; publish trigger already enforces a passing fidelity report.
 
--- pdf import staging
-CREATE TABLE public.pdf_imports (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  uploaded_by uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-  storage_path text NOT NULL,
-  status text NOT NULL DEFAULT 'pending',
-  extracted_candidates jsonb DEFAULT '[]',
-  created_at timestamptz NOT NULL DEFAULT now(),
-  updated_at timestamptz NOT NULL DEFAULT now()
-);
-GRANT SELECT, INSERT, UPDATE, DELETE ON public.pdf_imports TO authenticated;
-GRANT ALL ON public.pdf_imports TO service_role;
-ALTER TABLE public.pdf_imports ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "admin manage pdf imports" ON public.pdf_imports
-  FOR ALL USING (public.has_role(auth.uid(),'admin'))
-  WITH CHECK (public.has_role(auth.uid(),'admin'));
-```
+2. **Reading grouping in the runner**:
+   - Update `ExerciseSession` so when consecutive exercises in a Teil share the same `passage`, they render as one screen: passage on the left, questions 1..n on the right. Submit per question keeps working; navigation moves to the next group.
 
-Plus a `pdf_imports` private storage bucket.
+3. **Practice vs Exam mode prop**:
+   - `ExerciseSession` already supports `hideFeedback` via `ExerciseRunner`. Add a `mode: "practice" | "exam"` prop, wire `hideFeedback=true` for exam mode, store all answers locally, only call `submitAttempt` + reveal results at the end.
 
-## 7. Out of scope (deferred to Phase 3)
-- AI grading of open-text Schreiben/Sprechen answers (Lovable AI).
-- OCR for scanned PDFs.
-- Certificate generation after exam pass.
-- Leaderboards / social.
+4. **Validation**: run the importer against the existing extracted PDF, confirm exercises appear under `/_authenticated/practice/b1/lesen/1..5`, verify "Lösung anzeigen" still gates explanations.
 
-## File map
+## 6. Technical notes
 
-New:
-- `src/components/exercise/ExerciseRunner.tsx`
-- `src/components/exercise/ExerciseSession.tsx`
-- `src/components/exercise/ExamTimer.tsx`
-- `src/lib/exercises/exercises.functions.ts` (list/get published)
-- `src/lib/exercises/attempts.functions.ts` (submit, grade)
-- `src/lib/exercises/exam.functions.ts` (start/answer/finish)
-- `src/lib/exercises/progress.functions.ts` (dashboard stats)
-- `src/lib/exercises/grading.ts` (pure grading helpers)
-- `src/lib/admin/pdf-import.functions.ts`
-- `src/routes/_authenticated.admin.pdf-import.tsx`
-- `src/routes/_authenticated.admin.attempts.tsx` (review open texts)
+- No schema changes are needed for Phase 1 — every column required (passage, options, correct via `exercise_answer_keys`, original_numbering, position) already exists.
+- The Gemini fallback already in place keeps Phase 1 reproducible without Lovable credits.
+- All new server fns will use `requireSupabaseAuth` + `has_role('super_admin')` for write paths.
+- Student-facing pages stay public-to-authenticated under `_authenticated/`; no anon access added.
 
-Edit:
-- All Teil pages under `schriftlich/vorbereitung` + `muendlich/vorbereitung` → use `ExerciseSession`.
-- `schriftlich.pruefung.tsx` + `muendlich.pruefung.tsx` → wire exam flow.
-- `dashboard.tsx` + `statistik.tsx` → live progress widgets.
-- `admin.tsx` nav → add "PDF Import" and "Open answers" tabs.
+## 7. What I will NOT do without further approval
 
-## Confirm before I start
-1. **B2 schriftlich duration** — use standard TELC (Lesen 90' + Sprachbausteine 15' + Hören 30' + Schreiben 30' = 165' + break)? Or configurable per exam?
-2. **Open-text grading** — manual admin review only for Phase 2 (AI grading deferred), correct?
-3. **Exam strictness** — allow students to navigate back to previous questions, or strict one-way like real TELC?
+- No redesign of the DB schema.
+- No rewrite of the extraction pipeline (it works; only the persistence step is missing).
+- No automatic deletion of the existing `pdf_imports` row.
+- No new pricing/billing/admin pages.
+
+Approve and I will execute Phase 1.
