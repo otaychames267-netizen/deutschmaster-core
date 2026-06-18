@@ -48,13 +48,13 @@ function PracticePage() {
             <Link
               to="/practice/$level/$module/$teil"
               params={{ level, module, teil }}
-              search={(prev) => ({ ...prev, mode: "practice" })}
+              search={(prev: Record<string, unknown>) => ({ ...prev, mode: "practice" as const })}
               className={`px-2 py-1 text-xs ${mode === "practice" ? "bg-primary text-primary-foreground" : "hover:bg-accent/40"}`}
             >Übung</Link>
             <Link
               to="/practice/$level/$module/$teil"
               params={{ level, module, teil }}
-              search={(prev) => ({ ...prev, mode: "exam" })}
+              search={(prev: Record<string, unknown>) => ({ ...prev, mode: "exam" as const })}
               className={`px-2 py-1 text-xs ${mode === "exam" ? "bg-primary text-primary-foreground" : "hover:bg-accent/40"}`}
             >Prüfung</Link>
           </div>
