@@ -352,7 +352,8 @@ async function callGeminiChunkOnce(args: {
 /** Call Gemini for a single chunk with automatic retry + model fallback.
  * Order: flash attempt 1 → flash attempt 2 → pro attempt 1. Returns the last
  * successful parsed payload or throws after the final attempt. */
-async function callGeminiChunk(args: Parameters<typeof callGeminiChunkOnce>[0] extends infer T ? Omit<Parameters<typeof callGeminiChunkOnce>[0], "model" | "attempt"> : never) {
+type CallChunkArgs = Omit<Parameters<typeof callGeminiChunkOnce>[0], "model" | "attempt">;
+async function callGeminiChunk(args: CallChunkArgs) {
   const attempts: { model: string }[] = [
     { model: EXTRACTION_MODEL },
     { model: EXTRACTION_MODEL },
@@ -361,13 +362,13 @@ async function callGeminiChunk(args: Parameters<typeof callGeminiChunkOnce>[0] e
   let lastErr: any;
   for (let i = 0; i < attempts.length; i++) {
     try {
-      return await callGeminiChunkOnce({ ...(args as any), model: attempts[i].model, attempt: i + 1 });
+      return await callGeminiChunkOnce({ ...args, model: attempts[i].model, attempt: i + 1 });
     } catch (e: any) {
       lastErr = e;
       // do not retry on credit exhaustion
       if (/credits exhausted/i.test(String(e?.message ?? ""))) throw e;
-      await appendImportLog((args as any).supabase, (args as any).importId, {
-        event: "chunk_attempt_failed", chunk: `${(args as any).chunkIndex + 1}/${(args as any).totalChunks}`,
+      await appendImportLog(args.supabase, args.importId, {
+        event: "chunk_attempt_failed", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
         attempt: i + 1, model: attempts[i].model, error: String(e?.message ?? e).slice(0, 1200),
       });
     }
