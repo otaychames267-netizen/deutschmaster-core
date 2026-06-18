@@ -6,11 +6,22 @@ import { ExerciseRunner, type ExerciseDTO } from "./ExerciseRunner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ArrowLeft, ArrowRight, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2, CheckCircle2, XCircle, RotateCcw } from "lucide-react";
+import { ExamTimer } from "./ExamTimer";
 import { toast } from "sonner";
 
 type Module = "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich";
 type Mode = "practice" | "exam";
+
+// Official TELC durations per module (minutes). Per-Teil split is approximate
+// — the exam is scored per module, so we budget each Teil with its slice.
+const EXAM_MINUTES: Record<Module, number> = {
+  lesen: 30,            // Lesen total 90 min / ~3 Teile
+  sprachbausteine: 15,
+  hoeren: 10,
+  schreiben: 30,
+  muendlich: 15,
+};
 
 export function ExerciseSession({
   level,
@@ -35,6 +46,8 @@ export function ExerciseSession({
   const [examAnswers, setExamAnswers] = useState<Record<string, unknown>>({});
   const [examResults, setExamResults] = useState<Record<string, { isCorrect: boolean; correct: unknown; explanation: string | null }> | null>(null);
   const [submittingExam, setSubmittingExam] = useState(false);
+  const [examEndsAt, setExamEndsAt] = useState<string | null>(null);
+  const [retryIds, setRetryIds] = useState<Set<string> | null>(null);
 
   useEffect(() => {
     listRef.current = list;
@@ -47,17 +60,23 @@ export function ExerciseSession({
     listRef.current({ data: { level, module, teil } })
       .then((r) => {
         if (cancel) return;
-        setExercises(r.exercises as ExerciseDTO[]);
+        const all = r.exercises as ExerciseDTO[];
+        setExercises(retryIds ? all.filter((e) => retryIds.has(e.id)) : all);
         setAudioUrls(r.audioUrls);
         setGroupIndex(0);
         setExamAnswers({});
         setExamResults(null);
         setDone(new Set());
+        setExamEndsAt(
+          mode === "exam"
+            ? new Date(Date.now() + EXAM_MINUTES[module] * 60_000).toISOString()
+            : null,
+        );
       })
       .catch((e) => toast.error(e.message ?? "Konnte Übungen nicht laden"))
       .finally(() => !cancel && setLoading(false));
     return () => { cancel = true; };
-  }, [level, module, teil]);
+  }, [level, module, teil, mode, retryIds]);
 
   // Group consecutive exercises that share the same passage into one screen
   // (real TELC layout: one Lesetext + its questions 1..n).
@@ -97,6 +116,7 @@ export function ExerciseSession({
   // ---- Exam-mode review screen ----
   if (mode === "exam" && examResults) {
     const correctCount = Object.values(examResults).filter((r) => r.isCorrect).length;
+    const wrongIds = exercises.filter((e) => !examResults[e.id]?.isCorrect).map((e) => e.id);
     return (
       <div className="space-y-4">
         <Card><CardContent className="py-6 text-center space-y-2">
@@ -104,6 +124,16 @@ export function ExerciseSession({
           <p className="text-sm text-muted-foreground">
             {correctCount} von {exercises.length} richtig ({Math.round((correctCount / exercises.length) * 100)}%)
           </p>
+          {wrongIds.length > 0 && (
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-2"
+              onClick={() => setRetryIds(new Set(wrongIds))}
+            >
+              <RotateCcw className="size-4 mr-1" /> Falsche Aufgaben wiederholen ({wrongIds.length})
+            </Button>
+          )}
         </CardContent></Card>
         {exercises.map((ex, i) => {
           const r = examResults[ex.id];
@@ -170,6 +200,9 @@ export function ExerciseSession({
           </div>
           <Progress value={progress} className="h-1.5" />
         </div>
+        {mode === "exam" && examEndsAt && (
+          <ExamTimer endsAt={examEndsAt} onExpire={() => { if (!examResults && !submittingExam) submitExam(); }} />
+        )}
       </div>
 
       {/* Shared passage shown once at top of the group */}
