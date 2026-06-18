@@ -50,6 +50,15 @@ const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-pro";
 const CHUNK_PAGES = 2;
 const GEMINI_TIMEOUT_MS = 85_000;
 
+// Direct Google Generative Language API fallback. Used automatically when the
+// Lovable AI Gateway returns 402 (credits exhausted) or 429 (rate limit) and
+// the operator has provisioned a personal GEMINI_API_KEY.
+const GEMINI_DIRECT_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
+function toDirectGeminiModel(model: string): string {
+  // gateway form "google/gemini-2.5-flash" → direct form "gemini-2.5-flash"
+  return model.replace(/^google\//, "");
+}
+
 type ExtractionMeta = {
   needs_manual_review?: boolean;
   low_confidence_items?: any[];
