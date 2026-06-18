@@ -926,8 +926,34 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       const instruction = g.firstInstruction ?? "";
       let position = 1;
       for (const q of g.questions) {
+        // Skip non-exam noise that may have leaked into a question block
+        // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
+        // Exam content itself never mentions these; if a "question" block does,
+        // it is metadata, not a TELC item, and must not become an exercise.
+        const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
+        if (noiseRe.test(q.text)) continue;
+
         const kind = q.options.length >= 2 ? "multiple_choice" : "open_text";
-        const optionTexts = q.options.map((o) => o.text);
+        // Preserve the TELC letter prefix ("A) …", "B) …") so students see the
+        // exact same option format as in the original PDF.
+        const optionTexts = q.options.map((o) =>
+          o.label ? `${o.label}) ${o.text}` : o.text,
+        );
+
+        // Resolve the official answer (a letter like "B") into the matching
+        // option text so the existing grader (which compares against
+        // exercises.correct) accepts the student's selection. We keep the
+        // letter in exercise_answer_keys for the audit trail.
+        const rawAns = (g.answers.get(q.number) ?? "").trim();
+        let correctArr: string[] = [];
+        if (kind === "multiple_choice" && rawAns) {
+          const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
+          const idx = letter ? letter.charCodeAt(0) - 65 : -1;
+          if (idx >= 0 && idx < optionTexts.length) correctArr = [optionTexts[idx]];
+        } else if (rawAns) {
+          correctArr = [rawAns];
+        }
+
         const { data: ex, error: exErr } = await context.supabase
           .from("exercises")
           .insert({
@@ -940,7 +966,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             passage: passage ? passage.text : (instruction || null),
             kind,
             options: optionTexts,
-            correct: [],
+            correct: correctArr,
             status: "draft",
             created_by: context.userId,
             source_pdf_import_id: data.examImportId,
@@ -955,12 +981,11 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         if (exErr || !ex) continue;
         createdExerciseIds.push(ex.id);
 
-        const ansLookup = g.answers.get(q.number);
-        if (ansLookup) {
+        if (rawAns) {
           await context.supabase.from("exercise_answer_keys").insert({
             exercise_id: ex.id,
             item_number: q.number,
-            correct_answer: ansLookup,
+            correct_answer: rawAns,
             source: "pdf",
             key_version: 1,
             pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
