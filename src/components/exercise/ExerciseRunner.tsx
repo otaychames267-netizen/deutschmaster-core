@@ -419,3 +419,107 @@ function MatchingInputs({
     </div>
   );
 }
+
+/**
+ * Render a passage-grouped multiple-choice exercise: ONE passage shown above
+ * (via the parent <ExerciseRunner>) and N embedded questions rendered here.
+ *
+ * Behaviour:
+ *  - Practice mode (`immediateFeedback = true`): each option turns
+ *    green/red the instant the student clicks it, using the embedded
+ *    `options.questions[i].correct` shipped with the published exercise.
+ *  - Exam mode (`immediateFeedback = false`): selections stay neutral; the
+ *    parent <ExerciseSession> reveals correctness on its review screen
+ *    after "Prüfung abgeben".
+ *  - After server submission (`locked`), the official answer is highlighted
+ *    in green for every question once the student clicks "Lösung anzeigen".
+ */
+function PassageMcqInputs({
+  exercise,
+  answer,
+  locked,
+  revealed,
+  immediateFeedback,
+  submittedCorrect,
+  onChange,
+}: {
+  exercise: ExerciseDTO;
+  answer: Record<string, string>;
+  locked: boolean;
+  revealed: boolean;
+  immediateFeedback: boolean;
+  submittedCorrect: Record<string, string> | null;
+  onChange: (a: Record<string, string>) => void;
+}) {
+  type EmbeddedQ = { n: string; prompt: string; options: string[]; correct: string | null };
+  const questions: EmbeddedQ[] = useMemo(() => {
+    const opts: any = exercise.options;
+    if (opts && typeof opts === "object" && !Array.isArray(opts) && Array.isArray(opts.questions)) {
+      return opts.questions.map((q: any) => ({
+        n: String(q?.n ?? ""),
+        prompt: String(q?.prompt ?? ""),
+        options: Array.isArray(q?.options) ? q.options.map((o: any) => String(o ?? "")) : [],
+        correct: q?.correct != null ? String(q.correct) : null,
+      }));
+    }
+    return [];
+  }, [exercise.options]);
+
+  const pick = (qn: string, opt: string) => {
+    if (locked) return;
+    onChange({ ...answer, [qn]: opt });
+  };
+
+  return (
+    <div className="space-y-5">
+      {questions.map((q) => {
+        const selected = answer[q.n] ?? "";
+        // Resolve the "official" answer for this question — practice uses the
+        // embedded value, exam mode waits for the server response.
+        const official = locked
+          ? (submittedCorrect?.[q.n] ?? q.correct ?? null)
+          : (immediateFeedback ? q.correct : null);
+        return (
+          <div key={q.n} className="space-y-2">
+            <p className="text-sm font-medium">
+              <span className="text-muted-foreground mr-1">{q.n}.</span>
+              {q.prompt}
+            </p>
+            <div className="space-y-2">
+              {q.options.map((o) => {
+                const isSelected = selected === o;
+                const officialIsThis = official != null && o === official;
+                // Practice: green on the selected correct option, red on the
+                // selected wrong option, neutral otherwise.
+                // After "Lösung anzeigen": also highlight the official answer.
+                const selectedCorrect = isSelected && officialIsThis;
+                const selectedWrong = isSelected && official != null && !officialIsThis;
+                const showCorrectHint = (locked && revealed) && officialIsThis && !isSelected;
+                const cls = selectedCorrect
+                  ? "border-green-500 bg-green-500/10"
+                  : selectedWrong
+                    ? "border-red-500 bg-red-500/10"
+                    : showCorrectHint
+                      ? "border-green-500/60 bg-green-500/5"
+                      : isSelected
+                        ? "border-accent bg-accent/10"
+                        : "hover:bg-accent/5";
+                return (
+                  <button
+                    key={o}
+                    type="button"
+                    disabled={locked}
+                    onClick={() => pick(q.n, o)}
+                    className={`w-full text-left rounded-md border px-3 py-2 text-sm transition ${cls}`}
+                  >
+                    {o}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
