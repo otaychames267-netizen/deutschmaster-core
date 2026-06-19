@@ -930,8 +930,9 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       .eq("id", data.examImportId);
 
     try {
-    const { data: ext } = await context.supabase
+    const { data: ext, error: extErr } = await context.supabase
       .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
+    if (extErr) throw new Error(`Could not read extraction for import ${data.examImportId}: ${extErr.message}`);
     if (!ext) throw new Error("Run extraction on the exam PDF first");
     let meta: ExtractionMeta = {};
     try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
@@ -954,12 +955,20 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     // Group blocks by model variant ("1", "2", "3", … or null for single-model PDFs).
     // Each model produces its OWN exercise(s) — content is never merged across models.
-    type Q = { number: string; text: string; options: { label: string; text: string }[] };
+    type Q = {
+      number: string;
+      text: string;
+      options: { label: string; text: string }[];
+      instruction: string | null;
+      passage: { title: string | null; text: string } | null;
+    };
     type Group = {
       model: string | null;
       firstInstruction: string | null;
       firstPassage: { title: string | null; text: string } | null;
       questions: Q[];
+      currentInstruction: string | null;
+      currentPassage: { title: string | null; text: string } | null;
       answers: Map<string, string>; // item_number -> correct answer (from combined PDF)
     };
     const groups = new Map<string, Group>();
@@ -969,7 +978,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       if (!g) {
         g = {
           model: key === "__single__" ? null : key,
-          firstInstruction: null, firstPassage: null, questions: [], answers: new Map(),
+          firstInstruction: null, firstPassage: null, questions: [], currentInstruction: null, currentPassage: null, answers: new Map(),
         };
         groups.set(key, g);
       }
@@ -979,8 +988,14 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       const g = groupOf(b?.model);
       if (b.type === "instruction" && g.firstInstruction === null) {
         g.firstInstruction = String(b.text ?? "");
+        g.currentInstruction = String(b.text ?? "");
       } else if (b.type === "passage" && g.firstPassage === null) {
         g.firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
+        g.currentPassage = { title: b.title ?? null, text: String(b.text ?? "") };
+      } else if (b.type === "instruction") {
+        g.currentInstruction = String(b.text ?? "");
+      } else if (b.type === "passage") {
+        g.currentPassage = { title: b.title ?? null, text: String(b.text ?? "") };
       } else if (b.type === "question") {
         const blockModule = String(b?.module ?? "").toLowerCase();
         if (blockModule && blockModule !== moduleVal) continue;
@@ -991,6 +1006,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         g.questions.push({
           number: normalizedNumber,
           text: String(b.text ?? ""),
+          instruction: g.currentInstruction ?? g.firstInstruction,
+          passage: g.currentPassage ?? g.firstPassage,
           options: Array.isArray(b.options)
             ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") }))
             : [],
@@ -1002,8 +1019,9 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     // External answer-key PDF (optional, ignored when source is combined)
     if (data.answerKeyImportId && sourceKind !== "combined") {
-      const { data: keyExt } = await context.supabase
+      const { data: keyExt, error: keyExtErr } = await context.supabase
         .from("pdf_extractions").select("blocks").eq("import_id", data.answerKeyImportId).maybeSingle();
+      if (keyExtErr) throw new Error(`Could not read answer-key extraction for import ${data.answerKeyImportId}: ${keyExtErr.message}`);
       const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
       for (const b of kblocks) {
         if (b.type === "answer_key_entry") {
@@ -1052,10 +1070,10 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     for (const g of ordered) {
       const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
-      const passage = g.firstPassage;
-      const instruction = g.firstInstruction ?? "";
       let position = 1;
       for (const q of g.questions) {
+        const passage = q.passage ?? g.firstPassage;
+        const instruction = q.instruction ?? g.firstInstruction ?? "";
         // Skip non-exam noise that may have leaked into a question block
         // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
         // Exam content itself never mentions these; if a "question" block does,
@@ -1352,11 +1370,12 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
 
-    const { data: ext } = await context.supabase
+    const { data: ext, error: extErr } = await context.supabase
       .from("pdf_extractions")
       .select("blocks, raw_text")
       .eq("import_id", data.examImportId)
       .maybeSingle();
+    if (extErr) throw new Error(`Could not read extraction for fidelity check ${data.examImportId}: ${extErr.message}`);
     if (!ext) throw new Error("Extraktion fehlt — bitte zuerst extrahieren.");
 
     let extractionMeta: any = null;
@@ -1385,10 +1404,11 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
 
     // Load exercises built from this import
-    const { data: exercises } = await context.supabase
+    const { data: exercises, error: exercisesErr } = await context.supabase
       .from("exercises")
       .select("id, level, module, teil, title, prompt, passage, options, original_numbering, status, model_variant")
       .eq("source_pdf_import_id", data.examImportId);
+    if (exercisesErr) throw new Error(`Could not read built exercises for fidelity check ${data.examImportId}: ${exercisesErr.message}`);
 
     const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
     const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
@@ -1401,8 +1421,8 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     // Build source canonical items keyed by model::teil::number for questions,
     // restricted to the same exercise scope that was actually built.
-    type SrcQ = { teil: number; number: string; text: string; options: string[] };
-    const srcQuestions = new Map<string, SrcQ>();
+    type SrcQ = { key: string; scopeKey: string; teil: number; number: string; text: string; options: string[] };
+    const srcQuestions: SrcQ[] = [];
     const srcSections = new Set<number>();
     const srcInstructions = new Map<number, string>();
     const srcPassages = new Map<number, string>();
@@ -1416,18 +1436,24 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       if (b.type === "question" && teil) {
         const model = b?.model == null || b.model === "" ? "single" : String(b.model);
         const number = String(b.number ?? "").trim().replace(/\.$/, "");
-        const key = `${model}::${teil}::${number}`;
-        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(key)) continue;
-        srcQuestions.set(key, {
+        const scopeKey = `${model}::${teil}::${number}`;
+        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(scopeKey)) continue;
+        const options = Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [];
+        const text = String(b.text ?? "");
+        if (srcQuestions.some((q) => q.scopeKey === scopeKey && norm(q.text) === norm(text) && JSON.stringify(q.options.map(norm)) === JSON.stringify(options.map(norm)))) continue;
+        srcQuestions.push({
+          key: `${scopeKey}::${srcQuestions.length + 1}`,
+          scopeKey,
           teil,
           number,
-          text: String(b.text ?? ""),
-          options: Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [],
+          text,
+          options,
         });
       }
     }
 
     const builtKeys = new Set<string>();
+    const usedSourceIndexes = new Set<number>();
     const exerciseTeils = new Set<number>();
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
@@ -1439,23 +1465,37 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
       if (teil) exerciseTeils.add(teil);
       const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-      const key = `${model}::${teil}::${num}`;
-      builtKeys.add(key);
-      const src = srcQuestions.get(key);
-      if (!src) {
-        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: key });
+      const scopeKey = `${model}::${teil}::${num}`;
+      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
+      const exactIdx = srcQuestions.findIndex((src, idx) =>
+        !usedSourceIndexes.has(idx) &&
+        src.scopeKey === scopeKey &&
+        norm(src.text) === norm(ex.prompt) &&
+        src.options.length === builtOpts.length &&
+        src.options.every((opt, i) => norm(opt) === norm(builtOpts[i])),
+      );
+      if (exactIdx >= 0) {
+        usedSourceIndexes.add(exactIdx);
+        builtKeys.add(srcQuestions[exactIdx].key);
         continue;
       }
-      if (norm(src.text) !== norm(ex.prompt)) {
-        modified.push({ key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      const fallbackIdx = srcQuestions.findIndex((src, idx) => !usedSourceIndexes.has(idx) && src.scopeKey === scopeKey);
+      if (fallbackIdx < 0) {
+        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: scopeKey });
+        continue;
       }
-      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
+      usedSourceIndexes.add(fallbackIdx);
+      const src = srcQuestions[fallbackIdx];
+      builtKeys.add(src.key);
+      if (norm(src.text) !== norm(ex.prompt)) {
+        modified.push({ key: src.key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      }
       if (src.options.length !== builtOpts.length) {
-        modified.push({ key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
+        modified.push({ key: src.key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
       } else {
         for (let i = 0; i < src.options.length; i++) {
           if (norm(src.options[i]) !== norm(builtOpts[i])) {
-            modified.push({ key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
+            modified.push({ key: src.key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
           }
         }
       }
@@ -1463,11 +1503,11 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     // Removed = present in source but not in built exercises
     const removed: string[] = [];
-    for (const k of srcQuestions.keys()) if (!builtKeys.has(k)) removed.push(k);
+    for (const src of srcQuestions) if (!builtKeys.has(src.key)) removed.push(src.key);
 
     // Added = present in built but not in source
     const added: string[] = [];
-    for (const k of builtKeys) if (!srcQuestions.has(k)) added.push(k);
+    for (const k of builtKeys) if (!srcQuestions.some((src) => src.key === k)) added.push(k);
 
     // Section diffs (teil sets)
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
