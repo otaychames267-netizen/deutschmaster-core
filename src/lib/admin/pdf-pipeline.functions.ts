@@ -1070,10 +1070,10 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     for (const g of ordered) {
       const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
-        const passage = q.passage ?? g.firstPassage;
-        const instruction = q.instruction ?? g.firstInstruction ?? "";
       let position = 1;
       for (const q of g.questions) {
+        const passage = q.passage ?? g.firstPassage;
+        const instruction = q.instruction ?? g.firstInstruction ?? "";
         // Skip non-exam noise that may have leaked into a question block
         // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
         // Exam content itself never mentions these; if a "question" block does,
