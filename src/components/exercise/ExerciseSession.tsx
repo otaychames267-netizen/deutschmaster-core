@@ -158,11 +158,11 @@ export function ExerciseSession({
           continue;
         }
         try {
-          const r = await submit({ data: { exerciseId: ex.id, answer: ans, durationSeconds: 1 } });
+          const r: any = await submit({ data: { exerciseId: ex.id, answer: ans, durationSeconds: 1 } });
           results[ex.id] = {
             isCorrect: !!r?.isCorrect,
-            correct: r?.correct ?? null,
-            explanation: r?.explanation ?? null,
+            correct: (r?.correct as unknown) ?? null,
+            explanation: (r?.explanation as string | null) ?? null,
           };
         } catch {
           results[ex.id] = { isCorrect: false, correct: null, explanation: null };
@@ -216,9 +216,15 @@ export function ExerciseSession({
                   return;
                 }
                 try {
-                  const r = await submit({ data: { exerciseId: ex.id, answer, durationSeconds } });
+                  const r: any = await submit({ data: { exerciseId: ex.id, answer, durationSeconds } });
                   setDone((s) => new Set(s).add(ex.id));
-                  return r;
+                  return {
+                    score: Number(r?.score ?? 0),
+                    isCorrect: !!r?.isCorrect,
+                    needsReview: !!r?.needsReview,
+                    correct: (r?.correct as unknown) ?? undefined,
+                    explanation: (r?.explanation as string | null) ?? undefined,
+                  };
                 } catch (e: any) {
                   toast.error(e?.message ?? "Konnte nicht speichern");
                 }
