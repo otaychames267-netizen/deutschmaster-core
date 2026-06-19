@@ -122,6 +122,44 @@ export function ExerciseSession({
         {exercises.map((ex, i) => {
           const r = examResults[ex.id];
           const given = examAnswers[ex.id];
+          // passage_mcq stores answers as { [n]: option } and `r.correct` as
+          // { [n]: option }. Render each embedded question with its own
+          // green/red pill so the student sees which item they missed.
+          if (ex.kind === "passage_mcq") {
+            const givenMap = (given ?? {}) as Record<string, string>;
+            const correctMap = (r?.correct && typeof r.correct === "object" && !Array.isArray(r.correct))
+              ? (r.correct as Record<string, string>)
+              : {};
+            const opts: any = (ex as any).options;
+            const qs: Array<{ n: string; prompt: string }> = opts && Array.isArray(opts.questions)
+              ? opts.questions.map((q: any) => ({ n: String(q.n ?? ""), prompt: String(q.prompt ?? "") }))
+              : [];
+            return (
+              <Card key={ex.id}><CardContent className="pt-6 space-y-3">
+                <div className="text-sm font-semibold">{ex.title}</div>
+                {qs.map((q) => {
+                  const got = givenMap[q.n];
+                  const want = correctMap[q.n];
+                  const ok = !!want && got === want;
+                  return (
+                    <div key={q.n} className="space-y-1 border-t pt-2 first:border-t-0 first:pt-0">
+                      <div className="flex items-center gap-2 text-sm">
+                        {ok ? <CheckCircle2 className="size-4 text-green-600" /> : <XCircle className="size-4 text-red-600" />}
+                        <span className="text-muted-foreground">{q.n}.</span>
+                        <span>{q.prompt}</span>
+                      </div>
+                      <div className="text-xs text-muted-foreground pl-6 space-y-0.5">
+                        <div>Deine Antwort: <span className="text-foreground">{got ?? "—"}</span></div>
+                        {!ok && want && (
+                          <div>Richtig: <span className="text-foreground font-medium">{want}</span></div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </CardContent></Card>
+            );
+          }
           return (
             <Card key={ex.id}><CardContent className="pt-6 space-y-2">
               <div className="flex items-center gap-2 text-sm font-medium">
