@@ -1507,7 +1507,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     // Added = present in built but not in source
     const added: string[] = [];
-    for (const k of builtKeys) if (!srcQuestions.has(k)) added.push(k);
+    for (const k of builtKeys) if (!srcQuestions.some((src) => src.key === k)) added.push(k);
 
     // Section diffs (teil sets)
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
