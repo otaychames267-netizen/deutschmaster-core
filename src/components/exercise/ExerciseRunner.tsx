@@ -185,7 +185,7 @@ export function ExerciseRunner({
               ? (result.correct as Record<string, string>)
               : null
           }
-          onChange={(a) => setAnswer(a)}
+          onChange={(a: Record<string, string>) => setAnswer(a)}
         />
       )}
 
