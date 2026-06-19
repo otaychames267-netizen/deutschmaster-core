@@ -17,6 +17,11 @@ import {
   deletePdfImport,
   reapStuckExtractions,
   resolveExtractionReview,
+  bulkDeletePdfImports,
+  wipeAllPdfData,
+  deleteExercisesByFilter,
+  findDuplicateExercises,
+  deleteDuplicateExercises,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,7 +30,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle, Trash2 } from "lucide-react";
+import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle, Trash2, Eraser } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
