@@ -1500,13 +1500,51 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       }
     }
 
-    // Removed = present in source but not in built exercises
-    const removed: string[] = [];
-    for (const src of srcQuestions) if (!builtKeys.has(src.key)) removed.push(src.key);
+    // Scope-level coverage: a `model::teil::number` scope from the source PDF
+    // is considered covered when at least one built exercise exists for it.
+    // Variant-level (per-text) mismatches are reported as `modified`, not `removed`.
+    // This avoids false-positive "removed" entries when the same PDF contains
+    // multiple exam-paper instances that share question numbering (e.g. 6..10).
+    const builtScopeKeys = new Set<string>(
+      (exercises ?? []).map((ex: any) => {
+        const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
+        const teil = Number(ex.teil) || 0;
+        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
+        return `${model}::${teil}::${num}`;
+      }),
+    );
+    const srcScopeKeys = new Set<string>(srcQuestions.map((s) => s.scopeKey));
 
-    // Added = present in built but not in source
-    const added: string[] = [];
-    for (const k of builtKeys) if (!srcQuestions.some((src) => src.key === k)) added.push(k);
+    const removedScopes = [...srcScopeKeys].filter((k) => !builtScopeKeys.has(k));
+    const addedScopes = [...builtScopeKeys].filter((k) => !srcScopeKeys.has(k));
+
+    // Enrich with the first source preview for each removed scope so admins
+    // can immediately see WHAT content was lost (not just an opaque key).
+    const removed = removedScopes.map((scopeKey) => {
+      const sample = srcQuestions.find((s) => s.scopeKey === scopeKey);
+      const [model, teil, number] = scopeKey.split("::");
+      return {
+        key: scopeKey,
+        kind: "question" as const,
+        model,
+        teil: Number(teil) || 0,
+        number,
+        reason: "no_built_exercise_for_source_scope",
+        textPreview: sample ? sample.text.slice(0, 200) : "",
+        optionsPreview: sample ? sample.options.slice(0, 4) : [],
+      };
+    });
+    const added = addedScopes.map((scopeKey) => {
+      const [model, teil, number] = scopeKey.split("::");
+      return {
+        key: scopeKey,
+        kind: "question" as const,
+        model,
+        teil: Number(teil) || 0,
+        number,
+        reason: "built_exercise_without_matching_source_scope",
+      };
+    });
 
     // Section diffs (teil sets)
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
