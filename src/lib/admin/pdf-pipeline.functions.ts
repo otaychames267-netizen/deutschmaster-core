@@ -1840,9 +1840,9 @@ export const deleteExercisesByFilter = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: {
     level?: "b1" | "b2";
-    module?: string;
+    module?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich";
     teil?: number;
-    status?: "draft" | "review" | "published";
+    status?: "draft" | "hidden" | "published";
     source?: "pdf" | "manual" | "all";
     importId?: string;
   }) => d)
