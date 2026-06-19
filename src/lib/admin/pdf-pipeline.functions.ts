@@ -1426,6 +1426,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const srcSections = new Set<number>();
     const srcInstructions = new Map<number, string>();
     const srcPassages = new Map<number, string>();
+    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
     for (const b of blocks) {
       const blockModule = String(b?.module ?? "").toLowerCase();
       if (builtModule && blockModule && blockModule !== builtModule) continue;
@@ -1457,8 +1458,6 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const exerciseTeils = new Set<number>();
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
-
-    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
 
     for (const ex of exercises ?? []) {
       const teil = Number(ex.teil) || 0;
