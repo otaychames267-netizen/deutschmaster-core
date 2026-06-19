@@ -1,6 +1,6 @@
 // Pure grading helpers (no React, no DB) — usable from server fn or tests.
 
-export type ExerciseKind = "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text";
+export type ExerciseKind = "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text" | "passage_mcq";
 
 function normalize(s: string): string {
   return String(s)
@@ -29,8 +29,24 @@ export type GradeResult = {
  *  - open_text: string
  * correct shape: jsonb array from the exercises table.
  */
-export function gradeAnswer(kind: ExerciseKind, answer: unknown, correct: unknown[]): GradeResult {
+export function gradeAnswer(kind: ExerciseKind, answer: unknown, correct: unknown[], options?: unknown): GradeResult {
   switch (kind) {
+    case "passage_mcq": {
+      // options = { questions: [{ n, correct, ... }] }
+      const qs = (options && typeof options === "object" && !Array.isArray(options) && Array.isArray((options as any).questions))
+        ? ((options as any).questions as Array<{ n: string; correct: string | null }>)
+        : [];
+      const given = (answer ?? {}) as Record<string, string>;
+      if (qs.length === 0) return { score: 0, isCorrect: false, needsReview: false };
+      let hit = 0;
+      for (const q of qs) {
+        const want = normalize(String(q.correct ?? ""));
+        const got = normalize(String(given?.[String(q.n)] ?? ""));
+        if (want && want === got) hit++;
+      }
+      const score = Math.round((hit / qs.length) * 100);
+      return { score, isCorrect: hit === qs.length, needsReview: false };
+    }
     case "multiple_choice":
     case "true_false": {
       const got = Array.isArray(answer) ? answer.map(String) : [String(answer ?? "")];

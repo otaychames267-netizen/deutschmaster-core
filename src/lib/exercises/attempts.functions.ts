@@ -15,7 +15,7 @@ export const submitAttempt = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: ex, error } = await context.supabase
       .from("exercises")
-      .select("id,kind,correct,explanation,status")
+      .select("id,kind,correct,options,explanation,status")
       .eq("id", data.exerciseId)
       .maybeSingle();
     if (error || !ex) throw new Error(error?.message ?? "Exercise not found");
@@ -25,6 +25,7 @@ export const submitAttempt = createServerFn({ method: "POST" })
       ex.kind as ExerciseKind,
       data.answer,
       (ex.correct as unknown[]) ?? [],
+      ex.options,
     );
 
     const { error: insErr } = await context.supabase.from("user_exercise_attempts").insert({
@@ -40,11 +41,21 @@ export const submitAttempt = createServerFn({ method: "POST" })
     });
     if (insErr) throw new Error(insErr.message);
 
+    // For passage_mcq, expose the per-question correct map so the client can
+    // mark every embedded item green/red on the review screen.
+    let correctOut: unknown = ex.correct;
+    if (ex.kind === "passage_mcq" && ex.options && typeof ex.options === "object" && !Array.isArray(ex.options)) {
+      const qs = ((ex.options as any).questions ?? []) as Array<{ n: string; correct: string | null }>;
+      const map: Record<string, string> = {};
+      for (const q of qs) if (q?.correct != null) map[String(q.n)] = String(q.correct);
+      correctOut = map;
+    }
+
     return {
       score: result.score,
       isCorrect: result.isCorrect,
       needsReview: result.needsReview,
-      correct: ex.correct,
+      correct: correctOut,
       explanation: ex.explanation,
     };
   });
