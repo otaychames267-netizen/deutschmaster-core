@@ -1,0 +1,1 @@
+ALTER TYPE public.exercise_kind ADD VALUE IF NOT EXISTS 'passage_mcq';
