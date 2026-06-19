@@ -1421,8 +1421,8 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     // Build source canonical items keyed by model::teil::number for questions,
     // restricted to the same exercise scope that was actually built.
-    type SrcQ = { teil: number; number: string; text: string; options: string[] };
-    const srcQuestions = new Map<string, SrcQ>();
+    type SrcQ = { key: string; scopeKey: string; teil: number; number: string; text: string; options: string[] };
+    const srcQuestions: SrcQ[] = [];
     const srcSections = new Set<number>();
     const srcInstructions = new Map<number, string>();
     const srcPassages = new Map<number, string>();
@@ -1436,18 +1436,24 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       if (b.type === "question" && teil) {
         const model = b?.model == null || b.model === "" ? "single" : String(b.model);
         const number = String(b.number ?? "").trim().replace(/\.$/, "");
-        const key = `${model}::${teil}::${number}`;
-        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(key)) continue;
-        srcQuestions.set(key, {
+        const scopeKey = `${model}::${teil}::${number}`;
+        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(scopeKey)) continue;
+        const options = Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [];
+        const text = String(b.text ?? "");
+        if (srcQuestions.some((q) => q.scopeKey === scopeKey && norm(q.text) === norm(text) && JSON.stringify(q.options.map(norm)) === JSON.stringify(options.map(norm)))) continue;
+        srcQuestions.push({
+          key: `${scopeKey}::${srcQuestions.length + 1}`,
+          scopeKey,
           teil,
           number,
-          text: String(b.text ?? ""),
-          options: Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [],
+          text,
+          options,
         });
       }
     }
 
     const builtKeys = new Set<string>();
+    const usedSourceIndexes = new Set<number>();
     const exerciseTeils = new Set<number>();
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
@@ -1459,23 +1465,37 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
       if (teil) exerciseTeils.add(teil);
       const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-      const key = `${model}::${teil}::${num}`;
-      builtKeys.add(key);
-      const src = srcQuestions.get(key);
-      if (!src) {
-        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: key });
+      const scopeKey = `${model}::${teil}::${num}`;
+      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
+      const exactIdx = srcQuestions.findIndex((src, idx) =>
+        !usedSourceIndexes.has(idx) &&
+        src.scopeKey === scopeKey &&
+        norm(src.text) === norm(ex.prompt) &&
+        src.options.length === builtOpts.length &&
+        src.options.every((opt, i) => norm(opt) === norm(builtOpts[i])),
+      );
+      if (exactIdx >= 0) {
+        usedSourceIndexes.add(exactIdx);
+        builtKeys.add(srcQuestions[exactIdx].key);
         continue;
       }
-      if (norm(src.text) !== norm(ex.prompt)) {
-        modified.push({ key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      const fallbackIdx = srcQuestions.findIndex((src, idx) => !usedSourceIndexes.has(idx) && src.scopeKey === scopeKey);
+      if (fallbackIdx < 0) {
+        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: scopeKey });
+        continue;
       }
-      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
+      usedSourceIndexes.add(fallbackIdx);
+      const src = srcQuestions[fallbackIdx];
+      builtKeys.add(src.key);
+      if (norm(src.text) !== norm(ex.prompt)) {
+        modified.push({ key: src.key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      }
       if (src.options.length !== builtOpts.length) {
-        modified.push({ key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
+        modified.push({ key: src.key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
       } else {
         for (let i = 0; i < src.options.length; i++) {
           if (norm(src.options[i]) !== norm(builtOpts[i])) {
-            modified.push({ key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
+            modified.push({ key: src.key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
           }
         }
       }
@@ -1483,7 +1503,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     // Removed = present in source but not in built exercises
     const removed: string[] = [];
-    for (const k of srcQuestions.keys()) if (!builtKeys.has(k)) removed.push(k);
+    for (const src of srcQuestions) if (!builtKeys.has(src.key)) removed.push(src.key);
 
     // Added = present in built but not in source
     const added: string[] = [];
