@@ -17,6 +17,11 @@ import {
   deletePdfImport,
   reapStuckExtractions,
   resolveExtractionReview,
+  bulkDeletePdfImports,
+  wipeAllPdfData,
+  deleteExercisesByFilter,
+  findDuplicateExercises,
+  deleteDuplicateExercises,
 } from "@/lib/admin/pdf-pipeline.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -25,7 +30,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle, Trash2 } from "lucide-react";
+import { Upload, FileSearch, Check, FileText, Key, Hammer, ShieldCheck, ScanSearch, AlertTriangle, Trash2, Eraser } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
@@ -452,6 +457,7 @@ function PdfImportPage() {
           <TabsTrigger value="build"><Hammer className="size-3.5 mr-1" />Übungen bauen</TabsTrigger>
           <TabsTrigger value="fidelity"><ScanSearch className="size-3.5 mr-1" />Treuekontrolle</TabsTrigger>
           <TabsTrigger value="publish"><ShieldCheck className="size-3.5 mr-1" />Veröffentlichen</TabsTrigger>
+          <TabsTrigger value="cleanup"><Eraser className="size-3.5 mr-1" />Bereinigung</TabsTrigger>
         </TabsList>
 
         <TabsContent value="upload" className="space-y-3">
@@ -713,6 +719,10 @@ function PdfImportPage() {
             get={fidelityGet}
             isSuperAdmin={isSuperAdmin}
           />
+        </TabsContent>
+
+        <TabsContent value="cleanup">
+          <CleanupPanel imports={imports} isSuperAdmin={isSuperAdmin} onRefresh={() => refresh()} />
         </TabsContent>
       </Tabs>
     </div>
@@ -1269,6 +1279,270 @@ function ModelsDetectedPreview({
       <p className="text-muted-foreground">
         Pro Modell wird ein eigener Übungssatz erstellt — Inhalte werden nicht zusammengeführt.
       </p>
+    </div>
+  );
+}
+
+// ============================================================================
+// Cleanup Panel — bulk delete + reset tools
+// ============================================================================
+function CleanupPanel({
+  imports, isSuperAdmin, onRefresh,
+}: {
+  imports: any[];
+  isSuperAdmin: boolean;
+  onRefresh: () => void;
+}) {
+  const bulkDelete = useServerFn(bulkDeletePdfImports);
+  const wipeAll = useServerFn(wipeAllPdfData);
+  const delByFilter = useServerFn(deleteExercisesByFilter);
+  const findDupes = useServerFn(findDuplicateExercises);
+  const delDupes = useServerFn(deleteDuplicateExercises);
+
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [busy, setBusy] = useState<string | null>(null);
+  const [wipeConfirm, setWipeConfirm] = useState("");
+  const [dupReport, setDupReport] = useState<{ totalDuplicateRows: number; groups: any[] } | null>(null);
+
+  const [fLevel, setFLevel] = useState<"" | "b1" | "b2">("");
+  const [fModule, setFModule] = useState<"" | "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich">("");
+  const [fTeil, setFTeil] = useState<string>("");
+  const [fStatus, setFStatus] = useState<"" | "draft" | "hidden" | "published">("");
+  const [fSource, setFSource] = useState<"pdf" | "manual" | "all">("pdf");
+
+  if (!isSuperAdmin) {
+    return <div className="rounded-md border p-3 text-sm">Bereinigung ist nur für Super-Admins verfügbar.</div>;
+  }
+
+  const toggle = (id: string) => {
+    setSelected((s) => {
+      const next = new Set(s);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  };
+  const selectAll = () => setSelected(new Set(imports.map((i: any) => i.id)));
+  const clearAll = () => setSelected(new Set());
+
+  const runBulkDelete = async (force: boolean) => {
+    if (selected.size === 0) { toast.error("Keine Importe ausgewählt."); return; }
+    if (!confirm(`${selected.size} Import(e) wirklich löschen${force ? " (inkl. veröffentlichter Übungen)" : ""}?`)) return;
+    setBusy("bulk");
+    try {
+      const r = await bulkDelete({ data: { importIds: [...selected], force } });
+      toast.success(`Gelöscht: ${r.totals.imports} Import(e), ${r.totals.exercises} Übung(en), ${r.totals.answerKeys} Lösungseinträge, ${r.totals.fidelityReports} Berichte.`);
+      clearAll();
+      onRefresh();
+    } catch (e: any) { toast.error(e?.message ?? String(e)); }
+    finally { setBusy(null); }
+  };
+
+  const runWipeAll = async () => {
+    setBusy("wipe");
+    try {
+      const r = await wipeAll({ data: { confirm: wipeConfirm } });
+      toast.success(`Vollständig zurückgesetzt: ${r.totals.imports} Import(e), ${r.totals.exercises} Übung(en) (+${r.orphanExercisesRemoved} verwaiste).`);
+      setWipeConfirm("");
+      onRefresh();
+    } catch (e: any) { toast.error(e?.message ?? String(e)); }
+    finally { setBusy(null); }
+  };
+
+  const runFilterDelete = async () => {
+    const hasFilter = !!(fLevel || fModule || fTeil || fStatus);
+    if (!hasFilter && fSource === "all") { toast.error("Mindestens ein Filter erforderlich."); return; }
+    if (!confirm(`Übungen mit den gewählten Filtern wirklich löschen?`)) return;
+    setBusy("filter");
+    try {
+      const r = await delByFilter({ data: {
+        level: fLevel || undefined,
+        module: fModule || undefined,
+        teil: fTeil ? Number(fTeil) : undefined,
+        status: fStatus || undefined,
+        source: fSource,
+      } });
+      toast.success(`${r.deleted} Übung(en) gelöscht.`);
+      onRefresh();
+    } catch (e: any) { toast.error(e?.message ?? String(e)); }
+    finally { setBusy(null); }
+  };
+
+  const scanDupes = async () => {
+    setBusy("scan");
+    try {
+      const r = await findDupes();
+      setDupReport({ totalDuplicateRows: r.totalDuplicateRows, groups: r.groups });
+      toast.success(`${r.groups.length} Duplikat-Gruppen mit ${r.totalDuplicateRows} überzähligen Zeilen.`);
+    } catch (e: any) { toast.error(e?.message ?? String(e)); }
+    finally { setBusy(null); }
+  };
+
+  const removeDupes = async () => {
+    if (!confirm("Duplikate löschen (ältesten Eintrag behalten)?")) return;
+    setBusy("dupes");
+    try {
+      const r = await delDupes({ data: { keep: "oldest" } });
+      toast.success(`${r.deleted} Duplikat(e) entfernt.`);
+      setDupReport(null);
+      onRefresh();
+    } catch (e: any) { toast.error(e?.message ?? String(e)); }
+    finally { setBusy(null); }
+  };
+
+  return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Trash2 className="size-4" />Importe in Bulk löschen</CardTitle>
+          <CardDescription>
+            Wählen Sie eine oder mehrere PDF-Importsitzungen aus. Alle abgeleiteten Daten (Übungen, Lösungen,
+            Treuekontrollberichte, Extraktionen, Storage-Datei) werden mitgelöscht. Veröffentlichte Übungen
+            erfordern „Inkl. Veröffentlichungen“.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <div className="flex gap-2 text-xs">
+            <Button size="sm" variant="outline" onClick={selectAll}>Alle</Button>
+            <Button size="sm" variant="outline" onClick={clearAll}>Keine</Button>
+            <span className="text-muted-foreground self-center">{selected.size} ausgewählt</span>
+          </div>
+          <div className="max-h-72 overflow-auto rounded-md border divide-y">
+            {imports.length === 0 && <div className="p-3 text-sm text-muted-foreground">Keine Importe.</div>}
+            {imports.map((i: any) => (
+              <label key={i.id} className="flex items-center gap-2 p-2 text-sm cursor-pointer hover:bg-muted/50">
+                <input type="checkbox" checked={selected.has(i.id)} onChange={() => toggle(i.id)} />
+                <span className="font-mono text-xs text-muted-foreground">{String(i.id).slice(0, 8)}</span>
+                <Badge variant="outline">{i.kind}</Badge>
+                {i.level && <Badge variant="secondary">{String(i.level).toUpperCase()}</Badge>}
+                <Badge>{i.status}</Badge>
+                <span className="truncate">{i.original_name}</span>
+              </label>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <Button variant="destructive" disabled={busy !== null || selected.size === 0} onClick={() => runBulkDelete(false)}>
+              {busy === "bulk" ? "Lösche…" : "Löschen"}
+            </Button>
+            <Button variant="destructive" disabled={busy !== null || selected.size === 0} onClick={() => runBulkDelete(true)}>
+              Löschen inkl. Veröffentlichungen
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Trash2 className="size-4" />Übungen nach Filter löschen</CardTitle>
+          <CardDescription>
+            Schnelles Löschen z. B. „alle B2-Lesen-Teil-2-Entwürfe aus PDF-Importen“.
+            Quelle „PDF“ schützt handgepflegte Übungen.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="grid gap-2 sm:grid-cols-6">
+          <div>
+            <Label className="text-xs">Level</Label>
+            <Select value={fLevel || "any"} onValueChange={(v) => setFLevel(v === "any" ? "" : v as any)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Alle</SelectItem>
+                <SelectItem value="b1">B1</SelectItem>
+                <SelectItem value="b2">B2</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-xs">Modul</Label>
+            <Select value={fModule || "any"} onValueChange={(v) => setFModule(v === "any" ? "" : v as any)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Alle</SelectItem>
+                <SelectItem value="lesen">Lesen</SelectItem>
+                <SelectItem value="sprachbausteine">Sprachbausteine</SelectItem>
+                <SelectItem value="hoeren">Hören</SelectItem>
+                <SelectItem value="schreiben">Schreiben</SelectItem>
+                <SelectItem value="muendlich">Mündlich</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-xs">Teil</Label>
+            <Input value={fTeil} onChange={(e) => setFTeil(e.target.value.replace(/\D/g, ""))} placeholder="1–3" />
+          </div>
+          <div>
+            <Label className="text-xs">Status</Label>
+            <Select value={fStatus || "any"} onValueChange={(v) => setFStatus(v === "any" ? "" : v as any)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">Alle</SelectItem>
+                <SelectItem value="draft">Entwurf</SelectItem>
+                <SelectItem value="hidden">Versteckt</SelectItem>
+                <SelectItem value="published">Veröffentlicht</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label className="text-xs">Quelle</Label>
+            <Select value={fSource} onValueChange={(v) => setFSource(v as any)}>
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="pdf">Nur PDF-Importe</SelectItem>
+                <SelectItem value="manual">Nur manuell</SelectItem>
+                <SelectItem value="all">Alle Quellen</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-end">
+            <Button variant="destructive" disabled={busy !== null} onClick={runFilterDelete}>
+              {busy === "filter" ? "Lösche…" : "Löschen"}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><ScanSearch className="size-4" />Duplikate erkennen & entfernen</CardTitle>
+          <CardDescription>
+            Duplikate werden über (Level, Modul, Teil, Originalnummer, normalisierter Aufgabentext) gruppiert.
+            „Entfernen“ behält den ältesten Eintrag pro Gruppe.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          <div className="flex gap-2">
+            <Button variant="outline" disabled={busy !== null} onClick={scanDupes}>
+              {busy === "scan" ? "Suche…" : "Duplikate suchen"}
+            </Button>
+            <Button variant="destructive" disabled={busy !== null || !dupReport || dupReport.totalDuplicateRows === 0} onClick={removeDupes}>
+              {busy === "dupes" ? "Lösche…" : `Duplikate entfernen${dupReport ? ` (${dupReport.totalDuplicateRows})` : ""}`}
+            </Button>
+          </div>
+          {dupReport && dupReport.groups.length > 0 && (
+            <div className="max-h-64 overflow-auto rounded-md border p-2 text-xs space-y-1">
+              {dupReport.groups.slice(0, 50).map((g: any) => (
+                <div key={g.key}><b>{g.count}×</b> <span className="text-muted-foreground">{g.key}</span></div>
+              ))}
+              {dupReport.groups.length > 50 && <div className="text-muted-foreground">… und {dupReport.groups.length - 50} weitere Gruppen</div>}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="border-destructive">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-destructive"><AlertTriangle className="size-4" />Vollreset</CardTitle>
+          <CardDescription>
+            Löscht <b>alle</b> PDF-Importe, deren Übungen (inkl. veröffentlichter), Lösungsschlüssel,
+            Treuekontrollberichte und Storage-Dateien. Handgepflegte Übungen ohne PDF-Quelle bleiben erhalten.
+            Tippen Sie zur Bestätigung exakt <code>WIPE-ALL-PDF-DATA</code> ein.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex gap-2">
+          <Input value={wipeConfirm} onChange={(e) => setWipeConfirm(e.target.value)} placeholder="WIPE-ALL-PDF-DATA" />
+          <Button variant="destructive" disabled={busy !== null || wipeConfirm !== "WIPE-ALL-PDF-DATA"} onClick={runWipeAll}>
+            {busy === "wipe" ? "Setze zurück…" : "Vollständig zurücksetzen"}
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
 }

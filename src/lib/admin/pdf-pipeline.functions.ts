@@ -1762,3 +1762,212 @@ function cleanT(s: string): string {
     .replace(/[.,;:!?]+$/, "")
     .trim();
 }
+
+// ============================================================================
+// BULK CLEANUP / RESET TOOLS
+// ----------------------------------------------------------------------------
+// These exist so we can reset the platform between importer iterations
+// without leaving stale exercises, attempts, fidelity reports, or storage
+// objects behind. Every function is super_admin only and returns counts of
+// what it touched so the admin UI can show an audit trail.
+// ============================================================================
+
+/** Delete multiple PDF imports in one call. Reuses the single-import delete
+ *  semantics (cascades to exercises, answer keys, fidelity, extractions,
+ *  storage) but allows `force` to also wipe published exercises. */
+export const bulkDeletePdfImports = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { importIds: string[]; force?: boolean }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    const results: Array<{ importId: string; ok: boolean; error?: string; removed?: any }> = [];
+    const totals = { imports: 0, exercises: 0, answerKeys: 0, fidelityReports: 0, extractions: 0 };
+    for (const importId of data.importIds) {
+      try {
+        const r = await deleteOneImport(context, importId, !!data.force);
+        results.push({ importId, ok: true, removed: r });
+        totals.imports += 1;
+        totals.exercises += r.exercises ?? 0;
+        totals.answerKeys += r.answerKeys ?? 0;
+        totals.fidelityReports += r.fidelityReports ?? 0;
+        totals.extractions += r.extraction ?? 0;
+      } catch (e: any) {
+        results.push({ importId, ok: false, error: e?.message ?? String(e) });
+      }
+    }
+    return { ok: true, totals, results };
+  });
+
+/** Wipe ALL PDF-sourced data: imports, extractions, fidelity reports,
+ *  exercises (including published), answer keys, and storage objects.
+ *  Hard guard via a confirmation phrase to avoid accidental clicks. */
+export const wipeAllPdfData = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { confirm: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    if (data.confirm !== "WIPE-ALL-PDF-DATA") {
+      throw new Error('Bestätigung fehlt. Bitte exakt "WIPE-ALL-PDF-DATA" eingeben.');
+    }
+    const { data: imports } = await context.supabase
+      .from("pdf_imports")
+      .select("id");
+    const ids = (imports ?? []).map((r: any) => r.id);
+    const totals = { imports: 0, exercises: 0, answerKeys: 0, fidelityReports: 0, extractions: 0 };
+    for (const importId of ids) {
+      try {
+        const r = await deleteOneImport(context, importId, true);
+        totals.imports += 1;
+        totals.exercises += r.exercises ?? 0;
+        totals.answerKeys += r.answerKeys ?? 0;
+        totals.fidelityReports += r.fidelityReports ?? 0;
+        totals.extractions += r.extraction ?? 0;
+      } catch {
+        // continue; we want a best-effort wipe
+      }
+    }
+    // Orphan PDF-sourced exercises (import already gone) — also remove.
+    const { count: orphanCount } = await context.supabase
+      .from("exercises")
+      .delete({ count: "exact" })
+      .not("source_pdf_import_id", "is", null);
+    return { ok: true, totals, orphanExercisesRemoved: orphanCount ?? 0 };
+  });
+
+/** Delete exercises by filter. `source: "pdf"` is the default to avoid
+ *  nuking hand-authored content. Returns counts. */
+export const deleteExercisesByFilter = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: {
+    level?: "b1" | "b2";
+    module?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich";
+    teil?: number;
+    status?: "draft" | "hidden" | "published";
+    source?: "pdf" | "manual" | "all";
+    importId?: string;
+  }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    let q = context.supabase.from("exercises").delete({ count: "exact" });
+    if (data.level) q = q.eq("level", data.level);
+    if (data.module) q = q.eq("module", data.module);
+    if (typeof data.teil === "number") q = q.eq("teil", data.teil);
+    if (data.status) q = q.eq("status", data.status);
+    if (data.importId) q = q.eq("source_pdf_import_id", data.importId);
+    const source = data.source ?? "pdf";
+    if (source === "pdf") q = q.not("source_pdf_import_id", "is", null);
+    if (source === "manual") q = q.is("source_pdf_import_id", null);
+    // Need at least ONE narrowing filter so we never accidentally wipe the
+    // entire table from a misclick.
+    const hasFilter = !!(data.level || data.module || typeof data.teil === "number" || data.status || data.importId);
+    if (!hasFilter && source === "all") {
+      throw new Error("Mindestens ein Filter erforderlich (Level, Modul, Teil, Status oder Import).");
+    }
+    const { count, error } = await q;
+    if (error) throw new Error(error.message);
+    return { ok: true, deleted: count ?? 0 };
+  });
+
+/** Find duplicate exercises grouped by (level, module, teil, original_numbering,
+ *  normalized prompt). Returns groups with >1 row so the admin can review. */
+export const findDuplicateExercises = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertSuperAdmin(context);
+    const { data, error } = await context.supabase
+      .from("exercises")
+      .select("id, level, module, teil, original_numbering, prompt, title, status, created_at, source_pdf_import_id")
+      .order("created_at", { ascending: true });
+    if (error) throw new Error(error.message);
+    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim().toLowerCase().slice(0, 200);
+    const groups = new Map<string, any[]>();
+    for (const row of data ?? []) {
+      const key = [row.level, row.module, row.teil, row.original_numbering ?? "", norm(row.prompt)].join("|");
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(row);
+    }
+    const dupes = [...groups.entries()]
+      .filter(([, rows]) => rows.length > 1)
+      .map(([key, rows]) => ({ key, count: rows.length, rows }));
+    return { ok: true, groups: dupes, totalDuplicateRows: dupes.reduce((s, g) => s + (g.count - 1), 0) };
+  });
+
+/** Delete duplicate exercises, keeping one per group. */
+export const deleteDuplicateExercises = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { keep?: "oldest" | "newest" }) => d)
+  .handler(async ({ data, context }) => {
+    await assertSuperAdmin(context);
+    const { data: rows, error } = await context.supabase
+      .from("exercises")
+      .select("id, level, module, teil, original_numbering, prompt, created_at, status")
+      .order("created_at", { ascending: true });
+    if (error) throw new Error(error.message);
+    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim().toLowerCase().slice(0, 200);
+    const groups = new Map<string, any[]>();
+    for (const row of rows ?? []) {
+      const key = [row.level, row.module, row.teil, row.original_numbering ?? "", norm(row.prompt)].join("|");
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(row);
+    }
+    const toDelete: string[] = [];
+    const keepNewest = data.keep === "newest";
+    for (const [, rs] of groups) {
+      if (rs.length < 2) continue;
+      const sorted = [...rs].sort((a, b) => +new Date(a.created_at) - +new Date(b.created_at));
+      const keeper = keepNewest ? sorted[sorted.length - 1] : sorted[0];
+      for (const r of sorted) if (r.id !== keeper.id) toDelete.push(r.id);
+    }
+    if (toDelete.length === 0) return { ok: true, deleted: 0 };
+    const { count, error: delErr } = await context.supabase
+      .from("exercises")
+      .delete({ count: "exact" })
+      .in("id", toDelete);
+    if (delErr) throw new Error(delErr.message);
+    return { ok: true, deleted: count ?? 0 };
+  });
+
+/** Internal: delete one PDF import + everything tied to it. Mirrors the
+ *  logic in `deletePdfImport`. Kept as a plain function so the bulk endpoints
+ *  can call it without going back through RPC. */
+async function deleteOneImport(context: Ctx, importId: string, force: boolean) {
+  const { data: imp, error: impErr } = await context.supabase
+    .from("pdf_imports").select("id, storage_path").eq("id", importId).maybeSingle();
+  if (impErr) throw new Error(impErr.message);
+  if (!imp) throw new Error("Import nicht gefunden.");
+
+  const removed = { storage: false, extraction: 0, fidelityReports: 0, exercises: 0, answerKeys: 0, linkedKeyImports: 0 };
+
+  const { data: exs } = await context.supabase
+    .from("exercises").select("id, status").eq("source_pdf_import_id", importId);
+  const exerciseIds = (exs ?? []).map((e: any) => e.id);
+  const published = (exs ?? []).filter((e: any) => e.status === "published");
+  if (published.length > 0 && !force) {
+    throw new Error(`${published.length} veröffentlichte Übung(en) — bitte mit "force" bestätigen.`);
+  }
+  if (exerciseIds.length > 0) {
+    const { count: akCount } = await context.supabase
+      .from("exercise_answer_keys").delete({ count: "exact" }).in("exercise_id", exerciseIds);
+    removed.answerKeys = akCount ?? 0;
+    const { count: exCount } = await context.supabase
+      .from("exercises").delete({ count: "exact" }).in("id", exerciseIds);
+    removed.exercises = exCount ?? 0;
+  }
+  await context.supabase.from("exercise_answer_keys").delete().eq("pdf_import_id", importId);
+  const { count: frCount } = await context.supabase
+    .from("pdf_fidelity_reports").delete({ count: "exact" }).eq("exam_import_id", importId);
+  removed.fidelityReports = frCount ?? 0;
+  const { count: extCount } = await context.supabase
+    .from("pdf_extractions").delete({ count: "exact" }).eq("import_id", importId);
+  removed.extraction = extCount ?? 0;
+  const { count: linkedCount } = await context.supabase
+    .from("pdf_imports").update({ linked_import_id: null }, { count: "exact" }).eq("linked_import_id", importId);
+  removed.linkedKeyImports = linkedCount ?? 0;
+  if (imp.storage_path) {
+    const { error: storageErr } = await context.supabase.storage.from("pdf-imports").remove([imp.storage_path]);
+    if (!storageErr) removed.storage = true;
+  }
+  const { error: delErr } = await context.supabase.from("pdf_imports").delete().eq("id", importId);
+  if (delErr) throw new Error(delErr.message);
+  return removed;
+}
