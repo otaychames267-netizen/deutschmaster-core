@@ -1474,12 +1474,43 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
     const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
-    const exerciseScopeKeys = new Set<string>((exercises ?? []).map((ex: any) => {
+    // Flatten exercises into per-question virtual rows so the fidelity check
+    // can compare against the source PDF item-by-item even though the new
+    // data model stores one row per passage (with options.questions[]).
+    type BuiltQ = { exerciseId: string; model: string; teil: number; number: string; prompt: string; options: string[]; scopeKey: string };
+    const builtQuestions: BuiltQ[] = [];
+    for (const ex of exercises ?? []) {
       const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
       const teil = Number(ex.teil) || 0;
-      const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
-      return `${model}::${teil}::${num}`;
-    }));
+      const opts: any = ex.options;
+      const embedded = opts && !Array.isArray(opts) && Array.isArray(opts.questions) ? opts.questions : null;
+      if (embedded) {
+        for (const q of embedded) {
+          const num = String(q?.n ?? "").trim().replace(/\.$/, "");
+          builtQuestions.push({
+            exerciseId: ex.id,
+            model,
+            teil,
+            number: num,
+            prompt: String(q?.prompt ?? ""),
+            options: Array.isArray(q?.options) ? q.options.map((o: any) => String(o ?? "")) : [],
+            scopeKey: `${model}::${teil}::${num}`,
+          });
+        }
+      } else {
+        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
+        builtQuestions.push({
+          exerciseId: ex.id,
+          model,
+          teil,
+          number: num,
+          prompt: String(ex.prompt ?? ""),
+          options: Array.isArray(opts) ? opts.map((o: any) => String(o ?? "")) : [],
+          scopeKey: `${model}::${teil}::${num}`,
+        });
+      }
+    }
+    const exerciseScopeKeys = new Set<string>(builtQuestions.map((b) => b.scopeKey));
 
     // Build source canonical items keyed by model::teil::number for questions,
     // restricted to the same exercise scope that was actually built.
@@ -1521,17 +1552,13 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
 
-    for (const ex of exercises ?? []) {
-      const teil = Number(ex.teil) || 0;
-      const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
+    for (const built of builtQuestions) {
+      const { teil, scopeKey, options: builtOpts } = built;
       if (teil) exerciseTeils.add(teil);
-      const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-      const scopeKey = `${model}::${teil}::${num}`;
-      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
       const exactIdx = srcQuestions.findIndex((src, idx) =>
         !usedSourceIndexes.has(idx) &&
         src.scopeKey === scopeKey &&
-        norm(src.text) === norm(ex.prompt) &&
+        norm(src.text) === norm(built.prompt) &&
         src.options.length === builtOpts.length &&
         src.options.every((opt, i) => norm(opt) === norm(builtOpts[i])),
       );
@@ -1542,14 +1569,14 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       }
       const fallbackIdx = srcQuestions.findIndex((src, idx) => !usedSourceIndexes.has(idx) && src.scopeKey === scopeKey);
       if (fallbackIdx < 0) {
-        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: scopeKey });
+        numberingDiffs.push({ exerciseId: built.exerciseId, expected: "(none in PDF)", got: scopeKey });
         continue;
       }
       usedSourceIndexes.add(fallbackIdx);
       const src = srcQuestions[fallbackIdx];
       builtKeys.add(src.key);
-      if (norm(src.text) !== norm(ex.prompt)) {
-        modified.push({ key: src.key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      if (norm(src.text) !== norm(built.prompt)) {
+        modified.push({ key: src.key, field: "prompt", original: src.text, built: built.prompt });
       }
       if (src.options.length !== builtOpts.length) {
         modified.push({ key: src.key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
@@ -1567,14 +1594,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     // Variant-level (per-text) mismatches are reported as `modified`, not `removed`.
     // This avoids false-positive "removed" entries when the same PDF contains
     // multiple exam-paper instances that share question numbering (e.g. 6..10).
-    const builtScopeKeys = new Set<string>(
-      (exercises ?? []).map((ex: any) => {
-        const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-        const teil = Number(ex.teil) || 0;
-        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
-        return `${model}::${teil}::${num}`;
-      }),
-    );
+    const builtScopeKeys = exerciseScopeKeys;
     const srcScopeKeys = new Set<string>(srcQuestions.map((s) => s.scopeKey));
 
     const removedScopes = [...srcScopeKeys].filter((k) => !builtScopeKeys.has(k));
