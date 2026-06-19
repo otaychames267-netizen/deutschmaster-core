@@ -930,8 +930,9 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       .eq("id", data.examImportId);
 
     try {
-    const { data: ext } = await context.supabase
+    const { data: ext, error: extErr } = await context.supabase
       .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
+    if (extErr) throw new Error(`Could not read extraction for import ${data.examImportId}: ${extErr.message}`);
     if (!ext) throw new Error("Run extraction on the exam PDF first");
     let meta: ExtractionMeta = {};
     try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
@@ -1002,8 +1003,9 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     // External answer-key PDF (optional, ignored when source is combined)
     if (data.answerKeyImportId && sourceKind !== "combined") {
-      const { data: keyExt } = await context.supabase
+      const { data: keyExt, error: keyExtErr } = await context.supabase
         .from("pdf_extractions").select("blocks").eq("import_id", data.answerKeyImportId).maybeSingle();
+      if (keyExtErr) throw new Error(`Could not read answer-key extraction for import ${data.answerKeyImportId}: ${keyExtErr.message}`);
       const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
       for (const b of kblocks) {
         if (b.type === "answer_key_entry") {
@@ -1352,11 +1354,12 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
 
-    const { data: ext } = await context.supabase
+    const { data: ext, error: extErr } = await context.supabase
       .from("pdf_extractions")
       .select("blocks, raw_text")
       .eq("import_id", data.examImportId)
       .maybeSingle();
+    if (extErr) throw new Error(`Could not read extraction for fidelity check ${data.examImportId}: ${extErr.message}`);
     if (!ext) throw new Error("Extraktion fehlt — bitte zuerst extrahieren.");
 
     let extractionMeta: any = null;
@@ -1385,10 +1388,11 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
 
     // Load exercises built from this import
-    const { data: exercises } = await context.supabase
+    const { data: exercises, error: exercisesErr } = await context.supabase
       .from("exercises")
       .select("id, level, module, teil, title, prompt, passage, options, original_numbering, status, model_variant")
       .eq("source_pdf_import_id", data.examImportId);
+    if (exercisesErr) throw new Error(`Could not read built exercises for fidelity check ${data.examImportId}: ${exercisesErr.message}`);
 
     const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
     const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
