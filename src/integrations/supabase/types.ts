@@ -1201,6 +1201,7 @@ export type Database = {
         | "matching"
         | "cloze"
         | "open_text"
+        | "passage_mcq"
       exercise_level: "b1" | "b2"
       exercise_module:
         | "lesen"
@@ -1354,6 +1355,7 @@ export const Constants = {
         "matching",
         "cloze",
         "open_text",
+        "passage_mcq",
       ],
       exercise_level: ["b1", "b2"],
       exercise_module: [

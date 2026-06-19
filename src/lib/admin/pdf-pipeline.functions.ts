@@ -1070,47 +1070,107 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     for (const g of ordered) {
       const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
+      // Skip non-exam noise that may have leaked into a question block
+      // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
+      const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
+      const cleanQuestions = g.questions.filter((q) => !noiseRe.test(q.text));
+      if (cleanQuestions.length === 0) continue;
+
+      // === NEW DATA MODEL: ONE exercise row = ONE topic (passage + its questions). ===
+      // Group questions by the passage text they share (within this model group).
+      // For Sprachbausteine / Hören / Schreiben / Mündlich (no passage) we group
+      // by instruction text so the cloze / audio recording / writing task stays
+      // a single exercise.
+      type Bucket = {
+        passageTitle: string | null;
+        passageText: string | null;
+        instruction: string;
+        questions: typeof cleanQuestions;
+      };
+      const buckets: Bucket[] = [];
+      const bucketKey = (q: (typeof cleanQuestions)[number]) => {
+        const p = q.passage ?? g.firstPassage;
+        const i = q.instruction ?? g.firstInstruction ?? "";
+        return `P:${(p?.text ?? "").trim()}|I:${i.trim()}`;
+      };
+      const bucketMap = new Map<string, Bucket>();
+      for (const q of cleanQuestions) {
+        const key = bucketKey(q);
+        let b = bucketMap.get(key);
+        if (!b) {
+          const p = q.passage ?? g.firstPassage;
+          const i = q.instruction ?? g.firstInstruction ?? "";
+          b = { passageTitle: p?.title ?? null, passageText: p?.text ?? null, instruction: i, questions: [] };
+          bucketMap.set(key, b);
+          buckets.push(b);
+        }
+        b.questions.push(q);
+      }
+
       let position = 1;
-      for (const q of g.questions) {
-        const passage = q.passage ?? g.firstPassage;
-        const instruction = q.instruction ?? g.firstInstruction ?? "";
-        // Skip non-exam noise that may have leaked into a question block
-        // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
-        // Exam content itself never mentions these; if a "question" block does,
-        // it is metadata, not a TELC item, and must not become an exercise.
-        const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
-        if (noiseRe.test(q.text)) continue;
+      for (const bucket of buckets) {
+        // Build the embedded questions[] payload — exact letter prefixes preserved.
+        const questionsPayload = bucket.questions.map((q) => {
+          const optionTexts = q.options.map((o) => (o.label ? `${o.label}) ${o.text}` : o.text));
+          const rawAns = (g.answers.get(q.number) ?? "").trim();
+          let correct: string | null = null;
+          if (optionTexts.length >= 2 && rawAns) {
+            const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
+            const idx = letter ? letter.charCodeAt(0) - 65 : -1;
+            if (idx >= 0 && idx < optionTexts.length) correct = optionTexts[idx];
+          } else if (rawAns) {
+            correct = rawAns;
+          }
+          return {
+            n: q.number,
+            prompt: q.text,
+            options: optionTexts,
+            correct,
+            rawAnswer: rawAns || null,
+          };
+        });
 
-        const kind = q.options.length >= 2 ? "multiple_choice" : "open_text";
-        // Preserve the TELC letter prefix ("A) …", "B) …") so students see the
-        // exact same option format as in the original PDF.
-        const optionTexts = q.options.map((o) =>
-          o.label ? `${o.label}) ${o.text}` : o.text,
-        );
+        const allMcq = questionsPayload.every((q) => q.options.length >= 2);
+        const anyMcq = questionsPayload.some((q) => q.options.length >= 2);
+        // passage_mcq covers the new "one passage, many MCQs" structure.
+        // sprachbausteine still uses 'cloze' so legacy renderers keep working.
+        // Single open-question buckets (Schreiben/Mündlich tasks) stay 'open_text'.
+        const kind: "passage_mcq" | "cloze" | "multiple_choice" | "open_text" =
+          moduleVal === "sprachbausteine" && anyMcq ? "cloze"
+          : allMcq && questionsPayload.length > 1 ? "passage_mcq"
+          : allMcq && questionsPayload.length === 1 ? "multiple_choice"
+          : "open_text";
 
-        // Prefer the official PDF passage title; otherwise derive a short
-        // topic from the passage so students see "Parkplatzsuche" instead of
-        // "LESEN Teil 2 — Aufgabe 3" in the library.
-        const passageTitle = (passage?.title ?? "").trim();
-        const derivedTitle = deriveTopicTitle(passage?.text ?? instruction ?? "");
+        const passageTitle = (bucket.passageTitle ?? "").trim();
+        const derivedTitle = deriveTopicTitle(bucket.passageText ?? bucket.instruction ?? "");
+        const firstNum = questionsPayload[0]?.n ?? String(position);
+        const lastNum = questionsPayload[questionsPayload.length - 1]?.n ?? firstNum;
+        const rangeLabel = questionsPayload.length > 1 ? `${firstNum}–${lastNum}` : firstNum;
         const studentTitle =
           passageTitle ||
           derivedTitle ||
-          `Aufgabe ${q.number}${variantSuffix}`;
+          `Aufgabe ${rangeLabel}${variantSuffix}`;
 
-        // Resolve the official answer (a letter like "B") into the matching
-        // option text so the existing grader (which compares against
-        // exercises.correct) accepts the student's selection. We keep the
-        // letter in exercise_answer_keys for the audit trail.
-        const rawAns = (g.answers.get(q.number) ?? "").trim();
-        let correctArr: string[] = [];
-        if (kind === "multiple_choice" && rawAns) {
-          const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
-          const idx = letter ? letter.charCodeAt(0) - 65 : -1;
-          if (idx >= 0 && idx < optionTexts.length) correctArr = [optionTexts[idx]];
-        } else if (rawAns) {
-          correctArr = [rawAns];
-        }
+        // Aggregate `correct` so the legacy grader still works for single-question
+        // rows (multiple_choice / open_text). For passage_mcq the canonical
+        // answers live inside options.questions[].correct.
+        const aggregatedCorrect: string[] = questionsPayload
+          .map((q) => q.correct)
+          .filter((v): v is string => typeof v === "string" && v.length > 0);
+
+        // For passage_mcq the simple `options: string[]` shape no longer fits.
+        // We store an object `{ questions: [...] }` in the JSONB column. For
+        // legacy single-question kinds we keep the flat string[] shape so the
+        // existing UI keeps rendering them unchanged.
+        const optionsField: any =
+          kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
+            ? { questions: questionsPayload }
+            : (questionsPayload[0]?.options ?? []);
+
+        const promptText =
+          kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
+            ? (bucket.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`)
+            : (questionsPayload[0]?.prompt ?? bucket.instruction ?? "");
 
         const { data: ex, error: exErr } = await context.supabase
           .from("exercises")
@@ -1120,15 +1180,15 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             teil,
             position: position++,
             title: studentTitle,
-            prompt: q.text,
-            passage: passage ? passage.text : (instruction || null),
+            prompt: promptText,
+            passage: bucket.passageText ?? (bucket.instruction || null),
             kind,
-            options: optionTexts,
-            correct: correctArr,
+            options: optionsField,
+            correct: aggregatedCorrect,
             status: "draft",
             created_by: context.userId,
             source_pdf_import_id: data.examImportId,
-            original_numbering: q.number,
+            original_numbering: rangeLabel,
             model_variant: g.model,
             writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
             muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
@@ -1137,20 +1197,22 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           .select("id")
           .single();
         if (exErr || !ex) {
-          throw new Error(`Exercise insert failed for item ${q.number}: ${exErr?.message ?? "no exercise row returned"}`);
+          throw new Error(`Exercise insert failed for items ${rangeLabel}: ${exErr?.message ?? "no exercise row returned"}`);
         }
         createdExerciseIds.push(ex.id);
 
-        if (rawAns) {
+        // One answer_keys row per embedded question for the audit trail.
+        for (const q of questionsPayload) {
+          if (!q.rawAnswer) continue;
           const { error: keyErr } = await context.supabase.from("exercise_answer_keys").insert({
             exercise_id: ex.id,
-            item_number: q.number,
-            correct_answer: rawAns,
+            item_number: q.n,
+            correct_answer: q.rawAnswer,
             source: "pdf",
             key_version: 1,
             pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
           });
-          if (keyErr) throw new Error(`Answer-key insert failed for item ${q.number}: ${keyErr.message}`);
+          if (keyErr) throw new Error(`Answer-key insert failed for item ${q.n}: ${keyErr.message}`);
           keyCount++;
         }
       }
@@ -1412,12 +1474,43 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
     const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
-    const exerciseScopeKeys = new Set<string>((exercises ?? []).map((ex: any) => {
+    // Flatten exercises into per-question virtual rows so the fidelity check
+    // can compare against the source PDF item-by-item even though the new
+    // data model stores one row per passage (with options.questions[]).
+    type BuiltQ = { exerciseId: string; model: string; teil: number; number: string; prompt: string; options: string[]; scopeKey: string };
+    const builtQuestions: BuiltQ[] = [];
+    for (const ex of exercises ?? []) {
       const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
       const teil = Number(ex.teil) || 0;
-      const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
-      return `${model}::${teil}::${num}`;
-    }));
+      const opts: any = ex.options;
+      const embedded = opts && !Array.isArray(opts) && Array.isArray(opts.questions) ? opts.questions : null;
+      if (embedded) {
+        for (const q of embedded) {
+          const num = String(q?.n ?? "").trim().replace(/\.$/, "");
+          builtQuestions.push({
+            exerciseId: ex.id,
+            model,
+            teil,
+            number: num,
+            prompt: String(q?.prompt ?? ""),
+            options: Array.isArray(q?.options) ? q.options.map((o: any) => String(o ?? "")) : [],
+            scopeKey: `${model}::${teil}::${num}`,
+          });
+        }
+      } else {
+        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
+        builtQuestions.push({
+          exerciseId: ex.id,
+          model,
+          teil,
+          number: num,
+          prompt: String(ex.prompt ?? ""),
+          options: Array.isArray(opts) ? opts.map((o: any) => String(o ?? "")) : [],
+          scopeKey: `${model}::${teil}::${num}`,
+        });
+      }
+    }
+    const exerciseScopeKeys = new Set<string>(builtQuestions.map((b) => b.scopeKey));
 
     // Build source canonical items keyed by model::teil::number for questions,
     // restricted to the same exercise scope that was actually built.
@@ -1459,17 +1552,13 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
 
-    for (const ex of exercises ?? []) {
-      const teil = Number(ex.teil) || 0;
-      const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
+    for (const built of builtQuestions) {
+      const { teil, scopeKey, options: builtOpts } = built;
       if (teil) exerciseTeils.add(teil);
-      const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-      const scopeKey = `${model}::${teil}::${num}`;
-      const builtOpts: string[] = Array.isArray(ex.options) ? ex.options.map((o: any) => String(o ?? "")) : [];
       const exactIdx = srcQuestions.findIndex((src, idx) =>
         !usedSourceIndexes.has(idx) &&
         src.scopeKey === scopeKey &&
-        norm(src.text) === norm(ex.prompt) &&
+        norm(src.text) === norm(built.prompt) &&
         src.options.length === builtOpts.length &&
         src.options.every((opt, i) => norm(opt) === norm(builtOpts[i])),
       );
@@ -1480,14 +1569,14 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       }
       const fallbackIdx = srcQuestions.findIndex((src, idx) => !usedSourceIndexes.has(idx) && src.scopeKey === scopeKey);
       if (fallbackIdx < 0) {
-        numberingDiffs.push({ exerciseId: ex.id, expected: "(none in PDF)", got: scopeKey });
+        numberingDiffs.push({ exerciseId: built.exerciseId, expected: "(none in PDF)", got: scopeKey });
         continue;
       }
       usedSourceIndexes.add(fallbackIdx);
       const src = srcQuestions[fallbackIdx];
       builtKeys.add(src.key);
-      if (norm(src.text) !== norm(ex.prompt)) {
-        modified.push({ key: src.key, field: "prompt", original: src.text, built: String(ex.prompt ?? "") });
+      if (norm(src.text) !== norm(built.prompt)) {
+        modified.push({ key: src.key, field: "prompt", original: src.text, built: built.prompt });
       }
       if (src.options.length !== builtOpts.length) {
         modified.push({ key: src.key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
@@ -1505,14 +1594,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     // Variant-level (per-text) mismatches are reported as `modified`, not `removed`.
     // This avoids false-positive "removed" entries when the same PDF contains
     // multiple exam-paper instances that share question numbering (e.g. 6..10).
-    const builtScopeKeys = new Set<string>(
-      (exercises ?? []).map((ex: any) => {
-        const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-        const teil = Number(ex.teil) || 0;
-        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
-        return `${model}::${teil}::${num}`;
-      }),
-    );
+    const builtScopeKeys = exerciseScopeKeys;
     const srcScopeKeys = new Set<string>(srcQuestions.map((s) => s.scopeKey));
 
     const removedScopes = [...srcScopeKeys].filter((k) => !builtScopeKeys.has(k));

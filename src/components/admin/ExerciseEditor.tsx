@@ -20,7 +20,7 @@ export type ExerciseForm = {
   prompt: string;
   passage: string;
   audio_id: string | null;
-  kind: "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text";
+  kind: "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text" | "passage_mcq";
   options: string[];
   correct: string[];
   explanation: string;
