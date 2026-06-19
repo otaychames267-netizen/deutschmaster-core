@@ -7,7 +7,7 @@ import { CheckCircle2, XCircle, Clock3, Check, X } from "lucide-react";
 
 export type ExerciseDTO = {
   id: string;
-  kind: "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text";
+  kind: "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text" | "passage_mcq";
   title: string;
   prompt: string;
   passage?: string | null;
@@ -170,6 +170,25 @@ export function ExerciseRunner({
         <Textarea rows={8} disabled={!!result} value={String(answer ?? "")} onChange={(e) => setAnswer(e.target.value)} placeholder="Deine Antwort…" />
       )}
 
+      {exercise.kind === "passage_mcq" && (
+        <PassageMcqInputs
+          exercise={exercise}
+          answer={(answer ?? {}) as Record<string, string>}
+          locked={!!result}
+          revealed={revealed}
+          /** Practice mode (no hideFeedback) shows green/red per question
+           *  immediately on click. Exam mode (hideFeedback) hides all colours
+           *  until the parent session calls Abgeben and renders its summary. */
+          immediateFeedback={!hideFeedback}
+          submittedCorrect={
+            result && result.correct && typeof result.correct === "object" && !Array.isArray(result.correct)
+              ? (result.correct as Record<string, string>)
+              : null
+          }
+          onChange={(a) => setAnswer(a)}
+        />
+      )}
+
       {/* Action */}
       {!result ? (
         <Button onClick={submit} disabled={submitting || !hasAnswer(exercise.kind, answer)}>
@@ -212,6 +231,7 @@ function defaultAnswer(ex: ExerciseDTO): unknown {
     case "cloze": return [];
     case "matching": return {};
     case "open_text": return "";
+    case "passage_mcq": return {};
     default: return null;
   }
 }
@@ -220,6 +240,7 @@ function hasAnswer(kind: ExerciseDTO["kind"], a: unknown): boolean {
   if (kind === "open_text") return String(a ?? "").trim().length > 0;
   if (kind === "cloze") return Array.isArray(a) && a.some((x) => String(x ?? "").trim().length > 0);
   if (kind === "matching") return !!(a && typeof a === "object" && Object.keys(a as object).length > 0);
+  if (kind === "passage_mcq") return !!(a && typeof a === "object" && Object.values(a as Record<string,string>).some((v) => String(v ?? "").length > 0));
   return a !== null && a !== undefined && a !== "";
 }
 
