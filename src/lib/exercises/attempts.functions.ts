@@ -43,7 +43,7 @@ export const submitAttempt = createServerFn({ method: "POST" })
 
     // For passage_mcq, expose the per-question correct map so the client can
     // mark every embedded item green/red on the review screen.
-    let correctOut: unknown = ex.correct;
+    let correctOut: unknown[] | Record<string, string> = (ex.correct as unknown[]) ?? [];
     if (ex.kind === "passage_mcq" && ex.options && typeof ex.options === "object" && !Array.isArray(ex.options)) {
       const qs = ((ex.options as any).questions ?? []) as Array<{ n: string; correct: string | null }>;
       const map: Record<string, string> = {};
