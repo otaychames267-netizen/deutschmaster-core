@@ -457,6 +457,7 @@ function PdfImportPage() {
           <TabsTrigger value="build"><Hammer className="size-3.5 mr-1" />Übungen bauen</TabsTrigger>
           <TabsTrigger value="fidelity"><ScanSearch className="size-3.5 mr-1" />Treuekontrolle</TabsTrigger>
           <TabsTrigger value="publish"><ShieldCheck className="size-3.5 mr-1" />Veröffentlichen</TabsTrigger>
+          <TabsTrigger value="cleanup"><Eraser className="size-3.5 mr-1" />Bereinigung</TabsTrigger>
         </TabsList>
 
         <TabsContent value="upload" className="space-y-3">
@@ -718,6 +719,10 @@ function PdfImportPage() {
             get={fidelityGet}
             isSuperAdmin={isSuperAdmin}
           />
+        </TabsContent>
+
+        <TabsContent value="cleanup">
+          <CleanupPanel imports={imports} isSuperAdmin={isSuperAdmin} onRefresh={() => refresh()} />
         </TabsContent>
       </Tabs>
     </div>
