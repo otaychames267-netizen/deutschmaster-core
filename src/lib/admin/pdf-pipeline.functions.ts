@@ -280,12 +280,26 @@ function buildAnswerLookup(blocks: any[]) {
     else unmodelled.set(`${teil}::${number}`, answer);
   }
   return {
-    get(q: SourceQuestion) {
+    keyFor(q: SourceQuestion) {
+      return q.model ? `${q.model}::${q.teil}::${q.number}` : `${q.teil}::${q.number}`;
+    },
+    get(q: SourceQuestion, usageCounts?: Map<string, number>) {
       const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
+      if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
+      if (!exactKey && usageCounts && (usageCounts.get(`${q.teil}::${q.number}`) ?? 0) !== 1) return "";
       return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(`${q.teil}::${q.number}`) ?? "";
     },
     count: exact.size + unmodelled.size,
   };
+}
+
+function buildAnswerUsageCounts(units: SourceExerciseUnit[], lookup: ReturnType<typeof buildAnswerLookup>) {
+  const counts = new Map<string, number>();
+  for (const unit of units) for (const q of unit.questions) {
+    const key = lookup.keyFor(q);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return counts;
 }
 
 const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
