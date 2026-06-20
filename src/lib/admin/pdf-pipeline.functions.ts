@@ -152,6 +152,7 @@ type SourceQuestion = {
   number: string;
   text: string;
   options: string[];
+  correctAnswer: string | null;
   model: string | null;
   teil: number;
   page: number;
@@ -228,6 +229,7 @@ function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number
       number: normalizeItemNumber(b.number ?? ""),
       text: String(b.text ?? ""),
       options: questionOptionTexts(b),
+      correctAnswer: normalizeAnswerLetter(b.correct_answer),
       model: normalizeModel(b.model),
       teil,
       page,
@@ -266,6 +268,11 @@ function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number
   return units.filter((unit) => unit.questions.length > 0);
 }
 
+function normalizeAnswerLetter(value: any): string | null {
+  const letter = String(value ?? "").trim().match(/[A-Ea-e]/)?.[0];
+  return letter ? letter.toUpperCase() : null;
+}
+
 function buildAnswerLookup(blocks: any[]) {
   const exact = new Map<string, string>();
   const unmodelled = new Map<string, string>();
@@ -284,6 +291,7 @@ function buildAnswerLookup(blocks: any[]) {
       return q.model ? `${q.model}::${q.teil}::${q.number}` : `${q.teil}::${q.number}`;
     },
     get(q: SourceQuestion, usageCounts?: Map<string, number>) {
+      if (q.correctAnswer) return q.correctAnswer;
       const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
       if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
       if (!exactKey && usageCounts && (usageCounts.get(`${q.teil}::${q.number}`) ?? 0) !== 1) return "";
