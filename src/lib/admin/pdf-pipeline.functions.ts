@@ -89,6 +89,7 @@ const ARABIC_TEXT_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uF
 const READABLE_TEXT_RX = /[A-Za-zÄÖÜäöüß0-9]/;
 const DOMAIN_OR_EMAIL_RX = /\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?\b|\b[\w.%+-]+@[\w.-]+\.[a-z]{2,}\b/i;
 const UNUSABLE_REASON_RX = /\b(unreadable|unlesbar|corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|truncated|abgeschnitten|failed|failure|timeout)\b/i;
+const HARD_FAILURE_REASON_RX = /\b(corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|failed|failure|timeout)\b/i;
 
 function isTrulyUnusableLowConfidenceItem(item: any) {
   const snippet = String(item?.snippet ?? "").trim();
@@ -96,6 +97,8 @@ function isTrulyUnusableLowConfidenceItem(item: any) {
   if (!snippet) return true;
   if (/\[\?\]|�|□|■|▯|◻/.test(snippet)) return true;
   const compact = snippet.replace(/\s/g, "");
+  const meaningfulSnippet = snippet.replace(/\b(page|seite|chunk|teil)\b|\d+/gi, "").trim();
+  if (HARD_FAILURE_REASON_RX.test(reason) && !/[A-Za-zÄÖÜäöüß]{4,}/.test(meaningfulSnippet)) return true;
   if (!READABLE_TEXT_RX.test(compact) && /[?]{2,}|[_-]{4,}|\.{4,}/.test(compact)) return true;
   if (UNUSABLE_REASON_RX.test(reason) && compact.length < 4) return true;
   return false;
