@@ -1241,6 +1241,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
+    const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number }[] = [];
+    const skippedUnits: { reason: string; page?: number; itemRange?: string }[] = [];
+    if (answerLookup.conflicts && answerLookup.conflicts.length > 0) {
+      for (const c of answerLookup.conflicts) {
+        buildWarnings.push({ kind: "answer_key_conflict", detail: `Conflicting answers for ${c.key}: ${c.answers.join(", ")} — entry skipped, please verify manually.` });
+      }
+    }
 
     const { data: existingDrafts } = await context.supabase
       .from("exercises")
@@ -1256,15 +1263,30 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     let position = 1;
     for (const unit of sourceUnits) {
+      try {
       const variantSuffix = unit.model ? ` — Modell ${unit.model}` : "";
       // Skip non-exam noise that may have leaked into a question block
       // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
       const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
       const cleanQuestions = unit.questions.filter((q) => !noiseRe.test(q.text));
-      if (cleanQuestions.length === 0) continue;
+      if (cleanQuestions.length === 0) {
+        skippedUnits.push({ reason: "no_clean_questions", page: unit.questionPage });
+        continue;
+      }
+      // Validation: drop questions with empty prompts so a single bad row
+      // does not abort the whole build.
+      const validQuestions = cleanQuestions.filter((q) => {
+        const ok = (q.text ?? "").trim().length > 0 && q.number;
+        if (!ok) buildWarnings.push({ kind: "invalid_question_dropped", detail: `Empty prompt or number at p.${unit.questionPage}`, page: unit.questionPage });
+        return ok;
+      });
+      if (validQuestions.length === 0) {
+        skippedUnits.push({ reason: "all_questions_invalid", page: unit.questionPage });
+        continue;
+      }
 
         // Build the embedded questions[] payload — exact letter prefixes preserved.
-        const questionsPayload = cleanQuestions.map((q) => {
+        const questionsPayload = validQuestions.map((q) => {
           const optionTexts = q.options;
           const rawAns = answerLookup.get(q, answerUsageCounts).trim();
           let correct: string | null = null;
@@ -1368,14 +1390,27 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             key_version: 1,
             pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
           });
-          if (keyErr) throw new Error(`Answer-key insert failed for item ${q.n}: ${keyErr.message}`);
-          keyCount++;
+          if (keyErr) {
+            buildWarnings.push({ kind: "answer_key_insert_failed", detail: `Item ${q.n}: ${keyErr.message}` });
+          } else {
+            keyCount++;
+          }
         }
+      } catch (unitErr: any) {
+        // Per-unit isolation: one bad unit must not abort the whole build.
+        buildWarnings.push({
+          kind: "unit_build_failed",
+          detail: String(unitErr?.message ?? unitErr),
+          page: unit.questionPage,
+          itemRange: unit.questions.map((q) => q.number).join(","),
+        });
+        skippedUnits.push({ reason: "exception", page: unit.questionPage });
+      }
     }
 
     if (createdExerciseIds.length === 0) {
       const questionCount = sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0);
-      throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Check extraction block structure, options, and database insert errors.`);
+      throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Warnings: ${JSON.stringify(buildWarnings).slice(0, 500)}`);
     }
 
     const missingAnswerKeys = sourceUnits.flatMap((unit) =>
@@ -1384,10 +1419,13 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         .map((q) => ({ page: q.page, item: q.number, title: unit.title ?? "", reason: "no_source_answer_key_entry" })),
     );
 
+    const hasIssues = missingAnswerKeys.length > 0 || buildWarnings.length > 0 || skippedUnits.length > 0;
     await context.supabase.from("pdf_imports")
       .update({
-        status: missingAnswerKeys.length === 0 ? "built" : "built_needs_review",
-        error_message: missingAnswerKeys.length === 0 ? null : `${missingAnswerKeys.length} answer-key entries missing; exercises created but import is not verified for publishing.`,
+        status: hasIssues ? "built_needs_review" : "built",
+        error_message: hasIssues
+          ? `${missingAnswerKeys.length} missing answer key(s), ${buildWarnings.length} warning(s), ${skippedUnits.length} skipped unit(s).`
+          : null,
       })
       .eq("id", data.examImportId);
 
@@ -1399,6 +1437,9 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
       answerKeysExtracted: answerLookup.count,
       missingAnswerKeys,
+      answerKeyConflicts: answerLookup.conflicts ?? [],
+      warnings: buildWarnings,
+      skippedUnits,
       skipped: 0,
       merged: 0,
       ignored: 0,
@@ -1411,6 +1452,10 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       sourceExerciseUnits: sourceUnits.length,
       questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
       answerKeysExtracted: answerLookup.count,
+      missingAnswerKeys,
+      answerKeyConflicts: answerLookup.conflicts ?? [],
+      warnings: buildWarnings,
+      skippedUnits,
       skipped: 0,
       merged: 0,
       ignored: 0,
