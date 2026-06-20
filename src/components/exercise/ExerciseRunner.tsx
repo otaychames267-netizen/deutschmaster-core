@@ -68,9 +68,9 @@ export function ExerciseRunner({
   }, [exercise.options]);
 
   const correctSet = useMemo(() => {
-    if (!result || !revealed || !Array.isArray(result.correct)) return new Set<string>();
+    if (!result || (!revealed && hideFeedback) || !Array.isArray(result.correct)) return new Set<string>();
     return new Set((result.correct as unknown[]).map((x) => String(x)));
-  }, [result, revealed]);
+  }, [result, revealed, hideFeedback]);
 
   return (
     <div className="space-y-4">
@@ -175,7 +175,7 @@ export function ExerciseRunner({
           exercise={exercise}
           answer={(answer ?? {}) as Record<string, string>}
           locked={!!result}
-          revealed={revealed}
+          revealed={revealed || (!!result && !hideFeedback)}
           /** Practice mode (no hideFeedback) shows green/red per question
            *  immediately on click. Exam mode (hideFeedback) hides all colours
            *  until the parent session calls Abgeben and renders its summary. */
