@@ -23,6 +23,10 @@ import {
   findDuplicateExercises,
   deleteDuplicateExercises,
 } from "@/lib/admin/pdf-pipeline.functions";
+import {
+  listCollections,
+  createCollection,
+} from "@/lib/admin/collections.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -157,6 +161,38 @@ function PdfImportPage() {
   const [muendlichPart, setMuendlichPart] = useState<1 | 2 | 3>(1);
   const [contentType, setContentType] = useState<"vorbereitung" | "pruefungssimulation">("pruefungssimulation");
   const [confirmMaterial, setConfirmMaterial] = useState(false);
+
+  // Manual collection — admin controls title; no automatic naming.
+  const fetchCollections = useServerFn(listCollections);
+  const makeCollection = useServerFn(createCollection);
+  const [collections, setCollections] = useState<Array<{ id: string; title: string }>>([]);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
+  const [newCollectionTitle, setNewCollectionTitle] = useState<string>("");
+
+  const reloadCollections = async () => {
+    try {
+      const r = await fetchCollections();
+      setCollections((r.collections ?? []).map((c: any) => ({ id: c.id, title: c.title })));
+    } catch (e: any) {
+      console.error("[collections] load failed", e);
+    }
+  };
+
+  useEffect(() => { reloadCollections().catch(() => {}); }, []);
+
+  const createAndUseCollection = async () => {
+    const title = newCollectionTitle.trim();
+    if (!title) { toast.error("Bitte Sammlungstitel eingeben."); return; }
+    try {
+      const r = await makeCollection({ data: { title, level: buildLevel, module: buildModule, teil: buildTeil } });
+      toast.success(`Sammlung erstellt: ${r.title}`);
+      setNewCollectionTitle("");
+      await reloadCollections();
+      setSelectedCollectionId(r.id);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Sammlung konnte nicht erstellt werden.");
+    }
+  };
 
   const refresh = async () => {
     try {
