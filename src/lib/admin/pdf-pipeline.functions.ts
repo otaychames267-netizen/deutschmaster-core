@@ -623,9 +623,10 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
         if (src?.blocks) {
           let srcMeta: ExtractionMeta = {};
           try { srcMeta = src.raw_text ? JSON.parse(src.raw_text) : {}; } catch {}
-          await upsertExtraction(context.supabase, data.importId, src.blocks, src.page_count ?? totalPages, { ...srcMeta, diagnostics: [{ event: "cache_hit", source_import_id: twin.id }] });
+          const srcBlocks = Array.isArray(src.blocks) ? (src.blocks as any[]) : [];
+          await upsertExtraction(context.supabase, data.importId, srcBlocks, src.page_count ?? totalPages, { ...srcMeta, diagnostics: [{ event: "cache_hit", source_import_id: twin.id }] });
           await context.supabase.from("pdf_imports").update({ status: "extracted", error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
-          await appendImportLog(context.supabase, data.importId, { event: "extraction_cache_hit", source_import_id: twin.id, contentHash, totalPages, blocks: Array.isArray(src.blocks) ? src.blocks.length : 0 });
+          await appendImportLog(context.supabase, data.importId, { event: "extraction_cache_hit", source_import_id: twin.id, contentHash, totalPages, blocks: srcBlocks.length });
           return { ok: true, cached: true, sourceImportId: twin.id, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount, fileBytes: buf.byteLength, completedChunks: Array.from({ length: chunkCount }, (_, i) => i), resumed: false };
         }
       }
