@@ -944,6 +944,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     muendlichPart?: 1 | 2 | 3 | null;
     contentType?: "vorbereitung" | "pruefungssimulation" | null;
     confirmMaterialAsExercises?: boolean | null;
+    forceBuild?: boolean | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
@@ -1000,8 +1001,11 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     if (review.failedChunks.length > 0 || review.incomplete) {
       throw new Error("Extraction incomplete — finish all chunks before building exercises.");
     }
-    if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
+    if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved && !data.forceBuild) {
       throw new Error(`Extraction has ${review.blockingLowConfidenceItems.length} low-confidence item(s). Open the Review tab and approve or re-extract before building exercises.`);
+    }
+    if (data.forceBuild && review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
+      await appendImportLog(context.supabase, data.examImportId, { event: "force_build_with_low_confidence_items", count: review.blockingLowConfidenceItems.length, by: context.userId });
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
