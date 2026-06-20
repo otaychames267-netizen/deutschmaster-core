@@ -1315,8 +1315,17 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Check extraction block structure, options, and database insert errors.`);
     }
 
+    const missingAnswerKeys = sourceUnits.flatMap((unit) =>
+      unit.questions
+        .filter((q) => !answerLookup.get(q))
+        .map((q) => ({ page: q.page, item: q.number, title: unit.title ?? "", reason: "no_source_answer_key_entry" })),
+    );
+
     await context.supabase.from("pdf_imports")
-      .update({ status: "built", error_message: null })
+      .update({
+        status: missingAnswerKeys.length === 0 ? "built" : "built_needs_review",
+        error_message: missingAnswerKeys.length === 0 ? null : `${missingAnswerKeys.length} answer-key entries missing; exercises created but import is not verified for publishing.`,
+      })
       .eq("id", data.examImportId);
 
     await appendImportLog(context.supabase, data.examImportId, {
@@ -1326,6 +1335,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       exercisesCreated: createdExerciseIds.length,
       questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
       answerKeysExtracted: answerLookup.count,
+      missingAnswerKeys,
       skipped: 0,
       merged: 0,
       ignored: 0,
