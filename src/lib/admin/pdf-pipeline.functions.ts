@@ -1615,6 +1615,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       || Number(blocks.find((b) => b?.type === "question" && Number(b?.teil))?.teil ?? 0);
     const sourceUnits = builtTeil ? buildSourceExerciseUnits(blocks, builtModule, builtTeil) : [];
     const answerLookup = buildAnswerLookup(blocks);
+    const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
     const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
 
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
@@ -1656,7 +1657,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         for (let oi = 0; oi < Math.min(sq.options.length, builtOptions.length); oi++) {
           if (norm(sq.options[oi]) !== norm(builtOptions[oi])) modified.push({ key, field: `questions[${qn}].options[${oi}]`, original: sq.options[oi], built: builtOptions[oi] });
         }
-        const sourceAnswer = answerLookup.get(sq);
+        const sourceAnswer = answerLookup.get(sq, answerUsageCounts);
         const storedAnswer = String(bq?.rawAnswer ?? "").trim();
         if (sourceAnswer && sourceAnswer !== storedAnswer) answerMismatches.push({ exerciseId: ex.id, sourceIndex: src.sourceIndex, item: sq.number, sourceAnswer, storedAnswer });
       }
@@ -1681,7 +1682,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       .map((page) => ({ page, title: "", reason: "no_built_exercise_unit_detected_on_page" }));
     const missingAnswers = sourceUnits.flatMap((unit, unitIndex) =>
       unit.questions
-        .filter((q) => !answerLookup.get(q))
+        .filter((q) => !answerLookup.get(q, answerUsageCounts))
         .map((q) => ({ sourceIndex: unitIndex + 1, page: q.page, item: q.number, reason: "no_source_answer_key_entry" })),
     );
     const status: "pass" | "fail" = added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 && missingAnswers.length === 0 ? "pass" : "fail";
