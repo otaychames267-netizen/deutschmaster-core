@@ -410,9 +410,10 @@ function PdfImportPage() {
     setExtractionPreview(r);
   };
 
-  const build = async () => {
+  const build = async (forceBuild = false) => {
     if (!isSuperAdmin) { toast.error("Nur Super-Admin"); return; }
     if (!selectedExamId) { toast.error("Bitte Prüfungs-PDF auswählen"); return; }
+    if (forceBuild && !window.confirm("Force Build ignoriert nur Low-Confidence-Warnungen. Fehlgeschlagene oder unvollständige Chunks bleiben blockiert. Fortfahren?")) return;
     setBusy(true);
     try {
       const r = await buildExercises({
@@ -426,9 +427,10 @@ function PdfImportPage() {
           muendlichPart: buildModule === "muendlich" ? muendlichPart : null,
           contentType,
           confirmMaterialAsExercises: confirmMaterial,
+          forceBuild,
         },
       });
-      toast.success(`${r.exerciseCount} Übungen erstellt, ${r.keyCount} Lösungen verknüpft (Entwurf)`);
+      toast.success(`${r.exerciseCount} Übungen erstellt, ${r.keyCount} Lösungen verknüpft (Entwurf)${forceBuild ? " — Force Build" : ""}`);
       await refresh();
     } catch (e: any) {
       toast.error(e?.message ?? "Bauen fehlgeschlagen");
@@ -700,8 +702,11 @@ function PdfImportPage() {
                 <p className="text-xs text-muted-foreground mb-2">
                   Das System darf nichts automatisch klassifizieren. Sie entscheiden Level, Modul, Teil und Kategorie. Inhalt aus der PDF bleibt unverändert (verbatim).
                 </p>
-                <Button onClick={build} disabled={busy || !isSuperAdmin || !selectedExamId}>
+                <Button onClick={() => build(false)} disabled={busy || !isSuperAdmin || !selectedExamId}>
                   <Hammer className="size-4 mr-1" />Übungen erstellen (Entwurf)
+                </Button>
+                <Button className="ml-2" variant="outline" onClick={() => build(true)} disabled={busy || !isSuperAdmin || !selectedExamId}>
+                  <ShieldCheck className="size-4 mr-1" />Force Build
                 </Button>
               </div>
             </CardContent>
