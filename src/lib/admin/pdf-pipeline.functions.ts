@@ -1122,6 +1122,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     contentType?: "vorbereitung" | "pruefungssimulation" | null;
     confirmMaterialAsExercises?: boolean | null;
     forceBuild?: boolean | null;
+    collectionId?: string | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
