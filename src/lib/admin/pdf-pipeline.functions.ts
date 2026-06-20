@@ -147,6 +147,146 @@ function normalizeItemNumber(value: any) {
   return String(value ?? "").trim().replace(/\.$/, "");
 }
 
+type SourcePassage = { title: string | null; text: string; page: number };
+type SourceQuestion = {
+  number: string;
+  text: string;
+  options: string[];
+  model: string | null;
+  teil: number;
+  page: number;
+};
+type SourceExerciseUnit = {
+  sourceIndex: number;
+  model: string | null;
+  teil: number;
+  questionPage: number;
+  passagePages: number[];
+  title: string | null;
+  passageText: string | null;
+  instruction: string;
+  passageKey: string;
+  questions: SourceQuestion[];
+};
+
+function normalizeModel(value: any): string | null {
+  return value == null || value === "" ? null : String(value);
+}
+
+function questionOptionTexts(b: any): string[] {
+  return Array.isArray(b?.options)
+    ? b.options.map((o: any) => (o?.label ? `${String(o.label)}) ${String(o?.text ?? "")}` : String(o?.text ?? "")))
+    : [];
+}
+
+function sourceBlockTeil(b: any, fallbackTeil: number): number {
+  const n = Number(b?.teil);
+  return Number.isFinite(n) && n > 0 ? n : fallbackTeil;
+}
+
+function sourcePassageText(passages: SourcePassage[]): string | null {
+  const text = passages
+    .map((p) => [p.title, p.text].filter(Boolean).join("\n"))
+    .filter((t) => t.trim().length > 0)
+    .join("\n\n")
+    .trim();
+  return text || null;
+}
+
+function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number): SourceExerciseUnit[] {
+  const units: SourceExerciseUnit[] = [];
+  let currentInstruction = "";
+  let pendingPassages: SourcePassage[] = [];
+  let activePassages: SourcePassage[] = [];
+  let currentUnit: SourceExerciseUnit | null = null;
+
+  for (const b of blocks) {
+    const blockTeil = sourceBlockTeil(b, teil);
+    if (blockTeil !== teil) continue;
+
+    if (b?.type === "instruction") {
+      currentInstruction = String(b.text ?? "");
+      continue;
+    }
+
+    if (b?.type === "passage") {
+      const text = String(b.text ?? "").trim();
+      if (!text) continue;
+      pendingPassages.push({ title: b.title ?? null, text, page: Number(b.page) || 0 });
+      currentUnit = null;
+      continue;
+    }
+
+    if (b?.type !== "question") continue;
+    const blockModule = String(b?.module ?? "").toLowerCase();
+    if (blockModule && blockModule !== moduleVal) continue;
+
+    const page = Number(b.page) || 0;
+    const passages = pendingPassages.length > 0 ? [...pendingPassages] : [...activePassages];
+    const passageKey = passages.map((p) => `${p.page}:${p.title ?? ""}:${p.text}`).join("\n---\n");
+    const question: SourceQuestion = {
+      number: normalizeItemNumber(b.number ?? ""),
+      text: String(b.text ?? ""),
+      options: questionOptionTexts(b),
+      model: normalizeModel(b.model),
+      teil,
+      page,
+    };
+
+    const shouldStartNewUnit =
+      !currentUnit ||
+      currentUnit.questionPage !== page ||
+      currentUnit.passageKey !== passageKey;
+
+    if (shouldStartNewUnit) {
+      const passageText = sourcePassageText(passages);
+      currentUnit = {
+        sourceIndex: units.length + 1,
+        model: question.model,
+        teil,
+        questionPage: page,
+        passagePages: [...new Set(passages.map((p) => p.page).filter(Boolean))],
+        title: passages.find((p) => (p.title ?? "").trim())?.title ?? null,
+        passageText,
+        instruction: currentInstruction,
+        passageKey,
+        questions: [],
+      };
+      units.push(currentUnit);
+    }
+
+    currentUnit.questions.push(question);
+    if (pendingPassages.length > 0) {
+      activePassages = [...pendingPassages];
+      pendingPassages = [];
+    }
+  }
+
+  return units.filter((unit) => unit.questions.length > 0);
+}
+
+function buildAnswerLookup(blocks: any[]) {
+  const exact = new Map<string, string>();
+  const unmodelled = new Map<string, string>();
+  for (const b of blocks) {
+    if (b?.type !== "answer_key_entry") continue;
+    const teil = sourceBlockTeil(b, 0);
+    const number = normalizeItemNumber(b.number);
+    const answer = String(b.answer ?? "").trim();
+    if (!teil || !number || !answer) continue;
+    const model = normalizeModel(b.model);
+    if (model) exact.set(`${model}::${teil}::${number}`, answer);
+    else unmodelled.set(`${teil}::${number}`, answer);
+  }
+  return {
+    get(q: SourceQuestion) {
+      const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
+      return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(`${q.teil}::${q.number}`) ?? "";
+    },
+    count: exact.size + unmodelled.size,
+  };
+}
+
 const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
 - Do NOT translate, paraphrase, summarize, simplify, improve, or invent content.
