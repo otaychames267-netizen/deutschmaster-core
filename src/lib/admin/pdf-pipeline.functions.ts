@@ -409,9 +409,19 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
     if (type === "question") {
       base.number = String(b.number ?? b.question_number ?? b.id ?? "");
       base.text = stripArabic(String(b.text ?? b.question ?? ""));
+      const markerRx = /[✅☑✓✔]/;
       base.options = Array.isArray(b.options)
-        ? b.options.map((o: any) => ({ label: String(o.label ?? o.id ?? ""), text: stripArabic(String(o.text ?? "")) }))
+        ? b.options.map((o: any) => {
+          const rawLabel = String(o.label ?? o.id ?? "");
+          const rawText = String(o.text ?? "");
+          const checked = Boolean(o.correct ?? o.is_correct ?? o.checked) || markerRx.test(rawLabel) || markerRx.test(rawText);
+          const label = rawLabel.replace(/[✅☑✓✔⬜□☐]/g, "").trim();
+          const text = stripArabic(rawText.replace(/[✅☑✓✔⬜□☐]/g, ""));
+          if (checked && !base.correct_answer) base.correct_answer = label.match(/[A-Ea-e]/)?.[0]?.toUpperCase() ?? null;
+          return { label, text };
+        })
         : [];
+      if (!base.correct_answer && b.correct_answer) base.correct_answer = String(b.correct_answer).trim().toUpperCase();
       if (isNoiseText(base.text) && base.options.length === 0) return;
     } else if (type === "instruction") {
       base.text = stripArabic(String(b.text ?? ""));
