@@ -464,6 +464,7 @@ function PdfImportPage() {
           contentType,
           confirmMaterialAsExercises: confirmMaterial,
           forceBuild,
+          collectionId: selectedCollectionId || null,
         },
       });
       toast.success(
