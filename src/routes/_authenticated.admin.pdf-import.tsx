@@ -430,7 +430,11 @@ function PdfImportPage() {
           forceBuild,
         },
       });
-      toast.success(`${r.exerciseCount} Übungen erstellt, ${r.keyCount} Lösungen verknüpft (Entwurf)${forceBuild ? " — Force Build" : ""}`);
+      toast.success(
+        `${r.exerciseCount} Übungen erstellt · ${r.questionsDetected ?? "?"} Fragen · ` +
+        `${r.keyCount} Lösungen verknüpft · übersprungen/zusammengeführt/ignoriert: ` +
+        `${r.skipped ?? 0}/${r.merged ?? 0}/${r.ignored ?? 0}`,
+      );
       await refresh();
     } catch (e: any) {
       toast.error(e?.message ?? "Bauen fehlgeschlagen");
