@@ -1665,7 +1665,26 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         modified_count: modified.length,
         numbering_diff_count: numberingDiffs.length,
         section_diff_count: sectionDiffs.length,
-        details: { added, removed, modified, numberingDiffs, sectionDiffs },
+        details: {
+          reconciliation: {
+            pdfPassagesFound: blocks.filter((b) => b?.type === "passage" && (!builtTeil || sourceBlockTeil(b, builtTeil) === builtTeil)).length,
+            pdfExerciseUnitsFound: sourceUnits.length,
+            exercisesCreated: orderedExercises.length,
+            questionsExtracted: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+            answerKeysExtracted: answerLookup.count,
+            skippedPages: [],
+            mergedPages: [],
+            ignoredPages: [],
+            mergedPassages: [],
+          },
+          answerMismatches,
+          sampleComparisons,
+          added,
+          removed,
+          modified,
+          numberingDiffs,
+          sectionDiffs,
+        },
         created_by: context.userId,
       })
       .select("id")
@@ -1682,7 +1701,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         numberingDiffs: numberingDiffs.length,
         sectionDiffs: sectionDiffs.length,
       },
-      details: { added, removed, modified, numberingDiffs, sectionDiffs },
+      details: { added, removed, modified, numberingDiffs, sectionDiffs, answerMismatches, sampleComparisons },
     };
   });
 
