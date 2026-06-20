@@ -1193,70 +1193,19 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       await appendImportLog(context.supabase, data.examImportId, { event: "stale_drafts_removed_before_rebuild", count: existingDraftIds.length });
     }
 
-    // Sort groups so Modell 1 < Modell 2 < Modell 3 < unnamed
-    const ordered = [...groups.values()].sort((a, b) => {
-      if (a.model === b.model) return 0;
-      if (a.model === null) return 1;
-      if (b.model === null) return -1;
-      return String(a.model).localeCompare(String(b.model), undefined, { numeric: true });
-    });
-
-    // Shared-passage fallback: if a model group has no passage/instruction of
-    // its own (because the PDF prints the reading text once and reuses it for
-    // every Modell), borrow ONLY the text from another group. Questions and
-    // answers are NEVER shared across models — each model keeps its own.
-    const sharedPassage = ordered.find((g) => g.firstPassage)?.firstPassage ?? null;
-    const sharedInstruction = ordered.find((g) => g.firstInstruction)?.firstInstruction ?? null;
-    for (const g of ordered) {
-      if (!g.firstPassage && sharedPassage) g.firstPassage = sharedPassage;
-      if (!g.firstInstruction && sharedInstruction) g.firstInstruction = sharedInstruction;
-    }
-
-    for (const g of ordered) {
-      const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
+    let position = 1;
+    for (const unit of sourceUnits) {
+      const variantSuffix = unit.model ? ` — Modell ${unit.model}` : "";
       // Skip non-exam noise that may have leaked into a question block
       // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
       const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
-      const cleanQuestions = g.questions.filter((q) => !noiseRe.test(q.text));
+      const cleanQuestions = unit.questions.filter((q) => !noiseRe.test(q.text));
       if (cleanQuestions.length === 0) continue;
 
-      // === NEW DATA MODEL: ONE exercise row = ONE topic (passage + its questions). ===
-      // Group questions by the passage text they share (within this model group).
-      // For Sprachbausteine / Hören / Schreiben / Mündlich (no passage) we group
-      // by instruction text so the cloze / audio recording / writing task stays
-      // a single exercise.
-      type Bucket = {
-        passageTitle: string | null;
-        passageText: string | null;
-        instruction: string;
-        questions: typeof cleanQuestions;
-      };
-      const buckets: Bucket[] = [];
-      const bucketKey = (q: (typeof cleanQuestions)[number]) => {
-        const p = q.passage ?? g.firstPassage;
-        const i = q.instruction ?? g.firstInstruction ?? "";
-        return `P:${(p?.text ?? "").trim()}|I:${i.trim()}`;
-      };
-      const bucketMap = new Map<string, Bucket>();
-      for (const q of cleanQuestions) {
-        const key = bucketKey(q);
-        let b = bucketMap.get(key);
-        if (!b) {
-          const p = q.passage ?? g.firstPassage;
-          const i = q.instruction ?? g.firstInstruction ?? "";
-          b = { passageTitle: p?.title ?? null, passageText: p?.text ?? null, instruction: i, questions: [] };
-          bucketMap.set(key, b);
-          buckets.push(b);
-        }
-        b.questions.push(q);
-      }
-
-      let position = 1;
-      for (const bucket of buckets) {
         // Build the embedded questions[] payload — exact letter prefixes preserved.
-        const questionsPayload = bucket.questions.map((q) => {
-          const optionTexts = q.options.map((o) => (o.label ? `${o.label}) ${o.text}` : o.text));
-          const rawAns = (g.answers.get(q.number) ?? "").trim();
+        const questionsPayload = cleanQuestions.map((q) => {
+          const optionTexts = q.options;
+          const rawAns = answerLookup.get(q).trim();
           let correct: string | null = null;
           if (optionTexts.length >= 2 && rawAns) {
             const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
@@ -1285,8 +1234,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           : allMcq && questionsPayload.length === 1 ? "multiple_choice"
           : "open_text";
 
-        const passageTitle = (bucket.passageTitle ?? "").trim();
-        const derivedTitle = deriveTopicTitle(bucket.passageText ?? bucket.instruction ?? "");
+        const passageTitle = (unit.title ?? "").trim();
+        const derivedTitle = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
         const firstNum = questionsPayload[0]?.n ?? String(position);
         const lastNum = questionsPayload[questionsPayload.length - 1]?.n ?? firstNum;
         const rangeLabel = questionsPayload.length > 1 ? `${firstNum}–${lastNum}` : firstNum;
@@ -1313,8 +1262,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
         const promptText =
           kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
-            ? (bucket.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`)
-            : (questionsPayload[0]?.prompt ?? bucket.instruction ?? "");
+            ? (unit.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`)
+            : (questionsPayload[0]?.prompt ?? unit.instruction ?? "");
 
         const { data: ex, error: exErr } = await context.supabase
           .from("exercises")
@@ -1325,15 +1274,15 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             position: position++,
             title: studentTitle,
             prompt: promptText,
-            passage: bucket.passageText ?? (bucket.instruction || null),
+            passage: unit.passageText ?? (unit.instruction || null),
             kind,
             options: optionsField,
             correct: aggregatedCorrect,
             status: "draft",
             created_by: context.userId,
             source_pdf_import_id: data.examImportId,
-            original_numbering: rangeLabel,
-            model_variant: g.model,
+            original_numbering: `S.${unit.questionPage} ${rangeLabel}`,
+            model_variant: unit.model,
             writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
             muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
             content_type: data.contentType ?? null,
@@ -1365,12 +1314,10 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           }, { onConflict: "exercise_id,item_number,key_version", ignoreDuplicates: true });
           if (keyErr) throw new Error(`Answer-key insert failed for item ${q.n}: ${keyErr.message}`);
           keyCount++;
-        }
-      }
     }
 
     if (createdExerciseIds.length === 0) {
-      const questionCount = ordered.reduce((sum, g) => sum + g.questions.length, 0);
+      const questionCount = sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0);
       throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Check extraction block structure, options, and database insert errors.`);
     }
 
@@ -1381,7 +1328,14 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     return {
       exerciseCount: createdExerciseIds.length,
       keyCount,
-      modelsBuilt: ordered.map((g) => g.model ?? "single"),
+      passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+      sourceExerciseUnits: sourceUnits.length,
+      questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+      answerKeysExtracted: answerLookup.count,
+      skipped: 0,
+      merged: 0,
+      ignored: 0,
+      modelsBuilt: [...new Set(sourceUnits.map((unit) => unit.model ?? "single"))],
     };
     } catch (err: any) {
       const msg = String(err?.message ?? err);
