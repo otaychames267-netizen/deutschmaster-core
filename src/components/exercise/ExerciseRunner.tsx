@@ -100,7 +100,7 @@ export function ExerciseRunner({
               : null;
             const selectedIsCorrect = !!(officialCorrect && selected && officialCorrect.has(o));
             const selectedIsWrong   = !!(result && selected && officialCorrect && !officialCorrect.has(o));
-            const isRight = revealed && correctSet.has(o);
+            const isRight = (revealed || (!!result && !hideFeedback)) && correctSet.has(o);
             const isWrong = !revealed && selectedIsWrong;
             return (
               <button
@@ -127,7 +127,7 @@ export function ExerciseRunner({
               ? new Set((result.correct as unknown[]).map((x) => String(x))) : null;
             const selectedIsCorrect = !!(officialCorrect && selected && officialCorrect.has(o));
             const selectedIsWrong   = !!(result && selected && officialCorrect && !officialCorrect.has(o));
-            const isRight = revealed && correctSet.has(o);
+            const isRight = (revealed || (!!result && !hideFeedback)) && correctSet.has(o);
             const isWrong = !revealed && selectedIsWrong;
             return (
               <Button
@@ -151,7 +151,7 @@ export function ExerciseRunner({
           gapCount={countGaps(exercise.passage, opts)}
           options={opts}
           locked={!!result}
-          correct={revealed && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
+          correct={(revealed || (!!result && !hideFeedback)) && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -161,7 +161,7 @@ export function ExerciseRunner({
           pairs={opts}
           answer={(answer ?? {}) as Record<string, string>}
           locked={!!result}
-          correct={revealed && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
+          correct={(revealed || (!!result && !hideFeedback)) && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
