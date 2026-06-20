@@ -295,6 +295,10 @@ export function ExerciseSession({
 export function groupByPassage(exercises: ExerciseDTO[]): ExerciseDTO[][] {
   const out: ExerciseDTO[][] = [];
   for (const ex of exercises) {
+    if (ex.kind === "passage_mcq") {
+      out.push([ex]);
+      continue;
+    }
     const last = out[out.length - 1];
     const sharedPassage = ex.passage && last && last[0].passage === ex.passage;
     if (sharedPassage) last.push(ex);
