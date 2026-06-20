@@ -80,7 +80,7 @@ function AdminExercises() {
     catch (e: any) { toast.error(e?.message ?? "Fehlgeschlagen"); }
   };
   const onDeleteCollection = async (id: string) => {
-    if (!confirm("Sammlung löschen? Die Übungen bleiben erhalten und werden als „Ohne Sammlung" angezeigt.")) return;
+    if (!confirm('Sammlung löschen? Die Übungen bleiben erhalten und werden als „Ohne Sammlung“ angezeigt.')) return;
     try { await removeCol({ data: { id } }); toast.success("Sammlung gelöscht"); reloadCollections(); reload(); }
     catch (e: any) { toast.error(e?.message ?? "Fehlgeschlagen"); }
   };
