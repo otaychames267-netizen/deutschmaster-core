@@ -1581,183 +1581,79 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
-
-    // Load exercises built from this import
     const { data: exercises, error: exercisesErr } = await context.supabase
       .from("exercises")
-      .select("id, level, module, teil, title, prompt, passage, options, original_numbering, status, model_variant")
+      .select("id, module, teil, position, title, prompt, passage, options, correct, original_numbering, status, model_variant")
       .eq("source_pdf_import_id", data.examImportId);
     if (exercisesErr) throw new Error(`Could not read built exercises for fidelity check ${data.examImportId}: ${exercisesErr.message}`);
 
-    const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
-    const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
-    // Flatten exercises into per-question virtual rows so the fidelity check
-    // can compare against the source PDF item-by-item even though the new
-    // data model stores one row per passage (with options.questions[]).
-    type BuiltQ = { exerciseId: string; model: string; teil: number; number: string; prompt: string; options: string[]; scopeKey: string };
-    const builtQuestions: BuiltQ[] = [];
-    for (const ex of exercises ?? []) {
-      const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-      const teil = Number(ex.teil) || 0;
-      const opts: any = ex.options;
-      const embedded = opts && !Array.isArray(opts) && Array.isArray(opts.questions) ? opts.questions : null;
-      if (embedded) {
-        for (const q of embedded) {
-          const num = String(q?.n ?? "").trim().replace(/\.$/, "");
-          builtQuestions.push({
-            exerciseId: ex.id,
-            model,
-            teil,
-            number: num,
-            prompt: String(q?.prompt ?? ""),
-            options: Array.isArray(q?.options) ? q.options.map((o: any) => String(o ?? "")) : [],
-            scopeKey: `${model}::${teil}::${num}`,
-          });
-        }
-      } else {
-        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
-        builtQuestions.push({
-          exerciseId: ex.id,
-          model,
-          teil,
-          number: num,
-          prompt: String(ex.prompt ?? ""),
-          options: Array.isArray(opts) ? opts.map((o: any) => String(o ?? "")) : [],
-          scopeKey: `${model}::${teil}::${num}`,
-        });
-      }
-    }
-    const exerciseScopeKeys = new Set<string>(builtQuestions.map((b) => b.scopeKey));
-
-    // Build source canonical items keyed by model::teil::number for questions,
-    // restricted to the same exercise scope that was actually built.
-    type SrcQ = { key: string; scopeKey: string; teil: number; number: string; text: string; options: string[] };
-    const srcQuestions: SrcQ[] = [];
-    const srcSections = new Set<number>();
-    const srcInstructions = new Map<number, string>();
-    const srcPassages = new Map<number, string>();
+    const orderedExercises = [...(exercises ?? [])].sort((a: any, b: any) => Number(a.position ?? 0) - Number(b.position ?? 0));
+    const builtModule = String(orderedExercises.find((ex: any) => ex.module)?.module ?? "").toLowerCase();
+    const builtTeil = Number(orderedExercises.find((ex: any) => Number(ex.teil))?.teil ?? 0)
+      || Number(blocks.find((b) => b?.type === "question" && Number(b?.teil))?.teil ?? 0);
+    const sourceUnits = builtTeil ? buildSourceExerciseUnits(blocks, builtModule, builtTeil) : [];
+    const answerLookup = buildAnswerLookup(blocks);
     const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
-    for (const b of blocks) {
-      const blockModule = String(b?.module ?? "").toLowerCase();
-      if (builtModule && blockModule && blockModule !== builtModule) continue;
-      const teil = Number(b?.teil) || builtTeilFallback || 0;
-      if (b.type === "section" && teil) srcSections.add(teil);
-      if (b.type === "instruction" && teil) srcInstructions.set(teil, String(b.text ?? ""));
-      if (b.type === "passage" && teil) srcPassages.set(teil, String(b.text ?? ""));
-      if (b.type === "question" && teil) {
-        const model = b?.model == null || b.model === "" ? "single" : String(b.model);
-        const number = String(b.number ?? "").trim().replace(/\.$/, "");
-        const scopeKey = `${model}::${teil}::${number}`;
-        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(scopeKey)) continue;
-        const options = Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [];
-        const text = String(b.text ?? "");
-        if (srcQuestions.some((q) => q.scopeKey === scopeKey && norm(q.text) === norm(text) && JSON.stringify(q.options.map(norm)) === JSON.stringify(options.map(norm)))) continue;
-        srcQuestions.push({
-          key: `${scopeKey}::${srcQuestions.length + 1}`,
-          scopeKey,
-          teil,
-          number,
-          text,
-          options,
-        });
-      }
-    }
 
-    const builtKeys = new Set<string>();
-    const usedSourceIndexes = new Set<number>();
-    const exerciseTeils = new Set<number>();
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
+    const answerMismatches: Array<{ exerciseId: string; sourceIndex: number; item: string; sourceAnswer: string; storedAnswer: string }> = [];
+    const removed = sourceUnits.slice(orderedExercises.length).map((unit) => ({
+      key: `source:${unit.sourceIndex}`,
+      kind: "exercise" as const,
+      page: unit.questionPage,
+      title: unit.title ?? `S.${unit.questionPage}`,
+      reason: "source_exercise_missing_in_built_output",
+      questionCount: unit.questions.length,
+      textPreview: (unit.passageText ?? unit.questions[0]?.text ?? "").slice(0, 220),
+    }));
+    const added = orderedExercises.slice(sourceUnits.length).map((ex: any) => ({
+      key: `exercise:${ex.id}`,
+      kind: "exercise" as const,
+      exerciseId: ex.id,
+      title: ex.title,
+      reason: "built_exercise_without_source_unit_at_same_position",
+    }));
 
-    for (const built of builtQuestions) {
-      const { teil, scopeKey, options: builtOpts } = built;
-      if (teil) exerciseTeils.add(teil);
-      const exactIdx = srcQuestions.findIndex((src, idx) =>
-        !usedSourceIndexes.has(idx) &&
-        src.scopeKey === scopeKey &&
-        norm(src.text) === norm(built.prompt) &&
-        src.options.length === builtOpts.length &&
-        src.options.every((opt, i) => norm(opt) === norm(builtOpts[i])),
-      );
-      if (exactIdx >= 0) {
-        usedSourceIndexes.add(exactIdx);
-        builtKeys.add(srcQuestions[exactIdx].key);
-        continue;
-      }
-      const fallbackIdx = srcQuestions.findIndex((src, idx) => !usedSourceIndexes.has(idx) && src.scopeKey === scopeKey);
-      if (fallbackIdx < 0) {
-        numberingDiffs.push({ exerciseId: built.exerciseId, expected: "(none in PDF)", got: scopeKey });
-        continue;
-      }
-      usedSourceIndexes.add(fallbackIdx);
-      const src = srcQuestions[fallbackIdx];
-      builtKeys.add(src.key);
-      if (norm(src.text) !== norm(built.prompt)) {
-        modified.push({ key: src.key, field: "prompt", original: src.text, built: built.prompt });
-      }
-      if (src.options.length !== builtOpts.length) {
-        modified.push({ key: src.key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
-      } else {
-        for (let i = 0; i < src.options.length; i++) {
-          if (norm(src.options[i]) !== norm(builtOpts[i])) {
-            modified.push({ key: src.key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
-          }
+    for (let i = 0; i < Math.min(sourceUnits.length, orderedExercises.length); i++) {
+      const src = sourceUnits[i];
+      const ex: any = orderedExercises[i];
+      const key = `source:${src.sourceIndex}:exercise:${ex.id}`;
+      if (norm(src.passageText) !== norm(ex.passage)) modified.push({ key, field: "passage", original: src.passageText ?? "", built: String(ex.passage ?? "") });
+      const expectedPrompt = src.questions.length > 1 ? (src.instruction || `Beantworten Sie die Fragen ${src.questions[0]?.number ?? ""}–${src.questions[src.questions.length - 1]?.number ?? ""}.`) : (src.questions[0]?.text ?? src.instruction);
+      if (norm(expectedPrompt) !== norm(ex.prompt)) modified.push({ key, field: "prompt/instruction", original: expectedPrompt, built: String(ex.prompt ?? "") });
+      const embedded = ex.options && typeof ex.options === "object" && !Array.isArray(ex.options) && Array.isArray(ex.options.questions) ? ex.options.questions : [];
+      if (embedded.length !== src.questions.length) modified.push({ key, field: "questions.count", original: String(src.questions.length), built: String(embedded.length) });
+      for (let qn = 0; qn < Math.min(src.questions.length, embedded.length); qn++) {
+        const sq = src.questions[qn];
+        const bq = embedded[qn];
+        if (normalizeItemNumber(sq.number) !== normalizeItemNumber(bq?.n)) numberingDiffs.push({ exerciseId: ex.id, expected: sq.number, got: String(bq?.n ?? "") });
+        if (norm(sq.text) !== norm(bq?.prompt)) modified.push({ key, field: `questions[${qn}].prompt`, original: sq.text, built: String(bq?.prompt ?? "") });
+        const builtOptions = Array.isArray(bq?.options) ? bq.options.map((o: any) => String(o ?? "")) : [];
+        if (sq.options.length !== builtOptions.length) modified.push({ key, field: `questions[${qn}].options.count`, original: String(sq.options.length), built: String(builtOptions.length) });
+        for (let oi = 0; oi < Math.min(sq.options.length, builtOptions.length); oi++) {
+          if (norm(sq.options[oi]) !== norm(builtOptions[oi])) modified.push({ key, field: `questions[${qn}].options[${oi}]`, original: sq.options[oi], built: builtOptions[oi] });
         }
+        const sourceAnswer = answerLookup.get(sq);
+        const storedAnswer = String(bq?.rawAnswer ?? "").trim();
+        if (sourceAnswer && sourceAnswer !== storedAnswer) answerMismatches.push({ exerciseId: ex.id, sourceIndex: src.sourceIndex, item: sq.number, sourceAnswer, storedAnswer });
       }
     }
 
-    // Scope-level coverage: a `model::teil::number` scope from the source PDF
-    // is considered covered when at least one built exercise exists for it.
-    // Variant-level (per-text) mismatches are reported as `modified`, not `removed`.
-    // This avoids false-positive "removed" entries when the same PDF contains
-    // multiple exam-paper instances that share question numbering (e.g. 6..10).
-    const builtScopeKeys = exerciseScopeKeys;
-    const srcScopeKeys = new Set<string>(srcQuestions.map((s) => s.scopeKey));
+    const sampleIndexes = [...new Set([0, Math.floor(sourceUnits.length / 4), Math.floor(sourceUnits.length / 2), Math.floor((sourceUnits.length * 3) / 4), sourceUnits.length - 1])]
+      .filter((idx) => idx >= 0 && idx < Math.min(sourceUnits.length, orderedExercises.length));
+    const sampleComparisons = sampleIndexes.map((idx) => ({
+      sourceIndex: sourceUnits[idx].sourceIndex,
+      page: sourceUnits[idx].questionPage,
+      exerciseId: orderedExercises[idx].id,
+      title: orderedExercises[idx].title,
+      textMatches: norm(sourceUnits[idx].passageText) === norm(orderedExercises[idx].passage),
+      questionCountMatches: sourceUnits[idx].questions.length === ((orderedExercises[idx].options as any)?.questions?.length ?? 0),
+    }));
 
-    const removedScopes = [...srcScopeKeys].filter((k) => !builtScopeKeys.has(k));
-    const addedScopes = [...builtScopeKeys].filter((k) => !srcScopeKeys.has(k));
-
-    // Enrich with the first source preview for each removed scope so admins
-    // can immediately see WHAT content was lost (not just an opaque key).
-    const removed = removedScopes.map((scopeKey) => {
-      const sample = srcQuestions.find((s) => s.scopeKey === scopeKey);
-      const [model, teil, number] = scopeKey.split("::");
-      return {
-        key: scopeKey,
-        kind: "question" as const,
-        model,
-        teil: Number(teil) || 0,
-        number,
-        reason: "no_built_exercise_for_source_scope",
-        textPreview: sample ? sample.text.slice(0, 200) : "",
-        optionsPreview: sample ? sample.options.slice(0, 4) : [],
-      };
-    });
-    const added = addedScopes.map((scopeKey) => {
-      const [model, teil, number] = scopeKey.split("::");
-      return {
-        key: scopeKey,
-        kind: "question" as const,
-        model,
-        teil: Number(teil) || 0,
-        number,
-        reason: "built_exercise_without_matching_source_scope",
-      };
-    });
-
-    // Section diffs (teil sets)
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
-    for (const t of srcSections) if (!exerciseTeils.has(t)) sectionDiffs.push({ teil: t, in: "source" });
-    for (const t of exerciseTeils) if (!srcSections.has(t)) sectionDiffs.push({ teil: t, in: "built" });
-
-    const status: "pass" | "fail" =
-      added.length === 0 &&
-      removed.length === 0 &&
-      modified.length === 0 &&
-      numberingDiffs.length === 0 &&
-      sectionDiffs.length === 0
-        ? "pass"
-        : "fail";
+    if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
+    const status: "pass" | "fail" = added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 ? "pass" : "fail";
 
     const { data: report, error: repErr } = await context.supabase
       .from("pdf_fidelity_reports")
