@@ -511,7 +511,7 @@ function PassageMcqInputs({
                 // After "Lösung anzeigen": also highlight the official answer.
                 const selectedCorrect = isSelected && officialIsThis;
                 const selectedWrong = isSelected && official != null && !officialIsThis;
-                const showCorrectHint = (locked && revealed) && officialIsThis && !isSelected;
+                const showCorrectHint = locked && officialIsThis && !isSelected;
                 const cls = selectedCorrect
                   ? "border-green-500 bg-green-500/10"
                   : selectedWrong
