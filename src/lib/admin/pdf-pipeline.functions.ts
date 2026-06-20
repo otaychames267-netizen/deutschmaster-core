@@ -255,6 +255,7 @@ function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number
       units.push(currentUnit);
     }
 
+    if (!currentUnit) continue;
     currentUnit.questions.push(question);
     if (pendingPassages.length > 0) {
       activePassages = [...pendingPassages];
