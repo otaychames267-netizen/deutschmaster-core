@@ -86,14 +86,38 @@ type ExtractionMeta = {
 };
 
 const ARABIC_TEXT_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const READABLE_TEXT_RX = /[A-Za-zÄÖÜäöüß0-9]/;
+const DOMAIN_OR_EMAIL_RX = /\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?\b|\b[\w.%+-]+@[\w.-]+\.[a-z]{2,}\b/i;
+const UNUSABLE_REASON_RX = /\b(unreadable|unlesbar|corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|truncated|abgeschnitten|failed|failure|timeout)\b/i;
+const HARD_FAILURE_REASON_RX = /\b(corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|failed|failure|timeout)\b/i;
+
+function isTrulyUnusableLowConfidenceItem(item: any) {
+  const snippet = String(item?.snippet ?? "").trim();
+  const reason = String(item?.reason ?? "");
+  if (!snippet) return true;
+  if (/\[\?\]|�|□|■|▯|◻/.test(snippet)) return true;
+  const compact = snippet.replace(/\s/g, "");
+  const meaningfulSnippet = snippet.replace(/\b(page|seite|chunk|teil)\b|\d+/gi, "").trim();
+  if (HARD_FAILURE_REASON_RX.test(reason) && !/[A-Za-zÄÖÜäöüß]{4,}/.test(meaningfulSnippet)) return true;
+  if (!READABLE_TEXT_RX.test(compact) && /[?]{2,}|[_-]{4,}|\.{4,}/.test(compact)) return true;
+  if (UNUSABLE_REASON_RX.test(reason) && compact.length < 4) return true;
+  return false;
+}
 
 function isNonExamLowConfidenceItem(item: any) {
   const snippet = String(item?.snippet ?? "").trim();
   const reason = String(item?.reason ?? "");
+  if (isTrulyUnusableLowConfidenceItem(item)) return false;
   const hasArabicSignal = ARABIC_TEXT_RX.test(snippet) || /arabic|arabisch|arabischen|arabische|arabischer/i.test(reason);
   const hasGermanLatinText = /[A-Za-zÄÖÜäöüß]/.test(snippet);
   const onlyUnclearMarks = /^[?\s.,;:!()\[\]{}\-–—_"'`´]*$/.test(snippet);
-  return hasArabicSignal && (!hasGermanLatinText || onlyUnclearMarks);
+  if (hasArabicSignal && (!hasGermanLatinText || onlyUnclearMarks)) return true;
+  // Readable German/Latin text, umlauts, ß, domains, proper nouns, brand names,
+  // and normal OCR confidence scores are informational. They must not block a
+  // TELC import when all chunks/pages completed and the content is usable.
+  if (READABLE_TEXT_RX.test(snippet) || DOMAIN_OR_EMAIL_RX.test(snippet)) return true;
+  if (/ocr|confidence|low[-\s]?confidence|unsicher|wahrscheinlichkeit/i.test(reason)) return true;
+  return true;
 }
 
 function getExtractionReviewState(meta: ExtractionMeta) {
@@ -129,8 +153,8 @@ Rules — never violate:
 - Preserve original German text character-by-character including punctuation, capitalization, numbering, and item labels (A/B/C, 1./2./3., a)/b), etc.).
 - Preserve section headers like "Teil 1", "Teil 2", "Lesen", "Hören", "Schreiben", "Sprachbausteine", "Mündlicher Ausdruck".
 - If the PDF is scanned, OCR it. Preserve diacritics (ä ö ü ß).
-- If you cannot read a character with confidence, transcribe as [?].
- - If ANY content cannot be extracted with 100% confidence, mark it with [?] AND add it to "low_confidence_items" AND set "needs_manual_review": true. Do NOT guess.
+- If you cannot read a character because it is genuinely unreadable/corrupted, transcribe as [?].
+ - Add "low_confidence_items" ONLY for truly unreadable, corrupted, empty, or missing exam content. Do NOT add low-confidence entries merely for OCR confidence scores, German umlauts (ä ö ü ß), valid German vocabulary, proper nouns, brand names, or website/domain names.
  - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
  - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
 - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
@@ -923,6 +947,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     muendlichPart?: 1 | 2 | 3 | null;
     contentType?: "vorbereitung" | "pruefungssimulation" | null;
     confirmMaterialAsExercises?: boolean | null;
+    forceBuild?: boolean | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
@@ -979,8 +1004,11 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     if (review.failedChunks.length > 0 || review.incomplete) {
       throw new Error("Extraction incomplete — finish all chunks before building exercises.");
     }
-    if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
+    if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved && !data.forceBuild) {
       throw new Error(`Extraction has ${review.blockingLowConfidenceItems.length} low-confidence item(s). Open the Review tab and approve or re-extract before building exercises.`);
+    }
+    if (data.forceBuild && review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
+      await appendImportLog(context.supabase, data.examImportId, { event: "force_build_with_low_confidence_items", count: review.blockingLowConfidenceItems.length, by: context.userId });
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
