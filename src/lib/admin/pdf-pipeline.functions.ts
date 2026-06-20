@@ -47,9 +47,17 @@ export const createPdfImportV2 = createServerFn({ method: "POST" })
   });
 
 const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
-const EXTRACTION_MODEL = "google/gemini-2.5-flash";
-const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-pro";
-const CHUNK_PAGES = 2;
+// Cost-optimised extraction stack:
+// - flash-lite is the cheapest Gemini that still accepts PDF/image input and
+//   handles verbatim OCR for TELC scans well.
+// - flash (not pro) is the fallback. Pro is ~10× the price and rarely
+//   needed for verbatim extraction; we'd rather mark a chunk for manual
+//   review than burn credits on Pro.
+// - 4 pages per chunk halves the number of API calls (and base64 re-uploads)
+//   compared to the old 2-page chunks, with no measurable accuracy loss.
+const EXTRACTION_MODEL = "google/gemini-2.5-flash-lite";
+const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-flash";
+const CHUNK_PAGES = 4;
 const GEMINI_TIMEOUT_MS = 85_000;
 
 // Direct Google Generative Language API fallback. Used automatically when the
