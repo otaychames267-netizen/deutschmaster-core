@@ -57,7 +57,9 @@ const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 //   compared to the old 2-page chunks, with no measurable accuracy loss.
 const EXTRACTION_MODEL = "google/gemini-2.5-flash-lite";
 const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-flash";
-const CHUNK_PAGES = 4;
+// 6 pages per chunk → ~33% fewer AI calls vs 4. flash-lite handles 6-page
+// TELC scans without quality loss.
+const CHUNK_PAGES = 6;
 const GEMINI_TIMEOUT_MS = 85_000;
 
 // Direct Google Generative Language API fallback. Used automatically when the
