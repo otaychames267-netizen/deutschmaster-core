@@ -603,6 +603,34 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
     });
     const chunkCount = Math.ceil(totalPages / CHUNK_PAGES);
 
+    // Content-hash cache: if the exact same PDF bytes were already extracted
+    // for another import, copy its blocks instead of re-billing the AI.
+    const hashBuf = await crypto.subtle.digest("SHA-256", buf);
+    const contentHash = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    await context.supabase.from("pdf_imports").update({ content_hash: contentHash }).eq("id", data.importId);
+    if (!data.resume) {
+      const { data: twin } = await context.supabase
+        .from("pdf_imports")
+        .select("id, status")
+        .eq("content_hash", contentHash)
+        .neq("id", data.importId)
+        .eq("status", "extracted")
+        .limit(1)
+        .maybeSingle();
+      if (twin?.id) {
+        const { data: src } = await context.supabase
+          .from("pdf_extractions").select("blocks, raw_text, page_count").eq("import_id", twin.id).maybeSingle();
+        if (src?.blocks) {
+          let srcMeta: ExtractionMeta = {};
+          try { srcMeta = src.raw_text ? JSON.parse(src.raw_text) : {}; } catch {}
+          await upsertExtraction(context.supabase, data.importId, src.blocks, src.page_count ?? totalPages, { ...srcMeta, diagnostics: [{ event: "cache_hit", source_import_id: twin.id }] });
+          await context.supabase.from("pdf_imports").update({ status: "extracted", error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
+          await appendImportLog(context.supabase, data.importId, { event: "extraction_cache_hit", source_import_id: twin.id, contentHash, totalPages, blocks: Array.isArray(src.blocks) ? src.blocks.length : 0 });
+          return { ok: true, cached: true, sourceImportId: twin.id, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount, fileBytes: buf.byteLength, completedChunks: Array.from({ length: chunkCount }, (_, i) => i), resumed: false };
+        }
+      }
+    }
+
     // Resumable extraction: when the admin re-runs an extraction, preserve
     // already-extracted blocks + chunks_completed so we never re-bill chunks
     // that already succeeded. Only chunks_failed is cleared so failed chunks
