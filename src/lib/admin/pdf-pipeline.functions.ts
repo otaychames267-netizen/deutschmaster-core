@@ -1314,6 +1314,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           }, { onConflict: "exercise_id,item_number,key_version", ignoreDuplicates: true });
           if (keyErr) throw new Error(`Answer-key insert failed for item ${q.n}: ${keyErr.message}`);
           keyCount++;
+        }
     }
 
     if (createdExerciseIds.length === 0) {
