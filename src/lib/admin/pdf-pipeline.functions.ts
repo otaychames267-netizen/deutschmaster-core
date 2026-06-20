@@ -1191,6 +1191,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       await context.supabase.from("exercises").delete().in("id", existingDraftIds);
       await appendImportLog(context.supabase, data.examImportId, { event: "source_exercises_removed_before_preserve_rebuild", count: existingDraftIds.length });
     }
+    await context.supabase.from("pdf_fidelity_reports").delete().eq("exam_import_id", data.examImportId);
 
     let position = 1;
     for (const unit of sourceUnits) {
