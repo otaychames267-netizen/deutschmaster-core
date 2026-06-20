@@ -1122,6 +1122,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     contentType?: "vorbereitung" | "pruefungssimulation" | null;
     confirmMaterialAsExercises?: boolean | null;
     forceBuild?: boolean | null;
+    collectionId?: string | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
@@ -1320,6 +1321,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
             muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
             content_type: data.contentType ?? null,
+            collection_id: data.collectionId ?? null,
           })
           .select("id")
           .single();

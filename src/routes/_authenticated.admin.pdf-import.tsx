@@ -23,6 +23,10 @@ import {
   findDuplicateExercises,
   deleteDuplicateExercises,
 } from "@/lib/admin/pdf-pipeline.functions";
+import {
+  listCollections,
+  createCollection,
+} from "@/lib/admin/collections.functions";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -157,6 +161,38 @@ function PdfImportPage() {
   const [muendlichPart, setMuendlichPart] = useState<1 | 2 | 3>(1);
   const [contentType, setContentType] = useState<"vorbereitung" | "pruefungssimulation">("pruefungssimulation");
   const [confirmMaterial, setConfirmMaterial] = useState(false);
+
+  // Manual collection — admin controls title; no automatic naming.
+  const fetchCollections = useServerFn(listCollections);
+  const makeCollection = useServerFn(createCollection);
+  const [collections, setCollections] = useState<Array<{ id: string; title: string }>>([]);
+  const [selectedCollectionId, setSelectedCollectionId] = useState<string>("");
+  const [newCollectionTitle, setNewCollectionTitle] = useState<string>("");
+
+  const reloadCollections = async () => {
+    try {
+      const r = await fetchCollections();
+      setCollections((r.collections ?? []).map((c: any) => ({ id: c.id, title: c.title })));
+    } catch (e: any) {
+      console.error("[collections] load failed", e);
+    }
+  };
+
+  useEffect(() => { reloadCollections().catch(() => {}); }, []);
+
+  const createAndUseCollection = async () => {
+    const title = newCollectionTitle.trim();
+    if (!title) { toast.error("Bitte Sammlungstitel eingeben."); return; }
+    try {
+      const r = await makeCollection({ data: { title, level: buildLevel, module: buildModule, teil: buildTeil } });
+      toast.success(`Sammlung erstellt: ${r.title}`);
+      setNewCollectionTitle("");
+      await reloadCollections();
+      setSelectedCollectionId(r.id);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Sammlung konnte nicht erstellt werden.");
+    }
+  };
 
   const refresh = async () => {
     try {
@@ -428,6 +464,7 @@ function PdfImportPage() {
           contentType,
           confirmMaterialAsExercises: confirmMaterial,
           forceBuild,
+          collectionId: selectedCollectionId || null,
         },
       });
       toast.success(
@@ -706,6 +743,43 @@ function PdfImportPage() {
                 <p className="text-xs text-muted-foreground mb-2">
                   Das System darf nichts automatisch klassifizieren. Sie entscheiden Level, Modul, Teil und Kategorie. Inhalt aus der PDF bleibt unverändert (verbatim).
                 </p>
+                <div className="rounded-md border bg-muted/30 p-3 mb-3 space-y-2">
+                  <Label className="flex items-center gap-2">📚 Sammlungstitel (manuell)</Label>
+                  <p className="text-xs text-muted-foreground">
+                    Geben Sie den Titel exakt so ein, wie er erscheinen soll (z.&nbsp;B. <i>Neue Themen für Lesen Teil 2</i>). Das System generiert <b>nie</b> automatisch einen Titel.
+                  </p>
+                  <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+                    <Select value={selectedCollectionId} onValueChange={setSelectedCollectionId}>
+                      <SelectTrigger><SelectValue placeholder="— Vorhandene Sammlung wählen —" /></SelectTrigger>
+                      <SelectContent>
+                        {collections.map(c => <SelectItem key={c.id} value={c.id}>{c.title}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                    <Button variant="outline" size="sm" onClick={() => setSelectedCollectionId("")} disabled={!selectedCollectionId}>
+                      Auswahl leeren
+                    </Button>
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
+                    <Input
+                      placeholder="…oder neuen Sammlungstitel eingeben"
+                      value={newCollectionTitle}
+                      onChange={(e) => setNewCollectionTitle(e.target.value)}
+                    />
+                    <Button variant="secondary" size="sm" onClick={createAndUseCollection} disabled={!newCollectionTitle.trim()}>
+                      Erstellen &amp; verwenden
+                    </Button>
+                  </div>
+                  {selectedCollectionId && (
+                    <p className="text-xs">
+                      Übungen werden unter „<b>{collections.find(c => c.id === selectedCollectionId)?.title}</b>" gespeichert.
+                    </p>
+                  )}
+                  {!selectedCollectionId && (
+                    <p className="text-xs text-amber-600 dark:text-amber-400">
+                      Keine Sammlung gewählt — die Übungen werden als „Ohne Sammlung" gespeichert.
+                    </p>
+                  )}
+                </div>
                 <Button onClick={() => build(false)} disabled={busy || !isSuperAdmin || !selectedExamId}>
                   <Hammer className="size-4 mr-1" />Übungen erstellen (Entwurf)
                 </Button>

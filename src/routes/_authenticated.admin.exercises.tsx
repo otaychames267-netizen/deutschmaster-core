@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import { Eye, EyeOff, Trash2, Pencil } from "lucide-react";
+import {
+  listCollections,
+  createCollection,
+  renameCollection,
+  deleteCollection,
+  moveExerciseToCollection,
+} from "@/lib/admin/collections.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/exercises")({
   head: () => ({ meta: [{ title: "Exercises — Admin" }] }),
@@ -17,8 +25,10 @@ export const Route = createFileRoute("/_authenticated/admin/exercises")({
 
 type Row = {
   id: string; level: string; module: string; teil: number; position: number;
-  title: string; status: string; updated_at: string;
+  title: string; status: string; updated_at: string; collection_id: string | null;
 };
+
+type Collection = { id: string; title: string; exerciseCount: number; level: string | null; module: string | null; teil: number | null };
 
 function AdminExercises() {
   const nav = useNavigate();
@@ -27,9 +37,26 @@ function AdminExercises() {
   const [level, setLevel] = useState("all");
   const [mod, setMod] = useState("all");
   const [status, setStatus] = useState("all");
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [newColTitle, setNewColTitle] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editTitle, setEditTitle] = useState("");
+
+  const loadCols = useServerFn(listCollections);
+  const makeCol = useServerFn(createCollection);
+  const renameCol = useServerFn(renameCollection);
+  const removeCol = useServerFn(deleteCollection);
+  const moveEx = useServerFn(moveExerciseToCollection);
+
+  const reloadCollections = async () => {
+    try {
+      const r = await loadCols();
+      setCollections((r.collections ?? []) as Collection[]);
+    } catch (e: any) { toast.error(e?.message ?? "Sammlungen laden fehlgeschlagen"); }
+  };
 
   const reload = async () => {
-    let qry = supabase.from("exercises").select("id,level,module,teil,position,title,status,updated_at").order("updated_at", { ascending: false }).limit(500);
+    let qry = supabase.from("exercises").select("id,level,module,teil,position,title,status,updated_at,collection_id").order("updated_at", { ascending: false }).limit(500);
     if (level !== "all") qry = qry.eq("level", level as any);
     if (mod !== "all") qry = qry.eq("module", mod as any);
     if (status !== "all") qry = qry.eq("status", status as any);
@@ -38,6 +65,29 @@ function AdminExercises() {
     setRows((data ?? []) as Row[]);
   };
   useEffect(() => { reload(); /* eslint-disable-next-line */ }, [level, mod, status]);
+  useEffect(() => { reloadCollections(); /* eslint-disable-next-line */ }, []);
+
+  const onCreateCollection = async () => {
+    const t = newColTitle.trim();
+    if (!t) { toast.error("Titel erforderlich"); return; }
+    try { await makeCol({ data: { title: t } }); setNewColTitle(""); toast.success("Sammlung erstellt"); reloadCollections(); }
+    catch (e: any) { toast.error(e?.message ?? "Fehlgeschlagen"); }
+  };
+  const onRename = async (id: string) => {
+    const t = editTitle.trim();
+    if (!t) return;
+    try { await renameCol({ data: { id, title: t } }); setEditingId(null); toast.success("Umbenannt"); reloadCollections(); }
+    catch (e: any) { toast.error(e?.message ?? "Fehlgeschlagen"); }
+  };
+  const onDeleteCollection = async (id: string) => {
+    if (!confirm('Sammlung löschen? Die Übungen bleiben erhalten und werden als „Ohne Sammlung“ angezeigt.')) return;
+    try { await removeCol({ data: { id } }); toast.success("Sammlung gelöscht"); reloadCollections(); reload(); }
+    catch (e: any) { toast.error(e?.message ?? "Fehlgeschlagen"); }
+  };
+  const onMove = async (exerciseId: string, collectionId: string) => {
+    try { await moveEx({ data: { exerciseId, collectionId: collectionId || null } }); toast.success("Verschoben"); reload(); reloadCollections(); }
+    catch (e: any) { toast.error(e?.message ?? "Fehlgeschlagen"); }
+  };
 
   const setStatusFor = async (id: string, next: "published" | "hidden" | "draft") => {
     const { error } = await supabase.from("exercises").update({ status: next }).eq("id", id);
@@ -52,6 +102,41 @@ function AdminExercises() {
   const filtered = rows.filter((r) => !q || r.title.toLowerCase().includes(q.toLowerCase()));
 
   return (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader><CardTitle>📚 Sammlungen ({collections.length})</CardTitle></CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex gap-2">
+            <Input placeholder="Neuer Sammlungstitel (manuell)…" value={newColTitle} onChange={(e) => setNewColTitle(e.target.value)} />
+            <Button onClick={onCreateCollection} disabled={!newColTitle.trim()}>Erstellen</Button>
+          </div>
+          {collections.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Noch keine Sammlungen.</p>
+          ) : (
+            <div className="space-y-1">
+              {collections.map((c) => (
+                <div key={c.id} className="flex items-center gap-2 rounded border p-2">
+                  {editingId === c.id ? (
+                    <>
+                      <Input value={editTitle} onChange={(e) => setEditTitle(e.target.value)} className="flex-1" />
+                      <Button size="sm" onClick={() => onRename(c.id)}>Speichern</Button>
+                      <Button size="sm" variant="ghost" onClick={() => setEditingId(null)}>Abbrechen</Button>
+                    </>
+                  ) : (
+                    <>
+                      <span className="flex-1 font-medium">📖 {c.title}</span>
+                      <Badge variant="secondary">{c.exerciseCount} Übung{c.exerciseCount === 1 ? "" : "en"}</Badge>
+                      <Button size="icon" variant="ghost" onClick={() => { setEditingId(c.id); setEditTitle(c.title); }} title="Umbenennen"><Pencil className="size-4" /></Button>
+                      <Button size="icon" variant="ghost" onClick={() => onDeleteCollection(c.id)} title="Löschen"><Trash2 className="size-4" /></Button>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-2">
         <CardTitle>Question Bank ({filtered.length})</CardTitle>
@@ -98,6 +183,7 @@ function AdminExercises() {
                 <TableHead>Level</TableHead>
                 <TableHead>Module</TableHead>
                 <TableHead>Teil</TableHead>
+                <TableHead>Collection</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Updated</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
@@ -105,7 +191,7 @@ function AdminExercises() {
             </TableHeader>
             <TableBody>
               {filtered.length === 0 && (
-                <TableRow><TableCell colSpan={7} className="text-center text-sm text-muted-foreground py-8">No exercises yet. Click "New exercise" to add one.</TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="text-center text-sm text-muted-foreground py-8">No exercises yet. Click "New exercise" to add one.</TableCell></TableRow>
               )}
               {filtered.map((r) => (
                 <TableRow key={r.id}>
@@ -115,6 +201,15 @@ function AdminExercises() {
                   <TableCell className="uppercase">{r.level}</TableCell>
                   <TableCell className="capitalize">{r.module}</TableCell>
                   <TableCell>{r.teil}</TableCell>
+                  <TableCell>
+                    <Select value={r.collection_id ?? ""} onValueChange={(v) => onMove(r.id, v)}>
+                      <SelectTrigger className="h-8 text-xs"><SelectValue placeholder="— Ohne —" /></SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">— Ohne Sammlung —</SelectItem>
+                        {collections.map((c) => <SelectItem key={c.id} value={c.id}>{c.title}</SelectItem>)}
+                      </SelectContent>
+                    </Select>
+                  </TableCell>
                   <TableCell>
                     <Badge variant={r.status === "published" ? "default" : r.status === "hidden" ? "destructive" : "secondary"}>{r.status}</Badge>
                   </TableCell>
@@ -137,5 +232,6 @@ function AdminExercises() {
         </div>
       </CardContent>
     </Card>
+    </div>
   );
 }

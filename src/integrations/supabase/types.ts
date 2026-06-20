@@ -281,9 +281,46 @@ export type Database = {
           },
         ]
       }
+      exercise_collections: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          level: Database["public"]["Enums"]["exercise_level"] | null
+          module: Database["public"]["Enums"]["exercise_module"] | null
+          notes: string | null
+          teil: number | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          level?: Database["public"]["Enums"]["exercise_level"] | null
+          module?: Database["public"]["Enums"]["exercise_module"] | null
+          notes?: string | null
+          teil?: number | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          level?: Database["public"]["Enums"]["exercise_level"] | null
+          module?: Database["public"]["Enums"]["exercise_module"] | null
+          notes?: string | null
+          teil?: number | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       exercises: {
         Row: {
           audio_id: string | null
+          collection_id: string | null
           content_type: string | null
           correct: Json
           created_at: string
@@ -310,6 +347,7 @@ export type Database = {
         }
         Insert: {
           audio_id?: string | null
+          collection_id?: string | null
           content_type?: string | null
           correct?: Json
           created_at?: string
@@ -336,6 +374,7 @@ export type Database = {
         }
         Update: {
           audio_id?: string | null
+          collection_id?: string | null
           content_type?: string | null
           correct?: Json
           created_at?: string
@@ -366,6 +405,13 @@ export type Database = {
             columns: ["audio_id"]
             isOneToOne: false
             referencedRelation: "audio_assets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "exercises_collection_id_fkey"
+            columns: ["collection_id"]
+            isOneToOne: false
+            referencedRelation: "exercise_collections"
             referencedColumns: ["id"]
           },
           {

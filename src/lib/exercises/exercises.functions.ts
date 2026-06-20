@@ -13,7 +13,7 @@ export const listPublishedExercises = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { data: rows, error } = await context.supabase
       .from("exercises")
-      .select("id,level,module,teil,position,title,prompt,passage,audio_id,kind,options,explanation")
+      .select("id,level,module,teil,position,title,prompt,passage,audio_id,kind,options,explanation,collection_id")
       .eq("level", data.level)
       .eq("module", data.module)
       .eq("teil", data.teil)
@@ -21,6 +21,17 @@ export const listPublishedExercises = createServerFn({ method: "POST" })
       .order("created_at", { ascending: true })
       .order("position", { ascending: true });
     if (error) throw new Error(error.message);
+
+    // Look up collection titles for grouping. Missing collection => "Ungrouped".
+    const collectionIds = Array.from(new Set((rows ?? []).map((r: any) => r.collection_id).filter(Boolean))) as string[];
+    const collections: Record<string, { id: string; title: string }> = {};
+    if (collectionIds.length) {
+      const { data: cols } = await context.supabase
+        .from("exercise_collections")
+        .select("id,title")
+        .in("id", collectionIds);
+      for (const c of cols ?? []) collections[(c as any).id] = c as any;
+    }
 
     // Resolve audio signed URLs for hoeren module
     const audioIds = Array.from(new Set((rows ?? []).map((r) => r.audio_id).filter(Boolean))) as string[];
@@ -35,5 +46,5 @@ export const listPublishedExercises = createServerFn({ method: "POST" })
         if (s?.signedUrl) signed[a.id] = s.signedUrl;
       }
     }
-    return { exercises: rows ?? [], audioUrls: signed };
+    return { exercises: rows ?? [], audioUrls: signed, collections };
   });
