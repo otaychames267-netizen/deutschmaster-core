@@ -1192,6 +1192,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     const sourceUnits = buildSourceExerciseUnits(blocks, moduleVal, teil);
     const answerLookup = buildAnswerLookup(answerBlocks);
+    const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
 
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
@@ -1220,7 +1221,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         // Build the embedded questions[] payload — exact letter prefixes preserved.
         const questionsPayload = cleanQuestions.map((q) => {
           const optionTexts = q.options;
-          const rawAns = answerLookup.get(q).trim();
+          const rawAns = answerLookup.get(q, answerUsageCounts).trim();
           let correct: string | null = null;
           if (optionTexts.length >= 2 && rawAns) {
             const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
@@ -1333,7 +1334,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     const missingAnswerKeys = sourceUnits.flatMap((unit) =>
       unit.questions
-        .filter((q) => !answerLookup.get(q))
+        .filter((q) => !answerLookup.get(q, answerUsageCounts))
         .map((q) => ({ page: q.page, item: q.number, title: unit.title ?? "", reason: "no_source_answer_key_entry" })),
     );
 
