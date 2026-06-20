@@ -1161,69 +1161,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       .from("pdf_imports").select("kind").eq("id", data.examImportId).maybeSingle();
     const sourceKind: string = examImp?.kind ?? "exam";
 
-    // Group blocks by model variant ("1", "2", "3", … or null for single-model PDFs).
-    // Each model produces its OWN exercise(s) — content is never merged across models.
-    type Q = {
-      number: string;
-      text: string;
-      options: { label: string; text: string }[];
-      instruction: string | null;
-      passage: { title: string | null; text: string } | null;
-    };
-    type Group = {
-      model: string | null;
-      firstInstruction: string | null;
-      firstPassage: { title: string | null; text: string } | null;
-      questions: Q[];
-      currentInstruction: string | null;
-      currentPassage: { title: string | null; text: string } | null;
-      answers: Map<string, string>; // item_number -> correct answer (from combined PDF)
-    };
-    const groups = new Map<string, Group>();
-    const groupOf = (model: any): Group => {
-      const key = model == null || model === "" ? "__single__" : String(model);
-      let g = groups.get(key);
-      if (!g) {
-        g = {
-          model: key === "__single__" ? null : key,
-          firstInstruction: null, firstPassage: null, questions: [], currentInstruction: null, currentPassage: null, answers: new Map(),
-        };
-        groups.set(key, g);
-      }
-      return g;
-    };
-    for (const b of blocks) {
-      const g = groupOf(b?.model);
-      if (b.type === "instruction" && g.firstInstruction === null) {
-        g.firstInstruction = String(b.text ?? "");
-        g.currentInstruction = String(b.text ?? "");
-      } else if (b.type === "passage" && g.firstPassage === null) {
-        g.firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
-        g.currentPassage = { title: b.title ?? null, text: String(b.text ?? "") };
-      } else if (b.type === "instruction") {
-        g.currentInstruction = String(b.text ?? "");
-      } else if (b.type === "passage") {
-        g.currentPassage = { title: b.title ?? null, text: String(b.text ?? "") };
-      } else if (b.type === "question") {
-        const blockModule = String(b?.module ?? "").toLowerCase();
-        if (blockModule && blockModule !== moduleVal) continue;
-        const blockTeil: number = Number(b?.teil) || teil;
-        if (blockTeil !== teil) continue;
-        const normalizedNumber = normalizeItemNumber(b.number ?? g.questions.length + 1);
-        if (g.questions.some((existing) => normalizeItemNumber(existing.number) === normalizedNumber && existing.text === String(b.text ?? ""))) continue;
-        g.questions.push({
-          number: normalizedNumber,
-          text: String(b.text ?? ""),
-          instruction: g.currentInstruction ?? g.firstInstruction,
-          passage: g.currentPassage ?? g.firstPassage,
-          options: Array.isArray(b.options)
-            ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") }))
-            : [],
-        });
-      } else if (b.type === "answer_key_entry") {
-        g.answers.set(normalizeItemNumber(b.number), String(b.answer ?? "").trim());
-      }
-    }
+    const answerBlocks: any[] = blocks.filter((b) => b?.type === "answer_key_entry");
 
     // External answer-key PDF (optional, ignored when source is combined)
     if (data.answerKeyImportId && sourceKind !== "combined") {
@@ -1231,16 +1169,14 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         .from("pdf_extractions").select("blocks").eq("import_id", data.answerKeyImportId).maybeSingle();
       if (keyExtErr) throw new Error(`Could not read answer-key extraction for import ${data.answerKeyImportId}: ${keyExtErr.message}`);
       const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
-      for (const b of kblocks) {
-        if (b.type === "answer_key_entry") {
-          const g = groupOf(b?.model);
-          g.answers.set(normalizeItemNumber(b.number), String(b.answer ?? "").trim());
-        }
-      }
+      answerBlocks.push(...kblocks.filter((b) => b?.type === "answer_key_entry"));
       await context.supabase.from("pdf_imports")
         .update({ linked_import_id: data.examImportId })
         .eq("id", data.answerKeyImportId);
     }
+
+    const sourceUnits = buildSourceExerciseUnits(blocks, moduleVal, teil);
+    const answerLookup = buildAnswerLookup(answerBlocks);
 
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
