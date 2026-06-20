@@ -276,15 +276,36 @@ function normalizeAnswerLetter(value: any): string | null {
 function buildAnswerLookup(blocks: any[]) {
   const exact = new Map<string, string>();
   const unmodelled = new Map<string, string>();
+  const conflicts: { key: string; answers: string[] }[] = [];
+  const seenExact = new Map<string, Set<string>>();
+  const seenUnmodelled = new Map<string, Set<string>>();
   for (const b of blocks) {
     if (b?.type !== "answer_key_entry") continue;
     const teil = sourceBlockTeil(b, 0);
     const number = normalizeItemNumber(b.number);
-    const answer = String(b.answer ?? "").trim();
+    const answer = normalizeAnswerLetter(b.answer) ?? String(b.answer ?? "").trim();
     if (!teil || !number || !answer) continue;
     const model = normalizeModel(b.model);
-    if (model) exact.set(`${model}::${teil}::${number}`, answer);
-    else unmodelled.set(`${teil}::${number}`, answer);
+    if (model) {
+      const k = `${model}::${teil}::${number}`;
+      const set = seenExact.get(k) ?? new Set<string>();
+      set.add(answer);
+      seenExact.set(k, set);
+      exact.set(k, answer);
+    } else {
+      const k = `${teil}::${number}`;
+      const set = seenUnmodelled.get(k) ?? new Set<string>();
+      set.add(answer);
+      seenUnmodelled.set(k, set);
+      unmodelled.set(k, answer);
+    }
+  }
+  for (const [k, set] of seenExact) if (set.size > 1) conflicts.push({ key: k, answers: [...set] });
+  for (const [k, set] of seenUnmodelled) if (set.size > 1) conflicts.push({ key: k, answers: [...set] });
+  // Drop ambiguous keys so the build never silently picks a wrong answer.
+  for (const c of conflicts) {
+    if (c.key.split("::").length === 3) exact.delete(c.key);
+    else unmodelled.delete(c.key);
   }
   return {
     keyFor(q: SourceQuestion) {
@@ -298,6 +319,7 @@ function buildAnswerLookup(blocks: any[]) {
       return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(`${q.teil}::${q.number}`) ?? "";
     },
     count: exact.size + unmodelled.size,
+    conflicts,
   };
 }
 
