@@ -147,6 +147,161 @@ function normalizeItemNumber(value: any) {
   return String(value ?? "").trim().replace(/\.$/, "");
 }
 
+type SourcePassage = { title: string | null; text: string; page: number };
+type SourceQuestion = {
+  number: string;
+  text: string;
+  options: string[];
+  model: string | null;
+  teil: number;
+  page: number;
+};
+type SourceExerciseUnit = {
+  sourceIndex: number;
+  model: string | null;
+  teil: number;
+  questionPage: number;
+  passagePages: number[];
+  title: string | null;
+  passageText: string | null;
+  instruction: string;
+  passageKey: string;
+  questions: SourceQuestion[];
+};
+
+function normalizeModel(value: any): string | null {
+  return value == null || value === "" ? null : String(value);
+}
+
+function questionOptionTexts(b: any): string[] {
+  return Array.isArray(b?.options)
+    ? b.options.map((o: any) => (o?.label ? `${String(o.label)}) ${String(o?.text ?? "")}` : String(o?.text ?? "")))
+    : [];
+}
+
+function sourceBlockTeil(b: any, fallbackTeil: number): number {
+  const n = Number(b?.teil);
+  return Number.isFinite(n) && n > 0 ? n : fallbackTeil;
+}
+
+function sourcePassageText(passages: SourcePassage[]): string | null {
+  const text = passages
+    .map((p) => [p.title, p.text].filter(Boolean).join("\n"))
+    .filter((t) => t.trim().length > 0)
+    .join("\n\n")
+    .trim();
+  return text || null;
+}
+
+function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number): SourceExerciseUnit[] {
+  const units: SourceExerciseUnit[] = [];
+  let currentInstruction = "";
+  let pendingPassages: SourcePassage[] = [];
+  let activePassages: SourcePassage[] = [];
+  let currentUnit: SourceExerciseUnit | null = null;
+
+  for (const b of blocks) {
+    const blockTeil = sourceBlockTeil(b, teil);
+    if (blockTeil !== teil) continue;
+
+    if (b?.type === "instruction") {
+      currentInstruction = String(b.text ?? "");
+      continue;
+    }
+
+    if (b?.type === "passage") {
+      const text = String(b.text ?? "").trim();
+      if (!text) continue;
+      pendingPassages.push({ title: b.title ?? null, text, page: Number(b.page) || 0 });
+      currentUnit = null;
+      continue;
+    }
+
+    if (b?.type !== "question") continue;
+    const blockModule = String(b?.module ?? "").toLowerCase();
+    if (blockModule && blockModule !== moduleVal) continue;
+
+    const page = Number(b.page) || 0;
+    const passages = pendingPassages.length > 0 ? [...pendingPassages] : [...activePassages];
+    const passageKey = passages.map((p) => `${p.page}:${p.title ?? ""}:${p.text}`).join("\n---\n");
+    const question: SourceQuestion = {
+      number: normalizeItemNumber(b.number ?? ""),
+      text: String(b.text ?? ""),
+      options: questionOptionTexts(b),
+      model: normalizeModel(b.model),
+      teil,
+      page,
+    };
+
+    const shouldStartNewUnit =
+      !currentUnit ||
+      currentUnit.questionPage !== page ||
+      currentUnit.passageKey !== passageKey;
+
+    if (shouldStartNewUnit) {
+      const passageText = sourcePassageText(passages);
+      currentUnit = {
+        sourceIndex: units.length + 1,
+        model: question.model,
+        teil,
+        questionPage: page,
+        passagePages: [...new Set(passages.map((p) => p.page).filter(Boolean))],
+        title: passages.find((p) => (p.title ?? "").trim())?.title ?? null,
+        passageText,
+        instruction: currentInstruction,
+        passageKey,
+        questions: [],
+      };
+      units.push(currentUnit);
+    }
+
+    if (!currentUnit) continue;
+    currentUnit.questions.push(question);
+    if (pendingPassages.length > 0) {
+      activePassages = [...pendingPassages];
+      pendingPassages = [];
+    }
+  }
+
+  return units.filter((unit) => unit.questions.length > 0);
+}
+
+function buildAnswerLookup(blocks: any[]) {
+  const exact = new Map<string, string>();
+  const unmodelled = new Map<string, string>();
+  for (const b of blocks) {
+    if (b?.type !== "answer_key_entry") continue;
+    const teil = sourceBlockTeil(b, 0);
+    const number = normalizeItemNumber(b.number);
+    const answer = String(b.answer ?? "").trim();
+    if (!teil || !number || !answer) continue;
+    const model = normalizeModel(b.model);
+    if (model) exact.set(`${model}::${teil}::${number}`, answer);
+    else unmodelled.set(`${teil}::${number}`, answer);
+  }
+  return {
+    keyFor(q: SourceQuestion) {
+      return q.model ? `${q.model}::${q.teil}::${q.number}` : `${q.teil}::${q.number}`;
+    },
+    get(q: SourceQuestion, usageCounts?: Map<string, number>) {
+      const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
+      if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
+      if (!exactKey && usageCounts && (usageCounts.get(`${q.teil}::${q.number}`) ?? 0) !== 1) return "";
+      return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(`${q.teil}::${q.number}`) ?? "";
+    },
+    count: exact.size + unmodelled.size,
+  };
+}
+
+function buildAnswerUsageCounts(units: SourceExerciseUnit[], lookup: ReturnType<typeof buildAnswerLookup>) {
+  const counts = new Map<string, number>();
+  for (const unit of units) for (const q of unit.questions) {
+    const key = lookup.keyFor(q);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return counts;
+}
+
 const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
 - Do NOT translate, paraphrase, summarize, simplify, improve, or invent content.
@@ -159,6 +314,7 @@ Rules — never violate:
  - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
 - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
 - If the SAME reading text / passage is reused across several models (e.g. one text serves Modell 1, Modell 2 and Modell 3), emit ONE passage block per model — duplicate the passage verbatim and tag each copy with its respective "model". Do NOT merge models. Questions and answer_key_entry blocks for each model must remain isolated.
+ - PRESERVE SOURCE EXACTLY: every printed exercise/question-page is a separate source unit. If a topic, title, passage, question number, wording, answer option, or correct answer repeats or looks 99% similar, still extract it separately. Similarity is NEVER duplication.
  - GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
  - IGNORE INDEX / OVERVIEW PAGES: Many TELC PDFs start with a "Themenliste", table of contents, or topic-overview page that lists only titles (e.g. "Parking", "Traumfrau", "Verpackungen", "Ernährung", "Kreditkarten", "Karneval", "Kellner"), sometimes with Arabic translations next to each title. These pages are NOT exercises. Do NOT emit passage, instruction, question or answer_key_entry blocks for them. You may emit a single "section" block named "Themenliste" if useful, but never invent questions from a topic list.
  - IGNORE OWNER / DISTRIBUTION METADATA: Do NOT emit blocks containing WhatsApp group names, Telegram/Facebook groups, channel names, owner names, translator credits, file names, watermarks, copyright notes, page footers, or non-exam headers (e.g. "Fließend Deutsch B2 Telc – Inssaf", "Gruppe WhatsApp", phone numbers, social handles, URLs that are not part of the printed exam text). Strip these silently — never include them in passage / instruction / question / option text.
@@ -1020,69 +1176,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       .from("pdf_imports").select("kind").eq("id", data.examImportId).maybeSingle();
     const sourceKind: string = examImp?.kind ?? "exam";
 
-    // Group blocks by model variant ("1", "2", "3", … or null for single-model PDFs).
-    // Each model produces its OWN exercise(s) — content is never merged across models.
-    type Q = {
-      number: string;
-      text: string;
-      options: { label: string; text: string }[];
-      instruction: string | null;
-      passage: { title: string | null; text: string } | null;
-    };
-    type Group = {
-      model: string | null;
-      firstInstruction: string | null;
-      firstPassage: { title: string | null; text: string } | null;
-      questions: Q[];
-      currentInstruction: string | null;
-      currentPassage: { title: string | null; text: string } | null;
-      answers: Map<string, string>; // item_number -> correct answer (from combined PDF)
-    };
-    const groups = new Map<string, Group>();
-    const groupOf = (model: any): Group => {
-      const key = model == null || model === "" ? "__single__" : String(model);
-      let g = groups.get(key);
-      if (!g) {
-        g = {
-          model: key === "__single__" ? null : key,
-          firstInstruction: null, firstPassage: null, questions: [], currentInstruction: null, currentPassage: null, answers: new Map(),
-        };
-        groups.set(key, g);
-      }
-      return g;
-    };
-    for (const b of blocks) {
-      const g = groupOf(b?.model);
-      if (b.type === "instruction" && g.firstInstruction === null) {
-        g.firstInstruction = String(b.text ?? "");
-        g.currentInstruction = String(b.text ?? "");
-      } else if (b.type === "passage" && g.firstPassage === null) {
-        g.firstPassage = { title: b.title ?? null, text: String(b.text ?? "") };
-        g.currentPassage = { title: b.title ?? null, text: String(b.text ?? "") };
-      } else if (b.type === "instruction") {
-        g.currentInstruction = String(b.text ?? "");
-      } else if (b.type === "passage") {
-        g.currentPassage = { title: b.title ?? null, text: String(b.text ?? "") };
-      } else if (b.type === "question") {
-        const blockModule = String(b?.module ?? "").toLowerCase();
-        if (blockModule && blockModule !== moduleVal) continue;
-        const blockTeil: number = Number(b?.teil) || teil;
-        if (blockTeil !== teil) continue;
-        const normalizedNumber = normalizeItemNumber(b.number ?? g.questions.length + 1);
-        if (g.questions.some((existing) => normalizeItemNumber(existing.number) === normalizedNumber && existing.text === String(b.text ?? ""))) continue;
-        g.questions.push({
-          number: normalizedNumber,
-          text: String(b.text ?? ""),
-          instruction: g.currentInstruction ?? g.firstInstruction,
-          passage: g.currentPassage ?? g.firstPassage,
-          options: Array.isArray(b.options)
-            ? b.options.map((o: any) => ({ label: String(o.label ?? ""), text: String(o.text ?? "") }))
-            : [],
-        });
-      } else if (b.type === "answer_key_entry") {
-        g.answers.set(normalizeItemNumber(b.number), String(b.answer ?? "").trim());
-      }
-    }
+    const answerBlocks: any[] = blocks.filter((b) => b?.type === "answer_key_entry");
 
     // External answer-key PDF (optional, ignored when source is combined)
     if (data.answerKeyImportId && sourceKind !== "combined") {
@@ -1090,16 +1184,15 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         .from("pdf_extractions").select("blocks").eq("import_id", data.answerKeyImportId).maybeSingle();
       if (keyExtErr) throw new Error(`Could not read answer-key extraction for import ${data.answerKeyImportId}: ${keyExtErr.message}`);
       const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
-      for (const b of kblocks) {
-        if (b.type === "answer_key_entry") {
-          const g = groupOf(b?.model);
-          g.answers.set(normalizeItemNumber(b.number), String(b.answer ?? "").trim());
-        }
-      }
+      answerBlocks.push(...kblocks.filter((b) => b?.type === "answer_key_entry"));
       await context.supabase.from("pdf_imports")
         .update({ linked_import_id: data.examImportId })
         .eq("id", data.answerKeyImportId);
     }
+
+    const sourceUnits = buildSourceExerciseUnits(blocks, moduleVal, teil);
+    const answerLookup = buildAnswerLookup(answerBlocks);
+    const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
 
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
@@ -1107,79 +1200,28 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     const { data: existingDrafts } = await context.supabase
       .from("exercises")
       .select("id")
-      .eq("source_pdf_import_id", data.examImportId)
-      .eq("status", "draft");
+      .eq("source_pdf_import_id", data.examImportId);
     const existingDraftIds = (existingDrafts ?? []).map((row: any) => row.id);
     if (existingDraftIds.length > 0) {
       await context.supabase.from("exercise_answer_keys").delete().in("exercise_id", existingDraftIds);
       await context.supabase.from("exercises").delete().in("id", existingDraftIds);
-      await appendImportLog(context.supabase, data.examImportId, { event: "stale_drafts_removed_before_rebuild", count: existingDraftIds.length });
+      await appendImportLog(context.supabase, data.examImportId, { event: "source_exercises_removed_before_preserve_rebuild", count: existingDraftIds.length });
     }
+    await context.supabase.from("pdf_fidelity_reports").delete().eq("exam_import_id", data.examImportId);
 
-    // Sort groups so Modell 1 < Modell 2 < Modell 3 < unnamed
-    const ordered = [...groups.values()].sort((a, b) => {
-      if (a.model === b.model) return 0;
-      if (a.model === null) return 1;
-      if (b.model === null) return -1;
-      return String(a.model).localeCompare(String(b.model), undefined, { numeric: true });
-    });
-
-    // Shared-passage fallback: if a model group has no passage/instruction of
-    // its own (because the PDF prints the reading text once and reuses it for
-    // every Modell), borrow ONLY the text from another group. Questions and
-    // answers are NEVER shared across models — each model keeps its own.
-    const sharedPassage = ordered.find((g) => g.firstPassage)?.firstPassage ?? null;
-    const sharedInstruction = ordered.find((g) => g.firstInstruction)?.firstInstruction ?? null;
-    for (const g of ordered) {
-      if (!g.firstPassage && sharedPassage) g.firstPassage = sharedPassage;
-      if (!g.firstInstruction && sharedInstruction) g.firstInstruction = sharedInstruction;
-    }
-
-    for (const g of ordered) {
-      const variantSuffix = g.model ? ` — Modell ${g.model}` : "";
+    let position = 1;
+    for (const unit of sourceUnits) {
+      const variantSuffix = unit.model ? ` — Modell ${unit.model}` : "";
       // Skip non-exam noise that may have leaked into a question block
       // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
       const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
-      const cleanQuestions = g.questions.filter((q) => !noiseRe.test(q.text));
+      const cleanQuestions = unit.questions.filter((q) => !noiseRe.test(q.text));
       if (cleanQuestions.length === 0) continue;
 
-      // === NEW DATA MODEL: ONE exercise row = ONE topic (passage + its questions). ===
-      // Group questions by the passage text they share (within this model group).
-      // For Sprachbausteine / Hören / Schreiben / Mündlich (no passage) we group
-      // by instruction text so the cloze / audio recording / writing task stays
-      // a single exercise.
-      type Bucket = {
-        passageTitle: string | null;
-        passageText: string | null;
-        instruction: string;
-        questions: typeof cleanQuestions;
-      };
-      const buckets: Bucket[] = [];
-      const bucketKey = (q: (typeof cleanQuestions)[number]) => {
-        const p = q.passage ?? g.firstPassage;
-        const i = q.instruction ?? g.firstInstruction ?? "";
-        return `P:${(p?.text ?? "").trim()}|I:${i.trim()}`;
-      };
-      const bucketMap = new Map<string, Bucket>();
-      for (const q of cleanQuestions) {
-        const key = bucketKey(q);
-        let b = bucketMap.get(key);
-        if (!b) {
-          const p = q.passage ?? g.firstPassage;
-          const i = q.instruction ?? g.firstInstruction ?? "";
-          b = { passageTitle: p?.title ?? null, passageText: p?.text ?? null, instruction: i, questions: [] };
-          bucketMap.set(key, b);
-          buckets.push(b);
-        }
-        b.questions.push(q);
-      }
-
-      let position = 1;
-      for (const bucket of buckets) {
         // Build the embedded questions[] payload — exact letter prefixes preserved.
-        const questionsPayload = bucket.questions.map((q) => {
-          const optionTexts = q.options.map((o) => (o.label ? `${o.label}) ${o.text}` : o.text));
-          const rawAns = (g.answers.get(q.number) ?? "").trim();
+        const questionsPayload = cleanQuestions.map((q) => {
+          const optionTexts = q.options;
+          const rawAns = answerLookup.get(q, answerUsageCounts).trim();
           let correct: string | null = null;
           if (optionTexts.length >= 2 && rawAns) {
             const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
@@ -1208,8 +1250,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           : allMcq && questionsPayload.length === 1 ? "multiple_choice"
           : "open_text";
 
-        const passageTitle = (bucket.passageTitle ?? "").trim();
-        const derivedTitle = deriveTopicTitle(bucket.passageText ?? bucket.instruction ?? "");
+        const passageTitle = (unit.title ?? "").trim();
+        const derivedTitle = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
         const firstNum = questionsPayload[0]?.n ?? String(position);
         const lastNum = questionsPayload[questionsPayload.length - 1]?.n ?? firstNum;
         const rangeLabel = questionsPayload.length > 1 ? `${firstNum}–${lastNum}` : firstNum;
@@ -1236,8 +1278,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
         const promptText =
           kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
-            ? (bucket.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`)
-            : (questionsPayload[0]?.prompt ?? bucket.instruction ?? "");
+            ? (unit.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`)
+            : (questionsPayload[0]?.prompt ?? unit.instruction ?? "");
 
         const { data: ex, error: exErr } = await context.supabase
           .from("exercises")
@@ -1248,15 +1290,15 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             position: position++,
             title: studentTitle,
             prompt: promptText,
-            passage: bucket.passageText ?? (bucket.instruction || null),
+            passage: unit.passageText ?? (unit.instruction || null),
             kind,
             options: optionsField,
             correct: aggregatedCorrect,
             status: "draft",
             created_by: context.userId,
             source_pdf_import_id: data.examImportId,
-            original_numbering: rangeLabel,
-            model_variant: g.model,
+            original_numbering: `S.${unit.questionPage} ${rangeLabel}`,
+            model_variant: unit.model,
             writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
             muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
             content_type: data.contentType ?? null,
@@ -1268,43 +1310,65 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         }
         createdExerciseIds.push(ex.id);
 
-        // One answer_keys row per embedded question for the audit trail.
-        // Dedupe within the bucket: the same item number can legitimately
-        // appear twice when a passage was re-extracted across chunks. We
-        // upsert on (exercise_id, item_number, key_version) so the import
-        // never dies on a duplicate row; the first answer wins.
-        const seenItems = new Set<string>();
+        // One answer_keys row per embedded source question for the audit trail.
+        // Preserve-source mode does not merge or collapse similar questions.
         for (const q of questionsPayload) {
           if (!q.rawAnswer) continue;
-          if (seenItems.has(q.n)) continue;
-          seenItems.add(q.n);
-          const { error: keyErr } = await context.supabase.from("exercise_answer_keys").upsert({
+          const { error: keyErr } = await context.supabase.from("exercise_answer_keys").insert({
             exercise_id: ex.id,
             item_number: q.n,
             correct_answer: q.rawAnswer,
             source: "pdf",
             key_version: 1,
             pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
-          }, { onConflict: "exercise_id,item_number,key_version", ignoreDuplicates: true });
+          });
           if (keyErr) throw new Error(`Answer-key insert failed for item ${q.n}: ${keyErr.message}`);
           keyCount++;
         }
-      }
     }
 
     if (createdExerciseIds.length === 0) {
-      const questionCount = ordered.reduce((sum, g) => sum + g.questions.length, 0);
+      const questionCount = sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0);
       throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Check extraction block structure, options, and database insert errors.`);
     }
 
+    const missingAnswerKeys = sourceUnits.flatMap((unit) =>
+      unit.questions
+        .filter((q) => !answerLookup.get(q, answerUsageCounts))
+        .map((q) => ({ page: q.page, item: q.number, title: unit.title ?? "", reason: "no_source_answer_key_entry" })),
+    );
+
     await context.supabase.from("pdf_imports")
-      .update({ status: "built", error_message: null })
+      .update({
+        status: missingAnswerKeys.length === 0 ? "built" : "built_needs_review",
+        error_message: missingAnswerKeys.length === 0 ? null : `${missingAnswerKeys.length} answer-key entries missing; exercises created but import is not verified for publishing.`,
+      })
       .eq("id", data.examImportId);
+
+    await appendImportLog(context.supabase, data.examImportId, {
+      event: "preserve_source_build_completed",
+      passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+      sourceExerciseUnits: sourceUnits.length,
+      exercisesCreated: createdExerciseIds.length,
+      questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+      answerKeysExtracted: answerLookup.count,
+      missingAnswerKeys,
+      skipped: 0,
+      merged: 0,
+      ignored: 0,
+    });
 
     return {
       exerciseCount: createdExerciseIds.length,
       keyCount,
-      modelsBuilt: ordered.map((g) => g.model ?? "single"),
+      passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+      sourceExerciseUnits: sourceUnits.length,
+      questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+      answerKeysExtracted: answerLookup.count,
+      skipped: 0,
+      merged: 0,
+      ignored: 0,
+      modelsBuilt: [...new Set(sourceUnits.map((unit) => unit.model ?? "single"))],
     };
     } catch (err: any) {
       const msg = String(err?.message ?? err);
@@ -1508,7 +1572,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     const { data: ext, error: extErr } = await context.supabase
       .from("pdf_extractions")
-      .select("blocks, raw_text")
+      .select("blocks, raw_text, page_count")
       .eq("import_id", data.examImportId)
       .maybeSingle();
     if (extErr) throw new Error(`Could not read extraction for fidelity check ${data.examImportId}: ${extErr.message}`);
@@ -1538,183 +1602,90 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
-
-    // Load exercises built from this import
+    const pageCount = Number(ext.page_count ?? extractionMeta?.page_count ?? 0);
     const { data: exercises, error: exercisesErr } = await context.supabase
       .from("exercises")
-      .select("id, level, module, teil, title, prompt, passage, options, original_numbering, status, model_variant")
+      .select("id, module, teil, position, title, prompt, passage, options, correct, original_numbering, status, model_variant")
       .eq("source_pdf_import_id", data.examImportId);
     if (exercisesErr) throw new Error(`Could not read built exercises for fidelity check ${data.examImportId}: ${exercisesErr.message}`);
 
-    const builtModule = (exercises?.find((ex: any) => ex.module)?.module ?? null) as string | null;
-    const builtTeilFallback = Number(exercises?.find((ex: any) => Number(ex.teil))?.teil ?? 0) || 0;
-    // Flatten exercises into per-question virtual rows so the fidelity check
-    // can compare against the source PDF item-by-item even though the new
-    // data model stores one row per passage (with options.questions[]).
-    type BuiltQ = { exerciseId: string; model: string; teil: number; number: string; prompt: string; options: string[]; scopeKey: string };
-    const builtQuestions: BuiltQ[] = [];
-    for (const ex of exercises ?? []) {
-      const model = ex.model_variant == null || ex.model_variant === "" ? "single" : String(ex.model_variant);
-      const teil = Number(ex.teil) || 0;
-      const opts: any = ex.options;
-      const embedded = opts && !Array.isArray(opts) && Array.isArray(opts.questions) ? opts.questions : null;
-      if (embedded) {
-        for (const q of embedded) {
-          const num = String(q?.n ?? "").trim().replace(/\.$/, "");
-          builtQuestions.push({
-            exerciseId: ex.id,
-            model,
-            teil,
-            number: num,
-            prompt: String(q?.prompt ?? ""),
-            options: Array.isArray(q?.options) ? q.options.map((o: any) => String(o ?? "")) : [],
-            scopeKey: `${model}::${teil}::${num}`,
-          });
-        }
-      } else {
-        const num = String(ex.original_numbering ?? "").trim().replace(/\.$/, "");
-        builtQuestions.push({
-          exerciseId: ex.id,
-          model,
-          teil,
-          number: num,
-          prompt: String(ex.prompt ?? ""),
-          options: Array.isArray(opts) ? opts.map((o: any) => String(o ?? "")) : [],
-          scopeKey: `${model}::${teil}::${num}`,
-        });
-      }
-    }
-    const exerciseScopeKeys = new Set<string>(builtQuestions.map((b) => b.scopeKey));
-
-    // Build source canonical items keyed by model::teil::number for questions,
-    // restricted to the same exercise scope that was actually built.
-    type SrcQ = { key: string; scopeKey: string; teil: number; number: string; text: string; options: string[] };
-    const srcQuestions: SrcQ[] = [];
-    const srcSections = new Set<number>();
-    const srcInstructions = new Map<number, string>();
-    const srcPassages = new Map<number, string>();
+    const orderedExercises = [...(exercises ?? [])].sort((a: any, b: any) => Number(a.position ?? 0) - Number(b.position ?? 0));
+    const builtModule = String(orderedExercises.find((ex: any) => ex.module)?.module ?? "").toLowerCase();
+    const builtTeil = Number(orderedExercises.find((ex: any) => Number(ex.teil))?.teil ?? 0)
+      || Number(blocks.find((b) => b?.type === "question" && Number(b?.teil))?.teil ?? 0);
+    const sourceUnits = builtTeil ? buildSourceExerciseUnits(blocks, builtModule, builtTeil) : [];
+    const answerLookup = buildAnswerLookup(blocks);
+    const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
     const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
-    for (const b of blocks) {
-      const blockModule = String(b?.module ?? "").toLowerCase();
-      if (builtModule && blockModule && blockModule !== builtModule) continue;
-      const teil = Number(b?.teil) || builtTeilFallback || 0;
-      if (b.type === "section" && teil) srcSections.add(teil);
-      if (b.type === "instruction" && teil) srcInstructions.set(teil, String(b.text ?? ""));
-      if (b.type === "passage" && teil) srcPassages.set(teil, String(b.text ?? ""));
-      if (b.type === "question" && teil) {
-        const model = b?.model == null || b.model === "" ? "single" : String(b.model);
-        const number = String(b.number ?? "").trim().replace(/\.$/, "");
-        const scopeKey = `${model}::${teil}::${number}`;
-        if (exerciseScopeKeys.size > 0 && !exerciseScopeKeys.has(scopeKey)) continue;
-        const options = Array.isArray(b.options) ? b.options.map((o: any) => o?.label ? `${o.label}) ${String(o?.text ?? "")}` : String(o?.text ?? "")) : [];
-        const text = String(b.text ?? "");
-        if (srcQuestions.some((q) => q.scopeKey === scopeKey && norm(q.text) === norm(text) && JSON.stringify(q.options.map(norm)) === JSON.stringify(options.map(norm)))) continue;
-        srcQuestions.push({
-          key: `${scopeKey}::${srcQuestions.length + 1}`,
-          scopeKey,
-          teil,
-          number,
-          text,
-          options,
-        });
-      }
-    }
 
-    const builtKeys = new Set<string>();
-    const usedSourceIndexes = new Set<number>();
-    const exerciseTeils = new Set<number>();
     const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
     const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
+    const answerMismatches: Array<{ exerciseId: string; sourceIndex: number; item: string; sourceAnswer: string; storedAnswer: string }> = [];
+    const removed = sourceUnits.slice(orderedExercises.length).map((unit) => ({
+      key: `source:${unit.sourceIndex}`,
+      kind: "exercise" as const,
+      page: unit.questionPage,
+      title: unit.title ?? `S.${unit.questionPage}`,
+      reason: "source_exercise_missing_in_built_output",
+      questionCount: unit.questions.length,
+      textPreview: (unit.passageText ?? unit.questions[0]?.text ?? "").slice(0, 220),
+    }));
+    const added = orderedExercises.slice(sourceUnits.length).map((ex: any) => ({
+      key: `exercise:${ex.id}`,
+      kind: "exercise" as const,
+      exerciseId: ex.id,
+      title: ex.title,
+      reason: "built_exercise_without_source_unit_at_same_position",
+    }));
 
-    for (const built of builtQuestions) {
-      const { teil, scopeKey, options: builtOpts } = built;
-      if (teil) exerciseTeils.add(teil);
-      const exactIdx = srcQuestions.findIndex((src, idx) =>
-        !usedSourceIndexes.has(idx) &&
-        src.scopeKey === scopeKey &&
-        norm(src.text) === norm(built.prompt) &&
-        src.options.length === builtOpts.length &&
-        src.options.every((opt, i) => norm(opt) === norm(builtOpts[i])),
-      );
-      if (exactIdx >= 0) {
-        usedSourceIndexes.add(exactIdx);
-        builtKeys.add(srcQuestions[exactIdx].key);
-        continue;
-      }
-      const fallbackIdx = srcQuestions.findIndex((src, idx) => !usedSourceIndexes.has(idx) && src.scopeKey === scopeKey);
-      if (fallbackIdx < 0) {
-        numberingDiffs.push({ exerciseId: built.exerciseId, expected: "(none in PDF)", got: scopeKey });
-        continue;
-      }
-      usedSourceIndexes.add(fallbackIdx);
-      const src = srcQuestions[fallbackIdx];
-      builtKeys.add(src.key);
-      if (norm(src.text) !== norm(built.prompt)) {
-        modified.push({ key: src.key, field: "prompt", original: src.text, built: built.prompt });
-      }
-      if (src.options.length !== builtOpts.length) {
-        modified.push({ key: src.key, field: "options.count", original: String(src.options.length), built: String(builtOpts.length) });
-      } else {
-        for (let i = 0; i < src.options.length; i++) {
-          if (norm(src.options[i]) !== norm(builtOpts[i])) {
-            modified.push({ key: src.key, field: `options[${i}]`, original: src.options[i], built: builtOpts[i] });
-          }
+    for (let i = 0; i < Math.min(sourceUnits.length, orderedExercises.length); i++) {
+      const src = sourceUnits[i];
+      const ex: any = orderedExercises[i];
+      const key = `source:${src.sourceIndex}:exercise:${ex.id}`;
+      if (norm(src.passageText) !== norm(ex.passage)) modified.push({ key, field: "passage", original: src.passageText ?? "", built: String(ex.passage ?? "") });
+      const expectedPrompt = src.questions.length > 1 ? (src.instruction || `Beantworten Sie die Fragen ${src.questions[0]?.number ?? ""}–${src.questions[src.questions.length - 1]?.number ?? ""}.`) : (src.questions[0]?.text ?? src.instruction);
+      if (norm(expectedPrompt) !== norm(ex.prompt)) modified.push({ key, field: "prompt/instruction", original: expectedPrompt, built: String(ex.prompt ?? "") });
+      const embedded = ex.options && typeof ex.options === "object" && !Array.isArray(ex.options) && Array.isArray(ex.options.questions) ? ex.options.questions : [];
+      if (embedded.length !== src.questions.length) modified.push({ key, field: "questions.count", original: String(src.questions.length), built: String(embedded.length) });
+      for (let qn = 0; qn < Math.min(src.questions.length, embedded.length); qn++) {
+        const sq = src.questions[qn];
+        const bq = embedded[qn];
+        if (normalizeItemNumber(sq.number) !== normalizeItemNumber(bq?.n)) numberingDiffs.push({ exerciseId: ex.id, expected: sq.number, got: String(bq?.n ?? "") });
+        if (norm(sq.text) !== norm(bq?.prompt)) modified.push({ key, field: `questions[${qn}].prompt`, original: sq.text, built: String(bq?.prompt ?? "") });
+        const builtOptions = Array.isArray(bq?.options) ? bq.options.map((o: any) => String(o ?? "")) : [];
+        if (sq.options.length !== builtOptions.length) modified.push({ key, field: `questions[${qn}].options.count`, original: String(sq.options.length), built: String(builtOptions.length) });
+        for (let oi = 0; oi < Math.min(sq.options.length, builtOptions.length); oi++) {
+          if (norm(sq.options[oi]) !== norm(builtOptions[oi])) modified.push({ key, field: `questions[${qn}].options[${oi}]`, original: sq.options[oi], built: builtOptions[oi] });
         }
+        const sourceAnswer = answerLookup.get(sq, answerUsageCounts);
+        const storedAnswer = String(bq?.rawAnswer ?? "").trim();
+        if (sourceAnswer && sourceAnswer !== storedAnswer) answerMismatches.push({ exerciseId: ex.id, sourceIndex: src.sourceIndex, item: sq.number, sourceAnswer, storedAnswer });
       }
     }
 
-    // Scope-level coverage: a `model::teil::number` scope from the source PDF
-    // is considered covered when at least one built exercise exists for it.
-    // Variant-level (per-text) mismatches are reported as `modified`, not `removed`.
-    // This avoids false-positive "removed" entries when the same PDF contains
-    // multiple exam-paper instances that share question numbering (e.g. 6..10).
-    const builtScopeKeys = exerciseScopeKeys;
-    const srcScopeKeys = new Set<string>(srcQuestions.map((s) => s.scopeKey));
+    const sampleIndexes = [...new Set([0, Math.floor(sourceUnits.length / 4), Math.floor(sourceUnits.length / 2), Math.floor((sourceUnits.length * 3) / 4), sourceUnits.length - 1])]
+      .filter((idx) => idx >= 0 && idx < Math.min(sourceUnits.length, orderedExercises.length));
+    const sampleComparisons = sampleIndexes.map((idx) => ({
+      sourceIndex: sourceUnits[idx].sourceIndex,
+      page: sourceUnits[idx].questionPage,
+      exerciseId: orderedExercises[idx].id,
+      title: orderedExercises[idx].title,
+      textMatches: norm(sourceUnits[idx].passageText) === norm(orderedExercises[idx].passage),
+      questionCountMatches: sourceUnits[idx].questions.length === ((orderedExercises[idx].options as any)?.questions?.length ?? 0),
+    }));
 
-    const removedScopes = [...srcScopeKeys].filter((k) => !builtScopeKeys.has(k));
-    const addedScopes = [...builtScopeKeys].filter((k) => !srcScopeKeys.has(k));
-
-    // Enrich with the first source preview for each removed scope so admins
-    // can immediately see WHAT content was lost (not just an opaque key).
-    const removed = removedScopes.map((scopeKey) => {
-      const sample = srcQuestions.find((s) => s.scopeKey === scopeKey);
-      const [model, teil, number] = scopeKey.split("::");
-      return {
-        key: scopeKey,
-        kind: "question" as const,
-        model,
-        teil: Number(teil) || 0,
-        number,
-        reason: "no_built_exercise_for_source_scope",
-        textPreview: sample ? sample.text.slice(0, 200) : "",
-        optionsPreview: sample ? sample.options.slice(0, 4) : [],
-      };
-    });
-    const added = addedScopes.map((scopeKey) => {
-      const [model, teil, number] = scopeKey.split("::");
-      return {
-        key: scopeKey,
-        kind: "question" as const,
-        model,
-        teil: Number(teil) || 0,
-        number,
-        reason: "built_exercise_without_matching_source_scope",
-      };
-    });
-
-    // Section diffs (teil sets)
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
-    for (const t of srcSections) if (!exerciseTeils.has(t)) sectionDiffs.push({ teil: t, in: "source" });
-    for (const t of exerciseTeils) if (!srcSections.has(t)) sectionDiffs.push({ teil: t, in: "built" });
-
-    const status: "pass" | "fail" =
-      added.length === 0 &&
-      removed.length === 0 &&
-      modified.length === 0 &&
-      numberingDiffs.length === 0 &&
-      sectionDiffs.length === 0
-        ? "pass"
-        : "fail";
+    if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
+    const sourcePages = new Set(sourceUnits.flatMap((unit) => [unit.questionPage, ...unit.passagePages]).filter(Boolean));
+    const skippedPages = Array.from({ length: pageCount }, (_, i) => i + 1)
+      .filter((page) => !sourcePages.has(page))
+      .map((page) => ({ page, title: "", reason: "no_built_exercise_unit_detected_on_page" }));
+    const missingAnswers = sourceUnits.flatMap((unit, unitIndex) =>
+      unit.questions
+        .filter((q) => !answerLookup.get(q, answerUsageCounts))
+        .map((q) => ({ sourceIndex: unitIndex + 1, page: q.page, item: q.number, reason: "no_source_answer_key_entry" })),
+    );
+    const status: "pass" | "fail" = added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 && missingAnswers.length === 0 ? "pass" : "fail";
 
     const { data: report, error: repErr } = await context.supabase
       .from("pdf_fidelity_reports")
@@ -1726,7 +1697,27 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         modified_count: modified.length,
         numbering_diff_count: numberingDiffs.length,
         section_diff_count: sectionDiffs.length,
-        details: { added, removed, modified, numberingDiffs, sectionDiffs },
+        details: {
+          reconciliation: {
+            pdfPassagesFound: blocks.filter((b) => b?.type === "passage" && (!builtTeil || sourceBlockTeil(b, builtTeil) === builtTeil)).length,
+            pdfExerciseUnitsFound: sourceUnits.length,
+            exercisesCreated: orderedExercises.length,
+            questionsExtracted: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+            answerKeysExtracted: answerLookup.count,
+            skippedPages,
+            mergedPages: [],
+            ignoredPages: [],
+            mergedPassages: [],
+          },
+          answerMismatches,
+          missingAnswers,
+          sampleComparisons,
+          added,
+          removed,
+          modified,
+          numberingDiffs,
+          sectionDiffs,
+        },
         created_by: context.userId,
       })
       .select("id")
@@ -1743,7 +1734,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         numberingDiffs: numberingDiffs.length,
         sectionDiffs: sectionDiffs.length,
       },
-      details: { added, removed, modified, numberingDiffs, sectionDiffs },
+      details: { added, removed, modified, numberingDiffs, sectionDiffs, answerMismatches, missingAnswers, sampleComparisons },
     };
   });
 

@@ -430,7 +430,11 @@ function PdfImportPage() {
           forceBuild,
         },
       });
-      toast.success(`${r.exerciseCount} Übungen erstellt, ${r.keyCount} Lösungen verknüpft (Entwurf)${forceBuild ? " — Force Build" : ""}`);
+      toast.success(
+        `${r.exerciseCount} Übungen erstellt · ${r.questionsDetected ?? "?"} Fragen · ` +
+        `${r.keyCount} Lösungen verknüpft · übersprungen/zusammengeführt/ignoriert: ` +
+        `${r.skipped ?? 0}/${r.merged ?? 0}/${r.ignored ?? 0}`,
+      );
       await refresh();
     } catch (e: any) {
       toast.error(e?.message ?? "Bauen fehlgeschlagen");
@@ -1081,7 +1085,17 @@ function FidelityPanel({
               <Badge variant="outline">Geändert: {report.modified_count}</Badge>
               <Badge variant="outline">Nummerierung: {report.numbering_diff_count}</Badge>
               <Badge variant="outline">Abschnitte: {report.section_diff_count}</Badge>
+              <Badge variant="outline">Antwort-Mismatches: {report.details?.answerMismatches?.length ?? 0}</Badge>
+              <Badge variant="outline">Fehlende Lösungen: {report.details?.missingAnswers?.length ?? 0}</Badge>
             </div>
+            {report.details?.reconciliation && (
+              <div className="grid gap-2 sm:grid-cols-4 text-xs">
+                <div className="rounded-md bg-muted/40 p-2">PDF-Passagen: <b>{report.details.reconciliation.pdfPassagesFound}</b></div>
+                <div className="rounded-md bg-muted/40 p-2">Quell-Übungen: <b>{report.details.reconciliation.pdfExerciseUnitsFound}</b></div>
+                <div className="rounded-md bg-muted/40 p-2">Erstellt: <b>{report.details.reconciliation.exercisesCreated}</b></div>
+                <div className="rounded-md bg-muted/40 p-2">Fragen: <b>{report.details.reconciliation.questionsExtracted}</b></div>
+              </div>
+            )}
             {report.status !== "pass" && (
               <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-sm">
                 <AlertTriangle className="size-4 mt-0.5 shrink-0" />

@@ -68,9 +68,9 @@ export function ExerciseRunner({
   }, [exercise.options]);
 
   const correctSet = useMemo(() => {
-    if (!result || !revealed || !Array.isArray(result.correct)) return new Set<string>();
+    if (!result || (!revealed && hideFeedback) || !Array.isArray(result.correct)) return new Set<string>();
     return new Set((result.correct as unknown[]).map((x) => String(x)));
-  }, [result, revealed]);
+  }, [result, revealed, hideFeedback]);
 
   return (
     <div className="space-y-4">
@@ -100,7 +100,7 @@ export function ExerciseRunner({
               : null;
             const selectedIsCorrect = !!(officialCorrect && selected && officialCorrect.has(o));
             const selectedIsWrong   = !!(result && selected && officialCorrect && !officialCorrect.has(o));
-            const isRight = revealed && correctSet.has(o);
+            const isRight = (revealed || (!!result && !hideFeedback)) && correctSet.has(o);
             const isWrong = !revealed && selectedIsWrong;
             return (
               <button
@@ -127,7 +127,7 @@ export function ExerciseRunner({
               ? new Set((result.correct as unknown[]).map((x) => String(x))) : null;
             const selectedIsCorrect = !!(officialCorrect && selected && officialCorrect.has(o));
             const selectedIsWrong   = !!(result && selected && officialCorrect && !officialCorrect.has(o));
-            const isRight = revealed && correctSet.has(o);
+            const isRight = (revealed || (!!result && !hideFeedback)) && correctSet.has(o);
             const isWrong = !revealed && selectedIsWrong;
             return (
               <Button
@@ -151,7 +151,7 @@ export function ExerciseRunner({
           gapCount={countGaps(exercise.passage, opts)}
           options={opts}
           locked={!!result}
-          correct={revealed && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
+          correct={(revealed || (!!result && !hideFeedback)) && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -161,7 +161,7 @@ export function ExerciseRunner({
           pairs={opts}
           answer={(answer ?? {}) as Record<string, string>}
           locked={!!result}
-          correct={revealed && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
+          correct={(revealed || (!!result && !hideFeedback)) && result && Array.isArray(result.correct) ? (result.correct as unknown[]).map((x) => String(x)) : null}
           onChange={(a) => setAnswer(a)}
         />
       )}
@@ -175,11 +175,11 @@ export function ExerciseRunner({
           exercise={exercise}
           answer={(answer ?? {}) as Record<string, string>}
           locked={!!result}
-          revealed={revealed}
+          revealed={revealed || (!!result && !hideFeedback)}
           /** Practice mode (no hideFeedback) shows green/red per question
            *  immediately on click. Exam mode (hideFeedback) hides all colours
            *  until the parent session calls Abgeben and renders its summary. */
-          immediateFeedback={!hideFeedback}
+          immediateFeedback={!!result && !hideFeedback}
           submittedCorrect={
             result && result.correct && typeof result.correct === "object" && !Array.isArray(result.correct)
               ? (result.correct as Record<string, string>)
@@ -216,6 +216,12 @@ export function ExerciseRunner({
             </div>
           ) : (
             <>
+              {result.correct !== undefined && (
+                <div className="rounded-md border border-green-500/40 bg-green-500/10 p-2 text-xs">
+                  <div className="font-medium text-green-700 dark:text-green-300">Offizielle Lösung</div>
+                  <div className="mt-1 whitespace-pre-wrap text-foreground">{formatCorrectAnswer(result.correct)}</div>
+                </div>
+              )}
               {result.explanation && <p className="text-muted-foreground whitespace-pre-wrap">{result.explanation}</p>}
               <p className="text-xs text-muted-foreground">Die richtigen Antworten sind direkt bei jeder Frage markiert.</p>
             </>
@@ -224,6 +230,17 @@ export function ExerciseRunner({
       )}
     </div>
   );
+}
+
+function formatCorrectAnswer(value: unknown): string {
+  if (value == null) return "—";
+  if (Array.isArray(value)) return value.map(String).join(", ");
+  if (typeof value === "object") {
+    return Object.entries(value as Record<string, unknown>)
+      .map(([k, v]) => `${k}: ${String(v)}`)
+      .join("\n");
+  }
+  return String(value);
 }
 
 function defaultAnswer(ex: ExerciseDTO): unknown {
