@@ -1293,24 +1293,18 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         }
         createdExerciseIds.push(ex.id);
 
-        // One answer_keys row per embedded question for the audit trail.
-        // Dedupe within the bucket: the same item number can legitimately
-        // appear twice when a passage was re-extracted across chunks. We
-        // upsert on (exercise_id, item_number, key_version) so the import
-        // never dies on a duplicate row; the first answer wins.
-        const seenItems = new Set<string>();
+        // One answer_keys row per embedded source question for the audit trail.
+        // Preserve-source mode does not merge or collapse similar questions.
         for (const q of questionsPayload) {
           if (!q.rawAnswer) continue;
-          if (seenItems.has(q.n)) continue;
-          seenItems.add(q.n);
-          const { error: keyErr } = await context.supabase.from("exercise_answer_keys").upsert({
+          const { error: keyErr } = await context.supabase.from("exercise_answer_keys").insert({
             exercise_id: ex.id,
             item_number: q.n,
             correct_answer: q.rawAnswer,
             source: "pdf",
             key_version: 1,
             pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
-          }, { onConflict: "exercise_id,item_number,key_version", ignoreDuplicates: true });
+          });
           if (keyErr) throw new Error(`Answer-key insert failed for item ${q.n}: ${keyErr.message}`);
           keyCount++;
         }
