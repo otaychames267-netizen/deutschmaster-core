@@ -57,7 +57,9 @@ const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
 //   compared to the old 2-page chunks, with no measurable accuracy loss.
 const EXTRACTION_MODEL = "google/gemini-2.5-flash-lite";
 const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-flash";
-const CHUNK_PAGES = 4;
+// 6 pages per chunk → ~33% fewer AI calls vs 4. flash-lite handles 6-page
+// TELC scans without quality loss.
+const CHUNK_PAGES = 6;
 const GEMINI_TIMEOUT_MS = 85_000;
 
 // Direct Google Generative Language API fallback. Used automatically when the
@@ -600,6 +602,35 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
       const p = doc.getPage(i); return { page: i + 1, width: p.getWidth(), height: p.getHeight() };
     });
     const chunkCount = Math.ceil(totalPages / CHUNK_PAGES);
+
+    // Content-hash cache: if the exact same PDF bytes were already extracted
+    // for another import, copy its blocks instead of re-billing the AI.
+    const hashBuf = await crypto.subtle.digest("SHA-256", buf);
+    const contentHash = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    await context.supabase.from("pdf_imports").update({ content_hash: contentHash }).eq("id", data.importId);
+    if (!data.resume) {
+      const { data: twin } = await context.supabase
+        .from("pdf_imports")
+        .select("id, status")
+        .eq("content_hash", contentHash)
+        .neq("id", data.importId)
+        .eq("status", "extracted")
+        .limit(1)
+        .maybeSingle();
+      if (twin?.id) {
+        const { data: src } = await context.supabase
+          .from("pdf_extractions").select("blocks, raw_text, page_count").eq("import_id", twin.id).maybeSingle();
+        if (src?.blocks) {
+          let srcMeta: ExtractionMeta = {};
+          try { srcMeta = src.raw_text ? JSON.parse(src.raw_text) : {}; } catch {}
+          const srcBlocks = Array.isArray(src.blocks) ? (src.blocks as any[]) : [];
+          await upsertExtraction(context.supabase, data.importId, srcBlocks, src.page_count ?? totalPages, { ...srcMeta, diagnostics: [{ event: "cache_hit", source_import_id: twin.id }] });
+          await context.supabase.from("pdf_imports").update({ status: "extracted", error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
+          await appendImportLog(context.supabase, data.importId, { event: "extraction_cache_hit", source_import_id: twin.id, contentHash, totalPages, blocks: srcBlocks.length });
+          return { ok: true, cached: true, sourceImportId: twin.id, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount, fileBytes: buf.byteLength, completedChunks: Array.from({ length: chunkCount }, (_, i) => i), resumed: false };
+        }
+      }
+    }
 
     // Resumable extraction: when the admin re-runs an extraction, preserve
     // already-extracted blocks + chunks_completed so we never re-bill chunks
