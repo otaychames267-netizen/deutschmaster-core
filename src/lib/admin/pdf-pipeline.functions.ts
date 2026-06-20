@@ -1647,7 +1647,12 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
     if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
-    const status: "pass" | "fail" = added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 ? "pass" : "fail";
+    const missingAnswers = sourceUnits.flatMap((unit, unitIndex) =>
+      unit.questions
+        .filter((q) => !answerLookup.get(q))
+        .map((q) => ({ sourceIndex: unitIndex + 1, page: q.page, item: q.number, reason: "no_source_answer_key_entry" })),
+    );
+    const status: "pass" | "fail" = added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 && missingAnswers.length === 0 ? "pass" : "fail";
 
     const { data: report, error: repErr } = await context.supabase
       .from("pdf_fidelity_reports")
@@ -1672,6 +1677,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
             mergedPassages: [],
           },
           answerMismatches,
+          missingAnswers,
           sampleComparisons,
           added,
           removed,
@@ -1695,7 +1701,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         numberingDiffs: numberingDiffs.length,
         sectionDiffs: sectionDiffs.length,
       },
-      details: { added, removed, modified, numberingDiffs, sectionDiffs, answerMismatches, sampleComparisons },
+      details: { added, removed, modified, numberingDiffs, sectionDiffs, answerMismatches, missingAnswers, sampleComparisons },
     };
   });
 
