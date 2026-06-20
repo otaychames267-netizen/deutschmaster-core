@@ -1184,13 +1184,12 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     const { data: existingDrafts } = await context.supabase
       .from("exercises")
       .select("id")
-      .eq("source_pdf_import_id", data.examImportId)
-      .eq("status", "draft");
+      .eq("source_pdf_import_id", data.examImportId);
     const existingDraftIds = (existingDrafts ?? []).map((row: any) => row.id);
     if (existingDraftIds.length > 0) {
       await context.supabase.from("exercise_answer_keys").delete().in("exercise_id", existingDraftIds);
       await context.supabase.from("exercises").delete().in("id", existingDraftIds);
-      await appendImportLog(context.supabase, data.examImportId, { event: "stale_drafts_removed_before_rebuild", count: existingDraftIds.length });
+      await appendImportLog(context.supabase, data.examImportId, { event: "source_exercises_removed_before_preserve_rebuild", count: existingDraftIds.length });
     }
 
     let position = 1;
@@ -1325,6 +1324,18 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     await context.supabase.from("pdf_imports")
       .update({ status: "built", error_message: null })
       .eq("id", data.examImportId);
+
+    await appendImportLog(context.supabase, data.examImportId, {
+      event: "preserve_source_build_completed",
+      passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+      sourceExerciseUnits: sourceUnits.length,
+      exercisesCreated: createdExerciseIds.length,
+      questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+      answerKeysExtracted: answerLookup.count,
+      skipped: 0,
+      merged: 0,
+      ignored: 0,
+    });
 
     return {
       exerciseCount: createdExerciseIds.length,
