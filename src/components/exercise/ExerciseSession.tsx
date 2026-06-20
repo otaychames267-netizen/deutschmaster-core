@@ -273,7 +273,7 @@ export function ExerciseSession({
       })}
 
       <div className="flex justify-between">
-        <Button variant="outline" disabled={groupIndex === 0} onClick={() => setGroupIndex((i) => i - 1)}>
+        <Button variant="outline" onClick={() => groupIndex > 0 ? setGroupIndex((i) => i - 1) : window.history.back()}>
           <ArrowLeft className="size-4 mr-1" /> Zurück
         </Button>
         {groupIndex < groups.length - 1 ? (
