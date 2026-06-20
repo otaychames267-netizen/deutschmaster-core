@@ -869,6 +869,7 @@ function ExtractionReviewPanel({
   };
   useEffect(() => { load().catch(() => setData(null)); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [selected]);
   const review = data?.review ?? {};
+  const lowConfidence = Array.isArray(review.lowConfidenceItems) ? review.lowConfidenceItems : [];
   const blocking = Array.isArray(review.blockingLowConfidenceItems) ? review.blockingLowConfidenceItems : [];
   const ignored = Array.isArray(review.ignoredLowConfidenceItems) ? review.ignoredLowConfidenceItems : [];
   const failed = Array.isArray(review.failedChunks) ? review.failedChunks : [];
@@ -876,8 +877,8 @@ function ExtractionReviewPanel({
     if (!selected) return;
     setBusy(true);
     try {
-      await resolveReview({ data: { importId: selected, note: "Admin reviewed extraction low-confidence items in the PDF import workflow." } });
-      toast.success("Review erledigt — Übungen können gebaut werden.");
+      await resolveReview({ data: { importId: selected, note: "Admin approved all low-confidence OCR warnings as informational in the PDF import workflow." } });
+      toast.success("Alle Low-Confidence-Hinweise freigegeben — Übungen können gebaut werden.");
       await load(selected);
       await onResolved();
     } catch (e: any) {
@@ -888,7 +889,7 @@ function ExtractionReviewPanel({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2"><AlertTriangle className="size-4" />Extraktions-Review</CardTitle>
-        <CardDescription>Zeigt alle gespeicherten Low-Confidence- und Chunk-Hinweise aus der Extraktion und gibt den Build nach Prüfung frei.</CardDescription>
+        <CardDescription>Low-Confidence-Hinweise sind nur informativ, solange alle Chunks vollständig sind und der Text lesbar ist.</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
         <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
@@ -903,21 +904,23 @@ function ExtractionReviewPanel({
             <div className="flex flex-wrap gap-1.5">
               <Badge variant={review.canBuild ? "default" : "destructive"}>{review.canBuild ? "Build freigegeben" : "Build blockiert"}</Badge>
               <Badge variant="outline">Blöcke: {data.extraction.blocks?.length ?? 0}</Badge>
-              <Badge variant="outline">Low-Confidence: {(review.lowConfidenceItems ?? []).length}</Badge>
+              <Badge variant="outline">Low-Confidence: {lowConfidence.length}</Badge>
               <Badge variant={blocking.length ? "destructive" : "outline"}>Blockierend: {blocking.length}</Badge>
               <Badge variant="outline">Ignoriert: {ignored.length}</Badge>
               <Badge variant={failed.length ? "destructive" : "outline"}>Fehlgeschlagene Chunks: {failed.length}</Badge>
             </div>
             {failed.length > 0 && <ReviewList title="Fehlgeschlagene Chunks" items={failed} tone="error" />}
-            {blocking.length > 0 && <ReviewList title="Blockierende Low-Confidence-Items" items={blocking} tone="error" />}
-            {ignored.length > 0 && <ReviewList title="Nicht blockierend ignoriert (nicht-deutscher Zusatzinhalt)" items={ignored} />}
+            {blocking.length > 0 && <ReviewList title="Blockierend: wirklich unlesbar/leer/beschädigt" items={blocking} tone="error" />}
+            {ignored.length > 0 && <ReviewList title="Informativ: normale OCR-/Deutsch-Hinweise" items={ignored} />}
             {blocking.length === 0 && failed.length === 0 && (
               <div className="rounded-md border border-emerald-300 bg-emerald-50 p-3 text-sm text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
-                Die gespeicherten Hinweise betreffen keinen deutschen TELC-Prüfungsinhalt oder sind bereits geprüft. Der Build ist nicht blockiert.
+                Die gespeicherten Hinweise betreffen lesbare TELC-Inhalte wie Umlaute, deutsche Wörter, Eigennamen oder Domains. Der Build ist nicht blockiert.
               </div>
             )}
-            {blocking.length > 0 && (
-              <Button onClick={onResolve} disabled={busy || !isSuperAdmin || failed.length > 0}>{busy ? "Speichere…" : "Review als geprüft freigeben"}</Button>
+            {lowConfidence.length > 0 && (
+              <Button onClick={onResolve} disabled={busy || !isSuperAdmin || failed.length > 0 || review.incomplete}>
+                {busy ? "Speichere…" : "Approve All Low-Confidence Items"}
+              </Button>
             )}
           </div>
         )}
