@@ -1545,7 +1545,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     const { data: ext, error: extErr } = await context.supabase
       .from("pdf_extractions")
-      .select("blocks, raw_text")
+      .select("blocks, raw_text, page_count")
       .eq("import_id", data.examImportId)
       .maybeSingle();
     if (extErr) throw new Error(`Could not read extraction for fidelity check ${data.examImportId}: ${extErr.message}`);
@@ -1575,6 +1575,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     }
 
     const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
+    const pageCount = Number(ext.page_count ?? extractionMeta?.page_count ?? 0);
     const { data: exercises, error: exercisesErr } = await context.supabase
       .from("exercises")
       .select("id, module, teil, position, title, prompt, passage, options, correct, original_numbering, status, model_variant")
@@ -1647,6 +1648,10 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
 
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
     if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
+    const sourcePages = new Set(sourceUnits.flatMap((unit) => [unit.questionPage, ...unit.passagePages]).filter(Boolean));
+    const skippedPages = Array.from({ length: pageCount }, (_, i) => i + 1)
+      .filter((page) => !sourcePages.has(page))
+      .map((page) => ({ page, title: "", reason: "no_built_exercise_unit_detected_on_page" }));
     const missingAnswers = sourceUnits.flatMap((unit, unitIndex) =>
       unit.questions
         .filter((q) => !answerLookup.get(q))
@@ -1671,7 +1676,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
             exercisesCreated: orderedExercises.length,
             questionsExtracted: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
             answerKeysExtracted: answerLookup.count,
-            skippedPages: [],
+            skippedPages,
             mergedPages: [],
             ignoredPages: [],
             mergedPassages: [],
