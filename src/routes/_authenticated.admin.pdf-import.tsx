@@ -1212,6 +1212,32 @@ function FidelityPanel({
     </Card>
   );
 }
+
+function IssueList({ title, items }: { title: string; items: any[] }) {
+  return (
+    <div className="rounded-md border p-2 text-xs space-y-2">
+      <p className="font-medium">{title}</p>
+      <div className="space-y-1.5">
+        {items.slice(0, 12).map((item, idx) => (
+          <div key={`${title}-${idx}`} className="rounded bg-muted/40 p-2">
+            <div className="flex flex-wrap gap-1.5">
+              {item.sourceIndex != null && <Badge variant="outline">Quelle #{item.sourceIndex}</Badge>}
+              {item.page != null && <Badge variant="outline">Seite {item.page}</Badge>}
+              {item.itemRange && <Badge variant="secondary">Fragen {item.itemRange}</Badge>}
+              {item.item && <Badge variant="secondary">Item {item.item}</Badge>}
+              {item.reason && <Badge variant="outline">{item.reason}</Badge>}
+            </div>
+            {item.title && <p className="mt-1 font-medium">{item.title}</p>}
+            {item.textPreview && <p className="mt-1 text-muted-foreground whitespace-pre-wrap">{item.textPreview}</p>}
+            {item.note && <p className="mt-1 text-amber-700 dark:text-amber-300">{item.note}</p>}
+          </div>
+        ))}
+      </div>
+      {items.length > 12 && <p className="text-muted-foreground">Weitere {items.length - 12} Einträge im Detailbericht.</p>}
+    </div>
+  );
+}
+
 function ImportsList({
   imports, onRefresh, onDelete, canDelete,
 }: {
