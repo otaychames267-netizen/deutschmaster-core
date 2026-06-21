@@ -366,11 +366,14 @@ function buildAnswerLookup(blocks: any[]) {
     get(q: SourceQuestion, usageCounts?: Map<string, number>) {
       if (q.correctAnswer) return q.correctAnswer;
       const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
-      const exactPageKey = exactKey ? `${exactKey}::p${q.page}` : "";
+      const nearbyPages = [q.page, q.page + 1, q.page - 1].filter((p) => Number.isFinite(p) && p > 0);
       const unmodelledKey = `${q.teil}::${q.number}`;
-      const unmodelledPageKey = `${unmodelledKey}::p${q.page}`;
-      if (exactPageKey && exactByPage.has(exactPageKey)) return exactByPage.get(exactPageKey) ?? "";
-      if (unmodelledByPage.has(unmodelledPageKey)) return unmodelledByPage.get(unmodelledPageKey) ?? "";
+      for (const page of nearbyPages) {
+        const exactPageKey = exactKey ? `${exactKey}::p${page}` : "";
+        const unmodelledPageKey = `${unmodelledKey}::p${page}`;
+        if (exactPageKey && exactByPage.has(exactPageKey)) return exactByPage.get(exactPageKey) ?? "";
+        if (unmodelledByPage.has(unmodelledPageKey)) return unmodelledByPage.get(unmodelledPageKey) ?? "";
+      }
       if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
       if (!exactKey && usageCounts && (usageCounts.get(unmodelledKey) ?? 0) !== 1) return "";
       return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(unmodelledKey) ?? "";
