@@ -273,40 +273,75 @@ function normalizeAnswerLetter(value: any): string | null {
   return letter ? letter.toUpperCase() : null;
 }
 
+function unitQuestionRange(unit: SourceExerciseUnit) {
+  const firstNum = unit.questions[0]?.number ?? String(unit.sourceIndex);
+  const lastNum = unit.questions[unit.questions.length - 1]?.number ?? firstNum;
+  return unit.questions.length > 1 ? `${firstNum}–${lastNum}` : firstNum;
+}
+
+function unitOriginalNumbering(unit: SourceExerciseUnit) {
+  return `S.${unit.questionPage} ${unitQuestionRange(unit)}`;
+}
+
+function unitDiagnostic(unit: SourceExerciseUnit, reason: string) {
+  return {
+    sourceIndex: unit.sourceIndex,
+    reason,
+    page: unit.questionPage,
+    passagePages: unit.passagePages,
+    itemRange: unitQuestionRange(unit),
+    questionCount: unit.questions.length,
+    title: unit.title ?? `S.${unit.questionPage}`,
+    textPreview: (unit.passageText ?? unit.questions[0]?.text ?? "").slice(0, 220),
+  };
+}
+
 function buildAnswerLookup(blocks: any[]) {
   const exact = new Map<string, string>();
+  const exactByPage = new Map<string, string>();
   const unmodelled = new Map<string, string>();
+  const unmodelledByPage = new Map<string, string>();
   const conflicts: { key: string; answers: string[] }[] = [];
   const seenExact = new Map<string, Set<string>>();
+  const seenExactByPage = new Map<string, Set<string>>();
   const seenUnmodelled = new Map<string, Set<string>>();
+  const seenUnmodelledByPage = new Map<string, Set<string>>();
   for (const b of blocks) {
     if (b?.type !== "answer_key_entry") continue;
     const teil = sourceBlockTeil(b, 0);
     const number = normalizeItemNumber(b.number);
-    const answer = normalizeAnswerLetter(b.answer) ?? String(b.answer ?? "").trim();
+    const answer = normalizeAnswerLetter(b.answer) ?? String(b.answer ?? "").trim().toUpperCase();
     if (!teil || !number || !answer) continue;
+    const page = Number(b.page) || 0;
     const model = normalizeModel(b.model);
     if (model) {
       const k = `${model}::${teil}::${number}`;
+      const pk = `${k}::p${page}`;
       const set = seenExact.get(k) ?? new Set<string>();
       set.add(answer);
       seenExact.set(k, set);
-      exact.set(k, answer);
+      if (set.size === 1) exact.set(k, answer);
+      const pset = seenExactByPage.get(pk) ?? new Set<string>();
+      pset.add(answer);
+      seenExactByPage.set(pk, pset);
+      if (pset.size === 1) exactByPage.set(pk, answer);
     } else {
       const k = `${teil}::${number}`;
+      const pk = `${k}::p${page}`;
       const set = seenUnmodelled.get(k) ?? new Set<string>();
       set.add(answer);
       seenUnmodelled.set(k, set);
-      unmodelled.set(k, answer);
+      if (set.size === 1) unmodelled.set(k, answer);
+      const pset = seenUnmodelledByPage.get(pk) ?? new Set<string>();
+      pset.add(answer);
+      seenUnmodelledByPage.set(pk, pset);
+      if (pset.size === 1) unmodelledByPage.set(pk, answer);
     }
   }
-  for (const [k, set] of seenExact) if (set.size > 1) conflicts.push({ key: k, answers: [...set] });
-  for (const [k, set] of seenUnmodelled) if (set.size > 1) conflicts.push({ key: k, answers: [...set] });
-  // Drop ambiguous keys so the build never silently picks a wrong answer.
-  for (const c of conflicts) {
-    if (c.key.split("::").length === 3) exact.delete(c.key);
-    else unmodelled.delete(c.key);
-  }
+  for (const [k, set] of seenExact) if (set.size > 1) exact.delete(k);
+  for (const [k, set] of seenUnmodelled) if (set.size > 1) unmodelled.delete(k);
+  for (const [k, set] of seenExactByPage) if (set.size > 1) { exactByPage.delete(k); conflicts.push({ key: k, answers: [...set] }); }
+  for (const [k, set] of seenUnmodelledByPage) if (set.size > 1) { unmodelledByPage.delete(k); conflicts.push({ key: k, answers: [...set] }); }
   return {
     keyFor(q: SourceQuestion) {
       return q.model ? `${q.model}::${q.teil}::${q.number}` : `${q.teil}::${q.number}`;
@@ -314,11 +349,16 @@ function buildAnswerLookup(blocks: any[]) {
     get(q: SourceQuestion, usageCounts?: Map<string, number>) {
       if (q.correctAnswer) return q.correctAnswer;
       const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
+      const exactPageKey = exactKey ? `${exactKey}::p${q.page}` : "";
+      const unmodelledKey = `${q.teil}::${q.number}`;
+      const unmodelledPageKey = `${unmodelledKey}::p${q.page}`;
+      if (exactPageKey && exactByPage.has(exactPageKey)) return exactByPage.get(exactPageKey) ?? "";
+      if (unmodelledByPage.has(unmodelledPageKey)) return unmodelledByPage.get(unmodelledPageKey) ?? "";
       if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
-      if (!exactKey && usageCounts && (usageCounts.get(`${q.teil}::${q.number}`) ?? 0) !== 1) return "";
-      return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(`${q.teil}::${q.number}`) ?? "";
+      if (!exactKey && usageCounts && (usageCounts.get(unmodelledKey) ?? 0) !== 1) return "";
+      return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(unmodelledKey) ?? "";
     },
-    count: exact.size + unmodelled.size,
+    count: exactByPage.size + unmodelledByPage.size,
     conflicts,
   };
 }
