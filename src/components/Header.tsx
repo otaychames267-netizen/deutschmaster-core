@@ -20,6 +20,13 @@ export function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const stored = window.localStorage.getItem("i18nextLng");
+    if (stored && LANGS.some((l) => l.code === stored) && stored !== i18n.language) {
+      void i18n.changeLanguage(stored);
+    }
+  }, [i18n]);
+
+  useEffect(() => {
     document.documentElement.lang = i18n.language;
     document.documentElement.dir = RTL_LANGS.includes(i18n.language) ? "rtl" : "ltr";
   }, [i18n.language]);
@@ -42,7 +49,7 @@ export function Header() {
             <DropdownMenuTrigger asChild><Button variant="ghost" size="icon"><Globe className="h-4 w-4" /></Button></DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               {LANGS.map((l) => (
-                <DropdownMenuItem key={l.code} onClick={() => i18n.changeLanguage(l.code)}>{l.label}</DropdownMenuItem>
+                <DropdownMenuItem key={l.code} onClick={() => { window.localStorage.setItem("i18nextLng", l.code); void i18n.changeLanguage(l.code); }}>{l.label}</DropdownMenuItem>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>

@@ -469,8 +469,8 @@ function PdfImportPage() {
       });
       toast.success(
         `${r.exerciseCount} Übungen erstellt · ${r.questionsDetected ?? "?"} Fragen · ` +
-        `${r.keyCount} Lösungen verknüpft · übersprungen/zusammengeführt/ignoriert: ` +
-        `${r.skipped ?? 0}/${r.merged ?? 0}/${r.ignored ?? 0}`,
+        `${r.keyCount} Lösungen verknüpft · Hinweise: ` +
+        `${r.missingAnswerKeys?.length ?? 0} fehlende Lösungen, ${r.skippedUnits?.length ?? 0} übersprungene Einheit(en), ${r.unbuiltPassages?.length ?? 0} unbebaute Passage(n)`,
       );
       await refresh();
     } catch (e: any) {
@@ -1069,6 +1069,9 @@ function PublishDraftListImpl({ publish, isSuperAdmin, fidelityGet }: { publish:
         {drafts.map(d => {
           const rep = d.source_pdf_import_id ? reports[d.source_pdf_import_id] : null;
           const passed = rep?.status === "pass";
+          const publishableIds = Array.isArray(rep?.details?.publishableExerciseIds) ? rep.details.publishableExerciseIds : [];
+          const individuallyCleared = publishableIds.includes(d.id);
+          const canPublish = passed || individuallyCleared;
           return (
             <div key={d.id} className="flex items-center justify-between gap-2 rounded-md border p-2">
               <div className="min-w-0">
@@ -1079,15 +1082,15 @@ function PublishDraftListImpl({ publish, isSuperAdmin, fidelityGet }: { publish:
                   <Badge variant="outline">Teil {d.teil}</Badge>
                   {d.original_numbering && <Badge variant="secondary">#{d.original_numbering}</Badge>}
                   {rep ? (
-                    <Badge variant={passed ? "default" : "destructive"}>
-                      Treuekontrolle: {passed ? "bestanden" : "fehlgeschlagen"}
+                    <Badge variant={canPublish ? "default" : "destructive"}>
+                      Treuekontrolle: {passed ? "bestanden" : individuallyCleared ? "teilweise freigegeben" : "Review nötig"}
                     </Badge>
                   ) : (
                     <Badge variant="destructive">Treuekontrolle fehlt</Badge>
                   )}
                 </div>
               </div>
-              <Button size="sm" disabled={busy || !isSuperAdmin || !passed} onClick={() => onPublish(d.id)}>
+              <Button size="sm" disabled={busy || !isSuperAdmin || !canPublish} onClick={() => onPublish(d.id)}>
                 <Check className="size-3.5 mr-1" />Veröffentlichen
               </Button>
             </div>
@@ -1115,8 +1118,13 @@ function FidelityPanel({
     setBusy(true);
     try {
       const r = await run({ data: { examImportId: selected } });
-      toast[r.status === "pass" ? "success" : "error"](
-        r.status === "pass" ? "Treuekontrolle bestanden — Veröffentlichen freigegeben." : "Treuekontrolle fehlgeschlagen — manuelle Prüfung erforderlich."
+      const partialCount = r.details?.publishableExerciseIds?.length ?? 0;
+      toast[r.status === "pass" || partialCount > 0 ? "success" : "error"](
+        r.status === "pass"
+          ? "Treuekontrolle bestanden — Veröffentlichen freigegeben."
+          : partialCount > 0
+            ? `${partialCount} Übung(en) bestanden — diese können veröffentlicht werden; fehlende Passage(n) bleiben zur manuellen Prüfung markiert.`
+            : "Treuekontrolle fehlgeschlagen — manuelle Prüfung erforderlich."
       );
       const latest = await get({ data: { examImportId: selected } });
       setReport(latest.report);
@@ -1161,6 +1169,8 @@ function FidelityPanel({
               <Badge variant="outline">Abschnitte: {report.section_diff_count}</Badge>
               <Badge variant="outline">Antwort-Mismatches: {report.details?.answerMismatches?.length ?? 0}</Badge>
               <Badge variant="outline">Fehlende Lösungen: {report.details?.missingAnswers?.length ?? 0}</Badge>
+              <Badge variant="outline">Freigegeben: {report.details?.publishableExerciseIds?.length ?? 0}</Badge>
+              <Badge variant="outline">Unbebaute Passagen: {report.details?.reconciliation?.unbuiltPassages?.length ?? 0}</Badge>
             </div>
             {report.details?.reconciliation && (
               <div className="grid gap-2 sm:grid-cols-4 text-xs">
@@ -1171,10 +1181,21 @@ function FidelityPanel({
               </div>
             )}
             {report.status !== "pass" && (
-              <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-sm">
+              <div className="flex items-start gap-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 p-2 text-sm">
                 <AlertTriangle className="size-4 mt-0.5 shrink-0" />
-                <p>Veröffentlichung gesperrt. Unterschiede manuell prüfen und Übungen erneut bauen, bis die Kontrolle besteht.</p>
+                <p>{(report.details?.publishableExerciseIds?.length ?? 0) > 0
+                  ? "Teilfreigabe aktiv: erfolgreich geprüfte Übungen können veröffentlicht werden. Fehlende/fehlerhafte Passagen sind unten mit Seite, Quellindex und Vorschau markiert."
+                  : "Keine Übung wurde freigegeben. Unterschiede manuell prüfen und Übungen erneut bauen."}</p>
               </div>
+            )}
+            {report.details?.reconciliation?.unbuiltPassages?.length > 0 && (
+              <IssueList title="Passage erkannt, aber keine Übung gebaut" items={report.details.reconciliation.unbuiltPassages} />
+            )}
+            {report.details?.removed?.length > 0 && (
+              <IssueList title="Fehlende gebaute Übung" items={report.details.removed} />
+            )}
+            {report.details?.missingAnswers?.length > 0 && (
+              <IssueList title="Nicht gematchte Lösungsschlüssel" items={report.details.missingAnswers} />
             )}
             <details className="text-xs">
               <summary className="cursor-pointer text-muted-foreground">Detailbericht anzeigen</summary>
@@ -1191,6 +1212,32 @@ function FidelityPanel({
     </Card>
   );
 }
+
+function IssueList({ title, items }: { title: string; items: any[] }) {
+  return (
+    <div className="rounded-md border p-2 text-xs space-y-2">
+      <p className="font-medium">{title}</p>
+      <div className="space-y-1.5">
+        {items.slice(0, 12).map((item, idx) => (
+          <div key={`${title}-${idx}`} className="rounded bg-muted/40 p-2">
+            <div className="flex flex-wrap gap-1.5">
+              {item.sourceIndex != null && <Badge variant="outline">Quelle #{item.sourceIndex}</Badge>}
+              {item.page != null && <Badge variant="outline">Seite {item.page}</Badge>}
+              {item.itemRange && <Badge variant="secondary">Fragen {item.itemRange}</Badge>}
+              {item.item && <Badge variant="secondary">Item {item.item}</Badge>}
+              {item.reason && <Badge variant="outline">{item.reason}</Badge>}
+            </div>
+            {item.title && <p className="mt-1 font-medium">{item.title}</p>}
+            {item.textPreview && <p className="mt-1 text-muted-foreground whitespace-pre-wrap">{item.textPreview}</p>}
+            {item.note && <p className="mt-1 text-amber-700 dark:text-amber-300">{item.note}</p>}
+          </div>
+        ))}
+      </div>
+      {items.length > 12 && <p className="text-muted-foreground">Weitere {items.length - 12} Einträge im Detailbericht.</p>}
+    </div>
+  );
+}
+
 function ImportsList({
   imports, onRefresh, onDelete, canDelete,
 }: {
