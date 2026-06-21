@@ -1118,8 +1118,13 @@ function FidelityPanel({
     setBusy(true);
     try {
       const r = await run({ data: { examImportId: selected } });
-      toast[r.status === "pass" ? "success" : "error"](
-        r.status === "pass" ? "Treuekontrolle bestanden — Veröffentlichen freigegeben." : "Treuekontrolle fehlgeschlagen — manuelle Prüfung erforderlich."
+      const partialCount = r.details?.publishableExerciseIds?.length ?? 0;
+      toast[r.status === "pass" || partialCount > 0 ? "success" : "error"](
+        r.status === "pass"
+          ? "Treuekontrolle bestanden — Veröffentlichen freigegeben."
+          : partialCount > 0
+            ? `${partialCount} Übung(en) bestanden — diese können veröffentlicht werden; fehlende Passage(n) bleiben zur manuellen Prüfung markiert.`
+            : "Treuekontrolle fehlgeschlagen — manuelle Prüfung erforderlich."
       );
       const latest = await get({ data: { examImportId: selected } });
       setReport(latest.report);
@@ -1164,6 +1169,8 @@ function FidelityPanel({
               <Badge variant="outline">Abschnitte: {report.section_diff_count}</Badge>
               <Badge variant="outline">Antwort-Mismatches: {report.details?.answerMismatches?.length ?? 0}</Badge>
               <Badge variant="outline">Fehlende Lösungen: {report.details?.missingAnswers?.length ?? 0}</Badge>
+              <Badge variant="outline">Freigegeben: {report.details?.publishableExerciseIds?.length ?? 0}</Badge>
+              <Badge variant="outline">Unbebaute Passagen: {report.details?.reconciliation?.unbuiltPassages?.length ?? 0}</Badge>
             </div>
             {report.details?.reconciliation && (
               <div className="grid gap-2 sm:grid-cols-4 text-xs">
@@ -1174,10 +1181,21 @@ function FidelityPanel({
               </div>
             )}
             {report.status !== "pass" && (
-              <div className="flex items-start gap-2 rounded-md bg-destructive/10 text-destructive p-2 text-sm">
+              <div className="flex items-start gap-2 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 p-2 text-sm">
                 <AlertTriangle className="size-4 mt-0.5 shrink-0" />
-                <p>Veröffentlichung gesperrt. Unterschiede manuell prüfen und Übungen erneut bauen, bis die Kontrolle besteht.</p>
+                <p>{(report.details?.publishableExerciseIds?.length ?? 0) > 0
+                  ? "Teilfreigabe aktiv: erfolgreich geprüfte Übungen können veröffentlicht werden. Fehlende/fehlerhafte Passagen sind unten mit Seite, Quellindex und Vorschau markiert."
+                  : "Keine Übung wurde freigegeben. Unterschiede manuell prüfen und Übungen erneut bauen."}</p>
               </div>
+            )}
+            {report.details?.reconciliation?.unbuiltPassages?.length > 0 && (
+              <IssueList title="Passage erkannt, aber keine Übung gebaut" items={report.details.reconciliation.unbuiltPassages} />
+            )}
+            {report.details?.removed?.length > 0 && (
+              <IssueList title="Fehlende gebaute Übung" items={report.details.removed} />
+            )}
+            {report.details?.missingAnswers?.length > 0 && (
+              <IssueList title="Nicht gematchte Lösungsschlüssel" items={report.details.missingAnswers} />
             )}
             <details className="text-xs">
               <summary className="cursor-pointer text-muted-foreground">Detailbericht anzeigen</summary>
