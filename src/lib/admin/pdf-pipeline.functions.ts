@@ -296,6 +296,23 @@ function unitDiagnostic(unit: SourceExerciseUnit, reason: string) {
   };
 }
 
+function buildUnbuiltPassageDiagnostics(blocks: any[], sourceUnits: SourceExerciseUnit[], teil: number) {
+  const linkedPassagePages = new Set(sourceUnits.flatMap((unit) => unit.passagePages));
+  return blocks
+    .filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil)
+    .filter((b) => !linkedPassagePages.has(Number(b.page) || 0))
+    .map((b, idx) => ({
+      sourceIndex: sourceUnits.length + idx + 1,
+      reason: "passage_detected_without_built_exercise_questions",
+      page: Number(b.page) || 0,
+      passagePages: [Number(b.page) || 0].filter(Boolean),
+      itemRange: "",
+      questionCount: 0,
+      title: b.title ?? `S.${Number(b.page) || "?"}`,
+      textPreview: String(b.text ?? "").slice(0, 220),
+    }));
+}
+
 function buildAnswerLookup(blocks: any[]) {
   const exact = new Map<string, string>();
   const exactByPage = new Map<string, string>();
