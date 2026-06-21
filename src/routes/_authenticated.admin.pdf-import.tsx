@@ -469,8 +469,8 @@ function PdfImportPage() {
       });
       toast.success(
         `${r.exerciseCount} Übungen erstellt · ${r.questionsDetected ?? "?"} Fragen · ` +
-        `${r.keyCount} Lösungen verknüpft · übersprungen/zusammengeführt/ignoriert: ` +
-        `${r.skipped ?? 0}/${r.merged ?? 0}/${r.ignored ?? 0}`,
+        `${r.keyCount} Lösungen verknüpft · Hinweise: ` +
+        `${r.missingAnswerKeys?.length ?? 0} fehlende Lösungen, ${r.skippedUnits?.length ?? 0} übersprungene Einheit(en), ${r.unbuiltPassages?.length ?? 0} unbebaute Passage(n)`,
       );
       await refresh();
     } catch (e: any) {
@@ -1069,6 +1069,9 @@ function PublishDraftListImpl({ publish, isSuperAdmin, fidelityGet }: { publish:
         {drafts.map(d => {
           const rep = d.source_pdf_import_id ? reports[d.source_pdf_import_id] : null;
           const passed = rep?.status === "pass";
+          const publishableIds = Array.isArray(rep?.details?.publishableExerciseIds) ? rep.details.publishableExerciseIds : [];
+          const individuallyCleared = publishableIds.includes(d.id);
+          const canPublish = passed || individuallyCleared;
           return (
             <div key={d.id} className="flex items-center justify-between gap-2 rounded-md border p-2">
               <div className="min-w-0">
@@ -1079,15 +1082,15 @@ function PublishDraftListImpl({ publish, isSuperAdmin, fidelityGet }: { publish:
                   <Badge variant="outline">Teil {d.teil}</Badge>
                   {d.original_numbering && <Badge variant="secondary">#{d.original_numbering}</Badge>}
                   {rep ? (
-                    <Badge variant={passed ? "default" : "destructive"}>
-                      Treuekontrolle: {passed ? "bestanden" : "fehlgeschlagen"}
+                    <Badge variant={canPublish ? "default" : "destructive"}>
+                      Treuekontrolle: {passed ? "bestanden" : individuallyCleared ? "teilweise freigegeben" : "Review nötig"}
                     </Badge>
                   ) : (
                     <Badge variant="destructive">Treuekontrolle fehlt</Badge>
                   )}
                 </div>
               </div>
-              <Button size="sm" disabled={busy || !isSuperAdmin || !passed} onClick={() => onPublish(d.id)}>
+              <Button size="sm" disabled={busy || !isSuperAdmin || !canPublish} onClick={() => onPublish(d.id)}>
                 <Check className="size-3.5 mr-1" />Veröffentlichen
               </Button>
             </div>
