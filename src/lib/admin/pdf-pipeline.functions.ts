@@ -1762,19 +1762,23 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
     const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
 
-    const modified: Array<{ key: string; field: string; original: string; built: string }> = [];
-    const numberingDiffs: Array<{ exerciseId: string; expected: string; got: string }> = [];
+    const modified: Array<{ key: string; sourceIndex: number; page: number; field: string; original: string; built: string }> = [];
+    const numberingDiffs: Array<{ exerciseId: string; sourceIndex: number; page: number; expected: string; got: string }> = [];
     const answerMismatches: Array<{ exerciseId: string; sourceIndex: number; item: string; sourceAnswer: string; storedAnswer: string }> = [];
-    const removed = sourceUnits.slice(orderedExercises.length).map((unit) => ({
-      key: `source:${unit.sourceIndex}`,
-      kind: "exercise" as const,
-      page: unit.questionPage,
-      title: unit.title ?? `S.${unit.questionPage}`,
-      reason: "source_exercise_missing_in_built_output",
-      questionCount: unit.questions.length,
-      textPreview: (unit.passageText ?? unit.questions[0]?.text ?? "").slice(0, 220),
+    const hasOriginalNumbering = orderedExercises.some((ex: any) => String(ex.original_numbering ?? "").trim());
+    const exerciseByOriginalNumbering = new Map<string, any>();
+    for (const ex of orderedExercises) exerciseByOriginalNumbering.set(norm(ex.original_numbering), ex);
+    const matchedPairs = sourceUnits.map((src, idx) => ({
+      src,
+      ex: hasOriginalNumbering ? exerciseByOriginalNumbering.get(norm(unitOriginalNumbering(src))) : orderedExercises[idx],
     }));
-    const added = orderedExercises.slice(sourceUnits.length).map((ex: any) => ({
+    const matchedExerciseIds = new Set(matchedPairs.map((pair) => pair.ex?.id).filter(Boolean));
+    const removed = matchedPairs.filter((pair) => !pair.ex).map(({ src }) => ({
+      key: `source:${src.sourceIndex}`,
+      kind: "exercise" as const,
+      ...unitDiagnostic(src, "source_exercise_missing_in_built_output"),
+    }));
+    const added = orderedExercises.filter((ex: any) => !matchedExerciseIds.has(ex.id)).map((ex: any) => ({
       key: `exercise:${ex.id}`,
       kind: "exercise" as const,
       exerciseId: ex.id,
@@ -1782,24 +1786,24 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       reason: "built_exercise_without_source_unit_at_same_position",
     }));
 
-    for (let i = 0; i < Math.min(sourceUnits.length, orderedExercises.length); i++) {
-      const src = sourceUnits[i];
-      const ex: any = orderedExercises[i];
+    for (const { src, ex } of matchedPairs) {
+      if (!ex) continue;
       const key = `source:${src.sourceIndex}:exercise:${ex.id}`;
-      if (norm(src.passageText) !== norm(ex.passage)) modified.push({ key, field: "passage", original: src.passageText ?? "", built: String(ex.passage ?? "") });
+      const addModified = (field: string, original: string, built: string) => modified.push({ key, sourceIndex: src.sourceIndex, page: src.questionPage, field, original, built });
+      if (norm(src.passageText) !== norm(ex.passage)) addModified("passage", src.passageText ?? "", String(ex.passage ?? ""));
       const expectedPrompt = src.questions.length > 1 ? (src.instruction || `Beantworten Sie die Fragen ${src.questions[0]?.number ?? ""}–${src.questions[src.questions.length - 1]?.number ?? ""}.`) : (src.questions[0]?.text ?? src.instruction);
-      if (norm(expectedPrompt) !== norm(ex.prompt)) modified.push({ key, field: "prompt/instruction", original: expectedPrompt, built: String(ex.prompt ?? "") });
+      if (norm(expectedPrompt) !== norm(ex.prompt)) addModified("prompt/instruction", expectedPrompt, String(ex.prompt ?? ""));
       const embedded = ex.options && typeof ex.options === "object" && !Array.isArray(ex.options) && Array.isArray(ex.options.questions) ? ex.options.questions : [];
-      if (embedded.length !== src.questions.length) modified.push({ key, field: "questions.count", original: String(src.questions.length), built: String(embedded.length) });
+      if (embedded.length !== src.questions.length) addModified("questions.count", String(src.questions.length), String(embedded.length));
       for (let qn = 0; qn < Math.min(src.questions.length, embedded.length); qn++) {
         const sq = src.questions[qn];
         const bq = embedded[qn];
-        if (normalizeItemNumber(sq.number) !== normalizeItemNumber(bq?.n)) numberingDiffs.push({ exerciseId: ex.id, expected: sq.number, got: String(bq?.n ?? "") });
-        if (norm(sq.text) !== norm(bq?.prompt)) modified.push({ key, field: `questions[${qn}].prompt`, original: sq.text, built: String(bq?.prompt ?? "") });
+        if (normalizeItemNumber(sq.number) !== normalizeItemNumber(bq?.n)) numberingDiffs.push({ exerciseId: ex.id, sourceIndex: src.sourceIndex, page: src.questionPage, expected: sq.number, got: String(bq?.n ?? "") });
+        if (norm(sq.text) !== norm(bq?.prompt)) addModified(`questions[${qn}].prompt`, sq.text, String(bq?.prompt ?? ""));
         const builtOptions = Array.isArray(bq?.options) ? bq.options.map((o: any) => String(o ?? "")) : [];
-        if (sq.options.length !== builtOptions.length) modified.push({ key, field: `questions[${qn}].options.count`, original: String(sq.options.length), built: String(builtOptions.length) });
+        if (sq.options.length !== builtOptions.length) addModified(`questions[${qn}].options.count`, String(sq.options.length), String(builtOptions.length));
         for (let oi = 0; oi < Math.min(sq.options.length, builtOptions.length); oi++) {
-          if (norm(sq.options[oi]) !== norm(builtOptions[oi])) modified.push({ key, field: `questions[${qn}].options[${oi}]`, original: sq.options[oi], built: builtOptions[oi] });
+          if (norm(sq.options[oi]) !== norm(builtOptions[oi])) addModified(`questions[${qn}].options[${oi}]`, sq.options[oi], builtOptions[oi]);
         }
         const sourceAnswer = answerLookup.get(sq, answerUsageCounts);
         const storedAnswer = String(bq?.rawAnswer ?? "").trim();
