@@ -1838,10 +1838,10 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const sampleComparisons = sampleIndexes.map((idx) => ({
       sourceIndex: sourceUnits[idx].sourceIndex,
       page: sourceUnits[idx].questionPage,
-      exerciseId: matchedPairs[idx].ex.id,
-      title: matchedPairs[idx].ex.title,
-      textMatches: norm(sourceUnits[idx].passageText) === norm(matchedPairs[idx].ex.passage),
-      questionCountMatches: sourceUnits[idx].questions.length === ((matchedPairs[idx].ex.options as any)?.questions?.length ?? 0),
+      exerciseId: matchedPairs[idx].ex?.id ?? "",
+      title: matchedPairs[idx].ex?.title ?? "",
+      textMatches: norm(sourceUnits[idx].passageText) === norm(matchedPairs[idx].ex?.passage),
+      questionCountMatches: sourceUnits[idx].questions.length === ((matchedPairs[idx].ex?.options as any)?.questions?.length ?? 0),
     }));
 
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
