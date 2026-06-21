@@ -1812,28 +1812,58 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     }
 
     const sampleIndexes = [...new Set([0, Math.floor(sourceUnits.length / 4), Math.floor(sourceUnits.length / 2), Math.floor((sourceUnits.length * 3) / 4), sourceUnits.length - 1])]
-      .filter((idx) => idx >= 0 && idx < Math.min(sourceUnits.length, orderedExercises.length));
+      .filter((idx) => idx >= 0 && idx < sourceUnits.length && Boolean(matchedPairs[idx]?.ex));
     const sampleComparisons = sampleIndexes.map((idx) => ({
       sourceIndex: sourceUnits[idx].sourceIndex,
       page: sourceUnits[idx].questionPage,
-      exerciseId: orderedExercises[idx].id,
-      title: orderedExercises[idx].title,
-      textMatches: norm(sourceUnits[idx].passageText) === norm(orderedExercises[idx].passage),
-      questionCountMatches: sourceUnits[idx].questions.length === ((orderedExercises[idx].options as any)?.questions?.length ?? 0),
+      exerciseId: matchedPairs[idx].ex.id,
+      title: matchedPairs[idx].ex.title,
+      textMatches: norm(sourceUnits[idx].passageText) === norm(matchedPairs[idx].ex.passage),
+      questionCountMatches: sourceUnits[idx].questions.length === ((matchedPairs[idx].ex.options as any)?.questions?.length ?? 0),
     }));
 
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
     if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
     const sourcePages = new Set(sourceUnits.flatMap((unit) => [unit.questionPage, ...unit.passagePages]).filter(Boolean));
+    const answerPages = new Set(blocks.filter((b) => b?.type === "answer_key_entry").map((b) => Number(b.page)).filter(Boolean));
+    const sourceBlockPages = new Set(blocks.filter((b) => ["passage", "question", "answer_key_entry"].includes(String(b?.type))).map((b) => Number(b.page)).filter(Boolean));
     const skippedPages = Array.from({ length: pageCount }, (_, i) => i + 1)
       .filter((page) => !sourcePages.has(page))
-      .map((page) => ({ page, title: "", reason: "no_built_exercise_unit_detected_on_page" }));
+      .filter((page) => !answerPages.has(page))
+      .filter((page) => sourceBlockPages.has(page))
+      .map((page) => ({ page, title: "", reason: "source_blocks_on_page_not_linked_to_built_exercise" }));
     const missingAnswers = sourceUnits.flatMap((unit, unitIndex) =>
       unit.questions
         .filter((q) => !answerLookup.get(q, answerUsageCounts))
-        .map((q) => ({ sourceIndex: unitIndex + 1, page: q.page, item: q.number, reason: "no_source_answer_key_entry" })),
+        .map((q) => ({
+          sourceIndex: unitIndex + 1,
+          page: q.page,
+          passagePages: unit.passagePages,
+          itemRange: unitQuestionRange(unit),
+          item: q.number,
+          title: unit.title ?? "",
+          reason: "no_source_answer_key_entry",
+          note: "The extracted blocks do not contain a matching answer_key_entry. If the PDF visibly has a red-boxed answer here, re-run extraction/vision for this page or complete the answer manually.",
+        })),
     );
-    const status: "pass" | "fail" = added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 && missingAnswers.length === 0 ? "pass" : "fail";
+    const badExerciseIds = new Set<string>();
+    for (const d of added) if (d.exerciseId) badExerciseIds.add(d.exerciseId);
+    for (const d of modified) {
+      const match = matchedPairs.find((pair) => pair.src.sourceIndex === d.sourceIndex);
+      if (match?.ex?.id) badExerciseIds.add(match.ex.id);
+    }
+    for (const d of numberingDiffs) if (d.exerciseId) badExerciseIds.add(d.exerciseId);
+    for (const d of answerMismatches) if (d.exerciseId) badExerciseIds.add(d.exerciseId);
+    const removedSourceIndexes = new Set(removed.map((d) => d.sourceIndex));
+    for (const d of missingAnswers) {
+      const match = matchedPairs.find((pair) => pair.src.sourceIndex === d.sourceIndex);
+      if (match?.ex?.id) badExerciseIds.add(match.ex.id);
+    }
+    const publishableExerciseIds = matchedPairs
+      .filter((pair) => pair.ex?.id && !badExerciseIds.has(pair.ex.id) && !removedSourceIndexes.has(pair.src.sourceIndex))
+      .map((pair) => pair.ex.id as string);
+    const partialPass = publishableExerciseIds.length > 0 && (added.length > 0 || removed.length > 0 || modified.length > 0 || numberingDiffs.length > 0 || sectionDiffs.length > 0 || answerMismatches.length > 0 || missingAnswers.length > 0);
+    const status: "pass" | "fail" = !partialPass && added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 && missingAnswers.length === 0 ? "pass" : "fail";
 
     const { data: report, error: repErr } = await context.supabase
       .from("pdf_fidelity_reports")
@@ -1852,11 +1882,17 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
             exercisesCreated: orderedExercises.length,
             questionsExtracted: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
             answerKeysExtracted: answerLookup.count,
+            publishableExercises: publishableExerciseIds.length,
+            blockedExercises: badExerciseIds.size,
             skippedPages,
             mergedPages: [],
             ignoredPages: [],
             mergedPassages: [],
           },
+          publishMode: partialPass ? "partial" : status === "pass" ? "all" : "blocked",
+          publishableExerciseIds,
+          blockedExerciseIds: [...badExerciseIds],
+          failedSourceUnits: removed,
           answerMismatches,
           missingAnswers,
           sampleComparisons,
