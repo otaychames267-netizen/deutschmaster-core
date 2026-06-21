@@ -1885,8 +1885,9 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const publishableExerciseIds = matchedPairs
       .filter((pair) => pair.ex?.id && !badExerciseIds.has(pair.ex.id) && !removedSourceIndexes.has(pair.src.sourceIndex))
       .map((pair) => pair.ex.id as string);
-    const partialPass = publishableExerciseIds.length > 0 && (added.length > 0 || removed.length > 0 || modified.length > 0 || numberingDiffs.length > 0 || sectionDiffs.length > 0 || answerMismatches.length > 0 || missingAnswers.length > 0);
-    const status: "pass" | "fail" = !partialPass && added.length === 0 && removed.length === 0 && modified.length === 0 && numberingDiffs.length === 0 && sectionDiffs.length === 0 && answerMismatches.length === 0 && missingAnswers.length === 0 ? "pass" : "fail";
+    const hasIssues = added.length > 0 || removed.length > 0 || unbuiltPassages.length > 0 || modified.length > 0 || numberingDiffs.length > 0 || sectionDiffs.length > 0 || answerMismatches.length > 0 || missingAnswers.length > 0;
+    const partialPass = publishableExerciseIds.length > 0 && hasIssues;
+    const status: "pass" | "fail" = !hasIssues ? "pass" : "fail";
 
     const { data: report, error: repErr } = await context.supabase
       .from("pdf_fidelity_reports")
