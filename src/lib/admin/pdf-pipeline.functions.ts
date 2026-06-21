@@ -1302,7 +1302,10 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     let keyCount = 0;
     const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number; sourceIndex?: number }[] = [];
     const skippedUnits: Array<ReturnType<typeof unitDiagnostic>> = [];
-    const sourceUnitDiagnostics = sourceUnits.map((unit) => unitDiagnostic(unit, "source_exercise_unit_detected"));
+    const sourceUnitDiagnostics = [
+      ...sourceUnits.map((unit) => unitDiagnostic(unit, "source_exercise_unit_detected")),
+      ...buildUnbuiltPassageDiagnostics(blocks, sourceUnits, teil),
+    ];
     if (answerLookup.conflicts && answerLookup.conflicts.length > 0) {
       for (const c of answerLookup.conflicts) {
         buildWarnings.push({ kind: "answer_key_conflict", detail: `Conflicting answers for ${c.key}: ${c.answers.join(", ")} — entry skipped, please verify manually.` });
@@ -1499,7 +1502,8 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     await appendImportLog(context.supabase, data.examImportId, {
       event: "preserve_source_build_completed",
-      passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+        passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+        unbuiltPassages: sourceUnitDiagnostics.filter((u) => u.reason === "passage_detected_without_built_exercise_questions"),
       sourceExerciseUnits: sourceUnits.length,
       exercisesCreated: createdExerciseIds.length,
       questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
@@ -1526,6 +1530,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       warnings: buildWarnings,
       skippedUnits,
       sourceUnitDiagnostics,
+      unbuiltPassages: sourceUnitDiagnostics.filter((u) => u.reason === "passage_detected_without_built_exercise_questions"),
       skipped: 0,
       merged: 0,
       ignored: 0,
