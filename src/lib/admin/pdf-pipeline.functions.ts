@@ -1283,8 +1283,9 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
-    const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number }[] = [];
-    const skippedUnits: { reason: string; page?: number; itemRange?: string }[] = [];
+    const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number; sourceIndex?: number }[] = [];
+    const skippedUnits: Array<ReturnType<typeof unitDiagnostic>> = [];
+    const sourceUnitDiagnostics = sourceUnits.map((unit) => unitDiagnostic(unit, "source_exercise_unit_detected"));
     if (answerLookup.conflicts && answerLookup.conflicts.length > 0) {
       for (const c of answerLookup.conflicts) {
         buildWarnings.push({ kind: "answer_key_conflict", detail: `Conflicting answers for ${c.key}: ${c.answers.join(", ")} — entry skipped, please verify manually.` });
@@ -1312,18 +1313,18 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
       const cleanQuestions = unit.questions.filter((q) => !noiseRe.test(q.text));
       if (cleanQuestions.length === 0) {
-        skippedUnits.push({ reason: "no_clean_questions", page: unit.questionPage });
+        skippedUnits.push(unitDiagnostic(unit, "no_clean_questions"));
         continue;
       }
       // Validation: drop questions with empty prompts so a single bad row
       // does not abort the whole build.
       const validQuestions = cleanQuestions.filter((q) => {
         const ok = (q.text ?? "").trim().length > 0 && q.number;
-        if (!ok) buildWarnings.push({ kind: "invalid_question_dropped", detail: `Empty prompt or number at p.${unit.questionPage}`, page: unit.questionPage });
+        if (!ok) buildWarnings.push({ kind: "invalid_question_dropped", detail: `Empty prompt or number at p.${unit.questionPage}`, page: unit.questionPage, sourceIndex: unit.sourceIndex });
         return ok;
       });
       if (validQuestions.length === 0) {
-        skippedUnits.push({ reason: "all_questions_invalid", page: unit.questionPage });
+        skippedUnits.push(unitDiagnostic(unit, "all_questions_invalid"));
         continue;
       }
 
@@ -1361,9 +1362,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
 
         const passageTitle = (unit.title ?? "").trim();
         const derivedTitle = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
-        const firstNum = questionsPayload[0]?.n ?? String(position);
-        const lastNum = questionsPayload[questionsPayload.length - 1]?.n ?? firstNum;
-        const rangeLabel = questionsPayload.length > 1 ? `${firstNum}–${lastNum}` : firstNum;
+        const rangeLabel = unitQuestionRange(unit);
         const studentTitle =
           passageTitle ||
           derivedTitle ||
@@ -1406,7 +1405,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
             status: "draft",
             created_by: context.userId,
             source_pdf_import_id: data.examImportId,
-            original_numbering: `S.${unit.questionPage} ${rangeLabel}`,
+            original_numbering: unitOriginalNumbering(unit),
             model_variant: unit.model,
             writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
             muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
@@ -1444,9 +1443,10 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
           kind: "unit_build_failed",
           detail: String(unitErr?.message ?? unitErr),
           page: unit.questionPage,
+          sourceIndex: unit.sourceIndex,
           itemRange: unit.questions.map((q) => q.number).join(","),
         });
-        skippedUnits.push({ reason: "exception", page: unit.questionPage });
+        skippedUnits.push(unitDiagnostic(unit, "exception"));
       }
     }
 
@@ -1458,7 +1458,16 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     const missingAnswerKeys = sourceUnits.flatMap((unit) =>
       unit.questions
         .filter((q) => !answerLookup.get(q, answerUsageCounts))
-        .map((q) => ({ page: q.page, item: q.number, title: unit.title ?? "", reason: "no_source_answer_key_entry" })),
+        .map((q) => ({
+          sourceIndex: unit.sourceIndex,
+          page: q.page,
+          passagePages: unit.passagePages,
+          itemRange: unitQuestionRange(unit),
+          item: q.number,
+          title: unit.title ?? "",
+          reason: "no_source_answer_key_entry",
+          note: "No extracted answer_key_entry matched this question. If the PDF has a red-boxed letter here, re-run extraction/vision for this page or enter the answer manually.",
+        })),
     );
 
     const hasIssues = missingAnswerKeys.length > 0 || buildWarnings.length > 0 || skippedUnits.length > 0;
@@ -1482,6 +1491,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       answerKeyConflicts: answerLookup.conflicts ?? [],
       warnings: buildWarnings,
       skippedUnits,
+      sourceUnitDiagnostics,
       skipped: 0,
       merged: 0,
       ignored: 0,
@@ -1498,6 +1508,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       answerKeyConflicts: answerLookup.conflicts ?? [],
       warnings: buildWarnings,
       skippedUnits,
+      sourceUnitDiagnostics,
       skipped: 0,
       merged: 0,
       ignored: 0,
