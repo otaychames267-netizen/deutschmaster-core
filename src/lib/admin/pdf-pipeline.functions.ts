@@ -1847,6 +1847,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
     if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
     const sourcePages = new Set(sourceUnits.flatMap((unit) => [unit.questionPage, ...unit.passagePages]).filter(Boolean));
+    const unbuiltPassages = buildUnbuiltPassageDiagnostics(blocks, sourceUnits, builtTeil);
     const answerPages = new Set(blocks.filter((b) => b?.type === "answer_key_entry").map((b) => Number(b.page)).filter(Boolean));
     const sourceBlockPages = new Set(blocks.filter((b) => ["passage", "question", "answer_key_entry"].includes(String(b?.type))).map((b) => Number(b.page)).filter(Boolean));
     const skippedPages = Array.from({ length: pageCount }, (_, i) => i + 1)
@@ -1904,6 +1905,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
             exercisesCreated: orderedExercises.length,
             questionsExtracted: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
             answerKeysExtracted: answerLookup.count,
+            unbuiltPassages,
             publishableExercises: publishableExerciseIds.length,
             blockedExercises: badExerciseIds.size,
             skippedPages,
