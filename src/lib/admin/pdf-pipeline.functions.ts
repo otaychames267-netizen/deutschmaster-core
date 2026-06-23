@@ -1293,10 +1293,6 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { importId: string; chunkIndex: number }) => d)
   .handler(async ({ data, context }) => {
-    // Rate-limit PDF extraction to protect AI credit budget: 20 chunks/hour/user.
-    if (!LIMITS.pdfExtract(context.userId)) {
-      throw new Error("PDF extraction rate limit reached. Please wait before processing more chunks.");
-    }
     await assertSuperAdmin(context);
     const apiKey = process.env.LOVABLE_API_KEY ?? "";
     if (!apiKey && !process.env.GEMINI_API_KEY)
