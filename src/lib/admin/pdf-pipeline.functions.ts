@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { PDFDocument } from "pdf-lib";
-import { LIMITS } from "@/lib/rate-limiter.server";
 
 type Ctx = { supabase: any; userId: string };
 
