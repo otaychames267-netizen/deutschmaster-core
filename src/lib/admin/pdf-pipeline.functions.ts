@@ -313,7 +313,7 @@ function buildUnbuiltPassageDiagnostics(blocks: any[], sourceUnits: SourceExerci
     }));
 }
 
-function buildAnswerLookup(blocks: any[]) {
+function buildAnswerLookup(blocks: any[], fallbackTeil = 0) {
   const exact = new Map<string, string>();
   const exactByPage = new Map<string, string>();
   const unmodelled = new Map<string, string>();
@@ -325,10 +325,12 @@ function buildAnswerLookup(blocks: any[]) {
   const seenUnmodelledByPage = new Map<string, Set<string>>();
   for (const b of blocks) {
     if (b?.type !== "answer_key_entry") continue;
-    const teil = sourceBlockTeil(b, 0);
+    const teil = sourceBlockTeil(b, fallbackTeil);
     const number = normalizeItemNumber(b.number);
     const answer = normalizeAnswerLetter(b.answer) ?? String(b.answer ?? "").trim().toUpperCase();
-    if (!teil || !number || !answer) continue;
+    // Do NOT skip when teil === 0 — untagged answer entries are still valid;
+    // they are stored with key "0::number" and matched as wildcard fallback.
+    if (!number || !answer) continue;
     const page = Number(b.page) || 0;
     const model = normalizeModel(b.model);
     if (model) {
@@ -368,15 +370,26 @@ function buildAnswerLookup(blocks: any[]) {
       const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
       const nearbyPages = [q.page, q.page + 1, q.page - 1].filter((p) => Number.isFinite(p) && p > 0);
       const unmodelledKey = `${q.teil}::${q.number}`;
+      // Wildcard keys for untagged answer entries (teil stored as 0 when block had no teil).
+      const exactWildKey = q.model ? `${q.model}::0::${q.number}` : "";
+      const unmodelledWildKey = `0::${q.number}`;
       for (const page of nearbyPages) {
         const exactPageKey = exactKey ? `${exactKey}::p${page}` : "";
         const unmodelledPageKey = `${unmodelledKey}::p${page}`;
         if (exactPageKey && exactByPage.has(exactPageKey)) return exactByPage.get(exactPageKey) ?? "";
         if (unmodelledByPage.has(unmodelledPageKey)) return unmodelledByPage.get(unmodelledPageKey) ?? "";
+        // Fallback: try untagged (teil=0) entries stored as wildcard.
+        const exactWildPageKey = exactWildKey ? `${exactWildKey}::p${page}` : "";
+        if (exactWildPageKey && exactByPage.has(exactWildPageKey)) return exactByPage.get(exactWildPageKey) ?? "";
+        if (unmodelledByPage.has(`${unmodelledWildKey}::p${page}`)) return unmodelledByPage.get(`${unmodelledWildKey}::p${page}`) ?? "";
       }
       if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
       if (!exactKey && usageCounts && (usageCounts.get(unmodelledKey) ?? 0) !== 1) return "";
-      return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(unmodelledKey) ?? "";
+      return (exactKey ? exact.get(exactKey) : undefined)
+        ?? unmodelled.get(unmodelledKey)
+        ?? (exactWildKey ? exact.get(exactWildKey) : undefined)
+        ?? unmodelled.get(unmodelledWildKey)
+        ?? "";
     },
     count: exactByPage.size + unmodelledByPage.size,
     conflicts,
@@ -1298,7 +1311,7 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     }
 
     const sourceUnits = buildSourceExerciseUnits(blocks, moduleVal, teil);
-    const answerLookup = buildAnswerLookup(answerBlocks);
+    const answerLookup = buildAnswerLookup(answerBlocks, teil);
     const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
 
     const createdExerciseIds: string[] = [];
