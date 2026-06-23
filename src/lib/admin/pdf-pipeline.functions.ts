@@ -269,7 +269,10 @@ function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number
 }
 
 function normalizeAnswerLetter(value: any): string | null {
-  const letter = String(value ?? "").trim().match(/[A-Ea-e]/)?.[0];
+  // X is an official TELC answer for matching exercises (Lesen Teil 2/3):
+  // "kein passender Text" — no matching text exists for this statement.
+  // Dropping X would mark every such question as "missing solution."
+  const letter = String(value ?? "").trim().match(/[A-EXa-ex]/)?.[0];
   return letter ? letter.toUpperCase() : null;
 }
 
@@ -405,16 +408,16 @@ function buildAnswerUsageCounts(units: SourceExerciseUnit[], lookup: ReturnType<
   return counts;
 }
 
-const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
+const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears — zero content loss, zero invention.
 Rules — never violate:
 - Do NOT translate, paraphrase, summarize, simplify, improve, or invent content.
 - Preserve original German text character-by-character including punctuation, capitalization, numbering, and item labels (A/B/C, 1./2./3., a)/b), etc.).
 - Preserve section headers like "Teil 1", "Teil 2", "Lesen", "Hören", "Schreiben", "Sprachbausteine", "Mündlicher Ausdruck".
 - If the PDF is scanned, OCR it. Preserve diacritics (ä ö ü ß).
 - If you cannot read a character because it is genuinely unreadable/corrupted, transcribe as [?].
- - Add "low_confidence_items" ONLY for truly unreadable, corrupted, empty, or missing exam content. Do NOT add low-confidence entries merely for OCR confidence scores, German umlauts (ä ö ü ß), valid German vocabulary, proper nouns, brand names, or website/domain names.
- - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
- - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
+- Add "low_confidence_items" ONLY for truly unreadable, corrupted, empty, or missing exam content. Do NOT add low-confidence entries merely for OCR confidence scores, German umlauts (ä ö ü ß), valid German vocabulary, proper nouns, brand names, or website/domain names.
+- You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
+- If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
 - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
 - VISUAL ANSWER MARKERS (CRITICAL): Many TELC practice PDFs do NOT print a separate Lösungsschlüssel — instead the correct answer for each question is marked directly on the question itself by a small RED RECTANGLE / RED BOX / RED FRAME / RED CIRCLE / RED OVAL drawn around the correct option letter (a, b or c), or by red ink / red highlight / red underline / red tick on that letter. You MUST visually inspect each question and detect these red markings. For every question where you can see such a red marker around exactly one option letter:
     1. Set "correct_answer" on the "question" block to that UPPERCASE letter (e.g. "A", "B", "C").
@@ -423,12 +426,22 @@ Rules — never violate:
 - RED-BOX ANSWER PAGES (CRITICAL): Some scanned PDFs show answer keys as answer sheets/tables where the correct letter (a/b/c) is surrounded by a small red box. These are OFFICIAL SOLUTIONS even if the page is not titled "Lösungsschlüssel". For every visible red-boxed/outlined letter on these pages, emit an "answer_key_entry" with the printed item number, answer letter, absolute page number, teil, and model when visible. Do NOT mark the page as missing or decorative just because it contains only answers.
 - NUMBER REUSE SAFETY: If item numbers repeat across pages/models (e.g. several pages each contain 6–10), keep the absolute page number on every question and answer_key_entry so the builder can match answers page-by-page. Do not collapse repeated numbers into one global key.
 - If the SAME reading text / passage is reused across several models (e.g. one text serves Modell 1, Modell 2 and Modell 3), emit ONE passage block per model — duplicate the passage verbatim and tag each copy with its respective "model". Do NOT merge models. Questions and answer_key_entry blocks for each model must remain isolated.
- - PRESERVE SOURCE EXACTLY: every printed exercise/question-page is a separate source unit. If a topic, title, passage, question number, wording, answer option, or correct answer repeats or looks 99% similar, still extract it separately. Similarity is NEVER duplication.
- - GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
- - IGNORE INDEX / OVERVIEW PAGES: Many TELC PDFs start with a "Themenliste", table of contents, or topic-overview page that lists only titles (e.g. "Parking", "Traumfrau", "Verpackungen", "Ernährung", "Kreditkarten", "Karneval", "Kellner"), sometimes with Arabic translations next to each title. These pages are NOT exercises. Do NOT emit passage, instruction, question or answer_key_entry blocks for them. You may emit a single "section" block named "Themenliste" if useful, but never invent questions from a topic list.
- - IGNORE OWNER / DISTRIBUTION METADATA: Do NOT emit blocks containing WhatsApp group names, Telegram/Facebook groups, channel names, owner names, translator credits, file names, watermarks, copyright notes, page footers, or non-exam headers (e.g. "Fließend Deutsch B2 Telc – Inssaf", "Gruppe WhatsApp", phone numbers, social handles, URLs that are not part of the printed exam text). Strip these silently — never include them in passage / instruction / question / option text.
- - A "real exercise" requires at least one of: (a) an instruction + a passage with associated questions, (b) a question with answer choices, or (c) a matching/cloze task. A bare list of topic titles is NOT a real exercise and must be skipped.
- - STRICT JSON: Return ONLY valid JSON. Use double quotes for all strings. Escape every double quote inside a string as \\". Escape newlines inside strings as \\n. Do not emit trailing commas, comments, single quotes around keys, or markdown code fences. Keep each "text" value as a single JSON string with newlines escaped. Prefer shorter passage chunks over emitting unescaped control characters.
+- PRESERVE SOURCE EXACTLY: every printed exercise/question-page is a separate source unit. If a topic, title, passage, question number, wording, answer option, or correct answer repeats or looks 99% similar, still extract it separately. Similarity is NEVER duplication. Two passages with the same title must both be emitted as separate passage blocks.
+- GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
+- IGNORE INDEX / OVERVIEW PAGES: Many TELC PDFs start with a "Themenliste", table of contents, or topic-overview page that lists only titles (e.g. "Parking", "Traumfrau", "Verpackungen", "Ernährung", "Kreditkarten", "Karneval", "Kellner"), sometimes with Arabic translations next to each title. These pages are NOT exercises. Do NOT emit passage, instruction, question or answer_key_entry blocks for them. You may emit a single "section" block named "Themenliste" if useful, but never invent questions from a topic list.
+- IGNORE OWNER / DISTRIBUTION METADATA: Do NOT emit blocks containing WhatsApp group names, Telegram/Facebook groups, channel names, owner names, translator credits, file names, watermarks, copyright notes, page footers, or non-exam headers (e.g. "Fließend Deutsch B2 Telc – Inssaf", "Gruppe WhatsApp", phone numbers, social handles, URLs that are not part of the printed exam text). Strip these silently — never include them in passage / instruction / question / option text.
+- A "real exercise" requires at least one of: (a) an instruction + a passage with associated questions, (b) a question with answer choices, or (c) a matching/cloze task. A bare list of topic titles is NOT a real exercise and must be skipped.
+- TELC MATCHING EXERCISES — X IS A VALID ANSWER (CRITICAL):
+  * TELC Lesen Teil 2 (Zuordnung): 5 reading texts (A–E) + 10 statements. For each statement, the answer is the letter of the matching text (A, B, C, D, or E) OR "X" if no text matches. Exactly 5 of the 10 statements intentionally have no matching text — their official answer is "X". X is NOT a missing answer; X is the CORRECT official answer.
+  * TELC Lesen Teil 3 (Zuordnung): multiple texts + questions 11–20. Same rule: answer = A/B/C/D/E or X.
+  * In every answer_key_entry for matching exercises where the answer is "X" (kein passender Text / keine passende Überschrift), set "answer": "X". NEVER drop, replace, or leave blank an X answer.
+  * Do NOT force a match: if the official answer is X, emit "answer": "X" — never guess a letter.
+  * The 5 reading texts themselves (A–E) must be emitted as separate "passage" blocks, each with its letter as the title (e.g. "title": "A", or the actual text heading). Never merge the texts into one block.
+- TELC LESEN TEIL 1 (Mehrfachwahl): One main text + 5–10 questions, each with options a, b, c. Extract as "question" blocks with options array. The correct answer is a, b, or c.
+- TELC SPRACHBAUSTEINE: Cloze/gap-fill text with numbered blanks. Each blank is a "question" block. Options are the multiple-choice answers for that blank.
+- TELC HÖREN: Questions about audio clips. Questions + options extracted verbatim. No audio transcription — emit "audio_ref" blocks for audio references.
+- TELC SCHREIBEN / MÜNDLICH: Task descriptions and prompts. Extract the full task text as a "passage" or "instruction" block. No invented answers.
+- STRICT JSON: Return ONLY valid JSON. Use double quotes for all strings. Escape every double quote inside a string as \\". Escape newlines inside strings as \\n. Do not emit trailing commas, comments, single quotes around keys, or markdown code fences. Keep each "text" value as a single JSON string with newlines escaped. Prefer shorter passage chunks over emitting unescaped control characters.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
@@ -451,9 +464,10 @@ Return STRICT JSON with this shape (no markdown fences):
 Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR a combined PDF.`;
 
 function userInstructionFor(kind: string) {
-  if (kind === "answer_key") return "This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim. Correct answers may be visually marked by small red boxes/frames around a, b, or c; treat those red-boxed letters as official answer_key_entry blocks.";
-  if (kind === "combined") return "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag. Correct answers may be marked by small red boxes around a/b/c on answer pages or directly on question pages; visually inspect them and emit answer_key_entry blocks with absolute page numbers.";
-  return "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim. If correct answers are visibly marked by red boxes/frames around option letters, also emit answer_key_entry blocks for those marked letters.";
+  const xRule = "IMPORTANT: For matching exercises (Lesen Teil 2/3 Zuordnung), the answer X means 'kein passender Text' — no matching text. X is an OFFICIAL correct answer. Always emit answer_key_entry blocks with \"answer\": \"X\" when the official solution is X. Never drop, replace, or leave X answers blank.";
+  if (kind === "answer_key") return `This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim. Correct answers may be visually marked by small red boxes/frames around a, b, c, or x; treat those red-boxed letters as official answer_key_entry blocks. ${xRule}`;
+  if (kind === "combined") return `This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag. Correct answers may be marked by small red boxes around a/b/c/x on answer pages or directly on question pages; visually inspect them and emit answer_key_entry blocks with absolute page numbers. ${xRule}`;
+  return `This is a TELC exam paper. Extract every instruction, text, question, and option verbatim. If correct answers are visibly marked by red boxes/frames around option letters (including X for matching exercises), also emit answer_key_entry blocks for those marked letters. ${xRule}`;
 }
 
 function safeJson(value: unknown) {
@@ -526,7 +540,7 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
           const checked = Boolean(o.correct ?? o.is_correct ?? o.checked) || markerRx.test(rawLabel) || markerRx.test(rawText);
           const label = rawLabel.replace(/[✅☑✓✔⬜□☐]/g, "").trim();
           const text = stripArabic(rawText.replace(/[✅☑✓✔⬜□☐]/g, ""));
-          if (checked && !base.correct_answer) base.correct_answer = label.match(/[A-Ea-e]/)?.[0]?.toUpperCase() ?? null;
+          if (checked && !base.correct_answer) base.correct_answer = label.match(/[A-EXa-ex]/)?.[0]?.toUpperCase() ?? null;
           return { label, text };
         })
         : [];
@@ -1314,6 +1328,18 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
     const answerLookup = buildAnswerLookup(answerBlocks, teil);
     const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
 
+    // Pre-scan passage titles so duplicate titles get numbered suffixes.
+    // "Sport ist gesund" appearing twice becomes (1) and (2) to avoid identical
+    // student-facing titles that can't be distinguished in the exercise library.
+    const rawTitleCounts = new Map<string, number>();
+    for (const unit of sourceUnits) {
+      const passageTitle = (unit.title ?? "").trim();
+      const derived = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
+      const raw = passageTitle || derived || "";
+      if (raw) rawTitleCounts.set(raw, (rawTitleCounts.get(raw) ?? 0) + 1);
+    }
+    const rawTitleIdx = new Map<string, number>();
+
     const createdExerciseIds: string[] = [];
     let keyCount = 0;
     const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number; sourceIndex?: number }[] = [];
@@ -1399,10 +1425,17 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
         const passageTitle = (unit.title ?? "").trim();
         const derivedTitle = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
         const rangeLabel = unitQuestionRange(unit);
-        const studentTitle =
-          passageTitle ||
-          derivedTitle ||
-          `Aufgabe ${rangeLabel}${variantSuffix}`;
+        const rawTitle = passageTitle || derivedTitle || "";
+        // Deduplicate: if the same title appears more than once in this import,
+        // append a sequential number so students can tell exercises apart.
+        let studentTitle: string;
+        if (rawTitle && (rawTitleCounts.get(rawTitle) ?? 0) > 1) {
+          const idx = (rawTitleIdx.get(rawTitle) ?? 0) + 1;
+          rawTitleIdx.set(rawTitle, idx);
+          studentTitle = `${rawTitle} (${idx})`;
+        } else {
+          studentTitle = rawTitle || `Aufgabe ${rangeLabel}${variantSuffix}`;
+        }
 
         // Aggregate `correct` so the legacy grader still works for single-question
         // rows (multiple_choice / open_text). For passage_mcq the canonical
@@ -1796,7 +1829,7 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const builtTeil = Number(orderedExercises.find((ex: any) => Number(ex.teil))?.teil ?? 0)
       || Number(blocks.find((b) => b?.type === "question" && Number(b?.teil))?.teil ?? 0);
     const sourceUnits = builtTeil ? buildSourceExerciseUnits(blocks, builtModule, builtTeil) : [];
-    const answerLookup = buildAnswerLookup(blocks);
+    const answerLookup = buildAnswerLookup(blocks, builtTeil);
     const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
     const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
 
