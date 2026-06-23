@@ -85,10 +85,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Prepare for TELC B1 & B2 German exams with structured lessons, exam simulations and AI-powered feedback." },
       { name: "author", content: "Lingovia" },
       { property: "og:title", content: "Lingovia — Professional German Exam Preparation" },
-      { property: "og:description", content: "Prepare for TELC B1 & B2 with structured lessons and AI feedback." },
+      { property: "og:description", content: "Prepare for TELC B1 & B2 German exams with structured lessons, exam simulations and AI-powered feedback." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Lingovia — Professional German Exam Preparation" },
+      { name: "twitter:description", content: "Prepare for TELC B1 & B2 German exams with structured lessons, exam simulations and AI-powered feedback." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0d109a39-3c08-4f5b-bff6-f6a74e80ae7b/id-preview-3ec757bc--0a7b0af8-8ac5-43b2-a9d1-2e8d0b8c78d0.lovable.app-1782170716520.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/0d109a39-3c08-4f5b-bff6-f6a74e80ae7b/id-preview-3ec757bc--0a7b0af8-8ac5-43b2-a9d1-2e8d0b8c78d0.lovable.app-1782170716520.png" },
     ],
     links: [
       {
