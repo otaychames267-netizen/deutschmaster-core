@@ -6,12 +6,22 @@ type Ctx = { supabase: any; userId: string };
 
 async function assertAdmin(ctx: Ctx) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", ctx.userId).in("role", ["admin", "super_admin"]).limit(1);
+  const { data } = await supabaseAdmin
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", ctx.userId)
+    .in("role", ["admin", "super_admin"])
+    .limit(1);
   if (!data || data.length === 0) throw new Error("Forbidden: admin only");
 }
 async function assertSuperAdmin(ctx: Ctx) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-  const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", ctx.userId).eq("role", "super_admin").limit(1);
+  const { data } = await supabaseAdmin
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", ctx.userId)
+    .eq("role", "super_admin")
+    .limit(1);
   if (!data || data.length === 0) throw new Error("Forbidden: super_admin only");
 }
 
@@ -20,13 +30,15 @@ async function assertSuperAdmin(ctx: Ctx) {
  */
 export const createPdfImportV2 = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: {
-    storagePath: string;
-    originalName: string;
-    kind: "exam" | "answer_key" | "combined";
-    level?: "b1" | "b2" | null;
-    linkedImportId?: string | null;
-  }) => d)
+  .inputValidator(
+    (d: {
+      storagePath: string;
+      originalName: string;
+      kind: "exam" | "answer_key" | "combined";
+      level?: "b1" | "b2" | null;
+      linkedImportId?: string | null;
+    }) => d,
+  )
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { data: row, error } = await context.supabase
@@ -87,9 +99,12 @@ type ExtractionMeta = {
 
 const ARABIC_TEXT_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
 const READABLE_TEXT_RX = /[A-Za-zÄÖÜäöüß0-9]/;
-const DOMAIN_OR_EMAIL_RX = /\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?\b|\b[\w.%+-]+@[\w.-]+\.[a-z]{2,}\b/i;
-const UNUSABLE_REASON_RX = /\b(unreadable|unlesbar|corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|truncated|abgeschnitten|failed|failure|timeout)\b/i;
-const HARD_FAILURE_REASON_RX = /\b(corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|failed|failure|timeout)\b/i;
+const DOMAIN_OR_EMAIL_RX =
+  /\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}(?:\/\S*)?\b|\b[\w.%+-]+@[\w.-]+\.[a-z]{2,}\b/i;
+const UNUSABLE_REASON_RX =
+  /\b(unreadable|unlesbar|corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|truncated|abgeschnitten|failed|failure|timeout)\b/i;
+const HARD_FAILURE_REASON_RX =
+  /\b(corrupt|corrupted|beschädigt|empty|missing|blank|no text|kein text|failed|failure|timeout)\b/i;
 
 function isTrulyUnusableLowConfidenceItem(item: any) {
   const snippet = String(item?.snippet ?? "").trim();
@@ -108,7 +123,8 @@ function isNonExamLowConfidenceItem(item: any) {
   const snippet = String(item?.snippet ?? "").trim();
   const reason = String(item?.reason ?? "");
   if (isTrulyUnusableLowConfidenceItem(item)) return false;
-  const hasArabicSignal = ARABIC_TEXT_RX.test(snippet) || /arabic|arabisch|arabischen|arabische|arabischer/i.test(reason);
+  const hasArabicSignal =
+    ARABIC_TEXT_RX.test(snippet) || /arabic|arabisch|arabischen|arabische|arabischer/i.test(reason);
   const hasGermanLatinText = /[A-Za-zÄÖÜäöüß]/.test(snippet);
   const onlyUnclearMarks = /^[?\s.,;:!()\[\]{}\-–—_"'`´]*$/.test(snippet);
   if (hasArabicSignal && (!hasGermanLatinText || onlyUnclearMarks)) return true;
@@ -139,12 +155,15 @@ function getExtractionReviewState(meta: ExtractionMeta) {
     completedChunks,
     chunksTotal,
     incomplete,
-    canBuild: failedChunks.length === 0 && !incomplete && (manualReviewResolved || blockingLowConfidenceItems.length === 0),
+    canBuild:
+      failedChunks.length === 0 && !incomplete && (manualReviewResolved || blockingLowConfidenceItems.length === 0),
   };
 }
 
 function normalizeItemNumber(value: any) {
-  return String(value ?? "").trim().replace(/\.$/, "");
+  return String(value ?? "")
+    .trim()
+    .replace(/\.$/, "");
 }
 
 type SourcePassage = { title: string | null; text: string; page: number };
@@ -235,10 +254,11 @@ function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number
       page,
     };
 
-    const shouldStartNewUnit =
-      !currentUnit ||
-      currentUnit.questionPage !== page ||
-      currentUnit.passageKey !== passageKey;
+    // Only start a new unit when the reading passage changes.
+    // Do NOT split on page: TELC exams routinely place the first 3 questions
+    // on one page and the last 2 on the next, all referencing the same text.
+    // Splitting by page would create two exercises sharing one passage — wrong.
+    const shouldStartNewUnit = !currentUnit || currentUnit.passageKey !== passageKey;
 
     if (shouldStartNewUnit) {
       const passageText = sourcePassageText(passages);
@@ -269,10 +289,10 @@ function buildSourceExerciseUnits(blocks: any[], moduleVal: string, teil: number
 }
 
 function normalizeAnswerLetter(value: any): string | null {
-  // X is an official TELC answer for matching exercises (Lesen Teil 2/3):
-  // "kein passender Text" — no matching text exists for this statement.
-  // Dropping X would mark every such question as "missing solution."
-  const letter = String(value ?? "").trim().match(/[A-EXa-ex]/)?.[0];
+  // Include X/x: TELC Lesen Teil 3 uses "X" to mean "no matching text".
+  const letter = String(value ?? "")
+    .trim()
+    .match(/[A-Ea-eXx]/)?.[0];
   return letter ? letter.toUpperCase() : null;
 }
 
@@ -316,7 +336,7 @@ function buildUnbuiltPassageDiagnostics(blocks: any[], sourceUnits: SourceExerci
     }));
 }
 
-function buildAnswerLookup(blocks: any[], fallbackTeil = 0) {
+function buildAnswerLookup(blocks: any[]) {
   const exact = new Map<string, string>();
   const exactByPage = new Map<string, string>();
   const unmodelled = new Map<string, string>();
@@ -328,12 +348,14 @@ function buildAnswerLookup(blocks: any[], fallbackTeil = 0) {
   const seenUnmodelledByPage = new Map<string, Set<string>>();
   for (const b of blocks) {
     if (b?.type !== "answer_key_entry") continue;
-    const teil = sourceBlockTeil(b, fallbackTeil);
+    const teil = sourceBlockTeil(b, 0);
     const number = normalizeItemNumber(b.number);
-    const answer = normalizeAnswerLetter(b.answer) ?? String(b.answer ?? "").trim().toUpperCase();
-    // Do NOT skip when teil === 0 — untagged answer entries are still valid;
-    // they are stored with key "0::number" and matched as wildcard fallback.
-    if (!number || !answer) continue;
+    const answer =
+      normalizeAnswerLetter(b.answer) ??
+      String(b.answer ?? "")
+        .trim()
+        .toUpperCase();
+    if (!teil || !number || !answer) continue;
     const page = Number(b.page) || 0;
     const model = normalizeModel(b.model);
     if (model) {
@@ -362,8 +384,16 @@ function buildAnswerLookup(blocks: any[], fallbackTeil = 0) {
   }
   for (const [k, set] of seenExact) if (set.size > 1) exact.delete(k);
   for (const [k, set] of seenUnmodelled) if (set.size > 1) unmodelled.delete(k);
-  for (const [k, set] of seenExactByPage) if (set.size > 1) { exactByPage.delete(k); conflicts.push({ key: k, answers: [...set] }); }
-  for (const [k, set] of seenUnmodelledByPage) if (set.size > 1) { unmodelledByPage.delete(k); conflicts.push({ key: k, answers: [...set] }); }
+  for (const [k, set] of seenExactByPage)
+    if (set.size > 1) {
+      exactByPage.delete(k);
+      conflicts.push({ key: k, answers: [...set] });
+    }
+  for (const [k, set] of seenUnmodelledByPage)
+    if (set.size > 1) {
+      unmodelledByPage.delete(k);
+      conflicts.push({ key: k, answers: [...set] });
+    }
   return {
     keyFor(q: SourceQuestion) {
       return q.model ? `${q.model}::${q.teil}::${q.number}` : `${q.teil}::${q.number}`;
@@ -373,26 +403,15 @@ function buildAnswerLookup(blocks: any[], fallbackTeil = 0) {
       const exactKey = q.model ? `${q.model}::${q.teil}::${q.number}` : "";
       const nearbyPages = [q.page, q.page + 1, q.page - 1].filter((p) => Number.isFinite(p) && p > 0);
       const unmodelledKey = `${q.teil}::${q.number}`;
-      // Wildcard keys for untagged answer entries (teil stored as 0 when block had no teil).
-      const exactWildKey = q.model ? `${q.model}::0::${q.number}` : "";
-      const unmodelledWildKey = `0::${q.number}`;
       for (const page of nearbyPages) {
         const exactPageKey = exactKey ? `${exactKey}::p${page}` : "";
         const unmodelledPageKey = `${unmodelledKey}::p${page}`;
         if (exactPageKey && exactByPage.has(exactPageKey)) return exactByPage.get(exactPageKey) ?? "";
         if (unmodelledByPage.has(unmodelledPageKey)) return unmodelledByPage.get(unmodelledPageKey) ?? "";
-        // Fallback: try untagged (teil=0) entries stored as wildcard.
-        const exactWildPageKey = exactWildKey ? `${exactWildKey}::p${page}` : "";
-        if (exactWildPageKey && exactByPage.has(exactWildPageKey)) return exactByPage.get(exactWildPageKey) ?? "";
-        if (unmodelledByPage.has(`${unmodelledWildKey}::p${page}`)) return unmodelledByPage.get(`${unmodelledWildKey}::p${page}`) ?? "";
       }
       if (exactKey && usageCounts && (usageCounts.get(exactKey) ?? 0) !== 1) return "";
       if (!exactKey && usageCounts && (usageCounts.get(unmodelledKey) ?? 0) !== 1) return "";
-      return (exactKey ? exact.get(exactKey) : undefined)
-        ?? unmodelled.get(unmodelledKey)
-        ?? (exactWildKey ? exact.get(exactWildKey) : undefined)
-        ?? unmodelled.get(unmodelledWildKey)
-        ?? "";
+      return (exactKey ? exact.get(exactKey) : undefined) ?? unmodelled.get(unmodelledKey) ?? "";
     },
     count: exactByPage.size + unmodelledByPage.size,
     conflicts,
@@ -401,23 +420,24 @@ function buildAnswerLookup(blocks: any[], fallbackTeil = 0) {
 
 function buildAnswerUsageCounts(units: SourceExerciseUnit[], lookup: ReturnType<typeof buildAnswerLookup>) {
   const counts = new Map<string, number>();
-  for (const unit of units) for (const q of unit.questions) {
-    const key = lookup.keyFor(q);
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  }
+  for (const unit of units)
+    for (const q of unit.questions) {
+      const key = lookup.keyFor(q);
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
   return counts;
 }
 
-const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears — zero content loss, zero invention.
+const extractionSystemPrompt = `You are a verbatim TELC exam extractor. Your job is to TRANSCRIBE the PDF exactly as it appears.
 Rules — never violate:
 - Do NOT translate, paraphrase, summarize, simplify, improve, or invent content.
 - Preserve original German text character-by-character including punctuation, capitalization, numbering, and item labels (A/B/C, 1./2./3., a)/b), etc.).
 - Preserve section headers like "Teil 1", "Teil 2", "Lesen", "Hören", "Schreiben", "Sprachbausteine", "Mündlicher Ausdruck".
 - If the PDF is scanned, OCR it. Preserve diacritics (ä ö ü ß).
 - If you cannot read a character because it is genuinely unreadable/corrupted, transcribe as [?].
-- Add "low_confidence_items" ONLY for truly unreadable, corrupted, empty, or missing exam content. Do NOT add low-confidence entries merely for OCR confidence scores, German umlauts (ä ö ü ß), valid German vocabulary, proper nouns, brand names, or website/domain names.
-- You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
-- If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
+ - Add "low_confidence_items" ONLY for truly unreadable, corrupted, empty, or missing exam content. Do NOT add low-confidence entries merely for OCR confidence scores, German umlauts (ä ö ü ß), valid German vocabulary, proper nouns, brand names, or website/domain names.
+ - You are FORBIDDEN from: translating, paraphrasing, summarizing, simplifying, "fixing" typos, normalizing punctuation, reordering items, renumbering, or generating any text that is not literally present in the PDF.
+ - If the PDF contains MULTIPLE MODELS (e.g. "Modell 1", "Modell 2", "Modell 3", "Übungstest 1", "Test 2"), tag EVERY block with its "model" identifier ("1", "2", "3", …). If only one model is present, set "model" to null on every block.
 - If the PDF is a COMBINED exam + answer key (Lösungsschlüssel / Lösungen / Antworten inside the same PDF), still emit "question" blocks for exercises AND "answer_key_entry" blocks for the solution table. Each answer_key_entry MUST carry the same "model" tag as its matching questions. NEVER copy a solution into a question or passage block — solutions stay in answer_key_entry blocks only.
 - VISUAL ANSWER MARKERS (CRITICAL): Many TELC practice PDFs do NOT print a separate Lösungsschlüssel — instead the correct answer for each question is marked directly on the question itself by a small RED RECTANGLE / RED BOX / RED FRAME / RED CIRCLE / RED OVAL drawn around the correct option letter (a, b or c), or by red ink / red highlight / red underline / red tick on that letter. You MUST visually inspect each question and detect these red markings. For every question where you can see such a red marker around exactly one option letter:
     1. Set "correct_answer" on the "question" block to that UPPERCASE letter (e.g. "A", "B", "C").
@@ -426,22 +446,12 @@ Rules — never violate:
 - RED-BOX ANSWER PAGES (CRITICAL): Some scanned PDFs show answer keys as answer sheets/tables where the correct letter (a/b/c) is surrounded by a small red box. These are OFFICIAL SOLUTIONS even if the page is not titled "Lösungsschlüssel". For every visible red-boxed/outlined letter on these pages, emit an "answer_key_entry" with the printed item number, answer letter, absolute page number, teil, and model when visible. Do NOT mark the page as missing or decorative just because it contains only answers.
 - NUMBER REUSE SAFETY: If item numbers repeat across pages/models (e.g. several pages each contain 6–10), keep the absolute page number on every question and answer_key_entry so the builder can match answers page-by-page. Do not collapse repeated numbers into one global key.
 - If the SAME reading text / passage is reused across several models (e.g. one text serves Modell 1, Modell 2 and Modell 3), emit ONE passage block per model — duplicate the passage verbatim and tag each copy with its respective "model". Do NOT merge models. Questions and answer_key_entry blocks for each model must remain isolated.
-- PRESERVE SOURCE EXACTLY: every printed exercise/question-page is a separate source unit. If a topic, title, passage, question number, wording, answer option, or correct answer repeats or looks 99% similar, still extract it separately. Similarity is NEVER duplication. Two passages with the same title must both be emitted as separate passage blocks.
-- GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
-- IGNORE INDEX / OVERVIEW PAGES: Many TELC PDFs start with a "Themenliste", table of contents, or topic-overview page that lists only titles (e.g. "Parking", "Traumfrau", "Verpackungen", "Ernährung", "Kreditkarten", "Karneval", "Kellner"), sometimes with Arabic translations next to each title. These pages are NOT exercises. Do NOT emit passage, instruction, question or answer_key_entry blocks for them. You may emit a single "section" block named "Themenliste" if useful, but never invent questions from a topic list.
-- IGNORE OWNER / DISTRIBUTION METADATA: Do NOT emit blocks containing WhatsApp group names, Telegram/Facebook groups, channel names, owner names, translator credits, file names, watermarks, copyright notes, page footers, or non-exam headers (e.g. "Fließend Deutsch B2 Telc – Inssaf", "Gruppe WhatsApp", phone numbers, social handles, URLs that are not part of the printed exam text). Strip these silently — never include them in passage / instruction / question / option text.
-- A "real exercise" requires at least one of: (a) an instruction + a passage with associated questions, (b) a question with answer choices, or (c) a matching/cloze task. A bare list of topic titles is NOT a real exercise and must be skipped.
-- TELC MATCHING EXERCISES — X IS A VALID ANSWER (CRITICAL):
-  * TELC Lesen Teil 2 (Zuordnung): 5 reading texts (A–E) + 10 statements. For each statement, the answer is the letter of the matching text (A, B, C, D, or E) OR "X" if no text matches. Exactly 5 of the 10 statements intentionally have no matching text — their official answer is "X". X is NOT a missing answer; X is the CORRECT official answer.
-  * TELC Lesen Teil 3 (Zuordnung): multiple texts + questions 11–20. Same rule: answer = A/B/C/D/E or X.
-  * In every answer_key_entry for matching exercises where the answer is "X" (kein passender Text / keine passende Überschrift), set "answer": "X". NEVER drop, replace, or leave blank an X answer.
-  * Do NOT force a match: if the official answer is X, emit "answer": "X" — never guess a letter.
-  * The 5 reading texts themselves (A–E) must be emitted as separate "passage" blocks, each with its letter as the title (e.g. "title": "A", or the actual text heading). Never merge the texts into one block.
-- TELC LESEN TEIL 1 (Mehrfachwahl): One main text + 5–10 questions, each with options a, b, c. Extract as "question" blocks with options array. The correct answer is a, b, or c.
-- TELC SPRACHBAUSTEINE: Cloze/gap-fill text with numbered blanks. Each blank is a "question" block. Options are the multiple-choice answers for that blank.
-- TELC HÖREN: Questions about audio clips. Questions + options extracted verbatim. No audio transcription — emit "audio_ref" blocks for audio references.
-- TELC SCHREIBEN / MÜNDLICH: Task descriptions and prompts. Extract the full task text as a "passage" or "instruction" block. No invented answers.
-- STRICT JSON: Return ONLY valid JSON. Use double quotes for all strings. Escape every double quote inside a string as \\". Escape newlines inside strings as \\n. Do not emit trailing commas, comments, single quotes around keys, or markdown code fences. Keep each "text" value as a single JSON string with newlines escaped. Prefer shorter passage chunks over emitting unescaped control characters.
+ - PRESERVE SOURCE EXACTLY: every printed exercise/question-page is a separate source unit. If a topic, title, passage, question number, wording, answer option, or correct answer repeats or looks 99% similar, still extract it separately. Similarity is NEVER duplication.
+ - GERMAN-ONLY OUTPUT: The output must contain ONLY the original German exam content. If the PDF contains Arabic text, Arabic translations, bilingual annotations, translator notes, glossaries, or any non-German explanation alongside the exam material, IGNORE them completely and do not include them in any block. Do not translate Arabic back to German — only extract the German that already exists in the PDF. Other foreign quotations that are part of the exam text itself (e.g. an English word inside a German reading passage) are kept verbatim.
+ - IGNORE INDEX / OVERVIEW PAGES: Many TELC PDFs start with a "Themenliste", table of contents, or topic-overview page that lists only titles (e.g. "Parking", "Traumfrau", "Verpackungen", "Ernährung", "Kreditkarten", "Karneval", "Kellner"), sometimes with Arabic translations next to each title. These pages are NOT exercises. Do NOT emit passage, instruction, question or answer_key_entry blocks for them. You may emit a single "section" block named "Themenliste" if useful, but never invent questions from a topic list.
+ - IGNORE OWNER / DISTRIBUTION METADATA: Do NOT emit blocks containing WhatsApp group names, Telegram/Facebook groups, channel names, owner names, translator credits, file names, watermarks, copyright notes, page footers, or non-exam headers (e.g. "Fließend Deutsch B2 Telc – Inssaf", "Gruppe WhatsApp", phone numbers, social handles, URLs that are not part of the printed exam text). Strip these silently — never include them in passage / instruction / question / option text.
+ - A "real exercise" requires at least one of: (a) an instruction + a passage with associated questions, (b) a question with answer choices, or (c) a matching/cloze task. A bare list of topic titles is NOT a real exercise and must be skipped.
+ - STRICT JSON: Return ONLY valid JSON. Use double quotes for all strings. Escape every double quote inside a string as \\". Escape newlines inside strings as \\n. Do not emit trailing commas, comments, single quotes around keys, or markdown code fences. Keep each "text" value as a single JSON string with newlines escaped. Prefer shorter passage chunks over emitting unescaped control characters.
 
 Return STRICT JSON with this shape (no markdown fences):
 {
@@ -464,14 +474,19 @@ Return STRICT JSON with this shape (no markdown fences):
 Include answer_key_entry blocks if this is an answer-key (Lösungsschlüssel) OR a combined PDF.`;
 
 function userInstructionFor(kind: string) {
-  const xRule = "IMPORTANT: For matching exercises (Lesen Teil 2/3 Zuordnung), the answer X means 'kein passender Text' — no matching text. X is an OFFICIAL correct answer. Always emit answer_key_entry blocks with \"answer\": \"X\" when the official solution is X. Never drop, replace, or leave X answers blank.";
-  if (kind === "answer_key") return `This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim. Correct answers may be visually marked by small red boxes/frames around a, b, c, or x; treat those red-boxed letters as official answer_key_entry blocks. ${xRule}`;
-  if (kind === "combined") return `This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag. Correct answers may be marked by small red boxes around a/b/c/x on answer pages or directly on question pages; visually inspect them and emit answer_key_entry blocks with absolute page numbers. ${xRule}`;
-  return `This is a TELC exam paper. Extract every instruction, text, question, and option verbatim. If correct answers are visibly marked by red boxes/frames around option letters (including X for matching exercises), also emit answer_key_entry blocks for those marked letters. ${xRule}`;
+  if (kind === "answer_key")
+    return "This is a TELC answer key (Lösungsschlüssel). Extract every item number with its correct answer verbatim. Correct answers may be visually marked by small red boxes/frames around a, b, or c; treat those red-boxed letters as official answer_key_entry blocks.";
+  if (kind === "combined")
+    return "This is a COMBINED TELC PDF that contains both exam content (texts, questions, options) AND the answer key (Lösungsschlüssel / Lösungen). Extract everything verbatim. If multiple Modelle/Übungstests are present, tag every block with its model number. Emit answer_key_entry blocks for the solution table(s) using the same model tag. Correct answers may be marked by small red boxes around a/b/c on answer pages or directly on question pages; visually inspect them and emit answer_key_entry blocks with absolute page numbers.";
+  return "This is a TELC exam paper. Extract every instruction, text, question, and option verbatim. If correct answers are visibly marked by red boxes/frames around option letters, also emit answer_key_entry blocks for those marked letters.";
 }
 
 function safeJson(value: unknown) {
-  try { return JSON.stringify(value); } catch { return String(value); }
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
 }
 
 function utf8Bytes(text: string) {
@@ -491,16 +506,27 @@ async function appendImportLog(supabase: any, importId: string, entry: Record<st
   const line = JSON.stringify({ ts: new Date().toISOString(), ...entry });
   const { data } = await supabase.from("pdf_imports").select("notes").eq("id", importId).maybeSingle();
   const next = `${data?.notes ? `${data.notes}\n` : ""}${line}`.slice(-120_000);
-  await supabase.from("pdf_imports").update({ notes: next, extraction_started_at: new Date().toISOString() }).eq("id", importId);
-  try { console.log("[extractPdfVerbatim]", line); } catch {}
+  await supabase
+    .from("pdf_imports")
+    .update({ notes: next, extraction_started_at: new Date().toISOString() })
+    .eq("id", importId);
+  try {
+    console.log("[extractPdfVerbatim]", line);
+  } catch {}
 }
 
 function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[] {
   const out: any[] = [];
   // Patterns for owner/distribution noise that must never appear in exam content.
-  const NOISE_RX = /(whats\s*app|telegram|facebook|instagram|tiktok|youtube|gruppe\s+whatsapp|fließend\s+deutsch.*telc|inssaf|t\.me\/|wa\.me\/|https?:\/\/|©|copyright|all rights reserved)/i;
+  const NOISE_RX =
+    /(whats\s*app|telegram|facebook|instagram|tiktok|youtube|gruppe\s+whatsapp|fließend\s+deutsch.*telc|inssaf|t\.me\/|wa\.me\/|https?:\/\/|©|copyright|all rights reserved)/i;
   const ARABIC_RX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
-  const stripArabic = (s: string) => s.replace(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g, "").replace(/[ \t]{2,}/g, " ").replace(/[ \t]+([.,;:!?])/g, "$1").trim();
+  const stripArabic = (s: string) =>
+    s
+      .replace(/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]+/g, "")
+      .replace(/[ \t]{2,}/g, " ")
+      .replace(/[ \t]+([.,;:!?])/g, "$1")
+      .trim();
   const isNoiseText = (s: string) => {
     const t = (s ?? "").trim();
     if (!t) return true;
@@ -511,8 +537,15 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
   const isIndexPassage = (text: string) => {
     const t = (text ?? "").trim();
     if (!t) return false;
-    const lines = t.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-    if (lines.length < 3) return false;
+    const lines = t
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .filter(Boolean);
+    // Require ≥6 lines: real exam passages are always longer than a topic list,
+    // so a low line count means it is almost certainly NOT an index page.
+    // The 75% threshold stays but acts on a higher baseline so short reading
+    // passages (3-5 lines) are never incorrectly classified as Themenliste.
+    if (lines.length < 6) return false;
     const titleLike = lines.filter((l) => l.length <= 40 && !/[.!?]$/.test(l)).length;
     return titleLike / lines.length >= 0.75;
   };
@@ -520,13 +553,28 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
     if (!b || typeof b !== "object") return;
     if (Array.isArray(b.blocks)) for (const child of b.blocks) visit(child);
     const rawType = String(b.type ?? "").toLowerCase();
-    const type = ["section", "instruction", "passage", "question", "answer_key_entry", "image_ref", "audio_ref"].includes(rawType) ? rawType : null;
+    const type = [
+      "section",
+      "instruction",
+      "passage",
+      "question",
+      "answer_key_entry",
+      "image_ref",
+      "audio_ref",
+    ].includes(rawType)
+      ? rawType
+      : null;
     if (!type) return;
     const p = Number(b.page);
-    const page = Number.isFinite(p) && p > 0 && p <= (endPage - startPage + 1)
-      ? startPage + p - 1
-      : Number.isFinite(p) && p >= startPage && p <= endPage ? p : startPage;
-    const model = ["multiple_choice", "true_false", "cloze", "matching", "open_text"].includes(String(b.model ?? "")) ? null : (b.model ?? null);
+    const page =
+      Number.isFinite(p) && p > 0 && p <= endPage - startPage + 1
+        ? startPage + p - 1
+        : Number.isFinite(p) && p >= startPage && p <= endPage
+          ? p
+          : startPage;
+    const model = ["multiple_choice", "true_false", "cloze", "matching", "open_text"].includes(String(b.model ?? ""))
+      ? null
+      : (b.model ?? null);
     const teil = b.teil == null || b.teil === "" ? null : Number(b.teil);
     const base: any = { ...b, type, model, teil: Number.isFinite(teil) ? teil : null, page };
     if (type === "question") {
@@ -535,14 +583,16 @@ function flattenBlocks(blocks: any[], startPage: number, endPage: number): any[]
       const markerRx = /[✅☑✓✔]/;
       base.options = Array.isArray(b.options)
         ? b.options.map((o: any) => {
-          const rawLabel = String(o.label ?? o.id ?? "");
-          const rawText = String(o.text ?? "");
-          const checked = Boolean(o.correct ?? o.is_correct ?? o.checked) || markerRx.test(rawLabel) || markerRx.test(rawText);
-          const label = rawLabel.replace(/[✅☑✓✔⬜□☐]/g, "").trim();
-          const text = stripArabic(rawText.replace(/[✅☑✓✔⬜□☐]/g, ""));
-          if (checked && !base.correct_answer) base.correct_answer = label.match(/[A-EXa-ex]/)?.[0]?.toUpperCase() ?? null;
-          return { label, text };
-        })
+            const rawLabel = String(o.label ?? o.id ?? "");
+            const rawText = String(o.text ?? "");
+            const checked =
+              Boolean(o.correct ?? o.is_correct ?? o.checked) || markerRx.test(rawLabel) || markerRx.test(rawText);
+            const label = rawLabel.replace(/[✅☑✓✔⬜□☐]/g, "").trim();
+            const text = stripArabic(rawText.replace(/[✅☑✓✔⬜□☐]/g, ""));
+            if (checked && !base.correct_answer)
+              base.correct_answer = label.match(/[A-Ea-e]/)?.[0]?.toUpperCase() ?? null;
+            return { label, text };
+          })
         : [];
       if (!base.correct_answer && b.correct_answer) base.correct_answer = String(b.correct_answer).trim().toUpperCase();
       if (isNoiseText(base.text) && base.options.length === 0) return;
@@ -574,8 +624,18 @@ async function downloadPdf(supabase: any, storagePath: string) {
   return { buf, doc, totalPages: doc.getPageCount() };
 }
 
-async function upsertExtraction(supabase: any, importId: string, blocks: any[], pageCount: number, meta: ExtractionMeta) {
-  const { data: existing } = await supabase.from("pdf_extractions").select("id").eq("import_id", importId).maybeSingle();
+async function upsertExtraction(
+  supabase: any,
+  importId: string,
+  blocks: any[],
+  pageCount: number,
+  meta: ExtractionMeta,
+) {
+  const { data: existing } = await supabase
+    .from("pdf_extractions")
+    .select("id")
+    .eq("import_id", importId)
+    .maybeSingle();
   const row = { blocks, page_count: pageCount, raw_text: JSON.stringify(meta) };
   const q = existing?.id
     ? supabase.from("pdf_extractions").update(row).eq("id", existing.id)
@@ -587,11 +647,23 @@ async function upsertExtraction(supabase: any, importId: string, blocks: any[], 
 function detectTruncated(text: string): boolean {
   const t = text.trim();
   if (!t) return true;
-  let braces = 0, brackets = 0, inStr = false, esc = false;
+  let braces = 0,
+    brackets = 0,
+    inStr = false,
+    esc = false;
   for (const c of t) {
-    if (esc) { esc = false; continue; }
-    if (c === "\\") { esc = true; continue; }
-    if (c === '"') { inStr = !inStr; continue; }
+    if (esc) {
+      esc = false;
+      continue;
+    }
+    if (c === "\\") {
+      esc = true;
+      continue;
+    }
+    if (c === '"') {
+      inStr = !inStr;
+      continue;
+    }
     if (inStr) continue;
     if (c === "{") braces++;
     else if (c === "}") braces--;
@@ -608,9 +680,14 @@ function repairAndParseJson(raw: string): { parsed: any; repaired: boolean; note
   if (raw == null) throw new Error("empty response");
   let s = String(raw).trim();
   // strip markdown fences
-  s = s.replace(/^```(?:json)?\s*/i, "").replace(/```\s*$/i, "").trim();
+  s = s
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/```\s*$/i, "")
+    .trim();
   // strict parse first
-  try { return { parsed: JSON.parse(s), repaired: false }; } catch {}
+  try {
+    return { parsed: JSON.parse(s), repaired: false };
+  } catch {}
 
   // slice to outermost JSON span
   const start = s.search(/[\{\[]/);
@@ -626,49 +703,94 @@ function repairAndParseJson(raw: string): { parsed: any; repaired: boolean; note
   // collapse trailing commas before } or ]
   body = body.replace(/,(\s*[}\]])/g, "$1");
 
-  try { return { parsed: JSON.parse(body), repaired: true, note: "sliced+sanitized" }; } catch {}
+  try {
+    return { parsed: JSON.parse(body), repaired: true, note: "sliced+sanitized" };
+  } catch {}
 
   // walk the string and balance quotes/brackets so we can salvage a truncated tail
-  let inStr = false, esc = false;
-  let braces = 0, brackets = 0;
+  let inStr = false,
+    esc = false;
+  let braces = 0,
+    brackets = 0;
   let lastSafe = -1;
   for (let i = 0; i < body.length; i++) {
     const c = body[i];
-    if (esc) { esc = false; continue; }
-    if (c === "\\") { esc = true; continue; }
-    if (c === '"') { inStr = !inStr; continue; }
+    if (esc) {
+      esc = false;
+      continue;
+    }
+    if (c === "\\") {
+      esc = true;
+      continue;
+    }
+    if (c === '"') {
+      inStr = !inStr;
+      continue;
+    }
     if (inStr) continue;
     if (c === "{") braces++;
-    else if (c === "}") { braces--; if (braces >= 0 && brackets >= 0) lastSafe = i; }
-    else if (c === "[") brackets++;
-    else if (c === "]") { brackets--; if (braces >= 0 && brackets >= 0) lastSafe = i; }
+    else if (c === "}") {
+      braces--;
+      if (braces >= 0 && brackets >= 0) lastSafe = i;
+    } else if (c === "[") brackets++;
+    else if (c === "]") {
+      brackets--;
+      if (braces >= 0 && brackets >= 0) lastSafe = i;
+    }
   }
 
   // truncate to the last balanced position
   let cand = lastSafe > 0 ? body.slice(0, lastSafe + 1) : body;
   // close anything still open (best effort)
-  inStr = false; esc = false; braces = 0; brackets = 0;
+  inStr = false;
+  esc = false;
+  braces = 0;
+  brackets = 0;
   for (const c of cand) {
-    if (esc) { esc = false; continue; }
-    if (c === "\\") { esc = true; continue; }
-    if (c === '"') { inStr = !inStr; continue; }
+    if (esc) {
+      esc = false;
+      continue;
+    }
+    if (c === "\\") {
+      esc = true;
+      continue;
+    }
+    if (c === '"') {
+      inStr = !inStr;
+      continue;
+    }
     if (inStr) continue;
-    if (c === "{") braces++; else if (c === "}") braces--;
-    else if (c === "[") brackets++; else if (c === "]") brackets--;
+    if (c === "{") braces++;
+    else if (c === "}") braces--;
+    else if (c === "[") brackets++;
+    else if (c === "]") brackets--;
   }
   if (inStr) cand += '"';
   while (brackets-- > 0) cand += "]";
   while (braces-- > 0) cand += "}";
   cand = cand.replace(/,(\s*[}\]])/g, "$1");
 
-  try { return { parsed: JSON.parse(cand), repaired: true, note: "rebalanced" }; }
-  catch (e: any) { throw new Error(`JSON repair failed: ${e?.message ?? e}`); }
+  try {
+    return { parsed: JSON.parse(cand), repaired: true, note: "rebalanced" };
+  } catch (e: any) {
+    throw new Error(`JSON repair failed: ${e?.message ?? e}`);
+  }
 }
 
 async function callGeminiChunkOnce(args: {
-  apiKey: string; importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
-  startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
-  model: string; attempt: number;
+  apiKey: string;
+  importId: string;
+  supabase: any;
+  kind: string;
+  chunkIndex: number;
+  totalChunks: number;
+  startPage: number;
+  endPage: number;
+  totalPages: number;
+  pdfBytes: Uint8Array;
+  dimensions: any[];
+  model: string;
+  attempt: number;
 }) {
   // If no Lovable API key is configured but a personal Gemini key is, skip
   // the gateway entirely and call Google directly.
@@ -681,20 +803,40 @@ async function callGeminiChunkOnce(args: {
     model: args.model,
     messages: [
       { role: "system", content: extractionSystemPrompt },
-      { role: "user", content: [
-        { type: "text", text: chunkInstruction },
-        { type: "file", file: { filename: `exam-chunk-${args.chunkIndex + 1}.pdf`, file_data: `data:application/pdf;base64,${b64}` } },
-      ] },
+      {
+        role: "user",
+        content: [
+          { type: "text", text: chunkInstruction },
+          {
+            type: "file",
+            file: {
+              filename: `exam-chunk-${args.chunkIndex + 1}.pdf`,
+              file_data: `data:application/pdf;base64,${b64}`,
+            },
+          },
+        ],
+      },
     ],
     response_format: { type: "json_object" },
     temperature: 0,
-    max_tokens: 16000,
+    // 32000 tokens accommodates the densest 6-page TELC chunks (long reading
+    // passages + 5 questions × 3 options + answer key table) without truncation.
+    // 16000 was the previous value and caused tail questions to be silently cut.
+    max_tokens: 32000,
   };
   const payload = JSON.stringify(body);
   await appendImportLog(args.supabase, args.importId, {
-    event: "gemini_request_sent", model: args.model, attempt: args.attempt, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
-    pages: `${args.startPage}-${args.endPage}`, requestBytes: utf8Bytes(payload), pdfChunkBytes: args.pdfBytes.byteLength,
-    fileParts: 1, imageParts: 0, imageDimensions: "n/a: PDF is sent directly; no PDF-to-image conversion is performed", pdfPageDimensions: args.dimensions,
+    event: "gemini_request_sent",
+    model: args.model,
+    attempt: args.attempt,
+    chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+    pages: `${args.startPage}-${args.endPage}`,
+    requestBytes: utf8Bytes(payload),
+    pdfChunkBytes: args.pdfBytes.byteLength,
+    fileParts: 1,
+    imageParts: 0,
+    imageDimensions: "n/a: PDF is sent directly; no PDF-to-image conversion is performed",
+    pdfPageDimensions: args.dimensions,
   });
   const started = Date.now();
   const controller = new AbortController();
@@ -703,71 +845,125 @@ async function callGeminiChunkOnce(args: {
     const resp = await fetch(AI_GATEWAY_URL, {
       method: "POST",
       signal: controller.signal,
-      headers: { "Content-Type": "application/json", "Lovable-API-Key": args.apiKey, "X-Lovable-AIG-SDK": "raw-pdf-extraction" },
+      headers: {
+        "Content-Type": "application/json",
+        "Lovable-API-Key": args.apiKey,
+        "X-Lovable-AIG-SDK": "raw-pdf-extraction",
+      },
       body: payload,
     });
     const rawBody = await resp.text();
     const durationMs = Date.now() - started;
     await appendImportLog(args.supabase, args.importId, {
-      event: "gemini_response_received", model: args.model, attempt: args.attempt, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
-      status: resp.status, ok: resp.ok, durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
+      event: "gemini_response_received",
+      model: args.model,
+      attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+      status: resp.status,
+      ok: resp.ok,
+      durationMs,
+      responseBytes: utf8Bytes(rawBody),
+      rawBody: rawBody.slice(0, 12_000),
     });
     if (!resp.ok) {
       // If Lovable AI Gateway is out of credits or rate-limited, try the
       // operator-provided GEMINI_API_KEY against Google's direct API.
       if ((resp.status === 402 || resp.status === 429) && process.env.GEMINI_API_KEY) {
         await appendImportLog(args.supabase, args.importId, {
-          event: "gemini_direct_fallback_triggered", model: args.model, attempt: args.attempt,
-          chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, gatewayStatus: resp.status,
+          event: "gemini_direct_fallback_triggered",
+          model: args.model,
+          attempt: args.attempt,
+          chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+          gatewayStatus: resp.status,
         });
         const direct = await callGeminiDirectOnce({ ...args });
         return direct;
       }
-      if (resp.status === 429) throw new Error(`AI rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
-      if (resp.status === 402) throw new Error(`AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks} (set GEMINI_API_KEY to enable direct Gemini fallback): ${rawBody}`);
-      throw new Error(`Gemini extraction failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}, pages ${args.startPage}-${args.endPage}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
+      if (resp.status === 429)
+        throw new Error(`AI rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody}`);
+      if (resp.status === 402)
+        throw new Error(
+          `AI credits exhausted on chunk ${args.chunkIndex + 1}/${args.totalChunks} (set GEMINI_API_KEY to enable direct Gemini fallback): ${rawBody}`,
+        );
+      throw new Error(
+        `Gemini extraction failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}, pages ${args.startPage}-${args.endPage}): ${rawBody.slice(0, 1200) || "<empty body>"}`,
+      );
     }
     let gatewayJson: any;
-    try { gatewayJson = JSON.parse(rawBody); }
-    catch (e: any) { throw new Error(`Gemini gateway response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}. Raw: ${rawBody.slice(0, 1200)}`); }
+    try {
+      gatewayJson = JSON.parse(rawBody);
+    } catch (e: any) {
+      throw new Error(
+        `Gemini gateway response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}. Raw: ${rawBody.slice(0, 1200)}`,
+      );
+    }
     const content = gatewayJson?.choices?.[0]?.message?.content ?? "{}";
     const finishReason = gatewayJson?.choices?.[0]?.finish_reason ?? gatewayJson?.choices?.[0]?.finishReason ?? null;
-    if (typeof content === "string" && content.trim().length < 5) throw new Error(`Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`);
+    if (typeof content === "string" && content.trim().length < 5)
+      throw new Error(
+        `Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`,
+      );
     let parsed: any;
     let repaired = false;
     let repairNote: string | undefined;
     if (typeof content !== "string") {
       parsed = content;
     } else {
-      try { parsed = JSON.parse(content); }
-      catch (firstErr: any) {
+      try {
+        parsed = JSON.parse(content);
+      } catch (firstErr: any) {
         try {
           const r = repairAndParseJson(content);
-          parsed = r.parsed; repaired = true; repairNote = r.note;
+          parsed = r.parsed;
+          repaired = true;
+          repairNote = r.note;
           await appendImportLog(args.supabase, args.importId, {
-            event: "gemini_json_repaired", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, model: args.model,
-            attempt: args.attempt, repairNote, finishReason, firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
-            truncatedHeuristic: detectTruncated(content), contentBytes: utf8Bytes(content),
+            event: "gemini_json_repaired",
+            chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+            model: args.model,
+            attempt: args.attempt,
+            repairNote,
+            finishReason,
+            firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
+            truncatedHeuristic: detectTruncated(content),
+            contentBytes: utf8Bytes(content),
             contentTail: content.slice(-800),
           });
         } catch (repairErr: any) {
           await appendImportLog(args.supabase, args.importId, {
-            event: "gemini_json_unrecoverable", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, model: args.model,
-            attempt: args.attempt, finishReason, firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
+            event: "gemini_json_unrecoverable",
+            chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+            model: args.model,
+            attempt: args.attempt,
+            finishReason,
+            firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
             repairError: String(repairErr?.message ?? repairErr).slice(0, 500),
-            contentBytes: utf8Bytes(content), contentHead: content.slice(0, 2000), contentTail: content.slice(-2000),
+            contentBytes: utf8Bytes(content),
+            contentHead: content.slice(0, 2000),
+            contentTail: content.slice(-2000),
           });
-          throw new Error(`Could not parse Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`);
+          throw new Error(
+            `Could not parse Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`,
+          );
         }
       }
     }
     return { parsed, finishReason, usage: gatewayJson?.usage, durationMs, repaired, repairNote };
   } catch (err: any) {
     const durationMs = Date.now() - started;
-    const msg = err?.name === "AbortError"
-      ? `Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
-      : String(err?.message ?? err);
-    await appendImportLog(args.supabase, args.importId, { event: "gemini_request_failed", model: args.model, attempt: args.attempt, chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg, stack: String(err?.stack ?? "").slice(0, 4000) });
+    const msg =
+      err?.name === "AbortError"
+        ? `Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
+        : String(err?.message ?? err);
+    await appendImportLog(args.supabase, args.importId, {
+      event: "gemini_request_failed",
+      model: args.model,
+      attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+      durationMs,
+      error: msg,
+      stack: String(err?.stack ?? "").slice(0, 4000),
+    });
     throw new Error(msg);
   } finally {
     clearTimeout(timeout);
@@ -800,8 +996,11 @@ async function callGeminiChunk(args: CallChunkArgs) {
       // do not retry on credit exhaustion
       if (/credits exhausted/i.test(String(e?.message ?? ""))) throw e;
       await appendImportLog(args.supabase, args.importId, {
-        event: "chunk_attempt_failed", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
-        attempt: i + 1, model: attempts[i].model, error: String(e?.message ?? e).slice(0, 1200),
+        event: "chunk_attempt_failed",
+        chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+        attempt: i + 1,
+        model: attempts[i].model,
+        error: String(e?.message ?? e).slice(0, 1200),
       });
     }
   }
@@ -812,9 +1011,18 @@ async function callGeminiChunk(args: CallChunkArgs) {
  *  Gateway returns 402/429 and a personal GEMINI_API_KEY is configured.
  *  Returns the same shape as callGeminiChunkOnce. */
 async function callGeminiDirectOnce(args: {
-  importId: string; supabase: any; kind: string; chunkIndex: number; totalChunks: number;
-  startPage: number; endPage: number; totalPages: number; pdfBytes: Uint8Array; dimensions: any[];
-  model: string; attempt: number;
+  importId: string;
+  supabase: any;
+  kind: string;
+  chunkIndex: number;
+  totalChunks: number;
+  startPage: number;
+  endPage: number;
+  totalPages: number;
+  pdfBytes: Uint8Array;
+  dimensions: any[];
+  model: string;
+  attempt: number;
 }) {
   const directKey = process.env.GEMINI_API_KEY;
   if (!directKey) throw new Error("GEMINI_API_KEY missing; cannot use direct Gemini fallback");
@@ -823,20 +1031,23 @@ async function callGeminiDirectOnce(args: {
   const chunkInstruction = `${userInstructionFor(args.kind)}\n\nThis is chunk ${args.chunkIndex + 1} of ${args.totalChunks}. It contains PDF pages ${args.startPage}–${args.endPage} of a ${args.totalPages}-page document. In every block, set "page" to the ABSOLUTE page number in the full document (pages in this chunk are ${args.startPage}–${args.endPage}). Extract every block on these pages verbatim. Do not skip pages. If the PDF contains Arabic text or bilingual annotations, IGNORE the Arabic completely and extract only the German content. Return STRICT JSON only — no markdown, no comments, no trailing commas. Escape every double quote and newline inside string values.`;
   const body = {
     systemInstruction: { role: "system", parts: [{ text: extractionSystemPrompt }] },
-    contents: [{
-      role: "user",
-      parts: [
-        { text: chunkInstruction },
-        { inlineData: { mimeType: "application/pdf", data: b64 } },
-      ],
-    }],
+    contents: [
+      {
+        role: "user",
+        parts: [{ text: chunkInstruction }, { inlineData: { mimeType: "application/pdf", data: b64 } }],
+      },
+    ],
     generationConfig: { temperature: 0, maxOutputTokens: 16000, responseMimeType: "application/json" },
   };
   const payload = JSON.stringify(body);
   await appendImportLog(args.supabase, args.importId, {
-    event: "gemini_direct_request_sent", model: directModel, attempt: args.attempt,
-    chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, pages: `${args.startPage}-${args.endPage}`,
-    requestBytes: utf8Bytes(payload), pdfChunkBytes: args.pdfBytes.byteLength,
+    event: "gemini_direct_request_sent",
+    model: directModel,
+    attempt: args.attempt,
+    chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+    pages: `${args.startPage}-${args.endPage}`,
+    requestBytes: utf8Bytes(payload),
+    pdfChunkBytes: args.pdfBytes.byteLength,
   });
   const started = Date.now();
   const controller = new AbortController();
@@ -844,55 +1055,87 @@ async function callGeminiDirectOnce(args: {
   try {
     const url = `${GEMINI_DIRECT_BASE}/${directModel}:generateContent?key=${encodeURIComponent(directKey)}`;
     const resp = await fetch(url, {
-      method: "POST", signal: controller.signal,
-      headers: { "Content-Type": "application/json" }, body: payload,
+      method: "POST",
+      signal: controller.signal,
+      headers: { "Content-Type": "application/json" },
+      body: payload,
     });
     const rawBody = await resp.text();
     const durationMs = Date.now() - started;
     await appendImportLog(args.supabase, args.importId, {
-      event: "gemini_direct_response_received", model: directModel, attempt: args.attempt,
-      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, status: resp.status, ok: resp.ok,
-      durationMs, responseBytes: utf8Bytes(rawBody), rawBody: rawBody.slice(0, 12_000),
+      event: "gemini_direct_response_received",
+      model: directModel,
+      attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+      status: resp.status,
+      ok: resp.ok,
+      durationMs,
+      responseBytes: utf8Bytes(rawBody),
+      rawBody: rawBody.slice(0, 12_000),
     });
     if (!resp.ok) {
-      if (resp.status === 429) throw new Error(`Direct Gemini rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody.slice(0, 800)}`);
-      throw new Error(`Direct Gemini failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}): ${rawBody.slice(0, 1200) || "<empty body>"}`);
+      if (resp.status === 429)
+        throw new Error(
+          `Direct Gemini rate limit on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${rawBody.slice(0, 800)}`,
+        );
+      throw new Error(
+        `Direct Gemini failed on chunk ${args.chunkIndex + 1}/${args.totalChunks} (HTTP ${resp.status}): ${rawBody.slice(0, 1200) || "<empty body>"}`,
+      );
     }
     let apiJson: any;
-    try { apiJson = JSON.parse(rawBody); }
-    catch (e: any) { throw new Error(`Direct Gemini response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}`); }
+    try {
+      apiJson = JSON.parse(rawBody);
+    } catch (e: any) {
+      throw new Error(`Direct Gemini response was not JSON on chunk ${args.chunkIndex + 1}: ${e?.message ?? e}`);
+    }
     const parts = apiJson?.candidates?.[0]?.content?.parts ?? [];
-    const content = parts.map((p: any) => typeof p?.text === "string" ? p.text : "").join("");
+    const content = parts.map((p: any) => (typeof p?.text === "string" ? p.text : "")).join("");
     const finishReason = apiJson?.candidates?.[0]?.finishReason ?? null;
     if (typeof content !== "string" || content.trim().length < 5) {
-      throw new Error(`Direct Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`);
+      throw new Error(
+        `Direct Gemini returned empty content on chunk ${args.chunkIndex + 1}/${args.totalChunks} (finish_reason=${finishReason ?? "?"}).`,
+      );
     }
     let parsed: any;
     let repaired = false;
     let repairNote: string | undefined;
-    try { parsed = JSON.parse(content); }
-    catch (firstErr: any) {
+    try {
+      parsed = JSON.parse(content);
+    } catch (firstErr: any) {
       try {
         const r = repairAndParseJson(content);
-        parsed = r.parsed; repaired = true; repairNote = r.note;
+        parsed = r.parsed;
+        repaired = true;
+        repairNote = r.note;
         await appendImportLog(args.supabase, args.importId, {
-          event: "gemini_direct_json_repaired", chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
-          model: directModel, attempt: args.attempt, repairNote, finishReason,
+          event: "gemini_direct_json_repaired",
+          chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+          model: directModel,
+          attempt: args.attempt,
+          repairNote,
+          finishReason,
           firstError: String(firstErr?.message ?? firstErr).slice(0, 500),
         });
       } catch (repairErr: any) {
-        throw new Error(`Could not parse direct Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`);
+        throw new Error(
+          `Could not parse direct Gemini JSON on chunk ${args.chunkIndex + 1}/${args.totalChunks}: ${firstErr?.message ?? firstErr} | repair: ${repairErr?.message ?? repairErr}`,
+        );
       }
     }
     return { parsed, finishReason, usage: apiJson?.usageMetadata, durationMs, repaired, repairNote };
   } catch (err: any) {
     const durationMs = Date.now() - started;
-    const msg = err?.name === "AbortError"
-      ? `Direct Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
-      : String(err?.message ?? err);
+    const msg =
+      err?.name === "AbortError"
+        ? `Direct Gemini request timed out locally after ${GEMINI_TIMEOUT_MS}ms before a response arrived.`
+        : String(err?.message ?? err);
     await appendImportLog(args.supabase, args.importId, {
-      event: "gemini_direct_request_failed", model: directModel, attempt: args.attempt,
-      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`, durationMs, error: msg,
+      event: "gemini_direct_request_failed",
+      model: directModel,
+      attempt: args.attempt,
+      chunk: `${args.chunkIndex + 1}/${args.totalChunks}`,
+      durationMs,
+      error: msg,
       stack: String(err?.stack ?? "").slice(0, 4000),
     });
     throw new Error(msg);
@@ -907,19 +1150,27 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
     const apiKey = process.env.LOVABLE_API_KEY ?? "";
-    if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
-    const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
+    if (!apiKey && !process.env.GEMINI_API_KEY)
+      throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
+    const { data: imp, error: impErr } = await context.supabase
+      .from("pdf_imports")
+      .select("id, storage_path, kind, level")
+      .eq("id", data.importId)
+      .single();
     if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
     const { buf, doc, totalPages } = await downloadPdf(context.supabase, imp.storage_path);
     const pageDimensions = Array.from({ length: totalPages }, (_, i) => {
-      const p = doc.getPage(i); return { page: i + 1, width: p.getWidth(), height: p.getHeight() };
+      const p = doc.getPage(i);
+      return { page: i + 1, width: p.getWidth(), height: p.getHeight() };
     });
     const chunkCount = Math.ceil(totalPages / CHUNK_PAGES);
 
     // Content-hash cache: if the exact same PDF bytes were already extracted
     // for another import, copy its blocks instead of re-billing the AI.
     const hashBuf = await crypto.subtle.digest("SHA-256", buf);
-    const contentHash = Array.from(new Uint8Array(hashBuf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+    const contentHash = Array.from(new Uint8Array(hashBuf))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
     await context.supabase.from("pdf_imports").update({ content_hash: contentHash }).eq("id", data.importId);
     if (!data.resume) {
       const { data: twin } = await context.supabase
@@ -932,15 +1183,43 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
         .maybeSingle();
       if (twin?.id) {
         const { data: src } = await context.supabase
-          .from("pdf_extractions").select("blocks, raw_text, page_count").eq("import_id", twin.id).maybeSingle();
+          .from("pdf_extractions")
+          .select("blocks, raw_text, page_count")
+          .eq("import_id", twin.id)
+          .maybeSingle();
         if (src?.blocks) {
           let srcMeta: ExtractionMeta = {};
-          try { srcMeta = src.raw_text ? JSON.parse(src.raw_text) : {}; } catch {}
+          try {
+            srcMeta = src.raw_text ? JSON.parse(src.raw_text) : {};
+          } catch {}
           const srcBlocks = Array.isArray(src.blocks) ? (src.blocks as any[]) : [];
-          await upsertExtraction(context.supabase, data.importId, srcBlocks, src.page_count ?? totalPages, { ...srcMeta, diagnostics: [{ event: "cache_hit", source_import_id: twin.id }] });
-          await context.supabase.from("pdf_imports").update({ status: "extracted", error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
-          await appendImportLog(context.supabase, data.importId, { event: "extraction_cache_hit", source_import_id: twin.id, contentHash, totalPages, blocks: srcBlocks.length });
-          return { ok: true, cached: true, sourceImportId: twin.id, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount, fileBytes: buf.byteLength, completedChunks: Array.from({ length: chunkCount }, (_, i) => i), resumed: false };
+          await upsertExtraction(context.supabase, data.importId, srcBlocks, src.page_count ?? totalPages, {
+            ...srcMeta,
+            diagnostics: [{ event: "cache_hit", source_import_id: twin.id }],
+          });
+          await context.supabase
+            .from("pdf_imports")
+            .update({ status: "extracted", error_message: null, extraction_started_at: new Date().toISOString() })
+            .eq("id", data.importId);
+          await appendImportLog(context.supabase, data.importId, {
+            event: "extraction_cache_hit",
+            source_import_id: twin.id,
+            contentHash,
+            totalPages,
+            blocks: srcBlocks.length,
+          });
+          return {
+            ok: true,
+            cached: true,
+            sourceImportId: twin.id,
+            model: EXTRACTION_MODEL,
+            totalPages,
+            chunkSize: CHUNK_PAGES,
+            chunkCount,
+            fileBytes: buf.byteLength,
+            completedChunks: Array.from({ length: chunkCount }, (_, i) => i),
+            resumed: false,
+          };
         }
       }
     }
@@ -950,10 +1229,19 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
     // that already succeeded. Only chunks_failed is cleared so failed chunks
     // get a fresh attempt.
     const { data: existing } = await context.supabase
-      .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+      .from("pdf_extractions")
+      .select("blocks, raw_text")
+      .eq("import_id", data.importId)
+      .maybeSingle();
     let prevMeta: ExtractionMeta = {};
-    try { prevMeta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { prevMeta = {}; }
-    const prevCompleted = Array.isArray(prevMeta.chunks_completed) ? prevMeta.chunks_completed.filter((n) => Number.isInteger(n) && n >= 0 && n < chunkCount) : [];
+    try {
+      prevMeta = existing?.raw_text ? JSON.parse(existing.raw_text) : {};
+    } catch {
+      prevMeta = {};
+    }
+    const prevCompleted = Array.isArray(prevMeta.chunks_completed)
+      ? prevMeta.chunks_completed.filter((n) => Number.isInteger(n) && n >= 0 && n < chunkCount)
+      : [];
     const resume = Boolean(data.resume) && prevCompleted.length > 0;
     const keptBlocks = resume && Array.isArray(existing?.blocks) ? existing!.blocks : [];
     const meta: ExtractionMeta = {
@@ -969,21 +1257,35 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
       chunk_size: CHUNK_PAGES,
       diagnostics: [],
     };
-    await context.supabase.from("pdf_imports").update({
-      status: "extracting",
-      error_message: null,
-      notes: resume ? null : null,
-      extraction_started_at: new Date().toISOString(),
-    }).eq("id", data.importId);
+    await context.supabase
+      .from("pdf_imports")
+      .update({
+        status: "extracting",
+        error_message: null,
+        notes: resume ? null : null,
+        extraction_started_at: new Date().toISOString(),
+      })
+      .eq("id", data.importId);
     await upsertExtraction(context.supabase, data.importId, keptBlocks, totalPages, meta);
     await appendImportLog(context.supabase, data.importId, {
       event: resume ? "extraction_resumed" : "extraction_started",
-      model: EXTRACTION_MODEL, fileBytes: buf.byteLength, totalPages, chunkSize: CHUNK_PAGES,
-      chunkCount, completedChunks: meta.chunks_completed, pageDimensions,
+      model: EXTRACTION_MODEL,
+      fileBytes: buf.byteLength,
+      totalPages,
+      chunkSize: CHUNK_PAGES,
+      chunkCount,
+      completedChunks: meta.chunks_completed,
+      pageDimensions,
     });
     return {
-      ok: true, model: EXTRACTION_MODEL, totalPages, chunkSize: CHUNK_PAGES, chunkCount,
-      fileBytes: buf.byteLength, completedChunks: meta.chunks_completed ?? [], resumed: resume,
+      ok: true,
+      model: EXTRACTION_MODEL,
+      totalPages,
+      chunkSize: CHUNK_PAGES,
+      chunkCount,
+      fileBytes: buf.byteLength,
+      completedChunks: meta.chunks_completed ?? [],
+      resumed: resume,
     };
   });
 
@@ -993,16 +1295,22 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
     const apiKey = process.env.LOVABLE_API_KEY ?? "";
-    if (!apiKey && !process.env.GEMINI_API_KEY) throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
+    if (!apiKey && !process.env.GEMINI_API_KEY)
+      throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
     let step = "load_import_row";
     let failurePages = "?";
     try {
-      const { data: imp, error: impErr } = await context.supabase.from("pdf_imports").select("id, storage_path, kind, level").eq("id", data.importId).single();
+      const { data: imp, error: impErr } = await context.supabase
+        .from("pdf_imports")
+        .select("id, storage_path, kind, level")
+        .eq("id", data.importId)
+        .single();
       if (impErr || !imp) throw new Error(impErr?.message ?? "Import not found");
       step = "storage_download_pdf_parse";
       const { doc, totalPages } = await downloadPdf(context.supabase, imp.storage_path);
       const totalChunks = Math.ceil(totalPages / CHUNK_PAGES);
-      if (data.chunkIndex < 0 || data.chunkIndex >= totalChunks) throw new Error(`Invalid chunkIndex ${data.chunkIndex}; expected 0..${totalChunks - 1}`);
+      if (data.chunkIndex < 0 || data.chunkIndex >= totalChunks)
+        throw new Error(`Invalid chunkIndex ${data.chunkIndex}; expected 0..${totalChunks - 1}`);
       const startIdx = data.chunkIndex * CHUNK_PAGES;
       const endIdxExclusive = Math.min(startIdx + CHUNK_PAGES, totalPages);
       failurePages = `${startIdx + 1}-${endIdxExclusive}`;
@@ -1014,25 +1322,90 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       const bytes = await chunkDoc.save();
       const dimensions = copied.map((p, i) => ({ page: startIdx + i + 1, width: p.getWidth(), height: p.getHeight() }));
       step = `gemini_request_chunk_${data.chunkIndex + 1}`;
-      const result = await callGeminiChunk({ apiKey, supabase: context.supabase, importId: data.importId, kind: imp.kind, chunkIndex: data.chunkIndex, totalChunks, startPage: startIdx + 1, endPage: endIdxExclusive, totalPages, pdfBytes: bytes, dimensions });
-      const chunkBlocks = flattenBlocks(Array.isArray(result.parsed?.blocks) ? result.parsed.blocks : [], startIdx + 1, endIdxExclusive);
+      const result = await callGeminiChunk({
+        apiKey,
+        supabase: context.supabase,
+        importId: data.importId,
+        kind: imp.kind,
+        chunkIndex: data.chunkIndex,
+        totalChunks,
+        startPage: startIdx + 1,
+        endPage: endIdxExclusive,
+        totalPages,
+        pdfBytes: bytes,
+        dimensions,
+      });
+      const chunkBlocks = flattenBlocks(
+        Array.isArray(result.parsed?.blocks) ? result.parsed.blocks : [],
+        startIdx + 1,
+        endIdxExclusive,
+      );
       step = "persist_chunk";
-      const { data: existing } = await context.supabase.from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+      const { data: existing } = await context.supabase
+        .from("pdf_extractions")
+        .select("blocks, raw_text")
+        .eq("import_id", data.importId)
+        .maybeSingle();
       const existingBlocks = Array.isArray(existing?.blocks) ? existing.blocks : [];
-      const keptBlocks = existingBlocks.filter((b: any) => Number(b?.page) < startIdx + 1 || Number(b?.page) > endIdxExclusive);
+      const keptBlocks = existingBlocks.filter(
+        (b: any) => Number(b?.page) < startIdx + 1 || Number(b?.page) > endIdxExclusive,
+      );
       let meta: ExtractionMeta = {};
-      try { meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { meta = {}; }
+      try {
+        meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {};
+      } catch {
+        meta = {};
+      }
       const completed = new Set<number>(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
       completed.add(data.chunkIndex);
       const models = new Set<string>(Array.isArray(meta.models_detected) ? meta.models_detected : []);
-      if (Array.isArray(result.parsed?.models_detected)) for (const m of result.parsed.models_detected) if (m != null) models.add(String(m));
-      const lowConfidence = [...(Array.isArray(meta.low_confidence_items) ? meta.low_confidence_items : []), ...(Array.isArray(result.parsed?.low_confidence_items) ? result.parsed.low_confidence_items : [])];
-      const nextMeta: ExtractionMeta = { ...meta, chunks_total: totalChunks, chunks_completed: [...completed].sort((a, b) => a - b), chunk_size: CHUNK_PAGES, needs_manual_review: Boolean(meta.needs_manual_review || result.parsed?.needs_manual_review), manual_review_resolved: false, manual_review_resolved_at: undefined, manual_review_resolved_by: undefined, low_confidence_items: lowConfidence, models_detected: [...models] };
+      if (Array.isArray(result.parsed?.models_detected))
+        for (const m of result.parsed.models_detected) if (m != null) models.add(String(m));
+      const lowConfidence = [
+        ...(Array.isArray(meta.low_confidence_items) ? meta.low_confidence_items : []),
+        ...(Array.isArray(result.parsed?.low_confidence_items) ? result.parsed.low_confidence_items : []),
+      ];
+      const nextMeta: ExtractionMeta = {
+        ...meta,
+        chunks_total: totalChunks,
+        chunks_completed: [...completed].sort((a, b) => a - b),
+        chunk_size: CHUNK_PAGES,
+        needs_manual_review: Boolean(meta.needs_manual_review || result.parsed?.needs_manual_review),
+        manual_review_resolved: false,
+        manual_review_resolved_at: undefined,
+        manual_review_resolved_by: undefined,
+        low_confidence_items: lowConfidence,
+        models_detected: [...models],
+      };
       const blocks = [...keptBlocks, ...chunkBlocks].sort((a, b) => Number(a?.page ?? 0) - Number(b?.page ?? 0));
       await upsertExtraction(context.supabase, data.importId, blocks, totalPages, nextMeta);
-      await context.supabase.from("pdf_imports").update({ status: "extracting", ocr_used: true, level: result.parsed?.level === "b1" || result.parsed?.level === "b2" ? result.parsed.level : imp.level, error_message: null, extraction_started_at: new Date().toISOString() }).eq("id", data.importId);
-      await appendImportLog(context.supabase, data.importId, { event: "chunk_persisted", chunk: `${data.chunkIndex + 1}/${totalChunks}`, blocksInChunk: chunkBlocks.length, totalBlocks: blocks.length, finishReason: result.finishReason, usage: result.usage });
-      return { ok: true, chunkIndex: data.chunkIndex, totalChunks, pages: `${startIdx + 1}-${endIdxExclusive}`, blocksInChunk: chunkBlocks.length, totalBlocks: blocks.length, completedChunks: nextMeta.chunks_completed?.length ?? 0 };
+      await context.supabase
+        .from("pdf_imports")
+        .update({
+          status: "extracting",
+          ocr_used: true,
+          level: result.parsed?.level === "b1" || result.parsed?.level === "b2" ? result.parsed.level : imp.level,
+          error_message: null,
+          extraction_started_at: new Date().toISOString(),
+        })
+        .eq("id", data.importId);
+      await appendImportLog(context.supabase, data.importId, {
+        event: "chunk_persisted",
+        chunk: `${data.chunkIndex + 1}/${totalChunks}`,
+        blocksInChunk: chunkBlocks.length,
+        totalBlocks: blocks.length,
+        finishReason: result.finishReason,
+        usage: result.usage,
+      });
+      return {
+        ok: true,
+        chunkIndex: data.chunkIndex,
+        totalChunks,
+        pages: `${startIdx + 1}-${endIdxExclusive}`,
+        blocksInChunk: chunkBlocks.length,
+        totalBlocks: blocks.length,
+        completedChunks: nextMeta.chunks_completed?.length ?? 0,
+      };
     } catch (err: any) {
       const msg = String(err?.message ?? err);
       const stack = String(err?.stack ?? "").slice(0, 6000);
@@ -1042,18 +1415,51 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
       // then the import is marked failed so admins see the real blocker instead
       // of an "extracted" import with missing TELC content.
       try {
-        const { data: existing } = await context.supabase.from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.importId).maybeSingle();
+        const { data: existing } = await context.supabase
+          .from("pdf_extractions")
+          .select("blocks, raw_text")
+          .eq("import_id", data.importId)
+          .maybeSingle();
         let meta: ExtractionMeta = {};
-        try { meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {}; } catch { meta = {}; }
+        try {
+          meta = existing?.raw_text ? JSON.parse(existing.raw_text) : {};
+        } catch {
+          meta = {};
+        }
         const failed = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
         failed.push({ chunk: data.chunkIndex, pages: failurePages, reason: msg.slice(0, 1200), model: "gemini" });
         const nextMeta: ExtractionMeta = { ...meta, chunks_failed: failed, needs_manual_review: true };
         const blocks = Array.isArray(existing?.blocks) ? existing.blocks : [];
-        await upsertExtraction(context.supabase, data.importId, blocks, Number((existing as any)?.page_count ?? 0) || 0, nextMeta);
+        await upsertExtraction(
+          context.supabase,
+          data.importId,
+          blocks,
+          Number((existing as any)?.page_count ?? 0) || 0,
+          nextMeta,
+        );
       } catch {}
-      await context.supabase.from("pdf_imports").update({ status: "extraction_failed", error_message: full }).eq("id", data.importId);
-      await appendImportLog(context.supabase, data.importId, { event: "chunk_failed", step, chunkIndex: data.chunkIndex, pages: failurePages, error: msg, stack });
-      return { ok: false as const, chunkIndex: data.chunkIndex, pages: failurePages, step, error: msg, stack, details: full, hard: true };
+      await context.supabase
+        .from("pdf_imports")
+        .update({ status: "extraction_failed", error_message: full })
+        .eq("id", data.importId);
+      await appendImportLog(context.supabase, data.importId, {
+        event: "chunk_failed",
+        step,
+        chunkIndex: data.chunkIndex,
+        pages: failurePages,
+        error: msg,
+        stack,
+      });
+      return {
+        ok: false as const,
+        chunkIndex: data.chunkIndex,
+        pages: failurePages,
+        step,
+        error: msg,
+        stack,
+        details: full,
+        hard: true,
+      };
     }
   });
 
@@ -1062,23 +1468,56 @@ export const finalizePdfExtraction = createServerFn({ method: "POST" })
   .inputValidator((d: { importId: string }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const { data: ext } = await context.supabase.from("pdf_extractions").select("blocks, raw_text, page_count").eq("import_id", data.importId).maybeSingle();
+    const { data: ext } = await context.supabase
+      .from("pdf_extractions")
+      .select("blocks, raw_text, page_count")
+      .eq("import_id", data.importId)
+      .maybeSingle();
     if (!ext) throw new Error("No extraction row found");
     let meta: ExtractionMeta = {};
-    try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    try {
+      meta = ext.raw_text ? JSON.parse(ext.raw_text) : {};
+    } catch {
+      meta = {};
+    }
     const completed = new Set(Array.isArray(meta.chunks_completed) ? meta.chunks_completed : []);
     const failedChunks = Array.isArray(meta.chunks_failed) ? meta.chunks_failed : [];
     const total = Number(meta.chunks_total ?? 0);
-    if (total > 0 && completed.size < total) throw new Error(`Extraction incomplete: ${completed.size}/${total} chunks completed.`);
+    if (total > 0 && completed.size < total)
+      throw new Error(`Extraction incomplete: ${completed.size}/${total} chunks completed.`);
     const hasFailedChunks = failedChunks.length > 0;
     const finalStatus = hasFailedChunks ? "extraction_failed" : "extracted";
     const errMessage = hasFailedChunks
       ? `${failedChunks.length}/${total} chunks failed. Extraction is incomplete; no exercises will be built until every chunk succeeds.`
       : null;
-    await context.supabase.from("pdf_imports").update({ status: finalStatus, ocr_used: true, error_message: errMessage }).eq("id", data.importId);
+    await context.supabase
+      .from("pdf_imports")
+      .update({ status: finalStatus, ocr_used: true, error_message: errMessage })
+      .eq("id", data.importId);
     const review = getExtractionReviewState(meta);
-    await appendImportLog(context.supabase, data.importId, { event: "extraction_finalized", chunksCompleted: completed.size, chunksFailed: failedChunks.length, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, modelsDetected: meta.models_detected ?? [], blockingLowConfidenceItems: review.blockingLowConfidenceItems.length, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length });
-    return { ok: !hasFailedChunks, blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0, pageCount: ext.page_count, needsManualReview: review.needsManualReview, manualReviewResolved: review.manualReviewResolved, canBuild: review.canBuild, lowConfidenceItems: review.lowConfidenceItems, blockingLowConfidenceItems: review.blockingLowConfidenceItems, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems, modelsDetected: meta.models_detected ?? [], failedChunks };
+    await appendImportLog(context.supabase, data.importId, {
+      event: "extraction_finalized",
+      chunksCompleted: completed.size,
+      chunksFailed: failedChunks.length,
+      blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0,
+      pageCount: ext.page_count,
+      modelsDetected: meta.models_detected ?? [],
+      blockingLowConfidenceItems: review.blockingLowConfidenceItems.length,
+      ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length,
+    });
+    return {
+      ok: !hasFailedChunks,
+      blockCount: Array.isArray(ext.blocks) ? ext.blocks.length : 0,
+      pageCount: ext.page_count,
+      needsManualReview: review.needsManualReview,
+      manualReviewResolved: review.manualReviewResolved,
+      canBuild: review.canBuild,
+      lowConfidenceItems: review.lowConfidenceItems,
+      blockingLowConfidenceItems: review.blockingLowConfidenceItems,
+      ignoredLowConfidenceItems: review.ignoredLowConfidenceItems,
+      modelsDetected: meta.models_detected ?? [],
+      failedChunks,
+    };
   });
 
 export const extractPdfVerbatim = startPdfExtraction;
@@ -1105,7 +1544,10 @@ export const reapStuckExtractions = createServerFn({ method: "POST" })
         .from("pdf_imports")
         .update({
           status: "extraction_failed",
-          error_message: "[watchdog] Job stuck in '" + row.status + "' for more than 5 minutes — auto-failed. Re-run extraction or delete and re-upload.",
+          error_message:
+            "[watchdog] Job stuck in '" +
+            row.status +
+            "' for more than 5 minutes — auto-failed. Re-run extraction or delete and re-upload.",
         })
         .eq("id", row.id);
       reaped++;
@@ -1138,7 +1580,8 @@ export const reapStuckExtractions = createServerFn({ method: "POST" })
         .from("pdf_imports")
         .update({
           status: "extraction_failed",
-          error_message: "[watchdog] Import remained in 'pending' for more than 5 minutes without ever starting extraction.",
+          error_message:
+            "[watchdog] Import remained in 'pending' for more than 5 minutes without ever starting extraction.",
         })
         .eq("id", row.id);
       reaped++;
@@ -1165,7 +1608,11 @@ export const getExtraction = createServerFn({ method: "POST" })
       .eq("import_id", data.importId)
       .maybeSingle();
     let meta: ExtractionMeta = {};
-    try { meta = ext?.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    try {
+      meta = ext?.raw_text ? JSON.parse(ext.raw_text) : {};
+    } catch {
+      meta = {};
+    }
     return { import: imp, extraction: ext, review: getExtractionReviewState(meta) };
   });
 
@@ -1181,10 +1628,16 @@ export const resolveExtractionReview = createServerFn({ method: "POST" })
       .maybeSingle();
     if (!ext) throw new Error("No extraction row found");
     let meta: ExtractionMeta = {};
-    try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
+    try {
+      meta = ext.raw_text ? JSON.parse(ext.raw_text) : {};
+    } catch {
+      meta = {};
+    }
     const review = getExtractionReviewState(meta);
     if (review.failedChunks.length > 0 || review.incomplete) {
-      throw new Error("Extraction is incomplete or has failed chunks — re-run/continue extraction before review can be resolved.");
+      throw new Error(
+        "Extraction is incomplete or has failed chunks — re-run/continue extraction before review can be resolved.",
+      );
     }
     const nextMeta: ExtractionMeta = {
       ...meta,
@@ -1194,12 +1647,33 @@ export const resolveExtractionReview = createServerFn({ method: "POST" })
       manual_review_resolved_by: context.userId,
       diagnostics: [
         ...(Array.isArray(meta.diagnostics) ? meta.diagnostics : []),
-        { event: "manual_review_resolved", by: context.userId, at: new Date().toISOString(), note: data.note ?? null, blockingLowConfidenceItems: review.blockingLowConfidenceItems.length, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length },
+        {
+          event: "manual_review_resolved",
+          by: context.userId,
+          at: new Date().toISOString(),
+          note: data.note ?? null,
+          blockingLowConfidenceItems: review.blockingLowConfidenceItems.length,
+          ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length,
+        },
       ],
     };
-    await upsertExtraction(context.supabase, data.importId, Array.isArray(ext.blocks) ? ext.blocks : [], Number(ext.page_count ?? 0), nextMeta);
-    await context.supabase.from("pdf_imports").update({ status: "extracted", error_message: null }).eq("id", data.importId);
-    await appendImportLog(context.supabase, data.importId, { event: "manual_review_resolved", blockingLowConfidenceItems: review.blockingLowConfidenceItems.length, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length, note: data.note ?? null });
+    await upsertExtraction(
+      context.supabase,
+      data.importId,
+      Array.isArray(ext.blocks) ? ext.blocks : [],
+      Number(ext.page_count ?? 0),
+      nextMeta,
+    );
+    await context.supabase
+      .from("pdf_imports")
+      .update({ status: "extracted", error_message: null })
+      .eq("id", data.importId);
+    await appendImportLog(context.supabase, data.importId, {
+      event: "manual_review_resolved",
+      blockingLowConfidenceItems: review.blockingLowConfidenceItems.length,
+      ignoredLowConfidenceItems: review.ignoredLowConfidenceItems.length,
+      note: data.note ?? null,
+    });
     return { ok: true, review: getExtractionReviewState(nextMeta) };
   });
 
@@ -1212,7 +1686,9 @@ export const listPdfImports = createServerFn({ method: "POST" })
     await assertAdmin(context);
     const { data, error } = await context.supabase
       .from("pdf_imports")
-      .select("id, original_name, kind, level, status, linked_import_id, created_at, ocr_used, error_message, storage_path, notes")
+      .select(
+        "id, original_name, kind, level, status, linked_import_id, created_at, ocr_used, error_message, storage_path, notes",
+      )
       .order("created_at", { ascending: false })
       .limit(100);
     if (error) throw new Error(error.message);
@@ -1226,19 +1702,21 @@ export const listPdfImports = createServerFn({ method: "POST" })
  */
 export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: {
-    examImportId: string;
-    answerKeyImportId?: string | null;
-    level: "b1" | "b2";
-    moduleHint?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich" | null;
-    teil: number;
-    writingCategory?: string | null;
-    muendlichPart?: 1 | 2 | 3 | null;
-    contentType?: "vorbereitung" | "pruefungssimulation" | null;
-    confirmMaterialAsExercises?: boolean | null;
-    forceBuild?: boolean | null;
-    collectionId?: string | null;
-  }) => d)
+  .inputValidator(
+    (d: {
+      examImportId: string;
+      answerKeyImportId?: string | null;
+      level: "b1" | "b2";
+      moduleHint?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich" | null;
+      teil: number;
+      writingCategory?: string | null;
+      muendlichPart?: 1 | 2 | 3 | null;
+      contentType?: "vorbereitung" | "pruefungssimulation" | null;
+      confirmMaterialAsExercises?: boolean | null;
+      forceBuild?: boolean | null;
+      collectionId?: string | null;
+    }) => d,
+  )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
 
@@ -1254,23 +1732,33 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       throw new Error("Sprachbausteine hat nur Teil 1 und Teil 2.");
     }
     if (module === "schreiben") {
-      const allowed = ["beschwerde","brief","email","bitte_um_informationen","anfrage","stellungnahme","sonstiges"];
+      const allowed = [
+        "beschwerde",
+        "brief",
+        "email",
+        "bitte_um_informationen",
+        "anfrage",
+        "stellungnahme",
+        "sonstiges",
+      ];
       if (!data.writingCategory || !allowed.includes(data.writingCategory)) {
         throw new Error("Schreiben: Bitte Kategorie manuell wählen.");
       }
     }
     if (module === "muendlich") {
-      if (![1,2,3].includes(Number(data.muendlichPart))) {
+      if (![1, 2, 3].includes(Number(data.muendlichPart))) {
         throw new Error("Mündlich: Bitte Teil (1 Präsentation / 2 Diskussion / 3 Planen) wählen.");
       }
     }
 
     // Content type is REQUIRED for EVERY module (Vorbereitung vs. Prüfungssimulation).
-    if (!data.contentType || !["vorbereitung","pruefungssimulation"].includes(data.contentType)) {
+    if (!data.contentType || !["vorbereitung", "pruefungssimulation"].includes(data.contentType)) {
       throw new Error("Bitte Inhaltstyp wählen: 'Vorbereitung' oder 'Prüfungssimulation'.");
     }
     if (data.contentType === "vorbereitung" && !data.confirmMaterialAsExercises) {
-      throw new Error("Vorbereitungs-Material wird nicht automatisch in Übungen umgewandelt. Setzen Sie das Bestätigungs-Häkchen, wenn das gewünscht ist.");
+      throw new Error(
+        "Vorbereitungs-Material wird nicht automatisch in Übungen umgewandelt. Setzen Sie das Bestätigungs-Häkchen, wenn das gewünscht ist.",
+      );
     }
 
     // Mark the import as currently building exercises.
@@ -1284,310 +1772,366 @@ export const buildExercisesFromExtraction = createServerFn({ method: "POST" })
       .eq("id", data.examImportId);
 
     try {
-    const { data: ext, error: extErr } = await context.supabase
-      .from("pdf_extractions").select("blocks, raw_text").eq("import_id", data.examImportId).maybeSingle();
-    if (extErr) throw new Error(`Could not read extraction for import ${data.examImportId}: ${extErr.message}`);
-    if (!ext) throw new Error("Run extraction on the exam PDF first");
-    let meta: ExtractionMeta = {};
-    try { meta = ext.raw_text ? JSON.parse(ext.raw_text) : {}; } catch { meta = {}; }
-    const review = getExtractionReviewState(meta);
-    if (review.failedChunks.length > 0 || review.incomplete) {
-      throw new Error("Extraction incomplete — finish all chunks before building exercises.");
-    }
-    if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved && !data.forceBuild) {
-      throw new Error(`Extraction has ${review.blockingLowConfidenceItems.length} low-confidence item(s). Open the Review tab and approve or re-extract before building exercises.`);
-    }
-    if (data.forceBuild && review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
-      await appendImportLog(context.supabase, data.examImportId, { event: "force_build_with_low_confidence_items", count: review.blockingLowConfidenceItems.length, by: context.userId });
-    }
-
-    const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
-    const moduleVal = module;
-    const teil = adminTeil;
-
-    // Detect the source kind (combined PDFs carry their own answer key)
-    const { data: examImp } = await context.supabase
-      .from("pdf_imports").select("kind").eq("id", data.examImportId).maybeSingle();
-    const sourceKind: string = examImp?.kind ?? "exam";
-
-    const answerBlocks: any[] = blocks.filter((b) => b?.type === "answer_key_entry");
-
-    // External answer-key PDF (optional, ignored when source is combined)
-    if (data.answerKeyImportId && sourceKind !== "combined") {
-      const { data: keyExt, error: keyExtErr } = await context.supabase
-        .from("pdf_extractions").select("blocks").eq("import_id", data.answerKeyImportId).maybeSingle();
-      if (keyExtErr) throw new Error(`Could not read answer-key extraction for import ${data.answerKeyImportId}: ${keyExtErr.message}`);
-      const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
-      answerBlocks.push(...kblocks.filter((b) => b?.type === "answer_key_entry"));
-      await context.supabase.from("pdf_imports")
-        .update({ linked_import_id: data.examImportId })
-        .eq("id", data.answerKeyImportId);
-    }
-
-    const sourceUnits = buildSourceExerciseUnits(blocks, moduleVal, teil);
-    const answerLookup = buildAnswerLookup(answerBlocks, teil);
-    const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
-
-    // Pre-scan passage titles so duplicate titles get numbered suffixes.
-    // "Sport ist gesund" appearing twice becomes (1) and (2) to avoid identical
-    // student-facing titles that can't be distinguished in the exercise library.
-    const rawTitleCounts = new Map<string, number>();
-    for (const unit of sourceUnits) {
-      const passageTitle = (unit.title ?? "").trim();
-      const derived = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
-      const raw = passageTitle || derived || "";
-      if (raw) rawTitleCounts.set(raw, (rawTitleCounts.get(raw) ?? 0) + 1);
-    }
-    const rawTitleIdx = new Map<string, number>();
-
-    const createdExerciseIds: string[] = [];
-    let keyCount = 0;
-    const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number; sourceIndex?: number }[] = [];
-    const skippedUnits: Array<ReturnType<typeof unitDiagnostic>> = [];
-    const sourceUnitDiagnostics = [
-      ...sourceUnits.map((unit) => unitDiagnostic(unit, "source_exercise_unit_detected")),
-      ...buildUnbuiltPassageDiagnostics(blocks, sourceUnits, teil),
-    ];
-    if (answerLookup.conflicts && answerLookup.conflicts.length > 0) {
-      for (const c of answerLookup.conflicts) {
-        buildWarnings.push({ kind: "answer_key_conflict", detail: `Conflicting answers for ${c.key}: ${c.answers.join(", ")} — entry skipped, please verify manually.` });
-      }
-    }
-
-    const { data: existingDrafts } = await context.supabase
-      .from("exercises")
-      .select("id")
-      .eq("source_pdf_import_id", data.examImportId);
-    const existingDraftIds = (existingDrafts ?? []).map((row: any) => row.id);
-    if (existingDraftIds.length > 0) {
-      await context.supabase.from("exercise_answer_keys").delete().in("exercise_id", existingDraftIds);
-      await context.supabase.from("exercises").delete().in("id", existingDraftIds);
-      await appendImportLog(context.supabase, data.examImportId, { event: "source_exercises_removed_before_preserve_rebuild", count: existingDraftIds.length });
-    }
-    await context.supabase.from("pdf_fidelity_reports").delete().eq("exam_import_id", data.examImportId);
-
-    let position = 1;
-    for (const unit of sourceUnits) {
+      const { data: ext, error: extErr } = await context.supabase
+        .from("pdf_extractions")
+        .select("blocks, raw_text")
+        .eq("import_id", data.examImportId)
+        .maybeSingle();
+      if (extErr) throw new Error(`Could not read extraction for import ${data.examImportId}: ${extErr.message}`);
+      if (!ext) throw new Error("Run extraction on the exam PDF first");
+      let meta: ExtractionMeta = {};
       try {
-      const variantSuffix = unit.model ? ` — Modell ${unit.model}` : "";
-      // Skip non-exam noise that may have leaked into a question block
-      // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
-      const noiseRe = /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
-      const cleanQuestions = unit.questions.filter((q) => !noiseRe.test(q.text));
-      if (cleanQuestions.length === 0) {
-        skippedUnits.push(unitDiagnostic(unit, "no_clean_questions"));
-        continue;
+        meta = ext.raw_text ? JSON.parse(ext.raw_text) : {};
+      } catch {
+        meta = {};
       }
-      // Validation: drop questions with empty prompts so a single bad row
-      // does not abort the whole build.
-      const validQuestions = cleanQuestions.filter((q) => {
-        const ok = (q.text ?? "").trim().length > 0 && q.number;
-        if (!ok) buildWarnings.push({ kind: "invalid_question_dropped", detail: `Empty prompt or number at p.${unit.questionPage}`, page: unit.questionPage, sourceIndex: unit.sourceIndex });
-        return ok;
-      });
-      if (validQuestions.length === 0) {
-        skippedUnits.push(unitDiagnostic(unit, "all_questions_invalid"));
-        continue;
+      const review = getExtractionReviewState(meta);
+      if (review.failedChunks.length > 0 || review.incomplete) {
+        throw new Error("Extraction incomplete — finish all chunks before building exercises.");
       }
-
-        // Build the embedded questions[] payload — exact letter prefixes preserved.
-        const questionsPayload = validQuestions.map((q) => {
-          const optionTexts = q.options;
-          const rawAns = answerLookup.get(q, answerUsageCounts).trim();
-          let correct: string | null = null;
-          if (optionTexts.length >= 2 && rawAns) {
-            const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
-            const idx = letter ? letter.charCodeAt(0) - 65 : -1;
-            if (idx >= 0 && idx < optionTexts.length) correct = optionTexts[idx];
-          } else if (rawAns) {
-            correct = rawAns;
-          }
-          return {
-            n: q.number,
-            prompt: q.text,
-            options: optionTexts,
-            correct,
-            rawAnswer: rawAns || null,
-          };
+      if (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved && !data.forceBuild) {
+        throw new Error(
+          `Extraction has ${review.blockingLowConfidenceItems.length} low-confidence item(s). Open the Review tab and approve or re-extract before building exercises.`,
+        );
+      }
+      if (data.forceBuild && review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved) {
+        await appendImportLog(context.supabase, data.examImportId, {
+          event: "force_build_with_low_confidence_items",
+          count: review.blockingLowConfidenceItems.length,
+          by: context.userId,
         });
+      }
 
-        const allMcq = questionsPayload.every((q) => q.options.length >= 2);
-        const anyMcq = questionsPayload.some((q) => q.options.length >= 2);
-        // passage_mcq covers the new "one passage, many MCQs" structure.
-        // sprachbausteine still uses 'cloze' so legacy renderers keep working.
-        // Single open-question buckets (Schreiben/Mündlich tasks) stay 'open_text'.
-        const kind: "passage_mcq" | "cloze" | "multiple_choice" | "open_text" =
-          moduleVal === "sprachbausteine" && anyMcq ? "cloze"
-          : allMcq && questionsPayload.length > 1 ? "passage_mcq"
-          : allMcq && questionsPayload.length === 1 ? "multiple_choice"
-          : "open_text";
+      const blocks: any[] = Array.isArray(ext.blocks) ? ext.blocks : [];
+      const moduleVal = module;
+      const teil = adminTeil;
 
-        const passageTitle = (unit.title ?? "").trim();
-        const derivedTitle = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
-        const rangeLabel = unitQuestionRange(unit);
-        const rawTitle = passageTitle || derivedTitle || "";
-        // Deduplicate: if the same title appears more than once in this import,
-        // append a sequential number so students can tell exercises apart.
-        let studentTitle: string;
-        if (rawTitle && (rawTitleCounts.get(rawTitle) ?? 0) > 1) {
-          const idx = (rawTitleIdx.get(rawTitle) ?? 0) + 1;
-          rawTitleIdx.set(rawTitle, idx);
-          studentTitle = `${rawTitle} (${idx})`;
-        } else {
-          studentTitle = rawTitle || `Aufgabe ${rangeLabel}${variantSuffix}`;
-        }
+      // Detect the source kind (combined PDFs carry their own answer key)
+      const { data: examImp } = await context.supabase
+        .from("pdf_imports")
+        .select("kind")
+        .eq("id", data.examImportId)
+        .maybeSingle();
+      const sourceKind: string = examImp?.kind ?? "exam";
 
-        // Aggregate `correct` so the legacy grader still works for single-question
-        // rows (multiple_choice / open_text). For passage_mcq the canonical
-        // answers live inside options.questions[].correct.
-        const aggregatedCorrect: string[] = questionsPayload
-          .map((q) => q.correct)
-          .filter((v): v is string => typeof v === "string" && v.length > 0);
+      const answerBlocks: any[] = blocks.filter((b) => b?.type === "answer_key_entry");
 
-        // For passage_mcq the simple `options: string[]` shape no longer fits.
-        // We store an object `{ questions: [...] }` in the JSONB column. For
-        // legacy single-question kinds we keep the flat string[] shape so the
-        // existing UI keeps rendering them unchanged.
-        const optionsField: any =
-          kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
-            ? { questions: questionsPayload }
-            : (questionsPayload[0]?.options ?? []);
+      // External answer-key PDF (optional, ignored when source is combined)
+      if (data.answerKeyImportId && sourceKind !== "combined") {
+        const { data: keyExt, error: keyExtErr } = await context.supabase
+          .from("pdf_extractions")
+          .select("blocks")
+          .eq("import_id", data.answerKeyImportId)
+          .maybeSingle();
+        if (keyExtErr)
+          throw new Error(
+            `Could not read answer-key extraction for import ${data.answerKeyImportId}: ${keyExtErr.message}`,
+          );
+        const kblocks: any[] = Array.isArray(keyExt?.blocks) ? keyExt.blocks : [];
+        answerBlocks.push(...kblocks.filter((b) => b?.type === "answer_key_entry"));
+        await context.supabase
+          .from("pdf_imports")
+          .update({ linked_import_id: data.examImportId })
+          .eq("id", data.answerKeyImportId);
+      }
 
-        const promptText =
-          kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
-            ? (unit.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`)
-            : (questionsPayload[0]?.prompt ?? unit.instruction ?? "");
+      const sourceUnits = buildSourceExerciseUnits(blocks, moduleVal, teil);
+      const answerLookup = buildAnswerLookup(answerBlocks);
+      const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
 
-        const { data: ex, error: exErr } = await context.supabase
-          .from("exercises")
-          .insert({
-            level: data.level,
-            module: moduleVal,
-            teil,
-            position: position++,
-            title: studentTitle,
-            prompt: promptText,
-            passage: unit.passageText ?? (unit.instruction || null),
-            kind,
-            options: optionsField,
-            correct: aggregatedCorrect,
-            status: "draft",
-            created_by: context.userId,
-            source_pdf_import_id: data.examImportId,
-            original_numbering: unitOriginalNumbering(unit),
-            model_variant: unit.model,
-            writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
-            muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
-            content_type: data.contentType ?? null,
-            collection_id: data.collectionId ?? null,
-          })
-          .select("id")
-          .single();
-        if (exErr || !ex) {
-          throw new Error(`Exercise insert failed for items ${rangeLabel}: ${exErr?.message ?? "no exercise row returned"}`);
-        }
-        createdExerciseIds.push(ex.id);
-
-        // One answer_keys row per embedded source question for the audit trail.
-        // Preserve-source mode does not merge or collapse similar questions.
-        for (const q of questionsPayload) {
-          if (!q.rawAnswer) continue;
-          const { error: keyErr } = await context.supabase.from("exercise_answer_keys").insert({
-            exercise_id: ex.id,
-            item_number: q.n,
-            correct_answer: q.rawAnswer,
-            source: "pdf",
-            key_version: 1,
-            pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
+      const createdExerciseIds: string[] = [];
+      let keyCount = 0;
+      const buildWarnings: { kind: string; detail: string; itemRange?: string; page?: number; sourceIndex?: number }[] =
+        [];
+      const skippedUnits: Array<ReturnType<typeof unitDiagnostic>> = [];
+      const sourceUnitDiagnostics = [
+        ...sourceUnits.map((unit) => unitDiagnostic(unit, "source_exercise_unit_detected")),
+        ...buildUnbuiltPassageDiagnostics(blocks, sourceUnits, teil),
+      ];
+      if (answerLookup.conflicts && answerLookup.conflicts.length > 0) {
+        for (const c of answerLookup.conflicts) {
+          buildWarnings.push({
+            kind: "answer_key_conflict",
+            detail: `Conflicting answers for ${c.key}: ${c.answers.join(", ")} — entry skipped, please verify manually.`,
           });
-          if (keyErr) {
-            buildWarnings.push({ kind: "answer_key_insert_failed", detail: `Item ${q.n}: ${keyErr.message}` });
-          } else {
-            keyCount++;
-          }
         }
-      } catch (unitErr: any) {
-        // Per-unit isolation: one bad unit must not abort the whole build.
-        buildWarnings.push({
-          kind: "unit_build_failed",
-          detail: String(unitErr?.message ?? unitErr),
-          page: unit.questionPage,
-          sourceIndex: unit.sourceIndex,
-          itemRange: unit.questions.map((q) => q.number).join(","),
-        });
-        skippedUnits.push(unitDiagnostic(unit, "exception"));
       }
-    }
 
-    if (createdExerciseIds.length === 0) {
-      const questionCount = sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0);
-      throw new Error(`Build produced 0 exercises from ${questionCount} extracted question block(s). Warnings: ${JSON.stringify(buildWarnings).slice(0, 500)}`);
-    }
+      const { data: existingDrafts } = await context.supabase
+        .from("exercises")
+        .select("id")
+        .eq("source_pdf_import_id", data.examImportId);
+      const existingDraftIds = (existingDrafts ?? []).map((row: any) => row.id);
+      if (existingDraftIds.length > 0) {
+        await context.supabase.from("exercise_answer_keys").delete().in("exercise_id", existingDraftIds);
+        await context.supabase.from("exercises").delete().in("id", existingDraftIds);
+        await appendImportLog(context.supabase, data.examImportId, {
+          event: "source_exercises_removed_before_preserve_rebuild",
+          count: existingDraftIds.length,
+        });
+      }
+      await context.supabase.from("pdf_fidelity_reports").delete().eq("exam_import_id", data.examImportId);
 
-    const missingAnswerKeys = sourceUnits.flatMap((unit) =>
-      unit.questions
-        .filter((q) => !answerLookup.get(q, answerUsageCounts))
-        .map((q) => ({
-          sourceIndex: unit.sourceIndex,
-          page: q.page,
-          passagePages: unit.passagePages,
-          itemRange: unitQuestionRange(unit),
-          item: q.number,
-          title: unit.title ?? "",
-          reason: "no_source_answer_key_entry",
-          note: "No extracted answer_key_entry matched this question. If the PDF has a red-boxed letter here, re-run extraction/vision for this page or enter the answer manually.",
-        })),
-    );
+      // Pre-compute duplicate title counts so we can suffix "Sport ist gesund 1", "Sport ist gesund 2".
+      const titleOccurrences = new Map<string, number>();
+      for (const unit of sourceUnits) {
+        const t = (unit.title ?? "").trim();
+        if (t) titleOccurrences.set(t, (titleOccurrences.get(t) ?? 0) + 1);
+      }
+      const titleSeq = new Map<string, number>();
 
-    const hasIssues = missingAnswerKeys.length > 0 || buildWarnings.length > 0 || skippedUnits.length > 0;
-    await context.supabase.from("pdf_imports")
-      .update({
-        status: hasIssues ? "built_needs_review" : "built",
-        error_message: hasIssues
-          ? `${missingAnswerKeys.length} missing answer key(s), ${buildWarnings.length} warning(s), ${skippedUnits.length} skipped unit(s).`
-          : null,
-      })
-      .eq("id", data.examImportId);
+      let position = 1;
+      for (const unit of sourceUnits) {
+        try {
+          const variantSuffix = unit.model ? ` — Modell ${unit.model}` : "";
+          // Skip non-exam noise that may have leaked into a question block
+          // (WhatsApp/Telegram/Facebook/group/translator/watermark references).
+          const noiseRe =
+            /\b(whatsapp|telegram|facebook|insta(?:gram)?|gruppe\s*:|translator|übersetz(?:er|t von)|watermark|themenliste)\b/i;
+          const cleanQuestions = unit.questions.filter((q) => !noiseRe.test(q.text));
+          if (cleanQuestions.length === 0) {
+            skippedUnits.push(unitDiagnostic(unit, "no_clean_questions"));
+            continue;
+          }
+          // Validation: drop questions with empty prompts so a single bad row
+          // does not abort the whole build.
+          const validQuestions = cleanQuestions.filter((q) => {
+            const ok = (q.text ?? "").trim().length > 0 && q.number;
+            if (!ok)
+              buildWarnings.push({
+                kind: "invalid_question_dropped",
+                detail: `Empty prompt or number at p.${unit.questionPage}`,
+                page: unit.questionPage,
+                sourceIndex: unit.sourceIndex,
+              });
+            return ok;
+          });
+          if (validQuestions.length === 0) {
+            skippedUnits.push(unitDiagnostic(unit, "all_questions_invalid"));
+            continue;
+          }
 
-    await appendImportLog(context.supabase, data.examImportId, {
-      event: "preserve_source_build_completed",
+          // Build the embedded questions[] payload — exact letter prefixes preserved.
+          const questionsPayload = validQuestions.map((q) => {
+            const optionTexts = q.options;
+            const rawAns = answerLookup.get(q, answerUsageCounts).trim();
+            let correct: string | null = null;
+            if (optionTexts.length >= 2 && rawAns) {
+              const letter = rawAns.toUpperCase().match(/[A-E]/)?.[0];
+              const idx = letter ? letter.charCodeAt(0) - 65 : -1;
+              if (idx >= 0 && idx < optionTexts.length) correct = optionTexts[idx];
+            } else if (rawAns) {
+              correct = rawAns;
+            }
+            return {
+              n: q.number,
+              prompt: q.text,
+              options: optionTexts,
+              correct,
+              rawAnswer: rawAns || null,
+            };
+          });
+
+          const allMcq = questionsPayload.every((q) => q.options.length >= 2);
+          const anyMcq = questionsPayload.some((q) => q.options.length >= 2);
+          // TELC matching exercises: no MCQ options, multiple statement-questions,
+          // and single-letter or "X" answers (Lesen Teil 1 / Teil 3 structure).
+          const isMatchingLike =
+            !anyMcq &&
+            questionsPayload.length >= 3 &&
+            (moduleVal === "lesen" ||
+              questionsPayload.some((q) => q.rawAnswer && /^[A-Fa-fXx\d]{1,2}$/.test(q.rawAnswer.trim())));
+          // passage_mcq covers the new "one passage, many MCQs" structure.
+          // sprachbausteine still uses 'cloze' so legacy renderers keep working.
+          // Single open-question buckets (Schreiben/Mündlich tasks) stay 'open_text'.
+          const kind: "passage_mcq" | "cloze" | "multiple_choice" | "open_text" | "matching" =
+            moduleVal === "sprachbausteine" && anyMcq
+              ? "cloze"
+              : isMatchingLike
+                ? "matching"
+                : allMcq && questionsPayload.length > 1
+                  ? "passage_mcq"
+                  : allMcq && questionsPayload.length === 1
+                    ? "multiple_choice"
+                    : "open_text";
+
+          const passageTitle = (unit.title ?? "").trim();
+          const derivedTitle = deriveTopicTitle(unit.passageText ?? unit.instruction ?? "");
+          const rangeLabel = unitQuestionRange(unit);
+          // Disambiguate duplicate titles: "Sport ist gesund" → "Sport ist gesund 1" / "Sport ist gesund 2"
+          let baseTitle = passageTitle || derivedTitle || `Aufgabe ${rangeLabel}${variantSuffix}`;
+          if (passageTitle && (titleOccurrences.get(passageTitle) ?? 0) > 1) {
+            const seq = (titleSeq.get(passageTitle) ?? 0) + 1;
+            titleSeq.set(passageTitle, seq);
+            baseTitle = `${passageTitle} ${seq}`;
+          }
+          const studentTitle = baseTitle;
+
+          // Aggregate `correct` so the legacy grader still works for single-question
+          // rows (multiple_choice / open_text). For passage_mcq the canonical
+          // answers live inside options.questions[].correct.
+          const aggregatedCorrect: string[] = questionsPayload
+            .map((q) => q.correct)
+            .filter((v): v is string => typeof v === "string" && v.length > 0);
+
+          // For passage_mcq the simple `options: string[]` shape no longer fits.
+          // We store an object `{ questions: [...] }` in the JSONB column. For
+          // matching exercises we store "statementText|correctLetter" pairs — the
+          // MatchingInputs component splits on the last "|" to derive lefts/rights.
+          // "X" is a valid right for TELC Teil 3 (statement has no matching text).
+          // Legacy single-question kinds keep the flat string[] shape.
+          const optionsField: any =
+            kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
+              ? { questions: questionsPayload }
+              : kind === "matching"
+                ? questionsPayload.map((q) => (q.correct ? `${q.prompt}|${q.correct}` : q.prompt))
+                : (questionsPayload[0]?.options ?? []);
+
+          const promptText =
+            kind === "passage_mcq" || (kind === "cloze" && questionsPayload.length > 1)
+              ? unit.instruction || `Beantworten Sie die Fragen ${rangeLabel}.`
+              : (questionsPayload[0]?.prompt ?? unit.instruction ?? "");
+
+          const { data: ex, error: exErr } = await context.supabase
+            .from("exercises")
+            .insert({
+              level: data.level,
+              module: moduleVal,
+              teil,
+              position: position++,
+              title: studentTitle,
+              prompt: promptText,
+              passage: unit.passageText ?? (unit.instruction || null),
+              kind,
+              options: optionsField,
+              correct: aggregatedCorrect,
+              status: "draft",
+              created_by: context.userId,
+              source_pdf_import_id: data.examImportId,
+              original_numbering: unitOriginalNumbering(unit),
+              model_variant: unit.model,
+              writing_category: moduleVal === "schreiben" ? (data.writingCategory ?? null) : null,
+              muendlich_part: moduleVal === "muendlich" ? (data.muendlichPart ?? null) : null,
+              content_type: data.contentType ?? null,
+              collection_id: data.collectionId ?? null,
+            })
+            .select("id")
+            .single();
+          if (exErr || !ex) {
+            throw new Error(
+              `Exercise insert failed for items ${rangeLabel}: ${exErr?.message ?? "no exercise row returned"}`,
+            );
+          }
+          createdExerciseIds.push(ex.id);
+
+          // One answer_keys row per embedded source question for the audit trail.
+          // Preserve-source mode does not merge or collapse similar questions.
+          for (const q of questionsPayload) {
+            if (!q.rawAnswer) continue;
+            const { error: keyErr } = await context.supabase.from("exercise_answer_keys").insert({
+              exercise_id: ex.id,
+              item_number: q.n,
+              correct_answer: q.rawAnswer,
+              source: "pdf",
+              key_version: 1,
+              pdf_import_id: sourceKind === "combined" ? data.examImportId : (data.answerKeyImportId ?? null),
+            });
+            if (keyErr) {
+              buildWarnings.push({ kind: "answer_key_insert_failed", detail: `Item ${q.n}: ${keyErr.message}` });
+            } else {
+              keyCount++;
+            }
+          }
+        } catch (unitErr: any) {
+          // Per-unit isolation: one bad unit must not abort the whole build.
+          buildWarnings.push({
+            kind: "unit_build_failed",
+            detail: String(unitErr?.message ?? unitErr),
+            page: unit.questionPage,
+            sourceIndex: unit.sourceIndex,
+            itemRange: unit.questions.map((q) => q.number).join(","),
+          });
+          skippedUnits.push(unitDiagnostic(unit, "exception"));
+        }
+      }
+
+      if (createdExerciseIds.length === 0) {
+        const questionCount = sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0);
+        throw new Error(
+          `Build produced 0 exercises from ${questionCount} extracted question block(s). Warnings: ${JSON.stringify(buildWarnings).slice(0, 500)}`,
+        );
+      }
+
+      const missingAnswerKeys = sourceUnits.flatMap((unit) =>
+        unit.questions
+          .filter((q) => !answerLookup.get(q, answerUsageCounts))
+          .map((q) => ({
+            sourceIndex: unit.sourceIndex,
+            page: q.page,
+            passagePages: unit.passagePages,
+            itemRange: unitQuestionRange(unit),
+            item: q.number,
+            title: unit.title ?? "",
+            reason: "no_source_answer_key_entry",
+            note: "No extracted answer_key_entry matched this question. If the PDF has a red-boxed letter here, re-run extraction/vision for this page or enter the answer manually.",
+          })),
+      );
+
+      const hasIssues = missingAnswerKeys.length > 0 || buildWarnings.length > 0 || skippedUnits.length > 0;
+      await context.supabase
+        .from("pdf_imports")
+        .update({
+          status: hasIssues ? "built_needs_review" : "built",
+          error_message: hasIssues
+            ? `${missingAnswerKeys.length} missing answer key(s), ${buildWarnings.length} warning(s), ${skippedUnits.length} skipped unit(s).`
+            : null,
+        })
+        .eq("id", data.examImportId);
+
+      await appendImportLog(context.supabase, data.examImportId, {
+        event: "preserve_source_build_completed",
         passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
-        unbuiltPassages: sourceUnitDiagnostics.filter((u) => u.reason === "passage_detected_without_built_exercise_questions"),
-      sourceExerciseUnits: sourceUnits.length,
-      exercisesCreated: createdExerciseIds.length,
-      questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
-      answerKeysExtracted: answerLookup.count,
-      missingAnswerKeys,
-      answerKeyConflicts: answerLookup.conflicts ?? [],
-      warnings: buildWarnings,
-      skippedUnits,
-      sourceUnitDiagnostics,
-      skipped: 0,
-      merged: 0,
-      ignored: 0,
-    });
+        unbuiltPassages: sourceUnitDiagnostics.filter(
+          (u) => u.reason === "passage_detected_without_built_exercise_questions",
+        ),
+        sourceExerciseUnits: sourceUnits.length,
+        exercisesCreated: createdExerciseIds.length,
+        questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+        answerKeysExtracted: answerLookup.count,
+        missingAnswerKeys,
+        answerKeyConflicts: answerLookup.conflicts ?? [],
+        warnings: buildWarnings,
+        skippedUnits,
+        sourceUnitDiagnostics,
+        skipped: 0,
+        merged: 0,
+        ignored: 0,
+      });
 
-    return {
-      exerciseCount: createdExerciseIds.length,
-      keyCount,
-      passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
-      sourceExerciseUnits: sourceUnits.length,
-      questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
-      answerKeysExtracted: answerLookup.count,
-      missingAnswerKeys,
-      answerKeyConflicts: answerLookup.conflicts ?? [],
-      warnings: buildWarnings,
-      skippedUnits,
-      sourceUnitDiagnostics,
-      unbuiltPassages: sourceUnitDiagnostics.filter((u) => u.reason === "passage_detected_without_built_exercise_questions"),
-      skipped: 0,
-      merged: 0,
-      ignored: 0,
-      modelsBuilt: [...new Set(sourceUnits.map((unit) => unit.model ?? "single"))],
-    };
+      return {
+        exerciseCount: createdExerciseIds.length,
+        keyCount,
+        passagesDetected: blocks.filter((b) => b?.type === "passage" && sourceBlockTeil(b, teil) === teil).length,
+        sourceExerciseUnits: sourceUnits.length,
+        questionsDetected: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
+        answerKeysExtracted: answerLookup.count,
+        missingAnswerKeys,
+        answerKeyConflicts: answerLookup.conflicts ?? [],
+        warnings: buildWarnings,
+        skippedUnits,
+        sourceUnitDiagnostics,
+        unbuiltPassages: sourceUnitDiagnostics.filter(
+          (u) => u.reason === "passage_detected_without_built_exercise_questions",
+        ),
+        skipped: 0,
+        merged: 0,
+        ignored: 0,
+        modelsBuilt: [...new Set(sourceUnits.map((unit) => unit.model ?? "single"))],
+      };
     } catch (err: any) {
       const msg = String(err?.message ?? err);
-      await context.supabase.from("pdf_imports")
+      await context.supabase
+        .from("pdf_imports")
         .update({ status: "build_failed", error_message: msg })
         .eq("id", data.examImportId);
       throw err;
@@ -1629,13 +2173,11 @@ export const regradeExercise = createServerFn({ method: "POST" })
       .order("key_version", { ascending: false });
     if (!keys || keys.length === 0) throw new Error("No answer key found for this exercise");
     const latestVersion = keys[0].key_version;
-    const latest = keys.filter(k => k.key_version === latestVersion);
-    const correctMap = new Map(latest.map(k => [String(k.item_number), k.correct_answer]));
+    const latest = keys.filter((k) => k.key_version === latestVersion);
+    const correctMap = new Map(latest.map((k) => [String(k.item_number), k.correct_answer]));
 
     // Update exercise.correct (used by client grading) from key
-    const correctValues = [...correctMap.values()].map(v =>
-      typeof v === "string" ? v : JSON.stringify(v),
-    );
+    const correctValues = [...correctMap.values()].map((v) => (typeof v === "string" ? v : JSON.stringify(v)));
     await supabaseAdmin.from("exercises").update({ correct: correctValues }).eq("id", data.exerciseId);
 
     // Re-grade attempts
@@ -1649,19 +2191,22 @@ export const regradeExercise = createServerFn({ method: "POST" })
       let nextCorrect = a.is_correct;
       // Simple equality match — answer stored as string or jsonb
       const ans = typeof a.answer === "string" ? a.answer : JSON.stringify(a.answer);
-      const allOk = [...correctMap.values()].some(v => {
+      const allOk = [...correctMap.values()].some((v) => {
         const target = typeof v === "string" ? v : JSON.stringify(v);
         return target === ans;
       });
       nextCorrect = allOk;
       const nextScore = allOk ? 100 : 0;
       if (a.is_correct !== nextCorrect || a.score !== nextScore) {
-        await supabaseAdmin.from("user_exercise_attempts").update({
-          is_correct: nextCorrect,
-          score: nextScore,
-          regraded_at: new Date().toISOString(),
-          key_version: latestVersion,
-        }).eq("id", a.id);
+        await supabaseAdmin
+          .from("user_exercise_attempts")
+          .update({
+            is_correct: nextCorrect,
+            score: nextScore,
+            regraded_at: new Date().toISOString(),
+            key_version: latestVersion,
+          })
+          .eq("id", a.id);
         affected++;
       }
     }
@@ -1682,7 +2227,9 @@ export const regradeExercise = createServerFn({ method: "POST" })
  */
 export const replaceAnswerKey = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { exerciseId: string; itemNumber: string; correctAnswer: string; referenceAnswer?: string | null }) => d)
+  .inputValidator(
+    (d: { exerciseId: string; itemNumber: string; correctAnswer: string; referenceAnswer?: string | null }) => d,
+  )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
     // Bump key_version
@@ -1713,7 +2260,12 @@ export const checkSuperAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data } = await supabaseAdmin.from("user_roles").select("role").eq("user_id", context.userId).eq("role", "super_admin").limit(1);
+    const { data } = await supabaseAdmin
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", context.userId)
+      .eq("role", "super_admin")
+      .limit(1);
     return { isSuperAdmin: Boolean(data && data.length > 0) };
   });
 
@@ -1744,9 +2296,7 @@ export const gradeImportedAttempt = createServerFn({ method: "POST" })
     const key = (adminKeys && adminKeys[0]) || (keys && keys[0]);
     if (!key) return { graded: false, isCorrect: null, message: "No answer key available" };
 
-    const target = typeof key.correct_answer === "string"
-      ? key.correct_answer
-      : JSON.stringify(key.correct_answer);
+    const target = typeof key.correct_answer === "string" ? key.correct_answer : JSON.stringify(key.correct_answer);
     const isCorrect = String(data.answer).trim().toLowerCase() === String(target).trim().toLowerCase();
 
     await supabaseAdmin.from("user_exercise_attempts").insert({
@@ -1794,9 +2344,15 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     if (!ext) throw new Error("Extraktion fehlt — bitte zuerst extrahieren.");
 
     let extractionMeta: any = null;
-    try { extractionMeta = ext.raw_text ? JSON.parse(ext.raw_text) : null; } catch {}
+    try {
+      extractionMeta = ext.raw_text ? JSON.parse(ext.raw_text) : null;
+    } catch {}
     const review = getExtractionReviewState(extractionMeta ?? {});
-    if (review.failedChunks.length > 0 || review.incomplete || (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved)) {
+    if (
+      review.failedChunks.length > 0 ||
+      review.incomplete ||
+      (review.blockingLowConfidenceItems.length > 0 && !review.manualReviewResolved)
+    ) {
       // Hard fail — record and stop
       const { data: fail } = await context.supabase
         .from("pdf_fidelity_reports")
@@ -1808,7 +2364,14 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
           modified_count: 0,
           numbering_diff_count: 0,
           section_diff_count: 0,
-          details: { reason: "extraction_review_not_resolved", lowConfidenceItems: review.lowConfidenceItems, blockingLowConfidenceItems: review.blockingLowConfidenceItems, ignoredLowConfidenceItems: review.ignoredLowConfidenceItems, failedChunks: review.failedChunks, incomplete: review.incomplete },
+          details: {
+            reason: "extraction_review_not_resolved",
+            lowConfidenceItems: review.lowConfidenceItems,
+            blockingLowConfidenceItems: review.blockingLowConfidenceItems,
+            ignoredLowConfidenceItems: review.ignoredLowConfidenceItems,
+            failedChunks: review.failedChunks,
+            incomplete: review.incomplete,
+          },
           created_by: context.userId,
         })
         .select("id")
@@ -1820,85 +2383,172 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
     const pageCount = Number(ext.page_count ?? extractionMeta?.page_count ?? 0);
     const { data: exercises, error: exercisesErr } = await context.supabase
       .from("exercises")
-      .select("id, module, teil, position, title, prompt, passage, options, correct, original_numbering, status, model_variant")
+      .select(
+        "id, module, teil, position, title, prompt, passage, options, correct, original_numbering, status, model_variant",
+      )
       .eq("source_pdf_import_id", data.examImportId);
-    if (exercisesErr) throw new Error(`Could not read built exercises for fidelity check ${data.examImportId}: ${exercisesErr.message}`);
+    if (exercisesErr)
+      throw new Error(
+        `Could not read built exercises for fidelity check ${data.examImportId}: ${exercisesErr.message}`,
+      );
 
-    const orderedExercises = [...(exercises ?? [])].sort((a: any, b: any) => Number(a.position ?? 0) - Number(b.position ?? 0));
+    const orderedExercises = [...(exercises ?? [])].sort(
+      (a: any, b: any) => Number(a.position ?? 0) - Number(b.position ?? 0),
+    );
     const builtModule = String(orderedExercises.find((ex: any) => ex.module)?.module ?? "").toLowerCase();
-    const builtTeil = Number(orderedExercises.find((ex: any) => Number(ex.teil))?.teil ?? 0)
-      || Number(blocks.find((b) => b?.type === "question" && Number(b?.teil))?.teil ?? 0);
+    const builtTeil =
+      Number(orderedExercises.find((ex: any) => Number(ex.teil))?.teil ?? 0) ||
+      Number(blocks.find((b) => b?.type === "question" && Number(b?.teil))?.teil ?? 0);
     const sourceUnits = builtTeil ? buildSourceExerciseUnits(blocks, builtModule, builtTeil) : [];
-    const answerLookup = buildAnswerLookup(blocks, builtTeil);
+    const answerLookup = buildAnswerLookup(blocks);
     const answerUsageCounts = buildAnswerUsageCounts(sourceUnits, answerLookup);
-    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim();
+    const norm = (s: any) =>
+      String(s ?? "")
+        .replace(/\s+/g, " ")
+        .trim();
 
-    const modified: Array<{ key: string; sourceIndex: number; page: number; field: string; original: string; built: string }> = [];
-    const numberingDiffs: Array<{ exerciseId: string; sourceIndex: number; page: number; expected: string; got: string }> = [];
-    const answerMismatches: Array<{ exerciseId: string; sourceIndex: number; item: string; sourceAnswer: string; storedAnswer: string }> = [];
+    const modified: Array<{
+      key: string;
+      sourceIndex: number;
+      page: number;
+      field: string;
+      original: string;
+      built: string;
+    }> = [];
+    const numberingDiffs: Array<{
+      exerciseId: string;
+      sourceIndex: number;
+      page: number;
+      expected: string;
+      got: string;
+    }> = [];
+    const answerMismatches: Array<{
+      exerciseId: string;
+      sourceIndex: number;
+      item: string;
+      sourceAnswer: string;
+      storedAnswer: string;
+    }> = [];
     const hasOriginalNumbering = orderedExercises.some((ex: any) => String(ex.original_numbering ?? "").trim());
     const exerciseByOriginalNumbering = new Map<string, any>();
     for (const ex of orderedExercises) exerciseByOriginalNumbering.set(norm(ex.original_numbering), ex);
     const matchedPairs = sourceUnits.map((src, idx) => ({
       src,
-      ex: hasOriginalNumbering ? exerciseByOriginalNumbering.get(norm(unitOriginalNumbering(src))) : orderedExercises[idx],
+      ex: hasOriginalNumbering
+        ? exerciseByOriginalNumbering.get(norm(unitOriginalNumbering(src)))
+        : orderedExercises[idx],
     }));
     const matchedExerciseIds = new Set(matchedPairs.map((pair) => pair.ex?.id).filter(Boolean));
-    const removed = matchedPairs.filter((pair) => !pair.ex).map(({ src }) => ({
-      key: `source:${src.sourceIndex}`,
-      kind: "exercise" as const,
-      ...unitDiagnostic(src, "source_exercise_missing_in_built_output"),
-    }));
-    const added = orderedExercises.filter((ex: any) => !matchedExerciseIds.has(ex.id)).map((ex: any) => ({
-      key: `exercise:${ex.id}`,
-      kind: "exercise" as const,
-      exerciseId: ex.id,
-      title: ex.title,
-      reason: "built_exercise_without_source_unit_at_same_position",
-    }));
+    const removed = matchedPairs
+      .filter((pair) => !pair.ex)
+      .map(({ src }) => ({
+        key: `source:${src.sourceIndex}`,
+        kind: "exercise" as const,
+        ...unitDiagnostic(src, "source_exercise_missing_in_built_output"),
+      }));
+    const added = orderedExercises
+      .filter((ex: any) => !matchedExerciseIds.has(ex.id))
+      .map((ex: any) => ({
+        key: `exercise:${ex.id}`,
+        kind: "exercise" as const,
+        exerciseId: ex.id,
+        title: ex.title,
+        reason: "built_exercise_without_source_unit_at_same_position",
+      }));
 
     for (const { src, ex } of matchedPairs) {
       if (!ex) continue;
       const key = `source:${src.sourceIndex}:exercise:${ex.id}`;
-      const addModified = (field: string, original: string, built: string) => modified.push({ key, sourceIndex: src.sourceIndex, page: src.questionPage, field, original, built });
-      if (norm(src.passageText) !== norm(ex.passage)) addModified("passage", src.passageText ?? "", String(ex.passage ?? ""));
-      const expectedPrompt = src.questions.length > 1 ? (src.instruction || `Beantworten Sie die Fragen ${src.questions[0]?.number ?? ""}–${src.questions[src.questions.length - 1]?.number ?? ""}.`) : (src.questions[0]?.text ?? src.instruction);
-      if (norm(expectedPrompt) !== norm(ex.prompt)) addModified("prompt/instruction", expectedPrompt, String(ex.prompt ?? ""));
-      const embedded = ex.options && typeof ex.options === "object" && !Array.isArray(ex.options) && Array.isArray(ex.options.questions) ? ex.options.questions : [];
-      if (embedded.length !== src.questions.length) addModified("questions.count", String(src.questions.length), String(embedded.length));
+      const addModified = (field: string, original: string, built: string) =>
+        modified.push({ key, sourceIndex: src.sourceIndex, page: src.questionPage, field, original, built });
+      if (norm(src.passageText) !== norm(ex.passage))
+        addModified("passage", src.passageText ?? "", String(ex.passage ?? ""));
+      const expectedPrompt =
+        src.questions.length > 1
+          ? src.instruction ||
+            `Beantworten Sie die Fragen ${src.questions[0]?.number ?? ""}–${src.questions[src.questions.length - 1]?.number ?? ""}.`
+          : (src.questions[0]?.text ?? src.instruction);
+      if (norm(expectedPrompt) !== norm(ex.prompt))
+        addModified("prompt/instruction", expectedPrompt, String(ex.prompt ?? ""));
+      const embedded =
+        ex.options &&
+        typeof ex.options === "object" &&
+        !Array.isArray(ex.options) &&
+        Array.isArray(ex.options.questions)
+          ? ex.options.questions
+          : [];
+      if (embedded.length !== src.questions.length)
+        addModified("questions.count", String(src.questions.length), String(embedded.length));
       for (let qn = 0; qn < Math.min(src.questions.length, embedded.length); qn++) {
         const sq = src.questions[qn];
         const bq = embedded[qn];
-        if (normalizeItemNumber(sq.number) !== normalizeItemNumber(bq?.n)) numberingDiffs.push({ exerciseId: ex.id, sourceIndex: src.sourceIndex, page: src.questionPage, expected: sq.number, got: String(bq?.n ?? "") });
-        if (norm(sq.text) !== norm(bq?.prompt)) addModified(`questions[${qn}].prompt`, sq.text, String(bq?.prompt ?? ""));
+        if (normalizeItemNumber(sq.number) !== normalizeItemNumber(bq?.n))
+          numberingDiffs.push({
+            exerciseId: ex.id,
+            sourceIndex: src.sourceIndex,
+            page: src.questionPage,
+            expected: sq.number,
+            got: String(bq?.n ?? ""),
+          });
+        if (norm(sq.text) !== norm(bq?.prompt))
+          addModified(`questions[${qn}].prompt`, sq.text, String(bq?.prompt ?? ""));
         const builtOptions = Array.isArray(bq?.options) ? bq.options.map((o: any) => String(o ?? "")) : [];
-        if (sq.options.length !== builtOptions.length) addModified(`questions[${qn}].options.count`, String(sq.options.length), String(builtOptions.length));
+        if (sq.options.length !== builtOptions.length)
+          addModified(`questions[${qn}].options.count`, String(sq.options.length), String(builtOptions.length));
         for (let oi = 0; oi < Math.min(sq.options.length, builtOptions.length); oi++) {
-          if (norm(sq.options[oi]) !== norm(builtOptions[oi])) addModified(`questions[${qn}].options[${oi}]`, sq.options[oi], builtOptions[oi]);
+          if (norm(sq.options[oi]) !== norm(builtOptions[oi]))
+            addModified(`questions[${qn}].options[${oi}]`, sq.options[oi], builtOptions[oi]);
         }
         const sourceAnswer = answerLookup.get(sq, answerUsageCounts);
         const storedAnswer = String(bq?.rawAnswer ?? "").trim();
-        if (sourceAnswer && sourceAnswer !== storedAnswer) answerMismatches.push({ exerciseId: ex.id, sourceIndex: src.sourceIndex, item: sq.number, sourceAnswer, storedAnswer });
+        if (sourceAnswer && sourceAnswer !== storedAnswer)
+          answerMismatches.push({
+            exerciseId: ex.id,
+            sourceIndex: src.sourceIndex,
+            item: sq.number,
+            sourceAnswer,
+            storedAnswer,
+          });
       }
     }
 
-    const sampleIndexes = [...new Set([0, Math.floor(sourceUnits.length / 4), Math.floor(sourceUnits.length / 2), Math.floor((sourceUnits.length * 3) / 4), sourceUnits.length - 1])]
-      .filter((idx) => idx >= 0 && idx < sourceUnits.length && Boolean(matchedPairs[idx]?.ex));
+    const sampleIndexes = [
+      ...new Set([
+        0,
+        Math.floor(sourceUnits.length / 4),
+        Math.floor(sourceUnits.length / 2),
+        Math.floor((sourceUnits.length * 3) / 4),
+        sourceUnits.length - 1,
+      ]),
+    ].filter((idx) => idx >= 0 && idx < sourceUnits.length && Boolean(matchedPairs[idx]?.ex));
     const sampleComparisons = sampleIndexes.map((idx) => ({
       sourceIndex: sourceUnits[idx].sourceIndex,
       page: sourceUnits[idx].questionPage,
       exerciseId: matchedPairs[idx].ex?.id ?? "",
       title: matchedPairs[idx].ex?.title ?? "",
       textMatches: norm(sourceUnits[idx].passageText) === norm(matchedPairs[idx].ex?.passage),
-      questionCountMatches: sourceUnits[idx].questions.length === ((matchedPairs[idx].ex?.options as any)?.questions?.length ?? 0),
+      questionCountMatches:
+        sourceUnits[idx].questions.length === ((matchedPairs[idx].ex?.options as any)?.questions?.length ?? 0),
     }));
 
     const sectionDiffs: Array<{ teil: number; in: "source" | "built" }> = [];
     if (builtTeil && sourceUnits.length === 0) sectionDiffs.push({ teil: builtTeil, in: "built" });
-    const sourcePages = new Set(sourceUnits.flatMap((unit) => [unit.questionPage, ...unit.passagePages]).filter(Boolean));
+    const sourcePages = new Set(
+      sourceUnits.flatMap((unit) => [unit.questionPage, ...unit.passagePages]).filter(Boolean),
+    );
     const unbuiltPassages = buildUnbuiltPassageDiagnostics(blocks, sourceUnits, builtTeil);
-    const answerPages = new Set(blocks.filter((b) => b?.type === "answer_key_entry").map((b) => Number(b.page)).filter(Boolean));
-    const sourceBlockPages = new Set(blocks.filter((b) => ["passage", "question", "answer_key_entry"].includes(String(b?.type))).map((b) => Number(b.page)).filter(Boolean));
+    const answerPages = new Set(
+      blocks
+        .filter((b) => b?.type === "answer_key_entry")
+        .map((b) => Number(b.page))
+        .filter(Boolean),
+    );
+    const sourceBlockPages = new Set(
+      blocks
+        .filter((b) => ["passage", "question", "answer_key_entry"].includes(String(b?.type)))
+        .map((b) => Number(b.page))
+        .filter(Boolean),
+    );
     const skippedPages = Array.from({ length: pageCount }, (_, i) => i + 1)
       .filter((page) => !sourcePages.has(page))
       .filter((page) => !answerPages.has(page))
@@ -1932,9 +2582,19 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
       if (match?.ex?.id) badExerciseIds.add(match.ex.id);
     }
     const publishableExerciseIds = matchedPairs
-      .filter((pair) => pair.ex?.id && !badExerciseIds.has(pair.ex.id) && !removedSourceIndexes.has(pair.src.sourceIndex))
+      .filter(
+        (pair) => pair.ex?.id && !badExerciseIds.has(pair.ex.id) && !removedSourceIndexes.has(pair.src.sourceIndex),
+      )
       .map((pair) => pair.ex.id as string);
-    const hasIssues = added.length > 0 || removed.length > 0 || unbuiltPassages.length > 0 || modified.length > 0 || numberingDiffs.length > 0 || sectionDiffs.length > 0 || answerMismatches.length > 0 || missingAnswers.length > 0;
+    const hasIssues =
+      added.length > 0 ||
+      removed.length > 0 ||
+      unbuiltPassages.length > 0 ||
+      modified.length > 0 ||
+      numberingDiffs.length > 0 ||
+      sectionDiffs.length > 0 ||
+      answerMismatches.length > 0 ||
+      missingAnswers.length > 0;
     const partialPass = publishableExerciseIds.length > 0 && hasIssues;
     const status: "pass" | "fail" = !hasIssues ? "pass" : "fail";
 
@@ -1950,7 +2610,9 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         section_diff_count: sectionDiffs.length,
         details: {
           reconciliation: {
-            pdfPassagesFound: blocks.filter((b) => b?.type === "passage" && (!builtTeil || sourceBlockTeil(b, builtTeil) === builtTeil)).length,
+            pdfPassagesFound: blocks.filter(
+              (b) => b?.type === "passage" && (!builtTeil || sourceBlockTeil(b, builtTeil) === builtTeil),
+            ).length,
             pdfExerciseUnitsFound: sourceUnits.length,
             exercisesCreated: orderedExercises.length,
             questionsExtracted: sourceUnits.reduce((sum, unit) => sum + unit.questions.length, 0),
@@ -1992,7 +2654,16 @@ export const runFidelityCheck = createServerFn({ method: "POST" })
         numberingDiffs: numberingDiffs.length,
         sectionDiffs: sectionDiffs.length,
       },
-      details: { added, removed, modified, numberingDiffs, sectionDiffs, answerMismatches, missingAnswers, sampleComparisons },
+      details: {
+        added,
+        removed,
+        modified,
+        numberingDiffs,
+        sectionDiffs,
+        answerMismatches,
+        missingAnswers,
+        sampleComparisons,
+      },
     };
   });
 
@@ -2053,7 +2724,7 @@ export const deletePdfImport = createServerFn({ method: "POST" })
     if (published.length > 0 && !data.force) {
       throw new Error(
         `Es gibt ${published.length} bereits veröffentlichte Übung(en) aus diesem Import. ` +
-        `Bitte zuerst zurückziehen oder Löschung mit "force" bestätigen.`,
+          `Bitte zuerst zurückziehen oder Löschung mit "force" bestätigen.`,
       );
     }
 
@@ -2072,10 +2743,7 @@ export const deletePdfImport = createServerFn({ method: "POST" })
     }
 
     // Answer keys that reference this import directly (no exercise yet)
-    await context.supabase
-      .from("exercise_answer_keys")
-      .delete()
-      .eq("pdf_import_id", data.importId);
+    await context.supabase.from("exercise_answer_keys").delete().eq("pdf_import_id", data.importId);
 
     // Fidelity reports for this exam import
     const { count: frCount } = await context.supabase
@@ -2100,16 +2768,11 @@ export const deletePdfImport = createServerFn({ method: "POST" })
 
     // Remove the file from storage (best-effort; do not fail the whole delete)
     if (imp.storage_path) {
-      const { error: storageErr } = await context.supabase.storage
-        .from("pdf-imports")
-        .remove([imp.storage_path]);
+      const { error: storageErr } = await context.supabase.storage.from("pdf-imports").remove([imp.storage_path]);
       if (!storageErr) removed.storage = true;
     }
 
-    const { error: delErr } = await context.supabase
-      .from("pdf_imports")
-      .delete()
-      .eq("id", data.importId);
+    const { error: delErr } = await context.supabase.from("pdf_imports").delete().eq("id", data.importId);
     if (delErr) throw new Error(delErr.message);
 
     return { ok: true, removed };
@@ -2130,20 +2793,104 @@ function deriveTopicTitle(text: string): string {
   if (subj) return cleanT(subj[1]);
 
   // 2. A short, title-like first line (no terminal punctuation, ≤ 60 chars).
-  const firstLine = raw.split(/\r?\n/).map((l) => l.trim()).find((l) => l.length > 0) ?? "";
+  const firstLine =
+    raw
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .find((l) => l.length > 0) ?? "";
   if (firstLine && firstLine.length <= 60 && !/[.!?:]$/.test(firstLine) && firstLine.split(/\s+/).length <= 8) {
     return cleanT(firstLine);
   }
 
   // 3. Most frequent capitalised noun, excluding sentence-start function words.
   const stop = new Set([
-    "Der","Die","Das","Den","Dem","Des","Ein","Eine","Einen","Einem","Einer","Eines",
-    "Und","Aber","Oder","Denn","Sondern","Wenn","Weil","Dass","Ob","Als","Wie","Wo",
-    "Ich","Du","Er","Sie","Es","Wir","Ihr","Mein","Dein","Sein","Unser","Euer","Ihre",
-    "Hier","Dort","Heute","Morgen","Gestern","Jetzt","Auch","Nicht","Nur","Schon","Noch",
-    "Mit","Ohne","Für","Gegen","Bei","Von","Zu","Aus","Nach","Vor","Über","Unter","Auf","An","In","Am","Im",
-    "Liebe","Lieber","Hallo","Sehr","Geehrte","Geehrter","Herr","Frau","Beste","Viele","Grüße","Grüsse","Mit","Freundliche",
-    "Was","Wer","Wann","Warum","Wieso","Welche","Welcher","Welches",
+    "Der",
+    "Die",
+    "Das",
+    "Den",
+    "Dem",
+    "Des",
+    "Ein",
+    "Eine",
+    "Einen",
+    "Einem",
+    "Einer",
+    "Eines",
+    "Und",
+    "Aber",
+    "Oder",
+    "Denn",
+    "Sondern",
+    "Wenn",
+    "Weil",
+    "Dass",
+    "Ob",
+    "Als",
+    "Wie",
+    "Wo",
+    "Ich",
+    "Du",
+    "Er",
+    "Sie",
+    "Es",
+    "Wir",
+    "Ihr",
+    "Mein",
+    "Dein",
+    "Sein",
+    "Unser",
+    "Euer",
+    "Ihre",
+    "Hier",
+    "Dort",
+    "Heute",
+    "Morgen",
+    "Gestern",
+    "Jetzt",
+    "Auch",
+    "Nicht",
+    "Nur",
+    "Schon",
+    "Noch",
+    "Mit",
+    "Ohne",
+    "Für",
+    "Gegen",
+    "Bei",
+    "Von",
+    "Zu",
+    "Aus",
+    "Nach",
+    "Vor",
+    "Über",
+    "Unter",
+    "Auf",
+    "An",
+    "In",
+    "Am",
+    "Im",
+    "Liebe",
+    "Lieber",
+    "Hallo",
+    "Sehr",
+    "Geehrte",
+    "Geehrter",
+    "Herr",
+    "Frau",
+    "Beste",
+    "Viele",
+    "Grüße",
+    "Grüsse",
+    "Mit",
+    "Freundliche",
+    "Was",
+    "Wer",
+    "Wann",
+    "Warum",
+    "Wieso",
+    "Welche",
+    "Welcher",
+    "Welches",
   ]);
   const freq = new Map<string, number>();
   const words = raw.match(/\b[A-ZÄÖÜ][a-zäöüß-]{3,}\b/g) ?? [];
@@ -2214,9 +2961,7 @@ export const wipeAllPdfData = createServerFn({ method: "POST" })
     if (data.confirm !== "WIPE-ALL-PDF-DATA") {
       throw new Error('Bestätigung fehlt. Bitte exakt "WIPE-ALL-PDF-DATA" eingeben.');
     }
-    const { data: imports } = await context.supabase
-      .from("pdf_imports")
-      .select("id");
+    const { data: imports } = await context.supabase.from("pdf_imports").select("id");
     const ids = (imports ?? []).map((r: any) => r.id);
     const totals = { imports: 0, exercises: 0, answerKeys: 0, fidelityReports: 0, extractions: 0 };
     for (const importId of ids) {
@@ -2243,14 +2988,16 @@ export const wipeAllPdfData = createServerFn({ method: "POST" })
  *  nuking hand-authored content. Returns counts. */
 export const deleteExercisesByFilter = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: {
-    level?: "b1" | "b2";
-    module?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich";
-    teil?: number;
-    status?: "draft" | "hidden" | "published";
-    source?: "pdf" | "manual" | "all";
-    importId?: string;
-  }) => d)
+  .inputValidator(
+    (d: {
+      level?: "b1" | "b2";
+      module?: "lesen" | "sprachbausteine" | "hoeren" | "schreiben" | "muendlich";
+      teil?: number;
+      status?: "draft" | "hidden" | "published";
+      source?: "pdf" | "manual" | "all";
+      importId?: string;
+    }) => d,
+  )
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
     let q = context.supabase.from("exercises").delete({ count: "exact" });
@@ -2284,7 +3031,12 @@ export const findDuplicateExercises = createServerFn({ method: "POST" })
       .select("id, level, module, teil, original_numbering, prompt, title, status, created_at, source_pdf_import_id")
       .order("created_at", { ascending: true });
     if (error) throw new Error(error.message);
-    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim().toLowerCase().slice(0, 200);
+    const norm = (s: any) =>
+      String(s ?? "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase()
+        .slice(0, 200);
     const groups = new Map<string, any[]>();
     for (const row of data ?? []) {
       const key = [row.level, row.module, row.teil, row.original_numbering ?? "", norm(row.prompt)].join("|");
@@ -2308,7 +3060,12 @@ export const deleteDuplicateExercises = createServerFn({ method: "POST" })
       .select("id, level, module, teil, original_numbering, prompt, created_at, status")
       .order("created_at", { ascending: true });
     if (error) throw new Error(error.message);
-    const norm = (s: any) => String(s ?? "").replace(/\s+/g, " ").trim().toLowerCase().slice(0, 200);
+    const norm = (s: any) =>
+      String(s ?? "")
+        .replace(/\s+/g, " ")
+        .trim()
+        .toLowerCase()
+        .slice(0, 200);
     const groups = new Map<string, any[]>();
     for (const row of rows ?? []) {
       const key = [row.level, row.module, row.teil, row.original_numbering ?? "", norm(row.prompt)].join("|");
@@ -2337,14 +3094,26 @@ export const deleteDuplicateExercises = createServerFn({ method: "POST" })
  *  can call it without going back through RPC. */
 async function deleteOneImport(context: Ctx, importId: string, force: boolean) {
   const { data: imp, error: impErr } = await context.supabase
-    .from("pdf_imports").select("id, storage_path").eq("id", importId).maybeSingle();
+    .from("pdf_imports")
+    .select("id, storage_path")
+    .eq("id", importId)
+    .maybeSingle();
   if (impErr) throw new Error(impErr.message);
   if (!imp) throw new Error("Import nicht gefunden.");
 
-  const removed = { storage: false, extraction: 0, fidelityReports: 0, exercises: 0, answerKeys: 0, linkedKeyImports: 0 };
+  const removed = {
+    storage: false,
+    extraction: 0,
+    fidelityReports: 0,
+    exercises: 0,
+    answerKeys: 0,
+    linkedKeyImports: 0,
+  };
 
   const { data: exs } = await context.supabase
-    .from("exercises").select("id, status").eq("source_pdf_import_id", importId);
+    .from("exercises")
+    .select("id, status")
+    .eq("source_pdf_import_id", importId);
   const exerciseIds = (exs ?? []).map((e: any) => e.id);
   const published = (exs ?? []).filter((e: any) => e.status === "published");
   if (published.length > 0 && !force) {
@@ -2352,21 +3121,31 @@ async function deleteOneImport(context: Ctx, importId: string, force: boolean) {
   }
   if (exerciseIds.length > 0) {
     const { count: akCount } = await context.supabase
-      .from("exercise_answer_keys").delete({ count: "exact" }).in("exercise_id", exerciseIds);
+      .from("exercise_answer_keys")
+      .delete({ count: "exact" })
+      .in("exercise_id", exerciseIds);
     removed.answerKeys = akCount ?? 0;
     const { count: exCount } = await context.supabase
-      .from("exercises").delete({ count: "exact" }).in("id", exerciseIds);
+      .from("exercises")
+      .delete({ count: "exact" })
+      .in("id", exerciseIds);
     removed.exercises = exCount ?? 0;
   }
   await context.supabase.from("exercise_answer_keys").delete().eq("pdf_import_id", importId);
   const { count: frCount } = await context.supabase
-    .from("pdf_fidelity_reports").delete({ count: "exact" }).eq("exam_import_id", importId);
+    .from("pdf_fidelity_reports")
+    .delete({ count: "exact" })
+    .eq("exam_import_id", importId);
   removed.fidelityReports = frCount ?? 0;
   const { count: extCount } = await context.supabase
-    .from("pdf_extractions").delete({ count: "exact" }).eq("import_id", importId);
+    .from("pdf_extractions")
+    .delete({ count: "exact" })
+    .eq("import_id", importId);
   removed.extraction = extCount ?? 0;
   const { count: linkedCount } = await context.supabase
-    .from("pdf_imports").update({ linked_import_id: null }, { count: "exact" }).eq("linked_import_id", importId);
+    .from("pdf_imports")
+    .update({ linked_import_id: null }, { count: "exact" })
+    .eq("linked_import_id", importId);
   removed.linkedKeyImports = linkedCount ?? 0;
   if (imp.storage_path) {
     const { error: storageErr } = await context.supabase.storage.from("pdf-imports").remove([imp.storage_path]);
