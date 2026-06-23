@@ -98,6 +98,7 @@ function ExerciseLibrary({
         });
         setCollectionLabels(labels);
       })
+      .catch(() => {})
       .finally(() => !cancel && setLoading(false));
     return () => { cancel = true; };
   }, [level, module, teil]);
