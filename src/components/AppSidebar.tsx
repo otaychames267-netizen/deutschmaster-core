@@ -1,120 +1,302 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { LayoutDashboard, GraduationCap, User, CreditCard, Bell, Settings, LogOut, PenLine, Mic, Moon, Sun, BarChart3 } from "lucide-react";
+import {
+  LayoutDashboard, GraduationCap, PenLine, Mic,
+  BookOpen, Headphones, Wrench, FileText,
+  BarChart3, CreditCard, Users, Gift,
+  Shield, ChevronDown, LogOut, Settings,
+  ShieldCheck,
+} from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
-import { useTheme } from "@/lib/theme";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
-  SidebarFooter,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { useState } from "react";
+
+interface NavItem {
+  label: string;
+  to: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  children?: { label: string; to: string }[];
+}
 
 export function AppSidebar() {
   const { t } = useTranslation();
-  const { isAdmin, signOut } = useAuth();
-  const { state } = useSidebar();
-  const { theme, toggle } = useTheme();
-  const collapsed = state === "collapsed";
-  const currentPath = useRouterState({ select: (r) => r.location.pathname });
-  const isActive = (p: string) => p === "/dashboard" ? currentPath === p : currentPath.startsWith(p);
+  const { user, isAdmin, signOut } = useAuth();
+  const state = useRouterState();
+  const pathname = state.location.pathname;
 
-  const menu = [
-    { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  function isActive(to: string) {
+    return pathname === to || pathname.startsWith(to + "/");
+  }
+
+  const schriftlichChildren = [
+    {
+      label: t("sidebar.vorbereitung"),
+      to: "/schriftlich/vorbereitung",
+      children: [
+        { label: `${t("sidebar.lesen")} — Teil 1`, to: "/schriftlich/vorbereitung/lesen/teil-1" },
+        { label: `${t("sidebar.lesen")} — Teil 2`, to: "/schriftlich/vorbereitung/lesen/teil-2" },
+        { label: `${t("sidebar.lesen")} — Teil 3`, to: "/schriftlich/vorbereitung/lesen/teil-3" },
+        { label: `${t("sidebar.hoeren")} — Teil 1`, to: "/schriftlich/vorbereitung/hoeren/teil-1" },
+        { label: `${t("sidebar.hoeren")} — Teil 2`, to: "/schriftlich/vorbereitung/hoeren/teil-2" },
+        { label: `${t("sidebar.hoeren")} — Teil 3`, to: "/schriftlich/vorbereitung/hoeren/teil-3" },
+        { label: `${t("sidebar.sprachbausteine")} — Teil 1`, to: "/schriftlich/vorbereitung/sprachbausteine/teil-1" },
+        { label: `${t("sidebar.sprachbausteine")} — Teil 2`, to: "/schriftlich/vorbereitung/sprachbausteine/teil-2" },
+        { label: `${t("sidebar.schreiben")} — Beschwerde`, to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
+        { label: `${t("sidebar.schreiben")} — Bitte um Info`, to: "/schriftlich/vorbereitung/schreiben/bitte" },
+      ],
+    },
+    {
+      label: t("sidebar.pruefung"),
+      to: "/schriftlich/pruefung",
+      children: [],
+    },
   ];
-  const modules = [
-    { to: "/schriftlich", icon: PenLine, label: "Schriftlich" },
-    { to: "/muendlich", icon: Mic, label: "Mündlich" },
-    { to: "/statistik", icon: BarChart3, label: "Statistik" },
-  ];
-  const account = [
-    { to: "/profile", icon: User, label: "Profil" },
-    { to: "/billing", icon: CreditCard, label: "Abrechnung" },
-    { to: "/security", icon: Settings, label: "Einstellungen" },
-    { to: "/notifications", icon: Bell, label: "Benachrichtigungen" },
+
+  const muendlichChildren = [
+    {
+      label: t("sidebar.vorbereitung"),
+      to: "/muendlich/vorbereitung",
+      children: [],
+    },
+    {
+      label: t("sidebar.pruefung"),
+      to: "/muendlich/pruefung",
+      children: [
+        { label: t("sidebar.presentation"), to: "/muendlich/pruefung/praesentation" },
+        { label: t("sidebar.gespraech"),    to: "/muendlich/pruefung/gespraech" },
+        { label: t("sidebar.planen"),       to: "/muendlich/pruefung/planen" },
+      ],
+    },
   ];
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b">
-        <Link to="/dashboard" className="flex items-center gap-2 px-2 py-2 font-bold">
-          <GraduationCap className="h-6 w-6 text-accent shrink-0" />
-          {!collapsed && <span className="truncate">Lingovia</span>}
+      {/* Logo */}
+      <SidebarHeader className="border-b border-sidebar-border pb-3">
+        <Link to="/dashboard" className="flex items-center gap-2.5 px-2 py-1">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary">
+            <GraduationCap className="h-4.5 w-4.5 text-primary-foreground" />
+          </div>
+          <span className="text-sm font-semibold tracking-tight text-sidebar-foreground group-data-[collapsible=icon]:hidden">
+            AuraLingovia
+          </span>
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+
+      <SidebarContent className="scrollbar-thin py-2">
+        {/* Main nav */}
         <SidebarGroup>
-          <SidebarGroupLabel>Menü</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {menu.map((it) => (
-                <SidebarMenuItem key={it.to}>
-                  <SidebarMenuButton asChild isActive={isActive(it.to)} tooltip={it.label}>
-                    <Link to={it.to}><it.icon className="h-4 w-4" /><span>{it.label}</span></Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === "/dashboard"}>
+                <Link to="/dashboard">
+                  <LayoutDashboard className="h-4 w-4" />
+                  <span>{t("sidebar.dashboard")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/statistik")}>
+                <Link to="/statistik">
+                  <BarChart3 className="h-4 w-4" />
+                  <span>{t("sidebar.statistik")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
         </SidebarGroup>
+
+        {/* Schriftlich */}
         <SidebarGroup>
-          <SidebarGroupLabel>Prüfungsmodule</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {modules.map((it) => (
-                <SidebarMenuItem key={it.to}>
-                  <SidebarMenuButton asChild isActive={isActive(it.to)} tooltip={it.label} className="font-medium">
-                    <Link to={it.to}><it.icon className="h-4 w-4" /><span>{it.label}</span></Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarGroupLabel className="flex items-center gap-1.5">
+            <PenLine className="h-3.5 w-3.5" />
+            {t("sidebar.schriftlich")}
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            {schriftlichChildren.map((item) => (
+              <SidebarCollapsibleItem key={item.to} item={item} isActive={isActive} />
+            ))}
+          </SidebarMenu>
         </SidebarGroup>
+
+        {/* Mündlich */}
         <SidebarGroup>
-          <SidebarGroupLabel>Konto</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupLabel className="flex items-center gap-1.5">
+            <Mic className="h-3.5 w-3.5" />
+            {t("sidebar.muendlich")}
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            {muendlichChildren.map((item) => (
+              <SidebarCollapsibleItem key={item.to} item={item} isActive={isActive} />
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+
+        {/* Account */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/billing")}>
+                <Link to="/billing">
+                  <CreditCard className="h-4 w-4" />
+                  <span>{t("sidebar.billing")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/referrals")}>
+                <Link to="/referrals">
+                  <Gift className="h-4 w-4" />
+                  <span>{t("sidebar.referrals")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/security")}>
+                <Link to="/security">
+                  <Shield className="h-4 w-4" />
+                  <span>Security</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+
+        {/* Admin */}
+        {isAdmin && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="flex items-center gap-1.5 text-amber-500">
+              <ShieldCheck className="h-3.5 w-3.5" />
+              Admin
+            </SidebarGroupLabel>
             <SidebarMenu>
-              {account.map((it) => (
-                <SidebarMenuItem key={it.to}>
-                  <SidebarMenuButton asChild isActive={isActive(it.to)} tooltip={it.label}>
-                    <Link to={it.to}><it.icon className="h-4 w-4" /><span>{it.label}</span></Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
               <SidebarMenuItem>
-                <SidebarMenuButton onClick={toggle} tooltip={theme === "dark" ? "Light Mode" : "Dark Mode"}>
-                  {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                  <span>{theme === "dark" ? "Light Mode" : "Dark Mode"}</span>
+                <SidebarMenuButton asChild isActive={isActive("/admin")}>
+                  <Link to="/admin">
+                    <LayoutDashboard className="h-4 w-4" />
+                    <span>Overview</span>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-              {isAdmin && (
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={isActive("/admin")} tooltip={t("nav.admin")}>
-                    <Link to="/admin"><Settings className="h-4 w-4" /><span>{t("nav.admin")}</span></Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              )}
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/admin/users")}>
+                  <Link to="/admin/users">
+                    <Users className="h-4 w-4" />
+                    <span>Users</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/admin/pdf-import")}>
+                  <Link to="/admin/pdf-import">
+                    <FileText className="h-4 w-4" />
+                    <span>PDF Import</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/admin/exams")}>
+                  <Link to="/admin/exams">
+                    <BookOpen className="h-4 w-4" />
+                    <span>Exams</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isActive("/admin/subscriptions")}>
+                  <Link to="/admin/subscriptions">
+                    <CreditCard className="h-4 w-4" />
+                    <span>Subscriptions</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+          </SidebarGroup>
+        )}
       </SidebarContent>
-      <SidebarFooter className="border-t">
+
+      {/* Footer */}
+      <SidebarFooter className="border-t border-sidebar-border pt-2">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => signOut().then(() => (window.location.href = "/"))} tooltip="Abmelden">
-              <LogOut className="h-4 w-4" /><span>Abmelden</span>
+            <SidebarMenuButton asChild>
+              <Link to="/profile">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20 text-xs font-semibold text-primary">
+                  {user?.email?.[0]?.toUpperCase() ?? "?"}
+                </div>
+                <span className="truncate text-xs">{user?.email}</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton onClick={signOut} className="text-muted-foreground hover:text-destructive">
+              <LogOut className="h-4 w-4" />
+              <span>Sign out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
+  );
+}
+
+function SidebarCollapsibleItem({
+  item,
+  isActive,
+}: {
+  item: { label: string; to: string; children: { label: string; to: string }[] };
+  isActive: (to: string) => boolean;
+}) {
+  const [open, setOpen] = useState(isActive(item.to));
+
+  if (!item.children?.length) {
+    return (
+      <SidebarMenuItem>
+        <SidebarMenuButton asChild isActive={isActive(item.to)}>
+          <Link to={item.to}>{item.label}</Link>
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    );
+  }
+
+  return (
+    <Collapsible open={open} onOpenChange={setOpen}>
+      <SidebarMenuItem>
+        <CollapsibleTrigger asChild>
+          <SidebarMenuButton isActive={isActive(item.to)}>
+            <span>{item.label}</span>
+            <ChevronDown
+              className={`ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+            />
+          </SidebarMenuButton>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {item.children.map((child) => (
+              <SidebarMenuSubItem key={child.to}>
+                <SidebarMenuSubButton asChild isActive={isActive(child.to)}>
+                  <Link to={child.to}>{child.label}</Link>
+                </SidebarMenuSubButton>
+              </SidebarMenuSubItem>
+            ))}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </SidebarMenuItem>
+    </Collapsible>
   );
 }

@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LearnSection } from "@/components/LearnSection";
+import { ComingSoon } from "@/components/ComingSoon";
 
 export const Route = createFileRoute("/_authenticated/pruefung")({
-  head: () => ({ meta: [{ title: "Prüfungssimulation — Lingovia" }] }),
-  component: () => <LearnSection section="pruefung" />,
+  component: () => <ComingSoon title="Prüfungssimulation" description="Full exam simulation is being built in Phase 2." />,
 });

@@ -1,73 +1,68 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "@tanstack/react-router";
-import { Button } from "@/components/ui/button";
+import { Users, BookOpen, CreditCard, FileText, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/")({
-  head: () => ({ meta: [{ title: "Admin — Lingovia" }] }),
-  component: AdminOverview,
+  component: AdminIndexPage,
 });
 
-function AdminOverview() {
-  const [stats, setStats] = useState<{ users: number; activeSubs: number; revenue: number; payments: number; exercises: number; published: number }>({ users: 0, activeSubs: 0, revenue: 0, payments: 0, exercises: 0, published: 0 });
-  const [recent, setRecent] = useState<Array<{ id: string; created_at: string; amount: number; currency: string; status: string }>>([]);
+function AdminIndexPage() {
+  const [stats, setStats] = useState({
+    users: 0,
+    subscriptions: 0,
+    exams: 0,
+    pendingImports: 0,
+  });
 
   useEffect(() => {
-    (async () => {
-      const [u, s, p, rp, ex, exP] = await Promise.all([
-        supabase.from("profiles").select("id", { count: "exact", head: true }),
-        supabase.from("subscriptions").select("id", { count: "exact", head: true }).in("status", ["active", "trial"]),
-        supabase.from("payments").select("amount,status"),
-        supabase.from("payments").select("*").order("created_at", { ascending: false }).limit(10),
-        supabase.from("exercises").select("id", { count: "exact", head: true }),
-        supabase.from("exercises").select("id", { count: "exact", head: true }).eq("status", "published"),
-      ]);
-      const revenue = (p.data ?? []).filter((x) => x.status === "succeeded").reduce((a, x) => a + Number(x.amount), 0);
-      setStats({ users: u.count ?? 0, activeSubs: s.count ?? 0, revenue, payments: (p.data ?? []).length, exercises: ex.count ?? 0, published: exP.count ?? 0 });
-      setRecent((rp.data ?? []) as typeof recent);
-    })();
+    Promise.all([
+      supabase.from("profiles").select("id", { count: "exact", head: true }),
+      supabase.from("subscriptions").select("id", { count: "exact", head: true }).in("status", ["active", "trial"]),
+      supabase.from("exams").select("id", { count: "exact", head: true }).eq("status", "published"),
+      supabase.from("pdf_imports").select("id", { count: "exact", head: true }).eq("status", "needs_review"),
+    ]).then(([users, subs, exams, imports]) => {
+      setStats({
+        users: users.count ?? 0,
+        subscriptions: subs.count ?? 0,
+        exams: exams.count ?? 0,
+        pendingImports: imports.count ?? 0,
+      });
+    });
   }, []);
 
+  const cards = [
+    { label: "Total users",          value: stats.users,          icon: Users,    to: "/admin/users",         color: "text-blue-500" },
+    { label: "Active subscriptions", value: stats.subscriptions,  icon: CreditCard, to: "/admin/subscriptions", color: "text-emerald-500" },
+    { label: "Published exams",      value: stats.exams,          icon: BookOpen,  to: "/admin/exams",          color: "text-violet-500" },
+    { label: "Pending PDF reviews",  value: stats.pendingImports, icon: FileText,  to: "/admin/pdf-import",     color: "text-amber-500" },
+  ];
+
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Admin Overview</h1>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
-        <Card><CardHeader><CardTitle className="text-sm">Users</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">{stats.users}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-sm">Active Subs</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">{stats.activeSubs}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-sm">Revenue (EUR)</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">€{stats.revenue.toFixed(2)}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-sm">Total Payments</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">{stats.payments}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-sm">Exercises</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">{stats.exercises}</p></CardContent></Card>
-        <Card><CardHeader><CardTitle className="text-sm">Published</CardTitle></CardHeader><CardContent><p className="text-3xl font-bold">{stats.published}</p></CardContent></Card>
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">Admin Overview</h1>
+        <p className="mt-0.5 text-sm text-muted-foreground">AuraLingovia platform management.</p>
       </div>
-      <Card>
-        <CardHeader><CardTitle>Quick actions</CardTitle></CardHeader>
-        <CardContent className="flex flex-wrap gap-2">
-          <Link to="/admin/exercises/new"><Button>New exercise</Button></Link>
-          <Link to="/admin/audio"><Button variant="outline">Upload audio</Button></Link>
-          <Link to="/admin/exercises"><Button variant="outline">Question bank</Button></Link>
-          <Link to="/admin/backup"><Button variant="outline">Backup / Restore</Button></Link>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader><CardTitle>Recent Payments</CardTitle></CardHeader>
-        <CardContent>
-          {recent.length === 0 ? <p className="text-sm text-muted-foreground">No payments yet.</p> :
-            <ul className="divide-y">{recent.map((r) => (
-              <li key={r.id} className="py-2 flex justify-between text-sm">
-                <span>{new Date(r.created_at).toLocaleString()}</span>
-                <span>{r.amount} {r.currency}</span>
-                <Badge variant="outline">{r.status}</Badge>
-              </li>
-            ))}</ul>}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader><CardTitle>System Status</CardTitle></CardHeader>
-        <CardContent><p className="text-sm text-muted-foreground">All systems operational. Automated backups managed by Lovable Cloud.</p></CardContent>
-      </Card>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {cards.map((card) => (
+          <Link
+            key={card.label}
+            to={card.to}
+            className="group flex flex-col gap-3 rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:-translate-y-0.5 hover:shadow-md"
+          >
+            <div className="flex items-center justify-between">
+              <card.icon className={`h-5 w-5 ${card.color}`} />
+              <ChevronRight className="h-4 w-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
+            </div>
+            <div>
+              <p className="text-2xl font-bold tracking-tight text-foreground">{card.value}</p>
+              <p className="text-xs text-muted-foreground">{card.label}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

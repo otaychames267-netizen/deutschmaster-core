@@ -51,12 +51,23 @@ import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminPdfImportRouteImport } from './routes/_authenticated.admin.pdf-import'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
+import { Route as AuthenticatedAdminExamsRouteImport } from './routes/_authenticated.admin.exams'
 import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated.admin.backup'
 import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authenticated.admin.audio'
 import { Route as AuthenticatedAdminAttemptsRouteImport } from './routes/_authenticated.admin.attempts'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
+import { Route as AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.sprachbausteine.teil-2'
+import { Route as AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.sprachbausteine.teil-1'
+import { Route as AuthenticatedSchriftlichVorbereitungSchreibenBitteRouteImport } from './routes/_authenticated.schriftlich.vorbereitung.schreiben.bitte'
+import { Route as AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRouteImport } from './routes/_authenticated.schriftlich.vorbereitung.schreiben.beschwerde'
+import { Route as AuthenticatedSchriftlichVorbereitungLesenTeil3RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.lesen.teil-3'
+import { Route as AuthenticatedSchriftlichVorbereitungLesenTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.lesen.teil-2'
+import { Route as AuthenticatedSchriftlichVorbereitungLesenTeil1RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.lesen.teil-1'
+import { Route as AuthenticatedSchriftlichVorbereitungHoerenTeil3RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.hoeren.teil-3'
+import { Route as AuthenticatedSchriftlichVorbereitungHoerenTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.hoeren.teil-2'
+import { Route as AuthenticatedSchriftlichVorbereitungHoerenTeil1RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.hoeren.teil-1'
 import { Route as AuthenticatedPracticeLevelModuleTeilRouteImport } from './routes/_authenticated.practice.$level.$module.$teil'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
@@ -280,6 +291,11 @@ const AuthenticatedAdminExercisesRoute =
     path: '/exercises',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminExamsRoute = AuthenticatedAdminExamsRouteImport.update({
+  id: '/exams',
+  path: '/exams',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminBackupRoute =
   AuthenticatedAdminBackupRouteImport.update({
     id: '/backup',
@@ -314,6 +330,66 @@ const AuthenticatedAdminExercisesIdRoute =
     id: '/$id',
     path: '/$id',
     getParentRoute: () => AuthenticatedAdminExercisesRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route =
+  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport.update({
+    id: '/sprachbausteine/teil-2',
+    path: '/sprachbausteine/teil-2',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route =
+  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1RouteImport.update({
+    id: '/sprachbausteine/teil-1',
+    path: '/sprachbausteine/teil-1',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute =
+  AuthenticatedSchriftlichVorbereitungSchreibenBitteRouteImport.update({
+    id: '/schreiben/bitte',
+    path: '/schreiben/bitte',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute =
+  AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRouteImport.update({
+    id: '/schreiben/beschwerde',
+    path: '/schreiben/beschwerde',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungLesenTeil3Route =
+  AuthenticatedSchriftlichVorbereitungLesenTeil3RouteImport.update({
+    id: '/lesen/teil-3',
+    path: '/lesen/teil-3',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungLesenTeil2Route =
+  AuthenticatedSchriftlichVorbereitungLesenTeil2RouteImport.update({
+    id: '/lesen/teil-2',
+    path: '/lesen/teil-2',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungLesenTeil1Route =
+  AuthenticatedSchriftlichVorbereitungLesenTeil1RouteImport.update({
+    id: '/lesen/teil-1',
+    path: '/lesen/teil-1',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungHoerenTeil3Route =
+  AuthenticatedSchriftlichVorbereitungHoerenTeil3RouteImport.update({
+    id: '/hoeren/teil-3',
+    path: '/hoeren/teil-3',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungHoerenTeil2Route =
+  AuthenticatedSchriftlichVorbereitungHoerenTeil2RouteImport.update({
+    id: '/hoeren/teil-2',
+    path: '/hoeren/teil-2',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedSchriftlichVorbereitungHoerenTeil1Route =
+  AuthenticatedSchriftlichVorbereitungHoerenTeil1RouteImport.update({
+    id: '/hoeren/teil-1',
+    path: '/hoeren/teil-1',
+    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
   } as any)
 const AuthenticatedPracticeLevelModuleTeilRoute =
   AuthenticatedPracticeLevelModuleTeilRouteImport.update({
@@ -351,6 +427,7 @@ export interface FileRoutesByFullPath {
   '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
@@ -362,7 +439,7 @@ export interface FileRoutesByFullPath {
   '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
   '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
   '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
-  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRoute
+  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
@@ -371,6 +448,16 @@ export interface FileRoutesByFullPath {
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
+  '/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
+  '/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
+  '/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
+  '/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
+  '/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
+  '/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  '/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
+  '/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
+  '/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -397,6 +484,7 @@ export interface FileRoutesByTo {
   '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
@@ -408,7 +496,7 @@ export interface FileRoutesByTo {
   '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
   '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
   '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
-  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRoute
+  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
@@ -417,6 +505,16 @@ export interface FileRoutesByTo {
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
+  '/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
+  '/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
+  '/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
+  '/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
+  '/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
+  '/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  '/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
+  '/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
+  '/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -449,6 +547,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/_authenticated/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/_authenticated/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
@@ -460,7 +559,7 @@ export interface FileRoutesById {
   '/_authenticated/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
   '/_authenticated/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
   '/_authenticated/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
-  '/_authenticated/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRoute
+  '/_authenticated/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
@@ -469,6 +568,16 @@ export interface FileRoutesById {
   '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/_authenticated/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
+  '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
+  '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
+  '/_authenticated/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
+  '/_authenticated/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
+  '/_authenticated/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
+  '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  '/_authenticated/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
+  '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
+  '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -501,6 +610,7 @@ export interface FileRouteTypes {
     | '/admin/attempts'
     | '/admin/audio'
     | '/admin/backup'
+    | '/admin/exams'
     | '/admin/exercises'
     | '/admin/messages'
     | '/admin/pdf-import'
@@ -521,6 +631,16 @@ export interface FileRouteTypes {
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
     | '/practice/$level/$module/$teil'
+    | '/schriftlich/vorbereitung/hoeren/teil-1'
+    | '/schriftlich/vorbereitung/hoeren/teil-2'
+    | '/schriftlich/vorbereitung/hoeren/teil-3'
+    | '/schriftlich/vorbereitung/lesen/teil-1'
+    | '/schriftlich/vorbereitung/lesen/teil-2'
+    | '/schriftlich/vorbereitung/lesen/teil-3'
+    | '/schriftlich/vorbereitung/schreiben/beschwerde'
+    | '/schriftlich/vorbereitung/schreiben/bitte'
+    | '/schriftlich/vorbereitung/sprachbausteine/teil-1'
+    | '/schriftlich/vorbereitung/sprachbausteine/teil-2'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -547,6 +667,7 @@ export interface FileRouteTypes {
     | '/admin/attempts'
     | '/admin/audio'
     | '/admin/backup'
+    | '/admin/exams'
     | '/admin/exercises'
     | '/admin/messages'
     | '/admin/pdf-import'
@@ -567,6 +688,16 @@ export interface FileRouteTypes {
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
     | '/practice/$level/$module/$teil'
+    | '/schriftlich/vorbereitung/hoeren/teil-1'
+    | '/schriftlich/vorbereitung/hoeren/teil-2'
+    | '/schriftlich/vorbereitung/hoeren/teil-3'
+    | '/schriftlich/vorbereitung/lesen/teil-1'
+    | '/schriftlich/vorbereitung/lesen/teil-2'
+    | '/schriftlich/vorbereitung/lesen/teil-3'
+    | '/schriftlich/vorbereitung/schreiben/beschwerde'
+    | '/schriftlich/vorbereitung/schreiben/bitte'
+    | '/schriftlich/vorbereitung/sprachbausteine/teil-1'
+    | '/schriftlich/vorbereitung/sprachbausteine/teil-2'
   id:
     | '__root__'
     | '/'
@@ -598,6 +729,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/attempts'
     | '/_authenticated/admin/audio'
     | '/_authenticated/admin/backup'
+    | '/_authenticated/admin/exams'
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/pdf-import'
@@ -618,6 +750,16 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
     | '/_authenticated/practice/$level/$module/$teil'
+    | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1'
+    | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2'
+    | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3'
+    | '/_authenticated/schriftlich/vorbereitung/lesen/teil-1'
+    | '/_authenticated/schriftlich/vorbereitung/lesen/teil-2'
+    | '/_authenticated/schriftlich/vorbereitung/lesen/teil-3'
+    | '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde'
+    | '/_authenticated/schriftlich/vorbereitung/schreiben/bitte'
+    | '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1'
+    | '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -931,6 +1073,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminExercisesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/exams': {
+      id: '/_authenticated/admin/exams'
+      path: '/exams'
+      fullPath: '/admin/exams'
+      preLoaderRoute: typeof AuthenticatedAdminExamsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/backup': {
       id: '/_authenticated/admin/backup'
       path: '/backup'
@@ -973,6 +1122,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminExercisesIdRouteImport
       parentRoute: typeof AuthenticatedAdminExercisesRoute
     }
+    '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2': {
+      id: '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2'
+      path: '/sprachbausteine/teil-2'
+      fullPath: '/schriftlich/vorbereitung/sprachbausteine/teil-2'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1': {
+      id: '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1'
+      path: '/sprachbausteine/teil-1'
+      fullPath: '/schriftlich/vorbereitung/sprachbausteine/teil-1'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/schreiben/bitte': {
+      id: '/_authenticated/schriftlich/vorbereitung/schreiben/bitte'
+      path: '/schreiben/bitte'
+      fullPath: '/schriftlich/vorbereitung/schreiben/bitte'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde': {
+      id: '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde'
+      path: '/schreiben/beschwerde'
+      fullPath: '/schriftlich/vorbereitung/schreiben/beschwerde'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/lesen/teil-3': {
+      id: '/_authenticated/schriftlich/vorbereitung/lesen/teil-3'
+      path: '/lesen/teil-3'
+      fullPath: '/schriftlich/vorbereitung/lesen/teil-3'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungLesenTeil3RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/lesen/teil-2': {
+      id: '/_authenticated/schriftlich/vorbereitung/lesen/teil-2'
+      path: '/lesen/teil-2'
+      fullPath: '/schriftlich/vorbereitung/lesen/teil-2'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungLesenTeil2RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/lesen/teil-1': {
+      id: '/_authenticated/schriftlich/vorbereitung/lesen/teil-1'
+      path: '/lesen/teil-1'
+      fullPath: '/schriftlich/vorbereitung/lesen/teil-1'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungLesenTeil1RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3': {
+      id: '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3'
+      path: '/hoeren/teil-3'
+      fullPath: '/schriftlich/vorbereitung/hoeren/teil-3'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2': {
+      id: '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2'
+      path: '/hoeren/teil-2'
+      fullPath: '/schriftlich/vorbereitung/hoeren/teil-2'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1': {
+      id: '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1'
+      path: '/hoeren/teil-1'
+      fullPath: '/schriftlich/vorbereitung/hoeren/teil-1'
+      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1RouteImport
+      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    }
     '/_authenticated/practice/$level/$module/$teil': {
       id: '/_authenticated/practice/$level/$module/$teil'
       path: '/practice/$level/$module/$teil'
@@ -1004,6 +1223,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAttemptsRoute: typeof AuthenticatedAdminAttemptsRoute
   AuthenticatedAdminAudioRoute: typeof AuthenticatedAdminAudioRoute
   AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
+  AuthenticatedAdminExamsRoute: typeof AuthenticatedAdminExamsRoute
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminPdfImportRoute: typeof AuthenticatedAdminPdfImportRoute
@@ -1018,6 +1238,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAttemptsRoute: AuthenticatedAdminAttemptsRoute,
   AuthenticatedAdminAudioRoute: AuthenticatedAdminAudioRoute,
   AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
+  AuthenticatedAdminExamsRoute: AuthenticatedAdminExamsRoute,
   AuthenticatedAdminExercisesRoute:
     AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
@@ -1063,9 +1284,51 @@ const AuthenticatedMuendlichRouteWithChildren =
     AuthenticatedMuendlichRouteChildren,
   )
 
+interface AuthenticatedSchriftlichVorbereitungRouteChildren {
+  AuthenticatedSchriftlichVorbereitungHoerenTeil1Route: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
+  AuthenticatedSchriftlichVorbereitungHoerenTeil2Route: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
+  AuthenticatedSchriftlichVorbereitungHoerenTeil3Route: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
+  AuthenticatedSchriftlichVorbereitungLesenTeil1Route: typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
+  AuthenticatedSchriftlichVorbereitungLesenTeil2Route: typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
+  AuthenticatedSchriftlichVorbereitungLesenTeil3Route: typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
+  AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
+  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
+  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
+}
+
+const AuthenticatedSchriftlichVorbereitungRouteChildren: AuthenticatedSchriftlichVorbereitungRouteChildren =
+  {
+    AuthenticatedSchriftlichVorbereitungHoerenTeil1Route:
+      AuthenticatedSchriftlichVorbereitungHoerenTeil1Route,
+    AuthenticatedSchriftlichVorbereitungHoerenTeil2Route:
+      AuthenticatedSchriftlichVorbereitungHoerenTeil2Route,
+    AuthenticatedSchriftlichVorbereitungHoerenTeil3Route:
+      AuthenticatedSchriftlichVorbereitungHoerenTeil3Route,
+    AuthenticatedSchriftlichVorbereitungLesenTeil1Route:
+      AuthenticatedSchriftlichVorbereitungLesenTeil1Route,
+    AuthenticatedSchriftlichVorbereitungLesenTeil2Route:
+      AuthenticatedSchriftlichVorbereitungLesenTeil2Route,
+    AuthenticatedSchriftlichVorbereitungLesenTeil3Route:
+      AuthenticatedSchriftlichVorbereitungLesenTeil3Route,
+    AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute:
+      AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute,
+    AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute:
+      AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute,
+    AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route:
+      AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route,
+    AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route:
+      AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route,
+  }
+
+const AuthenticatedSchriftlichVorbereitungRouteWithChildren =
+  AuthenticatedSchriftlichVorbereitungRoute._addFileChildren(
+    AuthenticatedSchriftlichVorbereitungRouteChildren,
+  )
+
 interface AuthenticatedSchriftlichRouteChildren {
   AuthenticatedSchriftlichPruefungRoute: typeof AuthenticatedSchriftlichPruefungRoute
-  AuthenticatedSchriftlichVorbereitungRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+  AuthenticatedSchriftlichVorbereitungRoute: typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   AuthenticatedSchriftlichIndexRoute: typeof AuthenticatedSchriftlichIndexRoute
 }
 
@@ -1074,7 +1337,7 @@ const AuthenticatedSchriftlichRouteChildren: AuthenticatedSchriftlichRouteChildr
     AuthenticatedSchriftlichPruefungRoute:
       AuthenticatedSchriftlichPruefungRoute,
     AuthenticatedSchriftlichVorbereitungRoute:
-      AuthenticatedSchriftlichVorbereitungRoute,
+      AuthenticatedSchriftlichVorbereitungRouteWithChildren,
     AuthenticatedSchriftlichIndexRoute: AuthenticatedSchriftlichIndexRoute,
   }
 
@@ -1143,3 +1406,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

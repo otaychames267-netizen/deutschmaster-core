@@ -1,59 +1,100 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Header } from "@/components/Header";
-import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { AuthLayout } from "@/components/AuthLayout";
+import { Loader2, Mail } from "lucide-react";
 
 export const Route = createFileRoute("/forgot-password")({
-  head: () => ({ meta: [{ title: "Forgot Password — Lingovia" }] }),
-  component: ForgotPage,
+  component: ForgotPasswordPage,
 });
 
-function ForgotPage() {
+function ForgotPasswordPage() {
   const { t } = useTranslation();
+  const [email, setEmail]     = useState("");
   const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [error, setError]     = useState<string | null>(null);
+  const [sent, setSent]       = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    setSent(true);
+  }
+
+  if (sent) {
+    return (
+      <AuthLayout title="Email sent" subtitle="Check your inbox for the reset link.">
+        <div className="space-y-4 text-center">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+            <Mail className="h-7 w-7 text-primary" />
+          </div>
+          <p className="text-sm text-muted-foreground">
+            We sent a password reset link to <strong className="text-foreground">{email}</strong>.
+          </p>
+          <p className="text-xs text-muted-foreground">{t("auth.check_spam")}</p>
+          <Link to="/login" className="inline-flex text-sm font-medium text-primary hover:underline">
+            {t("auth.back_to_login")}
+          </Link>
+        </div>
+      </AuthLayout>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-2"><ArrowLeft className="h-3 w-3" /> Back to login</Link>
-            <CardTitle>{t("auth.forgot")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {sent ? (
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">Check your inbox for a reset link. The link will take you straight to a page where you can set a new password.</p>
-                <p className="text-xs text-muted-foreground">Didn't receive it? Check spam or try again in a minute.</p>
-              </div>
-            ) : (
-              <form className="space-y-3" onSubmit={async (e) => {
-                e.preventDefault();
-                setLoading(true);
-                const fd = new FormData(e.currentTarget);
-                const { error } = await supabase.auth.resetPasswordForEmail(String(fd.get("email")), {
-                  redirectTo: `${window.location.origin}/reset-password`,
-                });
-                setLoading(false);
-                if (error) toast.error(error.message);
-                else setSent(true);
-              }}>
-                <div><Label>{t("auth.email")}</Label><Input name="email" type="email" required /></div>
-                <Button type="submit" disabled={loading} className="w-full">{t("auth.reset_link")}</Button>
-              </form>
-            )}
-            <div className="mt-4 text-sm"><Link to="/login" className="text-accent">← {t("auth.sign_in")}</Link></div>
-          </CardContent>
-        </Card>
-      </main>
-    </div>
+    <AuthLayout
+      title="Forgot password"
+      subtitle="Enter your email and we'll send you a reset link."
+    >
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            {error}
+          </div>
+        )}
+
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-foreground" htmlFor="email">
+            {t("auth.email")}
+          </label>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+        >
+          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+          {t("auth.reset_link")}
+        </button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Remembered it?{" "}
+        <Link to="/login" className="font-medium text-primary hover:underline">
+          {t("auth.sign_in")}
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }

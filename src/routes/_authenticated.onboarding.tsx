@@ -1,122 +1,195 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { useTheme } from "@/lib/theme";
+import { GraduationCap, Loader2, Moon, Sun, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
-import { GraduationCap, Check, Sparkles, Clock, Lock, Rocket } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
-  head: () => ({ meta: [{ title: "Welcome — Lingovia" }] }),
-  component: Onboarding,
+  component: OnboardingPage,
 });
 
-function Onboarding() {
+type Level = "TELC_B1" | "TELC_B2";
+
+const LEVELS: { value: Level; labelKey: string; descKey: string; badge: string }[] = [
+  {
+    value: "TELC_B1",
+    labelKey: "onboarding.b1",
+    descKey: "onboarding.b1_desc",
+    badge: "B1",
+  },
+  {
+    value: "TELC_B2",
+    labelKey: "onboarding.b2",
+    descKey: "onboarding.b2_desc",
+    badge: "B2",
+  },
+];
+
+function OnboardingPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
+  const { theme, toggle } = useTheme();
   const nav = useNavigate();
-  const [step, setStep] = useState(1);
-  const [level, setLevel] = useState<"TELC_B1" | "TELC_B2" | "">("");
-  const [saving, setSaving] = useState(false);
 
-  const finish = async () => {
+  const [selected, setSelected] = useState<Level | null>(null);
+  const [loading, setLoading]   = useState(false);
+
+  async function handleContinue() {
+    if (!selected || !user) return;
+    setLoading(true);
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        level: selected,
+        target_level: selected,
+        onboarding_completed: true,
+      })
+      .eq("id", user.id);
+
+    setLoading(false);
+
+    if (error) {
+      toast.error("Something went wrong. Please try again.");
+      return;
+    }
+
+    toast.success("Level set! Welcome to AuraLingovia.");
+    nav({ to: "/dashboard" });
+  }
+
+  async function handleSkip() {
     if (!user) return;
-    if (!level) return toast.error("Please choose your level");
-    setSaving(true);
-    const { error } = await supabase.from("profiles").update({
-      level, target_level: level,
-      onboarding_completed: true,
-    }).eq("id", user.id);
-    setSaving(false);
-    if (error) return toast.error(error.message);
-    toast.success("You're all set — welcome to Lingovia!");
-    nav({ to: "/dashboard", replace: true });
-  };
+    setLoading(true);
+    await supabase
+      .from("profiles")
+      .update({ onboarding_completed: true })
+      .eq("id", user.id);
+    setLoading(false);
+    nav({ to: "/dashboard" });
+  }
 
   return (
-    <div className="container mx-auto max-w-2xl px-4 py-10 md:py-16">
-      <div className="mb-6 flex items-center justify-center gap-2">
-        {[1, 2].map((s) => (
-          <div key={s} className={`h-1.5 w-16 rounded-full transition-all ${step >= s ? "bg-accent" : "bg-muted"}`} />
-        ))}
-      </div>
-      <Card className="border-border/60 shadow-xl">
-        {step === 1 && (
-          <>
-            <CardHeader className="text-center pb-4">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 ring-1 ring-accent/30">
-                <GraduationCap className="h-6 w-6 text-accent" />
-              </div>
-              <CardTitle className="text-2xl">Choose your TELC level</CardTitle>
-              <CardDescription>This sets up your entire learning path. You can change it later in your profile.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-3 sm:grid-cols-2">
-                {([
-                  { lv: "TELC_B1", title: "TELC B1", tag: "Intermediate", desc: "Independent user. Everyday situations, work, travel." },
-                  { lv: "TELC_B2", title: "TELC B2", tag: "Upper-intermediate", desc: "Professional German, complex topics, Ausbildung." },
-                ] as const).map((opt) => (
-                  <button
-                    key={opt.lv}
-                    type="button"
-                    onClick={() => setLevel(opt.lv)}
-                    className={`group relative p-5 border-2 rounded-xl text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${
-                      level === opt.lv ? "border-accent bg-accent/5 shadow-md" : "border-border hover:border-accent/50"
-                    }`}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <span className="text-2xl font-bold">{opt.title}</span>
-                      {level === opt.lv && <div className="rounded-full bg-accent p-0.5"><Check className="h-3 w-3 text-accent-foreground" /></div>}
-                    </div>
-                    <p className="text-xs font-medium text-accent mb-1.5">{opt.tag}</p>
-                    <p className="text-sm text-muted-foreground">{opt.desc}</p>
-                  </button>
-                ))}
-              </div>
-              <div className="flex justify-end pt-2">
-                <Button onClick={() => setStep(2)} disabled={!level} size="lg">Continue →</Button>
-              </div>
-            </CardContent>
-          </>
-        )}
+    <div className="flex min-h-screen flex-col bg-background">
+      {/* Top bar */}
+      <header className="flex items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-2.5">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
+            <GraduationCap className="h-4 w-4 text-primary-foreground" />
+          </div>
+          <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
+        </div>
+        <button
+          onClick={toggle}
+          className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted"
+        >
+          {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+        </button>
+      </header>
 
-        {step === 2 && (
-          <>
-            <CardHeader className="text-center pb-4">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 ring-1 ring-accent/30">
-                <Sparkles className="h-6 w-6 text-accent" />
-              </div>
-              <CardTitle className="text-2xl">Your 3-day free trial is active</CardTitle>
-              <CardDescription>Full access to {level.replace("_", " ")} — no card required.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid gap-3 sm:grid-cols-3">
-                <TrialFact icon={Clock} title="3 full days" desc="Starting today, ending in 72 hours." />
-                <TrialFact icon={Rocket} title="Full access" desc="Every Schriftlich & Mündlich module unlocked." />
-                <TrialFact icon={Lock} title="No surprises" desc="Trial ends automatically. No charge." />
-              </div>
-              <div className="rounded-lg border bg-muted/30 p-4 text-sm">
-                <p className="font-medium mb-1">What happens after day 3?</p>
-                <p className="text-muted-foreground">Your content stays visible but locks. Upgrade anytime to keep going — your progress is saved.</p>
-              </div>
-              <div className="flex justify-between pt-2">
-                <Button variant="ghost" onClick={() => setStep(1)}>← Back</Button>
-                <Button onClick={finish} disabled={saving} size="lg">{saving ? "Setting up…" : "Start learning →"}</Button>
-              </div>
-            </CardContent>
-          </>
-        )}
-      </Card>
-    </div>
-  );
-}
+      {/* Main content */}
+      <main className="flex flex-1 items-center justify-center px-4 py-8">
+        <div className="w-full max-w-lg">
+          {/* Progress indicator */}
+          <div className="mb-8 flex items-center justify-center gap-2">
+            <div className="h-2 w-2 rounded-full bg-primary" />
+            <div className="h-2 w-8 rounded-full bg-primary" />
+            <div className="h-2 w-2 rounded-full bg-muted" />
+          </div>
 
-function TrialFact({ icon: Icon, title, desc }: { icon: any; title: string; desc: string }) {
-  return (
-    <div className="rounded-lg border bg-card p-4">
-      <Icon className="h-5 w-5 text-accent mb-2" />
-      <p className="text-sm font-semibold">{title}</p>
-      <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
+          <h1 className="text-center text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            {t("onboarding.title")}
+          </h1>
+          <p className="mt-2 text-center text-sm text-muted-foreground">
+            {t("onboarding.subtitle")}
+          </p>
+
+          {/* Level cards */}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {LEVELS.map((level) => {
+              const isSelected = selected === level.value;
+              return (
+                <button
+                  key={level.value}
+                  onClick={() => setSelected(level.value)}
+                  className={`relative flex flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+                    isSelected
+                      ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
+                      : "border-border bg-card hover:border-primary/40"
+                  }`}
+                >
+                  {isSelected && (
+                    <CheckCircle2 className="absolute right-4 top-4 h-5 w-5 text-primary" />
+                  )}
+
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl text-xl font-bold ${
+                    isSelected
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground"
+                  }`}>
+                    {level.badge}
+                  </div>
+
+                  <div>
+                    <p className="font-semibold text-foreground">{t(level.labelKey)}</p>
+                    <p className="mt-0.5 text-sm text-muted-foreground">{t(level.descKey)}</p>
+                  </div>
+
+                  {/* Visual indicator of difficulty */}
+                  <div className="mt-auto flex gap-1">
+                    {[1, 2, 3, 4, 5].map((dot) => (
+                      <div
+                        key={dot}
+                        className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                          level.value === "TELC_B1"
+                            ? dot <= 3 ? "bg-primary" : "bg-muted"
+                            : dot <= 4 ? "bg-primary" : "bg-muted"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* What's included */}
+          <div className="mt-6 rounded-xl border border-border bg-muted/40 px-5 py-4">
+            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
+              Includes
+            </p>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-foreground">
+              {["Lesen", "Hören", "Sprachbausteine", "Schreiben", "Mündlich", "Prüfungssimulation"].map((item) => (
+                <span key={item} className="flex items-center gap-1.5">
+                  <span className="h-1 w-1 rounded-full bg-primary" /> {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              onClick={handleContinue}
+              disabled={!selected || loading}
+              className="flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
+            >
+              {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+              {t("onboarding.continue")}
+            </button>
+            <button
+              onClick={handleSkip}
+              disabled={loading}
+              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+            >
+              {t("onboarding.skip")}
+            </button>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }

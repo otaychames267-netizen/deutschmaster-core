@@ -1,106 +1,139 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { toast } from "sonner";
-import { format, differenceInDays } from "date-fns";
+import { Link } from "@tanstack/react-router";
+import { CreditCard, CheckCircle2, Clock, AlertCircle, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/billing")({
-  head: () => ({ meta: [{ title: "Billing — Lingovia" }] }),
   component: BillingPage,
 });
 
+const PLANS = [
+  {
+    code: "schriftlich",
+    name: "Schriftlich",
+    price_tnd: 20,
+    description: "Written exam — Lesen, Hören, Sprachbausteine, Schreiben",
+  },
+  {
+    code: "muendlich",
+    name: "Mündlich",
+    price_tnd: 20,
+    description: "Oral exam — speaking simulation and practice",
+  },
+  {
+    code: "komplett",
+    name: "Komplett",
+    price_tnd: 40,
+    description: "Full access — written + oral, complete preparation",
+    highlighted: true,
+  },
+];
+
 function BillingPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
-  const [plans, setPlans] = useState<any[]>([]);
-  const [sub, setSub] = useState<any>(null);
-  const [payments, setPayments] = useState<any[]>([]);
-  const [invoices, setInvoices] = useState<any[]>([]);
+  const [subscription, setSubscription] = useState<{
+    status: string;
+    plan_code: string;
+    expires_at: string;
+  } | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const reload = async () => {
+  useEffect(() => {
     if (!user) return;
-    const [pl, sb, pay, inv] = await Promise.all([
-      supabase.from("plans").select("*").eq("active", true).order("price_eur"),
-      supabase.from("subscriptions").select("*").eq("user_id", user.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
-      supabase.from("payments").select("*").eq("user_id", user.id).order("created_at", { ascending: false }),
-      supabase.from("invoices").select("*").eq("user_id", user.id).order("issued_at", { ascending: false }),
-    ]);
-    setPlans(pl.data ?? []); setSub(sb.data); setPayments(pay.data ?? []); setInvoices(inv.data ?? []);
-  };
-  useEffect(() => { reload(); }, [user?.id]);
+    supabase
+      .from("subscriptions")
+      .select("status, plan_code, expires_at")
+      .eq("user_id", user.id)
+      .in("status", ["active", "trial"])
+      .order("expires_at", { ascending: false })
+      .limit(1)
+      .maybeSingle()
+      .then(({ data }) => {
+        setSubscription(data);
+        setLoading(false);
+      });
+  }, [user?.id]);
 
-  const subscribe = async (planCode: string) => {
-    // Stripe Checkout will be wired here once Stripe credentials are added.
-    // See PHASE_1_CHECKLIST.md for the required env vars and webhook URL.
-    toast.info(`Stripe Checkout for "${planCode}" will be enabled once payment credentials are configured.`);
-  };
+  const expiresDate = subscription?.expires_at
+    ? new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
+    : null;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Billing & Subscription</h1>
-      <Card>
-        <CardHeader><CardTitle>Current Plan</CardTitle></CardHeader>
-        <CardContent>
-          {sub ? (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="font-medium capitalize">{sub.plan_code}</p>
-                  <p className="text-sm text-muted-foreground">Started {format(new Date(sub.started_at), "PPP")} · Expires {format(new Date(sub.expires_at), "PPP")}</p>
-                </div>
-                <Badge variant={sub.status === "active" ? "default" : sub.status === "trial" ? "secondary" : "destructive"}>{sub.status}</Badge>
-              </div>
-              {(sub.status === "trial" || sub.is_trial) && (
-                <div className="rounded-md border border-accent/30 bg-accent/5 p-3 text-sm">
-                  <p className="font-medium">Free trial active</p>
-                  <p className="text-muted-foreground">
-                    {Math.max(0, differenceInDays(new Date(sub.expires_at), new Date()))} day(s) remaining. Upgrade any time to keep full access.
-                  </p>
-                </div>
-              )}
-            </div>
-          ) : <p className="text-sm text-muted-foreground">No active subscription.</p>}
-        </CardContent>
-      </Card>
+    <div className="mx-auto max-w-3xl space-y-6">
+      <div>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground">Abonnement</h1>
+        <p className="mt-0.5 text-sm text-muted-foreground">Manage your subscription and billing.</p>
+      </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
-        {plans.map((p) => (
-          <Card key={p.code}>
-            <CardHeader><CardTitle>{p.name}</CardTitle></CardHeader>
-            <CardContent className="space-y-3">
-              <p className="text-sm text-muted-foreground">{p.description}</p>
-              <p className="text-2xl font-bold">{Number(p.price_tnd).toFixed(0)} TND <span className="text-xs text-muted-foreground">/ €{Number(p.price_eur).toFixed(2)}</span></p>
-              <Button onClick={() => subscribe(p.code)} className="w-full" disabled={sub?.status === "trial" || sub?.status === "active"}>
-                {sub?.status === "trial" || sub?.status === "active" ? "Active plan" : "Subscribe"}
-              </Button>
-            </CardContent>
-          </Card>
+      {/* Current subscription */}
+      {!loading && subscription && (
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5">
+          <div className="flex items-start gap-3">
+            <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-500" />
+            <div>
+              <p className="font-medium text-foreground">
+                {subscription.status === "trial" ? "Free trial active" : "Subscription active"}
+              </p>
+              <p className="mt-0.5 text-sm text-muted-foreground">
+                Plan: <strong>{subscription.plan_code}</strong> · Expires {expiresDate}
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {!loading && !subscription && (
+        <div className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/5 px-5 py-4">
+          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-amber-500" />
+          <div>
+            <p className="font-medium text-foreground">No active subscription</p>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Choose a plan below to start your 3-day free trial.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Plans */}
+      <div className="grid gap-4 sm:grid-cols-3">
+        {PLANS.map((plan) => (
+          <div
+            key={plan.code}
+            className={`relative flex flex-col rounded-2xl border p-5 ${
+              (plan as { highlighted?: boolean }).highlighted
+                ? "border-primary bg-primary/5"
+                : "border-border bg-card"
+            }`}
+          >
+            {(plan as { highlighted?: boolean }).highlighted && (
+              <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full bg-primary px-3 py-0.5 text-xs font-semibold text-primary-foreground">
+                Best value
+              </span>
+            )}
+            <p className="text-xs font-medium uppercase tracking-widest text-muted-foreground">{plan.name}</p>
+            <div className="mt-1 flex items-baseline gap-1">
+              <span className="text-3xl font-bold text-foreground">{plan.price_tnd} TND</span>
+              <span className="text-xs text-muted-foreground">/mo</span>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground">{plan.description}</p>
+            <button
+              disabled
+              className="mt-4 flex items-center justify-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-semibold text-primary-foreground opacity-60"
+            >
+              <CreditCard className="h-3.5 w-3.5" />
+              Coming soon
+            </button>
+          </div>
         ))}
       </div>
 
-      <Card>
-        <CardHeader><CardTitle>Payment History</CardTitle></CardHeader>
-        <CardContent>
-          {payments.length === 0 ? <p className="text-sm text-muted-foreground">No payments yet.</p> : (
-            <Table><TableHeader><TableRow><TableHead>Date</TableHead><TableHead>Amount</TableHead><TableHead>Status</TableHead></TableRow></TableHeader>
-            <TableBody>{payments.map((p) => (<TableRow key={p.id}><TableCell>{format(new Date(p.created_at), "PP")}</TableCell><TableCell>{p.amount} {p.currency}</TableCell><TableCell><Badge variant="outline">{p.status}</Badge></TableCell></TableRow>))}</TableBody></Table>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader><CardTitle>Invoices</CardTitle></CardHeader>
-        <CardContent>
-          {invoices.length === 0 ? <p className="text-sm text-muted-foreground">No invoices yet.</p> : (
-            <Table><TableHeader><TableRow><TableHead>Number</TableHead><TableHead>Date</TableHead><TableHead>Amount</TableHead><TableHead>PDF</TableHead></TableRow></TableHeader>
-            <TableBody>{invoices.map((i) => (<TableRow key={i.id}><TableCell>{i.invoice_number}</TableCell><TableCell>{format(new Date(i.issued_at), "PP")}</TableCell><TableCell>{i.amount} {i.currency}</TableCell><TableCell>{i.pdf_url ? <a href={i.pdf_url} className="text-accent">Download</a> : "—"}</TableCell></TableRow>))}</TableBody></Table>
-          )}
-        </CardContent>
-      </Card>
+      <p className="text-xs text-muted-foreground">
+        Payment processing (Stripe) will be activated in Phase 3. 3-day free trial available for all plans.
+      </p>
     </div>
   );
 }

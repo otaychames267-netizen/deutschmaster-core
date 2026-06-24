@@ -1,89 +1,118 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
-import { useAuth } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Header } from "@/components/Header";
+import { AuthLayout } from "@/components/AuthLayout";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/login")({
-  head: () => ({ meta: [{ title: "Login — Lingovia" }] }),
   component: LoginPage,
 });
 
 function LoginPage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
-  const { user, loading: authLoading } = useAuth();
-  const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const redirectStarted = useRef(false);
+  const nav = useNavigate();
 
-  const redirectToDashboard = (message = "Login successful — redirecting to your dashboard.") => {
-    if (redirectStarted.current) return;
-    redirectStarted.current = true;
+  const [email, setEmail]       = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw]     = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
     setLoading(true);
-    setSuccessMessage(message);
-    toast.success(message);
-    // Hard redirect ensures the auth state is fully picked up by the
-    // _authenticated layout and avoids any race with React state updates.
-    window.setTimeout(() => {
-      window.location.assign("/dashboard");
-    }, 400);
-  };
 
-  useEffect(() => {
-    if (!authLoading && user) {
-      redirectToDashboard();
+    const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
+
+    if (err) {
+      setError(err.message);
+      return;
     }
-  }, [authLoading, user]);
+
+    toast.success("Welcome back!");
+    nav({ to: "/dashboard" });
+  }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader>
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1 mb-2"><ArrowLeft className="h-3 w-3" /> Back to home</Link>
-            <CardTitle>{t("auth.sign_in")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {successMessage && (
-              <div className="mb-4 rounded-md border border-accent/30 bg-accent/10 px-3 py-2 text-sm font-medium text-foreground">
-                {successMessage}
-              </div>
-            )}
-            <Button variant="outline" className="w-full mb-4" onClick={async () => {
-              await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin + "/dashboard" });
-            }}>{t("auth.continue_google")}</Button>
-            <div className="text-center text-sm text-muted-foreground my-2">{t("auth.or")}</div>
-            <form className="space-y-3" onSubmit={async (e) => {
-              e.preventDefault();
-              setLoading(true);
-              const fd = new FormData(e.currentTarget);
-              const { data, error } = await supabase.auth.signInWithPassword({ email: String(fd.get("email")), password: String(fd.get("password")) });
-              if (error) { setLoading(false); toast.error(error.message); return; }
-              const { data: restored } = await supabase.auth.getSession();
-              if (data.session || restored.session) redirectToDashboard();
-              else { setLoading(false); toast.error("Login succeeded, but the session was not restored. Please try again."); }
-            }}>
-              <div><Label>{t("auth.email")}</Label><Input name="email" type="email" required /></div>
-              <div><Label>{t("auth.password")}</Label><Input name="password" type="password" required /></div>
-              <Button type="submit" disabled={loading} className="w-full">{t("auth.sign_in")}</Button>
-            </form>
-            <div className="mt-4 flex justify-between text-sm">
-              <Link to="/forgot-password" className="text-accent">{t("auth.forgot")}</Link>
-              <Link to="/register" className="text-accent">{t("auth.sign_up")}</Link>
-            </div>
-          </CardContent>
-        </Card>
-      </main>
-    </div>
+    <AuthLayout title={t("auth.sign_in")} subtitle="Enter your credentials to continue">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        {error && (
+          <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+            {error}
+          </div>
+        )}
+
+        {/* Email */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-foreground" htmlFor="email">
+            {t("auth.email")}
+          </label>
+          <input
+            id="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
+            placeholder="you@example.com"
+          />
+        </div>
+
+        {/* Password */}
+        <div className="space-y-1.5">
+          <div className="flex items-center justify-between">
+            <label className="text-sm font-medium text-foreground" htmlFor="password">
+              {t("auth.password")}
+            </label>
+            <Link
+              to="/forgot-password"
+              className="text-xs text-muted-foreground transition-colors hover:text-primary"
+            >
+              {t("auth.forgot")}
+            </Link>
+          </div>
+          <div className="relative">
+            <input
+              id="password"
+              type={showPw ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
+              placeholder="••••••••"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPw((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
+        >
+          {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+          {t("auth.sign_in")}
+        </button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-muted-foreground">
+        Don't have an account?{" "}
+        <Link to="/register" className="font-medium text-primary hover:underline">
+          {t("auth.sign_up")}
+        </Link>
+      </p>
+    </AuthLayout>
   );
 }
