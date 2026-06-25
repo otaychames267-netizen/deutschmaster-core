@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { recordCompletion } from "@/lib/useUserProgress";
 import { toast } from "sonner";
 import {
   ChevronLeft, ChevronRight, Send, RotateCcw,
@@ -435,19 +436,22 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
       .eq("id", sessionId);
 
     const totalPoints = items.reduce((s, i) => s + Number(i.points), 0);
-    const score       = totalPoints > 0 ? (totalPoints / totalPoints) * 50 : 0;
+    const answered = Object.keys(answers).length;
+    const score = totalPoints > 0 ? Math.round((answered / items.length) * 100) : 0;
 
     await supabase.from("attempt_results").insert({
       session_id:    sessionId,
       user_id:       user!.id,
       exam_id:       examId,
       score,
-      points_earned: totalPoints / 2,
+      points_earned: Math.round(answered * (totalPoints / items.length)),
       points_total:  totalPoints,
       passed:        score >= 60,
     });
 
-    setResult({ score, pointsEarned: totalPoints / 2, pointsTotal: totalPoints });
+    await recordCompletion(user!.id, { isPerfect: score === 100 });
+
+    setResult({ score, pointsEarned: Math.round(answered * (totalPoints / items.length)), pointsTotal: totalPoints });
     setSubmitting(false);
     toast.success("Exercise submitted!");
   }

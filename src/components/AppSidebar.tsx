@@ -3,8 +3,9 @@ import {
   LayoutDashboard, GraduationCap, PenLine, Mic,
   BookOpen, Headphones, Wrench, FileText,
   BarChart3, CreditCard, Users, Gift,
-  Shield, ChevronDown, LogOut, Settings,
-  ShieldCheck,
+  Shield, ChevronDown, LogOut,
+  ShieldCheck, Trophy, StickyNote, Flame,
+  History, Target, Timer, Search,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
@@ -121,6 +122,54 @@ export function AppSidebar() {
                 <Link to="/statistik">
                   <BarChart3 className="h-4 w-4" />
                   <span>{t("sidebar.statistik")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/achievements")}>
+                <Link to="/achievements">
+                  <Trophy className="h-4 w-4" />
+                  <span>Achievements</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/notes")}>
+                <Link to="/notes">
+                  <StickyNote className="h-4 w-4" />
+                  <span>Notes</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/history")}>
+                <Link to="/history">
+                  <History className="h-4 w-4" />
+                  <span>History</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/weekly-goals")}>
+                <Link to="/weekly-goals">
+                  <Target className="h-4 w-4" />
+                  <span>Weekly Goals</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/timer")}>
+                <Link to="/timer">
+                  <Timer className="h-4 w-4" />
+                  <span>Study Timer</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={isActive("/search")}>
+                <Link to="/search">
+                  <Search className="h-4 w-4" />
+                  <span>Search</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

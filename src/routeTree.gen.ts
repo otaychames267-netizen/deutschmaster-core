@@ -20,20 +20,26 @@ import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedWeeklyGoalsRouteImport } from './routes/_authenticated.weekly-goals'
+import { Route as AuthenticatedTimerRouteImport } from './routes/_authenticated.timer'
 import { Route as AuthenticatedStatistikRouteImport } from './routes/_authenticated.statistik'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated.security'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated.search'
 import { Route as AuthenticatedSchriftlichRouteImport } from './routes/_authenticated.schriftlich'
 import { Route as AuthenticatedReferralsRouteImport } from './routes/_authenticated.referrals'
 import { Route as AuthenticatedPruefungRouteImport } from './routes/_authenticated.pruefung'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
+import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated.notes'
 import { Route as AuthenticatedMuendlichRouteImport } from './routes/_authenticated.muendlich'
 import { Route as AuthenticatedLearnRouteImport } from './routes/_authenticated.learn'
+import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated.history'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.help'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated.billing'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated.achievements'
 import { Route as AuthenticatedSchriftlichIndexRouteImport } from './routes/_authenticated.schriftlich.index'
 import { Route as AuthenticatedMuendlichIndexRouteImport } from './routes/_authenticated.muendlich.index'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated.learn.index'
@@ -127,6 +133,17 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedWeeklyGoalsRoute =
+  AuthenticatedWeeklyGoalsRouteImport.update({
+    id: '/weekly-goals',
+    path: '/weekly-goals',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedTimerRoute = AuthenticatedTimerRouteImport.update({
+  id: '/timer',
+  path: '/timer',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedStatistikRoute = AuthenticatedStatistikRouteImport.update({
   id: '/statistik',
   path: '/statistik',
@@ -135,6 +152,11 @@ const AuthenticatedStatistikRoute = AuthenticatedStatistikRouteImport.update({
 const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
   id: '/security',
   path: '/security',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedSchriftlichRoute =
@@ -169,6 +191,11 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
+  id: '/notes',
+  path: '/notes',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedMuendlichRoute = AuthenticatedMuendlichRouteImport.update({
   id: '/muendlich',
   path: '/muendlich',
@@ -177,6 +204,11 @@ const AuthenticatedMuendlichRoute = AuthenticatedMuendlichRouteImport.update({
 const AuthenticatedLearnRoute = AuthenticatedLearnRouteImport.update({
   id: '/learn',
   path: '/learn',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedHelpRoute = AuthenticatedHelpRouteImport.update({
@@ -199,6 +231,12 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAchievementsRoute =
+  AuthenticatedAchievementsRouteImport.update({
+    id: '/achievements',
+    path: '/achievements',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedSchriftlichIndexRoute =
   AuthenticatedSchriftlichIndexRouteImport.update({
     id: '/',
@@ -430,20 +468,26 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/unauthorized': typeof UnauthorizedRoute
+  '/achievements': typeof AuthenticatedAchievementsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/billing': typeof AuthenticatedBillingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/help': typeof AuthenticatedHelpRoute
+  '/history': typeof AuthenticatedHistoryRoute
   '/learn': typeof AuthenticatedLearnRouteWithChildren
   '/muendlich': typeof AuthenticatedMuendlichRouteWithChildren
+  '/notes': typeof AuthenticatedNotesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/referrals': typeof AuthenticatedReferralsRoute
   '/schriftlich': typeof AuthenticatedSchriftlichRouteWithChildren
+  '/search': typeof AuthenticatedSearchRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
+  '/timer': typeof AuthenticatedTimerRoute
+  '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
@@ -494,16 +538,22 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/unauthorized': typeof UnauthorizedRoute
+  '/achievements': typeof AuthenticatedAchievementsRoute
   '/billing': typeof AuthenticatedBillingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/help': typeof AuthenticatedHelpRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/notes': typeof AuthenticatedNotesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/referrals': typeof AuthenticatedReferralsRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
+  '/timer': typeof AuthenticatedTimerRoute
+  '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
@@ -556,20 +606,26 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/unauthorized': typeof UnauthorizedRoute
+  '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/help': typeof AuthenticatedHelpRoute
+  '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/learn': typeof AuthenticatedLearnRouteWithChildren
   '/_authenticated/muendlich': typeof AuthenticatedMuendlichRouteWithChildren
+  '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
   '/_authenticated/referrals': typeof AuthenticatedReferralsRoute
   '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRouteWithChildren
+  '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
+  '/_authenticated/timer': typeof AuthenticatedTimerRoute
+  '/_authenticated/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
   '/_authenticated/admin/audio': typeof AuthenticatedAdminAudioRoute
@@ -622,20 +678,26 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/unauthorized'
+    | '/achievements'
     | '/admin'
     | '/billing'
     | '/dashboard'
     | '/help'
+    | '/history'
     | '/learn'
     | '/muendlich'
+    | '/notes'
     | '/notifications'
     | '/onboarding'
     | '/profile'
     | '/pruefung'
     | '/referrals'
     | '/schriftlich'
+    | '/search'
     | '/security'
     | '/statistik'
+    | '/timer'
+    | '/weekly-goals'
     | '/admin/analytics'
     | '/admin/attempts'
     | '/admin/audio'
@@ -686,16 +748,22 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/unauthorized'
+    | '/achievements'
     | '/billing'
     | '/dashboard'
     | '/help'
+    | '/history'
+    | '/notes'
     | '/notifications'
     | '/onboarding'
     | '/profile'
     | '/pruefung'
     | '/referrals'
+    | '/search'
     | '/security'
     | '/statistik'
+    | '/timer'
+    | '/weekly-goals'
     | '/admin/analytics'
     | '/admin/attempts'
     | '/admin/audio'
@@ -747,20 +815,26 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/unauthorized'
+    | '/_authenticated/achievements'
     | '/_authenticated/admin'
     | '/_authenticated/billing'
     | '/_authenticated/dashboard'
     | '/_authenticated/help'
+    | '/_authenticated/history'
     | '/_authenticated/learn'
     | '/_authenticated/muendlich'
+    | '/_authenticated/notes'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
     | '/_authenticated/pruefung'
     | '/_authenticated/referrals'
     | '/_authenticated/schriftlich'
+    | '/_authenticated/search'
     | '/_authenticated/security'
     | '/_authenticated/statistik'
+    | '/_authenticated/timer'
+    | '/_authenticated/weekly-goals'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/attempts'
     | '/_authenticated/admin/audio'
@@ -895,6 +969,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/weekly-goals': {
+      id: '/_authenticated/weekly-goals'
+      path: '/weekly-goals'
+      fullPath: '/weekly-goals'
+      preLoaderRoute: typeof AuthenticatedWeeklyGoalsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/timer': {
+      id: '/_authenticated/timer'
+      path: '/timer'
+      fullPath: '/timer'
+      preLoaderRoute: typeof AuthenticatedTimerRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/statistik': {
       id: '/_authenticated/statistik'
       path: '/statistik'
@@ -907,6 +995,13 @@ declare module '@tanstack/react-router' {
       path: '/security'
       fullPath: '/security'
       preLoaderRoute: typeof AuthenticatedSecurityRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/schriftlich': {
@@ -951,6 +1046,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/notes': {
+      id: '/_authenticated/notes'
+      path: '/notes'
+      fullPath: '/notes'
+      preLoaderRoute: typeof AuthenticatedNotesRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/muendlich': {
       id: '/_authenticated/muendlich'
       path: '/muendlich'
@@ -963,6 +1065,13 @@ declare module '@tanstack/react-router' {
       path: '/learn'
       fullPath: '/learn'
       preLoaderRoute: typeof AuthenticatedLearnRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/history': {
+      id: '/_authenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/help': {
@@ -991,6 +1100,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin'
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/achievements': {
+      id: '/_authenticated/achievements'
+      path: '/achievements'
+      fullPath: '/achievements'
+      preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/schriftlich/': {
@@ -1428,39 +1544,51 @@ const AuthenticatedSchriftlichRouteWithChildren =
   )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
+  AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
   AuthenticatedLearnRoute: typeof AuthenticatedLearnRouteWithChildren
   AuthenticatedMuendlichRoute: typeof AuthenticatedMuendlichRouteWithChildren
+  AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
   AuthenticatedReferralsRoute: typeof AuthenticatedReferralsRoute
   AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRouteWithChildren
+  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
+  AuthenticatedTimerRoute: typeof AuthenticatedTimerRoute
+  AuthenticatedWeeklyGoalsRoute: typeof AuthenticatedWeeklyGoalsRoute
   AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
   AuthenticatedPracticeLevelModuleTeilRoute: typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedBillingRoute: AuthenticatedBillingRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
+  AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
   AuthenticatedLearnRoute: AuthenticatedLearnRouteWithChildren,
   AuthenticatedMuendlichRoute: AuthenticatedMuendlichRouteWithChildren,
+  AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
   AuthenticatedReferralsRoute: AuthenticatedReferralsRoute,
   AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRouteWithChildren,
+  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
+  AuthenticatedTimerRoute: AuthenticatedTimerRoute,
+  AuthenticatedWeeklyGoalsRoute: AuthenticatedWeeklyGoalsRoute,
   AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
   AuthenticatedPracticeLevelModuleTeilRoute:
     AuthenticatedPracticeLevelModuleTeilRoute,
