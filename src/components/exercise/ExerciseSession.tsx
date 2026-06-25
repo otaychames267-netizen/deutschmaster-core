@@ -47,7 +47,7 @@ export function ExerciseSession({
   useEffect(() => {
     let cancel = false;
     setLoading(true);
-    console.debug("[Lingovia diagnostics] ExerciseSession list fetch", { level, module, teil });
+    console.debug("[AuraLingovia] ExerciseSession list fetch", { level, module, teil });
     listRef.current({ data: { level, module, teil } })
       .then((r) => {
         if (cancel) return;

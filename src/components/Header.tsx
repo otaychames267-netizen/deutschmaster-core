@@ -36,7 +36,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg">
           <GraduationCap className="h-6 w-6 text-accent" />
-          <span>Lingovia</span>
+          <span>AuraLingovia</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <a href="/#features" className="hover:text-accent">{t("nav.features")}</a>

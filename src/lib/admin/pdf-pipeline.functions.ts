@@ -58,7 +58,8 @@ export const createPdfImportV2 = createServerFn({ method: "POST" })
     return { id: row.id as string };
   });
 
-const AI_GATEWAY_URL = "https://ai.gateway.lovable.dev/v1/chat/completions";
+// Gemini direct API — AuraLingovia uses Google Generative Language API only.
+const AI_GATEWAY_URL = ""; // unused — kept for structural compatibility only
 // Cost-optimised extraction stack:
 // - flash-lite is the cheapest Gemini that still accepts PDF/image input and
 //   handles verbatim OCR for TELC scans well.
@@ -74,9 +75,7 @@ const EXTRACTION_FALLBACK_MODEL = "google/gemini-2.5-flash";
 const CHUNK_PAGES = 6;
 const GEMINI_TIMEOUT_MS = 85_000;
 
-// Direct Google Generative Language API fallback. Used automatically when the
-// Lovable AI Gateway returns 402 (credits exhausted) or 429 (rate limit) and
-// the operator has provisioned a personal GEMINI_API_KEY.
+// Google Generative Language API — primary and only AI provider.
 const GEMINI_DIRECT_BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 function toDirectGeminiModel(model: string): string {
   // gateway form "google/gemini-2.5-flash" → direct form "gemini-2.5-flash"
@@ -824,8 +823,6 @@ async function callGeminiChunkOnce(args: {
       signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
-        "Lovable-API-Key": args.apiKey,
-        "X-Lovable-AIG-SDK": "raw-pdf-extraction",
       },
       body: payload,
     });
@@ -1116,9 +1113,9 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
   .inputValidator((d: { importId: string; resume?: boolean }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY ?? "";
-    if (!apiKey && !process.env.GEMINI_API_KEY)
-      throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
+    const apiKey = process.env.GEMINI_API_KEY ?? "";
+    if (!apiKey)
+      throw new Error("GEMINI_API_KEY is not set in the server environment. Add it to your .env file.");
     const { data: imp, error: impErr } = await context.supabase
       .from("pdf_imports")
       .select("id, storage_path, kind, level")
@@ -1259,9 +1256,9 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
   .inputValidator((d: { importId: string; chunkIndex: number }) => d)
   .handler(async ({ data, context }) => {
     await assertSuperAdmin(context);
-    const apiKey = process.env.LOVABLE_API_KEY ?? "";
-    if (!apiKey && !process.env.GEMINI_API_KEY)
-      throw new Error("Neither LOVABLE_API_KEY nor GEMINI_API_KEY is set in the server environment");
+    const apiKey = process.env.GEMINI_API_KEY ?? "";
+    if (!apiKey)
+      throw new Error("GEMINI_API_KEY is not set in the server environment. Add it to your .env file.");
     let step = "load_import_row";
     let failurePages = "?";
     try {
