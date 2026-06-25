@@ -5,14 +5,14 @@ import type { Database } from "./types";
 
 export const requireSupabaseAuth = createMiddleware({ type: "function" }).server(async ({ next }) => {
   const SUPABASE_URL = process.env.SUPABASE_URL;
-  const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
+  const SUPABASE_ANON_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     const missing = [
       ...(!SUPABASE_URL ? ["SUPABASE_URL"] : []),
-      ...(!SUPABASE_PUBLISHABLE_KEY ? ["SUPABASE_PUBLISHABLE_KEY"] : []),
+      ...(!SUPABASE_ANON_KEY ? ["SUPABASE_SERVICE_ROLE_KEY"] : []),
     ];
-    throw new Error(`Missing Supabase environment variable(s): ${missing.join(", ")}`);
+    throw new Error(`Missing server environment variable(s): ${missing.join(", ")}. Add them to your .env file.`);
   }
 
   const request = getRequest();
@@ -29,7 +29,7 @@ export const requireSupabaseAuth = createMiddleware({ type: "function" }).server
 
   const token = authHeader.replace("Bearer ", "");
 
-  const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_ANON_KEY, {
     global: { headers: { Authorization: `Bearer ${token}` } },
     auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
   });
