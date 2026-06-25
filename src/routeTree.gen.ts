@@ -56,6 +56,9 @@ import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenti
 import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authenticated.admin.audio'
 import { Route as AuthenticatedAdminAttemptsRouteImport } from './routes/_authenticated.admin.attempts'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
+import { Route as AuthenticatedMuendlichVorbereitungTeil3RouteImport } from './routes/_authenticated.muendlich.vorbereitung.teil-3'
+import { Route as AuthenticatedMuendlichVorbereitungTeil2RouteImport } from './routes/_authenticated.muendlich.vorbereitung.teil-2'
+import { Route as AuthenticatedMuendlichVorbereitungTeil1RouteImport } from './routes/_authenticated.muendlich.vorbereitung.teil-1'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
 import { Route as AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.sprachbausteine.teil-2'
@@ -319,6 +322,24 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedMuendlichVorbereitungTeil3Route =
+  AuthenticatedMuendlichVorbereitungTeil3RouteImport.update({
+    id: '/teil-3',
+    path: '/teil-3',
+    getParentRoute: () => AuthenticatedMuendlichVorbereitungRoute,
+  } as any)
+const AuthenticatedMuendlichVorbereitungTeil2Route =
+  AuthenticatedMuendlichVorbereitungTeil2RouteImport.update({
+    id: '/teil-2',
+    path: '/teil-2',
+    getParentRoute: () => AuthenticatedMuendlichVorbereitungRoute,
+  } as any)
+const AuthenticatedMuendlichVorbereitungTeil1Route =
+  AuthenticatedMuendlichVorbereitungTeil1RouteImport.update({
+    id: '/teil-1',
+    path: '/teil-1',
+    getParentRoute: () => AuthenticatedMuendlichVorbereitungRoute,
+  } as any)
 const AuthenticatedAdminExercisesNewRoute =
   AuthenticatedAdminExercisesNewRouteImport.update({
     id: '/new',
@@ -437,7 +458,7 @@ export interface FileRoutesByFullPath {
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
   '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
-  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
+  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
   '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -447,6 +468,9 @@ export interface FileRoutesByFullPath {
   '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/muendlich/vorbereitung/teil-1': typeof AuthenticatedMuendlichVorbereitungTeil1Route
+  '/muendlich/vorbereitung/teil-2': typeof AuthenticatedMuendlichVorbereitungTeil2Route
+  '/muendlich/vorbereitung/teil-3': typeof AuthenticatedMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
   '/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
   '/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
@@ -494,7 +518,7 @@ export interface FileRoutesByTo {
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
   '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
-  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
+  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
   '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -504,6 +528,9 @@ export interface FileRoutesByTo {
   '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/muendlich/vorbereitung/teil-1': typeof AuthenticatedMuendlichVorbereitungTeil1Route
+  '/muendlich/vorbereitung/teil-2': typeof AuthenticatedMuendlichVorbereitungTeil2Route
+  '/muendlich/vorbereitung/teil-3': typeof AuthenticatedMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
   '/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
   '/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
@@ -557,7 +584,7 @@ export interface FileRoutesById {
   '/_authenticated/exam/$id': typeof AuthenticatedExamIdRoute
   '/_authenticated/learn/$level': typeof AuthenticatedLearnLevelRoute
   '/_authenticated/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
-  '/_authenticated/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRoute
+  '/_authenticated/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
   '/_authenticated/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/_authenticated/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
@@ -567,6 +594,9 @@ export interface FileRoutesById {
   '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
   '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/_authenticated/muendlich/vorbereitung/teil-1': typeof AuthenticatedMuendlichVorbereitungTeil1Route
+  '/_authenticated/muendlich/vorbereitung/teil-2': typeof AuthenticatedMuendlichVorbereitungTeil2Route
+  '/_authenticated/muendlich/vorbereitung/teil-3': typeof AuthenticatedMuendlichVorbereitungTeil3Route
   '/_authenticated/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
   '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
   '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
@@ -630,6 +660,9 @@ export interface FileRouteTypes {
     | '/schriftlich/'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
+    | '/muendlich/vorbereitung/teil-1'
+    | '/muendlich/vorbereitung/teil-2'
+    | '/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
     | '/schriftlich/vorbereitung/hoeren/teil-1'
     | '/schriftlich/vorbereitung/hoeren/teil-2'
@@ -687,6 +720,9 @@ export interface FileRouteTypes {
     | '/schriftlich'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
+    | '/muendlich/vorbereitung/teil-1'
+    | '/muendlich/vorbereitung/teil-2'
+    | '/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
     | '/schriftlich/vorbereitung/hoeren/teil-1'
     | '/schriftlich/vorbereitung/hoeren/teil-2'
@@ -749,6 +785,9 @@ export interface FileRouteTypes {
     | '/_authenticated/schriftlich/'
     | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
+    | '/_authenticated/muendlich/vorbereitung/teil-1'
+    | '/_authenticated/muendlich/vorbereitung/teil-2'
+    | '/_authenticated/muendlich/vorbereitung/teil-3'
     | '/_authenticated/practice/$level/$module/$teil'
     | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1'
     | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2'
@@ -1108,6 +1147,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/muendlich/vorbereitung/teil-3': {
+      id: '/_authenticated/muendlich/vorbereitung/teil-3'
+      path: '/teil-3'
+      fullPath: '/muendlich/vorbereitung/teil-3'
+      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungTeil3RouteImport
+      parentRoute: typeof AuthenticatedMuendlichVorbereitungRoute
+    }
+    '/_authenticated/muendlich/vorbereitung/teil-2': {
+      id: '/_authenticated/muendlich/vorbereitung/teil-2'
+      path: '/teil-2'
+      fullPath: '/muendlich/vorbereitung/teil-2'
+      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungTeil2RouteImport
+      parentRoute: typeof AuthenticatedMuendlichVorbereitungRoute
+    }
+    '/_authenticated/muendlich/vorbereitung/teil-1': {
+      id: '/_authenticated/muendlich/vorbereitung/teil-1'
+      path: '/teil-1'
+      fullPath: '/muendlich/vorbereitung/teil-1'
+      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungTeil1RouteImport
+      parentRoute: typeof AuthenticatedMuendlichVorbereitungRoute
+    }
     '/_authenticated/admin/exercises/new': {
       id: '/_authenticated/admin/exercises/new'
       path: '/new'
@@ -1265,9 +1325,30 @@ const AuthenticatedLearnRouteChildren: AuthenticatedLearnRouteChildren = {
 const AuthenticatedLearnRouteWithChildren =
   AuthenticatedLearnRoute._addFileChildren(AuthenticatedLearnRouteChildren)
 
+interface AuthenticatedMuendlichVorbereitungRouteChildren {
+  AuthenticatedMuendlichVorbereitungTeil1Route: typeof AuthenticatedMuendlichVorbereitungTeil1Route
+  AuthenticatedMuendlichVorbereitungTeil2Route: typeof AuthenticatedMuendlichVorbereitungTeil2Route
+  AuthenticatedMuendlichVorbereitungTeil3Route: typeof AuthenticatedMuendlichVorbereitungTeil3Route
+}
+
+const AuthenticatedMuendlichVorbereitungRouteChildren: AuthenticatedMuendlichVorbereitungRouteChildren =
+  {
+    AuthenticatedMuendlichVorbereitungTeil1Route:
+      AuthenticatedMuendlichVorbereitungTeil1Route,
+    AuthenticatedMuendlichVorbereitungTeil2Route:
+      AuthenticatedMuendlichVorbereitungTeil2Route,
+    AuthenticatedMuendlichVorbereitungTeil3Route:
+      AuthenticatedMuendlichVorbereitungTeil3Route,
+  }
+
+const AuthenticatedMuendlichVorbereitungRouteWithChildren =
+  AuthenticatedMuendlichVorbereitungRoute._addFileChildren(
+    AuthenticatedMuendlichVorbereitungRouteChildren,
+  )
+
 interface AuthenticatedMuendlichRouteChildren {
   AuthenticatedMuendlichPruefungRoute: typeof AuthenticatedMuendlichPruefungRoute
-  AuthenticatedMuendlichVorbereitungRoute: typeof AuthenticatedMuendlichVorbereitungRoute
+  AuthenticatedMuendlichVorbereitungRoute: typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
   AuthenticatedMuendlichIndexRoute: typeof AuthenticatedMuendlichIndexRoute
 }
 
@@ -1275,7 +1356,7 @@ const AuthenticatedMuendlichRouteChildren: AuthenticatedMuendlichRouteChildren =
   {
     AuthenticatedMuendlichPruefungRoute: AuthenticatedMuendlichPruefungRoute,
     AuthenticatedMuendlichVorbereitungRoute:
-      AuthenticatedMuendlichVorbereitungRoute,
+      AuthenticatedMuendlichVorbereitungRouteWithChildren,
     AuthenticatedMuendlichIndexRoute: AuthenticatedMuendlichIndexRoute,
   }
 

@@ -2,11 +2,14 @@ import { createContext, useContext, useEffect, useRef, useState, type ReactNode 
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
+export type UserLevel = "TELC_B1" | "TELC_B2" | null;
+
 interface AuthState {
   user: User | null;
   session: Session | null;
   loading: boolean;
   isAdmin: boolean;
+  level: UserLevel;
   signOut: () => Promise<void>;
 }
 
@@ -15,6 +18,7 @@ const AuthContext = createContext<AuthState>({
   session: null,
   loading: true,
   isAdmin: false,
+  level: null,
   signOut: async () => {},
 });
 
@@ -28,11 +32,21 @@ async function fetchIsAdmin(userId: string): Promise<boolean> {
   return !!data;
 }
 
+async function fetchLevel(userId: string): Promise<UserLevel> {
+  const { data } = await supabase
+    .from("profiles")
+    .select("level")
+    .eq("id", userId)
+    .maybeSingle();
+  return (data?.level as UserLevel) ?? null;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser]       = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [level, setLevel]     = useState<UserLevel>(null);
 
   const currentUserIdRef = useRef<string | null>(null);
   const loadingRef       = useRef(true);
@@ -55,13 +69,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (!nextId) {
-        if (mounted) setIsAdmin(false);
+        if (mounted) {
+          setIsAdmin(false);
+          setLevel(null);
+        }
         return;
       }
 
       const req = ++adminReqRef.current;
-      fetchIsAdmin(nextId).then((admin) => {
-        if (mounted && req === adminReqRef.current) setIsAdmin(admin);
+      Promise.all([fetchIsAdmin(nextId), fetchLevel(nextId)]).then(([admin, lvl]) => {
+        if (mounted && req === adminReqRef.current) {
+          setIsAdmin(admin);
+          setLevel(lvl);
+        }
       });
     }
 
@@ -84,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, isAdmin, level, signOut }}>
       {children}
     </AuthContext.Provider>
   );

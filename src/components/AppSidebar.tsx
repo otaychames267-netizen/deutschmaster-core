@@ -34,7 +34,7 @@ interface NavItem {
 
 export function AppSidebar() {
   const { t } = useTranslation();
-  const { user, isAdmin, signOut } = useAuth();
+  const { user, isAdmin, level, signOut } = useAuth();
   const state = useRouterState();
   const pathname = state.location.pathname;
 
@@ -70,16 +70,16 @@ export function AppSidebar() {
     {
       label: t("sidebar.vorbereitung"),
       to: "/muendlich/vorbereitung",
-      children: [],
+      children: [
+        { label: "Teil 1 — Präsentation",   to: "/muendlich/vorbereitung/teil-1" },
+        { label: "Teil 2 — Thema sprechen", to: "/muendlich/vorbereitung/teil-2" },
+        { label: "Teil 3 — Gemeinsam planen", to: "/muendlich/vorbereitung/teil-3" },
+      ],
     },
     {
       label: t("sidebar.pruefung"),
       to: "/muendlich/pruefung",
-      children: [
-        { label: t("sidebar.presentation"), to: "/muendlich/pruefung/praesentation" },
-        { label: t("sidebar.gespraech"),    to: "/muendlich/pruefung/gespraech" },
-        { label: t("sidebar.planen"),       to: "/muendlich/pruefung/planen" },
-      ],
+      children: [],
     },
   ];
 
@@ -91,9 +91,16 @@ export function AppSidebar() {
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary">
             <GraduationCap className="h-4.5 w-4.5 text-primary-foreground" />
           </div>
-          <span className="text-sm font-semibold tracking-tight text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-            AuraLingovia
-          </span>
+          <div className="flex min-w-0 flex-1 items-center justify-between group-data-[collapsible=icon]:hidden">
+            <span className="text-sm font-semibold tracking-tight text-sidebar-foreground">
+              AuraLingovia
+            </span>
+            {level && (
+              <span className="ml-2 shrink-0 rounded-md bg-primary/15 px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-primary">
+                {level === "TELC_B1" ? "B1" : "B2"}
+              </span>
+            )}
+          </div>
         </Link>
       </SidebarHeader>
 

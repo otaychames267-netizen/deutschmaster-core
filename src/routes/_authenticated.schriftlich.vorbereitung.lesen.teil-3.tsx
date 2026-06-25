@@ -1,6 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/ComingSoon";
+import { VorbereitungPage } from "@/components/exercise/VorbereitungPage";
 
 export const Route = createFileRoute("/_authenticated/schriftlich/vorbereitung/lesen/teil-3")({
-  component: () => <ComingSoon title="Lesen — Teil 3" description="Situation-to-text matching (with X as a valid answer) coming in Phase 2." />,
+  component: () => (
+    <VorbereitungPage
+      title="Lesen — Teil 3"
+      subtitle="Übungsschrift: Situationen und Informationstexte zuordnen"
+      section="lesen"
+      teil="teil_3"
+      tips={[
+        "Lesen Sie jede Situation sorgfältig — achten Sie auf die genauen Anforderungen.",
+        "Ein Text kann die Antwort für mehrere Situationen sein — prüfen Sie alle Möglichkeiten.",
+        "'X' ist eine gültige Antwort — wenn kein Text zur Situation passt, wählen Sie X.",
+        "Lesen Sie zuerst die Situationen, dann die Infotexte.",
+      ]}
+    />
+  ),
 });

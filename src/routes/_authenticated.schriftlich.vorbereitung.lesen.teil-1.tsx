@@ -1,6 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingSoon } from "@/components/ComingSoon";
+import { VorbereitungPage } from "@/components/exercise/VorbereitungPage";
 
 export const Route = createFileRoute("/_authenticated/schriftlich/vorbereitung/lesen/teil-1")({
-  component: () => <ComingSoon title="Lesen — Teil 1" description="Heading matching exercises (TELC Lesen Teil 1) are being built in Phase 2. Each exam will have 10 headings, 5 texts, and distractor headings stored separately." />,
+  component: () => (
+    <VorbereitungPage
+      title="Lesen — Teil 1"
+      subtitle="Übungsschrift: Überschriften den Texten zuordnen (Heading matching)"
+      section="lesen"
+      teil="teil_1"
+      tips={[
+        "Lesen Sie zuerst alle Überschriften, bevor Sie die Texte lesen.",
+        "Suchen Sie nach Schlüsselwörtern, die in der Überschrift und im Text vorkommen.",
+        "Schließen Sie die einfachsten Zuordnungen zuerst ab.",
+        "Achtung: Es gibt mehr Überschriften als Texte — einige werden nicht verwendet.",
+      ]}
+    />
+  ),
 });

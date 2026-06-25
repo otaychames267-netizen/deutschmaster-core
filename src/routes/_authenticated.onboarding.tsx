@@ -61,17 +61,6 @@ function OnboardingPage() {
     nav({ to: "/dashboard" });
   }
 
-  async function handleSkip() {
-    if (!user) return;
-    setLoading(true);
-    await supabase
-      .from("profiles")
-      .update({ onboarding_completed: true })
-      .eq("id", user.id);
-    setLoading(false);
-    nav({ to: "/dashboard" });
-  }
-
   return (
     <div className="flex min-h-screen flex-col bg-background">
       {/* Top bar */}
@@ -171,22 +160,20 @@ function OnboardingPage() {
           </div>
 
           {/* Actions */}
-          <div className="mt-6 flex flex-col gap-3">
+          <div className="mt-6">
             <button
               onClick={handleContinue}
               disabled={!selected || loading}
-              className="flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-50"
             >
               {loading && <Loader2 className="h-4 w-4 animate-spin" />}
               {t("onboarding.continue")}
             </button>
-            <button
-              onClick={handleSkip}
-              disabled={loading}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {t("onboarding.skip")}
-            </button>
+            {!selected && (
+              <p className="mt-2 text-center text-xs text-muted-foreground">
+                Please select your exam level to continue.
+              </p>
+            )}
           </div>
         </div>
       </main>
