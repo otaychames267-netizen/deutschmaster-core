@@ -57,7 +57,7 @@ function AdminAnalyticsPage() {
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
-      supabase.from("exam_attempts").select("id", { count: "exact", head: true }),
+      supabase.from("attempt_sessions").select("id", { count: "exact", head: true }),
     ]).then(([users, active, trials, attempts]) => {
       setTotals({
         users:      users.count   ?? 0,

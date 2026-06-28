@@ -66,13 +66,13 @@ export async function recordLoginSuccess(userId: string, success = true) {
     .maybeSingle();
 
   if (existing) {
-    await supabase.from("devices").update({ last_seen: new Date().toISOString() }).eq("id", existing.id);
+    await supabase.from("devices").update({ last_seen_at: new Date().toISOString() }).eq("id", existing.id);
   } else {
     await supabase.from("devices").insert({
       user_id: userId,
       device_fingerprint: fingerprint,
       device_name: getDeviceName(),
-      trusted: false,
+      is_trusted: false,
     });
   }
 }

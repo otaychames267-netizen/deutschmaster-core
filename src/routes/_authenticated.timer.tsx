@@ -62,7 +62,7 @@ function TimerPage() {
       .eq("user_id", user.id)
       .gte("started_at", todayStart.toISOString())
       .then(({ data }) => {
-        const total = (data ?? []).reduce((s: number, r: { duration_minutes: number }) => s + r.duration_minutes, 0);
+        const total = (data ?? []).reduce((s: number, r: { duration_minutes: number | null }) => s + (r.duration_minutes ?? 0), 0);
         setTotal(total);
       });
   }, [user?.id]);
@@ -106,7 +106,6 @@ function TimerPage() {
     if (mode === "focus" && user && elapsed >= 1) {
       await supabase.from("study_sessions").insert({
         user_id: user.id,
-        session_type: "pomodoro",
         duration_minutes: elapsed,
         started_at: startedAt.current?.toISOString(),
         ended_at: new Date().toISOString(),

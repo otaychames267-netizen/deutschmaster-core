@@ -23,10 +23,16 @@ function EditExercise() {
       ]);
       if (error || !ex) { toast.error(error?.message ?? "Not found"); nav({ to: "/admin/exercises" }); return; }
       setForm({
-        id: ex.id, level: ex.level, module: ex.module, teil: ex.teil, position: ex.position,
+        id: ex.id,
+        level: ex.level as "b1" | "b2",
+        module: ex.module as "muendlich" | "lesen" | "hoeren" | "sprachbausteine" | "schreiben",
+        teil: ex.teil, position: ex.position,
         title: ex.title, prompt: ex.prompt, passage: ex.passage ?? "", audio_id: ex.audio_id,
-        kind: ex.kind, options: (ex.options as string[]) ?? [], correct: (ex.correct as string[]) ?? [],
-        explanation: ex.explanation ?? "", status: ex.status, tags: ex.tags ?? [],
+        kind: ex.kind as "passage_mcq" | "multiple_choice" | "true_false" | "matching" | "cloze" | "open_text",
+        options: (ex.options as string[]) ?? [], correct: (ex.correct as string[]) ?? [],
+        explanation: ex.explanation ?? "",
+        status: ex.status as "draft" | "published" | "hidden",
+        tags: ex.tags ?? [],
       });
       setAudio((au ?? []) as { id: string; title: string }[]);
     })();

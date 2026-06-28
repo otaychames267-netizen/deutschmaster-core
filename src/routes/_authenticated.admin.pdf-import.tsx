@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/admin/pdf-import")({
 
 interface PdfImport {
   id: string;
-  filename: string;
+  filename: string | null;
   status: string;
   detected_level: string | null;
   detected_module: string | null;
@@ -52,8 +52,8 @@ function PdfImportPage() {
       toast.error("Only PDF files are accepted.");
       return;
     }
-    if (file.size > 50 * 1024 * 1024) {
-      toast.error("File size must be under 50 MB.");
+    if (file.size > 500 * 1024 * 1024) {
+      toast.error("File size must be under 500 MB.");
       return;
     }
 
@@ -109,7 +109,7 @@ function PdfImportPage() {
           <Upload className="h-6 w-6 text-primary" />
         </div>
         <p className="text-sm font-medium text-foreground">Upload a TELC exam PDF</p>
-        <p className="mt-1 text-xs text-muted-foreground">PDF files only · Max 50 MB</p>
+        <p className="mt-1 text-xs text-muted-foreground">PDF files only · Max 500 MB</p>
         <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
           {uploading && <Loader2 className="h-4 w-4 animate-spin" />}
           {uploading ? "Uploading…" : "Choose PDF"}

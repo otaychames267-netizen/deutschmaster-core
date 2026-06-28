@@ -106,7 +106,7 @@ function WeeklyGoalsPage() {
         .maybeSingle();
 
       if (existing) {
-        setGoal(existing as WeeklyGoal);
+        setGoal(existing as unknown as WeeklyGoal);
       } else {
         const { data: created } = await supabase
           .from("weekly_goals")
@@ -123,7 +123,7 @@ function WeeklyGoalsPage() {
           })
           .select()
           .single();
-        if (created) setGoal(created as WeeklyGoal);
+        if (created) setGoal(created as unknown as WeeklyGoal);
       }
 
       // Fetch past goals
@@ -134,7 +134,7 @@ function WeeklyGoalsPage() {
         .neq("week_start", weekStart)
         .order("week_start", { ascending: false })
         .limit(5);
-      setPast((history as WeeklyGoal[]) ?? []);
+      setPast((history as unknown as WeeklyGoal[]) ?? []);
       setLoading(false);
     })();
   }, [user?.id]);
@@ -143,7 +143,10 @@ function WeeklyGoalsPage() {
     if (!goal || !user) return;
     const updated = { ...goal, [field]: value };
     setGoal(updated);
-    const { error } = await supabase.from("weekly_goals").update({ [field]: value }).eq("id", goal.id);
+    const patch = field === "exercises_target" ? { exercises_target: value }
+      : field === "simulations_target" ? { simulations_target: value }
+      : { study_hours_target: value };
+    const { error } = await supabase.from("weekly_goals").update(patch).eq("id", goal.id);
     if (error) toast.error("Failed to update goal.");
     else toast.success("Goal updated.");
   }

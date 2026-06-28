@@ -61,6 +61,7 @@ do $$ begin
   if not exists (select 1 from pg_type where typname = 'plan_code') then
     create type public.plan_code as enum ('schriftlich', 'muendlich', 'komplett');
   end if;
+  -- Note: 'komplett' value added via 20260623999999_add_komplett_plan.sql if enum pre-existed
 end $$;
 
 do $$ begin
@@ -75,22 +76,38 @@ do $$ begin
   end if;
 end $$;
 
-create type public.exam_module   as enum ('schriftlich', 'muendlich');
-create type public.exam_section  as enum ('lesen', 'hoeren', 'sprachbausteine', 'schreiben', 'muendlich');
-create type public.exam_teil     as enum ('teil_1', 'teil_2', 'teil_3');
-create type public.exam_type     as enum ('vorbereitung', 'simulation');
-create type public.exam_status   as enum ('draft', 'published', 'archived');
-create type public.item_kind     as enum (
-  'heading_match',   -- Lesen Teil 1: heading → text matching
-  'passage_mcq',     -- Lesen Teil 2: read → A/B/C
-  'situation_match', -- Lesen Teil 3: situation → info text
-  'gap_fill',        -- Sprachbausteine: fill in the blank
-  'listening_mcq',   -- Hören: A/B/C after audio
-  'writing_prompt',  -- Schreiben: open response prompt
-  'speaking_prompt'  -- Mündlich: speaking card
-);
-create type public.import_status as enum ('pending', 'processing', 'needs_review', 'approved', 'failed');
-create type public.referral_status as enum ('pending', 'converted', 'rejected');
+do $$ begin
+  create type public.exam_module as enum ('schriftlich', 'muendlich');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.exam_section as enum ('lesen', 'hoeren', 'sprachbausteine', 'schreiben', 'muendlich');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.exam_teil as enum ('teil_1', 'teil_2', 'teil_3');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.exam_type as enum ('vorbereitung', 'simulation');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.exam_pub_status as enum ('draft', 'published', 'archived');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.item_kind as enum (
+    'heading_match',
+    'passage_mcq',
+    'situation_match',
+    'gap_fill',
+    'listening_mcq',
+    'writing_prompt',
+    'speaking_prompt'
+  );
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.import_status as enum ('pending', 'processing', 'needs_review', 'approved', 'failed');
+exception when duplicate_object then null; end $$;
+do $$ begin
+  create type public.referral_status as enum ('pending', 'converted', 'rejected');
+exception when duplicate_object then null; end $$;
 
 -- ============================================================
 -- PROFILES
@@ -272,7 +289,7 @@ create table public.exams (
   section         public.exam_section,             -- null for simulation
   teil            public.exam_teil,                -- null for full-simulation or schreiben
   exam_type       public.exam_type   not null,
-  status          public.exam_status not null default 'draft',
+  status          public.exam_pub_status not null default 'draft',
   source_pdf_id   uuid,                            -- link to pdf_imports
   display_order   int not null default 0,
   metadata        jsonb not null default '{}',     -- flexible per-section config
@@ -534,5 +551,6 @@ create index on public.payment_history(user_id);
 grant select on public.payment_history to authenticated;
 grant all on public.payment_history to service_role;
 alter table public.payment_history enable row level security;
+drop policy if exists "payments_own" on public.payment_history;
 create policy "payments_own" on public.payment_history for select to authenticated
   using (user_id = auth.uid() or public.has_role(auth.uid(), 'admin'));

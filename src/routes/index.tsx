@@ -22,8 +22,8 @@ const PLANS = [
   {
     key: "schriftlich",
     name: "Schriftlich",
-    price: "€6",
-    period: "/mo",
+    price: "25",
+    period: " TND",
     desc: "Master all written exam components",
     features: [
       "Lesen — Teil 1, 2, 3",
@@ -33,12 +33,13 @@ const PLANS = [
     ],
     highlighted: false,
     badge: null,
+    save: null,
   },
   {
     key: "komplett",
     name: "Komplett",
-    price: "€12",
-    period: "/mo",
+    price: "60",
+    period: " TND",
     desc: "Complete preparation for both written and spoken",
     features: [
       "Everything in Schriftlich",
@@ -48,13 +49,14 @@ const PLANS = [
       "Progress analytics",
     ],
     highlighted: true,
-    badge: "Most popular",
+    badge: "Best Value",
+    save: "Save 10 TND vs. buying both separately",
   },
   {
     key: "muendlich",
     name: "Mündlich",
-    price: "€6",
-    period: "/mo",
+    price: "45",
+    period: " TND",
     desc: "Perfect your speaking and oral skills",
     features: [
       "Präsentation practice",
@@ -64,6 +66,7 @@ const PLANS = [
     ],
     highlighted: false,
     badge: null,
+    save: null,
   },
 ];
 
@@ -559,6 +562,11 @@ function Pricing() {
                 <p className={`mt-2 text-xs leading-relaxed ${plan.highlighted ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                   {plan.desc}
                 </p>
+                {plan.save && (
+                  <p className="mt-3 inline-flex items-center gap-1 rounded-md bg-white/15 px-2 py-1 text-xs font-semibold text-primary-foreground">
+                    <Star className="h-3 w-3 fill-current" /> {plan.save}
+                  </p>
+                )}
               </div>
 
               <ul className="mb-7 flex-1 space-y-2.5">

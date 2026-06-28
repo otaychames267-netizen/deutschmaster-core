@@ -51,7 +51,7 @@ export function ExerciseSession({
     listRef.current({ data: { level, module, teil } })
       .then((r) => {
         if (cancel) return;
-        let all = r.exercises as ExerciseDTO[];
+        let all = r.exercises as unknown as ExerciseDTO[];
         if (typeof passageIndex === "number") {
           // Filter down to the single passage-group the library opened.
           const grp = groupByPassage(all)[passageIndex];

@@ -1,0 +1,6 @@
+# PDFs are private exam material — never commit
+*.pdf
+*.PDF
+
+# Generated reports are local artifacts
+reports/

@@ -271,7 +271,7 @@ function SchriftlichPruefungPage() {
           let q = supabase
             .from("exams")
             .select("id, title, section, teil")
-            .eq("level", level as UserLevel)
+            .eq("level", level as NonNullable<UserLevel>)
             .eq("module", "schriftlich")
             .eq("section", section.key)
             .eq("exam_type", "vorbereitung")

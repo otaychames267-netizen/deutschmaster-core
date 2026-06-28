@@ -1224,7 +1224,6 @@ export const startPdfExtraction = createServerFn({ method: "POST" })
       .update({
         status: "extracting",
         error_message: null,
-        notes: resume ? null : null,
         extraction_started_at: new Date().toISOString(),
       })
       .eq("id", data.importId);
@@ -1295,7 +1294,7 @@ export const extractPdfChunk = createServerFn({ method: "POST" })
         apiKey,
         supabase: context.supabase,
         importId: data.importId,
-        kind: imp.kind,
+        kind: imp.kind ?? "exam",
         chunkIndex: data.chunkIndex,
         totalChunks,
         startPage: startIdx + 1,
@@ -2092,9 +2091,6 @@ export const publishExercise = createServerFn({ method: "POST" })
 /**
  * Regrade every attempt for an exercise against the latest answer key.
  */
-export const regradeExercise = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: { exerciseId: string }) => d);
 export const regradeExercise = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { exerciseId: string }) => d)

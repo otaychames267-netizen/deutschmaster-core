@@ -53,13 +53,13 @@ export function ExamList({
       let q = supabase
         .from("exams")
         .select("id, title, display_order, metadata, status")
-        .eq("level", level as UserLevel)
-        .eq("section", section)
-        .eq("exam_type", examType)
+        .eq("level", level as NonNullable<UserLevel>)
+        .eq("section", section as "muendlich" | "lesen" | "hoeren" | "sprachbausteine" | "schreiben")
+        .eq("exam_type", examType as "vorbereitung" | "simulation")
         .eq("status", "published")
         .order("display_order", { ascending: true });
 
-      if (teil) q = q.eq("teil", teil);
+      if (teil) q = q.eq("teil", teil as "teil_1" | "teil_2" | "teil_3");
 
       const { data } = await q;
       setExams((data as Exam[]) ?? []);

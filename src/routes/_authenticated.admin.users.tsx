@@ -72,7 +72,7 @@ function AdminUsersPage() {
       query = query.ilike("full_name", `%${search.trim()}%`);
     }
     if (filterLevel !== "all") {
-      query = query.eq("level", filterLevel);
+      query = query.eq("level", filterLevel as "TELC_B1" | "TELC_B2");
     }
 
     const { data, count } = await query;

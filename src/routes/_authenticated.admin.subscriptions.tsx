@@ -57,7 +57,7 @@ function AdminSubscriptionsPage() {
       .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
 
     if (filterStatus !== "all") {
-      query = query.eq("status", filterStatus);
+      query = query.eq("status", filterStatus as "expired" | "trial" | "active" | "cancelled" | "suspended");
     }
 
     const { data, count } = await query;

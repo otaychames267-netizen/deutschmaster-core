@@ -5,6 +5,21 @@ import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 export default defineConfig({
+  server: {
+    port: 5174,
+    strictPort: true,
+    warmup: {
+      ssrFiles: [
+        "./src/server.ts",
+        "./src/lib/error-page.ts",
+        "./src/lib/error-capture.ts",
+      ],
+      clientFiles: [
+        "./src/router.tsx",
+        "./src/start.ts",
+      ],
+    },
+  },
   plugins: [
     tailwindcss(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),

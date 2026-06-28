@@ -1,0 +1,729 @@
+{
+  "1": {
+    "page": 1,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [
+      10
+    ],
+    "signals": [
+      "prose:3424"
+    ]
+  },
+  "2": {
+    "page": 2,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "qnums:5"
+    ]
+  },
+  "3": {
+    "page": 3,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [
+      10
+    ],
+    "signals": [
+      "prose:3441"
+    ]
+  },
+  "4": {
+    "page": 4,
+    "role": "questions",
+    "confidence": 89,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "5": {
+    "page": 5,
+    "role": "article",
+    "confidence": 91,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2925"
+    ]
+  },
+  "6": {
+    "page": 6,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:821"
+    ]
+  },
+  "7": {
+    "page": 7,
+    "role": "article",
+    "confidence": 90,
+    "questionNumbers": [
+      7
+    ],
+    "signals": [
+      "prose:2924"
+    ]
+  },
+  "8": {
+    "page": 8,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:862"
+    ]
+  },
+  "9": {
+    "page": 9,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3456"
+    ]
+  },
+  "10": {
+    "page": 10,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:666"
+    ]
+  },
+  "11": {
+    "page": 11,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3455"
+    ]
+  },
+  "12": {
+    "page": 12,
+    "role": "questions",
+    "confidence": 89,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:709"
+    ]
+  },
+  "13": {
+    "page": 13,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3455"
+    ]
+  },
+  "14": {
+    "page": 14,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:713"
+    ]
+  },
+  "15": {
+    "page": 15,
+    "role": "article",
+    "confidence": 91,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4284"
+    ]
+  },
+  "16": {
+    "page": 16,
+    "role": "questions",
+    "confidence": 85,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:739"
+    ]
+  },
+  "17": {
+    "page": 17,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3853"
+    ]
+  },
+  "18": {
+    "page": 18,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "19": {
+    "page": 19,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4226"
+    ]
+  },
+  "20": {
+    "page": 20,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:926"
+    ]
+  },
+  "21": {
+    "page": 21,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2880"
+    ]
+  },
+  "22": {
+    "page": 22,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:829"
+    ]
+  },
+  "23": {
+    "page": 23,
+    "role": "article",
+    "confidence": 90,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2891"
+    ]
+  },
+  "24": {
+    "page": 24,
+    "role": "questions",
+    "confidence": 85,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:943"
+    ]
+  },
+  "25": {
+    "page": 25,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2880"
+    ]
+  },
+  "26": {
+    "page": 26,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:869"
+    ]
+  },
+  "27": {
+    "page": 27,
+    "role": "article",
+    "confidence": 90,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2891"
+    ]
+  },
+  "28": {
+    "page": 28,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:866"
+    ]
+  },
+  "29": {
+    "page": 29,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4491"
+    ]
+  },
+  "30": {
+    "page": 30,
+    "role": "questions",
+    "confidence": 82,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:756"
+    ]
+  },
+  "31": {
+    "page": 31,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4369"
+    ]
+  },
+  "32": {
+    "page": 32,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [
+      3
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:612"
+    ]
+  },
+  "33": {
+    "page": 33,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4060"
+    ]
+  },
+  "34": {
+    "page": 34,
+    "role": "questions",
+    "confidence": 90,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:777"
+    ]
+  },
+  "35": {
+    "page": 35,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4466"
+    ]
+  },
+  "36": {
+    "page": 36,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [
+      7
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "37": {
+    "page": 37,
+    "role": "article",
+    "confidence": 91,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4465"
+    ]
+  },
+  "38": {
+    "page": 38,
+    "role": "questions",
+    "confidence": 85,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "39": {
+    "page": 39,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [
+      1
+    ],
+    "signals": [
+      "prose:3716"
+    ]
+  },
+  "40": {
+    "page": 40,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "41": {
+    "page": 41,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3221"
+    ]
+  },
+  "42": {
+    "page": 42,
+    "role": "questions",
+    "confidence": 84,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:921"
+    ]
+  },
+  "43": {
+    "page": 43,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3221"
+    ]
+  },
+  "44": {
+    "page": 44,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:852"
+    ]
+  },
+  "45": {
+    "page": 45,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4438"
+    ]
+  },
+  "46": {
+    "page": 46,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:839"
+    ]
+  },
+  "47": {
+    "page": 47,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4420"
+    ]
+  },
+  "48": {
+    "page": 48,
+    "role": "questions",
+    "confidence": 84,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:628"
+    ]
+  },
+  "49": {
+    "page": 49,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4419"
+    ]
+  },
+  "50": {
+    "page": 50,
+    "role": "questions",
+    "confidence": 84,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "51": {
+    "page": 51,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3840"
+    ]
+  },
+  "52": {
+    "page": 52,
+    "role": "questions",
+    "confidence": 90,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:885"
+    ]
+  },
+  "53": {
+    "page": 53,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3840"
+    ]
+  },
+  "54": {
+    "page": 54,
+    "role": "questions",
+    "confidence": 91,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "prose:1198"
+    ]
+  },
+  "55": {
+    "page": 55,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:5085"
+    ]
+  },
+  "56": {
+    "page": 56,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:741"
+    ]
+  },
+  "57": {
+    "page": 57,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4058"
+    ]
+  },
+  "58": {
+    "page": 58,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:781"
+    ]
+  },
+  "59": {
+    "page": 59,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3886"
+    ]
+  },
+  "60": {
+    "page": 60,
+    "role": "questions",
+    "confidence": 83,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15"
+    ]
+  },
+  "61": {
+    "page": 61,
+    "role": "article",
+    "confidence": 91,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4005"
+    ]
+  },
+  "62": {
+    "page": 62,
+    "role": "questions",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:644"
+    ]
+  },
+  "63": {
+    "page": 63,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3648"
+    ]
+  },
+  "64": {
+    "page": 64,
+    "role": "questions",
+    "confidence": 90,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:732"
+    ]
+  },
+  "65": {
+    "page": 65,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4795"
+    ]
+  },
+  "66": {
+    "page": 66,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "prose:1028"
+    ]
+  },
+  "67": {
+    "page": 67,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2323"
+    ]
+  },
+  "68": {
+    "page": 68,
+    "role": "questions",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "options:15",
+      "prose:753"
+    ]
+  },
+  "69": {
+    "page": 69,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2281"
+    ]
+  },
+  "70": {
+    "page": 70,
+    "role": "questions",
+    "confidence": 88,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "prose:1083"
+    ]
+  },
+  "71": {
+    "page": 71,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:5400"
+    ]
+  },
+  "72": {
+    "page": 72,
+    "role": "questions",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "aufgaben-instr",
+      "prose:1036"
+    ]
+  }
+}

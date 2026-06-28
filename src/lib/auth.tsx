@@ -87,14 +87,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     supabase.auth.getSession().then(({ data: { session: sess } }) => {
       if (mounted) apply("INIT", sess);
+    }).catch(() => {
+      // getSession failed — don't hang the app; resolve loading so the gate can redirect.
+      if (mounted && loadingRef.current) { setLoading(false); loadingRef.current = false; }
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, sess) => {
       if (mounted) apply(event, sess);
     });
 
+    // Safety net: never let the app hang on the loading screen forever if the auth
+    // check stalls (slow network, storage/lock issue). onAuthStateChange will still
+    // update state later and self-heal if a session does resolve.
+    const safety = setTimeout(() => {
+      if (mounted && loadingRef.current) { setLoading(false); loadingRef.current = false; }
+    }, 8000);
+
     return () => {
       mounted = false;
+      clearTimeout(safety);
       subscription.unsubscribe();
     };
   }, []);

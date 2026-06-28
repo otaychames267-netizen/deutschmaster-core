@@ -1,0 +1,340 @@
+{
+  "1": {
+    "page": 1,
+    "role": "article",
+    "confidence": 86,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3174"
+    ]
+  },
+  "2": {
+    "page": 2,
+    "role": "other",
+    "confidence": 92,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "qnums:5",
+      "prose:672"
+    ]
+  },
+  "3": {
+    "page": 3,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4405"
+    ]
+  },
+  "4": {
+    "page": 4,
+    "role": "article",
+    "confidence": 91,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:5",
+      "prose:827"
+    ]
+  },
+  "5": {
+    "page": 5,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4406"
+    ]
+  },
+  "6": {
+    "page": 6,
+    "role": "other",
+    "confidence": 91,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "qnums:5",
+      "prose:652"
+    ]
+  },
+  "7": {
+    "page": 7,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3972"
+    ]
+  },
+  "8": {
+    "page": 8,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [
+      6,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:4",
+      "prose:898"
+    ]
+  },
+  "9": {
+    "page": 9,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4010"
+    ]
+  },
+  "10": {
+    "page": 10,
+    "role": "other",
+    "confidence": 92,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:5",
+      "prose:634"
+    ]
+  },
+  "11": {
+    "page": 11,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4011"
+    ]
+  },
+  "12": {
+    "page": 12,
+    "role": "other",
+    "confidence": 89,
+    "questionNumbers": [
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "qnums:4"
+    ]
+  },
+  "13": {
+    "page": 13,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2517"
+    ]
+  },
+  "14": {
+    "page": 14,
+    "role": "other",
+    "confidence": 91,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:5",
+      "prose:649"
+    ]
+  },
+  "15": {
+    "page": 15,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3700"
+    ]
+  },
+  "16": {
+    "page": 16,
+    "role": "article",
+    "confidence": 92,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:5",
+      "prose:885"
+    ]
+  },
+  "17": {
+    "page": 17,
+    "role": "article",
+    "confidence": 60,
+    "questionNumbers": [],
+    "signals": [
+      "prose:2893"
+    ]
+  },
+  "18": {
+    "page": 18,
+    "role": "other",
+    "confidence": 89,
+    "questionNumbers": [],
+    "signals": [
+      "prose:644"
+    ]
+  },
+  "19": {
+    "page": 19,
+    "role": "article",
+    "confidence": 67,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4842"
+    ]
+  },
+  "20": {
+    "page": 20,
+    "role": "other",
+    "confidence": 86,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:5"
+    ]
+  },
+  "21": {
+    "page": 21,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3638"
+    ]
+  },
+  "22": {
+    "page": 22,
+    "role": "other",
+    "confidence": 88,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "qnums:5",
+      "prose:616"
+    ]
+  },
+  "23": {
+    "page": 23,
+    "role": "article",
+    "confidence": 87,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4183"
+    ]
+  },
+  "24": {
+    "page": 24,
+    "role": "other",
+    "confidence": 91,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "aufgaben-instr",
+      "qnums:5",
+      "prose:616"
+    ]
+  },
+  "25": {
+    "page": 25,
+    "role": "article",
+    "confidence": 94,
+    "questionNumbers": [],
+    "signals": [
+      "prose:3019"
+    ]
+  },
+  "26": {
+    "page": 26,
+    "role": "other",
+    "confidence": 90,
+    "questionNumbers": [
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "signals": [
+      "qnums:5"
+    ]
+  },
+  "27": {
+    "page": 27,
+    "role": "article",
+    "confidence": 95,
+    "questionNumbers": [],
+    "signals": [
+      "prose:4492"
+    ]
+  },
+  "28": {
+    "page": 28,
+    "role": "article",
+    "confidence": 93,
+    "questionNumbers": [],
+    "signals": [
+      "prose:1122"
+    ]
+  }
+}
