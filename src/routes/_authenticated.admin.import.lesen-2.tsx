@@ -97,7 +97,7 @@ function QuestionEditor({
                   className="flex-1 rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 <div className="flex flex-col items-end gap-0.5">
                   <select value={q.correct}
-                    onChange={(e) => update(i, { correct: e.target.value as Correct, answerSource: null })}
+                    onChange={(e) => update(i, { correct: e.target.value as Correct, answerSource: "manual" })}
                     className={`w-16 rounded-xl border px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 ${
                       needsManual
                         ? "border-amber-500/40 bg-amber-500/5 text-amber-700 dark:text-amber-300"
@@ -137,6 +137,23 @@ function QuestionEditor({
   );
 }
 
+// ── Review gate (Spec §21/§25): block import of incomplete/unconfirmed data ──
+// An answer is "unconfirmed" when extraction never detected it (answerSource
+// "not-found"/null) and the admin has not yet explicitly picked one — we must
+// never import an invented answer key.
+function validateExercise(qs: LocalQuestion[]): string[] {
+  const issues: string[] = [];
+  if (qs.length !== 5) issues.push(`${qs.length} von 5 Fragen erkannt`);
+  qs.forEach((q, i) => {
+    const n = q.number || i + 1;
+    if (!q.question.trim()) issues.push(`Frage ${n}: Fragetext fehlt`);
+    if (!q.option_a.trim() || !q.option_b.trim() || !q.option_c.trim()) issues.push(`Frage ${n}: leere Option`);
+    if (!["a", "b", "c"].includes(q.correct)) issues.push(`Frage ${n}: ungültige Lösung`);
+    if (q.answerSource === "not-found" || q.answerSource === null) issues.push(`Frage ${n}: Lösung nicht erkannt — bitte manuell bestätigen`);
+  });
+  return issues;
+}
+
 // ── Main page ─────────────────────────────────────────────────────────────────
 
 function ImportLesenT2Page() {
@@ -155,6 +172,7 @@ function ImportLesenT2Page() {
   const [progress,    setProgress]    = useState(0);
   const [progressLabel, setProgressLabel] = useState("");
   const [isOcr,       setIsOcr]       = useState(false);
+  const [sourcePdf,   setSourcePdf]   = useState("");
   const fileRef   = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver]       = useState(false);
 
@@ -193,9 +211,12 @@ function ImportLesenT2Page() {
       setProgress(100);
       setParsed(result);
 
-      const baseName = file.name.replace(/\.pdf$/i, "");
-      setTitle1(baseName);
-      setTitle2(baseName + " (Version 2)");
+      // §17: titles must come from the printed PDF, never the filename. The
+      // parser does not extract a printed title, so leave it empty for the
+      // admin to enter; duplicates are auto-numbered server-side on import.
+      setSourcePdf(file.name);
+      setTitle1("");
+      setTitle2("");
       setPassage(result.passage);
       setQuestions1(toLocalQuestions(result.exercise1.questions));
       setQuestions2(result.exercise2 ? toLocalQuestions(result.exercise2.questions) : []);
@@ -217,61 +238,62 @@ function ImportLesenT2Page() {
 
   async function handleSave() {
     if (!user || !parsed) return;
+    const isTwoExercises = parsed.blockRelation === "two-exercises";
+
+    // Final client-side gate (the RPC re-validates server-side as well).
+    const issues = [
+      ...(passage.trim().length === 0 ? ["Lesetext fehlt"] : []),
+      ...validateExercise(questions1),
+      ...(isTwoExercises ? validateExercise(questions2) : []),
+    ];
+    if (issues.length > 0) {
+      toast.error("Import blockiert — bitte fehlende Angaben ergänzen.");
+      return;
+    }
+
     setStep("saving");
     try {
-      const isTwoExercises = parsed.blockRelation === "two-exercises";
+      const toPayload = (qs: LocalQuestion[]) =>
+        qs.map((q) => ({
+          number: q.number, question: q.question,
+          option_a: q.option_a, option_b: q.option_b, option_c: q.option_c,
+          correct: q.correct,
+        }));
 
-      // ── Save exercise 1 ──────────────────────────────────────────────────
-      const { data: ex1, error: ex1Err } = await supabase
-        .from("lesen_exercises")
-        .insert({ title: title1, teil: 2 as 2, created_by: user.id })
-        .select("id").single();
-      if (ex1Err || !ex1) throw ex1Err ?? new Error("Insert exercise 1 failed");
+      // Each exercise is inserted atomically (exercise + passage + questions)
+      // by a single SECURITY DEFINER RPC — no orphaned rows on failure (§28).
+      const savedTitles: string[] = [];
 
-      const { error: passErr } = await supabase
-        .from("lesen_t2_passages")
-        .insert({ exercise_id: ex1.id, title: title1, instructions: "", passage });
-      if (passErr) throw passErr;
+      const { data: r1, error: e1 } = await (supabase as any).rpc("import_lesen_t2_exercise", {
+        p_title:      title1,
+        p_passage:    passage,
+        p_questions:  toPayload(questions1),
+        p_source_pdf: sourcePdf || null,
+      });
+      if (e1) throw e1;
+      savedTitles.push((r1?.title as string) || title1 || "(ohne Titel)");
 
-      if (questions1.length > 0) {
-        const { error: q1Err } = await supabase
-          .from("lesen_t2_questions")
-          .insert(questions1.map((q) => ({
-            exercise_id: ex1.id, number: q.number as number, question: q.question,
-            option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, correct: q.correct as "a" | "b" | "c",
-          })));
-        if (q1Err) throw q1Err;
-      }
-
-      // ── Save exercise 2 (if two-exercises mode) ──────────────────────────
       if (isTwoExercises && questions2.length > 0) {
-        const { data: ex2, error: ex2Err } = await supabase
-          .from("lesen_exercises")
-          .insert({ title: title2, teil: 2 as 2, created_by: user.id })
-          .select("id").single();
-        if (ex2Err || !ex2) throw ex2Err ?? new Error("Insert exercise 2 failed");
-
-        // Passage is shared — store the same text again referencing exercise 2
-        const { error: pass2Err } = await supabase
-          .from("lesen_t2_passages")
-          .insert({ exercise_id: ex2.id, title: title2, instructions: "", passage });
-        if (pass2Err) throw pass2Err;
-
-        const { error: q2Err } = await supabase
-          .from("lesen_t2_questions")
-          .insert(questions2.map((q) => ({
-            exercise_id: ex2.id, number: q.number as number, question: q.question,
-            option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, correct: q.correct as "a" | "b" | "c",
-          })));
-        if (q2Err) throw q2Err;
+        // Same printed title is fine — duplicates are auto-numbered server-side.
+        const { data: r2, error: e2 } = await (supabase as any).rpc("import_lesen_t2_exercise", {
+          p_title:      title2,
+          p_passage:    passage,
+          p_questions:  toPayload(questions2),
+          p_source_pdf: sourcePdf || null,
+        });
+        if (e2) throw e2;
+        savedTitles.push((r2?.title as string) || title2 || "(ohne Titel)");
       }
 
       setStep("done");
-      toast.success(isTwoExercises
-        ? `2 exercises imported: "${title1}" and "${title2}".`
-        : `"${title1}" imported successfully.`);
+      toast.success(savedTitles.length > 1
+        ? `2 Übungen importiert: ${savedTitles.map((t) => `"${t}"`).join(" und ")}.`
+        : `"${savedTitles[0]}" erfolgreich importiert.`);
     } catch (err) {
-      console.error(err); toast.error("Save failed."); setStep("review");
+      const message = err instanceof Error ? err.message : "Unbekannter Fehler";
+      console.error(err);
+      toast.error(`Import fehlgeschlagen: ${message}`);
+      setStep("review");
     }
   }
 
@@ -279,12 +301,19 @@ function ImportLesenT2Page() {
     setStep("upload"); setParsed(null); setReport(null);
     setTitle1(""); setTitle2(""); setPassage("");
     setQuestions1([]); setQuestions2([]);
-    setShowDiag(false); setShowReport(false); setIsOcr(false);
+    setShowDiag(false); setShowReport(false); setIsOcr(false); setSourcePdf("");
     if (fileRef.current) fileRef.current.value = "";
   }
 
   const isTwoExercises = parsed?.blockRelation === "two-exercises";
   const unanswered1    = questions1.filter(q => q.answerSource === "not-found" || q.answerSource === null).length;
+
+  // Review gate (§21/§25)
+  const passageOk  = passage.trim().length > 0;
+  const ex1Issues  = validateExercise(questions1);
+  const ex2Issues  = isTwoExercises ? validateExercise(questions2) : [];
+  const gateIssues = [...(passageOk ? [] : ["Lesetext fehlt"]), ...ex1Issues.map(s => isTwoExercises ? `Übung 1 — ${s}` : s), ...ex2Issues.map(s => `Übung 2 — ${s}`)];
+  const canSave    = gateIssues.length === 0;
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-10">
@@ -596,17 +625,35 @@ function ImportLesenT2Page() {
             </div>
           )}
 
+          {/* Review gate */}
+          <div className={`rounded-2xl border p-4 ${canSave ? "border-emerald-500/30 bg-emerald-500/5" : "border-amber-500/30 bg-amber-500/5"}`}>
+            <div className="flex items-start gap-3">
+              {canSave
+                ? <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-500 mt-0.5" />
+                : <AlertCircle  className="h-5 w-5 shrink-0 text-amber-500 mt-0.5" />}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-bold text-foreground">
+                  {canSave ? "Bereit zum Import — alle Pflichtangaben vollständig." : "Import blockiert — bitte korrigieren:"}
+                </p>
+                {!canSave && (
+                  <ul className="mt-1.5 space-y-1 text-xs text-amber-700 dark:text-amber-300 list-disc list-inside">
+                    {gateIssues.map((issue, i) => <li key={i}>{issue}</li>)}
+                  </ul>
+                )}
+                <p className="mt-1.5 text-[11px] text-muted-foreground">
+                  Titel ist optional (kann leer bleiben und später im Admin-Panel gesetzt werden).
+                  {isTwoExercises && " Beide Übungen teilen sich denselben Lesetext."}
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Save */}
-          <div className="flex items-center justify-between">
-            <p className="text-xs text-muted-foreground">
-              {isTwoExercises
-                ? "Review both exercises above, then confirm import. Both will share the same reading passage."
-                : "Review all data above, then confirm import."}
-            </p>
-            <button onClick={handleSave}
-              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors">
+          <div className="flex items-center justify-end">
+            <button onClick={handleSave} disabled={!canSave}
+              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
               <Save className="h-4 w-4" />
-              {isTwoExercises ? "Import 2 exercises" : "Confirm import"}
+              {isTwoExercises ? "2 Übungen importieren" : "Import bestätigen"}
             </button>
           </div>
         </div>
