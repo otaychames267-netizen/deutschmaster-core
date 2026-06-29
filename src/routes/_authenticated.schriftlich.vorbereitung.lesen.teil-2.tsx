@@ -105,7 +105,7 @@ function LesenTeil2Page() {
   // ── Detail view ────────────────────────────────────────────────────────────
   if (selected) {
     return (
-      <div className="mx-auto max-w-4xl pb-10">
+      <div className="mx-auto max-w-6xl pb-10">
         <button onClick={backToList}
           className="mb-5 flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all">
           <ArrowLeft className="h-4 w-4" /> Zurück zur Übersicht
