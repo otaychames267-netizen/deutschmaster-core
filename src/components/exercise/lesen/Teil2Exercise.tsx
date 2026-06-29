@@ -150,14 +150,16 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
         if (answers[q.number]?.selected) payload[String(q.number)] = answers[q.number].selected!;
       }
 
-      const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
+      // Scores server-side from the official key AND records the attempt
+      // (durable per-user history) in one atomic, non-forgeable call.
+      const { data, error } = await (supabase as any).rpc("score_and_save_lesen_t2", {
         p_exercise_id: exercise.id,
         p_answers:     payload,
       });
 
       if (error) throw error;
 
-      const res = data as unknown as { score: number; total: number; results: ScoreResult[] };
+      const res = data as unknown as { score: number; total: number; results: ScoreResult[]; attempt_id: string };
       setScoreResults(res.results);
       setScoreCount(res.score);
       setScoreTotal(res.total);
