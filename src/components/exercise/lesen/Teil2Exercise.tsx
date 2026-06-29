@@ -5,10 +5,17 @@
  * After submission, answers are scored server-side via supabase.rpc("score_lesen_t2").
  * The server returns per-question correctness; correct letters are revealed only
  * when the student clicks "Lösung zeigen" — and only after submission.
+ *
+ * Resilience (Engineering Spec §23, §30):
+ *  - In-progress answers + graded results autosave to localStorage and are
+ *    restored after a refresh or a closed browser (resume).
+ *  - Scoring failures surface a retryable error instead of silently "submitting".
  */
-import { useState } from "react";
-import { CheckCircle2, XCircle, BookOpen, Loader2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { CheckCircle2, XCircle, BookOpen, Loader2, AlertCircle, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
+import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
 
 export interface T2Question {
   number: number;
@@ -39,6 +46,17 @@ interface Props {
 
 type AnswerState = { selected: "a" | "b" | "c" | null; revealed: boolean };
 
+/** Shape persisted to localStorage for resume-after-refresh. */
+interface PersistedAttempt {
+  exerciseId: string;
+  answers: Record<number, AnswerState>;
+  submitted: boolean;
+  scoreResults: ScoreResult[] | null;
+  scoreCount: number;
+  scoreTotal: number;
+  updatedAt: number;
+}
+
 function isRichtigFalsch(q: T2Question): boolean {
   const a = q.option_a.toLowerCase().trim();
   const b = q.option_b.toLowerCase().trim();
@@ -46,14 +64,62 @@ function isRichtigFalsch(q: T2Question): boolean {
 }
 
 export function Teil2Exercise({ exercise, onComplete }: Props) {
-  const [answers, setAnswers]     = useState<Record<number, AnswerState>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [scoring, setScoring]     = useState(false);
+  const { user, loading: authLoading } = useAuth();
+
+  const [answers, setAnswers]           = useState<Record<number, AnswerState>>({});
+  const [submitted, setSubmitted]       = useState(false);
+  const [scoring, setScoring]           = useState(false);
+  const [scoreError, setScoreError]     = useState<string | null>(null);
   const [scoreResults, setScoreResults] = useState<ScoreResult[] | null>(null);
   const [scoreTotal, setScoreTotal]     = useState(0);
   const [scoreCount, setScoreCount]     = useState(0);
+  const [restored, setRestored]         = useState(false);
 
-  const questions = [...exercise.questions].sort((a, b) => a.number - b.number);
+  const hydratedRef = useRef(false);
+
+  const storageKey = useMemo(
+    () => attemptKey(["lesen.t2", user?.id ?? "anon", exercise.id]),
+    [user?.id, exercise.id],
+  );
+
+  const questions = useMemo(
+    () => [...exercise.questions].sort((a, b) => a.number - b.number),
+    [exercise.questions],
+  );
+
+  // ── Resume: hydrate saved attempt once auth has resolved (so the key is stable) ──
+  useEffect(() => {
+    if (hydratedRef.current || authLoading) return;
+    const saved = loadAttempt<PersistedAttempt>(storageKey);
+    if (saved && saved.exerciseId === exercise.id) {
+      setAnswers(saved.answers ?? {});
+      setSubmitted(!!saved.submitted);
+      setScoreResults(saved.scoreResults ?? null);
+      setScoreCount(saved.scoreCount ?? 0);
+      setScoreTotal(saved.scoreTotal ?? 0);
+      if (saved.submitted || Object.keys(saved.answers ?? {}).length > 0) setRestored(true);
+    }
+    hydratedRef.current = true;
+  }, [authLoading, storageKey, exercise.id]);
+
+  // ── Autosave: persist whenever meaningful state changes (after hydration) ──
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const hasProgress = submitted || Object.keys(answers).length > 0;
+    if (!hasProgress) {
+      clearAttempt(storageKey);
+      return;
+    }
+    saveAttempt<PersistedAttempt>(storageKey, {
+      exerciseId: exercise.id,
+      answers,
+      submitted,
+      scoreResults,
+      scoreCount,
+      scoreTotal,
+      updatedAt: Date.now(),
+    });
+  }, [answers, submitted, scoreResults, scoreCount, scoreTotal, storageKey, exercise.id]);
 
   function select(num: number, choice: "a" | "b" | "c") {
     if (submitted) return;
@@ -66,8 +132,9 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
 
   async function handleSubmit() {
     setScoring(true);
+    setScoreError(null);
     try {
-      // Build answers payload { "1": "a", "2": "b", ... }
+      // Build answers payload { "6": "a", "7": "b", ... } keyed by question number
       const payload: Record<string, string> = {};
       for (const q of questions) {
         if (answers[q.number]?.selected) payload[String(q.number)] = answers[q.number].selected!;
@@ -85,11 +152,12 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
       setScoreCount(res.score);
       setScoreTotal(res.total);
       setSubmitted(true);
+      setRestored(false);
       onComplete?.(res.score, res.total);
     } catch (e) {
+      // No silent failures: keep the student's answers and let them retry.
       console.error("Scoring failed:", e);
-      // Fallback: mark as submitted without detailed results
-      setSubmitted(true);
+      setScoreError("Die Auswertung ist fehlgeschlagen. Deine Antworten sind gespeichert — bitte versuche es erneut.");
     } finally {
       setScoring(false);
     }
@@ -98,9 +166,12 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   function reset() {
     setAnswers({});
     setSubmitted(false);
+    setScoreError(null);
     setScoreResults(null);
     setScoreCount(0);
     setScoreTotal(0);
+    setRestored(false);
+    clearAttempt(storageKey);
   }
 
   const answeredCount = questions.filter(q => !!answers[q.number]?.selected).length;
@@ -111,6 +182,21 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
         <p className="text-sm font-bold text-foreground mb-0.5">{exercise.title}</p>
         <p className="text-sm text-muted-foreground">Lesen Sie den Text und beantworten Sie die Aufgaben.</p>
       </div>
+
+      {restored && !submitted && (
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-5 py-3">
+          <div className="flex items-center gap-2.5">
+            <RotateCcw className="h-4 w-4 shrink-0 text-blue-500" />
+            <p className="text-xs font-medium text-blue-700 dark:text-blue-300">
+              Dein Fortschritt wurde wiederhergestellt.
+            </p>
+          </div>
+          <button onClick={reset}
+            className="rounded-lg px-2.5 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors">
+            Neu beginnen
+          </button>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-border bg-card overflow-hidden">
         <div className="border-b border-border bg-muted/30 px-5 py-3">
@@ -151,7 +237,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                     const showCorrect = submitted && result?.correct_answer === key;
                     const showWrong   = submitted && isSelected && result?.correct_answer !== key;
                     return (
-                      <button key={key} onClick={() => select(q.number, key)} disabled={submitted}
+                      <button key={key} onClick={() => select(q.number, key)} disabled={submitted || scoring}
                         className={`flex-1 rounded-xl border py-2.5 text-sm font-bold transition-all ${
                           showCorrect ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
                           : showWrong  ? "border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-300"
@@ -175,7 +261,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                     const showCorrect = submitted && result?.correct_answer === key;
                     const showWrong   = submitted && isSelected && result?.correct_answer !== key;
                     return (
-                      <button key={key} onClick={() => select(q.number, key)} disabled={submitted}
+                      <button key={key} onClick={() => select(q.number, key)} disabled={submitted || scoring}
                         className={`w-full flex items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm transition-all ${
                           showCorrect ? "border-emerald-500/40 bg-emerald-500/8 text-emerald-700 dark:text-emerald-300"
                           : showWrong  ? "border-rose-500/40 bg-rose-500/8 text-rose-700 dark:text-rose-300"
@@ -228,9 +314,26 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
         })}
       </div>
 
+      {scoreError && (
+        <div className="flex items-start gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/5 px-5 py-4">
+          <AlertCircle className="h-5 w-5 shrink-0 text-rose-500 mt-0.5" />
+          <div className="flex-1 min-w-0 space-y-2">
+            <p className="text-sm text-rose-700 dark:text-rose-300">{scoreError}</p>
+            <button onClick={handleSubmit} disabled={scoring}
+              className="inline-flex items-center gap-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-300 hover:bg-rose-500/15 transition-colors disabled:opacity-50">
+              {scoring && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+              Erneut auswerten
+            </button>
+          </div>
+        </div>
+      )}
+
       {!submitted ? (
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
-          <p className="text-sm text-muted-foreground">{answeredCount} / {questions.length} beantwortet</p>
+          <div className="flex flex-col">
+            <p className="text-sm text-muted-foreground">{answeredCount} / {questions.length} beantwortet</p>
+            <p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p>
+          </div>
           <button onClick={handleSubmit} disabled={answeredCount < questions.length || scoring}
             className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2">
             {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
