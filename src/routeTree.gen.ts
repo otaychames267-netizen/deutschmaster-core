@@ -61,6 +61,7 @@ import { Route as AuthenticatedAdminPdfImportRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated.admin.payments'
 import { Route as AuthenticatedAdminMuendlichRouteImport } from './routes/_authenticated.admin.muendlich'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
+import { Route as AuthenticatedAdminLesenRouteImport } from './routes/_authenticated.admin.lesen'
 import { Route as AuthenticatedAdminImportReviewRouteImport } from './routes/_authenticated.admin.import-review'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
 import { Route as AuthenticatedAdminExamsRouteImport } from './routes/_authenticated.admin.exams'
@@ -368,6 +369,11 @@ const AuthenticatedAdminMessagesRoute =
     path: '/messages',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminLesenRoute = AuthenticatedAdminLesenRouteImport.update({
+  id: '/lesen',
+  path: '/lesen',
+  getParentRoute: () => AuthenticatedAdminRoute,
+} as any)
 const AuthenticatedAdminImportReviewRoute =
   AuthenticatedAdminImportReviewRouteImport.update({
     id: '/import-review',
@@ -588,6 +594,7 @@ export interface FileRoutesByFullPath {
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
+  '/admin/lesen': typeof AuthenticatedAdminLesenRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -667,6 +674,7 @@ export interface FileRoutesByTo {
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
+  '/admin/lesen': typeof AuthenticatedAdminLesenRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -751,6 +759,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
+  '/_authenticated/admin/lesen': typeof AuthenticatedAdminLesenRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
@@ -836,6 +845,7 @@ export interface FileRouteTypes {
     | '/admin/exams'
     | '/admin/exercises'
     | '/admin/import-review'
+    | '/admin/lesen'
     | '/admin/messages'
     | '/admin/muendlich'
     | '/admin/payments'
@@ -915,6 +925,7 @@ export interface FileRouteTypes {
     | '/admin/exams'
     | '/admin/exercises'
     | '/admin/import-review'
+    | '/admin/lesen'
     | '/admin/messages'
     | '/admin/muendlich'
     | '/admin/payments'
@@ -998,6 +1009,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/exams'
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/import-review'
+    | '/_authenticated/admin/lesen'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/muendlich'
     | '/_authenticated/admin/payments'
@@ -1422,6 +1434,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/lesen': {
+      id: '/_authenticated/admin/lesen'
+      path: '/lesen'
+      fullPath: '/admin/lesen'
+      preLoaderRoute: typeof AuthenticatedAdminLesenRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/import-review': {
       id: '/_authenticated/admin/import-review'
       path: '/import-review'
@@ -1662,6 +1681,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminExamsRoute: typeof AuthenticatedAdminExamsRoute
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminImportReviewRoute: typeof AuthenticatedAdminImportReviewRoute
+  AuthenticatedAdminLesenRoute: typeof AuthenticatedAdminLesenRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminMuendlichRoute: typeof AuthenticatedAdminMuendlichRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
@@ -1690,6 +1710,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminExercisesRoute:
     AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminImportReviewRoute: AuthenticatedAdminImportReviewRoute,
+  AuthenticatedAdminLesenRoute: AuthenticatedAdminLesenRoute,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
   AuthenticatedAdminMuendlichRoute: AuthenticatedAdminMuendlichRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
