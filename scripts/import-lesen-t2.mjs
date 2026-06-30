@@ -166,12 +166,18 @@ function validateExercise(ex) {
   return errs;
 }
 
-// Signature spans passage + question texts so variant exercises (same article,
-// different questions) are kept; only exact duplicates are skipped.
-const sig = (ex) => {
-  const base = (ex.passage || "") + "|" + (ex.questions || []).map((q) => q.question || "").join("|");
-  return base.toLowerCase().replace(/[^a-z0-9äöüß]/g, "").slice(0, 400);
-};
+// Duplicate detection compares the FULL passage and the FULL questions (text +
+// options) independently. An exercise is a true duplicate only when BOTH match.
+// Variants (same article, different questions) differ on the questions hash and
+// are kept (§17). Hashing the full content avoids the earlier truncation bug
+// that ignored questions when the passage was long.
+const normText = (s) => (s || "").toLowerCase().replace(/[^a-z0-9äöüß]/g, "");
+const passageSig = (p) => createHash("sha256").update(normText(p)).digest("hex").slice(0, 16);
+const questionsSig = (qs) =>
+  createHash("sha256")
+    .update(normText((qs || []).map((q) => `${q.number}|${q.question}|${q.option_a}|${q.option_b}|${q.option_c}`).join("§")))
+    .digest("hex").slice(0, 16);
+const fullSig = (ex) => `${passageSig(ex.passage)}:${questionsSig(ex.questions)}`;
 
 const b64 = (s) => Buffer.from(s ?? "", "utf8").toString("base64");
 
@@ -202,11 +208,17 @@ if (replace && !dryRun) {
   console.log(`--replace: cleared ${del.length} existing exercise(s) from this source PDF`);
 }
 
-const seenSigs = new Set();
+const sigToRef = new Map();      // fullSig -> human-readable ref of the first occurrence
+const passageToRef = new Map();  // passageSig -> ref (to flag variants: same passage, different questions)
 if (!dryRun) {
-  const rows = await runSql(`select p.passage, (select coalesce(string_agg(q.question, '|' order by q.number),'') from lesen_t2_questions q where q.exercise_id=e.id) as qtext from lesen_t2_passages p join lesen_exercises e on e.id=p.exercise_id where e.teil=2;`);
-  for (const r of rows) seenSigs.add(sig({ passage: r.passage, questions: (r.qtext || "").split("|").map((q) => ({ question: q })) }));
+  const rows = await runSql(`select e.title, p.passage, coalesce((select json_agg(json_build_object('number',q.number,'question',q.question,'option_a',q.option_a,'option_b',q.option_b,'option_c',q.option_c) order by q.number) from lesen_t2_questions q where q.exercise_id=e.id),'[]'::json) as questions from lesen_exercises e join lesen_t2_passages p on p.exercise_id=e.id where e.teil=2;`);
+  for (const r of rows) {
+    const ex = { passage: r.passage, questions: r.questions || [] };
+    sigToRef.set(fullSig(ex), `existing "${r.title}"`);
+    passageToRef.set(passageSig(r.passage), `existing "${r.title}"`);
+  }
 }
+const dupReport = [];
 
 const pages = rasterize(pdfPath).slice(0, maxPages === Infinity ? undefined : maxPages);
 console.log(`rasterized ${pages.length} pages — classifying each…\n`);
@@ -276,9 +288,20 @@ for (const ex of exercises) {
   if (ex.orphan) { console.log(`⚠ ${label}: NEEDS REVIEW — questions with no preceding passage`); review++; reviewList.push({ label, errs: ["no passage"] }); continue; }
   const errs = validateExercise(ex);
   if (errs.length) { console.log(`⚠ ${label}: NEEDS REVIEW ${titleShown} — ${errs.join("; ")}`); review++; reviewList.push({ label, errs }); continue; }
-  const s = sig(ex);
-  if (seenSigs.has(s)) { console.log(`• ${label}: duplicate ${titleShown} — skipped`); skipped++; continue; }
-  seenSigs.add(s);
+  const s = fullSig(ex);
+  const pSig = passageSig(ex.passage);
+  if (sigToRef.has(s)) {
+    const matched = sigToRef.get(s);
+    console.log(`• ${label}: DUPLICATE of ${matched} — identical passage AND questions — skipped`);
+    dupReport.push({ page: ex.page, title: ex.title, matched, reason: "identical passage + identical questions + identical options" });
+    skipped++; continue;
+  }
+  // Same passage but DIFFERENT questions = a legitimate variant — keep it (§17).
+  if (passageToRef.has(pSig)) {
+    console.log(`  ↳ ${label}: variant — shares a passage with ${passageToRef.get(pSig)} but questions differ → kept (§17)`);
+  }
+  sigToRef.set(s, `"${ex.title}" (questions page ${ex.page})`);
+  passageToRef.set(pSig, `"${ex.title}" (questions page ${ex.page})`);
   if (dryRun) { console.log(`✓ ${label}: ${titleShown} — answers ${ex.questions.map((q) => q.correct).join("")} (dry run)`); imported++; continue; }
   try {
     const r = await insertExercise(ex, sourcePdf);
@@ -290,3 +313,7 @@ for (const ex of exercises) {
 console.log(`\n── Summary: ${sourcePdf} ──`);
 console.log(`pages=${pages.length} assembled=${exercises.length} imported=${imported} duplicates=${skipped} review=${review}  tokens in=${inTok} out=${outTok}`);
 if (reviewList.length) { console.log("needs review:"); for (const r of reviewList) console.log(`  - ${r.label}: ${r.errs.join("; ")}`); }
+if (dupReport.length) {
+  console.log(`\nduplicate report (${dupReport.length}):`);
+  for (const d of dupReport) console.log(`  - "${d.title}" (questions page ${d.page}) → matched ${d.matched} — ${d.reason}`);
+}
