@@ -48,12 +48,14 @@ type AnswerState = { selected: string; revealed: boolean };
 interface HeadlinePickerProps {
   headlines: T1Headline[];
   current: string;
+  /** Letters already chosen by OTHER texts — hidden here (each headline used once). */
+  disabledLetters: Set<string>;
   onSelect: (letter: string) => void;
   onClose: () => void;
   anchorEl: HTMLButtonElement | null;
 }
 
-function HeadlinePicker({ headlines, current, onSelect, onClose, anchorEl }: HeadlinePickerProps) {
+function HeadlinePicker({ headlines, current, disabledLetters, onSelect, onClose, anchorEl }: HeadlinePickerProps) {
   const popRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -73,7 +75,11 @@ function HeadlinePicker({ headlines, current, onSelect, onClose, anchorEl }: Hea
     return () => document.removeEventListener("keydown", handler);
   }, [onClose]);
 
-  const sorted = [...headlines].sort((a, b) => a.letter.localeCompare(b.letter));
+  // Each headline may be used only once: hide letters chosen by other texts,
+  // but always keep this text's own current selection visible.
+  const sorted = [...headlines]
+    .sort((a, b) => a.letter.localeCompare(b.letter))
+    .filter((h) => h.letter === current || !disabledLetters.has(h.letter));
 
   return (
     <div
@@ -252,8 +258,8 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                       }`}
                     >
                       {ans?.selected
-                        ? <span className="max-w-[140px] truncate">{ans.selected} — {headlineText(ans.selected)}</span>
-                        : "Wählen…"
+                        ? <span className="font-black text-sm">{ans.selected}</span>
+                        : "Schlagzeile wählen"
                       }
                       <ChevronDown className={`h-3 w-3 transition-transform ${isOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -303,6 +309,12 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                 <HeadlinePicker
                   headlines={headlines}
                   current={ans?.selected ?? ""}
+                  disabledLetters={new Set(
+                    Object.entries(answers)
+                      .filter(([pos]) => Number(pos) !== text.position)
+                      .map(([, a]) => a.selected)
+                      .filter(Boolean),
+                  )}
                   onSelect={(letter) => select(text.position, letter)}
                   onClose={() => setOpenPopup(null)}
                   anchorEl={buttonRefs.current[text.position]}
