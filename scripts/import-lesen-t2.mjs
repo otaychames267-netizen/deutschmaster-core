@@ -224,7 +224,10 @@ async function classifyOne(i) {
     if (usage) { inTok += usage.input_tokens || 0; outTok += usage.output_tokens || 0; }
     // §27 fallback: if Sonnet's extraction is low-confidence (a questions page
     // with <5 questions, or a passage page with no text), re-extract with Opus.
-    const weakQuestions = data.kind === "questions" && (!Array.isArray(data.questions) || data.questions.length < 5);
+    const weakQuestions = data.kind === "questions" && (
+      !Array.isArray(data.questions) || data.questions.length < 5 ||
+      data.questions.some((q) => !["a", "b", "c"].includes((q.correct || "").toLowerCase()))
+    );
     const weakPassage   = data.kind === "passage" && (!data.passage || !data.passage.trim());
     if (weakQuestions || weakPassage) {
       const fb = await classifyPage(pages[i], OPUS_MODEL, cacheBase);
