@@ -59,6 +59,7 @@ const maxPages = (() => { const i = process.argv.indexOf("--max-pages"); return 
 const dryRun   = process.argv.includes("--dry-run");
 const replace  = process.argv.includes("--replace");
 const concurrency = (() => { const i = process.argv.indexOf("--concurrency"); return i > 0 ? Math.max(1, parseInt(process.argv[i + 1], 10)) : 6; })();
+const verify = process.argv.includes("--verify");  // audit-only: diff PDF-derived exercises vs DB, no writes
 
 if (!pdfPath) { console.error('Usage: bun scripts/import-lesen-t2.mjs "<pdf>" [--max-pages N] [--replace] [--dry-run]'); process.exit(1); }
 if (!ANTHROPIC_KEY) { console.error("ANTHROPIC_API_KEY missing"); process.exit(1); }
@@ -277,6 +278,27 @@ classified.forEach((p, idx) => {
     exercises.push({ page: idx + 1, title: lastPassage?.title ?? "", passage: lastPassage?.passage ?? "", questions: p.questions, orphan: !lastPassage });
   }
 });
+
+// Audit mode: diff the PDF-derived exercises against the DB content. No writes.
+if (verify) {
+  const assembled = new Map();
+  let invalid = 0;
+  for (const ex of exercises) {
+    if (ex.orphan || validateExercise(ex).length) { invalid++; continue; }
+    assembled.set(fullSig(ex), ex);
+  }
+  const dbRows = await runSql(`select e.title, p.passage, coalesce((select json_agg(json_build_object('number',q.number,'question',q.question,'option_a',q.option_a,'option_b',q.option_b,'option_c',q.option_c) order by q.number) from lesen_t2_questions q where q.exercise_id=e.id),'[]'::json) as questions from lesen_exercises e join lesen_t2_passages p on p.exercise_id=e.id where e.teil=2 and e.source_pdf=convert_from(decode('${b64(sourcePdf)}','base64'),'UTF8');`);
+  const db = new Map();
+  for (const r of dbRows) db.set(fullSig({ passage: r.passage, questions: r.questions || [] }), r);
+  const missing = [...assembled.keys()].filter((s) => !db.has(s));
+  const extra = [...db.keys()].filter((s) => !assembled.has(s));
+  console.log(`\n── VERIFY ${sourcePdf} ──`);
+  console.log(`questions-pages=${exercises.length} invalid/review=${invalid} unique-assembled=${assembled.size} db=${db.size} matched=${assembled.size - missing.length} missing=${missing.length} extra=${extra.length}`);
+  if (missing.length) { console.log("MISSING (PDF-derived, absent from DB):"); for (const s of missing) console.log(`  - "${assembled.get(s).title}" (q-page ${assembled.get(s).page})`); }
+  if (extra.length) { console.log("EXTRA (in DB, not derived from PDF):"); for (const s of extra) console.log(`  - "${db.get(s).title}"`); }
+  if (!missing.length && !extra.length) console.log("RESULT: OK — DB content is an EXACT match of the PDF-derived exercises (no missing, no extra, content hashes identical).");
+  process.exit(missing.length || extra.length ? 1 : 0);
+}
 
 // Pass 3: validate, dedup, insert
 let imported = 0, skipped = 0, review = 0;
