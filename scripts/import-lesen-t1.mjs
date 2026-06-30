@@ -60,6 +60,8 @@ const replace  = process.argv.includes("--replace");
 const verify   = process.argv.includes("--verify");
 const concurrency = (() => { const i = process.argv.indexOf("--concurrency"); return i > 0 ? Math.max(1, parseInt(process.argv[i + 1], 10)) : 6; })();
 const useOpus = process.argv.includes("--opus");   // Opus fallback is OFF by default (cost control)
+// Process only specific pairs (1-based, comma-separated) — targets failures without touching done work.
+const pairsFilter = (() => { const i = process.argv.indexOf("--pairs"); return i > 0 ? new Set(process.argv[i + 1].split(",").map((n) => parseInt(n, 10) - 1)) : null; })();
 const plan    = process.argv.includes("--plan");   // no-API cost preview: what would the next run cost?
 const TEMP_TITLE = "Lesen Teil 1";                  // assigned when no printed title; admin renames later
 
@@ -95,7 +97,17 @@ function rasterize(pdf) {
 
 const PROMPT = `These are two consecutive scanned pages of an official TELC B2 "Leseverstehen, Teil 1" exercise (a SOLVED copy showing the official answer key).
 
-Teil 1 structure: 10 headlines labelled A–J, and 5 short texts numbered 1–5. Each text matches exactly ONE headline; 5 headlines are correct (one per text) and the other 5 are distractors (unused). In the solved copy the correct headline for each text is indicated (e.g. the matching letter marked/written by the text, or the used headlines checked).
+Teil 1 structure: 10 headlines labelled A–J, and 5 short texts numbered 1–5. Each text matches exactly ONE headline; 5 headlines are correct (one per text) and the other 5 are distractors (unused).
+
+The two pages may be laid out in different ways — read BOTH pages fully:
+- all 10 headlines on one page and all 5 texts on the other page, OR
+- headlines + texts 1–2 on the first page and texts 3–5 on the second.
+
+The answer key in the solved copy is encoded in ONE of these ways — detect whichever is present:
+- the matching headline LETTER written next to each text, OR
+- a small NUMBER 1–5 written next to each of the 5 correct headlines, where that number is the position of the text it matches (e.g. headline H marked "1" means text 1's correct_headline is H), OR
+- the 5 used headlines visibly checked/marked.
+Always return ALL 10 headlines and ALL 5 texts (positions 1–5) with each text's correct_headline letter.
 
 Extract EVERYTHING VERBATIM (no translation, paraphrase, summary, or spelling correction; keep German text and paragraphs with \\n):
 - title: the exercise's own printed topic/theme banner if one is clearly shown (e.g. a heading like "GRIPPE IMPFUNG"), verbatim. Do NOT use the section header "Leseverstehen, Teil 1" / "Teil 1" / "telc" — those are never a title. If there is no specific printed exercise title, use empty string "".
@@ -284,7 +296,7 @@ async function processPair(idx) {
   }
 }
 
-const queue = Array.from(pairs.keys());
+const queue = Array.from(pairs.keys()).filter((idx) => !pairsFilter || pairsFilter.has(idx));
 async function worker() { let i; while ((i = queue.shift()) !== undefined) await processPair(i); }
 await Promise.all(Array.from({ length: Math.min(concurrency, pairs.length) }, worker));
 console.log(`extracted ${pairs.length} pair(s) in ${((Date.now() - tStart) / 1000).toFixed(1)}s\n`);
@@ -323,6 +335,7 @@ let imported = 0, skipped = 0, review = 0, dups = 0;
 const reviewList = [];
 const seen = new Set(dbBySig.keys());
 for (const r of results) {
+  if (!r) continue;  // pair not in --pairs filter
   const label = `pair ${r.pair} (pages ${r.pageA}-${r.pageA + 1})`;
   if (r.error) { console.log(`✗ ${label}: ERROR ${r.error}`); review++; reviewList.push({ label, why: r.error }); continue; }
   if (r.data.skip) { console.log(`• ${label}: skipped (not a Teil 1 exercise)`); skipped++; continue; }
