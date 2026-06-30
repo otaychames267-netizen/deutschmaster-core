@@ -59,6 +59,15 @@ const dryRun   = process.argv.includes("--dry-run");
 const replace  = process.argv.includes("--replace");
 const verify   = process.argv.includes("--verify");
 const concurrency = (() => { const i = process.argv.indexOf("--concurrency"); return i > 0 ? Math.max(1, parseInt(process.argv[i + 1], 10)) : 6; })();
+const useOpus = process.argv.includes("--opus");   // Opus fallback is OFF by default (cost control)
+const plan    = process.argv.includes("--plan");   // no-API cost preview: what would the next run cost?
+const TEMP_TITLE = "Lesen Teil 1";                  // assigned when no printed title; admin renames later
+
+// Cache-only lookup (never calls the API) — used by --plan and incremental skips.
+function cachedExtraction(cacheBase, model) {
+  const f = join(CACHE_DIR, createHash("sha256").update(model).update(PROMPT_VERSION).update(cacheBase).digest("hex") + ".json");
+  return existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : null;
+}
 
 if (!pdfPath) { console.error('Usage: bun scripts/import-lesen-t1.mjs "<pdf>" [--replace|--dry-run|--verify] [--concurrency N]'); process.exit(1); }
 if (!ANTHROPIC_KEY) { console.error("ANTHROPIC_API_KEY missing"); process.exit(1); }
@@ -200,10 +209,12 @@ const b64 = (s) => Buffer.from(s ?? "", "utf8").toString("base64");
 async function insertExercise(ex, sourcePdf) {
   const headlines = ex.headlines.map((h) => ({ letter: (h.letter || "").toUpperCase(), text: h.text, is_distractor: !!h.is_distractor }));
   const texts = ex.texts.map((t) => ({ position: t.position, title: t.title || "", content: t.content, correct_headline: (t.correct_headline || "").toUpperCase() }));
+  // Missing printed title → temporary placeholder (admin renames later) rather than blank.
+  const title = ex.title && ex.title.trim() ? ex.title : TEMP_TITLE;
   const sql =
     `select import_lesen_t1_exercise_admin(` +
     `'${CREATED_BY}'::uuid,` +
-    `convert_from(decode('${b64(ex.title || "")}','base64'),'UTF8'),` +
+    `convert_from(decode('${b64(title)}','base64'),'UTF8'),` +
     `convert_from(decode('${b64(JSON.stringify(headlines))}','base64'),'UTF8')::jsonb,` +
     `convert_from(decode('${b64(JSON.stringify(texts))}','base64'),'UTF8')::jsonb,` +
     `convert_from(decode('${b64(sourcePdf)}','base64'),'UTF8')` +
@@ -226,6 +237,31 @@ const pairs = [];
 for (let i = 0; i + 1 < pages.length; i += 2) pairs.push([i, i + 1]);
 console.log(`rasterized ${pages.length} pages → ${pairs.length} candidate exercise(s)\n`);
 
+// ── --plan: preview the next run's API cost without spending a token ──
+if (plan) {
+  const rows = await runSql(`select
+    coalesce((select json_agg(json_build_object('letter',h.letter,'text',h.text)) from lesen_t1_headlines h where h.exercise_id=e.id),'[]'::json) as headlines,
+    coalesce((select json_agg(json_build_object('position',x.position,'content',x.content,'correct_headline',x.correct_headline) order by x.position) from lesen_t1_texts x where x.exercise_id=e.id),'[]'::json) as texts
+    from lesen_exercises e where e.teil=1 and e.source_pdf=convert_from(decode('${b64(sourcePdf)}','base64'),'UTF8');`);
+  const dbSigs = new Set(rows.map((r) => fullSig({ headlines: r.headlines, texts: r.texts })));
+  let done = 0, ready = 0, cachedInvalid = 0, pending = 0, notExercise = 0;
+  for (const [a, b] of pairs) {
+    const base = `${sourcePdf}#${pdfStamp}#p${a}-${b}`;
+    const c = cachedExtraction(base, MODEL);
+    const cOpus = cachedExtraction(base + "#opus", OPUS_MODEL);
+    if (!c && !cOpus) { pending++; continue; }
+    if (c?.skip || cOpus?.skip) { notExercise++; continue; }
+    // prefer whichever cached extraction is valid (Sonnet first, then Opus)
+    const valid = [c, cOpus].find((x) => x && !validateExercise(normalizeExercise(x)).length);
+    if (!valid) { cachedInvalid++; continue; }
+    if (dbSigs.has(fullSig(valid))) done++; else ready++;
+  }
+  console.log(`── PLAN ${sourcePdf} ──`);
+  console.log(`done(in DB)=${done}  ready-to-insert(cached,free)=${ready}  cached-but-invalid(need --opus)=${cachedInvalid}  pending(need API)=${pending}  non-exercise=${notExercise}`);
+  console.log(`Next run pays API only for ${pending} new extraction(s)${useOpus ? ` + up to ${cachedInvalid} Opus retries` : " (run with --opus to also retry the invalid ones)"}; all cached pairs are free.`);
+  process.exit(0);
+}
+
 let inTok = 0, outTok = 0;
 const tStart = Date.now();
 const results = new Array(pairs.length);
@@ -236,7 +272,7 @@ async function processPair(idx) {
   try {
     let { data, usage } = await extractPair(pages[a], pages[b], MODEL, cacheBase);
     if (usage) { inTok += usage.input_tokens || 0; outTok += usage.output_tokens || 0; }
-    if (!data.skip && validateExercise(data).length) {
+    if (useOpus && !data.skip && validateExercise(data).length) {
       const fb = await extractPair(pages[a], pages[b], OPUS_MODEL, cacheBase + "#opus");
       if (fb.usage) { inTok += fb.usage.input_tokens || 0; outTok += fb.usage.output_tokens || 0; }
       if (!fb.data.skip && validateExercise(normalizeExercise(fb.data)).length < validateExercise(normalizeExercise(data)).length) data = fb.data;
