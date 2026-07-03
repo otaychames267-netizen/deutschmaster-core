@@ -33,13 +33,18 @@ function cleanText(s) {
   do {
     prev = t;
     t = t.replace(/\n[^\n]*\blese?r?verstehen\b[\s\S]*$/i, "");   // "[Telc] Lese(r)verstehen, Teil 1" next-page header
-    t = t.replace(/\n[^\n]*[؀-ۿ][^\n]*$/, "");
+    t = t.replace(/\n\s*Informationen rund um[^\n]*$/i, "");       // Kartoffeln page footer / source line
+    t = t.replace(/\n\s*Scanned by CamScanner[\s\S]*$/i, "");
+    t = t.replace(/\n[^\n]*[؀-ۿ][^\n]*$/, "");   // trailing next-page banner line (German title + Arabic) as a unit
+    t = t.replace(/[ \t]*\n\s*[.\-–·]*\s*$/, ""); // trailing line that is only punctuation/whitespace
     t = t.replace(/[ \t]*\n\s*\d{1,3}\s*$/, "");
     t = t.replace(/[ \t]{2,}\d{1,3}\s*$/, "");   // bare trailing page number after a gap on the same line
     t = t.replace(/\s+$/, "");
   } while (t !== prev);
+  t = t.replace(/[؀-ۿ‌-‏‪-‮]/g, "").replace(/\s+$/, "");   // any residual Arabic/bidi anywhere, then trim
   return t;
 }
+const stripArabic = (s) => (s || "").replace(/[؀-ۿ‌-‏‪-‮]/g, "").replace(/\s{2,}/g, " ").trim();
 
 // theme ord (TOC order) -> { page (digital pick) , title }. Pages are the block's
 // "Lesen Sie zuerst" page. Manual themes have no page here (loaded from JSON).
@@ -127,6 +132,22 @@ if (existsSync(MANUAL_FILE)) {
 
 exercises.sort((a, b) => a.ord - b.ord);
 
+// ── final normalization: no Arabic / bidi / trailing junk anywhere ──
+for (const e of exercises) {
+  e.title = stripArabic(e.title || "");
+  for (const h of e.headlines) h.text = stripArabic(h.text);
+  for (const t of e.texts) t.content = cleanText(t.content);
+}
+
+// ── duplicate-body detection (report only) ──
+const norm = (s) => (s || "").toLowerCase().replace(/[^a-z0-9äöüß]/g, "");
+const bodySig = new Map();
+for (const e of exercises) {
+  const sig = norm(e.texts.map(t => t.content).join("|")).slice(0, 400);
+  if (bodySig.has(sig)) console.log(`  ⚠ DUPLICATE bodies: "${e.title}" (ord ${e.ord}) == "${bodySig.get(sig)}"`);
+  else bodySig.set(sig, `${e.title} (ord ${e.ord})`);
+}
+
 // ── validate ──
 let bad = 0;
 for (const e of exercises) {
@@ -146,7 +167,7 @@ console.log(`Ords present: ${exercises.map(e => e.ord).join(",")}`);
 for (const e of exercises) console.log(`  ${String(e.ord).padStart(2)}. "${e.title}"  key=${e.texts.map(t=>t.correct_headline).join("")}  t1="${e.texts.find(t=>t.position===1)?.content.slice(0,34)}"`);
 
 if (APPLY) {
-  if (exercises.length !== 41 || bad) { console.log(`REFUSING to apply: expected 41 valid exercises, got ${exercises.length} (invalid=${bad}).`); process.exit(1); }
+  if (exercises.length !== 45 || bad) { console.log(`REFUSING to apply: expected 45 valid exercises, got ${exercises.length} (invalid=${bad}).`); process.exit(1); }
   await q(`delete from lesen_exercises where teil=1;`);
   for (const ex of exercises) {
     const hl = ex.headlines.map(h => `(${S(h.letter.toUpperCase())},${S(h.text)},${!!h.is_distractor})`);
