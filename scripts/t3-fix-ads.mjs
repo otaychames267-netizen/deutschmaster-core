@@ -28,7 +28,12 @@ for (const [i, g] of data.entries()) {
   if (!Array.isArray(g.ns) || !g.ns.length) errs.push(`${tag}: ns required`);
   for (const n of g.ns || []) if (!idByN.has(n)) errs.push(`${tag}: no exercise n=${n}`);
   const letters = (g.ads || []).map(a => a.letter).join("");
-  if (letters !== "ABCDEFGHIJKL") errs.push(`${tag}: ads must be A..L in order, got "${letters}"`);
+  // Ads must be a subset of A..L in ascending order (most exercises have all 12;
+  // a few legitimately omit some letters, e.g. n21 Berlin has 10: no G/H).
+  const FULL = "ABCDEFGHIJKL";
+  let ok = letters.length >= 1;
+  for (let k = 0, p = -1; k < letters.length; k++) { const idx = FULL.indexOf(letters[k]); if (idx <= p) { ok = false; break; } p = idx; }
+  if (!ok) errs.push(`${tag}: ads must be an ascending subset of A..L, got "${letters}"`);
   for (const a of g.ads || []) {
     if (!a.title && !a.content) errs.push(`${tag} ${a.letter}: empty`);
     if (!a.content || a.content.length < 15) errs.push(`${tag} ${a.letter}: body too short`);
@@ -38,7 +43,7 @@ for (const [i, g] of data.entries()) {
   }
 }
 if (errs.length) { console.error("VALIDATION FAILED:\n" + errs.join("\n")); process.exit(1); }
-console.log(`Validated ${data.length} group(s), all ads well-formed (12 a-l each).`);
+console.log(`Validated ${data.length} group(s), all ads well-formed (ascending subset of a-l).`);
 if (!APPLY) { console.log("(dry run — re-run with --apply)"); process.exit(0); }
 
 for (const g of data) {
@@ -47,7 +52,7 @@ for (const g of data) {
     await q(`delete from lesen_t3_texts where exercise_id='${id}';`);
     const vals = g.ads.map(a => `('${id}','${a.letter}',${S(a.title || "")},${S(a.content || "")})`).join(",");
     await q(`insert into lesen_t3_texts (exercise_id,letter,title,content) values ${vals};`);
-    console.log(`  n${n}: replaced 12 ads`);
+    console.log(`  n${n}: replaced ${g.ads.length} ads`);
   }
 }
 console.log(`APPLIED: rebuilt ads for ${data.reduce((s, g) => s + g.ns.length, 0)} exercise(s).`);
