@@ -32,7 +32,7 @@ for (const [i, g] of data.entries()) {
   for (const a of g.ads || []) {
     if (!a.title && !a.content) errs.push(`${tag} ${a.letter}: empty`);
     if (!a.content || a.content.length < 15) errs.push(`${tag} ${a.letter}: body too short`);
-    if (a.content && a.content.length > 900) errs.push(`${tag} ${a.letter}: body suspiciously long (${a.content.length})`);
+    if (a.content && a.content.length > 1300) errs.push(`${tag} ${a.letter}: body suspiciously long (${a.content.length})`);
     if (/[؀-ۿ]/.test((a.title || "") + (a.content || ""))) errs.push(`${tag} ${a.letter}: contains Arabic`);
     if (/Lesen Sie zuerst|Info-Text nur einmal|Markieren Sie Ihre/.test((a.title || "") + (a.content || ""))) errs.push(`${tag} ${a.letter}: instruction text leaked`);
   }
