@@ -148,6 +148,8 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
   const [scoreCount, setScoreCount]     = useState(0);
   const [scoreTotal, setScoreTotal]     = useState(0);
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const [solution, setSolution] = useState<Record<number, string> | null>(null);
+  const [loadingSolution, setLoadingSolution] = useState(false);
 
   const situations = [...exercise.situations].sort((a, b) => a.number - b.number);
   const texts      = [...exercise.texts].sort((a, b) => a.letter.localeCompare(b.letter));
@@ -158,6 +160,30 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
 
   function reveal(num: number) {
     setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: true } }));
+  }
+
+  // "Lösung anzeigen": fetch the correct answers via the scoring RPC (empty answers
+  // → each result's correct_answer is the right letter, '0' for no-match). Keeps the
+  // answer key server-side; nothing is pre-loaded into the component.
+  async function showSolution() {
+    if (solution) { setSolution(null); return; }  // toggle off
+    setLoadingSolution(true);
+    setOpenPopup(null);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_lesen_t3", {
+        p_exercise_id: exercise.id,
+        p_answers:     {},
+      });
+      if (error) throw error;
+      const res = data as unknown as { results: ScoreResult[] };
+      const map: Record<number, string> = {};
+      for (const r of res.results) map[r.number] = r.correct_answer;
+      setSolution(map);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingSolution(false);
+    }
   }
 
   async function handleSubmit() {
@@ -200,6 +226,7 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
     setScoreResults(null);
     setScoreCount(0);
     setScoreTotal(0);
+    setSolution(null);
   }
 
   function adTitle(letter: string): string {
@@ -219,6 +246,12 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
   }
 
   const answeredCount = situations.filter(s => !!answers[s.number]?.selected).length;
+
+  // map correct ad letter -> which situation numbers it answers (for highlighting)
+  const solutionLetterToNums: Record<string, number[]> = {};
+  if (solution) for (const [num, ca] of Object.entries(solution)) {
+    if (ca && ca !== "0") (solutionLetterToNums[ca] ||= []).push(Number(num));
+  }
 
   return (
     <div className="space-y-6">
@@ -305,6 +338,16 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
                       )}
                     </div>
                   )}
+
+                  {solution && !submitted && (
+                    <div className="flex items-center gap-1.5 border-t border-emerald-500/30 bg-emerald-500/5 px-4 py-2">
+                      <BookOpen className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                        Lösung: {correctDisplay(solution[sit.number])}
+                        {solution[sit.number] && solution[sit.number] !== "0" ? ` — ${adTitle(solution[sit.number])}` : ""}
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {isOpen && !submitted && (
@@ -324,32 +367,48 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
         {/* Advertisement texts A–L */}
         <div className="space-y-3">
           <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Anzeigen A–L</p>
-          {texts.map((text) => (
-            <div key={text.letter} className="rounded-2xl border border-border bg-card overflow-hidden">
+          {texts.map((text) => {
+            const solNums = solution ? solutionLetterToNums[text.letter] : undefined;
+            const isSol = !!solNums?.length;
+            return (
+            <div key={text.letter} className={`rounded-2xl border bg-card overflow-hidden ${isSol ? "border-emerald-500/50 ring-1 ring-emerald-500/30" : "border-border"}`}>
               <div className="flex items-center gap-2.5 border-b border-border bg-muted/20 px-4 py-2.5">
-                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-blue-500/10 text-xs font-black text-blue-600 dark:text-blue-400">
+                <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-black ${isSol ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-blue-500/10 text-blue-600 dark:text-blue-400"}`}>
                   {text.letter}
                 </span>
                 {text.title && (
-                  <p className="text-xs font-bold text-foreground truncate">{text.title}</p>
+                  <p className="text-xs font-bold text-foreground truncate flex-1">{text.title}</p>
+                )}
+                {isSol && (
+                  <span className="shrink-0 rounded-md bg-emerald-500/15 px-1.5 py-0.5 text-[10px] font-black text-emerald-600 dark:text-emerald-400">
+                    → {solNums!.sort((a, b) => a - b).join(", ")}
+                  </span>
                 )}
               </div>
               <div className="px-4 py-3">
                 <p className="text-xs text-foreground leading-relaxed">{text.content}</p>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
       {!submitted ? (
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
           <p className="text-sm text-muted-foreground">{answeredCount} / {situations.length} beantwortet</p>
-          <button onClick={handleSubmit} disabled={answeredCount < situations.length || scoring}
-            className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2">
-            {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
-            Auswertung
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={showSolution} disabled={loadingSolution}
+              className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2">
+              {loadingSolution && <Loader2 className="h-4 w-4 animate-spin" />}
+              {solution ? "Lösung ausblenden" : "Lösung anzeigen"}
+            </button>
+            <button onClick={handleSubmit} disabled={answeredCount < situations.length || scoring}
+              className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2">
+              {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
+              Auswertung
+            </button>
+          </div>
         </div>
       ) : (
         <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
