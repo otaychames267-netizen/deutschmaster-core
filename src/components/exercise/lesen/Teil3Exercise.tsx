@@ -386,7 +386,7 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
                 )}
               </div>
               <div className="px-4 py-3">
-                <p className="text-xs text-foreground leading-relaxed">{text.content}</p>
+                <p className="text-xs text-foreground leading-relaxed whitespace-pre-line">{text.content}</p>
               </div>
             </div>
             );
