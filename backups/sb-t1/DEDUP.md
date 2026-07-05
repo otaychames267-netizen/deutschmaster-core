@@ -26,3 +26,6 @@ Herr Dr. Dobromil/Herr Dr. Moosberger.
   22B "ersten" (page 18: "gar"; nonsense here — "Ich wusste ersten nicht"), 24C "schlißen"
   (page 18: "schließlich"), 26C "wechseln" (page 18 had typo "wechselten", corrected).
 - Per governing rule (same gaps/answers, only corrupted options) → duplicate → page 19 skipped.
+
+## PDF page 24 — duplicate of "Ramon" (page 23, position 20) — SKIPPED
+- Identical text/gaps/options/answers; only recipient name differs (Thomas vs Ramon).
