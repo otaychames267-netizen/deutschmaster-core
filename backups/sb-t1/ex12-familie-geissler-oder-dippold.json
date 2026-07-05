@@ -1,0 +1,20 @@
+{
+  "title": "Familie Geissler oder Dippold",
+  "level": "B2",
+  "position": 12,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Familie Geissler, oder Dippold\n\nvielen Dank für Ihre Antwort {{21}} meine Bewerbung als Au-pair-Mädchen. Danke schön auch für die Fotos von den Kindern. Ich bin schon sehr gespannt und freue mich sehr Ihre Familie im September kennenzulernen! Im Juni schließe ich meine Schulausbildung {{22}} und möchte auch noch mein Deutsch {{23}} verbessern. Dafür werde ich im Sommer noch einen Sprachkurs an einer Sommerschule in meiner Heimat {{24}}. Anschließend fahre ich mit meiner Familie für drei Wochen in Urlaub ans Meer. Ich habe noch eine Frage {{25}} Sie. Sie schreiben, dass Sie für die Weihnachtsferien einen Skiurlaub planen, bei dem ich mitfahren kann, wenn ich möchte. Ich habe aber keine Ski und Skibekleidung. Kann ich mir diese Sachen bei {{26}} ausleihen? In meiner Heimat werde ich sie kaum jemals wieder brauchen. Aber ich bin immer offen für Neues und möchte das Skilaufen gern einmal ausprobieren. Danke schön, {{27}} Sie mich am Flughafen abholen kommen. Ich habe meinen Flug nach Frankfurt {{28}} gebucht. Am 2.9. werde ich sehr früh in Frankfurt landen, nämlich um 5:15 Uhr. Ich schlage {{29}}, dass wir uns erst gegen 7:30 Uhr in einem Café treffen. Vielleicht komme ich ja mit Verspätung oder muss länger auf mein Gepäck warten. Dann müssen Sie nicht so früh da sein. Bitte schreiben Sie mir, wenn Sie noch etwas über mich wissen möchten! Ich schicke einige Fotos mit der Mail, damit die Kinder schon ein bisschen {{30}} von mir sehen.\n\nViele Grüße\nIhre Asja",
+  "gaps": [
+    { "n": 21, "a": "wegen", "b": "von", "c": "auf", "correct": "c" },
+    { "n": 22, "a": "zu", "b": "aus", "c": "ab", "correct": "c" },
+    { "n": 23, "a": "kaum", "b": "fast", "c": "ein bisschen", "correct": "c" },
+    { "n": 24, "a": "unterrichten", "b": "machen", "c": "lernen", "correct": "b" },
+    { "n": 25, "a": "über", "b": "für", "c": "an", "correct": "c" },
+    { "n": 26, "a": "irgendwo", "b": "irgendjemandem", "c": "irgendetwas", "correct": "b" },
+    { "n": 27, "a": "falls", "b": "dass", "c": "dafür", "correct": "b" },
+    { "n": 28, "a": "schon", "b": "noch", "c": "bevor", "correct": "a" },
+    { "n": 29, "a": "zu", "b": "vor", "c": "nach", "correct": "b" },
+    { "n": 30, "a": "weniger", "b": "viel", "c": "mehr", "correct": "c" }
+  ]
+}
