@@ -29,3 +29,6 @@ Herr Dr. Dobromil/Herr Dr. Moosberger.
 
 ## PDF page 24 — duplicate of "Ramon" (page 23, position 20) — SKIPPED
 - Identical text/gaps/options/answers; only recipient name differs (Thomas vs Ramon).
+
+## PDF page 33 — duplicate of "Meike" (page 28, position 23) — SKIPPED
+- Identical text, options, and answer key (21B 22A 23C 24B 25B 26B 27C 28B 29B 30A).
