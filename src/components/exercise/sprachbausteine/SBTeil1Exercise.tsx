@@ -317,12 +317,10 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
         </p>
       </div>
 
-      {/* Text with inline gaps */}
+      {/* Text with inline gaps — whitespace-pre-line preserves the PDF's paragraph
+          and line breaks exactly (never merge/split paragraphs). */}
       <div className="rounded-2xl border border-border bg-card p-6">
-        {exercise.title && (
-          <p className="text-base font-bold text-foreground mb-4">{exercise.title}</p>
-        )}
-        <div className="text-sm text-foreground leading-[2] select-text">
+        <div className="text-sm text-foreground leading-[2] select-text whitespace-pre-line">
           {renderedPassage}
         </div>
       </div>
