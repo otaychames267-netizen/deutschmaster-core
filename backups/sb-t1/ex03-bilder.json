@@ -1,19 +1,80 @@
 {
-  "title": "Bilder",
+  "title": "Leon",
   "level": "B2",
   "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
   "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
   "passage": "Betreff: Grüße {{21}} Berlin\n\nHallo Leon,\n\nvielen Dank für deine letzte Mail aus Peking! Du arbeitest ja jetzt schon seit einem halben Jahr in China – unglaublich, wie schnell die Zeit vergeht.\n\nLeider hatte ich in den letzten drei Wochen keine Zeit, dir zu antworten, weil ich viel zu tun hatte. Aber jetzt berichte ich dir, {{22}} alles los war.\n\nAlso, im Büro haben wir derzeit viel Stress, {{23}} drei Kollegen im Urlaub sind und eine weitere Kollegin seit zwei Wochen krank ist. Jetzt müssen wir mit fünf Leuten die Arbeit erledigen, die sonst neun Leute machen. Ich weiß wirklich nicht, wer diese Urlaubsplanung gemacht hat. Hoffentlich {{24}} das in Zukunft besser organisiert.\n\nAbends waren Carmen und ich dann ein paarmal aus. Wir waren zum Beispiel bei einem Konzert von \"Belasco\". Kennst du die Band? Eigentlich war ich an dem Abend ganz schön kaputt und {{25}} am liebsten zuhause geblieben, aber ich hatte Carmen die Karten zum Geburtstag geschenkt. Da {{26}} ich ja schlecht auf dem Sofa sitzen bleiben! Im Nachhinein muss ich sagen: Ein Glück, dass wir zu dem Konzert gegangen sind, {{27}} es war einfach nur super!\n\nAn den letzten beiden Wochenenden hatten wir dann auch noch Familienfeiern: Erst hatte meine ältere Schwester Geburtstag und hat groß gefeiert, dann hat ein Cousin geheiratet und uns eingeladen, {{28}} war zwar schön, aber auch anstrengend. Ich bin froh, dass wir für die kommenden Wochenenden {{29}} keine Pläne haben.\n\nDas war's erst mal von mir. Melde dich doch wieder, ich freue mich {{30}} deine nächste E-Mail!\n\nViele Grüße sendet dir\nFabian",
   "gaps": [
-    { "n": 21, "a": "ab", "b": "aus", "c": "von", "correct": "b" },
-    { "n": 22, "a": "wann", "b": "was", "c": "wie", "correct": "b" },
-    { "n": 23, "a": "da", "b": "indem", "c": "obwohl", "correct": "a" },
-    { "n": 24, "a": "ist", "b": "wird", "c": "würde", "correct": "b" },
-    { "n": 25, "a": "bin", "b": "war", "c": "wäre", "correct": "c" },
-    { "n": 26, "a": "konnte", "b": "musste", "c": "sollte", "correct": "a" },
-    { "n": 27, "a": "aber", "b": "denn", "c": "sondern", "correct": "b" },
-    { "n": 28, "a": "Beide", "b": "Beiden", "c": "Beides", "correct": "c" },
-    { "n": 29, "a": "erst", "b": "noch", "c": "schon", "correct": "b" },
-    { "n": 30, "a": "auf", "b": "für", "c": "über", "correct": "a" }
-  ]
+    {
+      "n": 21,
+      "a": "ab",
+      "b": "aus",
+      "c": "von",
+      "correct": "b"
+    },
+    {
+      "n": 22,
+      "a": "wann",
+      "b": "was",
+      "c": "wie",
+      "correct": "b"
+    },
+    {
+      "n": 23,
+      "a": "da",
+      "b": "indem",
+      "c": "obwohl",
+      "correct": "a"
+    },
+    {
+      "n": 24,
+      "a": "ist",
+      "b": "wird",
+      "c": "würde",
+      "correct": "b"
+    },
+    {
+      "n": 25,
+      "a": "bin",
+      "b": "war",
+      "c": "wäre",
+      "correct": "c"
+    },
+    {
+      "n": 26,
+      "a": "konnte",
+      "b": "musste",
+      "c": "sollte",
+      "correct": "a"
+    },
+    {
+      "n": 27,
+      "a": "aber",
+      "b": "denn",
+      "c": "sondern",
+      "correct": "b"
+    },
+    {
+      "n": 28,
+      "a": "Beide",
+      "b": "Beiden",
+      "c": "Beides",
+      "correct": "c"
+    },
+    {
+      "n": 29,
+      "a": "erst",
+      "b": "noch",
+      "c": "schon",
+      "correct": "b"
+    },
+    {
+      "n": 30,
+      "a": "auf",
+      "b": "für",
+      "c": "über",
+      "correct": "a"
+    }
+  ],
+  "position": 3
 }

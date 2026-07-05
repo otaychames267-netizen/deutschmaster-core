@@ -50,7 +50,7 @@ for (const n of markerSet) if (!gapNums.has(n)) errs.push(`passage marker {{${n}
 if (errs.length) { console.error("VALIDATION FAILED:\n - " + errs.join("\n - ")); process.exit(1); }
 
 const sortedGaps = [...d.gaps].sort((a, b) => a.n - b.n);
-console.log(`OK: "${d.title}" — ${sortedGaps.length} gaps [${sortedGaps.map(g => g.n).join(",")}], markers used: ${markerNums.length} (two-part: ${markerNums.length - markerSet.size})`);
+console.log(`OK: "${d.title}" (position ${d.position}) — ${sortedGaps.length} gaps [${sortedGaps.map(g => g.n).join(",")}], markers used: ${markerNums.length} (two-part: ${markerNums.length - markerSet.size})`);
 console.log("Answer key:", sortedGaps.map(g => `${g.n}${g.correct.toUpperCase()}`).join(" "));
 
 if (!APPLY) { console.log("\n(dry run — pass --apply to write)"); process.exit(0); }
@@ -58,8 +58,9 @@ if (!APPLY) { console.log("\n(dry run — pass --apply to write)"); process.exit
 const dup = await q(`select id from sb_exercises where teil=1 and title=${S(d.title)};`);
 if (dup.length && !FORCE) { console.error(`Exercise titled "${d.title}" already exists (${dup[0].id}). Use --force to add anyway.`); process.exit(1); }
 
-const ins = await q(`insert into sb_exercises (title, teil, level, source_pdf, import_notes)
-  values (${S(d.title)}, 1, ${S(d.level || "B2")}, ${S(d.source_pdf || "")}, ${S(d.import_notes || "manual PDF transcription")})
+if (typeof d.position !== "number") { console.error("position (number) required — PDF page/sequence order"); process.exit(1); }
+const ins = await q(`insert into sb_exercises (title, teil, level, source_pdf, import_notes, position)
+  values (${S(d.title)}, 1, ${S(d.level || "B2")}, ${S(d.source_pdf || "")}, ${S(d.import_notes || "manual PDF transcription")}, ${d.position})
   returning id;`);
 const exId = ins[0].id;
 await q(`insert into sb_t1_passages (exercise_id, title, instructions, passage)

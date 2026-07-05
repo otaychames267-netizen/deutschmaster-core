@@ -3,17 +3,78 @@
   "level": "B2",
   "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
   "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
-  "passage": "Hallo Maria,\nBevor Wieder der Arbeitsalltag beginnt. schicke ich dir {{21}} rasch einige Zeilen.\num dir von unserem Wochenende zu erzählen. Es ist so schade, dass du {{22}} deiner Grippe nicht dabei sein konntest! Wir haben dich alle sehr vermisst.\n{{23}} auf Mikro sind Alle mit dem Zug angereist und wir haben uns schon am Bahnhof getroffen.\nVon dort sind wir dann los in die Ferienwohnung ,die Lilo für uns reserviert hatte.\nNachdem wir unser Gepäck abgestellt {{24}} . haben wir gleich einen rundgang durch den ort gemacht. Lilo wusste viel Interessantes zu erzählen. Sie lebt ja schon einige Jahre dort und hat sich {{25}} ausgezeichnete Fremdenführerin erwiesen. Besonders beeindruckt hat uns der Wunderschöne Park, in dem gerade die rhododendren blühten . Eine Wahre Pracht. Das hätte dir auch gefallen! später sind wir zum Amseisee gewandert, den man in kurzer Zeit vom ort aus erreicht. Dort haben wir eine Bootsfahrt über den See gemacht. vom Boot aus hat man einen\nWunderbaren Blick auf die beeindruckende Felsenlandschaft. Am Abend stand dann die Felsentbühne {{26}} dem Programm.\nDie Wanderung am nächsten Tag war {{27}} schön anstrengend. aber Wunderbar .\n{{28}} alle ziemlich erschöpft waren. haben wir nach dem Abendessen noch lange zusammen gegessen. Und über alte Zeiten geplaudert. Am nächsten morgen nach unserem gemeinsam früschtück waren uns einig, dass wir bald wieder zusammen einen Ausflug machen {{29}} . Und nächste Mal musst du unbedingt dabei sein. Im Anhang schicke ich dir einige. Wie du siehst , war unser treffen wirklich lustig !. Ich hoffe , dass es dir {{30}} schon wieder besser geht.\n\nLiebe Grüße von uns allem\nCem",
+  "passage": "Hallo Maria,\nBevor wieder der Arbeitsalltag beginnt, schicke ich dir {{21}} rasch einige Zeilen, um dir von unserem Wochenende zu erzählen. Es ist so schade, dass du {{22}} deiner Grippe nicht dabei sein konntest! Wir haben dich alle sehr vermisst.\n{{23}} auf Mikro sind alle mit dem Zug angereist und wir haben uns schon am Bahnhof getroffen.\nVon dort sind wir dann los in die Ferienwohnung, die Lilo für uns reserviert hatte.\nNachdem wir unser Gepäck abgestellt {{24}}, haben wir gleich einen Rundgang durch den Ort gemacht. Lilo wusste viel Interessantes zu erzählen. Sie lebt ja schon einige Jahre dort und hat sich {{25}} ausgezeichnete Fremdenführerin erwiesen. Besonders beeindruckt hat uns der wunderschöne Park, in dem gerade die Rhododendren blühten. Eine wahre Pracht. Das hätte dir auch gefallen! Später sind wir zum Amseisee gewandert, den man in kurzer Zeit vom Ort aus erreicht. Dort haben wir eine Bootsfahrt über den See gemacht. Vom Boot aus hat man einen wunderbaren Blick auf die beeindruckende Felsenlandschaft. Am Abend stand dann die Felsenbühne {{26}} dem Programm.\nDie Wanderung am nächsten Tag war {{27}} schön anstrengend, aber wunderbar.\n{{28}} alle ziemlich erschöpft waren, haben wir nach dem Abendessen noch lange zusammen gegessen. Und über alte Zeiten geplaudert. Am nächsten Morgen nach unserem gemeinsam Frühstück waren uns einig, dass wir bald wieder zusammen einen Ausflug machen {{29}}. Und nächste Mal musst du unbedingt dabei sein. Im Anhang schicke ich dir einige. Wie du siehst, war unser Treffen wirklich lustig! Ich hoffe, dass es dir {{30}} schon wieder besser geht.\n\nLiebe Grüße von uns allem\nCem",
   "gaps": [
-    { "n": 21, "a": "momentan", "b": "noch", "c": "weiterhin", "correct": "b" },
-    { "n": 22, "a": "deswegen", "b": "wegen", "c": "weil", "correct": "b" },
-    { "n": 23, "a": "abgesehen", "b": "außer", "c": "bis", "correct": "c" },
-    { "n": 24, "a": "haben", "b": "hatten", "c": "hätten", "correct": "b" },
-    { "n": 25, "a": "als", "b": "für", "c": "zur", "correct": "a" },
-    { "n": 26, "a": "auf", "b": "in", "c": "zu", "correct": "a" },
-    { "n": 27, "a": "absolut", "b": "ganz", "c": "vollkommen", "correct": "b" },
-    { "n": 28, "a": "obwohl", "b": "trotzdem", "c": "ungeachtet", "correct": "a" },
-    { "n": 29, "a": "durften", "b": "konnten", "c": "sollten", "correct": "c" },
-    { "n": 30, "a": "inzwischen", "b": "während", "c": "zwischen", "correct": "a" }
-  ]
+    {
+      "n": 21,
+      "a": "momentan",
+      "b": "noch",
+      "c": "weiterhin",
+      "correct": "b"
+    },
+    {
+      "n": 22,
+      "a": "deswegen",
+      "b": "wegen",
+      "c": "weil",
+      "correct": "b"
+    },
+    {
+      "n": 23,
+      "a": "abgesehen",
+      "b": "außer",
+      "c": "bis",
+      "correct": "c"
+    },
+    {
+      "n": 24,
+      "a": "haben",
+      "b": "hatten",
+      "c": "hätten",
+      "correct": "b"
+    },
+    {
+      "n": 25,
+      "a": "als",
+      "b": "für",
+      "c": "zur",
+      "correct": "a"
+    },
+    {
+      "n": 26,
+      "a": "auf",
+      "b": "in",
+      "c": "zu",
+      "correct": "a"
+    },
+    {
+      "n": 27,
+      "a": "absolut",
+      "b": "ganz",
+      "c": "vollkommen",
+      "correct": "b"
+    },
+    {
+      "n": 28,
+      "a": "obwohl",
+      "b": "trotzdem",
+      "c": "ungeachtet",
+      "correct": "a"
+    },
+    {
+      "n": 29,
+      "a": "durften",
+      "b": "konnten",
+      "c": "sollten",
+      "correct": "c"
+    },
+    {
+      "n": 30,
+      "a": "inzwischen",
+      "b": "während",
+      "c": "zwischen",
+      "correct": "a"
+    }
+  ],
+  "position": 4
 }
