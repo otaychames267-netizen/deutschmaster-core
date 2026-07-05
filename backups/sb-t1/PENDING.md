@@ -30,8 +30,3 @@ official source is available.
 - Do NOT guess/correct 29/30 or copy from page 20. Revisit with a clean source.
 - Reserved slot: title "Ferdinand 2", position 18.
 
-## "Julian" (Liebes Julian, from Anna) — PDF page 26, position 22 — PENDING (no options)
-- Source page provides ONLY a correct-answer table (21 Konntest ... 30 Weil/ausgeräumte),
-  with NO A/B/C multiple-choice options printed anywhere on the page.
-- BLOCKER: cannot build without inventing 2 distractor options per gap, which is forbidden.
-- Reserved slot: title "Julian", position 22.
