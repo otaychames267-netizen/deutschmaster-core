@@ -10,7 +10,7 @@
  * before submission.
  */
 import { useState, useRef, useEffect, useCallback } from "react";
-import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface SBT1Gap {
@@ -119,6 +119,11 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
   const [scoreResults, setScoreResults] = useState<ScoreResult[] | null>(null);
   const [scoreCount, setScoreCount] = useState(0);
   const [scoreTotal, setScoreTotal] = useState(0);
+  // "Lösung anzeigen" (practice/study mode): reveal correct answers without grading.
+  // Correct answers are fetched securely via the scoring RPC with empty answers —
+  // they are never present in the student data load.
+  const [solution, setSolution] = useState<Record<number, string> | null>(null);
+  const [loadingSolution, setLoadingSolution] = useState(false);
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
   const gaps = [...exercise.gaps].sort((a, b) => a.gap_number - b.gap_number);
@@ -153,19 +158,42 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
   const gapMap = new Map(gaps.map(g => [g.gap_number, g]));
   const passageParts = exercise.passage.split(/(\{\{\d+\}\})/);
 
+  // Two-part correlative options (e.g. "zwar… aber", "nicht nur… sondern") occupy
+  // TWO blanks that share the same gap number. Track which occurrence a token is so
+  // we can show the matching half in each slot while the popover keeps ONE full option.
+  const occurrenceCount: Record<number, number> = {};
+  const splitOption = (text: string | null, occ: number): string | null => {
+    if (!text) return text;
+    const parts = text.split(/\s*(?:\.\.\.|…)\s*/);
+    if (parts.length < 2) return text;
+    return parts[occ] ?? text;
+  };
+
   const renderedPassage = passageParts.map((part, idx) => {
     const m = part.match(/^\{\{(\d+)\}\}$/);
     if (!m) return <span key={idx}>{part}</span>;
     const gapNum = parseInt(m[1]);
     const gap = gapMap.get(gapNum);
     if (!gap) return <span key={idx}>[{gapNum}]</span>;
+    const occ = occurrenceCount[gapNum] ?? 0;
+    occurrenceCount[gapNum] = occ + 1;
     const chosen = answers[gapNum];
     const result = scoreResults?.find(r => r.gap_number === gapNum);
     const isCorrect = submitted && !!result?.correct;
     const isWrong = submitted && !!result && !result.correct;
-    const optionText = chosen
+    // Reveal mode ("Lösung anzeigen"): show the official correct answer without grading.
+    const revealed = solution !== null && !submitted;
+    const correctChoice = revealed ? solution![gapNum] : undefined;
+    const correctText = correctChoice
+      ? (correctChoice === "a" ? gap.option_a : correctChoice === "b" ? gap.option_b : gap.option_c)
+      : null;
+    const revealWrong = revealed && !!chosen && chosen !== correctChoice;
+    const locked = submitted || revealed;
+    const chosenFull = chosen
       ? (chosen === "a" ? gap.option_a : chosen === "b" ? gap.option_b : gap.option_c)
       : null;
+    const chosenText = splitOption(chosenFull, occ);
+    const optionText = revealed ? splitOption(correctText, occ) : chosenText;
     const isOpen = openGap === gapNum;
 
     return (
@@ -173,7 +201,7 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
         <button
           ref={(el) => { buttonRefs.current[gapNum] = el as HTMLButtonElement; }}
           onClick={() => toggleGap(gapNum)}
-          disabled={submitted}
+          disabled={locked}
           aria-haspopup="listbox"
           aria-expanded={isOpen}
           className={`relative inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium transition-all leading-normal ${
@@ -183,23 +211,28 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
                 : isWrong
                   ? "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 cursor-default"
                   : "border-border bg-muted/30 text-muted-foreground cursor-default"
-              : isOpen
-                ? "border-primary bg-primary/8 text-primary"
-                : chosen
-                  ? "border-primary/30 bg-primary/5 text-primary hover:border-primary/60"
-                  : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/40 hover:text-foreground"
+              : revealed
+                ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 cursor-default"
+                : isOpen
+                  ? "border-primary bg-primary/8 text-primary"
+                  : chosen
+                    ? "border-primary/30 bg-primary/5 text-primary hover:border-primary/60"
+                    : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/40 hover:text-foreground"
           }`}
         >
           <span className="text-[10px] font-black opacity-50">{gapNum}</span>
           {optionText
-            ? <span className="max-w-[120px] truncate">{optionText}</span>
+            ? <span className="max-w-[160px] truncate">{optionText}</span>
             : <span className="italic opacity-50 w-12 text-center text-[13px]">___</span>
           }
-          {!submitted && <ChevronDown className={`h-2.5 w-2.5 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`} />}
-          {submitted && isCorrect && <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
+          {revealWrong && chosenText && (
+            <span className="text-[11px] text-rose-500 line-through opacity-70 max-w-[80px] truncate">{chosenText}</span>
+          )}
+          {!locked && <ChevronDown className={`h-2.5 w-2.5 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`} />}
+          {((submitted && isCorrect) || revealed) && <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
           {submitted && isWrong && <XCircle className="h-3 w-3 text-rose-500 shrink-0" />}
         </button>
-        {isOpen && !submitted && (
+        {isOpen && !locked && (
           <GapPopover
             gap={gap}
             current={chosen ?? ""}
@@ -239,6 +272,27 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
     }
   }
 
+  async function showSolution() {
+    if (solution) { setSolution(null); return; } // toggle off
+    setLoadingSolution(true);
+    setOpenGap(null);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_sb_t1", {
+        p_exercise_id: exercise.id,
+        p_answers: {},
+      });
+      if (error) throw error;
+      const res = data as unknown as { results: ScoreResult[] };
+      const map: Record<number, string> = {};
+      for (const r of res.results) map[r.gap_number] = r.correct_answer;
+      setSolution(map);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingSolution(false);
+    }
+  }
+
   function reset() {
     setAnswers({});
     setSubmitted(false);
@@ -246,6 +300,7 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
     setScoreResults(null);
     setScoreCount(0);
     setScoreTotal(0);
+    setSolution(null);
   }
 
   const answeredCount = Object.keys(answers).length;
@@ -313,16 +368,36 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
 
       {/* Footer */}
       {!submitted ? (
-        <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
-          <p className="text-sm text-muted-foreground">{answeredCount} / {gaps.length} beantwortet</p>
-          <button
-            onClick={handleSubmit}
-            disabled={!allAnswered || scoring}
-            className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2"
-          >
-            {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
-            Auswertung
-          </button>
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
+          <p className="text-sm text-muted-foreground">
+            {solution ? "Lösung wird angezeigt" : `${answeredCount} / ${gaps.length} beantwortet`}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={showSolution}
+              disabled={loadingSolution}
+              className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2 disabled:opacity-40"
+            >
+              {loadingSolution ? <Loader2 className="h-4 w-4 animate-spin" /> : <BookOpen className="h-4 w-4" />}
+              {solution ? "Lösung ausblenden" : "Lösung anzeigen"}
+            </button>
+            {(answeredCount > 0 || solution) && (
+              <button
+                onClick={reset}
+                className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2"
+              >
+                <RotateCcw className="h-3.5 w-3.5" /> Zurücksetzen
+              </button>
+            )}
+            <button
+              onClick={handleSubmit}
+              disabled={!allAnswered || scoring || !!solution}
+              className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2"
+            >
+              {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
+              Auswertung
+            </button>
+          </div>
         </div>
       ) : (
         <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
