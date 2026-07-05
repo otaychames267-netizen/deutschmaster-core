@@ -164,7 +164,7 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
   const occurrenceCount: Record<number, number> = {};
   const splitOption = (text: string | null, occ: number): string | null => {
     if (!text) return text;
-    const parts = text.split(/\s*(?:\.\.\.|…)\s*/);
+    const parts = text.split(/\s*(?:\.\.\.|…|-{2,}|—)\s*/);
     if (parts.length < 2) return text;
     return parts[occ] ?? text;
   };
