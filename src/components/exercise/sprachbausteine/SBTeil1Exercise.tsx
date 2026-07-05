@@ -165,7 +165,9 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
   const splitOption = (text: string | null, occ: number): string | null => {
     if (!text) return text;
     const parts = text.split(/\s*(?:\.\.\.|…|-{2,}|—)\s*/);
-    if (parts.length < 2) return text;
+    // Only a genuine two-part option (both halves non-empty) splits; a dashes-only
+    // placeholder option like "----" must render verbatim.
+    if (parts.length < 2 || parts.some((p) => p.trim() === "")) return text;
     return parts[occ] ?? text;
   };
 
