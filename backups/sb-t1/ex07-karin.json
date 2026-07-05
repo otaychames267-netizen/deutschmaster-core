@@ -1,0 +1,20 @@
+{
+  "title": "Karin",
+  "level": "B2",
+  "position": 7,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Karin,\n\nvielen Dank für deine letzte E-Mail! Ich habe mich wirklich sehr gefreut zu lesen, dass es dir in München so gut gefällt. Endlich kannst du auch das studieren, {{21}} du möchtest – das ist doch super! Wie ist es {{22}} so an der Uni dort? Hast du schon neue Leute kennengelernt? Und wie sieht deine Woche aus? Hast du viele Veranstaltungen? Musst du zuhause auch {{23}} viel lernen? Jobbst du eigentlich noch {{24}}? Du siehst, ich habe jede Menge Fragen an dich! Deshalb würde ich deine Einladung wirklich gerne {{25}} und dich demnächst in München besuchen kommen. Im Moment habe ich noch nicht so viel Zeit, weil ich mich viel um Jonas kümmern muss – er ist ja erst sechs Monate alt – und Thomas leider keinen Urlaub nehmen kann. Aber {{26}} frei hat, komme ich mal für ein, zwei Tage zu dir. Ich bin ja so gespannt, wie du wohnst! In einer Wohngemeinschaft zu leben, ist bestimmt toll, {{27}} es mal Streit gibt. Aber du hast ja geschrieben, dass deine beiden Mitbewohnerinnen sehr nett sind und ihr {{28}} alle gut versteht. Das freut mich wirklich für dich! Bei mir gibt es gar nicht {{29}} Neues. Wir hatten neulich mal überlegt, in eine größere Wohnung zu ziehen, aber die Mieten sind ja hier in Köln recht hoch und wir {{30}} uns nicht viel zumuten – also bleiben wir lieber erst mal in dieser Wohnung. Umziehen kann man ja auch später noch.\n\nAlso, meld' dich doch mal wieder!\n\nLiebe Grüße,\nHeike",
+  "gaps": [
+    { "n": 21, "a": "das", "b": "was", "c": "welches", "correct": "b" },
+    { "n": 22, "a": "denn", "b": "doch", "c": "mal", "correct": "a" },
+    { "n": 23, "a": "dazu", "b": "noch", "c": "sogar", "correct": "b" },
+    { "n": 24, "a": "neben", "b": "nebenbei", "c": "heben", "correct": "b" },
+    { "n": 25, "a": "abnehme", "b": "annehmen", "c": "nehmen", "correct": "b" },
+    { "n": 26, "a": "bevor", "b": "bis", "c": "sobald", "correct": "c" },
+    { "n": 27, "a": "wenn", "b": "auch wenn", "c": "wenn auch", "correct": "b" },
+    { "n": 28, "a": "euch", "b": "sich", "c": "ihr", "correct": "a" },
+    { "n": 29, "a": "viel", "b": "viele", "c": "vieles", "correct": "a" },
+    { "n": 30, "a": "müssen", "b": "sollen", "c": "wollen", "correct": "c" }
+  ]
+}
