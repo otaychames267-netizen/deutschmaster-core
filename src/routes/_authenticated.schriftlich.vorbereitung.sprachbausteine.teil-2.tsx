@@ -16,7 +16,7 @@ function SBTeil2Page() {
         .from("sb_exercises")
         .select("id, title")
         .eq("teil", 2)
-        .order("created_at");
+        .order("position", { ascending: true });
 
       if (exErr) { setError(exErr.message); setLoading(false); return; }
       if (!exList?.length) { setLoading(false); return; }

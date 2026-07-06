@@ -1,19 +1,23 @@
 /**
- * Sprachbausteine Teil 2 — Lückentext mit Wortbox
+ * Sprachbausteine Teil 2 — Lückentext mit gemeinsamer Wortliste
  *
- * Security: correct answers are NEVER fetched. Scoring is done
- * server-side via supabase.rpc("score_sb_t2") only after submission.
+ * TELC-authentic interaction (no radio buttons, no dropdowns, no typing):
+ *   1. Click a gap  → it becomes the active (highlighted) gap.
+ *   2. Click a word → it instantly fills the active gap and disappears
+ *                     from the word list (each word can be used only once).
+ *   3. Focus auto-advances to the next still-empty gap.
+ *   4. Click a filled gap → its word returns to the list and the gap reopens.
  *
- * UX:
- *  - Left: passage with numbered gap buttons inline
- *  - Right: fixed word box sidebar with available words
- *  - Click a gap to activate it (highlighted border)
- *  - Click a word from the sidebar → fills the active gap; word becomes unavailable
- *  - Clicking a filled gap reactivates it and returns its word to the pool
- *  - Each word can be used only once
+ * Security: correct answers are NEVER shipped in the student payload. Both
+ * grading ("Auswertung") and the study reveal ("Lösung anzeigen") go through
+ * the server-side RPC `score_sb_t2` — the reveal calls it with empty answers,
+ * which returns every gap's correct_word without ever exposing them client-side.
+ *
+ * Responsive: on desktop/tablet the word list is a sticky sidebar beside the
+ * text; on mobile it stacks below the text (text stays on top).
  */
-import { useState, useRef } from "react";
-import { CheckCircle2, XCircle, Loader2, RotateCcw } from "lucide-react";
+import { useState, useCallback, useMemo } from "react";
+import { CheckCircle2, XCircle, Loader2, RotateCcw, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
 export interface SBT2Word {
@@ -24,7 +28,7 @@ export interface SBT2Word {
 export interface SBT2ExerciseData {
   id: string;
   title: string;
-  passage: string; // text with {{N}} gap markers
+  passage: string; // text with {{N}} gap markers (31–40)
   words: SBT2Word[];
 }
 
@@ -40,58 +44,61 @@ interface Props {
   onComplete?: (score: number, total: number) => void;
 }
 
-// Parse passage into segments: string | gap_number
+// Split passage into an ordered list of literal strings and gap numbers.
 function parsePassage(passage: string): Array<string | number> {
-  const parts = passage.split(/(\{\{\d+\}\})/);
-  return parts.map((p) => {
+  return passage.split(/(\{\{\d+\}\})/).map((p) => {
     const m = p.match(/^\{\{(\d+)\}\}$/);
-    return m ? parseInt(m[1]) : p;
+    return m ? parseInt(m[1], 10) : p;
   });
 }
 
 export function SBTeil2Exercise({ exercise, onComplete }: Props) {
-  const segments = parsePassage(exercise.passage);
-  const gapNumbers = segments.filter((s): s is number => typeof s === "number");
+  const segments = useMemo(() => parsePassage(exercise.passage), [exercise.passage]);
+  const gapNumbers = useMemo(
+    () => segments.filter((s): s is number => typeof s === "number"),
+    [segments],
+  );
 
-  // answers: gap_number → word
+  // gap_number → chosen word
   const [answers, setAnswers] = useState<Map<number, string>>(new Map());
   const [activeGap, setActiveGap] = useState<number | null>(null);
+
   const [submitted, setSubmitted] = useState(false);
   const [scoring, setScoring] = useState(false);
   const [results, setResults] = useState<ScoreResult[]>([]);
   const [score, setScore] = useState<{ score: number; total: number } | null>(null);
 
-  // Which words are "used": word → gap_number
-  const usedWords = new Map<string, number>();
-  for (const [gap, word] of answers) usedWords.set(word, gap);
+  // Study reveal ("Lösung anzeigen"): gap_number → correct word, fetched securely.
+  const [solution, setSolution] = useState<Map<number, string> | null>(null);
+  const [loadingSolution, setLoadingSolution] = useState(false);
+
+  const revealed = solution !== null && !submitted;
+  const locked = submitted || revealed;
+
+  // word → gap it currently fills (for "used / disabled" state)
+  const usedWords = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const [gap, word] of answers) m.set(word, gap);
+    return m;
+  }, [answers]);
+
+  const nextEmptyGap = useCallback(
+    (filledGap: number, filled: Map<number, string>): number | null => {
+      const after = gapNumbers.find((g) => g > filledGap && !filled.has(g));
+      if (after !== undefined) return after;
+      const anyEmpty = gapNumbers.find((g) => !filled.has(g));
+      return anyEmpty ?? null;
+    },
+    [gapNumbers],
+  );
 
   function handleGapClick(gapNum: number) {
-    if (submitted) return;
-    if (activeGap === gapNum) {
-      setActiveGap(null);
-    } else {
-      setActiveGap(gapNum);
-    }
-  }
-
-  function handleWordClick(word: string) {
-    if (submitted || activeGap === null) return;
-
-    setAnswers((prev) => {
-      const next = new Map(prev);
-      // If this word was already used in another gap, free that gap
-      for (const [g, w] of next) {
-        if (w === word && g !== activeGap) next.delete(g);
-      }
-      // If the active gap already had a different word, that word returns to pool automatically
-      next.set(activeGap, word);
-      return next;
-    });
-    setActiveGap(null);
+    if (locked) return;
+    setActiveGap((cur) => (cur === gapNum ? null : gapNum));
   }
 
   function handleClearGap(gapNum: number) {
-    if (submitted) return;
+    if (locked) return;
     setAnswers((prev) => {
       const next = new Map(prev);
       next.delete(gapNum);
@@ -100,207 +107,343 @@ export function SBTeil2Exercise({ exercise, onComplete }: Props) {
     setActiveGap(gapNum);
   }
 
-  async function handleSubmit() {
-    if (scoring || submitted) return;
-    setScoring(true);
-    const p_answers: Record<string, string> = {};
-    for (const [gap, word] of answers) p_answers[String(gap)] = word;
-
-    const { data, error } = await (supabase as any).rpc("score_sb_t2", {
-      p_exercise_id: exercise.id,
-      p_answers,
-    });
-    setScoring(false);
-    if (error || !data) {
-      console.error("Scoring error", error);
-      return;
-    }
-    setResults(data.results ?? []);
-    setScore({ score: data.score, total: data.total });
-    setSubmitted(true);
-    onComplete?.(data.score, data.total);
+  function handleWordClick(word: string) {
+    if (locked || activeGap === null || usedWords.has(word)) return;
+    // Compute the new answer map and next focus synchronously from current state —
+    // NOT inside the setAnswers updater (that runs during reconciliation, so the
+    // auto-advance target would still be stale when setActiveGap runs).
+    const next = new Map(answers);
+    for (const [g, w] of next) if (w === word) next.delete(g); // each word only once
+    next.set(activeGap, word);
+    const advanced = nextEmptyGap(activeGap, next);
+    setAnswers(next);
+    setActiveGap(advanced);
   }
 
-  function handleReset() {
+  async function handleSubmit() {
+    if (scoring || submitted || revealed) return;
+    setScoring(true);
+    setActiveGap(null);
+    const payload: Record<string, string> = {};
+    for (const [gap, word] of answers) payload[String(gap)] = word;
+    try {
+      const { data, error } = await (supabase as any).rpc("score_sb_t2", {
+        p_exercise_id: exercise.id,
+        p_answers: payload,
+      });
+      if (error) throw error;
+      const res = data as { score: number; total: number; results: ScoreResult[] };
+      setResults(res.results ?? []);
+      setScore({ score: res.score, total: res.total });
+      setSubmitted(true);
+      onComplete?.(res.score, res.total);
+    } catch (e) {
+      console.error("Scoring error", e);
+    } finally {
+      setScoring(false);
+    }
+  }
+
+  async function showSolution() {
+    if (solution) {
+      setSolution(null);
+      return;
+    }
+    setLoadingSolution(true);
+    setActiveGap(null);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_sb_t2", {
+        p_exercise_id: exercise.id,
+        p_answers: {},
+      });
+      if (error) throw error;
+      const res = data as { results: ScoreResult[] };
+      const map = new Map<number, string>();
+      for (const r of res.results) map.set(r.gap_number, r.correct_answer);
+      setSolution(map);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingSolution(false);
+    }
+  }
+
+  function reset() {
     setAnswers(new Map());
     setActiveGap(null);
     setSubmitted(false);
     setResults([]);
     setScore(null);
+    setSolution(null);
   }
 
-  const resultMap = new Map<number, ScoreResult>(results.map((r) => [r.gap_number, r]));
+  const resultMap = useMemo(
+    () => new Map<number, ScoreResult>(results.map((r) => [r.gap_number, r])),
+    [results],
+  );
 
+  const totalGaps = gapNumbers.length;
+  const answeredCount = answers.size;
+  const allAnswered = answeredCount === totalGaps && totalGaps > 0;
+
+  // ── Inline gap rendering ──────────────────────────────────────────────────
   function renderGap(gapNum: number) {
     const filled = answers.get(gapNum);
-    const isActive = activeGap === gapNum && !submitted;
-    const res = submitted ? resultMap.get(gapNum) : null;
+    const isActive = activeGap === gapNum && !locked;
 
-    if (submitted && res) {
+    // Graded view
+    if (submitted) {
+      const res = resultMap.get(gapNum);
+      const ok = !!res?.correct;
       return (
         <span
-          key={gapNum}
-          className={`inline-flex items-center gap-1 px-2 py-0.5 mx-0.5 rounded text-sm font-medium border ${
-            res.correct
-              ? "bg-green-100 border-green-400 text-green-800"
-              : "bg-red-100 border-red-400 text-red-800"
+          key={`gap-${gapNum}`}
+          className={`inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium align-baseline transition-colors ${
+            ok
+              ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+              : "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300"
           }`}
         >
-          {res.correct ? <CheckCircle2 className="w-3.5 h-3.5" /> : <XCircle className="w-3.5 h-3.5" />}
-          <span>{res.your_answer || "—"}</span>
-          <span className="text-xs opacity-60">({gapNum})</span>
+          <span className="text-[10px] font-black opacity-50">{gapNum}</span>
+          {ok ? (
+            <>
+              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+              <span>{res?.your_answer || "—"}</span>
+            </>
+          ) : (
+            <>
+              <XCircle className="h-3.5 w-3.5 shrink-0" />
+              {res?.your_answer && (
+                <span className="line-through opacity-60">{res.your_answer}</span>
+              )}
+              <span className="font-semibold">{res?.correct_answer}</span>
+            </>
+          )}
         </span>
       );
     }
 
+    // Study reveal
+    if (revealed) {
+      const correctWord = solution!.get(gapNum);
+      return (
+        <span
+          key={`gap-${gapNum}`}
+          className="inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 text-sm font-medium align-baseline"
+        >
+          <span className="text-[10px] font-black opacity-50">{gapNum}</span>
+          <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
+          <span>{correctWord}</span>
+        </span>
+      );
+    }
+
+    // Solving view
     if (filled) {
       return (
         <button
-          key={gapNum}
+          key={`gap-${gapNum}`}
           onClick={() => handleClearGap(gapNum)}
-          className={`inline-flex items-center gap-1 px-2 py-0.5 mx-0.5 rounded text-sm font-medium border cursor-pointer transition-colors ${
+          title="Klicken, um das Wort zurückzulegen"
+          className={`inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium align-baseline transition-all duration-150 ${
             isActive
-              ? "bg-blue-100 border-blue-500 ring-2 ring-blue-300"
-              : "bg-blue-50 border-blue-300 hover:bg-blue-100"
+              ? "border-primary bg-primary/10 text-primary ring-2 ring-primary/30"
+              : "border-primary/30 bg-primary/5 text-primary hover:border-primary/60 hover:bg-primary/10"
           }`}
-          title="Klicken zum Ändern"
         >
+          <span className="text-[10px] font-black opacity-50">{gapNum}</span>
           <span>{filled}</span>
-          <span className="text-xs text-gray-400">({gapNum})</span>
         </button>
       );
     }
 
     return (
       <button
-        key={gapNum}
+        key={`gap-${gapNum}`}
         onClick={() => handleGapClick(gapNum)}
-        className={`inline-flex items-center px-3 py-0.5 mx-0.5 rounded text-sm border cursor-pointer transition-colors ${
+        className={`inline-flex items-center gap-1 mx-0.5 px-3 py-0.5 rounded-md border text-sm align-baseline transition-all duration-150 ${
           isActive
-            ? "bg-blue-100 border-blue-500 ring-2 ring-blue-300 text-blue-700"
-            : "bg-gray-50 border-gray-300 hover:bg-gray-100 text-gray-500"
+            ? "border-primary bg-primary/10 text-primary ring-2 ring-primary/30 scale-105"
+            : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/50 hover:text-foreground"
         }`}
       >
-        ({gapNum})
+        <span className="text-[10px] font-black opacity-50">{gapNum}</span>
+        <span className="italic opacity-50">＿＿＿</span>
       </button>
     );
   }
 
-  const totalGaps = gapNumbers.length;
-  const answeredCount = answers.size;
-  const allAnswered = answeredCount === totalGaps;
-
   return (
-    <div className="flex gap-6 max-w-5xl mx-auto">
-      {/* ── Main passage ── */}
-      <div className="flex-1 min-w-0">
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">{exercise.title}</h2>
+    <div className="space-y-6">
+      {/* Instructions */}
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <p className="text-sm font-bold text-foreground mb-1">Aufgabe</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          Lesen Sie den Text. Klicken Sie auf eine Lücke und wählen Sie das passende Wort
+          aus der Wortliste. Jedes Wort passt nur in <strong>eine</strong> Lücke und kann
+          nur <strong>einmal</strong> verwendet werden — es gibt mehr Wörter als Lücken.
+        </p>
+      </div>
 
-          {activeGap !== null && !submitted && (
-            <div className="mb-3 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded text-sm text-blue-700">
-              Lücke <strong>{activeGap}</strong> aktiv — wählen Sie ein Wort aus der Box rechts.
-            </div>
-          )}
-
-          <div className="prose prose-sm max-w-none leading-relaxed text-gray-800">
+      {/* Text (top) + word list (sidebar on desktop, below on mobile) */}
+      <div className="flex flex-col lg:flex-row gap-6 items-start">
+        {/* ── Passage ── */}
+        <div className="w-full lg:flex-1 min-w-0 rounded-2xl border border-border bg-card p-6">
+          <h2 className="text-base font-semibold text-foreground mb-4">{exercise.title}</h2>
+          <div className="text-sm text-foreground leading-[2.4] whitespace-pre-line select-text">
             {segments.map((seg, idx) =>
-              typeof seg === "number" ? (
-                renderGap(seg)
-              ) : (
-                <span key={idx}>{seg}</span>
-              )
-            )}
-          </div>
-
-          {/* Submit / reset */}
-          <div className="mt-6 flex items-center gap-3">
-            {!submitted ? (
-              <button
-                onClick={handleSubmit}
-                disabled={scoring || !allAnswered}
-                className="flex items-center gap-2 px-5 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
-              >
-                {scoring && <Loader2 className="w-4 h-4 animate-spin" />}
-                Auswertung ({answeredCount}/{totalGaps})
-              </button>
-            ) : (
-              <button
-                onClick={handleReset}
-                className="flex items-center gap-2 px-5 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Neu starten
-              </button>
-            )}
-
-            {score && (
-              <div className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-lg ${
-                score.score / score.total >= 0.8 ? "bg-green-100 text-green-800" :
-                score.score / score.total >= 0.5 ? "bg-yellow-100 text-yellow-800" :
-                "bg-red-100 text-red-800"
-              }`}>
-                {score.score} / {score.total}
-              </div>
+              typeof seg === "number" ? renderGap(seg) : <span key={`t-${idx}`}>{seg}</span>,
             )}
           </div>
         </div>
 
-        {/* Correction table */}
-        {submitted && results.length > 0 && (
-          <div className="mt-4 bg-white rounded-xl border border-gray-200 shadow-sm p-6">
-            <h3 className="font-semibold text-gray-800 mb-3">Korrektur</h3>
-            <div className="grid grid-cols-4 gap-2 text-sm font-medium text-gray-500 mb-2 border-b pb-2">
-              <span>Lücke</span><span>Ihre Antwort</span><span>Richtige Antwort</span><span>Ergebnis</span>
+        {/* ── Word list ── */}
+        <div className="w-full lg:w-64 lg:shrink-0">
+          <div className="lg:sticky lg:top-6 rounded-2xl border border-border bg-card p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                Wortliste
+              </span>
+              {!locked && (
+                <span className="text-[11px] text-muted-foreground">
+                  {answeredCount}/{totalGaps}
+                </span>
+              )}
             </div>
+            <div className="flex flex-wrap gap-2">
+              {exercise.words.map((w) => {
+                const isUsed = usedWords.has(w.word);
+                const selectable = !locked && activeGap !== null && !isUsed;
+                return (
+                  <button
+                    key={w.word_number}
+                    onClick={() => handleWordClick(w.word)}
+                    disabled={!selectable}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-all duration-150 ${
+                      locked
+                        ? "border-border bg-muted/40 text-muted-foreground/60 cursor-default"
+                        : isUsed
+                          ? "border-border bg-muted/40 text-muted-foreground/40 line-through cursor-not-allowed"
+                          : activeGap !== null
+                            ? "border-primary/40 bg-primary/5 text-primary hover:bg-primary/10 hover:border-primary cursor-pointer active:scale-95"
+                            : "border-border bg-muted/40 text-muted-foreground cursor-not-allowed"
+                    }`}
+                  >
+                    {w.word}
+                  </button>
+                );
+              })}
+            </div>
+            {!locked && (
+              <p className="mt-3 text-[11px] text-muted-foreground text-center leading-snug">
+                {activeGap === null
+                  ? "Lücke anklicken, dann Wort wählen"
+                  : `Wort für Lücke ${activeGap} wählen`}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Correction table (after grading) */}
+      {submitted && results.length > 0 && (
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="border-b border-border bg-muted/30 px-5 py-3">
+            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+              Auswertung
+            </p>
+          </div>
+          <div className="divide-y divide-border/50">
             {results.map((r) => (
-              <div key={r.gap_number} className={`grid grid-cols-4 gap-2 text-sm py-1.5 border-b last:border-0 ${r.correct ? "text-green-800" : "text-red-800"}`}>
-                <span className="font-medium">({r.gap_number})</span>
-                <span>{r.your_answer || "—"}</span>
-                <span className="font-medium">{r.correct_answer}</span>
-                <span>{r.correct ? <CheckCircle2 className="w-4 h-4 inline" /> : <XCircle className="w-4 h-4 inline" />}</span>
+              <div
+                key={r.gap_number}
+                className={`flex items-center gap-3 px-5 py-2.5 ${r.correct ? "bg-emerald-500/3" : "bg-rose-500/3"}`}
+              >
+                <span className="shrink-0 w-6 text-xs font-black text-muted-foreground text-center">
+                  {r.gap_number}
+                </span>
+                {r.correct ? (
+                  <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                ) : (
+                  <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
+                )}
+                <span
+                  className={`flex-1 text-sm ${r.correct ? "text-emerald-700 dark:text-emerald-300 font-medium" : "text-rose-700 dark:text-rose-300"}`}
+                >
+                  {r.correct ? (
+                    r.your_answer
+                  ) : (
+                    <>
+                      <span className="line-through opacity-60">{r.your_answer || "—"}</span>{" "}
+                      → <span className="font-semibold">{r.correct_answer}</span>
+                    </>
+                  )}
+                </span>
               </div>
             ))}
           </div>
-        )}
-      </div>
-
-      {/* ── Word box sidebar ── */}
-      <div className="w-52 shrink-0">
-        <div className="sticky top-6 bg-white rounded-xl border-2 border-gray-300 shadow-sm p-4">
-          <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Wortbox</div>
-          <div className="flex flex-col gap-2">
-            {exercise.words.map((w) => {
-              const isUsed = usedWords.has(w.word);
-              return (
-                <button
-                  key={w.word_number}
-                  onClick={() => !isUsed && handleWordClick(w.word)}
-                  disabled={isUsed || submitted || activeGap === null}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium text-left transition-all border ${
-                    submitted
-                      ? "cursor-default opacity-70 border-gray-200 bg-gray-50 text-gray-600"
-                      : isUsed
-                      ? "opacity-40 cursor-not-allowed border-gray-200 bg-gray-50 text-gray-400 line-through"
-                      : activeGap !== null
-                      ? "border-blue-300 bg-blue-50 hover:bg-blue-100 text-blue-800 cursor-pointer"
-                      : "border-gray-200 bg-gray-50 text-gray-500 cursor-not-allowed"
-                  }`}
-                >
-                  {w.word}
-                </button>
-              );
-            })}
-          </div>
-          {!submitted && (
-            <div className="mt-3 text-xs text-gray-400 text-center">
-              {activeGap === null
-                ? "Lücke anklicken, dann Wort wählen"
-                : `Wort für Lücke ${activeGap} wählen`}
-            </div>
-          )}
         </div>
-      </div>
+      )}
+
+      {/* Footer controls */}
+      {!submitted ? (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
+          <p className="text-sm text-muted-foreground">
+            {revealed ? "Lösung wird angezeigt" : `${answeredCount} / ${totalGaps} eingesetzt`}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={showSolution}
+              disabled={loadingSolution}
+              className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2 disabled:opacity-40"
+            >
+              {loadingSolution ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <BookOpen className="h-4 w-4" />
+              )}
+              {solution ? "Lösung ausblenden" : "Lösung anzeigen"}
+            </button>
+            {(answeredCount > 0 || solution) && (
+              <button
+                onClick={reset}
+                className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2"
+              >
+                <RotateCcw className="h-3.5 w-3.5" /> Zurücksetzen
+              </button>
+            )}
+            <button
+              onClick={handleSubmit}
+              disabled={!allAnswered || scoring || !!solution}
+              className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2"
+            >
+              {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
+              Auswertung
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
+          <p className="text-3xl font-black text-foreground">
+            {score?.score} / {score?.total}
+          </p>
+          <p className="text-sm text-muted-foreground">
+            {score && score.score === score.total
+              ? "Perfekt! Alle Lücken korrekt ausgefüllt."
+              : score && score.score >= 8
+                ? "Sehr gut! Fast perfekt."
+                : score && score.score >= 6
+                  ? "Gut. Weiter üben!"
+                  : "Noch etwas Übung nötig — nicht aufgeben!"}
+          </p>
+          <button
+            onClick={reset}
+            className="rounded-xl border border-border bg-muted px-5 py-2 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2 mx-auto"
+          >
+            <RotateCcw className="h-3.5 w-3.5" /> Nochmal versuchen
+          </button>
+        </div>
+      )}
     </div>
   );
 }
