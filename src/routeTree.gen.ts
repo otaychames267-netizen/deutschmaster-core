@@ -44,6 +44,7 @@ import { Route as AuthenticatedSchriftlichIndexRouteImport } from './routes/_aut
 import { Route as AuthenticatedMuendlichIndexRouteImport } from './routes/_authenticated.muendlich.index'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated.learn.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api.public.stripe-webhook'
 import { Route as AuthenticatedSchriftlichVorbereitungRouteImport } from './routes/_authenticated.schriftlich.vorbereitung'
 import { Route as AuthenticatedSchriftlichPruefungRouteImport } from './routes/_authenticated.schriftlich.pruefung'
@@ -65,6 +66,7 @@ import { Route as AuthenticatedAdminLesenRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminImportReviewRouteImport } from './routes/_authenticated.admin.import-review'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
 import { Route as AuthenticatedAdminExamsRouteImport } from './routes/_authenticated.admin.exams'
+import { Route as AuthenticatedAdminCreditsRouteImport } from './routes/_authenticated.admin.credits'
 import { Route as AuthenticatedAdminCouponsRouteImport } from './routes/_authenticated.admin.coupons'
 import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated.admin.backup'
 import { Route as AuthenticatedAdminAuditLogsRouteImport } from './routes/_authenticated.admin.audit-logs'
@@ -273,6 +275,11 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const ApiSchreibenGradeEssayRoute = ApiSchreibenGradeEssayRouteImport.update({
+  id: '/api/schreiben/grade-essay',
+  path: '/api/schreiben/grade-essay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
   id: '/api/public/stripe-webhook',
   path: '/api/public/stripe-webhook',
@@ -391,6 +398,12 @@ const AuthenticatedAdminExamsRoute = AuthenticatedAdminExamsRouteImport.update({
   path: '/exams',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminCreditsRoute =
+  AuthenticatedAdminCreditsRouteImport.update({
+    id: '/credits',
+    path: '/credits',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCouponsRoute =
   AuthenticatedAdminCouponsRouteImport.update({
     id: '/coupons',
@@ -591,6 +604,7 @@ export interface FileRoutesByFullPath {
   '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/admin/coupons': typeof AuthenticatedAdminCouponsRoute
+  '/admin/credits': typeof AuthenticatedAdminCreditsRoute
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
@@ -612,6 +626,7 @@ export interface FileRoutesByFullPath {
   '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
+  '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
   '/muendlich/': typeof AuthenticatedMuendlichIndexRoute
@@ -671,6 +686,7 @@ export interface FileRoutesByTo {
   '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/admin/coupons': typeof AuthenticatedAdminCouponsRoute
+  '/admin/credits': typeof AuthenticatedAdminCreditsRoute
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
@@ -691,6 +707,7 @@ export interface FileRoutesByTo {
   '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
   '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
+  '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/muendlich': typeof AuthenticatedMuendlichIndexRoute
@@ -756,6 +773,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
   '/_authenticated/admin/coupons': typeof AuthenticatedAdminCouponsRoute
+  '/_authenticated/admin/credits': typeof AuthenticatedAdminCreditsRoute
   '/_authenticated/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
@@ -777,6 +795,7 @@ export interface FileRoutesById {
   '/_authenticated/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/_authenticated/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
+  '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
   '/_authenticated/muendlich/': typeof AuthenticatedMuendlichIndexRoute
@@ -842,6 +861,7 @@ export interface FileRouteTypes {
     | '/admin/audit-logs'
     | '/admin/backup'
     | '/admin/coupons'
+    | '/admin/credits'
     | '/admin/exams'
     | '/admin/exercises'
     | '/admin/import-review'
@@ -863,6 +883,7 @@ export interface FileRouteTypes {
     | '/schriftlich/pruefung'
     | '/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
+    | '/api/schreiben/grade-essay'
     | '/admin/'
     | '/learn/'
     | '/muendlich/'
@@ -922,6 +943,7 @@ export interface FileRouteTypes {
     | '/admin/audit-logs'
     | '/admin/backup'
     | '/admin/coupons'
+    | '/admin/credits'
     | '/admin/exams'
     | '/admin/exercises'
     | '/admin/import-review'
@@ -942,6 +964,7 @@ export interface FileRouteTypes {
     | '/muendlich/vorbereitung'
     | '/schriftlich/pruefung'
     | '/api/public/stripe-webhook'
+    | '/api/schreiben/grade-essay'
     | '/admin'
     | '/learn'
     | '/muendlich'
@@ -1006,6 +1029,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/audit-logs'
     | '/_authenticated/admin/backup'
     | '/_authenticated/admin/coupons'
+    | '/_authenticated/admin/credits'
     | '/_authenticated/admin/exams'
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/import-review'
@@ -1027,6 +1051,7 @@ export interface FileRouteTypes {
     | '/_authenticated/schriftlich/pruefung'
     | '/_authenticated/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
+    | '/api/schreiben/grade-essay'
     | '/_authenticated/admin/'
     | '/_authenticated/learn/'
     | '/_authenticated/muendlich/'
@@ -1066,6 +1091,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   ApiPublicStripeWebhookRoute: typeof ApiPublicStripeWebhookRoute
+  ApiSchreibenGradeEssayRoute: typeof ApiSchreibenGradeEssayRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1315,6 +1341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/schreiben/grade-essay': {
+      id: '/api/schreiben/grade-essay'
+      path: '/api/schreiben/grade-essay'
+      fullPath: '/api/schreiben/grade-essay'
+      preLoaderRoute: typeof ApiSchreibenGradeEssayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/stripe-webhook': {
       id: '/api/public/stripe-webhook'
       path: '/api/public/stripe-webhook'
@@ -1460,6 +1493,13 @@ declare module '@tanstack/react-router' {
       path: '/exams'
       fullPath: '/admin/exams'
       preLoaderRoute: typeof AuthenticatedAdminExamsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/credits': {
+      id: '/_authenticated/admin/credits'
+      path: '/credits'
+      fullPath: '/admin/credits'
+      preLoaderRoute: typeof AuthenticatedAdminCreditsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/coupons': {
@@ -1678,6 +1718,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAuditLogsRoute: typeof AuthenticatedAdminAuditLogsRoute
   AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
   AuthenticatedAdminCouponsRoute: typeof AuthenticatedAdminCouponsRoute
+  AuthenticatedAdminCreditsRoute: typeof AuthenticatedAdminCreditsRoute
   AuthenticatedAdminExamsRoute: typeof AuthenticatedAdminExamsRoute
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminImportReviewRoute: typeof AuthenticatedAdminImportReviewRoute
@@ -1706,6 +1747,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAuditLogsRoute: AuthenticatedAdminAuditLogsRoute,
   AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
   AuthenticatedAdminCouponsRoute: AuthenticatedAdminCouponsRoute,
+  AuthenticatedAdminCreditsRoute: AuthenticatedAdminCreditsRoute,
   AuthenticatedAdminExamsRoute: AuthenticatedAdminExamsRoute,
   AuthenticatedAdminExercisesRoute:
     AuthenticatedAdminExercisesRouteWithChildren,
@@ -1916,6 +1958,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   ApiPublicStripeWebhookRoute: ApiPublicStripeWebhookRoute,
+  ApiSchreibenGradeEssayRoute: ApiSchreibenGradeEssayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

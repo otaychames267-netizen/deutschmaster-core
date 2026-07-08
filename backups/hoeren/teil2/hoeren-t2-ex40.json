@@ -1,0 +1,63 @@
+{
+  "title": "Wohnmobilen",
+  "teil": 2,
+  "level": "B2",
+  "position": 40,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 41 (code 368) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "In der Sendung von Bayern 3 können Sie u. a. ein Zelt gewinnen.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Für das Wohnmobil Camper 500F benötigt man einen Zusatzführerschein.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Der Hauptpreis des Gewinnspiels ist ein vierwöchiger Urlaub in Spanien.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Sie können in der Sendung auch Bildbände über verschiedene Länder gewinnen.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Wohnmobile für Reisen in Europa sollte man erst am Urlaubsort mieten.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Reisende mit Wohnmobilen schätzen ihre Unabhängigkeit.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Auf Luxus muss man im Wohnwagen auch heute noch verzichten.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Wer den Urlaub mit dem Wohnmobil erst einmal ausprobieren will, sollte ein gebrauchtes Fahrzeug kaufen.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Deutsche zahlen für ein Wohnmobil durchschnittlich 200.000 Euro.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Der Mietpreis für ein Wohnmobil hängt von der Jahreszeit ab.",
+      "correct": false
+    }
+  ]
+}

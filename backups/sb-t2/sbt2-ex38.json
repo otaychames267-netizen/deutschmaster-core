@@ -1,0 +1,22 @@
+{
+  "title": "Joggen: Mehr als nur Laufen",
+  "level": "B2",
+  "position": 38,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "PDF page 40 of sprachbausteine teil 2.pdf. Verified via 300dpi full-page render (clean digital-print page) + 600dpi crops for gap37 confirmation.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "Joggen : Mehr als nur Laufen\n\nAuto, Rolltreppe, Fahrstuhl - das moderne Leben ist {{31}} geworden. Ein Großteil der Bevölkerung verbringt den Tag sitzend. Zum Leidwesen unseres Körpers, denn das geht zu Lasten der Gesundheit. Herz-Kreislauf-Erkrankungen {{32}} in den westlichen Industrieländern mittlerweile die Todesursache Nummer Eins. Dennoch: Rund zehn Millionen Menschen in Deutschland joggen, etwa acht Millionen gehen Inline-Skaten oder Rad fahren, jeder Dritte schwimmt. Wer regelmäßig, richtig und vor allem in Maßen trainiert, fördert Gesundheit, Körper- und Selbstbewusstsein.\n\nZahlreiche Sportarten bieten einen einfachen und abwechslungsreichen Einstieg auch für Ungeübte. Vom Klassiker Jogging bis hin zu Walking, Radfahren, Schwimmen, Aerobic, Inline-Skating und Langlauf im Winter. Wichtig ist, {{33}} richtig zu trainieren, den Körper nicht zu überfordern - vor allem nach einer längeren Sportpause! Empfehlenswert ist aerobes Herz-Kreislauf-Training, das bedeutet Ausdauertraining {{34}} Verbrennung von Sauerstoff. Dreimal in der Woche 30 bis 40 Minuten genügen. Dabei {{35}} der Puls kontrolliert werden. Der Richtwert ist hier 180 minus Lebensalter. Dann wird auch Fett verbrannt, der Körper nicht überfordert.\n\n{{36}} mehr Menschen den Schritt in ein aktiveres Leben wagen sollten, machen zahlreiche Studien deutlich: Rund 40 Prozent {{37}} Deutschen bringen zu viel auf die Waage, jeder zehnte ist sogar stark fettleibig - Tendenz steigend. Auch vor Kindern und Jugendlichen macht diese Entwicklung nicht halt. Oft fehlt die Zeit für regelmäßiges Essen, Sport und Entspannung. Der Körper quittiert dies meist mit Herz-Kreislauf-Erkrankungen, nicht selten mit {{38}} Herzinfarkt - auch, und immer häufiger {{39}} Frauen.\n\nAusdauersport hingegen wirkt auf Herz, Gefäße, Muskeln, Körpergewicht, Hormone und Stimmungen. Stress wird wegtrainiert, Krankheiten geheilt und vorgebeugt. Zusammen mit der richtigen Ernährung minimiert sich das Risiko, einen Herzinfarkt oder Schlaganfall zu erleiden, {{40}} Milch und Milchprodukte, pflanzliche Lebensmittel wie Vollkornprodukte, Obst, Gemüse, Salat, magere Wurst und Käsesorten unterstützen das richtige Training.",
+  "words": ["erheblich", "schnell", "immer", "wird", "dass", "einem", "aller", "sollte", "ist", "sind", "bequem", "unter", "bei", "dabei", "wie"],
+  "answers": {
+    "31": "bequem",
+    "32": "ist",
+    "33": "sollte",
+    "34": "dass",
+    "35": "wie",
+    "36": "wird",
+    "37": "sind",
+    "38": "erheblich",
+    "39": "immer",
+    "40": "bei"
+  }
+}

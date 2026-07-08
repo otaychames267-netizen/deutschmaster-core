@@ -30,6 +30,7 @@ const env = {}; for (const l of readFileSync("C:/Users/asus/AuraLingovia/.env", 
 const REF = env.SUPABASE_PROJECT_REF, SBP = env.SUPABASE_ACCESS_TOKEN;
 const APPLY = process.argv.includes("--apply");
 const FORCE = process.argv.includes("--force");
+const ALLOW_DUP_WORDS = process.argv.includes("--allow-dup-words"); // for confirmed genuine source print duplicates only
 const FILE = process.argv.find((a, i) => i >= 2 && !a.startsWith("--"));
 if (!FILE) { console.error("usage: node scripts/sb-t2-insert.mjs <data.json> [--apply] [--force]"); process.exit(1); }
 const b64 = (s) => Buffer.from(s ?? "", "utf8").toString("base64");
@@ -52,7 +53,7 @@ if (markerNums.length !== markerSet.size) errs.push(`passage repeats a gap marke
 // word list integrity
 const words = (d.words || []).map((w) => String(w));
 const wordSet = new Set(words);
-if (wordSet.size !== words.length) errs.push("words[] contains duplicates");
+if (wordSet.size !== words.length && !ALLOW_DUP_WORDS) errs.push("words[] contains duplicates (pass --allow-dup-words if this is a confirmed genuine source print duplicate, not a transcription error)");
 
 // answers integrity
 const answerGaps = Object.keys(d.answers || {}).map(Number);

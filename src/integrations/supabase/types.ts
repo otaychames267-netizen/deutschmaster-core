@@ -405,6 +405,36 @@ export type Database = {
         }
         Relationships: []
       }
+      credit_transactions: {
+        Row: {
+          created_at: string
+          delta: number
+          granted_by: string | null
+          id: string
+          reason: string
+          related_grading_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          delta: number
+          granted_by?: string | null
+          id?: string
+          reason: string
+          related_grading_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          delta?: number
+          granted_by?: string | null
+          id?: string
+          reason?: string
+          related_grading_id?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       devices: {
         Row: {
           created_at: string
@@ -440,6 +470,75 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      essay_gradings: {
+        Row: {
+          created_at: string
+          essay_text: string
+          exam_id: string
+          exam_item_id: string
+          feedback: Json
+          grammar_score: number
+          id: string
+          model: string
+          overall_score: number
+          passed: boolean
+          structure_score: number
+          task_fulfillment_score: number
+          user_id: string
+          vocabulary_score: number
+          word_count: number
+        }
+        Insert: {
+          created_at?: string
+          essay_text: string
+          exam_id: string
+          exam_item_id: string
+          feedback: Json
+          grammar_score: number
+          id?: string
+          model: string
+          overall_score: number
+          passed: boolean
+          structure_score: number
+          task_fulfillment_score: number
+          user_id: string
+          vocabulary_score: number
+          word_count: number
+        }
+        Update: {
+          created_at?: string
+          essay_text?: string
+          exam_id?: string
+          exam_item_id?: string
+          feedback?: Json
+          grammar_score?: number
+          id?: string
+          model?: string
+          overall_score?: number
+          passed?: boolean
+          structure_score?: number
+          task_fulfillment_score?: number
+          user_id?: string
+          vocabulary_score?: number
+          word_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "essay_gradings_exam_id_fkey"
+            columns: ["exam_id"]
+            isOneToOne: false
+            referencedRelation: "exams"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "essay_gradings_exam_item_id_fkey"
+            columns: ["exam_item_id"]
+            isOneToOne: false
+            referencedRelation: "exam_items"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       exam_items: {
         Row: {
@@ -806,6 +905,148 @@ export type Database = {
         }
         Relationships: []
       }
+      hoeren_attempts: {
+        Row: {
+          answers: Json
+          created_at: string
+          exercise_id: string
+          id: string
+          results: Json
+          score: number
+          teil: number
+          total: number
+          user_id: string
+        }
+        Insert: {
+          answers: Json
+          created_at?: string
+          exercise_id: string
+          id?: string
+          results: Json
+          score: number
+          teil: number
+          total: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          exercise_id?: string
+          id?: string
+          results?: Json
+          score?: number
+          teil?: number
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hoeren_attempts_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "hoeren_exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "hoeren_attempts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hoeren_exercises: {
+        Row: {
+          audio_path: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          image_path: string | null
+          import_notes: string | null
+          instructions: string | null
+          level: string
+          position: number
+          source_pdf: string | null
+          teil: number
+          title: string
+          variant_group: string | null
+          version_tag: string | null
+        }
+        Insert: {
+          audio_path?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_path?: string | null
+          import_notes?: string | null
+          instructions?: string | null
+          level?: string
+          position?: number
+          source_pdf?: string | null
+          teil: number
+          title: string
+          variant_group?: string | null
+          version_tag?: string | null
+        }
+        Update: {
+          audio_path?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          image_path?: string | null
+          import_notes?: string | null
+          instructions?: string | null
+          level?: string
+          position?: number
+          source_pdf?: string | null
+          teil?: number
+          title?: string
+          variant_group?: string | null
+          version_tag?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hoeren_exercises_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hoeren_statements: {
+        Row: {
+          correct_answer: boolean
+          exercise_id: string
+          id: string
+          statement_number: number
+          statement_text: string
+        }
+        Insert: {
+          correct_answer: boolean
+          exercise_id: string
+          id?: string
+          statement_number: number
+          statement_text: string
+        }
+        Update: {
+          correct_answer?: boolean
+          exercise_id?: string
+          id?: string
+          statement_number?: number
+          statement_text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hoeren_statements_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "hoeren_exercises"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       import_audit_log: {
         Row: {
           batch_id: string | null
@@ -1025,6 +1266,57 @@ export type Database = {
             columns: ["payment_id"]
             isOneToOne: false
             referencedRelation: "payments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      lesen_attempts: {
+        Row: {
+          answers: Json
+          created_at: string
+          exercise_id: string
+          id: string
+          results: Json
+          score: number
+          teil: number
+          total: number
+          user_id: string
+        }
+        Insert: {
+          answers?: Json
+          created_at?: string
+          exercise_id: string
+          id?: string
+          results?: Json
+          score: number
+          teil: number
+          total: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json
+          created_at?: string
+          exercise_id?: string
+          id?: string
+          results?: Json
+          score?: number
+          teil?: number
+          total?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesen_attempts_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "lesen_exercises"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lesen_attempts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -1382,34 +1674,243 @@ export type Database = {
           },
         ]
       }
+      muendlich_credit_transactions: {
+        Row: {
+          created_at: string
+          delta_minutes: number
+          granted_by: string | null
+          id: string
+          reason: string
+          room_id: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          delta_minutes: number
+          granted_by?: string | null
+          id?: string
+          reason: string
+          room_id?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          delta_minutes?: number
+          granted_by?: string | null
+          id?: string
+          reason?: string
+          room_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "muendlich_credit_transactions_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "muendlich_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      muendlich_credits: {
+        Row: {
+          is_subscribed: boolean
+          minutes_balance: number
+          updated_at: string
+          user_id: string
+          window_days: number
+          window_started_at: string | null
+        }
+        Insert: {
+          is_subscribed?: boolean
+          minutes_balance?: number
+          updated_at?: string
+          user_id: string
+          window_days?: number
+          window_started_at?: string | null
+        }
+        Update: {
+          is_subscribed?: boolean
+          minutes_balance?: number
+          updated_at?: string
+          user_id?: string
+          window_days?: number
+          window_started_at?: string | null
+        }
+        Relationships: []
+      }
+      muendlich_evaluations: {
+        Row: {
+          cefr_level: string
+          created_at: string
+          feedback: Json
+          id: string
+          model: string
+          overall_score: number
+          passed: boolean
+          session_id: string
+          teil1_score: number
+          teil2_score: number
+          teil3_score: number
+          user_id: string
+        }
+        Insert: {
+          cefr_level: string
+          created_at?: string
+          feedback: Json
+          id?: string
+          model: string
+          overall_score: number
+          passed: boolean
+          session_id: string
+          teil1_score: number
+          teil2_score: number
+          teil3_score: number
+          user_id: string
+        }
+        Update: {
+          cefr_level?: string
+          created_at?: string
+          feedback?: Json
+          id?: string
+          model?: string
+          overall_score?: number
+          passed?: boolean
+          session_id?: string
+          teil1_score?: number
+          teil2_score?: number
+          teil3_score?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "muendlich_evaluations_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "muendlich_exam_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      muendlich_exam_sessions: {
+        Row: {
+          created_at: string
+          end_reason: string | null
+          ended_at: string | null
+          id: string
+          recording_a_path: string | null
+          recording_b_path: string | null
+          room_id: string
+          started_at: string
+          transcript: Json
+        }
+        Insert: {
+          created_at?: string
+          end_reason?: string | null
+          ended_at?: string | null
+          id?: string
+          recording_a_path?: string | null
+          recording_b_path?: string | null
+          room_id: string
+          started_at?: string
+          transcript?: Json
+        }
+        Update: {
+          created_at?: string
+          end_reason?: string | null
+          ended_at?: string | null
+          id?: string
+          recording_a_path?: string | null
+          recording_b_path?: string | null
+          room_id?: string
+          started_at?: string
+          transcript?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "muendlich_exam_sessions_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "muendlich_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      muendlich_incident_reports: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          reported_by: string
+          room_id: string
+          room_state_snapshot: Json
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          reported_by: string
+          room_id: string
+          room_state_snapshot: Json
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          reported_by?: string
+          room_id?: string
+          room_state_snapshot?: Json
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "muendlich_incident_reports_room_id_fkey"
+            columns: ["room_id"]
+            isOneToOne: false
+            referencedRelation: "muendlich_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       muendlich_materials: {
         Row: {
+          body_text: string | null
           category: string
           created_at: string
           created_by: string | null
           id: string
+          position: number | null
           sort_order: number
-          storage_path: string
+          source_pdf: string | null
+          storage_path: string | null
           teil: number
           title: string
         }
         Insert: {
+          body_text?: string | null
           category: string
           created_at?: string
           created_by?: string | null
           id?: string
+          position?: number | null
           sort_order?: number
-          storage_path: string
+          source_pdf?: string | null
+          storage_path?: string | null
           teil: number
           title: string
         }
         Update: {
+          body_text?: string | null
           category?: string
           created_at?: string
           created_by?: string | null
           id?: string
+          position?: number | null
           sort_order?: number
-          storage_path?: string
+          source_pdf?: string | null
+          storage_path?: string | null
           teil?: number
           title?: string
         }
@@ -1482,6 +1983,9 @@ export type Database = {
           code: string
           created_at: string
           created_by: string | null
+          exam_stage: number | null
+          exam_stage_seconds: number | null
+          exam_stage_started_at: string | null
           id: string
           prep_seconds: number
           prep_started_at: string | null
@@ -1492,6 +1996,9 @@ export type Database = {
           code: string
           created_at?: string
           created_by?: string | null
+          exam_stage?: number | null
+          exam_stage_seconds?: number | null
+          exam_stage_started_at?: string | null
           id?: string
           prep_seconds?: number
           prep_started_at?: string | null
@@ -1502,6 +2009,9 @@ export type Database = {
           code?: string
           created_at?: string
           created_by?: string | null
+          exam_stage?: number | null
+          exam_stage_seconds?: number | null
+          exam_stage_started_at?: string | null
           id?: string
           prep_seconds?: number
           prep_started_at?: string | null
@@ -1552,6 +2062,50 @@ export type Database = {
             columns: ["room_id"]
             isOneToOne: false
             referencedRelation: "muendlich_rooms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      muendlich_transcript_nodes: {
+        Row: {
+          created_at: string
+          ended_at: string | null
+          filler_count: number
+          id: string
+          session_id: string
+          speaker: string
+          started_at: string
+          teil: number
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          ended_at?: string | null
+          filler_count?: number
+          id?: string
+          session_id: string
+          speaker: string
+          started_at: string
+          teil: number
+          text: string
+        }
+        Update: {
+          created_at?: string
+          ended_at?: string | null
+          filler_count?: number
+          id?: string
+          session_id?: string
+          speaker?: string
+          started_at?: string
+          teil?: number
+          text?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "muendlich_transcript_nodes_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "muendlich_exam_sessions"
             referencedColumns: ["id"]
           },
         ]
@@ -2243,9 +2797,12 @@ export type Database = {
           id: string
           import_notes: string | null
           level: string
+          position: number | null
           source_pdf: string | null
           teil: number
           title: string
+          variant_group: string | null
+          version_tag: string | null
         }
         Insert: {
           created_at?: string
@@ -2253,9 +2810,12 @@ export type Database = {
           id?: string
           import_notes?: string | null
           level?: string
+          position?: number | null
           source_pdf?: string | null
           teil: number
           title: string
+          variant_group?: string | null
+          version_tag?: string | null
         }
         Update: {
           created_at?: string
@@ -2263,9 +2823,12 @@ export type Database = {
           id?: string
           import_notes?: string | null
           level?: string
+          position?: number | null
           source_pdf?: string | null
           teil?: number
           title?: string
+          variant_group?: string | null
+          version_tag?: string | null
         }
         Relationships: [
           {
@@ -2458,6 +3021,24 @@ export type Database = {
           level?: Database["public"]["Enums"]["user_level"]
           prompt?: string | null
           title?: string
+        }
+        Relationships: []
+      }
+      student_credits: {
+        Row: {
+          balance: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -2872,6 +3453,35 @@ export type Database = {
       }
     }
     Views: {
+      hoeren_statements_student: {
+        Row: {
+          exercise_id: string | null
+          id: string | null
+          statement_number: number | null
+          statement_text: string | null
+        }
+        Insert: {
+          exercise_id?: string | null
+          id?: string | null
+          statement_number?: number | null
+          statement_text?: string | null
+        }
+        Update: {
+          exercise_id?: string | null
+          id?: string | null
+          statement_number?: number | null
+          statement_text?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hoeren_statements_exercise_id_fkey"
+            columns: ["exercise_id"]
+            isOneToOne: false
+            referencedRelation: "hoeren_exercises"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       lesen_t1_texts_student: {
         Row: {
           content: string | null
@@ -3037,12 +3647,46 @@ export type Database = {
       }
     }
     Functions: {
+      admin_grant_credits: {
+        Args: { p_amount: number; p_note?: string; p_student_id: string }
+        Returns: number
+      }
+      admin_grant_muendlich_minutes: {
+        Args: { p_minutes: number; p_note?: string; p_user_id: string }
+        Returns: number
+      }
       award_xp: {
         Args: { _source?: string; _user_id: string; _xp: number }
         Returns: undefined
       }
+      deduct_essay_credit: { Args: { p_user_id: string }; Returns: number }
+      deduct_muendlich_minutes_dual: {
+        Args: {
+          p_minutes: number
+          p_room_id: string
+          p_user_a: string
+          p_user_b: string
+        }
+        Returns: {
+          deducted_user_id: string
+          new_balance: number
+        }[]
+      }
+      expire_muendlich_window: {
+        Args: { p_user_id: string }
+        Returns: undefined
+      }
       expire_overdue_subscriptions: { Args: never; Returns: undefined }
       generate_referral_code: { Args: { _user_id: string }; Returns: string }
+      get_my_credit_balance: { Args: never; Returns: number }
+      get_my_muendlich_credits: {
+        Args: never
+        Returns: {
+          is_subscribed: boolean
+          minutes_balance: number
+          window_expires_at: string
+        }[]
+      }
       has_active_subscription: {
         Args: {
           _plan?: Database["public"]["Enums"]["plan_code"]
@@ -3057,8 +3701,38 @@ export type Database = {
         }
         Returns: boolean
       }
+      import_lesen_t1_exercise_admin: {
+        Args: {
+          p_created_by: string
+          p_headlines: Json
+          p_source_pdf?: string
+          p_texts: Json
+          p_title: string
+        }
+        Returns: Json
+      }
+      import_lesen_t2_exercise: {
+        Args: {
+          p_passage: string
+          p_questions: Json
+          p_source_pdf?: string
+          p_title: string
+        }
+        Returns: Json
+      }
+      import_lesen_t2_exercise_admin: {
+        Args: {
+          p_created_by: string
+          p_passage: string
+          p_questions: Json
+          p_source_pdf?: string
+          p_title: string
+        }
+        Returns: Json
+      }
       is_admin_or_owner: { Args: { _user_id?: string }; Returns: boolean }
       is_owner: { Args: { _user_id?: string }; Returns: boolean }
+      muendlich_is_active: { Args: { p_user_id: string }; Returns: boolean }
       promote_lesen_t2_drafts: { Args: { p_batch_id: string }; Returns: Json }
       record_exercise_completion: {
         Args: {
@@ -3067,6 +3741,23 @@ export type Database = {
           _user_id: string
         }
         Returns: undefined
+      }
+      refund_essay_credit: {
+        Args: { p_reason?: string; p_user_id: string }
+        Returns: undefined
+      }
+      reveal_hoeren: { Args: { p_exercise_id: string }; Returns: Json }
+      score_and_save_hoeren: {
+        Args: { p_answers: Json; p_exercise_id: string }
+        Returns: Json
+      }
+      score_and_save_lesen_t1: {
+        Args: { p_answers: Json; p_exercise_id: string }
+        Returns: Json
+      }
+      score_and_save_lesen_t2: {
+        Args: { p_answers: Json; p_exercise_id: string }
+        Returns: Json
       }
       score_lesen_t1: {
         Args: { p_answers: Json; p_exercise_id: string }

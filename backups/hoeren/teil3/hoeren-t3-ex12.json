@@ -1,0 +1,38 @@
+{
+  "title": "Am Wochenanfang",
+  "teil": 3,
+  "level": "B2",
+  "position": 12,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 13 (code 123) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Am Wochenanfang soll man einen Aufenthalt im Freien vermeiden.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Abends ist das Risiko, einen Wildunfall zu haben, am größten.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Man kann bei dem Fest an verschiedenen Orten Musik hören.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "In dringenden Fällen können Sie die Firma ab Montag erreichen.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Am Abend werden Verkehrsbehinderungen erwartet.",
+      "correct": false
+    }
+  ]
+}

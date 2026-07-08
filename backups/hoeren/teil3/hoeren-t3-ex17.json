@@ -1,0 +1,38 @@
+{
+  "title": "Reitturniers",
+  "teil": 3,
+  "level": "B2",
+  "position": 17,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 18 (code 13) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Besucher des Reitturniers sollten möglichst Parkplätze außerhalb des Turniergeländes nutzen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Das Open-Air-Gospelkonzert wird live im Radio übertragen.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Bei der Berliner Museumsnacht können Sie mit einer Sonderbuslinie bequem jedes Museum erreichen.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Wegen Glätte ist die A5 zwischen Mannheim und Frankfurt in beide Richtungen voll gesperrt.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Hotelreservierungen in Dresden sind ausschließlich telefonisch möglich.",
+      "correct": false
+    }
+  ]
+}

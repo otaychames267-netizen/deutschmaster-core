@@ -8,7 +8,7 @@ import {
   TrendingUp, Settings2, Megaphone, ScrollText,
   Tag, ClipboardList, HardDrive, DollarSign,
   Search, Bell, User, HelpCircle,
-  ChevronRight, Upload, Headphones, Wrench,
+  ChevronRight, Upload, Headphones, Wrench, Coins,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import {
@@ -378,6 +378,7 @@ export function AppSidebar() {
                 <NavItem to="/admin/pdf-import"     label="PDF Library"    icon={FileText}       active={isActive("/admin/pdf-import")}     color="amber" />
                 <NavItem to="/admin/payments"       label="Payments"       icon={DollarSign}     active={isActive("/admin/payments")}       color="amber" />
                 <NavItem to="/admin/coupons"        label="Coupons"        icon={Tag}            active={isActive("/admin/coupons")}        color="amber" />
+                <NavItem to="/admin/credits"        label="Essay Credits"  icon={Coins}          active={isActive("/admin/credits")}        color="amber" />
                 <NavItem to="/admin/announcements"  label="Announcements"  icon={Megaphone}      active={isActive("/admin/announcements")}  color="amber" />
                 <NavItem to="/admin/reports"        label="Reports"        icon={ClipboardList}  active={isActive("/admin/reports")}        color="amber" />
                 <NavItem to="/admin/audit-logs"     label="Audit Logs"     icon={ScrollText}     active={isActive("/admin/audit-logs")}     color="amber" />

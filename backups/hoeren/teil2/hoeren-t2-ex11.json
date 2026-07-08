@@ -1,0 +1,63 @@
+{
+  "title": "Herr Karimov",
+  "teil": 2,
+  "level": "B2",
+  "position": 11,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 12 (code 25890) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Herr Karimov hat vor sechs Jahren die InternetPlattform ZEITPLAN gegründet.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Die Mitglieder bekommen für ihre Hilfe ein Stunden Guthaben.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Herr Karimov hatte ein eigenes Handwerksunternehmen.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Nach dem Umzug aufs Land, war er auf die Hilfe der Nachbarn angewiesen.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Manchmal erwarten Mitglieder keine Gegenleistung für ihre Arbeit.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Meistens brauchen alleinstehende frauen Herrn Karimovs Hilfe.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Viele Menschen sehen im ZEITPLAN eine Konkurrenz zu Handwerksbetrieben.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Herr Karimov erledigt nicht so gerne Büroarbeit.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Wer sich bei der Nachbarschaftshilfe einbringen möchte, muss sich persönlich vorstellen.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Herr Karimov brauchte vorübergehend einen Chauffeur.",
+      "correct": true
+    }
+  ]
+}

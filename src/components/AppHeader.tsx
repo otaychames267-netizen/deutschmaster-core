@@ -2,7 +2,7 @@ import { useTheme } from "@/lib/theme";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Moon, Sun, Bell, Globe, LogOut, User,
-  CreditCard, Shield, ChevronRight, Flame, Zap,
+  CreditCard, Shield, ChevronRight, Flame, Zap, Coins,
   Search, X, CheckCircle2, AlertCircle, Info, Command,
   BookOpen, ArrowRight,
 } from "lucide-react";
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
 import { useUserProgress } from "@/lib/useUserProgress";
+import { useStudentCredits } from "@/lib/useStudentCredits";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -286,6 +287,7 @@ export function AppHeader() {
   const { theme, toggle }     = useTheme();
   const { user, signOut }     = useAuth();
   const { progress }          = useUserProgress();
+  const { balance: creditBalance } = useStudentCredits();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notif[]>([]);
   const [notifsLoaded, setNotifsLoaded] = useState(false);
@@ -402,6 +404,12 @@ export function AppHeader() {
               <span>{progress.streak_current}d</span>
             </div>
           )}
+
+          {/* Essay grading credit balance */}
+          <div className="hidden md:flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/15 px-2.5 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+            <Coins className="h-3 w-3" />
+            <span>{creditBalance} {creditBalance === 1 ? "credit" : "credits"}</span>
+          </div>
 
           {/* Language switcher */}
           <DropdownMenu>

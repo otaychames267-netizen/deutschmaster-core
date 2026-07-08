@@ -2,10 +2,12 @@ import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { recordCompletion } from "@/lib/useUserProgress";
+import { notifyCreditsChanged } from "@/lib/useStudentCredits";
+import { EssayFeedback, type EssayGradingResult } from "./EssayFeedback";
 import { toast } from "sonner";
 import {
   ChevronLeft, ChevronRight, Send, RotateCcw,
-  CheckCircle2, XCircle, Loader2, Headphones,
+  CheckCircle2, XCircle, Loader2, Headphones, Coins,
 } from "lucide-react";
 
 /* ─── Types ─────────────────────────────────────────────────── */
@@ -379,10 +381,14 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState<{ score: number; pointsEarned: number; pointsTotal: number } | null>(null);
+  const [essayResult, setEssayResult] = useState<EssayGradingResult | null>(null);
+  const [essayError, setEssayError] = useState<{ code: string; message: string } | null>(null);
 
   const loadItems = useCallback(async () => {
     setLoading(true);
     setResult(null);
+    setEssayResult(null);
+    setEssayError(null);
     setCurrent(0);
     setAnswers({});
 
@@ -456,6 +462,48 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
     toast.success("Exercise submitted!");
   }
 
+  async function handleGradeEssay() {
+    const item = items[0];
+    const essayText = (answers[item.id] as string) ?? "";
+    setEssayError(null);
+    setSubmitting(true);
+
+    const { data: sessionData } = await supabase.auth.getSession();
+    const token = sessionData.session?.access_token;
+    if (!token) {
+      toast.error("You must be signed in to submit for grading.");
+      setSubmitting(false);
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/schreiben/grade-essay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ exam_item_id: item.id, essay_text: essayText }),
+      });
+      const json = await res.json();
+
+      if (res.status === 402) {
+        setEssayError({ code: "INSUFFICIENT_CREDITS", message: json.message ?? "Not enough credits." });
+        return;
+      }
+      if (!res.ok) {
+        notifyCreditsChanged(); // covers the refund-on-failure case (balance unchanged net, but may differ from stale UI)
+        setEssayError({ code: json.error ?? "GRADING_FAILED", message: json.message ?? "Grading failed. Please try again." });
+        return;
+      }
+
+      setEssayResult(json as EssayGradingResult);
+      notifyCreditsChanged();
+      await recordCompletion(user!.id, { isPerfect: json.overall_score === 100 });
+    } catch (e) {
+      setEssayError({ code: "NETWORK_ERROR", message: "Could not reach the grading service. Please try again." });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -485,6 +533,46 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
         onRetry={loadItems}
         onClose={onClose}
       />
+    );
+  }
+
+  if (essayResult) {
+    return <EssayFeedback result={essayResult} onRetry={loadItems} onClose={onClose} />;
+  }
+
+  const isWritingPrompt = items.length === 1 && items[0].kind === "writing_prompt";
+
+  if (isWritingPrompt && essayError) {
+    const insufficient = essayError.code === "INSUFFICIENT_CREDITS";
+    return (
+      <div className="flex flex-col items-center gap-4 py-16 text-center">
+        <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${insufficient ? "bg-amber-500/10" : "bg-destructive/10"}`}>
+          {insufficient
+            ? <Coins className="h-7 w-7 text-amber-500" />
+            : <XCircle className="h-7 w-7 text-destructive" />}
+        </div>
+        <p className="font-semibold text-foreground">
+          {insufficient ? "Not enough credits" : "Grading failed"}
+        </p>
+        <p className="max-w-sm text-sm text-muted-foreground">
+          {insufficient
+            ? "You've used all your essay-grading credits. Contact your instructor for a top-up."
+            : essayError.message}
+        </p>
+        <div className="mt-2 flex gap-3">
+          {!insufficient && (
+            <button
+              onClick={() => setEssayError(null)}
+              className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-muted transition-colors"
+            >
+              <RotateCcw className="h-4 w-4" /> Try again
+            </button>
+          )}
+          <button onClick={onClose} className="rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground">
+            Back to list
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -555,7 +643,16 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
           <ChevronLeft className="h-4 w-4" /> Previous
         </button>
 
-        {isLast ? (
+        {isWritingPrompt ? (
+          <button
+            onClick={handleGradeEssay}
+            disabled={submitting || ((answer as string) ?? "").trim().split(/\s+/).filter(Boolean).length < 20}
+            className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60 transition-colors"
+          >
+            {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+            {submitting ? "Wird bewertet…" : "Zur Bewertung einreichen"}
+          </button>
+        ) : isLast ? (
           <button
             onClick={handleSubmit}
             disabled={submitting}
