@@ -1,0 +1,22 @@
+{
+  "title": "Hase im Display",
+  "level": "B2",
+  "position": 46,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 9, green letter+number marks inline in each gap, all 10 verified vs text",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Mehr als 25 Milliarden SMS (Short Message Service) oder Kurznachrichten wurden im vergangenen Jahr in Deutschland von Handy {{31}} Handy verschickt. Im Durchschnitt sendet jeder Handynutzer in Deutschland eine SMS pro Tag. Damit ist Deutschland unangefochtener SMS-Weltmeister, nicht einmal die US-Amerikaner kommen auch nur annähernd {{32}} das deutsche SMS-Fieber heran. Wo man sich früher Grußkarten oder Briefe schickte, zum Beispiel zu Ostern, Weihnachten oder Neujahr, da drückt man jetzt schnell eine SMS in die Handytastatur und ein paar Minuten später ist {{33}} die Antwort da. Selbst Liebesbriefe sind {{34}} der Mode gekommen. Per SMS verschickt klingen sie vielleicht nicht mehr so romantisch wie früher, dafür aber {{35}} cooler, dynamischer und weltweit vernetzter.\nUnd {{36}} muss der verliebte SMS-Casanova durchaus einiges an Kreativität und Schöpferkraft zeigen, wenn er sich der mobilen Kurznachrichten für seinen Liebesschwur bedienen will; {{37}} die Nachrichten dürfen nicht sehr lang sein, da bleibt kaum Platz für Satzzeichen.\nAbkürzen ist zu einer richtigen Kunst geworden: Nicht mehr „Ich liebe dich“ heißt es, das ist zu lang. Der SMS-Künstler macht {{38}} „ILD“. Und die Dame, auf deren Handydisplay das Wort „Hase“ erscheint, weiß, dass ihr Geliebter ihr gerade „Habe Sehnsucht nach dir“ zuflüstert. Schlechte Zeiten {{39}} für wahre Liebhaber literarischer Schreibkunst, die seitenweise ihre Gefühle zu Papier bringen und sich gar abmühen mit Fragen nach Versmaß, Rhythmus oder einfach Schönheit der Sprache; Fragen, die beim modischen SMS-Benutzer nur Kopf- und Fingerschütteln hervorbringen. Doch leider hat die schöne neue Technik auch eine Schattenseite. SMS können schnell teuer werden, je nachdem, welche Art von Handyvertrag man hat. Und so mancher SMS-Dauernutzer erlebt dann am Monatsende eine unangenehme Überraschung, wenn er die Rechnung seines Mobilfunkanbieters öffnet. In Zukunft sollen die Preise für SMS möglicherweise {{40}} ansteigen: keine guten Zukunftsaussichten für diese Form der Weltmeisterschaft in Deutschland.",
+  "words": ["ALSO", "AN", "AUS", "DA", "DABEI", "DARAUS", "DENN", "DRASTISCH", "HÖHER", "NACH", "SCHON", "SEHR", "STATISCH", "UMSO", "ZU"],
+  "answers": {
+    "31": "ZU",
+    "32": "AN",
+    "33": "SCHON",
+    "34": "AUS",
+    "35": "UMSO",
+    "36": "DABEI",
+    "37": "DENN",
+    "38": "DARAUS",
+    "39": "ALSO",
+    "40": "DRASTISCH"
+  }
+}

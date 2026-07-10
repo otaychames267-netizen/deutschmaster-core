@@ -1,0 +1,20 @@
+{
+  "title": "Eltern und Erziehungsberechtigte",
+  "level": "B2",
+  "position": 49,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Liebe Eltern und Erziehungsberechtigte,\n\n{{21}} mehr Internetsicherheit möchten wir dieses Thema am 9. Februar auch im Unterricht des alljährlich von der Europäischen Union veranstalteten Nationstages behandeln.\nEs sind in erster Linie drei große Bereiche, {{22}} wir uns widmen… zunächst geht es {{23}} die Internetkommunikation im Allgemeinen, insbesondere über soziale Medien wie YouTube oder WhatsApp, genauer zu beleuchten. Wir wollen bei Schülerinnen und Schülern das Bewusstsein für die damit verbundenen Gefahren wecken.\nAls für die Gesellschaft bedrohlich ist die gezielte Verbreitung falscher Informationen in den Medien, sogenannter Fake News, anzusehen. {{24}} solche zu erkennen, muss man in der Lage sein, Berichte zu analysieren und ihren Wahrheitsgehalt zu überprüfen. Daher liegt es unseren engagierten Pädagoginnen und Pädagogen besonders am {{25}}, bei Schülerinnen und Schülern den kritischen Blick für Nachrichten sowie deren Quellen zu schärfen.\nDarüber hinaus werden sie {{26}} anschaulicher Beispiele lernen, wie mittels Bildbearbeitung eine alternative Realität {{27}} werden kann. Auch der Datenschutz, den wir als dritten Schwerpunkt besprechen werden, ist ein Thema von {{28}} Bedeutung. Denn im Zuge der Verwendung sozialer Netzwerke können Jugendliche allzu leicht in problematische Situationen geraten, weil sie oft zu sorglos mit sensiblen Daten von sich oder anderen umgehen. Auf solche Risiken möchten wir aufmerksam machen und erläutern, wie sich Derartiges vermeiden {{29}}.\nDen Schülerinnen und Schülern ist an diesem Tag die Nutzung ihrer Handys {{30}} des Unterrichts ausdrücklich gestattet.\n\nMit freundlichen Grüßen\nMag. Katharina Schnell",
+  "gaps": [
+    {"n":21,"a":"Anlässlich","b":"mithilfe","c":"zwecks","correct":"a"},
+    {"n":22,"a":"deren","b":"denen","c":"dessen","correct":"b"},
+    {"n":23,"a":"darum","b":"davon","c":"darüber","correct":"a"},
+    {"n":24,"a":"damit","b":"dass","c":"Um","correct":"c"},
+    {"n":25,"a":"herz","b":"herze","c":"herzen","correct":"c"},
+    {"n":26,"a":"anhand","b":"durch","c":"mit","correct":"a"},
+    {"n":27,"a":"schaffen","b":"geschaffen","c":"geschafft","correct":"b"},
+    {"n":28,"a":"größe","b":"größen","c":"größter","correct":"c"},
+    {"n":29,"a":"lassen","b":"lasst","c":"lässt","correct":"c"},
+    {"n":30,"a":"nämlich","b":"während","c":"trotzdem","correct":"b"}
+  ]
+}
