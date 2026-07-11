@@ -73,6 +73,16 @@ const SILENCE_THRESHOLD_MS: Record<1 | 2 | 3, number> = { 1: 8_000, 2: 4_000, 3:
 const NUDGE_DEBOUNCE_MS = 8_000;
 const INTERMISSION_SECONDS = Number(process.env.MUENDLICH_INTERMISSION_SECONDS ?? 15);
 const MAX_REPEAT_USES = 2;
+// Hard idle-close: intentionally longer than every SILENCE_THRESHOLD_MS above,
+// so the existing per-Teil nudge always gets a chance to re-engage the room
+// first — this only fires if the nudge(s) themselves also go unanswered for
+// the full window (both participants silent, not just one).
+const HARD_IDLE_CLOSE_MS = Number(process.env.MUENDLICH_HARD_IDLE_MS ?? 45_000);
+// Rough Gemini Live audio-token estimate for the global cost cap — the Live
+// API doesn't expose per-request token counts the way REST generateContent
+// calls do, so usage is approximated at session-end from elapsed minutes.
+// This is an approximation, not exact billing telemetry.
+const GEMINI_AUDIO_TOKENS_PER_MINUTE = Number(process.env.GEMINI_AUDIO_TOKENS_PER_MINUTE ?? 3840);
 
 interface Participant {
   userId: string;
@@ -101,6 +111,13 @@ interface RoomSession {
   disconnectTimers: Map<string, NodeJS.Timeout>;
   finishing: boolean;
   ended: boolean;
+  // Set the instant a Gemini Live error fires — checked at the start of the
+  // credit tick so a tick already scheduled can't charge for a minute the
+  // session couldn't actually deliver.
+  geminiErrored: boolean;
+  // When the Gemini Live session actually opened — used to approximate token
+  // usage for the global cost-cap ledger at session end.
+  liveSessionStartedAt: number | null;
 }
 
 const rooms = new Map<string, RoomSession>();
@@ -200,13 +217,24 @@ async function startRoomIfReady(room: RoomSession) {
   // below re-checks every 60s once the session is open, but that first tick
   // is a full minute away — this catches the common case before any Gemini
   // session (and its cost) is even opened.
-  const [activeA, activeB] = await Promise.all([
+  const [activeA, activeB, usage] = await Promise.all([
     admin.rpc("muendlich_is_active", { p_user_id: participants[0].userId }),
     admin.rpc("muendlich_is_active", { p_user_id: participants[1].userId }),
+    admin.rpc("get_today_api_usage"),
   ]);
   if (!activeA.data || !activeB.data) {
     broadcast(room, { type: "terminated", reason: "insufficient_minutes" });
     endRoom(room, "insufficient_minutes_preflight");
+    return;
+  }
+  // Same env-configured cap + comparison pattern as essay-grader-gemini.ts's
+  // isBudgetExceeded() — the SQL side only exposes raw usage (get_today_api_
+  // usage), the cap itself stays adjustable via env without a migration.
+  const dailyCap = Number(process.env.GEMINI_DAILY_TOKEN_CAP ?? Infinity);
+  if (Number.isFinite(dailyCap) && typeof usage.data === "number" && usage.data >= dailyCap) {
+    console.log(`[room ${room.roomId}] daily Gemini budget exceeded (${usage.data}/${dailyCap} tokens), refusing new session`);
+    broadcast(room, { type: "terminated", reason: "budget_exceeded" });
+    endRoom(room, "budget_exceeded_preflight");
     return;
   }
 
@@ -229,15 +257,21 @@ async function startRoomIfReady(room: RoomSession) {
     onInputTranscript: (text) => logTranscript(room, room.lastSenderSlot ?? "A", room.examStage ?? 2, text),
     onError: (message) => {
       console.error(`[room ${room.roomId}] Gemini Live error:`, message);
+      // Set before broadcasting/ending — a credit tick already in flight
+      // checks this flag first and skips charging for a minute the session
+      // couldn't actually deliver.
+      room.geminiErrored = true;
       broadcast(room, { type: "terminated", reason: "ai_error" });
       endRoom(room, "technical_issue");
     },
     onClose: (reason) => console.log(`[room ${room.roomId}] Gemini Live closed:`, reason),
   });
+  room.liveSessionStartedAt = Date.now();
 
   // Atomic dual-deduction, one tick per elapsed minute — hard-stops the room
   // the instant either participant's balance/window can't cover it.
   room.creditTick = setInterval(async () => {
+    if (room.geminiErrored) return;
     const [pa, pb] = [participants[0], participants[1]];
     const asUser = await userScopedClient(pa.accessToken);
     const { error } = await asUser.rpc("deduct_muendlich_minutes_dual", {
@@ -307,6 +341,16 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
     });
   }
 
+  // Hard idle-close: even the AI's own takeover attempt(s) above got no
+  // response for the full HARD_IDLE_CLOSE_MS window — end the session
+  // outright to protect the API budget rather than let it run unattended.
+  if (silenceMs > HARD_IDLE_CLOSE_MS) {
+    console.log(`[room ${room.roomId}] hard idle-close: ${silenceMs}ms of silence`);
+    broadcast(room, { type: "terminated", reason: "idle_timeout" });
+    endRoom(room, "idle_timeout");
+    return;
+  }
+
   // Stage duration elapsed -> queue a 15s breather, then advance (or finish).
   if (elapsedMs >= stageSeconds * 1000) {
     room.pendingNextStage = room.examStage === 1 ? 2 : room.examStage === 2 ? 3 : null;
@@ -371,6 +415,16 @@ function endRoom(room: RoomSession, endReason: string) {
   if (room.ended) return;
   room.ended = true;
 
+  // Approximate token usage for the global cost-cap ledger — see
+  // GEMINI_AUDIO_TOKENS_PER_MINUTE's header comment for why this is an
+  // estimate, not exact billing telemetry.
+  if (room.liveSessionStartedAt) {
+    const elapsedMinutes = Math.max(1, Math.round((Date.now() - room.liveSessionStartedAt) / 60_000));
+    admin.rpc("record_api_usage", { p_tokens: elapsedMinutes * GEMINI_AUDIO_TOKENS_PER_MINUTE }).then(({ error }) => {
+      if (error) console.error(`[room ${room.roomId}] failed to record API usage:`, error.message);
+    });
+  }
+
   room.live?.close();
   if (room.creditTick) clearInterval(room.creditTick);
   if (room.mainTick) clearInterval(room.mainTick);
@@ -410,6 +464,7 @@ wss.on("connection", async (ws, req) => {
         examStage: null, examStageStartedAt: 0, teil1HandoffSent: false, teil2TakeoverSent: false, repeatCount: 0,
         intermissionUntil: null, pendingNextStage: null,
         disconnectTimers: new Map(), finishing: false, ended: false,
+        geminiErrored: false, liveSessionStartedAt: null,
       };
       rooms.set(roomId, room);
     }

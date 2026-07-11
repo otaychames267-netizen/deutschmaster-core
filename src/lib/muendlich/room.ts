@@ -40,6 +40,24 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
   const { data: existing } = await db.from("muendlich_participants").select("*").eq("room_id", room!.id).eq("user_id", userId).maybeSingle();
   if (existing) { await db.from("muendlich_participants").update({ connected: true }).eq("id", existing.id); return { room: room!, slot: existing.slot }; }
 
+  // Friendly pre-check for the single-active-session guard — the DB trigger
+  // (check_single_active_muendlich_session) is the real enforcement backstop
+  // if this is ever raced by two tabs; this just avoids surfacing a raw
+  // constraint-violation error to the student in the common case. Fetches
+  // this user's other participant rows joined with room state, filters
+  // client-side rather than pushing the state exclusion into the query (max
+  // a couple of rows, and avoids relying on PostgREST's embedded-filter
+  // syntax for a check that only needs to be approximately fast, not exact).
+  const { data: otherRows } = await db
+    .from("muendlich_participants")
+    .select("room_id, muendlich_rooms!inner(state)")
+    .eq("user_id", userId)
+    .neq("room_id", room!.id);
+  const activeElsewhere = (otherRows ?? []).some((r: any) => !["finished", "abandoned"].includes(r.muendlich_rooms?.state));
+  if (activeElsewhere) {
+    return { error: "You already have an active exam session in another room. Finish or leave it first." };
+  }
+
   // assign a free slot — retry on the unique(room,slot) race (two joins interleaving)
   for (let attempt = 0; attempt < 3; attempt++) {
     const { data: parts } = await db.from("muendlich_participants").select("slot").eq("room_id", room!.id);

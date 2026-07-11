@@ -351,6 +351,8 @@ const TERMINATED_LABELS: Record<string, string> = {
   window_expired: "Ihr 30-Tage-Abonnementfenster ist abgelaufen.",
   partner_disconnected: "Ihr Prüfungspartner hat die Verbindung getrennt.",
   ai_error: "Ein technisches Problem hat die Prüfung unterbrochen.",
+  idle_timeout: "Die Prüfung wurde wegen Inaktivität beendet.",
+  budget_exceeded: "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut.",
 };
 
 function StageCountdown({ stageSeconds, stageStartedAt, onFraction }: { stageSeconds: number; stageStartedAt: number; onFraction?: (f: number) => void }) {
