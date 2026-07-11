@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "DB",
+  "level": "TELC_B1",
+  "position": 15,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 15/16 (Thomas/Language Tests, page 172 printed / PDF page 173 for situations, page 173 printed / PDF page 174 for the ad block). Initially suspected to be a genuine print-variant of Modelltest 12's own 'Praktikum' exercise (situation 20 and the key at that position differ from Modelltest 12: this exercise has 20B vs Modelltest 12's 20H). However, the insert attempt revealed NOT INSERTED: confirmed byte-identical duplicate of Modelltest 11's own 'DB' Lesen Teil 3 exercise (id bfaa5c24-4352-4ad4-b493-b20620e952f0) — all 10 situations, the ad texts, and the answer key (11D 12G 13F 14A 15I 16K 17X 18J 19L 20B) match verbatim, including the same 20B variant. So this THOMAS-branded page is a reprint of Modelltest 11's content, not novel content. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted). Note: situation 11's wording was initially mistranscribed here as 'einer noch unbekannten Schweizer Schauspielerin' by copying Modelltest 12's phrasing in error; the source page (and Modelltest 11's own stored copy) actually read 'einer Schweizer Schauspielerin' (no 'noch unbekannten') — corrected below for the audit record. Answer key from Lösungen page (printed p.180 / PDF p.181): 11D 12G 13F 14A 15I 16K 17X 18J 19L 20B.",
+  "key": "DGFAIKXJLB",
+  "situations": {
+    "11": "Sie haben von einer Schweizer Schauspielerin gehört und möchten gern einen Film sehen.",
+    "12": "Sie haben gerade Ihre Ausbildung beendet und suchen eine Stelle an der Rezeption.",
+    "13": "Sie interessieren sich für Umweltschutz und suchen eine passende Sendung.",
+    "14": "Ihr Freund, der am Institut für Film und Bild studiert, sucht einen geeigneten Praktikumsplatz.",
+    "15": "In einer Sendereihe wird im Fernsehen über die neue politische Entwicklung in Deutschland berichtet. Sie wollen sich informieren.",
+    "16": "Sie interessieren sich für Großstädte und ihre Entwicklung und suchen dazu eine Sendung im Rundfunk.",
+    "17": "Sie sind mit der Schule fertig und wollen bei der Deutschen Bahn eine Ausbildung machen.",
+    "18": "Sie interessieren sich für politisches Theater und möchten dazu am Wochenende etwas hören oder sehen.",
+    "19": "Sie arbeiten gern mit anderen zusammen und suchen eine Tätigkeit bei einer Werbefirma.",
+    "20": "Sie wollen mehr über das Thema Arbeiten in Europa erfahren."
+  },
+  "texts": {
+    "A": { "title": "PRAKTIKANT/IN", "content": "im Bereich Medien- und Veranstaltungstechnik gesucht. Unser Hauptaufgabengebiet ist die Durchführung von Pressekonferenzen und Themen-Events. Das Praktikum ist bezahlt und dauert 6 Monate. Sie arbeiten in einem namhaften Team und sammeln Ihre Erfahrungen da, wo sie entstehen, von der Konzeption bis zur Realisation. Bewerbung per E-Mail an: TAPE Media Film GmbH info@mediafilm.project" },
+    "B": { "title": "ARTE Themenabend", "content": "20:45 ARTE THEMENABEND „Unsere Zukunft\". Wie können Arbeitsuchende in der Europäischen Union mit der Wirtschafts- und Bildungskrise zurecht? Hat uns die EU mehr Jobs gebracht? TV-Abend mit Stefan Bröker und namhaften Gästen aus verschiedenen EU-Ländern. ARD 21:45 Uhr" },
+    "C": { "title": "", "content": "Wir suchen engagierte MitarbeiterInnen für Kundenbefragungen in unseren Zügen, 10-15 Std./Woche. Wichtig sind sicheres Auftreten, zeitliche Flexibilität und Fremdsprachenkenntnisse (Engl., Frz.). Mehrjährige Berufserfahrung erwünscht. Näheres Informationen unter: www.bahnreiseforschung.de. Bewerbungen an: Deutsche Bahn, info@brf.kundenservice.de" },
+    "D": { "title": "Tatort", "content": "20:15 Tatort (ARD). Nun kommen die Krimi-Fans wieder auf ihre Kosten: Horst Schliemann alias Gustav George ermittelt, ihm zur Seite steht Denise Mercier. Die gebürtige Schweizerin spielt die Freundin des rüden Ermittlers – eine Frau mit Stil, die Verständnis für Schliemanns Lebenswandel zeigt, sich aber auch in Szene zu setzen weiß. Mit dieser Rolle hofft sie, sich im deutschen Fernsehen etablieren zu können. (bis 21:45 Uhr)" },
+    "E": { "title": "Lukrative Halbtagstätigkeit", "content": "Expandierendes High-Tech-Unternehmen der Film- und Medienbranche sucht junge MitarbeiterInnen für Empfang und Kundenbindung. Erfahrung mit PC, gute Internet- und Fremdsprachenkenntnisse erforderlich! Interessenten wenden sich an New Media GmbH. Tel. 089/45 79 00, www.newmedia.de" },
+    "F": { "title": "Diskussionsrunde", "content": "20:15 3Sat LIVE. Diskussionsrunde: Drei Länder – ein Thema TALK-SHOW. „Kommt die Öko-Diktatur? – Zündstoff Benzinpreis\". Wie begegnet man in Deutschland, der Schweiz und Österreich dem Verkehrskollaps? Wie retten wir die Umwelt? (bis 21:30)" },
+    "G": { "title": "Mitarbeiter/innen am Empfang", "content": "Bei uns wird Erfolg belohnt! Wir suchen für unsere sechs Hotelbetriebe im gehobenen ***-Bereich in München, Frankfurt und Berlin Mitarbeiter/innen am Empfang. Wenn Sie bereits Rezeptionserfahrung oder auch gerade ausgelernt haben, mind. 1 Fremdsprache (Engl.) sprechen und EDV-erfahren sind, senden Sie bitte Ihre Bewerbung an: Blattl's Hotels Zentralbüro, Geschäftsbereich Personal, Postfach 221144, 80501 München." },
+    "H": { "title": "PSA-Zeitarbeit", "content": "Die PSA kooperiert mit über 500 unabhängigen Personaldienstleistern und ist daher immer die erste Adresse, wenn es um Zeitarbeit geht. Unser Ziel ist es, den besten Mitarbeiter zur richtigen Zeit am richtigen Ort anbieten zu können. Wir suchen ständig: Studentische Unternehmensberater, Studenten für IT-Administration und Schüler-Nachhilfe (Englisch, Französisch, Mathe), Messehostessen. PSA-Zeitarbeit, Tel. 089/74 68 91 93, www.PSA-zeitarbeit.de" },
+    "I": { "title": "Stern TV-Countdown", "content": "22:55 Stern TV-Countdown (VOX). In zehn Reportagen zeigt „Spiegel TV\"-Mann Jörg Hafkemeyer, wie sich die ersten Monate der neuen Regierung gestalten. Jetzt werden die Weichen für die Zukunft Deutschlands neu gestellt. (bis 23:50)" },
+    "J": { "title": "Max Frisch: Biedermann und die Brandstifter", "content": "Samstag, 19. September, 20:10-21:17 Uhr, Hessischer Rundfunk. „Ein Lehrstück ohne Lehre\" nannte Frisch sein ursprünglich als Hörspiel gedachtes und dann für das Theater bearbeitetes Stück, das 1958 in Zürich uraufgeführt wurde. Man sah darin sowohl eine Warnung vor dem Kommunismus als auch vor dem Faschismus. (chw.)" },
+    "K": { "title": "Transparent – Das Kulturstudio", "content": "(22:15, Radio Wien). Architekten sprechen über die Zukunft von Europas Metropolen. Weiters: Rückschau und Vorschau auf das Programm der „Wiener Schule für Dichtung\". Und ein Bericht über das Obdachlosen-Projekt „Wochenklausur\"." },
+    "L": { "title": "", "content": "Sie lieben den Umgang mit Menschen? Sie sind außerdem auch noch dynamisch und ehrgeizig, dann sind Sie bei uns genau richtig. Münchens bekannte PRIMA-Werbung bietet Ihnen neben einem tollen Team hervorragende Verdienst- u. Aufstiegsmöglichkeiten. Wir brauchen Leute wie Sie! Rufen Sie an! Tel. 0 89/2 35 55 43" }
+  }
+}

@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Loader2, Headphones, AlertCircle, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
 
 interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number }
@@ -40,12 +41,16 @@ function LazyCard({ children }: { children: () => React.ReactNode }) {
 }
 
 export function HoerenTeilPage({ teil }: Props) {
+  const level = useActiveLevel();
+  const seg = useLevelSegment();
   const [exercises, setExercises] = useState<ExRow[]>([]);
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!level) return;
+    const lvl = level;
     let cancelled = false;
     async function load() {
       setLoading(true);
@@ -54,6 +59,7 @@ export function HoerenTeilPage({ teil }: Props) {
         .from("hoeren_exercises")
         .select("id, title, image_path, instructions, audio_path, position")
         .eq("teil", teil)
+        .eq("level", lvl)
         .order("position", { ascending: true });
       if (cancelled) return;
       if (exErr) { setError(exErr.message); setLoading(false); return; }
@@ -76,7 +82,7 @@ export function HoerenTeilPage({ teil }: Props) {
     }
     load();
     return () => { cancelled = true; };
-  }, [teil]);
+  }, [teil, level]);
 
   function scrollToExercise(id: string) {
     document.getElementById(`hoeren-ex-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -85,9 +91,9 @@ export function HoerenTeilPage({ teil }: Props) {
   return (
     <div className="mx-auto max-w-3xl space-y-6 pb-16">
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <Link to="/schriftlich" className="hover:text-foreground">Schriftlich</Link>
+        <Link to={`/${seg}/schriftlich` as never} className="hover:text-foreground">Schriftlich</Link>
         <ChevronRight className="h-3 w-3" />
-        <Link to="/schriftlich/vorbereitung" className="hover:text-foreground">Vorbereitung</Link>
+        <Link to={`/${seg}/schriftlich/vorbereitung` as never} className="hover:text-foreground">Vorbereitung</Link>
         <ChevronRight className="h-3 w-3" />
         <span className="text-foreground font-semibold">Hören Teil {teil}</span>
       </div>

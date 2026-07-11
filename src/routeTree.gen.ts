@@ -21,18 +21,16 @@ import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedWeeklyGoalsRouteImport } from './routes/_authenticated.weekly-goals'
+import { Route as AuthenticatedVerifyEmailRouteImport } from './routes/_authenticated.verify-email'
 import { Route as AuthenticatedTimerRouteImport } from './routes/_authenticated.timer'
 import { Route as AuthenticatedStatistikRouteImport } from './routes/_authenticated.statistik'
 import { Route as AuthenticatedSecurityRouteImport } from './routes/_authenticated.security'
-import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated.search'
-import { Route as AuthenticatedSchriftlichRouteImport } from './routes/_authenticated.schriftlich'
 import { Route as AuthenticatedReferralsRouteImport } from './routes/_authenticated.referrals'
 import { Route as AuthenticatedPruefungRouteImport } from './routes/_authenticated.pruefung'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated.profile'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated.onboarding'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated.notifications'
 import { Route as AuthenticatedNotesRouteImport } from './routes/_authenticated.notes'
-import { Route as AuthenticatedMuendlichRouteImport } from './routes/_authenticated.muendlich'
 import { Route as AuthenticatedLearnRouteImport } from './routes/_authenticated.learn'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated.history'
 import { Route as AuthenticatedHelpRouteImport } from './routes/_authenticated.help'
@@ -40,16 +38,11 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedBillingRouteImport } from './routes/_authenticated.billing'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authenticated.achievements'
-import { Route as AuthenticatedSchriftlichIndexRouteImport } from './routes/_authenticated.schriftlich.index'
-import { Route as AuthenticatedMuendlichIndexRouteImport } from './routes/_authenticated.muendlich.index'
+import { Route as AuthenticatedLevelRouteImport } from './routes/_authenticated.$level'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated.learn.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
 import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicStripeWebhookRouteImport } from './routes/api.public.stripe-webhook'
-import { Route as AuthenticatedSchriftlichVorbereitungRouteImport } from './routes/_authenticated.schriftlich.vorbereitung'
-import { Route as AuthenticatedSchriftlichPruefungRouteImport } from './routes/_authenticated.schriftlich.pruefung'
-import { Route as AuthenticatedMuendlichVorbereitungRouteImport } from './routes/_authenticated.muendlich.vorbereitung'
-import { Route as AuthenticatedMuendlichPruefungRouteImport } from './routes/_authenticated.muendlich.pruefung'
 import { Route as AuthenticatedLearnLevelRouteImport } from './routes/_authenticated.learn.$level'
 import { Route as AuthenticatedExamIdRouteImport } from './routes/_authenticated.exam.$id'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
@@ -74,26 +67,36 @@ import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminAttemptsRouteImport } from './routes/_authenticated.admin.attempts'
 import { Route as AuthenticatedAdminAnnouncementsRouteImport } from './routes/_authenticated.admin.announcements'
 import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated.admin.analytics'
-import { Route as AuthenticatedSchriftlichVorbereitungIndexRouteImport } from './routes/_authenticated.schriftlich.vorbereitung.index'
-import { Route as AuthenticatedMuendlichVorbereitungTeil3RouteImport } from './routes/_authenticated.muendlich.vorbereitung.teil-3'
-import { Route as AuthenticatedMuendlichVorbereitungTeil2RouteImport } from './routes/_authenticated.muendlich.vorbereitung.teil-2'
-import { Route as AuthenticatedMuendlichVorbereitungTeil1RouteImport } from './routes/_authenticated.muendlich.vorbereitung.teil-1'
+import { Route as AuthenticatedLevelSearchRouteImport } from './routes/_authenticated.$level.search'
+import { Route as AuthenticatedLevelSchriftlichRouteImport } from './routes/_authenticated.$level.schriftlich'
+import { Route as AuthenticatedLevelMuendlichRouteImport } from './routes/_authenticated.$level.muendlich'
+import { Route as AuthenticatedLevelDashboardRouteImport } from './routes/_authenticated.$level.dashboard'
+import { Route as AuthenticatedLevelSchriftlichIndexRouteImport } from './routes/_authenticated.$level.schriftlich.index'
+import { Route as AuthenticatedLevelMuendlichIndexRouteImport } from './routes/_authenticated.$level.muendlich.index'
 import { Route as AuthenticatedAdminImportLesen3RouteImport } from './routes/_authenticated.admin.import.lesen-3'
 import { Route as AuthenticatedAdminImportLesen2RouteImport } from './routes/_authenticated.admin.import.lesen-2'
 import { Route as AuthenticatedAdminImportLesen1RouteImport } from './routes/_authenticated.admin.import.lesen-1'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
-import { Route as AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.sprachbausteine.teil-2'
-import { Route as AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.sprachbausteine.teil-1'
-import { Route as AuthenticatedSchriftlichVorbereitungSchreibenBitteRouteImport } from './routes/_authenticated.schriftlich.vorbereitung.schreiben.bitte'
-import { Route as AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRouteImport } from './routes/_authenticated.schriftlich.vorbereitung.schreiben.beschwerde'
-import { Route as AuthenticatedSchriftlichVorbereitungLesenTeil3RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.lesen.teil-3'
-import { Route as AuthenticatedSchriftlichVorbereitungLesenTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.lesen.teil-2'
-import { Route as AuthenticatedSchriftlichVorbereitungLesenTeil1RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.lesen.teil-1'
-import { Route as AuthenticatedSchriftlichVorbereitungHoerenTeil3RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.hoeren.teil-3'
-import { Route as AuthenticatedSchriftlichVorbereitungHoerenTeil2RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.hoeren.teil-2'
-import { Route as AuthenticatedSchriftlichVorbereitungHoerenTeil1RouteImport } from './routes/_authenticated.schriftlich.vorbereitung.hoeren.teil-1'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung'
+import { Route as AuthenticatedLevelSchriftlichPruefungRouteImport } from './routes/_authenticated.$level.schriftlich.pruefung'
+import { Route as AuthenticatedLevelMuendlichVorbereitungRouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung'
+import { Route as AuthenticatedLevelMuendlichPruefungRouteImport } from './routes/_authenticated.$level.muendlich.pruefung'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungIndexRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.index'
 import { Route as AuthenticatedPracticeLevelModuleTeilRouteImport } from './routes/_authenticated.practice.$level.$module.$teil'
+import { Route as AuthenticatedLevelMuendlichVorbereitungTeil3RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-3'
+import { Route as AuthenticatedLevelMuendlichVorbereitungTeil2RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-2'
+import { Route as AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-1'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-2'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-1'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.bitte'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.beschwerde'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungLesenTeil3RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.lesen.teil-3'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungLesenTeil2RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.lesen.teil-2'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungLesenTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.lesen.teil-1'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.hoeren.teil-3'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.hoeren.teil-2'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.hoeren.teil-1'
 
 const UnauthorizedRoute = UnauthorizedRouteImport.update({
   id: '/unauthorized',
@@ -155,6 +158,12 @@ const AuthenticatedWeeklyGoalsRoute =
     path: '/weekly-goals',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedVerifyEmailRoute =
+  AuthenticatedVerifyEmailRouteImport.update({
+    id: '/verify-email',
+    path: '/verify-email',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedTimerRoute = AuthenticatedTimerRouteImport.update({
   id: '/timer',
   path: '/timer',
@@ -170,17 +179,6 @@ const AuthenticatedSecurityRoute = AuthenticatedSecurityRouteImport.update({
   path: '/security',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedSchriftlichRoute =
-  AuthenticatedSchriftlichRouteImport.update({
-    id: '/schriftlich',
-    path: '/schriftlich',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const AuthenticatedReferralsRoute = AuthenticatedReferralsRouteImport.update({
   id: '/referrals',
   path: '/referrals',
@@ -210,11 +208,6 @@ const AuthenticatedNotificationsRoute =
 const AuthenticatedNotesRoute = AuthenticatedNotesRouteImport.update({
   id: '/notes',
   path: '/notes',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedMuendlichRoute = AuthenticatedMuendlichRouteImport.update({
-  id: '/muendlich',
-  path: '/muendlich',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedLearnRoute = AuthenticatedLearnRouteImport.update({
@@ -253,18 +246,11 @@ const AuthenticatedAchievementsRoute =
     path: '/achievements',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedSchriftlichIndexRoute =
-  AuthenticatedSchriftlichIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedSchriftlichRoute,
-  } as any)
-const AuthenticatedMuendlichIndexRoute =
-  AuthenticatedMuendlichIndexRouteImport.update({
-    id: '/',
-    path: '/',
-    getParentRoute: () => AuthenticatedMuendlichRoute,
-  } as any)
+const AuthenticatedLevelRoute = AuthenticatedLevelRouteImport.update({
+  id: '/$level',
+  path: '/$level',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
 const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -285,30 +271,6 @@ const ApiPublicStripeWebhookRoute = ApiPublicStripeWebhookRouteImport.update({
   path: '/api/public/stripe-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedSchriftlichVorbereitungRoute =
-  AuthenticatedSchriftlichVorbereitungRouteImport.update({
-    id: '/vorbereitung',
-    path: '/vorbereitung',
-    getParentRoute: () => AuthenticatedSchriftlichRoute,
-  } as any)
-const AuthenticatedSchriftlichPruefungRoute =
-  AuthenticatedSchriftlichPruefungRouteImport.update({
-    id: '/pruefung',
-    path: '/pruefung',
-    getParentRoute: () => AuthenticatedSchriftlichRoute,
-  } as any)
-const AuthenticatedMuendlichVorbereitungRoute =
-  AuthenticatedMuendlichVorbereitungRouteImport.update({
-    id: '/vorbereitung',
-    path: '/vorbereitung',
-    getParentRoute: () => AuthenticatedMuendlichRoute,
-  } as any)
-const AuthenticatedMuendlichPruefungRoute =
-  AuthenticatedMuendlichPruefungRouteImport.update({
-    id: '/pruefung',
-    path: '/pruefung',
-    getParentRoute: () => AuthenticatedMuendlichRoute,
-  } as any)
 const AuthenticatedLearnLevelRoute = AuthenticatedLearnLevelRouteImport.update({
   id: '/$level',
   path: '/$level',
@@ -445,29 +407,41 @@ const AuthenticatedAdminAnalyticsRoute =
     path: '/analytics',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
-const AuthenticatedSchriftlichVorbereitungIndexRoute =
-  AuthenticatedSchriftlichVorbereitungIndexRouteImport.update({
+const AuthenticatedLevelSearchRoute =
+  AuthenticatedLevelSearchRouteImport.update({
+    id: '/search',
+    path: '/search',
+    getParentRoute: () => AuthenticatedLevelRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichRoute =
+  AuthenticatedLevelSchriftlichRouteImport.update({
+    id: '/schriftlich',
+    path: '/schriftlich',
+    getParentRoute: () => AuthenticatedLevelRoute,
+  } as any)
+const AuthenticatedLevelMuendlichRoute =
+  AuthenticatedLevelMuendlichRouteImport.update({
+    id: '/muendlich',
+    path: '/muendlich',
+    getParentRoute: () => AuthenticatedLevelRoute,
+  } as any)
+const AuthenticatedLevelDashboardRoute =
+  AuthenticatedLevelDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedLevelRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichIndexRoute =
+  AuthenticatedLevelSchriftlichIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+    getParentRoute: () => AuthenticatedLevelSchriftlichRoute,
   } as any)
-const AuthenticatedMuendlichVorbereitungTeil3Route =
-  AuthenticatedMuendlichVorbereitungTeil3RouteImport.update({
-    id: '/teil-3',
-    path: '/teil-3',
-    getParentRoute: () => AuthenticatedMuendlichVorbereitungRoute,
-  } as any)
-const AuthenticatedMuendlichVorbereitungTeil2Route =
-  AuthenticatedMuendlichVorbereitungTeil2RouteImport.update({
-    id: '/teil-2',
-    path: '/teil-2',
-    getParentRoute: () => AuthenticatedMuendlichVorbereitungRoute,
-  } as any)
-const AuthenticatedMuendlichVorbereitungTeil1Route =
-  AuthenticatedMuendlichVorbereitungTeil1RouteImport.update({
-    id: '/teil-1',
-    path: '/teil-1',
-    getParentRoute: () => AuthenticatedMuendlichVorbereitungRoute,
+const AuthenticatedLevelMuendlichIndexRoute =
+  AuthenticatedLevelMuendlichIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedLevelMuendlichRoute,
   } as any)
 const AuthenticatedAdminImportLesen3Route =
   AuthenticatedAdminImportLesen3RouteImport.update({
@@ -499,71 +473,125 @@ const AuthenticatedAdminExercisesIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedAdminExercisesRoute,
   } as any)
-const AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route =
-  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport.update({
-    id: '/sprachbausteine/teil-2',
-    path: '/sprachbausteine/teil-2',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+const AuthenticatedLevelSchriftlichVorbereitungRoute =
+  AuthenticatedLevelSchriftlichVorbereitungRouteImport.update({
+    id: '/vorbereitung',
+    path: '/vorbereitung',
+    getParentRoute: () => AuthenticatedLevelSchriftlichRoute,
   } as any)
-const AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route =
-  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1RouteImport.update({
-    id: '/sprachbausteine/teil-1',
-    path: '/sprachbausteine/teil-1',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+const AuthenticatedLevelSchriftlichPruefungRoute =
+  AuthenticatedLevelSchriftlichPruefungRouteImport.update({
+    id: '/pruefung',
+    path: '/pruefung',
+    getParentRoute: () => AuthenticatedLevelSchriftlichRoute,
   } as any)
-const AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute =
-  AuthenticatedSchriftlichVorbereitungSchreibenBitteRouteImport.update({
-    id: '/schreiben/bitte',
-    path: '/schreiben/bitte',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+const AuthenticatedLevelMuendlichVorbereitungRoute =
+  AuthenticatedLevelMuendlichVorbereitungRouteImport.update({
+    id: '/vorbereitung',
+    path: '/vorbereitung',
+    getParentRoute: () => AuthenticatedLevelMuendlichRoute,
   } as any)
-const AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute =
-  AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRouteImport.update({
-    id: '/schreiben/beschwerde',
-    path: '/schreiben/beschwerde',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+const AuthenticatedLevelMuendlichPruefungRoute =
+  AuthenticatedLevelMuendlichPruefungRouteImport.update({
+    id: '/pruefung',
+    path: '/pruefung',
+    getParentRoute: () => AuthenticatedLevelMuendlichRoute,
   } as any)
-const AuthenticatedSchriftlichVorbereitungLesenTeil3Route =
-  AuthenticatedSchriftlichVorbereitungLesenTeil3RouteImport.update({
-    id: '/lesen/teil-3',
-    path: '/lesen/teil-3',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
-  } as any)
-const AuthenticatedSchriftlichVorbereitungLesenTeil2Route =
-  AuthenticatedSchriftlichVorbereitungLesenTeil2RouteImport.update({
-    id: '/lesen/teil-2',
-    path: '/lesen/teil-2',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
-  } as any)
-const AuthenticatedSchriftlichVorbereitungLesenTeil1Route =
-  AuthenticatedSchriftlichVorbereitungLesenTeil1RouteImport.update({
-    id: '/lesen/teil-1',
-    path: '/lesen/teil-1',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
-  } as any)
-const AuthenticatedSchriftlichVorbereitungHoerenTeil3Route =
-  AuthenticatedSchriftlichVorbereitungHoerenTeil3RouteImport.update({
-    id: '/hoeren/teil-3',
-    path: '/hoeren/teil-3',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
-  } as any)
-const AuthenticatedSchriftlichVorbereitungHoerenTeil2Route =
-  AuthenticatedSchriftlichVorbereitungHoerenTeil2RouteImport.update({
-    id: '/hoeren/teil-2',
-    path: '/hoeren/teil-2',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
-  } as any)
-const AuthenticatedSchriftlichVorbereitungHoerenTeil1Route =
-  AuthenticatedSchriftlichVorbereitungHoerenTeil1RouteImport.update({
-    id: '/hoeren/teil-1',
-    path: '/hoeren/teil-1',
-    getParentRoute: () => AuthenticatedSchriftlichVorbereitungRoute,
+const AuthenticatedLevelSchriftlichVorbereitungIndexRoute =
+  AuthenticatedLevelSchriftlichVorbereitungIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
   } as any)
 const AuthenticatedPracticeLevelModuleTeilRoute =
   AuthenticatedPracticeLevelModuleTeilRouteImport.update({
     id: '/practice/$level/$module/$teil',
     path: '/practice/$level/$module/$teil',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedLevelMuendlichVorbereitungTeil3Route =
+  AuthenticatedLevelMuendlichVorbereitungTeil3RouteImport.update({
+    id: '/teil-3',
+    path: '/teil-3',
+    getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelMuendlichVorbereitungTeil2Route =
+  AuthenticatedLevelMuendlichVorbereitungTeil2RouteImport.update({
+    id: '/teil-2',
+    path: '/teil-2',
+    getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelMuendlichVorbereitungTeil1Route =
+  AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport.update({
+    id: '/teil-1',
+    path: '/teil-1',
+    getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route =
+  AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport.update(
+    {
+      id: '/sprachbausteine/teil-2',
+      path: '/sprachbausteine/teil-2',
+      getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+    } as any,
+  )
+const AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route =
+  AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport.update(
+    {
+      id: '/sprachbausteine/teil-1',
+      path: '/sprachbausteine/teil-1',
+      getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+    } as any,
+  )
+const AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute =
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRouteImport.update({
+    id: '/schreiben/bitte',
+    path: '/schreiben/bitte',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute =
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRouteImport.update(
+    {
+      id: '/schreiben/beschwerde',
+      path: '/schreiben/beschwerde',
+      getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+    } as any,
+  )
+const AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route =
+  AuthenticatedLevelSchriftlichVorbereitungLesenTeil3RouteImport.update({
+    id: '/lesen/teil-3',
+    path: '/lesen/teil-3',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route =
+  AuthenticatedLevelSchriftlichVorbereitungLesenTeil2RouteImport.update({
+    id: '/lesen/teil-2',
+    path: '/lesen/teil-2',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route =
+  AuthenticatedLevelSchriftlichVorbereitungLesenTeil1RouteImport.update({
+    id: '/lesen/teil-1',
+    path: '/lesen/teil-1',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route =
+  AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3RouteImport.update({
+    id: '/hoeren/teil-3',
+    path: '/hoeren/teil-3',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route =
+  AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2RouteImport.update({
+    id: '/hoeren/teil-2',
+    path: '/hoeren/teil-2',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route =
+  AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1RouteImport.update({
+    id: '/hoeren/teil-1',
+    path: '/hoeren/teil-1',
+    getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -577,6 +605,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/unauthorized': typeof UnauthorizedRoute
+  '/$level': typeof AuthenticatedLevelRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/admin': typeof AuthenticatedAdminRouteWithChildren
   '/billing': typeof AuthenticatedBillingRoute
@@ -584,19 +613,21 @@ export interface FileRoutesByFullPath {
   '/help': typeof AuthenticatedHelpRoute
   '/history': typeof AuthenticatedHistoryRoute
   '/learn': typeof AuthenticatedLearnRouteWithChildren
-  '/muendlich': typeof AuthenticatedMuendlichRouteWithChildren
   '/notes': typeof AuthenticatedNotesRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/referrals': typeof AuthenticatedReferralsRoute
-  '/schriftlich': typeof AuthenticatedSchriftlichRouteWithChildren
-  '/search': typeof AuthenticatedSearchRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/timer': typeof AuthenticatedTimerRoute
+  '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
+  '/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
+  '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichRouteWithChildren
+  '/$level/search': typeof AuthenticatedLevelSearchRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
@@ -621,36 +652,36 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
-  '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
-  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
-  '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
-  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
-  '/muendlich/': typeof AuthenticatedMuendlichIndexRoute
-  '/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
+  '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
+  '/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
+  '/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
-  '/muendlich/vorbereitung/teil-1': typeof AuthenticatedMuendlichVorbereitungTeil1Route
-  '/muendlich/vorbereitung/teil-2': typeof AuthenticatedMuendlichVorbereitungTeil2Route
-  '/muendlich/vorbereitung/teil-3': typeof AuthenticatedMuendlichVorbereitungTeil3Route
-  '/schriftlich/vorbereitung/': typeof AuthenticatedSchriftlichVorbereitungIndexRoute
+  '/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
+  '/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
+  '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
+  '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
+  '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
-  '/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
-  '/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
-  '/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
-  '/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
-  '/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
-  '/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
-  '/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
-  '/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
-  '/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
-  '/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
+  '/$level/schriftlich/vorbereitung/': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
+  '/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
+  '/$level/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
+  '/$level/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route
+  '/$level/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route
+  '/$level/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route
+  '/$level/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
+  '/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  '/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
+  '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -663,6 +694,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/unauthorized': typeof UnauthorizedRoute
+  '/$level': typeof AuthenticatedLevelRouteWithChildren
   '/achievements': typeof AuthenticatedAchievementsRoute
   '/billing': typeof AuthenticatedBillingRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
@@ -674,11 +706,13 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/pruefung': typeof AuthenticatedPruefungRoute
   '/referrals': typeof AuthenticatedReferralsRoute
-  '/search': typeof AuthenticatedSearchRoute
   '/security': typeof AuthenticatedSecurityRoute
   '/statistik': typeof AuthenticatedStatistikRoute
   '/timer': typeof AuthenticatedTimerRoute
+  '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
+  '/$level/search': typeof AuthenticatedLevelSearchRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
@@ -703,35 +737,35 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
-  '/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
-  '/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
-  '/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
-  '/muendlich': typeof AuthenticatedMuendlichIndexRoute
-  '/schriftlich': typeof AuthenticatedSchriftlichIndexRoute
+  '/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
+  '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
+  '/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
-  '/muendlich/vorbereitung/teil-1': typeof AuthenticatedMuendlichVorbereitungTeil1Route
-  '/muendlich/vorbereitung/teil-2': typeof AuthenticatedMuendlichVorbereitungTeil2Route
-  '/muendlich/vorbereitung/teil-3': typeof AuthenticatedMuendlichVorbereitungTeil3Route
-  '/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungIndexRoute
+  '/$level/muendlich': typeof AuthenticatedLevelMuendlichIndexRoute
+  '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichIndexRoute
+  '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
+  '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
+  '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
-  '/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
-  '/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
-  '/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
-  '/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
-  '/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
-  '/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
-  '/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
-  '/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
-  '/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
-  '/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
+  '/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
+  '/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
+  '/$level/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
+  '/$level/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route
+  '/$level/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route
+  '/$level/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route
+  '/$level/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
+  '/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  '/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
+  '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -746,6 +780,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/terms': typeof TermsRoute
   '/unauthorized': typeof UnauthorizedRoute
+  '/_authenticated/$level': typeof AuthenticatedLevelRouteWithChildren
   '/_authenticated/achievements': typeof AuthenticatedAchievementsRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRouteWithChildren
   '/_authenticated/billing': typeof AuthenticatedBillingRoute
@@ -753,19 +788,21 @@ export interface FileRoutesById {
   '/_authenticated/help': typeof AuthenticatedHelpRoute
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/learn': typeof AuthenticatedLearnRouteWithChildren
-  '/_authenticated/muendlich': typeof AuthenticatedMuendlichRouteWithChildren
   '/_authenticated/notes': typeof AuthenticatedNotesRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/pruefung': typeof AuthenticatedPruefungRoute
   '/_authenticated/referrals': typeof AuthenticatedReferralsRoute
-  '/_authenticated/schriftlich': typeof AuthenticatedSchriftlichRouteWithChildren
-  '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/security': typeof AuthenticatedSecurityRoute
   '/_authenticated/statistik': typeof AuthenticatedStatistikRoute
   '/_authenticated/timer': typeof AuthenticatedTimerRoute
+  '/_authenticated/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/_authenticated/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/_authenticated/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
+  '/_authenticated/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
+  '/_authenticated/$level/schriftlich': typeof AuthenticatedLevelSchriftlichRouteWithChildren
+  '/_authenticated/$level/search': typeof AuthenticatedLevelSearchRoute
   '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
   '/_authenticated/admin/announcements': typeof AuthenticatedAdminAnnouncementsRoute
   '/_authenticated/admin/attempts': typeof AuthenticatedAdminAttemptsRoute
@@ -790,36 +827,36 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/exam/$id': typeof AuthenticatedExamIdRoute
   '/_authenticated/learn/$level': typeof AuthenticatedLearnLevelRoute
-  '/_authenticated/muendlich/pruefung': typeof AuthenticatedMuendlichPruefungRoute
-  '/_authenticated/muendlich/vorbereitung': typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
-  '/_authenticated/schriftlich/pruefung': typeof AuthenticatedSchriftlichPruefungRoute
-  '/_authenticated/schriftlich/vorbereitung': typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
   '/api/public/stripe-webhook': typeof ApiPublicStripeWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
-  '/_authenticated/muendlich/': typeof AuthenticatedMuendlichIndexRoute
-  '/_authenticated/schriftlich/': typeof AuthenticatedSchriftlichIndexRoute
+  '/_authenticated/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
+  '/_authenticated/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
+  '/_authenticated/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
+  '/_authenticated/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren
   '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/_authenticated/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/_authenticated/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/_authenticated/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
-  '/_authenticated/muendlich/vorbereitung/teil-1': typeof AuthenticatedMuendlichVorbereitungTeil1Route
-  '/_authenticated/muendlich/vorbereitung/teil-2': typeof AuthenticatedMuendlichVorbereitungTeil2Route
-  '/_authenticated/muendlich/vorbereitung/teil-3': typeof AuthenticatedMuendlichVorbereitungTeil3Route
-  '/_authenticated/schriftlich/vorbereitung/': typeof AuthenticatedSchriftlichVorbereitungIndexRoute
+  '/_authenticated/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
+  '/_authenticated/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
+  '/_authenticated/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
+  '/_authenticated/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
+  '/_authenticated/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/_authenticated/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
-  '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
-  '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
-  '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
-  '/_authenticated/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
-  '/_authenticated/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
-  '/_authenticated/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
-  '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
-  '/_authenticated/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
-  '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
-  '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
+  '/_authenticated/$level/schriftlich/vorbereitung/': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
+  '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
+  '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
+  '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route
+  '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route
+  '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route
+  '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
+  '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
+  '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -834,6 +871,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/unauthorized'
+    | '/$level'
     | '/achievements'
     | '/admin'
     | '/billing'
@@ -841,19 +879,21 @@ export interface FileRouteTypes {
     | '/help'
     | '/history'
     | '/learn'
-    | '/muendlich'
     | '/notes'
     | '/notifications'
     | '/onboarding'
     | '/profile'
     | '/pruefung'
     | '/referrals'
-    | '/schriftlich'
-    | '/search'
     | '/security'
     | '/statistik'
     | '/timer'
+    | '/verify-email'
     | '/weekly-goals'
+    | '/$level/dashboard'
+    | '/$level/muendlich'
+    | '/$level/schriftlich'
+    | '/$level/search'
     | '/admin/analytics'
     | '/admin/announcements'
     | '/admin/attempts'
@@ -878,36 +918,36 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/exam/$id'
     | '/learn/$level'
-    | '/muendlich/pruefung'
-    | '/muendlich/vorbereitung'
-    | '/schriftlich/pruefung'
-    | '/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
     | '/api/schreiben/grade-essay'
     | '/admin/'
     | '/learn/'
-    | '/muendlich/'
-    | '/schriftlich/'
+    | '/$level/muendlich/pruefung'
+    | '/$level/muendlich/vorbereitung'
+    | '/$level/schriftlich/pruefung'
+    | '/$level/schriftlich/vorbereitung'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
     | '/admin/import/lesen-1'
     | '/admin/import/lesen-2'
     | '/admin/import/lesen-3'
-    | '/muendlich/vorbereitung/teil-1'
-    | '/muendlich/vorbereitung/teil-2'
-    | '/muendlich/vorbereitung/teil-3'
-    | '/schriftlich/vorbereitung/'
+    | '/$level/muendlich/'
+    | '/$level/schriftlich/'
+    | '/$level/muendlich/vorbereitung/teil-1'
+    | '/$level/muendlich/vorbereitung/teil-2'
+    | '/$level/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
-    | '/schriftlich/vorbereitung/hoeren/teil-1'
-    | '/schriftlich/vorbereitung/hoeren/teil-2'
-    | '/schriftlich/vorbereitung/hoeren/teil-3'
-    | '/schriftlich/vorbereitung/lesen/teil-1'
-    | '/schriftlich/vorbereitung/lesen/teil-2'
-    | '/schriftlich/vorbereitung/lesen/teil-3'
-    | '/schriftlich/vorbereitung/schreiben/beschwerde'
-    | '/schriftlich/vorbereitung/schreiben/bitte'
-    | '/schriftlich/vorbereitung/sprachbausteine/teil-1'
-    | '/schriftlich/vorbereitung/sprachbausteine/teil-2'
+    | '/$level/schriftlich/vorbereitung/'
+    | '/$level/schriftlich/vorbereitung/hoeren/teil-1'
+    | '/$level/schriftlich/vorbereitung/hoeren/teil-2'
+    | '/$level/schriftlich/vorbereitung/hoeren/teil-3'
+    | '/$level/schriftlich/vorbereitung/lesen/teil-1'
+    | '/$level/schriftlich/vorbereitung/lesen/teil-2'
+    | '/$level/schriftlich/vorbereitung/lesen/teil-3'
+    | '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
+    | '/$level/schriftlich/vorbereitung/schreiben/bitte'
+    | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
+    | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -920,6 +960,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/unauthorized'
+    | '/$level'
     | '/achievements'
     | '/billing'
     | '/dashboard'
@@ -931,11 +972,13 @@ export interface FileRouteTypes {
     | '/profile'
     | '/pruefung'
     | '/referrals'
-    | '/search'
     | '/security'
     | '/statistik'
     | '/timer'
+    | '/verify-email'
     | '/weekly-goals'
+    | '/$level/dashboard'
+    | '/$level/search'
     | '/admin/analytics'
     | '/admin/announcements'
     | '/admin/attempts'
@@ -960,35 +1003,35 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/exam/$id'
     | '/learn/$level'
-    | '/muendlich/pruefung'
-    | '/muendlich/vorbereitung'
-    | '/schriftlich/pruefung'
     | '/api/public/stripe-webhook'
     | '/api/schreiben/grade-essay'
     | '/admin'
     | '/learn'
-    | '/muendlich'
-    | '/schriftlich'
+    | '/$level/muendlich/pruefung'
+    | '/$level/muendlich/vorbereitung'
+    | '/$level/schriftlich/pruefung'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
     | '/admin/import/lesen-1'
     | '/admin/import/lesen-2'
     | '/admin/import/lesen-3'
-    | '/muendlich/vorbereitung/teil-1'
-    | '/muendlich/vorbereitung/teil-2'
-    | '/muendlich/vorbereitung/teil-3'
-    | '/schriftlich/vorbereitung'
+    | '/$level/muendlich'
+    | '/$level/schriftlich'
+    | '/$level/muendlich/vorbereitung/teil-1'
+    | '/$level/muendlich/vorbereitung/teil-2'
+    | '/$level/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
-    | '/schriftlich/vorbereitung/hoeren/teil-1'
-    | '/schriftlich/vorbereitung/hoeren/teil-2'
-    | '/schriftlich/vorbereitung/hoeren/teil-3'
-    | '/schriftlich/vorbereitung/lesen/teil-1'
-    | '/schriftlich/vorbereitung/lesen/teil-2'
-    | '/schriftlich/vorbereitung/lesen/teil-3'
-    | '/schriftlich/vorbereitung/schreiben/beschwerde'
-    | '/schriftlich/vorbereitung/schreiben/bitte'
-    | '/schriftlich/vorbereitung/sprachbausteine/teil-1'
-    | '/schriftlich/vorbereitung/sprachbausteine/teil-2'
+    | '/$level/schriftlich/vorbereitung'
+    | '/$level/schriftlich/vorbereitung/hoeren/teil-1'
+    | '/$level/schriftlich/vorbereitung/hoeren/teil-2'
+    | '/$level/schriftlich/vorbereitung/hoeren/teil-3'
+    | '/$level/schriftlich/vorbereitung/lesen/teil-1'
+    | '/$level/schriftlich/vorbereitung/lesen/teil-2'
+    | '/$level/schriftlich/vorbereitung/lesen/teil-3'
+    | '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
+    | '/$level/schriftlich/vorbereitung/schreiben/bitte'
+    | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
+    | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
   id:
     | '__root__'
     | '/'
@@ -1002,6 +1045,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/terms'
     | '/unauthorized'
+    | '/_authenticated/$level'
     | '/_authenticated/achievements'
     | '/_authenticated/admin'
     | '/_authenticated/billing'
@@ -1009,19 +1053,21 @@ export interface FileRouteTypes {
     | '/_authenticated/help'
     | '/_authenticated/history'
     | '/_authenticated/learn'
-    | '/_authenticated/muendlich'
     | '/_authenticated/notes'
     | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
     | '/_authenticated/profile'
     | '/_authenticated/pruefung'
     | '/_authenticated/referrals'
-    | '/_authenticated/schriftlich'
-    | '/_authenticated/search'
     | '/_authenticated/security'
     | '/_authenticated/statistik'
     | '/_authenticated/timer'
+    | '/_authenticated/verify-email'
     | '/_authenticated/weekly-goals'
+    | '/_authenticated/$level/dashboard'
+    | '/_authenticated/$level/muendlich'
+    | '/_authenticated/$level/schriftlich'
+    | '/_authenticated/$level/search'
     | '/_authenticated/admin/analytics'
     | '/_authenticated/admin/announcements'
     | '/_authenticated/admin/attempts'
@@ -1046,36 +1092,36 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/exam/$id'
     | '/_authenticated/learn/$level'
-    | '/_authenticated/muendlich/pruefung'
-    | '/_authenticated/muendlich/vorbereitung'
-    | '/_authenticated/schriftlich/pruefung'
-    | '/_authenticated/schriftlich/vorbereitung'
     | '/api/public/stripe-webhook'
     | '/api/schreiben/grade-essay'
     | '/_authenticated/admin/'
     | '/_authenticated/learn/'
-    | '/_authenticated/muendlich/'
-    | '/_authenticated/schriftlich/'
+    | '/_authenticated/$level/muendlich/pruefung'
+    | '/_authenticated/$level/muendlich/vorbereitung'
+    | '/_authenticated/$level/schriftlich/pruefung'
+    | '/_authenticated/$level/schriftlich/vorbereitung'
     | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
     | '/_authenticated/admin/import/lesen-1'
     | '/_authenticated/admin/import/lesen-2'
     | '/_authenticated/admin/import/lesen-3'
-    | '/_authenticated/muendlich/vorbereitung/teil-1'
-    | '/_authenticated/muendlich/vorbereitung/teil-2'
-    | '/_authenticated/muendlich/vorbereitung/teil-3'
-    | '/_authenticated/schriftlich/vorbereitung/'
+    | '/_authenticated/$level/muendlich/'
+    | '/_authenticated/$level/schriftlich/'
+    | '/_authenticated/$level/muendlich/vorbereitung/teil-1'
+    | '/_authenticated/$level/muendlich/vorbereitung/teil-2'
+    | '/_authenticated/$level/muendlich/vorbereitung/teil-3'
     | '/_authenticated/practice/$level/$module/$teil'
-    | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1'
-    | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2'
-    | '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3'
-    | '/_authenticated/schriftlich/vorbereitung/lesen/teil-1'
-    | '/_authenticated/schriftlich/vorbereitung/lesen/teil-2'
-    | '/_authenticated/schriftlich/vorbereitung/lesen/teil-3'
-    | '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde'
-    | '/_authenticated/schriftlich/vorbereitung/schreiben/bitte'
-    | '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1'
-    | '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2'
+    | '/_authenticated/$level/schriftlich/vorbereitung/'
+    | '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1'
+    | '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-2'
+    | '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-3'
+    | '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1'
+    | '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2'
+    | '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3'
+    | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde'
+    | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte'
+    | '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
+    | '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1180,6 +1226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWeeklyGoalsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/verify-email': {
+      id: '/_authenticated/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof AuthenticatedVerifyEmailRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/timer': {
       id: '/_authenticated/timer'
       path: '/timer'
@@ -1199,20 +1252,6 @@ declare module '@tanstack/react-router' {
       path: '/security'
       fullPath: '/security'
       preLoaderRoute: typeof AuthenticatedSecurityRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/search': {
-      id: '/_authenticated/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof AuthenticatedSearchRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/schriftlich': {
-      id: '/_authenticated/schriftlich'
-      path: '/schriftlich'
-      fullPath: '/schriftlich'
-      preLoaderRoute: typeof AuthenticatedSchriftlichRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/referrals': {
@@ -1255,13 +1294,6 @@ declare module '@tanstack/react-router' {
       path: '/notes'
       fullPath: '/notes'
       preLoaderRoute: typeof AuthenticatedNotesRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/muendlich': {
-      id: '/_authenticated/muendlich'
-      path: '/muendlich'
-      fullPath: '/muendlich'
-      preLoaderRoute: typeof AuthenticatedMuendlichRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/learn': {
@@ -1313,19 +1345,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAchievementsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/schriftlich/': {
-      id: '/_authenticated/schriftlich/'
-      path: '/'
-      fullPath: '/schriftlich/'
-      preLoaderRoute: typeof AuthenticatedSchriftlichIndexRouteImport
-      parentRoute: typeof AuthenticatedSchriftlichRoute
-    }
-    '/_authenticated/muendlich/': {
-      id: '/_authenticated/muendlich/'
-      path: '/'
-      fullPath: '/muendlich/'
-      preLoaderRoute: typeof AuthenticatedMuendlichIndexRouteImport
-      parentRoute: typeof AuthenticatedMuendlichRoute
+    '/_authenticated/$level': {
+      id: '/_authenticated/$level'
+      path: '/$level'
+      fullPath: '/$level'
+      preLoaderRoute: typeof AuthenticatedLevelRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/learn/': {
       id: '/_authenticated/learn/'
@@ -1354,34 +1379,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/public/stripe-webhook'
       preLoaderRoute: typeof ApiPublicStripeWebhookRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_authenticated/schriftlich/vorbereitung': {
-      id: '/_authenticated/schriftlich/vorbereitung'
-      path: '/vorbereitung'
-      fullPath: '/schriftlich/vorbereitung'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungRouteImport
-      parentRoute: typeof AuthenticatedSchriftlichRoute
-    }
-    '/_authenticated/schriftlich/pruefung': {
-      id: '/_authenticated/schriftlich/pruefung'
-      path: '/pruefung'
-      fullPath: '/schriftlich/pruefung'
-      preLoaderRoute: typeof AuthenticatedSchriftlichPruefungRouteImport
-      parentRoute: typeof AuthenticatedSchriftlichRoute
-    }
-    '/_authenticated/muendlich/vorbereitung': {
-      id: '/_authenticated/muendlich/vorbereitung'
-      path: '/vorbereitung'
-      fullPath: '/muendlich/vorbereitung'
-      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungRouteImport
-      parentRoute: typeof AuthenticatedMuendlichRoute
-    }
-    '/_authenticated/muendlich/pruefung': {
-      id: '/_authenticated/muendlich/pruefung'
-      path: '/pruefung'
-      fullPath: '/muendlich/pruefung'
-      preLoaderRoute: typeof AuthenticatedMuendlichPruefungRouteImport
-      parentRoute: typeof AuthenticatedMuendlichRoute
     }
     '/_authenticated/learn/$level': {
       id: '/_authenticated/learn/$level'
@@ -1551,33 +1548,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
-    '/_authenticated/schriftlich/vorbereitung/': {
-      id: '/_authenticated/schriftlich/vorbereitung/'
+    '/_authenticated/$level/search': {
+      id: '/_authenticated/$level/search'
+      path: '/search'
+      fullPath: '/$level/search'
+      preLoaderRoute: typeof AuthenticatedLevelSearchRouteImport
+      parentRoute: typeof AuthenticatedLevelRoute
+    }
+    '/_authenticated/$level/schriftlich': {
+      id: '/_authenticated/$level/schriftlich'
+      path: '/schriftlich'
+      fullPath: '/$level/schriftlich'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichRouteImport
+      parentRoute: typeof AuthenticatedLevelRoute
+    }
+    '/_authenticated/$level/muendlich': {
+      id: '/_authenticated/$level/muendlich'
+      path: '/muendlich'
+      fullPath: '/$level/muendlich'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichRouteImport
+      parentRoute: typeof AuthenticatedLevelRoute
+    }
+    '/_authenticated/$level/dashboard': {
+      id: '/_authenticated/$level/dashboard'
+      path: '/dashboard'
+      fullPath: '/$level/dashboard'
+      preLoaderRoute: typeof AuthenticatedLevelDashboardRouteImport
+      parentRoute: typeof AuthenticatedLevelRoute
+    }
+    '/_authenticated/$level/schriftlich/': {
+      id: '/_authenticated/$level/schriftlich/'
       path: '/'
-      fullPath: '/schriftlich/vorbereitung/'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungIndexRouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+      fullPath: '/$level/schriftlich/'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichIndexRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichRoute
     }
-    '/_authenticated/muendlich/vorbereitung/teil-3': {
-      id: '/_authenticated/muendlich/vorbereitung/teil-3'
-      path: '/teil-3'
-      fullPath: '/muendlich/vorbereitung/teil-3'
-      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungTeil3RouteImport
-      parentRoute: typeof AuthenticatedMuendlichVorbereitungRoute
-    }
-    '/_authenticated/muendlich/vorbereitung/teil-2': {
-      id: '/_authenticated/muendlich/vorbereitung/teil-2'
-      path: '/teil-2'
-      fullPath: '/muendlich/vorbereitung/teil-2'
-      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungTeil2RouteImport
-      parentRoute: typeof AuthenticatedMuendlichVorbereitungRoute
-    }
-    '/_authenticated/muendlich/vorbereitung/teil-1': {
-      id: '/_authenticated/muendlich/vorbereitung/teil-1'
-      path: '/teil-1'
-      fullPath: '/muendlich/vorbereitung/teil-1'
-      preLoaderRoute: typeof AuthenticatedMuendlichVorbereitungTeil1RouteImport
-      parentRoute: typeof AuthenticatedMuendlichVorbereitungRoute
+    '/_authenticated/$level/muendlich/': {
+      id: '/_authenticated/$level/muendlich/'
+      path: '/'
+      fullPath: '/$level/muendlich/'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichIndexRouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichRoute
     }
     '/_authenticated/admin/import/lesen-3': {
       id: '/_authenticated/admin/import/lesen-3'
@@ -1614,75 +1625,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminExercisesIdRouteImport
       parentRoute: typeof AuthenticatedAdminExercisesRoute
     }
-    '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2': {
-      id: '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-2'
-      path: '/sprachbausteine/teil-2'
-      fullPath: '/schriftlich/vorbereitung/sprachbausteine/teil-2'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    '/_authenticated/$level/schriftlich/vorbereitung': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung'
+      path: '/vorbereitung'
+      fullPath: '/$level/schriftlich/vorbereitung'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichRoute
     }
-    '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1': {
-      id: '/_authenticated/schriftlich/vorbereitung/sprachbausteine/teil-1'
-      path: '/sprachbausteine/teil-1'
-      fullPath: '/schriftlich/vorbereitung/sprachbausteine/teil-1'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    '/_authenticated/$level/schriftlich/pruefung': {
+      id: '/_authenticated/$level/schriftlich/pruefung'
+      path: '/pruefung'
+      fullPath: '/$level/schriftlich/pruefung'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichPruefungRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichRoute
     }
-    '/_authenticated/schriftlich/vorbereitung/schreiben/bitte': {
-      id: '/_authenticated/schriftlich/vorbereitung/schreiben/bitte'
-      path: '/schreiben/bitte'
-      fullPath: '/schriftlich/vorbereitung/schreiben/bitte'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    '/_authenticated/$level/muendlich/vorbereitung': {
+      id: '/_authenticated/$level/muendlich/vorbereitung'
+      path: '/vorbereitung'
+      fullPath: '/$level/muendlich/vorbereitung'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungRouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichRoute
     }
-    '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde': {
-      id: '/_authenticated/schriftlich/vorbereitung/schreiben/beschwerde'
-      path: '/schreiben/beschwerde'
-      fullPath: '/schriftlich/vorbereitung/schreiben/beschwerde'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    '/_authenticated/$level/muendlich/pruefung': {
+      id: '/_authenticated/$level/muendlich/pruefung'
+      path: '/pruefung'
+      fullPath: '/$level/muendlich/pruefung'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichPruefungRouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichRoute
     }
-    '/_authenticated/schriftlich/vorbereitung/lesen/teil-3': {
-      id: '/_authenticated/schriftlich/vorbereitung/lesen/teil-3'
-      path: '/lesen/teil-3'
-      fullPath: '/schriftlich/vorbereitung/lesen/teil-3'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungLesenTeil3RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
-    }
-    '/_authenticated/schriftlich/vorbereitung/lesen/teil-2': {
-      id: '/_authenticated/schriftlich/vorbereitung/lesen/teil-2'
-      path: '/lesen/teil-2'
-      fullPath: '/schriftlich/vorbereitung/lesen/teil-2'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungLesenTeil2RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
-    }
-    '/_authenticated/schriftlich/vorbereitung/lesen/teil-1': {
-      id: '/_authenticated/schriftlich/vorbereitung/lesen/teil-1'
-      path: '/lesen/teil-1'
-      fullPath: '/schriftlich/vorbereitung/lesen/teil-1'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungLesenTeil1RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
-    }
-    '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3': {
-      id: '/_authenticated/schriftlich/vorbereitung/hoeren/teil-3'
-      path: '/hoeren/teil-3'
-      fullPath: '/schriftlich/vorbereitung/hoeren/teil-3'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
-    }
-    '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2': {
-      id: '/_authenticated/schriftlich/vorbereitung/hoeren/teil-2'
-      path: '/hoeren/teil-2'
-      fullPath: '/schriftlich/vorbereitung/hoeren/teil-2'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
-    }
-    '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1': {
-      id: '/_authenticated/schriftlich/vorbereitung/hoeren/teil-1'
-      path: '/hoeren/teil-1'
-      fullPath: '/schriftlich/vorbereitung/hoeren/teil-1'
-      preLoaderRoute: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1RouteImport
-      parentRoute: typeof AuthenticatedSchriftlichVorbereitungRoute
+    '/_authenticated/$level/schriftlich/vorbereitung/': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/'
+      path: '/'
+      fullPath: '/$level/schriftlich/vorbereitung/'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungIndexRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
     }
     '/_authenticated/practice/$level/$module/$teil': {
       id: '/_authenticated/practice/$level/$module/$teil'
@@ -1691,8 +1667,226 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPracticeLevelModuleTeilRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/$level/muendlich/vorbereitung/teil-3': {
+      id: '/_authenticated/$level/muendlich/vorbereitung/teil-3'
+      path: '/teil-3'
+      fullPath: '/$level/muendlich/vorbereitung/teil-3'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungTeil3RouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
+    }
+    '/_authenticated/$level/muendlich/vorbereitung/teil-2': {
+      id: '/_authenticated/$level/muendlich/vorbereitung/teil-2'
+      path: '/teil-2'
+      fullPath: '/$level/muendlich/vorbereitung/teil-2'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungTeil2RouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
+    }
+    '/_authenticated/$level/muendlich/vorbereitung/teil-1': {
+      id: '/_authenticated/$level/muendlich/vorbereitung/teil-1'
+      path: '/teil-1'
+      fullPath: '/$level/muendlich/vorbereitung/teil-1'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
+      path: '/sprachbausteine/teil-2'
+      fullPath: '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
+      path: '/sprachbausteine/teil-1'
+      fullPath: '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte'
+      path: '/schreiben/bitte'
+      fullPath: '/$level/schriftlich/vorbereitung/schreiben/bitte'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde'
+      path: '/schreiben/beschwerde'
+      fullPath: '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3'
+      path: '/lesen/teil-3'
+      fullPath: '/$level/schriftlich/vorbereitung/lesen/teil-3'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2'
+      path: '/lesen/teil-2'
+      fullPath: '/$level/schriftlich/vorbereitung/lesen/teil-2'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil2RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1'
+      path: '/lesen/teil-1'
+      fullPath: '/$level/schriftlich/vorbereitung/lesen/teil-1'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil1RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-3': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-3'
+      path: '/hoeren/teil-3'
+      fullPath: '/$level/schriftlich/vorbereitung/hoeren/teil-3'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-2': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-2'
+      path: '/hoeren/teil-2'
+      fullPath: '/$level/schriftlich/vorbereitung/hoeren/teil-2'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
+    '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1'
+      path: '/hoeren/teil-1'
+      fullPath: '/$level/schriftlich/vorbereitung/hoeren/teil-1'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1RouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
   }
 }
+
+interface AuthenticatedLevelMuendlichVorbereitungRouteChildren {
+  AuthenticatedLevelMuendlichVorbereitungTeil1Route: typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
+  AuthenticatedLevelMuendlichVorbereitungTeil2Route: typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
+  AuthenticatedLevelMuendlichVorbereitungTeil3Route: typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
+}
+
+const AuthenticatedLevelMuendlichVorbereitungRouteChildren: AuthenticatedLevelMuendlichVorbereitungRouteChildren =
+  {
+    AuthenticatedLevelMuendlichVorbereitungTeil1Route:
+      AuthenticatedLevelMuendlichVorbereitungTeil1Route,
+    AuthenticatedLevelMuendlichVorbereitungTeil2Route:
+      AuthenticatedLevelMuendlichVorbereitungTeil2Route,
+    AuthenticatedLevelMuendlichVorbereitungTeil3Route:
+      AuthenticatedLevelMuendlichVorbereitungTeil3Route,
+  }
+
+const AuthenticatedLevelMuendlichVorbereitungRouteWithChildren =
+  AuthenticatedLevelMuendlichVorbereitungRoute._addFileChildren(
+    AuthenticatedLevelMuendlichVorbereitungRouteChildren,
+  )
+
+interface AuthenticatedLevelMuendlichRouteChildren {
+  AuthenticatedLevelMuendlichPruefungRoute: typeof AuthenticatedLevelMuendlichPruefungRoute
+  AuthenticatedLevelMuendlichVorbereitungRoute: typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
+  AuthenticatedLevelMuendlichIndexRoute: typeof AuthenticatedLevelMuendlichIndexRoute
+}
+
+const AuthenticatedLevelMuendlichRouteChildren: AuthenticatedLevelMuendlichRouteChildren =
+  {
+    AuthenticatedLevelMuendlichPruefungRoute:
+      AuthenticatedLevelMuendlichPruefungRoute,
+    AuthenticatedLevelMuendlichVorbereitungRoute:
+      AuthenticatedLevelMuendlichVorbereitungRouteWithChildren,
+    AuthenticatedLevelMuendlichIndexRoute:
+      AuthenticatedLevelMuendlichIndexRoute,
+  }
+
+const AuthenticatedLevelMuendlichRouteWithChildren =
+  AuthenticatedLevelMuendlichRoute._addFileChildren(
+    AuthenticatedLevelMuendlichRouteChildren,
+  )
+
+interface AuthenticatedLevelSchriftlichVorbereitungRouteChildren {
+  AuthenticatedLevelSchriftlichVorbereitungIndexRoute: typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
+  AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route: typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
+  AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route: typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
+  AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route: typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route
+  AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route
+  AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route
+  AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
+  AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
+}
+
+const AuthenticatedLevelSchriftlichVorbereitungRouteChildren: AuthenticatedLevelSchriftlichVorbereitungRouteChildren =
+  {
+    AuthenticatedLevelSchriftlichVorbereitungIndexRoute:
+      AuthenticatedLevelSchriftlichVorbereitungIndexRoute,
+    AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route:
+      AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route,
+    AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route:
+      AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route,
+    AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route:
+      AuthenticatedLevelSchriftlichVorbereitungHoerenTeil3Route,
+    AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route:
+      AuthenticatedLevelSchriftlichVorbereitungLesenTeil1Route,
+    AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route:
+      AuthenticatedLevelSchriftlichVorbereitungLesenTeil2Route,
+    AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route:
+      AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route,
+    AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute:
+      AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute,
+    AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute:
+      AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute,
+    AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route:
+      AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route,
+    AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route:
+      AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route,
+  }
+
+const AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren =
+  AuthenticatedLevelSchriftlichVorbereitungRoute._addFileChildren(
+    AuthenticatedLevelSchriftlichVorbereitungRouteChildren,
+  )
+
+interface AuthenticatedLevelSchriftlichRouteChildren {
+  AuthenticatedLevelSchriftlichPruefungRoute: typeof AuthenticatedLevelSchriftlichPruefungRoute
+  AuthenticatedLevelSchriftlichVorbereitungRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren
+  AuthenticatedLevelSchriftlichIndexRoute: typeof AuthenticatedLevelSchriftlichIndexRoute
+}
+
+const AuthenticatedLevelSchriftlichRouteChildren: AuthenticatedLevelSchriftlichRouteChildren =
+  {
+    AuthenticatedLevelSchriftlichPruefungRoute:
+      AuthenticatedLevelSchriftlichPruefungRoute,
+    AuthenticatedLevelSchriftlichVorbereitungRoute:
+      AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren,
+    AuthenticatedLevelSchriftlichIndexRoute:
+      AuthenticatedLevelSchriftlichIndexRoute,
+  }
+
+const AuthenticatedLevelSchriftlichRouteWithChildren =
+  AuthenticatedLevelSchriftlichRoute._addFileChildren(
+    AuthenticatedLevelSchriftlichRouteChildren,
+  )
+
+interface AuthenticatedLevelRouteChildren {
+  AuthenticatedLevelDashboardRoute: typeof AuthenticatedLevelDashboardRoute
+  AuthenticatedLevelMuendlichRoute: typeof AuthenticatedLevelMuendlichRouteWithChildren
+  AuthenticatedLevelSchriftlichRoute: typeof AuthenticatedLevelSchriftlichRouteWithChildren
+  AuthenticatedLevelSearchRoute: typeof AuthenticatedLevelSearchRoute
+}
+
+const AuthenticatedLevelRouteChildren: AuthenticatedLevelRouteChildren = {
+  AuthenticatedLevelDashboardRoute: AuthenticatedLevelDashboardRoute,
+  AuthenticatedLevelMuendlichRoute:
+    AuthenticatedLevelMuendlichRouteWithChildren,
+  AuthenticatedLevelSchriftlichRoute:
+    AuthenticatedLevelSchriftlichRouteWithChildren,
+  AuthenticatedLevelSearchRoute: AuthenticatedLevelSearchRoute,
+}
+
+const AuthenticatedLevelRouteWithChildren =
+  AuthenticatedLevelRoute._addFileChildren(AuthenticatedLevelRouteChildren)
 
 interface AuthenticatedAdminExercisesRouteChildren {
   AuthenticatedAdminExercisesIdRoute: typeof AuthenticatedAdminExercisesIdRoute
@@ -1785,112 +1979,8 @@ const AuthenticatedLearnRouteChildren: AuthenticatedLearnRouteChildren = {
 const AuthenticatedLearnRouteWithChildren =
   AuthenticatedLearnRoute._addFileChildren(AuthenticatedLearnRouteChildren)
 
-interface AuthenticatedMuendlichVorbereitungRouteChildren {
-  AuthenticatedMuendlichVorbereitungTeil1Route: typeof AuthenticatedMuendlichVorbereitungTeil1Route
-  AuthenticatedMuendlichVorbereitungTeil2Route: typeof AuthenticatedMuendlichVorbereitungTeil2Route
-  AuthenticatedMuendlichVorbereitungTeil3Route: typeof AuthenticatedMuendlichVorbereitungTeil3Route
-}
-
-const AuthenticatedMuendlichVorbereitungRouteChildren: AuthenticatedMuendlichVorbereitungRouteChildren =
-  {
-    AuthenticatedMuendlichVorbereitungTeil1Route:
-      AuthenticatedMuendlichVorbereitungTeil1Route,
-    AuthenticatedMuendlichVorbereitungTeil2Route:
-      AuthenticatedMuendlichVorbereitungTeil2Route,
-    AuthenticatedMuendlichVorbereitungTeil3Route:
-      AuthenticatedMuendlichVorbereitungTeil3Route,
-  }
-
-const AuthenticatedMuendlichVorbereitungRouteWithChildren =
-  AuthenticatedMuendlichVorbereitungRoute._addFileChildren(
-    AuthenticatedMuendlichVorbereitungRouteChildren,
-  )
-
-interface AuthenticatedMuendlichRouteChildren {
-  AuthenticatedMuendlichPruefungRoute: typeof AuthenticatedMuendlichPruefungRoute
-  AuthenticatedMuendlichVorbereitungRoute: typeof AuthenticatedMuendlichVorbereitungRouteWithChildren
-  AuthenticatedMuendlichIndexRoute: typeof AuthenticatedMuendlichIndexRoute
-}
-
-const AuthenticatedMuendlichRouteChildren: AuthenticatedMuendlichRouteChildren =
-  {
-    AuthenticatedMuendlichPruefungRoute: AuthenticatedMuendlichPruefungRoute,
-    AuthenticatedMuendlichVorbereitungRoute:
-      AuthenticatedMuendlichVorbereitungRouteWithChildren,
-    AuthenticatedMuendlichIndexRoute: AuthenticatedMuendlichIndexRoute,
-  }
-
-const AuthenticatedMuendlichRouteWithChildren =
-  AuthenticatedMuendlichRoute._addFileChildren(
-    AuthenticatedMuendlichRouteChildren,
-  )
-
-interface AuthenticatedSchriftlichVorbereitungRouteChildren {
-  AuthenticatedSchriftlichVorbereitungIndexRoute: typeof AuthenticatedSchriftlichVorbereitungIndexRoute
-  AuthenticatedSchriftlichVorbereitungHoerenTeil1Route: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil1Route
-  AuthenticatedSchriftlichVorbereitungHoerenTeil2Route: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil2Route
-  AuthenticatedSchriftlichVorbereitungHoerenTeil3Route: typeof AuthenticatedSchriftlichVorbereitungHoerenTeil3Route
-  AuthenticatedSchriftlichVorbereitungLesenTeil1Route: typeof AuthenticatedSchriftlichVorbereitungLesenTeil1Route
-  AuthenticatedSchriftlichVorbereitungLesenTeil2Route: typeof AuthenticatedSchriftlichVorbereitungLesenTeil2Route
-  AuthenticatedSchriftlichVorbereitungLesenTeil3Route: typeof AuthenticatedSchriftlichVorbereitungLesenTeil3Route
-  AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute
-  AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute: typeof AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute
-  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route
-  AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route: typeof AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route
-}
-
-const AuthenticatedSchriftlichVorbereitungRouteChildren: AuthenticatedSchriftlichVorbereitungRouteChildren =
-  {
-    AuthenticatedSchriftlichVorbereitungIndexRoute:
-      AuthenticatedSchriftlichVorbereitungIndexRoute,
-    AuthenticatedSchriftlichVorbereitungHoerenTeil1Route:
-      AuthenticatedSchriftlichVorbereitungHoerenTeil1Route,
-    AuthenticatedSchriftlichVorbereitungHoerenTeil2Route:
-      AuthenticatedSchriftlichVorbereitungHoerenTeil2Route,
-    AuthenticatedSchriftlichVorbereitungHoerenTeil3Route:
-      AuthenticatedSchriftlichVorbereitungHoerenTeil3Route,
-    AuthenticatedSchriftlichVorbereitungLesenTeil1Route:
-      AuthenticatedSchriftlichVorbereitungLesenTeil1Route,
-    AuthenticatedSchriftlichVorbereitungLesenTeil2Route:
-      AuthenticatedSchriftlichVorbereitungLesenTeil2Route,
-    AuthenticatedSchriftlichVorbereitungLesenTeil3Route:
-      AuthenticatedSchriftlichVorbereitungLesenTeil3Route,
-    AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute:
-      AuthenticatedSchriftlichVorbereitungSchreibenBeschwerdeRoute,
-    AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute:
-      AuthenticatedSchriftlichVorbereitungSchreibenBitteRoute,
-    AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route:
-      AuthenticatedSchriftlichVorbereitungSprachbausteineTeil1Route,
-    AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route:
-      AuthenticatedSchriftlichVorbereitungSprachbausteineTeil2Route,
-  }
-
-const AuthenticatedSchriftlichVorbereitungRouteWithChildren =
-  AuthenticatedSchriftlichVorbereitungRoute._addFileChildren(
-    AuthenticatedSchriftlichVorbereitungRouteChildren,
-  )
-
-interface AuthenticatedSchriftlichRouteChildren {
-  AuthenticatedSchriftlichPruefungRoute: typeof AuthenticatedSchriftlichPruefungRoute
-  AuthenticatedSchriftlichVorbereitungRoute: typeof AuthenticatedSchriftlichVorbereitungRouteWithChildren
-  AuthenticatedSchriftlichIndexRoute: typeof AuthenticatedSchriftlichIndexRoute
-}
-
-const AuthenticatedSchriftlichRouteChildren: AuthenticatedSchriftlichRouteChildren =
-  {
-    AuthenticatedSchriftlichPruefungRoute:
-      AuthenticatedSchriftlichPruefungRoute,
-    AuthenticatedSchriftlichVorbereitungRoute:
-      AuthenticatedSchriftlichVorbereitungRouteWithChildren,
-    AuthenticatedSchriftlichIndexRoute: AuthenticatedSchriftlichIndexRoute,
-  }
-
-const AuthenticatedSchriftlichRouteWithChildren =
-  AuthenticatedSchriftlichRoute._addFileChildren(
-    AuthenticatedSchriftlichRouteChildren,
-  )
-
 interface AuthenticatedRouteChildren {
+  AuthenticatedLevelRoute: typeof AuthenticatedLevelRouteWithChildren
   AuthenticatedAchievementsRoute: typeof AuthenticatedAchievementsRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRouteWithChildren
   AuthenticatedBillingRoute: typeof AuthenticatedBillingRoute
@@ -1898,24 +1988,23 @@ interface AuthenticatedRouteChildren {
   AuthenticatedHelpRoute: typeof AuthenticatedHelpRoute
   AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
   AuthenticatedLearnRoute: typeof AuthenticatedLearnRouteWithChildren
-  AuthenticatedMuendlichRoute: typeof AuthenticatedMuendlichRouteWithChildren
   AuthenticatedNotesRoute: typeof AuthenticatedNotesRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedPruefungRoute: typeof AuthenticatedPruefungRoute
   AuthenticatedReferralsRoute: typeof AuthenticatedReferralsRoute
-  AuthenticatedSchriftlichRoute: typeof AuthenticatedSchriftlichRouteWithChildren
-  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedSecurityRoute: typeof AuthenticatedSecurityRoute
   AuthenticatedStatistikRoute: typeof AuthenticatedStatistikRoute
   AuthenticatedTimerRoute: typeof AuthenticatedTimerRoute
+  AuthenticatedVerifyEmailRoute: typeof AuthenticatedVerifyEmailRoute
   AuthenticatedWeeklyGoalsRoute: typeof AuthenticatedWeeklyGoalsRoute
   AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
   AuthenticatedPracticeLevelModuleTeilRoute: typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedLevelRoute: AuthenticatedLevelRouteWithChildren,
   AuthenticatedAchievementsRoute: AuthenticatedAchievementsRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRouteWithChildren,
   AuthenticatedBillingRoute: AuthenticatedBillingRoute,
@@ -1923,18 +2012,16 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedHelpRoute: AuthenticatedHelpRoute,
   AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
   AuthenticatedLearnRoute: AuthenticatedLearnRouteWithChildren,
-  AuthenticatedMuendlichRoute: AuthenticatedMuendlichRouteWithChildren,
   AuthenticatedNotesRoute: AuthenticatedNotesRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedPruefungRoute: AuthenticatedPruefungRoute,
   AuthenticatedReferralsRoute: AuthenticatedReferralsRoute,
-  AuthenticatedSchriftlichRoute: AuthenticatedSchriftlichRouteWithChildren,
-  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedSecurityRoute: AuthenticatedSecurityRoute,
   AuthenticatedStatistikRoute: AuthenticatedStatistikRoute,
   AuthenticatedTimerRoute: AuthenticatedTimerRoute,
+  AuthenticatedVerifyEmailRoute: AuthenticatedVerifyEmailRoute,
   AuthenticatedWeeklyGoalsRoute: AuthenticatedWeeklyGoalsRoute,
   AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
   AuthenticatedPracticeLevelModuleTeilRoute:

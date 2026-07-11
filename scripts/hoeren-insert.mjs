@@ -35,6 +35,13 @@ const FILE = process.argv.find((a, i) => i >= 2 && !a.startsWith("--"));
 if (!FILE) { console.error("usage: node scripts/hoeren-insert.mjs <data.json> [--apply] [--force]"); process.exit(1); }
 const b64 = (s) => Buffer.from(s ?? "", "utf8").toString("base64");
 const S = (s) => `convert_from(decode('${b64(s)}','base64'),'UTF8')`;
+// hoeren_exercises.level must be "TELC_B1"/"TELC_B2" — matches lesen_exercises/exams
+// convention. Normalizes bare "B1"/"B2" (an older, now-abandoned convention) too.
+function normalizeLevel(raw) {
+  const v = (raw || "TELC_B2").toUpperCase();
+  if (v === "B1" || v === "TELC_B1") return "TELC_B1";
+  return "TELC_B2";
+}
 async function q(sql) { const r = await fetch(`https://api.supabase.com/v1/projects/${REF}/database/query`, { method: "POST", headers: { Authorization: `Bearer ${SBP}`, "Content-Type": "application/json" }, body: JSON.stringify({ query: sql }) }); const t = await r.text(); if (!r.ok) throw new Error(t); return JSON.parse(t); }
 
 const d = JSON.parse(readFileSync(FILE, "utf8"));
@@ -64,8 +71,9 @@ if (!APPLY) { console.log("\n(dry run — pass --apply to write)"); process.exit
 const dup = await q(`select id from hoeren_exercises where teil=${d.teil} and title=${S(d.title)};`);
 if (dup.length && !FORCE) { console.error(`Exercise titled "${d.title}" already exists in Hören Teil ${d.teil} (${dup[0].id}). Use --force to add anyway.`); process.exit(1); }
 
+const level = normalizeLevel(d.level);
 const ins = await q(`insert into hoeren_exercises (title, teil, level, image_path, instructions, source_pdf, import_notes, position, version_tag, variant_group)
-  values (${S(d.title)}, ${d.teil}, ${S(d.level || "B2")}, ${d.image_path ? S(d.image_path) : "NULL"}, ${S(d.instructions || "")}, ${S(d.source_pdf || "")}, ${S(d.notes || "manual PDF transcription")}, ${d.position}, ${d.version_tag ? S(d.version_tag) : "NULL"}, ${d.variant_group ? S(d.variant_group) : "NULL"})
+  values (${S(d.title)}, ${d.teil}, ${S(level)}, ${d.image_path ? S(d.image_path) : "NULL"}, ${S(d.instructions || "")}, ${S(d.source_pdf || "")}, ${S(d.notes || "manual PDF transcription")}, ${d.position}, ${d.version_tag ? S(d.version_tag) : "NULL"}, ${d.variant_group ? S(d.variant_group) : "NULL"})
   returning id;`);
 const exId = ins[0].id;
 const stmtValues = stmts.map((s) => `('${exId}', ${s.number}, ${S(String(s.text))}, ${s.correct})`).join(",\n");

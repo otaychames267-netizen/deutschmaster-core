@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
+import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { useUserProgress } from "@/lib/useUserProgress";
 import { useStudentCredits } from "@/lib/useStudentCredits";
 import { useEffect, useRef, useState, useCallback } from "react";
@@ -24,6 +25,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Breadcrumb map ────────────────────────────────────────────── */
 const BREADCRUMB_MAP: Record<string, string> = {
+  b1:              "B1",
+  b2:              "B2",
   dashboard:       "Dashboard",
   schriftlich:     "Schriftlich",
   muendlich:       "Mündlich",
@@ -100,13 +103,15 @@ const SECTION_ROUTES: Record<string, string> = {
 };
 
 const QUICK_LINKS = [
-  { label: "Schriftlich Vorbereitung", to: "/schriftlich/vorbereitung", icon: BookOpen,    color: "text-blue-500" },
-  { label: "Mündlich Vorbereitung",    to: "/muendlich",                icon: BookOpen,    color: "text-rose-500" },
-  { label: "Statistik",                to: "/statistik",                icon: ArrowRight,  color: "text-violet-500" },
-  { label: "Referral Program",         to: "/referrals",                icon: ArrowRight,  color: "text-emerald-500" },
-];
+  { label: "Schriftlich Vorbereitung", levelPath: "/schriftlich/vorbereitung", icon: BookOpen,    color: "text-blue-500" },
+  { label: "Mündlich Vorbereitung",    levelPath: "/muendlich",                icon: BookOpen,    color: "text-rose-500" },
+  { label: "Statistik",                levelPath: null, to: "/statistik",      icon: ArrowRight,  color: "text-violet-500" },
+  { label: "Referral Program",         levelPath: null, to: "/referrals",      icon: ArrowRight,  color: "text-emerald-500" },
+] as const;
 
 function SearchModal({ onClose }: { onClose: () => void }) {
+  const level = useActiveLevel();
+  const seg = useLevelSegment();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ExamResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -119,17 +124,18 @@ function SearchModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     if (debounce.current) clearTimeout(debounce.current);
     const q = query.trim();
-    if (!q || q.length < 2) { setResults([]); return; }
+    if (!q || q.length < 2 || !level) { setResults([]); return; }
     debounce.current = setTimeout(async () => {
       setLoading(true);
       const { data } = await supabase.from("exams")
         .select("id, title, section, teil")
         .ilike("title", `%${q}%`)
+        .eq("level", level)
         .limit(8);
       setResults((data as ExamResult[]) ?? []);
       setLoading(false);
     }, 250);
-  }, [query]);
+  }, [query, level]);
 
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === "Escape") onClose();
@@ -179,7 +185,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
           {query.trim().length >= 2 && results.length === 0 && !loading && (
             <div className="flex flex-col items-center gap-2 py-8 text-center">
               <p className="text-sm text-muted-foreground">No results for "{query}"</p>
-              <button onClick={() => goTo("/search")} className="text-xs font-medium text-primary hover:underline">
+              <button onClick={() => goTo(seg ? `/${seg}/search` : "/dashboard")} className="text-xs font-medium text-primary hover:underline">
                 Open full search →
               </button>
             </div>
@@ -191,7 +197,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
                 Exercises
               </p>
               {results.map((r) => {
-                const baseRoute = SECTION_ROUTES[r.section] ?? "/dashboard";
+                const baseRoute = seg && SECTION_ROUTES[r.section] ? `/${seg}${SECTION_ROUTES[r.section]}` : "/dashboard";
                 const href = r.teil ? `${baseRoute}/teil-${r.teil}` : baseRoute;
                 return (
                   <button
@@ -217,24 +223,27 @@ function SearchModal({ onClose }: { onClose: () => void }) {
               <p className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                 Quick navigation
               </p>
-              {QUICK_LINKS.map((link) => (
-                <button
-                  key={link.to}
-                  onClick={() => goTo(link.to)}
-                  className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/50 transition-colors"
-                >
-                  <link.icon className={`h-4 w-4 shrink-0 ${link.color}`} />
-                  <span className="text-sm text-foreground">{link.label}</span>
-                  <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                </button>
-              ))}
+              {QUICK_LINKS.map((link) => {
+                const dest = link.levelPath ? (seg ? `/${seg}${link.levelPath}` : "/dashboard") : link.to;
+                return (
+                  <button
+                    key={link.label}
+                    onClick={() => goTo(dest)}
+                    className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/50 transition-colors"
+                  >
+                    <link.icon className={`h-4 w-4 shrink-0 ${link.color}`} />
+                    <span className="text-sm text-foreground">{link.label}</span>
+                    <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
 
         <div className="border-t border-border bg-muted/30 px-4 py-2.5 flex items-center justify-between">
           <p className="text-[10px] text-muted-foreground">⏎ to navigate · Esc to close</p>
-          <button onClick={() => goTo("/search")} className="text-[10px] font-medium text-primary hover:underline">
+          <button onClick={() => goTo(seg ? `/${seg}/search` : "/dashboard")} className="text-[10px] font-medium text-primary hover:underline">
             Advanced search →
           </button>
         </div>

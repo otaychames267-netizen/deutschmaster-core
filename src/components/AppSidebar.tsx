@@ -11,6 +11,7 @@ import {
   ChevronRight, Upload, Headphones, Wrench, Coins,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import {
   Sidebar,
   SidebarContent,
@@ -244,17 +245,29 @@ function ImportPDFsSection({ pathname }: ImportRootProps) {
 // ── Main sidebar ─────────────────────────────────────────────────────────────
 
 export function AppSidebar() {
-  const { user, isAdmin, level, signOut } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
+  const activeLevel = useActiveLevel();
+  const seg = useLevelSegment();
   const state = useRouterState();
   const pathname = state.location.pathname;
 
   function isActive(to: string) {
-    if (to === "/dashboard") return pathname === "/dashboard";
     if (to === "/admin") return pathname === "/admin";
     return pathname === to || pathname.startsWith(to + "/");
   }
 
-  const levelBadge = level === "TELC_B1" ? "B1" : level === "TELC_B2" ? "B2" : null;
+  // Every content link is locked to the level currently in the URL. Outside a
+  // level context (gate page, account pages) they fall back to the gate —
+  // never guess a level, that's exactly the cross-contamination this avoids.
+  const dashboardTo    = seg ? `/${seg}/dashboard` : "/dashboard";
+  const schriftlichTo  = seg ? `/${seg}/schriftlich` : "/dashboard";
+  const muendlichTo    = seg ? `/${seg}/muendlich` : "/dashboard";
+  const searchTo       = seg ? `/${seg}/search` : "/dashboard";
+  const isDashboardActive   = seg ? pathname === dashboardTo : pathname === "/dashboard";
+  const isSchriftlichActive = !!seg && (pathname === schriftlichTo || pathname.startsWith(schriftlichTo + "/"));
+  const isMuendlichActive   = !!seg && (pathname === muendlichTo || pathname.startsWith(muendlichTo + "/"));
+
+  const levelBadge = activeLevel === "TELC_B1" ? "B1" : activeLevel === "TELC_B2" ? "B2" : null;
   const displayName = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0]
     ?? user?.email?.split("@")[0]
     ?? "You";
@@ -286,8 +299,8 @@ export function AppSidebar() {
         {/* ── Main ─────────────────────────────────────────────── */}
         <SidebarGroup className="py-1">
           <SidebarMenu>
-            <NavItem to="/dashboard" label="Dashboard" icon={LayoutDashboard} active={isActive("/dashboard")} />
-            <NavItem to="/search"    label="Search"    icon={Search}          active={isActive("/search")}    />
+            <NavItem to={dashboardTo} label="Dashboard" icon={LayoutDashboard} active={isDashboardActive} />
+            <NavItem to={searchTo}   label="Search"    icon={Search}          active={!!seg && pathname === searchTo}    />
           </SidebarMenu>
         </SidebarGroup>
 
@@ -299,30 +312,30 @@ export function AppSidebar() {
           <SidebarMenu>
             {/* Schriftlich */}
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/schriftlich")}>
-                <Link to="/schriftlich" className={`relative gap-3 transition-all duration-150 ${
-                  isActive("/schriftlich")
+              <SidebarMenuButton asChild isActive={isSchriftlichActive}>
+                <Link to={schriftlichTo} className={`relative gap-3 transition-all duration-150 ${
+                  isSchriftlichActive
                     ? `${COLOR_MAP.blue.activeClass} ${COLOR_MAP.blue.glow}`
                     : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/60"
                 }`}>
-                  <PenLine className={`h-4 w-4 shrink-0 ${isActive("/schriftlich") ? "text-blue-500" : ""}`} />
+                  <PenLine className={`h-4 w-4 shrink-0 ${isSchriftlichActive ? "text-blue-500" : ""}`} />
                   <span className="group-data-[collapsible=icon]:hidden flex-1 font-medium">Schriftlich</span>
-                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isActive("/schriftlich") ? "fill-blue-500 text-blue-500" : "fill-amber-400 text-amber-400"}`} />
+                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isSchriftlichActive ? "fill-blue-500 text-blue-500" : "fill-amber-400 text-amber-400"}`} />
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
 
             {/* Mündlich */}
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/muendlich")}>
-                <Link to="/muendlich" className={`relative gap-3 transition-all duration-150 ${
-                  isActive("/muendlich")
+              <SidebarMenuButton asChild isActive={isMuendlichActive}>
+                <Link to={muendlichTo} className={`relative gap-3 transition-all duration-150 ${
+                  isMuendlichActive
                     ? `${COLOR_MAP.rose.activeClass} ${COLOR_MAP.rose.glow}`
                     : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/60"
                 }`}>
-                  <Mic className={`h-4 w-4 shrink-0 ${isActive("/muendlich") ? "text-rose-500" : ""}`} />
+                  <Mic className={`h-4 w-4 shrink-0 ${isMuendlichActive ? "text-rose-500" : ""}`} />
                   <span className="group-data-[collapsible=icon]:hidden flex-1 font-medium">Mündlich</span>
-                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isActive("/muendlich") ? "fill-rose-500 text-rose-500" : "fill-amber-400 text-amber-400"}`} />
+                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isMuendlichActive ? "fill-rose-500 text-rose-500" : "fill-amber-400 text-amber-400"}`} />
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

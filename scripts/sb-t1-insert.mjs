@@ -24,6 +24,13 @@ const FILE = process.argv.find((a, i) => i >= 2 && !a.startsWith("--"));
 if (!FILE) { console.error("usage: bun scripts/sb-t1-insert.mjs <data.json> [--apply] [--force]"); process.exit(1); }
 const b64 = (s) => Buffer.from(s ?? "", "utf8").toString("base64");
 const S = (s) => `convert_from(decode('${b64(s)}','base64'),'UTF8')`;
+// sb_exercises.level must be "TELC_B1"/"TELC_B2" — matches lesen_exercises/exams
+// convention. Normalizes bare "B1"/"B2" (an older, now-abandoned convention) too.
+function normalizeLevel(raw) {
+  const v = (raw || "TELC_B2").toUpperCase();
+  if (v === "B1" || v === "TELC_B1") return "TELC_B1";
+  return "TELC_B2";
+}
 async function q(sql) { const r = await fetch(`https://api.supabase.com/v1/projects/${REF}/database/query`, { method: "POST", headers: { Authorization: `Bearer ${SBP}`, "Content-Type": "application/json" }, body: JSON.stringify({ query: sql }) }); const t = await r.text(); if (!r.ok) throw new Error(t); return JSON.parse(t); }
 
 const d = JSON.parse(readFileSync(FILE, "utf8"));
@@ -60,7 +67,7 @@ if (dup.length && !FORCE) { console.error(`Exercise titled "${d.title}" already 
 
 if (typeof d.position !== "number") { console.error("position (number) required — PDF page/sequence order"); process.exit(1); }
 const ins = await q(`insert into sb_exercises (title, teil, level, source_pdf, import_notes, position)
-  values (${S(d.title)}, 1, ${S(d.level || "B2")}, ${S(d.source_pdf || "")}, ${S(d.import_notes || "manual PDF transcription")}, ${d.position})
+  values (${S(d.title)}, 1, ${S(normalizeLevel(d.level))}, ${S(d.source_pdf || "")}, ${S(d.import_notes || "manual PDF transcription")}, ${d.position})
   returning id;`);
 const exId = ins[0].id;
 await q(`insert into sb_t1_passages (exercise_id, title, instructions, passage)

@@ -28,12 +28,18 @@ const LESSON_LABELS: Record<string, { label: string; section: string }> = {
   "/muendlich/pruefung":                              { label: "Prüfungssimulation",         section: "Mündlich" },
 };
 
+/** Strips a leading /b1 or /b2 segment so lesson labels are looked up by their
+ * level-agnostic suffix (both levels share the same set of lesson labels). */
+function stripLevelPrefix(pathname: string): string {
+  return pathname.replace(/^\/(b1|b2)(?=\/|$)/, "");
+}
+
 export function useTrackLesson() {
   const state = useRouterState();
   const pathname = state.location.pathname;
 
   useEffect(() => {
-    const info = LESSON_LABELS[pathname];
+    const info = LESSON_LABELS[stripLevelPrefix(pathname)];
     if (!info) return;
     const lesson: LastLesson = { path: pathname, label: info.label, section: info.section, ts: Date.now() };
     try {

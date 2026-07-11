@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Kirche",
+  "level": "TELC_B1",
+  "position": 4,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 4/16 (Nadia2/Language Tests, pages 41-42 printed = PDF pages 42-43). The texts page (PDF p.43) carries the source's OWN printed disclaimer in Arabic ('ملاحظة: بعض الكلمات مفقودة من النصوص بسبب رداءة الصورة' — 'Note: some words are missing from the texts due to poor image quality'), and two of the five text boxes (texts 2 and 4) have a genuine line-overlap rendering defect in the source scan where two lines of body text visually collapse onto the same baseline. Reconstructed the correct line order from the overlap for texts 2 and 4 (this appears to be a rendering artifact, not missing content, since a coherent sentence results); a small number of individual words/letters remain genuinely illegible or dropped by the source's own OCR/scan and are marked with a bracketed best-guess reconstruction. General topic/gist of every text (needed for the headline-matching task) is clear and unambiguous despite the corruption. Answer key from Lösungen page (printed p.52 / PDF p.53): 1A 2C 3G 4E 5I, cross-verified content-to-headline by direct reading (topic-level match holds even with word-level corruption).",
+  "headlines": [
+    { "letter": "A", "text": "Bilder mit dem Computer bearbeiten", "is_distractor": false },
+    { "letter": "B", "text": "Kirche bietet Backkurs für Kinder an", "is_distractor": true },
+    { "letter": "C", "text": "Kirche eröffnet neuen Treffpunkt", "is_distractor": false },
+    { "letter": "D", "text": "Neu: Kochbuch über Wiener Fleischgerichte", "is_distractor": true },
+    { "letter": "E", "text": "Neue Computerprogramme werden getestet", "is_distractor": false },
+    { "letter": "F", "text": "Preis für bestes Lernprogramm", "is_distractor": true },
+    { "letter": "G", "text": "Rezepte für Kuchen und Torten", "is_distractor": false },
+    { "letter": "H", "text": "Studie zeigt: Kaffeetrinker sind glücklicher", "is_distractor": true },
+    { "letter": "I", "text": "Warum die Wiener ins Café gehen", "is_distractor": false },
+    { "letter": "J", "text": "Zürcher Fotografen stellen aus", "is_distractor": true }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "Die Kunst- und Medienschule F+F Zürich bietet bereits zum dritten Mal den Computerkurs 'Digitale Bildbearbeitung' an. Im neuen Semester steht für zehn Samstage Fotografie, nach der Fotografie also die digitale Bearbeitung von Bildern, im Mittelpunkt. Dabei kommen verschiedene Softwareprodukte zum Einsatz. Der Kurs befasst sich aber nicht nur mit dem Vermitteln, auch Themen- und Problembereiche rund um die digitale Foto- und Bildbearbeitung [werden behandelt]. Kurskosten: 800 Franken. Nähere Informationen und Anmeldung zu diesem Kurs: www.f-f.ch.", "correct_headline": "A" },
+    { "position": 2, "title": "", "content": "Neuperlach-Süd – Nach dem Einkaufen eine Kaffee genießen, mit anderen ins Gespräch [kommen — partially illegible in source], sich mit Bekannten treffen oder einfach [entspannen] – all das geht ab 11. Juli immer dienstags zwischen 14 und 18 Uhr im neuen Eiscafé der Dietrich-Bonhoeffer-Kirche. Wir möchten damit einen Ort der Begegnung für Jung und Alt anbieten und zur Belebung des Stadtteils beitragen, erklärt Pfarrer Sebastian Kühnen. Neben kalten und heißen Getränken sowie Kuchen steht während der Öffnungszeiten auch eine Mitarbeiterin für Gespräche zur Verfügung.", "correct_headline": "C" },
+    { "position": 3, "title": "", "content": "Geheimnisse der modernen Konditorkunst. Der Meister des Süßen, Herwig Gasser, sammelte über [die] Jahre hinweg, [als] Bäcker des berühmten Wiener Café Landmann, Mehlspeisenrezepte. Von der Birnentorte über den Apfelstrudel bis hin zum Heidelbeerstollen. Verlag Kettel, 110 Fotos, 300 Seiten. ISBN 3-85134-014-0.", "correct_headline": "G" },
+    { "position": 4, "title": "", "content": "Am Montag wird in Stuttgart die Bildungsmesse Didacta eröffnet. Dort werden vor allem Lehrmaterialien vorgestellt. Bei vielen [handelt es] sich um Bildungssoftware. Für ein gelungenes Softwareprojekt wird [auf der Messe] der Bildungssoftwarepreis digita vergeben. Dabei handelt es sich um die wichtige Auszeichnung für Lehr- und Lernprogramme [im] deutschsprachigen Raum. Die verzeichneten [Programme] mit dem digita[-Preis werden] multimediale [Angebote] aus[zeichnen], die inhaltlich und formal [heraus]ragend und beispielgebend gelten können.", "correct_headline": "E" },
+    { "position": 5, "title": "", "content": "Des Gallup-Instituts hat sich mit [dem] Kaffeehausverhalten der Wiener [befasst]. Ein Vorurteil hat sich dabei bestätigt: Kaffeehaus und der Wiener[,] seine [Stamm-]Melange. Ergebnisse der Studie: 27% der [Befragten] geben an, zumindest einmal im Monat [in] der Nähe ihrer Wohnung [ins Kaffeehaus] zu gehen. Durchschnittlich 54 Minuten [verbringen die] Befragten in ihrem Stammcafé. [Je länger die] Kundschaft [bleibt], umso länger wird gegessen. Der Grund, [warum] ein Kaffeehaus wichtig ist: das Plaudern [mit] Freunden. 77% der Befragten [nennen dies als] Grund für den Besuch im Kaffeehaus.", "correct_headline": "I" }
+  ]
+}

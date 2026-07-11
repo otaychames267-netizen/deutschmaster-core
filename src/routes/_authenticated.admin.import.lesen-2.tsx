@@ -682,9 +682,9 @@ function ImportLesenT2Page() {
               className="flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors">
               <FileText className="h-4 w-4" /> Import another
             </button>
-            <Link to="/schriftlich/vorbereitung/lesen/teil-2"
+            <Link to="/dashboard"
               className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors">
-              View exercises <ChevronRight className="h-4 w-4" />
+              Go verify in a course <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

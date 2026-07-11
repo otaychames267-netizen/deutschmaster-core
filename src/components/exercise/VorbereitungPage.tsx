@@ -4,6 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { ExamList } from "./ExamList";
 import { ExercisePlayer } from "./ExercisePlayer";
 import { useTrackLesson } from "@/lib/useLastLesson";
+import { useLevelSegment } from "@/lib/useActiveLevel";
 
 interface SelectedExam {
   id: string;
@@ -35,13 +36,16 @@ export function VorbereitungPage({
   section,
   teil,
   tips,
-  backTo = "/schriftlich/vorbereitung",
+  backTo,
   backLabel = "Schriftlich Vorbereitung",
   xpReward = 50,
   estimatedTime = "15–25 min",
 }: VorbereitungPageProps) {
   const [active, setActive] = useState<SelectedExam | null>(null);
   useTrackLesson();
+  const seg = useLevelSegment();
+  const resolvedBackTo = backTo ?? `/${seg}/schriftlich/vorbereitung`;
+  const schriftlichTo = `/${seg}/schriftlich`;
 
   const sc = SECTION_COLORS[section] ?? { color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" };
 
@@ -72,16 +76,16 @@ export function VorbereitungPage({
       {/* ── Breadcrumb navigation ─────────────────────────────── */}
       <div>
         <Link
-          to={backTo as never}
+          to={resolvedBackTo as never}
           className="mb-4 inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
         >
           <ArrowLeft className="h-4 w-4" /> {backLabel}
         </Link>
 
         <div className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground flex-wrap">
-          <Link to="/schriftlich" className="hover:text-foreground transition-colors">Schriftlich</Link>
+          <Link to={schriftlichTo as never} className="hover:text-foreground transition-colors">Schriftlich</Link>
           <span>/</span>
-          <Link to={backTo as never} className="hover:text-foreground transition-colors">Vorbereitung</Link>
+          <Link to={resolvedBackTo as never} className="hover:text-foreground transition-colors">Vorbereitung</Link>
           {sectionLabel && (
             <>
               <span>/</span>

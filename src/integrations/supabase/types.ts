@@ -1881,6 +1881,7 @@ export type Database = {
           created_at: string
           created_by: string | null
           id: string
+          level: string
           position: number | null
           sort_order: number
           source_pdf: string | null
@@ -1894,6 +1895,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           id?: string
+          level: string
           position?: number | null
           sort_order?: number
           source_pdf?: string | null
@@ -1907,6 +1909,7 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           id?: string
+          level?: string
           position?: number | null
           sort_order?: number
           source_pdf?: string | null

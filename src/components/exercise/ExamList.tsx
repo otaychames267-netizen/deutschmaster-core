@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth, type UserLevel } from "@/lib/auth";
+import { useActiveLevel, type ActiveLevel } from "@/lib/useActiveLevel";
 import {
   BookOpen, Clock, ChevronRight, FileQuestion,
   CheckCircle2, Lock, Play,
@@ -39,7 +39,7 @@ export function ExamList({
   emptyDescription = "Exercises for this section will appear here once the admin imports the content via the PDF Import system.",
   onSelect,
 }: ExamListProps) {
-  const { level } = useAuth();
+  const level = useActiveLevel();
   const [exams, setExams] = useState<Exam[]>([]);
   const [loading, setLoading] = useState(true);
   const [attempted, setAttempted] = useState<Set<string>>(new Set());
@@ -53,7 +53,7 @@ export function ExamList({
       let q = supabase
         .from("exams")
         .select("id, title, display_order, metadata, status")
-        .eq("level", level as NonNullable<UserLevel>)
+        .eq("level", level as NonNullable<ActiveLevel>)
         .eq("section", section as "muendlich" | "lesen" | "hoeren" | "sprachbausteine" | "schreiben")
         .eq("exam_type", examType as "vorbereitung" | "simulation")
         .eq("status", "published")

@@ -60,7 +60,7 @@ const statements = [];
 
 // ---- Lesen T1 ----
 statements.push(`
-  WITH ex AS (INSERT INTO lesen_exercises (title, teil, level, difficulty, source_pdf) VALUES ('Leseverstehen Teil 1 — Übungstest 6', 1, 'B2', 'Standard', ${esc(SOURCE_COMBINED)}) RETURNING id),
+  WITH ex AS (INSERT INTO lesen_exercises (title, teil, level, difficulty, source_pdf) VALUES ('Leseverstehen Teil 1 — Übungstest 6', 1, 'TELC_B2', 'Standard', ${esc(SOURCE_COMBINED)}) RETURNING id),
   h AS (INSERT INTO lesen_t1_headlines (exercise_id, letter, text, is_distractor)
     SELECT ex.id, x.letter, x.text, x.is_distractor FROM ex, jsonb_to_recordset(${esc(JSON.stringify(combined1to8.lesen_t1.headlines))}::jsonb) AS x(letter text, text text, is_distractor boolean) RETURNING exercise_id)
   INSERT INTO lesen_t1_texts (exercise_id, position, title, content, correct_headline)
@@ -69,14 +69,14 @@ statements.push(`
 
 // ---- Lesen T2 ----
 statements.push(`
-  WITH ex AS (INSERT INTO lesen_exercises (title, teil, level, difficulty, source_pdf) VALUES (${esc(combined1to8.lesen_t2.title)}, 2, 'B2', 'Standard', ${esc(SOURCE_COMBINED)}) RETURNING id),
+  WITH ex AS (INSERT INTO lesen_exercises (title, teil, level, difficulty, source_pdf) VALUES (${esc(combined1to8.lesen_t2.title)}, 2, 'TELC_B2', 'Standard', ${esc(SOURCE_COMBINED)}) RETURNING id),
   p AS (INSERT INTO lesen_t2_passages (exercise_id, title, instructions, passage) SELECT id, ${esc(combined1to8.lesen_t2.title)}, ${esc(combined1to8.lesen_t2.instructions)}, ${esc(combined1to8.lesen_t2.passage)} FROM ex RETURNING exercise_id)
   INSERT INTO lesen_t2_questions (exercise_id, number, question, option_a, option_b, option_c, correct)
   SELECT p.exercise_id, x.number, x.question, x.option_a, x.option_b, x.option_c, x.correct FROM p, jsonb_to_recordset(${esc(JSON.stringify(combined1to8.lesen_t2.questions))}::jsonb) AS x(number int, question text, option_a text, option_b text, option_c text, correct text);`);
 
 // ---- Lesen T3 ----
 statements.push(`
-  WITH ex AS (INSERT INTO lesen_exercises (title, teil, level, difficulty, source_pdf) VALUES ('Leseverstehen Teil 3 — Übungstest 6', 3, 'B2', 'Standard', ${esc(SOURCE_COMBINED)}) RETURNING id),
+  WITH ex AS (INSERT INTO lesen_exercises (title, teil, level, difficulty, source_pdf) VALUES ('Leseverstehen Teil 3 — Übungstest 6', 3, 'TELC_B2', 'Standard', ${esc(SOURCE_COMBINED)}) RETURNING id),
   sit AS (INSERT INTO lesen_t3_situations (exercise_id, number, description, correct_letter, no_match)
     SELECT ex.id, x.number, x.description, x.correct_letter, x.no_match FROM ex, jsonb_to_recordset(${esc(JSON.stringify(combined1to8.lesen_t3.situations))}::jsonb) AS x(number int, description text, correct_letter text, no_match boolean) RETURNING exercise_id)
   INSERT INTO lesen_t3_texts (exercise_id, letter, title, content)
@@ -85,7 +85,7 @@ statements.push(`
 // ---- Sprachbausteine T1 (3 from standalone file, minus 1 confirmed dup, + 1 from combined) ----
 function sbT1Insert(title, passage, gaps, sourcePdf) {
   return `
-  WITH ex AS (INSERT INTO sb_exercises (title, teil, level, source_pdf) VALUES (${esc(title)}, 1, 'B2', ${esc(sourcePdf)}) RETURNING id),
+  WITH ex AS (INSERT INTO sb_exercises (title, teil, level, source_pdf) VALUES (${esc(title)}, 1, 'TELC_B2', ${esc(sourcePdf)}) RETURNING id),
   p AS (INSERT INTO sb_t1_passages (exercise_id, title, instructions, passage) SELECT id, ${esc(title)}, NULL, ${esc(passage)} FROM ex RETURNING exercise_id)
   INSERT INTO sb_t1_gaps (exercise_id, gap_number, option_a, option_b, option_c, correct)
   SELECT p.exercise_id, x.gap_number, x.option_a, x.option_b, x.option_c, x.correct FROM p, jsonb_to_recordset(${esc(JSON.stringify(gaps))}::jsonb) AS x(gap_number int, option_a text, option_b text, option_c text, correct text);`;
@@ -95,7 +95,7 @@ statements.push(sbT1Insert(combined1to8.sb_t1.title, combined1to8.sb_t1.passage,
 
 // ---- Sprachbausteine T2 ----
 statements.push(`
-  WITH ex AS (INSERT INTO sb_exercises (title, teil, level, source_pdf) VALUES (${esc(combined1to8.sb_t2.title)}, 2, 'B2', ${esc(SOURCE_COMBINED)}) RETURNING id),
+  WITH ex AS (INSERT INTO sb_exercises (title, teil, level, source_pdf) VALUES (${esc(combined1to8.sb_t2.title)}, 2, 'TELC_B2', ${esc(SOURCE_COMBINED)}) RETURNING id),
   p AS (INSERT INTO sb_t2_passages (exercise_id, title, instructions, passage) SELECT id, ${esc(combined1to8.sb_t2.title)}, NULL, ${esc(combined1to8.sb_t2.passage)} FROM ex RETURNING exercise_id),
   w AS (INSERT INTO sb_t2_words (exercise_id, word_number, word) SELECT p.exercise_id, x.n, x.word FROM p, jsonb_to_recordset(${esc(JSON.stringify(combined1to8.sb_t2.word_bank.map((w, i) => ({ n: i + 1, word: w.word }))))}::jsonb) AS x(n int, word text) RETURNING exercise_id)
   INSERT INTO sb_t2_gaps (exercise_id, gap_number, correct_word)
@@ -104,7 +104,7 @@ statements.push(`
 // ---- Hören T1/T2/T3 (combined booklet) ----
 function hoerenInsert(title, teil, instructions, stmts, sourcePdf, position) {
   return `
-  WITH ex AS (INSERT INTO hoeren_exercises (title, teil, level, instructions, source_pdf, position) VALUES (${esc(title)}, ${teil}, 'B2', ${esc(instructions)}, ${esc(sourcePdf)}, ${position}) RETURNING id)
+  WITH ex AS (INSERT INTO hoeren_exercises (title, teil, level, instructions, source_pdf, position) VALUES (${esc(title)}, ${teil}, 'TELC_B2', ${esc(instructions)}, ${esc(sourcePdf)}, ${position}) RETURNING id)
   INSERT INTO hoeren_statements (exercise_id, statement_number, statement_text, correct_answer)
   SELECT ex.id, x.n, x.t, x.c FROM ex, jsonb_to_recordset(${esc(JSON.stringify(stmts))}::jsonb) AS x(n int, t text, c boolean);`;
 }

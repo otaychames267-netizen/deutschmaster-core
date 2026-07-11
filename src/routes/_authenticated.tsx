@@ -28,9 +28,23 @@ function AuthenticatedLayout() {
     }
   }, [user?.id, loading, nav]);
 
-  /* Check onboarding completion */
+  /* Gate unverified emails before anything else can render. A user must have
+   * clicked their confirmation link (email_confirmed_at set) to reach
+   * onboarding or any content — otherwise fake/unowned emails could sign up
+   * and use the app freely. */
+  const emailVerified = !!user?.email_confirmed_at;
   useEffect(() => {
     if (!user) return;
+    if (!emailVerified && !loc.pathname.startsWith("/verify-email")) {
+      nav({ to: "/verify-email", replace: true });
+    } else if (emailVerified && loc.pathname.startsWith("/verify-email")) {
+      nav({ to: "/dashboard", replace: true });
+    }
+  }, [user?.id, emailVerified, loc.pathname, nav]);
+
+  /* Check onboarding completion */
+  useEffect(() => {
+    if (!user || !emailVerified) return;
     redirectedToLoginRef.current = false;
 
     if (checkedForRef.current === user.id) {
@@ -58,11 +72,17 @@ function AuthenticatedLayout() {
     })();
 
     return () => { cancelled = true; };
-  }, [user?.id, loc.pathname, nav]);
+  }, [user?.id, emailVerified, loc.pathname, nav]);
 
   if (loading || !user) {
     return <LoadingScreen />;
   }
+
+  /* Unverified users only ever see the verify-email holding page */
+  if (!emailVerified) {
+    return loc.pathname.startsWith("/verify-email") ? <Outlet /> : <LoadingScreen />;
+  }
+
   if (checking && !loc.pathname.startsWith("/onboarding")) {
     return <LoadingScreen />;
   }

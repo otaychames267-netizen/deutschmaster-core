@@ -1,0 +1,21 @@
+{
+  "title": "Beatrice",
+  "level": "B1",
+  "position": 12,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 12/16 (Vera/Language Tests, page 139 printed / PDF page 140). Letter addressed to 'Liebe Beatrice', signed Saskia, about family moving to Spain and living arrangements. Answer key from Lösungen page (printed p.145 / PDF p.146): 21a am, 22c schon, 23b meinem, 24c mir, 25c Freundinnen, 26b obwohl, 27a daran, 28a wenig, 29b Oder, 30b Bis.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Liebe Beatrice,\n\nwie du ja weißt, sind meine Eltern seit Anfang Mai in einem Haus {{21}} Mittelnehmer in Spanien. Zuerst wollten meine Eltern warten, bis ich mit dem Gymnasium fertig bin. Aber dann sind sie doch {{22}} früher gefahren.\n\nAls ich im Sommer 18 wurde, wollte ich mit {{23}} älteren Bruder zusammen eine kleine Wohnung mieten. Das hat aber nicht geklappt. Eine Freundin hat {{24}} dann ein Zimmer in ihrer Wohngemeinschaft angeboten. Ich wohne jetzt mit drei {{25}} zusammen in der Innenstadt. Ich bin sehr zufrieden, {{26}} mein Zimmer recht klein ist.\n\nIn der Schule habe ich keine Probleme. Ich staune selbst über meine Noten, wenn ich {{27}} denke, wie {{28}} Zeit ich mir für Hausaufgaben nehme.\n\nManchmal schicken mir meine Eltern eine E-Mail. {{29}} sie rufen an. {{30}} jetzt habe ich jede Woche von ihnen gehört.\n\nDas war's für heute, bis bald und liebe Grüße\nSaskia",
+  "gaps": [
+    { "n": 21, "a": "am", "b": "in", "c": "zum", "correct": "a" },
+    { "n": 22, "a": "bloß", "b": "erst", "c": "schon", "correct": "c" },
+    { "n": 23, "a": "mein", "b": "meinem", "c": "meinen", "correct": "b" },
+    { "n": 24, "a": "ihr", "b": "mich", "c": "mir", "correct": "c" },
+    { "n": 25, "a": "Freund", "b": "Freundin", "c": "Freundinnen", "correct": "c" },
+    { "n": 26, "a": "aber", "b": "obwohl", "c": "trotz", "correct": "b" },
+    { "n": 27, "a": "daran", "b": "darauf", "c": "darüber", "correct": "a" },
+    { "n": 28, "a": "wenig", "b": "wenigen", "c": "weniger", "correct": "a" },
+    { "n": 29, "a": "Damit", "b": "Oder", "c": "Sondern", "correct": "b" },
+    { "n": 30, "a": "Ab", "b": "Bis", "c": "Seit", "correct": "b" }
+  ]
+}
