@@ -93,9 +93,15 @@ function ProfilePage() {
     e.preventDefault();
     if (!user) return;
     setSaving(true);
+    // Deliberately does NOT touch `level` — that field is set once at onboarding
+    // and can only be changed by leaving a course via /dashboard (see the "by
+    // design: no switcher inside either course" comment on that gate page).
+    // Letting this form silently rewrite it with no navigation was a real bug:
+    // a user could flip their stored course here while still sitting on the
+    // other course's URLs, with nothing telling them anything had changed.
     const { error } = await supabase
       .from("profiles")
-      .update({ full_name: fullName || null, level: (level || null) as "TELC_B1" | "TELC_B2" | null, exam_date: examDate || null })
+      .update({ full_name: fullName || null, exam_date: examDate || null })
       .eq("id", user.id);
     setSaving(false);
     if (error) toast.error("Failed to save. Please try again.");
@@ -258,13 +264,14 @@ function ProfilePage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-foreground" htmlFor="level">Target exam</label>
-              <select id="level" value={level} onChange={(e) => setLevel(e.target.value)}
-                className="w-full rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors">
-                <option value="">Not set</option>
-                <option value="TELC_B1">TELC B1</option>
-                <option value="TELC_B2">TELC B2</option>
-              </select>
+              <label className="text-sm font-medium text-foreground">Current course</label>
+              <div className="flex items-center gap-2 rounded-xl border border-input bg-muted/50 px-3.5 py-2.5">
+                <span className="text-sm text-muted-foreground">{level ? `TELC ${level === "TELC_B1" ? "B1" : "B2"}` : "Not set"}</span>
+                <span className="ml-auto rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">Read-only</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                B1 and B2 are separate courses. To switch, <Link to="/dashboard" className="font-medium text-primary hover:underline">leave this course</Link> and pick the other one — your progress in each is kept separately.
+              </p>
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground" htmlFor="examDate">Exam date <span className="text-muted-foreground">(optional)</span></label>
