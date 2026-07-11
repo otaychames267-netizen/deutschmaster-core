@@ -2,11 +2,13 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { createCheckoutSession } from "@/lib/billing/checkout.functions";
+import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
   Check, Shield, Zap, Clock, RefreshCw,
   Crown, Calendar, TrendingUp, BookOpen,
-  Mic, PenLine, ChevronRight, ArrowUpRight,
+  Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/billing")({
@@ -19,7 +21,7 @@ const PLANS = [
     code: "schriftlich",
     name: "Schriftlich",
     icon: PenLine,
-    price_tnd: 25,
+    price_tnd: 30,
     period: "/month",
     tagline: "Master all written exam components",
     color: "blue",
@@ -40,7 +42,7 @@ const PLANS = [
     code: "komplett",
     name: "Komplett",
     icon: Crown,
-    price_tnd: 60,
+    price_tnd: 65,
     period: "/month",
     tagline: "Everything — written and spoken",
     color: "violet",
@@ -61,7 +63,7 @@ const PLANS = [
     code: "muendlich",
     name: "Mündlich",
     icon: Mic,
-    price_tnd: 45,
+    price_tnd: 55,
     period: "/month",
     tagline: "Perfect your speaking skills",
     color: "rose",
@@ -100,6 +102,18 @@ function BillingPage() {
   const { user } = useAuth();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
+  const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
+
+  async function handleSubscribe(planCode: "schriftlich" | "muendlich" | "komplett") {
+    setCheckoutPlan(planCode);
+    try {
+      const result = await createCheckoutSession({ data: { plan_code: planCode } });
+      window.location.href = result.checkoutUrl;
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not start checkout. Please try again.");
+      setCheckoutPlan(null);
+    }
+  }
 
   useEffect(() => {
     if (!user) return;
@@ -282,12 +296,16 @@ function BillingPage() {
                   </div>
                 ) : (
                   <button
-                    disabled
-                    title="Stripe integration coming soon — contact support to subscribe"
+                    onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
+                    disabled={checkoutPlan !== null}
                     className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
                   >
-                    <CreditCard className="h-4 w-4" />
-                    {subscription ? "Switch plan" : "Start free trial"}
+                    {checkoutPlan === plan.code ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <CreditCard className="h-4 w-4" />
+                    )}
+                    {subscription ? "Switch plan" : "Subscribe"}
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </button>
                 )}
@@ -301,7 +319,7 @@ function BillingPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         {[
           { icon: Zap,       title: "Instant access",     desc: "Full access granted the moment your trial starts.",              color: "text-amber-500 bg-amber-500/10" },
-          { icon: Shield,    title: "Secure payments",    desc: "Stripe-powered — your card details are never stored here.",       color: "text-blue-500 bg-blue-500/10"   },
+          { icon: Shield,    title: "Secure payments",    desc: "Lemon Squeezy-powered — your card details are never stored here.", color: "text-blue-500 bg-blue-500/10"   },
           { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Cancel in one click, no questions asked.",           color: "text-emerald-500 bg-emerald-500/10" },
         ].map((item) => (
           <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
@@ -328,9 +346,7 @@ function BillingPage() {
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Stripe payment integration will activate once your Stripe account is connected via Admin → Settings.
-        <br />
-        During this phase, free trials are granted automatically at registration.
+        Payments are processed securely by Lemon Squeezy. Your subscription activates automatically once payment completes.
       </p>
     </div>
   );
