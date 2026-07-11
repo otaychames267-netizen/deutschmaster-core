@@ -1321,6 +1321,84 @@ export type Database = {
           },
         ]
       }
+      lemonsqueezy_events: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          event_type: string
+          id: string
+          ls_event_id: string
+          payload: Json
+          processed_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          event_type: string
+          id?: string
+          ls_event_id: string
+          payload: Json
+          processed_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          event_type?: string
+          id?: string
+          ls_event_id?: string
+          payload?: Json
+          processed_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      webhook_rate_limits: {
+        Row: {
+          failure_count: number
+          id: string
+          locked_until: string | null
+          scope_key: string
+          updated_at: string
+        }
+        Insert: {
+          failure_count?: number
+          id?: string
+          locked_until?: string | null
+          scope_key: string
+          updated_at?: string
+        }
+        Update: {
+          failure_count?: number
+          id?: string
+          locked_until?: string | null
+          scope_key?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      api_usage_ledger: {
+        Row: {
+          id: string
+          total_tokens: number
+          updated_at: string
+          usage_date: string
+        }
+        Insert: {
+          id?: string
+          total_tokens?: number
+          updated_at?: string
+          usage_date?: string
+        }
+        Update: {
+          id?: string
+          total_tokens?: number
+          updated_at?: string
+          usage_date?: string
+        }
+        Relationships: []
+      }
       lesen_exercises: {
         Row: {
           created_at: string
@@ -3118,6 +3196,10 @@ export type Database = {
           expires_at: string
           id: string
           is_trial: boolean
+          lemonsqueezy_customer_id: string | null
+          lemonsqueezy_order_id: string | null
+          lemonsqueezy_subscription_id: string | null
+          lemonsqueezy_variant_id: string | null
           plan_code: Database["public"]["Enums"]["plan_code"]
           started_at: string
           status: Database["public"]["Enums"]["subscription_status"]
@@ -3133,6 +3215,10 @@ export type Database = {
           expires_at: string
           id?: string
           is_trial?: boolean
+          lemonsqueezy_customer_id?: string | null
+          lemonsqueezy_order_id?: string | null
+          lemonsqueezy_subscription_id?: string | null
+          lemonsqueezy_variant_id?: string | null
           plan_code: Database["public"]["Enums"]["plan_code"]
           started_at?: string
           status?: Database["public"]["Enums"]["subscription_status"]
@@ -3148,6 +3234,10 @@ export type Database = {
           expires_at?: string
           id?: string
           is_trial?: boolean
+          lemonsqueezy_customer_id?: string | null
+          lemonsqueezy_order_id?: string | null
+          lemonsqueezy_subscription_id?: string | null
+          lemonsqueezy_variant_id?: string | null
           plan_code?: Database["public"]["Enums"]["plan_code"]
           started_at?: string
           status?: Database["public"]["Enums"]["subscription_status"]
@@ -3682,6 +3772,21 @@ export type Database = {
       expire_overdue_subscriptions: { Args: never; Returns: undefined }
       generate_referral_code: { Args: { _user_id: string }; Returns: string }
       get_my_credit_balance: { Args: never; Returns: number }
+      get_today_api_usage: { Args: never; Returns: number }
+      is_webhook_locked: { Args: { p_scope_key: string }; Returns: boolean }
+      provision_essay_credits: {
+        Args: { p_amount: number; p_reason?: string; p_user_id: string }
+        Returns: number
+      }
+      provision_muendlich_subscription: {
+        Args: { p_minutes: number; p_reason?: string; p_user_id: string }
+        Returns: number
+      }
+      record_api_usage: { Args: { p_tokens: number }; Returns: undefined }
+      record_webhook_signature_failure: {
+        Args: { p_scope_key: string }
+        Returns: boolean
+      }
       get_my_muendlich_credits: {
         Args: never
         Returns: {
