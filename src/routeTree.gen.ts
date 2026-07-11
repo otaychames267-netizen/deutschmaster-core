@@ -53,6 +53,7 @@ import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
 import { Route as AuthenticatedAdminPdfImportRouteImport } from './routes/_authenticated.admin.pdf-import'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated.admin.payments'
+import { Route as AuthenticatedAdminMuendlichCreditsRouteImport } from './routes/_authenticated.admin.muendlich-credits'
 import { Route as AuthenticatedAdminMuendlichRouteImport } from './routes/_authenticated.admin.muendlich'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
 import { Route as AuthenticatedAdminLesenRouteImport } from './routes/_authenticated.admin.lesen'
@@ -325,6 +326,12 @@ const AuthenticatedAdminPaymentsRoute =
   AuthenticatedAdminPaymentsRouteImport.update({
     id: '/payments',
     path: '/payments',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminMuendlichCreditsRoute =
+  AuthenticatedAdminMuendlichCreditsRouteImport.update({
+    id: '/muendlich-credits',
+    path: '/muendlich-credits',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminMuendlichRoute =
@@ -643,6 +650,7 @@ export interface FileRoutesByFullPath {
   '/admin/lesen': typeof AuthenticatedAdminLesenRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
+  '/admin/muendlich-credits': typeof AuthenticatedAdminMuendlichCreditsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -728,6 +736,7 @@ export interface FileRoutesByTo {
   '/admin/lesen': typeof AuthenticatedAdminLesenRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
+  '/admin/muendlich-credits': typeof AuthenticatedAdminMuendlichCreditsRoute
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -818,6 +827,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/lesen': typeof AuthenticatedAdminLesenRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
+  '/_authenticated/admin/muendlich-credits': typeof AuthenticatedAdminMuendlichCreditsRoute
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
@@ -909,6 +919,7 @@ export interface FileRouteTypes {
     | '/admin/lesen'
     | '/admin/messages'
     | '/admin/muendlich'
+    | '/admin/muendlich-credits'
     | '/admin/payments'
     | '/admin/pdf-import'
     | '/admin/plans'
@@ -994,6 +1005,7 @@ export interface FileRouteTypes {
     | '/admin/lesen'
     | '/admin/messages'
     | '/admin/muendlich'
+    | '/admin/muendlich-credits'
     | '/admin/payments'
     | '/admin/pdf-import'
     | '/admin/plans'
@@ -1083,6 +1095,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/lesen'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/muendlich'
+    | '/_authenticated/admin/muendlich-credits'
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/pdf-import'
     | '/_authenticated/admin/plans'
@@ -1449,6 +1462,13 @@ declare module '@tanstack/react-router' {
       path: '/payments'
       fullPath: '/admin/payments'
       preLoaderRoute: typeof AuthenticatedAdminPaymentsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/muendlich-credits': {
+      id: '/_authenticated/admin/muendlich-credits'
+      path: '/muendlich-credits'
+      fullPath: '/admin/muendlich-credits'
+      preLoaderRoute: typeof AuthenticatedAdminMuendlichCreditsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/muendlich': {
@@ -1920,6 +1940,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminLesenRoute: typeof AuthenticatedAdminLesenRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminMuendlichRoute: typeof AuthenticatedAdminMuendlichRoute
+  AuthenticatedAdminMuendlichCreditsRoute: typeof AuthenticatedAdminMuendlichCreditsRoute
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminPdfImportRoute: typeof AuthenticatedAdminPdfImportRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
@@ -1950,6 +1971,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminLesenRoute: AuthenticatedAdminLesenRoute,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
   AuthenticatedAdminMuendlichRoute: AuthenticatedAdminMuendlichRoute,
+  AuthenticatedAdminMuendlichCreditsRoute:
+    AuthenticatedAdminMuendlichCreditsRoute,
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminPdfImportRoute: AuthenticatedAdminPdfImportRoute,
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
