@@ -17,7 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useUserProgress } from "@/lib/useUserProgress";
 import { useStudentCredits } from "@/lib/useStudentCredits";
 import { useEffect, useRef, useState, useCallback } from "react";
@@ -93,7 +93,7 @@ function Breadcrumbs() {
 }
 
 /* ─── Search modal ──────────────────────────────────────────────── */
-interface ExamResult { id: string; title: string; section: string; teil: number | null; }
+interface ExamResult { id: string; title: string; section: string; teil: number | null; level?: string | null; }
 
 const SECTION_ROUTES: Record<string, string> = {
   lesen:           "/schriftlich/vorbereitung/lesen",
@@ -125,14 +125,15 @@ function SearchModal({ onClose }: { onClose: () => void }) {
     if (debounce.current) clearTimeout(debounce.current);
     const q = query.trim();
     if (!q || q.length < 2 || !level) { setResults([]); return; }
+    const activeLevel = level;
     debounce.current = setTimeout(async () => {
       setLoading(true);
       const { data } = await supabase.from("exams")
-        .select("id, title, section, teil")
+        .select("id, title, section, teil, level")
         .ilike("title", `%${q}%`)
-        .eq("level", level)
+        .eq("level", activeLevel)
         .limit(8);
-      setResults((data as ExamResult[]) ?? []);
+      setResults(enforceLevel((data as ExamResult[]) ?? [], activeLevel));
       setLoading(false);
     }, 250);
   }, [query, level]);

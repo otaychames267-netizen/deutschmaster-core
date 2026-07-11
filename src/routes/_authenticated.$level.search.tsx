@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, BookOpen, FileText, X, Loader2 } from "lucide-react";
 
@@ -58,6 +58,7 @@ function SearchPage() {
       setExams([]); setNotes([]);
       return;
     }
+    const activeLevel = level;
     debounce.current = setTimeout(async () => {
       setLoading(true);
       const [examRes, noteRes] = await Promise.all([
@@ -65,7 +66,7 @@ function SearchPage() {
           .from("exams")
           .select("id, title, section, teil, level, exam_type")
           .ilike("title", `%${q}%`)
-          .eq("level", level)
+          .eq("level", activeLevel)
           .limit(10),
         user
           ? supabase
@@ -76,7 +77,7 @@ function SearchPage() {
               .limit(6)
           : Promise.resolve({ data: [] }),
       ]);
-      setExams((examRes.data as ExamResult[]) ?? []);
+      setExams(enforceLevel((examRes.data as ExamResult[]) ?? [], activeLevel));
       setNotes((noteRes.data as NoteResult[]) ?? []);
       setLoading(false);
     }, 300);

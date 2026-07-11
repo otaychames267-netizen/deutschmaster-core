@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
@@ -116,6 +116,7 @@ function DashboardPage() {
   const { user } = useAuth();
   const level = useActiveLevel();
   const seg = useLevelSegment();
+  const navigate = useNavigate();
   const { progress, achievements, loading: progressLoading } = useUserProgress();
 
   // Only resume a "last lesson" that belongs to THIS level — never surface the
@@ -332,9 +333,14 @@ function DashboardPage() {
 
         <div className="grid gap-5 md:grid-cols-2">
           {/* ── SCHRIFTLICH ──────────────────────────────────── */}
-          <Link
-            to={`/${seg}/schriftlich` as never}
-            className="group relative overflow-hidden rounded-3xl p-7 text-white shadow-xl shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-blue-500/35"
+          {/* A plain clickable div, not a <Link>/<a> — it wraps a real "Simulation" link
+              below, and nested <a> tags are invalid HTML that breaks hydration and can
+              misattach click handlers (React had to warn about exactly this). */}
+          <div
+            role="link" tabIndex={0}
+            onClick={() => navigate({ to: `/${seg}/schriftlich` as never })}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate({ to: `/${seg}/schriftlich` as never }); } }}
+            className="group relative overflow-hidden rounded-3xl p-7 text-white shadow-xl shadow-blue-500/20 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-blue-500/35 cursor-pointer"
             style={{ background: "linear-gradient(135deg, #1d4ed8 0%, #3b82f6 55%, #06b6d4 100%)" }}
           >
             {/* Decorative orbs */}
@@ -409,12 +415,14 @@ function DashboardPage() {
                 </Link>
               </div>
             </div>
-          </Link>
+          </div>
 
           {/* ── MÜNDLICH ─────────────────────────────────────── */}
-          <Link
-            to={`/${seg}/muendlich` as never}
-            className="group relative overflow-hidden rounded-3xl p-7 text-white shadow-xl shadow-rose-500/20 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-rose-500/35"
+          <div
+            role="link" tabIndex={0}
+            onClick={() => navigate({ to: `/${seg}/muendlich` as never })}
+            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate({ to: `/${seg}/muendlich` as never }); } }}
+            className="group relative overflow-hidden rounded-3xl p-7 text-white shadow-xl shadow-rose-500/20 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:shadow-rose-500/35 cursor-pointer"
             style={{ background: "linear-gradient(135deg, #be123c 0%, #f43f5e 55%, #fb7185 100%)" }}
           >
             <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
@@ -482,7 +490,7 @@ function DashboardPage() {
                 </Link>
               </div>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
 
