@@ -1,16 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { gradeEssay } from "@/lib/grading/essay-grader";
+import { gradeEssay, isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
 
 /**
  * Authenticated route: grades a student's essay against strict telc B2 criteria.
- * Sequence: verify bearer token -> deduct 1 credit (atomic RPC, as the student's
- * own auth context) -> call Claude -> on failure refund the credit -> on success
- * persist the grading and return it.
+ * Sequence: verify bearer token -> check the global Gemini budget cap (before
+ * spending a credit) -> deduct 1 credit (atomic RPC, as the student's own auth
+ * context) -> call Gemini -> on failure refund the credit -> on success persist
+ * the grading and return it.
  *
- * The ANTHROPIC_API_KEY never reaches the client — it's only read server-side
- * inside essay-grader.ts.
+ * The GEMINI_API_KEY never reaches the client — it's only read server-side
+ * inside essay-grader-gemini.ts.
  */
 
 const MIN_ESSAY_WORDS = 20;
@@ -81,7 +82,16 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           return Response.json({ error: "Malformed exercise content" }, { status: 500 });
         }
 
-        // 1. Atomic deduction. Race-safe: a concurrent double-submit will have
+        // 1. Global budget gate — checked BEFORE spending a credit, so a
+        // budget-exceeded rejection never costs the student anything.
+        if (await isBudgetExceeded(supabaseAsUser)) {
+          return Response.json(
+            { error: "BUDGET_EXCEEDED", message: "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut." },
+            { status: 503 },
+          );
+        }
+
+        // 2. Atomic deduction. Race-safe: a concurrent double-submit will have
         // exactly one call succeed, the other raises INSUFFICIENT_CREDITS.
         const { data: newBalance, error: deductError } = await supabaseAsUser.rpc("deduct_essay_credit", {
           p_user_id: userId,
@@ -93,10 +103,10 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           return Response.json({ error: "Could not process credit" }, { status: 500 });
         }
 
-        // 2. Call the grader. Any failure here must refund the credit.
+        // 3. Call the grader. Any failure here must refund the credit.
         let result;
         try {
-          result = await gradeEssay(task, essayText);
+          result = await gradeEssay(task, essayText, supabaseAsUser);
         } catch (e) {
           await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
           console.error("[grade-essay] grading failed, credit refunded:", e);
@@ -106,7 +116,7 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           );
         }
 
-        // 3. Persist the result (service role — students have no direct insert grant).
+        // 4. Persist the result (service role — students have no direct insert grant).
         const { data: saved, error: saveError } = await supabaseAdmin
           .from("essay_gradings")
           .insert({
