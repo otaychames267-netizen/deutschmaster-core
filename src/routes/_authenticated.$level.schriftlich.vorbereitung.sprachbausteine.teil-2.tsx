@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { SBTeil2Exercise, type SBT2ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil2Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
 });
 
 // Overview list item (order = official PDF position).
-interface ExMeta { id: string; title: string }
+interface ExMeta { id: string; title: string; level?: string | null }
 
 const titleOf = (ex: ExMeta, i: number) => (ex.title && ex.title.trim() ? ex.title : `Übung ${i + 1}`);
 
@@ -31,12 +31,12 @@ function SBTeil2Page() {
     async function load() {
       const { data: exList, error: exErr } = await supabase
         .from("sb_exercises")
-        .select("id, title")
+        .select("id, title, level")
         .eq("teil", 2)
         .eq("level", lvl)
         .order("position", { ascending: true }); // official PDF order
       if (exErr) { setError(exErr.message); setLoading(false); return; }
-      setList((exList ?? []) as ExMeta[]);
+      setList(enforceLevel((exList ?? []) as ExMeta[], lvl));
       setLoading(false);
     }
     load();

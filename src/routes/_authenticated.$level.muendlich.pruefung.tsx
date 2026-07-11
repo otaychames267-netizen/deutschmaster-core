@@ -22,7 +22,7 @@ import {
   type Room, type Participant, type Selection, type Slot,
 } from "@/lib/muendlich/room";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 
 // Defaults to local dev — set VITE_MUENDLICH_RELAY_URL once the relay is
 // deployed (see muendlich-relay/README.md).
@@ -61,10 +61,10 @@ function PruefungPage() {
       const out: Record<number, TopicMaterial[]> = { 1: [], 2: [], 3: [] };
       for (const teil of [1, 2, 3]) {
         const { data } = await db.from("muendlich_materials")
-          .select("id, title, body_text, key_arguments, difficulty_level, theme_category")
+          .select("id, title, body_text, key_arguments, difficulty_level, theme_category, level")
           .eq("teil", teil).eq("category", "themen").eq("level", level)
           .order(teil === 1 ? "sort_order" : "position");
-        out[teil] = data ?? [];
+        out[teil] = enforceLevel(data as (TopicMaterial & { level?: string | null })[], level);
       }
       setMaterials(out);
     })();

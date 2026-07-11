@@ -6,10 +6,10 @@
 import { useEffect, useState } from "react";
 import { FileText, Loader2, BookOpen, Lightbulb, MessageSquare, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel } from "@/lib/useActiveLevel";
+import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { PdfViewer } from "./PdfViewer";
 
-interface Material { id: string; teil: number; category: string; title: string; storage_path: string | null; sort_order: number; }
+interface Material { id: string; teil: number; category: string; title: string; storage_path: string | null; sort_order: number; level?: string | null; }
 
 const CATS: Record<string, { label: string; icon: any; color: string }> = {
   themen: { label: "Themen", icon: BookOpen, color: "text-rose-500" },
@@ -28,7 +28,7 @@ export function VorbereitungMaterials({ teil, categories }: { teil: number; cate
     if (!level) return;
     (async () => {
       const { data } = await supabase.from("muendlich_materials").select("*").eq("teil", teil).eq("level", level).order("category").order("sort_order");
-      setMaterials(data ?? []);
+      setMaterials(enforceLevel((data ?? []) as Material[], level));
       setLoading(false);
     })();
   }, [teil, level]);

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { SBTeil1Exercise, type SBT1ExerciseData, type SBT1Gap } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
 });
 
 // Overview list item (order = official PDF position).
-interface ExMeta { id: string; title: string }
+interface ExMeta { id: string; title: string; level?: string | null }
 
 // The student gaps view exposes nullable columns; coerce to the component's shape.
 function toGaps(rows: { gap_number: number | null; option_a: string | null; option_b: string | null; option_c: string | null }[] | null): SBT1Gap[] {
@@ -36,12 +36,12 @@ function SBTeil1Page() {
     async function load() {
       const { data: exList, error: exErr } = await supabase
         .from("sb_exercises")
-        .select("id, title")
+        .select("id, title, level")
         .eq("teil", 1)
         .eq("level", lvl)
         .order("position", { ascending: true }); // official PDF order
       if (exErr) { setError(exErr.message); setLoading(false); return; }
-      setList((exList ?? []) as ExMeta[]);
+      setList(enforceLevel((exList ?? []) as ExMeta[], lvl));
       setLoading(false);
     }
     load();

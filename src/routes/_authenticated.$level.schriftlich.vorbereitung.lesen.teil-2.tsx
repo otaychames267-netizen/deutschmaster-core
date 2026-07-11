@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { Teil2Exercise, type T2ExerciseData } from "@/components/exercise/lesen/Teil2Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2")({
@@ -34,13 +34,14 @@ function LesenTeil2Page() {
     setListLoading(true);
     setListError(false);
     try {
-      const { data: exList, error: exErr } = await supabase
+      const { data: exListRaw, error: exErr } = await supabase
         .from("lesen_exercises")
-        .select("id, title")
+        .select("id, title, level")
         .eq("teil", 2)
         .eq("level", level)
         .order("created_at", { ascending: false });
       if (exErr) throw exErr;
+      const exList = enforceLevel(exListRaw, level);
 
       const ids = (exList ?? []).map((e) => e.id);
       const counts = new Map<string, number>();

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { Teil3Exercise, type T3ExerciseData, type T3Situation, type T3Text } from "@/components/exercise/lesen/Teil3Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3")({
@@ -23,14 +23,15 @@ function LesenTeil3Page() {
     const lvl = level;
     async function load() {
       try {
-        const { data: exList, error: exErr } = await supabase
+        const { data: exListRaw, error: exErr } = await supabase
           .from("lesen_exercises")
-          .select("id, title")
+          .select("id, title, level")
           .eq("teil", 3)
           .eq("level", lvl)
           .order("created_at", { ascending: false });
         if (exErr) throw exErr;
-        if (!exList || exList.length === 0) { setLoading(false); return; }
+        const exList = enforceLevel(exListRaw, lvl);
+        if (exList.length === 0) { setLoading(false); return; }
 
         const full = [];
         for (const ex of exList) {

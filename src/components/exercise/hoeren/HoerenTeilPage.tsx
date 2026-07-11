@@ -2,10 +2,10 @@ import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Loader2, Headphones, AlertCircle, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
 
-interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number }
+interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null }
 interface StRow { exercise_id: string; statement_number: number; statement_text: string }
 
 function imageUrl(path: string | null): string | null {
@@ -57,13 +57,13 @@ export function HoerenTeilPage({ teil }: Props) {
       setError(null);
       const { data: exList, error: exErr } = await supabase
         .from("hoeren_exercises")
-        .select("id, title, image_path, instructions, audio_path, position")
+        .select("id, title, image_path, instructions, audio_path, position, level")
         .eq("teil", teil)
         .eq("level", lvl)
         .order("position", { ascending: true });
       if (cancelled) return;
       if (exErr) { setError(exErr.message); setLoading(false); return; }
-      const rows = (exList ?? []) as ExRow[];
+      const rows = enforceLevel((exList ?? []) as ExRow[], lvl);
       setExercises(rows);
 
       if (rows.length) {

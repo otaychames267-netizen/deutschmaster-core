@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { Teil1Exercise, type T1ExerciseData, type T1Headline, type T1Text } from "@/components/exercise/lesen/Teil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1")({
@@ -24,11 +24,12 @@ function LesenTeil1Page() {
     const lvl = level;
     async function load() {
       try {
-        const { data: exList, error: exErr } = await supabase
-          .from("lesen_exercises").select("id, title").eq("teil", 1).eq("level", lvl)
+        const { data: exListRaw, error: exErr } = await supabase
+          .from("lesen_exercises").select("id, title, level").eq("teil", 1).eq("level", lvl)
           .order("created_at", { ascending: true }); // import order ≈ PDF order
         if (exErr) throw exErr;
-        if (!exList || exList.length === 0) { setLoading(false); return; }
+        const exList = enforceLevel(exListRaw, lvl);
+        if (exList.length === 0) { setLoading(false); return; }
 
         const full: T1ExerciseData[] = [];
         for (const ex of exList) {

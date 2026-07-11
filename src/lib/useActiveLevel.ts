@@ -20,3 +20,13 @@ export function useLevelSegment(): "b1" | "b2" | undefined {
   const params = useParams({ strict: false }) as { level?: string };
   return params.level === "b1" || params.level === "b2" ? params.level : undefined;
 }
+
+/** Hard client-side guard: drops any row whose own `level` column doesn't match the
+ * active level, even though the Supabase query itself already filters on `level`.
+ * This is a second, independent check — a row can only ever reach the UI if BOTH the
+ * query filter AND this in-memory filter agree, so no wrong-level content can render
+ * regardless of any query-construction mistake, caching quirk, or future refactor. */
+export function enforceLevel<T extends { level?: string | null }>(rows: T[] | null | undefined, activeLevel: ActiveLevel): T[] {
+  if (!rows) return [];
+  return rows.filter((r) => r.level === activeLevel);
+}

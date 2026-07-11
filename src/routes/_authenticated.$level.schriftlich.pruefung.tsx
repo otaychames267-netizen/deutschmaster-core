@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { useActiveLevel } from "@/lib/useActiveLevel";
+import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { toast } from "sonner";
 import {
   Timer, Play, Send, ChevronLeft, ChevronRight,
@@ -62,6 +62,7 @@ interface ExamRecord {
   title: string;
   section: string;
   teil: string | null;
+  level?: string | null;
 }
 
 interface ItemRecord {
@@ -273,7 +274,7 @@ function SchriftlichPruefungPage() {
         for (const teil of teile) {
           let q = supabase
             .from("exams")
-            .select("id, title, section, teil")
+            .select("id, title, section, teil, level")
             .eq("level", activeLevel)
             .eq("module", "schriftlich")
             .eq("section", section.key)
@@ -286,9 +287,10 @@ function SchriftlichPruefungPage() {
           else q = q.is("teil", null);
 
           const { data: exams } = await q;
-          if (!exams || exams.length === 0) continue;
+          const safeExams = enforceLevel((exams ?? []) as ExamRecord[], activeLevel);
+          if (safeExams.length === 0) continue;
 
-          const exam = exams[0] as ExamRecord;
+          const exam = safeExams[0];
           const { data: examItems } = await supabase
             .from("exam_items")
             .select("id, exam_id, position, kind, content, points")

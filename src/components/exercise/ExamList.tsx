@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useActiveLevel, type ActiveLevel } from "@/lib/useActiveLevel";
+import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import {
   BookOpen, Clock, ChevronRight, FileQuestion,
   CheckCircle2, Lock, Play,
@@ -12,6 +12,7 @@ interface Exam {
   display_order: number;
   metadata: Record<string, unknown>;
   status: string;
+  level?: string | null;
 }
 
 interface ExamListProps {
@@ -46,14 +47,15 @@ export function ExamList({
 
   useEffect(() => {
     if (!level) return;
+    const activeLevel = level;
 
     async function load() {
       setLoading(true);
 
       let q = supabase
         .from("exams")
-        .select("id, title, display_order, metadata, status")
-        .eq("level", level as NonNullable<ActiveLevel>)
+        .select("id, title, display_order, metadata, status, level")
+        .eq("level", activeLevel)
         .eq("section", section as "muendlich" | "lesen" | "hoeren" | "sprachbausteine" | "schreiben")
         .eq("exam_type", examType as "vorbereitung" | "simulation")
         .eq("status", "published")
@@ -62,11 +64,12 @@ export function ExamList({
       if (teil) q = q.eq("teil", teil as "teil_1" | "teil_2" | "teil_3");
 
       const { data } = await q;
-      setExams((data as Exam[]) ?? []);
+      const safeExams = enforceLevel((data as Exam[]) ?? [], activeLevel);
+      setExams(safeExams);
 
       // Fetch which exams this user has already attempted
-      if (data && data.length > 0) {
-        const ids = data.map((e) => e.id);
+      if (safeExams.length > 0) {
+        const ids = safeExams.map((e) => e.id);
         const { data: sessions } = await supabase
           .from("attempt_sessions")
           .select("exam_id")
