@@ -172,7 +172,7 @@ export async function runVerificationPipeline(
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, session_token")
+      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, session_token, destination_number, destination_iban")
       .eq("id", data.order_id)
       .maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
@@ -218,6 +218,7 @@ export async function runVerificationPipeline(
     const imageDhash_2 = shot2.dhash;
 
     const startedAt = Date.now();
+    const uploadToCreationDeltaMs = startedAt - Date.parse(order.created_at);
 
     const baseFinalizeParams = () => ({
       order,
@@ -231,6 +232,9 @@ export async function runVerificationPipeline(
       imageDhash,
       imageHashSha256_2,
       imageDhash_2,
+      uploadToCreationDeltaMs,
+      reputationSignalDelta: null,
+      velocitySignalPoints: null,
     });
 
     // ── Duplicate hard gate — evaluated before any Gemini call, so a hit
@@ -366,13 +370,27 @@ export async function runVerificationPipeline(
       });
     }
 
+    const { computeReputationVelocity } = await import("./reputation-velocity.server");
+    const reputationVelocity = await computeReputationVelocity(supabaseAdmin, {
+      userId,
+      orderId: order.id,
+      attemptsInLastHour: recentCount ?? 0,
+    });
+
     const scored = scoreAttempt({
       orderAmountTnd: Number(order.amount_tnd),
       orderCurrency: order.currency,
       orderCreatedAt: order.created_at,
       userEnteredReference: reference,
       extraction,
+      orderDestinationNumber: order.destination_number,
+      orderDestinationIban: order.destination_iban,
+      uploadToCreationDeltaMs,
+      reputationVelocity,
     });
+
+    const reputationCheck = scored.checks.find((c) => c.id === "reputation_signal");
+    const velocityCheck = scored.checks.find((c) => c.id === "velocity_signal");
 
     return finalizeAttempt(supabaseAdmin, {
       ...baseFinalizeParams(),
@@ -386,6 +404,8 @@ export async function runVerificationPipeline(
       ruleEngineResult: scored,
       verificationDurationMs: Date.now() - startedAt,
       geminiTokenCount,
+      reputationSignalDelta: reputationCheck?.points ?? null,
+      velocitySignalPoints: velocityCheck?.points ?? null,
     });
 }
 
@@ -413,6 +433,9 @@ async function finalizeAttempt(
     ruleEngineResult: unknown;
     verificationDurationMs: number;
     geminiTokenCount: number | null;
+    uploadToCreationDeltaMs: number;
+    reputationSignalDelta: number | null;
+    velocitySignalPoints: number | null;
   },
 ) {
   const e = params.extraction;
@@ -452,6 +475,9 @@ async function finalizeAttempt(
       ocr_authorization_number: e?.authorization_number ?? null,
       cross_check_consistent: e?.cross_check.consistent ?? null,
       cross_check_summary: e ? { consistent: e.cross_check.consistent, notes: e.cross_check.notes } : null,
+      upload_to_creation_delta_ms: params.uploadToCreationDeltaMs,
+      reputation_signal_delta: params.reputationSignalDelta,
+      velocity_signal_points: params.velocitySignalPoints,
       risk_score: params.riskScore,
       ai_confidence: params.aiConfidence,
       rule_engine_result: params.ruleEngineResult,

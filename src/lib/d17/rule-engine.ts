@@ -34,6 +34,12 @@ export interface ScoreAttemptResult {
   decisionReason: string;
 }
 
+export interface ReputationVelocityInput {
+  priorApprovedCount: number;
+  priorConfirmedDuplicateCount: number;
+  attemptsInLastHour: number;
+}
+
 export interface ScoreAttemptInput {
   orderAmountTnd: number;
   orderCurrency: string;
@@ -44,6 +50,16 @@ export interface ScoreAttemptInput {
    * flags when the OCR amount matches a different tier's price than the
    * one actually ordered (a likely wrong-tier payment, not fraud). */
   otherPlanPricesTnd?: number[];
+  /** The order's own snapshotted official D17 number/IBAN (see
+   * src/lib/d17/orders.functions.ts) — null if the platform hasn't
+   * configured D17_OFFICIAL_NUMBER/D17_OFFICIAL_IBAN yet. */
+  orderDestinationNumber: string | null;
+  orderDestinationIban: string | null;
+  /** Wall-clock ms between order creation and this verification attempt
+   * starting (NOT the OCR'd payment_datetime) — captured by
+   * verify.functions.ts at pipeline start, before the Gemini call. */
+  uploadToCreationDeltaMs: number;
+  reputationVelocity: ReputationVelocityInput;
 }
 
 const HARD_FRAUD_FLAGS = new Set(["overlay_text_detected", "clone_region_suspected", "fake_screenshot_composite"]);
@@ -54,6 +70,12 @@ const AMOUNT_TOLERANCE_TND = 0.5;
 
 function normalizeReference(ref: string): string {
   return ref.trim().replace(/[\s-]/g, "").toLowerCase();
+}
+
+function destinationsOverlap(a: string, b: string): boolean {
+  const na = a.trim().replace(/[\s-]/g, "").toLowerCase();
+  const nb = b.trim().replace(/[\s-]/g, "").toLowerCase();
+  return na.includes(nb) || nb.includes(na);
 }
 
 export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
@@ -166,13 +188,154 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     checks.push({ id: "package_price_sanity", label: "Package Price", result: "pass", points: 0, detail: "Amount does not collide with a different plan's price." });
   }
 
+  // 9. Destination match — extracted D17 number/IBAN (from either
+  // screenshot) must match the order's own snapshotted official values.
+  {
+    const candidates = [extraction.destination_number, extraction.destination_iban, extraction.screenshot2.destination].filter(
+      (v): v is string => Boolean(v),
+    );
+    const officialValues = [input.orderDestinationNumber, input.orderDestinationIban].filter((v): v is string => Boolean(v));
+    if (officialValues.length === 0) {
+      checks.push({
+        id: "destination_match",
+        label: "Destination",
+        result: "uncertain",
+        points: 8,
+        detail: "No official D17 destination is configured for this order — destination could not be verified.",
+      });
+    } else if (candidates.length === 0) {
+      checks.push({
+        id: "destination_match",
+        label: "Destination",
+        result: "uncertain",
+        points: 8,
+        detail: "No destination number/IBAN was legible on either screenshot.",
+      });
+    } else {
+      const matched = candidates.some((c) => officialValues.some((o) => destinationsOverlap(c, o)));
+      if (matched) {
+        checks.push({ id: "destination_match", label: "Destination", result: "pass", points: 0, detail: "Extracted destination matches the order's official D17 number/IBAN." });
+      } else {
+        checks.push({
+          id: "destination_match",
+          label: "Destination",
+          result: "fail",
+          points: 35,
+          detail: `Extracted destination (${candidates.join(", ")}) does not match the order's official destination.`,
+        });
+      }
+    }
+  }
+
+  // 10. Cross-screenshot consistency — the rule engine's OWN direct field
+  // comparison between the two screenshots, independent of the model's own
+  // self-reported cross_check.consistent (never trusted alone). A mismatch
+  // reduces confidence but is capped well under the reject threshold, per
+  // spec: inconsistency between screenshots should never alone reject.
+  {
+    const s2 = extraction.screenshot2;
+    const mismatches: string[] = [];
+    if (extraction.amount !== null && s2.amount !== null && Math.abs(extraction.amount - s2.amount) > AMOUNT_TOLERANCE_TND) {
+      mismatches.push(`amount (${extraction.amount} vs ${s2.amount})`);
+    }
+    if (extraction.currency && s2.currency && extraction.currency.trim().toUpperCase() !== s2.currency.trim().toUpperCase()) {
+      mismatches.push(`currency (${extraction.currency} vs ${s2.currency})`);
+    }
+    if (extraction.payment_datetime && s2.payment_datetime) {
+      const t1 = Date.parse(extraction.payment_datetime);
+      const t2 = Date.parse(s2.payment_datetime);
+      if (!Number.isNaN(t1) && !Number.isNaN(t2) && Math.abs(t1 - t2) > 5 * 60_000) {
+        mismatches.push("payment date/time");
+      }
+    }
+    const shot1Destination = extraction.destination_number ?? extraction.destination_iban;
+    if (shot1Destination && s2.destination && !destinationsOverlap(shot1Destination, s2.destination)) {
+      mismatches.push("destination");
+    }
+    if (mismatches.length > 0) {
+      checks.push({
+        id: "cross_screenshot_consistency",
+        label: "Cross-Screenshot Consistency",
+        result: "fail",
+        points: 20,
+        detail: `Screenshots disagree on: ${mismatches.join(", ")}.`,
+      });
+    } else {
+      checks.push({ id: "cross_screenshot_consistency", label: "Cross-Screenshot Consistency", result: "pass", points: 0, detail: "No contradictions found between the two screenshots." });
+    }
+  }
+
+  // 11. Timeline plausibility — distinct from check #4 (Payment Time): this
+  // looks at the actual wall-clock upload speed (a screenshot uploaded
+  // implausibly fast after order creation is a strong signal of a reused/
+  // pre-existing screenshot) in addition to a hard "payment predates order"
+  // restatement, each contributing independently.
+  {
+    const reasons: string[] = [];
+    if (input.uploadToCreationDeltaMs < 8000) {
+      reasons.push(`screenshot uploaded only ${(input.uploadToCreationDeltaMs / 1000).toFixed(1)}s after the order was created`);
+    }
+    if (extraction.payment_datetime) {
+      const paymentMs = Date.parse(extraction.payment_datetime);
+      const orderMs = Date.parse(input.orderCreatedAt);
+      if (!Number.isNaN(paymentMs) && paymentMs < orderMs - 5 * 60_000) {
+        reasons.push("the payment timestamp on the screenshot predates the order");
+      }
+    }
+    if (reasons.length > 0) {
+      checks.push({ id: "impossible_timeline", label: "Timeline Plausibility", result: "fail", points: 30, detail: `Implausible timeline: ${reasons.join("; ")}.` });
+    } else {
+      checks.push({ id: "impossible_timeline", label: "Timeline Plausibility", result: "pass", points: 0, detail: "Upload and payment timing are plausible." });
+    }
+  }
+
+  // 12. Account reputation — capped bonus/penalty, never influences the
+  // hard gate. Prior clean approvals reduce risk; prior CONFIRMED duplicate
+  // history (src/lib/d17/duplicate-check.server.ts's hard-gate hits,
+  // tracked in d17_fraud_suspensions) raises it.
+  {
+    const rv = input.reputationVelocity;
+    const bonus = Math.min(10, rv.priorApprovedCount * 5);
+    const penalty = Math.min(10, rv.priorConfirmedDuplicateCount * 10);
+    const netPoints = Math.max(-10, Math.min(10, penalty - bonus));
+    checks.push({
+      id: "reputation_signal",
+      label: "Account Reputation",
+      result: netPoints > 0 ? "fail" : "pass",
+      points: netPoints,
+      detail: `${rv.priorApprovedCount} prior approved payment(s), ${rv.priorConfirmedDuplicateCount} prior confirmed duplicate(s).`,
+    });
+  }
+
+  // 13. Submission velocity — too many attempts from this account in a
+  // short window. The hourly HARD cap lives in verify.functions.ts (throws
+  // before reaching the rule engine); this is a softer, weighted signal for
+  // volumes below that cap. Device-fingerprint-sharing is layered in once
+  // Phase 8 wires up client fingerprint capture — attemptsInLastHour alone
+  // is the only signal available today.
+  {
+    const rv = input.reputationVelocity;
+    const points = Math.min(15, Math.max(0, rv.attemptsInLastHour - 1) * 5);
+    checks.push({
+      id: "velocity_signal",
+      label: "Submission Velocity",
+      result: points >= 15 ? "fail" : points > 0 ? "uncertain" : "pass",
+      points,
+      detail: `${rv.attemptsInLastHour} verification attempt(s) from this account in the last hour.`,
+    });
+  }
+
   // Fraud hard gate — requires BOTH a categorical "hard" flag AND a high
   // self-reported fraud score, so a single hallucinated flag from a
   // probabilistic vision model can never alone trigger rejection.
   const hasHardFlag = extraction.fraud_flags.some((f) => HARD_FRAUD_FLAGS.has(f));
   const hardGate = hasHardFlag && extraction.fraud_score >= HARD_FRAUD_SCORE_THRESHOLD ? "fraud" : null;
 
-  const riskScore = hardGate ? 100 : Math.min(100, checks.reduce((sum, c) => sum + c.points, 0));
+  // Clamped to [0, 100]: the reputation_signal check can contribute
+  // negative points (a bonus for a clean history), so the raw sum is no
+  // longer guaranteed non-negative the way it was when every check's
+  // points were >= 0.
+  const riskScore = hardGate ? 100 : Math.max(0, Math.min(100, checks.reduce((sum, c) => sum + c.points, 0)));
   const aiConfidence = hardGate ? 0 : 100 - riskScore;
 
   let decision: AttemptDecision;
