@@ -3,56 +3,135 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
+const ORDER_LIFETIME_MS = 24 * 3600_000;
+const ACTIVE_STATUSES = ["awaiting_payment", "under_review", "manual_review"] as const;
+
+function generateSessionToken(): string {
+  const bytes = new Uint8Array(32);
+  crypto.getRandomValues(bytes);
+  return Buffer.from(bytes).toString("base64url");
+}
+
+/** Flips a stale `awaiting_payment` order to `expired` if it's past its
+ * expires_at with nothing submitted yet. No cron exists in this app — this
+ * lazy check-and-flip runs at the two places that actually matter: order
+ * creation (deciding whether an existing order still blocks a new one) and
+ * order fetch (the verify/status pages loading current state). */
+async function expireIfStale(supabaseAdmin: any, order: { id: string; status: string; expires_at: string | null }): Promise<string> {
+  if (order.status !== "awaiting_payment" || !order.expires_at) return order.status;
+  if (new Date(order.expires_at).getTime() >= Date.now()) return order.status;
+  await supabaseAdmin.from("d17_orders").update({ status: "expired", updated_at: new Date().toISOString() }).eq("id", order.id);
+  return "expired";
+}
+
 /**
  * Creates a D17/bank-transfer order. Snapshots plans.price_tnd at creation
  * time (the single source of truth for pricing, same as
  * src/lib/billing/checkout.functions.ts's Lemon Squeezy checkout) rather
  * than reading it live later, since prices can change and the rule engine's
  * amount-match check needs an honest historical value to compare against.
+ * Also snapshots the student's current level and the official D17
+ * destination (both audit-only — see the plan's "level" decision: this
+ * never changes how unlocking works), and enforces one active order per
+ * user (a DB partial-unique-index backstop exists too, but this gives a
+ * friendly redirect instead of a raw constraint violation).
  */
 export const createD17Order = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { plan_code: PlanCode }) => d)
-  .handler(async ({ data, context }) => {
+  .handler(async ({ data, context }) => createD17OrderImpl(context.userId, data.plan_code));
+
+/** Extracted from the createServerFn handler, same reasoning as
+ * verify.functions.ts's runVerificationPipeline — lets this be exercised
+ * directly (real DB writes against a test user) without needing to
+ * simulate TanStack Start's request context / auth middleware. */
+export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: existing } = await supabaseAdmin
+      .from("d17_orders")
+      .select("id, status, expires_at")
+      .eq("user_id", userId)
+      .in("status", ACTIVE_STATUSES)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+
+    if (existing) {
+      const currentStatus = await expireIfStale(supabaseAdmin, existing);
+      if (currentStatus !== "expired") {
+        const { data: full, error: fullError } = await supabaseAdmin
+          .from("d17_orders")
+          .select("id, status, amount_tnd, currency, attempts_used, created_at, session_token, destination_number, destination_iban, level")
+          .eq("id", existing.id)
+          .single();
+        if (fullError || !full) throw new Error(`Failed to load existing order: ${fullError?.message}`);
+        return { ...full, redirectedToExisting: true };
+      }
+    }
 
     const { data: plan, error: planError } = await supabaseAdmin
       .from("plans")
       .select("price_tnd")
-      .eq("code", data.plan_code)
+      .eq("code", planCode)
       .single();
     if (planError || !plan) {
-      throw new Error(`Unknown plan "${data.plan_code}".`);
+      throw new Error(`Unknown plan "${planCode}".`);
     }
+
+    const { data: profile } = await supabaseAdmin.from("profiles").select("level").eq("id", userId).maybeSingle();
+
+    const now = new Date();
+    const expiresAt = new Date(now.getTime() + ORDER_LIFETIME_MS).toISOString();
+    const sessionToken = generateSessionToken();
+    const destinationNumber = process.env.D17_OFFICIAL_NUMBER || null;
+    const destinationIban = process.env.D17_OFFICIAL_IBAN || null;
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
       .insert({
-        user_id: context.userId,
-        plan_code: data.plan_code,
+        user_id: userId,
+        plan_code: planCode,
         amount_tnd: plan.price_tnd,
+        level: profile?.level ?? null,
+        expires_at: expiresAt,
+        session_token: sessionToken,
+        session_token_expires_at: expiresAt,
+        destination_number: destinationNumber,
+        destination_iban: destinationIban,
       })
-      .select("id, status, amount_tnd, currency, attempts_used, created_at")
+      .select("id, status, amount_tnd, currency, attempts_used, created_at, session_token, destination_number, destination_iban, level")
       .single();
     if (orderError || !order) {
       throw new Error(`Failed to create order: ${orderError?.message}`);
     }
 
-    return order;
-  });
+    return { ...order, redirectedToExisting: false };
+}
 
 /** Fetch an order the caller owns (or any order if the caller is an admin) —
- * used by the verification/status pages to render current state. */
+ * used by the verification/status pages to render current state. Also
+ * carries out the lazy expiry flip so stale orders never appear stuck in
+ * "awaiting_payment" indefinitely. */
 export const getD17Order = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { order_id: string }) => d)
   .handler(async ({ data, context }) => {
     const { data: order, error } = await context.supabase
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, manual_review_deadline, resolved_at, created_at")
+      .select(
+        "id, user_id, plan_code, amount_tnd, currency, status, attempts_used, manual_review_deadline, resolved_at, created_at, session_token, destination_number, destination_iban, level, expires_at, locked_for_admin_only",
+      )
       .eq("id", data.order_id)
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!order) throw new Error("Order not found.");
+
+    if (order.status === "awaiting_payment") {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const currentStatus = await expireIfStale(supabaseAdmin, order);
+      if (currentStatus !== order.status) order.status = currentStatus as typeof order.status;
+    }
+
     return order;
   });

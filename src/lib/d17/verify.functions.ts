@@ -133,7 +133,7 @@ async function provisionOrder(supabaseAdmin: any, userId: string, planCode: stri
 
 export const submitVerificationAttempt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { order_id: string; storage_path: string; user_entered_reference: string }) => d)
+  .inputValidator((d: { order_id: string; session_token: string; storage_path: string; user_entered_reference: string }) => d)
   .handler(async ({ data, context }) => runVerificationPipeline(context.userId, data));
 
 /**
@@ -141,12 +141,13 @@ export const submitVerificationAttempt = createServerFn({ method: "POST" })
  * be exercised directly (real Gemini calls, real DB writes against a test
  * order) without needing to simulate TanStack Start's server-function RPC
  * dispatch. Uses supabaseAdmin exclusively — every authorization check
- * (ownership, status, attempt/rate limits) is explicit here rather than
- * relying on RLS, so a service-role client is correct and sufficient.
+ * (ownership, session token, status, attempt/rate limits) is explicit here
+ * rather than relying on RLS, so a service-role client is correct and
+ * sufficient.
  */
 export async function runVerificationPipeline(
   userId: string,
-  data: { order_id: string; storage_path: string; user_entered_reference: string },
+  data: { order_id: string; session_token: string; storage_path: string; user_entered_reference: string },
 ) {
     const reference = data.user_entered_reference.trim();
     if (reference.length < 4) {
@@ -163,11 +164,17 @@ export async function runVerificationPipeline(
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at")
+      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, session_token")
       .eq("id", data.order_id)
       .maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
     if (order.user_id !== userId) throw new Error("Forbidden: not your order.");
+    // Generic message deliberately does not distinguish "wrong token" from
+    // "order not found" — avoids leaking whether an order ID exists to a
+    // caller who doesn't hold its session token.
+    if (!data.session_token || data.session_token !== order.session_token) {
+      throw new Error("Invalid session. Please reload the payment page and try again.");
+    }
     if (!ACTIVE_ORDER_STATUSES.includes(order.status)) {
       throw new Error(`This order is already ${order.status} and cannot accept new screenshots.`);
     }

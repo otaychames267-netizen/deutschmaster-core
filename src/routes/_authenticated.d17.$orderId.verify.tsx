@@ -19,6 +19,7 @@ interface D17Order {
   currency: string;
   status: string;
   attempts_used: number;
+  session_token: string | null;
 }
 
 const ACTIVE_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
@@ -45,7 +46,7 @@ function D17VerifyPage() {
   useEffect(() => {
     supabase
       .from("d17_orders")
-      .select("id, plan_code, amount_tnd, currency, status, attempts_used")
+      .select("id, plan_code, amount_tnd, currency, status, attempts_used, session_token")
       .eq("id", orderId)
       .maybeSingle()
       .then(({ data }) => {
@@ -83,6 +84,10 @@ function D17VerifyPage() {
    */
   async function submitFile(submitTarget: File, submitReference: string) {
     if (!user || !order) return;
+    if (!order.session_token) {
+      toast.error("This order is missing a valid session. Please reload the page.");
+      return;
+    }
     if (submitReference.trim().length < 4) {
       toast.error("Please enter at least the last 4 digits of the transaction reference.");
       return;
@@ -102,7 +107,7 @@ function D17VerifyPage() {
       setUploaded(true);
 
       const attempt = await submitVerificationAttempt({
-        data: { order_id: order.id, storage_path: storagePath, user_entered_reference: submitReference.trim() },
+        data: { order_id: order.id, session_token: order.session_token!, storage_path: storagePath, user_entered_reference: submitReference.trim() },
       });
       setDone(true);
 

@@ -1405,11 +1405,18 @@ export type Database = {
           attempts_used: number
           created_at: string
           currency: string
+          destination_iban: string | null
+          destination_number: string | null
+          expires_at: string | null
           id: string
+          level: Database["public"]["Enums"]["user_level"] | null
+          locked_for_admin_only: boolean
           manual_review_deadline: string | null
           plan_code: Database["public"]["Enums"]["plan_code"]
           resolved_at: string | null
           resolved_by: string | null
+          session_token: string | null
+          session_token_expires_at: string | null
           status: Database["public"]["Enums"]["d17_order_status"]
           subscription_id: string | null
           updated_at: string
@@ -1420,11 +1427,18 @@ export type Database = {
           attempts_used?: number
           created_at?: string
           currency?: string
+          destination_iban?: string | null
+          destination_number?: string | null
+          expires_at?: string | null
           id?: string
+          level?: Database["public"]["Enums"]["user_level"] | null
+          locked_for_admin_only?: boolean
           manual_review_deadline?: string | null
           plan_code: Database["public"]["Enums"]["plan_code"]
           resolved_at?: string | null
           resolved_by?: string | null
+          session_token?: string | null
+          session_token_expires_at?: string | null
           status?: Database["public"]["Enums"]["d17_order_status"]
           subscription_id?: string | null
           updated_at?: string
@@ -1435,11 +1449,18 @@ export type Database = {
           attempts_used?: number
           created_at?: string
           currency?: string
+          destination_iban?: string | null
+          destination_number?: string | null
+          expires_at?: string | null
           id?: string
+          level?: Database["public"]["Enums"]["user_level"] | null
+          locked_for_admin_only?: boolean
           manual_review_deadline?: string | null
           plan_code?: Database["public"]["Enums"]["plan_code"]
           resolved_at?: string | null
           resolved_by?: string | null
+          session_token?: string | null
+          session_token_expires_at?: string | null
           status?: Database["public"]["Enums"]["d17_order_status"]
           subscription_id?: string | null
           updated_at?: string
@@ -1452,97 +1473,190 @@ export type Database = {
           ai_confidence: number
           ai_version: string
           attempt_number: number
+          browser_fingerprint: string | null
           created_at: string
+          cross_check_consistent: boolean | null
+          cross_check_summary: Json | null
           decision: Database["public"]["Enums"]["d17_attempt_decision"]
           decision_reason: string
+          device_fingerprint: string | null
           fraud_flags: Json
           fraud_score: number | null
           gemini_token_count: number | null
           id: string
           image_dhash: string
+          image_dhash_2: string | null
           image_hash_sha256: string
+          image_hash_sha256_2: string | null
+          ip_address: string | null
           ocr_amount: number | null
+          ocr_amount_2: number | null
+          ocr_authorization_number: string | null
           ocr_confidence: number | null
           ocr_currency: string | null
+          ocr_currency_2: string | null
+          ocr_destination_2: string | null
+          ocr_destination_iban: string | null
+          ocr_destination_number: string | null
           ocr_language_detected: string | null
           ocr_notification_source: Database["public"]["Enums"]["d17_notification_source"] | null
           ocr_payment_datetime: string | null
+          ocr_payment_datetime_2: string | null
           ocr_raw_text: string | null
           ocr_reference: string | null
           ocr_text_hash_sha256: string | null
+          ocr_text_hash_sha256_2: string | null
+          ocr_transaction_id: string | null
           ocr_version: string
           order_id: string
+          reputation_signal_delta: number | null
           risk_score: number
           rule_engine_result: Json
           screenshot_integrity_ok: boolean | null
           storage_path: string
+          storage_path_2: string | null
+          upload_to_creation_delta_ms: number | null
           user_entered_reference: string
           user_id: string
+          velocity_signal_points: number | null
           verification_duration_ms: number | null
         }
         Insert: {
           ai_confidence: number
           ai_version: string
           attempt_number: number
+          browser_fingerprint?: string | null
           created_at?: string
+          cross_check_consistent?: boolean | null
+          cross_check_summary?: Json | null
           decision: Database["public"]["Enums"]["d17_attempt_decision"]
           decision_reason: string
+          device_fingerprint?: string | null
           fraud_flags?: Json
           fraud_score?: number | null
           gemini_token_count?: number | null
           id?: string
           image_dhash: string
+          image_dhash_2?: string | null
           image_hash_sha256: string
+          image_hash_sha256_2?: string | null
+          ip_address?: string | null
           ocr_amount?: number | null
+          ocr_amount_2?: number | null
+          ocr_authorization_number?: string | null
           ocr_confidence?: number | null
           ocr_currency?: string | null
+          ocr_currency_2?: string | null
+          ocr_destination_2?: string | null
+          ocr_destination_iban?: string | null
+          ocr_destination_number?: string | null
           ocr_language_detected?: string | null
           ocr_notification_source?: Database["public"]["Enums"]["d17_notification_source"] | null
           ocr_payment_datetime?: string | null
+          ocr_payment_datetime_2?: string | null
           ocr_raw_text?: string | null
           ocr_reference?: string | null
           ocr_text_hash_sha256?: string | null
+          ocr_text_hash_sha256_2?: string | null
+          ocr_transaction_id?: string | null
           ocr_version?: string
           order_id: string
+          reputation_signal_delta?: number | null
           risk_score: number
           rule_engine_result: Json
           screenshot_integrity_ok?: boolean | null
           storage_path: string
+          storage_path_2?: string | null
+          upload_to_creation_delta_ms?: number | null
           user_entered_reference: string
           user_id: string
+          velocity_signal_points?: number | null
           verification_duration_ms?: number | null
         }
         Update: {
           ai_confidence?: number
           ai_version?: string
           attempt_number?: number
+          browser_fingerprint?: string | null
           created_at?: string
+          cross_check_consistent?: boolean | null
+          cross_check_summary?: Json | null
           decision?: Database["public"]["Enums"]["d17_attempt_decision"]
           decision_reason?: string
+          device_fingerprint?: string | null
           fraud_flags?: Json
           fraud_score?: number | null
           gemini_token_count?: number | null
           id?: string
           image_dhash?: string
+          image_dhash_2?: string | null
           image_hash_sha256?: string
+          image_hash_sha256_2?: string | null
+          ip_address?: string | null
           ocr_amount?: number | null
+          ocr_amount_2?: number | null
+          ocr_authorization_number?: string | null
           ocr_confidence?: number | null
           ocr_currency?: string | null
+          ocr_currency_2?: string | null
+          ocr_destination_2?: string | null
+          ocr_destination_iban?: string | null
+          ocr_destination_number?: string | null
           ocr_language_detected?: string | null
           ocr_notification_source?: Database["public"]["Enums"]["d17_notification_source"] | null
           ocr_payment_datetime?: string | null
+          ocr_payment_datetime_2?: string | null
           ocr_raw_text?: string | null
           ocr_reference?: string | null
           ocr_text_hash_sha256?: string | null
+          ocr_text_hash_sha256_2?: string | null
+          ocr_transaction_id?: string | null
           ocr_version?: string
           order_id?: string
+          reputation_signal_delta?: number | null
           risk_score?: number
           rule_engine_result?: Json
           screenshot_integrity_ok?: boolean | null
           storage_path?: string
+          storage_path_2?: string | null
+          upload_to_creation_delta_ms?: number | null
           user_entered_reference?: string
           user_id?: string
+          velocity_signal_points?: number | null
           verification_duration_ms?: number | null
+        }
+        Relationships: []
+      }
+      d17_fraud_suspensions: {
+        Row: {
+          account_locked: boolean
+          confirmed_duplicate_count: number
+          created_at: string
+          id: string
+          last_confirmed_duplicate_attempt_id: string | null
+          suspended_until: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_locked?: boolean
+          confirmed_duplicate_count?: number
+          created_at?: string
+          id?: string
+          last_confirmed_duplicate_attempt_id?: string | null
+          suspended_until?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_locked?: boolean
+          confirmed_duplicate_count?: number
+          created_at?: string
+          id?: string
+          last_confirmed_duplicate_attempt_id?: string | null
+          suspended_until?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
