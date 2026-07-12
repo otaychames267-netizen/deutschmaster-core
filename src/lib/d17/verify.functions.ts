@@ -190,6 +190,20 @@ export async function runVerificationPipeline(
       throw new Error("Maximum of 5 screenshot uploads reached for this order. Awaiting manual review.");
     }
 
+    // ── Escalating anti-fraud suspension gate — rejected outright, no
+    // attempt row written. A confirmed-duplicate history (see
+    // fraud-suspension.server.ts) blocks new submissions entirely while
+    // active; locked accounts have no automatic unlock.
+    const { checkSuspension } = await import("./fraud-suspension.server");
+    const suspension = await checkSuspension(supabaseAdmin, userId);
+    if (suspension.accountLocked) {
+      throw new Error("This account is locked pending admin review due to repeated duplicate payment submissions. Please contact support.");
+    }
+    if (suspension.suspendedUntil && new Date(suspension.suspendedUntil).getTime() > Date.now()) {
+      const hoursLeft = Math.ceil((new Date(suspension.suspendedUntil).getTime() - Date.now()) / 3600_000);
+      throw new Error(`New payment submissions are temporarily suspended due to a duplicate payment detection. Please try again in about ${hoursLeft} hour(s), or contact support.`);
+    }
+
     const { count: recentCount } = await supabaseAdmin
       .from("d17_verification_attempts")
       .select("id", { count: "exact", head: true })
@@ -550,6 +564,19 @@ async function finalizeAttempt(
     );
     const { checkHighRiskCluster } = await import("./alerting.server");
     await checkHighRiskCluster(supabaseAdmin);
+
+    if (params.decision === "auto_rejected_duplicate") {
+      const { escalateSuspension } = await import("./fraud-suspension.server");
+      const escalation = await escalateSuspension(supabaseAdmin, { userId: params.userId, attemptId: attempt.id });
+      if (escalation.tier === 2 || escalation.tier === 3) {
+        const { alertFraudSuspensionEscalated } = await import("./alerting.server");
+        await alertFraudSuspensionEscalated(supabaseAdmin, {
+          userId: params.userId,
+          tier: escalation.tier,
+          confirmedDuplicateCount: escalation.confirmedDuplicateCount,
+        });
+      }
+    }
   }
 
   return attempt;

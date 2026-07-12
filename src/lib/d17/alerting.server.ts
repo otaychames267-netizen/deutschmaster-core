@@ -70,6 +70,24 @@ export async function checkHighRiskCluster(supabaseAdmin: any) {
   });
 }
 
+/** Called from verify.functions.ts only on the 2nd/3rd escalation tier — a
+ * single confirmed duplicate is common/low-signal (an accidental
+ * double-submit), not worth paging anyone. */
+export async function alertFraudSuspensionEscalated(
+  supabaseAdmin: any,
+  params: { userId: string; tier: 2 | 3; confirmedDuplicateCount: number },
+) {
+  await raiseAlert(supabaseAdmin, {
+    severity: params.tier === 3 ? "critical" : "warning",
+    category: "fraud_suspension_escalated",
+    message:
+      params.tier === 3
+        ? `User ${params.userId} account LOCKED after ${params.confirmedDuplicateCount} confirmed duplicate payment submissions.`
+        : `User ${params.userId} suspended for 24 hours after ${params.confirmedDuplicateCount} confirmed duplicate payment submissions.`,
+    metadata: { userId: params.userId, tier: params.tier, confirmedDuplicateCount: params.confirmedDuplicateCount },
+  });
+}
+
 /** Fires once per UTC day when usage crosses 80% of GEMINI_DAILY_TOKEN_CAP. */
 export async function checkBudget80Percent(supabaseAdmin: any) {
   const cap = Number(process.env.GEMINI_DAILY_TOKEN_CAP ?? Infinity);

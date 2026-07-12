@@ -94,6 +94,30 @@ export const adminApproveOrder = createServerFn({ method: "POST" })
     return { status: "admin_approved" };
   });
 
+/** Locked/suspended accounts have no automatic unlock path by design — an
+ * admin must explicitly review and clear the suspension. Does not reset
+ * confirmed_duplicate_count (a permanent record); only clears the active
+ * consequence, so a subsequent confirmed duplicate still escalates from
+ * where the count left off. */
+export const adminClearSuspension = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { user_id: string; order_id: string; note?: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { clearSuspension } = await import("./fraud-suspension.server");
+
+    await clearSuspension(supabaseAdmin, data.user_id);
+    await supabaseAdmin.from("d17_admin_actions").insert({
+      order_id: data.order_id,
+      admin_id: context.userId,
+      action: "clear_suspension",
+      note: data.note ?? null,
+    });
+
+    return { status: "cleared" };
+  });
+
 export const adminRejectOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { order_id: string; note: string }) => d)

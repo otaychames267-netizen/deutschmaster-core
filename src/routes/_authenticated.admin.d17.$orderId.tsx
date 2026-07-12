@@ -1,11 +1,11 @@
 import { createFileRoute, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { adminApproveOrder, adminRejectOrder, adminAdjustGrant } from "@/lib/d17/admin-actions.functions";
+import { adminApproveOrder, adminRejectOrder, adminAdjustGrant, adminClearSuspension } from "@/lib/d17/admin-actions.functions";
 import { toast } from "sonner";
 import {
   ArrowLeft, CheckCircle2, XCircle, AlertTriangle, Loader2,
-  Image as ImageIcon, ShieldAlert, Sliders,
+  Image as ImageIcon, ShieldAlert, Sliders, ShieldBan, Unlock,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/d17/$orderId")({
@@ -64,6 +64,13 @@ interface AdminAction {
   admin_id: string;
 }
 
+interface FraudSuspension {
+  confirmed_duplicate_count: number;
+  suspended_until: string | null;
+  account_locked: boolean;
+  updated_at: string;
+}
+
 const ACTIONABLE_STATUSES = ["manual_review", "under_review", "rejected", "auto_approved", "admin_approved"];
 
 function AdminD17OrderDetail() {
@@ -72,6 +79,7 @@ function AdminD17OrderDetail() {
   const [student, setStudent] = useState<{ full_name: string | null; email: string | null } | null>(null);
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [actions, setActions] = useState<AdminAction[]>([]);
+  const [suspension, setSuspension] = useState<FraudSuspension | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -91,14 +99,16 @@ function AdminD17OrderDetail() {
     }
     setOrder(o);
 
-    const [{ data: p }, { data: a }, { data: ac }] = await Promise.all([
+    const [{ data: p }, { data: a }, { data: ac }, { data: susp }] = await Promise.all([
       supabase.from("profiles").select("full_name, email").eq("id", o.user_id).maybeSingle(),
       supabase.from("d17_verification_attempts").select("*").eq("order_id", orderId).order("attempt_number", { ascending: false }),
       supabase.from("d17_admin_actions").select("*").eq("order_id", orderId).order("created_at", { ascending: false }),
+      supabase.from("d17_fraud_suspensions").select("confirmed_duplicate_count, suspended_until, account_locked, updated_at").eq("user_id", o.user_id).maybeSingle(),
     ]);
     setStudent(p ?? null);
     setAttempts((a ?? []) as unknown as Attempt[]);
     setActions(ac ?? []);
+    setSuspension((susp as FraudSuspension | null) ?? null);
 
     if (a && a.length > 0) {
       const { data: signed } = await supabase.storage.from("payment-screenshots").createSignedUrl(a[0].storage_path, 3600);
@@ -163,6 +173,20 @@ function AdminD17OrderDetail() {
     }
   }
 
+  async function handleClearSuspension() {
+    if (!order) return;
+    setBusy(true);
+    try {
+      await adminClearSuspension({ data: { user_id: order.user_id, order_id: orderId } });
+      toast.success("Suspension cleared.");
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to clear suspension.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
@@ -198,6 +222,35 @@ function AdminD17OrderDetail() {
         </div>
         <span className="rounded-full border border-border bg-muted px-3 py-1 text-xs font-bold capitalize text-foreground">{order.status.replace(/_/g, " ")}</span>
       </div>
+
+      {suspension && (suspension.account_locked || (suspension.suspended_until && new Date(suspension.suspended_until).getTime() > Date.now()) || suspension.confirmed_duplicate_count > 0) && (
+        <div className={`rounded-2xl border p-5 ${suspension.account_locked ? "border-red-500/30 bg-red-500/5" : "border-amber-500/30 bg-amber-500/5"}`}>
+          <p className={`mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide ${suspension.account_locked ? "text-red-700 dark:text-red-400" : "text-amber-700 dark:text-amber-400"}`}>
+            <ShieldBan className="h-3.5 w-3.5" /> Fraud / suspension status
+          </p>
+          <div className="space-y-1 text-sm text-foreground">
+            <p>Confirmed duplicate submissions: <span className="font-bold">{suspension.confirmed_duplicate_count}</span></p>
+            {suspension.account_locked ? (
+              <p className="font-semibold text-red-700 dark:text-red-400">Account is LOCKED pending admin review.</p>
+            ) : suspension.suspended_until && new Date(suspension.suspended_until).getTime() > Date.now() ? (
+              <p className="font-semibold text-amber-700 dark:text-amber-400">
+                New submissions suspended until {new Date(suspension.suspended_until).toLocaleString()}.
+              </p>
+            ) : (
+              <p className="text-muted-foreground">No active suspension.</p>
+            )}
+          </div>
+          {(suspension.account_locked || (suspension.suspended_until && new Date(suspension.suspended_until).getTime() > Date.now())) && (
+            <button
+              onClick={handleClearSuspension}
+              disabled={busy}
+              className="mt-3 flex items-center gap-2 rounded-xl bg-foreground px-4 py-2 text-sm font-bold text-background hover:opacity-90 disabled:opacity-50"
+            >
+              <Unlock className="h-4 w-4" /> Clear suspension
+            </button>
+          )}
+        </div>
+      )}
 
       {latest && (
         <div className="grid gap-4 sm:grid-cols-2">
