@@ -131,6 +131,15 @@ function BillingPage() {
       });
   }, [user?.id]);
 
+  // Admin-only mock checkout redirects here with ?mock=success while real
+  // Lemon Squeezy credentials are pending — see checkout.functions.ts.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("mock") === "success") {
+      toast.success("Mock payment complete (test mode) — no real charge occurred.", { duration: 8000 });
+      window.history.replaceState({}, "", "/billing");
+    }
+  }, []);
+
   const isActive = subscription?.status === "active";
   const isTrial  = subscription?.status === "trial";
   const daysLeft = subscription ? daysRemaining(subscription.expires_at) : 0;

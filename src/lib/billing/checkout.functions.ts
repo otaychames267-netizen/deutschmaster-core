@@ -9,6 +9,77 @@ const VARIANT_ENV: Record<PlanCode, string | undefined> = {
   komplett: process.env.LEMONSQUEEZY_VARIANT_KOMPLETT,
 };
 
+async function assertAdmin(ctx: { supabase: any; userId: string }) {
+  const { data: isAdmin } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
+  const { data: isSuper } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "super_admin" });
+  if (!isAdmin && !isSuper) throw new Error("Forbidden: admin only");
+}
+
+/**
+ * Admin-only mock checkout, active exclusively while LEMONSQUEEZY_API_KEY/
+ * STORE_ID are unset (i.e. real credentials haven't arrived yet). Performs
+ * the identical provisioning the real webhook does (same RPCs, same
+ * hard-reset semantics) so the rest of the app behaves identically to a
+ * real purchase — but everything is tagged "mock_" so it's never confused
+ * with real revenue in the audit trail. Gated to admins only: any
+ * non-admin caller falls through to the ordinary "not configured yet"
+ * error below, so a real student can never trigger a free grant this way.
+ * Once real credentials are set, this whole branch stops being reachable
+ * without any code changes — the swap is just adding the env vars.
+ */
+async function mockCheckoutSession(planCode: PlanCode, context: { supabase: any; userId: string }) {
+  try {
+    await assertAdmin(context);
+  } catch {
+    // Non-admin callers see the exact same message they'd get once real
+    // credentials exist but something else went wrong — never leak that an
+    // admin-only mock path exists.
+    throw new Error("Lemon Squeezy is not configured yet. Please contact support.");
+  }
+
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const mockId = `mock_${crypto.randomUUID()}`;
+  const reason = "mock_checkout";
+
+  const { data: existingSub } = await supabaseAdmin
+    .from("subscriptions")
+    .select("id")
+    .eq("user_id", context.userId)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const subRow = {
+    user_id: context.userId,
+    plan_code: planCode,
+    status: "active" as const,
+    is_trial: false,
+    expires_at: new Date(Date.now() + 30 * 86400_000).toISOString(),
+    lemonsqueezy_subscription_id: mockId,
+  };
+  const { error: subError } = existingSub
+    ? await supabaseAdmin.from("subscriptions").update(subRow).eq("id", existingSub.id)
+    : await supabaseAdmin.from("subscriptions").insert({ ...subRow, started_at: new Date().toISOString() });
+  if (subError) throw new Error(`Mock checkout failed: ${subError.message}`);
+
+  if (planCode === "muendlich" || planCode === "komplett") {
+    await supabaseAdmin.rpc("provision_muendlich_subscription", { p_user_id: context.userId, p_minutes: 300, p_reason: reason });
+  }
+  if (planCode === "schriftlich" || planCode === "komplett") {
+    await supabaseAdmin.rpc("provision_essay_credits", { p_user_id: context.userId, p_amount: 30, p_reason: reason });
+  }
+
+  await supabaseAdmin.from("lemonsqueezy_events").insert({
+    ls_event_id: mockId,
+    event_type: "mock_checkout",
+    payload: { plan_code: planCode, user_id: context.userId, mock: true },
+    user_id: context.userId,
+    processed_at: new Date().toISOString(),
+  });
+
+  return { checkoutUrl: "/billing?mock=success" };
+}
+
 /**
  * Creates a Lemon Squeezy checkout session for one of the 3 subscription
  * tiers. The `plans` table's price_tnd is the single source of truth for
@@ -31,7 +102,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     const apiKey = process.env.LEMONSQUEEZY_API_KEY;
     const storeId = process.env.LEMONSQUEEZY_STORE_ID;
     if (!apiKey || !storeId) {
-      throw new Error("Lemon Squeezy is not configured yet. Please contact support.");
+      return mockCheckoutSession(data.plan_code, context);
     }
 
     const variantId = VARIANT_ENV[data.plan_code];
