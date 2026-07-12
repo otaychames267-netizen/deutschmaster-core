@@ -70,3 +70,29 @@ Return ONLY this JSON (no markdown fences):
   "notes": string | null
 }`;
 }
+
+const NOTIFICATION_SOURCES = ["d17_app", "bank_sms", "bank_app", "screenshot_other", "unclear"] as const;
+const LANGUAGES = ["ar", "fr", "de", "en", "mixed", "unknown"] as const;
+
+/** Lenient/defaulting parse of Gemini's raw JSON response, matching the
+ * "never invent, null if unclear" philosophy: malformed or partial fields
+ * degrade to null/unclear/0 rather than throwing, so a garbled response
+ * still flows into the rule engine as a low-confidence input (correctly
+ * landing on manual_review) instead of crashing the whole request. */
+export function parseExtraction(raw: any): D17VerificationExtraction {
+  const clamp100 = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : 0);
+  return {
+    ocr_confidence: clamp100(raw?.ocr_confidence),
+    amount: typeof raw?.amount === "number" && Number.isFinite(raw.amount) ? raw.amount : null,
+    currency: typeof raw?.currency === "string" && raw.currency.trim() ? raw.currency.trim() : null,
+    payment_datetime: typeof raw?.payment_datetime === "string" && raw.payment_datetime.trim() ? raw.payment_datetime : null,
+    reference: typeof raw?.reference === "string" && raw.reference.trim() ? raw.reference.trim() : null,
+    notification_source: NOTIFICATION_SOURCES.includes(raw?.notification_source) ? raw.notification_source : "unclear",
+    language_detected: LANGUAGES.includes(raw?.language_detected) ? raw.language_detected : "unknown",
+    raw_text: typeof raw?.raw_text === "string" ? raw.raw_text : "",
+    fraud_score: clamp100(raw?.fraud_score),
+    fraud_flags: Array.isArray(raw?.fraud_flags) ? raw.fraud_flags.filter((f: unknown) => typeof f === "string") : [],
+    screenshot_integrity_ok: raw?.screenshot_integrity_ok !== false,
+    notes: typeof raw?.notes === "string" ? raw.notes : null,
+  };
+}

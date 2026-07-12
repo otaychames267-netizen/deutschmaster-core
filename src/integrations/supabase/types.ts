@@ -1399,6 +1399,240 @@ export type Database = {
         }
         Relationships: []
       }
+      d17_orders: {
+        Row: {
+          amount_tnd: number
+          attempts_used: number
+          created_at: string
+          currency: string
+          id: string
+          manual_review_deadline: string | null
+          plan_code: Database["public"]["Enums"]["plan_code"]
+          resolved_at: string | null
+          resolved_by: string | null
+          status: Database["public"]["Enums"]["d17_order_status"]
+          subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount_tnd: number
+          attempts_used?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          manual_review_deadline?: string | null
+          plan_code: Database["public"]["Enums"]["plan_code"]
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: Database["public"]["Enums"]["d17_order_status"]
+          subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount_tnd?: number
+          attempts_used?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          manual_review_deadline?: string | null
+          plan_code?: Database["public"]["Enums"]["plan_code"]
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: Database["public"]["Enums"]["d17_order_status"]
+          subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      d17_verification_attempts: {
+        Row: {
+          ai_confidence: number
+          ai_version: string
+          attempt_number: number
+          created_at: string
+          decision: Database["public"]["Enums"]["d17_attempt_decision"]
+          decision_reason: string
+          fraud_flags: Json
+          fraud_score: number | null
+          gemini_token_count: number | null
+          id: string
+          image_dhash: string
+          image_hash_sha256: string
+          ocr_amount: number | null
+          ocr_confidence: number | null
+          ocr_currency: string | null
+          ocr_language_detected: string | null
+          ocr_notification_source: Database["public"]["Enums"]["d17_notification_source"] | null
+          ocr_payment_datetime: string | null
+          ocr_raw_text: string | null
+          ocr_reference: string | null
+          ocr_text_hash_sha256: string | null
+          ocr_version: string
+          order_id: string
+          risk_score: number
+          rule_engine_result: Json
+          screenshot_integrity_ok: boolean | null
+          storage_path: string
+          user_entered_reference: string
+          user_id: string
+          verification_duration_ms: number | null
+        }
+        Insert: {
+          ai_confidence: number
+          ai_version: string
+          attempt_number: number
+          created_at?: string
+          decision: Database["public"]["Enums"]["d17_attempt_decision"]
+          decision_reason: string
+          fraud_flags?: Json
+          fraud_score?: number | null
+          gemini_token_count?: number | null
+          id?: string
+          image_dhash: string
+          image_hash_sha256: string
+          ocr_amount?: number | null
+          ocr_confidence?: number | null
+          ocr_currency?: string | null
+          ocr_language_detected?: string | null
+          ocr_notification_source?: Database["public"]["Enums"]["d17_notification_source"] | null
+          ocr_payment_datetime?: string | null
+          ocr_raw_text?: string | null
+          ocr_reference?: string | null
+          ocr_text_hash_sha256?: string | null
+          ocr_version?: string
+          order_id: string
+          risk_score: number
+          rule_engine_result: Json
+          screenshot_integrity_ok?: boolean | null
+          storage_path: string
+          user_entered_reference: string
+          user_id: string
+          verification_duration_ms?: number | null
+        }
+        Update: {
+          ai_confidence?: number
+          ai_version?: string
+          attempt_number?: number
+          created_at?: string
+          decision?: Database["public"]["Enums"]["d17_attempt_decision"]
+          decision_reason?: string
+          fraud_flags?: Json
+          fraud_score?: number | null
+          gemini_token_count?: number | null
+          id?: string
+          image_dhash?: string
+          image_hash_sha256?: string
+          ocr_amount?: number | null
+          ocr_confidence?: number | null
+          ocr_currency?: string | null
+          ocr_language_detected?: string | null
+          ocr_notification_source?: Database["public"]["Enums"]["d17_notification_source"] | null
+          ocr_payment_datetime?: string | null
+          ocr_raw_text?: string | null
+          ocr_reference?: string | null
+          ocr_text_hash_sha256?: string | null
+          ocr_version?: string
+          order_id?: string
+          risk_score?: number
+          rule_engine_result?: Json
+          screenshot_integrity_ok?: boolean | null
+          storage_path?: string
+          user_entered_reference?: string
+          user_id?: string
+          verification_duration_ms?: number | null
+        }
+        Relationships: []
+      }
+      d17_admin_actions: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string
+          granted_credits_override: number | null
+          granted_minutes_override: number | null
+          id: string
+          note: string | null
+          order_id: string
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string
+          granted_credits_override?: number | null
+          granted_minutes_override?: number | null
+          id?: string
+          note?: string | null
+          order_id: string
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string
+          granted_credits_override?: number | null
+          granted_minutes_override?: number | null
+          id?: string
+          note?: string | null
+          order_id?: string
+        }
+        Relationships: []
+      }
+      platform_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      d17_alerts: {
+        Row: {
+          category: string
+          created_at: string
+          email_sent: boolean
+          id: string
+          message: string
+          metadata: Json
+          severity: string
+          telegram_sent: boolean
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          email_sent?: boolean
+          id?: string
+          message: string
+          metadata?: Json
+          severity: string
+          telegram_sent?: boolean
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          email_sent?: boolean
+          id?: string
+          message?: string
+          metadata?: Json
+          severity?: string
+          telegram_sent?: boolean
+        }
+        Relationships: []
+      }
       lesen_exercises: {
         Row: {
           created_at: string
@@ -3773,6 +4007,11 @@ export type Database = {
       generate_referral_code: { Args: { _user_id: string }; Returns: string }
       get_my_credit_balance: { Args: never; Returns: number }
       get_today_api_usage: { Args: never; Returns: number }
+      get_platform_setting: { Args: { p_key: string }; Returns: Json }
+      set_platform_setting: {
+        Args: { p_admin_id: string; p_key: string; p_value: Json }
+        Returns: undefined
+      }
       is_webhook_locked: { Args: { p_scope_key: string }; Returns: boolean }
       provision_essay_credits: {
         Args: { p_amount: number; p_reason?: string; p_user_id: string }
@@ -3936,6 +4175,25 @@ export type Database = {
         | "speaking_prompt"
       payment_status: "pending" | "succeeded" | "failed" | "refunded"
       plan_code: "schriftlich" | "muendlich" | "premium" | "komplett"
+      d17_order_status:
+        | "awaiting_payment"
+        | "under_review"
+        | "auto_approved"
+        | "manual_review"
+        | "admin_approved"
+        | "rejected"
+        | "expired"
+      d17_attempt_decision:
+        | "auto_approved"
+        | "manual_review"
+        | "auto_rejected_duplicate"
+        | "auto_rejected_fraud"
+      d17_notification_source:
+        | "d17_app"
+        | "bank_sms"
+        | "bank_app"
+        | "screenshot_other"
+        | "unclear"
       referral_status: "pending" | "converted" | "rejected"
       subscription_status:
         | "trial"
