@@ -23,12 +23,18 @@ const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
  * src/lib/grading/essay-grader-gemini.ts, which needs the same token count
  * for the same reason and is the closer precedent for a budget-tracked call.
  */
-async function callGeminiVerification(prompt: string, imageBase64: string): Promise<{ raw: any; tokenCount: number }> {
+async function callGeminiVerification(prompt: string, imageBase64_1: string, imageBase64_2: string): Promise<{ raw: any; tokenCount: number }> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY not set");
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
   const body = {
-    contents: [{ parts: [{ text: prompt }, { inline_data: { mime_type: "image/png", data: imageBase64 } }] }],
+    contents: [{
+      parts: [
+        { text: prompt },
+        { inline_data: { mime_type: "image/png", data: imageBase64_1 } },
+        { inline_data: { mime_type: "image/png", data: imageBase64_2 } },
+      ],
+    }],
     generationConfig: { temperature: 0, response_mime_type: "application/json", thinkingConfig: { thinkingBudget: 0 } },
   };
 
@@ -63,7 +69,7 @@ async function callGeminiVerification(prompt: string, imageBase64: string): Prom
  * (no maxDuration set anywhere today; the platform default of 10s/15s is too
  * short for a real Gemini call, hence the explicit override below).
  */
-export const maxDuration = 60;
+export const maxDuration = 90;
 
 const MAX_ATTEMPTS_PER_ORDER = 5;
 const HOURLY_SUBMISSION_LIMIT = Number(process.env.D17_HOURLY_SUBMISSION_LIMIT ?? 5);
@@ -76,6 +82,8 @@ const DUPLICATE_REASON_LABEL: Record<DuplicateMatchType, string> = {
   near_duplicate_image: "A near-identical screenshot has already been used on another order.",
   exact_ocr_text: "The text content of this screenshot matches a screenshot already used on another order.",
   cross_account_reference: "This transaction reference has already been used on another order.",
+  transaction_id_duplicate: "This Transaction ID has already been used on another order.",
+  authorization_number_duplicate: "This Authorization Number has already been used on another order.",
 };
 
 async function notifyAndEmail(
@@ -194,40 +202,59 @@ export async function runVerificationPipeline(
     const attemptNumber = order.attempts_used + 1;
     const userEmail = await getUserEmail(supabaseAdmin, userId);
 
-    const { data: fileBlob, error: downloadError } = await supabaseAdmin.storage
-      .from("payment-screenshots")
-      .download(data.storage_path);
-    if (downloadError || !fileBlob) throw new Error(`Could not read the uploaded screenshot: ${downloadError?.message ?? "not found"}`);
-    const originalBuffer = Buffer.from(await (fileBlob as Blob).arrayBuffer());
-    const cleanBuffer = await stripExifAndReencode(originalBuffer);
+    async function downloadAndHash(path: string) {
+      const { data: fileBlob, error: downloadError } = await supabaseAdmin.storage.from("payment-screenshots").download(path);
+      if (downloadError || !fileBlob) throw new Error(`Could not read the uploaded screenshot: ${downloadError?.message ?? "not found"}`);
+      const originalBuffer = Buffer.from(await (fileBlob as Blob).arrayBuffer());
+      const cleanBuffer = await stripExifAndReencode(originalBuffer);
+      return { cleanBuffer, hash: sha256Hash(cleanBuffer), dhash: await computeDHash(cleanBuffer) };
+    }
 
-    const imageHashSha256 = sha256Hash(cleanBuffer);
-    const imageDhash = await computeDHash(cleanBuffer);
+    const shot1 = await downloadAndHash(data.storage_path);
+    const shot2 = await downloadAndHash(data.storage_path_2);
+    const imageHashSha256 = shot1.hash;
+    const imageDhash = shot1.dhash;
+    const imageHashSha256_2 = shot2.hash;
+    const imageDhash_2 = shot2.dhash;
 
     const startedAt = Date.now();
 
+    const baseFinalizeParams = () => ({
+      order,
+      userId,
+      userEmail,
+      attemptNumber,
+      storagePath: data.storage_path,
+      storagePath2: data.storage_path_2,
+      userEnteredReference: reference,
+      imageHashSha256,
+      imageDhash,
+      imageHashSha256_2,
+      imageDhash_2,
+    });
+
     // ── Duplicate hard gate — evaluated before any Gemini call, so a hit
     // never costs budget. Applies regardless of the kill switch: reused
-    // screenshots are a mechanical fraud signal, not an "AI judgment".
+    // screenshots are a mechanical fraud signal, not an "AI judgment". Both
+    // screenshots are checked; OCR-derived fields (text hash, reference,
+    // transaction ID, authorization number) aren't known yet at this stage.
     const duplicate = await findDuplicate(supabaseAdmin, {
       orderId: order.id,
       imageHashSha256,
       imageDhash,
-      ocrTextHashSha256: null, // no OCR text yet at this stage — text-reuse is only checked once we have it, below
+      imageHashSha256_2,
+      imageDhash_2,
+      ocrTextHashSha256: null,
+      ocrTextHashSha256_2: null,
       reference: null,
+      transactionId: null,
+      authorizationNumber: null,
     });
     if (duplicate) {
       return finalizeAttempt(supabaseAdmin, {
-        order,
-        userId,
-        userEmail,
-        attemptNumber,
-        storagePath: data.storage_path,
-        storagePath2: data.storage_path_2,
-        userEnteredReference: reference,
-        imageHashSha256,
-        imageDhash,
+        ...baseFinalizeParams(),
         ocrTextHashSha256: null,
+        ocrTextHashSha256_2: null,
         extraction: null,
         decision: "auto_rejected_duplicate",
         decisionReason: DUPLICATE_REASON_LABEL[duplicate.type],
@@ -242,16 +269,9 @@ export async function runVerificationPipeline(
     const { data: killSwitch } = await supabaseAdmin.rpc("get_platform_setting", { p_key: "payment_verification_kill_switch" });
     if (killSwitch === true) {
       return finalizeAttempt(supabaseAdmin, {
-        order,
-        userId,
-        userEmail,
-        attemptNumber,
-        storagePath: data.storage_path,
-        storagePath2: data.storage_path_2,
-        userEnteredReference: reference,
-        imageHashSha256,
-        imageDhash,
+        ...baseFinalizeParams(),
         ocrTextHashSha256: null,
+        ocrTextHashSha256_2: null,
         extraction: null,
         decision: "manual_review",
         decisionReason: "Payment verification is temporarily in manual-only mode.",
@@ -265,16 +285,9 @@ export async function runVerificationPipeline(
 
     if (await isBudgetExceeded(supabaseAdmin)) {
       return finalizeAttempt(supabaseAdmin, {
-        order,
-        userId,
-        userEmail,
-        attemptNumber,
-        storagePath: data.storage_path,
-        storagePath2: data.storage_path_2,
-        userEnteredReference: reference,
-        imageHashSha256,
-        imageDhash,
+        ...baseFinalizeParams(),
         ocrTextHashSha256: null,
+        ocrTextHashSha256_2: null,
         extraction: null,
         decision: "manual_review",
         decisionReason: "Daily verification budget reached — routed to manual review.",
@@ -289,25 +302,19 @@ export async function runVerificationPipeline(
     let geminiTokenCount: number | null = null;
     let extraction;
     try {
-      const base64Image = cleanBuffer.toString("base64");
+      const base64Image1 = shot1.cleanBuffer.toString("base64");
+      const base64Image2 = shot2.cleanBuffer.toString("base64");
       const prompt = buildVerificationPrompt({ amountTnd: Number(order.amount_tnd), currency: order.currency, planCode: order.plan_code });
-      const { raw, tokenCount } = await callGeminiVerification(prompt, base64Image);
+      const { raw, tokenCount } = await callGeminiVerification(prompt, base64Image1, base64Image2);
       extraction = parseExtraction(raw);
       geminiTokenCount = tokenCount;
     } catch (err) {
       console.error("[d17/verify] Gemini call failed:", err);
       await alertGeminiFailure(supabaseAdmin, err);
       return finalizeAttempt(supabaseAdmin, {
-        order,
-        userId,
-        userEmail,
-        attemptNumber,
-        storagePath: data.storage_path,
-        storagePath2: data.storage_path_2,
-        userEnteredReference: reference,
-        imageHashSha256,
-        imageDhash,
+        ...baseFinalizeParams(),
         ocrTextHashSha256: null,
+        ocrTextHashSha256_2: null,
         extraction: null,
         decision: "manual_review",
         decisionReason: "Automated verification is temporarily unavailable — routed to manual review.",
@@ -325,29 +332,29 @@ export async function runVerificationPipeline(
     }
 
     const ocrTextHashSha256 = extraction.raw_text.trim() ? sha256HashText(extraction.raw_text) : null;
+    const ocrTextHashSha256_2 = extraction.screenshot2.raw_text.trim() ? sha256HashText(extraction.screenshot2.raw_text) : null;
 
-    // Second duplicate pass now that OCR text and reference are known —
-    // cheap, DB-only, catches exact-text-reuse / cross-account-reference
-    // cases the pre-Gemini pass couldn't check yet.
+    // Second duplicate pass now that OCR text/reference/transaction-ID/
+    // authorization-number are known — cheap, DB-only, catches exact-text-
+    // reuse / cross-account-reference / ID-reuse cases the pre-Gemini pass
+    // couldn't check yet.
     const postOcrDuplicate = await findDuplicate(supabaseAdmin, {
       orderId: order.id,
       imageHashSha256,
       imageDhash,
+      imageHashSha256_2,
+      imageDhash_2,
       ocrTextHashSha256,
+      ocrTextHashSha256_2,
       reference: extraction.reference,
+      transactionId: extraction.transaction_id,
+      authorizationNumber: extraction.authorization_number,
     });
     if (postOcrDuplicate) {
       return finalizeAttempt(supabaseAdmin, {
-        order,
-        userId,
-        userEmail,
-        attemptNumber,
-        storagePath: data.storage_path,
-        storagePath2: data.storage_path_2,
-        userEnteredReference: reference,
-        imageHashSha256,
-        imageDhash,
+        ...baseFinalizeParams(),
         ocrTextHashSha256,
+        ocrTextHashSha256_2,
         extraction,
         decision: "auto_rejected_duplicate",
         decisionReason: DUPLICATE_REASON_LABEL[postOcrDuplicate.type],
@@ -368,16 +375,9 @@ export async function runVerificationPipeline(
     });
 
     return finalizeAttempt(supabaseAdmin, {
-      order,
-      userId,
-      userEmail,
-      attemptNumber,
-      storagePath: data.storage_path,
-      storagePath2: data.storage_path_2,
-      userEnteredReference: reference,
-      imageHashSha256,
-      imageDhash,
+      ...baseFinalizeParams(),
       ocrTextHashSha256,
+      ocrTextHashSha256_2,
       extraction,
       decision: scored.decision,
       decisionReason: scored.decisionReason,
@@ -401,7 +401,10 @@ async function finalizeAttempt(
     userEnteredReference: string;
     imageHashSha256: string;
     imageDhash: bigint;
+    imageHashSha256_2: string;
+    imageDhash_2: bigint;
     ocrTextHashSha256: string | null;
+    ocrTextHashSha256_2: string | null;
     extraction: ReturnType<typeof parseExtraction> | null;
     decision: "auto_approved" | "manual_review" | "auto_rejected_duplicate" | "auto_rejected_fraud";
     decisionReason: string;
@@ -436,6 +439,19 @@ async function finalizeAttempt(
       image_hash_sha256: params.imageHashSha256,
       image_dhash: params.imageDhash.toString(),
       ocr_text_hash_sha256: params.ocrTextHashSha256,
+      image_hash_sha256_2: params.imageHashSha256_2,
+      image_dhash_2: params.imageDhash_2.toString(),
+      ocr_text_hash_sha256_2: params.ocrTextHashSha256_2,
+      ocr_amount_2: e?.screenshot2.amount ?? null,
+      ocr_currency_2: e?.screenshot2.currency ?? null,
+      ocr_payment_datetime_2: e?.screenshot2.payment_datetime ?? null,
+      ocr_destination_2: e?.screenshot2.destination ?? null,
+      ocr_destination_number: e?.destination_number ?? null,
+      ocr_destination_iban: e?.destination_iban ?? null,
+      ocr_transaction_id: e?.transaction_id ?? null,
+      ocr_authorization_number: e?.authorization_number ?? null,
+      cross_check_consistent: e?.cross_check.consistent ?? null,
+      cross_check_summary: e ? { consistent: e.cross_check.consistent, notes: e.cross_check.notes } : null,
       risk_score: params.riskScore,
       ai_confidence: params.aiConfidence,
       rule_engine_result: params.ruleEngineResult,
