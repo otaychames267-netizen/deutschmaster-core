@@ -6,6 +6,7 @@ import { buildVerificationPrompt, parseExtraction } from "./verification-prompt"
 import { scoreAttempt } from "./rule-engine";
 import { findDuplicate, type DuplicateMatchType } from "./duplicate-check.server";
 import { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode } from "./image-hash.server";
+import { alertGeminiFailure, checkHighRiskCluster, checkBudget80Percent } from "./alerting.server";
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
@@ -275,6 +276,7 @@ export async function runVerificationPipeline(
       geminiTokenCount = tokenCount;
     } catch (err) {
       console.error("[d17/verify] Gemini call failed:", err);
+      await alertGeminiFailure(supabaseAdmin, err);
       return finalizeAttempt(supabaseAdmin, {
         order,
         userId,
@@ -298,6 +300,7 @@ export async function runVerificationPipeline(
 
     if (geminiTokenCount) {
       await supabaseAdmin.rpc("record_api_usage", { p_tokens: geminiTokenCount });
+      await checkBudget80Percent(supabaseAdmin);
     }
 
     const ocrTextHashSha256 = extraction.raw_text.trim() ? sha256HashText(extraction.raw_text) : null;
@@ -478,6 +481,7 @@ async function finalizeAttempt(
       "We couldn't verify your AuraLingovia payment",
       "<p>We couldn't verify your payment screenshot. Please upload another payment notification, or contact support with your order ID.</p>",
     );
+    await checkHighRiskCluster(supabaseAdmin);
   }
 
   return attempt;

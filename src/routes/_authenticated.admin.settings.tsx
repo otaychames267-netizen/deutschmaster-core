@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Settings2, Globe, Bell, CreditCard, Shield, Save, CheckCircle2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Settings2, Globe, Bell, CreditCard, Shield, Save, CheckCircle2, AlertOctagon, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { setD17KillSwitch } from "@/lib/d17/platform-settings.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/admin/settings")({
   component: AdminSettingsPage,
@@ -8,6 +11,8 @@ export const Route = createFileRoute("/_authenticated/admin/settings")({
 
 function AdminSettingsPage() {
   const [saved, setSaved] = useState(false);
+  const [killSwitch, setKillSwitchState] = useState<boolean | null>(null);
+  const [killSwitchBusy, setKillSwitchBusy] = useState(false);
   const [form, setForm] = useState({
     platformName: "AuraLingovia",
     supportEmail: "support@auralingovia.com",
@@ -24,6 +29,27 @@ function AdminSettingsPage() {
   function handleSave() {
     setSaved(true);
     setTimeout(() => setSaved(false), 2500);
+  }
+
+  useEffect(() => {
+    supabase
+      .rpc("get_platform_setting", { p_key: "payment_verification_kill_switch" })
+      .then(({ data }) => setKillSwitchState(data === true));
+  }, []);
+
+  async function toggleKillSwitch() {
+    if (killSwitch === null || killSwitchBusy) return;
+    const next = !killSwitch;
+    setKillSwitchBusy(true);
+    try {
+      await setD17KillSwitch({ data: { enabled: next } });
+      setKillSwitchState(next);
+      toast.success(next ? "Kill switch enabled — all new D17 payments will go to manual review." : "Kill switch disabled — automated verification resumed.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update the kill switch.");
+    } finally {
+      setKillSwitchBusy(false);
+    }
   }
 
   function Field({ label, name, type = "text", disabled = false }: {
@@ -114,6 +140,34 @@ function AdminSettingsPage() {
 
       <Section icon={Bell} color="bg-amber-500/10 text-amber-500" title="Notifications">
         <Toggle label="Email notifications" name="emailNotifications" desc="Send system emails (welcome, renewal reminders, announcements)." />
+      </Section>
+
+      <Section icon={AlertOctagon} color="bg-red-500/10 text-red-500" title="D17 Payment Verification">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Emergency kill switch</p>
+            <p className="text-xs text-muted-foreground">
+              Bypasses AI verification entirely — every new D17 screenshot goes straight to manual review. Use this
+              if the Gemini service is down or misbehaving.
+            </p>
+          </div>
+          {killSwitch === null ? (
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          ) : (
+            <button
+              onClick={toggleKillSwitch}
+              disabled={killSwitchBusy}
+              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50 ${killSwitch ? "bg-red-500" : "bg-muted-foreground/30"}`}
+            >
+              <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${killSwitch ? "translate-x-5" : "translate-x-0.5"}`} />
+            </button>
+          )}
+        </div>
+        {killSwitch === true && (
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs font-semibold text-red-600 dark:text-red-400">
+            Kill switch is ON — all new D17 verification attempts are being routed to manual review.
+          </div>
+        )}
       </Section>
 
       <Section icon={Shield} color="bg-emerald-500/10 text-emerald-500" title="Security">
