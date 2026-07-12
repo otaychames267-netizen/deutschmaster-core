@@ -6,7 +6,7 @@ import { submitVerificationAttempt } from "@/lib/d17/verify.functions";
 import { buildScreenshotPath } from "@/lib/d17/storage-path";
 import { VerificationChecklist } from "@/components/d17/VerificationChecklist";
 import { toast } from "sonner";
-import { Upload, ImageIcon, ArrowLeft, Loader2, ShieldCheck, Clock } from "lucide-react";
+import { Upload, ImageIcon, ArrowLeft, Loader2, ShieldCheck, Clock, FlaskConical } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/d17/$orderId/verify")({
   component: D17VerifyPage,
@@ -30,7 +30,7 @@ const D17_PAYMENT_INSTRUCTIONS =
 
 function D17VerifyPage() {
   const { orderId } = useParams({ from: "/_authenticated/d17/$orderId/verify" });
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const nav = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -72,8 +72,18 @@ function D17VerifyPage() {
   }
 
   async function handleSubmit() {
-    if (!file || !user || !order) return;
-    if (reference.trim().length < 4) {
+    if (!file) return;
+    await submitFile(file, reference);
+  }
+
+  /**
+   * Takes explicit params rather than reading `file`/`reference` state so
+   * the admin-only fixture buttons (below) can trigger a submission
+   * immediately without waiting on a setState round trip.
+   */
+  async function submitFile(submitTarget: File, submitReference: string) {
+    if (!user || !order) return;
+    if (submitReference.trim().length < 4) {
       toast.error("Please enter at least the last 4 digits of the transaction reference.");
       return;
     }
@@ -87,12 +97,12 @@ function D17VerifyPage() {
       const storagePath = buildScreenshotPath(user.id, order.id, attemptNumber);
       const { error: uploadError } = await supabase.storage
         .from("payment-screenshots")
-        .upload(storagePath, file, { contentType: file.type, upsert: false });
+        .upload(storagePath, submitTarget, { contentType: submitTarget.type, upsert: false });
       if (uploadError) throw new Error(uploadError.message);
       setUploaded(true);
 
       const attempt = await submitVerificationAttempt({
-        data: { order_id: order.id, storage_path: storagePath, user_entered_reference: reference.trim() },
+        data: { order_id: order.id, storage_path: storagePath, user_entered_reference: submitReference.trim() },
       });
       setDone(true);
 
@@ -105,6 +115,13 @@ function D17VerifyPage() {
       setUploaded(false);
       setDone(false);
     }
+  }
+
+  async function handleUseFixture(name: "sample-pass" | "sample-duplicate" | "sample-mismatch") {
+    const res = await fetch(`/d17-test-fixtures/${name}.png`);
+    const blob = await res.blob();
+    const fixtureFile = new File([blob], `${name}.png`, { type: "image/png" });
+    await submitFile(fixtureFile, "482193");
   }
 
   if (loading) {
@@ -217,6 +234,29 @@ function D17VerifyPage() {
           >
             Submit for verification
           </button>
+
+          {isAdmin && (
+            <div className="rounded-xl border border-dashed border-violet-500/30 bg-violet-500/5 p-4">
+              <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-violet-600 dark:text-violet-400">
+                <FlaskConical className="h-3.5 w-3.5" /> Admin: test with a synthetic screenshot
+              </p>
+              <p className="mb-3 text-[11px] text-muted-foreground">
+                Runs the exact same pipeline unchanged — only the image is synthetic. "Pass" is baked for a
+                Schriftlich (30 TND) order.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button onClick={() => handleUseFixture("sample-pass")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+                  Use "pass" fixture
+                </button>
+                <button onClick={() => handleUseFixture("sample-duplicate")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+                  Use "duplicate" fixture
+                </button>
+                <button onClick={() => handleUseFixture("sample-mismatch")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+                  Use "mismatch" fixture
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div className="rounded-2xl border border-border bg-card p-6">
