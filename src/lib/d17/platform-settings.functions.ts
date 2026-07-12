@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { notifyTelegram } from "@/lib/notify/telegram.server";
+// notifyTelegram (a *.server.* module) is dynamically imported below rather
+// than statically here — see the equivalent comment in verify.functions.ts.
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
   const { data: isAdmin } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
@@ -26,6 +27,7 @@ export const setD17KillSwitch = createServerFn({ method: "POST" })
     });
     if (error) throw new Error(error.message);
 
+    const { notifyTelegram } = await import("@/lib/notify/telegram.server");
     const telegramSent = await notifyTelegram(
       `[INFO] kill_switch_toggled: D17 payment verification kill switch turned ${data.enabled ? "ON" : "OFF"}.`,
     );

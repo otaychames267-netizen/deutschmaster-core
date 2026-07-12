@@ -1,6 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { sendEmail } from "@/lib/notify/email.server";
+// sendEmail (a *.server.* module) is dynamically imported at each call site
+// rather than statically here — this file is imported by client route
+// components for its createServerFn RPC stubs, and TanStack Start's
+// import-protection plugin forbids any *.server.* module from being
+// reachable in the client bundle graph, even transitively.
 
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
 const RESOLVABLE_STATUSES = ["manual_review", "under_review", "rejected", "auto_approved", "admin_approved"];
@@ -80,6 +84,7 @@ export const adminApproveOrder = createServerFn({ method: "POST" })
       type: "success",
     });
     if (userEmail) {
+      const { sendEmail } = await import("@/lib/notify/email.server");
       await sendEmail({
         to: userEmail,
         subject: "Your AuraLingovia subscription is active",
@@ -115,6 +120,7 @@ export const adminRejectOrder = createServerFn({ method: "POST" })
       type: "error",
     });
     if (userEmail) {
+      const { sendEmail } = await import("@/lib/notify/email.server");
       await sendEmail({
         to: userEmail,
         subject: "We couldn't verify your AuraLingovia payment",
@@ -159,6 +165,7 @@ export const adminAdjustGrant = createServerFn({ method: "POST" })
       type: "success",
     });
     if (userEmail) {
+      const { sendEmail } = await import("@/lib/notify/email.server");
       await sendEmail({
         to: userEmail,
         subject: "Your AuraLingovia subscription was updated",

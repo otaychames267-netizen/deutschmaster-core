@@ -1,12 +1,18 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
-import { sendEmail } from "@/lib/notify/email.server";
 import { buildVerificationPrompt, parseExtraction } from "./verification-prompt";
 import { scoreAttempt } from "./rule-engine";
-import { findDuplicate, type DuplicateMatchType } from "./duplicate-check.server";
-import { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode } from "./image-hash.server";
-import { alertGeminiFailure, checkHighRiskCluster, checkBudget80Percent } from "./alerting.server";
+import type { DuplicateMatchType } from "./duplicate-check.server";
+
+// Every "*.server.*" module below is dynamically imported at each call site
+// rather than statically at the top of the file. This file is a
+// createServerFn module, which client route components import directly
+// (for the RPC stub) — TanStack Start's import-protection plugin forbids
+// any *.server.* file from being reachable in the client bundle graph, even
+// transitively. supabaseAdmin already followed this pattern from Phase 1;
+// this was missed for email/telegram/alerting/hashing/duplicate-check when
+// they were added in later phases, which broke the production build.
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
@@ -84,6 +90,7 @@ async function notifyAndEmail(
 ) {
   await supabaseAdmin.from("notifications").insert({ user_id: userId, title, body, type });
   if (email) {
+    const { sendEmail } = await import("@/lib/notify/email.server");
     await sendEmail({ to: email, subject: emailSubject, html: emailHtml });
   }
 }
@@ -150,6 +157,9 @@ export async function runVerificationPipeline(
     }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode } = await import("./image-hash.server");
+    const { findDuplicate } = await import("./duplicate-check.server");
+    const { alertGeminiFailure, checkBudget80Percent } = await import("./alerting.server");
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
@@ -481,6 +491,7 @@ async function finalizeAttempt(
       "We couldn't verify your AuraLingovia payment",
       "<p>We couldn't verify your payment screenshot. Please upload another payment notification, or contact support with your order ID.</p>",
     );
+    const { checkHighRiskCluster } = await import("./alerting.server");
     await checkHighRiskCluster(supabaseAdmin);
   }
 
