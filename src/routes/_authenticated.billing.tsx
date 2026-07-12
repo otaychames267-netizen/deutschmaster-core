@@ -1,14 +1,16 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/billing/checkout.functions";
+import { createD17Order } from "@/lib/d17/orders.functions";
 import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
   Check, Shield, Zap, Clock, RefreshCw,
   Crown, Calendar, TrendingUp, BookOpen,
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
+  Landmark, Sparkles,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/billing")({
@@ -100,9 +102,11 @@ function daysRemaining(expiresAt: string) {
 
 function BillingPage() {
   const { user } = useAuth();
+  const nav = useNavigate();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
+  const [d17Plan, setD17Plan] = useState<string | null>(null);
 
   async function handleSubscribe(planCode: "schriftlich" | "muendlich" | "komplett") {
     setCheckoutPlan(planCode);
@@ -112,6 +116,17 @@ function BillingPage() {
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start checkout. Please try again.");
       setCheckoutPlan(null);
+    }
+  }
+
+  async function handleD17(planCode: "schriftlich" | "muendlich" | "komplett") {
+    setD17Plan(planCode);
+    try {
+      const order = await createD17Order({ data: { plan_code: planCode } });
+      nav({ to: "/d17/$orderId/verify", params: { orderId: order.id } });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not start D17 payment. Please try again.");
+      setD17Plan(null);
     }
   }
 
@@ -304,19 +319,46 @@ function BillingPage() {
                     Current plan
                   </div>
                 ) : (
-                  <button
-                    onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
-                    disabled={checkoutPlan !== null}
-                    className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
-                  >
-                    {checkoutPlan === plan.code ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <CreditCard className="h-4 w-4" />
-                    )}
-                    {subscription ? "Switch plan" : "Subscribe"}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </button>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
+                      disabled={checkoutPlan !== null || d17Plan !== null}
+                      className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
+                    >
+                      {checkoutPlan === plan.code ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <Zap className="h-4 w-4" />
+                      )}
+                      {subscription ? "Switch plan" : "Subscribe"}
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </button>
+                    <p className="text-center text-[11px] font-medium text-muted-foreground">
+                      <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
+                      Recommended · Instant activation · Supports Carte Technologique & international cards
+                    </p>
+
+                    <div className="relative py-1 text-center">
+                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">or</span>
+                    </div>
+
+                    <button
+                      onClick={() => handleD17(plan.code as "schriftlich" | "muendlich" | "komplett")}
+                      disabled={checkoutPlan !== null || d17Plan !== null}
+                      title="Manual verification required. Processing time can take up to 8 working hours."
+                      className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                    >
+                      {d17Plan === plan.code ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : (
+                        <Landmark className="h-3.5 w-3.5" />
+                      )}
+                      Pay via D17 / Bank Transfer
+                    </button>
+                    <p className="flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
+                      <Clock className="h-3 w-3" /> Manual verification — up to 8 working hours
+                    </p>
+                  </div>
                 )}
               </div>
             );
@@ -355,7 +397,8 @@ function BillingPage() {
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Payments are processed securely by Lemon Squeezy. Your subscription activates automatically once payment completes.
+        Card payments are processed securely by Lemon Squeezy and activate instantly. D17 / bank-transfer payments
+        are verified manually and can take up to 8 working hours.
       </p>
     </div>
   );

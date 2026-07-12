@@ -74,6 +74,8 @@ import { Route as AuthenticatedLevelMuendlichRouteImport } from './routes/_authe
 import { Route as AuthenticatedLevelDashboardRouteImport } from './routes/_authenticated.$level.dashboard'
 import { Route as AuthenticatedLevelSchriftlichIndexRouteImport } from './routes/_authenticated.$level.schriftlich.index'
 import { Route as AuthenticatedLevelMuendlichIndexRouteImport } from './routes/_authenticated.$level.muendlich.index'
+import { Route as AuthenticatedD17OrderIdVerifyRouteImport } from './routes/_authenticated.d17.$orderId.verify'
+import { Route as AuthenticatedD17OrderIdStatusRouteImport } from './routes/_authenticated.d17.$orderId.status'
 import { Route as AuthenticatedAdminImportLesen3RouteImport } from './routes/_authenticated.admin.import.lesen-3'
 import { Route as AuthenticatedAdminImportLesen2RouteImport } from './routes/_authenticated.admin.import.lesen-2'
 import { Route as AuthenticatedAdminImportLesen1RouteImport } from './routes/_authenticated.admin.import.lesen-1'
@@ -451,6 +453,18 @@ const AuthenticatedLevelMuendlichIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedLevelMuendlichRoute,
   } as any)
+const AuthenticatedD17OrderIdVerifyRoute =
+  AuthenticatedD17OrderIdVerifyRouteImport.update({
+    id: '/d17/$orderId/verify',
+    path: '/d17/$orderId/verify',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedD17OrderIdStatusRoute =
+  AuthenticatedD17OrderIdStatusRouteImport.update({
+    id: '/d17/$orderId/status',
+    path: '/d17/$orderId/status',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedAdminImportLesen3Route =
   AuthenticatedAdminImportLesen3RouteImport.update({
     id: '/import/lesen-3',
@@ -674,6 +688,8 @@ export interface FileRoutesByFullPath {
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
+  '/d17/$orderId/status': typeof AuthenticatedD17OrderIdStatusRoute
+  '/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
@@ -759,6 +775,8 @@ export interface FileRoutesByTo {
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
+  '/d17/$orderId/status': typeof AuthenticatedD17OrderIdStatusRoute
+  '/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
@@ -851,6 +869,8 @@ export interface FileRoutesById {
   '/_authenticated/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/_authenticated/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/_authenticated/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
+  '/_authenticated/d17/$orderId/status': typeof AuthenticatedD17OrderIdStatusRoute
+  '/_authenticated/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/_authenticated/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/_authenticated/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/_authenticated/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
@@ -943,6 +963,8 @@ export interface FileRouteTypes {
     | '/admin/import/lesen-1'
     | '/admin/import/lesen-2'
     | '/admin/import/lesen-3'
+    | '/d17/$orderId/status'
+    | '/d17/$orderId/verify'
     | '/$level/muendlich/'
     | '/$level/schriftlich/'
     | '/$level/muendlich/vorbereitung/teil-1'
@@ -1028,6 +1050,8 @@ export interface FileRouteTypes {
     | '/admin/import/lesen-1'
     | '/admin/import/lesen-2'
     | '/admin/import/lesen-3'
+    | '/d17/$orderId/status'
+    | '/d17/$orderId/verify'
     | '/$level/muendlich'
     | '/$level/schriftlich'
     | '/$level/muendlich/vorbereitung/teil-1'
@@ -1119,6 +1143,8 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/import/lesen-1'
     | '/_authenticated/admin/import/lesen-2'
     | '/_authenticated/admin/import/lesen-3'
+    | '/_authenticated/d17/$orderId/status'
+    | '/_authenticated/d17/$orderId/verify'
     | '/_authenticated/$level/muendlich/'
     | '/_authenticated/$level/schriftlich/'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-1'
@@ -1611,6 +1637,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelMuendlichIndexRouteImport
       parentRoute: typeof AuthenticatedLevelMuendlichRoute
     }
+    '/_authenticated/d17/$orderId/verify': {
+      id: '/_authenticated/d17/$orderId/verify'
+      path: '/d17/$orderId/verify'
+      fullPath: '/d17/$orderId/verify'
+      preLoaderRoute: typeof AuthenticatedD17OrderIdVerifyRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/d17/$orderId/status': {
+      id: '/_authenticated/d17/$orderId/status'
+      path: '/d17/$orderId/status'
+      fullPath: '/d17/$orderId/status'
+      preLoaderRoute: typeof AuthenticatedD17OrderIdStatusRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/admin/import/lesen-3': {
       id: '/_authenticated/admin/import/lesen-3'
       path: '/import/lesen-3'
@@ -2024,6 +2064,8 @@ interface AuthenticatedRouteChildren {
   AuthenticatedVerifyEmailRoute: typeof AuthenticatedVerifyEmailRoute
   AuthenticatedWeeklyGoalsRoute: typeof AuthenticatedWeeklyGoalsRoute
   AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
+  AuthenticatedD17OrderIdStatusRoute: typeof AuthenticatedD17OrderIdStatusRoute
+  AuthenticatedD17OrderIdVerifyRoute: typeof AuthenticatedD17OrderIdVerifyRoute
   AuthenticatedPracticeLevelModuleTeilRoute: typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 
@@ -2048,6 +2090,8 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedVerifyEmailRoute: AuthenticatedVerifyEmailRoute,
   AuthenticatedWeeklyGoalsRoute: AuthenticatedWeeklyGoalsRoute,
   AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
+  AuthenticatedD17OrderIdStatusRoute: AuthenticatedD17OrderIdStatusRoute,
+  AuthenticatedD17OrderIdVerifyRoute: AuthenticatedD17OrderIdVerifyRoute,
   AuthenticatedPracticeLevelModuleTeilRoute:
     AuthenticatedPracticeLevelModuleTeilRoute,
 }
