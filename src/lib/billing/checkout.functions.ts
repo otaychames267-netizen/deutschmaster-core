@@ -98,26 +98,37 @@ async function mockCheckoutSession(planCode: PlanCode, context: { supabase: any;
 export const createCheckoutSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { plan_code: PlanCode }) => d)
-  .handler(async ({ data, context }) => {
+  .handler(async ({ data, context }) => createCheckoutSessionImpl(context.userId, data.plan_code));
+
+/**
+ * The actual logic, extracted from the createServerFn handler so it can be
+ * called directly — by a standalone test script, or by
+ * src/lib/billing/payment-provider.ts's LemonSqueezyProvider (Phase 7) —
+ * without needing TanStack Start's request/middleware context. Builds its
+ * own supabaseAdmin (service-role) client rather than relying on a
+ * request-scoped one, mirroring the exact pattern already established for
+ * src/lib/d17/orders.functions.ts's createD17OrderImpl.
+ */
+export async function createCheckoutSessionImpl(userId: string, planCode: PlanCode) {
     const apiKey = process.env.LEMONSQUEEZY_API_KEY;
     const storeId = process.env.LEMONSQUEEZY_STORE_ID;
-    if (!apiKey || !storeId) {
-      return mockCheckoutSession(data.plan_code, context);
-    }
-
-    const variantId = VARIANT_ENV[data.plan_code];
-    if (!variantId) {
-      throw new Error(`No Lemon Squeezy variant configured for plan "${data.plan_code}".`);
-    }
-
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    if (!apiKey || !storeId) {
+      return mockCheckoutSession(planCode, { supabase: supabaseAdmin, userId });
+    }
+
+    const variantId = VARIANT_ENV[planCode];
+    if (!variantId) {
+      throw new Error(`No Lemon Squeezy variant configured for plan "${planCode}".`);
+    }
+
     const { data: plan, error: planError } = await supabaseAdmin
       .from("plans")
       .select("price_tnd")
-      .eq("code", data.plan_code)
+      .eq("code", planCode)
       .single();
     if (planError || !plan) {
-      throw new Error(`Unknown plan "${data.plan_code}".`);
+      throw new Error(`Unknown plan "${planCode}".`);
     }
 
     const rate = Number(process.env.TND_TO_USD_RATE ?? "3.1");
@@ -137,7 +148,7 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
           attributes: {
             checkout_data: {
               custom_price: customPriceCents,
-              custom: { user_id: context.userId },
+              custom: { user_id: userId },
             },
           },
           relationships: {
@@ -161,4 +172,4 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
     }
 
     return { checkoutUrl };
-  });
+}
