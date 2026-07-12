@@ -65,7 +65,7 @@ async function callGeminiVerification(prompt: string, imageBase64: string): Prom
  */
 export const maxDuration = 60;
 
-const MAX_ATTEMPTS_PER_ORDER = 3;
+const MAX_ATTEMPTS_PER_ORDER = 5;
 const HOURLY_SUBMISSION_LIMIT = Number(process.env.D17_HOURLY_SUBMISSION_LIMIT ?? 5);
 const MANUAL_REVIEW_WINDOW_HOURS = 8;
 const ACTIVE_ORDER_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
@@ -133,7 +133,7 @@ async function provisionOrder(supabaseAdmin: any, userId: string, planCode: stri
 
 export const submitVerificationAttempt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { order_id: string; session_token: string; storage_path: string; user_entered_reference: string }) => d)
+  .inputValidator((d: { order_id: string; session_token: string; storage_path: string; storage_path_2: string; user_entered_reference: string }) => d)
   .handler(async ({ data, context }) => runVerificationPipeline(context.userId, data));
 
 /**
@@ -147,13 +147,13 @@ export const submitVerificationAttempt = createServerFn({ method: "POST" })
  */
 export async function runVerificationPipeline(
   userId: string,
-  data: { order_id: string; session_token: string; storage_path: string; user_entered_reference: string },
+  data: { order_id: string; session_token: string; storage_path: string; storage_path_2: string; user_entered_reference: string },
 ) {
     const reference = data.user_entered_reference.trim();
     if (reference.length < 4) {
-      throw new Error("Please enter at least the last 4 digits of the transaction reference.");
+      throw new Error("Please enter the Transaction ID / Authorization Number from your D17 confirmation.");
     }
-    if (!data.storage_path.startsWith(`${userId}/`)) {
+    if (!data.storage_path.startsWith(`${userId}/`) || !data.storage_path_2.startsWith(`${userId}/`)) {
       throw new Error("Invalid screenshot path.");
     }
 
@@ -179,7 +179,7 @@ export async function runVerificationPipeline(
       throw new Error(`This order is already ${order.status} and cannot accept new screenshots.`);
     }
     if (order.attempts_used >= MAX_ATTEMPTS_PER_ORDER) {
-      throw new Error("Maximum of 3 screenshot uploads reached for this order. Awaiting manual review.");
+      throw new Error("Maximum of 5 screenshot uploads reached for this order. Awaiting manual review.");
     }
 
     const { count: recentCount } = await supabaseAdmin
@@ -223,6 +223,7 @@ export async function runVerificationPipeline(
         userEmail,
         attemptNumber,
         storagePath: data.storage_path,
+        storagePath2: data.storage_path_2,
         userEnteredReference: reference,
         imageHashSha256,
         imageDhash,
@@ -246,6 +247,7 @@ export async function runVerificationPipeline(
         userEmail,
         attemptNumber,
         storagePath: data.storage_path,
+        storagePath2: data.storage_path_2,
         userEnteredReference: reference,
         imageHashSha256,
         imageDhash,
@@ -268,6 +270,7 @@ export async function runVerificationPipeline(
         userEmail,
         attemptNumber,
         storagePath: data.storage_path,
+        storagePath2: data.storage_path_2,
         userEnteredReference: reference,
         imageHashSha256,
         imageDhash,
@@ -300,6 +303,7 @@ export async function runVerificationPipeline(
         userEmail,
         attemptNumber,
         storagePath: data.storage_path,
+        storagePath2: data.storage_path_2,
         userEnteredReference: reference,
         imageHashSha256,
         imageDhash,
@@ -339,6 +343,7 @@ export async function runVerificationPipeline(
         userEmail,
         attemptNumber,
         storagePath: data.storage_path,
+        storagePath2: data.storage_path_2,
         userEnteredReference: reference,
         imageHashSha256,
         imageDhash,
@@ -368,6 +373,7 @@ export async function runVerificationPipeline(
       userEmail,
       attemptNumber,
       storagePath: data.storage_path,
+      storagePath2: data.storage_path_2,
       userEnteredReference: reference,
       imageHashSha256,
       imageDhash,
@@ -391,6 +397,7 @@ async function finalizeAttempt(
     userEmail: string | null;
     attemptNumber: number;
     storagePath: string;
+    storagePath2: string;
     userEnteredReference: string;
     imageHashSha256: string;
     imageDhash: bigint;
@@ -413,6 +420,7 @@ async function finalizeAttempt(
       user_id: params.userId,
       attempt_number: params.attemptNumber,
       storage_path: params.storagePath,
+      storage_path_2: params.storagePath2,
       user_entered_reference: params.userEnteredReference,
       ocr_raw_text: e?.raw_text ?? null,
       ocr_confidence: e?.ocr_confidence ?? null,

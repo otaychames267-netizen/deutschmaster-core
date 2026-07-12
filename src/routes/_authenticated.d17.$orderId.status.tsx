@@ -20,7 +20,7 @@ interface D17Order {
   manual_review_deadline: string | null;
 }
 
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 5;
 const SUPPORT_EMAIL = (import.meta.env.VITE_SUPPORT_EMAIL as string | undefined) ?? "support@auralingovia.com";
 
 function useCountdown(deadline: string | null) {

@@ -123,7 +123,7 @@ function BillingPage() {
     setD17Plan(planCode);
     try {
       const order = await createD17Order({ data: { plan_code: planCode } });
-      nav({ to: "/d17/$orderId/verify", params: { orderId: order.id } });
+      nav({ to: "/d17/$orderId", params: { orderId: order.id } });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start D17 payment. Please try again.");
       setD17Plan(null);
@@ -330,12 +330,12 @@ function BillingPage() {
                       ) : (
                         <Zap className="h-4 w-4" />
                       )}
-                      {subscription ? "Switch plan" : "Subscribe"}
+                      Pay Securely
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </button>
                     <p className="text-center text-[11px] font-medium text-muted-foreground">
                       <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
-                      Recommended · Instant activation · Supports Carte Technologique & international cards
+                      Recommended · Instant activation · Carte Technologique & international cards supported
                     </p>
 
                     <div className="relative py-1 text-center">
@@ -353,7 +353,7 @@ function BillingPage() {
                       ) : (
                         <Landmark className="h-3.5 w-3.5" />
                       )}
-                      Pay via D17 / Bank Transfer
+                      Manual Payment (D17 Mobile Transfer)
                     </button>
                     <p className="flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
                       <Clock className="h-3 w-3" /> Manual verification — up to 8 working hours

@@ -23,21 +23,20 @@ interface D17Order {
 }
 
 const ACTIVE_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
-const MAX_ATTEMPTS = 3;
+const MAX_ATTEMPTS = 5;
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
-const D17_PAYMENT_INSTRUCTIONS =
-  (import.meta.env.VITE_D17_PAYMENT_INSTRUCTIONS as string | undefined) ??
-  "Contact support for the current D17 number / bank transfer details for this payment.";
 
 function D17VerifyPage() {
   const { orderId } = useParams({ from: "/_authenticated/d17/$orderId/verify" });
   const { user, isAdmin } = useAuth();
   const nav = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef1 = useRef<HTMLInputElement>(null);
+  const fileInputRef2 = useRef<HTMLInputElement>(null);
 
   const [order, setOrder] = useState<D17Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const [file, setFile] = useState<File | null>(null);
+  const [file1, setFile1] = useState<File | null>(null);
+  const [file2, setFile2] = useState<File | null>(null);
   const [reference, setReference] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [uploaded, setUploaded] = useState(false);
@@ -58,38 +57,48 @@ function D17VerifyPage() {
       });
   }, [orderId]);
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0];
-    if (!f) return;
+  function validateFile(f: File): boolean {
     if (!["image/png", "image/jpeg", "image/webp"].includes(f.type)) {
       toast.error("Please upload a PNG, JPG, or WEBP screenshot.");
-      return;
+      return false;
     }
     if (f.size > MAX_FILE_BYTES) {
       toast.error("Screenshot must be under 10 MB.");
-      return;
+      return false;
     }
-    setFile(f);
+    return true;
+  }
+
+  function handleFileChange1(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    if (!f || !validateFile(f)) return;
+    setFile1(f);
+  }
+
+  function handleFileChange2(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0];
+    if (!f || !validateFile(f)) return;
+    setFile2(f);
   }
 
   async function handleSubmit() {
-    if (!file) return;
-    await submitFile(file, reference);
+    if (!file1 || !file2) return;
+    await submitFile(file1, file2, reference);
   }
 
   /**
-   * Takes explicit params rather than reading `file`/`reference` state so
-   * the admin-only fixture buttons (below) can trigger a submission
-   * immediately without waiting on a setState round trip.
+   * Takes explicit params rather than reading `file1`/`file2`/`reference`
+   * state so the admin-only fixture buttons (below) can trigger a
+   * submission immediately without waiting on a setState round trip.
    */
-  async function submitFile(submitTarget: File, submitReference: string) {
+  async function submitFile(submitTarget1: File, submitTarget2: File, submitReference: string) {
     if (!user || !order) return;
     if (!order.session_token) {
       toast.error("This order is missing a valid session. Please reload the page.");
       return;
     }
     if (submitReference.trim().length < 4) {
-      toast.error("Please enter at least the last 4 digits of the transaction reference.");
+      toast.error("Please enter the Transaction ID / Authorization Number from your D17 confirmation.");
       return;
     }
 
@@ -99,15 +108,26 @@ function D17VerifyPage() {
 
     try {
       const attemptNumber = order.attempts_used + 1;
-      const storagePath = buildScreenshotPath(user.id, order.id, attemptNumber);
+      const storagePath = buildScreenshotPath(user.id, order.id, attemptNumber, 1);
+      const storagePath2 = buildScreenshotPath(user.id, order.id, attemptNumber, 2);
       const { error: uploadError } = await supabase.storage
         .from("payment-screenshots")
-        .upload(storagePath, submitTarget, { contentType: submitTarget.type, upsert: false });
+        .upload(storagePath, submitTarget1, { contentType: submitTarget1.type, upsert: false });
       if (uploadError) throw new Error(uploadError.message);
+      const { error: uploadError2 } = await supabase.storage
+        .from("payment-screenshots")
+        .upload(storagePath2, submitTarget2, { contentType: submitTarget2.type, upsert: false });
+      if (uploadError2) throw new Error(uploadError2.message);
       setUploaded(true);
 
       const attempt = await submitVerificationAttempt({
-        data: { order_id: order.id, session_token: order.session_token!, storage_path: storagePath, user_entered_reference: submitReference.trim() },
+        data: {
+          order_id: order.id,
+          session_token: order.session_token!,
+          storage_path: storagePath,
+          storage_path_2: storagePath2,
+          user_entered_reference: submitReference.trim(),
+        },
       });
       setDone(true);
 
@@ -126,7 +146,9 @@ function D17VerifyPage() {
     const res = await fetch(`/d17-test-fixtures/${name}.png`);
     const blob = await res.blob();
     const fixtureFile = new File([blob], `${name}.png`, { type: "image/png" });
-    await submitFile(fixtureFile, "482193");
+    // Fixture pairs (distinct Screenshot 1 / Screenshot 2 images) are Phase 8
+    // scope — until then the same synthetic image is reused for both slots.
+    await submitFile(fixtureFile, fixtureFile, "482193");
   }
 
   if (loading) {
@@ -159,7 +181,7 @@ function D17VerifyPage() {
       <div>
         <h1 className="text-2xl font-black tracking-tight text-foreground">Payment Verification</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Upload a screenshot of your D17 or bank-transfer payment confirmation.
+          Upload both required screenshots from your D17 app to verify your transfer.
         </p>
       </div>
 
@@ -180,40 +202,71 @@ function D17VerifyPage() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-4 text-sm text-foreground">
-        <p className="font-semibold">How to pay</p>
-        <p className="mt-1 text-muted-foreground">{D17_PAYMENT_INSTRUCTIONS}</p>
-      </div>
-
       {!submitting ? (
         <div className="space-y-4">
           <div>
-            <label className="mb-2 block text-sm font-semibold text-foreground">Payment screenshot</label>
+            <label className="mb-2 block text-sm font-semibold text-foreground">
+              Screenshot 1 — "Payment Success" screen
+            </label>
+            <p className="mb-2 text-xs text-muted-foreground">
+              The D17 confirmation screen showing successful transfer, the official number, the exact amount, and the
+              Transaction Authorization Number.
+            </p>
             <button
               type="button"
-              onClick={() => fileInputRef.current?.click()}
+              onClick={() => fileInputRef1.current?.click()}
               className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-muted/30 px-6 py-8 text-center hover:border-primary/50 hover:bg-muted/50 transition-colors"
             >
-              {file ? (
+              {file1 ? (
                 <>
                   <ImageIcon className="h-8 w-8 text-emerald-500" />
-                  <span className="text-sm font-medium text-foreground">{file.name}</span>
+                  <span className="text-sm font-medium text-foreground">{file1.name}</span>
                   <span className="text-xs text-muted-foreground">Click to choose a different file</span>
                 </>
               ) : (
                 <>
                   <Upload className="h-8 w-8 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">Click to upload a screenshot</span>
+                  <span className="text-sm font-medium text-foreground">Click to upload Screenshot 1</span>
                   <span className="text-xs text-muted-foreground">PNG, JPG, or WEBP — up to 10 MB</span>
                 </>
               )}
             </button>
-            <input ref={fileInputRef} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={handleFileChange} />
+            <input ref={fileInputRef1} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={handleFileChange1} />
           </div>
 
           <div>
             <label className="mb-2 block text-sm font-semibold text-foreground">
-              Transaction reference (Réf) — last 4-6 digits
+              Screenshot 2 — D17 Transaction History / Journal D17
+            </label>
+            <p className="mb-2 text-xs text-muted-foreground">
+              The D17 app's transaction history entry showing the date, time, official number, amount, and
+              Authorization Number.
+            </p>
+            <button
+              type="button"
+              onClick={() => fileInputRef2.current?.click()}
+              className="flex w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border bg-muted/30 px-6 py-8 text-center hover:border-primary/50 hover:bg-muted/50 transition-colors"
+            >
+              {file2 ? (
+                <>
+                  <ImageIcon className="h-8 w-8 text-emerald-500" />
+                  <span className="text-sm font-medium text-foreground">{file2.name}</span>
+                  <span className="text-xs text-muted-foreground">Click to choose a different file</span>
+                </>
+              ) : (
+                <>
+                  <Upload className="h-8 w-8 text-muted-foreground" />
+                  <span className="text-sm font-medium text-foreground">Click to upload Screenshot 2</span>
+                  <span className="text-xs text-muted-foreground">PNG, JPG, or WEBP — up to 10 MB</span>
+                </>
+              )}
+            </button>
+            <input ref={fileInputRef2} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={handleFileChange2} />
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-semibold text-foreground">
+              Transaction ID / Authorization Number (Numéro d'autorisation)
             </label>
             <input
               type="text"
@@ -234,7 +287,7 @@ function D17VerifyPage() {
 
           <button
             onClick={handleSubmit}
-            disabled={!file || reference.trim().length < 4}
+            disabled={!file1 || !file2 || reference.trim().length < 4}
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
           >
             Submit for verification

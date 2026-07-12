@@ -72,6 +72,7 @@ import { Route as AuthenticatedLevelSearchRouteImport } from './routes/_authenti
 import { Route as AuthenticatedLevelSchriftlichRouteImport } from './routes/_authenticated.$level.schriftlich'
 import { Route as AuthenticatedLevelMuendlichRouteImport } from './routes/_authenticated.$level.muendlich'
 import { Route as AuthenticatedLevelDashboardRouteImport } from './routes/_authenticated.$level.dashboard'
+import { Route as AuthenticatedD17OrderIdIndexRouteImport } from './routes/_authenticated.d17.$orderId.index'
 import { Route as AuthenticatedLevelSchriftlichIndexRouteImport } from './routes/_authenticated.$level.schriftlich.index'
 import { Route as AuthenticatedLevelMuendlichIndexRouteImport } from './routes/_authenticated.$level.muendlich.index'
 import { Route as AuthenticatedD17OrderIdVerifyRouteImport } from './routes/_authenticated.d17.$orderId.verify'
@@ -442,6 +443,12 @@ const AuthenticatedLevelDashboardRoute =
     path: '/dashboard',
     getParentRoute: () => AuthenticatedLevelRoute,
   } as any)
+const AuthenticatedD17OrderIdIndexRoute =
+  AuthenticatedD17OrderIdIndexRouteImport.update({
+    id: '/d17/$orderId/',
+    path: '/d17/$orderId/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedLevelSchriftlichIndexRoute =
   AuthenticatedLevelSchriftlichIndexRouteImport.update({
     id: '/',
@@ -700,6 +707,7 @@ export interface FileRoutesByFullPath {
   '/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
+  '/d17/$orderId/': typeof AuthenticatedD17OrderIdIndexRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
@@ -788,6 +796,7 @@ export interface FileRoutesByTo {
   '/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichIndexRoute
+  '/d17/$orderId': typeof AuthenticatedD17OrderIdIndexRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
@@ -883,6 +892,7 @@ export interface FileRoutesById {
   '/_authenticated/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/_authenticated/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/_authenticated/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
+  '/_authenticated/d17/$orderId/': typeof AuthenticatedD17OrderIdIndexRoute
   '/_authenticated/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
@@ -978,6 +988,7 @@ export interface FileRouteTypes {
     | '/d17/$orderId/verify'
     | '/$level/muendlich/'
     | '/$level/schriftlich/'
+    | '/d17/$orderId/'
     | '/$level/muendlich/vorbereitung/teil-1'
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
@@ -1066,6 +1077,7 @@ export interface FileRouteTypes {
     | '/d17/$orderId/verify'
     | '/$level/muendlich'
     | '/$level/schriftlich'
+    | '/d17/$orderId'
     | '/$level/muendlich/vorbereitung/teil-1'
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
@@ -1160,6 +1172,7 @@ export interface FileRouteTypes {
     | '/_authenticated/d17/$orderId/verify'
     | '/_authenticated/$level/muendlich/'
     | '/_authenticated/$level/schriftlich/'
+    | '/_authenticated/d17/$orderId/'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-1'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-2'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-3'
@@ -1636,6 +1649,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelDashboardRouteImport
       parentRoute: typeof AuthenticatedLevelRoute
     }
+    '/_authenticated/d17/$orderId/': {
+      id: '/_authenticated/d17/$orderId/'
+      path: '/d17/$orderId'
+      fullPath: '/d17/$orderId/'
+      preLoaderRoute: typeof AuthenticatedD17OrderIdIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/$level/schriftlich/': {
       id: '/_authenticated/$level/schriftlich/'
       path: '/'
@@ -2088,6 +2108,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
   AuthenticatedD17OrderIdStatusRoute: typeof AuthenticatedD17OrderIdStatusRoute
   AuthenticatedD17OrderIdVerifyRoute: typeof AuthenticatedD17OrderIdVerifyRoute
+  AuthenticatedD17OrderIdIndexRoute: typeof AuthenticatedD17OrderIdIndexRoute
   AuthenticatedPracticeLevelModuleTeilRoute: typeof AuthenticatedPracticeLevelModuleTeilRoute
 }
 
@@ -2114,6 +2135,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
   AuthenticatedD17OrderIdStatusRoute: AuthenticatedD17OrderIdStatusRoute,
   AuthenticatedD17OrderIdVerifyRoute: AuthenticatedD17OrderIdVerifyRoute,
+  AuthenticatedD17OrderIdIndexRoute: AuthenticatedD17OrderIdIndexRoute,
   AuthenticatedPracticeLevelModuleTeilRoute:
     AuthenticatedPracticeLevelModuleTeilRoute,
 }
