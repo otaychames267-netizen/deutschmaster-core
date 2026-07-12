@@ -81,6 +81,7 @@ import { Route as AuthenticatedAdminImportLesen2RouteImport } from './routes/_au
 import { Route as AuthenticatedAdminImportLesen1RouteImport } from './routes/_authenticated.admin.import.lesen-1'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
+import { Route as AuthenticatedAdminD17OrderIdRouteImport } from './routes/_authenticated.admin.d17.$orderId'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung'
 import { Route as AuthenticatedLevelSchriftlichPruefungRouteImport } from './routes/_authenticated.$level.schriftlich.pruefung'
 import { Route as AuthenticatedLevelMuendlichVorbereitungRouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung'
@@ -495,6 +496,12 @@ const AuthenticatedAdminExercisesIdRoute =
     path: '/$id',
     getParentRoute: () => AuthenticatedAdminExercisesRoute,
   } as any)
+const AuthenticatedAdminD17OrderIdRoute =
+  AuthenticatedAdminD17OrderIdRouteImport.update({
+    id: '/d17/$orderId',
+    path: '/d17/$orderId',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedLevelSchriftlichVorbereitungRoute =
   AuthenticatedLevelSchriftlichVorbereitungRouteImport.update({
     id: '/vorbereitung',
@@ -683,6 +690,7 @@ export interface FileRoutesByFullPath {
   '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
   '/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
   '/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren
+  '/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
@@ -770,6 +778,7 @@ export interface FileRoutesByTo {
   '/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
   '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
   '/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
+  '/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
@@ -864,6 +873,7 @@ export interface FileRoutesById {
   '/_authenticated/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
   '/_authenticated/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
   '/_authenticated/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungRouteWithChildren
+  '/_authenticated/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
   '/_authenticated/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
@@ -958,6 +968,7 @@ export interface FileRouteTypes {
     | '/$level/muendlich/vorbereitung'
     | '/$level/schriftlich/pruefung'
     | '/$level/schriftlich/vorbereitung'
+    | '/admin/d17/$orderId'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
     | '/admin/import/lesen-1'
@@ -1045,6 +1056,7 @@ export interface FileRouteTypes {
     | '/$level/muendlich/pruefung'
     | '/$level/muendlich/vorbereitung'
     | '/$level/schriftlich/pruefung'
+    | '/admin/d17/$orderId'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
     | '/admin/import/lesen-1'
@@ -1138,6 +1150,7 @@ export interface FileRouteTypes {
     | '/_authenticated/$level/muendlich/vorbereitung'
     | '/_authenticated/$level/schriftlich/pruefung'
     | '/_authenticated/$level/schriftlich/vorbereitung'
+    | '/_authenticated/admin/d17/$orderId'
     | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
     | '/_authenticated/admin/import/lesen-1'
@@ -1686,6 +1699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminExercisesIdRouteImport
       parentRoute: typeof AuthenticatedAdminExercisesRoute
     }
+    '/_authenticated/admin/d17/$orderId': {
+      id: '/_authenticated/admin/d17/$orderId'
+      path: '/d17/$orderId'
+      fullPath: '/admin/d17/$orderId'
+      preLoaderRoute: typeof AuthenticatedAdminD17OrderIdRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/$level/schriftlich/vorbereitung': {
       id: '/_authenticated/$level/schriftlich/vorbereitung'
       path: '/vorbereitung'
@@ -1990,6 +2010,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminSubscriptionsRoute: typeof AuthenticatedAdminSubscriptionsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+  AuthenticatedAdminD17OrderIdRoute: typeof AuthenticatedAdminD17OrderIdRoute
   AuthenticatedAdminImportLesen1Route: typeof AuthenticatedAdminImportLesen1Route
   AuthenticatedAdminImportLesen2Route: typeof AuthenticatedAdminImportLesen2Route
   AuthenticatedAdminImportLesen3Route: typeof AuthenticatedAdminImportLesen3Route
@@ -2022,6 +2043,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminSubscriptionsRoute: AuthenticatedAdminSubscriptionsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+  AuthenticatedAdminD17OrderIdRoute: AuthenticatedAdminD17OrderIdRoute,
   AuthenticatedAdminImportLesen1Route: AuthenticatedAdminImportLesen1Route,
   AuthenticatedAdminImportLesen2Route: AuthenticatedAdminImportLesen2Route,
   AuthenticatedAdminImportLesen3Route: AuthenticatedAdminImportLesen3Route,

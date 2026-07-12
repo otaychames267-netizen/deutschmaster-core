@@ -254,30 +254,22 @@ function SearchModal({ onClose }: { onClose: () => void }) {
 }
 
 /* ─── Notification dropdown ─────────────────────────────────────── */
-const NOTIF_ICONS = {
+const NOTIF_ICONS: Record<string, { icon: typeof CheckCircle2; bg: string; text: string }> = {
   success: { icon: CheckCircle2, bg: "bg-emerald-500/10", text: "text-emerald-500" },
   warning: { icon: AlertCircle,  bg: "bg-amber-500/10",   text: "text-amber-500"   },
+  error:   { icon: AlertCircle,  bg: "bg-red-500/10",     text: "text-red-500"     },
   info:    { icon: Info,          bg: "bg-blue-500/10",    text: "text-blue-500"    },
   system:  { icon: Zap,           bg: "bg-primary/10",     text: "text-primary"     },
+  trial:   { icon: Zap,           bg: "bg-primary/10",     text: "text-primary"     },
 };
+const DEFAULT_NOTIF_ICON = NOTIF_ICONS.info;
 
 interface Notif {
   id: string;
-  type: "success" | "warning" | "info" | "system";
+  type: string;
   title: string;
   body: string;
   read: boolean;
-}
-
-function buildNotifications(sub: { status: string; expires_at: string } | null): Notif[] {
-  const items: Notif[] = [
-    { id: "welcome", type: "success", title: "Welcome to AuraLingovia", body: "Start practising to boost your TELC score.", read: false },
-  ];
-  if (sub?.status === "trial") {
-    const days = Math.ceil((new Date(sub.expires_at).getTime() - Date.now()) / 86400000);
-    items.push({ id: "trial", type: "warning", title: "Trial ending soon", body: `Your free trial expires in ${days} day${days !== 1 ? "s" : ""}.`, read: false });
-  }
-  return items;
 }
 
 /* ─── User avatar ───────────────────────────────────────────────── */
@@ -334,20 +326,30 @@ export function AppHeader() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Load notifications
+  // Load real notifications from the notifications table.
   const loadNotifications = useCallback(async () => {
     if (notifsLoaded || !user) return;
-    const { data } = await supabase.from("subscriptions")
-      .select("status, expires_at").eq("user_id", user.id)
-      .in("status", ["active", "trial"]).limit(1).maybeSingle();
-    setNotifications(buildNotifications(data));
+    const { data } = await supabase
+      .from("notifications")
+      .select("id, type, title, body, read")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(20);
+    setNotifications(data ?? []);
     setNotifsLoaded(true);
   }, [user, notifsLoaded]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  function markAllRead() {
+  async function markAllRead() {
+    if (!user) return;
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    await supabase.from("notifications").update({ read: true }).eq("user_id", user.id).eq("read", false);
+  }
+
+  async function markOneRead(id: string) {
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    await supabase.from("notifications").update({ read: true }).eq("id", id);
   }
 
   return (
@@ -475,10 +477,12 @@ export function AppHeader() {
                   </div>
                 ) : (
                   notifications.map((n) => {
-                    const cfg = NOTIF_ICONS[n.type];
+                    const cfg = NOTIF_ICONS[n.type] ?? DEFAULT_NOTIF_ICON;
                     return (
-                      <div key={n.id}
-                        className={`flex items-start gap-3 border-b border-border px-4 py-3 transition-colors last:border-0 ${n.read ? "opacity-60" : ""}`}>
+                      <button
+                        key={n.id}
+                        onClick={() => !n.read && markOneRead(n.id)}
+                        className={`flex w-full items-start gap-3 border-b border-border px-4 py-3 text-left transition-colors last:border-0 hover:bg-muted/40 ${n.read ? "opacity-60" : ""}`}>
                         <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${cfg.bg}`}>
                           <cfg.icon className={`h-3.5 w-3.5 ${cfg.text}`} />
                         </div>
@@ -487,7 +491,7 @@ export function AppHeader() {
                           <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{n.body}</p>
                         </div>
                         {!n.read && <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />}
-                      </div>
+                      </button>
                     );
                   })
                 )}
