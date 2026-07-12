@@ -6,6 +6,77 @@ via D17 or bank transfer and uploading a screenshot as proof. It is designed
 to be retired once a real D17 API/webhook exists — see "Future migration"
 in the implementation plan for what changes vs. stays the same.
 
+## v2 enterprise expansion (2026-07)
+
+The original 8-phase build (below) was substantially hardened in a second
+pass. Summary of what changed and why, for institutional memory:
+
+- **Two required screenshots** — "Payment Success" and "Transaction
+  History/Journal D17" — analyzed in a single combined Gemini call (cheaper
+  against the shared daily budget than two separate calls, and lets the
+  model reason about cross-consistency in-context). The rule engine
+  independently re-derives consistency via direct field comparison
+  (`cross_screenshot_consistency` check) rather than trusting the model's
+  own `cross_check.consistent` self-report — same "AI is advisory, rule
+  engine decides" discipline as every other check.
+- **Order lifecycle hardening**: cryptographically random per-order session
+  tokens (rejected on mismatch — reload the payment page to get a fresh
+  one), a DB-enforced one-active-order-per-user partial unique index, 24h
+  lazy expiry (checked at the two request paths that matter — no cron
+  exists in this app), and the attempt cap raised from 3 to 5.
+- **Destination verification**: the order snapshots `D17_OFFICIAL_NUMBER`/
+  `D17_OFFICIAL_IBAN` at creation time; the rule engine's `destination_match`
+  check compares the OCR'd destination against that snapshot, not the live
+  env var — so a value changed after an order was created doesn't retroactively
+  affect its own past attempts.
+- **Escalating anti-fraud suspension**: a "confirmed duplicate" (any of six
+  `DuplicateMatchType` variants — image hash, near-duplicate, OCR text,
+  reference, Transaction ID, or Authorization Number reuse) escalates a
+  per-user row in `d17_fraud_suspensions`: 1st → 1h suspension, 2nd → 24h,
+  3rd+ → account locked pending admin review. Locked accounts have **no
+  automatic unlock** by design — use the "Fraud / suspension status" panel
+  on the order detail page (Clear suspension button). The historical
+  `confirmed_duplicate_count` is never reset by clearing, only the active
+  consequence.
+- **Reputation & velocity signals**: capped ±10/±15 rule-engine inputs
+  (prior clean approvals vs. prior confirmed duplicates; recent submission
+  volume; device-fingerprint sharing across accounts) — deliberately
+  low-influence, never a hard gate alone.
+- **Fingerprinting is honestly weak, by design**: `device_fingerprint` is a
+  `localStorage` UUID (`src/lib/d17/client-fingerprint.ts`), trivially reset
+  by clearing browser storage. `browser_fingerprint` is a coarse hash of
+  user-agent/language/timezone/screen-resolution — survives a storage
+  clear, but is shared by every identical device/OS/browser combination, so
+  it's far from unique. No canvas/WebGL fingerprinting library is installed
+  (nor should one be added for a system explicitly described as temporary).
+  `ip_address` — captured server-side from `x-forwarded-for`, not the
+  dormant `session-tracking.ts` precedent's client-side ipify.org call — is
+  the stronger, though still not unbeatable, signal. All three are
+  capped-influence inputs to `velocity_signal`/reputation, never hard
+  gates.
+- **Provider Pattern (`src/lib/billing/payment-provider.ts`)**: an
+  **additive facade only** — `LemonSqueezyProvider`/`D17ManualProvider` are
+  thin wrappers around the existing, unchanged checkout/order logic;
+  `D17ApiProvider` is a placeholder that throws "not yet available". The
+  live billing page still calls `createCheckoutSession`/`createD17Order`
+  directly — nothing in the live request path was rerouted. When the real
+  D17 API/webhook arrives, only `D17ManualProvider` needs swapping for
+  `D17ApiProvider`; no other part of the system (activation, unlocking,
+  fraud detection, admin dashboard, reports, audit logs, UX) changes.
+- **Explicitly NOT built**, with reasoning (all independently reviewed, not
+  silently dropped): a literal async job queue ("designed for thousands of
+  users") — this app has zero queue/Redis/cron infrastructure, so the
+  pipeline stays a staged, individually-testable synchronous function
+  instead of distributed job infra; scheduled encrypted backups — Supabase
+  PITR is a paid dashboard toggle the project owner must enable themselves,
+  not something application code can turn on; continuous 24/7 health
+  monitoring — the existing reactive `alerting.server.ts` (fires on real
+  failures during actual requests) was extended rather than building a
+  polling daemon; cryptographic tamper-proof audit-log hash-chaining —
+  app-level immutability (service-role-only writes, no UPDATE/DELETE
+  policy) was judged proportionate for a system explicitly designed to be
+  retired once the real D17 API exists.
+
 ## Emergency kill switch
 
 **When to use it:** the Gemini API is down, returning errors, or producing
@@ -51,10 +122,14 @@ activate a subscription with no order at all.
   log for that order.
 - **Admin → Reports** (`/admin/reports`): the "D17 Verification Report"
   card — date-ranged Auto Approved / Manual Review / Rejected / Duplicate /
-  Fraud counts, average verification time, approval/rejection rates, CSV
-  export. The "D17 Reconciliation" card below it flags approved orders with
-  a missing or mismatched subscription (internal-consistency only — there
-  is no bank-statement feed in this app to check against real deposits).
+  Fraud counts, average verification time, approval/rejection rates,
+  cross-screenshot inconsistency count/rate (v2 — how often the two
+  uploaded screenshots disagreed on amount/currency/date/destination), and
+  currently-suspended/locked account counts (v2 — a live snapshot, not
+  date-ranged), plus CSV export. The "D17 Reconciliation" card below it
+  flags approved orders with a missing or mismatched subscription
+  (internal-consistency only — there is no bank-statement feed in this app
+  to check against real deposits).
 - **`d17_alerts` table**: every Gemini failure, high-risk cluster (5+
   rejections/hour), budget-80%-warning, and kill-switch toggle, with
   whether the Telegram/email push actually succeeded. Query directly via
@@ -95,4 +170,9 @@ full list and inline comments: `RESEND_API_KEY` / `RESEND_FROM_EMAIL`
 (payment status + alert emails), `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`
 (operational alerts), `ADMIN_ALERT_EMAIL` (optional extra alert
 destination), `DHASH_DUPLICATE_THRESHOLD`, `D17_HOURLY_SUBMISSION_LIMIT`,
-`VITE_D17_PAYMENT_INSTRUCTIONS`, `VITE_SUPPORT_EMAIL`.
+`VITE_SUPPORT_EMAIL`. `D17_OFFICIAL_NUMBER` / `D17_OFFICIAL_IBAN` (v2) are
+the official D17 phone number/IBAN shown to students on the payment details
+page — read server-side only and snapshotted onto each order at creation
+time (so a later change never retroactively affects past orders' own
+`destination_match` checks); unset shows a "not yet configured, contact
+support" fallback on the payment page instead of blocking it.

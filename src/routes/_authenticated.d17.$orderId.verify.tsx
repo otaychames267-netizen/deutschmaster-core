@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { submitVerificationAttempt } from "@/lib/d17/verify.functions";
 import { buildScreenshotPath } from "@/lib/d17/storage-path";
+import { getOrCreateD17DeviceFingerprint, computeD17BrowserFingerprint } from "@/lib/d17/client-fingerprint";
 import { VerificationChecklist } from "@/components/d17/VerificationChecklist";
 import { toast } from "sonner";
 import { Upload, ImageIcon, ArrowLeft, Loader2, ShieldCheck, Clock, FlaskConical } from "lucide-react";
@@ -120,6 +121,9 @@ function D17VerifyPage() {
       if (uploadError2) throw new Error(uploadError2.message);
       setUploaded(true);
 
+      const deviceFingerprint = getOrCreateD17DeviceFingerprint();
+      const browserFingerprint = await computeD17BrowserFingerprint();
+
       const attempt = await submitVerificationAttempt({
         data: {
           order_id: order.id,
@@ -127,6 +131,8 @@ function D17VerifyPage() {
           storage_path: storagePath,
           storage_path_2: storagePath2,
           user_entered_reference: submitReference.trim(),
+          device_fingerprint: deviceFingerprint,
+          browser_fingerprint: browserFingerprint,
         },
       });
       setDone(true);
@@ -146,9 +152,20 @@ function D17VerifyPage() {
     const res = await fetch(`/d17-test-fixtures/${name}.png`);
     const blob = await res.blob();
     const fixtureFile = new File([blob], `${name}.png`, { type: "image/png" });
-    // Fixture pairs (distinct Screenshot 1 / Screenshot 2 images) are Phase 8
-    // scope — until then the same synthetic image is reused for both slots.
+    // Single-image legacy fixtures — the same synthetic image is reused for
+    // both slots. See handleUseFixturePair below for genuine two-image pairs.
     await submitFile(fixtureFile, fixtureFile, "482193");
+  }
+
+  async function handleUseFixturePair(name: "consistent-pass" | "mismatched" | "wrong-destination") {
+    const [res1, res2] = await Promise.all([
+      fetch(`/d17-test-fixtures/pair-${name}-1.png`),
+      fetch(`/d17-test-fixtures/pair-${name}-2.png`),
+    ]);
+    const [blob1, blob2] = await Promise.all([res1.blob(), res2.blob()]);
+    const file1 = new File([blob1], `pair-${name}-1.png`, { type: "image/png" });
+    const file2 = new File([blob2], `pair-${name}-2.png`, { type: "image/png" });
+    await submitFile(file1, file2, "778899");
   }
 
   if (loading) {
@@ -311,6 +328,21 @@ function D17VerifyPage() {
                 </button>
                 <button onClick={() => handleUseFixture("sample-mismatch")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
                   Use "mismatch" fixture
+                </button>
+              </div>
+
+              <p className="mb-2 mt-4 text-[11px] font-semibold text-muted-foreground">
+                Two-screenshot pairs (genuinely distinct Screenshot 1 / Screenshot 2 images):
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <button onClick={() => handleUseFixturePair("consistent-pass")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+                  Pair: consistent pass
+                </button>
+                <button onClick={() => handleUseFixturePair("mismatched")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+                  Pair: screenshots mismatched
+                </button>
+                <button onClick={() => handleUseFixturePair("wrong-destination")} className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted">
+                  Pair: wrong destination
                 </button>
               </div>
             </div>

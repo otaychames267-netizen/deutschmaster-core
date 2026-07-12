@@ -69,6 +69,8 @@ function D17ReportCard() {
   const [stats, setStats] = useState({
     autoApproved: 0, manualReview: 0, rejected: 0, duplicateAttempts: 0, fraudAttempts: 0,
     avgVerificationMs: 0, approvalRate: 0, rejectionRate: 0,
+    crossCheckInconsistentCount: 0, crossCheckInconsistentRate: 0,
+    activeSuspensions: 0, lockedAccounts: 0,
   });
   const [rows, setRows] = useState<Record<string, string | number>[]>([]);
 
@@ -77,13 +79,16 @@ function D17ReportCard() {
     const fromIso = new Date(`${from}T00:00:00`).toISOString();
     const toIso = new Date(`${to}T23:59:59`).toISOString();
 
-    const [{ data: orders }, { data: attempts }] = await Promise.all([
+    const [{ data: orders }, { data: attempts }, { data: suspensions }] = await Promise.all([
       supabase.from("d17_orders").select("id, status").gte("created_at", fromIso).lte("created_at", toIso),
       supabase
         .from("d17_verification_attempts")
-        .select("id, decision, verification_duration_ms, risk_score, ai_confidence, created_at")
+        .select("id, decision, verification_duration_ms, risk_score, ai_confidence, created_at, cross_check_consistent")
         .gte("created_at", fromIso)
         .lte("created_at", toIso),
+      // Current suspension state is a live snapshot, not date-ranged — an
+      // account either is or isn't suspended/locked right now.
+      supabase.from("d17_fraud_suspensions").select("account_locked, suspended_until"),
     ]);
 
     const approved = (orders ?? []).filter((o) => o.status === "auto_approved" || o.status === "admin_approved").length;
@@ -97,11 +102,29 @@ function D17ReportCard() {
     const approvalRate = resolved ? Math.round((approved / resolved) * 100) : 0;
     const rejectionRate = resolved ? Math.round((rejected / resolved) * 100) : 0;
 
-    setStats({ autoApproved: approved, manualReview, rejected, duplicateAttempts, fraudAttempts, avgVerificationMs, approvalRate, rejectionRate });
+    // Only attempts that got far enough to run the two-screenshot cross-check
+    // (i.e. cross_check_consistent is not null — duplicate/kill-switch/
+    // budget/Gemini-error short-circuits never populate it) count toward
+    // the denominator, so the rate reflects genuine inconsistency, not
+    // attempts that never reached that stage.
+    const crossCheckable = (attempts ?? []).filter((a) => a.cross_check_consistent !== null);
+    const crossCheckInconsistentCount = crossCheckable.filter((a) => a.cross_check_consistent === false).length;
+    const crossCheckInconsistentRate = crossCheckable.length ? Math.round((crossCheckInconsistentCount / crossCheckable.length) * 100) : 0;
+
+    const now = Date.now();
+    const lockedAccounts = (suspensions ?? []).filter((s) => s.account_locked).length;
+    const activeSuspensions = (suspensions ?? []).filter((s) => !s.account_locked && s.suspended_until && new Date(s.suspended_until).getTime() > now).length;
+
+    setStats({
+      autoApproved: approved, manualReview, rejected, duplicateAttempts, fraudAttempts, avgVerificationMs, approvalRate, rejectionRate,
+      crossCheckInconsistentCount, crossCheckInconsistentRate, activeSuspensions, lockedAccounts,
+    });
     setRows(
       (attempts ?? []).map((a) => ({
         id: a.id, decision: a.decision, risk_score: a.risk_score ?? "", ai_confidence: a.ai_confidence ?? "",
-        verification_duration_ms: a.verification_duration_ms ?? "", created_at: a.created_at,
+        verification_duration_ms: a.verification_duration_ms ?? "",
+        cross_check_consistent: a.cross_check_consistent === null ? "" : String(a.cross_check_consistent),
+        created_at: a.created_at,
       })),
     );
     setLoading(false);
@@ -142,6 +165,9 @@ function D17ReportCard() {
               { label: "Avg. verification time", value: `${stats.avgVerificationMs} ms` },
               { label: "Approval rate", value: `${stats.approvalRate}%` },
               { label: "Rejection rate", value: `${stats.rejectionRate}%` },
+              { label: "Cross-screenshot inconsistent", value: `${stats.crossCheckInconsistentCount} (${stats.crossCheckInconsistentRate}%)` },
+              { label: "Currently suspended", value: stats.activeSuspensions },
+              { label: "Currently locked", value: stats.lockedAccounts },
             ].map((s) => (
               <div key={s.label} className="rounded-xl border border-border bg-muted/20 p-3">
                 <p className="text-[10px] text-muted-foreground">{s.label}</p>

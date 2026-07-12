@@ -14,11 +14,16 @@ export interface ReputationVelocitySignals {
   priorApprovedCount: number;
   priorConfirmedDuplicateCount: number;
   attemptsInLastHour: number;
+  /** Distinct OTHER user_ids seen submitting with this same device
+   * fingerprint — "multiple accounts sharing a device" per rule-engine.ts's
+   * velocity_signal check. 0 if no fingerprint was supplied (older clients,
+   * or fingerprinting unavailable). */
+  sharedDeviceAccountCount: number;
 }
 
 export async function computeReputationVelocity(
   supabaseAdmin: any,
-  params: { userId: string; orderId: string; attemptsInLastHour: number },
+  params: { userId: string; orderId: string; attemptsInLastHour: number; deviceFingerprint: string | null },
 ): Promise<ReputationVelocitySignals> {
   const { count: priorApprovedCount } = await supabaseAdmin
     .from("d17_orders")
@@ -33,9 +38,21 @@ export async function computeReputationVelocity(
     .eq("user_id", params.userId)
     .maybeSingle();
 
+  let sharedDeviceAccountCount = 0;
+  if (params.deviceFingerprint) {
+    const { data: rows } = await supabaseAdmin
+      .from("d17_verification_attempts")
+      .select("user_id")
+      .eq("device_fingerprint", params.deviceFingerprint)
+      .neq("user_id", params.userId)
+      .limit(50);
+    sharedDeviceAccountCount = new Set((rows ?? []).map((r: { user_id: string }) => r.user_id)).size;
+  }
+
   return {
     priorApprovedCount: priorApprovedCount ?? 0,
     priorConfirmedDuplicateCount: suspension?.confirmed_duplicate_count ?? 0,
     attemptsInLastHour: params.attemptsInLastHour,
+    sharedDeviceAccountCount,
   };
 }

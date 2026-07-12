@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequest } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
 import { buildVerificationPrompt, parseExtraction } from "./verification-prompt";
@@ -141,8 +142,26 @@ async function provisionOrder(supabaseAdmin: any, userId: string, planCode: stri
 
 export const submitVerificationAttempt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { order_id: string; session_token: string; storage_path: string; storage_path_2: string; user_entered_reference: string }) => d)
-  .handler(async ({ data, context }) => runVerificationPipeline(context.userId, data));
+  .inputValidator((d: {
+    order_id: string;
+    session_token: string;
+    storage_path: string;
+    storage_path_2: string;
+    user_entered_reference: string;
+    device_fingerprint?: string;
+    browser_fingerprint?: string;
+  }) => d)
+  .handler(async ({ data, context }) => {
+    // IP capture is server-side (x-forwarded-for), not the dormant
+    // session-tracking.ts precedent's client-side ipify.org call — more
+    // tamper-resistant for a fraud-relevant field, and doesn't block the
+    // upload UI on a third-party network call. Must happen here (inside the
+    // real request context) rather than inside runVerificationPipeline,
+    // which needs to stay callable from a standalone script with no request.
+    const request = getRequest();
+    const ipAddress = request?.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+    return runVerificationPipeline(context.userId, data, { ipAddress });
+  });
 
 /**
  * The actual pipeline, extracted from the createServerFn handler so it can
@@ -155,7 +174,16 @@ export const submitVerificationAttempt = createServerFn({ method: "POST" })
  */
 export async function runVerificationPipeline(
   userId: string,
-  data: { order_id: string; session_token: string; storage_path: string; storage_path_2: string; user_entered_reference: string },
+  data: {
+    order_id: string;
+    session_token: string;
+    storage_path: string;
+    storage_path_2: string;
+    user_entered_reference: string;
+    device_fingerprint?: string;
+    browser_fingerprint?: string;
+  },
+  requestContext: { ipAddress: string | null } = { ipAddress: null },
 ) {
     const reference = data.user_entered_reference.trim();
     if (reference.length < 4) {
@@ -234,6 +262,10 @@ export async function runVerificationPipeline(
     const startedAt = Date.now();
     const uploadToCreationDeltaMs = startedAt - Date.parse(order.created_at);
 
+    const deviceFingerprint = data.device_fingerprint ?? null;
+    const browserFingerprint = data.browser_fingerprint ?? null;
+    const ipAddress = requestContext.ipAddress;
+
     const baseFinalizeParams = () => ({
       order,
       userId,
@@ -249,6 +281,9 @@ export async function runVerificationPipeline(
       uploadToCreationDeltaMs,
       reputationSignalDelta: null,
       velocitySignalPoints: null,
+      ipAddress,
+      deviceFingerprint,
+      browserFingerprint,
     });
 
     // ── Duplicate hard gate — evaluated before any Gemini call, so a hit
@@ -389,6 +424,7 @@ export async function runVerificationPipeline(
       userId,
       orderId: order.id,
       attemptsInLastHour: recentCount ?? 0,
+      deviceFingerprint,
     });
 
     const scored = scoreAttempt({
@@ -450,6 +486,9 @@ async function finalizeAttempt(
     uploadToCreationDeltaMs: number;
     reputationSignalDelta: number | null;
     velocitySignalPoints: number | null;
+    ipAddress: string | null;
+    deviceFingerprint: string | null;
+    browserFingerprint: string | null;
   },
 ) {
   const e = params.extraction;
@@ -462,6 +501,9 @@ async function finalizeAttempt(
       storage_path: params.storagePath,
       storage_path_2: params.storagePath2,
       user_entered_reference: params.userEnteredReference,
+      ip_address: params.ipAddress,
+      device_fingerprint: params.deviceFingerprint,
+      browser_fingerprint: params.browserFingerprint,
       ocr_raw_text: e?.raw_text ?? null,
       ocr_confidence: e?.ocr_confidence ?? null,
       ocr_amount: e?.amount ?? null,
@@ -504,6 +546,31 @@ async function finalizeAttempt(
     .select("*")
     .single();
   if (insertError || !attempt) throw new Error(`Failed to record verification attempt: ${insertError?.message}`);
+
+  // Opportunistic devices upsert — regardless of decision, since a device
+  // seen on a rejected/fraud attempt is itself a useful future risk signal.
+  // Manual check-then-update/insert (not a DB-level upsert) so a repeat
+  // submission from the same device never creates a duplicate row, mirroring
+  // src/lib/session-tracking.ts's existing (dormant) precedent exactly.
+  if (params.deviceFingerprint) {
+    const { data: existingDevice } = await supabaseAdmin
+      .from("devices")
+      .select("id")
+      .eq("user_id", params.userId)
+      .eq("device_fingerprint", params.deviceFingerprint)
+      .maybeSingle();
+    if (existingDevice) {
+      await supabaseAdmin.from("devices").update({ last_seen_at: new Date().toISOString() }).eq("id", existingDevice.id);
+    } else {
+      await supabaseAdmin.from("devices").insert({
+        user_id: params.userId,
+        device_fingerprint: params.deviceFingerprint,
+        device_name: "D17 payment verification",
+        ip_address: params.ipAddress,
+        is_trusted: false,
+      });
+    }
+  }
 
   if (params.decision === "auto_approved") {
     const subscriptionId = await provisionOrder(supabaseAdmin, params.userId, params.order.plan_code, "d17_verification");

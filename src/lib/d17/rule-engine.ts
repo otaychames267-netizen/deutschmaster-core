@@ -38,6 +38,7 @@ export interface ReputationVelocityInput {
   priorApprovedCount: number;
   priorConfirmedDuplicateCount: number;
   attemptsInLastHour: number;
+  sharedDeviceAccountCount: number;
 }
 
 export interface ScoreAttemptInput {
@@ -308,20 +309,23 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   }
 
   // 13. Submission velocity — too many attempts from this account in a
-  // short window. The hourly HARD cap lives in verify.functions.ts (throws
-  // before reaching the rule engine); this is a softer, weighted signal for
-  // volumes below that cap. Device-fingerprint-sharing is layered in once
-  // Phase 8 wires up client fingerprint capture — attemptsInLastHour alone
-  // is the only signal available today.
+  // short window, OR multiple accounts sharing the same device fingerprint
+  // (src/lib/d17/client-fingerprint.ts). The hourly HARD cap lives in
+  // verify.functions.ts (throws before reaching the rule engine); this is a
+  // softer, weighted signal for volumes below that cap. Both sub-signals
+  // are honestly weak (a resettable localStorage UUID, and per-account
+  // attempt counts) — combined and capped at 15, never a hard gate alone.
   {
     const rv = input.reputationVelocity;
-    const points = Math.min(15, Math.max(0, rv.attemptsInLastHour - 1) * 5);
+    const attemptPoints = Math.min(15, Math.max(0, rv.attemptsInLastHour - 1) * 5);
+    const sharedDevicePoints = Math.min(15, rv.sharedDeviceAccountCount * 8);
+    const points = Math.min(15, attemptPoints + sharedDevicePoints);
     checks.push({
       id: "velocity_signal",
       label: "Submission Velocity",
       result: points >= 15 ? "fail" : points > 0 ? "uncertain" : "pass",
       points,
-      detail: `${rv.attemptsInLastHour} verification attempt(s) from this account in the last hour.`,
+      detail: `${rv.attemptsInLastHour} verification attempt(s) from this account in the last hour; ${rv.sharedDeviceAccountCount} other account(s) seen on this device.`,
     });
   }
 
