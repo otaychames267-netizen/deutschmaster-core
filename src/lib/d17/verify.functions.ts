@@ -441,6 +441,20 @@ export async function runVerificationPipeline(
       orderId: order.id,
       attemptsInLastHour: recentCount ?? 0,
       deviceFingerprint,
+      ipAddress,
+    });
+
+    // Multi-account clustering is a signal worth alerting on regardless of
+    // how this specific attempt ultimately scores (an approved payment from
+    // a farmed device is still worth an admin's attention) — checked here,
+    // right after the signal is computed, not gated behind the eventual
+    // decision below.
+    const { checkMultiAccountAbuse } = await import("./alerting.server");
+    await checkMultiAccountAbuse(supabaseAdmin, {
+      deviceFingerprint,
+      ipAddress,
+      sharedDeviceAccountCount: reputationVelocity.sharedDeviceAccountCount,
+      sharedIpAccountCount: reputationVelocity.sharedIpAccountCount,
     });
 
     const scored = scoreAttempt({

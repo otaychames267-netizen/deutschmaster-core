@@ -4,6 +4,12 @@ import { sendEmail } from "@/lib/notify/email.server";
 const HIGH_RISK_CLUSTER_THRESHOLD = 5;
 const HIGH_RISK_CLUSTER_WINDOW_MS = 3600_000;
 const BUDGET_ALERT_FRACTION = 0.8;
+const MULTI_ACCOUNT_DEDUPE_WINDOW_MS = 24 * 3600_000;
+// Device fingerprints are a stronger signal (3+ distinct accounts on one
+// device is unusual) than IP addresses (NAT/shared wifi/CGNAT routinely put
+// many unrelated people behind one IP, so the bar is set higher).
+const MULTI_ACCOUNT_DEVICE_THRESHOLD = 3;
+const MULTI_ACCOUNT_IP_THRESHOLD = 5;
 
 async function raiseAlert(
   supabaseAdmin: any,
@@ -86,6 +92,60 @@ export async function alertFraudSuspensionEscalated(
         : `User ${params.userId} suspended for 24 hours after ${params.confirmedDuplicateCount} confirmed duplicate payment submissions.`,
     metadata: { userId: params.userId, tier: params.tier, confirmedDuplicateCount: params.confirmedDuplicateCount },
   });
+}
+
+/** Raises (and dedupes) a single multi-account-abuse alert for one key
+ * (a device fingerprint or an IP address). Deduped per key for 24h via
+ * metadata containment so a sustained abusive cluster doesn't re-page on
+ * every subsequent attempt — same dedupe shape as checkHighRiskCluster,
+ * just keyed per-device/IP instead of globally. */
+async function alertMultiAccountAbuse(
+  supabaseAdmin: any,
+  params: { keyType: "device" | "ip"; key: string; accountCount: number },
+) {
+  const since = new Date(Date.now() - MULTI_ACCOUNT_DEDUPE_WINDOW_MS).toISOString();
+  const { count: recentAlertCount } = await supabaseAdmin
+    .from("d17_alerts")
+    .select("id", { count: "exact", head: true })
+    .eq("category", "multi_account_abuse")
+    .gte("created_at", since)
+    .contains("metadata", { keyType: params.keyType, key: params.key });
+  if ((recentAlertCount ?? 0) > 0) return;
+
+  await raiseAlert(supabaseAdmin, {
+    severity: "warning",
+    category: "multi_account_abuse",
+    message:
+      params.keyType === "device"
+        ? `${params.accountCount} distinct accounts have submitted D17 payments from the same device fingerprint.`
+        : `${params.accountCount} distinct accounts have submitted D17 payments from the same IP address.`,
+    metadata: { keyType: params.keyType, key: params.key, accountCount: params.accountCount },
+  });
+}
+
+/** Called from verify.functions.ts right after computeReputationVelocity —
+ * self-contained threshold check + dedupe + alert, mirroring
+ * checkHighRiskCluster's shape. sharedDeviceAccountCount/sharedIpAccountCount
+ * already count DISTINCT OTHER accounts, so crossing the threshold means
+ * (threshold + 1) total accounts including this one are clustered together. */
+export async function checkMultiAccountAbuse(
+  supabaseAdmin: any,
+  params: { deviceFingerprint: string | null; ipAddress: string | null; sharedDeviceAccountCount: number; sharedIpAccountCount: number },
+) {
+  if (params.deviceFingerprint && params.sharedDeviceAccountCount >= MULTI_ACCOUNT_DEVICE_THRESHOLD) {
+    await alertMultiAccountAbuse(supabaseAdmin, {
+      keyType: "device",
+      key: params.deviceFingerprint,
+      accountCount: params.sharedDeviceAccountCount + 1,
+    });
+  }
+  if (params.ipAddress && params.sharedIpAccountCount >= MULTI_ACCOUNT_IP_THRESHOLD) {
+    await alertMultiAccountAbuse(supabaseAdmin, {
+      keyType: "ip",
+      key: params.ipAddress,
+      accountCount: params.sharedIpAccountCount + 1,
+    });
+  }
 }
 
 /** Fires once per UTC day when usage crosses 80% of GEMINI_DAILY_TOKEN_CAP. */

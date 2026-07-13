@@ -39,6 +39,7 @@ export interface ReputationVelocityInput {
   priorConfirmedDuplicateCount: number;
   attemptsInLastHour: number;
   sharedDeviceAccountCount: number;
+  sharedIpAccountCount: number;
 }
 
 export interface ScoreAttemptInput {
@@ -315,22 +316,26 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
 
   // 13. Submission velocity — too many attempts from this account in a
   // short window, OR multiple accounts sharing the same device fingerprint
-  // (src/lib/d17/client-fingerprint.ts). The hourly HARD cap lives in
-  // verify.functions.ts (throws before reaching the rule engine); this is a
-  // softer, weighted signal for volumes below that cap. Both sub-signals
-  // are honestly weak (a resettable localStorage UUID, and per-account
-  // attempt counts) — combined and capped at 15, never a hard gate alone.
+  // (src/lib/d17/client-fingerprint.ts), OR multiple accounts sharing the
+  // same IP address. The hourly HARD cap lives in verify.functions.ts
+  // (throws before reaching the rule engine); this is a softer, weighted
+  // signal for volumes below that cap. All three sub-signals are honestly
+  // weak on their own (a resettable localStorage UUID, per-account attempt
+  // counts, and an IP that NAT/shared wifi can put many unrelated people
+  // behind) — IP is weighted lowest of the three for that reason. Combined
+  // and capped at 15, never a hard gate alone.
   {
     const rv = input.reputationVelocity;
     const attemptPoints = Math.min(15, Math.max(0, rv.attemptsInLastHour - 1) * 5);
     const sharedDevicePoints = Math.min(15, rv.sharedDeviceAccountCount * 8);
-    const points = Math.min(15, attemptPoints + sharedDevicePoints);
+    const sharedIpPoints = Math.min(15, rv.sharedIpAccountCount * 4);
+    const points = Math.min(15, attemptPoints + sharedDevicePoints + sharedIpPoints);
     checks.push({
       id: "velocity_signal",
       label: "Submission Velocity",
       result: points >= 15 ? "fail" : points > 0 ? "uncertain" : "pass",
       points,
-      detail: `${rv.attemptsInLastHour} verification attempt(s) from this account in the last hour; ${rv.sharedDeviceAccountCount} other account(s) seen on this device.`,
+      detail: `${rv.attemptsInLastHour} verification attempt(s) from this account in the last hour; ${rv.sharedDeviceAccountCount} other account(s) seen on this device; ${rv.sharedIpAccountCount} other account(s) seen on this IP.`,
     });
   }
 

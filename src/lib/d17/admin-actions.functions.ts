@@ -286,6 +286,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
       orderId: order.id,
       attemptsInLastHour: 0,
       deviceFingerprint: latest.device_fingerprint ?? null,
+      ipAddress: latest.ip_address ?? null,
     });
 
     const scored = scoreAttempt({

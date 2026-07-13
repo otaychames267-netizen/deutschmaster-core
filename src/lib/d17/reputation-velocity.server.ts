@@ -19,11 +19,18 @@ export interface ReputationVelocitySignals {
    * velocity_signal check. 0 if no fingerprint was supplied (older clients,
    * or fingerprinting unavailable). */
   sharedDeviceAccountCount: number;
+  /** Distinct OTHER user_ids seen submitting from this same IP address.
+   * Weaker signal than the device fingerprint (NAT/shared wifi/mobile
+   * carrier CGNAT routinely put unrelated people behind one IP), so
+   * rule-engine.ts weights it lower — kept as a separate field rather than
+   * folded into sharedDeviceAccountCount so each signal stays individually
+   * inspectable in the admin UI and in alerting.server.ts. */
+  sharedIpAccountCount: number;
 }
 
 export async function computeReputationVelocity(
   supabaseAdmin: any,
-  params: { userId: string; orderId: string; attemptsInLastHour: number; deviceFingerprint: string | null },
+  params: { userId: string; orderId: string; attemptsInLastHour: number; deviceFingerprint: string | null; ipAddress: string | null },
 ): Promise<ReputationVelocitySignals> {
   const { count: priorApprovedCount } = await supabaseAdmin
     .from("d17_orders")
@@ -49,10 +56,22 @@ export async function computeReputationVelocity(
     sharedDeviceAccountCount = new Set((rows ?? []).map((r: { user_id: string }) => r.user_id)).size;
   }
 
+  let sharedIpAccountCount = 0;
+  if (params.ipAddress) {
+    const { data: rows } = await supabaseAdmin
+      .from("d17_verification_attempts")
+      .select("user_id")
+      .eq("ip_address", params.ipAddress)
+      .neq("user_id", params.userId)
+      .limit(50);
+    sharedIpAccountCount = new Set((rows ?? []).map((r: { user_id: string }) => r.user_id)).size;
+  }
+
   return {
     priorApprovedCount: priorApprovedCount ?? 0,
     priorConfirmedDuplicateCount: suspension?.confirmed_duplicate_count ?? 0,
     attemptsInLastHour: params.attemptsInLastHour,
     sharedDeviceAccountCount,
+    sharedIpAccountCount,
   };
 }
