@@ -172,7 +172,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is payment secure?",
-    a: "Payments are processed by Stripe — the industry standard for online payments. Your card details are never stored on our servers.",
+    a: "Card payments are processed securely by Lemon Squeezy — your card details are never stored on our servers. Students in Tunisia can also pay via D17 mobile transfer, verified by our team.",
   },
   {
     q: "Which languages is the interface available in?",
@@ -746,7 +746,7 @@ function Footer() {
           </p>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Shield className="h-3 w-3" />
-            Secured by Supabase · Payments by Stripe
+            Secured by Supabase · Payments via Lemon Squeezy
           </div>
         </div>
       </div>
