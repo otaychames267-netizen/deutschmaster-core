@@ -16,6 +16,7 @@ interface OrderRow {
   status: string;
   attempts_used: number;
   created_at: string;
+  locked_for_admin_only: boolean;
   student_email: string | null;
   student_name: string | null;
   risk_score: number | null;
@@ -47,7 +48,7 @@ function AdminPaymentsPage() {
     setLoading(true);
     const { data: orderRows } = await supabase
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at")
+      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, locked_for_admin_only")
       .order("created_at", { ascending: false })
       .limit(100);
 
@@ -197,6 +198,9 @@ function AdminPaymentsPage() {
                         <Link to="/admin/d17/$orderId" params={{ orderId: o.id }} className="flex items-center gap-1.5 font-medium">
                           <span>{s.icon}</span>
                           <span className={s.color}>{s.label}</span>
+                          {o.locked_for_admin_only && (
+                            <span title="Upload attempts exhausted — locked pending admin review" className="text-xs">🔒</span>
+                          )}
                         </Link>
                       </td>
                       <td className="px-5 py-3.5">

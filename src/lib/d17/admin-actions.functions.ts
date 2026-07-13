@@ -20,42 +20,42 @@ async function getUserEmail(supabaseAdmin: any, userId: string): Promise<string 
   return data?.user?.email ?? null;
 }
 
-async function provisionOrder(
+/**
+ * Wraps subscription upsert + minutes/credits grant + payment record +
+ * order-status update in a single Postgres transaction
+ * (activate_d17_order, see 20260714010000_d17_v3_hardening.sql) — the same
+ * function src/lib/d17/verify.functions.ts's automated path uses, so
+ * "payment approved but subscription not unlocked" can never happen
+ * regardless of which path approved it.
+ */
+async function activateOrder(
   supabaseAdmin: any,
-  userId: string,
-  planCode: PlanCode,
-  reason: string,
-  overrideMinutes?: number,
-  overrideCredits?: number,
+  params: {
+    orderId: string;
+    userId: string;
+    planCode: PlanCode;
+    amountTnd: number;
+    currency: string;
+    reason: string;
+    resolvedBy: string;
+    overrideMinutes?: number;
+    overrideCredits?: number;
+  },
 ): Promise<string> {
-  const { data: existingSub } = await supabaseAdmin
-    .from("subscriptions")
-    .select("id")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const subRow = {
-    user_id: userId,
-    plan_code: planCode,
-    status: "active" as const,
-    is_trial: false,
-    expires_at: new Date(Date.now() + 30 * 86400_000).toISOString(),
-  };
-  const { data: sub, error: subError } = existingSub
-    ? await supabaseAdmin.from("subscriptions").update(subRow).eq("id", existingSub.id).select("id").single()
-    : await supabaseAdmin.from("subscriptions").insert({ ...subRow, started_at: new Date().toISOString() }).select("id").single();
-  if (subError) throw new Error(`Provisioning failed: ${subError.message}`);
-
-  if (planCode === "muendlich" || planCode === "komplett") {
-    await supabaseAdmin.rpc("provision_muendlich_subscription", { p_user_id: userId, p_minutes: overrideMinutes ?? 300, p_reason: reason });
-  }
-  if (planCode === "schriftlich" || planCode === "komplett") {
-    await supabaseAdmin.rpc("provision_essay_credits", { p_user_id: userId, p_amount: overrideCredits ?? 30, p_reason: reason });
-  }
-
-  return sub.id as string;
+  const { data: subscriptionId, error } = await supabaseAdmin.rpc("activate_d17_order", {
+    p_order_id: params.orderId,
+    p_user_id: params.userId,
+    p_plan_code: params.planCode,
+    p_amount_tnd: params.amountTnd,
+    p_currency: params.currency,
+    p_reason: params.reason,
+    p_status: "admin_approved",
+    p_resolved_by: params.resolvedBy,
+    p_override_minutes: params.overrideMinutes ?? null,
+    p_override_credits: params.overrideCredits ?? null,
+  });
+  if (error || !subscriptionId) throw new Error(`Atomic activation failed: ${error?.message}`);
+  return subscriptionId as string;
 }
 
 export const adminApproveOrder = createServerFn({ method: "POST" })
@@ -69,11 +69,15 @@ export const adminApproveOrder = createServerFn({ method: "POST" })
     if (orderError || !order) throw new Error("Order not found.");
     if (!RESOLVABLE_STATUSES.includes(order.status)) throw new Error(`Cannot approve an order with status "${order.status}".`);
 
-    const subscriptionId = await provisionOrder(supabaseAdmin, order.user_id, order.plan_code as PlanCode, "d17_admin_manual_review");
-    await supabaseAdmin
-      .from("d17_orders")
-      .update({ status: "admin_approved", resolved_at: new Date().toISOString(), resolved_by: context.userId, subscription_id: subscriptionId, updated_at: new Date().toISOString() })
-      .eq("id", order.id);
+    await activateOrder(supabaseAdmin, {
+      orderId: order.id,
+      userId: order.user_id,
+      planCode: order.plan_code as PlanCode,
+      amountTnd: order.amount_tnd,
+      currency: order.currency,
+      reason: "d17_admin_manual_review",
+      resolvedBy: context.userId,
+    });
     await supabaseAdmin.from("d17_admin_actions").insert({ order_id: order.id, admin_id: context.userId, action: "approve", note: data.note ?? null });
 
     const userEmail = await getUserEmail(supabaseAdmin, order.user_id);
@@ -167,11 +171,17 @@ export const adminAdjustGrant = createServerFn({ method: "POST" })
     const { data: order, error: orderError } = await supabaseAdmin.from("d17_orders").select("*").eq("id", data.order_id).maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
 
-    const subscriptionId = await provisionOrder(supabaseAdmin, order.user_id, order.plan_code as PlanCode, "d17_admin_adjust_grant", data.minutes, data.credits);
-    await supabaseAdmin
-      .from("d17_orders")
-      .update({ status: "admin_approved", resolved_at: new Date().toISOString(), resolved_by: context.userId, subscription_id: subscriptionId, updated_at: new Date().toISOString() })
-      .eq("id", order.id);
+    await activateOrder(supabaseAdmin, {
+      orderId: order.id,
+      userId: order.user_id,
+      planCode: order.plan_code as PlanCode,
+      amountTnd: order.amount_tnd,
+      currency: order.currency,
+      reason: "d17_admin_adjust_grant",
+      resolvedBy: context.userId,
+      overrideMinutes: data.minutes,
+      overrideCredits: data.credits,
+    });
     await supabaseAdmin.from("d17_admin_actions").insert({
       order_id: order.id,
       admin_id: context.userId,

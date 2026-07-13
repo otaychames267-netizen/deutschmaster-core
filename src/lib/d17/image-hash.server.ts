@@ -25,6 +25,36 @@ export async function stripExifAndReencode(buffer: Buffer): Promise<Buffer> {
   return sharp(buffer).rotate().png().toBuffer();
 }
 
+const MIN_DIMENSION_PX = 200;
+const BLANK_STDDEV_THRESHOLD = 3; // near-zero per-channel std deviation = a flat, blank/near-solid-color image
+
+/**
+ * Server-side re-validation before OCR/Gemini ever see the file — the
+ * client's own type/size check (verify.tsx) is never trusted alone, per
+ * this repo's "server never trusts the frontend" convention. Throws a
+ * clear, user-facing message on any failure; never lets an invalid file
+ * reach the pipeline's hashing/duplicate-check/OCR stages.
+ */
+export async function validateImageOrThrow(buffer: Buffer, label: string): Promise<void> {
+  const metadata = await sharp(buffer)
+    .metadata()
+    .catch(() => {
+      throw new Error(`${label} could not be read — the file may be corrupted. Please upload a valid PNG, JPG, or WEBP screenshot.`);
+    });
+  if (!metadata.width || !metadata.height) {
+    throw new Error(`${label} could not be read — the file may be corrupted. Please upload a valid PNG, JPG, or WEBP screenshot.`);
+  }
+  if (metadata.width < MIN_DIMENSION_PX || metadata.height < MIN_DIMENSION_PX) {
+    throw new Error(`${label} resolution is too low to read (${metadata.width}x${metadata.height}px). Please upload a clearer screenshot.`);
+  }
+
+  const stats = await sharp(buffer).stats();
+  const maxChannelStdDev = Math.max(...stats.channels.map((c) => c.stdev));
+  if (maxChannelStdDev < BLANK_STDDEV_THRESHOLD) {
+    throw new Error(`${label} appears blank or unreadable. Please upload a screenshot showing your D17 payment confirmation.`);
+  }
+}
+
 const DHASH_WIDTH = 9;
 const DHASH_HEIGHT = 8;
 

@@ -74,6 +74,7 @@ export const maxDuration = 90;
 
 const MAX_ATTEMPTS_PER_ORDER = 5;
 const HOURLY_SUBMISSION_LIMIT = Number(process.env.D17_HOURLY_SUBMISSION_LIMIT ?? 5);
+const TEN_MINUTE_SUBMISSION_LIMIT = 3;
 const MANUAL_REVIEW_WINDOW_HOURS = 8;
 const ACTIVE_ORDER_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
 const AI_VERSION = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
@@ -109,35 +110,30 @@ async function getUserEmail(supabaseAdmin: any, userId: string): Promise<string 
   return data?.user?.email ?? null;
 }
 
-async function provisionOrder(supabaseAdmin: any, userId: string, planCode: string, reason: string) {
-  const { data: existingSub } = await supabaseAdmin
-    .from("subscriptions")
-    .select("id")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const subRow = {
-    user_id: userId,
-    plan_code: planCode,
-    status: "active" as const,
-    is_trial: false,
-    expires_at: new Date(Date.now() + 30 * 86400_000).toISOString(),
-  };
-  const { data: sub, error: subError } = existingSub
-    ? await supabaseAdmin.from("subscriptions").update(subRow).eq("id", existingSub.id).select("id").single()
-    : await supabaseAdmin.from("subscriptions").insert({ ...subRow, started_at: new Date().toISOString() }).select("id").single();
-  if (subError) throw new Error(`Provisioning failed: ${subError.message}`);
-
-  if (planCode === "muendlich" || planCode === "komplett") {
-    await supabaseAdmin.rpc("provision_muendlich_subscription", { p_user_id: userId, p_minutes: 300, p_reason: reason });
-  }
-  if (planCode === "schriftlich" || planCode === "komplett") {
-    await supabaseAdmin.rpc("provision_essay_credits", { p_user_id: userId, p_amount: 30, p_reason: reason });
-  }
-
-  return sub.id as string;
+/**
+ * Wraps subscription upsert + minutes/credits grant + payment record +
+ * order-status update in a single Postgres transaction (activate_d17_order,
+ * see 20260714010000_d17_v3_hardening.sql), so a crash or network failure
+ * mid-sequence can never leave "payment approved but subscription not
+ * unlocked" — either the whole activation commits, or none of it does and
+ * the order stays exactly as it was before this call.
+ */
+async function activateOrder(
+  supabaseAdmin: any,
+  params: { orderId: string; userId: string; planCode: string; amountTnd: number; currency: string; reason: string; providerPaymentId: string },
+): Promise<string> {
+  const { data: subscriptionId, error } = await supabaseAdmin.rpc("activate_d17_order", {
+    p_order_id: params.orderId,
+    p_user_id: params.userId,
+    p_plan_code: params.planCode,
+    p_amount_tnd: params.amountTnd,
+    p_currency: params.currency,
+    p_reason: params.reason,
+    p_status: "auto_approved",
+    p_provider_payment_id: params.providerPaymentId,
+  });
+  if (error || !subscriptionId) throw new Error(`Atomic activation failed: ${error?.message}`);
+  return subscriptionId as string;
 }
 
 export const submitVerificationAttempt = createServerFn({ method: "POST" })
@@ -194,13 +190,13 @@ export async function runVerificationPipeline(
     }
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode } = await import("./image-hash.server");
+    const { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode, validateImageOrThrow } = await import("./image-hash.server");
     const { findDuplicate } = await import("./duplicate-check.server");
     const { alertGeminiFailure, checkBudget80Percent } = await import("./alerting.server");
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, session_token, destination_number, destination_iban")
+      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, session_token, destination_number, destination_iban, locked_for_admin_only")
       .eq("id", data.order_id)
       .maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
@@ -213,6 +209,9 @@ export async function runVerificationPipeline(
     }
     if (!ACTIVE_ORDER_STATUSES.includes(order.status)) {
       throw new Error(`This order is already ${order.status} and cannot accept new screenshots.`);
+    }
+    if (order.locked_for_admin_only) {
+      throw new Error("This order is locked pending administrator review and cannot accept new screenshots.");
     }
     if (order.attempts_used >= MAX_ATTEMPTS_PER_ORDER) {
       throw new Error("Maximum of 5 screenshot uploads reached for this order. Awaiting manual review.");
@@ -232,6 +231,19 @@ export async function runVerificationPipeline(
       throw new Error(`New payment submissions are temporarily suspended due to a duplicate payment detection. Please try again in about ${hoursLeft} hour(s), or contact support.`);
     }
 
+    // Strict burst limit — checked (and rejected) before any OCR/Gemini
+    // work starts, distinct from the softer hourly cap below: 3 rapid
+    // submissions in 10 minutes is a brute-force/spam signal regardless of
+    // whether the hourly total is still under budget.
+    const { count: recent10MinCount } = await supabaseAdmin
+      .from("d17_verification_attempts")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .gte("created_at", new Date(Date.now() - 600_000).toISOString());
+    if ((recent10MinCount ?? 0) >= TEN_MINUTE_SUBMISSION_LIMIT) {
+      throw new Error("You've reached the submission limit for this period. Please wait a few minutes before trying again.");
+    }
+
     const { count: recentCount } = await supabaseAdmin
       .from("d17_verification_attempts")
       .select("id", { count: "exact", head: true })
@@ -244,16 +256,20 @@ export async function runVerificationPipeline(
     const attemptNumber = order.attempts_used + 1;
     const userEmail = await getUserEmail(supabaseAdmin, userId);
 
-    async function downloadAndHash(path: string) {
+    async function downloadAndHash(path: string, label: string) {
       const { data: fileBlob, error: downloadError } = await supabaseAdmin.storage.from("payment-screenshots").download(path);
       if (downloadError || !fileBlob) throw new Error(`Could not read the uploaded screenshot: ${downloadError?.message ?? "not found"}`);
       const originalBuffer = Buffer.from(await (fileBlob as Blob).arrayBuffer());
+      // Server-side re-validation — the client's own type/size check
+      // (verify.tsx) is never trusted alone. Runs before hashing/OCR/Gemini
+      // ever see the file.
+      await validateImageOrThrow(originalBuffer, label);
       const cleanBuffer = await stripExifAndReencode(originalBuffer);
       return { cleanBuffer, hash: sha256Hash(cleanBuffer), dhash: await computeDHash(cleanBuffer) };
     }
 
-    const shot1 = await downloadAndHash(data.storage_path);
-    const shot2 = await downloadAndHash(data.storage_path_2);
+    const shot1 = await downloadAndHash(data.storage_path, "Screenshot 1 (Payment Success)");
+    const shot2 = await downloadAndHash(data.storage_path_2, "Screenshot 2 (Transaction History)");
     const imageHashSha256 = shot1.hash;
     const imageDhash = shot1.dhash;
     const imageHashSha256_2 = shot2.hash;
@@ -573,20 +589,14 @@ async function finalizeAttempt(
   }
 
   if (params.decision === "auto_approved") {
-    const subscriptionId = await provisionOrder(supabaseAdmin, params.userId, params.order.plan_code, "d17_verification");
-    await supabaseAdmin
-      .from("d17_orders")
-      .update({ status: "auto_approved", resolved_at: new Date().toISOString(), subscription_id: subscriptionId, updated_at: new Date().toISOString() })
-      .eq("id", params.order.id);
-    await supabaseAdmin.from("payments").insert({
-      user_id: params.userId,
-      subscription_id: subscriptionId,
-      amount: params.order.amount_tnd,
+    await activateOrder(supabaseAdmin, {
+      orderId: params.order.id,
+      userId: params.userId,
+      planCode: params.order.plan_code,
+      amountTnd: params.order.amount_tnd,
       currency: params.order.currency,
-      status: "succeeded",
-      provider: "d17_manual",
-      provider_payment_id: attempt.id,
-      description: `D17 payment verified automatically (order ${params.order.id})`,
+      reason: "d17_verification",
+      providerPaymentId: attempt.id,
     });
     await notifyAndEmail(
       supabaseAdmin,
@@ -599,9 +609,20 @@ async function finalizeAttempt(
       "<p>Your D17 payment has been verified and your subscription is now active. Good luck with your exam prep!</p>",
     );
   } else if (params.decision === "manual_review") {
+    // Once the upload-attempt cap is reached without an auto-approval, the
+    // order locks — no more retries, however long the manual_review_deadline
+    // countdown has left. Surfaced distinctly in the admin queue so these
+    // "exhausted all attempts" cases stand out from a normal single
+    // sub-90%-confidence review.
+    const reachedCap = params.attemptNumber >= MAX_ATTEMPTS_PER_ORDER;
     await supabaseAdmin
       .from("d17_orders")
-      .update({ status: "manual_review", manual_review_deadline: new Date(Date.now() + MANUAL_REVIEW_WINDOW_HOURS * 3600_000).toISOString(), updated_at: new Date().toISOString() })
+      .update({
+        status: "manual_review",
+        manual_review_deadline: new Date(Date.now() + MANUAL_REVIEW_WINDOW_HOURS * 3600_000).toISOString(),
+        locked_for_admin_only: reachedCap,
+        updated_at: new Date().toISOString(),
+      })
       .eq("id", params.order.id);
     await notifyAndEmail(
       supabaseAdmin,
