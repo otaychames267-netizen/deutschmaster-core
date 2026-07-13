@@ -72,7 +72,12 @@ async function flagUnderReviewIfUnconfirmed(
 export const createD17Order = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { plan_code: PlanCode }) => d)
-  .handler(async ({ data, context }) => createD17OrderImpl(context.userId, data.plan_code));
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `createD17Order:${context.userId}`, windowSeconds: 60, maxRequests: 10 });
+    return createD17OrderImpl(context.userId, data.plan_code);
+  });
 
 /** Extracted from the createServerFn handler, same reasoning as
  * verify.functions.ts's runVerificationPipeline — lets this be exercised
@@ -161,6 +166,10 @@ export const getD17Order = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { order_id: string }) => d)
   .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `getD17Order:${context.userId}`, windowSeconds: 60, maxRequests: 30 });
+
     const { data: order, error } = await context.supabase
       .from("d17_orders")
       .select(
@@ -172,7 +181,6 @@ export const getD17Order = createServerFn({ method: "POST" })
     if (!order) throw new Error("Order not found.");
 
     if (order.status === "awaiting_payment") {
-      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
       const afterConfirmationCheck = await flagUnderReviewIfUnconfirmed(supabaseAdmin, order);
       const currentStatus = afterConfirmationCheck === "under_review" ? "under_review" : await expireIfStale(supabaseAdmin, order);
       if (currentStatus !== order.status) order.status = currentStatus as typeof order.status;

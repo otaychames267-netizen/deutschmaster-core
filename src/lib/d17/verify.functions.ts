@@ -152,6 +152,11 @@ export const submitVerificationAttempt = createServerFn({ method: "POST" })
     // which needs to stay callable from a standalone script with no request.
     const request = getRequest();
     const ipAddress = request?.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? null;
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `submitVerificationAttempt:${context.userId}`, windowSeconds: 60, maxRequests: 10 });
+
     return runVerificationPipeline(context.userId, data, { ipAddress });
   });
 
