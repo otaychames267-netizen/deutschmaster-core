@@ -239,6 +239,8 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
     const { scoreAttempt } = await import("./rule-engine");
     const { computeReputationVelocity } = await import("./reputation-velocity.server");
     const { callGeminiVerification, finalizeAttempt } = await import("./verify.functions");
+    const { getD17Config } = await import("./config");
+    const config = await getD17Config(supabaseAdmin);
 
     const { data: order, error: orderError } = await supabaseAdmin.from("d17_orders").select("*").eq("id", data.order_id).maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
@@ -296,6 +298,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
       orderDestinationIban: order.destination_iban,
       uploadToCreationDeltaMs: latest.upload_to_creation_delta_ms ?? 0,
       reputationVelocity,
+      autoApproveThreshold: config.d17_auto_approve_threshold,
     });
 
     const userEmail = await getUserEmail(supabaseAdmin, order.user_id);
@@ -331,6 +334,8 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
       deviceFingerprint: latest.device_fingerprint,
       browserFingerprint: latest.browser_fingerprint,
       isAdminReplay: true,
+      maxAttemptsPerOrder: config.d17_max_attempts_per_order,
+      manualReviewWindowHours: config.d17_manual_review_window_hours,
     });
 
     await supabaseAdmin.from("d17_admin_actions").insert({

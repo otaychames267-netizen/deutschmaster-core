@@ -72,10 +72,6 @@ export async function callGeminiVerification(prompt: string, imageBase64_1: stri
  */
 export const maxDuration = 90;
 
-const MAX_ATTEMPTS_PER_ORDER = 5;
-const HOURLY_SUBMISSION_LIMIT = Number(process.env.D17_HOURLY_SUBMISSION_LIMIT ?? 5);
-const TEN_MINUTE_SUBMISSION_LIMIT = 3;
-const MANUAL_REVIEW_WINDOW_HOURS = 8;
 const ACTIVE_ORDER_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
 const AI_VERSION = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
 
@@ -193,6 +189,8 @@ export async function runVerificationPipeline(
     const { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode, validateImageOrThrow } = await import("./image-hash.server");
     const { findDuplicate } = await import("./duplicate-check.server");
     const { alertGeminiFailure, checkBudget80Percent } = await import("./alerting.server");
+    const { getD17Config } = await import("./config");
+    const config = await getD17Config(supabaseAdmin);
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
@@ -213,8 +211,8 @@ export async function runVerificationPipeline(
     if (order.locked_for_admin_only) {
       throw new Error("This order is locked pending administrator review and cannot accept new screenshots.");
     }
-    if (order.attempts_used >= MAX_ATTEMPTS_PER_ORDER) {
-      throw new Error("Maximum of 5 screenshot uploads reached for this order. Awaiting manual review.");
+    if (order.attempts_used >= config.d17_max_attempts_per_order) {
+      throw new Error(`Maximum of ${config.d17_max_attempts_per_order} screenshot uploads reached for this order. Awaiting manual review.`);
     }
 
     // ── Escalating anti-fraud suspension gate — rejected outright, no
@@ -240,7 +238,7 @@ export async function runVerificationPipeline(
       .select("id", { count: "exact", head: true })
       .eq("user_id", userId)
       .gte("created_at", new Date(Date.now() - 600_000).toISOString());
-    if ((recent10MinCount ?? 0) >= TEN_MINUTE_SUBMISSION_LIMIT) {
+    if ((recent10MinCount ?? 0) >= config.d17_ten_minute_submission_limit) {
       throw new Error("You've reached the submission limit for this period. Please wait a few minutes before trying again.");
     }
 
@@ -249,7 +247,7 @@ export async function runVerificationPipeline(
       .select("id", { count: "exact", head: true })
       .eq("user_id", userId)
       .gte("created_at", new Date(Date.now() - 3600_000).toISOString());
-    if ((recentCount ?? 0) >= HOURLY_SUBMISSION_LIMIT) {
+    if ((recentCount ?? 0) >= config.d17_hourly_submission_limit) {
       throw new Error("Too many verification attempts in the last hour. Please try again later.");
     }
 
@@ -300,6 +298,8 @@ export async function runVerificationPipeline(
       ipAddress,
       deviceFingerprint,
       browserFingerprint,
+      maxAttemptsPerOrder: config.d17_max_attempts_per_order,
+      manualReviewWindowHours: config.d17_manual_review_window_hours,
     });
 
     // ── Duplicate hard gate — evaluated before any Gemini call, so a hit
@@ -453,6 +453,7 @@ export async function runVerificationPipeline(
       orderDestinationIban: order.destination_iban,
       uploadToCreationDeltaMs,
       reputationVelocity,
+      autoApproveThreshold: config.d17_auto_approve_threshold,
     });
 
     const reputationCheck = scored.checks.find((c) => c.id === "reputation_signal");
@@ -517,6 +518,8 @@ export async function finalizeAttempt(
     deviceFingerprint: string | null;
     browserFingerprint: string | null;
     isAdminReplay?: boolean;
+    maxAttemptsPerOrder: number;
+    manualReviewWindowHours: number;
   },
 ) {
   const e = params.extraction;
@@ -627,12 +630,12 @@ export async function finalizeAttempt(
     // countdown has left. Surfaced distinctly in the admin queue so these
     // "exhausted all attempts" cases stand out from a normal single
     // sub-90%-confidence review.
-    const reachedCap = params.attemptNumber >= MAX_ATTEMPTS_PER_ORDER;
+    const reachedCap = params.attemptNumber >= params.maxAttemptsPerOrder;
     await supabaseAdmin
       .from("d17_orders")
       .update({
         status: "manual_review",
-        manual_review_deadline: new Date(Date.now() + MANUAL_REVIEW_WINDOW_HOURS * 3600_000).toISOString(),
+        manual_review_deadline: new Date(Date.now() + params.manualReviewWindowHours * 3600_000).toISOString(),
         locked_for_admin_only: reachedCap,
         updated_at: new Date().toISOString(),
       })

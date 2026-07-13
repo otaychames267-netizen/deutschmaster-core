@@ -40,3 +40,36 @@ export const setD17KillSwitch = createServerFn({ method: "POST" })
 
     return { enabled: data.enabled };
   });
+
+/**
+ * Generic setter for the dynamic risk-config values (src/lib/d17/config.ts)
+ * — auto-approve threshold, attempt caps, review windows, suspension
+ * durations, etc. Every change is logged to platform_settings_history
+ * automatically (set_platform_setting itself does this — see
+ * 20260714030000_d17_v3_dynamic_config.sql), so no setting is ever
+ * silently overwritten without a preserved previous value.
+ */
+export const setD17ConfigValue = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { key: string; value: number }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.rpc("set_platform_setting", {
+      p_key: data.key,
+      p_value: data.value,
+      p_admin_id: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { key: data.key, value: data.value };
+  });
+
+/** Read-only fetch of every dynamic D17 config value, for the admin UI. */
+export const getD17ConfigValues = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { getD17Config } = await import("./config");
+    return getD17Config(supabaseAdmin);
+  });

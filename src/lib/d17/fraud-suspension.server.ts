@@ -12,9 +12,6 @@
  * again once a suspension window lapses.
  */
 
-const ESCALATION_1_MS = 1 * 3600_000;
-const ESCALATION_2_MS = 24 * 3600_000;
-
 export interface SuspensionStatus {
   accountLocked: boolean;
   suspendedUntil: string | null;
@@ -44,6 +41,9 @@ export async function escalateSuspension(
   supabaseAdmin: any,
   params: { userId: string; attemptId: string },
 ): Promise<EscalationResult> {
+  const { getD17Config } = await import("./config");
+  const config = await getD17Config(supabaseAdmin);
+
   const { data: existing } = await supabaseAdmin
     .from("d17_fraud_suspensions")
     .select("*")
@@ -59,10 +59,10 @@ export async function escalateSuspension(
   if (alreadyLocked) {
     tier = 3;
   } else if (newCount === 1) {
-    suspendedUntil = new Date(Date.now() + ESCALATION_1_MS).toISOString();
+    suspendedUntil = new Date(Date.now() + config.d17_suspension_tier1_hours * 3600_000).toISOString();
     tier = 1;
   } else if (newCount === 2) {
-    suspendedUntil = new Date(Date.now() + ESCALATION_2_MS).toISOString();
+    suspendedUntil = new Date(Date.now() + config.d17_suspension_tier2_hours * 3600_000).toISOString();
     tier = 2;
   } else {
     accountLocked = true;

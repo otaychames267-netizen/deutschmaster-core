@@ -2,8 +2,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Settings2, Globe, Bell, CreditCard, Shield, Save, CheckCircle2, AlertOctagon, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { setD17KillSwitch } from "@/lib/d17/platform-settings.functions";
+import { setD17KillSwitch, setD17ConfigValue, getD17ConfigValues } from "@/lib/d17/platform-settings.functions";
 import { toast } from "sonner";
+
+const D17_CONFIG_FIELDS: { key: string; label: string; suffix: string }[] = [
+  { key: "d17_auto_approve_threshold", label: "Auto-approve confidence threshold", suffix: "%" },
+  { key: "d17_max_attempts_per_order", label: "Max upload attempts per order", suffix: "" },
+  { key: "d17_manual_review_window_hours", label: "Manual review window", suffix: "hours" },
+  { key: "d17_ten_minute_submission_limit", label: "Burst limit (per 10 minutes)", suffix: "" },
+  { key: "d17_hourly_submission_limit", label: "Hourly submission limit", suffix: "" },
+  { key: "d17_confirmation_window_minutes", label: "Payment confirmation window", suffix: "minutes" },
+  { key: "d17_suspension_tier1_hours", label: "1st duplicate suspension", suffix: "hours" },
+  { key: "d17_suspension_tier2_hours", label: "2nd duplicate suspension", suffix: "hours" },
+];
 
 export const Route = createFileRoute("/_authenticated/admin/settings")({
   component: AdminSettingsPage,
@@ -13,6 +24,8 @@ function AdminSettingsPage() {
   const [saved, setSaved] = useState(false);
   const [killSwitch, setKillSwitchState] = useState<boolean | null>(null);
   const [killSwitchBusy, setKillSwitchBusy] = useState(false);
+  const [d17Config, setD17Config] = useState<Record<string, number> | null>(null);
+  const [d17ConfigBusyKey, setD17ConfigBusyKey] = useState<string | null>(null);
   const [form, setForm] = useState({
     platformName: "AuraLingovia",
     supportEmail: "support@auralingovia.com",
@@ -35,7 +48,26 @@ function AdminSettingsPage() {
     supabase
       .rpc("get_platform_setting", { p_key: "payment_verification_kill_switch" })
       .then(({ data }) => setKillSwitchState(data === true));
+    getD17ConfigValues({ data: undefined }).then((cfg) => setD17Config(cfg)).catch(() => setD17Config(null));
   }, []);
+
+  async function handleD17ConfigChange(key: string, value: string) {
+    const numValue = Number(value);
+    if (!Number.isFinite(numValue) || numValue <= 0) {
+      toast.error("Enter a positive number.");
+      return;
+    }
+    setD17ConfigBusyKey(key);
+    try {
+      await setD17ConfigValue({ data: { key, value: numValue } });
+      setD17Config((prev) => (prev ? { ...prev, [key]: numValue } : prev));
+      toast.success("Setting updated.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update the setting.");
+    } finally {
+      setD17ConfigBusyKey(null);
+    }
+  }
 
   async function toggleKillSwitch() {
     if (killSwitch === null || killSwitchBusy) return;
@@ -168,6 +200,35 @@ function AdminSettingsPage() {
             Kill switch is ON — all new D17 verification attempts are being routed to manual review.
           </div>
         )}
+
+        <div className="border-t border-border pt-4">
+          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">Dynamic risk configuration</p>
+          {d17Config === null ? (
+            <div className="flex justify-center py-4"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {D17_CONFIG_FIELDS.map((f) => (
+                <div key={f.key} className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground">{f.label}</label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="number"
+                      defaultValue={d17Config[f.key]}
+                      key={`${f.key}-${d17Config[f.key]}`}
+                      disabled={d17ConfigBusyKey === f.key}
+                      onBlur={(e) => e.target.value !== String(d17Config[f.key]) && handleD17ConfigChange(f.key, e.target.value)}
+                      className="w-24 rounded-lg border border-input bg-background px-2.5 py-1.5 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:opacity-50"
+                    />
+                    <span className="text-xs text-muted-foreground">{f.suffix}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="mt-3 text-xs text-muted-foreground">
+            Every change here is permanently logged with the previous value — see `platform_settings_history`.
+          </p>
+        </div>
       </Section>
 
       <Section icon={Shield} color="bg-emerald-500/10 text-emerald-500" title="Security">

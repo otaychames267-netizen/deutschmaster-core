@@ -4,8 +4,6 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 const ORDER_LIFETIME_MS = 24 * 3600_000;
-const CONFIRMATION_WINDOW_MS = 10 * 60_000;
-const MANUAL_REVIEW_WINDOW_HOURS = 8;
 const ACTIVE_STATUSES = ["awaiting_payment", "under_review", "manual_review"] as const;
 
 function generateSessionToken(): string {
@@ -44,12 +42,15 @@ async function flagUnderReviewIfUnconfirmed(
   order: { id: string; status: string; attempts_used: number; created_at: string },
 ): Promise<string> {
   if (order.status !== "awaiting_payment" || order.attempts_used > 0) return order.status;
-  if (Date.now() - Date.parse(order.created_at) < CONFIRMATION_WINDOW_MS) return order.status;
+  const { getD17Config } = await import("./config");
+  const config = await getD17Config(supabaseAdmin);
+  const confirmationWindowMs = config.d17_confirmation_window_minutes * 60_000;
+  if (Date.now() - Date.parse(order.created_at) < confirmationWindowMs) return order.status;
   await supabaseAdmin
     .from("d17_orders")
     .update({
       status: "under_review",
-      manual_review_deadline: new Date(Date.now() + MANUAL_REVIEW_WINDOW_HOURS * 3600_000).toISOString(),
+      manual_review_deadline: new Date(Date.now() + config.d17_manual_review_window_hours * 3600_000).toISOString(),
       updated_at: new Date().toISOString(),
     })
     .eq("id", order.id);

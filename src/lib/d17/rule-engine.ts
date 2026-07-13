@@ -61,11 +61,16 @@ export interface ScoreAttemptInput {
    * verify.functions.ts at pipeline start, before the Gemini call. */
   uploadToCreationDeltaMs: number;
   reputationVelocity: ReputationVelocityInput;
+  /** Admin-configurable via platform_settings (src/lib/d17/config.ts) —
+   * defaults to 90 (matching the original hardcoded value) if the caller
+   * doesn't supply one, so this stays a pure function with zero I/O of its
+   * own; the actual config read happens in verify.functions.ts. */
+  autoApproveThreshold?: number;
 }
 
 const HARD_FRAUD_FLAGS = new Set(["overlay_text_detected", "clone_region_suspected", "fake_screenshot_composite"]);
 const HARD_FRAUD_SCORE_THRESHOLD = 70;
-const AUTO_APPROVE_CONFIDENCE_THRESHOLD = 90; // risk_score <= 10
+const DEFAULT_AUTO_APPROVE_CONFIDENCE_THRESHOLD = 90; // risk_score <= 10
 
 const AMOUNT_TOLERANCE_TND = 0.5;
 
@@ -342,12 +347,14 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   const riskScore = hardGate ? 100 : Math.max(0, Math.min(100, checks.reduce((sum, c) => sum + c.points, 0)));
   const aiConfidence = hardGate ? 0 : 100 - riskScore;
 
+  const autoApproveThreshold = input.autoApproveThreshold ?? DEFAULT_AUTO_APPROVE_CONFIDENCE_THRESHOLD;
+
   let decision: AttemptDecision;
   let decisionReason: string;
   if (hardGate === "fraud") {
     decision = "auto_rejected_fraud";
     decisionReason = `Fraud signals detected: ${extraction.fraud_flags.join(", ")} (fraud score ${extraction.fraud_score}).`;
-  } else if (aiConfidence >= AUTO_APPROVE_CONFIDENCE_THRESHOLD) {
+  } else if (aiConfidence >= autoApproveThreshold) {
     decision = "auto_approved";
     decisionReason = "All verification checks passed.";
   } else {
