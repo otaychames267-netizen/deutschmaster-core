@@ -10,9 +10,9 @@ interface AuthLayoutProps {
 }
 
 const PANEL_FEATURES = [
-  "Full access during your 3-day trial",
   "Every TELC B1 & B2 exam section",
   "Prüfungssimulation with instant scoring",
+  "AI-powered essay grading and Mündlich practice",
   "Available in 7 languages",
 ];
 

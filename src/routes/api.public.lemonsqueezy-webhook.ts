@@ -135,7 +135,12 @@ async function handleEvent(supabaseAdmin: any, eventType: string, data: any, met
       }
 
       const renewsAt: string | undefined = attrs.renews_at;
-      const isActive = attrs.status === "active" || attrs.status === "on_trial";
+      // "on_trial" (Lemon Squeezy's own introductory-trial status, distinct
+      // from this app's removed free-trial system) is deliberately NOT
+      // treated as active — no trial access is granted anywhere in this
+      // app, including via a Lemon Squeezy product/variant that happens to
+      // have a trial period configured on their side.
+      const isActive = attrs.status === "active";
 
       // Only re-provision when this genuinely looks like a new billing cycle
       // (renews_at advanced past what we already have stored) — avoids

@@ -31,7 +31,6 @@ function AdminSettingsPage() {
   const [form, setForm] = useState({
     platformName: "AuraLingovia",
     supportEmail: "support@auralingovia.com",
-    trialDays: "3",
     schriftlichPrice: "25",
     muendlichPrice: "45",
     komplettprice: "60",
@@ -183,7 +182,6 @@ function AdminSettingsPage() {
           <Field label="Mündlich price (TND/mo)" name="muendlichPrice" type="number" />
           <Field label="Komplett price (TND/mo)" name="komplettprice" type="number" />
         </div>
-        <Field label="Trial duration (days)" name="trialDays" type="number" />
         <Field label="Stripe secret key" name="stripeKey" type="password" disabled />
         <p className="text-xs text-muted-foreground">
           Stripe key management is handled server-side via environment variables. Contact your hosting provider to update it.

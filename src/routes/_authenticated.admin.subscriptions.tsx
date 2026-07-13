@@ -24,9 +24,9 @@ const PAGE_SIZE = 20;
 
 const STATUS_CONFIG: Record<string, { label: string; icon: React.ComponentType<{ className?: string }>; cls: string }> = {
   active:  { label: "Active",  icon: CheckCircle2, cls: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
-  trial:   { label: "Trial",   icon: Clock,        cls: "bg-blue-500/10 text-blue-600 dark:text-blue-400"         },
   expired: { label: "Expired", icon: XCircle,      cls: "bg-muted text-muted-foreground"                           },
   cancelled: { label: "Cancelled", icon: XCircle,  cls: "bg-destructive/10 text-destructive"                       },
+  suspended: { label: "Suspended", icon: Clock,    cls: "bg-amber-500/10 text-amber-600 dark:text-amber-400"       },
 };
 
 function SubBadge({ status }: { status: string }) {
@@ -57,7 +57,7 @@ function AdminSubscriptionsPage() {
       .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
 
     if (filterStatus !== "all") {
-      query = query.eq("status", filterStatus as "expired" | "trial" | "active" | "cancelled" | "suspended");
+      query = query.eq("status", filterStatus as "expired" | "active" | "cancelled" | "suspended");
     }
 
     const { data, count } = await query;
@@ -71,13 +71,12 @@ function AdminSubscriptionsPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   /* Summary counts */
-  const [counts, setCounts] = useState({ active: 0, trial: 0, expired: 0 });
+  const [counts, setCounts] = useState({ active: 0, expired: 0 });
   useEffect(() => {
     Promise.all([
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
-      supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "expired"),
-    ]).then(([a, t, e]) => setCounts({ active: a.count ?? 0, trial: t.count ?? 0, expired: e.count ?? 0 }));
+    ]).then(([a, e]) => setCounts({ active: a.count ?? 0, expired: e.count ?? 0 }));
   }, []);
 
   return (
@@ -99,7 +98,6 @@ function AdminSubscriptionsPage() {
       <div className="flex flex-wrap gap-3">
         {[
           { label: "Active",  count: counts.active,  cls: "border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400" },
-          { label: "Trial",   count: counts.trial,   cls: "border-blue-500/30 bg-blue-500/5 text-blue-600 dark:text-blue-400"             },
           { label: "Expired", count: counts.expired, cls: "border-border bg-muted text-muted-foreground"                                   },
         ].map((s) => (
           <div key={s.label} className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium ${s.cls}`}>
@@ -130,9 +128,9 @@ function AdminSubscriptionsPage() {
           >
             <option value="all">All statuses</option>
             <option value="active">Active</option>
-            <option value="trial">Trial</option>
             <option value="expired">Expired</option>
             <option value="cancelled">Cancelled</option>
+            <option value="suspended">Suspended</option>
           </select>
         </div>
       </div>

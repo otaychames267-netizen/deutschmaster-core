@@ -143,7 +143,7 @@ function BillingPage() {
       .from("subscriptions")
       .select("status, plan_code, expires_at")
       .eq("user_id", user.id)
-      .in("status", ["active", "trial"])
+      .eq("status", "active")
       .order("expires_at", { ascending: false })
       .limit(1)
       .maybeSingle()
@@ -163,7 +163,6 @@ function BillingPage() {
   }, []);
 
   const isActive = subscription?.status === "active";
-  const isTrial  = subscription?.status === "trial";
   const daysLeft = subscription ? daysRemaining(subscription.expires_at) : 0;
   const renewDate = subscription
     ? new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
@@ -184,62 +183,38 @@ function BillingPage() {
       </div>
 
       {/* ── Current subscription status card ─────────────────── */}
-      {!loading && (isActive || isTrial) && subscription && (
-        <div className={`relative overflow-hidden rounded-2xl border p-6 shadow-sm ${
-          isTrial ? "border-amber-500/30 bg-amber-500/5" : "border-emerald-500/30 bg-emerald-500/5"
-        }`}>
+      {!loading && isActive && subscription && (
+        <div className="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
-              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
-                isTrial ? "bg-amber-500/15" : "bg-emerald-500/15"
-              }`}>
-                {isTrial
-                  ? <Clock className="h-6 w-6 text-amber-500" />
-                  : <CheckCircle2 className="h-6 w-6 text-emerald-500" />
-                }
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15">
+                <CheckCircle2 className="h-6 w-6 text-emerald-500" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <p className="font-black text-foreground text-base">
-                    {isTrial ? "Free Trial" : "Active Subscription"}
-                  </p>
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
-                    isTrial
-                      ? "bg-amber-500/15 text-amber-600 dark:text-amber-400"
-                      : "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
-                  }`}>
-                    {isTrial ? "Trial" : "Active"}
+                  <p className="font-black text-foreground text-base">Active Subscription</p>
+                  <span className="rounded-full px-2.5 py-0.5 text-xs font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                    Active
                   </span>
                 </div>
                 <p className="mt-0.5 text-sm text-muted-foreground">
                   Plan: <span className="font-semibold capitalize text-foreground">{subscription.plan_code}</span>
-                  {renewDate ? ` · ${isTrial ? "Expires" : "Renews"} ${renewDate}` : ""}
+                  {renewDate ? ` · Renews ${renewDate}` : ""}
                 </p>
               </div>
             </div>
 
             {/* Days remaining counter */}
-            <div className={`flex flex-col items-center rounded-2xl px-6 py-3 text-center ${
-              isTrial ? "bg-amber-500/10" : "bg-emerald-500/10"
-            }`}>
-              <p className={`text-3xl font-black ${isTrial ? "text-amber-500" : "text-emerald-500"}`}>
+            <div className="flex flex-col items-center rounded-2xl px-6 py-3 text-center bg-emerald-500/10">
+              <p className="text-3xl font-black text-emerald-500">
                 {daysLeft}
               </p>
               <p className="text-xs font-semibold text-muted-foreground">days remaining</p>
             </div>
           </div>
 
-          {isTrial && (
-            <div className="mt-4 flex items-start gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
-              <p className="text-sm text-amber-700 dark:text-amber-300">
-                Your trial gives full access. Subscribe before it ends to avoid interruption.
-              </p>
-            </div>
-          )}
-
           {/* Renewal date warning */}
-          {isActive && daysLeft <= 7 && (
+          {daysLeft <= 7 && (
             <div className="mt-4 flex items-start gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
               <p className="text-sm text-amber-700 dark:text-amber-300">
@@ -259,7 +234,7 @@ function BillingPage() {
           <div className="flex-1">
             <p className="font-black text-foreground">No active subscription</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Choose a plan below to start your 3-day free trial — no credit card required.
+              Choose a plan below to unlock practice exercises, exam simulations, and AI features.
             </p>
           </div>
         </div>
@@ -385,7 +360,7 @@ function BillingPage() {
       {/* ── Benefits overview ─────────────────────────────────── */}
       <div className="grid gap-4 sm:grid-cols-3">
         {[
-          { icon: Zap,       title: "Instant access",     desc: "Full access granted the moment your trial starts.",              color: "text-amber-500 bg-amber-500/10" },
+          { icon: Zap,       title: "Instant access",     desc: "Full access granted the moment your payment is verified.",       color: "text-amber-500 bg-amber-500/10" },
           { icon: Shield,    title: "Secure payments",    desc: "Lemon Squeezy-powered — your card details are never stored here.", color: "text-blue-500 bg-blue-500/10"   },
           { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Cancel in one click, no questions asked.",           color: "text-emerald-500 bg-emerald-500/10" },
         ].map((item) => (

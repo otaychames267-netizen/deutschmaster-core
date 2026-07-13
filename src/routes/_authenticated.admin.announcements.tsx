@@ -11,7 +11,7 @@ interface Announcement {
   id: string;
   title: string;
   body: string;
-  target: "all" | "subscribers" | "trial";
+  target: "all" | "subscribers";
   active: boolean;
   createdAt: string;
 }
@@ -38,7 +38,6 @@ const DEMO: Announcement[] = [
 const TARGET_LABELS: Record<string, string> = {
   all:         "All users",
   subscribers: "Subscribers only",
-  trial:       "Trial users",
 };
 
 function AdminAnnouncementsPage() {
@@ -46,7 +45,7 @@ function AdminAnnouncementsPage() {
   const [showForm, setShowForm]           = useState(false);
   const [title, setTitle]                 = useState("");
   const [body, setBody]                   = useState("");
-  const [target, setTarget]               = useState<"all" | "subscribers" | "trial">("all");
+  const [target, setTarget]               = useState<"all" | "subscribers">("all");
 
   function handleCreate() {
     if (!title || !body) { toast.error("Title and body are required."); return; }
@@ -118,11 +117,10 @@ function AdminAnnouncementsPage() {
           </div>
           <div className="space-y-1.5">
             <label className="text-sm font-medium text-foreground">Target audience</label>
-            <select value={target} onChange={(e) => setTarget(e.target.value as "all" | "subscribers" | "trial")}
+            <select value={target} onChange={(e) => setTarget(e.target.value as "all" | "subscribers")}
               className="w-full rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors">
               <option value="all">All users</option>
               <option value="subscribers">Subscribers only</option>
-              <option value="trial">Trial users</option>
             </select>
           </div>
           <div className="flex justify-end gap-2">

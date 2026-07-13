@@ -163,10 +163,6 @@ const STATS = [
 
 const FAQ_ITEMS = [
   {
-    q: "What is included in the 3-day free trial?",
-    a: "You get full, unrestricted access to every feature for 3 days — no credit card required. After the trial you simply choose the plan that matches your preparation goals.",
-  },
-  {
     q: "Can I switch between TELC B1 and B2?",
     a: "Yes. You can change your target level at any time from your profile settings. Progress in each level is tracked independently.",
   },
@@ -259,7 +255,7 @@ function Navbar() {
                 to="/register"
                 className="inline-flex items-center rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90"
               >
-                Start free trial
+                Get Started
               </Link>
             </div>
           )}
@@ -296,7 +292,7 @@ function Navbar() {
                 to="/register"
                 className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground"
               >
-                Start free trial — 3 days free
+                Get Started
               </Link>
             </div>
           </nav>
@@ -341,7 +337,7 @@ function Hero() {
             to="/register"
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-primary/30"
           >
-            Start your free trial
+            Get Started
             <ArrowRight className="h-4 w-4" />
           </Link>
           <a
@@ -355,7 +351,7 @@ function Hero() {
 
         {/* Trust line */}
         <p className="mt-5 text-xs text-muted-foreground">
-          3-day free trial · No credit card required · Cancel anytime
+          Secure payments · Cancel anytime
         </p>
       </div>
 
@@ -525,7 +521,7 @@ function Pricing() {
             {t("pricing.title")}
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            3-day free trial on every plan. No credit card required.
+            Choose the plan that matches your exam goals.
           </p>
         </div>
 
@@ -588,7 +584,7 @@ function Pricing() {
                     : "bg-primary text-primary-foreground hover:bg-primary/90"
                 }`}
               >
-                Start free trial <ChevronRight className="h-3.5 w-3.5" />
+                Get Started <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           ))}
@@ -596,7 +592,7 @@ function Pricing() {
 
         {/* Guarantee note */}
         <p className="mt-8 text-center text-xs text-muted-foreground">
-          All plans include a 3-day free trial. Cancel anytime — no questions asked.
+          Cancel anytime — no questions asked.
         </p>
       </div>
     </section>

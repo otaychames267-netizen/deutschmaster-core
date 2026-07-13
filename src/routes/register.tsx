@@ -101,7 +101,7 @@ function RegisterPage() {
   }
 
   return (
-    <AuthLayout title={t("auth.sign_up")} subtitle="Start your free 3-day trial — no credit card required">
+    <AuthLayout title={t("auth.sign_up")} subtitle="Create your account to get started">
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">

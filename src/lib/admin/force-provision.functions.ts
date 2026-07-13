@@ -30,9 +30,9 @@ export const forceProvisionSubscription = createServerFn({ method: "POST" })
     const reason = data.note?.trim() || "admin_force_provision";
 
     // subscriptions.user_id is not unique (a user can accumulate multiple
-    // rows over time — trial, past subscriptions, etc.), so this is a
-    // read-then-write, same pattern as trial.functions.ts and the Lemon
-    // Squeezy webhook, not a plain upsert on user_id.
+    // rows over time — past cancelled/expired subscriptions, etc.), so this
+    // is a read-then-write, same pattern as the Lemon Squeezy webhook, not
+    // a plain upsert on user_id.
     const { data: existingSub } = await supabaseAdmin
       .from("subscriptions")
       .select("id")

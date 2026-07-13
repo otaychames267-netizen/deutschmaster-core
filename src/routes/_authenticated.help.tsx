@@ -25,10 +25,6 @@ const FAQ_SECTIONS = [
         a: "The Schriftlich module covers the written exam: Lesen (reading), Hören (listening), Sprachbausteine (grammar), and Schreiben (writing). Mündlich covers the oral exam: Präsentation, Thema sprechen, and Gemeinsam planen. The Komplett plan gives you access to both.",
       },
       {
-        q: "Is there a free trial?",
-        a: "Yes — when you register, you receive a 3-day free trial with full access to your chosen plan. No credit card is required to start.",
-      },
-      {
         q: "What exam level is this platform for?",
         a: "Currently AuraLingovia focuses on TELC B2 (Deutsch B2). B1 content is planned for a future release.",
       },
@@ -49,11 +45,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Can I cancel anytime?",
-        a: "Yes, you can cancel your subscription at any time. You retain access until the end of your current billing period.",
-      },
-      {
-        q: "When will Stripe payments be enabled?",
-        a: "Payment processing via Stripe will be activated shortly. During the launch phase, free trials are granted automatically. You'll be notified when billing goes live.",
+        a: "Yes, you can cancel your subscription at any time from the Billing page. Access to your plan's content is revoked immediately upon cancellation.",
       },
     ],
   },

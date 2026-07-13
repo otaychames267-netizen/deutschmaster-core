@@ -76,7 +76,7 @@ function ProfilePage() {
     if (!user) return;
     Promise.all([
       supabase.from("profiles").select("full_name, level, exam_date, avatar_url").eq("id", user.id).maybeSingle(),
-      supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).in("status", ["active", "trial"]).order("expires_at", { ascending: false }).limit(1).maybeSingle(),
+      supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).eq("status", "active").order("expires_at", { ascending: false }).limit(1).maybeSingle(),
     ]).then(([profileRes, subRes]) => {
       if (profileRes.data) {
         setProfile({ ...(profileRes.data as Profile), bio: null });
@@ -382,28 +382,23 @@ function ProfilePage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between rounded-xl border border-border bg-muted/20 p-4">
               <div className="flex items-center gap-3">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${subscription.status === "trial" ? "bg-amber-500/10" : "bg-emerald-500/10"}`}>
-                  {subscription.status === "trial"
-                    ? <AlertCircle className="h-5 w-5 text-amber-500" />
-                    : <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                  }
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-foreground capitalize">{subscription.plan_code} Plan</p>
-                  <p className="text-xs text-muted-foreground">
-                    {subscription.status === "trial" ? "Free trial" : "Active subscription"}
-                  </p>
+                  <p className="text-xs text-muted-foreground">Active subscription</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className={`text-2xl font-black ${subscription.status === "trial" ? "text-amber-500" : "text-emerald-500"}`}>
+                <p className="text-2xl font-black text-emerald-500">
                   {Math.max(0, Math.ceil((new Date(subscription.expires_at).getTime() - Date.now()) / 86400000))}
                 </p>
                 <p className="text-xs text-muted-foreground">days left</p>
               </div>
             </div>
             <p className="text-xs text-muted-foreground">
-              {subscription.status === "trial" ? "Expires" : "Renews"}{" "}
+              Renews{" "}
               {new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
             </p>
             <Link to="/billing" className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline">
@@ -415,7 +410,7 @@ function ProfilePage() {
             <AlertCircle className="h-5 w-5 text-amber-500 shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-semibold text-foreground">No active subscription</p>
-              <p className="text-xs text-muted-foreground">Start a free trial to access all exam content.</p>
+              <p className="text-xs text-muted-foreground">Subscribe to access exam content.</p>
             </div>
             <Link to="/billing" className="shrink-0 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-colors">
               View plans

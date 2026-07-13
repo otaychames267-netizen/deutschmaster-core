@@ -15,7 +15,7 @@ export const Route = createFileRoute("/_authenticated/admin/")({
 interface Stats {
   users: number;
   activeSubscriptions: number;
-  trials: number;
+  expiredSubscriptions: number;
   publishedExams: number;
   pendingImports: number;
 }
@@ -33,7 +33,7 @@ function Skeleton({ className = "" }: { className?: string }) {
 }
 
 function AdminIndexPage() {
-  const [stats, setStats]             = useState<Stats>({ users: 0, activeSubscriptions: 0, trials: 0, publishedExams: 0, pendingImports: 0 });
+  const [stats, setStats]             = useState<Stats>({ users: 0, activeSubscriptions: 0, expiredSubscriptions: 0, publishedExams: 0, pendingImports: 0 });
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   const [loading, setLoading]         = useState(true);
 
@@ -41,17 +41,17 @@ function AdminIndexPage() {
     Promise.all([
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
-      supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
+      supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "expired"),
       supabase.from("exams").select("id", { count: "exact", head: true }).eq("status", "published"),
       supabase.from("pdf_imports").select("id", { count: "exact", head: true }).eq("status", "needs_review"),
       supabase.from("profiles").select("id, full_name, level, created_at").order("created_at", { ascending: false }).limit(6),
-    ]).then(([users, active, trials, exams, imports, recent]) => {
+    ]).then(([users, active, expired, exams, imports, recent]) => {
       setStats({
-        users:               users.count   ?? 0,
-        activeSubscriptions: active.count  ?? 0,
-        trials:              trials.count  ?? 0,
-        publishedExams:      exams.count   ?? 0,
-        pendingImports:      imports.count ?? 0,
+        users:                users.count   ?? 0,
+        activeSubscriptions:  active.count  ?? 0,
+        expiredSubscriptions: expired.count ?? 0,
+        publishedExams:       exams.count   ?? 0,
+        pendingImports:       imports.count ?? 0,
       });
       setRecentUsers((recent.data ?? []) as RecentUser[]);
       setLoading(false);
@@ -61,13 +61,13 @@ function AdminIndexPage() {
   const METRIC_CARDS = [
     { label: "Total users",     value: stats.users,               icon: Users,      to: "/admin/users",         color: "text-blue-500",    bg: "bg-blue-500/10",    ring: "ring-blue-500/15",    glow: "shadow-blue-500/10" },
     { label: "Active plans",    value: stats.activeSubscriptions, icon: CreditCard, to: "/admin/subscriptions", color: "text-emerald-500", bg: "bg-emerald-500/10", ring: "ring-emerald-500/15", glow: "shadow-emerald-500/10" },
-    { label: "Free trials",     value: stats.trials,              icon: Clock,      to: "/admin/subscriptions", color: "text-amber-500",   bg: "bg-amber-500/10",   ring: "ring-amber-500/15",   glow: "shadow-amber-500/10" },
+    { label: "Expired plans",   value: stats.expiredSubscriptions, icon: Clock,      to: "/admin/subscriptions", color: "text-amber-500",   bg: "bg-amber-500/10",   ring: "ring-amber-500/15",   glow: "shadow-amber-500/10" },
     { label: "Published exams", value: stats.publishedExams,      icon: BookOpen,   to: "/admin/exams",         color: "text-violet-500",  bg: "bg-violet-500/10",  ring: "ring-violet-500/15",  glow: "shadow-violet-500/10" },
   ];
 
   const ADMIN_SECTIONS = [
     { label: "Users",          icon: Users,      to: "/admin/users",         desc: "Accounts, roles, bans, level",       color: "text-blue-500",    bg: "bg-blue-500/10" },
-    { label: "Subscriptions",  icon: CreditCard, to: "/admin/subscriptions", desc: "Active, trial, expired plans",        color: "text-emerald-500", bg: "bg-emerald-500/10" },
+    { label: "Subscriptions",  icon: CreditCard, to: "/admin/subscriptions", desc: "Active, expired, cancelled plans",    color: "text-emerald-500", bg: "bg-emerald-500/10" },
     { label: "Analytics",      icon: BarChart2,  to: "/admin/analytics",     desc: "Revenue, engagement, retention",      color: "text-violet-500",  bg: "bg-violet-500/10" },
     { label: "Exams",          icon: BookOpen,   to: "/admin/exams",         desc: "Schriftlich & Mündlich exams",        color: "text-indigo-500",  bg: "bg-indigo-500/10" },
     { label: "PDF Import",     icon: FileText,   to: "/admin/pdf-import",    desc: "Bulk content pipeline & review",      color: "text-amber-500",   bg: "bg-amber-500/10" },
@@ -241,8 +241,8 @@ function AdminIndexPage() {
                   <p className="text-[10px] font-semibold text-muted-foreground">Paid</p>
                 </div>
                 <div className="rounded-xl bg-muted/60 px-3 py-2.5 text-center">
-                  <p className="text-lg font-black text-foreground">{stats.trials}</p>
-                  <p className="text-[10px] font-semibold text-muted-foreground">Trial</p>
+                  <p className="text-lg font-black text-foreground">{stats.expiredSubscriptions}</p>
+                  <p className="text-[10px] font-semibold text-muted-foreground">Expired</p>
                 </div>
               </div>
             </div>

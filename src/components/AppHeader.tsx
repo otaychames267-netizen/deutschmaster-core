@@ -260,7 +260,6 @@ const NOTIF_ICONS: Record<string, { icon: typeof CheckCircle2; bg: string; text:
   error:   { icon: AlertCircle,  bg: "bg-red-500/10",     text: "text-red-500"     },
   info:    { icon: Info,          bg: "bg-blue-500/10",    text: "text-blue-500"    },
   system:  { icon: Zap,           bg: "bg-primary/10",     text: "text-primary"     },
-  trial:   { icon: Zap,           bg: "bg-primary/10",     text: "text-primary"     },
 };
 const DEFAULT_NOTIF_ICON = NOTIF_ICONS.info;
 
@@ -294,7 +293,6 @@ export function AppHeader() {
   const [notifications, setNotifications] = useState<Notif[]>([]);
   const [notifsLoaded, setNotifsLoaded] = useState(false);
   const [subDaysLeft, setSubDaysLeft] = useState<number | null>(null);
-  const [subStatus, setSubStatus] = useState<string | null>(null);
   const displayName = user?.user_metadata?.full_name as string | undefined;
 
   // Load subscription days remaining
@@ -303,13 +301,12 @@ export function AppHeader() {
     supabase.from("subscriptions")
       .select("status, expires_at")
       .eq("user_id", user.id)
-      .in("status", ["active", "trial"])
+      .eq("status", "active")
       .limit(1).maybeSingle()
       .then(({ data }) => {
         if (data) {
           const days = Math.max(0, Math.ceil((new Date(data.expires_at).getTime() - Date.now()) / 86400000));
           setSubDaysLeft(days);
-          setSubStatus(data.status);
         }
       });
   }, [user?.id]);
@@ -391,8 +388,6 @@ export function AppHeader() {
               className={`hidden lg:flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition-colors hover:opacity-80 ${
                 subDaysLeft <= 3
                   ? "bg-rose-500/10 border-rose-500/15 text-rose-600 dark:text-rose-400"
-                  : subStatus === "trial"
-                  ? "bg-amber-500/10 border-amber-500/15 text-amber-600 dark:text-amber-400"
                   : "bg-emerald-500/10 border-emerald-500/15 text-emerald-600 dark:text-emerald-400"
               }`}
             >

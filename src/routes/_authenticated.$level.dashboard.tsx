@@ -152,7 +152,7 @@ function DashboardPage() {
         supabase.from("subscriptions")
           .select("status, plan_code, expires_at")
           .eq("user_id", user.id)
-          .in("status", ["active", "trial"])
+          .eq("status", "active")
           .order("expires_at", { ascending: false })
           .limit(1).maybeSingle(),
         supabase.from("attempt_results")
@@ -212,7 +212,6 @@ function DashboardPage() {
   const firstName     = profile?.full_name?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
   const levelBadge    = level === "TELC_B1" ? "B1" : "B2";
   const examCountdown = daysUntil(profile?.exam_date ?? null);
-  const isTrial       = subscription?.status === "trial";
   const hasAccess     = !!subscription;
   const daysLeft      = subscription ? daysRemaining(subscription.expires_at) : 0;
 
@@ -273,7 +272,7 @@ function DashboardPage() {
               )}
               {hasAccess && (
                 <span className="inline-flex h-7 items-center gap-1.5 rounded-full bg-emerald-500/20 px-3 text-xs font-bold text-emerald-300 ring-1 ring-emerald-500/20">
-                  <Crown className="h-3 w-3" /> {isTrial ? "Free Trial" : "Premium"}
+                  <Crown className="h-3 w-3" /> Premium
                 </span>
               )}
             </div>
@@ -296,10 +295,10 @@ function DashboardPage() {
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
           <div className="flex-1">
             <p className="text-sm font-semibold text-foreground">Unlock your full study plan</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">Practice exams, simulations, and analytics — start your free trial today.</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">Subscribe to unlock practice exercises, exam simulations, and AI features.</p>
           </div>
           <Link to="/billing" className="shrink-0 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-white hover:bg-amber-500/90 transition-colors">
-            Get started
+            View plans
           </Link>
         </div>
       )}
