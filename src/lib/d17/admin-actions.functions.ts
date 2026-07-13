@@ -273,6 +273,8 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `adminReplayVerification:${context.userId}`, windowSeconds: 60, maxRequests: 10 });
     const { stripExifAndReencode, sha256Hash, sha256HashText, computeDHash } = await import("./image-hash.server");
     const { buildVerificationPrompt, parseExtraction } = await import("./verification-prompt");
     const { scoreAttempt } = await import("./rule-engine");

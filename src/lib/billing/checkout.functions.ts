@@ -98,7 +98,12 @@ async function mockCheckoutSession(planCode: PlanCode, context: { supabase: any;
 export const createCheckoutSession = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { plan_code: PlanCode }) => d)
-  .handler(async ({ data, context }) => createCheckoutSessionImpl(context.userId, data.plan_code));
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `createCheckoutSession:${context.userId}`, windowSeconds: 60, maxRequests: 10 });
+    return createCheckoutSessionImpl(context.userId, data.plan_code);
+  });
 
 /**
  * The actual logic, extracted from the createServerFn handler so it can be
