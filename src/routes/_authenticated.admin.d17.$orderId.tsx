@@ -1,11 +1,11 @@
 import { createFileRoute, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { adminApproveOrder, adminRejectOrder, adminAdjustGrant, adminClearSuspension } from "@/lib/d17/admin-actions.functions";
+import { adminApproveOrder, adminRejectOrder, adminAdjustGrant, adminClearSuspension, adminReplayVerification } from "@/lib/d17/admin-actions.functions";
 import { toast } from "sonner";
 import {
   ArrowLeft, CheckCircle2, XCircle, AlertTriangle, Loader2,
-  Image as ImageIcon, ShieldAlert, Sliders, ShieldBan, Unlock,
+  Image as ImageIcon, ShieldAlert, Sliders, ShieldBan, Unlock, RefreshCw,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/d17/$orderId")({
@@ -187,6 +187,19 @@ function AdminD17OrderDetail() {
     }
   }
 
+  async function handleReplay() {
+    setBusy(true);
+    try {
+      const result = await adminReplayVerification({ data: { order_id: orderId } });
+      toast.success(`Replay complete — new decision: ${result.decision.replace(/_/g, " ")}.`);
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Replay failed.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-24">
@@ -329,6 +342,16 @@ function AdminD17OrderDetail() {
             >
               <XCircle className="h-4 w-4" /> Reject
             </button>
+            {attempts.length > 0 && (
+              <button
+                onClick={handleReplay}
+                disabled={busy}
+                title="Re-runs OCR + AI on the already-uploaded screenshots — the student never re-uploads."
+                className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-foreground hover:bg-muted disabled:opacity-50"
+              >
+                <RefreshCw className="h-4 w-4" /> Replay verification
+              </button>
+            )}
           </div>
 
           {showReject && (

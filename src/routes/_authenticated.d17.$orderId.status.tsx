@@ -128,15 +128,21 @@ function D17StatusPage() {
         </div>
       )}
 
-      {order.status === "manual_review" && (
+      {(order.status === "manual_review" || order.status === "under_review") && (
         <div className="rounded-2xl border border-amber-500/30 bg-amber-500/5 p-6">
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15">
               <AlertTriangle className="h-5 w-5 text-amber-500" />
             </div>
             <div>
-              <p className="font-black text-foreground">Additional Verification Required</p>
-              <p className="text-xs text-muted-foreground">A team member is reviewing your payment.</p>
+              <p className="font-black text-foreground">
+                {order.status === "under_review" && order.attempts_used === 0 ? "Payment Confirmation Needed" : "Additional Verification Required"}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {order.status === "under_review" && order.attempts_used === 0
+                  ? "We haven't received your payment screenshots yet. A team member will follow up, or you can upload now."
+                  : "A team member is reviewing your payment."}
+              </p>
             </div>
           </div>
 
@@ -151,7 +157,10 @@ function D17StatusPage() {
 
           <div className="mt-5 space-y-2">
             <ProgressStep label="Payment received" done />
-            <ProgressStep label="AI verification completed" done />
+            <ProgressStep
+              label={order.status === "under_review" && order.attempts_used === 0 ? "Screenshots uploaded" : "AI verification completed"}
+              done={order.attempts_used > 0}
+            />
             <ProgressStep label="Manual review" pending />
           </div>
 
@@ -161,7 +170,8 @@ function D17StatusPage() {
               params={{ orderId }}
               className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted"
             >
-              <Upload className="h-4 w-4" /> Upload a clearer screenshot ({attemptsRemaining} left)
+              <Upload className="h-4 w-4" />
+              {order.attempts_used === 0 ? `Upload your screenshots (${attemptsRemaining} attempts)` : `Upload a clearer screenshot (${attemptsRemaining} left)`}
             </Link>
           )}
         </div>

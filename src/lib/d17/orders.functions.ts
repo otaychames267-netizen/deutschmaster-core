@@ -4,6 +4,8 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 const ORDER_LIFETIME_MS = 24 * 3600_000;
+const CONFIRMATION_WINDOW_MS = 10 * 60_000;
+const MANUAL_REVIEW_WINDOW_HOURS = 8;
 const ACTIVE_STATUSES = ["awaiting_payment", "under_review", "manual_review"] as const;
 
 function generateSessionToken(): string {
@@ -22,6 +24,36 @@ async function expireIfStale(supabaseAdmin: any, order: { id: string; status: st
   if (new Date(order.expires_at).getTime() >= Date.now()) return order.status;
   await supabaseAdmin.from("d17_orders").update({ status: "expired", updated_at: new Date().toISOString() }).eq("id", order.id);
   return "expired";
+}
+
+/**
+ * Payment confirmation window: if 10 minutes pass after order creation with
+ * zero screenshots uploaded, the order moves to `under_review` (previously
+ * a defined-but-dead status) instead of silently sitting in
+ * `awaiting_payment`. The student can still upload during this window —
+ * the pipeline (verify.functions.ts) forces any such attempt to land as
+ * manual_review regardless of AI confidence, since a payment that missed
+ * its confirmation window needs a human look either way. Same lazy
+ * check-and-flip pattern as expireIfStale (no cron exists in this app) —
+ * checked at both order creation and order fetch. Runs before
+ * expireIfStale: once flipped to under_review, the order is no longer
+ * `awaiting_payment`, so the 24h expiry check naturally stops applying to it.
+ */
+async function flagUnderReviewIfUnconfirmed(
+  supabaseAdmin: any,
+  order: { id: string; status: string; attempts_used: number; created_at: string },
+): Promise<string> {
+  if (order.status !== "awaiting_payment" || order.attempts_used > 0) return order.status;
+  if (Date.now() - Date.parse(order.created_at) < CONFIRMATION_WINDOW_MS) return order.status;
+  await supabaseAdmin
+    .from("d17_orders")
+    .update({
+      status: "under_review",
+      manual_review_deadline: new Date(Date.now() + MANUAL_REVIEW_WINDOW_HOURS * 3600_000).toISOString(),
+      updated_at: new Date().toISOString(),
+    })
+    .eq("id", order.id);
+  return "under_review";
 }
 
 /**
@@ -50,7 +82,7 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
 
     const { data: existing } = await supabaseAdmin
       .from("d17_orders")
-      .select("id, status, expires_at")
+      .select("id, status, expires_at, attempts_used, created_at")
       .eq("user_id", userId)
       .in("status", ACTIVE_STATUSES)
       .order("created_at", { ascending: false })
@@ -58,7 +90,8 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
       .maybeSingle();
 
     if (existing) {
-      const currentStatus = await expireIfStale(supabaseAdmin, existing);
+      const afterConfirmationCheck = await flagUnderReviewIfUnconfirmed(supabaseAdmin, existing);
+      const currentStatus = afterConfirmationCheck === "under_review" ? "under_review" : await expireIfStale(supabaseAdmin, existing);
       if (currentStatus !== "expired") {
         const { data: full, error: fullError } = await supabaseAdmin
           .from("d17_orders")
@@ -129,7 +162,8 @@ export const getD17Order = createServerFn({ method: "POST" })
 
     if (order.status === "awaiting_payment") {
       const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-      const currentStatus = await expireIfStale(supabaseAdmin, order);
+      const afterConfirmationCheck = await flagUnderReviewIfUnconfirmed(supabaseAdmin, order);
+      const currentStatus = afterConfirmationCheck === "under_review" ? "under_review" : await expireIfStale(supabaseAdmin, order);
       if (currentStatus !== order.status) order.status = currentStatus as typeof order.status;
     }
 

@@ -208,3 +208,137 @@ export const adminAdjustGrant = createServerFn({ method: "POST" })
     }
     return { status: "admin_approved" };
   });
+
+/**
+ * Re-runs OCR + Gemini + the rule engine on an order's LATEST attempt's
+ * already-uploaded screenshots — the student is never asked to upload
+ * again. Used for: (1) manually re-analyzing a stuck/ambiguous order, and
+ * (2) "safe resume" after a mid-pipeline server crash — since the
+ * screenshots are already durably stored before the pipeline ever runs,
+ * a crash just leaves the order in its last persisted state; replaying
+ * with the same already-uploaded files reprocesses it safely without any
+ * queue/job infrastructure, exactly reproducing the same result an
+ * uninterrupted run would have produced (duplicate/hard-gate checks are
+ * all idempotent).
+ *
+ * Deliberately skips the duplicate-detection hard gate (the screenshots
+ * are already-recorded, known-associated with this exact order — checking
+ * them against themselves would trivially self-flag) and does NOT
+ * increment attempts_used (a replay is free, not a new student attempt).
+ * Inserts a NEW attempt row (is_admin_replay = true) rather than
+ * overwriting the original — full history is preserved (item 11/37).
+ */
+export const adminReplayVerification = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { order_id: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { stripExifAndReencode, sha256Hash, sha256HashText, computeDHash } = await import("./image-hash.server");
+    const { buildVerificationPrompt, parseExtraction } = await import("./verification-prompt");
+    const { scoreAttempt } = await import("./rule-engine");
+    const { computeReputationVelocity } = await import("./reputation-velocity.server");
+    const { callGeminiVerification, finalizeAttempt } = await import("./verify.functions");
+
+    const { data: order, error: orderError } = await supabaseAdmin.from("d17_orders").select("*").eq("id", data.order_id).maybeSingle();
+    if (orderError || !order) throw new Error("Order not found.");
+
+    const { data: latest, error: attemptError } = await supabaseAdmin
+      .from("d17_verification_attempts")
+      .select("*")
+      .eq("order_id", order.id)
+      .order("attempt_number", { ascending: false })
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (attemptError || !latest) throw new Error("No prior verification attempt exists on this order to replay.");
+    if (!latest.storage_path_2) {
+      throw new Error("This attempt predates the two-screenshot flow and has no second screenshot to replay.");
+    }
+    const storagePath2 = latest.storage_path_2;
+
+    async function downloadClean(path: string) {
+      const { data: fileBlob, error } = await supabaseAdmin.storage.from("payment-screenshots").download(path);
+      if (error || !fileBlob) throw new Error(`Could not re-download screenshot: ${error?.message ?? "not found"}`);
+      return stripExifAndReencode(Buffer.from(await (fileBlob as Blob).arrayBuffer()));
+    }
+
+    const clean1 = await downloadClean(latest.storage_path);
+    const clean2 = await downloadClean(storagePath2);
+    const imageHashSha256 = sha256Hash(clean1);
+    const imageDhash = await computeDHash(clean1);
+    const imageHashSha256_2 = sha256Hash(clean2);
+    const imageDhash_2 = await computeDHash(clean2);
+
+    const startedAt = Date.now();
+    const prompt = buildVerificationPrompt({ amountTnd: Number(order.amount_tnd), currency: order.currency, planCode: order.plan_code });
+    const { raw, tokenCount } = await callGeminiVerification(prompt, clean1.toString("base64"), clean2.toString("base64"));
+    const extraction = parseExtraction(raw);
+    if (tokenCount) await supabaseAdmin.rpc("record_api_usage", { p_tokens: tokenCount });
+
+    const ocrTextHashSha256 = extraction.raw_text.trim() ? sha256HashText(extraction.raw_text) : null;
+    const ocrTextHashSha256_2 = extraction.screenshot2.raw_text.trim() ? sha256HashText(extraction.screenshot2.raw_text) : null;
+
+    const reputationVelocity = await computeReputationVelocity(supabaseAdmin, {
+      userId: order.user_id,
+      orderId: order.id,
+      attemptsInLastHour: 0,
+      deviceFingerprint: latest.device_fingerprint ?? null,
+    });
+
+    const scored = scoreAttempt({
+      orderAmountTnd: Number(order.amount_tnd),
+      orderCurrency: order.currency,
+      orderCreatedAt: order.created_at,
+      userEnteredReference: latest.user_entered_reference,
+      extraction,
+      orderDestinationNumber: order.destination_number,
+      orderDestinationIban: order.destination_iban,
+      uploadToCreationDeltaMs: latest.upload_to_creation_delta_ms ?? 0,
+      reputationVelocity,
+    });
+
+    const userEmail = await getUserEmail(supabaseAdmin, order.user_id);
+    const reputationCheck = scored.checks.find((c) => c.id === "reputation_signal");
+    const velocityCheck = scored.checks.find((c) => c.id === "velocity_signal");
+
+    const attempt = await finalizeAttempt(supabaseAdmin, {
+      order,
+      userId: order.user_id,
+      userEmail,
+      attemptNumber: latest.attempt_number,
+      storagePath: latest.storage_path,
+      storagePath2,
+      userEnteredReference: latest.user_entered_reference,
+      imageHashSha256,
+      imageDhash,
+      imageHashSha256_2,
+      imageDhash_2,
+      ocrTextHashSha256,
+      ocrTextHashSha256_2,
+      extraction,
+      decision: scored.decision,
+      decisionReason: `[Admin replay] ${scored.decisionReason}`,
+      riskScore: scored.riskScore,
+      aiConfidence: scored.aiConfidence,
+      ruleEngineResult: scored,
+      verificationDurationMs: Date.now() - startedAt,
+      geminiTokenCount: tokenCount,
+      uploadToCreationDeltaMs: latest.upload_to_creation_delta_ms ?? 0,
+      reputationSignalDelta: reputationCheck?.points ?? null,
+      velocitySignalPoints: velocityCheck?.points ?? null,
+      ipAddress: latest.ip_address,
+      deviceFingerprint: latest.device_fingerprint,
+      browserFingerprint: latest.browser_fingerprint,
+      isAdminReplay: true,
+    });
+
+    await supabaseAdmin.from("d17_admin_actions").insert({
+      order_id: order.id,
+      admin_id: context.userId,
+      action: "replay",
+      note: `Replay result: ${scored.decision} (${scored.aiConfidence}% confidence)`,
+    });
+
+    return { decision: scored.decision, attemptId: attempt.id };
+  });

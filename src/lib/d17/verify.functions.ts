@@ -24,7 +24,7 @@ const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
  * src/lib/grading/essay-grader-gemini.ts, which needs the same token count
  * for the same reason and is the closer precedent for a budget-tracked call.
  */
-async function callGeminiVerification(prompt: string, imageBase64_1: string, imageBase64_2: string): Promise<{ raw: any; tokenCount: number }> {
+export async function callGeminiVerification(prompt: string, imageBase64_1: string, imageBase64_2: string): Promise<{ raw: any; tokenCount: number }> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY not set");
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`;
@@ -118,7 +118,7 @@ async function getUserEmail(supabaseAdmin: any, userId: string): Promise<string 
  * unlocked" — either the whole activation commits, or none of it does and
  * the order stays exactly as it was before this call.
  */
-async function activateOrder(
+export async function activateOrder(
   supabaseAdmin: any,
   params: { orderId: string; userId: string; planCode: string; amountTnd: number; currency: string; reason: string; providerPaymentId: string },
 ): Promise<string> {
@@ -458,13 +458,24 @@ export async function runVerificationPipeline(
     const reputationCheck = scored.checks.find((c) => c.id === "reputation_signal");
     const velocityCheck = scored.checks.find((c) => c.id === "velocity_signal");
 
+    // An order that already missed its 10-minute payment-confirmation
+    // window (orders.functions.ts's flagUnderReviewIfUnconfirmed) never
+    // auto-approves, however high the AI confidence — it needs a human
+    // look either way. Fraud rejections are left alone (a hard gate is a
+    // hard gate regardless of the confirmation window).
+    const forcedManualReview = order.status === "under_review" && scored.decision === "auto_approved";
+    const finalDecision = forcedManualReview ? "manual_review" : scored.decision;
+    const finalDecisionReason = forcedManualReview
+      ? "This order missed its 10-minute payment confirmation window and requires manual review regardless of AI confidence."
+      : scored.decisionReason;
+
     return finalizeAttempt(supabaseAdmin, {
       ...baseFinalizeParams(),
       ocrTextHashSha256,
       ocrTextHashSha256_2,
       extraction,
-      decision: scored.decision,
-      decisionReason: scored.decisionReason,
+      decision: finalDecision,
+      decisionReason: finalDecisionReason,
       riskScore: scored.riskScore,
       aiConfidence: scored.aiConfidence,
       ruleEngineResult: scored,
@@ -475,7 +486,7 @@ export async function runVerificationPipeline(
     });
 }
 
-async function finalizeAttempt(
+export async function finalizeAttempt(
   supabaseAdmin: any,
   params: {
     order: { id: string; plan_code: string; amount_tnd: number; currency: string };
@@ -505,6 +516,7 @@ async function finalizeAttempt(
     ipAddress: string | null;
     deviceFingerprint: string | null;
     browserFingerprint: string | null;
+    isAdminReplay?: boolean;
   },
 ) {
   const e = params.extraction;
@@ -514,6 +526,7 @@ async function finalizeAttempt(
       order_id: params.order.id,
       user_id: params.userId,
       attempt_number: params.attemptNumber,
+      is_admin_replay: params.isAdminReplay ?? false,
       storage_path: params.storagePath,
       storage_path_2: params.storagePath2,
       user_entered_reference: params.userEnteredReference,
