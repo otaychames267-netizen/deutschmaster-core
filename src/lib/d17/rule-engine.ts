@@ -259,6 +259,13 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     if (shot1Destination && s2.destination && !destinationsOverlap(shot1Destination, s2.destination)) {
       mismatches.push("destination");
     }
+    if (
+      extraction.authorization_number &&
+      s2.authorization_number &&
+      normalizeReference(extraction.authorization_number) !== normalizeReference(s2.authorization_number)
+    ) {
+      mismatches.push(`authorization number (${extraction.authorization_number} vs ${s2.authorization_number})`);
+    }
     if (mismatches.length > 0) {
       checks.push({
         id: "cross_screenshot_consistency",

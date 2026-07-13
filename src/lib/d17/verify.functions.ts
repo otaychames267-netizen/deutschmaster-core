@@ -199,7 +199,7 @@ export async function runVerificationPipeline(
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, session_token, destination_number, destination_iban, locked_for_admin_only")
+      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, expires_at, session_token, destination_number, destination_iban, locked_for_admin_only")
       .eq("id", data.order_id)
       .maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
@@ -216,8 +216,37 @@ export async function runVerificationPipeline(
     if (order.locked_for_admin_only) {
       throw new Error("This order is locked pending administrator review and cannot accept new screenshots.");
     }
+    // Independent server-side expiry check — orders.functions.ts's lazy
+    // flip (getD17Order/createD17Order) only updates the status column when
+    // one of those is called; this pipeline must never trust that a flip
+    // has already happened, since a caller hitting this endpoint directly
+    // (bypassing the status page) could otherwise submit against an order
+    // whose status column is still stale "awaiting_payment" past its real
+    // expires_at.
+    if (order.expires_at && new Date(order.expires_at).getTime() < Date.now()) {
+      await supabaseAdmin.from("d17_orders").update({ status: "expired", updated_at: new Date().toISOString() }).eq("id", order.id);
+      throw new Error("This order has expired and can no longer accept screenshots. Please start a new payment.");
+    }
+
+    // Both caps below force the order into manual_review (rather than just
+    // rejecting the request and leaving the order otherwise untouched) —
+    // hitting either one is itself a signal the order needs a human look,
+    // not just "wait a few minutes and keep trying different screenshots."
+    async function forceManualReviewAndThrow(message: string): Promise<never> {
+      await supabaseAdmin
+        .from("d17_orders")
+        .update({
+          status: "manual_review",
+          manual_review_deadline: new Date(Date.now() + config.d17_manual_review_window_hours * 3600_000).toISOString(),
+          locked_for_admin_only: true,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", order!.id);
+      throw new Error(message);
+    }
+
     if (order.attempts_used >= config.d17_max_attempts_per_order) {
-      throw new Error(`Maximum of ${config.d17_max_attempts_per_order} screenshot uploads reached for this order. Awaiting manual review.`);
+      await forceManualReviewAndThrow(`Maximum of ${config.d17_max_attempts_per_order} screenshot uploads reached for this order. Your order is now under manual review.`);
     }
 
     // ── Escalating anti-fraud suspension gate — rejected outright, no
@@ -244,7 +273,7 @@ export async function runVerificationPipeline(
       .eq("user_id", userId)
       .gte("created_at", new Date(Date.now() - 600_000).toISOString());
     if ((recent10MinCount ?? 0) >= config.d17_ten_minute_submission_limit) {
-      throw new Error("You've reached the submission limit for this period. Please wait a few minutes before trying again.");
+      await forceManualReviewAndThrow(`You've made ${recent10MinCount} upload attempts in the last 10 minutes. Your order is now under manual review — an admin will take a look.`);
     }
 
     const { count: recentCount } = await supabaseAdmin
@@ -576,6 +605,7 @@ export async function finalizeAttempt(
       ocr_currency_2: e?.screenshot2.currency ?? null,
       ocr_payment_datetime_2: e?.screenshot2.payment_datetime ?? null,
       ocr_destination_2: e?.screenshot2.destination ?? null,
+      ocr_authorization_number_2: e?.screenshot2.authorization_number ?? null,
       ocr_destination_number: e?.destination_number ?? null,
       ocr_destination_iban: e?.destination_iban ?? null,
       ocr_transaction_id: e?.transaction_id ?? null,

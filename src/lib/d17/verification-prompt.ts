@@ -40,6 +40,7 @@ export interface D17Screenshot2Extraction {
   currency: string | null;
   payment_datetime: string | null; // ISO 8601, or null if not legible
   destination: string | null; // the D17 number or IBAN shown, as printed
+  authorization_number: string | null; // same field as IMAGE 1's, as shown in the journal entry
   raw_text: string;
 }
 
@@ -78,6 +79,7 @@ export const FRAUD_FLAG_VALUES = [
   "compression_anomaly",
   "font_inconsistency",
   "metadata_anomaly",
+  "color_manipulation",
 ] as const;
 
 export function buildVerificationPrompt(orderContext: { amountTnd: number; currency: string; planCode: string }): string {
@@ -101,9 +103,9 @@ RULES — follow exactly:
 - "notification_source": your best classification of what kind of screenshot IMAGE 1 is, from the visible UI (a D17 app screen, a bank SMS, a bank app screen, some other screenshot, or unclear if you cannot tell).
 - "ocr_confidence": your own 0-100 confidence in the overall transcription's accuracy across BOTH images (low if either image is blurry, low-resolution, or partially cropped).
 - "raw_text": every piece of legible text on IMAGE 1, concatenated, verbatim, in reading order.
-- "screenshot2": transcribe from IMAGE 2 only — "amount", "currency", "payment_datetime", "destination" (the D17 number/IBAN shown in the journal entry), and "raw_text" (every legible piece of text on IMAGE 2, verbatim). Same null-if-not-legible rule applies.
+- "screenshot2": transcribe from IMAGE 2 only — "amount", "currency", "payment_datetime", "destination" (the D17 number/IBAN shown in the journal entry), "authorization_number" (the same Authorization Number field as on IMAGE 1, as shown in this journal entry, or null if not present/legible), and "raw_text" (every legible piece of text on IMAGE 2, verbatim). Same null-if-not-legible rule applies.
 - "cross_check": compare IMAGE 1 and IMAGE 2 directly — do the destination number/IBAN, amount, date/time, and Authorization Number (if visible on both) actually match between the two images? Set "consistent" to false if you find ANY concrete mismatch between fields that are legible on both images. If a field is only legible on one image, that alone is not a mismatch. "notes" should briefly state what you compared and any mismatch found, in one or two sentences.
-- Fraud signals are a SEPARATE, purely technical assessment of the IMAGES THEMSELVES (not of whether the payment looks legitimate business-wise): look for visible overlay text pasted on top of the original UI, cloned/duplicated regions, signs of image compositing (mismatched lighting/edges), suspicious cropping that could hide information, unusual blur/noise/compression patterns inconsistent with a normal phone screenshot, inconsistent fonts within what should be one UI, or anything suggesting EXIF/metadata tampering. Consider both images. Only include a flag in "fraud_flags" if you genuinely observe that specific visual signal — do not include flags speculatively. Most legitimate screenshot pairs should have zero flags.
+- Fraud signals are a SEPARATE, purely technical assessment of the IMAGES THEMSELVES (not of whether the payment looks legitimate business-wise): look for visible overlay text pasted on top of the original UI, cloned/duplicated regions, signs of image compositing (mismatched lighting/edges), suspicious cropping that could hide information, unusual blur/noise/compression patterns inconsistent with a normal phone screenshot, inconsistent fonts within what should be one UI, unnatural color/hue shifts or tinting inconsistent with a normal phone screenshot (possible recoloring/editing), or anything suggesting EXIF/metadata tampering. Consider both images. Only include a flag in "fraud_flags" if you genuinely observe that specific visual signal — do not include flags speculatively. Most legitimate screenshot pairs should have zero flags.
 - "fraud_score": your own 0-100 estimate of how likely these images have been technically tampered with (not a judgment of the payment amount/reference — just the image files themselves). 0 = look like untouched phone screenshots, 100 = clear signs of editing.
 - "screenshot_integrity_ok": true unless you have a concrete, specific reason to believe either image was edited.
 
@@ -130,6 +132,7 @@ Return ONLY this JSON (no markdown fences):
     "currency": string | null,
     "payment_datetime": string | null,
     "destination": string | null,
+    "authorization_number": string | null,
     "raw_text": string
   },
   "cross_check": {
@@ -148,6 +151,7 @@ function parseScreenshot2(raw: any): D17Screenshot2Extraction {
     currency: typeof raw?.currency === "string" && raw.currency.trim() ? raw.currency.trim() : null,
     payment_datetime: typeof raw?.payment_datetime === "string" && raw.payment_datetime.trim() ? raw.payment_datetime : null,
     destination: typeof raw?.destination === "string" && raw.destination.trim() ? raw.destination.trim() : null,
+    authorization_number: typeof raw?.authorization_number === "string" && raw.authorization_number.trim() ? raw.authorization_number.trim() : null,
     raw_text: typeof raw?.raw_text === "string" ? raw.raw_text : "",
   };
 }
