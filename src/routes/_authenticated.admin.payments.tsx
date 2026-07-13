@@ -36,6 +36,24 @@ const STATUS_ICON: Record<string, { icon: string; label: string; color: string }
 };
 
 const STATUS_FILTERS = ["all", "manual_review", "auto_approved", "admin_approved", "rejected", "awaiting_payment"] as const;
+const PENDING_STATUSES = new Set(["manual_review", "under_review"]);
+
+/**
+ * Triage order for the queue: orders actually needing admin action surface
+ * above resolved ones, attempts-exhausted (locked_for_admin_only) orders
+ * are the most urgent within that group, then highest fraud risk first —
+ * fraud-risk-first-then-oldest, but scoped so an old low-risk resolved
+ * order never buries a fresh high-risk pending one and vice versa.
+ */
+function queueSort(a: OrderRow, b: OrderRow): number {
+  const aPending = PENDING_STATUSES.has(a.status);
+  const bPending = PENDING_STATUSES.has(b.status);
+  if (aPending !== bPending) return aPending ? -1 : 1;
+  if (a.locked_for_admin_only !== b.locked_for_admin_only) return a.locked_for_admin_only ? -1 : 1;
+  const riskDiff = (b.risk_score ?? -1) - (a.risk_score ?? -1);
+  if (riskDiff !== 0) return riskDiff;
+  return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+}
 
 function AdminPaymentsPage() {
   const [orders, setOrders] = useState<OrderRow[]>([]);
@@ -110,14 +128,16 @@ function AdminPaymentsPage() {
     loadStats();
   }, [load, loadStats]);
 
-  const filtered = orders.filter((o) => {
-    if (filter !== "all" && o.status !== filter) return false;
-    if (query.trim()) {
-      const q = query.trim().toLowerCase();
-      return o.student_email?.toLowerCase().includes(q) || o.student_name?.toLowerCase().includes(q) || o.id.includes(q);
-    }
-    return true;
-  });
+  const filtered = orders
+    .filter((o) => {
+      if (filter !== "all" && o.status !== filter) return false;
+      if (query.trim()) {
+        const q = query.trim().toLowerCase();
+        return o.student_email?.toLowerCase().includes(q) || o.student_name?.toLowerCase().includes(q) || o.id.includes(q);
+      }
+      return true;
+    })
+    .sort(queueSort);
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-8">

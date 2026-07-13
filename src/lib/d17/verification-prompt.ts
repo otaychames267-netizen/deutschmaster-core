@@ -24,6 +24,17 @@
  * judge.
  */
 
+/**
+ * Bumped whenever buildVerificationPrompt's schema/instructions change in a
+ * way that could shift extraction behavior — stamped onto every attempt row
+ * (d17_verification_attempts.ocr_version, see verify.functions.ts) so a
+ * future admin auditing old decisions can tell which prompt produced them.
+ * "v2" here is the two-screenshot + cross-check prompt below; the DB
+ * column's default of 'v1' correctly represents every attempt recorded
+ * before this prompt existed (the original single-screenshot flow).
+ */
+export const PROMPT_VERSION = "d17-verify-v2";
+
 export interface D17Screenshot2Extraction {
   amount: number | null;
   currency: string | null;

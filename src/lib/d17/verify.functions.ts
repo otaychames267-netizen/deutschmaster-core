@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
-import { buildVerificationPrompt, parseExtraction } from "./verification-prompt";
+import { buildVerificationPrompt, parseExtraction, PROMPT_VERSION } from "./verification-prompt";
 import { scoreAttempt } from "./rule-engine";
 import type { DuplicateMatchType } from "./duplicate-check.server";
 
@@ -586,6 +586,7 @@ export async function finalizeAttempt(
       decision: params.decision,
       decision_reason: params.decisionReason,
       ai_version: AI_VERSION,
+      ocr_version: PROMPT_VERSION,
       verification_duration_ms: params.verificationDurationMs,
       gemini_token_count: params.geminiTokenCount,
     })

@@ -1,11 +1,11 @@
 import { createFileRoute, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { adminApproveOrder, adminRejectOrder, adminAdjustGrant, adminClearSuspension, adminReplayVerification } from "@/lib/d17/admin-actions.functions";
+import { adminApproveOrder, adminRejectOrder, adminAdjustGrant, adminClearSuspension, adminReplayVerification, adminAddNote } from "@/lib/d17/admin-actions.functions";
 import { toast } from "sonner";
 import {
   ArrowLeft, CheckCircle2, XCircle, AlertTriangle, Loader2,
-  Image as ImageIcon, ShieldAlert, Sliders, ShieldBan, Unlock, RefreshCw,
+  Image as ImageIcon, ShieldAlert, Sliders, ShieldBan, Unlock, RefreshCw, StickyNote,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/d17/$orderId")({
@@ -88,6 +88,7 @@ function AdminD17OrderDetail() {
   const [adjustMinutes, setAdjustMinutes] = useState("");
   const [adjustCredits, setAdjustCredits] = useState("");
   const [adjustNote, setAdjustNote] = useState("");
+  const [standaloneNote, setStandaloneNote] = useState("");
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -182,6 +183,24 @@ function AdminD17OrderDetail() {
       load();
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Failed to clear suspension.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleAddNote() {
+    if (!standaloneNote.trim()) {
+      toast.error("Note cannot be empty.");
+      return;
+    }
+    setBusy(true);
+    try {
+      await adminAddNote({ data: { order_id: orderId, note: standaloneNote.trim() } });
+      toast.success("Note added.");
+      setStandaloneNote("");
+      load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to add note.");
     } finally {
       setBusy(false);
     }
@@ -423,6 +442,28 @@ function AdminD17OrderDetail() {
           </div>
         </div>
       )}
+
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <p className="mb-3 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+          <StickyNote className="h-3.5 w-3.5" /> Add a review note
+        </p>
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <textarea
+            value={standaloneNote}
+            onChange={(e) => setStandaloneNote(e.target.value)}
+            placeholder="Annotate this order — e.g. contacted the student, awaiting a reply…"
+            className="flex-1 rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
+            rows={2}
+          />
+          <button
+            onClick={handleAddNote}
+            disabled={busy || !standaloneNote.trim()}
+            className="shrink-0 self-end rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-bold text-foreground hover:bg-muted disabled:opacity-50"
+          >
+            Add note
+          </button>
+        </div>
+      </div>
 
       {actions.length > 0 && (
         <div className="rounded-2xl border border-border bg-card p-5">

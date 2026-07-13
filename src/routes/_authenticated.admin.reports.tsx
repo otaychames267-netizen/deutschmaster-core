@@ -73,13 +73,14 @@ function D17ReportCard() {
     activeSuspensions: 0, lockedAccounts: 0,
   });
   const [rows, setRows] = useState<Record<string, string | number>[]>([]);
+  const [providerStats, setProviderStats] = useState<{ provider: string; count: number; revenue: number }[]>([]);
 
   const load = useCallback(async () => {
     setLoading(true);
     const fromIso = new Date(`${from}T00:00:00`).toISOString();
     const toIso = new Date(`${to}T23:59:59`).toISOString();
 
-    const [{ data: orders }, { data: attempts }, { data: suspensions }] = await Promise.all([
+    const [{ data: orders }, { data: attempts }, { data: suspensions }, { data: payments }] = await Promise.all([
       supabase.from("d17_orders").select("id, status").gte("created_at", fromIso).lte("created_at", toIso),
       supabase
         .from("d17_verification_attempts")
@@ -89,6 +90,14 @@ function D17ReportCard() {
       // Current suspension state is a live snapshot, not date-ranged — an
       // account either is or isn't suspended/locked right now.
       supabase.from("d17_fraud_suspensions").select("account_locked, suspended_until"),
+      // Cross-provider comparison: same date range, sourced from the
+      // single payments table both providers write to (provider:
+      // "lemonsqueezy" from the webhook, "d17_manual" from
+      // activate_d17_order) — lets an admin see at a glance how much
+      // revenue still flows through the temporary manual D17 path vs.
+      // the real payment processor, informing when the real D17 API
+      // integration becomes worth prioritizing.
+      supabase.from("payments").select("provider, amount, currency, status").eq("status", "succeeded").gte("created_at", fromIso).lte("created_at", toIso),
     ]);
 
     const approved = (orders ?? []).filter((o) => o.status === "auto_approved" || o.status === "admin_approved").length;
@@ -119,6 +128,21 @@ function D17ReportCard() {
       autoApproved: approved, manualReview, rejected, duplicateAttempts, fraudAttempts, avgVerificationMs, approvalRate, rejectionRate,
       crossCheckInconsistentCount, crossCheckInconsistentRate, activeSuspensions, lockedAccounts,
     });
+
+    // Grouped by provider, not currency-converted (this app is TND-only
+    // across both providers today) — a simple sum is accurate as-is.
+    const byProvider = new Map<string, { count: number; revenue: number }>();
+    for (const p of payments ?? []) {
+      const entry = byProvider.get(p.provider) ?? { count: 0, revenue: 0 };
+      entry.count += 1;
+      entry.revenue += Number(p.amount);
+      byProvider.set(p.provider, entry);
+    }
+    setProviderStats(
+      [...byProvider.entries()]
+        .map(([provider, v]) => ({ provider, ...v }))
+        .sort((a, b) => b.revenue - a.revenue),
+    );
     setRows(
       (attempts ?? []).map((a) => ({
         id: a.id, decision: a.decision, risk_score: a.risk_score ?? "", ai_confidence: a.ai_confidence ?? "",
@@ -175,6 +199,24 @@ function D17ReportCard() {
               </div>
             ))}
           </div>
+          <div className="mt-4 border-t border-border pt-4">
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">Revenue by provider (this range)</p>
+            {providerStats.length === 0 ? (
+              <p className="text-xs text-muted-foreground">No succeeded payments in this range.</p>
+            ) : (
+              <div className="grid gap-2 sm:grid-cols-2">
+                {providerStats.map((p) => (
+                  <div key={p.provider} className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2.5">
+                    <span className="text-xs font-semibold capitalize text-foreground">
+                      {p.provider === "d17_manual" ? "D17 (manual)" : p.provider === "lemonsqueezy" ? "Lemon Squeezy" : p.provider}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{p.count} payment{p.count === 1 ? "" : "s"} · {p.revenue.toFixed(2)} TND</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <button
             onClick={() => downloadCsv(`d17-verification-report-${from}-to-${to}.csv`, toCsv(rows))}
             disabled={rows.length === 0}

@@ -122,6 +122,32 @@ export const adminClearSuspension = createServerFn({ method: "POST" })
     return { status: "cleared" };
   });
 
+/**
+ * A standalone note, independent of any status-changing action (approve /
+ * reject / adjust-grant / replay / clear-suspension all already log their
+ * own note as a side effect of that action). Lets an admin annotate an
+ * order at any point in its lifecycle — e.g. "called the student, they
+ * confirmed the payment was sent from a friend's account" — without
+ * forcing an approve/reject decision. Reuses d17_admin_actions (action:
+ * "note") rather than a new table/column: it already IS the order's
+ * append-only admin timeline, and the existing admin UI already renders
+ * every row's note field, so a plain note shows up there for free.
+ */
+export const adminAddNote = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { order_id: string; note: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    if (!data.note?.trim()) throw new Error("Note cannot be empty.");
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const { data: order, error: orderError } = await supabaseAdmin.from("d17_orders").select("id").eq("id", data.order_id).maybeSingle();
+    if (orderError || !order) throw new Error("Order not found.");
+
+    await supabaseAdmin.from("d17_admin_actions").insert({ order_id: data.order_id, admin_id: context.userId, action: "note", note: data.note.trim() });
+    return { status: "noted" };
+  });
+
 export const adminRejectOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { order_id: string; note: string }) => d)
