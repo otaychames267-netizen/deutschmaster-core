@@ -42,7 +42,37 @@ function AuthenticatedLayout() {
     }
   }, [user?.id, emailVerified, loc.pathname, nav]);
 
-  /* Check onboarding completion */
+  /* Check onboarding completion.
+   *
+   * Two real, confirmed bugs lived here, both from the same underlying
+   * flaw: checkedForRef.current was claimed SYNCHRONOUSLY, before the
+   * async profile query resolved. Any second invocation of this effect
+   * while that query was still in flight would see the ref already
+   * claimed for this user and skip its own check entirely — silently
+   * discarding whatever the in-flight query eventually returned, and
+   * never redirecting to /onboarding. Caught live: a real never-onboarded
+   * account landed straight on /dashboard after a normal login.
+   *
+   * 1. loc.pathname was a dependency — login.tsx navigates to /dashboard
+   *    immediately after sign-in, before this query can resolve, and that
+   *    navigation alone re-triggers this effect mid-flight. Fixed by
+   *    reading the current path via a ref instead, so the "don't
+   *    redirect if already on /onboarding" loop-guard doesn't require
+   *    the effect to re-run on every navigation.
+   * 2. Independently of (1), React 18 Strict Mode's dev-only
+   *    mount→cleanup→remount double-invocation hits the exact same flaw
+   *    on EVERY mount, not just this specific login race — confirmed via
+   *    real network-log inspection showing the profiles query firing
+   *    twice back-to-back with the first attempt's result discarded.
+   *    Fixed at the root: checkedForRef is now only claimed AFTER the
+   *    query actually completes (inside the non-cancelled branch), so a
+   *    cancelled run never blocks the run that replaces it — each
+   *    invocation either finishes the check or cleanly gets out of the
+   *    way, with no "claimed but never finished" state possible.
+   */
+  const pathRef = useRef(loc.pathname);
+  pathRef.current = loc.pathname;
+
   useEffect(() => {
     if (!user || !emailVerified) return;
     redirectedToLoginRef.current = false;
@@ -51,7 +81,6 @@ function AuthenticatedLayout() {
       setChecking(false);
       return;
     }
-    checkedForRef.current = user.id;
 
     let cancelled = false;
     (async () => {
@@ -62,9 +91,10 @@ function AuthenticatedLayout() {
         .maybeSingle();
 
       if (cancelled) return;
+      checkedForRef.current = user.id;
 
       const needsOnboarding = !data || !data.onboarding_completed || !data.level;
-      if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
+      if (needsOnboarding && !pathRef.current.startsWith("/onboarding")) {
         nav({ to: "/onboarding", replace: true });
         return;
       }
@@ -72,7 +102,7 @@ function AuthenticatedLayout() {
     })();
 
     return () => { cancelled = true; };
-  }, [user?.id, emailVerified, loc.pathname, nav]);
+  }, [user?.id, emailVerified, nav]);
 
   if (loading || !user) {
     return <LoadingScreen />;
