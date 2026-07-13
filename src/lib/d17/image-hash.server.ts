@@ -26,6 +26,8 @@ export async function stripExifAndReencode(buffer: Buffer): Promise<Buffer> {
 }
 
 const MIN_DIMENSION_PX = 200;
+const MAX_DIMENSION_PX = 8000; // guards against decompression-bomb-style images (e.g. a 50000x50000px PNG) that are cheap to store but expensive to decode/resize/hash
+const MAX_FILE_BYTES = 10 * 1024 * 1024; // matches the client's own 10MB limit and the storage bucket's file_size_limit (20260715030000) — redundant defense in depth, not the primary guard
 const BLANK_STDDEV_THRESHOLD = 3; // near-zero per-channel std deviation = a flat, blank/near-solid-color image
 
 /**
@@ -36,6 +38,9 @@ const BLANK_STDDEV_THRESHOLD = 3; // near-zero per-channel std deviation = a fla
  * reach the pipeline's hashing/duplicate-check/OCR stages.
  */
 export async function validateImageOrThrow(buffer: Buffer, label: string): Promise<void> {
+  if (buffer.length > MAX_FILE_BYTES) {
+    throw new Error(`${label} is too large (max 10 MB). Please upload a smaller screenshot.`);
+  }
   const metadata = await sharp(buffer)
     .metadata()
     .catch(() => {
@@ -46,6 +51,9 @@ export async function validateImageOrThrow(buffer: Buffer, label: string): Promi
   }
   if (metadata.width < MIN_DIMENSION_PX || metadata.height < MIN_DIMENSION_PX) {
     throw new Error(`${label} resolution is too low to read (${metadata.width}x${metadata.height}px). Please upload a clearer screenshot.`);
+  }
+  if (metadata.width > MAX_DIMENSION_PX || metadata.height > MAX_DIMENSION_PX) {
+    throw new Error(`${label} resolution is too large (${metadata.width}x${metadata.height}px). Please upload a normal phone screenshot.`);
   }
 
   const stats = await sharp(buffer).stats();
