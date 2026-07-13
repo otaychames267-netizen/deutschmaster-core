@@ -206,7 +206,7 @@ function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground lg:flex">
           <a href="#features" className="transition-colors hover:text-foreground">{t("nav.features")}</a>
           <a href="#how-it-works" className="transition-colors hover:text-foreground">How it works</a>
           <a href="#pricing" className="transition-colors hover:text-foreground">{t("nav.pricing")}</a>
@@ -262,7 +262,7 @@ function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground sm:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground lg:hidden"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -272,7 +272,7 @@ function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 sm:hidden">
+        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 lg:hidden">
           <nav className="flex flex-col gap-1">
             {["features", "how-it-works", "pricing", "faq"].map((id) => (
               <a
