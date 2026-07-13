@@ -108,3 +108,40 @@ export const getD17ConfigValues = createServerFn({ method: "POST" })
     const { getD17Config } = await import("./config");
     return getD17Config(supabaseAdmin);
   });
+
+/**
+ * Admin-only read of the current D17 destination phone/IBAN/account holder.
+ * Students never call this directly — they only ever see the values already
+ * snapshotted onto their own order (getD17Order), which is exactly what
+ * keeps existing orders unaffected when an admin changes these values.
+ */
+export const getD17PaymentConfigValues = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { getD17PaymentConfig } = await import("./payment-config");
+    return getD17PaymentConfig(supabaseAdmin);
+  });
+
+/**
+ * Admin-only write for the D17 destination phone/IBAN/account holder.
+ * Reuses set_platform_setting (service-role-only, auto-history-logged) —
+ * only affects NEW orders created after the change; every existing order
+ * keeps the destination values it snapshotted at its own creation time.
+ */
+export const setD17PaymentConfigValue = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { field: "number" | "iban" | "accountHolder"; value: string }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const key = { number: "d17_payment_number", iban: "d17_payment_iban", accountHolder: "d17_payment_account_holder" }[data.field];
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.rpc("set_platform_setting", {
+      p_key: key,
+      p_value: data.value.trim(),
+      p_admin_id: context.userId,
+    });
+    if (error) throw new Error(error.message);
+    return { field: data.field, value: data.value.trim() };
+  });

@@ -2,7 +2,11 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Settings2, Globe, Bell, CreditCard, Shield, Save, CheckCircle2, AlertOctagon, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { setD17KillSwitch, setD17DisabledSwitch, setD17ConfigValue, getD17ConfigValues } from "@/lib/d17/platform-settings.functions";
+import {
+  setD17KillSwitch, setD17DisabledSwitch, setD17ConfigValue, getD17ConfigValues,
+  getD17PaymentConfigValues, setD17PaymentConfigValue,
+} from "@/lib/d17/platform-settings.functions";
+import { getPlanPrices, updatePlanPrice } from "@/lib/admin/plans.functions";
 import { toast } from "sonner";
 
 const D17_CONFIG_FIELDS: { key: string; label: string; suffix: string }[] = [
@@ -28,12 +32,13 @@ function AdminSettingsPage() {
   const [d17DisabledBusy, setD17DisabledBusy] = useState(false);
   const [d17Config, setD17Config] = useState<Record<string, number> | null>(null);
   const [d17ConfigBusyKey, setD17ConfigBusyKey] = useState<string | null>(null);
+  const [d17Payment, setD17Payment] = useState<{ number: string | null; iban: string | null; accountHolder: string | null } | null>(null);
+  const [d17PaymentBusyField, setD17PaymentBusyField] = useState<string | null>(null);
+  const [planPrices, setPlanPrices] = useState<Record<string, number> | null>(null);
+  const [planPriceBusyCode, setPlanPriceBusyCode] = useState<string | null>(null);
   const [form, setForm] = useState({
     platformName: "AuraLingovia",
     supportEmail: "support@auralingovia.com",
-    schriftlichPrice: "25",
-    muendlichPrice: "45",
-    komplettprice: "60",
     maintenanceMode: false,
     registrationOpen: true,
     emailNotifications: true,
@@ -53,7 +58,40 @@ function AdminSettingsPage() {
       .rpc("get_platform_setting", { p_key: "d17_disabled" })
       .then(({ data }) => setD17DisabledState(data === true));
     getD17ConfigValues({ data: undefined }).then((cfg) => setD17Config(cfg)).catch(() => setD17Config(null));
+    getD17PaymentConfigValues({ data: undefined }).then((cfg) => setD17Payment(cfg)).catch(() => setD17Payment(null));
+    getPlanPrices({ data: undefined }).then((p) => setPlanPrices(p)).catch(() => setPlanPrices(null));
   }, []);
+
+  async function handleD17PaymentChange(field: "number" | "iban" | "accountHolder", value: string) {
+    setD17PaymentBusyField(field);
+    try {
+      await setD17PaymentConfigValue({ data: { field, value } });
+      setD17Payment((prev) => (prev ? { ...prev, [field]: value.trim() || null } : prev));
+      toast.success("Payment detail updated — only new orders will use it.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update this field.");
+    } finally {
+      setD17PaymentBusyField(null);
+    }
+  }
+
+  async function handlePlanPriceChange(code: string, value: string) {
+    const num = Number(value);
+    if (!Number.isFinite(num) || num <= 0) {
+      toast.error("Enter a positive number.");
+      return;
+    }
+    setPlanPriceBusyCode(code);
+    try {
+      await updatePlanPrice({ data: { plan_code: code as "schriftlich" | "muendlich" | "komplett", price_tnd: num } });
+      setPlanPrices((prev) => (prev ? { ...prev, [code]: num } : prev));
+      toast.success("Price updated — existing orders/subscriptions keep their original amount.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update the price.");
+    } finally {
+      setPlanPriceBusyCode(null);
+    }
+  }
 
   async function handleD17ConfigChange(key: string, value: string) {
     const numValue = Number(value);
@@ -177,11 +215,30 @@ function AdminSettingsPage() {
       </Section>
 
       <Section icon={CreditCard} color="bg-violet-500/10 text-violet-500" title="Billing & Plans">
-        <div className="grid gap-4 sm:grid-cols-3">
-          <Field label="Schriftlich price (TND/mo)" name="schriftlichPrice" type="number" />
-          <Field label="Mündlich price (TND/mo)" name="muendlichPrice" type="number" />
-          <Field label="Komplett price (TND/mo)" name="komplettprice" type="number" />
-        </div>
+        {planPrices === null ? (
+          <div className="flex justify-center py-4"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-3">
+            {(["schriftlich", "muendlich", "komplett"] as const).map((code) => (
+              <div key={code} className="space-y-1.5">
+                <label className="text-xs font-semibold capitalize text-foreground">{code} price (TND/mo)</label>
+                <input
+                  type="number"
+                  defaultValue={planPrices[code]}
+                  key={`${code}-${planPrices[code]}`}
+                  disabled={planPriceBusyCode === code}
+                  onBlur={(e) => e.target.value !== String(planPrices[code]) && handlePlanPriceChange(code, e.target.value)}
+                  className="w-full rounded-xl border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="text-xs text-muted-foreground">
+          Prices are read live by both Lemon Squeezy checkout and D17 order creation. Changing a price only affects
+          orders/checkouts created after the change — every existing order and subscription keeps the amount it was
+          created with.
+        </p>
         <Field label="Stripe secret key" name="stripeKey" type="password" disabled />
         <p className="text-xs text-muted-foreground">
           Stripe key management is handled server-side via environment variables. Contact your hosting provider to update it.
@@ -245,6 +302,38 @@ function AdminSettingsPage() {
             D17 manual payment is disabled — students only see card payment on /billing.
           </div>
         )}
+
+        <div className="border-t border-border pt-4">
+          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">Payment destination</p>
+          {d17Payment === null ? (
+            <div className="flex justify-center py-4"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2">
+              {([
+                ["number", "D17 phone number"],
+                ["iban", "IBAN (optional alternative)"],
+                ["accountHolder", "Account holder name"],
+              ] as const).map(([field, label]) => (
+                <div key={field} className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground">{label}</label>
+                  <input
+                    type="text"
+                    defaultValue={d17Payment[field] ?? ""}
+                    key={`${field}-${d17Payment[field]}`}
+                    disabled={d17PaymentBusyField === field}
+                    onBlur={(e) => e.target.value !== (d17Payment[field] ?? "") && handleD17PaymentChange(field, e.target.value)}
+                    placeholder={field === "iban" ? "Optional" : "Not configured"}
+                    className="w-full rounded-lg border border-input bg-background px-2.5 py-1.5 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:opacity-50"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="mt-3 text-xs text-muted-foreground">
+            Shown to students on the D17 payment page for every order created from now on. Orders already created
+            keep the destination details they were shown at the time — changing this never alters an existing order.
+          </p>
+        </div>
 
         <div className="border-t border-border pt-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">Dynamic risk configuration</p>

@@ -1405,6 +1405,7 @@ export type Database = {
           attempts_used: number
           created_at: string
           currency: string
+          destination_account_holder: string | null
           destination_iban: string | null
           destination_number: string | null
           expires_at: string | null
@@ -1427,6 +1428,7 @@ export type Database = {
           attempts_used?: number
           created_at?: string
           currency?: string
+          destination_account_holder?: string | null
           destination_iban?: string | null
           destination_number?: string | null
           expires_at?: string | null
@@ -1449,6 +1451,7 @@ export type Database = {
           attempts_used?: number
           created_at?: string
           currency?: string
+          destination_account_holder?: string | null
           destination_iban?: string | null
           destination_number?: string | null
           expires_at?: string | null

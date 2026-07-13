@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate, useParams, Link } from "@tanstack/react-r
 import { useEffect, useState } from "react";
 import { getD17Order } from "@/lib/d17/orders.functions";
 import { toast } from "sonner";
-import { ArrowLeft, Loader2, Copy, Check, AlertTriangle, Smartphone, Landmark } from "lucide-react";
+import { ArrowLeft, Loader2, Copy, Check, AlertTriangle, Smartphone, Landmark, User } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/d17/$orderId/")({
   component: D17PaymentDetailsPage,
@@ -17,6 +17,7 @@ interface D17Order {
   attempts_used: number;
   destination_number: string | null;
   destination_iban: string | null;
+  destination_account_holder: string | null;
 }
 
 const TERMINAL_STATUSES = ["auto_approved", "admin_approved", "rejected", "expired"];
@@ -142,6 +143,9 @@ function D17PaymentDetailsPage() {
         )}
         {order.destination_iban && (
           <CopyField label="Official IBAN (Optional Alternative)" value={order.destination_iban} icon={Landmark} />
+        )}
+        {order.destination_account_holder && (
+          <CopyField label="Account Holder Name" value={order.destination_account_holder} icon={User} />
         )}
       </div>
 

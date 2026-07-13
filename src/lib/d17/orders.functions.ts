@@ -101,7 +101,7 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
       if (currentStatus !== "expired") {
         const { data: full, error: fullError } = await supabaseAdmin
           .from("d17_orders")
-          .select("id, status, amount_tnd, currency, attempts_used, created_at, session_token, destination_number, destination_iban, level")
+          .select("id, status, amount_tnd, currency, attempts_used, created_at, session_token, destination_number, destination_iban, destination_account_holder, level")
           .eq("id", existing.id)
           .single();
         if (fullError || !full) throw new Error(`Failed to load existing order: ${fullError?.message}`);
@@ -133,8 +133,8 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
     const now = new Date();
     const expiresAt = new Date(now.getTime() + ORDER_LIFETIME_MS).toISOString();
     const sessionToken = generateSessionToken();
-    const destinationNumber = process.env.D17_OFFICIAL_NUMBER || null;
-    const destinationIban = process.env.D17_OFFICIAL_IBAN || null;
+    const { getD17PaymentConfig } = await import("./payment-config");
+    const paymentConfig = await getD17PaymentConfig(supabaseAdmin);
 
     const { data: order, error: orderError } = await supabaseAdmin
       .from("d17_orders")
@@ -146,10 +146,11 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
         expires_at: expiresAt,
         session_token: sessionToken,
         session_token_expires_at: expiresAt,
-        destination_number: destinationNumber,
-        destination_iban: destinationIban,
+        destination_number: paymentConfig.number,
+        destination_iban: paymentConfig.iban,
+        destination_account_holder: paymentConfig.accountHolder,
       })
-      .select("id, status, amount_tnd, currency, attempts_used, created_at, session_token, destination_number, destination_iban, level")
+      .select("id, status, amount_tnd, currency, attempts_used, created_at, session_token, destination_number, destination_iban, destination_account_holder, level")
       .single();
     if (orderError || !order) {
       throw new Error(`Failed to create order: ${orderError?.message}`);
@@ -173,7 +174,7 @@ export const getD17Order = createServerFn({ method: "POST" })
     const { data: order, error } = await context.supabase
       .from("d17_orders")
       .select(
-        "id, user_id, plan_code, amount_tnd, currency, status, attempts_used, manual_review_deadline, resolved_at, created_at, session_token, destination_number, destination_iban, level, expires_at, locked_for_admin_only",
+        "id, user_id, plan_code, amount_tnd, currency, status, attempts_used, manual_review_deadline, resolved_at, created_at, session_token, destination_number, destination_iban, destination_account_holder, level, expires_at, locked_for_admin_only",
       )
       .eq("id", data.order_id)
       .maybeSingle();
