@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { adminRevokeSubscription } from "@/lib/admin/subscriptions.functions";
+import { toast } from "sonner";
 import {
   Search, ChevronLeft, ChevronRight as ChevronRightIcon,
-  RefreshCw, Filter, CreditCard, Clock, CheckCircle2, XCircle,
+  RefreshCw, Filter, CreditCard, Clock, CheckCircle2, XCircle, Ban,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/subscriptions")({
@@ -46,6 +48,7 @@ function AdminSubscriptionsPage() {
   const [search, setSearch]     = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [loading, setLoading]   = useState(true);
+  const [revokingId, setRevokingId] = useState<string | null>(null);
 
   const fetchSubs = useCallback(async () => {
     setLoading(true);
@@ -67,6 +70,21 @@ function AdminSubscriptionsPage() {
   }, [page, filterStatus]);
 
   useEffect(() => { fetchSubs(); }, [fetchSubs]);
+
+  async function handleRevoke(sub: SubRow) {
+    const reason = window.prompt(`Revoke this ${sub.plan_code} subscription for ${sub.profiles?.full_name ?? sub.user_id}?\n\nReason (required):`);
+    if (!reason?.trim()) return;
+    setRevokingId(sub.id);
+    try {
+      await adminRevokeSubscription({ data: { subscription_id: sub.id, reason: reason.trim() } });
+      toast.success("Subscription revoked — access is denied immediately.");
+      fetchSubs();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to revoke subscription.");
+    } finally {
+      setRevokingId(null);
+    }
+  }
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
@@ -146,12 +164,13 @@ function AdminSubscriptionsPage() {
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Status</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Expires</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Created</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center">
+                  <td colSpan={6} className="py-8 text-center">
                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                       Loading…
@@ -160,7 +179,7 @@ function AdminSubscriptionsPage() {
                 </tr>
               ) : subs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
+                  <td colSpan={6} className="py-8 text-center text-sm text-muted-foreground">
                     No subscriptions found
                   </td>
                 </tr>
@@ -190,6 +209,18 @@ function AdminSubscriptionsPage() {
                     </td>
                     <td className="px-4 py-3.5 text-xs text-muted-foreground">
                       {new Date(s.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                    </td>
+                    <td className="px-4 py-3.5 text-right">
+                      {s.status === "active" && (
+                        <button
+                          onClick={() => handleRevoke(s)}
+                          disabled={revokingId === s.id}
+                          title="Revoke this subscription — access is denied immediately"
+                          className="inline-flex items-center gap-1 rounded-lg border border-destructive/30 px-2.5 py-1 text-xs font-semibold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                        >
+                          <Ban className="h-3 w-3" /> Revoke
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))

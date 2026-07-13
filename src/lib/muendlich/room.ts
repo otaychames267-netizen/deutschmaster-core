@@ -24,6 +24,16 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
   const userId = u?.user?.id;
   if (!userId) return { error: "Not authenticated" };
 
+  // Front-door plan check — the real enforcement boundary is RLS on
+  // muendlich_rooms/_participants/_materials (has_plan_access, see
+  // 20260716020000_plan_scoped_content_gating.sql) plus
+  // deduct_muendlich_minutes_dual's own check, but blocking here means a
+  // Schriftlich-only user gets a clear message before matchmaking/chat/
+  // topic-selection rather than deep into a live session that will only
+  // fail once minutes are actually deducted.
+  const { data: hasAccess } = await db.rpc("has_plan_access", { p_user_id: userId, p_module: "muendlich" });
+  if (!hasAccess) return { error: "Your subscription doesn't include Mündlich access. Upgrade to Mündlich or Komplett to use the exam room." };
+
   let room: Room | null = null;
   if (code) {
     const { data } = await db.from("muendlich_rooms").select("*").eq("code", code.toUpperCase()).maybeSingle();

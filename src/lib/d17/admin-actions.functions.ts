@@ -160,11 +160,24 @@ export const adminRejectOrder = createServerFn({ method: "POST" })
     if (orderError || !order) throw new Error("Order not found.");
     if (!RESOLVABLE_STATUSES.includes(order.status)) throw new Error(`Cannot reject an order with status "${order.status}".`);
 
+    // Reversing an already-approved order (fraud caught after the fact)
+    // must also revoke the subscription activate_d17_order already
+    // granted — RLS content gating (has_plan_access) reads subscriptions.
+    // status live, so this takes effect on the student's very next request,
+    // no separate "kick them out" step needed.
+    const wasAlreadyApproved = order.status === "auto_approved" || order.status === "admin_approved";
+    if (wasAlreadyApproved && order.subscription_id) {
+      await supabaseAdmin.from("subscriptions").update({ status: "cancelled", cancelled_at: new Date().toISOString() }).eq("id", order.subscription_id);
+    }
+
     await supabaseAdmin
       .from("d17_orders")
       .update({ status: "rejected", resolved_at: new Date().toISOString(), resolved_by: context.userId, updated_at: new Date().toISOString() })
       .eq("id", order.id);
-    await supabaseAdmin.from("d17_admin_actions").insert({ order_id: order.id, admin_id: context.userId, action: "reject", note: data.note.trim() });
+    await supabaseAdmin.from("d17_admin_actions").insert({
+      order_id: order.id, admin_id: context.userId, action: "reject",
+      note: wasAlreadyApproved ? `${data.note.trim()} [subscription revoked — order was previously ${order.status}]` : data.note.trim(),
+    });
 
     const userEmail = await getUserEmail(supabaseAdmin, order.user_id);
     await supabaseAdmin.from("notifications").insert({
