@@ -88,6 +88,7 @@ import { Route as AuthenticatedLevelSchriftlichPruefungRouteImport } from './rou
 import { Route as AuthenticatedLevelMuendlichVorbereitungRouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung'
 import { Route as AuthenticatedLevelMuendlichPruefungRouteImport } from './routes/_authenticated.$level.muendlich.pruefung'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungIndexRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.index'
+import { Route as AuthenticatedLevelMuendlichVorbereitungIndexRouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.index'
 import { Route as AuthenticatedPracticeLevelModuleTeilRouteImport } from './routes/_authenticated.practice.$level.$module.$teil'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil3RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-3'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil2RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-2'
@@ -539,6 +540,12 @@ const AuthenticatedLevelSchriftlichVorbereitungIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
   } as any)
+const AuthenticatedLevelMuendlichVorbereitungIndexRoute =
+  AuthenticatedLevelMuendlichVorbereitungIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
+  } as any)
 const AuthenticatedPracticeLevelModuleTeilRoute =
   AuthenticatedPracticeLevelModuleTeilRouteImport.update({
     id: '/practice/$level/$module/$teil',
@@ -712,6 +719,7 @@ export interface FileRoutesByFullPath {
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/$level/muendlich/vorbereitung/': typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung/': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
   '/$level/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
@@ -784,7 +792,6 @@ export interface FileRoutesByTo {
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
-  '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
   '/$level/schriftlich/pruefung': typeof AuthenticatedLevelSchriftlichPruefungRoute
   '/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
@@ -801,6 +808,7 @@ export interface FileRoutesByTo {
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
   '/$level/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
@@ -897,6 +905,7 @@ export interface FileRoutesById {
   '/_authenticated/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/_authenticated/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/_authenticated/$level/muendlich/vorbereitung/': typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
   '/_authenticated/$level/schriftlich/vorbereitung/': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
   '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
   '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil2Route
@@ -993,6 +1002,7 @@ export interface FileRouteTypes {
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
+    | '/$level/muendlich/vorbereitung/'
     | '/$level/schriftlich/vorbereitung/'
     | '/$level/schriftlich/vorbereitung/hoeren/teil-1'
     | '/$level/schriftlich/vorbereitung/hoeren/teil-2'
@@ -1065,7 +1075,6 @@ export interface FileRouteTypes {
     | '/admin'
     | '/learn'
     | '/$level/muendlich/pruefung'
-    | '/$level/muendlich/vorbereitung'
     | '/$level/schriftlich/pruefung'
     | '/admin/d17/$orderId'
     | '/admin/exercises/$id'
@@ -1082,6 +1091,7 @@ export interface FileRouteTypes {
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
+    | '/$level/muendlich/vorbereitung'
     | '/$level/schriftlich/vorbereitung'
     | '/$level/schriftlich/vorbereitung/hoeren/teil-1'
     | '/$level/schriftlich/vorbereitung/hoeren/teil-2'
@@ -1177,6 +1187,7 @@ export interface FileRouteTypes {
     | '/_authenticated/$level/muendlich/vorbereitung/teil-2'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-3'
     | '/_authenticated/practice/$level/$module/$teil'
+    | '/_authenticated/$level/muendlich/vorbereitung/'
     | '/_authenticated/$level/schriftlich/vorbereitung/'
     | '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1'
     | '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-2'
@@ -1761,6 +1772,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungIndexRouteImport
       parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
     }
+    '/_authenticated/$level/muendlich/vorbereitung/': {
+      id: '/_authenticated/$level/muendlich/vorbereitung/'
+      path: '/'
+      fullPath: '/$level/muendlich/vorbereitung/'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungIndexRouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
+    }
     '/_authenticated/practice/$level/$module/$teil': {
       id: '/_authenticated/practice/$level/$module/$teil'
       path: '/practice/$level/$module/$teil'
@@ -1866,6 +1884,7 @@ interface AuthenticatedLevelMuendlichVorbereitungRouteChildren {
   AuthenticatedLevelMuendlichVorbereitungTeil1Route: typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   AuthenticatedLevelMuendlichVorbereitungTeil2Route: typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   AuthenticatedLevelMuendlichVorbereitungTeil3Route: typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
+  AuthenticatedLevelMuendlichVorbereitungIndexRoute: typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
 }
 
 const AuthenticatedLevelMuendlichVorbereitungRouteChildren: AuthenticatedLevelMuendlichVorbereitungRouteChildren =
@@ -1876,6 +1895,8 @@ const AuthenticatedLevelMuendlichVorbereitungRouteChildren: AuthenticatedLevelMu
       AuthenticatedLevelMuendlichVorbereitungTeil2Route,
     AuthenticatedLevelMuendlichVorbereitungTeil3Route:
       AuthenticatedLevelMuendlichVorbereitungTeil3Route,
+    AuthenticatedLevelMuendlichVorbereitungIndexRoute:
+      AuthenticatedLevelMuendlichVorbereitungIndexRoute,
   }
 
 const AuthenticatedLevelMuendlichVorbereitungRouteWithChildren =

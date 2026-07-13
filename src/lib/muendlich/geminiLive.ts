@@ -26,10 +26,12 @@ export interface RoomContext {
   teil1TopicB: string;
   teil2Topic: string; // locked title from Room 1
   teil3Topic: string; // locked title + body_text from Room 1
+  level?: "B1" | "B2"; // dead code path (unused, see file header) — kept in sync with muendlich-relay's copy anyway
 }
 
 function buildSystemInstruction(ctx: RoomContext): string {
-  return `Du bist die KI-Prüferin für die telc B2 mündliche Prüfung. Es sprechen zwei Kandidaten: ${ctx.personAName} (Person A) und ${ctx.personBName} (Person B).
+  const level = ctx.level ?? "B2";
+  return `Du bist die KI-Prüferin für die telc ${level} mündliche Prüfung. Es sprechen zwei Kandidaten: ${ctx.personAName} (Person A) und ${ctx.personBName} (Person B).
 
 Teil 1 (Präsentation): ${ctx.personAName} präsentiert das Thema "${ctx.teil1TopicA}", ${ctx.personBName} präsentiert das Thema "${ctx.teil1TopicB}".
 Teil 2 (Gespräch über ein Thema): "${ctx.teil2Topic}"

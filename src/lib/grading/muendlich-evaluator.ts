@@ -21,7 +21,8 @@ const EVAL_MODEL = process.env.MUENDLICH_EVAL_MODEL ?? "gemini-2.5-flash";
 export const MUENDLICH_CLOSING_STATEMENT =
   "Das Ganze ist vollkommen unter Kontrolle. Sie sind nicht schlecht; Sie müssen sich nur noch mehr auf das Training und die Bereicherung Ihres Wortschatzes konzentrieren. Es gibt absolut nichts, was unmöglich oder zu schwer ist, wenn man auf Allah vertraut (mit Gottes Hilfe) und unermüdlich sein Bestes gibt. Wir sind jederzeit hier für Sie da, um Sie zu unterstützen, wann immer Sie Hilfe benötigen.";
 
-const SYSTEM_PROMPT = `Du bist ein erfahrener, akademisch strenger telc-Prüfer für die mündliche Prüfung Deutsch B2 (Teil 1: Präsentation, Teil 2: Gespräch über ein Thema, Teil 3: Etwas gemeinsam planen).
+function systemPrompt(level: "B1" | "B2"): string {
+  return `Du bist ein erfahrener, akademisch strenger telc-Prüfer für die mündliche Prüfung Deutsch ${level} (Teil 1: Präsentation, Teil 2: Gespräch über ein Thema, Teil 3: Etwas gemeinsam planen).
 
 Bewerte NUR die Beiträge des angegebenen Kandidaten (nicht des Prüfungspartners oder der KI-Prüferin) im folgenden Transkript. Vergib für jeden der drei Prüfungsteile 0-25 Punkte (insgesamt max. 75 Punkte), basierend auf einer strengen Bewertung von: Aussprache, Wortschatz, grammatische Korrektheit und Flüssigkeit.
 
@@ -44,6 +45,7 @@ Antworte AUSSCHLIESSLICH auf Deutsch (100%), in gültigem JSON, ohne Markdown-Co
 }
 
 Wichtig: error_correction_matrix MUSS exakte, wörtliche Zitate aus dem Transkript enthalten (keine erfundenen Beispiele) — das macht die Bewertung glaubwürdig und nachvollziehbar. Wenn der Kandidat kaum Fehler gemacht hat, darf die Liste kurz sein oder auch leer bleiben, aber erfinde niemals Fehler, die nicht im Transkript vorkommen.`;
+}
 
 export interface MuendlichEvaluationResult {
   teil1_score: number;
@@ -118,14 +120,14 @@ function validate(raw: any): Omit<MuendlichEvaluationResult, "overall_score" | "
  * @param candidateLabel Which speaker to grade — "Person A" or "Person B". The
  *   AI examiner's own lines and the partner's lines are context only.
  */
-export async function generateMuendlichEvaluation(transcriptText: string, candidateLabel: string): Promise<MuendlichEvaluationResult> {
+export async function generateMuendlichEvaluation(transcriptText: string, candidateLabel: string, level: "B1" | "B2" = "B2"): Promise<MuendlichEvaluationResult> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY not set");
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${EVAL_MODEL}:generateContent?key=${key}`;
   const userPrompt = `Zu bewertender Kandidat: ${candidateLabel}\n\nTRANSKRIPT:\n${transcriptText}`;
   const body = {
-    contents: [{ parts: [{ text: SYSTEM_PROMPT + "\n\n" + userPrompt }] }],
+    contents: [{ parts: [{ text: systemPrompt(level) + "\n\n" + userPrompt }] }],
     generationConfig: { temperature: 0, response_mime_type: "application/json" },
   };
 

@@ -118,6 +118,10 @@ interface RoomSession {
   // When the Gemini Live session actually opened — used to approximate token
   // usage for the global cost-cap ledger at session end.
   liveSessionStartedAt: number | null;
+  // Set once from fetchRoomContext() when the live session opens — reused at
+  // finishExam() so the post-exam evaluator grades against the same CEFR
+  // level the exam itself ran at, instead of a hardcoded standard.
+  examLevel?: "B1" | "B2";
 }
 
 const rooms = new Map<string, RoomSession>();
@@ -150,7 +154,7 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
   const b = participants.find((p) => p.slot === "B")!;
 
   const [profilesRes, selectionsRes, teil1MaterialsRes] = await Promise.all([
-    admin.from("profiles").select("id, full_name").in("id", [a.userId, b.userId]),
+    admin.from("profiles").select("id, full_name, level").in("id", [a.userId, b.userId]),
     admin.from("muendlich_selections").select("teil, slot, value").eq("room_id", roomId).in("teil", [1, 2, 3]),
     admin.from("muendlich_materials").select("title, body_text").eq("teil", 1).eq("category", "themen"),
   ]);
@@ -161,12 +165,23 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
   const teil2 = selectionsRes.data?.find((s) => s.teil === 2)?.value ?? "(kein Thema ausgewählt)";
   const teil3 = selectionsRes.data?.find((s) => s.teil === 3)?.value ?? "(kein Thema ausgewählt)";
 
+  // muendlich_rooms itself carries no level column — the room's level is
+  // derived from its two participants' own profiles.level. Normal case: both
+  // sides were matched within the same /b1|b2/ course and agree. If they
+  // somehow don't (a matchmaking gap, not something this function should
+  // paper over), fall back to B2 — the prior universal behavior — rather than
+  // guessing which side is "right".
+  const levelA = profilesRes.data?.find((p) => p.id === a.userId)?.level;
+  const levelB = profilesRes.data?.find((p) => p.id === b.userId)?.level;
+  const level: "B1" | "B2" = levelA && levelA === levelB && String(levelA).toUpperCase().includes("B1") ? "B1" : "B2";
+
   return {
     personAName: nameOf(a.userId), personBName: nameOf(b.userId),
     teil1TopicA: formatTeil1Topic(teil1A, teil1MaterialsRes.data),
     teil1TopicB: formatTeil1Topic(teil1B, teil1MaterialsRes.data),
     teil2Topic: teil2, teil3Topic: teil3,
     aName: nameOf(a.userId), bName: nameOf(b.userId),
+    level,
   };
 }
 
@@ -239,6 +254,7 @@ async function startRoomIfReady(room: RoomSession) {
   }
 
   const ctx = await fetchRoomContext(room.roomId, participants);
+  room.examLevel = ctx.level;
 
   const { data: sessionRow } = await admin
     .from("muendlich_exam_sessions")
@@ -388,7 +404,7 @@ async function finishExam(room: RoomSession) {
       const p = participants.find((x) => (label === "Person A" ? x.slot === "A" : x.slot === "B"));
       if (!p) continue;
       try {
-        const evaluation = await generateMuendlichEvaluation(transcriptText, label);
+        const evaluation = await generateMuendlichEvaluation(transcriptText, label, room.examLevel ?? "B2");
         await admin.from("muendlich_evaluations").insert({
           session_id: examSessionId, user_id: p.userId,
           teil1_score: evaluation.teil1_score, teil2_score: evaluation.teil2_score, teil3_score: evaluation.teil3_score,

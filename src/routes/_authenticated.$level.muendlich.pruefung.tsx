@@ -117,7 +117,7 @@ function PruefungPage() {
       <div className="mx-auto max-w-xl py-10 text-center">
         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10"><Users className="h-7 w-7 text-rose-500" /></div>
         <h1 className="text-2xl font-black text-foreground">Prüfungssimulation</h1>
-        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">This simulation reproduces the complete TELC B2 speaking examination with two participants.</p>
+        <p className="mx-auto mt-2 max-w-md text-sm text-muted-foreground">This simulation reproduces the complete TELC {level === "TELC_B1" ? "B1" : "B2"} speaking examination with two participants.</p>
         <div className="mx-auto mt-5 grid max-w-xs gap-2 text-left text-sm">
           {[["Two participants required", Users], ["Microphone required", Mic], ["Stable internet connection", Wifi]].map(([t, Icon]: any) => (
             <div key={t} className="flex items-center gap-2 text-muted-foreground"><Icon className="h-4 w-4 text-rose-500" /> {t}</div>

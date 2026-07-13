@@ -15,14 +15,22 @@ import { wrapUntrustedText } from "./sanitize-input";
 
 const GRADING_MODEL = process.env.GRADING_MODEL_GEMINI ?? "gemini-2.5-flash";
 
-const SYSTEM_PROMPT = `Du bist ein erfahrener telc-Prüfer für die Prüfung Deutsch B2, Prüfungsteil Schreiben.
+/** Student's exam level, e.g. profiles.level ("TELC_B1"/"TELC_B2") normalized to "B1"/"B2". */
+export type CefrLevel = "B1" | "B2";
+
+export function normalizeCefrLevel(raw: string | null | undefined): CefrLevel {
+  return raw?.toUpperCase().includes("B1") ? "B1" : "B2";
+}
+
+function systemPrompt(level: CefrLevel): string {
+  return `Du bist ein erfahrener telc-Prüfer für die Prüfung Deutsch ${level}, Prüfungsteil Schreiben.
 Bewerte den folgenden Beschwerdebrief eines Kandidaten nach genau vier Kriterien, jeweils 0-25 Punkte:
 1. Aufgabenerfüllung (task_fulfillment) — wurden alle in der Aufgabe geforderten Punkte behandelt?
 2. Grammatik (grammar) — Korrektheit von Satzbau, Verbformen, Kasus, Wortstellung
 3. Aufbau (structure) — Briefform (Anrede, Einleitung, Absätze, Schluss), Textkohärenz, Konnektoren
-4. Wortschatz (vocabulary) — Angemessenheit und Vielfalt des Ausdrucks für das B2-Niveau
+4. Wortschatz (vocabulary) — Angemessenheit und Vielfalt des Ausdrucks für das ${level}-Niveau
 
-Sei streng und konsistent, wie ein echter telc-Prüfer. Gib NUR valides JSON zurück, keine Erklärungen außerhalb des JSON, keine Markdown-Codeblöcke:
+Sei streng und konsistent, wie ein echter telc-Prüfer für das Niveau ${level}. Gib NUR valides JSON zurück, keine Erklärungen außerhalb des JSON, keine Markdown-Codeblöcke:
 {
   "task_fulfillment_score": <ganze Zahl 0-25>,
   "grammar_score": <ganze Zahl 0-25>,
@@ -36,6 +44,7 @@ Sei streng und konsistent, wie ein echter telc-Prüfer. Gib NUR valides JSON zur
     "summary": "<3-4 Sätze Gesamtfeedback und konkrete Verbesserungsvorschläge>"
   }
 }`;
+}
 
 export interface GradingResult {
   task_fulfillment_score: number;
@@ -111,7 +120,7 @@ async function recordUsage(supabase: any, tokens: number): Promise<void> {
   await supabase.rpc("record_api_usage", { p_tokens: tokens });
 }
 
-export async function gradeEssay(taskPrompt: string, essayText: string, supabase: any): Promise<GradingResult> {
+export async function gradeEssay(taskPrompt: string, essayText: string, supabase: any, level: CefrLevel = "B2"): Promise<GradingResult> {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY not set");
 
@@ -122,7 +131,7 @@ export async function gradeEssay(taskPrompt: string, essayText: string, supabase
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${GRADING_MODEL}:generateContent?key=${key}`;
   const userMessage = `AUFGABE:\n${taskPrompt}\n\n---\n\n${wrapUntrustedText("ANTWORT DES KANDIDATEN", essayText)}`;
   const body = {
-    contents: [{ parts: [{ text: SYSTEM_PROMPT + "\n\n" + userMessage }] }],
+    contents: [{ parts: [{ text: systemPrompt(level) + "\n\n" + userMessage }] }],
     generationConfig: { temperature: 0, response_mime_type: "application/json" },
   };
 

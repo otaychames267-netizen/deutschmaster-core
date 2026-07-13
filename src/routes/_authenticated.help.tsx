@@ -18,7 +18,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "What is AuraLingovia?",
-        a: "AuraLingovia is a premium TELC B2 exam preparation platform covering all written (Schriftlich) and oral (Mündlich) components. You practice with real exam-style content, track your progress, and build fluency at your own pace.",
+        a: "AuraLingovia is a premium TELC B1 and B2 exam preparation platform covering all written (Schriftlich) and oral (Mündlich) components. You practice with real exam-style content, track your progress, and build fluency at your own pace.",
       },
       {
         q: "How do I choose between Schriftlich and Mündlich?",
@@ -26,7 +26,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "What exam level is this platform for?",
-        a: "Currently AuraLingovia focuses on TELC B2 (Deutsch B2). B1 content is planned for a future release.",
+        a: "AuraLingovia supports both TELC B1 and TELC B2 (Deutsch B1/B2). You choose your level during onboarding — each level has its own dedicated content and practice materials.",
       },
     ],
   },

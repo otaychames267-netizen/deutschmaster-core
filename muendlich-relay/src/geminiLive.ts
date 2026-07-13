@@ -17,10 +17,12 @@ export interface RoomContext {
   teil1TopicB: string;
   teil2Topic: string;
   teil3Topic: string;
+  level?: "B1" | "B2";
 }
 
 function buildSystemInstruction(ctx: RoomContext): string {
-  return `Du bist die KI-Prüferin für die telc B2 mündliche Prüfung. Es sprechen zwei Kandidaten: ${ctx.personAName} (Person A) und ${ctx.personBName} (Person B).
+  const level = ctx.level ?? "B2";
+  return `Du bist die KI-Prüferin für die telc ${level} mündliche Prüfung. Es sprechen zwei Kandidaten: ${ctx.personAName} (Person A) und ${ctx.personBName} (Person B).
 
 Teil 1 (Präsentation): ${ctx.personAName} präsentiert das Thema "${ctx.teil1TopicA}", ${ctx.personBName} präsentiert das Thema "${ctx.teil1TopicB}".
 Teil 2 (Gespräch über ein Thema): "${ctx.teil2Topic}"

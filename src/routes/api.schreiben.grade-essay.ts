@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { gradeEssay, isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
+import { gradeEssay, isBudgetExceeded, normalizeCefrLevel } from "@/lib/grading/essay-grader-gemini";
 
 /**
  * Authenticated route: grades a student's essay against strict telc B2 criteria.
@@ -103,10 +103,18 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           return Response.json({ error: "Could not process credit" }, { status: 500 });
         }
 
-        // 3. Call the grader. Any failure here must refund the credit.
+        // 3. Call the grader against the student's own exam level (profiles.level),
+        // not a hardcoded standard — a B1 student must be graded on B1 criteria.
+        const { data: profile } = await supabaseAdmin
+          .from("profiles")
+          .select("level")
+          .eq("id", userId)
+          .maybeSingle();
+        const level = normalizeCefrLevel(profile?.level);
+
         let result;
         try {
-          result = await gradeEssay(task, essayText, supabaseAsUser);
+          result = await gradeEssay(task, essayText, supabaseAsUser, level);
         } catch (e) {
           await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
           console.error("[grade-essay] grading failed, credit refunded:", e);
