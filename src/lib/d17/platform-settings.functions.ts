@@ -42,6 +42,41 @@ export const setD17KillSwitch = createServerFn({ method: "POST" })
   });
 
 /**
+ * Emergency D17-only switch — distinct from setD17KillSwitch above. The
+ * kill switch routes verification ATTEMPTS to manual review while the D17
+ * payment option stays visible; this instead hides the "Manual Payment
+ * (D17 Mobile Transfer)" button on /billing and rejects new-order creation
+ * server-side (orders.functions.ts), while leaving Lemon Squeezy and any
+ * already-in-flight D17 order completely unaffected.
+ */
+export const setD17DisabledSwitch = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { disabled: boolean }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin.rpc("set_platform_setting", {
+      p_key: "d17_disabled",
+      p_value: data.disabled,
+      p_admin_id: context.userId,
+    });
+    if (error) throw new Error(error.message);
+
+    const { notifyTelegram } = await import("@/lib/notify/telegram.server");
+    const telegramSent = await notifyTelegram(
+      `[INFO] d17_disabled_toggled: D17 manual payment ${data.disabled ? "DISABLED (button hidden, no new orders)" : "RE-ENABLED"}.`,
+    );
+    await supabaseAdmin.from("d17_alerts").insert({
+      severity: "info",
+      category: "d17_disabled_toggled",
+      message: `D17 manual payment ${data.disabled ? "disabled" : "re-enabled"} by admin ${context.userId}.`,
+      telegram_sent: telegramSent,
+    });
+
+    return { disabled: data.disabled };
+  });
+
+/**
  * Generic setter for the dynamic risk-config values (src/lib/d17/config.ts)
  * — auto-approve threshold, attempt caps, review windows, suspension
  * durations, etc. Every change is logged to platform_settings_history

@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Settings2, Globe, Bell, CreditCard, Shield, Save, CheckCircle2, AlertOctagon, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { setD17KillSwitch, setD17ConfigValue, getD17ConfigValues } from "@/lib/d17/platform-settings.functions";
+import { setD17KillSwitch, setD17DisabledSwitch, setD17ConfigValue, getD17ConfigValues } from "@/lib/d17/platform-settings.functions";
 import { toast } from "sonner";
 
 const D17_CONFIG_FIELDS: { key: string; label: string; suffix: string }[] = [
@@ -24,6 +24,8 @@ function AdminSettingsPage() {
   const [saved, setSaved] = useState(false);
   const [killSwitch, setKillSwitchState] = useState<boolean | null>(null);
   const [killSwitchBusy, setKillSwitchBusy] = useState(false);
+  const [d17Disabled, setD17DisabledState] = useState<boolean | null>(null);
+  const [d17DisabledBusy, setD17DisabledBusy] = useState(false);
   const [d17Config, setD17Config] = useState<Record<string, number> | null>(null);
   const [d17ConfigBusyKey, setD17ConfigBusyKey] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -48,6 +50,9 @@ function AdminSettingsPage() {
     supabase
       .rpc("get_platform_setting", { p_key: "payment_verification_kill_switch" })
       .then(({ data }) => setKillSwitchState(data === true));
+    supabase
+      .rpc("get_platform_setting", { p_key: "d17_disabled" })
+      .then(({ data }) => setD17DisabledState(data === true));
     getD17ConfigValues({ data: undefined }).then((cfg) => setD17Config(cfg)).catch(() => setD17Config(null));
   }, []);
 
@@ -66,6 +71,21 @@ function AdminSettingsPage() {
       toast.error(e instanceof Error ? e.message : "Could not update the setting.");
     } finally {
       setD17ConfigBusyKey(null);
+    }
+  }
+
+  async function toggleD17Disabled() {
+    if (d17Disabled === null || d17DisabledBusy) return;
+    const next = !d17Disabled;
+    setD17DisabledBusy(true);
+    try {
+      await setD17DisabledSwitch({ data: { disabled: next } });
+      setD17DisabledState(next);
+      toast.success(next ? "D17 manual payment disabled — the button is now hidden on /billing." : "D17 manual payment re-enabled.");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update the D17 switch.");
+    } finally {
+      setD17DisabledBusy(false);
     }
   }
 
@@ -198,6 +218,33 @@ function AdminSettingsPage() {
         {killSwitch === true && (
           <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs font-semibold text-red-600 dark:text-red-400">
             Kill switch is ON — all new D17 verification attempts are being routed to manual review.
+          </div>
+        )}
+
+        <div className="flex items-center justify-between gap-4 border-t border-border pt-4">
+          <div>
+            <p className="text-sm font-semibold text-foreground">Disable D17 manual payment</p>
+            <p className="text-xs text-muted-foreground">
+              Hides the "Manual Payment (D17 Mobile Transfer)" button on /billing entirely — no new D17 orders can be
+              started. Lemon Squeezy card payment is unaffected, and any D17 order already in progress keeps working
+              normally. Use this if the D17 destination number/IBAN needs to change or D17 itself is down.
+            </p>
+          </div>
+          {d17Disabled === null ? (
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+          ) : (
+            <button
+              onClick={toggleD17Disabled}
+              disabled={d17DisabledBusy}
+              className={`relative h-6 w-11 shrink-0 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50 ${d17Disabled ? "bg-red-500" : "bg-muted-foreground/30"}`}
+            >
+              <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform duration-200 ${d17Disabled ? "translate-x-5" : "translate-x-0.5"}`} />
+            </button>
+          )}
+        </div>
+        {d17Disabled === true && (
+          <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-xs font-semibold text-red-600 dark:text-red-400">
+            D17 manual payment is disabled — students only see card payment on /billing.
           </div>
         )}
 

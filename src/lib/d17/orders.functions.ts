@@ -104,6 +104,16 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
       }
     }
 
+    // Emergency D17-only switch (distinct from payment_verification_kill_switch,
+    // which routes verification ATTEMPTS to manual review while keeping the
+    // option available): only gates starting a brand-new order — the
+    // existing-order redirect above already returned before this point, so
+    // an already-in-flight D17 order is never blocked by this check.
+    const { data: d17Disabled } = await supabaseAdmin.rpc("get_platform_setting", { p_key: "d17_disabled" });
+    if (d17Disabled === true) {
+      throw new Error("Manual D17 payment is temporarily unavailable. Please use card payment instead.");
+    }
+
     const { data: plan, error: planError } = await supabaseAdmin
       .from("plans")
       .select("price_tnd")
