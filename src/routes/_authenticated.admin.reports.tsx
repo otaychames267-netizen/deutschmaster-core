@@ -341,7 +341,7 @@ function AdminReportsPage() {
               onClick={() => {}}
               disabled
               className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 py-2 text-xs font-semibold text-muted-foreground cursor-not-allowed"
-              title="Available when Stripe + full analytics are connected"
+              title="Available once the full analytics pipeline is connected"
             >
               <Download className="h-3.5 w-3.5" /> Download CSV — coming soon
             </button>
@@ -351,7 +351,7 @@ function AdminReportsPage() {
 
       <div className="rounded-2xl border border-dashed border-border bg-muted/20 p-6 text-center">
         <p className="text-sm text-muted-foreground">
-          Full report exports will be available once Stripe and the analytics pipeline are connected.
+          Full report exports will be available once the analytics pipeline is connected.
           Reports will be downloadable as CSV and PDF.
         </p>
       </div>

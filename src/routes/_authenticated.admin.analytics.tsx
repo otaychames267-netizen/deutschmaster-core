@@ -117,7 +117,7 @@ function AdminAnalyticsPage() {
           <div className="mb-5 flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-foreground">Monthly revenue</p>
-              <p className="text-xs text-muted-foreground">EUR — Stripe data after integration</p>
+              <p className="text-xs text-muted-foreground">EUR — populates once payment volume exists</p>
             </div>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </div>
@@ -132,7 +132,7 @@ function AdminAnalyticsPage() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="mt-3 text-center text-xs text-muted-foreground">Revenue will populate once Stripe is connected</p>
+          <p className="mt-3 text-center text-xs text-muted-foreground">Revenue chart will populate once real payment volume exists</p>
         </div>
       </div>
 

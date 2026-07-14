@@ -42,7 +42,6 @@ function AdminSettingsPage() {
     maintenanceMode: false,
     registrationOpen: true,
     emailNotifications: true,
-    stripeKey: "",
   });
 
   function handleSave() {
@@ -238,10 +237,6 @@ function AdminSettingsPage() {
           Prices are read live by both Lemon Squeezy checkout and D17 order creation. Changing a price only affects
           orders/checkouts created after the change — every existing order and subscription keeps the amount it was
           created with.
-        </p>
-        <Field label="Stripe secret key" name="stripeKey" type="password" disabled />
-        <p className="text-xs text-muted-foreground">
-          Stripe key management is handled server-side via environment variables. Contact your hosting provider to update it.
         </p>
       </Section>
 
