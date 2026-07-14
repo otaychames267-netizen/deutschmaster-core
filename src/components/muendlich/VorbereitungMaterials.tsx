@@ -54,9 +54,9 @@ export function VorbereitungMaterials({ teil, categories }: { teil: number; cate
               <div className="grid gap-2 sm:grid-cols-2">
                 {items.map((m) => (
                   <button key={m.id} onClick={() => m.storage_path && setOpen(m)} disabled={!m.storage_path}
-                    className="flex items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 text-left transition-all hover:border-rose-500/40 hover:bg-rose-500/5 disabled:cursor-default disabled:opacity-60 disabled:hover:border-border disabled:hover:bg-background">
+                    className="flex min-w-0 items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 text-left transition-all hover:border-rose-500/40 hover:bg-rose-500/5 disabled:cursor-default disabled:opacity-60 disabled:hover:border-border disabled:hover:bg-background">
                     <FileText className="h-4 w-4 shrink-0 text-rose-500" />
-                    <span className="flex-1 truncate text-sm font-medium text-foreground">{m.title}</span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">{m.title}</span>
                   </button>
                 ))}
               </div>

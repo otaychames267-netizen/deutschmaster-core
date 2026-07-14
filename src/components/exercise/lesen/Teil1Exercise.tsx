@@ -148,7 +148,7 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
             {/* answer field ABOVE the text */}
             <div className="flex items-center gap-3 px-4 pt-4">
               <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-sm font-black text-muted-foreground">{t.position}</span>
-              <div className="relative flex-1">
+              <div className="relative min-w-0 flex-1">
                 <button ref={(el) => { btnRefs.current[t.position] = el; }}
                   onClick={() => setOpen(isOpen ? null : t.position)} disabled={submitted}
                   aria-haspopup="listbox" aria-expanded={isOpen}
@@ -156,7 +156,7 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                   {ans ? (
                     <>
                       <span className={`shrink-0 flex h-6 w-6 items-center justify-center rounded-md text-xs font-black ${isCorrect ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" : isWrong ? "bg-rose-500/20 text-rose-700 dark:text-rose-300" : "bg-primary/15 text-primary"}`}>{ans}</span>
-                      <span className="flex-1 truncate text-foreground">{headlineText(ans)}</span>
+                      <span className="min-w-0 flex-1 truncate text-foreground">{headlineText(ans)}</span>
                     </>
                   ) : (
                     <span className="flex-1 text-muted-foreground">Schlagzeile wählen…</span>
