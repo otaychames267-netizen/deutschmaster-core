@@ -55,7 +55,7 @@ function AdminSubscriptionsPage() {
 
     let query = supabase
       .from("subscriptions")
-      .select("id, user_id, status, plan_code, expires_at, created_at, profiles(full_name)", { count: "exact" })
+      .select("id, user_id, status, plan_code, expires_at, created_at", { count: "exact" })
       .order("created_at", { ascending: false })
       .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
 
@@ -64,7 +64,18 @@ function AdminSubscriptionsPage() {
     }
 
     const { data, count } = await query;
-    setSubs((data as unknown as SubRow[]) ?? []);
+    const rows = data ?? [];
+
+    /* subscriptions.user_id references auth.users, not public.profiles --
+     * there's no FK PostgREST can use for an embedded `profiles(full_name)`
+     * select, so names are looked up separately and merged in here. */
+    const userIds = [...new Set(rows.map((r) => r.user_id))];
+    const { data: profileRows } = userIds.length
+      ? await supabase.from("profiles").select("id, full_name").in("id", userIds)
+      : { data: [] as { id: string; full_name: string | null }[] };
+    const profileMap = new Map((profileRows ?? []).map((p) => [p.id, { full_name: p.full_name }]));
+
+    setSubs(rows.map((r) => ({ ...r, profiles: profileMap.get(r.user_id) ?? null })));
     setTotal(count ?? 0);
     setLoading(false);
   }, [page, filterStatus]);

@@ -61,8 +61,7 @@ function AdminUsersPage() {
     let query = supabase
       .from("profiles")
       .select(
-        `id, full_name, level, is_admin, is_banned, onboarding_completed, created_at,
-         subscriptions(status, plan_code)`,
+        `id, full_name, level, is_admin, is_banned, onboarding_completed, created_at`,
         { count: "exact" }
       )
       .order("created_at", { ascending: false })
@@ -76,7 +75,24 @@ function AdminUsersPage() {
     }
 
     const { data, count } = await query;
-    setUsers((data as unknown as UserRow[]) ?? []);
+    const rows = data ?? [];
+
+    /* profiles has no FK PostgREST can use for an embedded
+     * `subscriptions(status, plan_code)` select (subscriptions.user_id
+     * references auth.users, not public.profiles) -- fetched separately
+     * and merged in here instead. */
+    const userIds = rows.map((r) => r.id);
+    const { data: subRows } = userIds.length
+      ? await supabase.from("subscriptions").select("user_id, status, plan_code").in("user_id", userIds)
+      : { data: [] as { user_id: string; status: string; plan_code: string }[] };
+    const subsByUser = new Map<string, { status: string; plan_code: string }[]>();
+    for (const s of subRows ?? []) {
+      const list = subsByUser.get(s.user_id) ?? [];
+      list.push({ status: s.status, plan_code: s.plan_code });
+      subsByUser.set(s.user_id, list);
+    }
+
+    setUsers(rows.map((r) => ({ ...r, subscriptions: subsByUser.get(r.id) ?? [] })));
     setTotal(count ?? 0);
     setLoading(false);
   }, [page, search, filterLevel]);
