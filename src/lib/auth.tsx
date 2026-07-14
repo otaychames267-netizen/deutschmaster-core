@@ -9,6 +9,7 @@ interface AuthState {
   session: Session | null;
   loading: boolean;
   isAdmin: boolean;
+  roleLoading: boolean;
   level: UserLevel;
   signOut: () => Promise<void>;
 }
@@ -18,6 +19,7 @@ const AuthContext = createContext<AuthState>({
   session: null,
   loading: true,
   isAdmin: false,
+  roleLoading: true,
   level: null,
   signOut: async () => {},
 });
@@ -44,9 +46,10 @@ async function fetchLevel(userId: string): Promise<UserLevel> {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser]       = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [level, setLevel]     = useState<UserLevel>(null);
+  const [loading, setLoading]         = useState(true);
+  const [isAdmin, setIsAdmin]         = useState(false);
+  const [roleLoading, setRoleLoading] = useState(true);
+  const [level, setLevel]             = useState<UserLevel>(null);
 
   const currentUserIdRef = useRef<string | null>(null);
   const loadingRef       = useRef(true);
@@ -72,15 +75,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (mounted) {
           setIsAdmin(false);
           setLevel(null);
+          setRoleLoading(false);
         }
         return;
       }
 
       const req = ++adminReqRef.current;
+      if (mounted) setRoleLoading(true);
       Promise.all([fetchIsAdmin(nextId), fetchLevel(nextId)]).then(([admin, lvl]) => {
         if (mounted && req === adminReqRef.current) {
           setIsAdmin(admin);
           setLevel(lvl);
+          setRoleLoading(false);
         }
       });
     }
@@ -115,7 +121,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, level, signOut }}>
+    <AuthContext.Provider value={{ user, session, loading, isAdmin, roleLoading, level, signOut }}>
       {children}
     </AuthContext.Provider>
   );
