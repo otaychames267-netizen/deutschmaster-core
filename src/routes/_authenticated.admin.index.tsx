@@ -143,9 +143,9 @@ function AdminIndexPage() {
               <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground/40 transition-all group-hover:text-muted-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </div>
             <div>
-              <p className="text-2xl font-black tracking-tight text-foreground">
+              <div className="text-2xl font-black tracking-tight text-foreground">
                 {loading ? <Skeleton className="h-7 w-12" /> : card.value.toLocaleString()}
-              </p>
+              </div>
               <p className="mt-0.5 text-xs font-medium text-muted-foreground">{card.label}</p>
             </div>
           </Link>
