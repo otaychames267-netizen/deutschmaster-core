@@ -49,6 +49,12 @@ export interface FindDuplicateParams {
   reference: string | null;
   transactionId: string | null;
   authorizationNumber: string | null;
+  /** The authorization number the student TYPED (D17's sole identifier).
+   * Checked against every other order's stored identifiers so a reused
+   * authorization number is caught even when THIS upload's OCR failed to read
+   * it — and, because it's known before the Gemini call, a reused number is
+   * hard-rejected in the pre-OCR pass without spending any Gemini budget. */
+  userEnteredReference: string | null;
 }
 
 async function findAttemptByColumn(
@@ -118,6 +124,22 @@ export async function findDuplicate(supabaseAdmin: any, params: FindDuplicatePar
     const match = await findAttemptByColumn(supabaseAdmin, params.orderId, "ocr_authorization_number", params.authorizationNumber);
     if (match) {
       return { type: "authorization_number_duplicate", matchedAttemptId: match.id, matchedOrderId: match.order_id, matchedUserId: match.user_id };
+    }
+  }
+
+  // The student-typed authorization number, cross-checked against every
+  // other order's stored identifiers. This is what makes the auth number
+  // globally unique even when THIS upload's OCR failed to read it, and (since
+  // it's known before Gemini runs) lets a reused number hard-reject in the
+  // pre-OCR pass. Checks all three identifier columns because a genuine D17
+  // authorization number could have been captured as an authorization number,
+  // a reference, or a transaction id on some earlier attempt.
+  if (params.userEnteredReference) {
+    for (const column of ["ocr_authorization_number", "ocr_reference", "ocr_transaction_id"]) {
+      const match = await findAttemptByColumn(supabaseAdmin, params.orderId, column, params.userEnteredReference);
+      if (match) {
+        return { type: "authorization_number_duplicate", matchedAttemptId: match.id, matchedOrderId: match.order_id, matchedUserId: match.user_id };
+      }
     }
   }
 

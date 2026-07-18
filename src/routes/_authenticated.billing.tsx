@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/billing/checkout.functions";
 import { createD17Order } from "@/lib/d17/orders.functions";
+import { isPlanPurchasable, CARD_PAYMENTS_ENABLED } from "@/lib/features";
 import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
@@ -163,6 +164,9 @@ function BillingPage() {
   }, []);
 
   const isActive = subscription?.status === "active";
+  // Launch gate: only sellable plans are shown. While Mündlich is disabled,
+  // this is just Schriftlich (Komplett/Mündlich both grant speaking access).
+  const visiblePlans = PLANS.filter((p) => isPlanPurchasable(p.code));
   const daysLeft = subscription ? daysRemaining(subscription.expires_at) : 0;
   const renewDate = subscription
     ? new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
@@ -247,8 +251,8 @@ function BillingPage() {
           <p className="text-sm text-muted-foreground">Choose the plan that fits your exam goals. Cancel anytime.</p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {PLANS.map((plan) => {
+        <div className={`grid gap-5 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "md:grid-cols-3"}`}>
+          {visiblePlans.map((plan) => {
             const isCurrent = subscription?.plan_code === plan.code;
             const c = COLOR_CLASSES[plan.color];
             return (
@@ -302,50 +306,62 @@ function BillingPage() {
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    <button
-                      onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
-                      disabled={checkoutPlan !== null || d17Plan !== null}
-                      className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
-                    >
-                      {checkoutPlan === plan.code ? (
-                        <Loader2 className="h-4 w-4 animate-spin" />
-                      ) : (
-                        <Zap className="h-4 w-4" />
-                      )}
-                      Pay Securely
-                      <ArrowUpRight className="h-3.5 w-3.5" />
-                    </button>
-                    <p className="text-center text-[11px] font-medium text-muted-foreground">
-                      <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
-                      Recommended · Instant activation · Carte Technologique & international cards supported
-                    </p>
+                    {/* Card checkout (Lemon Squeezy) is only surfaced once real
+                        credentials are live (CARD_PAYMENTS_ENABLED). Until then
+                        a "Pay Securely" button would only error for students, so
+                        D17 mobile transfer is the primary payment method. */}
+                    {CARD_PAYMENTS_ENABLED && (
+                      <>
+                        <button
+                          onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
+                          disabled={checkoutPlan !== null || d17Plan !== null}
+                          className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
+                        >
+                          {checkoutPlan === plan.code ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Zap className="h-4 w-4" />
+                          )}
+                          Pay Securely
+                          <ArrowUpRight className="h-3.5 w-3.5" />
+                        </button>
+                        <p className="text-center text-[11px] font-medium text-muted-foreground">
+                          <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
+                          Recommended · Instant activation · Carte Technologique & international cards supported
+                        </p>
 
-                    <div className="relative py-1 text-center">
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">or</span>
-                    </div>
+                        <div className="relative py-1 text-center">
+                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">or</span>
+                        </div>
+                      </>
+                    )}
 
                     {d17Disabled ? (
                       <div className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-center">
-                        <p className="text-xs font-semibold text-muted-foreground">Manual Payment (D17) — temporarily unavailable</p>
-                        <p className="mt-0.5 text-[10px] text-muted-foreground">Please use card payment above. This will return shortly.</p>
+                        <p className="text-xs font-semibold text-muted-foreground">Payment (D17) — temporarily unavailable</p>
+                        <p className="mt-0.5 text-[10px] text-muted-foreground">Manual payment is paused right now. Please check back shortly.</p>
                       </div>
                     ) : (
                       <>
                         <button
                           onClick={() => handleD17(plan.code as "schriftlich" | "muendlich" | "komplett")}
                           disabled={checkoutPlan !== null || d17Plan !== null}
-                          title="Manual verification required. Processing time can take up to 8 working hours."
-                          className="flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                          title="Pay by D17 mobile transfer, then upload your confirmation. Verified automatically in moments, or by our team within 8 working hours."
+                          className={
+                            CARD_PAYMENTS_ENABLED
+                              ? "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                              : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`
+                          }
                         >
                           {d17Plan === plan.code ? (
-                            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                            <Loader2 className="h-4 w-4 animate-spin" />
                           ) : (
-                            <Landmark className="h-3.5 w-3.5" />
+                            <Landmark className="h-4 w-4" />
                           )}
-                          Manual Payment (D17 Mobile Transfer)
+                          Pay with D17 Mobile Transfer
                         </button>
                         <p className="flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
-                          <Clock className="h-3 w-3" /> Manual verification — up to 8 working hours
+                          <Clock className="h-3 w-3" /> Verified in moments — manual review up to 8 working hours
                         </p>
                       </>
                     )}
@@ -360,8 +376,8 @@ function BillingPage() {
       {/* ── Benefits overview ─────────────────────────────────── */}
       <div className="grid gap-4 sm:grid-cols-3">
         {[
-          { icon: Zap,       title: "Instant access",     desc: "Full access granted the moment your payment is verified.",       color: "text-amber-500 bg-amber-500/10" },
-          { icon: Shield,    title: "Secure payments",    desc: "Lemon Squeezy-powered — your card details are never stored here.", color: "text-blue-500 bg-blue-500/10"   },
+          { icon: Zap,       title: "Fast verification",  desc: "Most D17 transfers are verified automatically within moments.",  color: "text-amber-500 bg-amber-500/10" },
+          { icon: Shield,    title: "Secure by design",   desc: "Your payment is reviewed before any access is granted — we never store card details.", color: "text-blue-500 bg-blue-500/10"   },
           { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Cancel in one click, no questions asked.",           color: "text-emerald-500 bg-emerald-500/10" },
         ].map((item) => (
           <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
@@ -388,8 +404,9 @@ function BillingPage() {
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Card payments are processed securely by Lemon Squeezy and activate instantly. D17 / bank-transfer payments
-        are verified manually and can take up to 8 working hours.
+        {CARD_PAYMENTS_ENABLED
+          ? "Card payments are processed securely by Lemon Squeezy and activate instantly. D17 mobile-transfer payments are verified after you upload your confirmation — usually within moments, and within 8 working hours if a manual review is needed."
+          : "Pay by D17 mobile transfer, then upload your payment confirmation. Most payments are verified automatically within moments; if a manual review is needed, it takes up to 8 working hours."}
       </p>
     </div>
   );

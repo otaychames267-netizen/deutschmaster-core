@@ -3,6 +3,8 @@ import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { Teil2Exercise, type T2ExerciseData } from "@/components/exercise/lesen/Teil2Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2")({
@@ -19,6 +21,8 @@ interface T2Summary {
 function LesenTeil2Page() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useExerciseCatalog("lesen", level, 2);
   const [summaries, setSummaries]     = useState<T2Summary[]>([]);
   const [listLoading, setListLoading] = useState(true);
   const [listError, setListError]     = useState(false);
@@ -39,7 +43,8 @@ function LesenTeil2Page() {
         .select("id, title, level")
         .eq("teil", 2)
         .eq("level", level)
-        .order("created_at", { ascending: false });
+        .order("sort_order", { ascending: true, nullsFirst: false })
+        .order("created_at", { ascending: true });
       if (exErr) throw exErr;
       const exList = enforceLevel(exListRaw, level);
 
@@ -106,6 +111,14 @@ function LesenTeil2Page() {
     setSelected(null);
     setDetail(null);
     setDetailError(false);
+  }
+
+  // Non-subscribers: titles-only locked preview (content is RLS-gated too).
+  if (accessLoading || (hasAccess === false && catalog.loading)) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  if (hasAccess === false) {
+    return <LockedExerciseOverview heading="Lesen · Teil 2 — Lesetext" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
   }
 
   // ── Detail view ────────────────────────────────────────────────────────────

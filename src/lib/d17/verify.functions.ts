@@ -4,6 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
 import { buildVerificationPrompt, parseExtraction, PROMPT_VERSION } from "./verification-prompt";
 import { scoreAttempt } from "./rule-engine";
+import { OFFICIAL_D17_RECIPIENT } from "./payment-config";
 import type { DuplicateMatchType } from "./duplicate-check.server";
 
 // Every "*.server.*" module below is dynamically imported at each call site
@@ -16,6 +17,13 @@ import type { DuplicateMatchType } from "./duplicate-check.server";
 // they were added in later phases, which broke the production build.
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+// Vision provider: Claude is the PRIMARY OCR + fraud-signal engine for D17
+// (migrated from Gemini by explicit decision). Claude reads these clean,
+// printed-digit D17 receipts with very high accuracy. Set
+// D17_VISION_PROVIDER=gemini to roll back instantly without a code change.
+// Requires ANTHROPIC_API_KEY in the server env (never committed).
+const CLAUDE_VISION_MODEL = process.env.CLAUDE_VISION_MODEL ?? "claude-sonnet-5";
+const VISION_PROVIDER = (process.env.D17_VISION_PROVIDER ?? "claude").toLowerCase();
 
 /**
  * Direct Gemini call (not routed through src/lib/import/vision-provider.ts):
@@ -61,6 +69,80 @@ export async function callGeminiVerification(prompt: string, imageBase64_1: stri
   throw new Error(`Gemini verification call failed: ${String(lastErr)}`);
 }
 
+/** Some models occasionally wrap JSON in a ```json fence despite instructions
+ * — strip it defensively before parsing so a well-formed answer isn't lost. */
+function stripJsonFences(text: string): string {
+  const t = text.trim();
+  const fenced = t.match(/^```(?:json)?\s*([\s\S]*?)\s*```$/i);
+  return (fenced ? fenced[1] : t).trim();
+}
+
+/**
+ * Claude Vision extraction — the PRIMARY OCR + fraud-signal engine for the D17
+ * pipeline. Same `{ raw, tokenCount }` contract as callGeminiVerification, so
+ * everything downstream (parseExtraction → scoreAttempt → the whole calibrated
+ * rule engine) is completely unchanged by the migration. temperature 0 for
+ * determinism; a strict system prompt forces JSON-only output; both
+ * screenshots go in one request (same budget-conserving shape as before).
+ * Token usage is fed into the same daily ledger (record_api_usage) the Gemini
+ * path used, so the budget cap and 80%-alert keep working across providers.
+ */
+export async function callClaudeVerification(prompt: string, imageBase64_1: string, imageBase64_2: string): Promise<{ raw: any; tokenCount: number }> {
+  const key = process.env.ANTHROPIC_API_KEY;
+  if (!key) throw new Error("ANTHROPIC_API_KEY not set");
+  const body = {
+    model: CLAUDE_VISION_MODEL,
+    max_tokens: 2000,
+    temperature: 0,
+    system:
+      "You are a precise OCR and image-forensics engine for payment-screenshot verification. Transcribe only what is genuinely visible, never invent values, and respond with ONLY the exact JSON object the user's instructions specify — no prose, no explanation, no markdown code fences.",
+    messages: [
+      {
+        role: "user",
+        content: [
+          { type: "text", text: prompt },
+          { type: "image", source: { type: "base64", media_type: "image/png", data: imageBase64_1 } },
+          { type: "image", source: { type: "base64", media_type: "image/png", data: imageBase64_2 } },
+        ],
+      },
+    ],
+  };
+
+  let lastErr: unknown = null;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 45000);
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method: "POST",
+        headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
+        body: JSON.stringify(body),
+        signal: ctrl.signal,
+      });
+      const json: any = await res.json();
+      if (res.status === 429) throw new Error("QUOTA_429");
+      if (!res.ok) throw new Error(`Claude ${res.status}: ${JSON.stringify(json).slice(0, 300)}`);
+      const text = json?.content?.find((b: any) => b?.type === "text")?.text ?? "{}";
+      const tokenCount = Number(json?.usage?.input_tokens ?? 0) + Number(json?.usage?.output_tokens ?? 0);
+      return { raw: JSON.parse(stripJsonFences(text)), tokenCount };
+    } catch (e) {
+      lastErr = e;
+      if (String(e).includes("QUOTA_429")) throw e;
+      await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  throw new Error(`Claude verification call failed: ${String(lastErr)}`);
+}
+
+/** Single seam the pipeline calls — Claude by default, Gemini only if
+ * D17_VISION_PROVIDER=gemini is set (instant, deploy-free rollback lever). */
+export async function callVisionVerification(prompt: string, imageBase64_1: string, imageBase64_2: string): Promise<{ raw: any; tokenCount: number }> {
+  if (VISION_PROVIDER === "gemini") return callGeminiVerification(prompt, imageBase64_1, imageBase64_2);
+  return callClaudeVerification(prompt, imageBase64_1, imageBase64_2);
+}
+
 /**
  * The D17 pipeline's single synchronous verification endpoint: given an
  * already-uploaded screenshot (client uploads directly to storage first —
@@ -73,7 +155,9 @@ export async function callGeminiVerification(prompt: string, imageBase64_1: stri
 export const maxDuration = 90;
 
 const ACTIVE_ORDER_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
-const AI_VERSION = process.env.GEMINI_MODEL ?? "gemini-2.5-flash";
+// Stamped onto every attempt row so an admin auditing an old decision knows
+// exactly which vision model produced it (survives a provider switch).
+const AI_VERSION = VISION_PROVIDER === "gemini" ? `gemini:${GEMINI_MODEL}` : `claude:${CLAUDE_VISION_MODEL}`;
 
 const DUPLICATE_REASON_LABEL: Record<DuplicateMatchType, string> = {
   exact_image: "This exact screenshot has already been used on another order.",
@@ -192,6 +276,7 @@ export async function runVerificationPipeline(
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { sha256Hash, sha256HashText, computeDHash, stripExifAndReencode, validateImageOrThrow } = await import("./image-hash.server");
+    const { analyzeImageForensics, combineForensics } = await import("./image-forensics.server");
     const { findDuplicate } = await import("./duplicate-check.server");
     const { alertGeminiFailure, checkBudget80Percent } = await import("./alerting.server");
     const { getD17Config } = await import("./config");
@@ -206,8 +291,20 @@ export async function runVerificationPipeline(
     if (order.user_id !== userId) throw new Error("Forbidden: not your order.");
     // Generic message deliberately does not distinguish "wrong token" from
     // "order not found" — avoids leaking whether an order ID exists to a
-    // caller who doesn't hold its session token.
-    if (!data.session_token || data.session_token !== order.session_token) {
+    // caller who doesn't hold its session token. The comparison is
+    // constant-time (crypto.timingSafeEqual) so a network timing oracle can't
+    // recover the token byte-by-byte — the token length (fixed 43-char
+    // base64url of 32 random bytes) is not secret, so guarding on equal length
+    // first leaks nothing.
+    const { timingSafeEqual } = await import("crypto");
+    const providedToken = Buffer.from(data.session_token ?? "", "utf8");
+    const expectedToken = Buffer.from(order.session_token ?? "", "utf8");
+    const sessionOk =
+      !!data.session_token &&
+      !!order.session_token &&
+      providedToken.length === expectedToken.length &&
+      timingSafeEqual(providedToken, expectedToken);
+    if (!sessionOk) {
       throw new Error("Invalid session. Please reload the payment page and try again.");
     }
     if (!ACTIVE_ORDER_STATUSES.includes(order.status)) {
@@ -296,12 +393,17 @@ export async function runVerificationPipeline(
       // (verify.tsx) is never trusted alone. Runs before hashing/OCR/Gemini
       // ever see the file.
       await validateImageOrThrow(originalBuffer, label);
+      // Forensics run on the ORIGINAL bytes — before EXIF-strip/re-encode,
+      // which would erase the very compression history and metadata these
+      // deterministic checks read.
+      const forensics = await analyzeImageForensics(originalBuffer);
       const cleanBuffer = await stripExifAndReencode(originalBuffer);
-      return { cleanBuffer, hash: sha256Hash(cleanBuffer), dhash: await computeDHash(cleanBuffer) };
+      return { cleanBuffer, hash: sha256Hash(cleanBuffer), dhash: await computeDHash(cleanBuffer), forensics };
     }
 
     const shot1 = await downloadAndHash(data.storage_path, "Screenshot 1 (Payment Success)");
     const shot2 = await downloadAndHash(data.storage_path_2, "Screenshot 2 (Transaction History)");
+    const imageForensics = combineForensics(shot1.forensics, shot2.forensics);
     const imageHashSha256 = shot1.hash;
     const imageDhash = shot1.dhash;
     const imageHashSha256_2 = shot2.hash;
@@ -352,6 +454,7 @@ export async function runVerificationPipeline(
       reference: null,
       transactionId: null,
       authorizationNumber: null,
+      userEnteredReference: reference,
     });
     if (duplicate) {
       return finalizeAttempt(supabaseAdmin, {
@@ -408,7 +511,7 @@ export async function runVerificationPipeline(
       const base64Image1 = shot1.cleanBuffer.toString("base64");
       const base64Image2 = shot2.cleanBuffer.toString("base64");
       const prompt = buildVerificationPrompt({ amountTnd: Number(order.amount_tnd), currency: order.currency, planCode: order.plan_code });
-      const { raw, tokenCount } = await callGeminiVerification(prompt, base64Image1, base64Image2);
+      const { raw, tokenCount } = await callVisionVerification(prompt, base64Image1, base64Image2);
       extraction = parseExtraction(raw);
       geminiTokenCount = tokenCount;
     } catch (err) {
@@ -452,6 +555,7 @@ export async function runVerificationPipeline(
       reference: extraction.reference,
       transactionId: extraction.transaction_id,
       authorizationNumber: extraction.authorization_number,
+      userEnteredReference: reference,
     });
     if (postOcrDuplicate) {
       return finalizeAttempt(supabaseAdmin, {
@@ -499,8 +603,10 @@ export async function runVerificationPipeline(
       extraction,
       orderDestinationNumber: order.destination_number,
       orderDestinationIban: order.destination_iban,
+      officialRecipientNumber: OFFICIAL_D17_RECIPIENT,
       uploadToCreationDeltaMs,
       reputationVelocity,
+      imageForensics,
       autoApproveThreshold: config.d17_auto_approve_threshold,
     });
 
@@ -663,6 +769,12 @@ export async function finalizeAttempt(
       currency: params.order.currency,
       reason: "d17_verification",
       providerPaymentId: attempt.id,
+    });
+    // Best-effort referral conversion — never allowed to affect a real
+    // payment activation, hence the isolated try/catch. No-ops instantly if
+    // this user wasn't referred.
+    await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: params.userId }).catch((e: unknown) => {
+      console.error("[d17/finalizeAttempt] referral conversion failed (non-fatal):", e);
     });
     await notifyAndEmail(
       supabaseAdmin,

@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { Teil3Exercise, type T3ExerciseData, type T3Situation, type T3Text } from "@/components/exercise/lesen/Teil3Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3")({
@@ -12,6 +14,8 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
 function LesenTeil3Page() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useExerciseCatalog("lesen", level, 3);
   const [exercises, setExercises] = useState<Array<{ meta: { id: string; title: string }; data: T3ExerciseData }>>([]);
   const [selected, setSelected] = useState<T3ExerciseData | null>(null);
   const [selectedTitle, setSelectedTitle] = useState("");
@@ -28,7 +32,8 @@ function LesenTeil3Page() {
           .select("id, title, level")
           .eq("teil", 3)
           .eq("level", lvl)
-          .order("created_at", { ascending: false });
+          .order("sort_order", { ascending: true, nullsFirst: false })
+          .order("created_at", { ascending: true });
         if (exErr) throw exErr;
         const exList = enforceLevel(exListRaw, lvl);
         if (exList.length === 0) { setLoading(false); return; }
@@ -58,6 +63,13 @@ function LesenTeil3Page() {
     }
     load();
   }, [level]);
+
+  if (accessLoading || (hasAccess === false && catalog.loading)) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  if (hasAccess === false) {
+    return <LockedExerciseOverview heading="Lesen · Teil 3 — Anzeigen" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
+  }
 
   if (selected) {
     return (

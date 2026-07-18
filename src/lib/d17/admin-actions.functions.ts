@@ -55,6 +55,11 @@ async function activateOrder(
     p_override_credits: params.overrideCredits ?? null,
   });
   if (error || !subscriptionId) throw new Error(`Atomic activation failed: ${error?.message}`);
+  // Best-effort referral conversion — isolated so it can never affect a real
+  // admin approval/grant; no-ops instantly if this user wasn't referred.
+  await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: params.userId }).catch((e: unknown) => {
+    console.error("[admin-actions/activateOrder] referral conversion failed (non-fatal):", e);
+  });
   return subscriptionId as string;
 }
 
@@ -279,7 +284,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
     const { buildVerificationPrompt, parseExtraction } = await import("./verification-prompt");
     const { scoreAttempt } = await import("./rule-engine");
     const { computeReputationVelocity } = await import("./reputation-velocity.server");
-    const { callGeminiVerification, finalizeAttempt } = await import("./verify.functions");
+    const { callVisionVerification, finalizeAttempt } = await import("./verify.functions");
     const { getD17Config } = await import("./config");
     const config = await getD17Config(supabaseAdmin);
 
@@ -315,7 +320,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
 
     const startedAt = Date.now();
     const prompt = buildVerificationPrompt({ amountTnd: Number(order.amount_tnd), currency: order.currency, planCode: order.plan_code });
-    const { raw, tokenCount } = await callGeminiVerification(prompt, clean1.toString("base64"), clean2.toString("base64"));
+    const { raw, tokenCount } = await callVisionVerification(prompt, clean1.toString("base64"), clean2.toString("base64"));
     const extraction = parseExtraction(raw);
     if (tokenCount) await supabaseAdmin.rpc("record_api_usage", { p_tokens: tokenCount });
 
@@ -330,6 +335,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
       ipAddress: latest.ip_address ?? null,
     });
 
+    const { OFFICIAL_D17_RECIPIENT } = await import("./payment-config");
     const scored = scoreAttempt({
       orderAmountTnd: Number(order.amount_tnd),
       orderCurrency: order.currency,
@@ -338,6 +344,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
       extraction,
       orderDestinationNumber: order.destination_number,
       orderDestinationIban: order.destination_iban,
+      officialRecipientNumber: OFFICIAL_D17_RECIPIENT,
       uploadToCreationDeltaMs: latest.upload_to_creation_delta_ms ?? 0,
       reputationVelocity,
       autoApproveThreshold: config.d17_auto_approve_threshold,

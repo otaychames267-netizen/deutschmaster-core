@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
 
 export type UserLevel = "TELC_B1" | "TELC_B2" | null;
 
@@ -54,6 +55,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const currentUserIdRef = useRef<string | null>(null);
   const loadingRef       = useRef(true);
   const adminReqRef      = useRef(0);
+  const referralLinkAttemptedRef = useRef(false);
 
   useEffect(() => {
     let mounted = true;
@@ -78,6 +80,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setRoleLoading(false);
         }
         return;
+      }
+
+      // Link a referral code captured at /register?ref=CODE (relayed via
+      // localStorage across the email-confirmation gate, since no session
+      // exists at signup time to call this RPC with) — once per app
+      // lifetime, best-effort, never lets a referral hiccup affect login.
+      if (!referralLinkAttemptedRef.current) {
+        referralLinkAttemptedRef.current = true;
+        try {
+          const code = localStorage.getItem(PENDING_REFERRAL_STORAGE_KEY);
+          if (code) {
+            localStorage.removeItem(PENDING_REFERRAL_STORAGE_KEY);
+            void (supabase as any).rpc("register_referral", { p_code: code }).catch(() => {});
+          }
+        } catch { /* localStorage unavailable — skip silently */ }
       }
 
       const req = ++adminReqRef.current;

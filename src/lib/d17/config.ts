@@ -9,7 +9,7 @@
 
 const DEFAULTS = {
   d17_auto_approve_threshold: 90,
-  d17_max_attempts_per_order: 5,
+  d17_max_attempts_per_order: 3,
   d17_manual_review_window_hours: 8,
   d17_ten_minute_submission_limit: 3,
   d17_hourly_submission_limit: 5,

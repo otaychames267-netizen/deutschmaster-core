@@ -115,6 +115,15 @@ export const createCheckoutSession = createServerFn({ method: "POST" })
  * src/lib/d17/orders.functions.ts's createD17OrderImpl.
  */
 export async function createCheckoutSessionImpl(userId: string, planCode: PlanCode) {
+    // Launch gate: while the Mündlich module is disabled, only Schriftlich is
+    // sellable (Komplett and Mündlich both grant speaking access). Mirrors the
+    // identical guard in src/lib/d17/orders.functions.ts so neither payment
+    // path can open a Mündlich/Komplett order regardless of how it's called.
+    const { isPlanPurchasable } = await import("@/lib/features");
+    if (!isPlanPurchasable(planCode)) {
+      throw new Error("This plan is not available yet. Only the Schriftlich plan can be purchased at this time.");
+    }
+
     const apiKey = process.env.LEMONSQUEEZY_API_KEY;
     const storeId = process.env.LEMONSQUEEZY_STORE_ID;
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

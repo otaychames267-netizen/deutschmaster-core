@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { Loader2, Headphones, AlertCircle, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
 
 interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null }
@@ -47,6 +49,8 @@ export function HoerenTeilPage({ teil }: Props) {
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useExerciseCatalog("hoeren", level, teil);
 
   useEffect(() => {
     if (!level) return;
@@ -86,6 +90,15 @@ export function HoerenTeilPage({ teil }: Props) {
 
   function scrollToExercise(id: string) {
     document.getElementById(`hoeren-ex-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  // Non-subscribers: titles-only locked preview (content + audio paths are
+  // RLS-gated server-side; the catalog returns only titles).
+  if (accessLoading || (hasAccess === false && catalog.loading)) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  if (hasAccess === false) {
+    return <LockedExerciseOverview heading={`Hören · Teil ${teil}`} subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
   }
 
   return (

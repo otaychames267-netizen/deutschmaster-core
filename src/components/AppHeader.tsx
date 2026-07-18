@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
+import { MUENDLICH_ENABLED } from "@/lib/features";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useUserProgress } from "@/lib/useUserProgress";
 import { useStudentCredits } from "@/lib/useStudentCredits";
@@ -224,7 +225,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
               <p className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                 Quick navigation
               </p>
-              {QUICK_LINKS.map((link) => {
+              {QUICK_LINKS.filter((link) => MUENDLICH_ENABLED || link.levelPath !== "/muendlich").map((link) => {
                 const dest = link.levelPath ? (seg ? `/${seg}${link.levelPath}` : "/dashboard") : link.to;
                 return (
                   <button

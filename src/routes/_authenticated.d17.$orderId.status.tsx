@@ -20,7 +20,7 @@ interface D17Order {
   manual_review_deadline: string | null;
 }
 
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 3;
 const SUPPORT_EMAIL = (import.meta.env.VITE_SUPPORT_EMAIL as string | undefined) ?? "support@auralingovia.com";
 
 function useCountdown(deadline: string | null) {
@@ -141,7 +141,7 @@ function D17StatusPage() {
               <p className="text-xs text-muted-foreground">
                 {order.status === "under_review" && order.attempts_used === 0
                   ? "We haven't received your payment screenshots yet. A team member will follow up, or you can upload now."
-                  : "A team member is reviewing your payment."}
+                  : "Your payment is being reviewed manually. This usually takes between 1 and 8 hours — we'll notify you by email as soon as it's confirmed."}
               </p>
             </div>
           </div>

@@ -182,6 +182,12 @@ async function handleEvent(supabaseAdmin: any, eventType: string, data: any, met
         if (planCode === "schriftlich" || planCode === "komplett") {
           await supabaseAdmin.rpc("provision_essay_credits", { p_user_id: userId, p_amount: 30, p_reason: "lemonsqueezy_renewal" });
         }
+        // Best-effort referral conversion — isolated so it can never affect
+        // real webhook processing; no-ops instantly if this user wasn't
+        // referred, and is idempotent across webhook retries/resends.
+        await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: userId }).catch((e: unknown) => {
+          console.error("[lemonsqueezy-webhook] referral conversion failed (non-fatal):", e);
+        });
       }
       break;
     }

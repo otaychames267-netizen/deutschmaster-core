@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { Teil1Exercise, type T1ExerciseData, type T1Headline, type T1Text } from "@/components/exercise/lesen/Teil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1")({
@@ -18,6 +20,8 @@ function LesenTeil1Page() {
   const [idx, setIdx] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useExerciseCatalog("lesen", level, 1);
 
   useEffect(() => {
     if (!level) return;
@@ -26,7 +30,8 @@ function LesenTeil1Page() {
       try {
         const { data: exListRaw, error: exErr } = await supabase
           .from("lesen_exercises").select("id, title, level").eq("teil", 1).eq("level", lvl)
-          .order("created_at", { ascending: true }); // import order ≈ PDF order
+          .order("sort_order", { ascending: true, nullsFirst: false })
+          .order("created_at", { ascending: true }); // admin-defined order, then import order
         if (exErr) throw exErr;
         const exList = enforceLevel(exListRaw, lvl);
         if (exList.length === 0) { setLoading(false); return; }
@@ -49,6 +54,15 @@ function LesenTeil1Page() {
     }
     load();
   }, [level]);
+
+  // Non-subscribers: never fetch or render content — show the titles-only
+  // locked preview. (Content is RLS-gated server-side regardless.)
+  if (accessLoading || (hasAccess === false && catalog.loading)) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  if (hasAccess === false) {
+    return <LockedExerciseOverview heading="Lesen · Teil 1 — Schlagzeilen zuordnen" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
+  }
 
   // ── Detail view with Previous/Next navigation ──
   if (idx !== null && exercises[idx]) {

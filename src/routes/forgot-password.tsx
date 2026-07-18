@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
+import { getSiteUrl } from "@/lib/site-url";
 import { Loader2, Mail } from "lucide-react";
 
 export const Route = createFileRoute("/forgot-password")({
@@ -22,7 +23,7 @@ function ForgotPasswordPage() {
     setLoading(true);
 
     const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${getSiteUrl()}/reset-password`,
     });
     setLoading(false);
 

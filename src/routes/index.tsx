@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
+import { MUENDLICH_ENABLED, isPlanPurchasable } from "@/lib/features";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import i18n from "@/lib/i18n";
 import {
@@ -22,7 +23,7 @@ const PLANS = [
   {
     key: "schriftlich",
     name: "Schriftlich",
-    price: "25",
+    price: "30",
     period: " TND",
     desc: "Master all written exam components",
     features: [
@@ -38,7 +39,7 @@ const PLANS = [
   {
     key: "komplett",
     name: "Komplett",
-    price: "60",
+    price: "65",
     period: " TND",
     desc: "Complete preparation for both written and spoken",
     features: [
@@ -50,12 +51,12 @@ const PLANS = [
     ],
     highlighted: true,
     badge: "Best Value",
-    save: "Save 10 TND vs. buying both separately",
+    save: "Save 20 TND vs. buying both separately",
   },
   {
     key: "muendlich",
     name: "Mündlich",
-    price: "45",
+    price: "55",
     period: " TND",
     desc: "Perfect your speaking and oral skills",
     features: [
@@ -425,7 +426,8 @@ function Features() {
         </div>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((f) => (
+          {/* Mündlich card is hidden until the speaking module ships (features.ts). */}
+          {FEATURES.filter((f) => MUENDLICH_ENABLED || f.title !== "Mündlich").map((f) => (
             <div
               key={f.title}
               className={`group rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:shadow-md ${f.border}`}
@@ -525,8 +527,10 @@ function Pricing() {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
-          {PLANS.map((plan) => (
+        {/* Only purchasable plans are shown. While Mündlich is disabled, that's
+            Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
+          {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
@@ -664,7 +668,7 @@ function CTABanner() {
               Your exam preparation starts now
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-white/70">
-              Join over 10,000 students who chose AuraLingovia to prepare for their TELC exam. 3 days free — no card needed.
+              Join over 10,000 students who chose AuraLingovia to prepare for their TELC exam.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link

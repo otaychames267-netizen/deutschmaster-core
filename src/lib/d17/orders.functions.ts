@@ -86,6 +86,15 @@ export const createD17Order = createServerFn({ method: "POST" })
 export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
+    // Launch gate: while the Mündlich module is disabled, only Schriftlich is
+    // sellable (Komplett and Mündlich both grant speaking access). This is the
+    // server-side hard boundary — the billing UI hides the other plans too,
+    // but this ensures a hand-crafted request can never open a Mündlich order.
+    const { isPlanPurchasable } = await import("@/lib/features");
+    if (!isPlanPurchasable(planCode)) {
+      throw new Error("This plan is not available yet. Only the Schriftlich plan can be purchased at this time.");
+    }
+
     const { data: existing } = await supabaseAdmin
       .from("d17_orders")
       .select("id, status, expires_at, attempts_used, created_at")

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
+import { getSiteUrl } from "@/lib/site-url";
+import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
 import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react";
 
 export const Route = createFileRoute("/register")({
@@ -57,13 +59,22 @@ function RegisterPage() {
       return;
     }
 
+    // Capture ?ref=CODE now, before signup — this app requires email
+    // confirmation, so there's no session yet to call register_referral()
+    // with; the code is relayed via localStorage and linked on the user's
+    // first real authenticated session instead (see auth.tsx).
+    const refCode = new URLSearchParams(window.location.search).get("ref");
+    if (refCode && refCode.trim()) {
+      try { localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, refCode.trim()); } catch { /* localStorage unavailable — referral capture skipped, never blocks signup */ }
+    }
+
     setLoading(true);
     const { error: err } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${getSiteUrl()}/dashboard`,
       },
     });
     setLoading(false);

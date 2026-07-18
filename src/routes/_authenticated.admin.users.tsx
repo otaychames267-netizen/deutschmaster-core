@@ -14,6 +14,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { adminSetUserBan } from "@/lib/admin/moderation.functions";
+import { adminGrantRole, adminRevokeRole } from "@/lib/admin/user-roles.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/users")({
   component: AdminUsersPage,
@@ -23,6 +25,9 @@ interface UserRow {
   id: string;
   full_name: string | null;
   level: string | null;
+  /** Sourced from the REAL user_roles table (what has_role()/assertAdmin()
+   * actually check), NOT the decorative profiles.is_admin column — so this
+   * badge and the toggle button always reflect real admin access. */
   is_admin: boolean;
   is_banned: boolean;
   onboarding_completed: boolean;
@@ -35,7 +40,6 @@ const PAGE_SIZE = 20;
 function badge(status: string) {
   const map: Record<string, { label: string; cls: string }> = {
     active:  { label: "Active",  cls: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
-    trial:   { label: "Trial",   cls: "bg-blue-500/10 text-blue-600 dark:text-blue-400" },
     expired: { label: "Expired", cls: "bg-muted text-muted-foreground" },
     banned:  { label: "Banned",  cls: "bg-destructive/10 text-destructive" },
   };
@@ -61,7 +65,7 @@ function AdminUsersPage() {
     let query = supabase
       .from("profiles")
       .select(
-        `id, full_name, level, is_admin, is_banned, onboarding_completed, created_at`,
+        `id, full_name, level, is_banned, onboarding_completed, created_at`,
         { count: "exact" }
       )
       .order("created_at", { ascending: false })
@@ -80,19 +84,27 @@ function AdminUsersPage() {
     /* profiles has no FK PostgREST can use for an embedded
      * `subscriptions(status, plan_code)` select (subscriptions.user_id
      * references auth.users, not public.profiles) -- fetched separately
-     * and merged in here instead. */
+     * and merged in here instead. Real admin status likewise comes from
+     * user_roles (what has_role() actually reads), not the decorative
+     * profiles.is_admin column. */
     const userIds = rows.map((r) => r.id);
-    const { data: subRows } = userIds.length
-      ? await supabase.from("subscriptions").select("user_id, status, plan_code").in("user_id", userIds)
-      : { data: [] as { user_id: string; status: string; plan_code: string }[] };
+    const [{ data: subRows }, { data: roleRows }] = await Promise.all([
+      userIds.length
+        ? supabase.from("subscriptions").select("user_id, status, plan_code").in("user_id", userIds)
+        : Promise.resolve({ data: [] as { user_id: string; status: string; plan_code: string }[] }),
+      userIds.length
+        ? supabase.from("user_roles").select("user_id").in("user_id", userIds).eq("role", "admin")
+        : Promise.resolve({ data: [] as { user_id: string }[] }),
+    ]);
     const subsByUser = new Map<string, { status: string; plan_code: string }[]>();
     for (const s of subRows ?? []) {
       const list = subsByUser.get(s.user_id) ?? [];
       list.push({ status: s.status, plan_code: s.plan_code });
       subsByUser.set(s.user_id, list);
     }
+    const adminIds = new Set((roleRows ?? []).map((r) => r.user_id));
 
-    setUsers(rows.map((r) => ({ ...r, subscriptions: subsByUser.get(r.id) ?? [] })));
+    setUsers(rows.map((r) => ({ ...r, is_admin: adminIds.has(r.id), subscriptions: subsByUser.get(r.id) ?? [] })));
     setTotal(count ?? 0);
     setLoading(false);
   }, [page, search, filterLevel]);
@@ -100,23 +112,31 @@ function AdminUsersPage() {
   useEffect(() => { fetchUsers(); }, [fetchUsers]);
 
   async function toggleBan(userId: string, currentBan: boolean) {
-    const { error } = await supabase
-      .from("profiles")
-      .update({ is_banned: !currentBan })
-      .eq("id", userId);
-    if (error) { toast.error("Failed to update user."); return; }
-    toast.success(currentBan ? "User unbanned." : "User banned.");
-    fetchUsers();
+    try {
+      // Real ban: sets Supabase's own auth-level ban (blocks login/session
+      // refresh) AND syncs profiles.is_banned (checked by has_plan_access).
+      // Previously this only wrote the display column, with zero real effect.
+      await adminSetUserBan({ data: { user_id: userId, banned: !currentBan } });
+      toast.success(currentBan ? "User unbanned." : "User banned — login and content access are now blocked.");
+      fetchUsers();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update user.");
+    }
   }
 
   async function toggleAdmin(userId: string, currentAdmin: boolean) {
-    const { error } = await supabase
-      .from("profiles")
-      .update({ is_admin: !currentAdmin })
-      .eq("id", userId);
-    if (error) { toast.error("Failed to update user."); return; }
-    toast.success(currentAdmin ? "Admin revoked." : "Admin granted.");
-    fetchUsers();
+    try {
+      // Real admin grant/revoke via user_roles — what has_role()/assertAdmin()
+      // actually check. Previously this wrote profiles.is_admin, a column
+      // nothing in the app's authorization logic ever reads, so "Make admin"
+      // looked like it worked but granted no real access.
+      if (currentAdmin) await adminRevokeRole({ data: { user_id: userId, role: "admin" } });
+      else await adminGrantRole({ data: { user_id: userId, role: "admin" } });
+      toast.success(currentAdmin ? "Admin revoked." : "Admin granted.");
+      fetchUsers();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update user.");
+    }
   }
 
   const totalPages = Math.ceil(total / PAGE_SIZE);

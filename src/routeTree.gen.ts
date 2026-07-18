@@ -50,6 +50,7 @@ import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_a
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
 import { Route as AuthenticatedAdminRolesRouteImport } from './routes/_authenticated.admin.roles'
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated.admin.reports'
+import { Route as AuthenticatedAdminReconciliationRouteImport } from './routes/_authenticated.admin.reconciliation'
 import { Route as AuthenticatedAdminPlansRouteImport } from './routes/_authenticated.admin.plans'
 import { Route as AuthenticatedAdminPdfImportRouteImport } from './routes/_authenticated.admin.pdf-import'
 import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authenticated.admin.payments'
@@ -62,6 +63,7 @@ import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminExamsRouteImport } from './routes/_authenticated.admin.exams'
 import { Route as AuthenticatedAdminCreditsRouteImport } from './routes/_authenticated.admin.credits'
 import { Route as AuthenticatedAdminCouponsRouteImport } from './routes/_authenticated.admin.coupons'
+import { Route as AuthenticatedAdminContentRouteImport } from './routes/_authenticated.admin.content'
 import { Route as AuthenticatedAdminBackupRouteImport } from './routes/_authenticated.admin.backup'
 import { Route as AuthenticatedAdminAuditLogsRouteImport } from './routes/_authenticated.admin.audit-logs'
 import { Route as AuthenticatedAdminAudioRouteImport } from './routes/_authenticated.admin.audio'
@@ -316,6 +318,12 @@ const AuthenticatedAdminReportsRoute =
     path: '/reports',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminReconciliationRoute =
+  AuthenticatedAdminReconciliationRouteImport.update({
+    id: '/reconciliation',
+    path: '/reconciliation',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminPlansRoute = AuthenticatedAdminPlansRouteImport.update({
   id: '/plans',
   path: '/plans',
@@ -383,6 +391,12 @@ const AuthenticatedAdminCouponsRoute =
   AuthenticatedAdminCouponsRouteImport.update({
     id: '/coupons',
     path: '/coupons',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminContentRoute =
+  AuthenticatedAdminContentRouteImport.update({
+    id: '/content',
+    path: '/content',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminBackupRoute =
@@ -677,6 +691,7 @@ export interface FileRoutesByFullPath {
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/coupons': typeof AuthenticatedAdminCouponsRoute
   '/admin/credits': typeof AuthenticatedAdminCreditsRoute
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
@@ -689,6 +704,7 @@ export interface FileRoutesByFullPath {
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
+  '/admin/reconciliation': typeof AuthenticatedAdminReconciliationRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -768,6 +784,7 @@ export interface FileRoutesByTo {
   '/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/admin/content': typeof AuthenticatedAdminContentRoute
   '/admin/coupons': typeof AuthenticatedAdminCouponsRoute
   '/admin/credits': typeof AuthenticatedAdminCreditsRoute
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
@@ -780,6 +797,7 @@ export interface FileRoutesByTo {
   '/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/admin/plans': typeof AuthenticatedAdminPlansRoute
+  '/admin/reconciliation': typeof AuthenticatedAdminReconciliationRoute
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -863,6 +881,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/audio': typeof AuthenticatedAdminAudioRoute
   '/_authenticated/admin/audit-logs': typeof AuthenticatedAdminAuditLogsRoute
   '/_authenticated/admin/backup': typeof AuthenticatedAdminBackupRoute
+  '/_authenticated/admin/content': typeof AuthenticatedAdminContentRoute
   '/_authenticated/admin/coupons': typeof AuthenticatedAdminCouponsRoute
   '/_authenticated/admin/credits': typeof AuthenticatedAdminCreditsRoute
   '/_authenticated/admin/exams': typeof AuthenticatedAdminExamsRoute
@@ -875,6 +894,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/payments': typeof AuthenticatedAdminPaymentsRoute
   '/_authenticated/admin/pdf-import': typeof AuthenticatedAdminPdfImportRoute
   '/_authenticated/admin/plans': typeof AuthenticatedAdminPlansRoute
+  '/_authenticated/admin/reconciliation': typeof AuthenticatedAdminReconciliationRoute
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/_authenticated/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
@@ -960,6 +980,7 @@ export interface FileRouteTypes {
     | '/admin/audio'
     | '/admin/audit-logs'
     | '/admin/backup'
+    | '/admin/content'
     | '/admin/coupons'
     | '/admin/credits'
     | '/admin/exams'
@@ -972,6 +993,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/pdf-import'
     | '/admin/plans'
+    | '/admin/reconciliation'
     | '/admin/reports'
     | '/admin/roles'
     | '/admin/settings'
@@ -1051,6 +1073,7 @@ export interface FileRouteTypes {
     | '/admin/audio'
     | '/admin/audit-logs'
     | '/admin/backup'
+    | '/admin/content'
     | '/admin/coupons'
     | '/admin/credits'
     | '/admin/exams'
@@ -1063,6 +1086,7 @@ export interface FileRouteTypes {
     | '/admin/payments'
     | '/admin/pdf-import'
     | '/admin/plans'
+    | '/admin/reconciliation'
     | '/admin/reports'
     | '/admin/roles'
     | '/admin/settings'
@@ -1145,6 +1169,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/audio'
     | '/_authenticated/admin/audit-logs'
     | '/_authenticated/admin/backup'
+    | '/_authenticated/admin/content'
     | '/_authenticated/admin/coupons'
     | '/_authenticated/admin/credits'
     | '/_authenticated/admin/exams'
@@ -1157,6 +1182,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/payments'
     | '/_authenticated/admin/pdf-import'
     | '/_authenticated/admin/plans'
+    | '/_authenticated/admin/reconciliation'
     | '/_authenticated/admin/reports'
     | '/_authenticated/admin/roles'
     | '/_authenticated/admin/settings'
@@ -1506,6 +1532,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminReportsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/reconciliation': {
+      id: '/_authenticated/admin/reconciliation'
+      path: '/reconciliation'
+      fullPath: '/admin/reconciliation'
+      preLoaderRoute: typeof AuthenticatedAdminReconciliationRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/plans': {
       id: '/_authenticated/admin/plans'
       path: '/plans'
@@ -1588,6 +1621,13 @@ declare module '@tanstack/react-router' {
       path: '/coupons'
       fullPath: '/admin/coupons'
       preLoaderRoute: typeof AuthenticatedAdminCouponsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/content': {
+      id: '/_authenticated/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AuthenticatedAdminContentRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/backup': {
@@ -2033,6 +2073,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminAudioRoute: typeof AuthenticatedAdminAudioRoute
   AuthenticatedAdminAuditLogsRoute: typeof AuthenticatedAdminAuditLogsRoute
   AuthenticatedAdminBackupRoute: typeof AuthenticatedAdminBackupRoute
+  AuthenticatedAdminContentRoute: typeof AuthenticatedAdminContentRoute
   AuthenticatedAdminCouponsRoute: typeof AuthenticatedAdminCouponsRoute
   AuthenticatedAdminCreditsRoute: typeof AuthenticatedAdminCreditsRoute
   AuthenticatedAdminExamsRoute: typeof AuthenticatedAdminExamsRoute
@@ -2045,6 +2086,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminPaymentsRoute: typeof AuthenticatedAdminPaymentsRoute
   AuthenticatedAdminPdfImportRoute: typeof AuthenticatedAdminPdfImportRoute
   AuthenticatedAdminPlansRoute: typeof AuthenticatedAdminPlansRoute
+  AuthenticatedAdminReconciliationRoute: typeof AuthenticatedAdminReconciliationRoute
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
   AuthenticatedAdminRolesRoute: typeof AuthenticatedAdminRolesRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
@@ -2064,6 +2106,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminAudioRoute: AuthenticatedAdminAudioRoute,
   AuthenticatedAdminAuditLogsRoute: AuthenticatedAdminAuditLogsRoute,
   AuthenticatedAdminBackupRoute: AuthenticatedAdminBackupRoute,
+  AuthenticatedAdminContentRoute: AuthenticatedAdminContentRoute,
   AuthenticatedAdminCouponsRoute: AuthenticatedAdminCouponsRoute,
   AuthenticatedAdminCreditsRoute: AuthenticatedAdminCreditsRoute,
   AuthenticatedAdminExamsRoute: AuthenticatedAdminExamsRoute,
@@ -2078,6 +2121,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminPaymentsRoute: AuthenticatedAdminPaymentsRoute,
   AuthenticatedAdminPdfImportRoute: AuthenticatedAdminPdfImportRoute,
   AuthenticatedAdminPlansRoute: AuthenticatedAdminPlansRoute,
+  AuthenticatedAdminReconciliationRoute: AuthenticatedAdminReconciliationRoute,
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
   AuthenticatedAdminRolesRoute: AuthenticatedAdminRolesRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,

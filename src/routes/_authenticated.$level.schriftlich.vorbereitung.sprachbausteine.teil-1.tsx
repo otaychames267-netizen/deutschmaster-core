@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { SBTeil1Exercise, type SBT1ExerciseData, type SBT1Gap } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1")({
@@ -69,6 +71,15 @@ function SBTeil1Page() {
   }
 
   // ── Detail view with Previous/Next navigation ──
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useExerciseCatalog("sprachbausteine", level, 1);
+  if (accessLoading || (hasAccess === false && catalog.loading)) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  if (hasAccess === false) {
+    return <LockedExerciseOverview heading="Sprachbausteine · Teil 1" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
+  }
+
   if (idx !== null && list[idx]) {
     const meta = list[idx];
     const ex = cache[meta.id];

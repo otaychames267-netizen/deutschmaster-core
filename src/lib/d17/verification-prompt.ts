@@ -33,7 +33,7 @@
  * column's default of 'v1' correctly represents every attempt recorded
  * before this prompt existed (the original single-screenshot flow).
  */
-export const PROMPT_VERSION = "d17-verify-v2";
+export const PROMPT_VERSION = "d17-verify-v3";
 
 export interface D17Screenshot2Extraction {
   amount: number | null;
@@ -83,30 +83,34 @@ export const FRAUD_FLAG_VALUES = [
 ] as const;
 
 export function buildVerificationPrompt(orderContext: { amountTnd: number; currency: string; planCode: string }): string {
-  return `You are analyzing TWO screenshots uploaded by a student as proof of a D17 mobile-transfer payment for a German-exam-prep subscription (order: ${orderContext.amountTnd} ${orderContext.currency}, plan "${orderContext.planCode}").
+  return `You are analyzing TWO screenshots uploaded by a student as proof of a "D17" mobile-transfer payment made through the La Poste Tunisienne (البريد التونسي) D17 app, for a German-exam-prep subscription (order: ${orderContext.amountTnd} ${orderContext.currency}, plan "${orderContext.planCode}").
 
-IMAGE 1 is the D17 "Payment Success" screen shown immediately after a transfer — it should show the successful transfer, the destination D17 number, the amount, and a Transaction Authorization Number.
-IMAGE 2 is the D17 app's Transaction History / Journal D17 entry for the same transfer — it should show the date, time, destination number, amount, and Authorization Number as recorded in the transaction log.
+These are REAL D17 screens — here is exactly what each looks like so you can locate every field precisely:
 
-Do THREE things in one pass: (1) transcribe every legible field on IMAGE 1 into the top-level fields below, (2) transcribe the subset of fields listed under "screenshot2" from IMAGE 2, and (3) compare the two images and report whether they describe the same transaction.
+IMAGE 1 — the "Payment Success" confirmation, header "Transfert d'argent", a La Poste Tunisienne diamond logo, then a white card reading "Félicitations !" with a green check, then the sentence: "Votre transfert d'un montant de <AMOUNT> au numéro <RECIPIENT> a été efectué avec succès", then a line "Numéro autorisation : <AUTH>", then an "OK" button. IMPORTANT: this screen has NO transaction date/time printed on it (the only clock visible is the phone's status bar — do NOT use that as the payment time).
+
+IMAGE 2 — the "Journal D17" transaction-log entry, header "Journal D17", the La Poste logo, then "Opération D17", then the transaction timestamp in DD/MM/YYYY HH:MM:SS format (e.g. "17/07/2026 19:13:58"), then labelled rows: "Service" → "Transfert vers <RECIPIENT>", "Montant" → "<AMOUNT>" (this value is shown as NEGATIVE, e.g. "-30,000 TND", because it is a debit from the sender), "Numéro d'autorisation" → "<AUTH>".
+
+Do THREE things in one pass: (1) transcribe IMAGE 1 into the top-level fields, (2) transcribe IMAGE 2 into "screenshot2", (3) compare the two and report consistency.
 
 RULES — follow exactly:
-- Extract ONLY what is actually visible. Never invent, guess, translate, or "correct" any value. If a field is not legible or not present, set it to null (or "unclear"/"unknown" for the enum fields).
-- The screenshots may be in Arabic, French, German, or English, or a mix. Transcribe text in its original language/script — do not translate.
-- "amount" and "currency": the payment amount and currency shown on IMAGE 1, exactly as printed (numeric amount only, no currency symbol, e.g. 55.00).
-- "payment_datetime": IMAGE 1's own date/time as shown (not today's date), as an ISO 8601 string if you can determine it, else null.
-- "reference": a general transaction reference / Réf as printed on IMAGE 1, verbatim, or null if no such field is visible. Do NOT guess or partially reconstruct it.
-- "destination_number": the official D17 phone number the transfer was sent to, as printed on either image (prefer IMAGE 1 if both show it), or null.
-- "destination_iban": an IBAN shown as the transfer destination on either image, or null — most D17 transfers will NOT show an IBAN; only fill this if one is actually printed.
-- "transaction_id": a "Transaction ID" field as printed, if visible and DISTINCT from any Authorization Number field — these are two different printed fields on some D17 screens, do not merge them. Null if not present.
-- "authorization_number": the "Authorization Number" / "Numéro d'autorisation" field as printed, or null if not present. This is usually the strongest identifier on the screenshot — read it very carefully, character by character.
-- "notification_source": your best classification of what kind of screenshot IMAGE 1 is, from the visible UI (a D17 app screen, a bank SMS, a bank app screen, some other screenshot, or unclear if you cannot tell).
-- "ocr_confidence": your own 0-100 confidence in the overall transcription's accuracy across BOTH images (low if either image is blurry, low-resolution, or partially cropped).
-- "raw_text": every piece of legible text on IMAGE 1, concatenated, verbatim, in reading order.
-- "screenshot2": transcribe from IMAGE 2 only — "amount", "currency", "payment_datetime", "destination" (the D17 number/IBAN shown in the journal entry), "authorization_number" (the same Authorization Number field as on IMAGE 1, as shown in this journal entry, or null if not present/legible), and "raw_text" (every legible piece of text on IMAGE 2, verbatim). Same null-if-not-legible rule applies.
-- "cross_check": compare IMAGE 1 and IMAGE 2 directly — do the destination number/IBAN, amount, date/time, and Authorization Number (if visible on both) actually match between the two images? Set "consistent" to false if you find ANY concrete mismatch between fields that are legible on both images. If a field is only legible on one image, that alone is not a mismatch. "notes" should briefly state what you compared and any mismatch found, in one or two sentences.
-- Fraud signals are a SEPARATE, purely technical assessment of the IMAGES THEMSELVES (not of whether the payment looks legitimate business-wise): look for visible overlay text pasted on top of the original UI, cloned/duplicated regions, signs of image compositing (mismatched lighting/edges), suspicious cropping that could hide information, unusual blur/noise/compression patterns inconsistent with a normal phone screenshot, inconsistent fonts within what should be one UI, unnatural color/hue shifts or tinting inconsistent with a normal phone screenshot (possible recoloring/editing), or anything suggesting EXIF/metadata tampering. Consider both images. Only include a flag in "fraud_flags" if you genuinely observe that specific visual signal — do not include flags speculatively. Most legitimate screenshot pairs should have zero flags.
-- "fraud_score": your own 0-100 estimate of how likely these images have been technically tampered with (not a judgment of the payment amount/reference — just the image files themselves). 0 = look like untouched phone screenshots, 100 = clear signs of editing.
+- Extract ONLY what is actually visible. Never invent, guess, translate, or "correct" any value. If a field is not legible or not present, set it to null (or "unclear"/"unknown" for the enum fields). Read digits character-by-character.
+- AMOUNT FORMAT (critical): D17 amounts use a COMMA as the DECIMAL separator with exactly 3 decimal places (Tunisian millimes). "1,000 TND" means 1.000 TND (one dinar). "30,000 TND" means 30.000 TND (thirty dinars). Output "amount" as a plain decimal number using a DOT and NO thousands grouping, e.g. 30.0 for "30,000 TND". NEVER multiply by 1000. If the amount is shown negative (a leading "-" on the Journal), output its ABSOLUTE value (drop the minus sign).
+- "currency": as printed (e.g. "TND").
+- "payment_datetime": On IMAGE 1 there is NO transaction date/time — set the top-level "payment_datetime" to null. The real transaction time is the "Opération D17" timestamp on IMAGE 2; put that in "screenshot2.payment_datetime", converting DD/MM/YYYY HH:MM:SS to an ISO 8601 string (day/month/year order — the first number is the DAY).
+- "reference": D17 does NOT show a separate "reference"/"Réf" field — set this to null unless a genuinely distinct reference field is actually printed. Do not put the authorization number here.
+- "destination_number": the recipient's D17 number — the digits after "au numéro" on IMAGE 1 (and after "Transfert vers" on IMAGE 2, which goes in screenshot2.destination). Typically 8 digits.
+- "destination_iban": an IBAN if one is actually printed — D17 transfers normally do NOT show an IBAN, so this is almost always null.
+- "transaction_id": null unless a field literally labelled "Transaction ID" and distinct from the authorization number is visible (normally not present on D17).
+- "authorization_number": the value after "Numéro autorisation" (IMAGE 1) / "Numéro d'autorisation" (IMAGE 2). This is the SINGLE most important identifier on a D17 receipt — usually 6 digits. Read it extremely carefully. Put IMAGE 1's in the top-level field and IMAGE 2's in "screenshot2.authorization_number"; they should be identical.
+- "notification_source": "d17_app" if the UI is clearly the La Poste Tunisienne / D17 app (logo, "Journal D17", "Numéro d'autorisation", "Transfert"); otherwise classify honestly (bank_sms / bank_app / screenshot_other / unclear).
+- "language_detected": the screenshots are primarily French with some Arabic (the La Poste logo).
+- "ocr_confidence": your 0-100 confidence in the transcription across BOTH images (low if blurry, low-res, or cropped so a key field is cut off).
+- "raw_text": every legible piece of text on IMAGE 1, verbatim, in reading order (this is used to confirm the screen is a genuine D17 screen).
+- "screenshot2": transcribe IMAGE 2 — "amount" (same comma-decimal + absolute-value rule), "currency", "payment_datetime" (the Opération D17 timestamp as ISO), "destination" (the number after "Transfert vers"), "authorization_number", "raw_text".
+- "cross_check": compare the two images — the RECIPIENT number, the ABSOLUTE amount, and the AUTHORIZATION NUMBER must be identical on both. Set "consistent" to false only if a field legible on BOTH images actually disagrees (remember the Journal amount is the negative of the success-screen amount — that is NOT a disagreement once you take the absolute value). "notes": one or two sentences on what matched / what didn't.
+- Fraud signals are a SEPARATE, purely technical assessment of the IMAGE FILES (not the payment's business legitimacy): look for overlay text pasted onto the UI, cloned/duplicated regions, compositing (mismatched lighting/edges/anti-aliasing around the amount, recipient, or authorization number specifically — the most likely fields a forger would alter), suspicious cropping hiding information, blur/noise/compression inconsistent with a normal phone screenshot, inconsistent fonts within one UI, unnatural color/hue shifts, or metadata-tampering hints. Pay special attention to whether the amount, recipient, and authorization number look like they belong to the same rendering pass as the surrounding text (same font, weight, baseline, kerning, anti-aliasing) — mismatches there are the strongest forgery signal. Only include a flag you genuinely observe; most legitimate pairs have zero flags.
+- "fraud_score": your 0-100 estimate that the IMAGES were technically tampered with. 0 = look like untouched phone screenshots, 100 = clear editing.
 - "screenshot_integrity_ok": true unless you have a concrete, specific reason to believe either image was edited.
 
 Return ONLY this JSON (no markdown fences):

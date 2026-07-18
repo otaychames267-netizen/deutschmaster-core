@@ -2,6 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { MUENDLICH_ENABLED } from "@/lib/features";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserProgress, levelProgress, xpForNextLevel, xpForCurrentLevel } from "@/lib/useUserProgress";
 import {
@@ -327,10 +328,14 @@ function DashboardPage() {
       <div>
         <div className="mb-4">
           <h2 className="text-lg font-black text-foreground tracking-tight">Your Exam Preparation</h2>
-          <p className="text-sm text-muted-foreground">Two paths, one goal — passing your TELC {levelBadge} exam</p>
+          <p className="text-sm text-muted-foreground">
+            {MUENDLICH_ENABLED
+              ? `Two paths, one goal — passing your TELC ${levelBadge} exam`
+              : `Master every written component of your TELC ${levelBadge} exam`}
+          </p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-2">
+        <div className={`grid gap-5 ${MUENDLICH_ENABLED ? "md:grid-cols-2" : "md:grid-cols-1"}`}>
           {/* ── SCHRIFTLICH ──────────────────────────────────── */}
           {/* A plain clickable div, not a <Link>/<a> — it wraps a real "Simulation" link
               below, and nested <a> tags are invalid HTML that breaks hydration and can
@@ -416,7 +421,8 @@ function DashboardPage() {
             </div>
           </div>
 
-          {/* ── MÜNDLICH ─────────────────────────────────────── */}
+          {/* ── MÜNDLICH — hidden until the speaking module ships (features.ts) ── */}
+          {MUENDLICH_ENABLED && (
           <div
             role="link" tabIndex={0}
             onClick={() => navigate({ to: `/${seg}/muendlich` as never })}
@@ -490,6 +496,7 @@ function DashboardPage() {
               </div>
             </div>
           </div>
+          )}
         </div>
       </div>
 

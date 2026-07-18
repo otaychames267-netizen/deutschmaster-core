@@ -27,7 +27,7 @@ export type AttemptDecision = "auto_approved" | "manual_review" | "auto_rejected
 
 export interface ScoreAttemptResult {
   checks: RuleCheck[];
-  hardGate: "fraud" | null;
+  hardGate: "fraud" | "wrong_recipient" | null;
   riskScore: number;
   aiConfidence: number;
   decision: AttemptDecision;
@@ -57,11 +57,23 @@ export interface ScoreAttemptInput {
    * configured D17_OFFICIAL_NUMBER/D17_OFFICIAL_IBAN yet. */
   orderDestinationNumber: string | null;
   orderDestinationIban: string | null;
+  /** The ONE canonical official D17 recipient number
+   * (OFFICIAL_D17_RECIPIENT, src/lib/d17/payment-config.ts) — the single
+   * authoritative value the recipient hard-gate enforces, independent of the
+   * mutable per-order snapshot. A legibly-extracted recipient that is NOT
+   * this number means the money went elsewhere → hard reject. */
+  officialRecipientNumber: string;
   /** Wall-clock ms between order creation and this verification attempt
    * starting (NOT the OCR'd payment_datetime) — captured by
    * verify.functions.ts at pipeline start, before the Gemini call. */
   uploadToCreationDeltaMs: number;
   reputationVelocity: ReputationVelocityInput;
+  /** Deterministic image-forensics signal (src/lib/d17/image-forensics.server.ts),
+   * computed on the ORIGINAL upload bytes. Optional (omitted by paths that
+   * re-score from stored data). Advisory only: a strong signal forces manual
+   * review, it never auto-rejects — deterministic forensics have real false
+   * positives (e.g. a user who merely cropped their receipt). */
+  imageForensics?: { score: number; flags: string[] };
   /** Admin-configurable via platform_settings (src/lib/d17/config.ts) —
    * defaults to 90 (matching the original hardcoded value) if the caller
    * doesn't supply one, so this stays a pure function with zero I/O of its
@@ -73,7 +85,11 @@ const HARD_FRAUD_FLAGS = new Set(["overlay_text_detected", "clone_region_suspect
 const HARD_FRAUD_SCORE_THRESHOLD = 70;
 const DEFAULT_AUTO_APPROVE_CONFIDENCE_THRESHOLD = 90; // risk_score <= 10
 
-const AMOUNT_TOLERANCE_TND = 0.5;
+// Only the EXACT subscription amount is accepted. TND has 3 decimal places
+// (millimes); a 0.01 window absorbs OCR/format noise (30 vs 30.0 vs 30.000)
+// while rejecting any real under/over-payment (e.g. 29.5 or 33.0), which then
+// falls to manual_review rather than auto-approving a wrong amount.
+const AMOUNT_TOLERANCE_TND = 0.01;
 
 function normalizeReference(ref: string): string {
   return ref.trim().replace(/[\s-]/g, "").toLowerCase();
@@ -89,43 +105,69 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   const { extraction } = input;
   const checks: RuleCheck[] = [];
 
-  // 1. Transaction reference match — "the most important verification
-  // element" per spec. A reference OCR simply couldn't find in the image
-  // costs far less than a mismatch, and can NEVER by itself reach the
-  // fraud hard gate — it always falls through to manual_review.
-  if (extraction.reference === null) {
+  // D17 receipts show a single identifier: the "Numéro d'autorisation"
+  // (authorization number). There is NO separate "reference"/"Réf" field, so
+  // the value the student types into the reference box IS the authorization
+  // number — match it against the OCR'd authorization number (from either
+  // screenshot), falling back to any reference/transaction_id only if some
+  // future D17 variant prints one.
+  const ocrIdentifier =
+    extraction.authorization_number ??
+    extraction.screenshot2.authorization_number ??
+    extraction.reference ??
+    extraction.transaction_id;
+
+  // The Journal D17 screen carries the real transaction timestamp; the
+  // "Payment Success" screen has none. Use the Success-screen time if present
+  // (older/other flows), otherwise the Journal time.
+  const effectivePaymentDatetime = extraction.payment_datetime ?? extraction.screenshot2.payment_datetime;
+
+  // The Journal shows the amount as a negative debit ("-30,000 TND"); always
+  // compare on absolute value so a correct amount never reads as a mismatch.
+  const ocrAmount = extraction.amount === null ? null : Math.abs(extraction.amount);
+  const shot2Amount = extraction.screenshot2.amount === null ? null : Math.abs(extraction.screenshot2.amount);
+
+  // 1. Authorization-number match — D17's single most important identifier.
+  // A number OCR simply couldn't read costs far less than a real mismatch,
+  // and can NEVER by itself reach a hard gate — it falls through to
+  // manual_review.
+  if (ocrIdentifier === null) {
     checks.push({
       id: "reference_match",
-      label: "Transaction Reference",
+      label: "Authorization Number",
       result: "uncertain",
       points: 25,
-      detail: `No transaction reference found in the screenshot (user entered: ${input.userEnteredReference}).`,
+      detail: `No authorization number could be read from the screenshots (student entered: ${input.userEnteredReference}).`,
     });
-  } else if (normalizeReference(extraction.reference).includes(normalizeReference(input.userEnteredReference))) {
+  } else if (
+    normalizeReference(ocrIdentifier) === normalizeReference(input.userEnteredReference) ||
+    normalizeReference(ocrIdentifier).includes(normalizeReference(input.userEnteredReference)) ||
+    normalizeReference(input.userEnteredReference).includes(normalizeReference(ocrIdentifier))
+  ) {
     checks.push({
       id: "reference_match",
-      label: "Transaction Reference",
+      label: "Authorization Number",
       result: "pass",
       points: 0,
-      detail: `OCR reference "${extraction.reference}" matches entered reference "${input.userEnteredReference}".`,
+      detail: `Authorization number "${ocrIdentifier}" matches the number the student entered ("${input.userEnteredReference}").`,
     });
   } else {
     checks.push({
       id: "reference_match",
-      label: "Transaction Reference",
+      label: "Authorization Number",
       result: "fail",
       points: 40,
-      detail: `OCR reference "${extraction.reference}" does not match entered reference "${input.userEnteredReference}".`,
+      detail: `Authorization number on the screenshot ("${ocrIdentifier}") does not match what the student entered ("${input.userEnteredReference}").`,
     });
   }
 
-  // 2. Amount match
-  if (extraction.amount === null) {
+  // 2. Amount match (absolute value — see ocrAmount above)
+  if (ocrAmount === null) {
     checks.push({ id: "amount_match", label: "Amount", result: "uncertain", points: 15, detail: "Amount not legible on screenshot." });
-  } else if (Math.abs(extraction.amount - input.orderAmountTnd) <= AMOUNT_TOLERANCE_TND) {
-    checks.push({ id: "amount_match", label: "Amount", result: "pass", points: 0, detail: `OCR amount ${extraction.amount} matches order amount ${input.orderAmountTnd}.` });
+  } else if (Math.abs(ocrAmount - input.orderAmountTnd) <= AMOUNT_TOLERANCE_TND) {
+    checks.push({ id: "amount_match", label: "Amount", result: "pass", points: 0, detail: `OCR amount ${ocrAmount} matches order amount ${input.orderAmountTnd}.` });
   } else {
-    checks.push({ id: "amount_match", label: "Amount", result: "fail", points: 30, detail: `Amount mismatch: expected ${input.orderAmountTnd} ${input.orderCurrency}, OCR read ${extraction.amount}.` });
+    checks.push({ id: "amount_match", label: "Amount", result: "fail", points: 30, detail: `Amount mismatch: expected ${input.orderAmountTnd} ${input.orderCurrency}, OCR read ${ocrAmount}.` });
   }
 
   // 3. Currency match
@@ -137,14 +179,15 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     checks.push({ id: "currency_match", label: "Currency", result: "fail", points: 20, detail: `Currency mismatch: expected ${input.orderCurrency}, OCR read ${extraction.currency}.` });
   }
 
-  // 4. Payment date/time vs order-creation-time delta
-  if (!extraction.payment_datetime) {
-    checks.push({ id: "time_delta", label: "Payment Time", result: "fail", points: 25, detail: "Payment date/time not legible on screenshot." });
+  // 4. Payment date/time vs order-creation-time delta (from the Journal D17
+  // timestamp — the Success screen has none; see effectivePaymentDatetime).
+  if (!effectivePaymentDatetime) {
+    checks.push({ id: "time_delta", label: "Payment Time", result: "fail", points: 25, detail: "Payment date/time not legible on either screenshot." });
   } else {
-    const paymentMs = Date.parse(extraction.payment_datetime);
+    const paymentMs = Date.parse(effectivePaymentDatetime);
     const orderMs = Date.parse(input.orderCreatedAt);
     if (Number.isNaN(paymentMs)) {
-      checks.push({ id: "time_delta", label: "Payment Time", result: "fail", points: 25, detail: `Unparseable payment date/time: "${extraction.payment_datetime}".` });
+      checks.push({ id: "time_delta", label: "Payment Time", result: "fail", points: 25, detail: `Unparseable payment date/time: "${effectivePaymentDatetime}".` });
     } else {
       const deltaMinutes = (paymentMs - orderMs) / 60000;
       if (deltaMinutes < -5) {
@@ -189,8 +232,8 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   }
 
   // 8. Package price sanity — amount matches a DIFFERENT tier's price.
-  if (extraction.amount !== null && input.otherPlanPricesTnd?.some((p) => Math.abs(p - extraction.amount!) <= AMOUNT_TOLERANCE_TND)) {
-    checks.push({ id: "package_price_sanity", label: "Package Price", result: "fail", points: 10, detail: `OCR amount ${extraction.amount} matches a different plan's price, not the ordered plan's.` });
+  if (ocrAmount !== null && input.otherPlanPricesTnd?.some((p) => Math.abs(p - ocrAmount) <= AMOUNT_TOLERANCE_TND)) {
+    checks.push({ id: "package_price_sanity", label: "Package Price", result: "fail", points: 10, detail: `OCR amount ${ocrAmount} matches a different plan's price, not the ordered plan's.` });
   } else {
     checks.push({ id: "package_price_sanity", label: "Package Price", result: "pass", points: 0, detail: "Amount does not collide with a different plan's price." });
   }
@@ -201,7 +244,10 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     const candidates = [extraction.destination_number, extraction.destination_iban, extraction.screenshot2.destination].filter(
       (v): v is string => Boolean(v),
     );
-    const officialValues = [input.orderDestinationNumber, input.orderDestinationIban].filter((v): v is string => Boolean(v));
+    // The canonical official recipient number is authoritative (never the
+    // mutable order snapshot); the IBAN, if the platform configured one, is
+    // an additional acceptable destination.
+    const officialValues = [input.officialRecipientNumber, input.orderDestinationIban].filter((v): v is string => Boolean(v));
     if (officialValues.length === 0) {
       checks.push({
         id: "destination_match",
@@ -242,8 +288,10 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   {
     const s2 = extraction.screenshot2;
     const mismatches: string[] = [];
-    if (extraction.amount !== null && s2.amount !== null && Math.abs(extraction.amount - s2.amount) > AMOUNT_TOLERANCE_TND) {
-      mismatches.push(`amount (${extraction.amount} vs ${s2.amount})`);
+    // Compare on absolute values — the Journal amount is the negative of the
+    // Success-screen amount, which is expected and NOT a real mismatch.
+    if (ocrAmount !== null && shot2Amount !== null && Math.abs(ocrAmount - shot2Amount) > AMOUNT_TOLERANCE_TND) {
+      mismatches.push(`amount (${ocrAmount} vs ${shot2Amount})`);
     }
     if (extraction.currency && s2.currency && extraction.currency.trim().toUpperCase() !== s2.currency.trim().toUpperCase()) {
       mismatches.push(`currency (${extraction.currency} vs ${s2.currency})`);
@@ -289,8 +337,8 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     if (input.uploadToCreationDeltaMs < 8000) {
       reasons.push(`screenshot uploaded only ${(input.uploadToCreationDeltaMs / 1000).toFixed(1)}s after the order was created`);
     }
-    if (extraction.payment_datetime) {
-      const paymentMs = Date.parse(extraction.payment_datetime);
+    if (effectivePaymentDatetime) {
+      const paymentMs = Date.parse(effectivePaymentDatetime);
       const orderMs = Date.parse(input.orderCreatedAt);
       if (!Number.isNaN(paymentMs) && paymentMs < orderMs - 5 * 60_000) {
         reasons.push("the payment timestamp on the screenshot predates the order");
@@ -346,11 +394,46 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     });
   }
 
+  // 14. Deterministic image forensics — editor/AI-generator metadata + ELA
+  // hotspot (src/lib/d17/image-forensics.server.ts). Advisory: a strong
+  // signal forces manual review (blocks auto-approval), never an auto-reject.
+  if (input.imageForensics) {
+    const f = input.imageForensics;
+    if (f.score >= 50) {
+      checks.push({ id: "image_forensics", label: "Image Forensics", result: "fail", points: 25, detail: `Deterministic tamper signals (score ${f.score}): ${f.flags.join(", ") || "none"}.` });
+    } else if (f.score >= 20) {
+      checks.push({ id: "image_forensics", label: "Image Forensics", result: "uncertain", points: 12, detail: `Possible tamper signals (score ${f.score}): ${f.flags.join(", ") || "none"}.` });
+    } else {
+      checks.push({ id: "image_forensics", label: "Image Forensics", result: "pass", points: 0, detail: `No deterministic tamper signals (score ${f.score}).` });
+    }
+  }
+
+  // Recipient hard gate — the single most important fraud control. Money
+  // MUST reach the platform's one official D17 number. If a recipient number
+  // is legibly extracted from EITHER screenshot and none of the legible
+  // recipient numbers is the official one, the transfer demonstrably went
+  // somewhere else → immediate hard reject, no auto-approval possible. A
+  // recipient that simply couldn't be read is NOT handled here (there's
+  // nothing to contradict) — it falls to destination_match "uncertain" and
+  // the destination-confirmation gate below, i.e. manual review, never
+  // auto-approval. Uses the same tolerant normalization (spaces/dashes/
+  // country-code substring) as destination_match.
+  const extractedRecipients = [extraction.destination_number, extraction.screenshot2.destination].filter(
+    (v): v is string => Boolean(v),
+  );
+  const recipientLegible = extractedRecipients.length > 0;
+  const recipientMatchesOfficial = extractedRecipients.some((r) => destinationsOverlap(r, input.officialRecipientNumber));
+  const wrongRecipient = recipientLegible && !recipientMatchesOfficial;
+
   // Fraud hard gate — requires BOTH a categorical "hard" flag AND a high
   // self-reported fraud score, so a single hallucinated flag from a
   // probabilistic vision model can never alone trigger rejection.
   const hasHardFlag = extraction.fraud_flags.some((f) => HARD_FRAUD_FLAGS.has(f));
-  const hardGate = hasHardFlag && extraction.fraud_score >= HARD_FRAUD_SCORE_THRESHOLD ? "fraud" : null;
+  const fraudHardGate = hasHardFlag && extraction.fraud_score >= HARD_FRAUD_SCORE_THRESHOLD;
+
+  // Wrong recipient takes precedence: it's the most unambiguous, highest-
+  // certainty rejection reason (a concrete number that isn't ours).
+  const hardGate: "fraud" | "wrong_recipient" | null = wrongRecipient ? "wrong_recipient" : fraudHardGate ? "fraud" : null;
 
   // Clamped to [0, 100]: the reputation_signal check can contribute
   // negative points (a bonus for a clean history), so the raw sum is no
@@ -361,14 +444,36 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
 
   const autoApproveThreshold = input.autoApproveThreshold ?? DEFAULT_AUTO_APPROVE_CONFIDENCE_THRESHOLD;
 
+  // Positive destination confirmation is a REQUIRED precondition for
+  // auto-approval, independent of the numeric score. destination_match is
+  // the single most safety-critical check: it is the ONLY thing that proves
+  // the money actually reached the platform's own official D17 account rather
+  // than a friend's number. Its "uncertain" outcome (no official destination
+  // configured, or nothing legible on either screenshot) only costs 8 points
+  // — low enough that an otherwise-clean attempt could clear the confidence
+  // threshold and auto-approve a payment whose destination was never proven
+  // (and a clean-history reputation bonus can mask even more). That must
+  // never happen: if destination_match is anything other than a positive
+  // "pass", the attempt can at best be auto-approved by a human, never by the
+  // engine. This is a soft gate (routes to manual_review), NOT a fraud
+  // rejection — an unproven destination is "uncertain", not "fraudulent".
+  const destinationCheck = checks.find((c) => c.id === "destination_match");
+  const destinationConfirmed = destinationCheck?.result === "pass";
+
   let decision: AttemptDecision;
   let decisionReason: string;
-  if (hardGate === "fraud") {
+  if (hardGate === "wrong_recipient") {
+    decision = "auto_rejected_fraud";
+    decisionReason = `Payment was sent to a different recipient (${extractedRecipients.join(", ")}), not the official D17 number ${input.officialRecipientNumber}. Transfers to any other recipient are never accepted.`;
+  } else if (hardGate === "fraud") {
     decision = "auto_rejected_fraud";
     decisionReason = `Fraud signals detected: ${extraction.fraud_flags.join(", ")} (fraud score ${extraction.fraud_score}).`;
-  } else if (aiConfidence >= autoApproveThreshold) {
+  } else if (aiConfidence >= autoApproveThreshold && destinationConfirmed) {
     decision = "auto_approved";
     decisionReason = "All verification checks passed.";
+  } else if (aiConfidence >= autoApproveThreshold && !destinationConfirmed) {
+    decision = "manual_review";
+    decisionReason = `Auto-approval withheld pending human confirmation of the payment destination — ${destinationCheck?.detail ?? "the destination could not be verified"}`;
   } else {
     decision = "manual_review";
     const worst = [...checks].sort((a, b) => b.points - a.points)[0];

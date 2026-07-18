@@ -24,7 +24,7 @@ interface D17Order {
 }
 
 const ACTIVE_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
-const MAX_ATTEMPTS = 5;
+const MAX_ATTEMPTS = 3;
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
 function D17VerifyPage() {

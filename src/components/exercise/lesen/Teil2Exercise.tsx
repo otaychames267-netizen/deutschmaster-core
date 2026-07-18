@@ -84,6 +84,8 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   const [scoreTotal, setScoreTotal]     = useState(0);
   const [scoreCount, setScoreCount]     = useState(0);
   const [restored, setRestored]         = useState(false);
+  const [solution, setSolution]         = useState<Record<number, string> | null>(null);
+  const [loadingSolution, setLoadingSolution] = useState(false);
 
   const hydratedRef = useRef(false);
 
@@ -138,6 +140,31 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
 
   function reveal(num: number) {
     setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: true } }));
+  }
+
+  // "Lösungen anzeigen": fetch the correct answers via the non-saving
+  // scoring RPC (empty answers → each result's correct_answer is the right
+  // letter). Mirrors Teil3Exercise's showSolution — keeps the answer key
+  // server-side; nothing is pre-loaded into the component, and no attempt
+  // record is created (score_lesen_t2 has no "_and_save" side effect).
+  async function showSolution() {
+    if (solution) { setSolution(null); return; } // toggle off
+    setLoadingSolution(true);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
+        p_exercise_id: exercise.id,
+        p_answers:     {},
+      });
+      if (error) throw error;
+      const res = data as unknown as { results: ScoreResult[] };
+      const map: Record<number, string> = {};
+      for (const r of res.results) map[r.number] = r.correct_answer;
+      setSolution(map);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingSolution(false);
+    }
   }
 
   async function handleSubmit() {
@@ -245,7 +272,14 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                   <span className="shrink-0 mt-0.5 flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/10 text-xs font-black text-blue-600 dark:text-blue-400">
                     {q.number}
                   </span>
-                  <p id={labelId} className="text-sm font-semibold text-foreground leading-snug">{q.question}</p>
+                  <p id={labelId} className="text-sm font-semibold text-foreground leading-snug flex-1">{q.question}</p>
+                  {!submitted && solution?.[q.number] && (
+                    <span className="shrink-0 rounded-lg bg-emerald-500/10 px-2 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                      Richtig: {rfMode
+                        ? (solution[q.number] === "a" ? q.option_a : q.option_b)
+                        : solution[q.number].toUpperCase()}
+                    </span>
+                  )}
                 </div>
 
                 <div role="radiogroup" aria-labelledby={labelId}
@@ -350,11 +384,18 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                 <p className="text-sm text-muted-foreground">{answeredCount} / {questions.length} beantwortet</p>
                 <p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p>
               </div>
-              <button onClick={handleSubmit} disabled={answeredCount < questions.length || scoring}
-                className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
-                {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
-                Auswertung
-              </button>
+              <div className="flex items-center gap-2">
+                <button onClick={showSolution} disabled={loadingSolution}
+                  className={`rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
+                  {loadingSolution && <Loader2 className="h-4 w-4 animate-spin" />}
+                  {solution ? "Lösungen ausblenden" : "Lösungen anzeigen"}
+                </button>
+                <button onClick={handleSubmit} disabled={answeredCount < questions.length || scoring}
+                  className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
+                  {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
+                  Auswertung
+                </button>
+              </div>
             </div>
           ) : (
             <div aria-live="polite" className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">

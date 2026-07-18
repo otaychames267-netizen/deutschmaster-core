@@ -28,11 +28,13 @@ interface RewardRow {
   created_at: string;
 }
 
+// Matches process_referral_conversion() in
+// 20260718020000_ban_referral_audit.sql exactly — 5 converted referrals = 5
+// total free days, 10 converted = 7 total free days, which is the hard cap.
+// No milestone ever grants a full month; nothing is granted past 10.
 const MILESTONES = [
-  { count: 1,  reward: "+1 free day",   icon: "🌟", xp: 50  },
-  { count: 3,  reward: "+3 free days",  icon: "⭐",  xp: 150 },
-  { count: 5,  reward: "+1 free week",  icon: "🏆",  xp: 300 },
-  { count: 10, reward: "+1 free month", icon: "👑",  xp: 500 },
+  { count: 5,  reward: "+5 free days (total)", icon: "🏆", xp: 300 },
+  { count: 10, reward: "+7 free days (total, maximum)", icon: "👑", xp: 500 },
 ];
 
 function Skeleton({ className = "" }: { className?: string }) {
@@ -44,12 +46,14 @@ function ReferralsPage() {
   const [hasSubscription, setHasSubscription] = useState<boolean | null>(null);
   const [referrals, setReferrals]   = useState<ReferralRow[]>([]);
   const [rewards, setRewards]       = useState<RewardRow[]>([]);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
   const [loading, setLoading]       = useState(true);
   const [copied, setCopied]         = useState(false);
 
-  const referralCode = user?.id
-    ? user.id.replace(/-/g, "").substring(0, 8).toUpperCase()
-    : null;
+  // The real, DB-backed code (profiles.referral_code) — what register_referral()
+  // actually looks up. Previously this was re-derived client-side from
+  // user.id with no server-side link to it at all, so sharing it did
+  // nothing: nothing on the registration side ever read a ?ref= param.
   const referralUrl = referralCode
     ? `${typeof window !== "undefined" ? window.location.origin : ""}/register?ref=${referralCode}`
     : null;
@@ -57,14 +61,16 @@ function ReferralsPage() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const [subRes, refRes, rewardRes] = await Promise.all([
+      const [subRes, refRes, rewardRes, profileRes] = await Promise.all([
         supabase.from("subscriptions").select("id").eq("user_id", user.id).eq("status", "active").limit(1),
         supabase.from("referrals").select("id, status, created_at, converted_at").eq("referrer_id", user.id).order("created_at", { ascending: false }),
         supabase.from("referral_rewards").select("id, days_granted, reason, applied_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
+        supabase.from("profiles").select("referral_code").eq("id", user.id).maybeSingle(),
       ]);
       setHasSubscription((subRes.data?.length ?? 0) > 0);
       setReferrals((refRes.data as ReferralRow[]) ?? []);
       setRewards((rewardRes.data as RewardRow[]) ?? []);
+      setReferralCode((profileRes.data as { referral_code: string | null } | null)?.referral_code ?? null);
       setLoading(false);
     })();
   }, [user?.id]);
