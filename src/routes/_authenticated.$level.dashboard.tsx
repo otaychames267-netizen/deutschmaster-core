@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
-import { MUENDLICH_ENABLED } from "@/lib/features";
+import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserProgress, levelProgress, xpForNextLevel, xpForCurrentLevel } from "@/lib/useUserProgress";
 import {
@@ -118,6 +118,7 @@ function DashboardPage() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
   const navigate = useNavigate();
+  const muendlichVisible = useMuendlichVisible();
   const { progress, achievements, loading: progressLoading } = useUserProgress();
 
   // Only resume a "last lesson" that belongs to THIS level — never surface the
@@ -329,13 +330,13 @@ function DashboardPage() {
         <div className="mb-4">
           <h2 className="text-lg font-black text-foreground tracking-tight">Your Exam Preparation</h2>
           <p className="text-sm text-muted-foreground">
-            {MUENDLICH_ENABLED
+            {muendlichVisible
               ? `Two paths, one goal — passing your TELC ${levelBadge} exam`
               : `Master every written component of your TELC ${levelBadge} exam`}
           </p>
         </div>
 
-        <div className={`grid gap-5 ${MUENDLICH_ENABLED ? "md:grid-cols-2" : "md:grid-cols-1"}`}>
+        <div className={`grid gap-5 ${muendlichVisible ? "md:grid-cols-2" : "md:grid-cols-1"}`}>
           {/* ── SCHRIFTLICH ──────────────────────────────────── */}
           {/* A plain clickable div, not a <Link>/<a> — it wraps a real "Simulation" link
               below, and nested <a> tags are invalid HTML that breaks hydration and can
@@ -421,8 +422,9 @@ function DashboardPage() {
             </div>
           </div>
 
-          {/* ── MÜNDLICH — hidden until the speaking module ships (features.ts) ── */}
-          {MUENDLICH_ENABLED && (
+          {/* ── MÜNDLICH — hidden until the speaking module ships (features.ts),
+                but admins get a per-account developer preview via useMuendlichVisible ── */}
+          {muendlichVisible && (
           <div
             role="link" tabIndex={0}
             onClick={() => navigate({ to: `/${seg}/muendlich` as never })}

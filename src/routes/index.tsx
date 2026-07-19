@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
 import { MUENDLICH_ENABLED, isPlanPurchasable } from "@/lib/features";
+import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import i18n from "@/lib/i18n";
 import {
@@ -410,6 +411,7 @@ function HowItWorks() {
 /* ─── Features ──────────────────────────────────────────────────────── */
 
 function Features() {
+  const muendlichVisible = useMuendlichVisible();
   return (
     <section id="features" className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -426,8 +428,9 @@ function Features() {
         </div>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Mündlich card is hidden until the speaking module ships (features.ts). */}
-          {FEATURES.filter((f) => MUENDLICH_ENABLED || f.title !== "Mündlich").map((f) => (
+          {/* Mündlich card is hidden until the speaking module ships (features.ts),
+              with a per-account developer preview for admins via useMuendlichVisible. */}
+          {FEATURES.filter((f) => muendlichVisible || f.title !== "Mündlich").map((f) => (
             <div
               key={f.title}
               className={`group rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:shadow-md ${f.border}`}

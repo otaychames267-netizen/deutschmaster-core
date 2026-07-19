@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
-import { MUENDLICH_ENABLED } from "@/lib/features";
+import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import {
   Sidebar,
   SidebarContent,
@@ -248,6 +248,7 @@ function ImportPDFsSection({ pathname }: ImportRootProps) {
 
 export function AppSidebar() {
   const { user, isAdmin, signOut } = useAuth();
+  const muendlichVisible = useMuendlichVisible();
   const activeLevel = useActiveLevel();
   const seg = useLevelSegment();
   const state = useRouterState();
@@ -327,10 +328,12 @@ export function AppSidebar() {
               </SidebarMenuButton>
             </SidebarMenuItem>
 
-            {/* Mündlich — hidden until the speaking module is finished (see
-                src/lib/features.ts). Directly visiting a Mündlich URL is also
-                blocked at the route level, so hiding it here is purely UX. */}
-            {MUENDLICH_ENABLED && (
+            {/* Mündlich — hidden until the speaking module launches
+                (MUENDLICH_ENABLED in features.ts). Admins get a developer
+                preview here per useMuendlichVisible, and the layout-route
+                gate at _authenticated.$level.muendlich.tsx enforces the
+                same rule for direct-URL access. */}
+            {muendlichVisible && (
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={isMuendlichActive}>
                   <Link to={muendlichTo} className={`relative gap-3 transition-all duration-150 ${
