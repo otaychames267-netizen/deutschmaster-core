@@ -141,7 +141,15 @@ function D17VerifyPage() {
       void attempt;
       nav({ to: "/d17/$orderId/status", params: { orderId } });
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Verification failed. Please try again.");
+      console.error("[D17 verify]", err);
+      // Server-side throws in this flow are meant to already be user-safe, but
+      // this is a payment-critical path — never trust that unconditionally.
+      // Rate-limit/duplicate/attempt-limit messages are the known safe cases
+      // users need to actually see; anything else falls back to a generic message.
+      const safeMessage = err instanceof Error && /attempt|limit|duplicate|already|expired|locked/i.test(err.message)
+        ? err.message
+        : "Verification failed. Please try again.";
+      toast.error(safeMessage);
       setSubmitting(false);
       setUploaded(false);
       setDone(false);

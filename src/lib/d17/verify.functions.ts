@@ -212,7 +212,7 @@ export async function activateOrder(
     p_status: "auto_approved",
     p_provider_payment_id: params.providerPaymentId,
   });
-  if (error || !subscriptionId) throw new Error(`Atomic activation failed: ${error?.message}`);
+  if (error || !subscriptionId) { console.error("[activateD17Order]", error); throw new Error("Could not activate your subscription. Our team has been notified — please contact support."); }
   return subscriptionId as string;
 }
 
@@ -387,7 +387,7 @@ export async function runVerificationPipeline(
 
     async function downloadAndHash(path: string, label: string) {
       const { data: fileBlob, error: downloadError } = await supabaseAdmin.storage.from("payment-screenshots").download(path);
-      if (downloadError || !fileBlob) throw new Error(`Could not read the uploaded screenshot: ${downloadError?.message ?? "not found"}`);
+      if (downloadError || !fileBlob) { if (downloadError) console.error("[submitVerificationAttempt] download screenshot", downloadError); throw new Error("Could not read the uploaded screenshot. Please try uploading it again."); }
       const originalBuffer = Buffer.from(await (fileBlob as Blob).arrayBuffer());
       // Server-side re-validation — the client's own type/size check
       // (verify.tsx) is never trusted alone. Runs before hashing/OCR/Gemini
@@ -733,7 +733,7 @@ export async function finalizeAttempt(
     })
     .select("*")
     .single();
-  if (insertError || !attempt) throw new Error(`Failed to record verification attempt: ${insertError?.message}`);
+  if (insertError || !attempt) { console.error("[recordVerificationAttempt]", insertError); throw new Error("Could not record your verification attempt. Please try again."); }
 
   // Opportunistic devices upsert — regardless of decision, since a device
   // seen on a rejected/fraud attempt is itself a useful future risk signal.

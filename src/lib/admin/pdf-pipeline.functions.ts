@@ -2238,7 +2238,6 @@ export const gradeImportedAttempt = createServerFn({ method: "POST" })
       graded: true,
       isCorrect,
       keyVersion: key.key_version,
-      correctAnswer: target,
     };
   });
 

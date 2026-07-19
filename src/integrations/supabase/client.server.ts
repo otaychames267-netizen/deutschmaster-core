@@ -13,9 +13,12 @@ function createSupabaseAdminClient() {
       ...(!RAW_SUPABASE_URL ? ['SUPABASE_URL'] : []),
       ...(!RAW_SUPABASE_SERVICE_ROLE_KEY ? ['SUPABASE_SERVICE_ROLE_KEY'] : []),
     ];
-    const message = `Missing server environment variable(s): ${missing.join(', ')}. Add them to your .env file.`;
-    console.error(`[Supabase Admin] ${message}`);
-    throw new Error(message);
+    // Full detail goes to server logs only (console.error, never client-visible).
+    // The thrown message is what TanStack Start serializes verbatim into the
+    // failed request's network response body for ANY caller, so it must never
+    // contain env var names or setup instructions.
+    console.error(`[Supabase Admin] Missing server environment variable(s): ${missing.join(', ')}. Add them to your .env file.`);
+    throw new Error('Service temporarily unavailable. Please try again later.');
   }
 
   let SUPABASE_URL: string;
@@ -25,7 +28,7 @@ function createSupabaseAdminClient() {
     SUPABASE_SERVICE_ROLE_KEY = sanitizeEnvValue('SUPABASE_SERVICE_ROLE_KEY', RAW_SUPABASE_SERVICE_ROLE_KEY);
   } catch (error) {
     console.error(`[Supabase Admin] ${(error as Error).message}`);
-    throw error;
+    throw new Error('Service temporarily unavailable. Please try again later.');
   }
 
   return createClient<Database>(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {

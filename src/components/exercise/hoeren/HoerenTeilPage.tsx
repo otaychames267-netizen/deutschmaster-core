@@ -10,13 +10,19 @@ import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exerci
 interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null }
 interface StRow { exercise_id: string; statement_number: number; statement_text: string }
 
-function imageUrl(path: string | null): string | null {
+// Both buckets are private and plan-gated at the storage RLS layer — URLs
+// must be short-lived signed URLs fetched per-session, never getPublicUrl
+// (which would let anyone with a guessed/leaked path download premium
+// audio/images with no auth or subscription check at all).
+async function signedImageUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
-  return supabase.storage.from("hoeren-images").getPublicUrl(path).data.publicUrl;
+  const { data } = await supabase.storage.from("hoeren-images").createSignedUrl(path, 3600);
+  return data?.signedUrl ?? null;
 }
-function audioUrl(path: string | null): string | null {
+async function signedAudioUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
-  return supabase.storage.from("hoeren-audio").getPublicUrl(path).data.publicUrl;
+  const { data } = await supabase.storage.from("hoeren-audio").createSignedUrl(path, 3600);
+  return data?.signedUrl ?? null;
 }
 
 interface Props {
@@ -47,6 +53,7 @@ export function HoerenTeilPage({ teil }: Props) {
   const seg = useLevelSegment();
   const [exercises, setExercises] = useState<ExRow[]>([]);
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
+  const [mediaByEx, setMediaByEx] = useState<Record<string, { image: string | null; audio: string | null }>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
@@ -69,6 +76,13 @@ export function HoerenTeilPage({ teil }: Props) {
       if (exErr) { setError(exErr.message); setLoading(false); return; }
       const rows = enforceLevel((exList ?? []) as ExRow[], lvl);
       setExercises(rows);
+
+      if (rows.length) {
+        const mediaEntries = await Promise.all(
+          rows.map(async (r) => [r.id, { image: await signedImageUrl(r.image_path), audio: await signedAudioUrl(r.audio_path) }] as const),
+        );
+        if (!cancelled) setMediaByEx(Object.fromEntries(mediaEntries));
+      }
 
       if (rows.length) {
         const { data: stList, error: stErr } = await supabase
@@ -151,8 +165,8 @@ export function HoerenTeilPage({ teil }: Props) {
             teil,
             position: ex.position,
             instructions: ex.instructions ?? "",
-            imageUrl: imageUrl(ex.image_path),
-            audioUrl: audioUrl(ex.audio_path),
+            imageUrl: mediaByEx[ex.id]?.image ?? null,
+            audioUrl: mediaByEx[ex.id]?.audio ?? null,
             statements: statementsByEx[ex.id] ?? [],
           };
           const next = exercises[i + 1];

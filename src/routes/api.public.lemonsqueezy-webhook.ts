@@ -154,34 +154,29 @@ async function handleEvent(supabaseAdmin: any, eventType: string, data: any, met
         .maybeSingle();
       const shouldProvision = isActive && (!existing || !renewsAt || new Date(renewsAt) > new Date(existing.expires_at));
 
-      // Manual read-then-write instead of .upsert({onConflict: ...}): the
-      // lemonsqueezy_subscription_id uniqueness is a PARTIAL index (WHERE
-      // NOT NULL), which PostgREST's upsert onConflict can't target directly
-      // (it generates a plain ON CONFLICT (column) clause that won't match a
-      // partial index's predicate) — so branch on the `existing` lookup above.
-      const row = {
-        user_id: userId,
-        plan_code: planCode,
-        status: isActive ? "active" : "suspended",
-        is_trial: false,
-        expires_at: renewsAt ?? new Date(Date.now() + 30 * 86400_000).toISOString(),
-        lemonsqueezy_subscription_id: String(data.id),
-        lemonsqueezy_customer_id: attrs.customer_id ? String(attrs.customer_id) : null,
-        lemonsqueezy_variant_id: String(attrs.variant_id ?? ""),
-      };
-      if (existing) {
-        await supabaseAdmin.from("subscriptions").update(row).eq("id", existing.id);
-      } else {
-        await supabaseAdmin.from("subscriptions").insert({ ...row, started_at: new Date().toISOString() });
+      // Row upsert + wallet provisioning run inside one atomic plpgsql
+      // function (activate_lemonsqueezy_subscription) instead of separate
+      // round-trips — a crash/network failure mid-sequence can no longer
+      // leave a subscription marked active with no wallet minutes/credits
+      // granted. Mirrors D17's activate_d17_order (same pattern, same
+      // reasoning) — see 20260719122000_atomic_lemonsqueezy_activation.sql.
+      const { error: activateError } = await supabaseAdmin.rpc("activate_lemonsqueezy_subscription", {
+        p_user_id: userId,
+        p_plan_code: planCode,
+        p_status: isActive ? "active" : "suspended",
+        p_expires_at: renewsAt ?? new Date(Date.now() + 30 * 86400_000).toISOString(),
+        p_ls_subscription_id: String(data.id),
+        p_ls_customer_id: attrs.customer_id ? String(attrs.customer_id) : null,
+        p_ls_variant_id: String(attrs.variant_id ?? ""),
+        p_should_provision: shouldProvision,
+        p_reason: "lemonsqueezy_renewal",
+      });
+      if (activateError) {
+        console.error("[lemonsqueezy-webhook] activate_lemonsqueezy_subscription failed:", activateError);
+        throw new Error(`Subscription activation failed for ls subscription ${data.id}`);
       }
 
       if (shouldProvision) {
-        if (planCode === "muendlich" || planCode === "komplett") {
-          await supabaseAdmin.rpc("provision_muendlich_subscription", { p_user_id: userId, p_minutes: 300, p_reason: "lemonsqueezy_renewal" });
-        }
-        if (planCode === "schriftlich" || planCode === "komplett") {
-          await supabaseAdmin.rpc("provision_essay_credits", { p_user_id: userId, p_amount: 30, p_reason: "lemonsqueezy_renewal" });
-        }
         // Best-effort referral conversion — isolated so it can never affect
         // real webhook processing; no-ops instantly if this user wasn't
         // referred, and is idempotent across webhook retries/resends.
