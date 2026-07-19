@@ -9,6 +9,7 @@ import {
   Tag, ClipboardList, HardDrive, DollarSign,
   Search, Bell, User, HelpCircle,
   ChevronRight, Upload, Headphones, Wrench, Coins, ListChecks, Pencil,
+  Presentation, Type,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
@@ -394,12 +395,14 @@ export function AppSidebar() {
                 <NavItem to="/admin/analytics"      label="Analytics"      icon={TrendingUp}     active={isActive("/admin/analytics")}      color="amber" />
                 <NavItem to="/admin/exams"          label="Exams"          icon={BookOpen}       active={isActive("/admin/exams")}          color="amber" />
                 <NavItem to="/admin/content"        label="Exercise Titles" icon={Pencil}        active={isActive("/admin/content")}        color="amber" />
+                <NavItem to="/admin/lesen"          label="Lesen Titles"   icon={Type}           active={isActive("/admin/lesen")}          color="amber" />
                 <NavItem to="/admin/pdf-import"     label="PDF Library"    icon={FileText}       active={isActive("/admin/pdf-import")}     color="amber" />
                 <NavItem to="/admin/payments"       label="Payments"       icon={DollarSign}     active={isActive("/admin/payments")}       color="amber" />
                 <NavItem to="/admin/reconciliation" label="Reconciliation" icon={ListChecks}     active={isActive("/admin/reconciliation")} color="amber" />
                 <NavItem to="/admin/coupons"        label="Coupons"        icon={Tag}            active={isActive("/admin/coupons")}        color="amber" />
                 <NavItem to="/admin/credits"        label="Essay Credits"  icon={Coins}          active={isActive("/admin/credits")}        color="amber" />
                 <NavItem to="/admin/muendlich-credits" label="Mündlich Minutes" icon={Mic}         active={isActive("/admin/muendlich-credits")} color="amber" />
+                <NavItem to="/admin/muendlich"      label="Mündlich Management" icon={Presentation} active={isActive("/admin/muendlich")}    color="amber" />
                 <NavItem to="/admin/announcements"  label="Announcements"  icon={Megaphone}      active={isActive("/admin/announcements")}  color="amber" />
                 <NavItem to="/admin/reports"        label="Reports"        icon={ClipboardList}  active={isActive("/admin/reports")}        color="amber" />
                 <NavItem to="/admin/audit-logs"     label="Audit Logs"     icon={ScrollText}     active={isActive("/admin/audit-logs")}     color="amber" />
