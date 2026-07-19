@@ -389,8 +389,6 @@ export function AppSidebar() {
             <SidebarGroup className="py-1">
               <SectionLabel>Admin</SectionLabel>
               <SidebarMenu>
-                <NavItem to="/admin"                label="🔴 TEST MENU"   icon={LayoutGrid}    active={false}                              color="amber" />
-                <NavItem to="/admin/muendlich"      label="🎤 MÜNDLICH MGMT (DIAG)" icon={Presentation} active={isActive("/admin/muendlich")}    color="amber" />
                 <NavItem to="/admin"                label="Overview"       icon={LayoutGrid}    active={isActive("/admin")}                color="amber" />
                 <NavItem to="/admin/users"          label="Users"          icon={Users}          active={isActive("/admin/users")}          color="amber" />
                 <NavItem to="/admin/subscriptions"  label="Subscriptions"  icon={CreditCard}     active={isActive("/admin/subscriptions")}  color="amber" />
