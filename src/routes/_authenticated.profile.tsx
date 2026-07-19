@@ -76,7 +76,7 @@ function ProfilePage() {
     if (!user) return;
     Promise.all([
       supabase.from("profiles").select("full_name, level, exam_date, avatar_url").eq("id", user.id).maybeSingle(),
-      supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).eq("status", "active").order("expires_at", { ascending: false }).limit(1).maybeSingle(),
+      supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).eq("status", "active").gt("expires_at", new Date().toISOString()).order("expires_at", { ascending: false }).limit(1).maybeSingle(),
     ]).then(([profileRes, subRes]) => {
       if (profileRes.data) {
         setProfile({ ...(profileRes.data as Profile), bio: null });

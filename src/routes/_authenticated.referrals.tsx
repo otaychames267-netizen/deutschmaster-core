@@ -62,7 +62,7 @@ function ReferralsPage() {
     if (!user) return;
     (async () => {
       const [subRes, refRes, rewardRes, profileRes] = await Promise.all([
-        supabase.from("subscriptions").select("id").eq("user_id", user.id).eq("status", "active").limit(1),
+        supabase.from("subscriptions").select("id").eq("user_id", user.id).eq("status", "active").gt("expires_at", new Date().toISOString()).limit(1),
         supabase.from("referrals").select("id, status, created_at, converted_at").eq("referrer_id", user.id).order("created_at", { ascending: false }),
         supabase.from("referral_rewards").select("id, days_granted, reason, applied_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
         supabase.from("profiles").select("referral_code").eq("id", user.id).maybeSingle(),

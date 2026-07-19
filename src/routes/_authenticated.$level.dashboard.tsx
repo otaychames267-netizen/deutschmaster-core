@@ -155,6 +155,7 @@ function DashboardPage() {
           .select("status, plan_code, expires_at")
           .eq("user_id", user.id)
           .eq("status", "active")
+          .gt("expires_at", new Date().toISOString())
           .order("expires_at", { ascending: false })
           .limit(1).maybeSingle(),
         supabase.from("attempt_results")
