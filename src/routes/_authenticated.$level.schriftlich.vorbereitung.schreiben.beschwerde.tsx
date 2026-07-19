@@ -7,6 +7,7 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
       title="Schreiben — Beschwerde"
       subtitle="Übungsschrift: Einen formellen Beschwerdebrief schreiben (180–220 Wörter)"
       section="schreiben"
+      metadataCategory="beschwerde"
       tips={[
         "Beginnen Sie mit einer formellen Anrede: 'Sehr geehrte Damen und Herren,'",
         "Beschreiben Sie das Problem klar und sachlich — keine Emotionen.",

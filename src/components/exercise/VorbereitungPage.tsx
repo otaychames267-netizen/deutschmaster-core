@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { ArrowLeft, Clock, BookOpen, Zap } from "lucide-react";
+import { ArrowLeft, Clock, BookOpen, Zap, Loader2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { ExamList } from "./ExamList";
 import { ExercisePlayer } from "./ExercisePlayer";
 import { useTrackLesson } from "@/lib/useLastLesson";
-import { useLevelSegment } from "@/lib/useActiveLevel";
+import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useSchreibenCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 
 interface SelectedExam {
   id: string;
@@ -16,6 +18,9 @@ interface VorbereitungPageProps {
   subtitle: string;
   section: string;
   teil?: string;
+  /** exams.metadata->>'category' filter — used by Schreiben (no numeric teil)
+   *  to distinguish Beschwerde/Bitte and to scope the locked-preview catalog. */
+  metadataCategory?: string;
   tips?: string[];
   backTo?: string;
   backLabel?: string;
@@ -35,6 +40,7 @@ export function VorbereitungPage({
   subtitle,
   section,
   teil,
+  metadataCategory,
   tips,
   backTo,
   backLabel = "Schriftlich Vorbereitung",
@@ -43,11 +49,24 @@ export function VorbereitungPage({
 }: VorbereitungPageProps) {
   const [active, setActive] = useState<SelectedExam | null>(null);
   useTrackLesson();
+  const level = useActiveLevel();
   const seg = useLevelSegment();
   const resolvedBackTo = backTo ?? `/${seg}/schriftlich/vorbereitung`;
   const schriftlichTo = `/${seg}/schriftlich`;
 
   const sc = SECTION_COLORS[section] ?? { color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" };
+
+  // Non-subscribers: titles-only locked preview (content is RLS-gated
+  // server-side regardless). Only Schreiben passes metadataCategory today.
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useSchreibenCatalog(level, metadataCategory ?? "");
+
+  if (metadataCategory && (accessLoading || (hasAccess === false && catalog.loading))) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  if (metadataCategory && hasAccess === false) {
+    return <LockedExerciseOverview heading={title} subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
+  }
 
   if (active) {
     return (
@@ -145,6 +164,7 @@ export function VorbereitungPage({
         <ExamList
           section={section}
           teil={teil}
+          metadataCategory={metadataCategory}
           onSelect={(exam) => setActive({ id: exam.id, title: exam.title })}
         />
       </div>

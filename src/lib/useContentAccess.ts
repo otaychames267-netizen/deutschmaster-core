@@ -56,3 +56,31 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
 
   return { items, loading };
 }
+
+/**
+ * Titles-only catalog for Schreiben (Beschwerde / Bitte), which has no
+ * numeric teil — exams.metadata->>'category' is the real sub-type
+ * discriminator. Same safety contract as useExerciseCatalog/get_exercise_catalog:
+ * calls the SECURITY DEFINER get_schreiben_catalog RPC, which returns only
+ * id + title, never task text.
+ */
+export function useSchreibenCatalog(level: string | null, category: string) {
+  const [items, setItems] = useState<CatalogItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!level) return;
+    let cancelled = false;
+    setLoading(true);
+    (supabase as any)
+      .rpc("get_schreiben_catalog", { p_level: level, p_category: category })
+      .then(({ data }: { data: any }) => {
+        if (cancelled) return;
+        setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title })));
+        setLoading(false);
+      });
+    return () => { cancelled = true; };
+  }, [level, category]);
+
+  return { items, loading };
+}

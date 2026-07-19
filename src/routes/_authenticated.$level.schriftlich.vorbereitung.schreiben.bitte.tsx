@@ -7,6 +7,7 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
       title="Schreiben — Bitte um Informationen"
       subtitle="Übungsschrift: Einen formellen Brief zur Informationsanfrage schreiben (80–100 Wörter)"
       section="schreiben"
+      metadataCategory="bitte"
       tips={[
         "Beginnen Sie mit einer formellen Anrede: 'Sehr geehrte Damen und Herren,'",
         "Erklären Sie kurz Ihr Anliegen im ersten Satz.",

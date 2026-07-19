@@ -19,6 +19,7 @@ interface ExamListProps {
   section: string;
   teil?: string;
   examType?: "vorbereitung" | "simulation";
+  metadataCategory?: string;
   emptyTitle?: string;
   emptyDescription?: string;
   onSelect: (exam: Exam) => void;
@@ -36,6 +37,7 @@ export function ExamList({
   section,
   teil,
   examType = "vorbereitung",
+  metadataCategory,
   emptyTitle = "No exercises available yet",
   emptyDescription = "Exercises for this section will appear here once the admin imports the content via the PDF Import system.",
   onSelect,
@@ -62,6 +64,7 @@ export function ExamList({
         .order("display_order", { ascending: true });
 
       if (teil) q = q.eq("teil", teil as "teil_1" | "teil_2" | "teil_3");
+      if (metadataCategory) q = q.eq("metadata->>category", metadataCategory);
 
       const { data } = await q;
       const safeExams = enforceLevel((data as Exam[]) ?? [], activeLevel);
