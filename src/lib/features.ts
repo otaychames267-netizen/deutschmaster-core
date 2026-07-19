@@ -29,6 +29,17 @@
 /** Is the Mündlich (speaking) module ready for students? Launch: false. */
 export const MUENDLICH_ENABLED = false;
 
+/**
+ * Is the B1 course ready for students? Launch: false. Confirmed via direct
+ * DB audit (2026-07-20): B1 has ~25-30% of B2's exercise volume across
+ * Lesen/Hören/Sprachbausteine, and Schreiben is non-functional for B1 (every
+ * B1 writing exam is the "informell" TELC B1 letter format, but no B1 route
+ * serves that category — Beschwerde/Bitte are B2's formal-letter format).
+ * Only B2 is sellable/enterable while this is false; flipping it re-enables
+ * B1 everywhere in one place, same contract as MUENDLICH_ENABLED.
+ */
+export const B1_ENABLED = false;
+
 /** Is real card checkout (Lemon Squeezy) live? Launch: false → D17 only. */
 export const CARD_PAYMENTS_ENABLED = false;
 

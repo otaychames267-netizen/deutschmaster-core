@@ -2,9 +2,10 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
+import { useB1Visible } from "@/lib/useB1Visible";
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme } from "@/lib/theme";
-import { GraduationCap, Loader2, Moon, Sun, CheckCircle2 } from "lucide-react";
+import { GraduationCap, Loader2, Moon, Sun, CheckCircle2, Clock } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
@@ -33,12 +34,14 @@ function OnboardingPage() {
   const { user } = useAuth();
   const { theme, toggle } = useTheme();
   const nav = useNavigate();
+  const b1Visible = useB1Visible();
 
   const [selected, setSelected] = useState<Level | null>(null);
   const [loading, setLoading]   = useState(false);
 
   async function handleContinue() {
     if (!selected || !user) return;
+    if (selected === "TELC_B1" && !b1Visible) return;
     setLoading(true);
 
     const { error } = await supabase
@@ -100,17 +103,27 @@ function OnboardingPage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2">
             {LEVELS.map((level) => {
               const isSelected = selected === level.value;
+              const locked = level.value === "TELC_B1" && !b1Visible;
               return (
                 <button
                   key={level.value}
-                  onClick={() => setSelected(level.value)}
-                  className={`relative flex flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg ${
-                    isSelected
-                      ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
-                      : "border-border bg-card hover:border-primary/40"
+                  disabled={locked}
+                  aria-disabled={locked}
+                  onClick={() => { if (!locked) setSelected(level.value); }}
+                  className={`relative flex flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all ${
+                    locked
+                      ? "cursor-not-allowed border-border bg-card opacity-50 grayscale"
+                      : isSelected
+                        ? "border-primary bg-primary/5 shadow-md shadow-primary/10 hover:-translate-y-0.5 hover:shadow-lg"
+                        : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg"
                   }`}
                 >
-                  {isSelected && (
+                  {locked && (
+                    <span className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
+                      <Clock className="h-3 w-3" /> Coming Soon
+                    </span>
+                  )}
+                  {!locked && isSelected && (
                     <CheckCircle2 className="absolute right-4 top-4 h-5 w-5 text-primary" />
                   )}
 

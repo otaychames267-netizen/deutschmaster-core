@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
-import { GraduationCap, ChevronRight } from "lucide-react";
+import { useB1Visible } from "@/lib/useB1Visible";
+import { GraduationCap, ChevronRight, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: LevelGatePage,
@@ -17,6 +18,7 @@ const CARDS: { value: "TELC_B1" | "TELC_B2"; seg: "b1" | "b2"; badge: string; la
 function LevelGatePage() {
   const { level } = useAuth();
   const nav = useNavigate();
+  const b1Visible = useB1Visible();
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center py-10">
@@ -31,11 +33,17 @@ function LevelGatePage() {
       </div>
 
       <div className="grid w-full gap-5 sm:grid-cols-2">
-        {CARDS.map((c) => (
+        {CARDS.map((c) => {
+          const locked = c.value === "TELC_B1" && !b1Visible;
+          return (
           <button
             key={c.value}
-            onClick={() => nav({ to: "/$level/dashboard", params: { level: c.seg } })}
-            className={`group relative flex flex-col items-start gap-5 overflow-hidden rounded-3xl bg-gradient-to-br ${c.gradient} p-7 text-left text-white shadow-xl transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl`}
+            disabled={locked}
+            aria-disabled={locked}
+            onClick={() => { if (!locked) nav({ to: "/$level/dashboard", params: { level: c.seg } }); }}
+            className={`group relative flex flex-col items-start gap-5 overflow-hidden rounded-3xl bg-gradient-to-br ${c.gradient} p-7 text-left text-white shadow-xl transition-all duration-300 ${
+              locked ? "cursor-not-allowed opacity-60 grayscale" : "hover:-translate-y-1.5 hover:shadow-2xl"
+            }`}
           >
             <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10 blur-2xl" />
             <div className="pointer-events-none absolute inset-0 opacity-[0.05]" style={{ backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
@@ -44,7 +52,11 @@ function LevelGatePage() {
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 text-xl font-black backdrop-blur-sm ring-1 ring-white/25">
                 {c.badge}
               </div>
-              {level === c.value && (
+              {locked ? (
+                <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm">
+                  Coming Soon
+                </span>
+              ) : level === c.value && (
                 <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide backdrop-blur-sm">
                   Onboarding pick
                 </span>
@@ -57,10 +69,15 @@ function LevelGatePage() {
             </div>
 
             <div className="relative flex items-center gap-1.5 text-sm font-bold">
-              Enter course <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              {locked ? (
+                <>Coming soon <Clock className="h-4 w-4" /></>
+              ) : (
+                <>Enter course <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></>
+              )}
             </div>
           </button>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
