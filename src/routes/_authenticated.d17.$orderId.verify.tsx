@@ -156,23 +156,31 @@ function D17VerifyPage() {
     }
   }
 
-  async function handleUseFixture(name: "sample-pass" | "sample-duplicate" | "sample-mismatch") {
-    const res = await fetch(`/d17-test-fixtures/${name}.png`);
+  // Fixtures live in a private, admin-only storage bucket (not public/) —
+  // these images are deliberately "baked to pass" the real verification
+  // pipeline, so they must never be reachable by a direct unauthenticated
+  // URL. createSignedUrl itself is storage-RLS-gated to admins, giving a
+  // second enforcement layer beyond this route's client-side isAdmin check.
+  async function fetchFixtureFile(path: string): Promise<File> {
+    const { data, error } = await supabase.storage.from("d17-test-fixtures").createSignedUrl(path, 60);
+    if (error || !data?.signedUrl) throw new Error("Could not load test fixture");
+    const res = await fetch(data.signedUrl);
     const blob = await res.blob();
-    const fixtureFile = new File([blob], `${name}.png`, { type: "image/png" });
+    return new File([blob], path, { type: "image/png" });
+  }
+
+  async function handleUseFixture(name: "sample-pass" | "sample-duplicate" | "sample-mismatch") {
     // Single-image legacy fixtures — the same synthetic image is reused for
     // both slots. See handleUseFixturePair below for genuine two-image pairs.
+    const fixtureFile = await fetchFixtureFile(`${name}.png`);
     await submitFile(fixtureFile, fixtureFile, "482193");
   }
 
   async function handleUseFixturePair(name: "consistent-pass" | "mismatched" | "wrong-destination") {
-    const [res1, res2] = await Promise.all([
-      fetch(`/d17-test-fixtures/pair-${name}-1.png`),
-      fetch(`/d17-test-fixtures/pair-${name}-2.png`),
+    const [file1, file2] = await Promise.all([
+      fetchFixtureFile(`pair-${name}-1.png`),
+      fetchFixtureFile(`pair-${name}-2.png`),
     ]);
-    const [blob1, blob2] = await Promise.all([res1.blob(), res2.blob()]);
-    const file1 = new File([blob1], `pair-${name}-1.png`, { type: "image/png" });
-    const file2 = new File([blob2], `pair-${name}-2.png`, { type: "image/png" });
     await submitFile(file1, file2, "778899");
   }
 

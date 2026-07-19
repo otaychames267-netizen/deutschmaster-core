@@ -5,10 +5,10 @@ import { gradeEssay, isBudgetExceeded, normalizeCefrLevel } from "@/lib/grading/
 
 /**
  * Authenticated route: grades a student's essay against strict telc B2 criteria.
- * Sequence: verify bearer token -> check the global Gemini budget cap (before
- * spending a credit) -> deduct 1 credit (atomic RPC, as the student's own auth
- * context) -> call Gemini -> on failure refund the credit -> on success persist
- * the grading and return it.
+ * Sequence: verify bearer token -> per-user rate limit -> check the global
+ * Gemini budget cap (before spending a credit) -> deduct 1 credit (atomic
+ * RPC, as the student's own auth context) -> call Gemini -> on failure
+ * refund the credit -> on success persist the grading and return it.
  *
  * The GEMINI_API_KEY never reaches the client — it's only read server-side
  * inside essay-grader-gemini.ts.
@@ -46,6 +46,16 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
         }
         const userId = userData.user.id;
 
+        // Rate limit before any expensive work (budget check, DB lookups,
+        // Gemini call) — bounds how fast a user with credits can fire
+        // requests, independent of the credit-balance gate itself.
+        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+        const { checkRateLimit } = await import("@/lib/rate-limit.server");
+        const allowed = await checkRateLimit(supabaseAdmin, { key: `grade-essay:${userId}`, windowSeconds: 60, maxRequests: 5 });
+        if (!allowed) {
+          return Response.json({ error: "Too many requests. Please wait a moment and try again." }, { status: 429 });
+        }
+
         let body: { exam_item_id?: string; essay_text?: string };
         try {
           body = await request.json();
@@ -68,7 +78,6 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
 
         // Trusted server-side lookup of the item's task prompt — bypasses RLS
         // deliberately, this is a read-only lookup of published exam content.
-        const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
         const { data: item, error: itemError } = await supabaseAdmin
           .from("exam_items")
           .select("id, exam_id, kind, content")

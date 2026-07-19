@@ -13,6 +13,10 @@ export const submitAttempt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: SubmitInput) => d)
   .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `submitAttempt:${context.userId}`, windowSeconds: 60, maxRequests: 30 });
+
     const { data: ex, error } = await context.supabase
       .from("exercises")
       .select("id,kind,correct,options,explanation,status")

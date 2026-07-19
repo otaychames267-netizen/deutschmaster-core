@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Coins, Plus, Search, TrendingUp, TrendingDown, Users } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { escapePostgrestFilterValue } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin/credits")({
   component: AdminCreditsPage,
@@ -83,7 +84,7 @@ function AdminCreditsPage() {
     const { data: profiles } = await supabase
       .from("profiles")
       .select("id, full_name, email")
-      .or(`email.ilike.%${query}%,full_name.ilike.%${query}%`)
+      .or(`email.ilike.%${escapePostgrestFilterValue(query)}%,full_name.ilike.%${escapePostgrestFilterValue(query)}%`)
       .limit(8);
 
     if (!profiles || profiles.length === 0) {

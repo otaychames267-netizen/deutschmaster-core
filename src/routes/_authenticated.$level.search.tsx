@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { supabase } from "@/integrations/supabase/client";
+import { escapePostgrestFilterValue } from "@/lib/utils";
 import { Search, BookOpen, FileText, X, Loader2 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/$level/search")({
@@ -73,7 +74,7 @@ function SearchPage() {
               .from("study_notes")
               .select("id, title, content")
               .eq("user_id", user.id)
-              .or(`title.ilike.%${q}%,content.ilike.%${q}%`)
+              .or(`title.ilike.%${escapePostgrestFilterValue(q)}%,content.ilike.%${escapePostgrestFilterValue(q)}%`)
               .limit(6)
           : Promise.resolve({ data: [] }),
       ]);
