@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
 import { getSiteUrl } from "@/lib/site-url";
 import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
@@ -69,18 +68,21 @@ function RegisterPage() {
     }
 
     setLoading(true);
-    const { error: err } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName },
-        emailRedirectTo: `${getSiteUrl()}/dashboard`,
-      },
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        password,
+        full_name: fullName,
+        email_redirect_to: `${getSiteUrl()}/dashboard`,
+      }),
     });
+    const resBody = await res.json();
     setLoading(false);
 
-    if (err) {
-      setError(err.message);
+    if (!res.ok) {
+      setError(res.status === 429 ? resBody.message : (resBody.message ?? "Could not create account."));
       return;
     }
 
