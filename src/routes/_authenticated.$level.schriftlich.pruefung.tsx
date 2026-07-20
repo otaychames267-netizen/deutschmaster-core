@@ -3,6 +3,8 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { toast } from "sonner";
 import {
   Timer, Play, Send, ChevronLeft, ChevronRight,
@@ -248,6 +250,7 @@ function SchriftlichPruefungPage() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [resultScore, setResultScore] = useState(0);
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
 
   const handleExpire = useCallback(() => {
     toast.warning("Zeit abgelaufen! Prüfung wird automatisch abgegeben.");
@@ -364,11 +367,21 @@ function SchriftlichPruefungPage() {
     toast.success("Prüfung abgegeben!");
   }
 
-  if (loading) {
+  if (accessLoading || loading) {
     return (
       <div className="flex min-h-64 items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
       </div>
+    );
+  }
+
+  if (hasAccess === false) {
+    return (
+      <LockedExerciseOverview
+        heading="Prüfungssimulation — Schriftlich"
+        subheading="Preview — subscribe to unlock the full exam simulation."
+        items={[{ id: "pruefung-schriftlich", title: "Vollständige Prüfung (2h 25min) — Lesen, Sprachbausteine, Hören, Schreiben" }]}
+      />
     );
   }
 
