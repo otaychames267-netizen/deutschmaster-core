@@ -43,6 +43,7 @@ import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
 import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api.public.lemonsqueezy-webhook'
+import { Route as ApiAuthLoginRouteImport } from './routes/api.auth.login'
 import { Route as AuthenticatedLearnLevelRouteImport } from './routes/_authenticated.learn.$level'
 import { Route as AuthenticatedExamIdRouteImport } from './routes/_authenticated.exam.$id'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
@@ -280,6 +281,11 @@ const ApiPublicLemonsqueezyWebhookRoute =
     path: '/api/public/lemonsqueezy-webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiAuthLoginRoute = ApiAuthLoginRouteImport.update({
+  id: '/api/auth/login',
+  path: '/api/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedLearnLevelRoute = AuthenticatedLearnLevelRouteImport.update({
   id: '/$level',
   path: '/$level',
@@ -712,6 +718,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
@@ -805,6 +812,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
@@ -902,6 +910,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/exam/$id': typeof AuthenticatedExamIdRoute
   '/_authenticated/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
@@ -1001,6 +1010,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/exam/$id'
     | '/learn/$level'
+    | '/api/auth/login'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
     | '/admin/'
@@ -1094,6 +1104,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/exam/$id'
     | '/learn/$level'
+    | '/api/auth/login'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
     | '/admin'
@@ -1190,6 +1201,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/exam/$id'
     | '/_authenticated/learn/$level'
+    | '/api/auth/login'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
     | '/_authenticated/admin/'
@@ -1239,6 +1251,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
+  ApiAuthLoginRoute: typeof ApiAuthLoginRoute
   ApiPublicLemonsqueezyWebhookRoute: typeof ApiPublicLemonsqueezyWebhookRoute
   ApiSchreibenGradeEssayRoute: typeof ApiSchreibenGradeEssayRoute
 }
@@ -1481,6 +1494,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/lemonsqueezy-webhook'
       fullPath: '/api/public/lemonsqueezy-webhook'
       preLoaderRoute: typeof ApiPublicLemonsqueezyWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/login': {
+      id: '/api/auth/login'
+      path: '/api/auth/login'
+      fullPath: '/api/auth/login'
+      preLoaderRoute: typeof ApiAuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/learn/$level': {
@@ -2221,6 +2241,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   UnauthorizedRoute: UnauthorizedRoute,
+  ApiAuthLoginRoute: ApiAuthLoginRoute,
   ApiPublicLemonsqueezyWebhookRoute: ApiPublicLemonsqueezyWebhookRoute,
   ApiSchreibenGradeEssayRoute: ApiSchreibenGradeEssayRoute,
 }

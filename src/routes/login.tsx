@@ -25,11 +25,28 @@ function LoginPage() {
     setError(null);
     setLoading(true);
 
-    const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const body = await res.json();
     setLoading(false);
 
-    if (err) {
-      setError(err.message);
+    if (!res.ok) {
+      setError(res.status === 429 ? body.message : (body.message ?? "Invalid login credentials"));
+      return;
+    }
+
+    // Hydrate the client SDK's session from the tokens our rate-limited
+    // proxy returned, instead of calling supabase.auth.signInWithPassword
+    // directly (which has no application-level brute-force protection).
+    const { error: sessionErr } = await supabase.auth.setSession({
+      access_token: body.access_token,
+      refresh_token: body.refresh_token,
+    });
+    if (sessionErr) {
+      setError(sessionErr.message);
       return;
     }
 
