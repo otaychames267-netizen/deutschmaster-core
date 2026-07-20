@@ -1,17 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { gradeEssay, isBudgetExceeded, normalizeCefrLevel } from "@/lib/grading/essay-grader-gemini";
+import { gradeEssay, isBudgetExceeded, normalizeCefrLevel } from "@/lib/grading/essay-grader";
 
 /**
  * Authenticated route: grades a student's essay against strict telc B2 criteria.
  * Sequence: verify bearer token -> per-user rate limit -> check the global
- * Gemini budget cap (before spending a credit) -> deduct 1 credit (atomic
- * RPC, as the student's own auth context) -> call Gemini -> on failure
+ * AI budget cap (before spending a credit) -> deduct 1 credit (atomic
+ * RPC, as the student's own auth context) -> call Claude -> on failure
  * refund the credit -> on success persist the grading and return it.
  *
- * The GEMINI_API_KEY never reaches the client — it's only read server-side
- * inside essay-grader-gemini.ts.
+ * The ANTHROPIC_API_KEY never reaches the client — it's only read server-side
+ * inside essay-grader.ts.
  */
 
 const MIN_ESSAY_WORDS = 20;

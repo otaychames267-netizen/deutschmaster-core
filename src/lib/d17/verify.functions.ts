@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { isBudgetExceeded } from "@/lib/grading/essay-grader-gemini";
 import { buildVerificationPrompt, parseExtraction, PROMPT_VERSION } from "./verification-prompt";
 import { scoreAttempt } from "./rule-engine";
 import { OFFICIAL_D17_RECIPIENT } from "./payment-config";
@@ -28,9 +27,10 @@ const VISION_PROVIDER = (process.env.D17_VISION_PROVIDER ?? "claude").toLowerCas
 /**
  * Direct Gemini call (not routed through src/lib/import/vision-provider.ts):
  * that abstraction discards usageMetadata after parsing the JSON body, so it
- * can't feed the budget-cap ledger. Same REST/retry/temperature:0 pattern as
- * src/lib/grading/essay-grader-gemini.ts, which needs the same token count
- * for the same reason and is the closer precedent for a budget-tracked call.
+ * can't feed the budget-cap ledger. Kept as the emergency instant-rollback
+ * path (D17_VISION_PROVIDER=gemini) — Claude (callClaudeVerification below)
+ * is primary; see src/lib/ai/usage-budget.server.ts for the shared token-count
+ * ledger both providers feed.
  */
 export async function callGeminiVerification(prompt: string, imageBase64_1: string, imageBase64_2: string): Promise<{ raw: any; tokenCount: number }> {
   const key = process.env.GEMINI_API_KEY;
@@ -489,6 +489,7 @@ export async function runVerificationPipeline(
       });
     }
 
+    const { isBudgetExceeded } = await import("@/lib/ai/usage-budget.server");
     if (await isBudgetExceeded(supabaseAdmin)) {
       return finalizeAttempt(supabaseAdmin, {
         ...baseFinalizeParams(),

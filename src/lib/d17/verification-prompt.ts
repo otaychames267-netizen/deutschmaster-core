@@ -1,9 +1,9 @@
 /**
- * verification-prompt.ts — the single combined Gemini vision prompt for the
+ * verification-prompt.ts — the single combined vision prompt for the
  * D17 payment-screenshot pipeline: OCR extraction AND fraud-signal detection
- * in one call, to conserve the shared daily Gemini budget (see
- * src/lib/grading/essay-grader-gemini.ts's isBudgetExceeded/recordUsage,
- * reused as-is by src/lib/d17/verify.functions.ts).
+ * in one call, to conserve the shared daily AI budget (see
+ * src/lib/ai/usage-budget.server.ts's isBudgetExceeded/recordUsage,
+ * shared across every AI feature on the platform).
  *
  * Two screenshots are sent in ONE call (not two separate calls): cheaper
  * against the budget cap (avoids duplicating the prompt-text token cost and
