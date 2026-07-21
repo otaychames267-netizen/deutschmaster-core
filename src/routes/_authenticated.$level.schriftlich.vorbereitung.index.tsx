@@ -71,6 +71,7 @@ const SKILLS = [
     parts: [
       { label: "Beschwerde — Formal complaint",    to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
       { label: "Bitte um Informationen",           to: "/schriftlich/vorbereitung/schreiben/bitte" },
+      { label: "Vorlagen — Premium writing templates", to: "/schriftlich/vorbereitung/schreiben/vorlagen" },
     ],
   },
 ];

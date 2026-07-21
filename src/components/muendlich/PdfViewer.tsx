@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { X, Maximize2, Loader2, AlertCircle, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-export function PdfViewer({ storagePath, title, onClose }: { storagePath: string; title: string; onClose: () => void }) {
+export function PdfViewer({ storagePath, title, onClose, bucket = "muendlich-pdfs" }: { storagePath: string; title: string; onClose: () => void; bucket?: string }) {
   const [url, setUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -16,13 +16,13 @@ export function PdfViewer({ storagePath, title, onClose }: { storagePath: string
   useEffect(() => {
     let active = true;
     (async () => {
-      const { data, error } = await (supabase as any).storage.from("muendlich-pdfs").createSignedUrl(storagePath, 3600);
+      const { data, error } = await (supabase as any).storage.from(bucket).createSignedUrl(storagePath, 3600);
       if (!active) return;
       if (error || !data?.signedUrl) setError(error?.message ?? "Could not load PDF");
       else setUrl(data.signedUrl);
     })();
     return () => { active = false; };
-  }, [storagePath]);
+  }, [storagePath, bucket]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
