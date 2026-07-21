@@ -1,17 +1,16 @@
 /**
  * Lean, controlled answer-input renderers for the Prüfungssimulation.
  *
- * Deliberately NOT a reuse of the practice-mode Teil components
- * (src/components/exercise/lesen|sprachbausteine|hoeren/*) — those are
- * self-contained: they call their own scoring RPC on submit, render instant
- * right/wrong feedback, and offer a "Lösung anzeigen" reveal. All three are
- * wrong for an exam: answers must flow to the parent's `answers` state with
- * no feedback and no reveal, and scoring only happens once, at the very end,
- * via score_simulation_sections. These renderers reuse the same visual
- * language (cards, letter badges, spacing) for consistency but carry no
- * scoring/feedback/persistence logic of their own — pure value/onChange.
+ * Lesen (T1–T3), Hören, and Schreiben don't have a practice-mode component
+ * that can be reused as-is (the practice versions self-score and show
+ * instant feedback, wrong for an exam) — these are pure value/onChange
+ * renderers, reusing only the established visual language.
+ *
+ * Sprachbausteine T1/T2 do NOT live here — the exam route renders the real
+ * SBTeil1Exercise/SBTeil2Exercise practice components directly (with their
+ * `examMode` prop), per an explicit requirement to reuse that exact,
+ * TELC-authentic UI rather than a different one.
  */
-import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 
 const CARD = "rounded-2xl border border-border bg-card p-5";
@@ -153,118 +152,6 @@ export function LesenT3Input({ data, value, onChange }: { data: LesenT3Data; val
               </div>
             </div>
           ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Sprachbausteine Teil 1 — Lückentext mit A/B/C ────────────────────── */
-
-export interface SBT1Data {
-  passage: string; // contains {{31}} .. {{40}} gap markers
-  gaps: { gap_number: number; option_a: string; option_b: string; option_c: string }[];
-}
-
-function parseGapPassage(passage: string): Array<string | number> {
-  return passage.split(/(\{\{\d+\}\})/).map((p) => {
-    const m = p.match(/^\{\{(\d+)\}\}$/);
-    return m ? parseInt(m[1], 10) : p;
-  });
-}
-
-export function SBT1Input({ data, value, onChange }: { data: SBT1Data; value: Record<string, string>; onChange: (v: Record<string, string>) => void }) {
-  const segments = parseGapPassage(data.passage);
-  return (
-    <div className="space-y-5">
-      <div className={CARD}>
-        <p className="text-sm leading-[2.1] text-foreground whitespace-pre-line">
-          {segments.map((seg, i) =>
-            typeof seg === "string"
-              ? <span key={i}>{seg}</span>
-              : <span key={i} className="mx-1 inline-block rounded border border-dashed border-primary/60 px-1.5 py-0.5 align-middle text-xs font-bold text-primary">{seg}</span>
-          )}
-        </p>
-      </div>
-      <div className="space-y-3">
-        {data.gaps.slice().sort((a, b) => a.gap_number - b.gap_number).map((g) => (
-          <div key={g.gap_number} className={CARD}>
-            <p className="text-xs font-black text-muted-foreground mb-2">Lücke {g.gap_number}</p>
-            <div className="grid grid-cols-3 gap-2">
-              {(["a", "b", "c"] as const).map((k) => {
-                const label = k === "a" ? g.option_a : k === "b" ? g.option_b : g.option_c;
-                const selected = value[String(g.gap_number)] === k;
-                return (
-                  <button key={k} onClick={() => onChange({ ...value, [String(g.gap_number)]: k })}
-                    className={`rounded-xl border px-3 py-2 text-sm transition-all ${selected ? "border-primary bg-primary/5 font-medium" : "border-border bg-background hover:border-primary/30"}`}>
-                    {k.toUpperCase()}. {label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-/* ─── Sprachbausteine Teil 2 — Lückentext mit Wortliste ────────────────── */
-
-export interface SBT2Data {
-  passage: string; // contains {{41}} .. {{50}} gap markers
-  words: { word_number: number; word: string }[];
-}
-
-export function SBT2Input({ data, value, onChange }: { data: SBT2Data; value: Record<string, string>; onChange: (v: Record<string, string>) => void }) {
-  const segments = parseGapPassage(data.passage);
-  const usedWords = new Set(Object.values(value).filter(Boolean));
-  const [activeGap, setActiveGap] = useState<number | null>(null);
-
-  function pick(gapNumber: number, word: string) {
-    onChange({ ...value, [String(gapNumber)]: word });
-    setActiveGap(null);
-  }
-  function clearGap(gapNumber: number) {
-    const next = { ...value };
-    delete next[String(gapNumber)];
-    onChange(next);
-  }
-
-  return (
-    <div className="space-y-5">
-      <div className={CARD}>
-        <p className="text-sm leading-[2.3] text-foreground whitespace-pre-line">
-          {segments.map((seg, i) => {
-            if (typeof seg === "string") return <span key={i}>{seg}</span>;
-            const filled = value[String(seg)];
-            return (
-              <button key={i} onClick={() => (filled ? clearGap(seg) : setActiveGap(seg))}
-                className={`mx-1 inline-flex items-center gap-1 rounded-lg border px-2 py-0.5 text-sm font-medium align-middle transition-all ${
-                  filled ? "border-primary/40 bg-primary/5 text-primary" : activeGap === seg ? "border-primary bg-primary/10 text-primary" : "border-dashed border-muted-foreground/40 text-muted-foreground"
-                }`}>
-                {filled ?? `[${seg}]`}
-              </button>
-            );
-          })}
-        </p>
-      </div>
-      <div className={CARD}>
-        <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-3">
-          {activeGap ? `Wort für Lücke ${activeGap} wählen` : "Wortliste — zuerst eine Lücke im Text anklicken"}
-        </p>
-        <div className="flex flex-wrap gap-2">
-          {data.words.slice().sort((a, b) => a.word_number - b.word_number).map((w) => {
-            const disabled = usedWords.has(w.word) || !activeGap;
-            return (
-              <button key={w.word_number} disabled={disabled} onClick={() => activeGap && pick(activeGap, w.word)}
-                className={`rounded-xl border px-3 py-1.5 text-sm transition-all ${
-                  usedWords.has(w.word) ? "opacity-30 cursor-not-allowed border-border bg-muted" : !activeGap ? "opacity-50 border-border bg-muted cursor-not-allowed" : "border-border bg-background hover:border-primary/40 hover:bg-primary/5"
-                }`}>
-                {w.word}
-              </button>
-            );
-          })}
         </div>
       </div>
     </div>

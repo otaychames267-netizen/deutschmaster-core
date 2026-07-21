@@ -16,7 +16,7 @@
  * Responsive: on desktop/tablet the word list is a sticky sidebar beside the
  * text; on mobile it stacks below the text (text stays on top).
  */
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect } from "react";
 import { CheckCircle2, XCircle, Loader2, RotateCcw, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -42,6 +42,15 @@ interface ScoreResult {
 interface Props {
   exercise: SBT2ExerciseData;
   onComplete?: (score: number, total: number) => void;
+  /** Exam mode (Prüfungssimulation): no self-scoring RPC call, no "Lösung
+   * anzeigen" reveal, no submit/reset buttons — the parent owns save/submit.
+   * Answers seed from `initialAnswers` once on mount and stream out via
+   * `onAnswersChange` on every change; the component is otherwise identical
+   * to the practice version (same layout, same interaction) per an explicit
+   * requirement to reuse this component rather than build a different UI. */
+  examMode?: boolean;
+  initialAnswers?: Record<number, string>;
+  onAnswersChange?: (answers: Record<number, string>) => void;
 }
 
 // Split passage into an ordered list of literal strings and gap numbers.
@@ -52,7 +61,7 @@ function parsePassage(passage: string): Array<string | number> {
   });
 }
 
-export function SBTeil2Exercise({ exercise, onComplete }: Props) {
+export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers, onAnswersChange }: Props) {
   const segments = useMemo(() => parsePassage(exercise.passage), [exercise.passage]);
   const gapNumbers = useMemo(
     () => segments.filter((s): s is number => typeof s === "number"),
@@ -60,8 +69,14 @@ export function SBTeil2Exercise({ exercise, onComplete }: Props) {
   );
 
   // gap_number → chosen word
-  const [answers, setAnswers] = useState<Map<number, string>>(new Map());
+  const [answers, setAnswers] = useState<Map<number, string>>(
+    () => new Map(Object.entries(initialAnswers ?? {}).map(([k, v]) => [Number(k), v])),
+  );
   const [activeGap, setActiveGap] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (examMode) onAnswersChange?.(Object.fromEntries([...answers].map(([k, v]) => [String(k), v])));
+  }, [examMode, answers, onAnswersChange]);
 
   const [submitted, setSubmitted] = useState(false);
   const [scoring, setScoring] = useState(false);
@@ -385,8 +400,12 @@ export function SBTeil2Exercise({ exercise, onComplete }: Props) {
         </div>
       )}
 
-      {/* Footer controls */}
-      {!submitted ? (
+      {/* Footer controls — exam mode has no self-scoring/reveal/reset, the parent owns save/submit */}
+      {examMode ? (
+        <div className="rounded-2xl border border-border bg-card px-5 py-4">
+          <p className="text-sm text-muted-foreground">{answeredCount} / {totalGaps} eingesetzt</p>
+        </div>
+      ) : !submitted ? (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
           <p className="text-sm text-muted-foreground">
             {revealed ? "Lösung wird angezeigt" : `${answeredCount} / ${totalGaps} eingesetzt`}

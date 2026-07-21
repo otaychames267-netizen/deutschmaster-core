@@ -8,13 +8,15 @@ import { fetchServerOffsetMs } from "@/lib/muendlich/room";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { toast } from "sonner";
 import {
-  Timer, Play, Send, ChevronRight, AlertCircle, CheckCircle2,
+  Timer, Play, Send, ChevronLeft, ChevronRight, AlertCircle, CheckCircle2,
   Loader2, BookOpen, Headphones, Wrench, PenLine,
 } from "lucide-react";
 import {
-  LesenT1Input, LesenT2Input, LesenT3Input, SBT1Input, SBT2Input, HoerenInput, SchreibenInput,
-  type LesenT1Data, type LesenT2Data, type LesenT3Data, type SBT1Data, type SBT2Data, type HoerenData,
+  LesenT1Input, LesenT2Input, LesenT3Input, HoerenInput, SchreibenInput,
+  type LesenT1Data, type LesenT2Data, type LesenT3Data, type HoerenData,
 } from "@/components/exam-simulation/SimulationInputs";
+import { SBTeil1Exercise, type SBT1ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
+import { SBTeil2Exercise, type SBT2ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil2Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/pruefung")({
   component: SchriftlichPruefungPage,
@@ -80,18 +82,26 @@ async function loadSectionContent(section: SectionKey, attempt: AttemptRow): Pro
       return { situations: situations ?? [], texts: texts ?? [] } as LesenT3Data;
     }
     case "sb_t1": {
-      const [{ data: passage }, { data: gaps }] = await Promise.all([
+      const [{ data: ex }, { data: passage }, { data: gaps }] = await Promise.all([
+        supabase.from("sb_exercises").select("title").eq("id", attempt.sb_t1_id).maybeSingle(),
         supabase.from("sb_t1_passages").select("passage").eq("exercise_id", attempt.sb_t1_id).maybeSingle(),
         (supabase as any).from("sb_t1_gaps_student").select("gap_number, option_a, option_b, option_c").eq("exercise_id", attempt.sb_t1_id).order("gap_number"),
       ]);
-      return { passage: passage?.passage ?? "", gaps: gaps ?? [] } as SBT1Data;
+      return {
+        id: attempt.sb_t1_id, title: ex?.title ?? "Sprachbausteine — Teil 1",
+        passage: passage?.passage ?? "", gaps: gaps ?? [],
+      } as SBT1ExerciseData;
     }
     case "sb_t2": {
-      const [{ data: passage }, { data: words }] = await Promise.all([
+      const [{ data: ex }, { data: passage }, { data: words }] = await Promise.all([
+        supabase.from("sb_exercises").select("title").eq("id", attempt.sb_t2_id).maybeSingle(),
         supabase.from("sb_t2_passages").select("passage").eq("exercise_id", attempt.sb_t2_id).maybeSingle(),
         supabase.from("sb_t2_words").select("word_number, word").eq("exercise_id", attempt.sb_t2_id).order("word_number"),
       ]);
-      return { passage: passage?.passage ?? "", words: words ?? [] } as SBT2Data;
+      return {
+        id: attempt.sb_t2_id, title: ex?.title ?? "Sprachbausteine — Teil 2",
+        passage: passage?.passage ?? "", words: words ?? [],
+      } as SBT2ExerciseData;
     }
     case "hoeren_t1":
     case "hoeren_t2":
@@ -144,9 +154,9 @@ function PreExamScreen({ onStart, starting }: { onStart: () => void; starting: b
         <div className="text-sm text-muted-foreground">
           <p className="font-semibold text-foreground">Wichtige Hinweise</p>
           <ul className="mt-2 space-y-1">
-            <li>• Sie bearbeiten die Teile nacheinander — immer nur ein Teil ist sichtbar.</li>
+            <li>• Sie können mit Zurück / Weiter frei zwischen bereits besuchten Teilen wechseln.</li>
             <li>• Der Timer läuft nach dem Start durchgehend und kann nicht pausiert werden.</li>
-            <li>• Ihre Antworten werden nach jedem Teil automatisch gespeichert.</li>
+            <li>• Ihre Antworten werden bei jeder Navigation automatisch gespeichert.</li>
             <li>• Bei Ablauf der Zeit wird die Prüfung automatisch abgegeben und bewertet.</li>
             <li>• Sie können bis zu 20 vollständige Simulationen pro Monat starten.</li>
           </ul>
@@ -214,8 +224,9 @@ function SchriftlichPruefungPage() {
   const [starting, setStarting] = useState(false);
   const [attempt, setAttempt] = useState<AttemptRow | null>(null);
   const [sectionIndex, setSectionIndex] = useState(0);
-  const [sectionData, setSectionData] = useState<unknown>(null);
-  const [sectionLoading, setSectionLoading] = useState(false);
+  const [maxReachedIndex, setMaxReachedIndex] = useState(0);
+  const [navigating, setNavigating] = useState(false);
+  const [content, setContent] = useState<{ section: SectionKey; data: unknown } | null>(null);
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [schreibenText, setSchreibenText] = useState("");
   const [result, setResult] = useState<ResultShape | null>(null);
@@ -223,6 +234,15 @@ function SchriftlichPruefungPage() {
 
   const offsetRef = useRef(0);
   const submittingRef = useRef(false);
+  const contentCacheRef = useRef<Partial<Record<SectionKey, unknown>>>({});
+  // "Latest" ref so submitExam (referenced by the timer effect, which must NOT
+  // re-run on every keystroke) always reads current values without being
+  // recreated on every answers/schreibenText change.
+  const liveRef = useRef({ sectionIndex, answers, schreibenText, maxReachedIndex });
+  useEffect(() => {
+    liveRef.current = { sectionIndex, answers, schreibenText, maxReachedIndex };
+  });
+
   const currentSection = SECTIONS[sectionIndex]?.key;
 
   // ── Resume check on mount ──────────────────────────────────
@@ -242,7 +262,9 @@ function SchriftlichPruefungPage() {
         offsetRef.current = await fetchServerOffsetMs();
         setAttempt(data as AttemptRow);
         const idx = SECTIONS.findIndex((s) => s.key === (data as AttemptRow).current_section);
-        setSectionIndex(idx >= 0 ? idx : 0);
+        const safeIdx = idx >= 0 ? idx : 0;
+        setSectionIndex(safeIdx);
+        setMaxReachedIndex(safeIdx);
         setPhase("exam");
       } else {
         setPhase("pre");
@@ -250,30 +272,77 @@ function SchriftlichPruefungPage() {
     })();
   }, [user, level, hasAccess]);
 
-  // ── Load current section's content + seed local answer state ──
+  // ── Load current section's content (cached; tagged to eliminate any stale-render race) ──
   useEffect(() => {
     if (phase !== "exam" || !attempt || !currentSection) return;
-    setSectionLoading(true);
+    const cached = contentCacheRef.current[currentSection];
+    if (cached !== undefined) {
+      setContent({ section: currentSection, data: cached });
+      return;
+    }
+    let cancelled = false;
     loadSectionContent(currentSection, attempt).then((data) => {
-      setSectionData(data);
-      if (currentSection === "schreiben") {
-        setSchreibenText(attempt.schreiben_text ?? "");
-      } else {
-        setAnswers((attempt.answers?.[currentSection] as Record<string, unknown>) ?? {});
-      }
-      setSectionLoading(false);
+      if (cancelled) return;
+      contentCacheRef.current[currentSection] = data;
+      setContent({ section: currentSection, data });
     });
+    return () => { cancelled = true; };
   }, [phase, attempt, currentSection]);
+
+  // ── Seed local editable state whenever the displayed section changes ──
+  useEffect(() => {
+    if (phase !== "exam" || !attempt || !currentSection) return;
+    if (currentSection === "schreiben") {
+      setSchreibenText(attempt.schreiben_text ?? "");
+    } else {
+      setAnswers((attempt.answers?.[currentSection] as Record<string, unknown>) ?? {});
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase, currentSection]);
+
+  // contentReady is derived from the tag match, not a separate flag — a
+  // stale `content` object (still holding the PREVIOUS section's shape)
+  // can never be rendered against the new `currentSection` by mistake. This
+  // is the fix for the "Something went wrong" crash after Weiter: the old
+  // code cleared a `sectionLoading` boolean asynchronously (inside an
+  // effect, one render late), so for one frame `currentSection` had already
+  // advanced while `sectionData` still held the previous Teil's shape —
+  // e.g. Lesen T1's {headlines,texts} got rendered into LesenT2Input, which
+  // called data.questions.sort() on undefined and threw.
+  const contentReady = content?.section === currentSection;
+  const sectionData = contentReady ? content!.data : null;
+
+  async function saveCurrentSection(advanceTo?: SectionKey) {
+    if (!attempt) return;
+    if (currentSection === "schreiben") {
+      const { error } = await (supabase as any).rpc("save_simulation_progress", {
+        p_attempt_id: attempt.id, p_schreiben_text: schreibenText, p_advance_to: advanceTo ?? null,
+      });
+      if (error) throw error;
+      setAttempt((prev) => prev ? { ...prev, current_section: advanceTo ?? prev.current_section, schreiben_text: schreibenText } : prev);
+    } else {
+      const { error } = await (supabase as any).rpc("save_simulation_progress", {
+        p_attempt_id: attempt.id, p_section: currentSection, p_section_answers: answers, p_advance_to: advanceTo ?? null,
+      });
+      if (error) throw error;
+      setAttempt((prev) => prev ? {
+        ...prev, current_section: advanceTo ?? prev.current_section,
+        answers: { ...prev.answers, [currentSection]: answers },
+      } : prev);
+    }
+  }
 
   const submitExam = useCallback(async () => {
     if (!attempt || !user || submittingRef.current) return;
     submittingRef.current = true;
     setPhase("submitting");
     try {
-      if (currentSection === "schreiben") {
-        await (supabase as any).rpc("save_simulation_progress", { p_attempt_id: attempt.id, p_schreiben_text: schreibenText });
-      } else {
-        await (supabase as any).rpc("save_simulation_progress", { p_attempt_id: attempt.id, p_section: currentSection, p_section_answers: answers });
+      const { sectionIndex: liveIdx, answers: liveAnswers, schreibenText: liveText } = liveRef.current;
+      const liveSection = SECTIONS[liveIdx]?.key;
+      if (liveSection === "schreiben") {
+        await (supabase as any).rpc("save_simulation_progress", { p_attempt_id: attempt.id, p_schreiben_text: liveText });
+      } else if (liveSection) {
+        await (supabase as any).rpc("save_simulation_progress", { p_attempt_id: attempt.id, p_section: liveSection, p_section_answers: liveAnswers });
       }
       await (supabase as any).rpc("score_simulation_sections", { p_attempt_id: attempt.id });
 
@@ -294,9 +363,9 @@ function SchriftlichPruefungPage() {
       submittingRef.current = false;
       setPhase("exam");
     }
-  }, [attempt, user, currentSection, answers, schreibenText]);
+  }, [attempt, user]);
 
-  // ── Server-anchored timer ──────────────────────────────────
+  // ── Server-anchored timer — stable effect (submitExam has a stable identity) ──
   useEffect(() => {
     if (phase !== "exam" || !attempt) return;
     const expiresAtMs = new Date(attempt.expires_at).getTime();
@@ -312,7 +381,7 @@ function SchriftlichPruefungPage() {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  }, [phase, attempt, submitExam]);
+  }, [phase, attempt?.id, attempt?.expires_at, submitExam]);
 
   async function startExam() {
     if (!user) return;
@@ -322,8 +391,12 @@ function SchriftlichPruefungPage() {
       if (error) throw error;
       offsetRef.current = await fetchServerOffsetMs();
       const { data: row } = await (supabase as any).from("simulation_attempts").select("*").eq("id", data.attempt_id).single();
+      const idx = SECTIONS.findIndex((s) => s.key === (row as AttemptRow).current_section);
+      const safeIdx = idx >= 0 ? idx : 0;
       setAttempt(row as AttemptRow);
-      setSectionIndex(0);
+      setSectionIndex(safeIdx);
+      setMaxReachedIndex(safeIdx);
+      contentCacheRef.current = {};
       setPhase("exam");
     } catch (e: any) {
       if (e?.message?.includes("MONTHLY_LIMIT_REACHED")) {
@@ -338,27 +411,43 @@ function SchriftlichPruefungPage() {
     }
   }
 
-  async function handleWeiter() {
-    if (!attempt) return;
-    const isLast = sectionIndex === SECTIONS.length - 1;
-    if (isLast) {
-      await submitExam();
-      return;
-    }
-    const nextSection = SECTIONS[sectionIndex + 1].key;
+  /** Moves to any already-reached section (Zurück, or clicking a progress dot) —
+   * always saves the section being left first so no answer is ever lost, and
+   * never rewrites `current_section` server-side (that only ever advances). */
+  async function goToSection(targetIndex: number) {
+    if (!attempt || navigating) return;
+    if (targetIndex < 0 || targetIndex > maxReachedIndex || targetIndex === sectionIndex) return;
+    setNavigating(true);
     try {
-      if (currentSection === "schreiben") {
-        await (supabase as any).rpc("save_simulation_progress", { p_attempt_id: attempt.id, p_schreiben_text: schreibenText, p_advance_to: nextSection });
-      } else {
-        await (supabase as any).rpc("save_simulation_progress", {
-          p_attempt_id: attempt.id, p_section: currentSection, p_section_answers: answers, p_advance_to: nextSection,
-        });
-      }
-      setAttempt((prev) => prev ? { ...prev, current_section: nextSection, answers: { ...prev.answers, [currentSection]: answers } } : prev);
-      setSectionIndex((i) => i + 1);
+      await saveCurrentSection();
+      setSectionIndex(targetIndex);
     } catch (e) {
       console.error("save progress failed:", e);
       toast.error("Speichern fehlgeschlagen. Bitte versuchen Sie es erneut.");
+    } finally {
+      setNavigating(false);
+    }
+  }
+
+  async function handleWeiter() {
+    if (!attempt || navigating) return;
+    if (currentSection === "schreiben") {
+      await submitExam();
+      return;
+    }
+    setNavigating(true);
+    try {
+      const nextIndex = sectionIndex + 1;
+      const nextSection = SECTIONS[nextIndex].key;
+      const crossingFrontier = sectionIndex === maxReachedIndex;
+      await saveCurrentSection(crossingFrontier ? nextSection : undefined);
+      if (crossingFrontier) setMaxReachedIndex(nextIndex);
+      setSectionIndex(nextIndex);
+    } catch (e) {
+      console.error("save progress failed:", e);
+      toast.error("Speichern fehlgeschlagen. Bitte versuchen Sie es erneut.");
+    } finally {
+      setNavigating(false);
     }
   }
 
@@ -393,7 +482,7 @@ function SchriftlichPruefungPage() {
   const timerFormatted = `${h}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
   const timerCritical = remaining < 600;
   const section = SECTIONS[sectionIndex];
-  const isLast = sectionIndex === SECTIONS.length - 1;
+  const isSchreiben = currentSection === "schreiben";
 
   return (
     <div className="mx-auto max-w-3xl space-y-5 pb-8">
@@ -410,47 +499,72 @@ function SchriftlichPruefungPage() {
           </div>
         </div>
         <div className="mt-2 flex gap-1">
-          {SECTIONS.map((sec, i) => (
-            <div key={sec.key} className={`h-1.5 flex-1 rounded-full transition-colors ${
-              i === sectionIndex ? "bg-primary" : i < sectionIndex ? "bg-emerald-500" : "bg-muted"
-            }`} />
-          ))}
+          {SECTIONS.map((sec, i) => {
+            const reachable = i <= maxReachedIndex;
+            return (
+              <button
+                key={sec.key}
+                onClick={() => reachable && goToSection(i)}
+                disabled={!reachable || navigating}
+                title={sec.label}
+                className={`h-1.5 flex-1 rounded-full transition-colors ${
+                  i === sectionIndex ? "bg-primary" : i < maxReachedIndex || (i === maxReachedIndex && i !== sectionIndex) ? "bg-emerald-500" : "bg-muted"
+                } ${reachable ? "cursor-pointer" : "cursor-not-allowed"}`}
+              />
+            );
+          })}
         </div>
       </div>
 
-      {sectionLoading || phase === "submitting" ? (
+      {!contentReady || phase === "submitting" ? (
         <div className="flex min-h-64 flex-col items-center justify-center gap-3">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
           {phase === "submitting" && <p className="text-sm text-muted-foreground">Wird bewertet — bitte warten…</p>}
         </div>
       ) : (
         <>
-          {currentSection === "lesen_t1" && sectionData && (
+          {currentSection === "lesen_t1" && (
             <LesenT1Input data={sectionData as LesenT1Data} value={answers as Record<string, string>} onChange={setAnswers} />
           )}
-          {currentSection === "lesen_t2" && sectionData && (
+          {currentSection === "lesen_t2" && (
             <LesenT2Input data={sectionData as LesenT2Data} value={answers as Record<string, string>} onChange={setAnswers} />
           )}
-          {currentSection === "lesen_t3" && sectionData && (
+          {currentSection === "lesen_t3" && (
             <LesenT3Input data={sectionData as LesenT3Data} value={answers as Record<string, string>} onChange={setAnswers} />
           )}
-          {currentSection === "sb_t1" && sectionData && (
-            <SBT1Input data={sectionData as SBT1Data} value={answers as Record<string, string>} onChange={setAnswers} />
+          {currentSection === "sb_t1" && (
+            <SBTeil1Exercise
+              key={(sectionData as SBT1ExerciseData).id}
+              exercise={sectionData as SBT1ExerciseData}
+              examMode
+              initialAnswers={answers as Record<number, string>}
+              onAnswersChange={setAnswers}
+            />
           )}
-          {currentSection === "sb_t2" && sectionData && (
-            <SBT2Input data={sectionData as SBT2Data} value={answers as Record<string, string>} onChange={setAnswers} />
+          {currentSection === "sb_t2" && (
+            <SBTeil2Exercise
+              key={(sectionData as SBT2ExerciseData).id}
+              exercise={sectionData as SBT2ExerciseData}
+              examMode
+              initialAnswers={answers as Record<number, string>}
+              onAnswersChange={setAnswers}
+            />
           )}
-          {(currentSection === "hoeren_t1" || currentSection === "hoeren_t2" || currentSection === "hoeren_t3") && sectionData && (
+          {(currentSection === "hoeren_t1" || currentSection === "hoeren_t2" || currentSection === "hoeren_t3") && (
             <HoerenInput data={sectionData as HoerenData} value={answers as Record<string, boolean>} onChange={setAnswers} />
           )}
-          {currentSection === "schreiben" && sectionData && (
+          {currentSection === "schreiben" && (
             <SchreibenInput task={(sectionData as { task: string }).task} value={schreibenText} onChange={setSchreibenText} />
           )}
 
-          <div className="flex items-center justify-end">
-            <button onClick={handleWeiter}
-              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
-              {isLast ? <><Send className="h-4 w-4" /> Prüfung abgeben</> : <>Weiter <ChevronRight className="h-4 w-4" /></>}
+          <div className="flex items-center justify-between">
+            <button onClick={() => goToSection(sectionIndex - 1)} disabled={sectionIndex === 0 || navigating}
+              className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-3.5 py-2 text-sm font-medium text-muted-foreground disabled:opacity-40 hover:text-foreground transition-colors">
+              <ChevronLeft className="h-4 w-4" /> Zurück
+            </button>
+            <button onClick={handleWeiter} disabled={navigating}
+              className="flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 disabled:opacity-60 transition-colors">
+              {navigating ? <Loader2 className="h-4 w-4 animate-spin" /> : isSchreiben ? <><Send className="h-4 w-4" /> Prüfung abgeben</> : <>Weiter <ChevronRight className="h-4 w-4" /></>}
             </button>
           </div>
         </>

@@ -37,6 +37,15 @@ interface ScoreResult {
 interface Props {
   exercise: SBT1ExerciseData;
   onComplete?: (score: number, total: number) => void;
+  /** Exam mode (Prüfungssimulation): no self-scoring RPC call, no "Lösung
+   * anzeigen" reveal, no submit/reset buttons — the parent owns save/submit.
+   * Answers seed from `initialAnswers` once on mount and stream out via
+   * `onAnswersChange` on every change; the component is otherwise identical
+   * to the practice version (same layout, same interaction) per an explicit
+   * requirement to reuse this component rather than build a different UI. */
+  examMode?: boolean;
+  initialAnswers?: Record<number, string>;
+  onAnswersChange?: (answers: Record<number, string>) => void;
 }
 
 // ── Gap popover ────────────────────────────────────────────────────────────────
@@ -111,8 +120,8 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
-export function SBTeil1Exercise({ exercise, onComplete }: Props) {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
+export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers, onAnswersChange }: Props) {
+  const [answers, setAnswers] = useState<Record<number, string>>(() => initialAnswers ?? {});
   const [openGap, setOpenGap] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [scoring, setScoring] = useState(false);
@@ -125,6 +134,10 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
   const [solution, setSolution] = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+
+  useEffect(() => {
+    if (examMode) onAnswersChange?.(answers);
+  }, [examMode, answers, onAnswersChange]);
 
   const gaps = [...exercise.gaps].sort((a, b) => a.gap_number - b.gap_number);
 
@@ -366,8 +379,12 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
         </div>
       )}
 
-      {/* Footer */}
-      {!submitted ? (
+      {/* Footer — exam mode has no self-scoring/reveal/reset, the parent owns save/submit */}
+      {examMode ? (
+        <div className="rounded-2xl border border-border bg-card px-5 py-4">
+          <p className="text-sm text-muted-foreground">{answeredCount} / {gaps.length} beantwortet</p>
+        </div>
+      ) : !submitted ? (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
           <p className="text-sm text-muted-foreground">
             {solution ? "Lösung wird angezeigt" : `${answeredCount} / ${gaps.length} beantwortet`}
