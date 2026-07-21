@@ -31,10 +31,11 @@ async function mockCheckoutSession(planCode: PlanCode, context: { supabase: any;
   try {
     await assertAdmin(context);
   } catch {
-    // Non-admin callers see the exact same message they'd get once real
-    // credentials exist but something else went wrong — never leak that an
-    // admin-only mock path exists.
-    throw new Error("Lemon Squeezy is not configured yet. Please contact support.");
+    // Non-admin callers get an honest, specific message (the billing UI
+    // already short-circuits before ever reaching this server call for the
+    // common case — this is defense-in-depth for a direct/forged request).
+    // Deliberately doesn't leak that an admin-only mock path exists below.
+    throw new Error("Lemon Squeezy card payments are pending merchant account approval and aren't active yet. Please use D17 Mobile Transfer, or check back soon.");
   }
 
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

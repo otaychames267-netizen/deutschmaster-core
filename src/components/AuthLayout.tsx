@@ -119,7 +119,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         {/* Bottom bar */}
         <div className="p-6 text-center">
           <p className="text-xs text-muted-foreground">
-            Protected by Supabase Auth · Secure payments via Lemon Squeezy
+            Protected by Supabase Auth · Payments via D17 Mobile Transfer
           </p>
         </div>
       </div>

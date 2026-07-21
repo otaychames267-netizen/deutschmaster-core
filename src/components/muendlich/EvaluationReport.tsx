@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Download, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import type { MuendlichEvaluationResult } from "@/lib/grading/muendlich-evaluator";
-import { generateEvaluationPdfBytes } from "@/lib/muendlich/evaluationPdf";
 
 /**
  * Post-exam scorecard + "Download Official telc-Simulation Report" button.
@@ -25,6 +24,11 @@ export function EvaluationReport({
   async function download() {
     setDownloading(true);
     try {
+      // Lazy import (perf audit finding): pdf-lib is a ~480KB dependency of
+      // this module; statically importing it pulled ~300-400KB into the
+      // live exam room's critical-path chunk even though it's only ever
+      // needed after the exam ends, on this button click.
+      const { generateEvaluationPdfBytes } = await import("@/lib/muendlich/evaluationPdf");
       const bytes = await generateEvaluationPdfBytes(evaluation, { candidateName, roomCode, examDate });
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);

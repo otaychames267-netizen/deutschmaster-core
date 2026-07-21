@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
-import { MUENDLICH_ENABLED, isPlanPurchasable } from "@/lib/features";
+import { MUENDLICH_ENABLED, isPlanPurchasable, LEMONSQUEEZY_VISIBLE, CARD_PAYMENTS_ENABLED } from "@/lib/features";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import i18n from "@/lib/i18n";
@@ -11,7 +11,7 @@ import {
   BookOpen, Headphones, PenLine, Mic, GraduationCap,
   Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
   Zap, Shield, Clock, TrendingUp, Users, Award, Play,
-  ChevronDown, Menu, X,
+  ChevronDown, Menu, X, Landmark, CreditCard,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -174,7 +174,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is payment secure?",
-    a: "Card payments are processed securely by Lemon Squeezy — your card details are never stored on our servers. Students in Tunisia can also pay via D17 mobile transfer, verified by our team.",
+    a: "Yes. Students in Tunisia can pay via D17 mobile transfer, verified by our team — usually within moments, up to 8 working hours for manual review. Card payments via Lemon Squeezy are coming soon; your card details are never stored on our servers.",
   },
   {
     q: "Which languages is the interface available in?",
@@ -601,6 +601,28 @@ function Pricing() {
         <p className="mt-8 text-center text-xs text-muted-foreground">
           Cancel anytime — no questions asked.
         </p>
+
+        {/* Accepted payment methods */}
+        <div className="mx-auto mt-6 flex max-w-md flex-col items-center gap-3 rounded-2xl border border-border bg-card/50 px-6 py-4">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            Accepted payment methods
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+              <Landmark className="h-4 w-4 text-muted-foreground" /> D17 Mobile Transfer
+            </div>
+            {LEMONSQUEEZY_VISIBLE && (
+              <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                <CreditCard className="h-4 w-4 text-muted-foreground" /> Lemon Squeezy
+                {!CARD_PAYMENTS_ENABLED && (
+                  <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                    Coming soon
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -753,7 +775,7 @@ function Footer() {
           </p>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Shield className="h-3 w-3" />
-            Secured by Supabase · Payments via Lemon Squeezy
+            Secured by Supabase · Payments via D17 & Lemon Squeezy
           </div>
         </div>
       </div>

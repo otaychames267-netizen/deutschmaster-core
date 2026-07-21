@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/billing/checkout.functions";
 import { createD17Order } from "@/lib/d17/orders.functions";
-import { isPlanPurchasable, CARD_PAYMENTS_ENABLED } from "@/lib/features";
+import { isPlanPurchasable, CARD_PAYMENTS_ENABLED, LEMONSQUEEZY_VISIBLE } from "@/lib/features";
 import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
@@ -111,6 +111,13 @@ function BillingPage() {
   const [d17Disabled, setD17Disabled] = useState(false);
 
   async function handleSubscribe(planCode: "schriftlich" | "muendlich" | "komplett") {
+    if (!CARD_PAYMENTS_ENABLED) {
+      toast.info(
+        "Lemon Squeezy card payments are pending merchant account approval. This button will activate automatically once approved — no action needed from you. Please use D17 Mobile Transfer for now.",
+        { duration: 8000 },
+      );
+      return;
+    }
     setCheckoutPlan(planCode);
     try {
       const result = await createCheckoutSession({ data: { plan_code: planCode } });
@@ -307,28 +314,44 @@ function BillingPage() {
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {/* Card checkout (Lemon Squeezy) is only surfaced once real
-                        credentials are live (CARD_PAYMENTS_ENABLED). Until then
-                        a "Pay Securely" button would only error for students, so
-                        D17 mobile transfer is the primary payment method. */}
-                    {CARD_PAYMENTS_ENABLED && (
+                    {/* Card checkout (Lemon Squeezy) is VISIBLE whenever
+                        LEMONSQUEEZY_VISIBLE is true, independent of whether
+                        it's actually live (CARD_PAYMENTS_ENABLED) — see
+                        features.ts for why. When not yet enabled, the button
+                        stays fully styled but explains it's pending merchant
+                        approval instead of erroring for students. */}
+                    {LEMONSQUEEZY_VISIBLE && (
                       <>
                         <button
                           onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
                           disabled={checkoutPlan !== null || d17Plan !== null}
-                          className={`flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
+                          className={`relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
                         >
                           {checkoutPlan === plan.code ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                           ) : (
                             <Zap className="h-4 w-4" />
                           )}
-                          Pay Securely
+                          Pay with Lemon Squeezy
                           <ArrowUpRight className="h-3.5 w-3.5" />
+                          {!CARD_PAYMENTS_ENABLED && (
+                            <span className="absolute -top-2 -right-2 rounded-full bg-amber-500 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white shadow-sm">
+                              Pending approval
+                            </span>
+                          )}
                         </button>
                         <p className="text-center text-[11px] font-medium text-muted-foreground">
-                          <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
-                          Recommended · Instant activation · Carte Technologique & international cards supported
+                          {CARD_PAYMENTS_ENABLED ? (
+                            <>
+                              <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
+                              Recommended · Instant activation · Carte Technologique & international cards supported
+                            </>
+                          ) : (
+                            <>
+                              <Clock className="mr-1 inline h-3 w-3 text-amber-500" />
+                              Pending merchant approval — card payments launching soon
+                            </>
+                          )}
                         </p>
 
                         <div className="relative py-1 text-center">
@@ -349,7 +372,7 @@ function BillingPage() {
                           disabled={checkoutPlan !== null || d17Plan !== null}
                           title="Pay by D17 mobile transfer, then upload your confirmation. Verified automatically in moments, or by our team within 8 working hours."
                           className={
-                            CARD_PAYMENTS_ENABLED
+                            LEMONSQUEEZY_VISIBLE
                               ? "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
                               : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`
                           }
@@ -407,7 +430,7 @@ function BillingPage() {
       <p className="text-center text-xs text-muted-foreground">
         {CARD_PAYMENTS_ENABLED
           ? "Card payments are processed securely by Lemon Squeezy and activate instantly. D17 mobile-transfer payments are verified after you upload your confirmation — usually within moments, and within 8 working hours if a manual review is needed."
-          : "Pay by D17 mobile transfer, then upload your payment confirmation. Most payments are verified automatically within moments; if a manual review is needed, it takes up to 8 working hours."}
+          : "D17 mobile transfer is live today — upload your payment confirmation and most payments are verified automatically within moments (up to 8 working hours if a manual review is needed). Card payments via Lemon Squeezy are pending merchant approval and will activate soon."}
       </p>
     </div>
   );
