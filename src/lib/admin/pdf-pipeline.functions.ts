@@ -2205,6 +2205,14 @@ export const gradeImportedAttempt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: { exerciseId: string; answer: string; durationSeconds?: number | null }) => d)
   .handler(async ({ data, context }) => {
+    // Admin-only (audit finding): this is an internal QA tool for verifying
+    // an imported exercise grades correctly before publishing, not a
+    // student-facing endpoint — it wasn't gated, and its supabaseAdmin
+    // fallback meant ANY authenticated caller could probe an arbitrary
+    // exerciseId as a correct/incorrect oracle with no rate limit. It's
+    // unused by any client code (confirmed via project-wide search), so
+    // gating it here has zero effect on real functionality.
+    await assertAdmin(context);
     const { data: keys } = await context.supabase
       .from("exercise_answer_keys")
       .select("correct_answer, key_version, reference_answer")

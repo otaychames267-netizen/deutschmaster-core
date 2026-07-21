@@ -23,6 +23,32 @@ async function assertAdmin(ctx: { supabase: any; userId: string }) {
   if (!isAdmin && !isSuper) throw new Error("Forbidden: admin only");
 }
 
+/**
+ * CRITICAL fix (found in the pre-launch security audit): adminGrantRole and
+ * adminRevokeRole previously gated ONLY on assertAdmin (i.e. "is at least a
+ * plain admin"), then wrote whatever role the caller asked for through the
+ * service-role client with no check that the caller's OWN tier was high
+ * enough to grant/revoke that specific target role. A plain "admin" could
+ * therefore grant themselves "super_admin" or "owner" in one call, then use
+ * adminRevokeRole to strip every other admin's access — full unilateral
+ * takeover from a single compromised or malicious lower-tier admin account.
+ * This directly contradicted the documented design invariant in
+ * 20260624000001_owner_role.sql: "Owner cannot be set by any normal admin —
+ * only by the service_role directly." Enforced here now:
+ *   - "owner" can never be granted/revoked through this panel at all.
+ *   - "super_admin" can only be granted/revoked by an existing super_admin.
+ *   - "admin"/"student" remain manageable by any admin (unchanged).
+ */
+async function assertCanManageRole(ctx: { supabase: any; userId: string }, targetRole: Role) {
+  if (targetRole === "owner") {
+    throw new Error("The owner role cannot be granted or revoked through this panel.");
+  }
+  if (targetRole === "super_admin") {
+    const { data: isSuper } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "super_admin" });
+    if (!isSuper) throw new Error("Only a super_admin can grant or revoke the super_admin role.");
+  }
+}
+
 /** All users with their current role set (a user can hold multiple roles —
  * user_roles is a many-rows-per-user table, not a single-role column). */
 export const listUserRoles = createServerFn({ method: "POST" })
@@ -56,6 +82,7 @@ export const adminGrantRole = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     if (!ROLE_VALUES.includes(data.role)) throw new Error(`Unknown role "${data.role}".`);
+    await assertCanManageRole(context, data.role);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("user_roles").upsert({ user_id: data.user_id, role: data.role }, { onConflict: "user_id,role" });
     if (error) throw new Error(error.message);
@@ -70,6 +97,7 @@ export const adminRevokeRole = createServerFn({ method: "POST" })
     if (data.user_id === context.userId && (data.role === "admin" || data.role === "super_admin")) {
       throw new Error("You cannot revoke your own admin access — ask another admin to do it.");
     }
+    await assertCanManageRole(context, data.role);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { error } = await supabaseAdmin.from("user_roles").delete().eq("user_id", data.user_id).eq("role", data.role);
     if (error) throw new Error(error.message);
