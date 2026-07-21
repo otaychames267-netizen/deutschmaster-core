@@ -10,7 +10,7 @@ interface AuthLayoutProps {
 }
 
 const PANEL_FEATURES = [
-  "Every TELC B1 & B2 exam section",
+  "Every TELC B2 exam section",
   "Prüfungssimulation with instant scoring",
   "AI-powered essay grading and Mündlich practice",
   "Available in 7 languages",

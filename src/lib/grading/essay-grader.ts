@@ -1,16 +1,19 @@
 /**
  * essay-grader.ts — strict telc Schreiben essay grading via Claude Sonnet 5.
  *
- * This is the live grader (imported by the grade-essay server route). It
- * replaces the interim Gemini implementation this module previously had —
- * same rubric, same GradingResult shape, same protections (daily budget cap,
- * CEFR-level-aware prompt, prompt-injection wrapping via wrapUntrustedText),
- * now on the shared Claude tool-forced-JSON pipeline (claude.server.ts) for
- * a stronger structured-output guarantee than free-text JSON parsing gives.
+ * Rubric v2: the three official telc B2 Schreiben macro-categories
+ * (Bewältigung der Aufgabe, Kommunikative Gestaltung, Formale Richtigkeit),
+ * 0-15 points each, 45 total — replacing the earlier generic 4-criteria/
+ * 25pt-each (100 total) scheme. This is the ONE rubric used both by
+ * standalone Schreiben practice grading (this module, called from the
+ * grade-essay server route) AND by the Prüfungssimulation's Schreiben
+ * section (called directly, bypassing the credit system — see
+ * api.schreiben.submit-simulation.ts) — deliberately not two parallel
+ * rubrics. Pass threshold is 60% (27/45), same percentage as the old 60/100.
  *
  * Contract: gradeEssay() returns a validated GradingResult or throws —
- * callers (the grade-essay server route) MUST refund the student's credit
- * on any throw.
+ * callers that spend a credit (the grade-essay server route) MUST refund it
+ * on any throw; the simulation submit flow does not spend a credit at all.
  */
 import { callClaudeTool, ClaudeQuotaError } from "@/lib/ai/claude.server";
 import { isBudgetExceeded, recordUsage } from "@/lib/ai/usage-budget.server";
@@ -24,12 +27,18 @@ export function normalizeCefrLevel(raw: string | null | undefined): CefrLevel {
 }
 
 function systemPrompt(level: CefrLevel): string {
-  return `Du bist ein erfahrener telc-Prüfer für die Prüfung Deutsch ${level}, Prüfungsteil Schreiben.
-Bewerte den folgenden Beschwerdebrief eines Kandidaten nach genau vier Kriterien, jeweils 0-25 Punkte:
-1. Aufgabenerfüllung (task_fulfillment) — wurden alle in der Aufgabe geforderten Punkte behandelt?
-2. Grammatik (grammar) — Korrektheit von Satzbau, Verbformen, Kasus, Wortstellung
-3. Aufbau (structure) — Briefform (Anrede, Einleitung, Absätze, Schluss), Textkohärenz, Konnektoren
-4. Wortschatz (vocabulary) — Angemessenheit und Vielfalt des Ausdrucks für das ${level}-Niveau
+  return `Du bist ein erfahrener, sehr strenger telc-Prüfer für die Prüfung Deutsch ${level}, Prüfungsteil Schreiben. Du bewertest exakt nach den offiziellen telc-Bewertungskriterien und bist bewusst konservativ: Ein Text, der die Aufgabe nur oberflächlich erfüllt oder mit häufigen, sinnentstellenden Fehlern durchsetzt ist, gehört in die untere Hälfte der jeweiligen Skala — Mühe und Länge allein rechtfertigen keine gute Bewertung. Vergib niemals automatisch hohe Punktzahlen; ein tatsächlich exzellenter Text auf ${level}-Niveau ist selten. Runde im Zweifel eher ab als auf.
+
+Bewerte den folgenden Beschwerdebrief nach genau drei offiziellen telc-Hauptkriterien, jeweils 0-15 Punkte:
+
+1. Bewältigung der Aufgabe (task_achievement) — 0-15 Punkte
+   Berücksichtige: Aufgabenerfüllung (wurden alle in der Aufgabe geforderten Punkte inhaltlich vollständig und nicht nur angedeutet behandelt?) und Inhalt (ist die Darstellung stimmig, relevant und nachvollziehbar, nicht nur oberflächlich?).
+
+2. Kommunikative Gestaltung (communicative_design) — 0-15 Punkte
+   Berücksichtige: Register (durchgehend formell und situationsangemessen, kein Wechsel zu informeller Sprache?), Textaufbau (klare Briefform: Anrede, Einleitung, sinnvoll gegliederte Absätze, Schluss), Kohärenz (logischer, nachvollziehbarer Zusammenhang zwischen den Sätzen und Absätzen, passende Konnektoren, kein abrupter Themenwechsel).
+
+3. Formale Richtigkeit (formal_accuracy) — 0-15 Punkte
+   Berücksichtige: Grammatik (Satzbau, Verbformen, Kasus, Wortstellung), Wortschatz (Angemessenheit und Präzision für das ${level}-Niveau), Genauigkeit (wie störend sind die vorhandenen Fehler für das Verständnis — vereinzelte Fehler vs. sinnentstellende Häufung?), sprachliche Bandbreite (Vielfalt der verwendeten Satzstrukturen, nicht nur einfache Hauptsätze), Rechtschreibung (inklusive Groß-/Kleinschreibung von Substantiven).
 
 Sei streng und konsistent, wie ein echter telc-Prüfer für das Niveau ${level}. Rufe ausschließlich das Tool "submit_grading" mit deiner Bewertung auf — keine Erklärungen außerhalb des Tool-Aufrufs.`;
 }
@@ -37,44 +46,40 @@ Sei streng und konsistent, wie ein echter telc-Prüfer für das Niveau ${level}.
 const GRADING_TOOL_SCHEMA = {
   type: "object",
   properties: {
-    task_fulfillment_score: { type: "integer", minimum: 0, maximum: 25 },
-    grammar_score: { type: "integer", minimum: 0, maximum: 25 },
-    structure_score: { type: "integer", minimum: 0, maximum: 25 },
-    vocabulary_score: { type: "integer", minimum: 0, maximum: 25 },
+    task_achievement_score: { type: "integer", minimum: 0, maximum: 15 },
+    communicative_design_score: { type: "integer", minimum: 0, maximum: 15 },
+    formal_accuracy_score: { type: "integer", minimum: 0, maximum: 15 },
     feedback: {
       type: "object",
       properties: {
-        task_fulfillment: { type: "string", description: "2-3 Sätze auf Deutsch" },
-        grammar: { type: "string", description: "2-3 Sätze, wenn möglich mit konkreten Beispielen aus dem Text" },
-        structure: { type: "string", description: "2-3 Sätze" },
-        vocabulary: { type: "string", description: "2-3 Sätze" },
-        summary: { type: "string", description: "3-4 Sätze Gesamtfeedback und konkrete Verbesserungsvorschläge" },
+        task_achievement: { type: "string", description: "3-4 Sätze auf Deutsch — geht explizit auf Aufgabenerfüllung UND Inhalt ein" },
+        communicative_design: { type: "string", description: "3-4 Sätze — geht explizit auf Register, Textaufbau UND Kohärenz ein" },
+        formal_accuracy: { type: "string", description: "3-4 Sätze, wenn möglich mit konkreten Beispielen aus dem Text — geht explizit auf Grammatik, Wortschatz, Genauigkeit, Bandbreite UND Rechtschreibung ein" },
+        summary: { type: "string", description: "3-4 Sätze Gesamtfeedback und konkrete, priorisierte Verbesserungsvorschläge" },
       },
-      required: ["task_fulfillment", "grammar", "structure", "vocabulary", "summary"],
+      required: ["task_achievement", "communicative_design", "formal_accuracy", "summary"],
     },
   },
-  required: ["task_fulfillment_score", "grammar_score", "structure_score", "vocabulary_score", "feedback"],
+  required: ["task_achievement_score", "communicative_design_score", "formal_accuracy_score", "feedback"],
 } as const;
 
 export interface GradingResult {
-  task_fulfillment_score: number;
-  grammar_score: number;
-  structure_score: number;
-  vocabulary_score: number;
+  task_achievement_score: number;
+  communicative_design_score: number;
+  formal_accuracy_score: number;
   overall_score: number;
   passed: boolean;
   feedback: {
-    task_fulfillment: string;
-    grammar: string;
-    structure: string;
-    vocabulary: string;
+    task_achievement: string;
+    communicative_design: string;
+    formal_accuracy: string;
     summary: string;
   };
   model: string;
 }
 
-const SCORE_KEYS = ["task_fulfillment_score", "grammar_score", "structure_score", "vocabulary_score"] as const;
-const FEEDBACK_KEYS = ["task_fulfillment", "grammar", "structure", "vocabulary", "summary"] as const;
+const SCORE_KEYS = ["task_achievement_score", "communicative_design_score", "formal_accuracy_score"] as const;
+const FEEDBACK_KEYS = ["task_achievement", "communicative_design", "formal_accuracy", "summary"] as const;
 
 /** Schema-forced tool output is already well-shaped, but the model can still
  * violate declared bounds/required-ness in principle — this is the same
@@ -82,8 +87,8 @@ const FEEDBACK_KEYS = ["task_fulfillment", "grammar", "structure", "vocabulary",
 function validate(raw: any): Omit<GradingResult, "overall_score" | "passed" | "model"> {
   for (const k of SCORE_KEYS) {
     const v = raw?.[k];
-    if (!Number.isInteger(v) || v < 0 || v > 25) {
-      throw new Error(`grading response invalid: ${k}=${JSON.stringify(v)} (expected integer 0-25)`);
+    if (!Number.isInteger(v) || v < 0 || v > 15) {
+      throw new Error(`grading response invalid: ${k}=${JSON.stringify(v)} (expected integer 0-15)`);
     }
   }
   const fb = raw?.feedback;
@@ -94,15 +99,13 @@ function validate(raw: any): Omit<GradingResult, "overall_score" | "passed" | "m
     }
   }
   return {
-    task_fulfillment_score: raw.task_fulfillment_score,
-    grammar_score: raw.grammar_score,
-    structure_score: raw.structure_score,
-    vocabulary_score: raw.vocabulary_score,
+    task_achievement_score: raw.task_achievement_score,
+    communicative_design_score: raw.communicative_design_score,
+    formal_accuracy_score: raw.formal_accuracy_score,
     feedback: {
-      task_fulfillment: fb.task_fulfillment,
-      grammar: fb.grammar,
-      structure: fb.structure,
-      vocabulary: fb.vocabulary,
+      task_achievement: fb.task_achievement,
+      communicative_design: fb.communicative_design,
+      formal_accuracy: fb.formal_accuracy,
       summary: fb.summary,
     },
   };
@@ -122,18 +125,18 @@ export async function gradeEssay(taskPrompt: string, essayText: string, supabase
       system: systemPrompt(level),
       userMessage,
       toolName: "submit_grading",
-      toolDescription: "Submit the four-criteria telc Schreiben grading for the candidate's essay.",
+      toolDescription: "Submit the three-criteria telc Schreiben grading for the candidate's essay.",
       inputSchema: GRADING_TOOL_SCHEMA,
       maxTokens: 1500,
     });
 
     const validated = validate(data);
     const overall_score =
-      validated.task_fulfillment_score + validated.grammar_score + validated.structure_score + validated.vocabulary_score;
+      validated.task_achievement_score + validated.communicative_design_score + validated.formal_accuracy_score;
 
     await recordUsage(supabase, inputTokens + outputTokens);
 
-    return { ...validated, overall_score, passed: overall_score >= 60, model };
+    return { ...validated, overall_score, passed: overall_score >= 27, model };
   } catch (e) {
     if (e instanceof ClaudeQuotaError) throw new Error("QUOTA_429");
     throw e;

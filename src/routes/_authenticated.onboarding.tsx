@@ -2,25 +2,21 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
-import { useB1Visible } from "@/lib/useB1Visible";
 import { supabase } from "@/integrations/supabase/client";
 import { useTheme } from "@/lib/theme";
-import { GraduationCap, Loader2, Moon, Sun, CheckCircle2, Clock } from "lucide-react";
+import { GraduationCap, Loader2, Moon, Sun, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
   component: OnboardingPage,
 });
 
-type Level = "TELC_B1" | "TELC_B2";
+type Level = "TELC_B2";
 
+// B1 is intentionally not offered here — see B1_ENABLED in src/lib/features.ts.
+// AuraLingovia is a dedicated TELC B2 platform for now; this is the only place
+// level is ever set, once, for the lifetime of the account.
 const LEVELS: { value: Level; labelKey: string; descKey: string; badge: string }[] = [
-  {
-    value: "TELC_B1",
-    labelKey: "onboarding.b1",
-    descKey: "onboarding.b1_desc",
-    badge: "B1",
-  },
   {
     value: "TELC_B2",
     labelKey: "onboarding.b2",
@@ -34,14 +30,12 @@ function OnboardingPage() {
   const { user } = useAuth();
   const { theme, toggle } = useTheme();
   const nav = useNavigate();
-  const b1Visible = useB1Visible();
 
   const [selected, setSelected] = useState<Level | null>(null);
   const [loading, setLoading]   = useState(false);
 
   async function handleContinue() {
     if (!selected || !user) return;
-    if (selected === "TELC_B1" && !b1Visible) return;
     setLoading(true);
 
     const { error } = await supabase
@@ -99,31 +93,21 @@ function OnboardingPage() {
             {t("onboarding.subtitle")}
           </p>
 
-          {/* Level cards */}
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {/* Level card — TELC B2 only for now */}
+          <div className="mt-8 mx-auto max-w-xs">
             {LEVELS.map((level) => {
               const isSelected = selected === level.value;
-              const locked = level.value === "TELC_B1" && !b1Visible;
               return (
                 <button
                   key={level.value}
-                  disabled={locked}
-                  aria-disabled={locked}
-                  onClick={() => { if (!locked) setSelected(level.value); }}
-                  className={`relative flex flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all ${
-                    locked
-                      ? "cursor-not-allowed border-border bg-card opacity-50 grayscale"
-                      : isSelected
-                        ? "border-primary bg-primary/5 shadow-md shadow-primary/10 hover:-translate-y-0.5 hover:shadow-lg"
-                        : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg"
+                  onClick={() => setSelected(level.value)}
+                  className={`relative flex w-full flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all ${
+                    isSelected
+                      ? "border-primary bg-primary/5 shadow-md shadow-primary/10 hover:-translate-y-0.5 hover:shadow-lg"
+                      : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg"
                   }`}
                 >
-                  {locked && (
-                    <span className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">
-                      <Clock className="h-3 w-3" /> Coming Soon
-                    </span>
-                  )}
-                  {!locked && isSelected && (
+                  {isSelected && (
                     <CheckCircle2 className="absolute right-4 top-4 h-5 w-5 text-primary" />
                   )}
 
@@ -146,9 +130,7 @@ function OnboardingPage() {
                       <div
                         key={dot}
                         className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                          level.value === "TELC_B1"
-                            ? dot <= 3 ? "bg-primary" : "bg-muted"
-                            : dot <= 4 ? "bg-primary" : "bg-muted"
+                          dot <= 4 ? "bg-primary" : "bg-muted"
                         }`}
                       />
                     ))}

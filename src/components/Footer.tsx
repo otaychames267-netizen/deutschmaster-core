@@ -9,7 +9,7 @@ export function Footer() {
       <div className="container mx-auto px-4 py-10 grid gap-6 md:grid-cols-3">
         <div>
           <div className="flex items-center gap-2 font-bold"><GraduationCap className="h-5 w-5 text-accent" /> AuraLingovia</div>
-          <p className="mt-2 text-sm text-muted-foreground">Professional TELC B1 & B2 preparation.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Professional TELC B2 preparation.</p>
         </div>
         <div className="flex flex-col gap-2 text-sm">
           <Link to="/privacy" className="hover:text-accent">{t("footer.privacy")}</Link>

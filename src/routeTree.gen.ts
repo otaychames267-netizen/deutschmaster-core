@@ -41,6 +41,7 @@ import { Route as AuthenticatedAchievementsRouteImport } from './routes/_authent
 import { Route as AuthenticatedLevelRouteImport } from './routes/_authenticated.$level'
 import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated.learn.index'
 import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated.admin.index'
+import { Route as ApiSchreibenSubmitSimulationRouteImport } from './routes/api.schreiben.submit-simulation'
 import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api.public.lemonsqueezy-webhook'
 import { Route as ApiAuthRegisterRouteImport } from './routes/api.auth.register'
@@ -272,6 +273,12 @@ const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const ApiSchreibenSubmitSimulationRoute =
+  ApiSchreibenSubmitSimulationRouteImport.update({
+    id: '/api/schreiben/submit-simulation',
+    path: '/api/schreiben/submit-simulation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiSchreibenGradeEssayRoute = ApiSchreibenGradeEssayRouteImport.update({
   id: '/api/schreiben/grade-essay',
   path: '/api/schreiben/grade-essay',
@@ -735,6 +742,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
+  '/api/schreiben/submit-simulation': typeof ApiSchreibenSubmitSimulationRoute
   '/admin/': typeof AuthenticatedAdminIndexRoute
   '/learn/': typeof AuthenticatedLearnIndexRoute
   '/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
@@ -831,6 +839,7 @@ export interface FileRoutesByTo {
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
+  '/api/schreiben/submit-simulation': typeof ApiSchreibenSubmitSimulationRoute
   '/admin': typeof AuthenticatedAdminIndexRoute
   '/learn': typeof AuthenticatedLearnIndexRoute
   '/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
@@ -931,6 +940,7 @@ export interface FileRoutesById {
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
+  '/api/schreiben/submit-simulation': typeof ApiSchreibenSubmitSimulationRoute
   '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
   '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
   '/_authenticated/$level/muendlich/pruefung': typeof AuthenticatedLevelMuendlichPruefungRoute
@@ -1033,6 +1043,7 @@ export interface FileRouteTypes {
     | '/api/auth/register'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
+    | '/api/schreiben/submit-simulation'
     | '/admin/'
     | '/learn/'
     | '/$level/muendlich/pruefung'
@@ -1129,6 +1140,7 @@ export interface FileRouteTypes {
     | '/api/auth/register'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
+    | '/api/schreiben/submit-simulation'
     | '/admin'
     | '/learn'
     | '/$level/muendlich/pruefung'
@@ -1228,6 +1240,7 @@ export interface FileRouteTypes {
     | '/api/auth/register'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
+    | '/api/schreiben/submit-simulation'
     | '/_authenticated/admin/'
     | '/_authenticated/learn/'
     | '/_authenticated/$level/muendlich/pruefung'
@@ -1280,6 +1293,7 @@ export interface RootRouteChildren {
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
   ApiPublicLemonsqueezyWebhookRoute: typeof ApiPublicLemonsqueezyWebhookRoute
   ApiSchreibenGradeEssayRoute: typeof ApiSchreibenGradeEssayRoute
+  ApiSchreibenSubmitSimulationRoute: typeof ApiSchreibenSubmitSimulationRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1507,6 +1521,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/'
       preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/api/schreiben/submit-simulation': {
+      id: '/api/schreiben/submit-simulation'
+      path: '/api/schreiben/submit-simulation'
+      fullPath: '/api/schreiben/submit-simulation'
+      preLoaderRoute: typeof ApiSchreibenSubmitSimulationRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/schreiben/grade-essay': {
       id: '/api/schreiben/grade-essay'
@@ -2288,6 +2309,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,
   ApiPublicLemonsqueezyWebhookRoute: ApiPublicLemonsqueezyWebhookRoute,
   ApiSchreibenGradeEssayRoute: ApiSchreibenGradeEssayRoute,
+  ApiSchreibenSubmitSimulationRoute: ApiSchreibenSubmitSimulationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

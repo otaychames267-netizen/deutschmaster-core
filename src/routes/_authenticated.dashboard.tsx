@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, Navigate } from "@tanstack/react-router";
 import { useAuth } from "@/lib/auth";
 import { useB1Visible } from "@/lib/useB1Visible";
 import { GraduationCap, ChevronRight, Clock } from "lucide-react";
@@ -12,13 +12,17 @@ const CARDS: { value: "TELC_B1" | "TELC_B2"; seg: "b1" | "b2"; badge: string; la
   { value: "TELC_B2", seg: "b2", badge: "B2", label: "B2 Level", desc: "Selbstständige Sprachverwendung", gradient: "from-rose-700 via-rose-500 to-pink-400" },
 ];
 
-/** The one and only entry point into a level's content. Each card is its own
- * fully isolated course — there is no switcher inside either course, by design:
- * leaving a level means coming back here and choosing again. */
+/** AuraLingovia is a dedicated TELC B2 platform for now — regular students are
+ * sent straight into `/b2/dashboard`, no chooser. Admins keep the two-card
+ * chooser below so B1 content work can continue (see useB1Visible). */
 function LevelGatePage() {
   const { level } = useAuth();
   const nav = useNavigate();
   const b1Visible = useB1Visible();
+
+  if (!b1Visible) {
+    return <Navigate to="/$level/dashboard" params={{ level: "b2" }} replace />;
+  }
 
   return (
     <div className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center py-10">

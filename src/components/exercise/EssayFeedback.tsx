@@ -1,30 +1,27 @@
 import { CheckCircle2, XCircle, RotateCcw, Coins } from "lucide-react";
 
 export interface EssayGradingResult {
-  task_fulfillment_score: number;
-  grammar_score: number;
-  structure_score: number;
-  vocabulary_score: number;
+  task_achievement_score: number;
+  communicative_design_score: number;
+  formal_accuracy_score: number;
   overall_score: number;
   passed: boolean;
   feedback: {
-    task_fulfillment: string;
-    grammar: string;
-    structure: string;
-    vocabulary: string;
+    task_achievement: string;
+    communicative_design: string;
+    formal_accuracy: string;
     summary: string;
   };
   remaining_balance: number;
 }
 
 const CRITERIA: { key: keyof EssayGradingResult["feedback"] & string; scoreKey: keyof EssayGradingResult; label: string }[] = [
-  { key: "task_fulfillment", scoreKey: "task_fulfillment_score", label: "Aufgabenerfüllung" },
-  { key: "grammar", scoreKey: "grammar_score", label: "Grammatik" },
-  { key: "structure", scoreKey: "structure_score", label: "Aufbau" },
-  { key: "vocabulary", scoreKey: "vocabulary_score", label: "Wortschatz" },
+  { key: "task_achievement", scoreKey: "task_achievement_score", label: "Bewältigung der Aufgabe" },
+  { key: "communicative_design", scoreKey: "communicative_design_score", label: "Kommunikative Gestaltung" },
+  { key: "formal_accuracy", scoreKey: "formal_accuracy_score", label: "Formale Richtigkeit" },
 ];
 
-function ScoreBar({ score, max = 25 }: { score: number; max?: number }) {
+function ScoreBar({ score, max = 15 }: { score: number; max?: number }) {
   const pct = (score / max) * 100;
   const color = pct >= 70 ? "bg-emerald-500" : pct >= 40 ? "bg-amber-500" : "bg-destructive";
   return (
@@ -52,9 +49,9 @@ export function EssayFeedback({
             : <XCircle className="h-8 w-8 text-destructive" />}
         </div>
         <div>
-          <p className="text-3xl font-bold text-foreground">{result.overall_score} / 100</p>
+          <p className="text-3xl font-bold text-foreground">{result.overall_score} / 45</p>
           <p className={`mt-1 text-sm font-medium ${result.passed ? "text-emerald-500" : "text-destructive"}`}>
-            {result.passed ? "Bestanden" : "Noch nicht bestanden"} (mindestens 60 Punkte erforderlich)
+            {result.passed ? "Bestanden" : "Noch nicht bestanden"} (mindestens 27 Punkte erforderlich)
           </p>
         </div>
       </div>
@@ -64,7 +61,7 @@ export function EssayFeedback({
           <div key={c.key}>
             <div className="mb-1.5 flex items-center justify-between text-sm">
               <span className="font-medium text-foreground">{c.label}</span>
-              <span className="text-muted-foreground">{result[c.scoreKey] as number} / 25</span>
+              <span className="text-muted-foreground">{result[c.scoreKey] as number} / 15</span>
             </div>
             <ScoreBar score={result[c.scoreKey] as number} />
             <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{result.feedback[c.key]}</p>

@@ -134,7 +134,11 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
         }
 
         // 4. Persist the result (service role — students have no direct insert grant).
-        const { data: saved, error: saveError } = await supabaseAdmin
+        // Cast: generated types.ts still reflects the pre-rubric-v2 essay_gradings
+        // shape (Supabase CLI type regen is broken on this machine — see
+        // scripts/db-apply.mjs workaround note); same `as any` pattern already
+        // used elsewhere in this repo for tables/columns ahead of the generated types.
+        const { data: saved, error: saveError } = await (supabaseAdmin as any)
           .from("essay_gradings")
           .insert({
             user_id: userId,
@@ -143,10 +147,9 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
             essay_text: essayText,
             word_count: wordCount,
             model: result.model,
-            task_fulfillment_score: result.task_fulfillment_score,
-            grammar_score: result.grammar_score,
-            structure_score: result.structure_score,
-            vocabulary_score: result.vocabulary_score,
+            task_achievement_score: result.task_achievement_score,
+            communicative_design_score: result.communicative_design_score,
+            formal_accuracy_score: result.formal_accuracy_score,
             overall_score: result.overall_score,
             passed: result.passed,
             feedback: result.feedback,

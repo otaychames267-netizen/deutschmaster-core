@@ -120,8 +120,8 @@ const FEATURES = [
 const STEPS = [
   {
     number: "01",
-    title: "Choose your level",
-    desc: "Select TELC B1 or B2. Set your exam date to activate a personalised study plan.",
+    title: "Get started",
+    desc: "Set your exam date to activate a personalised TELC B2 study plan.",
   },
   {
     number: "02",
@@ -144,7 +144,7 @@ const TESTIMONIALS = [
   },
   {
     name: "Mehmet K.",
-    role: "Passed TELC B1 — January 2026",
+    role: "Passed TELC B2 — January 2026",
     body: "The Sprachbausteine and Hören sections used to terrify me. After two weeks of daily practice the patterns became second nature. The interface is genuinely beautiful.",
     rating: 5,
   },
@@ -165,8 +165,8 @@ const STATS = [
 
 const FAQ_ITEMS = [
   {
-    q: "Can I switch between TELC B1 and B2?",
-    a: "Yes. You can change your target level at any time from your profile settings. Progress in each level is tracked independently.",
+    q: "Which exam level does AuraLingovia cover?",
+    a: "AuraLingovia currently focuses exclusively on TELC B2, with every section — Lesen, Hören, Sprachbausteine, Schreiben, and Mündlich — built to that standard.",
   },
   {
     q: "How is my score calculated?",
@@ -317,7 +317,7 @@ function Hero() {
         {/* Badge */}
         <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur-sm">
           <Zap className="h-3.5 w-3.5 text-gold" />
-          TELC B1 &amp; B2 · Professional Exam Preparation
+          TELC B2 · Professional Exam Preparation
         </div>
 
         {/* Headline */}
@@ -328,7 +328,7 @@ function Hero() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          AuraLingovia covers every section of the TELC B1 and B2 exam — Lesen,
+          AuraLingovia covers every section of the TELC B2 exam — Lesen,
           Hören, Schreiben, Sprachbausteine, and Mündlich — with authentic
           practice material and full exam simulations.
         </p>
@@ -423,7 +423,7 @@ function Features() {
             Every exam section. Fully covered.
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base text-muted-foreground">
-            AuraLingovia is the only platform built exclusively around the TELC B1 and B2 exam structure — nothing extra, nothing missing.
+            AuraLingovia is the only platform built exclusively around the TELC B2 exam structure — nothing extra, nothing missing.
           </p>
         </div>
 
@@ -712,7 +712,7 @@ function Footer() {
               <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-              Professional TELC B1 &amp; B2 exam preparation. Structured, authentic, effective.
+              Professional TELC B2 exam preparation. Structured, authentic, effective.
             </p>
           </div>
 
