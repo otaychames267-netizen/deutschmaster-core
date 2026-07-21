@@ -451,7 +451,7 @@ function SchriftlichPruefungPage() {
     }
   }
 
-  if (accessLoading || phase === "loading") {
+  if (accessLoading) {
     return (
       <div className="flex min-h-64 items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -466,6 +466,14 @@ function SchriftlichPruefungPage() {
         subheading="Preview — subscribe to unlock the full exam simulation."
         items={[{ id: "pruefung-schriftlich", title: "Vollständige Prüfung (2h 25min) — Lesen, Sprachbausteine, Hören, Schreiben" }]}
       />
+    );
+  }
+
+  if (phase === "loading") {
+    return (
+      <div className="flex min-h-64 items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
     );
   }
 
