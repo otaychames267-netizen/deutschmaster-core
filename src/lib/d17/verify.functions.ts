@@ -774,9 +774,20 @@ export async function finalizeAttempt(
     // Best-effort referral conversion — never allowed to affect a real
     // payment activation, hence the isolated try/catch. No-ops instantly if
     // this user wasn't referred.
-    await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: params.userId }).catch((e: unknown) => {
+    // try/await, not .rpc(...).catch(...): confirmed live (2026-07-22) that
+    // supabase-js's PostgrestFilterBuilder has no real .catch() method —
+    // calling it directly threw "TypeError: ...catch is not a function"
+    // UNCONDITIONALLY on every single auto-approved D17 verification, right
+    // after the real activateOrder() activation above had already
+    // committed. The student's subscription was silently activated
+    // correctly, but this uncaught throw then made the verification
+    // endpoint return an error to their browser and skipped the success
+    // email below — a real payment made to look like it failed.
+    try {
+      await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: params.userId });
+    } catch (e: unknown) {
       console.error("[d17/finalizeAttempt] referral conversion failed (non-fatal):", e);
-    });
+    }
     await notifyAndEmail(
       supabaseAdmin,
       params.userId,

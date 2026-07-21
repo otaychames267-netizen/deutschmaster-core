@@ -180,9 +180,17 @@ async function handleEvent(supabaseAdmin: any, eventType: string, data: any, met
         // Best-effort referral conversion — isolated so it can never affect
         // real webhook processing; no-ops instantly if this user wasn't
         // referred, and is idempotent across webhook retries/resends.
-        await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: userId }).catch((e: unknown) => {
+        // try/await, not .rpc(...).catch(...): confirmed live (2026-07-22)
+        // that supabase-js's PostgrestFilterBuilder is thenable but has no
+        // real .catch() method — calling it directly threw
+        // "supabaseAdmin.rpc(...).catch is not a function" and 500'd every
+        // single subscription_created/subscription_updated webhook, even
+        // though the activation RPC just above it had already succeeded.
+        try {
+          await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: userId });
+        } catch (e: unknown) {
           console.error("[lemonsqueezy-webhook] referral conversion failed (non-fatal):", e);
-        });
+        }
       }
       break;
     }

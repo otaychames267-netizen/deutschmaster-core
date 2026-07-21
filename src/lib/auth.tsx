@@ -92,7 +92,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const code = localStorage.getItem(PENDING_REFERRAL_STORAGE_KEY);
           if (code) {
             localStorage.removeItem(PENDING_REFERRAL_STORAGE_KEY);
-            void (supabase as any).rpc("register_referral", { p_code: code }).catch(() => {});
+            // await, not .rpc(...).catch(...) — same missing-.catch() bug as
+            // the server-side referral-conversion call sites (see
+            // src/lib/d17/verify.functions.ts); it silently prevented the
+            // request from ever firing here (the enclosing try/catch just
+            // masked it as "localStorage unavailable").
+            void (async () => {
+              try {
+                await (supabase as any).rpc("register_referral", { p_code: code });
+              } catch { /* best-effort — a referral hiccup must never affect login */ }
+            })();
           }
         } catch { /* localStorage unavailable — skip silently */ }
       }

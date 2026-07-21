@@ -57,9 +57,14 @@ async function activateOrder(
   if (error || !subscriptionId) throw new Error(`Atomic activation failed: ${error?.message}`);
   // Best-effort referral conversion — isolated so it can never affect a real
   // admin approval/grant; no-ops instantly if this user wasn't referred.
-  await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: params.userId }).catch((e: unknown) => {
+  // try/await, not .rpc(...).catch(...) — see the identical fix + explanation
+  // in src/lib/d17/verify.functions.ts (confirmed live 2026-07-22: this
+  // threw unconditionally on every call, right after activation committed).
+  try {
+    await supabaseAdmin.rpc("process_referral_conversion", { p_referred_user_id: params.userId });
+  } catch (e: unknown) {
     console.error("[admin-actions/activateOrder] referral conversion failed (non-fatal):", e);
-  });
+  }
   return subscriptionId as string;
 }
 
