@@ -75,12 +75,13 @@ function ProfilePage() {
   useEffect(() => {
     if (!user) return;
     Promise.all([
-      supabase.from("profiles").select("full_name, level, exam_date, avatar_url").eq("id", user.id).maybeSingle(),
+      (supabase.from("profiles") as any).select("full_name, level, exam_date, avatar_url, bio").eq("id", user.id).maybeSingle(),
       supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).eq("status", "active").gt("expires_at", new Date().toISOString()).order("expires_at", { ascending: false }).limit(1).maybeSingle(),
     ]).then(([profileRes, subRes]) => {
       if (profileRes.data) {
-        setProfile({ ...(profileRes.data as Profile), bio: null });
+        setProfile(profileRes.data as Profile);
         setFullName(profileRes.data.full_name ?? "");
+        setBio((profileRes.data as Profile).bio ?? "");
         setLevel(profileRes.data.level ?? "");
         setExamDate(profileRes.data.exam_date ?? "");
       }
@@ -99,9 +100,9 @@ function ProfilePage() {
     // Letting this form silently rewrite it with no navigation was a real bug:
     // a user could flip their stored course here while still sitting on the
     // other course's URLs, with nothing telling them anything had changed.
-    const { error } = await supabase
-      .from("profiles")
-      .update({ full_name: fullName || null, exam_date: examDate || null })
+    const { error } = await (supabase
+      .from("profiles") as any)
+      .update({ full_name: fullName || null, exam_date: examDate || null, bio: bio || null })
       .eq("id", user.id);
     setSaving(false);
     if (error) toast.error("Failed to save. Please try again.");
