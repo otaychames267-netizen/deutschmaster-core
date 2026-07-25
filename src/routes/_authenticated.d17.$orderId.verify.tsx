@@ -7,7 +7,7 @@ import { getD17Order } from "@/lib/d17/orders.functions";
 import { buildScreenshotPath } from "@/lib/d17/storage-path";
 import { getOrCreateD17DeviceFingerprint, computeD17BrowserFingerprint } from "@/lib/d17/client-fingerprint";
 import { UPLOAD_ACCEPTING_STATUSES } from "@/lib/d17/status";
-import { VerificationChecklist } from "@/components/d17/VerificationChecklist";
+import { VerificationChecklist, type VerificationOutcome } from "@/components/d17/VerificationChecklist";
 import { toast } from "sonner";
 import { Upload, ImageIcon, ArrowLeft, Loader2, ShieldCheck, Clock, FlaskConical } from "lucide-react";
 
@@ -42,7 +42,7 @@ function D17VerifyPage() {
   const [reference, setReference] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [uploaded, setUploaded] = useState(false);
-  const [done, setDone] = useState(false);
+  const [outcome, setOutcome] = useState<VerificationOutcome | null>(null);
 
   useEffect(() => {
     // Canonical, server-authoritative fetch (same function the status page
@@ -111,7 +111,7 @@ function D17VerifyPage() {
 
     setSubmitting(true);
     setUploaded(false);
-    setDone(false);
+    setOutcome(null);
 
     try {
       const attemptNumber = order.attempts_used + 1;
@@ -141,10 +141,18 @@ function D17VerifyPage() {
           browser_fingerprint: browserFingerprint,
         },
       });
-      setDone(true);
+      const decision = attempt.decision as VerificationOutcome["decision"];
+      const isRejected = decision === "auto_rejected_duplicate" || decision === "auto_rejected_fraud";
+      setOutcome({
+        decision,
+        reason: attempt.decision_reason,
+        hardGate: (attempt.rule_engine_result as { hardGate?: string | null } | null)?.hardGate ?? null,
+      });
 
-      await new Promise((r) => setTimeout(r, 900));
-      void attempt;
+      // A rejection needs to actually be readable, not flashed for under a
+      // second before the page navigates away — approvals/manual-review stay
+      // quick since there's nothing new to read there.
+      await new Promise((r) => setTimeout(r, isRejected ? 3000 : 900));
       nav({ to: "/d17/$orderId/status", params: { orderId } });
     } catch (err) {
       console.error("[D17 verify]", err);
@@ -158,7 +166,7 @@ function D17VerifyPage() {
       toast.error(safeMessage);
       setSubmitting(false);
       setUploaded(false);
-      setDone(false);
+      setOutcome(null);
     }
   }
 
@@ -376,7 +384,7 @@ function D17VerifyPage() {
             <Clock className="h-5 w-5 text-blue-500" />
             <p className="font-bold text-foreground">Verifying your payment…</p>
           </div>
-          <VerificationChecklist uploaded={uploaded} done={done} />
+          <VerificationChecklist uploaded={uploaded} outcome={outcome} />
         </div>
       )}
     </div>
