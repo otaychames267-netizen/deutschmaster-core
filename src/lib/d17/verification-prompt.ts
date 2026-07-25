@@ -33,9 +33,20 @@
  * column's default of 'v1' correctly represents every attempt recorded
  * before this prompt existed (the original single-screenshot flow).
  */
-export const PROMPT_VERSION = "d17-verify-v3";
+export const PROMPT_VERSION = "d17-verify-v4";
+
+/**
+ * Independent classification of which real D17 screen an image actually is
+ * — evaluated regardless of which upload slot it was placed in, so the
+ * pipeline can hard-reject a wrong/duplicate/unrecognized pairing instead of
+ * positionally trusting "whatever was in slot 1 must be Payment Success."
+ * "unknown" is itself a hard-reject condition, not a soft signal — an image
+ * the model can't confidently place is never allowed to proceed.
+ */
+export type D17ScreenshotType = "payment_success" | "journal" | "unknown";
 
 export interface D17Screenshot2Extraction {
+  screenshot_type: D17ScreenshotType;
   amount: number | null;
   currency: string | null;
   payment_datetime: string | null; // ISO 8601, or null if not legible
@@ -49,8 +60,24 @@ export interface D17CrossCheckResult {
   notes: string; // brief explanation of what was compared and any mismatches found
 }
 
+/**
+ * Per-field 0-100 confidence, independent of the single overall
+ * ocr_confidence. Lets the rule engine hard-reject a confidently-wrong
+ * authorization number while still routing a genuinely-illegible one to
+ * Manual Review — the distinction the overall score alone can't make.
+ */
+export interface D17FieldConfidence {
+  authorization_number: number;
+  amount: number;
+  currency: number;
+  destination: number;
+  payment_datetime: number;
+}
+
 export interface D17VerificationExtraction {
-  ocr_confidence: number; // 0-100
+  screenshot_type: D17ScreenshotType;
+  ocr_confidence: number; // 0-100, overall
+  field_confidence: D17FieldConfidence;
   amount: number | null;
   currency: string | null;
   payment_datetime: string | null; // ISO 8601, or null if not legible
@@ -91,10 +118,12 @@ IMAGE 1 — the "Payment Success" confirmation, header "Transfert d'argent", a L
 
 IMAGE 2 — the "Journal D17" transaction-log entry, header "Journal D17", the La Poste logo, then "Opération D17", then the transaction timestamp in DD/MM/YYYY HH:MM:SS format (e.g. "17/07/2026 19:13:58"), then labelled rows: "Service" → "Transfert vers <RECIPIENT>", "Montant" → "<AMOUNT>" (this value is shown as NEGATIVE, e.g. "-30,000 TND", because it is a debit from the sender), "Numéro d'autorisation" → "<AUTH>".
 
-Do THREE things in one pass: (1) transcribe IMAGE 1 into the top-level fields, (2) transcribe IMAGE 2 into "screenshot2", (3) compare the two and report consistency.
+Do FOUR things in one pass: (1) classify what each image actually IS, (2) transcribe IMAGE 1 into the top-level fields, (3) transcribe IMAGE 2 into "screenshot2", (4) compare the two and report consistency.
 
 RULES — follow exactly:
+- "screenshot_type" (top-level, for IMAGE 1) and "screenshot2.screenshot_type" (for IMAGE 2): classify what the image ACTUALLY IS, independent of which slot it was uploaded into. "payment_success" = the "Félicitations !" confirmation screen described below. "journal" = the "Journal D17" transaction-history entry described below. "unknown" = neither — a screenshot that isn't one of these two real D17 screens (a different app, a gallery/camera-roll view, an unrelated screen, or something too unclear to classify with confidence). Be strict: if it doesn't clearly match one of the two described layouts, it's "unknown," not a guess.
 - Extract ONLY what is actually visible. Never invent, guess, translate, or "correct" any value. If a field is not legible or not present, set it to null (or "unclear"/"unknown" for the enum fields). Read digits character-by-character.
+- "field_confidence": your own 0-100 confidence in the transcription of EACH of these fields individually (not the same as the single overall "ocr_confidence" below) — "authorization_number", "amount", "currency", "destination", "payment_datetime". Score each independently: a screenshot can have a perfectly legible amount but a partially-obscured authorization number, or vice versa. Low confidence on a field means you genuinely could not read it clearly — not that you're being cautious. If a field is fully legible and unambiguous, its confidence should be high (90+).
 - AMOUNT FORMAT (critical): D17 amounts use a COMMA as the DECIMAL separator with exactly 3 decimal places (Tunisian millimes). "1,000 TND" means 1.000 TND (one dinar). "30,000 TND" means 30.000 TND (thirty dinars). Output "amount" as a plain decimal number using a DOT and NO thousands grouping, e.g. 30.0 for "30,000 TND". NEVER multiply by 1000. If the amount is shown negative (a leading "-" on the Journal), output its ABSOLUTE value (drop the minus sign).
 - "currency": as printed (e.g. "TND").
 - "payment_datetime": On IMAGE 1 there is NO transaction date/time — set the top-level "payment_datetime" to null. The real transaction time is the "Opération D17" timestamp on IMAGE 2; put that in "screenshot2.payment_datetime", converting DD/MM/YYYY HH:MM:SS to an ISO 8601 string (day/month/year order — the first number is the DAY).
@@ -107,7 +136,7 @@ RULES — follow exactly:
 - "language_detected": the screenshots are primarily French with some Arabic (the La Poste logo).
 - "ocr_confidence": your 0-100 confidence in the transcription across BOTH images (low if blurry, low-res, or cropped so a key field is cut off).
 - "raw_text": every legible piece of text on IMAGE 1, verbatim, in reading order (this is used to confirm the screen is a genuine D17 screen).
-- "screenshot2": transcribe IMAGE 2 — "amount" (same comma-decimal + absolute-value rule), "currency", "payment_datetime" (the Opération D17 timestamp as ISO), "destination" (the number after "Transfert vers"), "authorization_number", "raw_text".
+- "screenshot2": transcribe IMAGE 2 — "screenshot_type" (see above), "amount" (same comma-decimal + absolute-value rule), "currency", "payment_datetime" (the Opération D17 timestamp as ISO), "destination" (the number after "Transfert vers"), "authorization_number", "raw_text".
 - "cross_check": compare the two images — the RECIPIENT number, the ABSOLUTE amount, and the AUTHORIZATION NUMBER must be identical on both. Set "consistent" to false only if a field legible on BOTH images actually disagrees (remember the Journal amount is the negative of the success-screen amount — that is NOT a disagreement once you take the absolute value). "notes": one or two sentences on what matched / what didn't.
 - Fraud signals are a SEPARATE, purely technical assessment of the IMAGE FILES (not the payment's business legitimacy): look for overlay text pasted onto the UI, cloned/duplicated regions, compositing (mismatched lighting/edges/anti-aliasing around the amount, recipient, or authorization number specifically — the most likely fields a forger would alter), suspicious cropping hiding information, blur/noise/compression inconsistent with a normal phone screenshot, inconsistent fonts within one UI, unnatural color/hue shifts, or metadata-tampering hints. Pay special attention to whether the amount, recipient, and authorization number look like they belong to the same rendering pass as the surrounding text (same font, weight, baseline, kerning, anti-aliasing) — mismatches there are the strongest forgery signal. Only include a flag you genuinely observe; most legitimate pairs have zero flags.
 - "fraud_score": your 0-100 estimate that the IMAGES were technically tampered with. 0 = look like untouched phone screenshots, 100 = clear editing.
@@ -115,7 +144,15 @@ RULES — follow exactly:
 
 Return ONLY this JSON (no markdown fences):
 {
+  "screenshot_type": "payment_success" | "journal" | "unknown",
   "ocr_confidence": number,
+  "field_confidence": {
+    "authorization_number": number,
+    "amount": number,
+    "currency": number,
+    "destination": number,
+    "payment_datetime": number
+  },
   "amount": number | null,
   "currency": string | null,
   "payment_datetime": string | null,
@@ -132,6 +169,7 @@ Return ONLY this JSON (no markdown fences):
   "screenshot_integrity_ok": boolean,
   "notes": string | null,
   "screenshot2": {
+    "screenshot_type": "payment_success" | "journal" | "unknown",
     "amount": number | null,
     "currency": string | null,
     "payment_datetime": string | null,
@@ -148,9 +186,34 @@ Return ONLY this JSON (no markdown fences):
 
 const NOTIFICATION_SOURCES = ["d17_app", "bank_sms", "bank_app", "screenshot_other", "unclear"] as const;
 const LANGUAGES = ["ar", "fr", "de", "en", "mixed", "unknown"] as const;
+const SCREENSHOT_TYPES = ["payment_success", "journal", "unknown"] as const;
+
+function parseScreenshotType(v: unknown): D17ScreenshotType {
+  return SCREENSHOT_TYPES.includes(v as any) ? (v as D17ScreenshotType) : "unknown";
+}
+
+// Missing/malformed confidence defaults to 0 (fully uncertain), NOT a
+// mid-range guess — a hard-reject gate keyed on "confidently wrong" must
+// never fire on a field the model simply failed to report a confidence for.
+// The safe failure mode for a missing confidence value is "treat as unclear
+// enough to fall through to Manual Review," never "treat as certain."
+function clampConfidence(v: unknown): number {
+  return typeof v === "number" && Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : 0;
+}
+
+function parseFieldConfidence(raw: any): D17FieldConfidence {
+  return {
+    authorization_number: clampConfidence(raw?.authorization_number),
+    amount: clampConfidence(raw?.amount),
+    currency: clampConfidence(raw?.currency),
+    destination: clampConfidence(raw?.destination),
+    payment_datetime: clampConfidence(raw?.payment_datetime),
+  };
+}
 
 function parseScreenshot2(raw: any): D17Screenshot2Extraction {
   return {
+    screenshot_type: parseScreenshotType(raw?.screenshot_type),
     amount: typeof raw?.amount === "number" && Number.isFinite(raw.amount) ? raw.amount : null,
     currency: typeof raw?.currency === "string" && raw.currency.trim() ? raw.currency.trim() : null,
     payment_datetime: typeof raw?.payment_datetime === "string" && raw.payment_datetime.trim() ? raw.payment_datetime : null,
@@ -176,7 +239,9 @@ export function parseExtraction(raw: any): D17VerificationExtraction {
   const clamp100 = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? Math.max(0, Math.min(100, v)) : 0);
   const optionalString = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : null);
   return {
+    screenshot_type: parseScreenshotType(raw?.screenshot_type),
     ocr_confidence: clamp100(raw?.ocr_confidence),
+    field_confidence: parseFieldConfidence(raw?.field_confidence),
     amount: typeof raw?.amount === "number" && Number.isFinite(raw.amount) ? raw.amount : null,
     currency: optionalString(raw?.currency),
     payment_datetime: typeof raw?.payment_datetime === "string" && raw.payment_datetime.trim() ? raw.payment_datetime : null,

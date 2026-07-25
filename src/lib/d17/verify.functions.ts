@@ -516,21 +516,18 @@ export async function runVerificationPipeline(
       extraction = parseExtraction(raw);
       geminiTokenCount = tokenCount;
     } catch (err) {
-      console.error("[d17/verify] Gemini call failed:", err);
+      // Fail CLOSED, not into Manual Review: a genuine AI/vision-API crash
+      // must never silently become a review-queue entry — an attacker could
+      // otherwise deliberately corrupt/break OCR (malformed image, provider
+      // outage timing, etc.) to bypass the hard-reject cascade above and land
+      // in the more forgiving human-review path instead. No attempt row is
+      // written and attempts_used is NOT incremented, so a genuine transient
+      // outage costs the student nothing — they see an honest error and can
+      // immediately retry. alertGeminiFailure still fires so this is never
+      // silent to admins, just never silent-into-approval-adjacent-review.
+      console.error("[d17/verify] Vision verification call failed:", err);
       await alertGeminiFailure(supabaseAdmin, err);
-      return finalizeAttempt(supabaseAdmin, {
-        ...baseFinalizeParams(),
-        ocrTextHashSha256: null,
-        ocrTextHashSha256_2: null,
-        extraction: null,
-        decision: "manual_review",
-        decisionReason: "Automated verification is temporarily unavailable — routed to manual review.",
-        riskScore: 50,
-        aiConfidence: 50,
-        ruleEngineResult: { skipped: true, reason: "gemini_error", error: String(err) },
-        verificationDurationMs: Date.now() - startedAt,
-        geminiTokenCount: null,
-      });
+      throw new Error("Verification is temporarily unavailable. Please try again in a few minutes.");
     }
 
     if (geminiTokenCount) {
@@ -691,6 +688,13 @@ export async function finalizeAttempt(
       ip_address: params.ipAddress,
       device_fingerprint: params.deviceFingerprint,
       browser_fingerprint: params.browserFingerprint,
+      screenshot_type: e?.screenshot_type ?? null,
+      screenshot_type_2: e?.screenshot2.screenshot_type ?? null,
+      confidence_authorization_number: e?.field_confidence.authorization_number ?? null,
+      confidence_amount: e?.field_confidence.amount ?? null,
+      confidence_currency: e?.field_confidence.currency ?? null,
+      confidence_destination: e?.field_confidence.destination ?? null,
+      confidence_payment_datetime: e?.field_confidence.payment_datetime ?? null,
       ocr_raw_text: e?.raw_text ?? null,
       ocr_confidence: e?.ocr_confidence ?? null,
       ocr_amount: e?.amount ?? null,

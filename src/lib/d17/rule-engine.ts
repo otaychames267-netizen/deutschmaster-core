@@ -25,9 +25,17 @@ export interface RuleCheck {
 
 export type AttemptDecision = "auto_approved" | "manual_review" | "auto_rejected_fraud";
 
+export type HardGateReason =
+  | "fraud"
+  | "wrong_recipient"
+  | "screenshot_type"
+  | "amount_mismatch"
+  | "currency_mismatch"
+  | "authorization_number_mismatch";
+
 export interface ScoreAttemptResult {
   checks: RuleCheck[];
-  hardGate: "fraud" | "wrong_recipient" | null;
+  hardGate: HardGateReason | null;
   riskScore: number;
   aiConfidence: number;
   decision: AttemptDecision;
@@ -91,6 +99,16 @@ const DEFAULT_AUTO_APPROVE_CONFIDENCE_THRESHOLD = 90; // risk_score <= 10
 // falls to manual_review rather than auto-approving a wrong amount.
 const AMOUNT_TOLERANCE_TND = 0.01;
 
+// A wider band, just outside the auto-pass tolerance, where a mismatch is
+// still plausibly OCR digit-noise rather than a genuinely different amount
+// (e.g. 29.970-29.995 against a 30.000 target) — these stay routed to
+// Manual Review via the weighted score, same as today. Anything further off
+// than this (25 TND, 10 TND, 1 TND against a 30 TND order) is unambiguous
+// regardless of how confidently it was read — a real digit misread doesn't
+// turn "30" into "10" — so it hard-rejects instantly instead of merely
+// scoring a "fail" that a clean-history bonus could otherwise dilute.
+const AMOUNT_GRAY_ZONE_TND = 0.05;
+
 function normalizeReference(ref: string): string {
   return ref.trim().replace(/[\s-]/g, "").toLowerCase();
 }
@@ -126,6 +144,23 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   // compare on absolute value so a correct amount never reads as a mismatch.
   const ocrAmount = extraction.amount === null ? null : Math.abs(extraction.amount);
   const shot2Amount = extraction.screenshot2.amount === null ? null : Math.abs(extraction.screenshot2.amount);
+
+  // 0. Screenshot classification — computed early for display purposes; the
+  // actual hard-gate enforcement happens below (screenshotTypeOk), after
+  // ocrAmount/ocrIdentifier are in scope. Shown first in the checks list to
+  // match the real pipeline order: "what am I even looking at" before "does
+  // its content match."
+  if (extraction.screenshot_type === "payment_success" && extraction.screenshot2.screenshot_type === "journal") {
+    checks.push({ id: "screenshot_classification", label: "Screenshot Classification", result: "pass", points: 0, detail: "Screenshot 1 classified as Payment Success, Screenshot 2 as Journal D17, as expected." });
+  } else {
+    checks.push({
+      id: "screenshot_classification",
+      label: "Screenshot Classification",
+      result: "fail",
+      points: 0, // the hard gate below rejects outright; no weighted score needed
+      detail: `Expected Payment Success + Journal D17, detected "${extraction.screenshot_type}" + "${extraction.screenshot2.screenshot_type}".`,
+    });
+  }
 
   // 1. Authorization-number match — D17's single most important identifier.
   // A number OCR simply couldn't read costs far less than a real mismatch,
@@ -431,9 +466,58 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   const hasHardFlag = extraction.fraud_flags.some((f) => HARD_FRAUD_FLAGS.has(f));
   const fraudHardGate = hasHardFlag && extraction.fraud_score >= HARD_FRAUD_SCORE_THRESHOLD;
 
-  // Wrong recipient takes precedence: it's the most unambiguous, highest-
-  // certainty rejection reason (a concrete number that isn't ours).
-  const hardGate: "fraud" | "wrong_recipient" | null = wrongRecipient ? "wrong_recipient" : fraudHardGate ? "fraud" : null;
+  // Screenshot-type hard gate — the required pair is exactly one
+  // "payment_success" and one "journal". Anything else (either slot
+  // "unknown", both slots the same type, or a type swap) means the pipeline
+  // cannot even confirm it's looking at the two required D17 screens, let
+  // alone verify their contents — reject before trusting any of the rest of
+  // the extraction from that slot.
+  const screenshotTypeOk = extraction.screenshot_type === "payment_success" && extraction.screenshot2.screenshot_type === "journal";
+
+  // Amount hard gate — anything further off than the gray zone is
+  // unambiguous regardless of OCR confidence (see AMOUNT_GRAY_ZONE_TND
+  // above). A null/illegible amount is NOT covered here — that's the
+  // existing "uncertain" path in check #2, correctly routed to Manual
+  // Review since there's nothing concrete to contradict.
+  const amountHardReject = ocrAmount !== null && Math.abs(ocrAmount - input.orderAmountTnd) > AMOUNT_GRAY_ZONE_TND;
+
+  // Currency hard gate — unlike a digit, a 3-letter currency code that was
+  // legibly transcribed at all is not meaningfully ambiguous ("TND" doesn't
+  // get OCR-misread as "EUR"), so any legible mismatch is unambiguous.
+  const currencyHardReject = Boolean(extraction.currency) && extraction.currency!.trim().toUpperCase() !== input.orderCurrency.toUpperCase();
+
+  // Authorization-number hard gate — gated on the field's OWN confidence
+  // (not the overall ocr_confidence): a digit misread is genuinely plausible,
+  // so only a CONFIDENTLY-read number that still disagrees with what the
+  // student typed is treated as unambiguous. A low-confidence mismatch falls
+  // through to the existing "reference_match" scored check (manual_review),
+  // exactly the "genuinely unclear → human look" case the audit asked for.
+  const AUTH_NUMBER_HARD_GATE_CONFIDENCE = 80;
+  const authNumberHardReject =
+    ocrIdentifier !== null &&
+    extraction.field_confidence.authorization_number >= AUTH_NUMBER_HARD_GATE_CONFIDENCE &&
+    normalizeReference(ocrIdentifier) !== normalizeReference(input.userEnteredReference) &&
+    !normalizeReference(ocrIdentifier).includes(normalizeReference(input.userEnteredReference)) &&
+    !normalizeReference(input.userEnteredReference).includes(normalizeReference(ocrIdentifier));
+
+  // Precedence, most-unambiguous first: wrong recipient (money went
+  // somewhere else — highest certainty) > screenshot type (can't even
+  // confirm what's being looked at) > amount > currency > authorization
+  // number > general fraud flags. Only the FIRST applicable reason is
+  // reported — each is independently sufficient to reject on its own.
+  const hardGate: HardGateReason | null = wrongRecipient
+    ? "wrong_recipient"
+    : !screenshotTypeOk
+      ? "screenshot_type"
+      : amountHardReject
+        ? "amount_mismatch"
+        : currencyHardReject
+          ? "currency_mismatch"
+          : authNumberHardReject
+            ? "authorization_number_mismatch"
+            : fraudHardGate
+              ? "fraud"
+              : null;
 
   // Clamped to [0, 100]: the reputation_signal check can contribute
   // negative points (a bonus for a clean history), so the raw sum is no
@@ -465,6 +549,18 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
   if (hardGate === "wrong_recipient") {
     decision = "auto_rejected_fraud";
     decisionReason = `Payment was sent to a different recipient (${extractedRecipients.join(", ")}), not the official D17 number ${input.officialRecipientNumber}. Transfers to any other recipient are never accepted.`;
+  } else if (hardGate === "screenshot_type") {
+    decision = "auto_rejected_fraud";
+    decisionReason = `The two screenshots do not match the required pair: expected a "Payment Success" screenshot and a "Journal D17" screenshot, but detected "${extraction.screenshot_type}" and "${extraction.screenshot2.screenshot_type}".`;
+  } else if (hardGate === "amount_mismatch") {
+    decision = "auto_rejected_fraud";
+    decisionReason = `Amount does not match: expected ${input.orderAmountTnd} ${input.orderCurrency}, screenshot shows ${ocrAmount}.`;
+  } else if (hardGate === "currency_mismatch") {
+    decision = "auto_rejected_fraud";
+    decisionReason = `Currency does not match: expected ${input.orderCurrency}, screenshot shows ${extraction.currency}.`;
+  } else if (hardGate === "authorization_number_mismatch") {
+    decision = "auto_rejected_fraud";
+    decisionReason = `The authorization number on the screenshot ("${ocrIdentifier}") does not match what was entered ("${input.userEnteredReference}").`;
   } else if (hardGate === "fraud") {
     decision = "auto_rejected_fraud";
     decisionReason = `Fraud signals detected: ${extraction.fraud_flags.join(", ")} (fraud score ${extraction.fraud_score}).`;
