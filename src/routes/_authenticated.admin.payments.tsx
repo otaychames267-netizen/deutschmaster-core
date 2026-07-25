@@ -16,6 +16,7 @@ interface OrderRow {
   status: string;
   attempts_used: number;
   created_at: string;
+  manual_review_deadline: string | null;
   locked_for_admin_only: boolean;
   student_email: string | null;
   student_name: string | null;
@@ -23,6 +24,22 @@ interface OrderRow {
   ai_confidence: number | null;
   decision: string | null;
   decision_reason: string | null;
+}
+
+const SORT_OPTIONS = [
+  { value: "priority", label: "Priority (default)" },
+  { value: "risk", label: "Highest risk" },
+  { value: "waiting", label: "Longest waiting" },
+  { value: "newest", label: "Newest first" },
+] as const;
+type SortOption = (typeof SORT_OPTIONS)[number]["value"];
+
+function slaInfo(o: OrderRow): { label: string; overdue: boolean } | null {
+  if (o.status !== "manual_review" || !o.manual_review_deadline) return null;
+  const msLeft = new Date(o.manual_review_deadline).getTime() - Date.now();
+  const hours = Math.abs(msLeft) / 3600_000;
+  const rounded = hours < 1 ? `${Math.round(hours * 60)}m` : `${hours.toFixed(1)}h`;
+  return msLeft < 0 ? { label: `Overdue by ${rounded}`, overdue: true } : { label: `${rounded} left`, overdue: false };
 }
 
 const STATUS_ICON: Record<string, { icon: string; label: string; color: string }> = {
@@ -60,13 +77,14 @@ function AdminPaymentsPage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<(typeof STATUS_FILTERS)[number]>("all");
   const [query, setQuery] = useState("");
+  const [sortOption, setSortOption] = useState<SortOption>("priority");
   const [stats, setStats] = useState({ autoApprovedToday: 0, manualReviewPending: 0, rejectedToday: 0 });
 
   const load = useCallback(async () => {
     setLoading(true);
     const { data: orderRows } = await supabase
       .from("d17_orders")
-      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, locked_for_admin_only")
+      .select("id, user_id, plan_code, amount_tnd, currency, status, attempts_used, created_at, manual_review_deadline, locked_for_admin_only")
       .order("created_at", { ascending: false })
       .limit(100);
 
@@ -137,7 +155,15 @@ function AdminPaymentsPage() {
       }
       return true;
     })
-    .sort(queueSort);
+    .sort(
+      sortOption === "priority"
+        ? queueSort
+        : sortOption === "risk"
+          ? (a, b) => (b.risk_score ?? -1) - (a.risk_score ?? -1)
+          : sortOption === "waiting"
+            ? (a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+            : (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+    );
 
   return (
     <div className="mx-auto max-w-6xl space-y-6 pb-8">
@@ -192,6 +218,15 @@ function AdminPaymentsPage() {
             </button>
           ))}
         </div>
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value as SortOption)}
+          className="rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold text-foreground"
+        >
+          {SORT_OPTIONS.map((o) => (
+            <option key={o.value} value={o.value}>Sort: {o.label}</option>
+          ))}
+        </select>
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
@@ -199,16 +234,16 @@ function AdminPaymentsPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border">
-                {["Status", "Student", "Plan", "Amount", "Risk", "AI Confidence", "Recommendation", "Created"].map((h) => (
+                {["Status", "Student", "Plan", "Amount", "Risk", "AI Confidence", "Recommendation", "Waiting / SLA", "Created"].map((h) => (
                   <th key={h} className="px-5 py-3 text-left text-xs font-medium text-muted-foreground">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
-                <tr><td colSpan={8} className="px-6 py-8 text-center text-muted-foreground">Loading…</td></tr>
+                <tr><td colSpan={9} className="px-6 py-8 text-center text-muted-foreground">Loading…</td></tr>
               ) : filtered.length === 0 ? (
-                <tr><td colSpan={8} className="px-6 py-8 text-center text-muted-foreground">No orders match.</td></tr>
+                <tr><td colSpan={9} className="px-6 py-8 text-center text-muted-foreground">No orders match.</td></tr>
               ) : (
                 filtered.map((o) => {
                   const s = STATUS_ICON[o.status] ?? { icon: "⚪", label: o.status, color: "text-muted-foreground" };
@@ -233,6 +268,17 @@ function AdminPaymentsPage() {
                       <td className="px-5 py-3.5 text-foreground">{o.ai_confidence ?? "—"}%</td>
                       <td className="px-5 py-3.5 text-xs text-muted-foreground max-w-xs truncate" title={o.decision_reason ?? ""}>
                         {o.decision_reason ?? "—"}
+                      </td>
+                      <td className="px-5 py-3.5 text-xs">
+                        {(() => {
+                          const sla = slaInfo(o);
+                          if (!sla) return <span className="text-muted-foreground">—</span>;
+                          return (
+                            <span className={sla.overdue ? "font-semibold text-red-600 dark:text-red-400" : "text-muted-foreground"}>
+                              {sla.label}
+                            </span>
+                          );
+                        })()}
                       </td>
                       <td className="px-5 py-3.5 text-xs text-muted-foreground">{new Date(o.created_at).toLocaleString()}</td>
                     </tr>

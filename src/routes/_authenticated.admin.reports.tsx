@@ -62,6 +62,15 @@ function todayISO() {
   return new Date().toISOString().slice(0, 10);
 }
 
+function formatDuration(ms: number): string {
+  if (ms <= 0) return "0m";
+  const totalMinutes = Math.round(ms / 60_000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (hours === 0) return `${minutes}m`;
+  return `${hours}h ${minutes}m`;
+}
+
 function D17ReportCard() {
   const [from, setFrom] = useState(todayISO());
   const [to, setTo] = useState(todayISO());
@@ -71,6 +80,7 @@ function D17ReportCard() {
     avgVerificationMs: 0, approvalRate: 0, rejectionRate: 0,
     crossCheckInconsistentCount: 0, crossCheckInconsistentRate: 0,
     activeSuspensions: 0, lockedAccounts: 0,
+    ocrFailures: 0, ocrFailureRate: 0, avgReviewResolutionMs: 0, reviewResolutionSampleSize: 0,
   });
   const [rows, setRows] = useState<Record<string, string | number>[]>([]);
   const [providerStats, setProviderStats] = useState<{ provider: string; count: number; revenue: number }[]>([]);
@@ -80,11 +90,11 @@ function D17ReportCard() {
     const fromIso = new Date(`${from}T00:00:00`).toISOString();
     const toIso = new Date(`${to}T23:59:59`).toISOString();
 
-    const [{ data: orders }, { data: attempts }, { data: suspensions }, { data: payments }] = await Promise.all([
-      supabase.from("d17_orders").select("id, status").gte("created_at", fromIso).lte("created_at", toIso),
+    const [{ data: orders }, { data: attempts }, { data: suspensions }, { data: payments }, { count: ocrFailureCount }] = await Promise.all([
+      supabase.from("d17_orders").select("id, status, resolved_at").gte("created_at", fromIso).lte("created_at", toIso),
       supabase
         .from("d17_verification_attempts")
-        .select("id, decision, verification_duration_ms, risk_score, ai_confidence, created_at, cross_check_consistent")
+        .select("id, order_id, decision, verification_duration_ms, risk_score, ai_confidence, created_at, cross_check_consistent")
         .gte("created_at", fromIso)
         .lte("created_at", toIso),
       // Current suspension state is a live snapshot, not date-ranged — an
@@ -98,6 +108,12 @@ function D17ReportCard() {
       // the real payment processor, informing when the real D17 API
       // integration becomes worth prioritizing.
       supabase.from("payments").select("provider, amount, currency, status").eq("status", "succeeded").gte("created_at", fromIso).lte("created_at", toIso),
+      // A fail-closed OCR/AI-provider crash (Phase A) never writes a
+      // verification attempt row — it throws before finalizeAttempt runs, so
+      // it can't be counted from d17_verification_attempts. It does always
+      // raise a "gemini_failure" alert (alertGeminiFailure), which is the
+      // only queryable record of how often this happens.
+      supabase.from("d17_alerts").select("id", { count: "exact", head: true }).eq("category", "gemini_failure").gte("created_at", fromIso).lte("created_at", toIso),
     ]);
 
     const approved = (orders ?? []).filter((o) => o.status === "auto_approved" || o.status === "admin_approved").length;
@@ -124,9 +140,42 @@ function D17ReportCard() {
     const lockedAccounts = (suspensions ?? []).filter((s) => s.account_locked).length;
     const activeSuspensions = (suspensions ?? []).filter((s) => !s.account_locked && s.suspended_until && new Date(s.suspended_until).getTime() > now).length;
 
+    const ocrFailures = ocrFailureCount ?? 0;
+    // Denominator is every verification EVENT in range, successful or not —
+    // attempts that got far enough to write a row, plus fail-closed crashes
+    // that didn't. Rate answers "of all verification attempts, how many hit
+    // a system failure" rather than comparing against unrelated totals.
+    const totalVerificationEvents = (attempts?.length ?? 0) + ocrFailures;
+    const ocrFailureRate = totalVerificationEvents ? Math.round((ocrFailures / totalVerificationEvents) * 100) : 0;
+
+    // Average manual-review resolution time: for orders resolved in this
+    // range that passed through manual_review, resolved_at minus the
+    // earliest manual_review attempt for that order (i.e. when it entered
+    // review). Both orders and attempts are scoped to the same [from, to]
+    // window, so a review that started just before `from` and resolved just
+    // after `to` would be undercounted — acceptable for a coarse admin
+    // metric, not a billing-grade SLA report.
+    const reviewEntryByOrder = new Map<string, string>();
+    for (const a of attempts ?? []) {
+      if (a.decision !== "manual_review") continue;
+      const existing = reviewEntryByOrder.get(a.order_id);
+      if (!existing || a.created_at < existing) reviewEntryByOrder.set(a.order_id, a.created_at);
+    }
+    const reviewDurationsMs: number[] = [];
+    for (const o of orders ?? []) {
+      if (!o.resolved_at) continue;
+      const enteredAt = reviewEntryByOrder.get(o.id);
+      if (!enteredAt) continue;
+      reviewDurationsMs.push(new Date(o.resolved_at).getTime() - new Date(enteredAt).getTime());
+    }
+    const avgReviewResolutionMs = reviewDurationsMs.length
+      ? Math.round(reviewDurationsMs.reduce((s, d) => s + d, 0) / reviewDurationsMs.length)
+      : 0;
+
     setStats({
       autoApproved: approved, manualReview, rejected, duplicateAttempts, fraudAttempts, avgVerificationMs, approvalRate, rejectionRate,
       crossCheckInconsistentCount, crossCheckInconsistentRate, activeSuspensions, lockedAccounts,
+      ocrFailures, ocrFailureRate, avgReviewResolutionMs, reviewResolutionSampleSize: reviewDurationsMs.length,
     });
 
     // Grouped by provider, not currency-converted (this app is TND-only
@@ -192,6 +241,11 @@ function D17ReportCard() {
               { label: "Cross-screenshot inconsistent", value: `${stats.crossCheckInconsistentCount} (${stats.crossCheckInconsistentRate}%)` },
               { label: "Currently suspended", value: stats.activeSuspensions },
               { label: "Currently locked", value: stats.lockedAccounts },
+              { label: "OCR/system failures", value: `${stats.ocrFailures} (${stats.ocrFailureRate}%)` },
+              {
+                label: "Avg. manual review time",
+                value: stats.reviewResolutionSampleSize ? formatDuration(stats.avgReviewResolutionMs) : "—",
+              },
             ].map((s) => (
               <div key={s.label} className="rounded-xl border border-border bg-muted/20 p-3">
                 <p className="text-[10px] text-muted-foreground">{s.label}</p>
