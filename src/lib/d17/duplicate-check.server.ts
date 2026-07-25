@@ -19,6 +19,7 @@
  * without hitting the DB.
  */
 import { hammingDistance } from "./image-hash.server";
+import { normalizeReference } from "./rule-engine";
 
 const DHASH_DUPLICATE_THRESHOLD = Number(process.env.DHASH_DUPLICATE_THRESHOLD ?? 10);
 const DUPLICATE_LOOKBACK_DAYS = 180; // D17 verification is explicitly temporary — no need to scan an unbounded table
@@ -106,40 +107,29 @@ export async function findDuplicate(supabaseAdmin: any, params: FindDuplicatePar
     }
   }
 
-  if (params.reference) {
-    const match = await findAttemptByColumn(supabaseAdmin, params.orderId, "ocr_reference", params.reference);
-    if (match) {
-      return { type: "cross_account_reference", matchedAttemptId: match.id, matchedOrderId: match.order_id, matchedUserId: match.user_id };
-    }
-  }
-
-  if (params.transactionId) {
-    const match = await findAttemptByColumn(supabaseAdmin, params.orderId, "ocr_transaction_id", params.transactionId);
-    if (match) {
-      return { type: "transaction_id_duplicate", matchedAttemptId: match.id, matchedOrderId: match.order_id, matchedUserId: match.user_id };
-    }
-  }
-
-  if (params.authorizationNumber) {
-    const match = await findAttemptByColumn(supabaseAdmin, params.orderId, "ocr_authorization_number", params.authorizationNumber);
+  // Identifier reuse, NORMALIZED — checked against the normalized_identifier
+  // column every attempt writes (finalizeAttempt), not the raw OCR columns
+  // directly. Fixes a real gap: comparing raw strings meant a trivially
+  // reformatted duplicate (spaces/dashes/leading zeros — "482193" vs
+  // "482-193" vs "0482193") could evade this check even though the
+  // same-attempt OCR-vs-user-entered comparison (rule-engine.ts) already
+  // treats those as equal via the same normalizeReference(). The primary,
+  // race-free path for the user-entered value is reserve_d17_identifier
+  // (called earlier in verify.functions.ts, before any Gemini spend); this
+  // check additionally covers the OCR-extracted identifiers, which are only
+  // known post-OCR.
+  const normalizedCandidates = Array.from(
+    new Set(
+      [params.userEnteredReference, params.authorizationNumber, params.reference, params.transactionId]
+        .filter((v): v is string => Boolean(v))
+        .map(normalizeReference)
+        .filter((v) => v.length > 0),
+    ),
+  );
+  for (const candidate of normalizedCandidates) {
+    const match = await findAttemptByColumn(supabaseAdmin, params.orderId, "normalized_identifier", candidate);
     if (match) {
       return { type: "authorization_number_duplicate", matchedAttemptId: match.id, matchedOrderId: match.order_id, matchedUserId: match.user_id };
-    }
-  }
-
-  // The student-typed authorization number, cross-checked against every
-  // other order's stored identifiers. This is what makes the auth number
-  // globally unique even when THIS upload's OCR failed to read it, and (since
-  // it's known before Gemini runs) lets a reused number hard-reject in the
-  // pre-OCR pass. Checks all three identifier columns because a genuine D17
-  // authorization number could have been captured as an authorization number,
-  // a reference, or a transaction id on some earlier attempt.
-  if (params.userEnteredReference) {
-    for (const column of ["ocr_authorization_number", "ocr_reference", "ocr_transaction_id"]) {
-      const match = await findAttemptByColumn(supabaseAdmin, params.orderId, column, params.userEnteredReference);
-      if (match) {
-        return { type: "authorization_number_duplicate", matchedAttemptId: match.id, matchedOrderId: match.order_id, matchedUserId: match.user_id };
-      }
     }
   }
 

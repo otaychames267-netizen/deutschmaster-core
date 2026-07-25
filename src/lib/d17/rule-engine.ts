@@ -109,7 +109,13 @@ const AMOUNT_TOLERANCE_TND = 0.01;
 // scoring a "fail" that a clean-history bonus could otherwise dilute.
 const AMOUNT_GRAY_ZONE_TND = 0.05;
 
-function normalizeReference(ref: string): string {
+// Exported (not just used internally) so duplicate-check.server.ts and
+// verify.functions.ts's identifier-reservation call use the EXACT same
+// normalization as the OCR-vs-user-entered comparison below — a mismatch
+// between these was a real gap: a reformatted duplicate (spaces/dashes/
+// leading zeros) could previously evade cross-account dedup even though
+// the same-attempt comparison here would have treated the two as equal.
+export function normalizeReference(ref: string): string {
   return ref.trim().replace(/[\s-]/g, "").toLowerCase();
 }
 

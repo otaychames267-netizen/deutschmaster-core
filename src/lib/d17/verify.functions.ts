@@ -427,6 +427,9 @@ export async function runVerificationPipeline(
     const browserFingerprint = data.browser_fingerprint ?? null;
     const ipAddress = requestContext.ipAddress;
 
+    const { normalizeReference } = await import("./rule-engine");
+    const normalizedIdentifier = normalizeReference(reference);
+
     const baseFinalizeParams = () => ({
       order,
       userId,
@@ -447,7 +450,46 @@ export async function runVerificationPipeline(
       browserFingerprint,
       maxAttemptsPerOrder: config.d17_max_attempts_per_order,
       manualReviewWindowHours: config.d17_manual_review_window_hours,
+      normalizedIdentifier,
     });
+
+    // ── Authorization-number reservation — the RACE-FREE half of duplicate
+    // detection. findDuplicate() below is a plain SELECT-before-INSERT; two
+    // near-simultaneous submissions of the identical identifier from
+    // different orders could both pass that check before either attempt row
+    // existed. This atomic INSERT ... ON CONFLICT (reserve_d17_identifier,
+    // see the Phase C migration) closes that race for the one identifier we
+    // always have BEFORE any Gemini call: whatever the student typed. A
+    // retry from THIS SAME order (e.g. after the fail-closed AI-error path
+    // below, which never wrote an attempt row) re-reserves successfully —
+    // only a genuinely different order gets rejected.
+    // as any: reserve_d17_identifier is not yet in the generated Database
+    // type (types.ts isn't regenerated automatically in this environment —
+    // see supabase/migrations for the source of truth). Matches this
+    // codebase's existing convention for calling a real RPC ahead of a
+    // types.ts regen.
+    const { data: reservationRows } = await (supabaseAdmin as any).rpc("reserve_d17_identifier", {
+      p_normalized_identifier: normalizedIdentifier,
+      p_order_id: order.id,
+      p_user_id: userId,
+    });
+    const reservation: { reserved: boolean; held_by_order_id: string; held_by_user_id: string } | null =
+      Array.isArray(reservationRows) ? reservationRows[0] : reservationRows;
+    if (reservation && reservation.reserved === false) {
+      return finalizeAttempt(supabaseAdmin, {
+        ...baseFinalizeParams(),
+        ocrTextHashSha256: null,
+        ocrTextHashSha256_2: null,
+        extraction: null,
+        decision: "auto_rejected_duplicate",
+        decisionReason: "This Authorization Number has already been submitted on another order.",
+        riskScore: 100,
+        aiConfidence: 0,
+        ruleEngineResult: { skipped: true, reason: "identifier_reservation_conflict", heldByOrderId: reservation.held_by_order_id },
+        verificationDurationMs: Date.now() - startedAt,
+        geminiTokenCount: null,
+      });
+    }
 
     // ── Duplicate hard gate — evaluated before any Gemini call, so a hit
     // never costs budget. Applies regardless of the kill switch: reused
@@ -683,6 +725,7 @@ export async function finalizeAttempt(
     isAdminReplay?: boolean;
     maxAttemptsPerOrder: number;
     manualReviewWindowHours: number;
+    normalizedIdentifier: string;
   },
 ) {
   const e = params.extraction;
@@ -699,6 +742,7 @@ export async function finalizeAttempt(
       ip_address: params.ipAddress,
       device_fingerprint: params.deviceFingerprint,
       browser_fingerprint: params.browserFingerprint,
+      normalized_identifier: params.normalizedIdentifier,
       screenshot_type: e?.screenshot_type ?? null,
       screenshot_type_2: e?.screenshot2.screenshot_type ?? null,
       confidence_authorization_number: e?.field_confidence.authorization_number ?? null,

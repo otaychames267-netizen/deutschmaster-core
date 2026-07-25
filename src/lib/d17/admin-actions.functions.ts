@@ -287,7 +287,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
     await assertNotRateLimited(supabaseAdmin, { key: `adminReplayVerification:${context.userId}`, windowSeconds: 60, maxRequests: 10 });
     const { stripExifAndReencode, sha256Hash, sha256HashText, computeDHash } = await import("./image-hash.server");
     const { buildVerificationPrompt, parseExtraction } = await import("./verification-prompt");
-    const { scoreAttempt } = await import("./rule-engine");
+    const { scoreAttempt, normalizeReference } = await import("./rule-engine");
     const { computeReputationVelocity } = await import("./reputation-velocity.server");
     const { callVisionVerification, finalizeAttempt } = await import("./verify.functions");
     const { getD17Config } = await import("./config");
@@ -390,6 +390,7 @@ export const adminReplayVerification = createServerFn({ method: "POST" })
       isAdminReplay: true,
       maxAttemptsPerOrder: config.d17_max_attempts_per_order,
       manualReviewWindowHours: config.d17_manual_review_window_hours,
+      normalizedIdentifier: normalizeReference(latest.user_entered_reference),
     });
 
     await supabaseAdmin.from("d17_admin_actions").insert({
