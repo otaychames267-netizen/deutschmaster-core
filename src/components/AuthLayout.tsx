@@ -47,22 +47,11 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
 
         {/* Main content */}
         <div className="relative z-10 space-y-8">
-          {/* Quote */}
-          <blockquote>
-            <p className="text-xl font-medium leading-relaxed text-white/90">
-              "AuraLingovia is the only platform that covers every part of the
-              TELC exam with authentic content — and the analytics are incredible."
-            </p>
-            <footer className="mt-3 flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white ring-1 ring-white/20">
-                AR
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white">Amina R.</p>
-                <p className="text-xs text-white/50">Passed TELC B2 · March 2026</p>
-              </div>
-            </footer>
-          </blockquote>
+          {/* Tagline */}
+          <p className="text-xl font-medium leading-relaxed text-white/90">
+            Structured, exam-aligned practice for every part of the TELC B2
+            exam — built around the real exam structure, not shortcuts.
+          </p>
 
           {/* Feature checklist */}
           <ul className="space-y-2.5">
