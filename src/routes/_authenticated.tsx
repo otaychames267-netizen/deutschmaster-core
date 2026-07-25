@@ -83,25 +83,44 @@ function AuthenticatedLayout() {
     }
 
     let cancelled = false;
+
+    // Safety net: never let the app hang on the loading screen forever if
+    // this check stalls (slow network, a rejected promise nothing below
+    // catches). Onboarding-redirect is a UX nicety, not the security
+    // boundary (real content access is separately RLS-gated per-table) —
+    // so timing out into "just show the page" is the safe failure mode.
+    // Mirrors the identical pattern already proven in useAuth (src/lib/auth.tsx).
+    const safety = setTimeout(() => {
+      if (!cancelled) { cancelled = true; setChecking(false); }
+    }, 8000);
+
     (async () => {
-      const { data } = await supabase
-        .from("profiles")
-        .select("onboarding_completed, level")
-        .eq("id", user.id)
-        .maybeSingle();
+      try {
+        const { data } = await supabase
+          .from("profiles")
+          .select("onboarding_completed, level")
+          .eq("id", user.id)
+          .maybeSingle();
 
-      if (cancelled) return;
-      checkedForRef.current = user.id;
+        if (cancelled) return;
+        clearTimeout(safety);
+        checkedForRef.current = user.id;
 
-      const needsOnboarding = !data || !data.onboarding_completed || !data.level;
-      if (needsOnboarding && !pathRef.current.startsWith("/onboarding")) {
-        nav({ to: "/onboarding", replace: true });
-        return;
+        const needsOnboarding = !data || !data.onboarding_completed || !data.level;
+        if (needsOnboarding && !pathRef.current.startsWith("/onboarding")) {
+          nav({ to: "/onboarding", replace: true });
+          return;
+        }
+        setChecking(false);
+      } catch {
+        // Query rejected outright (network failure, etc.) — fail open into
+        // "just show the page" rather than hang; do NOT claim checkedForRef
+        // so a later successful check for this user can still run.
+        if (!cancelled) { cancelled = true; setChecking(false); }
       }
-      setChecking(false);
     })();
 
-    return () => { cancelled = true; };
+    return () => { cancelled = true; clearTimeout(safety); };
   }, [user?.id, emailVerified, nav]);
 
   if (loading || !user) {
