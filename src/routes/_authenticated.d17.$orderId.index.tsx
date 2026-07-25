@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { getD17Order } from "@/lib/d17/orders.functions";
+import { TERMINAL_STATUSES } from "@/lib/d17/status";
 import { toast } from "sonner";
 import { ArrowLeft, Loader2, Copy, Check, AlertTriangle, Smartphone, Landmark, User } from "lucide-react";
 
@@ -19,8 +20,6 @@ interface D17Order {
   destination_iban: string | null;
   destination_account_holder: string | null;
 }
-
-const TERMINAL_STATUSES = ["auto_approved", "admin_approved", "rejected", "expired"];
 
 function CopyField({ label, value, icon: Icon }: { label: string; value: string; icon: React.ComponentType<{ className?: string }> }) {
   const [copied, setCopied] = useState(false);

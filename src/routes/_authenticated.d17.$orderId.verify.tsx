@@ -3,8 +3,10 @@ import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { submitVerificationAttempt } from "@/lib/d17/verify.functions";
+import { getD17Order } from "@/lib/d17/orders.functions";
 import { buildScreenshotPath } from "@/lib/d17/storage-path";
 import { getOrCreateD17DeviceFingerprint, computeD17BrowserFingerprint } from "@/lib/d17/client-fingerprint";
+import { UPLOAD_ACCEPTING_STATUSES } from "@/lib/d17/status";
 import { VerificationChecklist } from "@/components/d17/VerificationChecklist";
 import { toast } from "sonner";
 import { Upload, ImageIcon, ArrowLeft, Loader2, ShieldCheck, Clock, FlaskConical } from "lucide-react";
@@ -21,10 +23,9 @@ interface D17Order {
   status: string;
   attempts_used: number;
   session_token: string | null;
+  maxAttemptsPerOrder: number;
 }
 
-const ACTIVE_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
-const MAX_ATTEMPTS = 3;
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
 function D17VerifyPage() {
@@ -44,17 +45,22 @@ function D17VerifyPage() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    supabase
-      .from("d17_orders")
-      .select("id, plan_code, amount_tnd, currency, status, attempts_used, session_token")
-      .eq("id", orderId)
-      .maybeSingle()
-      .then(({ data }) => {
-        setOrder(data);
+    // Canonical, server-authoritative fetch (same function the status page
+    // and the payment-details page use) instead of a raw client query —
+    // this applies the same lazy expiry/under-review-flip business rules
+    // everywhere, so this page's displayed status can never silently drift
+    // from what the rest of the app considers current.
+    getD17Order({ data: { order_id: orderId } })
+      .then((data) => {
+        setOrder(data as D17Order);
         setLoading(false);
-        if (data && !ACTIVE_STATUSES.includes(data.status)) {
+        if (data && !(UPLOAD_ACCEPTING_STATUSES as readonly string[]).includes(data.status)) {
           nav({ to: "/d17/$orderId/status", params: { orderId } });
         }
+      })
+      .catch(() => {
+        setOrder(null);
+        setLoading(false);
       });
   }, [orderId]);
 
@@ -203,7 +209,7 @@ function D17VerifyPage() {
     );
   }
 
-  const attemptsRemaining = MAX_ATTEMPTS - order.attempts_used;
+  const attemptsRemaining = order.maxAttemptsPerOrder - order.attempts_used;
 
   return (
     <div className="mx-auto max-w-lg space-y-6 pb-10">
@@ -314,7 +320,7 @@ function D17VerifyPage() {
           <div className="flex items-start gap-2 rounded-xl border border-border bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
             <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0" />
             <span>
-              {attemptsRemaining} of {MAX_ATTEMPTS} upload attempts remaining for this order.
+              {attemptsRemaining} of {order.maxAttemptsPerOrder} upload attempts remaining for this order.
             </span>
           </div>
 

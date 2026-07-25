@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { getD17Order } from "@/lib/d17/orders.functions";
 import {
   CheckCircle2, Clock, XCircle, AlertTriangle,
   Loader2, Mail, Upload, PartyPopper,
@@ -18,9 +18,9 @@ interface D17Order {
   status: string;
   attempts_used: number;
   manual_review_deadline: string | null;
+  maxAttemptsPerOrder: number;
 }
 
-const MAX_ATTEMPTS = 3;
 const SUPPORT_EMAIL = (import.meta.env.VITE_SUPPORT_EMAIL as string | undefined) ?? "Support@auralingoviatestdeutsch.academy";
 
 function useCountdown(deadline: string | null) {
@@ -55,14 +55,19 @@ function D17StatusPage() {
   useEffect(() => {
     let cancelled = false;
     async function load() {
-      const { data } = await supabase
-        .from("d17_orders")
-        .select("id, plan_code, amount_tnd, currency, status, attempts_used, manual_review_deadline")
-        .eq("id", orderId)
-        .maybeSingle();
-      if (!cancelled) {
-        setOrder(data);
-        setLoading(false);
+      // Canonical server-authoritative fetch — see verify.tsx for why this
+      // replaced a raw client query.
+      try {
+        const data = await getD17Order({ data: { order_id: orderId } });
+        if (!cancelled) {
+          setOrder(data as D17Order);
+          setLoading(false);
+        }
+      } catch {
+        if (!cancelled) {
+          setOrder(null);
+          setLoading(false);
+        }
       }
     }
     load();
@@ -102,8 +107,14 @@ function D17StatusPage() {
     );
   }
 
-  const attemptsRemaining = MAX_ATTEMPTS - order.attempts_used;
-  const canRetry = attemptsRemaining > 0;
+  const attemptsRemaining = order.maxAttemptsPerOrder - order.attempts_used;
+  // Self-service upload is only ever offered pre-first-attempt (order is
+  // `under_review` because the 10-minute confirmation window lapsed with
+  // nothing uploaded yet — no verification session exists to lock). Once an
+  // actual attempt has been submitted and the order sits in `manual_review`,
+  // no further re-upload is offered here — only an admin decision moves it
+  // forward (see UPLOAD_ACCEPTING_STATUSES / status.ts for the full rule).
+  const canUploadFirstAttempt = order.status === "under_review" && order.attempts_used === 0 && attemptsRemaining > 0;
 
   return (
     <div className="mx-auto max-w-lg space-y-6 pb-10">
@@ -164,15 +175,21 @@ function D17StatusPage() {
             <ProgressStep label="Manual review" pending />
           </div>
 
-          {canRetry && (
+          {canUploadFirstAttempt && (
             <Link
               to="/d17/$orderId/verify"
               params={{ orderId }}
               className="mt-5 flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted"
             >
               <Upload className="h-4 w-4" />
-              {order.attempts_used === 0 ? `Upload your screenshots (${attemptsRemaining} attempts)` : `Upload a clearer screenshot (${attemptsRemaining} left)`}
+              Upload your screenshots ({attemptsRemaining} attempts)
             </Link>
+          )}
+          {order.status === "manual_review" && (
+            <p className="mt-5 text-center text-xs text-muted-foreground">
+              Your screenshots are under review — no further upload is needed or possible while a decision is
+              pending. We'll notify you as soon as it's resolved.
+            </p>
           )}
         </div>
       )}
@@ -182,18 +199,20 @@ function D17StatusPage() {
           <XCircle className="mx-auto h-10 w-10 text-destructive" />
           <p className="mt-3 font-black text-foreground">Payment couldn't be verified</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Please upload another payment notification or contact support.
+            Please contact support, or start a new payment to try again.
           </p>
           <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:justify-center">
-            {canRetry && (
-              <Link
-                to="/d17/$orderId/verify"
-                params={{ orderId }}
-                className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground hover:opacity-90"
-              >
-                <Upload className="h-4 w-4" /> Upload another screenshot
-              </Link>
-            )}
+            {/* This order is terminal (rejected) — retrying means starting a
+                brand-new order/session from Billing, not re-uploading here.
+                That new order gets its own independent attempt count, so
+                there's no "attempts remaining" gate on this link itself;
+                the usual submission rate limits still apply per account. */}
+            <Link
+              to="/billing"
+              className="flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground hover:opacity-90"
+            >
+              <Upload className="h-4 w-4" /> Start a new payment
+            </Link>
             <a
               href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Payment issue — Order ${order.id}`)}`}
               className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted"

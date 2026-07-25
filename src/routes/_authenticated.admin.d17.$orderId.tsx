@@ -2,6 +2,7 @@ import { createFileRoute, useParams, Link } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { adminApproveOrder, adminRejectOrder, adminAdjustGrant, adminClearSuspension, adminReplayVerification, adminAddNote } from "@/lib/d17/admin-actions.functions";
+import { ADMIN_ACTIONABLE_STATUSES } from "@/lib/d17/status";
 import { toast } from "sonner";
 import {
   ArrowLeft, CheckCircle2, XCircle, AlertTriangle, Loader2,
@@ -71,7 +72,6 @@ interface FraudSuspension {
   updated_at: string;
 }
 
-const ACTIONABLE_STATUSES = ["manual_review", "under_review", "rejected", "auto_approved", "admin_approved"];
 
 function AdminD17OrderDetail() {
   const { orderId } = useParams({ from: "/_authenticated/admin/d17/$orderId" });
@@ -237,7 +237,7 @@ function AdminD17OrderDetail() {
   }
 
   const latest = attempts[0];
-  const canAct = ACTIONABLE_STATUSES.includes(order.status);
+  const canAct = (ADMIN_ACTIONABLE_STATUSES as readonly string[]).includes(order.status);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-10">

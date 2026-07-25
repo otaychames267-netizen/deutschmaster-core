@@ -1,10 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { ORDER_CREATION_BLOCKING_STATUSES } from "./status";
 
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 const ORDER_LIFETIME_MS = 24 * 3600_000;
-const ACTIVE_STATUSES = ["awaiting_payment", "under_review", "manual_review"] as const;
 
 function generateSessionToken(): string {
   const bytes = new Uint8Array(32);
@@ -99,7 +99,7 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
       .from("d17_orders")
       .select("id, status, expires_at, attempts_used, created_at")
       .eq("user_id", userId)
-      .in("status", ACTIVE_STATUSES)
+      .in("status", ORDER_CREATION_BLOCKING_STATUSES)
       .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
@@ -196,5 +196,13 @@ export const getD17Order = createServerFn({ method: "POST" })
       if (currentStatus !== order.status) order.status = currentStatus as typeof order.status;
     }
 
-    return order;
+    // The real, admin-configurable attempt cap — not a value the client
+    // should ever hardcode (that drifted out of sync with this exact
+    // setting before: the UI said 3, an admin-changed config could say
+    // something else, and the retry button would silently hide or show
+    // based on a number nobody could actually change).
+    const { getD17Config } = await import("./config");
+    const config = await getD17Config(supabaseAdmin);
+
+    return { ...order, maxAttemptsPerOrder: config.d17_max_attempts_per_order };
   });

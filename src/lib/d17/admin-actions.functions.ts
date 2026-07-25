@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { ADMIN_ACTIONABLE_STATUSES } from "./status";
 // sendEmail (a *.server.* module) is dynamically imported at each call site
 // rather than statically here — this file is imported by client route
 // components for its createServerFn RPC stubs, and TanStack Start's
@@ -7,7 +8,6 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 // reachable in the client bundle graph, even transitively.
 
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
-const RESOLVABLE_STATUSES = ["manual_review", "under_review", "rejected", "auto_approved", "admin_approved"];
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
   const { data: isAdmin } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
@@ -77,7 +77,7 @@ export const adminApproveOrder = createServerFn({ method: "POST" })
 
     const { data: order, error: orderError } = await supabaseAdmin.from("d17_orders").select("*").eq("id", data.order_id).maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
-    if (!RESOLVABLE_STATUSES.includes(order.status)) throw new Error(`Cannot approve an order with status "${order.status}".`);
+    if (!(ADMIN_ACTIONABLE_STATUSES as readonly string[]).includes(order.status)) throw new Error(`Cannot approve an order with status "${order.status}".`);
 
     await activateOrder(supabaseAdmin, {
       orderId: order.id,
@@ -168,7 +168,7 @@ export const adminRejectOrder = createServerFn({ method: "POST" })
 
     const { data: order, error: orderError } = await supabaseAdmin.from("d17_orders").select("*").eq("id", data.order_id).maybeSingle();
     if (orderError || !order) throw new Error("Order not found.");
-    if (!RESOLVABLE_STATUSES.includes(order.status)) throw new Error(`Cannot reject an order with status "${order.status}".`);
+    if (!(ADMIN_ACTIONABLE_STATUSES as readonly string[]).includes(order.status)) throw new Error(`Cannot reject an order with status "${order.status}".`);
 
     // Reversing an already-approved order (fraud caught after the fact)
     // must also revoke the subscription activate_d17_order already

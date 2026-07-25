@@ -4,6 +4,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { buildVerificationPrompt, parseExtraction, PROMPT_VERSION } from "./verification-prompt";
 import { scoreAttempt } from "./rule-engine";
 import { OFFICIAL_D17_RECIPIENT } from "./payment-config";
+import { UPLOAD_ACCEPTING_STATUSES } from "./status";
 import type { DuplicateMatchType } from "./duplicate-check.server";
 
 // Every "*.server.*" module below is dynamically imported at each call site
@@ -154,7 +155,6 @@ export async function callVisionVerification(prompt: string, imageBase64_1: stri
  */
 export const maxDuration = 90;
 
-const ACTIVE_ORDER_STATUSES = ["awaiting_payment", "manual_review", "under_review"];
 // Stamped onto every attempt row so an admin auditing an old decision knows
 // exactly which vision model produced it (survives a provider switch).
 const AI_VERSION = VISION_PROVIDER === "gemini" ? `gemini:${GEMINI_MODEL}` : `claude:${CLAUDE_VISION_MODEL}`;
@@ -307,8 +307,19 @@ export async function runVerificationPipeline(
     if (!sessionOk) {
       throw new Error("Invalid session. Please reload the payment page and try again.");
     }
-    if (!ACTIVE_ORDER_STATUSES.includes(order.status)) {
-      throw new Error(`This order is already ${order.status} and cannot accept new screenshots.`);
+    // `manual_review` is deliberately NOT in UPLOAD_ACCEPTING_STATUSES: once
+    // a submitted attempt puts an order under review, the order locks —
+    // no further self-service re-upload while a decision is pending. The
+    // only ways out are an admin decision (approve/reject) or, if rejected,
+    // starting a brand-new order from /billing. This was previously a real
+    // gap: a student could keep re-uploading into the same order while it
+    // sat in manual_review, extending the review deadline each time.
+    if (!(UPLOAD_ACCEPTING_STATUSES as readonly string[]).includes(order.status)) {
+      throw new Error(
+        order.status === "manual_review"
+          ? "This order is already under manual review. Please wait for a decision — no further screenshots can be submitted while a review is in progress."
+          : `This order is already ${order.status} and cannot accept new screenshots.`,
+      );
     }
     if (order.locked_for_admin_only) {
       throw new Error("This order is locked pending administrator review and cannot accept new screenshots.");
