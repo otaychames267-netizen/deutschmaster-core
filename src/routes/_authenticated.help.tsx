@@ -37,7 +37,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "What are the available plans and prices?",
-        a: "Schriftlich: 25 TND/month — covers all written exam components. Mündlich: 45 TND/month — covers the oral exam. Komplett: 60 TND/month — written + oral, best value (save 10 TND vs. buying both separately).",
+        a: "Schriftlich: 30 TND/month — covers all written exam components. Mündlich: 55 TND/month (launching soon) — covers the oral exam. Komplett: 65 TND/month (launching soon) — written + oral, best value vs. buying both separately.",
       },
       {
         q: "How do I upgrade or change my plan?",
@@ -45,7 +45,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "Can I cancel anytime?",
-        a: "Yes, you can cancel your subscription at any time from the Billing page. Access to your plan's content is revoked immediately upon cancellation.",
+        a: "Yes — contact support any time and we'll cancel your subscription right away, no questions asked. Cancelling stops future renewal charges; you keep access to your plan's content through the end of the period you already paid for.",
       },
     ],
   },
@@ -194,7 +194,7 @@ function HelpPage() {
       {/* Contact / Support card */}
       <div className="grid gap-4 sm:grid-cols-2">
         <a
-          href="mailto:support@auralingovia.com"
+          href="mailto:Support@auralingoviatestdeutsch.academy"
           className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5"
         >
           <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 ring-1 ring-blue-500/20">
@@ -202,7 +202,7 @@ function HelpPage() {
           </div>
           <div>
             <p className="font-semibold text-foreground text-sm">Email support</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">support@auralingovia.com</p>
+            <p className="mt-0.5 text-xs text-muted-foreground break-all">Support@auralingoviatestdeutsch.academy</p>
           </div>
           <ChevronRight className="ml-auto h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
         </a>

@@ -38,7 +38,7 @@ function AdminSettingsPage() {
   const [planPriceBusyCode, setPlanPriceBusyCode] = useState<string | null>(null);
   const [form, setForm] = useState({
     platformName: "AuraLingovia",
-    supportEmail: "support@auralingovia.com",
+    supportEmail: "Support@auralingoviatestdeutsch.academy",
     maintenanceMode: false,
     registrationOpen: true,
     emailNotifications: true,

@@ -10,7 +10,7 @@ import i18n from "@/lib/i18n";
 import {
   BookOpen, Headphones, PenLine, Mic, GraduationCap,
   Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
-  Zap, Shield, Clock, TrendingUp, Users, Award, Play,
+  Zap, Shield, Clock, TrendingUp, Award, Play,
   ChevronDown, Menu, X, Landmark, CreditCard,
 } from "lucide-react";
 
@@ -135,32 +135,10 @@ const STEPS = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    name: "Amina R.",
-    role: "Passed TELC B2 — March 2026",
-    body: "I practised for 3 weeks using AuraLingovia and scored 87 points. The exam simulations were almost identical to the real test. I can't recommend it enough.",
-    rating: 5,
-  },
-  {
-    name: "Mehmet K.",
-    role: "Passed TELC B2 — January 2026",
-    body: "The Sprachbausteine and Hören sections used to terrify me. After two weeks of daily practice the patterns became second nature. The interface is genuinely beautiful.",
-    rating: 5,
-  },
-  {
-    name: "Lena B.",
-    role: "Preparing for TELC B2",
-    body: "I tried several apps before this one. AuraLingovia is the only platform that covers every single part of the exam with real-quality content. The analytics helped me see exactly where I was losing marks.",
-    rating: 5,
-  },
-];
-
 const STATS = [
-  { value: "10,000+", label: "Active students", icon: Users },
-  { value: "94%",     label: "Pass rate",        icon: Award },
-  { value: "500+",    label: "Practice exams",   icon: BookOpen },
-  { value: "7",       label: "UI languages",     icon: Globe },
+  { value: "500+", label: "Practice exercises", icon: BookOpen },
+  { value: "4",    label: "Exam sections live", icon: Award },
+  { value: "7",    label: "UI languages",       icon: Globe },
 ];
 
 const FAQ_ITEMS = [
@@ -182,7 +160,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can I cancel my subscription at any time?",
-    a: "Yes — cancel from your billing page with one click. No hidden fees, no awkward retention flows. Your access remains active until the end of the billing period.",
+    a: "Yes — contact support any time and we'll cancel your subscription right away, no questions asked and no hidden fees. Your access remains active until the end of the billing period you've already paid for.",
   },
 ];
 
@@ -213,6 +191,7 @@ function Navbar() {
           <a href="#how-it-works" className="transition-colors hover:text-foreground">How it works</a>
           <a href="#pricing" className="transition-colors hover:text-foreground">{t("nav.pricing")}</a>
           <a href="#faq" className="transition-colors hover:text-foreground">{t("nav.faq")}</a>
+          <Link to="/contact" className="transition-colors hover:text-foreground">{t("nav.contact")}</Link>
         </nav>
 
         {/* Right controls */}
@@ -286,6 +265,13 @@ function Navbar() {
                 {id === "how-it-works" ? "How it works" : id.charAt(0).toUpperCase() + id.slice(1)}
               </a>
             ))}
+            <Link
+              to="/contact"
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              {t("nav.contact")}
+            </Link>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
               <Link to="/login" className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted">
                 Sign in
@@ -359,7 +345,7 @@ function Hero() {
 
       {/* Stats bar */}
       <div className="relative mx-auto mt-20 max-w-3xl px-4">
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-md sm:grid-cols-4">
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-md sm:grid-cols-3">
           {STATS.map((s) => (
             <div key={s.label} className="flex flex-col items-center justify-center gap-1 bg-card/80 px-4 py-5 backdrop-blur-sm">
               <s.icon className="mb-0.5 h-4 w-4 text-muted-foreground" />
@@ -450,58 +436,11 @@ function Features() {
             { icon: Shield, text: "Bank-grade security" },
             { icon: Clock, text: "Instant access after signup" },
             { icon: Globe, text: "Available in 7 languages" },
-            { icon: Award, text: "94 % student pass rate" },
+            { icon: Award, text: "Built to the real TELC B2 exam structure" },
           ].map((t) => (
             <div key={t.text} className="flex items-center gap-1.5">
               <t.icon className="h-3.5 w-3.5 text-primary" />
               <span>{t.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Testimonials ──────────────────────────────────────────────────── */
-
-function Testimonials() {
-  return (
-    <section className="border-y border-border bg-muted/30 py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Student results
-          </p>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Trusted by thousands of learners
-          </h2>
-        </div>
-
-        <div className="mt-12 grid gap-5 sm:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <div
-              key={i}
-              className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
-            >
-              {/* Stars */}
-              <div className="mb-4 flex gap-0.5">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} className="h-3.5 w-3.5 fill-gold text-gold" />
-                ))}
-              </div>
-
-              <p className="flex-1 text-sm leading-relaxed text-foreground">"{t.body}"</p>
-
-              <div className="mt-5 flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                  {t.name.split(" ")[0][0]}{t.name.split(" ")[1]?.[0]}
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">{t.name}</p>
-                  <p className="text-xs text-muted-foreground">{t.role}</p>
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -693,7 +632,7 @@ function CTABanner() {
               Your exam preparation starts now
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-white/70">
-              Join over 10,000 students who chose AuraLingovia to prepare for their TELC exam.
+              Structured, exam-aligned practice for every part of the TELC B2 exam — start today.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
@@ -745,6 +684,7 @@ function Footer() {
               <a href="#features" className="hover:text-foreground transition-colors">Features</a>
               <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
               <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
+              <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
             </div>
           </div>
 
@@ -793,7 +733,6 @@ function LandingPage() {
         <Hero />
         <HowItWorks />
         <Features />
-        <Testimonials />
         <Pricing />
         <FAQ />
         <CTABanner />

@@ -14,7 +14,7 @@ export async function sendEmail(params: { to: string; subject: string; html: str
     return;
   }
 
-  const from = process.env.RESEND_FROM_EMAIL ?? "AuraLingovia <noreply@auralingovia.com>";
+  const from = process.env.RESEND_FROM_EMAIL ?? "AuraLingovia <noreply@auralingoviatestdeutsch.academy>";
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",

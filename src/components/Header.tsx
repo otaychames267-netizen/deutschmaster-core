@@ -42,7 +42,7 @@ export function Header() {
           <a href="/#features" className="hover:text-accent">{t("nav.features")}</a>
           <a href="/#pricing" className="hover:text-accent">{t("nav.pricing")}</a>
           <a href="/#faq" className="hover:text-accent">{t("nav.faq")}</a>
-          <a href="/#contact" className="hover:text-accent">{t("nav.contact")}</a>
+          <Link to="/contact" className="hover:text-accent">{t("nav.contact")}</Link>
         </nav>
         <div className="flex items-center gap-2">
           <DropdownMenu>

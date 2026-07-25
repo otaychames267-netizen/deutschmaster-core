@@ -12,6 +12,8 @@ export function Footer() {
           <p className="mt-2 text-sm text-muted-foreground">Professional TELC B2 preparation.</p>
         </div>
         <div className="flex flex-col gap-2 text-sm">
+          <a href="/#pricing" className="hover:text-accent">{t("nav.pricing")}</a>
+          <Link to="/contact" className="hover:text-accent">{t("nav.contact")}</Link>
           <Link to="/privacy" className="hover:text-accent">{t("footer.privacy")}</Link>
           <Link to="/terms" className="hover:text-accent">{t("footer.terms")}</Link>
           <Link to="/refund" className="hover:text-accent">{t("footer.refund")}</Link>

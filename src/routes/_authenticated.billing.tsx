@@ -402,7 +402,7 @@ function BillingPage() {
         {[
           { icon: Zap,       title: "Fast verification",  desc: "Most D17 transfers are verified automatically within moments.",  color: "text-amber-500 bg-amber-500/10" },
           { icon: Shield,    title: "Secure by design",   desc: "Your payment is reviewed before any access is granted — we never store card details.", color: "text-blue-500 bg-blue-500/10"   },
-          { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Cancel in one click, no questions asked.",           color: "text-emerald-500 bg-emerald-500/10" },
+          { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Contact support and we'll cancel it right away, no questions asked.", color: "text-emerald-500 bg-emerald-500/10" },
         ].map((item) => (
           <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
             <div className={`mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl ${item.color.split(" ")[1]}`}>

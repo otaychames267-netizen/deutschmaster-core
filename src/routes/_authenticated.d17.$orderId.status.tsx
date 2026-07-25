@@ -21,7 +21,7 @@ interface D17Order {
 }
 
 const MAX_ATTEMPTS = 3;
-const SUPPORT_EMAIL = (import.meta.env.VITE_SUPPORT_EMAIL as string | undefined) ?? "support@auralingovia.com";
+const SUPPORT_EMAIL = (import.meta.env.VITE_SUPPORT_EMAIL as string | undefined) ?? "Support@auralingoviatestdeutsch.academy";
 
 function useCountdown(deadline: string | null) {
   const [remainingMs, setRemainingMs] = useState<number | null>(null);
