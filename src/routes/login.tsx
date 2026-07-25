@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
@@ -12,7 +12,6 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const { t } = useTranslation();
-  const nav = useNavigate();
 
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
@@ -51,7 +50,19 @@ function LoginPage() {
     }
 
     toast.success("Welcome back!");
-    nav({ to: "/dashboard" });
+    // A real navigation, not TanStack Router's client-side nav(): AuthContext
+    // (src/lib/auth.tsx) only updates on the initial getSession() call or a
+    // subsequent onAuthStateChange event. Confirmed live in production that
+    // the SIGNED_IN event from this setSession() call does not reliably
+    // reach the listener in time (or at all) on the very first login after
+    // a fresh page load, leaving _authenticated.tsx's `user` gate stuck on
+    // null forever — no further recovery once that happens, since the
+    // AuthProvider safety-net timeout only unblocks `loading`, not `user`.
+    // A hard navigation forces AuthProvider to remount and call
+    // getSession() directly, which reads the session setSession() already
+    // persisted to localStorage — proven reliable by every manual reload
+    // during testing.
+    window.location.href = "/dashboard";
   }
 
   return (
