@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import {
   ArrowLeft, CheckCircle2, XCircle, AlertTriangle, Loader2,
   Image as ImageIcon, ShieldAlert, Sliders, ShieldBan, Unlock, RefreshCw, StickyNote,
+  ZoomIn, ZoomOut, RotateCw, Maximize2, X, Download,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/d17/$orderId")({
@@ -31,13 +32,33 @@ interface Attempt {
   id: string;
   attempt_number: number;
   storage_path: string;
+  storage_path_2: string;
   user_entered_reference: string;
+  normalized_identifier: string | null;
+  screenshot_type: string | null;
+  screenshot_type_2: string | null;
+  confidence_authorization_number: number | null;
+  confidence_amount: number | null;
+  confidence_currency: number | null;
+  confidence_destination: number | null;
+  confidence_payment_datetime: number | null;
   ocr_raw_text: string | null;
   ocr_confidence: number | null;
   ocr_amount: number | null;
   ocr_currency: string | null;
   ocr_payment_datetime: string | null;
   ocr_reference: string | null;
+  ocr_authorization_number: string | null;
+  ocr_authorization_number_2: string | null;
+  ocr_amount_2: number | null;
+  ocr_currency_2: string | null;
+  ocr_payment_datetime_2: string | null;
+  ocr_destination_2: string | null;
+  ocr_destination_number: string | null;
+  ocr_destination_iban: string | null;
+  ocr_transaction_id: string | null;
+  cross_check_consistent: boolean | null;
+  cross_check_summary: { consistent: boolean; notes: string } | null;
   ocr_notification_source: string | null;
   ocr_language_detected: string | null;
   fraud_score: number | null;
@@ -72,6 +93,22 @@ interface FraudSuspension {
   updated_at: string;
 }
 
+function confidenceColor(v: number | null): string {
+  if (v === null) return "text-muted-foreground";
+  if (v >= 80) return "text-emerald-600 dark:text-emerald-400";
+  if (v >= 50) return "text-amber-600 dark:text-amber-400";
+  return "text-red-600 dark:text-red-400";
+}
+
+function ScreenshotTypeBadge({ detected, expected }: { detected: string | null; expected: string }) {
+  const ok = detected === expected;
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${ok ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" : "bg-red-500/15 text-red-700 dark:text-red-400"}`}>
+      {ok ? <CheckCircle2 className="h-3 w-3" /> : <XCircle className="h-3 w-3" />}
+      {detected ? detected.replace(/_/g, " ") : "unknown"}
+    </span>
+  );
+}
 
 function AdminD17OrderDetail() {
   const { orderId } = useParams({ from: "/_authenticated/admin/d17/$orderId" });
@@ -80,7 +117,11 @@ function AdminD17OrderDetail() {
   const [attempts, setAttempts] = useState<Attempt[]>([]);
   const [actions, setActions] = useState<AdminAction[]>([]);
   const [suspension, setSuspension] = useState<FraudSuspension | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl1, setImageUrl1] = useState<string | null>(null);
+  const [imageUrl2, setImageUrl2] = useState<string | null>(null);
+  const [lightbox, setLightbox] = useState<{ url: string; label: string } | null>(null);
+  const [zoom, setZoom] = useState(1);
+  const [rotation, setRotation] = useState(0);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [rejectNote, setRejectNote] = useState("");
@@ -111,14 +152,31 @@ function AdminD17OrderDetail() {
     setActions(ac ?? []);
     setSuspension((susp as FraudSuspension | null) ?? null);
 
+    // Both screenshots — the previous version of this page only ever signed
+    // and displayed Screenshot 1, which meant an admin reviewing a
+    // two-screenshot submission could never actually see the Journal D17
+    // evidence (Screenshot 2) through this UI at all.
     if (a && a.length > 0) {
-      const { data: signed } = await supabase.storage.from("payment-screenshots").createSignedUrl(a[0].storage_path, 3600);
-      setImageUrl(signed?.signedUrl ?? null);
+      const path1: string | null = a[0].storage_path;
+      const path2: string | null = a[0].storage_path_2;
+      const [signed1, signed2] = await Promise.all([
+        path1 ? supabase.storage.from("payment-screenshots").createSignedUrl(path1, 3600) : Promise.resolve({ data: null }),
+        path2 ? supabase.storage.from("payment-screenshots").createSignedUrl(path2, 3600) : Promise.resolve({ data: null }),
+      ]);
+      setImageUrl1(signed1.data?.signedUrl ?? null);
+      setImageUrl2(signed2.data?.signedUrl ?? null);
     }
     setLoading(false);
   }, [orderId]);
 
   useEffect(() => { load(); }, [load]);
+
+  function openLightbox(url: string | null, label: string) {
+    if (!url) return;
+    setZoom(1);
+    setRotation(0);
+    setLightbox({ url, label });
+  }
 
   async function handleApprove() {
     setBusy(true);
@@ -238,9 +296,14 @@ function AdminD17OrderDetail() {
 
   const latest = attempts[0];
   const canAct = (ADMIN_ACTIONABLE_STATUSES as readonly string[]).includes(order.status);
+  const authMismatch = Boolean(
+    latest?.ocr_authorization_number &&
+    latest.user_entered_reference &&
+    latest.ocr_authorization_number.trim().toLowerCase().replace(/[\s-]/g, "") !== latest.user_entered_reference.trim().toLowerCase().replace(/[\s-]/g, ""),
+  );
 
   return (
-    <div className="mx-auto max-w-4xl space-y-6 pb-10">
+    <div className="mx-auto max-w-5xl space-y-6 pb-10">
       <Link to="/admin/payments" className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground">
         <ArrowLeft className="h-4 w-4" /> Back to queue
       </Link>
@@ -251,6 +314,11 @@ function AdminD17OrderDetail() {
           <p className="mt-1 text-sm text-muted-foreground">
             {student?.full_name ?? "—"} · {student?.email ?? "—"} · <span className="capitalize">{order.plan_code}</span> · {order.amount_tnd} {order.currency}
           </p>
+          {order.manual_review_deadline && (
+            <p className="mt-1 text-xs text-muted-foreground">
+              Review deadline: {new Date(order.manual_review_deadline).toLocaleString()}
+            </p>
+          )}
         </div>
         <span className="rounded-full border border-border bg-muted px-3 py-1 text-xs font-bold capitalize text-foreground">{order.status.replace(/_/g, " ")}</span>
       </div>
@@ -285,50 +353,150 @@ function AdminD17OrderDetail() {
       )}
 
       {latest && (
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-3 rounded-2xl border border-border bg-card p-5">
-            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Latest attempt (#{latest.attempt_number})</p>
-            <DetailRow label="OCR Amount" value={latest.ocr_amount !== null ? `${latest.ocr_amount} ${latest.ocr_currency ?? ""}` : "—"} />
-            <DetailRow label="OCR Payment time" value={latest.ocr_payment_datetime ? new Date(latest.ocr_payment_datetime).toLocaleString() : "—"} />
-            <DetailRow label="OCR Reference" value={latest.ocr_reference ?? "not found"} />
-            <DetailRow label="Entered reference" value={latest.user_entered_reference} />
-            <DetailRow label="Notification source" value={latest.ocr_notification_source ?? "—"} />
-            <DetailRow label="Language" value={latest.ocr_language_detected ?? "—"} />
-            <DetailRow label="Risk score" value={String(latest.risk_score)} />
-            <DetailRow label="AI confidence" value={`${latest.ai_confidence}%`} />
-            <DetailRow label="OCR confidence" value={latest.ocr_confidence !== null ? `${latest.ocr_confidence}%` : "—"} />
-            <DetailRow label="Fraud score" value={latest.fraud_score !== null ? String(latest.fraud_score) : "—"} />
-            <DetailRow label="Fraud flags" value={latest.fraud_flags?.length ? latest.fraud_flags.join(", ") : "none"} />
-            <DetailRow label="Screenshot integrity" value={latest.screenshot_integrity_ok === null ? "—" : latest.screenshot_integrity_ok ? "OK" : "flagged"} />
-            <DetailRow label="Decision" value={latest.decision.replace(/_/g, " ")} />
-            <DetailRow label="Reason" value={latest.decision_reason} />
-            <DetailRow label="AI / OCR version" value={`${latest.ai_version} / ${latest.ocr_version}`} />
-            <DetailRow label="Duration" value={latest.verification_duration_ms ? `${latest.verification_duration_ms} ms` : "—"} />
-            <DetailRow label="Gemini tokens" value={latest.gemini_token_count !== null ? String(latest.gemini_token_count) : "0 (skipped)"} />
-          </div>
-
-          <div className="space-y-4">
+        <>
+          {/* Both screenshots, side by side, with a zoom/rotate/fullscreen viewer */}
+          <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-border bg-card p-5">
-              <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
-                <ImageIcon className="h-3.5 w-3.5" /> Screenshot
-              </p>
-              {imageUrl ? (
-                <img src={imageUrl} alt="Payment screenshot" className="w-full rounded-xl border border-border" />
+              <div className="mb-2 flex items-center justify-between">
+                <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  <ImageIcon className="h-3.5 w-3.5" /> Screenshot 1 — Payment Success
+                </p>
+                <ScreenshotTypeBadge detected={latest.screenshot_type} expected="payment_success" />
+              </div>
+              {imageUrl1 ? (
+                <button onClick={() => openLightbox(imageUrl1, "Screenshot 1 — Payment Success")} className="block w-full">
+                  <img src={imageUrl1} alt="Payment success screenshot" className="w-full rounded-xl border border-border transition-opacity hover:opacity-90" />
+                </button>
               ) : (
                 <p className="text-sm text-muted-foreground">No image.</p>
               )}
             </div>
             <div className="rounded-2xl border border-border bg-card p-5">
-              <p className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">OCR text</p>
+              <div className="mb-2 flex items-center justify-between">
+                <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+                  <ImageIcon className="h-3.5 w-3.5" /> Screenshot 2 — Journal D17
+                </p>
+                <ScreenshotTypeBadge detected={latest.screenshot_type_2} expected="journal" />
+              </div>
+              {imageUrl2 ? (
+                <button onClick={() => openLightbox(imageUrl2, "Screenshot 2 — Journal D17")} className="block w-full">
+                  <img src={imageUrl2} alt="Journal D17 screenshot" className="w-full rounded-xl border border-border transition-opacity hover:opacity-90" />
+                </button>
+              ) : (
+                <p className="text-sm text-muted-foreground">No image.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Authorization number — the single most important field — with an
+              explicit, unmissable OCR-vs-student-entered comparison. */}
+          <div className={`rounded-2xl border p-5 ${authMismatch ? "border-red-500/40 bg-red-500/5" : "border-border bg-card"}`}>
+            <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">Authorization Number</p>
+            {authMismatch && (
+              <div className="mb-3 flex items-center gap-2 rounded-xl bg-red-500/10 px-4 py-2.5 text-sm font-bold text-red-700 dark:text-red-400">
+                <AlertTriangle className="h-4 w-4 shrink-0" /> Mismatch between OCR and student-entered value
+              </div>
+            )}
+            <div className="grid gap-3 sm:grid-cols-3">
+              <DetailRow label="OCR (Screenshot 1)" value={latest.ocr_authorization_number ?? "not detected"} />
+              <DetailRow label="OCR (Screenshot 2)" value={latest.ocr_authorization_number_2 ?? "not detected"} />
+              <DetailRow label="Student entered" value={latest.user_entered_reference} />
+            </div>
+            <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+              Field confidence:
+              <span className={`font-bold ${confidenceColor(latest.confidence_authorization_number)}`}>
+                {latest.confidence_authorization_number !== null ? `${latest.confidence_authorization_number}%` : "—"}
+              </span>
+            </div>
+          </div>
+
+          {/* Cross-screenshot field comparison + per-field confidence */}
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">Cross-screenshot comparison</p>
+            {latest.cross_check_summary && (
+              <p className={`mb-3 text-sm ${latest.cross_check_consistent === false ? "text-red-600 dark:text-red-400" : "text-muted-foreground"}`}>
+                {latest.cross_check_consistent === false ? "⚠ " : "✓ "}
+                {latest.cross_check_summary.notes || (latest.cross_check_consistent ? "Consistent." : "Inconsistent.")}
+              </p>
+            )}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-left text-xs text-muted-foreground">
+                    <th className="py-1.5 pr-4">Field</th>
+                    <th className="py-1.5 pr-4">Screenshot 1</th>
+                    <th className="py-1.5 pr-4">Screenshot 2</th>
+                    <th className="py-1.5">Confidence</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-t border-border">
+                    <td className="py-1.5 pr-4 text-muted-foreground">Amount</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_amount ?? "—"} {latest.ocr_currency ?? ""}</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_amount_2 ?? "—"} {latest.ocr_currency_2 ?? ""}</td>
+                    <td className={`py-1.5 font-bold ${confidenceColor(latest.confidence_amount)}`}>{latest.confidence_amount !== null ? `${latest.confidence_amount}%` : "—"}</td>
+                  </tr>
+                  <tr className="border-t border-border">
+                    <td className="py-1.5 pr-4 text-muted-foreground">Currency</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_currency ?? "—"}</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_currency_2 ?? "—"}</td>
+                    <td className={`py-1.5 font-bold ${confidenceColor(latest.confidence_currency)}`}>{latest.confidence_currency !== null ? `${latest.confidence_currency}%` : "—"}</td>
+                  </tr>
+                  <tr className="border-t border-border">
+                    <td className="py-1.5 pr-4 text-muted-foreground">Date / time</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_payment_datetime ? new Date(latest.ocr_payment_datetime).toLocaleString() : "—"}</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_payment_datetime_2 ? new Date(latest.ocr_payment_datetime_2).toLocaleString() : "—"}</td>
+                    <td className={`py-1.5 font-bold ${confidenceColor(latest.confidence_payment_datetime)}`}>{latest.confidence_payment_datetime !== null ? `${latest.confidence_payment_datetime}%` : "—"}</td>
+                  </tr>
+                  <tr className="border-t border-border">
+                    <td className="py-1.5 pr-4 text-muted-foreground">Destination</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_destination_number ?? latest.ocr_destination_iban ?? "—"}</td>
+                    <td className="py-1.5 pr-4 font-medium text-foreground">{latest.ocr_destination_2 ?? "—"}</td>
+                    <td className={`py-1.5 font-bold ${confidenceColor(latest.confidence_destination)}`}>{latest.confidence_destination !== null ? `${latest.confidence_destination}%` : "—"}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="space-y-3 rounded-2xl border border-border bg-card p-5">
+              <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Latest attempt (#{latest.attempt_number})</p>
+              <DetailRow label="Notification source" value={latest.ocr_notification_source ?? "—"} />
+              <DetailRow label="Language" value={latest.ocr_language_detected ?? "—"} />
+              <DetailRow label="Overall risk score" value={String(latest.risk_score)} />
+              <DetailRow label="AI confidence" value={`${latest.ai_confidence}%`} />
+              <DetailRow label="Overall OCR confidence" value={latest.ocr_confidence !== null ? `${latest.ocr_confidence}%` : "—"} />
+              <DetailRow label="Fraud score" value={latest.fraud_score !== null ? String(latest.fraud_score) : "—"} />
+              <DetailRow label="Fraud flags" value={latest.fraud_flags?.length ? latest.fraud_flags.join(", ") : "none"} />
+              <DetailRow label="Screenshot integrity" value={latest.screenshot_integrity_ok === null ? "—" : latest.screenshot_integrity_ok ? "OK" : "flagged"} />
+              <DetailRow label="Decision" value={latest.decision.replace(/_/g, " ")} />
+              <DetailRow label="Reason" value={latest.decision_reason} />
+              <DetailRow label="AI / OCR version" value={`${latest.ai_version} / ${latest.ocr_version}`} />
+              <DetailRow label="Duration" value={latest.verification_duration_ms ? `${latest.verification_duration_ms} ms` : "—"} />
+              <DetailRow label="Gemini tokens" value={latest.gemini_token_count !== null ? String(latest.gemini_token_count) : "0 (skipped)"} />
+            </div>
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <p className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">OCR text (Screenshot 1)</p>
               <p className="whitespace-pre-wrap text-xs text-foreground">{latest.ocr_raw_text || "—"}</p>
             </div>
           </div>
-        </div>
+        </>
       )}
 
       {latest?.rule_engine_result?.checks && (
         <div className="rounded-2xl border border-border bg-card p-5">
-          <p className="mb-3 text-xs font-bold uppercase tracking-wide text-muted-foreground">Rule engine breakdown</p>
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-bold uppercase tracking-wide text-muted-foreground">Risk score breakdown</p>
+            <p className="text-xs text-muted-foreground">
+              Total: <span className="font-bold text-foreground">{latest.risk_score}</span> pts
+              {latest.rule_engine_result.hardGate && (
+                <span className="ml-2 rounded-full bg-red-500/15 px-2 py-0.5 text-[10px] font-bold uppercase text-red-700 dark:text-red-400">
+                  hard gate: {String(latest.rule_engine_result.hardGate).replace(/_/g, " ")}
+                </span>
+              )}
+            </p>
+          </div>
           <div className="space-y-2">
             {latest.rule_engine_result.checks.map((c: any) => (
               <div key={c.id} className="flex items-center justify-between gap-3 text-sm">
@@ -336,7 +504,7 @@ function AdminD17OrderDetail() {
                   {c.result === "pass" ? <CheckCircle2 className="h-4 w-4 text-emerald-500" /> : c.result === "fail" ? <XCircle className="h-4 w-4 text-red-500" /> : <AlertTriangle className="h-4 w-4 text-amber-500" />}
                   <span className="font-medium text-foreground">{c.label}</span>
                 </span>
-                <span className="text-xs text-muted-foreground">{c.detail} ({c.points} pts)</span>
+                <span className="text-xs text-muted-foreground">{c.detail} ({c.points >= 0 ? "+" : ""}{c.points} pts)</span>
               </div>
             ))}
           </div>
@@ -484,6 +652,43 @@ function AdminD17OrderDetail() {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* Lightweight zoom/rotate/fullscreen image viewer */}
+      {lightbox && (
+        <div className="fixed inset-0 z-50 flex flex-col bg-black/90 backdrop-blur-sm">
+          <div className="flex items-center justify-between gap-3 p-4">
+            <p className="text-sm font-semibold text-white">{lightbox.label}</p>
+            <div className="flex items-center gap-2">
+              <button onClick={() => setZoom((z) => Math.min(4, z + 0.5))} className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20" title="Zoom in">
+                <ZoomIn className="h-4 w-4" />
+              </button>
+              <button onClick={() => setZoom((z) => Math.max(0.5, z - 0.5))} className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20" title="Zoom out">
+                <ZoomOut className="h-4 w-4" />
+              </button>
+              <button onClick={() => setRotation((r) => (r + 90) % 360)} className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20" title="Rotate">
+                <RotateCw className="h-4 w-4" />
+              </button>
+              <a href={lightbox.url} download target="_blank" rel="noopener noreferrer" className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20" title="Download original">
+                <Download className="h-4 w-4" />
+              </a>
+              <a href={lightbox.url} target="_blank" rel="noopener noreferrer" className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20" title="Open original resolution in new tab">
+                <Maximize2 className="h-4 w-4" />
+              </a>
+              <button onClick={() => setLightbox(null)} className="rounded-lg bg-white/10 p-2 text-white hover:bg-white/20" title="Close">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-1 items-center justify-center overflow-auto p-6">
+            <img
+              src={lightbox.url}
+              alt={lightbox.label}
+              style={{ transform: `scale(${zoom}) rotate(${rotation}deg)`, transition: "transform 150ms ease" }}
+              className="max-h-full max-w-full rounded-lg"
+            />
           </div>
         </div>
       )}
