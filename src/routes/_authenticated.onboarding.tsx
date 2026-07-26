@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
@@ -29,7 +29,6 @@ function OnboardingPage() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { theme, toggle } = useTheme();
-  const nav = useNavigate();
 
   const [selected, setSelected] = useState<Level | null>(null);
   const [loading, setLoading]   = useState(false);
@@ -55,7 +54,17 @@ function OnboardingPage() {
     }
 
     toast.success("Level set! Welcome to AuraLingovia.");
-    nav({ to: "/dashboard" });
+    // A real navigation, not TanStack Router's client-side nav(): _authenticated.tsx's
+    // onboarding-check effect only depends on [user?.id, emailVerified] (deliberately, to
+    // avoid an earlier documented bug — see that file's comment history), so a client-side
+    // nav() here does NOT re-run it. checkedForRef is already claimed for this user from the
+    // FIRST check (which correctly found needsOnboarding=true before this form was filled),
+    // so the stale needsOnboarding=true state persists and the declarative <Navigate> guard
+    // bounces the user straight back to /onboarding — reproduced live: every single
+    // onboarding completion looped back to this page instead of reaching the dashboard. A
+    // hard navigation forces _authenticated.tsx to remount and re-fetch the profile fresh,
+    // the same fix already proven reliable for the analogous problem in login.tsx.
+    window.location.href = "/dashboard";
   }
 
   return (
