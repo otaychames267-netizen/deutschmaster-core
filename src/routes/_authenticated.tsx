@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useLocation, Navigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,6 +16,7 @@ function AuthenticatedLayout() {
   const loc = useLocation();
 
   const [checking, setChecking]         = useState(true);
+  const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const checkedForRef                   = useRef<string | null>(null);
   const redirectedToLoginRef            = useRef(false);
 
@@ -69,10 +70,17 @@ function AuthenticatedLayout() {
    *    cancelled run never blocks the run that replaces it — each
    *    invocation either finishes the check or cleanly gets out of the
    *    way, with no "claimed but never finished" state possible.
+   *
+   * 3. A third, separate bug on top of those two: calling nav() directly
+   *    from inside this async effect's callback was observed live on
+   *    production to sometimes never actually change the route at all —
+   *    the query completes, checkedForRef gets claimed, yet the app is
+   *    stuck on LoadingScreen forever (reproduced repeatedly for brand-new
+   *    not-yet-onboarded accounts specifically). Fixed by not calling
+   *    nav() here at all: this effect only sets state now, and the render
+   *    body below declares the redirect via <Navigate>, the same pattern
+   *    already proven reliable elsewhere (LevelGatePage's redirect).
    */
-  const pathRef = useRef(loc.pathname);
-  pathRef.current = loc.pathname;
-
   useEffect(() => {
     if (!user || !emailVerified) return;
     redirectedToLoginRef.current = false;
@@ -106,11 +114,17 @@ function AuthenticatedLayout() {
         clearTimeout(safety);
         checkedForRef.current = user.id;
 
-        const needsOnboarding = !data || !data.onboarding_completed || !data.level;
-        if (needsOnboarding && !pathRef.current.startsWith("/onboarding")) {
-          nav({ to: "/onboarding", replace: true });
-          return;
-        }
+        // Set state and let the render below decide whether to redirect,
+        // via a declarative <Navigate> — instead of calling nav() directly
+        // from inside this async callback, which was observed live to
+        // sometimes never actually change the route (the exact mechanism is
+        // still unclear, but a real, reproducible hang was confirmed on
+        // production for every brand-new not-yet-onboarded account: the
+        // profile query completes fine, yet the app never leaves the
+        // loading screen). <Navigate> rendered from the component body is
+        // the same pattern already proven reliable elsewhere in this app
+        // (LevelGatePage's /$level/dashboard redirect).
+        setNeedsOnboarding(!data || !data.onboarding_completed || !data.level);
         setChecking(false);
       } catch {
         // Query rejected outright (network failure, etc.) — fail open into
@@ -121,7 +135,7 @@ function AuthenticatedLayout() {
     })();
 
     return () => { cancelled = true; clearTimeout(safety); };
-  }, [user?.id, emailVerified, nav]);
+  }, [user?.id, emailVerified]);
 
   if (loading || !user) {
     return <LoadingScreen />;
@@ -132,8 +146,12 @@ function AuthenticatedLayout() {
     return loc.pathname.startsWith("/verify-email") ? <Outlet /> : <LoadingScreen />;
   }
 
-  if (checking && !loc.pathname.startsWith("/onboarding")) {
+  if (checking) {
     return <LoadingScreen />;
+  }
+
+  if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
+    return <Navigate to="/onboarding" replace />;
   }
 
   /* Onboarding has its own full-screen layout */
