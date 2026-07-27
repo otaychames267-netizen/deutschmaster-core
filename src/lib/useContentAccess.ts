@@ -28,13 +28,15 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftl
   return { hasAccess, loading: hasAccess === null };
 }
 
-export interface CatalogItem { id: string; title: string }
+export interface CatalogItem { id: string; title: string; import_notes?: string | null }
 
 /**
  * Titles-only catalog for the visible-but-locked preview. Calls the
  * SECURITY DEFINER `get_exercise_catalog` RPC, which returns ONLY id + title +
- * order for the given skill/level/teil — never any questions, answers, texts,
- * audio, PDFs or solutions. Safe for non-subscribers to receive.
+ * order + import_notes for the given skill/level/teil — never any questions,
+ * answers, texts, audio, PDFs or solutions. Safe for non-subscribers to
+ * receive. import_notes is included so LockedExerciseOverview can render the
+ * same Tunisia-notice grouping subscribers see.
  */
 export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine", level: string | null, teil: number) {
   const [items, setItems] = useState<CatalogItem[]>([]);
@@ -48,7 +50,7 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
       .rpc("get_exercise_catalog", { p_skill: skill, p_level: level, p_teil: teil })
       .then(({ data }: { data: any }) => {
         if (cancelled) return;
-        setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title })));
+        setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title, import_notes: r.import_notes ?? null })));
         setLoading(false);
       });
     return () => { cancelled = true; };

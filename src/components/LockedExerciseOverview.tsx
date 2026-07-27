@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { Lock, Crown, Check, Sparkles, X, ArrowRight } from "lucide-react";
 import type { CatalogItem } from "@/lib/useContentAccess";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
 
 /**
  * The "visible but locked" preview shown to non-subscribers. It renders ONLY
@@ -22,6 +24,7 @@ export function LockedExerciseOverview({
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const titleOf = (t: string, i: number) => (t && t.trim() ? t : `Übung ${i + 1}`);
+  const { ordered, flaggedStartIndex } = orderWithNoticeGroup(items);
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 pb-10">
@@ -57,27 +60,50 @@ export function LockedExerciseOverview({
 
       {/* Locked title list */}
       <div className="space-y-2">
-        {items.length === 0 ? (
+        {ordered.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-border bg-muted/20 py-14 text-center text-sm text-muted-foreground">
             No exercises here yet.
           </div>
         ) : (
-          items.map((ex, i) => (
-            <button
-              key={ex.id}
-              onClick={() => setDialogOpen(true)}
-              className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-all hover:border-amber-500/40 hover:shadow-sm"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-black tabular-nums text-muted-foreground">
-                {i + 1}
-              </span>
-              <span className="flex-1 truncate font-medium text-foreground/80">{titleOf(ex.title, i)}</span>
-              <span className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-amber-400">
-                Subscribe <ArrowRight className="h-3 w-3" />
-              </span>
-              <Lock className="h-4 w-4 shrink-0 text-muted-foreground/70" />
-            </button>
-          ))
+          <>
+            {ordered.slice(0, flaggedStartIndex).map((ex, i) => (
+              <button
+                key={ex.id}
+                onClick={() => setDialogOpen(true)}
+                className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-all hover:border-amber-500/40 hover:shadow-sm"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-black tabular-nums text-muted-foreground">
+                  {i + 1}
+                </span>
+                <span className="flex-1 truncate font-medium text-foreground/80">{titleOf(ex.title, i)}</span>
+                <span className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-amber-400">
+                  Subscribe <ArrowRight className="h-3 w-3" />
+                </span>
+                <Lock className="h-4 w-4 shrink-0 text-muted-foreground/70" />
+              </button>
+            ))}
+            {flaggedStartIndex < ordered.length && (
+              <>
+                <NoticeGroupBanner />
+                {ordered.slice(flaggedStartIndex).map((ex, i) => (
+                  <button
+                    key={ex.id}
+                    onClick={() => setDialogOpen(true)}
+                    className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-all hover:border-amber-500/40 hover:shadow-sm"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-xs font-black tabular-nums text-amber-600 dark:text-amber-400">
+                      {i + 1}
+                    </span>
+                    <span className="flex-1 truncate font-medium text-foreground/80">{titleOf(ex.title, flaggedStartIndex + i)}</span>
+                    <span className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-amber-400">
+                      Subscribe <ArrowRight className="h-3 w-3" />
+                    </span>
+                    <Lock className="h-4 w-4 shrink-0 text-muted-foreground/70" />
+                  </button>
+                ))}
+              </>
+            )}
+          </>
         )}
       </div>
 
