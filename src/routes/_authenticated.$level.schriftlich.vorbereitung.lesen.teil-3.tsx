@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { Teil3Exercise, type T3ExerciseData, type T3Situation, type T3Text } from "@/components/exercise/lesen/Teil3Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3")({
@@ -17,6 +19,7 @@ function LesenTeil3Page() {
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("lesen", level, 3);
   const [exercises, setExercises] = useState<Array<{ meta: { id: string; title: string }; data: T3ExerciseData }>>([]);
+  const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [selected, setSelected] = useState<T3ExerciseData | null>(null);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [loading, setLoading] = useState(true);
@@ -29,13 +32,15 @@ function LesenTeil3Page() {
       try {
         const { data: exListRaw, error: exErr } = await supabase
           .from("lesen_exercises")
-          .select("id, title, level")
+          .select("id, title, level, import_notes")
           .eq("teil", 3)
           .eq("level", lvl)
           .order("sort_order", { ascending: true, nullsFirst: false })
           .order("created_at", { ascending: true });
         if (exErr) throw exErr;
-        const exList = enforceLevel(exListRaw, lvl);
+        const enforced = enforceLevel(exListRaw, lvl);
+        const { ordered: exList, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+        setFlaggedStartIndex(fsi);
         if (exList.length === 0) { setLoading(false); return; }
 
         const full = [];
@@ -138,7 +143,7 @@ function LesenTeil3Page() {
             </div>
           </div>
         )}
-        {exercises.map(({ meta, data }) => (
+        {exercises.slice(0, flaggedStartIndex ?? exercises.length).map(({ meta, data }) => (
           <button key={meta.id} onClick={() => { setSelected(data); setSelectedTitle(meta.title); }}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10">
@@ -151,6 +156,24 @@ function LesenTeil3Page() {
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
         ))}
+        {flaggedStartIndex !== null && flaggedStartIndex < exercises.length && (
+          <>
+            <NoticeGroupBanner />
+            {exercises.slice(flaggedStartIndex).map(({ meta, data }) => (
+              <button key={meta.id} onClick={() => { setSelected(data); setSelectedTitle(meta.title); }}
+                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10">
+                  <BookOpen className="h-5 w-5 text-amber-500" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground">{meta.title}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{data.situations.length} Situationen · {data.texts.length} Anzeigen</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </button>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

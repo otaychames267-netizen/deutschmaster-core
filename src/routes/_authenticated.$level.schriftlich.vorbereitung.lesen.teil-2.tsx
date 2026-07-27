@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { Teil2Exercise, type T2ExerciseData } from "@/components/exercise/lesen/Teil2Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2")({
@@ -24,6 +26,7 @@ function LesenTeil2Page() {
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("lesen", level, 2);
   const [summaries, setSummaries]     = useState<T2Summary[]>([]);
+  const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [listLoading, setListLoading] = useState(true);
   const [listError, setListError]     = useState(false);
 
@@ -40,13 +43,15 @@ function LesenTeil2Page() {
     try {
       const { data: exListRaw, error: exErr } = await supabase
         .from("lesen_exercises")
-        .select("id, title, level")
+        .select("id, title, level, import_notes")
         .eq("teil", 2)
         .eq("level", level)
         .order("sort_order", { ascending: true, nullsFirst: false })
         .order("created_at", { ascending: true });
       if (exErr) throw exErr;
-      const exList = enforceLevel(exListRaw, level);
+      const enforced = enforceLevel(exListRaw, level);
+      const { ordered: exList, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+      setFlaggedStartIndex(fsi);
 
       const ids = (exList ?? []).map((e) => e.id);
       const counts = new Map<string, number>();
@@ -221,7 +226,7 @@ function LesenTeil2Page() {
           </div>
         )}
 
-        {!listLoading && !listError && summaries.map((ex) => (
+        {!listLoading && !listError && summaries.slice(0, flaggedStartIndex ?? summaries.length).map((ex) => (
           <button key={ex.id} onClick={() => openExercise(ex)}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10">
@@ -234,6 +239,24 @@ function LesenTeil2Page() {
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
         ))}
+        {!listLoading && !listError && flaggedStartIndex !== null && flaggedStartIndex < summaries.length && (
+          <>
+            <NoticeGroupBanner />
+            {summaries.slice(flaggedStartIndex).map((ex) => (
+              <button key={ex.id} onClick={() => openExercise(ex)}
+                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10">
+                  <BookOpen className="h-5 w-5 text-amber-500" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground">{ex.title}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{ex.questionCount} Fragen · Multiple Choice (a/b/c)</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </button>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { Teil1Exercise, type T1ExerciseData, type T1Headline, type T1Text } from "@/components/exercise/lesen/Teil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-1")({
@@ -17,6 +19,7 @@ function LesenTeil1Page() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
   const [exercises, setExercises] = useState<T1ExerciseData[]>([]);
+  const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [idx, setIdx] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,11 +32,13 @@ function LesenTeil1Page() {
     async function load() {
       try {
         const { data: exListRaw, error: exErr } = await supabase
-          .from("lesen_exercises").select("id, title, level").eq("teil", 1).eq("level", lvl)
+          .from("lesen_exercises").select("id, title, level, import_notes").eq("teil", 1).eq("level", lvl)
           .order("sort_order", { ascending: true, nullsFirst: false })
           .order("created_at", { ascending: true }); // admin-defined order, then import order
         if (exErr) throw exErr;
-        const exList = enforceLevel(exListRaw, lvl);
+        const enforced = enforceLevel(exListRaw, lvl);
+        const { ordered: exList, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+        setFlaggedStartIndex(fsi);
         if (exList.length === 0) { setLoading(false); return; }
 
         const full: T1ExerciseData[] = [];
@@ -137,7 +142,7 @@ function LesenTeil1Page() {
             <div><p className="text-sm font-semibold text-foreground">Noch keine Übungen verfügbar</p></div>
           </div>
         )}
-        {!loading && !error && exercises.map((ex, i) => (
+        {!loading && !error && exercises.slice(0, flaggedStartIndex ?? exercises.length).map((ex, i) => (
           <button key={ex.id} onClick={() => setIdx(i)}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-sm font-black text-blue-600 dark:text-blue-400">{i + 1}</div>
@@ -148,6 +153,22 @@ function LesenTeil1Page() {
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
         ))}
+        {!loading && !error && flaggedStartIndex !== null && flaggedStartIndex < exercises.length && (
+          <>
+            <NoticeGroupBanner />
+            {exercises.slice(flaggedStartIndex).map((ex, i) => (
+              <button key={ex.id} onClick={() => setIdx(flaggedStartIndex + i)}
+                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-sm font-black text-amber-600 dark:text-amber-400">{i + 1}</div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, flaggedStartIndex + i)}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{ex.texts.length} Texte · {ex.headlines.length} Schlagzeilen</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </button>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

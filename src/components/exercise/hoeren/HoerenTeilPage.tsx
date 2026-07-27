@@ -1,13 +1,15 @@
 import { Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Loader2, Headphones, AlertCircle, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
 
-interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null }
+interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null; import_notes?: string | null }
 interface StRow { exercise_id: string; statement_number: number; statement_text: string }
 
 // Both buckets are private and plan-gated at the storage RLS layer — URLs
@@ -52,6 +54,7 @@ export function HoerenTeilPage({ teil }: Props) {
   const level = useActiveLevel();
   const seg = useLevelSegment();
   const [exercises, setExercises] = useState<ExRow[]>([]);
+  const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
   const [mediaByEx, setMediaByEx] = useState<Record<string, { image: string | null; audio: string | null }>>({});
   const [loading, setLoading] = useState(true);
@@ -68,14 +71,16 @@ export function HoerenTeilPage({ teil }: Props) {
       setError(null);
       const { data: exList, error: exErr } = await supabase
         .from("hoeren_exercises")
-        .select("id, title, image_path, instructions, audio_path, position, level")
+        .select("id, title, image_path, instructions, audio_path, position, level, import_notes")
         .eq("teil", teil)
         .eq("level", lvl)
         .order("position", { ascending: true });
       if (cancelled) return;
       if (exErr) { setError(exErr.message); setLoading(false); return; }
-      const rows = enforceLevel((exList ?? []) as ExRow[], lvl);
+      const enforced = enforceLevel((exList ?? []) as ExRow[], lvl);
+      const { ordered: rows, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
       setExercises(rows);
+      setFlaggedStartIndex(fsi);
 
       if (rows.length) {
         const mediaEntries = await Promise.all(
@@ -170,17 +175,21 @@ export function HoerenTeilPage({ teil }: Props) {
             statements: statementsByEx[ex.id] ?? [],
           };
           const next = exercises[i + 1];
+          const displayIndex = flaggedStartIndex !== null && i >= flaggedStartIndex ? i - flaggedStartIndex : i;
           return (
-            <LazyCard key={ex.id}>
-              {() => (
-                <HoerenExerciseCard
-                  exercise={data}
-                  index={i}
-                  hasNext={!!next}
-                  onNext={next ? () => scrollToExercise(next.id) : undefined}
-                />
-              )}
-            </LazyCard>
+            <Fragment key={ex.id}>
+              {flaggedStartIndex !== null && i === flaggedStartIndex && <NoticeGroupBanner />}
+              <LazyCard>
+                {() => (
+                  <HoerenExerciseCard
+                    exercise={data}
+                    index={displayIndex}
+                    hasNext={!!next}
+                    onNext={next ? () => scrollToExercise(next.id) : undefined}
+                  />
+                )}
+              </LazyCard>
+            </Fragment>
           );
         })}
       </div>

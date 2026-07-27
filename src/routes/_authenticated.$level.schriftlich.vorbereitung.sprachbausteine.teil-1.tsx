@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { SBTeil1Exercise, type SBT1ExerciseData, type SBT1Gap } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1")({
@@ -12,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
 });
 
 // Overview list item (order = official PDF position).
-interface ExMeta { id: string; title: string; level?: string | null }
+interface ExMeta { id: string; title: string; level?: string | null; import_notes?: string | null }
 
 // The student gaps view exposes nullable columns; coerce to the component's shape.
 function toGaps(rows: { gap_number: number | null; option_a: string | null; option_b: string | null; option_c: string | null }[] | null): SBT1Gap[] {
@@ -25,6 +27,7 @@ function SBTeil1Page() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
   const [list, setList] = useState<ExMeta[]>([]);
+  const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [idx, setIdx] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -38,12 +41,15 @@ function SBTeil1Page() {
     async function load() {
       const { data: exList, error: exErr } = await supabase
         .from("sb_exercises")
-        .select("id, title, level")
+        .select("id, title, level, import_notes")
         .eq("teil", 1)
         .eq("level", lvl)
         .order("position", { ascending: true }); // official PDF order
       if (exErr) { setError(exErr.message); setLoading(false); return; }
-      setList(enforceLevel((exList ?? []) as ExMeta[], lvl));
+      const enforced = enforceLevel((exList ?? []) as ExMeta[], lvl);
+      const { ordered, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+      setList(ordered);
+      setFlaggedStartIndex(fsi);
       setLoading(false);
     }
     load();
@@ -155,7 +161,7 @@ function SBTeil1Page() {
             <div><p className="text-sm font-semibold text-foreground">Noch keine Übungen verfügbar</p></div>
           </div>
         )}
-        {!loading && !error && list.map((ex, i) => (
+        {!loading && !error && list.slice(0, flaggedStartIndex ?? list.length).map((ex, i) => (
           <button key={ex.id} onClick={() => openExercise(i)}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-sm font-black text-blue-600 dark:text-blue-400">{i + 1}</div>
@@ -166,6 +172,22 @@ function SBTeil1Page() {
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
         ))}
+        {!loading && !error && flaggedStartIndex !== null && flaggedStartIndex < list.length && (
+          <>
+            <NoticeGroupBanner />
+            {list.slice(flaggedStartIndex).map((ex, i) => (
+              <button key={ex.id} onClick={() => openExercise(flaggedStartIndex + i)}
+                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-sm font-black text-amber-600 dark:text-amber-400">{i + 1}</div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, flaggedStartIndex + i)}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Lückentext · Aufgaben 21–30</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </button>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
