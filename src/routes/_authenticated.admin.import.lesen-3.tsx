@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
 import { extractNormalizedDocumentWithMeta } from "@/lib/import/pdf-extractor";
+import { createLesenT3Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
 import { parseLesenT3, type ParsedT3Exercise, type T3Situation, type T3Text } from "@/lib/import/lesen-t3-parser";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
@@ -35,6 +35,8 @@ function ImportLesenT3Page() {
   const [exercises, setExercises] = useState<EditableExercise[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
   const [showRaw, setShowRaw] = useState(false);
+  const [level, setLevel] = useState<"TELC_B1" | "TELC_B2">("TELC_B2");
+  const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressLabel, setProgressLabel] = useState("");
@@ -134,44 +136,37 @@ function ImportLesenT3Page() {
     let saved = 0;
     try {
       for (const ex of toImport) {
-        const { data: row, error: exErr } = await supabase
-          .from("lesen_exercises")
-          .insert({ title: ex.parsed.title, teil: 3 as 3, created_by: user.id, source_pdf: "Lesen Teil 3" })
-          .select("id").single();
-        if (exErr || !row) throw exErr ?? new Error("Insert failed");
-
-        const exerciseId = row.id;
-
-        if (ex.situations.length > 0) {
-          const { error: sitErr } = await supabase.from("lesen_t3_situations").insert(
-            ex.situations.map(s => ({
-              exercise_id:    exerciseId,
-              number:         s.number as number,
-              description:    s.description,
+        // Single atomic call — validates + inserts exercise/texts/situations
+        // in one transaction (admin_create_lesen_t3_exercise).
+        await createLesenT3Exercise({
+          data: {
+            title: ex.parsed.title,
+            level,
+            note: "Source: Lesen Teil 3 PDF import",
+            flagAsNewToTunisia,
+            texts: ex.texts.map(t => ({ letter: t.letter, title: t.title, content: t.content })),
+            situations: ex.situations.map(s => ({
+              number: s.number as number,
+              description: s.description,
               correct_letter: s.no_match ? null : s.correct_letter,
-              no_match:       s.no_match,
-            }))
-          );
-          if (sitErr) throw sitErr;
-        }
-
-        if (ex.texts.length > 0) {
-          const { error: txErr } = await supabase.from("lesen_t3_texts").insert(
-            ex.texts.map(t => ({ exercise_id: exerciseId, letter: t.letter, title: t.title, content: t.content }))
-          );
-          if (txErr) throw txErr;
-        }
+              no_match: s.no_match,
+            })),
+          },
+        });
         saved++;
       }
       setStep("done");
       toast.success(`${saved} exercise${saved > 1 ? "s" : ""} imported successfully.`);
     } catch (err) {
-      console.error(err); toast.error("Save failed."); setStep("review");
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Save failed.");
+      setStep("review");
     }
   }
 
   function reset() {
     setStep("upload"); setExercises([]); setActiveIdx(0); setShowRaw(false);
+    setLevel("TELC_B2"); setFlagAsNewToTunisia(false);
     if (fileRef.current) fileRef.current.value = "";
   }
 
@@ -299,6 +294,28 @@ function ImportLesenT3Page() {
               </div>
             </div>
           )}
+
+          {/* Level + notice flag — applies to every exercise in this batch */}
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Level (applies to all exercises in this batch)</p>
+              <div className="flex gap-2">
+                {(["TELC_B1", "TELC_B2"] as const).map((l) => (
+                  <button key={l} type="button" onClick={() => setLevel(l)}
+                    className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
+                      level === l ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
+                    }`}>
+                    {l === "TELC_B1" ? "B1" : "B2"}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <label className="flex items-start gap-3 rounded-xl border border-dashed border-border p-3 cursor-pointer">
+              <input type="checkbox" checked={flagAsNewToTunisia} onChange={(e) => setFlagAsNewToTunisia(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0" />
+              <span className="text-xs text-muted-foreground" dir="rtl">{NOTICE_TEXT}</span>
+            </label>
+          </div>
 
           {/* Active exercise confidence + controls */}
           <div className={`flex items-start gap-3 rounded-2xl border p-4 ${

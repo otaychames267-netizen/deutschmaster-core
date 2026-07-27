@@ -83,9 +83,14 @@ import { Route as AuthenticatedLevelSchriftlichIndexRouteImport } from './routes
 import { Route as AuthenticatedLevelMuendlichIndexRouteImport } from './routes/_authenticated.$level.muendlich.index'
 import { Route as AuthenticatedD17OrderIdVerifyRouteImport } from './routes/_authenticated.d17.$orderId.verify'
 import { Route as AuthenticatedD17OrderIdStatusRouteImport } from './routes/_authenticated.d17.$orderId.status'
+import { Route as AuthenticatedAdminImportSprachbausteine2RouteImport } from './routes/_authenticated.admin.import.sprachbausteine-2'
+import { Route as AuthenticatedAdminImportSprachbausteine1RouteImport } from './routes/_authenticated.admin.import.sprachbausteine-1'
 import { Route as AuthenticatedAdminImportLesen3RouteImport } from './routes/_authenticated.admin.import.lesen-3'
 import { Route as AuthenticatedAdminImportLesen2RouteImport } from './routes/_authenticated.admin.import.lesen-2'
 import { Route as AuthenticatedAdminImportLesen1RouteImport } from './routes/_authenticated.admin.import.lesen-1'
+import { Route as AuthenticatedAdminImportHoren3RouteImport } from './routes/_authenticated.admin.import.horen-3'
+import { Route as AuthenticatedAdminImportHoren2RouteImport } from './routes/_authenticated.admin.import.horen-2'
+import { Route as AuthenticatedAdminImportHoren1RouteImport } from './routes/_authenticated.admin.import.horen-1'
 import { Route as AuthenticatedAdminExercisesNewRouteImport } from './routes/_authenticated.admin.exercises.new'
 import { Route as AuthenticatedAdminExercisesIdRouteImport } from './routes/_authenticated.admin.exercises.$id'
 import { Route as AuthenticatedAdminD17OrderIdRouteImport } from './routes/_authenticated.admin.d17.$orderId'
@@ -514,6 +519,18 @@ const AuthenticatedD17OrderIdStatusRoute =
     path: '/d17/$orderId/status',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
+const AuthenticatedAdminImportSprachbausteine2Route =
+  AuthenticatedAdminImportSprachbausteine2RouteImport.update({
+    id: '/import/sprachbausteine-2',
+    path: '/import/sprachbausteine-2',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminImportSprachbausteine1Route =
+  AuthenticatedAdminImportSprachbausteine1RouteImport.update({
+    id: '/import/sprachbausteine-1',
+    path: '/import/sprachbausteine-1',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminImportLesen3Route =
   AuthenticatedAdminImportLesen3RouteImport.update({
     id: '/import/lesen-3',
@@ -530,6 +547,24 @@ const AuthenticatedAdminImportLesen1Route =
   AuthenticatedAdminImportLesen1RouteImport.update({
     id: '/import/lesen-1',
     path: '/import/lesen-1',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminImportHoren3Route =
+  AuthenticatedAdminImportHoren3RouteImport.update({
+    id: '/import/horen-3',
+    path: '/import/horen-3',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminImportHoren2Route =
+  AuthenticatedAdminImportHoren2RouteImport.update({
+    id: '/import/horen-2',
+    path: '/import/horen-2',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminImportHoren1Route =
+  AuthenticatedAdminImportHoren1RouteImport.update({
+    id: '/import/horen-1',
+    path: '/import/horen-1',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminExercisesNewRoute =
@@ -759,9 +794,14 @@ export interface FileRoutesByFullPath {
   '/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/admin/import/horen-1': typeof AuthenticatedAdminImportHoren1Route
+  '/admin/import/horen-2': typeof AuthenticatedAdminImportHoren2Route
+  '/admin/import/horen-3': typeof AuthenticatedAdminImportHoren3Route
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
+  '/admin/import/sprachbausteine-1': typeof AuthenticatedAdminImportSprachbausteine1Route
+  '/admin/import/sprachbausteine-2': typeof AuthenticatedAdminImportSprachbausteine2Route
   '/d17/$orderId/status': typeof AuthenticatedD17OrderIdStatusRoute
   '/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
@@ -855,9 +895,14 @@ export interface FileRoutesByTo {
   '/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/admin/import/horen-1': typeof AuthenticatedAdminImportHoren1Route
+  '/admin/import/horen-2': typeof AuthenticatedAdminImportHoren2Route
+  '/admin/import/horen-3': typeof AuthenticatedAdminImportHoren3Route
   '/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
+  '/admin/import/sprachbausteine-1': typeof AuthenticatedAdminImportSprachbausteine1Route
+  '/admin/import/sprachbausteine-2': typeof AuthenticatedAdminImportSprachbausteine2Route
   '/d17/$orderId/status': typeof AuthenticatedD17OrderIdStatusRoute
   '/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichIndexRoute
@@ -959,9 +1004,14 @@ export interface FileRoutesById {
   '/_authenticated/admin/d17/$orderId': typeof AuthenticatedAdminD17OrderIdRoute
   '/_authenticated/admin/exercises/$id': typeof AuthenticatedAdminExercisesIdRoute
   '/_authenticated/admin/exercises/new': typeof AuthenticatedAdminExercisesNewRoute
+  '/_authenticated/admin/import/horen-1': typeof AuthenticatedAdminImportHoren1Route
+  '/_authenticated/admin/import/horen-2': typeof AuthenticatedAdminImportHoren2Route
+  '/_authenticated/admin/import/horen-3': typeof AuthenticatedAdminImportHoren3Route
   '/_authenticated/admin/import/lesen-1': typeof AuthenticatedAdminImportLesen1Route
   '/_authenticated/admin/import/lesen-2': typeof AuthenticatedAdminImportLesen2Route
   '/_authenticated/admin/import/lesen-3': typeof AuthenticatedAdminImportLesen3Route
+  '/_authenticated/admin/import/sprachbausteine-1': typeof AuthenticatedAdminImportSprachbausteine1Route
+  '/_authenticated/admin/import/sprachbausteine-2': typeof AuthenticatedAdminImportSprachbausteine2Route
   '/_authenticated/d17/$orderId/status': typeof AuthenticatedD17OrderIdStatusRoute
   '/_authenticated/d17/$orderId/verify': typeof AuthenticatedD17OrderIdVerifyRoute
   '/_authenticated/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
@@ -1063,9 +1113,14 @@ export interface FileRouteTypes {
     | '/admin/d17/$orderId'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
+    | '/admin/import/horen-1'
+    | '/admin/import/horen-2'
+    | '/admin/import/horen-3'
     | '/admin/import/lesen-1'
     | '/admin/import/lesen-2'
     | '/admin/import/lesen-3'
+    | '/admin/import/sprachbausteine-1'
+    | '/admin/import/sprachbausteine-2'
     | '/d17/$orderId/status'
     | '/d17/$orderId/verify'
     | '/$level/muendlich/'
@@ -1159,9 +1214,14 @@ export interface FileRouteTypes {
     | '/admin/d17/$orderId'
     | '/admin/exercises/$id'
     | '/admin/exercises/new'
+    | '/admin/import/horen-1'
+    | '/admin/import/horen-2'
+    | '/admin/import/horen-3'
     | '/admin/import/lesen-1'
     | '/admin/import/lesen-2'
     | '/admin/import/lesen-3'
+    | '/admin/import/sprachbausteine-1'
+    | '/admin/import/sprachbausteine-2'
     | '/d17/$orderId/status'
     | '/d17/$orderId/verify'
     | '/$level/muendlich'
@@ -1262,9 +1322,14 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/d17/$orderId'
     | '/_authenticated/admin/exercises/$id'
     | '/_authenticated/admin/exercises/new'
+    | '/_authenticated/admin/import/horen-1'
+    | '/_authenticated/admin/import/horen-2'
+    | '/_authenticated/admin/import/horen-3'
     | '/_authenticated/admin/import/lesen-1'
     | '/_authenticated/admin/import/lesen-2'
     | '/_authenticated/admin/import/lesen-3'
+    | '/_authenticated/admin/import/sprachbausteine-1'
+    | '/_authenticated/admin/import/sprachbausteine-2'
     | '/_authenticated/d17/$orderId/status'
     | '/_authenticated/d17/$orderId/verify'
     | '/_authenticated/$level/muendlich/'
@@ -1829,6 +1894,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedD17OrderIdStatusRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/admin/import/sprachbausteine-2': {
+      id: '/_authenticated/admin/import/sprachbausteine-2'
+      path: '/import/sprachbausteine-2'
+      fullPath: '/admin/import/sprachbausteine-2'
+      preLoaderRoute: typeof AuthenticatedAdminImportSprachbausteine2RouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/import/sprachbausteine-1': {
+      id: '/_authenticated/admin/import/sprachbausteine-1'
+      path: '/import/sprachbausteine-1'
+      fullPath: '/admin/import/sprachbausteine-1'
+      preLoaderRoute: typeof AuthenticatedAdminImportSprachbausteine1RouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/import/lesen-3': {
       id: '/_authenticated/admin/import/lesen-3'
       path: '/import/lesen-3'
@@ -1848,6 +1927,27 @@ declare module '@tanstack/react-router' {
       path: '/import/lesen-1'
       fullPath: '/admin/import/lesen-1'
       preLoaderRoute: typeof AuthenticatedAdminImportLesen1RouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/import/horen-3': {
+      id: '/_authenticated/admin/import/horen-3'
+      path: '/import/horen-3'
+      fullPath: '/admin/import/horen-3'
+      preLoaderRoute: typeof AuthenticatedAdminImportHoren3RouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/import/horen-2': {
+      id: '/_authenticated/admin/import/horen-2'
+      path: '/import/horen-2'
+      fullPath: '/admin/import/horen-2'
+      preLoaderRoute: typeof AuthenticatedAdminImportHoren2RouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/import/horen-1': {
+      id: '/_authenticated/admin/import/horen-1'
+      path: '/import/horen-1'
+      fullPath: '/admin/import/horen-1'
+      preLoaderRoute: typeof AuthenticatedAdminImportHoren1RouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/exercises/new': {
@@ -2198,9 +2298,14 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
   AuthenticatedAdminD17OrderIdRoute: typeof AuthenticatedAdminD17OrderIdRoute
+  AuthenticatedAdminImportHoren1Route: typeof AuthenticatedAdminImportHoren1Route
+  AuthenticatedAdminImportHoren2Route: typeof AuthenticatedAdminImportHoren2Route
+  AuthenticatedAdminImportHoren3Route: typeof AuthenticatedAdminImportHoren3Route
   AuthenticatedAdminImportLesen1Route: typeof AuthenticatedAdminImportLesen1Route
   AuthenticatedAdminImportLesen2Route: typeof AuthenticatedAdminImportLesen2Route
   AuthenticatedAdminImportLesen3Route: typeof AuthenticatedAdminImportLesen3Route
+  AuthenticatedAdminImportSprachbausteine1Route: typeof AuthenticatedAdminImportSprachbausteine1Route
+  AuthenticatedAdminImportSprachbausteine2Route: typeof AuthenticatedAdminImportSprachbausteine2Route
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
@@ -2233,9 +2338,16 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
   AuthenticatedAdminD17OrderIdRoute: AuthenticatedAdminD17OrderIdRoute,
+  AuthenticatedAdminImportHoren1Route: AuthenticatedAdminImportHoren1Route,
+  AuthenticatedAdminImportHoren2Route: AuthenticatedAdminImportHoren2Route,
+  AuthenticatedAdminImportHoren3Route: AuthenticatedAdminImportHoren3Route,
   AuthenticatedAdminImportLesen1Route: AuthenticatedAdminImportLesen1Route,
   AuthenticatedAdminImportLesen2Route: AuthenticatedAdminImportLesen2Route,
   AuthenticatedAdminImportLesen3Route: AuthenticatedAdminImportLesen3Route,
+  AuthenticatedAdminImportSprachbausteine1Route:
+    AuthenticatedAdminImportSprachbausteine1Route,
+  AuthenticatedAdminImportSprachbausteine2Route:
+    AuthenticatedAdminImportSprachbausteine2Route,
 }
 
 const AuthenticatedAdminRouteWithChildren =

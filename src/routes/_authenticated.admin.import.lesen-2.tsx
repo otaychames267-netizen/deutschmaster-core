@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
 import {
   extractNormalizedDocumentWithMeta, buildExtractionReport, mergeRichLines,
   type PdfExtractionReport,
@@ -9,6 +8,7 @@ import {
 import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { parseLesenT2, type ParsedT2Result } from "@/lib/import/lesen-t2-parser";
+import { createLesenT2Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Loader2,
   ChevronRight, RotateCcw, Save, ChevronDown, Sparkles, Copy, ScanLine,
@@ -164,6 +164,8 @@ function ImportLesenT2Page() {
   const [title1,      setTitle1]      = useState("");
   const [title2,      setTitle2]      = useState("");
   const [passage,     setPassage]     = useState("");
+  const [level,       setLevel]       = useState<"TELC_B1" | "TELC_B2">("TELC_B2");
+  const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [questions1,  setQuestions1]  = useState<LocalQuestion[]>([]);
   const [questions2,  setQuestions2]  = useState<LocalQuestion[]>([]);
   const [showDiag,    setShowDiag]    = useState(false);
@@ -263,26 +265,19 @@ function ImportLesenT2Page() {
       // Each exercise is inserted atomically (exercise + passage + questions)
       // by a single SECURITY DEFINER RPC — no orphaned rows on failure (§28).
       const savedTitles: string[] = [];
+      const note = sourcePdf ? `Source PDF: ${sourcePdf}` : "";
 
-      const { data: r1, error: e1 } = await (supabase as any).rpc("import_lesen_t2_exercise", {
-        p_title:      title1,
-        p_passage:    passage,
-        p_questions:  toPayload(questions1),
-        p_source_pdf: sourcePdf || null,
+      const r1 = await createLesenT2Exercise({
+        data: { title: title1, level, note, flagAsNewToTunisia, passage, questions: toPayload(questions1) },
       });
-      if (e1) throw e1;
-      savedTitles.push((r1?.title as string) || title1 || "(ohne Titel)");
+      savedTitles.push(r1.title || title1 || "(ohne Titel)");
 
       if (isTwoExercises && questions2.length > 0) {
         // Same printed title is fine — duplicates are auto-numbered server-side.
-        const { data: r2, error: e2 } = await (supabase as any).rpc("import_lesen_t2_exercise", {
-          p_title:      title2,
-          p_passage:    passage,
-          p_questions:  toPayload(questions2),
-          p_source_pdf: sourcePdf || null,
+        const r2 = await createLesenT2Exercise({
+          data: { title: title2, level, note, flagAsNewToTunisia, passage, questions: toPayload(questions2) },
         });
-        if (e2) throw e2;
-        savedTitles.push((r2?.title as string) || title2 || "(ohne Titel)");
+        savedTitles.push(r2.title || title2 || "(ohne Titel)");
       }
 
       setStep("done");
@@ -300,6 +295,7 @@ function ImportLesenT2Page() {
   function reset() {
     setStep("upload"); setParsed(null); setReport(null);
     setTitle1(""); setTitle2(""); setPassage("");
+    setLevel("TELC_B2"); setFlagAsNewToTunisia(false);
     setQuestions1([]); setQuestions2([]);
     setShowDiag(false); setShowReport(false); setIsOcr(false); setSourcePdf("");
     if (fileRef.current) fileRef.current.value = "";
@@ -558,6 +554,28 @@ function ImportLesenT2Page() {
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Level + notice flag */}
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Level</p>
+              <div className="flex gap-2">
+                {(["TELC_B1", "TELC_B2"] as const).map((l) => (
+                  <button key={l} type="button" onClick={() => setLevel(l)}
+                    className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
+                      level === l ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
+                    }`}>
+                    {l === "TELC_B1" ? "B1" : "B2"}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <label className="flex items-start gap-3 rounded-xl border border-dashed border-border p-3 cursor-pointer">
+              <input type="checkbox" checked={flagAsNewToTunisia} onChange={(e) => setFlagAsNewToTunisia(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0" />
+              <span className="text-xs text-muted-foreground" dir="rtl">{NOTICE_TEXT}</span>
+            </label>
           </div>
 
           {/* Shared passage */}
