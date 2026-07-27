@@ -43,8 +43,11 @@ export interface FindDuplicateParams {
   orderId: string;
   imageHashSha256: string;
   imageDhash: bigint;
-  imageHashSha256_2: string;
-  imageDhash_2: bigint;
+  /** Null when only Screenshot 1 was uploaded (single-image manual-review
+   * path, see verify.functions.ts) — every comparison below already skips a
+   * missing hash/dhash rather than erroring on it. */
+  imageHashSha256_2: string | null;
+  imageDhash_2: bigint | null;
   ocrTextHashSha256: string | null;
   ocrTextHashSha256_2: string | null;
   reference: string | null;
@@ -139,7 +142,7 @@ export async function findDuplicate(supabaseAdmin: any, params: FindDuplicatePar
     .select("id, order_id, user_id, image_dhash, image_dhash_2")
     .neq("order_id", params.orderId)
     .gte("created_at", since);
-  const incomingDhashes = [params.imageDhash, params.imageDhash_2];
+  const incomingDhashes = [params.imageDhash, params.imageDhash_2].filter((h): h is bigint => h !== null);
   for (const c of candidates ?? []) {
     const storedDhashes = [c.image_dhash, c.image_dhash_2].filter((h: string | null): h is string => Boolean(h)).map((h: string) => BigInt(h));
     for (const incoming of incomingDhashes) {

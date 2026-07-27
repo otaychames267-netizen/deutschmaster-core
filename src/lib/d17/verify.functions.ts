@@ -222,7 +222,11 @@ export const submitVerificationAttempt = createServerFn({ method: "POST" })
     order_id: string;
     session_token: string;
     storage_path: string;
-    storage_path_2: string;
+    /** Optional — a student who only captured one screenshot is never
+     * blocked from submitting (see runVerificationPipeline's single-image
+     * branch): missing storage_path_2 routes straight to manual_review
+     * instead of being rejected or refused. */
+    storage_path_2?: string;
     user_entered_reference: string;
     device_fingerprint?: string;
     browser_fingerprint?: string;
@@ -259,7 +263,7 @@ export async function runVerificationPipeline(
     order_id: string;
     session_token: string;
     storage_path: string;
-    storage_path_2: string;
+    storage_path_2?: string;
     user_entered_reference: string;
     device_fingerprint?: string;
     browser_fingerprint?: string;
@@ -270,7 +274,7 @@ export async function runVerificationPipeline(
     if (reference.length < 4) {
       throw new Error("Please enter the Transaction ID / Authorization Number from your D17 confirmation.");
     }
-    if (!data.storage_path.startsWith(`${userId}/`) || !data.storage_path_2.startsWith(`${userId}/`)) {
+    if (!data.storage_path.startsWith(`${userId}/`) || (data.storage_path_2 && !data.storage_path_2.startsWith(`${userId}/`))) {
       throw new Error("Invalid screenshot path.");
     }
 
@@ -413,12 +417,17 @@ export async function runVerificationPipeline(
     }
 
     const shot1 = await downloadAndHash(data.storage_path, "Screenshot 1 (Payment Success)");
-    const shot2 = await downloadAndHash(data.storage_path_2, "Screenshot 2 (Transaction History)");
-    const imageForensics = combineForensics(shot1.forensics, shot2.forensics);
+    // Screenshot 2 is optional — a student who only captured one screenshot
+    // (e.g. forgot to grab the Journal D17 entry before it scrolled away)
+    // must never be blocked from submitting at all. See the single-image
+    // branch below: this always routes to manual_review rather than running
+    // OCR/cross-checks against data that doesn't exist.
+    const shot2 = data.storage_path_2 ? await downloadAndHash(data.storage_path_2, "Screenshot 2 (Transaction History)") : null;
+    const imageForensics = shot2 ? combineForensics(shot1.forensics, shot2.forensics) : shot1.forensics;
     const imageHashSha256 = shot1.hash;
     const imageDhash = shot1.dhash;
-    const imageHashSha256_2 = shot2.hash;
-    const imageDhash_2 = shot2.dhash;
+    const imageHashSha256_2 = shot2?.hash ?? null;
+    const imageDhash_2 = shot2?.dhash ?? null;
 
     const startedAt = Date.now();
     const uploadToCreationDeltaMs = startedAt - Date.parse(order.created_at);
@@ -436,7 +445,7 @@ export async function runVerificationPipeline(
       userEmail,
       attemptNumber,
       storagePath: data.storage_path,
-      storagePath2: data.storage_path_2,
+      storagePath2: data.storage_path_2 ?? null,
       userEnteredReference: reference,
       imageHashSha256,
       imageDhash,
@@ -520,6 +529,30 @@ export async function runVerificationPipeline(
         riskScore: 100,
         aiConfidence: 0,
         ruleEngineResult: { skipped: true, reason: "duplicate", match: duplicate },
+        verificationDurationMs: Date.now() - startedAt,
+        geminiTokenCount: null,
+      });
+    }
+
+    // ── Single-screenshot manual review — a student who only captured
+    // Screenshot 1 (forgot to grab the Journal D17 entry, or it scrolled
+    // away) is never auto-rejected for an incomplete submission: fraud
+    // signals mechanical enough to check without the second image (reused
+    // identifier, reused screenshot) have already run above; nothing OCR/
+    // cross-check dependent can run on data that doesn't exist, so this
+    // always routes straight to manual_review for a human to confirm against
+    // the one real screenshot provided. Costs no Gemini budget.
+    if (!shot2) {
+      return finalizeAttempt(supabaseAdmin, {
+        ...baseFinalizeParams(),
+        ocrTextHashSha256: null,
+        ocrTextHashSha256_2: null,
+        extraction: null,
+        decision: "manual_review",
+        decisionReason: "Your payment proof has been submitted for manual review by our team.",
+        riskScore: 50,
+        aiConfidence: 50,
+        ruleEngineResult: { skipped: true, reason: "single_screenshot_submitted" },
         verificationDurationMs: Date.now() - startedAt,
         geminiTokenCount: null,
       });
@@ -700,12 +733,14 @@ export async function finalizeAttempt(
     userEmail: string | null;
     attemptNumber: number;
     storagePath: string;
-    storagePath2: string;
+    /** Null when only Screenshot 1 was submitted (single-image manual-review
+     * path, see runVerificationPipeline). */
+    storagePath2: string | null;
     userEnteredReference: string;
     imageHashSha256: string;
     imageDhash: bigint;
-    imageHashSha256_2: string;
-    imageDhash_2: bigint;
+    imageHashSha256_2: string | null;
+    imageDhash_2: bigint | null;
     ocrTextHashSha256: string | null;
     ocrTextHashSha256_2: string | null;
     extraction: ReturnType<typeof parseExtraction> | null;
@@ -765,7 +800,7 @@ export async function finalizeAttempt(
       image_dhash: params.imageDhash.toString(),
       ocr_text_hash_sha256: params.ocrTextHashSha256,
       image_hash_sha256_2: params.imageHashSha256_2,
-      image_dhash_2: params.imageDhash_2.toString(),
+      image_dhash_2: params.imageDhash_2?.toString() ?? null,
       ocr_text_hash_sha256_2: params.ocrTextHashSha256_2,
       ocr_amount_2: e?.screenshot2.amount ?? null,
       ocr_currency_2: e?.screenshot2.currency ?? null,

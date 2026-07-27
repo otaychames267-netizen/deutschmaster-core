@@ -132,7 +132,7 @@ export function VerificationChecklist({ uploaded, outcome }: VerificationCheckli
       {outcome?.decision === "manual_review" && (
         <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
           <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
-          <span>Nothing failed — this submission needs a quick human confirmation. Sent to manual review.</span>
+          <span>{outcome.reason || "Nothing failed — this submission needs a quick human confirmation. Sent to manual review."}</span>
         </div>
       )}
     </div>

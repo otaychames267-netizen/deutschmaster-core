@@ -89,7 +89,7 @@ function D17VerifyPage() {
   }
 
   async function handleSubmit() {
-    if (!file1 || !file2) return;
+    if (!file1) return;
     await submitFile(file1, file2, reference);
   }
 
@@ -97,8 +97,11 @@ function D17VerifyPage() {
    * Takes explicit params rather than reading `file1`/`file2`/`reference`
    * state so the admin-only fixture buttons (below) can trigger a
    * submission immediately without waiting on a setState round trip.
+   * submitTarget2 is optional — a student who only has one screenshot is
+   * never blocked from submitting; the server routes that straight to
+   * manual review instead of rejecting it (see verify.functions.ts).
    */
-  async function submitFile(submitTarget1: File, submitTarget2: File, submitReference: string) {
+  async function submitFile(submitTarget1: File, submitTarget2: File | null, submitReference: string) {
     if (!user || !order) return;
     if (!order.session_token) {
       toast.error("This order is missing a valid session. Please reload the page.");
@@ -116,15 +119,19 @@ function D17VerifyPage() {
     try {
       const attemptNumber = order.attempts_used + 1;
       const storagePath = buildScreenshotPath(user.id, order.id, attemptNumber, 1);
-      const storagePath2 = buildScreenshotPath(user.id, order.id, attemptNumber, 2);
       const { error: uploadError } = await supabase.storage
         .from("payment-screenshots")
         .upload(storagePath, submitTarget1, { contentType: submitTarget1.type, upsert: false });
       if (uploadError) throw new Error(uploadError.message);
-      const { error: uploadError2 } = await supabase.storage
-        .from("payment-screenshots")
-        .upload(storagePath2, submitTarget2, { contentType: submitTarget2.type, upsert: false });
-      if (uploadError2) throw new Error(uploadError2.message);
+
+      let storagePath2: string | undefined;
+      if (submitTarget2) {
+        storagePath2 = buildScreenshotPath(user.id, order.id, attemptNumber, 2);
+        const { error: uploadError2 } = await supabase.storage
+          .from("payment-screenshots")
+          .upload(storagePath2, submitTarget2, { contentType: submitTarget2.type, upsert: false });
+        if (uploadError2) throw new Error(uploadError2.message);
+      }
       setUploaded(true);
 
       const deviceFingerprint = getOrCreateD17DeviceFingerprint();
@@ -283,11 +290,12 @@ function D17VerifyPage() {
 
           <div>
             <label className="mb-2 block text-sm font-semibold text-foreground">
-              Screenshot 2 — D17 Transaction History / Journal D17
+              Screenshot 2 — D17 Transaction History / Journal D17 <span className="font-normal text-muted-foreground">(optional)</span>
             </label>
             <p className="mb-2 text-xs text-muted-foreground">
               The D17 app's transaction history entry showing the date, time, official number, amount, and
-              Authorization Number.
+              Authorization Number. Don't have it? You can submit with just Screenshot 1 — a team member will
+              manually verify your payment.
             </p>
             <button
               type="button"
@@ -303,12 +311,18 @@ function D17VerifyPage() {
               ) : (
                 <>
                   <Upload className="h-8 w-8 text-muted-foreground" />
-                  <span className="text-sm font-medium text-foreground">Click to upload Screenshot 2</span>
+                  <span className="text-sm font-medium text-foreground">Click to upload Screenshot 2 (optional)</span>
                   <span className="text-xs text-muted-foreground">PNG, JPG, or WEBP — up to 10 MB</span>
                 </>
               )}
             </button>
             <input ref={fileInputRef2} type="file" accept="image/png,image/jpeg,image/webp" className="hidden" onChange={handleFileChange2} />
+            {!file2 && (
+              <p className="mt-2 text-xs text-amber-600 dark:text-amber-400">
+                Without this screenshot, your payment will need manual review by our team instead of instant
+                verification.
+              </p>
+            )}
           </div>
 
           <div>
@@ -334,10 +348,10 @@ function D17VerifyPage() {
 
           <button
             onClick={handleSubmit}
-            disabled={!file1 || !file2 || reference.trim().length < 4}
+            disabled={!file1 || reference.trim().length < 4}
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90"
           >
-            Submit for verification
+            {file2 ? "Submit for verification" : "Submit Screenshot 1 for manual review"}
           </button>
 
           {isAdmin && (

@@ -32,7 +32,7 @@ interface Attempt {
   id: string;
   attempt_number: number;
   storage_path: string;
-  storage_path_2: string;
+  storage_path_2: string | null;
   user_entered_reference: string;
   normalized_identifier: string | null;
   screenshot_type: string | null;
@@ -354,6 +354,14 @@ function AdminD17OrderDetail() {
 
       {latest && (
         <>
+          {!latest.storage_path_2 && (
+            <div className="flex items-center gap-2 rounded-2xl border border-amber-500/30 bg-amber-500/5 px-5 py-4 text-sm font-semibold text-amber-700 dark:text-amber-400">
+              <AlertTriangle className="h-4 w-4 shrink-0" />
+              Only one screenshot was submitted for this attempt — verify manually against Screenshot 1 alone; no
+              automated cross-check ran.
+            </div>
+          )}
+
           {/* Both screenshots, side by side, with a zoom/rotate/fullscreen viewer */}
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-2xl border border-border bg-card p-5">

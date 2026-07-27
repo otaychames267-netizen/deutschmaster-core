@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
@@ -13,16 +13,32 @@ import { useAuth } from "@/lib/auth";
 export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftlich") {
   const { user } = useAuth();
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
+  // Read inside the interval without making it a dependency — putting
+  // hasAccess in the effect's deps would tear down and rebuild the interval
+  // on every single poll response, collapsing the 20s cadence into a tight
+  // back-to-back-request loop instead of an actual interval.
+  const hasAccessRef = useRef(hasAccess);
+  hasAccessRef.current = hasAccess;
 
   useEffect(() => {
     if (!user) { setHasAccess(false); return; }
     let cancelled = false;
-    // Cast past the generated types (these RPCs aren't in the checked-in
-    // types.ts, but exist in the DB and are the authoritative access check).
-    (supabase as any)
-      .rpc("has_plan_access", { p_user_id: user.id, p_module: module })
-      .then(({ data }: { data: unknown }) => { if (!cancelled) setHasAccess(data === true); });
-    return () => { cancelled = true; };
+    function check() {
+      // Cast past the generated types (these RPCs aren't in the checked-in
+      // types.ts, but exist in the DB and are the authoritative access check).
+      (supabase as any)
+        .rpc("has_plan_access", { p_user_id: user!.id, p_module: module })
+        .then(({ data }: { data: unknown }) => { if (!cancelled) setHasAccess(data === true); });
+    }
+    check();
+    // Poll while still locked so a payment approved elsewhere (auto-approve
+    // finishing, or an admin approving a manual-review order) unlocks content
+    // on whatever page the student is already sitting on — without this, a
+    // student mid-checkout would stay stuck on a locked screen until they
+    // manually reloaded. Stops polling once access is granted (no need to
+    // keep checking a long-term subscriber every 20s on every page).
+    const interval = setInterval(() => { if (hasAccessRef.current !== true) check(); }, 20000);
+    return () => { cancelled = true; clearInterval(interval); };
   }, [user?.id, module]);
 
   return { hasAccess, loading: hasAccess === null };
