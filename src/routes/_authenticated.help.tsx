@@ -208,7 +208,7 @@ function HelpPage() {
         </a>
 
         <a
-          href="https://t.me/auralingovia"
+          href="https://t.me/+21620046880"
           target="_blank"
           rel="noopener noreferrer"
           className="group flex items-center gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:shadow-md hover:-translate-y-0.5"

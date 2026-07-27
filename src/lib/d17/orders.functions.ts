@@ -136,6 +136,14 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
     if (planError || !plan) {
       throw new Error(`Unknown plan "${planCode}".`);
     }
+    // Defense in depth alongside the DB-level CHECK constraints
+    // (plans_price_tnd_min_30 / d17_orders_amount_tnd_min_30, see
+    // 20260727080000_d17_min_amount_floor.sql) — this gives a clear,
+    // friendly error instead of a raw constraint-violation message reaching
+    // the student if a plan is ever misconfigured below the floor.
+    if (Number(plan.price_tnd) < 30) {
+      throw new Error("This plan's price is below the minimum allowed amount and cannot be purchased right now. Please contact support.");
+    }
 
     const { data: profile } = await supabaseAdmin.from("profiles").select("level").eq("id", userId).maybeSingle();
 

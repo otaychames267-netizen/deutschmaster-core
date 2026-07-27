@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { getD17Order } from "@/lib/d17/orders.functions";
 import {
   CheckCircle2, Clock, XCircle, AlertTriangle,
-  Loader2, Mail, Upload, PartyPopper,
+  Loader2, MessageCircle, Upload, PartyPopper,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/d17/$orderId/status")({
@@ -20,8 +20,6 @@ interface D17Order {
   manual_review_deadline: string | null;
   maxAttemptsPerOrder: number;
 }
-
-const SUPPORT_EMAIL = (import.meta.env.VITE_SUPPORT_EMAIL as string | undefined) ?? "Support@auralingoviatestdeutsch.academy";
 
 function useCountdown(deadline: string | null) {
   const [remainingMs, setRemainingMs] = useState<number | null>(null);
@@ -214,10 +212,12 @@ function D17StatusPage() {
               <Upload className="h-4 w-4" /> Start a new payment
             </Link>
             <a
-              href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Payment issue — Order ${order.id}`)}`}
+              href="https://t.me/+21620046880"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground hover:bg-muted"
             >
-              <Mail className="h-4 w-4" /> Contact support
+              <MessageCircle className="h-4 w-4" /> Contact support
             </a>
           </div>
         </div>

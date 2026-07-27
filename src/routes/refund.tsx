@@ -44,7 +44,7 @@ function RefundPage() {
           <h2>2. How to Request a Refund</h2>
           <p>
             Email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> (or message us on{" "}
-            <a href="https://t.me/auralingovia" target="_blank" rel="noopener noreferrer">Telegram</a>)
+            <a href="https://t.me/+21620046880" target="_blank" rel="noopener noreferrer">Telegram</a>)
             with your account email and the approximate date of purchase. There is no cancellation fee
             and no need to explain your reason, though feedback is always welcome. We aim to confirm
             eligibility within 24 hours.

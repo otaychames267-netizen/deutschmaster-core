@@ -4,7 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Mail, MessageCircle, Clock, ShieldCheck } from "lucide-react";
 
 const SUPPORT_EMAIL = "Support@auralingoviatestdeutsch.academy";
-const TELEGRAM_URL = "https://t.me/auralingovia";
+const TELEGRAM_URL = "https://t.me/+21620046880";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -57,7 +57,7 @@ function ContactPage() {
             </div>
             <div>
               <p className="font-semibold text-foreground">Telegram support</p>
-              <p className="mt-1 text-sm text-muted-foreground">@auralingovia</p>
+              <p className="mt-1 text-sm text-muted-foreground">+216 20 046 880</p>
               <p className="mt-2 text-xs text-muted-foreground">
                 Fastest way to reach us directly, especially during business hours.
               </p>
