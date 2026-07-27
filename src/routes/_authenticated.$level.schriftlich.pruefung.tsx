@@ -17,9 +17,14 @@ import {
 } from "@/components/exam-simulation/SimulationInputs";
 import { SBTeil1Exercise, type SBT1ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
 import { SBTeil2Exercise, type SBT2ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil2Exercise";
+import { ProtectedContentGate } from "@/components/content-protection/ProtectedContentGate";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/pruefung")({
-  component: SchriftlichPruefungPage,
+  component: () => (
+    <ProtectedContentGate>
+      <SchriftlichPruefungPage />
+    </ProtectedContentGate>
+  ),
 });
 
 const EXAM_DURATION_SEC = 145 * 60; // 2h25
@@ -111,7 +116,13 @@ async function loadSectionContent(section: SectionKey, attempt: AttemptRow): Pro
         supabase.from("hoeren_exercises").select("instructions, image_path").eq("id", exId).maybeSingle(),
         (supabase as any).from("hoeren_statements_student").select("statement_number, statement_text").eq("exercise_id", exId).order("statement_number"),
       ]);
-      const imageUrl = ex?.image_path ? supabase.storage.from("hoeren-images").getPublicUrl(ex.image_path).data.publicUrl : null;
+      // hoeren-images has been a private, plan-gated bucket since
+      // 20260719121000_gate_premium_storage_buckets.sql — getPublicUrl
+      // against it produces a URL Storage rejects. Must be a short-lived
+      // signed URL, same as HoerenTeilPage.tsx's vorbereitung path.
+      const imageUrl = ex?.image_path
+        ? (await supabase.storage.from("hoeren-images").createSignedUrl(ex.image_path, 3600)).data?.signedUrl ?? null
+        : null;
       return { instructions: ex?.instructions ?? null, imageUrl, statements: statements ?? [] } as HoerenData;
     }
     case "schreiben": {

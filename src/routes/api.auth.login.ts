@@ -90,6 +90,19 @@ export const Route = createFileRoute("/api/auth/login")({
         }
 
         console.log(`[login] success email=${email} ip=${ip}`);
+
+        // Single-session enforcement: revoke every other session for this
+        // account the moment a new login succeeds, so an account can't be
+        // shared/farmed across devices concurrently. 'others' scope keeps
+        // the session tied to the access token we're about to return alive
+        // — only prior sessions are killed. Best-effort: a failure here
+        // must never block a legitimate login.
+        if (authBody?.access_token) {
+          supabaseAdmin.auth.admin.signOut(authBody.access_token, "others").catch((e: unknown) => {
+            console.error(`[login] single-session revoke failed email=${email}:`, e);
+          });
+        }
+
         return Response.json(authBody);
       },
     },
