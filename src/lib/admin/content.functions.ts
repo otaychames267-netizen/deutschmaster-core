@@ -1,5 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
 
 /**
  * Admin content management — rename and reorder prep exercises directly from
@@ -32,6 +33,18 @@ async function assertAdmin(ctx: { supabase: any; userId: string }) {
   if (!isAdmin && !isSuper) throw new Error("Forbidden: admin only");
 }
 
+function addNotice(current: string | null): string {
+  const base = (current || "").trim();
+  if (base.includes(NOTICE_TEXT)) return base;
+  return base ? `${base} | ${NOTICE_TEXT}` : NOTICE_TEXT;
+}
+
+function removeNotice(current: string | null): string | null {
+  if (!current || !current.includes(NOTICE_TEXT)) return current;
+  const rest = current.split("|").map((p) => p.trim()).filter((p) => p && p !== NOTICE_TEXT);
+  return rest.length ? rest.join(" | ") : null;
+}
+
 /** Admin view of a (skill, level, teil) group — every exercise, in current
  * display order, regardless of subscription (service-role read). */
 export const listAdminExercises = createServerFn({ method: "POST" })
@@ -46,7 +59,7 @@ export const listAdminExercises = createServerFn({ method: "POST" })
 
     const { data: rows, error } = await db
       .from(table)
-      .select(`id, title, teil, level, ${orderCol}`)
+      .select(`id, title, teil, level, import_notes, ${orderCol}`)
       .eq("level", data.level)
       .eq("teil", data.teil)
       .order(orderCol, { ascending: true, nullsFirst: false })
@@ -58,8 +71,44 @@ export const listAdminExercises = createServerFn({ method: "POST" })
       level: data.level,
       teil: data.teil,
       orderCol,
-      rows: (rows ?? []).map((r: any) => ({ id: r.id, title: r.title, order: r[orderCol] ?? null })),
+      rows: (rows ?? []).map((r: any) => ({
+        id: r.id,
+        title: r.title,
+        order: r[orderCol] ?? null,
+        hasNotice: !!(r.import_notes && r.import_notes.includes(NOTICE_TEXT)),
+      })),
     };
+  });
+
+/** Bulk add/remove the "new to Tunisia" notice flag (see memory
+ * feedback-missing-exercise-flagging.md) across many existing exercises at
+ * once — the one-at-a-time admin-create forms are for brand-new manual
+ * entries, this is for retroactively flagging content that's already in the
+ * DB (e.g. a migrated batch). Idempotent per row: already-flagged rows are
+ * left untouched when flag=true, already-unflagged rows when flag=false. */
+export const bulkSetNotice = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { skill: string; ids: string[]; flag: boolean }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { table } = resolveSkill(data.skill);
+    if (!Array.isArray(data.ids) || data.ids.length === 0) throw new Error("No exercises selected.");
+    // Whitelisted table name (resolveSkill) — cast past the typed client,
+    // which can't express a runtime-selected table.
+    const { supabaseAdmin: db }: { supabaseAdmin: any } = await import("@/integrations/supabase/client.server");
+
+    const { data: current, error: fetchError } = await db.from(table).select("id, import_notes").in("id", data.ids);
+    if (fetchError) throw new Error(fetchError.message);
+
+    let updated = 0;
+    for (const row of current ?? []) {
+      const nextNotes = data.flag ? addNotice(row.import_notes) : removeNotice(row.import_notes);
+      if (nextNotes === (row.import_notes ?? null)) continue;
+      const { error } = await db.from(table).update({ import_notes: nextNotes }).eq("id", row.id);
+      if (error) throw new Error(`Failed to update ${row.id}: ${error.message}`);
+      updated++;
+    }
+    return { updated, total: data.ids.length };
   });
 
 /** Rename one exercise. Immediate; visible to subscribers on next request. */

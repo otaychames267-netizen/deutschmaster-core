@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { listAdminExercises, updateExerciseTitle, reorderExercises } from "@/lib/admin/content.functions";
+import { listAdminExercises, updateExerciseTitle, reorderExercises, bulkSetNotice } from "@/lib/admin/content.functions";
+import { NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
 import { toast } from "sonner";
 import {
-  ArrowLeft, Loader2, Pencil, Check, X, ArrowUp, ArrowDown, Save, GripVertical, ListOrdered,
+  ArrowLeft, Loader2, Pencil, Check, X, ArrowUp, ArrowDown, Save, GripVertical, ListOrdered, Flag, FlagOff,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/content")({
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/_authenticated/admin/content")({
 });
 
 type Skill = "lesen" | "hoeren" | "sprachbausteine";
-interface Row { id: string; title: string; order: number | null }
+interface Row { id: string; title: string; order: number | null; hasNotice: boolean }
 
 const SKILLS: { key: Skill; label: string; teils: number[] }[] = [
   { key: "lesen", label: "Lesen", teils: [1, 2, 3] },
@@ -34,6 +35,8 @@ function AdminContentPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
   const [savingTitle, setSavingTitle] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [applyingNotice, setApplyingNotice] = useState<"add" | "remove" | null>(null);
 
   const currentSkill = SKILLS.find((s) => s.key === skill)!;
 
@@ -41,6 +44,7 @@ function AdminContentPage() {
     setLoading(true);
     setDirty(false);
     setEditingId(null);
+    setSelected(new Set());
     try {
       const res = await listAdminExercises({ data: { skill, level, teil } });
       setRows(res.rows as Row[]);
@@ -53,6 +57,42 @@ function AdminContentPage() {
   }, [skill, level, teil]);
 
   useEffect(() => { load(); }, [load]);
+
+  function toggleSelected(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }
+
+  function selectAll() {
+    setSelected(new Set(rows.map((r) => r.id)));
+  }
+
+  function clearSelection() {
+    setSelected(new Set());
+  }
+
+  async function applyNoticeToSelected(flag: boolean) {
+    if (selected.size === 0) return;
+    setApplyingNotice(flag ? "add" : "remove");
+    try {
+      const ids = Array.from(selected);
+      const res = await bulkSetNotice({ data: { skill, ids, flag } });
+      setRows((prev) => prev.map((r) => (selected.has(r.id) ? { ...r, hasNotice: flag } : r)));
+      setSelected(new Set());
+      toast.success(
+        flag
+          ? `Notice added to ${res.updated} exercise${res.updated !== 1 ? "s" : ""}.`
+          : `Notice removed from ${res.updated} exercise${res.updated !== 1 ? "s" : ""}.`
+      );
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to update notice.");
+    } finally {
+      setApplyingNotice(null);
+    }
+  }
 
   function move(index: number, dir: -1 | 1) {
     const j = index + dir;
@@ -136,6 +176,30 @@ function AdminContentPage() {
         </div>
       )}
 
+      {selected.size > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3">
+          <div>
+            <p className="text-sm font-semibold text-foreground">{selected.size} selected</p>
+            <p className="text-xs text-muted-foreground" dir="rtl" title={NOTICE_TEXT}>{NOTICE_TEXT}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <button onClick={clearSelection} className="rounded-xl border border-border bg-card px-3 py-2 text-xs font-semibold text-muted-foreground hover:text-foreground">
+              Clear
+            </button>
+            <button onClick={() => applyNoticeToSelected(false)} disabled={applyingNotice !== null}
+              className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2 text-xs font-bold text-foreground hover:bg-muted disabled:opacity-50">
+              {applyingNotice === "remove" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <FlagOff className="h-3.5 w-3.5" />}
+              Remove notice
+            </button>
+            <button onClick={() => applyNoticeToSelected(true)} disabled={applyingNotice !== null}
+              className="flex items-center gap-1.5 rounded-xl bg-amber-500 px-3 py-2 text-xs font-bold text-white hover:bg-amber-600 disabled:opacity-50">
+              {applyingNotice === "add" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Flag className="h-3.5 w-3.5" />}
+              Add "new to Tunisia" notice
+            </button>
+          </div>
+        </div>
+      )}
+
       {loading ? (
         <div className="flex items-center justify-center py-16"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>
       ) : rows.length === 0 ? (
@@ -144,13 +208,26 @@ function AdminContentPage() {
         </div>
       ) : (
         <div className="space-y-2">
-          <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
-            <ListOrdered className="h-3.5 w-3.5" /> {rows.length} exercise{rows.length !== 1 ? "s" : ""}
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-muted-foreground">
+              <ListOrdered className="h-3.5 w-3.5" /> {rows.length} exercise{rows.length !== 1 ? "s" : ""}
+            </p>
+            <div className="flex items-center gap-3 text-xs font-semibold">
+              <button onClick={selectAll} className="text-primary hover:underline">Select all</button>
+              {selected.size > 0 && <button onClick={clearSelection} className="text-muted-foreground hover:underline">Clear</button>}
+            </div>
+          </div>
           {rows.map((r, i) => (
             <div key={r.id} className="flex items-center gap-2 rounded-xl border border-border bg-card px-3 py-2.5">
+              <input type="checkbox" checked={selected.has(r.id)} onChange={() => toggleSelected(r.id)}
+                className="h-4 w-4 shrink-0 cursor-pointer" />
               <GripVertical className="h-4 w-4 shrink-0 text-muted-foreground/40" />
               <span className="w-6 shrink-0 text-center text-sm font-black tabular-nums text-muted-foreground">{i + 1}</span>
+              {r.hasNotice && (
+                <span className="shrink-0" title="Flagged: new to Tunisia">
+                  <Flag className="h-3.5 w-3.5 text-amber-500" />
+                </span>
+              )}
 
               {editingId === r.id ? (
                 <>
