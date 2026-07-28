@@ -94,7 +94,11 @@ export async function callClaudeVerification(prompt: string, imageBase64_1: stri
   const body = {
     model: CLAUDE_VISION_MODEL,
     max_tokens: 2000,
-    temperature: 0,
+    // No explicit temperature — claude-sonnet-5 rejects it outright ("temperature
+    // is deprecated for this model", HTTP 400), same issue already hit and fixed
+    // for essay grading (src/lib/ai/claude.server.ts omits it for the same reason).
+    // The strict system prompt + defensive JSON-fence stripping below already
+    // carry the determinism/format guarantees this was meant to provide.
     system:
       "You are a precise OCR and image-forensics engine for payment-screenshot verification. Transcribe only what is genuinely visible, never invent values, and respond with ONLY the exact JSON object the user's instructions specify — no prose, no explanation, no markdown code fences.",
     messages: [

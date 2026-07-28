@@ -7,12 +7,17 @@
  * destination. Found during the 2026-07-18 final E2E audit: this was the
  * root cause of verification/reset emails linking to the wrong site.
  *
- * Set VITE_SITE_URL to the exact production domain (e.g.
- * "https://app.auralingovia.com", no trailing slash) in the production
- * environment. Falls back to the current origin only when unset, so local
- * dev/preview testing still works without extra config — but production
- * MUST set this explicitly, or emails will keep linking to whatever origin
- * happens to serve the request.
+ * Set VITE_SITE_URL to the exact production domain — the ONLY domain this
+ * business owns is "https://www.auralingoviatestdeutsch.academy" (no
+ * trailing slash; confirmed 2026-07-28 — auralingovia.com and its
+ * subdomains are NOT owned and must never appear as a destination anywhere
+ * in this app) — in the production environment. Falls back to the current
+ * origin only when unset, so local dev/preview testing still works without
+ * extra config — but production MUST set this explicitly, or emails will
+ * keep linking to whatever origin happens to serve the request (which,
+ * with the Vercel default domain also live, means confirmation/reset
+ * emails can land on a different domain than the one the user signed up
+ * from).
  *
  * This alone does not fully control where the link goes: Supabase silently
  * substitutes its own default Site URL whenever the requested redirectTo
