@@ -1,13 +1,23 @@
 /**
  * rule-engine.ts — the deterministic decision-maker for the D17 verification
- * pipeline. Gemini's OCR/fraud output (see verification-prompt.ts) is an
+ * pipeline. The vision model's OCR/fraud output (see verification-prompt.ts;
+ * Claude is the default provider as of verify.functions.ts's
+ * D17_VISION_PROVIDER switch, Gemini is the instant-rollback option) is an
  * ADVISORY INPUT here, never the decision itself: every field is run through
  * a fixed, auditable weighted checklist that produces the actual risk score.
  *
+ * The confidence thresholds below (ocr_confidence bands,
+ * AUTH_NUMBER_HARD_GATE_CONFIDENCE, DEFAULT_AUTO_APPROVE_CONFIDENCE_THRESHOLD)
+ * were originally tuned against Gemini's confidence self-reporting. As of
+ * 2026-07-28, production has too little real (non-QA, non-pre-OCR-rejected)
+ * Claude-scored attempt volume to confirm these bands are still well-
+ * calibrated for Claude's distribution — worth revisiting once real
+ * organic D17 submissions accumulate under Claude.
+ *
  * Duplicate detection is intentionally NOT handled here — it's a separate,
  * DB-dependent hard gate (src/lib/d17/duplicate-check.server.ts) evaluated
- * BEFORE Gemini is even called, so scoreAttempt() only needs to implement
- * the fraud hard gate plus the weighted checks.
+ * BEFORE the vision model is even called, so scoreAttempt() only needs to
+ * implement the fraud hard gate plus the weighted checks.
  *
  * Pure function, zero I/O — fully unit-testable with hand-built fixtures.
  */
@@ -73,7 +83,7 @@ export interface ScoreAttemptInput {
   officialRecipientNumber: string;
   /** Wall-clock ms between order creation and this verification attempt
    * starting (NOT the OCR'd payment_datetime) — captured by
-   * verify.functions.ts at pipeline start, before the Gemini call. */
+   * verify.functions.ts at pipeline start, before the vision-model call. */
   uploadToCreationDeltaMs: number;
   reputationVelocity: ReputationVelocityInput;
   /** Deterministic image-forensics signal (src/lib/d17/image-forensics.server.ts),
@@ -261,8 +271,8 @@ export function scoreAttempt(input: ScoreAttemptInput): ScoreAttemptResult {
     checks.push({ id: "ocr_confidence", label: "OCR Confidence", result: "fail", points: 20, detail: `Low OCR confidence ${extraction.ocr_confidence}.` });
   }
 
-  // 7. Screenshot integrity (capped-influence use of Gemini's own fraud
-  // score — contributes penalty points but, unlike the hard gate below,
+  // 7. Screenshot integrity (capped-influence use of the vision model's own
+  // fraud score — contributes penalty points but, unlike the hard gate below,
   // can never by itself force a rejection).
   if (extraction.screenshot_integrity_ok && extraction.fraud_score < 20) {
     checks.push({ id: "screenshot_integrity", label: "Screenshot Integrity", result: "pass", points: 0, detail: `Fraud score ${extraction.fraud_score}, integrity OK.` });
