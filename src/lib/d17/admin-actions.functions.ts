@@ -178,6 +178,13 @@ export const adminRejectOrder = createServerFn({ method: "POST" })
     const wasAlreadyApproved = order.status === "auto_approved" || order.status === "admin_approved";
     if (wasAlreadyApproved && order.subscription_id) {
       await supabaseAdmin.from("subscriptions").update({ status: "cancelled", cancelled_at: new Date().toISOString() }).eq("id", order.subscription_id);
+      // activate_d17_order() inserts a payments row with status='succeeded'
+      // alongside the subscription — reverse it too, or it stays 'succeeded'
+      // forever and admin revenue reports (which sum payments.status =
+      // 'succeeded') keep counting this reversed, money-less order as real
+      // revenue. Scoped to this exact subscription_id, so it can never touch
+      // an unrelated payment.
+      await supabaseAdmin.from("payments").update({ status: "refunded" }).eq("subscription_id", order.subscription_id).eq("status", "succeeded");
     }
 
     await supabaseAdmin

@@ -37,14 +37,23 @@ function OnboardingPage() {
     if (!selected || !user) return;
     setLoading(true);
 
+    // upsert + .select().single(), not .update(): a plain UPDATE whose
+    // WHERE/RLS predicate matches zero rows (e.g. no profiles row exists yet
+    // for this user) returns error: null with 0 rows changed in PostgREST —
+    // a silent no-op that looked like success, sent the user to /dashboard,
+    // got bounced straight back here by _authenticated.tsx's onboarding
+    // check, and reset `selected` to null. Confirmed live: this is why
+    // users got permanently stuck in an onboarding loop with no error ever
+    // shown. .select().single() throws a real, catchable error whenever the
+    // write didn't actually land.
     const { error } = await supabase
       .from("profiles")
-      .update({
-        level: selected,
-        target_level: selected,
-        onboarding_completed: true,
-      })
-      .eq("id", user.id);
+      .upsert(
+        { id: user.id, level: selected, target_level: selected, onboarding_completed: true },
+        { onConflict: "id" },
+      )
+      .select()
+      .single();
 
     setLoading(false);
 
