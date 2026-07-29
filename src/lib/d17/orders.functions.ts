@@ -212,5 +212,10 @@ export const getD17Order = createServerFn({ method: "POST" })
     const { getD17Config } = await import("./config");
     const config = await getD17Config(supabaseAdmin);
 
-    return { ...order, maxAttemptsPerOrder: config.d17_max_attempts_per_order };
+    return {
+      ...order,
+      maxAttemptsPerOrder: config.d17_max_attempts_per_order,
+      confirmationWindowMinutes: config.d17_confirmation_window_minutes,
+      manualReviewWindowHours: config.d17_manual_review_window_hours,
+    };
   });
