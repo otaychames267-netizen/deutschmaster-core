@@ -9,7 +9,7 @@ import {
   Tag, ClipboardList, HardDrive, DollarSign,
   Search, Bell, User, HelpCircle,
   ChevronRight, Upload, Headphones, Wrench, Coins, ListChecks, Pencil,
-  Presentation, Type, ShieldAlert,
+  Presentation, Type, ShieldAlert, Mail,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
@@ -409,6 +409,7 @@ export function AppSidebar() {
                 <NavItem to="/admin/announcements"  label="Announcements"  icon={Megaphone}      active={isActive("/admin/announcements")}  color="amber" />
                 <NavItem to="/admin/reports"        label="Reports"        icon={ClipboardList}  active={isActive("/admin/reports")}        color="amber" />
                 <NavItem to="/admin/audit-logs"     label="Audit Logs"     icon={ScrollText}     active={isActive("/admin/audit-logs")}     color="amber" />
+                <NavItem to="/admin/email-log"      label="Email Delivery" icon={Mail}           active={isActive("/admin/email-log")}      color="amber" />
                 <NavItem to="/admin/backup"         label="Backups"        icon={HardDrive}      active={isActive("/admin/backup")}         color="amber" />
                 <NavItem to="/admin/roles"          label="Roles"          icon={Shield}         active={isActive("/admin/roles")}          color="amber" />
                 <NavItem to="/admin/content-protection" label="Content Protection" icon={ShieldAlert} active={isActive("/admin/content-protection")} color="amber" />

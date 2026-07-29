@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { resendConfirmationEmail } from "@/lib/auth/resend-confirmation.functions";
 import { useTheme } from "@/lib/theme";
 import { GraduationCap, Loader2, Moon, Sun, MailCheck, LogOut } from "lucide-react";
 import { toast } from "sonner";
@@ -45,14 +46,15 @@ function VerifyEmailPage() {
   async function handleResend() {
     if (!user?.email || resending || cooldown > 0) return;
     setResending(true);
-    const { error } = await supabase.auth.resend({ type: "signup", email: user.email });
-    setResending(false);
-    if (error) {
-      toast.error(error.message);
-      return;
+    try {
+      await resendConfirmationEmail();
+      toast.success("Verification email sent.");
+      setCooldown(30);
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not resend the email.");
+    } finally {
+      setResending(false);
     }
-    toast.success("Verification email sent.");
-    setCooldown(30);
   }
 
   return (

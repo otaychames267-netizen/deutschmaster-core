@@ -65,6 +65,7 @@ import { Route as AuthenticatedAdminLesenRouteImport } from './routes/_authentic
 import { Route as AuthenticatedAdminImportReviewRouteImport } from './routes/_authenticated.admin.import-review'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
 import { Route as AuthenticatedAdminExamsRouteImport } from './routes/_authenticated.admin.exams'
+import { Route as AuthenticatedAdminEmailLogRouteImport } from './routes/_authenticated.admin.email-log'
 import { Route as AuthenticatedAdminCreditsRouteImport } from './routes/_authenticated.admin.credits'
 import { Route as AuthenticatedAdminCouponsRouteImport } from './routes/_authenticated.admin.coupons'
 import { Route as AuthenticatedAdminContentProtectionRouteImport } from './routes/_authenticated.admin.content-protection'
@@ -413,6 +414,12 @@ const AuthenticatedAdminExamsRoute = AuthenticatedAdminExamsRouteImport.update({
   path: '/exams',
   getParentRoute: () => AuthenticatedAdminRoute,
 } as any)
+const AuthenticatedAdminEmailLogRoute =
+  AuthenticatedAdminEmailLogRouteImport.update({
+    id: '/email-log',
+    path: '/email-log',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminCreditsRoute =
   AuthenticatedAdminCreditsRouteImport.update({
     id: '/credits',
@@ -770,6 +777,7 @@ export interface FileRoutesByFullPath {
   '/admin/content-protection': typeof AuthenticatedAdminContentProtectionRoute
   '/admin/coupons': typeof AuthenticatedAdminCouponsRoute
   '/admin/credits': typeof AuthenticatedAdminCreditsRoute
+  '/admin/email-log': typeof AuthenticatedAdminEmailLogRoute
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
@@ -874,6 +882,7 @@ export interface FileRoutesByTo {
   '/admin/content-protection': typeof AuthenticatedAdminContentProtectionRoute
   '/admin/coupons': typeof AuthenticatedAdminCouponsRoute
   '/admin/credits': typeof AuthenticatedAdminCreditsRoute
+  '/admin/email-log': typeof AuthenticatedAdminEmailLogRoute
   '/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
@@ -982,6 +991,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/content-protection': typeof AuthenticatedAdminContentProtectionRoute
   '/_authenticated/admin/coupons': typeof AuthenticatedAdminCouponsRoute
   '/_authenticated/admin/credits': typeof AuthenticatedAdminCreditsRoute
+  '/_authenticated/admin/email-log': typeof AuthenticatedAdminEmailLogRoute
   '/_authenticated/admin/exams': typeof AuthenticatedAdminExamsRoute
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
@@ -1092,6 +1102,7 @@ export interface FileRouteTypes {
     | '/admin/content-protection'
     | '/admin/coupons'
     | '/admin/credits'
+    | '/admin/email-log'
     | '/admin/exams'
     | '/admin/exercises'
     | '/admin/import-review'
@@ -1196,6 +1207,7 @@ export interface FileRouteTypes {
     | '/admin/content-protection'
     | '/admin/coupons'
     | '/admin/credits'
+    | '/admin/email-log'
     | '/admin/exams'
     | '/admin/exercises'
     | '/admin/import-review'
@@ -1303,6 +1315,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/content-protection'
     | '/_authenticated/admin/coupons'
     | '/_authenticated/admin/credits'
+    | '/_authenticated/admin/email-log'
     | '/_authenticated/admin/exams'
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/import-review'
@@ -1779,6 +1792,13 @@ declare module '@tanstack/react-router' {
       path: '/exams'
       fullPath: '/admin/exams'
       preLoaderRoute: typeof AuthenticatedAdminExamsRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/email-log': {
+      id: '/_authenticated/admin/email-log'
+      path: '/email-log'
+      fullPath: '/admin/email-log'
+      preLoaderRoute: typeof AuthenticatedAdminEmailLogRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/credits': {
@@ -2301,6 +2321,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminContentProtectionRoute: typeof AuthenticatedAdminContentProtectionRoute
   AuthenticatedAdminCouponsRoute: typeof AuthenticatedAdminCouponsRoute
   AuthenticatedAdminCreditsRoute: typeof AuthenticatedAdminCreditsRoute
+  AuthenticatedAdminEmailLogRoute: typeof AuthenticatedAdminEmailLogRoute
   AuthenticatedAdminExamsRoute: typeof AuthenticatedAdminExamsRoute
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminImportReviewRoute: typeof AuthenticatedAdminImportReviewRoute
@@ -2341,6 +2362,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminContentProtectionRoute,
   AuthenticatedAdminCouponsRoute: AuthenticatedAdminCouponsRoute,
   AuthenticatedAdminCreditsRoute: AuthenticatedAdminCreditsRoute,
+  AuthenticatedAdminEmailLogRoute: AuthenticatedAdminEmailLogRoute,
   AuthenticatedAdminExamsRoute: AuthenticatedAdminExamsRoute,
   AuthenticatedAdminExercisesRoute:
     AuthenticatedAdminExercisesRouteWithChildren,

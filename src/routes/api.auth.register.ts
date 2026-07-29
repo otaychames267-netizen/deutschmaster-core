@@ -16,6 +16,15 @@ import { getRequest } from "@tanstack/react-start/server";
  * blocking and CAPTCHA are still open follow-ups (see the security audit
  * report), each needing a decision or third-party credentials this session
  * doesn't have.
+ *
+ * Account creation + confirmation-email delivery deliberately do NOT go
+ * through Supabase Auth's public /auth/v1/signup REST endpoint anymore —
+ * that endpoint always triggers Supabase's own SMTP-triggered mailer,
+ * which depends on a Dashboard-only smtp_pass field that has repeatedly
+ * proven unreliable to keep correct (see confirmation-email.server.ts's
+ * header comment for the full investigation). generateLink() creates the
+ * user without Supabase attempting to send anything; this app delivers the
+ * email itself via Resend, with retry + permanent logging.
  */
 
 const IP_WINDOW_SECONDS = 60 * 60;
@@ -25,12 +34,6 @@ export const Route = createFileRoute("/api/auth/register")({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const SUPABASE_URL = process.env.SUPABASE_URL;
-        const ANON_KEY = process.env.SUPABASE_ANON_KEY ?? process.env.VITE_SUPABASE_ANON_KEY;
-        if (!SUPABASE_URL || !ANON_KEY) {
-          return new Response("Server not configured", { status: 503 });
-        }
-
         let body: { email?: string; password?: string; full_name?: string; email_redirect_to?: string };
         try {
           body = await request.json();
@@ -65,34 +68,21 @@ export const Route = createFileRoute("/api/auth/register")({
           );
         }
 
-        // Supabase Auth's REST signup endpoint takes the post-verification
-        // redirect as a `redirect_to` query param, not a body field (that's
-        // an artifact of the client SDK's options.emailRedirectTo, which
-        // itself just forwards it this way).
-        const signupUrl = new URL(`${SUPABASE_URL}/auth/v1/signup`);
-        if (body.email_redirect_to) signupUrl.searchParams.set("redirect_to", body.email_redirect_to);
-
-        const signupRes = await fetch(signupUrl.toString(), {
-          method: "POST",
-          headers: { "Content-Type": "application/json", apikey: ANON_KEY },
-          body: JSON.stringify({
-            email,
-            password,
-            data: { full_name: body.full_name ?? "" },
-          }),
+        const { createUserAndSendConfirmation } = await import("@/lib/auth/confirmation-email.server");
+        const result = await createUserAndSendConfirmation(supabaseAdmin, {
+          email,
+          password,
+          fullName: body.full_name ?? "",
+          redirectTo: body.email_redirect_to,
         });
-        const signupBody = await signupRes.json();
 
-        if (!signupRes.ok) {
-          console.warn(`[register] failed ip=${ip} email=${email} status=${signupRes.status} code=${signupBody?.error_code ?? signupBody?.code}`);
-          return Response.json(
-            { error: signupBody?.error_code ?? "SIGNUP_FAILED", message: signupBody?.msg ?? signupBody?.error_description ?? "Could not create account." },
-            { status: signupRes.status },
-          );
+        if (!result.ok) {
+          console.warn(`[register] failed ip=${ip} email=${email} status=${result.status} code=${result.errorCode}`);
+          return Response.json({ error: result.errorCode, message: result.message }, { status: result.status });
         }
 
-        console.log(`[register] success ip=${ip} email=${email}`);
-        return Response.json(signupBody);
+        console.log(`[register] success ip=${ip} email=${email} user_id=${result.userId}`);
+        return Response.json({ id: result.userId, email });
       },
     },
   },

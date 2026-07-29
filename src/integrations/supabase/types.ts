@@ -371,6 +371,51 @@ export type Database = {
         }
         Relationships: []
       }
+      auth_email_log: {
+        Row: {
+          attempt_count: number
+          created_at: string
+          email: string
+          email_type: string
+          error_message: string | null
+          id: string
+          last_attempted_at: string | null
+          provider: string
+          provider_message_id: string | null
+          sent_at: string | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          attempt_count?: number
+          created_at?: string
+          email: string
+          email_type: string
+          error_message?: string | null
+          id?: string
+          last_attempted_at?: string | null
+          provider?: string
+          provider_message_id?: string | null
+          sent_at?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          attempt_count?: number
+          created_at?: string
+          email?: string
+          email_type?: string
+          error_message?: string | null
+          id?: string
+          last_attempted_at?: string | null
+          provider?: string
+          provider_message_id?: string | null
+          sent_at?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       certificates: {
         Row: {
           id: string
