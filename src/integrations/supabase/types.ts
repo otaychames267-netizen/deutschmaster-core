@@ -4859,6 +4859,7 @@ export type Database = {
         | "manual_review"
         | "auto_rejected_duplicate"
         | "auto_rejected_fraud"
+        | "needs_retry"
       d17_notification_source:
         | "d17_app"
         | "bank_sms"
@@ -5058,6 +5059,7 @@ export const Constants = {
         "manual_review",
         "auto_rejected_duplicate",
         "auto_rejected_fraud",
+        "needs_retry",
       ],
       d17_notification_source: [
         "d17_app",

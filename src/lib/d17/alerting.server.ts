@@ -76,20 +76,21 @@ export async function checkHighRiskCluster(supabaseAdmin: any) {
   });
 }
 
-/** Called from verify.functions.ts only on the 2nd/3rd escalation tier — a
- * single confirmed duplicate is common/low-signal (an accidental
- * double-submit), not worth paging anyone. */
+/** Called from verify.functions.ts only on the 3rd/4th escalation tier — the
+ * 1st confirmed duplicate is a warning only (no suspension), and the 2nd's
+ * first real suspension is still common/low-signal enough (an accidental
+ * repeat) not to page anyone. */
 export async function alertFraudSuspensionEscalated(
   supabaseAdmin: any,
-  params: { userId: string; tier: 2 | 3; confirmedDuplicateCount: number },
+  params: { userId: string; tier: 3 | 4; confirmedDuplicateCount: number },
 ) {
   await raiseAlert(supabaseAdmin, {
-    severity: params.tier === 3 ? "critical" : "warning",
+    severity: params.tier === 4 ? "critical" : "warning",
     category: "fraud_suspension_escalated",
     message:
-      params.tier === 3
+      params.tier === 4
         ? `User ${params.userId} account LOCKED after ${params.confirmedDuplicateCount} confirmed duplicate payment submissions.`
-        : `User ${params.userId} suspended for 24 hours after ${params.confirmedDuplicateCount} confirmed duplicate payment submissions.`,
+        : `User ${params.userId} suspended after ${params.confirmedDuplicateCount} confirmed duplicate payment submissions.`,
     metadata: { userId: params.userId, tier: params.tier, confirmedDuplicateCount: params.confirmedDuplicateCount },
   });
 }

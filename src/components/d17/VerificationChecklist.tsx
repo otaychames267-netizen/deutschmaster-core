@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2, Circle, XCircle, ShieldAlert } from "lucide-react";
+import { CheckCircle2, Loader2, Circle, XCircle, ShieldAlert, RotateCcw } from "lucide-react";
 
 const STEPS = [
   "Screenshot uploaded",
@@ -12,7 +12,7 @@ const STEPS = [
   "Calculating risk score",
 ];
 
-export type D17Decision = "auto_approved" | "manual_review" | "auto_rejected_duplicate" | "auto_rejected_fraud";
+export type D17Decision = "auto_approved" | "manual_review" | "needs_retry" | "auto_rejected_duplicate" | "auto_rejected_fraud";
 
 export interface VerificationOutcome {
   decision: D17Decision;
@@ -133,6 +133,12 @@ export function VerificationChecklist({ uploaded, outcome }: VerificationCheckli
         <div className="mt-3 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-amber-700 dark:text-amber-400">
           <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
           <span>{outcome.reason || "Nothing failed — this submission needs a quick human confirmation. Sent to manual review."}</span>
+        </div>
+      )}
+      {outcome?.decision === "needs_retry" && (
+        <div className="mt-3 flex items-start gap-2 rounded-xl border border-blue-500/30 bg-blue-500/5 px-4 py-3 text-sm text-blue-700 dark:text-blue-400">
+          <RotateCcw className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>{outcome.reason || "We couldn't confirm this automatically — please double-check the details and upload again."}</span>
         </div>
       )}
     </div>

@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import {
   ArrowLeft, Loader2, Copy, Check, AlertTriangle, Smartphone, Landmark, User,
   Upload, ImageIcon, ShieldCheck, Clock, FlaskConical, PartyPopper, XCircle,
-  Timer, Lock, MessageCircle,
+  Timer, Lock, MessageCircle, RotateCcw,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/d17/$orderId/")({
@@ -106,6 +106,10 @@ function D17PaymentFlowPage() {
   const [submitting, setSubmitting] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [outcome, setOutcome] = useState<VerificationOutcome | null>(null);
+  // Set when a "needs_retry" outcome arrives, so the upload form (which the
+  // student lands right back on) can explain why the previous attempt
+  // didn't go through — cleared on the next submission.
+  const [lastRetryReason, setLastRetryReason] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -140,16 +144,22 @@ function D17PaymentFlowPage() {
   const countdown = useCountdown(order?.manual_review_deadline ?? null);
 
   // Once a decision comes back, show it in the checklist for a beat (longer
-  // for a rejection, so the reason is actually readable) then hand off to
-  // the same terminal/waiting render branch every other visit uses — driven
-  // by the order's real status, never a client-guessed "you can retry this"
-  // affordance. A hard-reject (auto_rejected_duplicate/fraud) sets the order
-  // itself to the terminal `rejected` status server-side regardless of
-  // remaining attempts (see verify.functions.ts) — there is no in-place
-  // retry for those, only "start a new payment" from the terminal view.
+  // for anything the student needs to actually read, so the reason isn't
+  // just flashed by) then hand off to the same terminal/waiting render
+  // branch every other visit uses — driven by the order's real status,
+  // never a client-guessed "you can retry this" affordance. A hard-reject
+  // (auto_rejected_duplicate/fraud) sets the order itself to the terminal
+  // `rejected` status server-side regardless of remaining attempts (see
+  // verify.functions.ts) — there is no in-place retry for those, only
+  // "start a new payment" from the terminal view. A `needs_retry` outcome
+  // deliberately leaves the order's status untouched server-side, so the
+  // refetch below naturally lands back on the upload form, not a waiting
+  // screen — see the canUpload/isWaitingReview computation below.
   useEffect(() => {
     if (!outcome) return;
     const isRejected = outcome.decision === "auto_rejected_duplicate" || outcome.decision === "auto_rejected_fraud";
+    const isRetry = outcome.decision === "needs_retry";
+    if (isRetry) setLastRetryReason(outcome.reason || null);
     const timer = setTimeout(() => {
       getD17Order({ data: { order_id: orderId } })
         .then((fresh) => {
@@ -162,7 +172,7 @@ function D17PaymentFlowPage() {
           setReference("");
         })
         .catch(() => {});
-    }, isRejected ? 3500 : 1200);
+    }, isRejected || isRetry ? 3500 : 1200);
     return () => clearTimeout(timer);
   }, [outcome, orderId]);
 
@@ -208,6 +218,7 @@ function D17PaymentFlowPage() {
     setSubmitting(true);
     setUploaded(false);
     setOutcome(null);
+    setLastRetryReason(null);
 
     try {
       const attemptNumber = order.attempts_used + 1;
@@ -299,8 +310,13 @@ function D17PaymentFlowPage() {
   }
 
   const isTerminal = TERMINAL_STATUSES.includes(order.status as (typeof TERMINAL_STATUSES)[number]);
-  const canUpload = (UPLOAD_ACCEPTING_STATUSES as readonly string[]).includes(order.status) && order.attempts_used === 0 && !submitting && !outcome;
-  const isWaitingReview = !isTerminal && (order.attempts_used > 0 || !canUpload) && !submitting;
+  // Deliberately NOT gated on `attempts_used === 0`: a "needs_retry" outcome
+  // (see verify.functions.ts) leaves the order in an upload-accepting
+  // status with attempts_used > 0 specifically so the student can submit
+  // again right away — the attempt-count cap below is what actually stops
+  // uploads, not merely having tried once already.
+  const canUpload = (UPLOAD_ACCEPTING_STATUSES as readonly string[]).includes(order.status) && order.attempts_used < order.maxAttemptsPerOrder && !submitting && !outcome;
+  const isWaitingReview = !isTerminal && !canUpload && !submitting;
   const attemptsRemaining = order.maxAttemptsPerOrder - order.attempts_used;
 
   // ── Step 3 view: submitting / just-decided ──────────────────────────────
@@ -438,6 +454,16 @@ function D17PaymentFlowPage() {
           <span className="inline-flex items-center gap-1"><ShieldCheck className="h-3.5 w-3.5" /> Verified securely</span>
         </p>
       </div>
+
+      {lastRetryReason && (
+        <div className="flex items-start gap-3 rounded-2xl border border-blue-500/30 bg-blue-500/5 p-4">
+          <RotateCcw className="mt-0.5 h-5 w-5 shrink-0 text-blue-500" />
+          <div className="text-sm">
+            <p className="font-bold text-blue-700 dark:text-blue-400">Let's try that again</p>
+            <p className="mt-1 text-blue-700/90 dark:text-blue-400/90">{lastRetryReason}</p>
+          </div>
+        </div>
+      )}
 
       <div className="rounded-2xl border border-border bg-card p-5">
         <div className="flex items-center justify-between">

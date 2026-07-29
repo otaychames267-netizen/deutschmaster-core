@@ -707,10 +707,31 @@ export async function runVerificationPipeline(
     // look either way. Fraud rejections are left alone (a hard gate is a
     // hard gate regardless of the confirmation window).
     const forcedManualReview = order.status === "under_review" && scored.decision === "auto_approved";
-    const finalDecision = forcedManualReview ? "manual_review" : scored.decision;
-    const finalDecisionReason = forcedManualReview
+    let finalDecision: "auto_approved" | "manual_review" | "needs_retry" | "auto_rejected_fraud" = forcedManualReview ? "manual_review" : scored.decision;
+    let finalDecisionReason = forcedManualReview
       ? "This order missed its 10-minute payment confirmation window and requires manual review regardless of AI confidence."
       : scored.decisionReason;
+
+    // Fraud-decision redesign: a genuinely uncertain attempt (no hard gate —
+    // scoreAttempt only fell short of the auto-approve confidence bar) gets
+    // a fair self-service retry on its FIRST occurrence for this order,
+    // instead of an immediate lock-and-wait. Only a SECOND uncertain attempt
+    // on the same order escalates to manual_review. Hard-gate rejections
+    // (wrong recipient, confidently-wrong amount/currency/authorization
+    // number, screenshot-type mismatch, fraud flags) and the forced
+    // missed-confirmation-window review above are never softened this way —
+    // those are confident, unambiguous signals, not genuine uncertainty.
+    if (finalDecision === "manual_review" && !forcedManualReview) {
+      const { count: priorRetryCount } = await supabaseAdmin
+        .from("d17_verification_attempts")
+        .select("id", { count: "exact", head: true })
+        .eq("order_id", order.id)
+        .eq("decision", "needs_retry");
+      if ((priorRetryCount ?? 0) === 0) {
+        finalDecision = "needs_retry";
+        finalDecisionReason = `${scored.decisionReason} You can fix this and upload again right away — no need to wait.`;
+      }
+    }
 
     return finalizeAttempt(supabaseAdmin, {
       ...baseFinalizeParams(),
@@ -748,7 +769,7 @@ export async function finalizeAttempt(
     ocrTextHashSha256: string | null;
     ocrTextHashSha256_2: string | null;
     extraction: ReturnType<typeof parseExtraction> | null;
-    decision: "auto_approved" | "manual_review" | "auto_rejected_duplicate" | "auto_rejected_fraud";
+    decision: "auto_approved" | "manual_review" | "needs_retry" | "auto_rejected_duplicate" | "auto_rejected_fraud";
     decisionReason: string;
     riskScore: number;
     aiConfidence: number;
@@ -896,6 +917,24 @@ export async function finalizeAttempt(
       "Your AuraLingovia subscription is active",
       "<p>Your D17 payment has been verified and your subscription is now active. Good luck with your exam prep!</p>",
     );
+  } else if (params.decision === "needs_retry") {
+    // Deliberately does NOT touch order.status: the order stays exactly in
+    // whatever upload-accepting status it was already in (awaiting_payment/
+    // under_review), so the student can immediately upload again without
+    // waiting for a human. This is the FIRST genuinely-uncertain (no hard
+    // fraud gate) attempt on this order — see the retry-downgrade logic
+    // above. A second uncertain attempt on the same order is no longer
+    // eligible for this and goes to manual_review instead.
+    await notifyAndEmail(
+      supabaseAdmin,
+      params.userId,
+      "Please check your payment screenshot",
+      "We couldn't automatically confirm your payment — please double-check the details and upload again.",
+      "warning",
+      params.userEmail,
+      "Please double-check and re-upload your D17 payment proof",
+      `<p>We couldn't automatically confirm your last payment screenshot: ${params.decisionReason}</p><p>Please double-check the details and upload again — no need to contact support, and no waiting required.</p>`,
+    );
   } else if (params.decision === "manual_review") {
     // Once the upload-attempt cap is reached without an auto-approval, the
     // order locks — no more retries, however long the manual_review_deadline
@@ -944,7 +983,7 @@ export async function finalizeAttempt(
     if (params.decision === "auto_rejected_duplicate") {
       const { escalateSuspension } = await import("./fraud-suspension.server");
       const escalation = await escalateSuspension(supabaseAdmin, { userId: params.userId, attemptId: attempt.id });
-      if (escalation.tier === 2 || escalation.tier === 3) {
+      if (escalation.tier === 3 || escalation.tier === 4) {
         const { alertFraudSuspensionEscalated } = await import("./alerting.server");
         await alertFraudSuspensionEscalated(supabaseAdmin, {
           userId: params.userId,
