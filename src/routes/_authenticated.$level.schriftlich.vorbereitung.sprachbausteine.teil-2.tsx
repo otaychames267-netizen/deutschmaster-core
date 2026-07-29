@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft } from "lucide-react";
+import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { SBTeil2Exercise, type SBT2ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil2Exercise";
@@ -74,12 +75,17 @@ function SBTeil2Page() {
   // ── Detail view with Previous/Next navigation ──
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("sprachbausteine", level, 2);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  if (hasAccess === false) {
-    return <LockedExerciseOverview heading="Sprachbausteine · Teil 2" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
-  }
+  // Non-subscribers: the list fetch above is RLS-scoped server-side, so
+  // `list` naturally contains ONLY the flagged free-sample rows for a
+  // non-subscriber (real, fully interactive). Everything else is a locked row.
+  const lockedRemainder = hasAccess === false
+    ? catalog.items.filter((c) => !list.some((l) => l.id === c.id))
+    : [];
 
   if (idx !== null && list[idx]) {
     const meta = list[idx];
@@ -104,12 +110,24 @@ function SBTeil2Page() {
           </div>
         </div>
         <div className="mb-6">
+          {hasAccess === false && (
+            <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <Sparkles className="h-3 w-3" /> FREE SAMPLE
+            </span>
+          )}
           <h1 className="text-2xl font-black text-foreground">{titleOf(meta, idx)}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Sprachbausteine · Teil 2 — Lückentext (gemeinsame Wortliste)</p>
         </div>
         {ex && !detailLoading
-          ? <SBTeil2Exercise key={ex.id} exercise={ex} />
+          ? (
+            <SBTeil2Exercise
+              key={ex.id}
+              exercise={ex}
+              onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
+            />
+          )
           : <div className="flex items-center justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>}
+        <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
     );
   }
@@ -161,7 +179,14 @@ function SBTeil2Page() {
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-sm font-black text-blue-600 dark:text-blue-400">{i + 1}</div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, i)}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, i)}</p>
+                {hasAccess === false && (
+                  <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <Sparkles className="h-2.5 w-2.5" /> FREE
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-muted-foreground mt-0.5">Lückentext · Aufgaben 31–40</p>
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -184,6 +209,12 @@ function SBTeil2Page() {
           </>
         )}
       </div>
+
+      {lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
     </div>
   );
 }

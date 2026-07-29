@@ -25,6 +25,7 @@ interface ExercisePlayerProps {
   examId: string;
   examTitle: string;
   onClose: () => void;
+  onComplete?: () => void;
 }
 
 type Answer = string | string[] | Record<string, string>;
@@ -372,7 +373,7 @@ function ResultScreen({
 
 /* ─── Main player ────────────────────────────────────────────── */
 
-export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerProps) {
+export function ExercisePlayer({ examId, examTitle, onClose, onComplete }: ExercisePlayerProps) {
   const { user } = useAuth();
   const [items, setItems] = useState<ExamItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -460,6 +461,7 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
     setResult({ score, pointsEarned: Math.round(answered * (totalPoints / items.length)), pointsTotal: totalPoints });
     setSubmitting(false);
     toast.success("Exercise submitted!");
+    onComplete?.();
   }
 
   async function handleGradeEssay() {
@@ -497,6 +499,7 @@ export function ExercisePlayer({ examId, examTitle, onClose }: ExercisePlayerPro
       setEssayResult(json as EssayGradingResult);
       notifyCreditsChanged();
       await recordCompletion(user!.id, { isPerfect: json.overall_score === 100 });
+      onComplete?.();
     } catch (e) {
       setEssayError({ code: "NETWORK_ERROR", message: "Could not reach the grading service. Please try again." });
     } finally {

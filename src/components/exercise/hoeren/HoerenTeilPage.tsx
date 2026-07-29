@@ -1,10 +1,11 @@
 import { Link } from "@tanstack/react-router";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { Loader2, Headphones, AlertCircle, ChevronRight } from "lucide-react";
+import { Loader2, Headphones, AlertCircle, ChevronRight, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
@@ -61,6 +62,8 @@ export function HoerenTeilPage({ teil }: Props) {
   const [error, setError] = useState<string | null>(null);
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("hoeren", level, teil);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
 
   useEffect(() => {
     if (!level) return;
@@ -111,14 +114,16 @@ export function HoerenTeilPage({ teil }: Props) {
     document.getElementById(`hoeren-ex-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  // Non-subscribers: titles-only locked preview (content + audio paths are
-  // RLS-gated server-side; the catalog returns only titles).
+  // Non-subscribers: the direct fetch above is RLS-scoped server-side, so
+  // `exercises` naturally contains ONLY the flagged free-sample rows for a
+  // non-subscriber (real, fully interactive) — never full protected content.
+  // Everything else the catalog knows about is rendered as a locked row below.
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  if (hasAccess === false) {
-    return <LockedExerciseOverview heading={`Hören · Teil ${teil}`} subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
-  }
+  const lockedRemainder = hasAccess === false
+    ? catalog.items.filter((c) => !exercises.some((e) => e.id === c.id))
+    : [];
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 pb-16">
@@ -179,6 +184,13 @@ export function HoerenTeilPage({ teil }: Props) {
           return (
             <Fragment key={ex.id}>
               {flaggedStartIndex !== null && i === flaggedStartIndex && <NoticeGroupBanner />}
+              {hasAccess === false && (
+                <div className="mb-1.5 flex items-center gap-1.5">
+                  <span className="flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <Sparkles className="h-3 w-3" /> FREE SAMPLE
+                  </span>
+                </div>
+              )}
               <LazyCard>
                 {() => (
                   <HoerenExerciseCard
@@ -186,6 +198,7 @@ export function HoerenTeilPage({ teil }: Props) {
                     index={displayIndex}
                     hasNext={!!next}
                     onNext={next ? () => scrollToExercise(next.id) : undefined}
+                    onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
                   />
                 )}
               </LazyCard>
@@ -193,6 +206,12 @@ export function HoerenTeilPage({ teil }: Props) {
           );
         })}
       </div>
+
+      {lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
     </div>
   );
 }

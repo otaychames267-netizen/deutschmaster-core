@@ -1,62 +1,84 @@
 import { useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
-import { Lock, Crown, Check, Sparkles, X, ArrowRight } from "lucide-react";
+import { Lock, Crown, Sparkles, ArrowRight } from "lucide-react";
 import type { CatalogItem } from "@/lib/useContentAccess";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
+import { PaywallModal } from "@/components/PaywallModal";
 
 /**
  * The "visible but locked" preview shown to non-subscribers. It renders ONLY
  * the exercise titles (from the titles-only catalog RPC) — there is no
  * protected content in this component's data at all — each with a lock icon.
- * Clicking any locked title, or the CTA, opens a polished subscription dialog
- * that routes to /billing. A non-subscriber can never open, solve, or fetch
- * an exercise from here; the underlying content stays RLS-gated server-side.
+ * Clicking any locked title, or the CTA, opens the shared PaywallModal.
+ * A non-subscriber can never open, solve, or fetch an exercise from here;
+ * the underlying content stays RLS-gated server-side.
+ *
+ * `compact` renders just the row list + a small inline CTA banner, no big
+ * heading/premium hero — used when this is appended below real, interactive
+ * free-sample exercises rather than shown as a standalone locked page.
  */
 export function LockedExerciseOverview({
   heading,
   subheading,
   items,
+  compact = false,
 }: {
   heading: string;
   subheading?: string;
   items: CatalogItem[];
+  compact?: boolean;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const titleOf = (t: string, i: number) => (t && t.trim() ? t : `Übung ${i + 1}`);
   const { ordered, flaggedStartIndex } = orderWithNoticeGroup(items);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 pb-10">
+    <div className={compact ? "space-y-3" : "mx-auto max-w-3xl space-y-6 pb-10"}>
       {/* Header */}
-      <div>
-        <h1 className="text-2xl font-black tracking-tight text-foreground">{heading}</h1>
-        {subheading && <p className="mt-0.5 text-sm text-muted-foreground">{subheading}</p>}
-      </div>
+      {!compact && (
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-foreground">{heading}</h1>
+          {subheading && <p className="mt-0.5 text-sm text-muted-foreground">{subheading}</p>}
+        </div>
+      )}
 
       {/* Premium banner */}
-      <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-card to-card p-5">
-        <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-2xl" />
-        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 ring-1 ring-amber-500/25">
-              <Crown className="h-5 w-5 text-amber-500" />
-            </div>
-            <div>
-              <p className="font-black text-foreground">Premium content</p>
-              <p className="text-sm text-muted-foreground">
-                {items.length > 0 ? `${items.length} exercise${items.length !== 1 ? "s" : ""} available.` : "Exercises available."} Subscribe to unlock all of them.
-              </p>
-            </div>
-          </div>
+      {compact ? (
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-amber-500/20 bg-amber-500/5 px-4 py-3">
+          <p className="text-xs font-semibold text-amber-700 dark:text-amber-400">
+            {items.length} more exercise{items.length !== 1 ? "s" : ""} — subscribe to unlock
+          </p>
           <button
             onClick={() => setDialogOpen(true)}
-            className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm shadow-amber-500/25 transition-all hover:shadow-md"
+            className="flex shrink-0 items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:shadow-md"
           >
-            <Sparkles className="h-4 w-4" /> Unlock — 30 TND/month
+            <Sparkles className="h-3.5 w-3.5" /> Unlock
           </button>
         </div>
-      </div>
+      ) : (
+        <div className="relative overflow-hidden rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-500/10 via-card to-card p-5">
+          <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-amber-500/10 blur-2xl" />
+          <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-amber-500/15 ring-1 ring-amber-500/25">
+                <Crown className="h-5 w-5 text-amber-500" />
+              </div>
+              <div>
+                <p className="font-black text-foreground">Premium content</p>
+                <p className="text-sm text-muted-foreground">
+                  {items.length > 0 ? `${items.length} exercise${items.length !== 1 ? "s" : ""} available.` : "Exercises available."} Subscribe to unlock all of them.
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setDialogOpen(true)}
+              className="flex shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm shadow-amber-500/25 transition-all hover:shadow-md"
+            >
+              <Sparkles className="h-4 w-4" /> Unlock — 30 TND/month
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Locked title list */}
       <div className="space-y-2">
@@ -107,69 +129,7 @@ export function LockedExerciseOverview({
         )}
       </div>
 
-      {dialogOpen && <SubscribeDialog onClose={() => setDialogOpen(false)} />}
-    </div>
-  );
-}
-
-function SubscribeDialog({ onClose }: { onClose: () => void }) {
-  const nav = useNavigate();
-  const benefits = [
-    "Lesen, Hören, Sprachbausteine & Schreiben",
-    "Full exam simulations (Prüfungssimulation)",
-    "AI writing feedback & progress analytics",
-    "New content added regularly",
-  ];
-  return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      onClick={onClose}
-    >
-      <div
-        className="relative w-full max-w-md overflow-hidden rounded-3xl border border-border bg-card shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <button onClick={onClose} aria-label="Close" className="absolute right-4 top-4 rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground">
-          <X className="h-4 w-4" />
-        </button>
-
-        <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-500 p-6 text-white">
-          <div className="pointer-events-none absolute -right-8 -top-10 h-32 w-32 rounded-full bg-white/10 blur-2xl" />
-          <div className="relative flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/20 ring-1 ring-white/25 backdrop-blur-sm">
-              <Crown className="h-5 w-5" />
-            </div>
-            <div>
-              <p className="text-lg font-black">Unlock your exam prep</p>
-              <p className="text-sm text-white/80">Schriftlich — everything written</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-4 p-6">
-          <div className="flex items-baseline gap-1">
-            <span className="text-3xl font-black text-foreground">30</span>
-            <span className="text-sm font-semibold text-muted-foreground">TND / month</span>
-          </div>
-          <ul className="space-y-2">
-            {benefits.map((b) => (
-              <li key={b} className="flex items-start gap-2.5 text-sm">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
-                <span className="text-foreground">{b}</span>
-              </li>
-            ))}
-          </ul>
-          <button
-            onClick={() => nav({ to: "/billing" })}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:opacity-90"
-          >
-            Subscribe now <ArrowRight className="h-4 w-4" />
-          </button>
-          <p className="text-center text-xs text-muted-foreground">Cancel anytime · Instant access after payment is verified</p>
-        </div>
-      </div>
+      <PaywallModal open={dialogOpen} onClose={() => setDialogOpen(false)} reason="locked" />
     </div>
   );
 }

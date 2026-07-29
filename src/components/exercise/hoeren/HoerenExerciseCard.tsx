@@ -43,6 +43,7 @@ interface Props {
   index: number;
   onNext?: () => void;
   hasNext?: boolean;
+  onComplete?: () => void;
 }
 
 type AnswerState = boolean | null;
@@ -61,7 +62,7 @@ interface PersistedAttempt {
 
 const FOCUS_RING = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-1 focus-visible:ring-offset-background";
 
-export function HoerenExerciseCard({ exercise, index, onNext, hasNext }: Props) {
+export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplete }: Props) {
   const { user, loading: authLoading } = useAuth();
 
   const [answers, setAnswers]           = useState<Record<number, AnswerState>>({});
@@ -142,6 +143,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext }: Props) 
       setSubmitted(true);
       setShowScore(true);
       setRestored(false);
+      onComplete?.();
     } catch (e) {
       console.error("Scoring failed:", e);
       setScoreError("Die Auswertung ist fehlgeschlagen. Deine Antworten sind gespeichert — bitte versuche es erneut.");
@@ -171,6 +173,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext }: Props) 
       const allRevealed: Record<number, boolean> = {};
       for (const r of asResults) allRevealed[r.statement_number] = true;
       setRevealed(allRevealed);
+      onComplete?.();
     } catch (e) {
       console.error("Reveal failed:", e);
       setScoreError("Die Lösung konnte nicht geladen werden. Bitte versuche es erneut.");

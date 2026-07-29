@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight } from "lucide-react";
+import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { Teil3Exercise, type T3ExerciseData, type T3Situation, type T3Text } from "@/components/exercise/lesen/Teil3Exercise";
@@ -18,6 +19,8 @@ function LesenTeil3Page() {
   const seg = useLevelSegment();
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("lesen", level, 3);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   const [exercises, setExercises] = useState<Array<{ meta: { id: string; title: string }; data: T3ExerciseData }>>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [selected, setSelected] = useState<T3ExerciseData | null>(null);
@@ -72,9 +75,12 @@ function LesenTeil3Page() {
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  if (hasAccess === false) {
-    return <LockedExerciseOverview heading="Lesen · Teil 3 — Anzeigen" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
-  }
+  // Non-subscribers: the direct fetch above is RLS-scoped server-side, so
+  // `exercises` naturally contains ONLY the flagged free-sample rows for a
+  // non-subscriber (real, fully interactive). The rest is a locked row list.
+  const lockedRemainder = hasAccess === false
+    ? catalog.items.filter((c) => !exercises.some((e) => e.meta.id === c.id))
+    : [];
 
   if (selected) {
     return (
@@ -84,10 +90,19 @@ function LesenTeil3Page() {
           <ArrowLeft className="h-4 w-4" /> Zurück zur Übersicht
         </button>
         <div className="mb-6">
+          {hasAccess === false && (
+            <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <Sparkles className="h-3 w-3" /> FREE SAMPLE
+            </span>
+          )}
           <h1 className="text-2xl font-black text-foreground">{selectedTitle}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Lesen · Teil 3 — Situationen + Anzeigen zuordnen</p>
         </div>
-        <Teil3Exercise exercise={selected} onComplete={(score, total) => console.log("T3 score", score, total)} />
+        <Teil3Exercise
+          exercise={selected}
+          onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
+        />
+        <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
     );
   }
@@ -150,7 +165,14 @@ function LesenTeil3Page() {
               <BookOpen className="h-5 w-5 text-blue-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-foreground">{meta.title}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-foreground">{meta.title}</p>
+                {hasAccess === false && (
+                  <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <Sparkles className="h-2.5 w-2.5" /> FREE
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-muted-foreground mt-0.5">{data.situations.length} Situationen · {data.texts.length} Anzeigen</p>
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -175,6 +197,12 @@ function LesenTeil3Page() {
           </>
         )}
       </div>
+
+      {lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
     </div>
   );
 }

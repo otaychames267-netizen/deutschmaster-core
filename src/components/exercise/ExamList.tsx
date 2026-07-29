@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import {
   BookOpen, Clock, ChevronRight, FileQuestion,
-  CheckCircle2, Lock, Play,
+  CheckCircle2, Lock, Play, Sparkles,
 } from "lucide-react";
 
 interface Exam {
@@ -13,6 +13,7 @@ interface Exam {
   metadata: Record<string, unknown>;
   status: string;
   level?: string | null;
+  is_free_sample?: boolean;
 }
 
 interface ExamListProps {
@@ -23,6 +24,13 @@ interface ExamListProps {
   emptyTitle?: string;
   emptyDescription?: string;
   onSelect: (exam: Exam) => void;
+  /** Non-subscriber view: badges free-sample cards. RLS already scopes the
+   *  fetched list to only free-sample rows for a non-subscriber, so this is
+   *  purely a display flag, never an access decision. */
+  hasAccess?: boolean | null;
+  /** Reports the fetched (RLS-scoped) exam list back to the parent, so it can
+   *  compute the locked remainder from its own titles-only catalog. */
+  onLoaded?: (exams: Exam[]) => void;
 }
 
 function estimateMinutes(metadata: Record<string, unknown>): number {
@@ -41,6 +49,8 @@ export function ExamList({
   emptyTitle = "No exercises available yet",
   emptyDescription = "Exercises for this section will appear here once the admin imports the content via the PDF Import system.",
   onSelect,
+  hasAccess,
+  onLoaded,
 }: ExamListProps) {
   const level = useActiveLevel();
   const [exams, setExams] = useState<Exam[]>([]);
@@ -56,7 +66,7 @@ export function ExamList({
 
       let q = supabase
         .from("exams")
-        .select("id, title, display_order, metadata, status, level")
+        .select("id, title, display_order, metadata, status, level, is_free_sample")
         .eq("level", activeLevel)
         .eq("section", section as "muendlich" | "lesen" | "hoeren" | "sprachbausteine" | "schreiben")
         .eq("exam_type", examType as "vorbereitung" | "simulation")
@@ -67,8 +77,12 @@ export function ExamList({
       if (metadataCategory) q = q.eq("metadata->>category", metadataCategory);
 
       const { data } = await q;
-      const safeExams = enforceLevel((data as Exam[]) ?? [], activeLevel);
+      // is_free_sample was added to `exams` after the last generated-types
+      // refresh — cast through unknown, same as elsewhere in this codebase
+      // for columns/RPCs ahead of the checked-in Supabase types.
+      const safeExams = enforceLevel((data as unknown as Exam[]) ?? [], activeLevel);
       setExams(safeExams);
+      onLoaded?.(safeExams);
 
       // Fetch which exams this user has already attempted
       if (safeExams.length > 0) {
@@ -124,6 +138,11 @@ export function ExamList({
             {done && (
               <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
                 <CheckCircle2 className="h-3 w-3" /> Done
+              </span>
+            )}
+            {!done && hasAccess === false && exam.is_free_sample && (
+              <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                <Sparkles className="h-3 w-3" /> FREE SAMPLE
               </span>
             )}
 

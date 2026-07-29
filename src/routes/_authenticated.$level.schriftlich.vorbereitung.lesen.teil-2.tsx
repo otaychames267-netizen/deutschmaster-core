@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, RotateCcw } from "lucide-react";
+import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, RotateCcw, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { Teil2Exercise, type T2ExerciseData } from "@/components/exercise/lesen/Teil2Exercise";
@@ -25,6 +26,8 @@ function LesenTeil2Page() {
   const seg = useLevelSegment();
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("lesen", level, 2);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   const [summaries, setSummaries]     = useState<T2Summary[]>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [listLoading, setListLoading] = useState(true);
@@ -118,13 +121,16 @@ function LesenTeil2Page() {
     setDetailError(false);
   }
 
-  // Non-subscribers: titles-only locked preview (content is RLS-gated too).
+  // Non-subscribers: the list fetch above is RLS-scoped server-side, so
+  // `summaries` naturally contains ONLY the flagged free-sample rows for a
+  // non-subscriber (real, fully interactive — openExercise() succeeds for
+  // them too). Everything else the catalog knows about is a locked row.
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  if (hasAccess === false) {
-    return <LockedExerciseOverview heading="Lesen · Teil 2 — Lesetext" subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
-  }
+  const lockedRemainder = hasAccess === false
+    ? catalog.items.filter((c) => !summaries.some((s) => s.id === c.id))
+    : [];
 
   // ── Detail view ────────────────────────────────────────────────────────────
   if (selected) {
@@ -135,6 +141,11 @@ function LesenTeil2Page() {
           <ArrowLeft className="h-4 w-4" /> Zurück zur Übersicht
         </button>
         <div className="mb-6">
+          {hasAccess === false && (
+            <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <Sparkles className="h-3 w-3" /> FREE SAMPLE
+            </span>
+          )}
           <h1 className="text-2xl font-black text-foreground">{selected.title}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Lesen · Teil 2 — Längerer Text + Multiple Choice</p>
         </div>
@@ -159,8 +170,12 @@ function LesenTeil2Page() {
         )}
 
         {detail && (
-          <Teil2Exercise exercise={detail} onComplete={(score, total) => console.log("T2 score", score, total)} />
+          <Teil2Exercise
+            exercise={detail}
+            onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
+          />
         )}
+        <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
     );
   }
@@ -233,7 +248,14 @@ function LesenTeil2Page() {
               <BookOpen className="h-5 w-5 text-blue-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-bold text-foreground">{ex.title}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-sm font-bold text-foreground">{ex.title}</p>
+                {hasAccess === false && (
+                  <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <Sparkles className="h-2.5 w-2.5" /> FREE
+                  </span>
+                )}
+              </div>
               <p className="text-xs text-muted-foreground mt-0.5">{ex.questionCount} Fragen · Multiple Choice (a/b/c)</p>
             </div>
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -258,6 +280,12 @@ function LesenTeil2Page() {
           </>
         )}
       </div>
+
+      {lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
     </div>
   );
 }

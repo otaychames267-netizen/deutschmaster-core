@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Clock, BookOpen, Zap, Loader2 } from "lucide-react";
+import { ArrowLeft, Clock, BookOpen, Zap, Loader2, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { ExamList } from "./ExamList";
 import { ExercisePlayer } from "./ExercisePlayer";
@@ -7,10 +7,12 @@ import { useTrackLesson } from "@/lib/useLastLesson";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useSchreibenCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
 
 interface SelectedExam {
   id: string;
   title: string;
+  isFreeSample?: boolean;
 }
 
 interface VorbereitungPageProps {
@@ -48,6 +50,9 @@ export function VorbereitungPage({
   estimatedTime = "15–25 min",
 }: VorbereitungPageProps) {
   const [active, setActive] = useState<SelectedExam | null>(null);
+  const [loadedExams, setLoadedExams] = useState<{ id: string }[]>([]);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   useTrackLesson();
   const level = useActiveLevel();
   const seg = useLevelSegment();
@@ -64,9 +69,12 @@ export function VorbereitungPage({
   if (metadataCategory && (accessLoading || (hasAccess === false && catalog.loading))) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  if (metadataCategory && hasAccess === false) {
-    return <LockedExerciseOverview heading={title} subheading="Preview — subscribe to unlock every exercise." items={catalog.items} />;
-  }
+  // ExamList's own fetch is RLS-scoped server-side, so it naturally returns
+  // ONLY the flagged free-sample rows for a non-subscriber (real, fully
+  // interactive). Everything else the catalog knows about is a locked row.
+  const lockedRemainder = metadataCategory && hasAccess === false
+    ? catalog.items.filter((c) => !loadedExams.some((e) => e.id === c.id))
+    : [];
 
   if (active) {
     return (
@@ -77,11 +85,18 @@ export function VorbereitungPage({
         >
           <ArrowLeft className="h-4 w-4" /> Back to exercises
         </button>
+        {hasAccess === false && active.isFreeSample && (
+          <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+            <Sparkles className="h-3 w-3" /> FREE SAMPLE
+          </span>
+        )}
         <ExercisePlayer
           examId={active.id}
           examTitle={active.title}
           onClose={() => setActive(null)}
+          onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
         />
+        <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
     );
   }
@@ -165,9 +180,17 @@ export function VorbereitungPage({
           section={section}
           teil={teil}
           metadataCategory={metadataCategory}
-          onSelect={(exam) => setActive({ id: exam.id, title: exam.title })}
+          hasAccess={hasAccess}
+          onLoaded={(exams) => setLoadedExams(exams)}
+          onSelect={(exam) => setActive({ id: exam.id, title: exam.title, isFreeSample: exam.is_free_sample === true })}
         />
       </div>
+
+      {lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
     </div>
   );
 }
