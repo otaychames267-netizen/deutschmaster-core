@@ -141,12 +141,19 @@ export async function createUserAndSendConfirmation(
     };
   }
 
-  // Fire-and-forget from the caller's perspective — the account is already
-  // created and must be returned to the client regardless of delivery
-  // outcome (a failed send is retried automatically and is visible in the
-  // admin dashboard either way; it must never turn into a 500 for a
-  // student who successfully created an account).
-  void sendAndLog(supabaseAdmin, {
+  // MUST be awaited, not fire-and-forget: confirmed live (2026-07-29) that
+  // an un-awaited call here never actually runs on Vercel's serverless
+  // runtime — the function is frozen/terminated the instant the HTTP
+  // response is sent, so the "background" send silently never happens and
+  // every auth_email_log row was stuck at status='retrying' forever. This
+  // was caught by testing the deployed fix against real production, not by
+  // local dev (which has no such runtime-freeze behavior) — exactly why
+  // step 5 of the task ("test everything before deployment... repeat until
+  // it succeeds") matters. sendAndLog() never throws (it catches and logs
+  // internally), so awaiting it here still can't turn a successful account
+  // creation into a failed HTTP response — a slow/failing send only adds
+  // latency to this request, it can't fail it.
+  await sendAndLog(supabaseAdmin, {
     userId: data.user.id,
     email: params.email,
     emailType: "signup_confirmation",
