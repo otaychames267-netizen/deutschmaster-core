@@ -6,9 +6,8 @@
  * The server returns per-question correctness; correct letters are revealed only
  * when the student clicks "Lösung zeigen" — and only after submission.
  *
- * Layout (Engineering Spec §19): on desktop the reading passage sits on the LEFT
- * and stays visible (sticky) while the student answers the questions on the RIGHT;
- * on mobile the passage comes first, questions immediately below.
+ * Layout: the reading passage spans the full page width above the questions,
+ * which follow in a full-width list below — on both desktop and mobile.
  *
  * Resilience (§23, §30): in-progress answers + graded results autosave to
  * localStorage and are restored after a refresh or a closed browser; scoring
@@ -237,16 +236,16 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
         </div>
       )}
 
-      {/* ── Two-pane: passage (sticky, left on desktop) · questions (right) ── */}
-      <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
+      {/* ── Full-width passage, questions follow below ── */}
+      <div className="space-y-6">
 
         {/* Reading passage */}
-        <div className="rounded-2xl border border-border bg-card overflow-hidden lg:sticky lg:top-6 lg:max-h-[calc(100dvh-6rem)] lg:flex lg:flex-col">
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
           <div className="border-b border-border bg-muted/30 px-5 py-3 shrink-0">
             <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Lesetext</p>
           </div>
-          <div className="px-6 py-5 lg:overflow-y-auto">
-            <p className="text-sm text-foreground leading-[1.9] whitespace-pre-line">{exercise.passage}</p>
+          <div className="px-6 py-5">
+            <p className="text-sm text-foreground leading-[1.9] whitespace-pre-line max-w-4xl">{exercise.passage}</p>
           </div>
         </div>
 
