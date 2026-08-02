@@ -26,10 +26,10 @@ export function PaywallModal({
     "New content added regularly",
   ];
 
-  const headline = reason === "sample-complete" ? "Nice work! That was a free sample" : "Unlock your exam prep";
+  const headline = reason === "sample-complete" ? "Nice work! That was a free sample" : "The free launch period has ended";
   const sub = reason === "sample-complete"
     ? "Subscribe to unlock every exercise in every skill."
-    : "Schriftlich — everything written";
+    : "Thank you for trying AuraLingovia. To continue accessing all Premium exercises, simulations, and learning materials, please subscribe.";
 
   return (
     <div
