@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
+import { useHasPlanAccess } from "@/lib/useContentAccess";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserProgress, levelProgress, xpForNextLevel, xpForCurrentLevel } from "@/lib/useUserProgress";
 import {
@@ -119,6 +120,7 @@ function DashboardPage() {
   const seg = useLevelSegment();
   const navigate = useNavigate();
   const muendlichVisible = useMuendlichVisible();
+  const { hasAccess: planAccess } = useHasPlanAccess();
   const { progress, achievements, loading: progressLoading } = useUserProgress();
 
   // Only resume a "last lesson" that belongs to THIS level — never surface the
@@ -210,12 +212,17 @@ function DashboardPage() {
     return () => { cancelled = true; };
   }, [user?.id, level]);
 
-  if (loading || progressLoading) return <DashboardSkeleton />;
+  if (loading || progressLoading || planAccess === null) return <DashboardSkeleton />;
 
   const firstName     = profile?.full_name?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
   const levelBadge    = level === "TELC_B1" ? "B1" : "B2";
   const examCountdown = daysUntil(profile?.exam_date ?? null);
-  const hasAccess     = !!subscription;
+  // Combines the raw subscription row with the canonical has_plan_access
+  // check (same source useHasPlanAccess/RLS/simulation RPCs all use) so this
+  // banner can never disagree with what content the user can actually open —
+  // including during a global launch-access window, where there's no real
+  // subscription row but planAccess is still true for everyone.
+  const hasAccess     = !!subscription || planAccess === true;
   const daysLeft      = subscription ? daysRemaining(subscription.expires_at) : 0;
 
   const hour = new Date().getHours();
