@@ -66,22 +66,27 @@ export const checkResendDeliveryStatuses = createServerFn({ method: "POST" })
     const apiKey = process.env.RESEND_API_KEY;
     if (!apiKey) throw new Error("RESEND_API_KEY not configured on this deployment.");
 
-    const results = await Promise.all(
-      (rows ?? []).map(async (row: { id: string; email: string; provider_message_id: string | null; created_at: string }) => {
-        try {
-          const res = await fetch(`https://api.resend.com/emails/${row.provider_message_id}`, {
-            headers: { Authorization: `Bearer ${apiKey}` },
-          });
-          if (!res.ok) {
-            return { email: row.email, created_at: row.created_at, resend_status: `HTTP ${res.status}`, error: true };
-          }
+    // Sequential with a small delay, not Promise.all — Resend's retrieve
+    // endpoint rate-limits at ~2 req/s, and firing 25 requests in parallel
+    // was producing spurious "HTTP 429" rows that looked like delivery
+    // failures but were actually just this diagnostic tripping over itself.
+    const results: { email: string; created_at: string; resend_status: string; error: boolean }[] = [];
+    for (const row of (rows ?? []) as { id: string; email: string; provider_message_id: string | null; created_at: string }[]) {
+      try {
+        const res = await fetch(`https://api.resend.com/emails/${row.provider_message_id}`, {
+          headers: { Authorization: `Bearer ${apiKey}` },
+        });
+        if (!res.ok) {
+          results.push({ email: row.email, created_at: row.created_at, resend_status: `HTTP ${res.status}`, error: true });
+        } else {
           const body = await res.json();
-          return { email: row.email, created_at: row.created_at, resend_status: body.last_event ?? "unknown", error: false };
-        } catch (e) {
-          return { email: row.email, created_at: row.created_at, resend_status: e instanceof Error ? e.message : "fetch failed", error: true };
+          results.push({ email: row.email, created_at: row.created_at, resend_status: body.last_event ?? "unknown", error: false });
         }
-      }),
-    );
+      } catch (e) {
+        results.push({ email: row.email, created_at: row.created_at, resend_status: e instanceof Error ? e.message : "fetch failed", error: true });
+      }
+      await new Promise((resolve) => setTimeout(resolve, 550));
+    }
 
     return { results };
   });
