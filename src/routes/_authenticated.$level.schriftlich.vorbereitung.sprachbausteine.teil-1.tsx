@@ -8,6 +8,8 @@ import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
+import { parseVariant } from "@/lib/exercise-variant";
+import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 import { SBTeil1Exercise, type SBT1ExerciseData, type SBT1Gap } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1")({
@@ -29,6 +31,7 @@ function SBTeil1Page() {
   const seg = useLevelSegment();
   const [list, setList] = useState<ExMeta[]>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
+  const [hiddenCount, setHiddenCount] = useState(0);
   const [idx, setIdx] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,7 +51,8 @@ function SBTeil1Page() {
         .order("position", { ascending: true }); // official PDF order
       if (exErr) { setError(exErr.message); setLoading(false); return; }
       const enforced = enforceLevel((exList ?? []) as ExMeta[], lvl);
-      const { ordered, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+      const { ordered, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
+      setHiddenCount(hc);
       setList(ordered);
       setFlaggedStartIndex(fsi);
       setLoading(false);
@@ -179,13 +183,16 @@ function SBTeil1Page() {
             <div><p className="text-sm font-semibold text-foreground">Noch keine Übungen verfügbar</p></div>
           </div>
         )}
-        {!loading && !error && list.slice(0, flaggedStartIndex ?? list.length).map((ex, i) => (
+        {!loading && !error && list.slice(0, flaggedStartIndex ?? list.length).map((ex, i) => {
+          const v = parseVariant(titleOf(ex, i));
+          return (
           <button key={ex.id} onClick={() => openExercise(i)}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-sm font-black text-blue-600 dark:text-blue-400">{i + 1}</div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, i)}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-bold text-foreground truncate">{v.baseTitle}</p>
+                {v.variant && <VariantBadge variant={v.variant} />}
                 {hasAccess === false && (
                   <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
                     <Sparkles className="h-2.5 w-2.5" /> FREE
@@ -194,9 +201,11 @@ function SBTeil1Page() {
               </div>
               <p className="text-xs text-muted-foreground mt-0.5">Lückentext · Aufgaben 21–30</p>
             </div>
+            {v.isNew && <NewBadge />}
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
-        ))}
+          );
+        })}
         {!loading && !error && flaggedStartIndex !== null && flaggedStartIndex < list.length && (
           <>
             <NoticeGroupBanner />
@@ -216,7 +225,10 @@ function SBTeil1Page() {
       </div>
 
       {lockedRemainder.length > 0 && (
-        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+        <>
+          {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
+          <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+        </>
       )}
 
       <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />

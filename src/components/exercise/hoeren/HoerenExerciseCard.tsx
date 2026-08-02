@@ -14,6 +14,8 @@ import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, Arrow
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
+import { parseVariant } from "@/lib/exercise-variant";
+import { NewBadge } from "@/components/VariantBadges";
 
 export interface HoerenStatement {
   statement_number: number;
@@ -212,11 +214,12 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
             {index + 1}
           </span>
           <div className="flex-1 min-w-0 pt-0.5">
-            <p className="text-base font-bold text-foreground">{exercise.title}</p>
+            <p className="text-base font-bold text-foreground">{parseVariant(exercise.title).baseTitle}</p>
             {exercise.instructions && (
               <p className="text-xs text-muted-foreground whitespace-pre-line mt-1 leading-relaxed">{exercise.instructions}</p>
             )}
           </div>
+          {parseVariant(exercise.title).isNew && <NewBadge />}
         </div>
 
         {exercise.imageUrl && (

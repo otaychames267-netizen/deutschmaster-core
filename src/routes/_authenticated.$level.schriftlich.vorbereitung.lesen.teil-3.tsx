@@ -8,6 +8,8 @@ import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
+import { parseVariant } from "@/lib/exercise-variant";
+import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 import { Teil3Exercise, type T3ExerciseData, type T3Situation, type T3Text } from "@/components/exercise/lesen/Teil3Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3")({
@@ -23,6 +25,7 @@ function LesenTeil3Page() {
   const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   const [exercises, setExercises] = useState<Array<{ meta: { id: string; title: string }; data: T3ExerciseData }>>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
+  const [hiddenCount, setHiddenCount] = useState(0);
   const [selected, setSelected] = useState<T3ExerciseData | null>(null);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [loading, setLoading] = useState(true);
@@ -42,7 +45,8 @@ function LesenTeil3Page() {
           .order("created_at", { ascending: true });
         if (exErr) throw exErr;
         const enforced = enforceLevel(exListRaw, lvl);
-        const { ordered: exList, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+        const { ordered: exList, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
+        setHiddenCount(hc);
         setFlaggedStartIndex(fsi);
         if (exList.length === 0) { setLoading(false); return; }
 
@@ -158,15 +162,18 @@ function LesenTeil3Page() {
             </div>
           </div>
         )}
-        {exercises.slice(0, flaggedStartIndex ?? exercises.length).map(({ meta, data }) => (
+        {exercises.slice(0, flaggedStartIndex ?? exercises.length).map(({ meta, data }) => {
+          const v = parseVariant(meta.title);
+          return (
           <button key={meta.id} onClick={() => { setSelected(data); setSelectedTitle(meta.title); }}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10">
               <BookOpen className="h-5 w-5 text-blue-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-bold text-foreground">{meta.title}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-bold text-foreground">{v.baseTitle}</p>
+                {v.variant && <VariantBadge variant={v.variant} />}
                 {hasAccess === false && (
                   <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
                     <Sparkles className="h-2.5 w-2.5" /> FREE
@@ -175,9 +182,11 @@ function LesenTeil3Page() {
               </div>
               <p className="text-xs text-muted-foreground mt-0.5">{data.situations.length} Situationen · {data.texts.length} Anzeigen</p>
             </div>
+            {v.isNew && <NewBadge />}
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
-        ))}
+          );
+        })}
         {flaggedStartIndex !== null && flaggedStartIndex < exercises.length && (
           <>
             <NoticeGroupBanner />
@@ -199,7 +208,10 @@ function LesenTeil3Page() {
       </div>
 
       {lockedRemainder.length > 0 && (
-        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+        <>
+          {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
+          <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+        </>
       )}
 
       <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />

@@ -30,7 +30,7 @@ export function LockedExerciseOverview({
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const titleOf = (t: string, i: number) => (t && t.trim() ? t : `Übung ${i + 1}`);
-  const { ordered, flaggedStartIndex } = orderWithNoticeGroup(items);
+  const { ordered, flaggedStartIndex, hiddenCount } = orderWithNoticeGroup(items);
 
   return (
     <div className={compact ? "space-y-3" : "mx-auto max-w-3xl space-y-6 pb-10"}>
@@ -125,6 +125,7 @@ export function LockedExerciseOverview({
                 ))}
               </>
             )}
+            {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
           </>
         )}
       </div>

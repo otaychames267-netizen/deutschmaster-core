@@ -56,6 +56,7 @@ export function HoerenTeilPage({ teil }: Props) {
   const seg = useLevelSegment();
   const [exercises, setExercises] = useState<ExRow[]>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
+  const [hiddenCount, setHiddenCount] = useState(0);
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
   const [mediaByEx, setMediaByEx] = useState<Record<string, { image: string | null; audio: string | null }>>({});
   const [loading, setLoading] = useState(true);
@@ -81,9 +82,14 @@ export function HoerenTeilPage({ teil }: Props) {
       if (cancelled) return;
       if (exErr) { setError(exErr.message); setLoading(false); return; }
       const enforced = enforceLevel((exList ?? []) as ExRow[], lvl);
-      const { ordered: rows, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+      // Hören Teil 1 is the one standing exception to SHOW_UNRELEASED_CONTENT
+      // (see notice-group.ts/features.ts) — kept fully visible so students
+      // can see the quality of new material coming while everything else
+      // stays hidden behind "Coming Soon".
+      const { ordered: rows, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced, { reveal: teil === 1 });
       setExercises(rows);
       setFlaggedStartIndex(fsi);
+      setHiddenCount(hc);
 
       if (rows.length) {
         const mediaEntries = await Promise.all(
@@ -206,6 +212,8 @@ export function HoerenTeilPage({ teil }: Props) {
           );
         })}
       </div>
+
+      {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
 
       {lockedRemainder.length > 0 && (
         <LockedExerciseOverview heading="" items={lockedRemainder} compact />

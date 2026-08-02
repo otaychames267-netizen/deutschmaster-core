@@ -57,6 +57,19 @@ export const CARD_PAYMENTS_ENABLED = false;
  */
 export const LEMONSQUEEZY_VISIBLE = true;
 
+/**
+ * Are exercises flagged "not yet introduced in Tunisian exams" (the
+ * NOTICE_TEXT import_notes marker, see src/lib/notice-group.ts) visible to
+ * subscribers? Launch: false — hidden everywhere, shown as a "Coming Soon"
+ * notice instead of a title list. Hören Teil 1 is the one standing exception
+ * (see HoerenTeilPage's `reveal: teil === 1`), so students can see the
+ * quality of new material coming while everything else stays hidden. Flip
+ * this single constant + redeploy to reveal everything else at once — same
+ * contract as MUENDLICH_ENABLED/B1_ENABLED, deliberately not an admin
+ * platform_setting for the same reason those aren't.
+ */
+export const SHOW_UNRELEASED_CONTENT = false;
+
 export type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 /**

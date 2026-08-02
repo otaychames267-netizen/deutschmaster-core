@@ -8,6 +8,8 @@ import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
+import { parseVariant } from "@/lib/exercise-variant";
+import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 import { Teil2Exercise, type T2ExerciseData } from "@/components/exercise/lesen/Teil2Exercise";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-2")({
@@ -30,6 +32,7 @@ function LesenTeil2Page() {
   const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   const [summaries, setSummaries]     = useState<T2Summary[]>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
+  const [hiddenCount, setHiddenCount] = useState(0);
   const [listLoading, setListLoading] = useState(true);
   const [listError, setListError]     = useState(false);
 
@@ -53,8 +56,9 @@ function LesenTeil2Page() {
         .order("created_at", { ascending: true });
       if (exErr) throw exErr;
       const enforced = enforceLevel(exListRaw, level);
-      const { ordered: exList, flaggedStartIndex: fsi } = orderWithNoticeGroup(enforced);
+      const { ordered: exList, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
       setFlaggedStartIndex(fsi);
+      setHiddenCount(hc);
 
       const ids = (exList ?? []).map((e) => e.id);
       const counts = new Map<string, number>();
@@ -241,15 +245,18 @@ function LesenTeil2Page() {
           </div>
         )}
 
-        {!listLoading && !listError && summaries.slice(0, flaggedStartIndex ?? summaries.length).map((ex) => (
+        {!listLoading && !listError && summaries.slice(0, flaggedStartIndex ?? summaries.length).map((ex) => {
+          const v = parseVariant(ex.title);
+          return (
           <button key={ex.id} onClick={() => openExercise(ex)}
             className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10">
               <BookOpen className="h-5 w-5 text-blue-500" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-bold text-foreground">{ex.title}</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-bold text-foreground">{v.baseTitle}</p>
+                {v.variant && <VariantBadge variant={v.variant} />}
                 {hasAccess === false && (
                   <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
                     <Sparkles className="h-2.5 w-2.5" /> FREE
@@ -258,9 +265,11 @@ function LesenTeil2Page() {
               </div>
               <p className="text-xs text-muted-foreground mt-0.5">{ex.questionCount} Fragen · Multiple Choice (a/b/c)</p>
             </div>
+            {v.isNew && <NewBadge />}
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
           </button>
-        ))}
+          );
+        })}
         {!listLoading && !listError && flaggedStartIndex !== null && flaggedStartIndex < summaries.length && (
           <>
             <NoticeGroupBanner />
@@ -280,6 +289,8 @@ function LesenTeil2Page() {
           </>
         )}
       </div>
+
+      {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
 
       {lockedRemainder.length > 0 && (
         <LockedExerciseOverview heading="" items={lockedRemainder} compact />
