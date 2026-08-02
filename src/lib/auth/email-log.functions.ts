@@ -38,6 +38,54 @@ export const listAuthEmailLog = createServerFn({ method: "POST" })
     return { rows: rows ?? [], stats: { total: totalCount ?? 0, failed: failedCount ?? 0, sent: sentCount ?? 0 } };
   });
 
+/**
+ * Diagnostic: cross-checks our own "sent" status (which only means Resend's
+ * API *accepted* the send request) against Resend's actual delivery events
+ * (delivered / bounced / complained / delivery_delayed) for the most recent
+ * rows that have a provider_message_id. This is the one signal this app
+ * never had before — "sent" in auth_email_log has always meant "Resend said
+ * 200 OK", never "the recipient's mail server actually accepted it".
+ */
+export const checkResendDeliveryStatuses = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: { limit?: number }) => d)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+
+    const limit = Math.min(data.limit ?? 25, 50);
+    const { data: rows, error } = await supabaseAdmin
+      .from("auth_email_log")
+      .select("id, email, provider_message_id, created_at, status")
+      .eq("status", "sent")
+      .not("provider_message_id", "is", null)
+      .order("created_at", { ascending: false })
+      .limit(limit);
+    if (error) throw new Error(error.message);
+
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) throw new Error("RESEND_API_KEY not configured on this deployment.");
+
+    const results = await Promise.all(
+      (rows ?? []).map(async (row: { id: string; email: string; provider_message_id: string | null; created_at: string }) => {
+        try {
+          const res = await fetch(`https://api.resend.com/emails/${row.provider_message_id}`, {
+            headers: { Authorization: `Bearer ${apiKey}` },
+          });
+          if (!res.ok) {
+            return { email: row.email, created_at: row.created_at, resend_status: `HTTP ${res.status}`, error: true };
+          }
+          const body = await res.json();
+          return { email: row.email, created_at: row.created_at, resend_status: body.last_event ?? "unknown", error: false };
+        } catch (e) {
+          return { email: row.email, created_at: row.created_at, resend_status: e instanceof Error ? e.message : "fetch failed", error: true };
+        }
+      }),
+    );
+
+    return { results };
+  });
+
 /** Manual retry button for a failed row — re-runs the exact same
  * generate-link + send pipeline a real resend would, targeting the row's
  * stored email address. Uses the resend (magiclink) path since by

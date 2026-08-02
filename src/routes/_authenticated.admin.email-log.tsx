@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
 import { Mail, RefreshCw, CheckCircle2, XCircle, Clock, Loader2 } from "lucide-react";
 import { toast } from "sonner";
-import { listAuthEmailLog, adminRetryEmailLogRow } from "@/lib/auth/email-log.functions";
+import { listAuthEmailLog, adminRetryEmailLogRow, checkResendDeliveryStatuses } from "@/lib/auth/email-log.functions";
 
 export const Route = createFileRoute("/_authenticated/admin/email-log")({
   component: AdminEmailLogPage,
@@ -46,6 +46,10 @@ function AdminEmailLogPage() {
   const [filter, setFilter] = useState<(typeof STATUS_FILTERS)[number]>("all");
   const [loading, setLoading] = useState(true);
   const [retrying, setRetrying] = useState<string | null>(null);
+  const [checkingDelivery, setCheckingDelivery] = useState(false);
+  const [deliveryResults, setDeliveryResults] = useState<
+    { email: string; created_at: string; resend_status: string; error: boolean }[] | null
+  >(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -65,6 +69,18 @@ function AdminEmailLogPage() {
     const interval = setInterval(() => void load(), 30000);
     return () => clearInterval(interval);
   }, [load]);
+
+  async function handleCheckDelivery() {
+    setCheckingDelivery(true);
+    try {
+      const result = await checkResendDeliveryStatuses({ data: { limit: 25 } });
+      setDeliveryResults(result.results);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not check delivery status.");
+    } finally {
+      setCheckingDelivery(false);
+    }
+  }
 
   async function handleRetry(email: string) {
     setRetrying(email);
@@ -97,19 +113,62 @@ function AdminEmailLogPage() {
         <StatCard label="Failed" value={stats.failed} color="text-red-600 dark:text-red-400" />
       </div>
 
-      <div className="flex gap-2">
-        {STATUS_FILTERS.map((f) => (
-          <button
-            key={f}
-            onClick={() => setFilter(f)}
-            className={`rounded-lg px-3 py-1.5 text-xs font-semibold capitalize transition-colors ${
-              filter === f ? "bg-primary text-primary-foreground" : "border border-border bg-card text-muted-foreground hover:bg-muted"
-            }`}
-          >
-            {f}
-          </button>
-        ))}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex gap-2">
+          {STATUS_FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`rounded-lg px-3 py-1.5 text-xs font-semibold capitalize transition-colors ${
+                filter === f ? "bg-primary text-primary-foreground" : "border border-border bg-card text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={handleCheckDelivery}
+          disabled={checkingDelivery}
+          className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-xs font-semibold hover:bg-muted disabled:opacity-50"
+        >
+          {checkingDelivery ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Mail className="h-3.5 w-3.5" />}
+          Check real delivery status (last 25 sent)
+        </button>
       </div>
+
+      {deliveryResults && (
+        <div className="overflow-x-auto rounded-2xl border border-border">
+          <table className="w-full text-left text-sm">
+            <thead className="border-b border-border bg-muted/30 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              <tr>
+                <th className="px-4 py-3">Email</th>
+                <th className="px-4 py-3">Sent at</th>
+                <th className="px-4 py-3">Real Resend status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {deliveryResults.map((r, i) => (
+                <tr key={i} className="border-b border-border last:border-0">
+                  <td className="px-4 py-3 font-medium text-foreground">{r.email}</td>
+                  <td className="px-4 py-3 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleString()}</td>
+                  <td
+                    className={`px-4 py-3 font-semibold ${
+                      r.resend_status === "delivered"
+                        ? "text-emerald-600 dark:text-emerald-400"
+                        : r.error || r.resend_status === "bounced" || r.resend_status === "complained"
+                          ? "text-red-600 dark:text-red-400"
+                          : "text-amber-600 dark:text-amber-400"
+                    }`}
+                  >
+                    {r.resend_status}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       <div className="overflow-x-auto rounded-2xl border border-border">
         <table className="w-full text-left text-sm">
