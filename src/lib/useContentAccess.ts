@@ -28,7 +28,14 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftl
       // types.ts, but exist in the DB and are the authoritative access check).
       (supabase as any)
         .rpc("has_plan_access", { p_user_id: user!.id, p_module: module })
-        .then(({ data }: { data: unknown }) => { if (!cancelled) setHasAccess(data === true); });
+        .then(({ data }: { data: unknown }) => { if (!cancelled) setHasAccess(data === true); })
+        // A rejected RPC (network timeout, transient 5xx) used to leave
+        // hasAccess stuck at null forever — every page gating on `loading`
+        // (accessLoading === hasAccess === null) hung on its spinner
+        // indefinitely, and the rejection went unhandled. Fail closed
+        // (false) instead: the poll below retries in 20s, and the real
+        // security boundary is server-side RLS regardless.
+        .catch(() => { if (!cancelled) setHasAccess(false); });
     }
     check();
     // Poll while still locked so a payment approved elsewhere (auto-approve
@@ -68,7 +75,11 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
         if (cancelled) return;
         setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title, import_notes: r.import_notes ?? null, is_free_sample: r.is_free_sample === true, has_audio: r.has_audio ?? null })));
         setLoading(false);
-      });
+      })
+      // A rejected RPC used to leave `loading` stuck true forever (see
+      // useHasPlanAccess above for the full explanation) — fail to an empty
+      // catalog instead so the page can still render.
+      .catch(() => { if (!cancelled) { setItems([]); setLoading(false); } });
     return () => { cancelled = true; };
   }, [skill, level, teil]);
 
@@ -96,7 +107,8 @@ export function useSchreibenCatalog(level: string | null, category: string) {
         if (cancelled) return;
         setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title, is_free_sample: r.is_free_sample === true })));
         setLoading(false);
-      });
+      })
+      .catch(() => { if (!cancelled) { setItems([]); setLoading(false); } });
     return () => { cancelled = true; };
   }, [level, category]);
 

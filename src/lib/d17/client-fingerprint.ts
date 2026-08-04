@@ -22,12 +22,20 @@ const D17_DEVICE_FP_KEY = "d17_device_fp";
  * storage. Survives across sessions on the same browser/profile. */
 export function getOrCreateD17DeviceFingerprint(): string {
   if (typeof window === "undefined") return "ssr";
-  let fp = localStorage.getItem(D17_DEVICE_FP_KEY);
-  if (!fp) {
-    fp = crypto.randomUUID();
-    localStorage.setItem(D17_DEVICE_FP_KEY, fp);
+  // localStorage can throw a SecurityError (Safari "Block All Cookies",
+  // locked-down in-app browsers) rather than just returning null — this
+  // signal is explicitly weak/advisory (see file header), never worth
+  // crashing the payment page over.
+  try {
+    let fp = localStorage.getItem(D17_DEVICE_FP_KEY);
+    if (!fp) {
+      fp = crypto.randomUUID();
+      localStorage.setItem(D17_DEVICE_FP_KEY, fp);
+    }
+    return fp;
+  } catch {
+    return "storage-blocked";
   }
-  return fp;
 }
 
 /** Coarse, non-persistent browser-characteristics signature (user agent +

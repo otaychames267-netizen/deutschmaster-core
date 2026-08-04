@@ -20,7 +20,11 @@ export function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("i18nextLng");
+    // See theme.tsx — localStorage can throw (not just return null) under
+    // Safari "Block All Cookies" and similar locked-down browsers; never let
+    // that take down this public page.
+    let stored: string | null = null;
+    try { stored = window.localStorage.getItem("i18nextLng"); } catch { /* storage blocked */ }
     if (stored && LANGS.some((l) => l.code === stored) && stored !== i18n.language) {
       void i18n.changeLanguage(stored);
     }
