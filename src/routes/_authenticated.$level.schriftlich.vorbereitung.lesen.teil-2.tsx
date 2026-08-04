@@ -132,9 +132,7 @@ function LesenTeil2Page() {
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  const lockedRemainder = hasAccess === false
-    ? catalog.items.filter((c) => !summaries.some((s) => s.id === c.id))
-    : [];
+  const lockedRemainder = catalog.items.filter((c) => !summaries.some((s) => s.id === c.id));
 
   // ── Detail view ────────────────────────────────────────────────────────────
   if (selected) {
@@ -293,7 +291,7 @@ function LesenTeil2Page() {
       {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
 
       {lockedRemainder.length > 0 && (
-        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly={hasAccess === true} />
       )}
 
       <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />

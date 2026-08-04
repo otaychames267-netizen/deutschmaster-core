@@ -82,9 +82,7 @@ function LesenTeil3Page() {
   // Non-subscribers: the direct fetch above is RLS-scoped server-side, so
   // `exercises` naturally contains ONLY the flagged free-sample rows for a
   // non-subscriber (real, fully interactive). The rest is a locked row list.
-  const lockedRemainder = hasAccess === false
-    ? catalog.items.filter((c) => !exercises.some((e) => e.meta.id === c.id))
-    : [];
+  const lockedRemainder = catalog.items.filter((c) => !exercises.some((e) => e.meta.id === c.id));
 
   if (selected) {
     return (
@@ -210,7 +208,7 @@ function LesenTeil3Page() {
       {lockedRemainder.length > 0 && (
         <>
           {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
-          <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+          <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly={hasAccess === true} />
         </>
       )}
 

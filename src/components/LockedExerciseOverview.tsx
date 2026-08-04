@@ -4,6 +4,8 @@ import type { CatalogItem } from "@/lib/useContentAccess";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
 import { PaywallModal } from "@/components/PaywallModal";
+import { parseVariant } from "@/lib/exercise-variant";
+import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 
 /**
  * The "visible but locked" preview shown to non-subscribers. It renders ONLY
@@ -16,21 +18,31 @@ import { PaywallModal } from "@/components/PaywallModal";
  * `compact` renders just the row list + a small inline CTA banner, no big
  * heading/premium hero — used when this is appended below real, interactive
  * free-sample exercises rather than shown as a standalone locked page.
+ *
+ * `restrictedOnly` covers a different case: the viewer already has full plan
+ * access, but one or more specific items are withheld from their account
+ * (e.g. a per-user NEU-content restriction) — RLS still returns the row's
+ * title via the catalog RPC so it stays visible with a lock icon, but there
+ * is nothing to "subscribe" to here, so the paywall CTA/dialog is suppressed
+ * in favor of a neutral "restricted" label.
  */
 export function LockedExerciseOverview({
   heading,
   subheading,
   items,
   compact = false,
+  restrictedOnly = false,
 }: {
   heading: string;
   subheading?: string;
   items: CatalogItem[];
   compact?: boolean;
+  restrictedOnly?: boolean;
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const titleOf = (t: string, i: number) => (t && t.trim() ? t : `Übung ${i + 1}`);
   const { ordered, flaggedStartIndex, hiddenCount } = orderWithNoticeGroup(items);
+  const openPaywall = () => { if (!restrictedOnly) setDialogOpen(true); };
 
   return (
     <div className={compact ? "space-y-3" : "mx-auto max-w-3xl space-y-6 pb-10"}>
@@ -43,13 +55,20 @@ export function LockedExerciseOverview({
       )}
 
       {/* Premium banner */}
-      {compact ? (
+      {restrictedOnly ? (
+        <div className="flex items-center gap-3 rounded-2xl border border-border bg-muted/30 px-4 py-3">
+          <Lock className="h-4 w-4 shrink-0 text-muted-foreground" />
+          <p className="text-xs font-semibold text-muted-foreground">
+            {items.length} item{items.length !== 1 ? "s" : ""} restricted on this account
+          </p>
+        </div>
+      ) : compact ? (
         <div className="flex items-center justify-between gap-3 rounded-2xl border border-amber-500/20 bg-amber-500/5 px-4 py-3">
           <p className="text-xs font-semibold text-amber-700 dark:text-amber-400">
             {items.length} more exercise{items.length !== 1 ? "s" : ""} — subscribe to unlock
           </p>
           <button
-            onClick={() => setDialogOpen(true)}
+            onClick={openPaywall}
             className="flex shrink-0 items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:shadow-md"
           >
             <Sparkles className="h-3.5 w-3.5" /> Unlock
@@ -88,41 +107,73 @@ export function LockedExerciseOverview({
           </div>
         ) : (
           <>
-            {ordered.slice(0, flaggedStartIndex).map((ex, i) => (
-              <button
-                key={ex.id}
-                onClick={() => setDialogOpen(true)}
-                className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-all hover:border-amber-500/40 hover:shadow-sm"
-              >
-                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-black tabular-nums text-muted-foreground">
-                  {i + 1}
-                </span>
-                <span className="flex-1 truncate font-medium text-foreground/80">{titleOf(ex.title, i)}</span>
-                <span className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-amber-400">
-                  Subscribe <ArrowRight className="h-3 w-3" />
-                </span>
-                <Lock className="h-4 w-4 shrink-0 text-muted-foreground/70" />
-              </button>
-            ))}
+            {ordered.slice(0, flaggedStartIndex).map((ex, i) => {
+              const v = parseVariant(titleOf(ex.title, i));
+              return (
+                <button
+                  key={ex.id}
+                  onClick={openPaywall}
+                  className={`group relative flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-border bg-gradient-to-r from-card to-card px-4 py-3.5 text-left shadow-sm transition-all ${restrictedOnly ? "cursor-default opacity-80" : "hover:-translate-y-0.5 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10"}`}
+                >
+                  {!restrictedOnly && <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600 opacity-0 transition-opacity group-hover:opacity-100" />}
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-muted text-xs font-black tabular-nums text-muted-foreground">
+                    {i + 1}
+                  </span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <span className="truncate font-semibold text-foreground/85">{v.baseTitle}</span>
+                      {v.variant && <VariantBadge variant={v.variant} />}
+                      {v.isNew && <NewBadge />}
+                    </div>
+                  </div>
+                  {restrictedOnly ? (
+                    <span className="hidden shrink-0 rounded-lg bg-muted px-2.5 py-1 text-[11px] font-bold text-muted-foreground sm:block">
+                      Restricted
+                    </span>
+                  ) : (
+                    <span className="hidden shrink-0 items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-2.5 py-1 text-[11px] font-bold text-white shadow-sm sm:flex">
+                      Subscribe <ArrowRight className="h-3 w-3" />
+                    </span>
+                  )}
+                  <Lock className={`h-4 w-4 shrink-0 ${restrictedOnly ? "text-muted-foreground/60" : "text-amber-500/60"}`} />
+                </button>
+              );
+            })}
             {flaggedStartIndex < ordered.length && (
               <>
                 <NoticeGroupBanner />
-                {ordered.slice(flaggedStartIndex).map((ex, i) => (
-                  <button
-                    key={ex.id}
-                    onClick={() => setDialogOpen(true)}
-                    className="group flex w-full items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3.5 text-left transition-all hover:border-amber-500/40 hover:shadow-sm"
-                  >
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-xs font-black tabular-nums text-amber-600 dark:text-amber-400">
-                      {i + 1}
-                    </span>
-                    <span className="flex-1 truncate font-medium text-foreground/80">{titleOf(ex.title, flaggedStartIndex + i)}</span>
-                    <span className="flex items-center gap-1.5 rounded-lg bg-amber-500/10 px-2.5 py-1 text-[11px] font-bold text-amber-600 opacity-0 transition-opacity group-hover:opacity-100 dark:text-amber-400">
-                      Subscribe <ArrowRight className="h-3 w-3" />
-                    </span>
-                    <Lock className="h-4 w-4 shrink-0 text-muted-foreground/70" />
-                  </button>
-                ))}
+                {ordered.slice(flaggedStartIndex).map((ex, i) => {
+                  const v = parseVariant(titleOf(ex.title, flaggedStartIndex + i));
+                  return (
+                    <button
+                      key={ex.id}
+                      onClick={openPaywall}
+                      className={`group relative flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-border bg-gradient-to-r from-card to-card px-4 py-3.5 text-left shadow-sm transition-all ${restrictedOnly ? "cursor-default opacity-80" : "hover:-translate-y-0.5 hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10"}`}
+                    >
+                      {!restrictedOnly && <span className="absolute inset-y-0 left-0 w-1 bg-gradient-to-b from-amber-400 to-amber-600 opacity-0 transition-opacity group-hover:opacity-100" />}
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-500/10 text-xs font-black tabular-nums text-amber-600 dark:text-amber-400">
+                        {i + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="truncate font-semibold text-foreground/85">{v.baseTitle}</span>
+                          {v.variant && <VariantBadge variant={v.variant} />}
+                          {v.isNew && <NewBadge />}
+                        </div>
+                      </div>
+                      {restrictedOnly ? (
+                        <span className="hidden shrink-0 rounded-lg bg-muted px-2.5 py-1 text-[11px] font-bold text-muted-foreground sm:block">
+                          Restricted
+                        </span>
+                      ) : (
+                        <span className="hidden shrink-0 items-center gap-1.5 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 px-2.5 py-1 text-[11px] font-bold text-white shadow-sm sm:flex">
+                          Subscribe <ArrowRight className="h-3 w-3" />
+                        </span>
+                      )}
+                      <Lock className={`h-4 w-4 shrink-0 ${restrictedOnly ? "text-muted-foreground/60" : "text-amber-500/60"}`} />
+                    </button>
+                  );
+                })}
               </>
             )}
             {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}

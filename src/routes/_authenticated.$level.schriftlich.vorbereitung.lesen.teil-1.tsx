@@ -74,9 +74,12 @@ function LesenTeil1Page() {
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  const lockedRemainder = hasAccess === false
-    ? catalog.items.filter((c) => !exercises.some((e) => e.id === c.id))
-    : [];
+  // Also non-empty for a full subscriber when a specific item is withheld
+  // from their account (e.g. a per-user NEU-content restriction) — the
+  // catalog RPC still lists the title, but the real fetch above won't
+  // contain it since RLS blocks it, so it surfaces here as a locked row
+  // instead of silently vanishing.
+  const lockedRemainder = catalog.items.filter((c) => !exercises.some((e) => e.id === c.id));
 
   // ── Detail view with Previous/Next navigation ──
   if (idx !== null && exercises[idx]) {
@@ -205,7 +208,7 @@ function LesenTeil1Page() {
       {lockedRemainder.length > 0 && (
         <>
           {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
-          <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+          <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly={hasAccess === true} />
         </>
       )}
 

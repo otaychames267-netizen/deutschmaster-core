@@ -87,9 +87,7 @@ function SBTeil2Page() {
   // Non-subscribers: the list fetch above is RLS-scoped server-side, so
   // `list` naturally contains ONLY the flagged free-sample rows for a
   // non-subscriber (real, fully interactive). Everything else is a locked row.
-  const lockedRemainder = hasAccess === false
-    ? catalog.items.filter((c) => !list.some((l) => l.id === c.id))
-    : [];
+  const lockedRemainder = catalog.items.filter((c) => !list.some((l) => l.id === c.id));
 
   if (idx !== null && list[idx]) {
     const meta = list[idx];
@@ -222,7 +220,7 @@ function SBTeil2Page() {
       {lockedRemainder.length > 0 && (
         <>
           {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
-          <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+          <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly={hasAccess === true} />
         </>
       )}
 

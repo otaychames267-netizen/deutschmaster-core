@@ -15,7 +15,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
 import { parseVariant } from "@/lib/exercise-variant";
-import { NewBadge } from "@/components/VariantBadges";
+import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 import { ProtectedAudioPlayer } from "@/components/exercise/hoeren/ProtectedAudioPlayer";
 
 export interface HoerenStatement {
@@ -218,7 +218,10 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
             {index + 1}
           </span>
           <div className="flex-1 min-w-0 pt-0.5">
-            <p className="text-base font-bold text-foreground">{parseVariant(exercise.title).baseTitle}</p>
+            <div className="flex flex-wrap items-center gap-2">
+              <p className="text-base font-bold text-foreground">{parseVariant(exercise.title).baseTitle}</p>
+              {parseVariant(exercise.title).variant && <VariantBadge variant={parseVariant(exercise.title).variant!} />}
+            </div>
             {exercise.instructions && (
               <p className="text-xs text-muted-foreground whitespace-pre-line mt-1 leading-relaxed">{exercise.instructions}</p>
             )}
