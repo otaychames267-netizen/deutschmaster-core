@@ -35,6 +35,20 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function passwordRecoveryEmailHtml(actionLink: string): string {
+  return `
+    <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto;">
+      <h2 style="color: #111;">Reset your password</h2>
+      <p>We received a request to reset your AuraLingovia password. Click the button below to choose a new one.</p>
+      <p style="text-align: center; margin: 32px 0;">
+        <a href="${actionLink}" style="background: #4f46e5; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Reset password</a>
+      </p>
+      <p style="color: #666; font-size: 13px;">If the button doesn't work, copy and paste this link into your browser:<br>${actionLink}</p>
+      <p style="color: #666; font-size: 13px;">If you didn't request this, you can safely ignore this email — your password will not be changed.</p>
+    </div>
+  `;
+}
+
 function confirmationEmailHtml(actionLink: string, fullName: string): string {
   const greeting = fullName ? `Hi ${fullName},` : "Hi,";
   return `
@@ -60,7 +74,7 @@ function confirmationEmailHtml(actionLink: string, fullName: string): string {
  */
 async function sendAndLog(
   supabaseAdmin: any,
-  params: { userId: string | null; email: string; emailType: "signup_confirmation" | "resend_confirmation"; actionLink: string; fullName: string },
+  params: { userId: string | null; email: string; emailType: "signup_confirmation" | "resend_confirmation" | "password_recovery"; actionLink: string; fullName: string },
 ): Promise<boolean> {
   const { data: logRow, error: insertError } = await supabaseAdmin
     .from("auth_email_log")
@@ -72,8 +86,13 @@ async function sendAndLog(
   }
   const logId = logRow?.id as string | undefined;
 
-  const subject = params.emailType === "signup_confirmation" ? "Confirm your AuraLingovia email address" : "Your AuraLingovia confirmation link";
-  const html = confirmationEmailHtml(params.actionLink, params.fullName);
+  const subject =
+    params.emailType === "signup_confirmation" ? "Confirm your AuraLingovia email address"
+    : params.emailType === "password_recovery" ? "Reset your AuraLingovia password"
+    : "Your AuraLingovia confirmation link";
+  const html = params.emailType === "password_recovery"
+    ? passwordRecoveryEmailHtml(params.actionLink)
+    : confirmationEmailHtml(params.actionLink, params.fullName);
 
   let lastError: string | null = null;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -198,4 +217,47 @@ export async function resendConfirmationEmail(
     return { ok: false, message: "We couldn't send the email right now. Please try again in a moment." };
   }
   return { ok: true };
+}
+
+/**
+ * Password recovery — the flow this whole module was, until 2026-08-04,
+ * missing. It kept calling supabase.auth.resetPasswordForEmail() directly,
+ * which still depends on the same broken smtp_pass documented above; a real
+ * user requesting a reset got back the raw GoTrue 500
+ * {"error_code":"unexpected_failure","msg":"Error sending recovery email"}.
+ * Same fix as signup: generateLink({type:'recovery'}) never lets Supabase
+ * attempt its own send, we deliver via Resend ourselves.
+ *
+ * Security note this function must preserve: the caller (the API route)
+ * must ALWAYS report success to the client regardless of what happens here
+ * — whether the email doesn't belong to any account, or our own send fails
+ * — exactly matching resetPasswordForEmail's own anti-enumeration behavior
+ * (never reveal whether an email is registered). Real failures are still
+ * fully visible via auth_email_log for admins; nothing is silently lost,
+ * it's just not surfaced to whoever is sitting at the form.
+ */
+export async function sendPasswordRecoveryEmail(
+  supabaseAdmin: any,
+  params: { email: string; redirectTo?: string },
+): Promise<void> {
+  const { data, error } = await supabaseAdmin.auth.admin.generateLink({
+    type: "recovery",
+    email: params.email,
+    options: params.redirectTo ? { redirectTo: params.redirectTo } : {},
+  });
+
+  if (error || !data?.properties?.action_link || !data.user) {
+    // Almost always just "no account with this email" — expected, frequent,
+    // and must never be distinguishable from success to the caller.
+    console.log(`[password-recovery] generateLink no-op for ${params.email}: ${error?.message ?? "no user"}`);
+    return;
+  }
+
+  await sendAndLog(supabaseAdmin, {
+    userId: data.user.id,
+    email: params.email,
+    emailType: "password_recovery",
+    actionLink: data.properties.action_link,
+    fullName: (data.user.user_metadata as { full_name?: string } | null)?.full_name ?? "",
+  });
 }

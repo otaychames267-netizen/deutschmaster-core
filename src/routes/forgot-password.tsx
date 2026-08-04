@@ -1,7 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
 import { getSiteUrl } from "@/lib/site-url";
 import { Loader2, Mail } from "lucide-react";
@@ -22,16 +21,31 @@ function ForgotPasswordPage() {
     setError(null);
     setLoading(true);
 
-    const { error: err } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${getSiteUrl()}/reset-password`,
-    });
-    setLoading(false);
-
-    if (err) {
-      setError(err.message);
-      return;
+    // Routed through our own server function, not the direct
+    // supabase.auth.resetPasswordForEmail() call — that depends on
+    // Supabase Auth's own SMTP-triggered mailer, which has been failing
+    // outright ("Error sending recovery email") due to a stale smtp_pass
+    // credential Resend rejects. See api.auth.forgot-password.ts and
+    // confirmation-email.server.ts's sendPasswordRecoveryEmail for the full
+    // root-cause writeup and the fix (same pattern already used for signup
+    // confirmation).
+    try {
+      const res = await fetch("/api/auth/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, redirect_to: `${getSiteUrl()}/reset-password` }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setError(body?.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+      setSent(true);
+    } catch {
+      setError("Network error. Please check your connection and try again.");
+    } finally {
+      setLoading(false);
     }
-    setSent(true);
   }
 
   if (sent) {
