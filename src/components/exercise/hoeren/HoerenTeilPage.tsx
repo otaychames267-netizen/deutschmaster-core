@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Loader2, Headphones, AlertCircle, ChevronRight, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
@@ -57,6 +58,8 @@ function LazyCard({ children }: { children: () => React.ReactNode }) {
 }
 
 export function HoerenTeilPage({ teil }: Props) {
+  const { user } = useAuth();
+  const isGuest = !user;
   const level = useActiveLevel();
   const seg = useLevelSegment();
   const [exercises, setExercises] = useState<ExRow[]>([]);
@@ -238,6 +241,29 @@ export function HoerenTeilPage({ teil }: Props) {
 
       <div className="space-y-5">
         {!loading && !error && exercises.map((ex, i) => {
+          const next = exercises[i + 1];
+          const displayIndex = flaggedStartIndex !== null && i >= flaggedStartIndex ? i - flaggedStartIndex : i;
+
+          // Guests (no session at all) never get a working player or a real
+          // Lösung reveal, even on the exercises that are flagged free-sample
+          // for a logged-in non-subscriber — statement text stays visible via
+          // the same locked-preview card used for non-free items, everything
+          // interactive is a dead end into the paywall/login modal.
+          if (isGuest) {
+            return (
+              <Fragment key={ex.id}>
+                {flaggedStartIndex !== null && i === flaggedStartIndex && <NoticeGroupBanner />}
+                <HoerenLockedPreviewCard
+                  title={ex.title}
+                  instructions={ex.instructions ?? ""}
+                  hasAudio={!!ex.audio_path}
+                  statements={statementsByEx[ex.id] ?? []}
+                  onLockedAction={openLockedPaywall}
+                />
+              </Fragment>
+            );
+          }
+
           const data: HoerenExerciseData = {
             id: ex.id,
             title: ex.title,
@@ -248,8 +274,6 @@ export function HoerenTeilPage({ teil }: Props) {
             audioPath: ex.audio_path,
             statements: statementsByEx[ex.id] ?? [],
           };
-          const next = exercises[i + 1];
-          const displayIndex = flaggedStartIndex !== null && i >= flaggedStartIndex ? i - flaggedStartIndex : i;
           return (
             <Fragment key={ex.id}>
               {flaggedStartIndex !== null && i === flaggedStartIndex && <NoticeGroupBanner />}

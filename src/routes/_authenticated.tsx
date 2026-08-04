@@ -10,18 +10,15 @@ export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
 });
 
-/** The one subtree a signed-out visitor may browse: the B2 Schriftlich
- * catalog preview (titles + the 4 free samples per section, everything else
- * shown locked). Includes the Schriftlich landing page itself (`/b2/schriftlich`)
- * — it's pure navigation chrome with no personal data, and it's also the page
- * the sidebar's "Schriftlich" link actually points to, so excluding it used to
- * bounce a guest straight to the login page the moment they clicked the most
- * obvious nav item, before they'd seen any content at all. B1 stays gated
- * (LevelLayout's useB1Visible check never runs for a guest anyway, since this
- * pattern only matches /b2), and Prüfung/Mündlich/account/admin pages all
- * still require a real session — those are genuine locked sections, so
- * hitting them redirecting to login is correct, not a bug. */
-const GUEST_ALLOWED_PATTERN = /^\/b2\/schriftlich(\/vorbereitung(\/|$)|\/?$)/;
+/** Reverted back to requiring sign-in for content in general (per explicit
+ * product decision) — the broader guest-browsing subtree this used to cover
+ * (Schriftlich landing + full /vorbereitung, including Lesen/Sprachbausteine/
+ * Schreiben) is gone. The one deliberate carve-out left is Hören: its Teil
+ * pages stay reachable without a session so a guest can see the statement
+ * text and the (non-functional) player, per HoerenTeilPage's own
+ * guest-specific locked treatment — every other route redirects a signed-out
+ * visitor to /login exactly as it did before any of the guest-preview work. */
+const GUEST_ALLOWED_PATTERN = /^\/b2\/schriftlich\/vorbereitung\/hoeren(\/|$)/;
 
 function AuthenticatedLayout() {
   const { user, loading } = useAuth();
