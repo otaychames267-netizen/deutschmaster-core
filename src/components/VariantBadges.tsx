@@ -1,18 +1,22 @@
 import { RefreshCw, FileText, Sparkles } from "lucide-react";
 
 /** Original/Modified pill — used wherever an exercise title carries a
- * variant marker (see src/lib/exercise-variant.ts). Distinct colors so a
- * pair is instantly scannable when rendered stacked/adjacent. */
+ * variant marker (see src/lib/exercise-variant.ts). Same premium
+ * gradient/glow/ring treatment as NewBadge, in distinct cool-tone palettes
+ * (blue vs violet) so the three badges read as one family while a pair
+ * stays instantly scannable when rendered stacked/adjacent. */
 export function VariantBadge({ variant }: { variant: "original" | "modified" }) {
   if (variant === "original") {
     return (
-      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-sky-500/10 px-2.5 py-0.5 text-[10px] font-bold text-sky-600 ring-1 ring-sky-500/20 dark:text-sky-400">
+      <span className="relative inline-flex shrink-0 items-center gap-1 rounded-full bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-md shadow-sky-500/30 ring-1 ring-white/25">
+        <span className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 opacity-60 blur-[5px]" />
         <FileText className="h-2.5 w-2.5" /> Original
       </span>
     );
   }
   return (
-    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-violet-500/10 px-2.5 py-0.5 text-[10px] font-bold text-violet-600 ring-1 ring-violet-500/20 dark:text-violet-400">
+    <span className="relative inline-flex shrink-0 items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-600 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-md shadow-violet-500/30 ring-1 ring-white/25">
+      <span className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-600 opacity-60 blur-[5px]" />
       <RefreshCw className="h-2.5 w-2.5" /> Modified
     </span>
   );
