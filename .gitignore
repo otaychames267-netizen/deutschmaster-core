@@ -37,3 +37,6 @@ dist-ssr
 *.sw?
 .vercel
 .env*
+
+# local-only tooling (yt-dlp binary, ffmpeg build, scratch download logs)
+tools/

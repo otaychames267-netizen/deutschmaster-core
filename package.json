@@ -14,6 +14,7 @@
     "test:rules": "tsx scripts/regression.test.ts"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
     "@google/genai": "^2.10.0",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",

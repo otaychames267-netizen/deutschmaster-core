@@ -13,18 +13,21 @@ import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exerci
 interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null; import_notes?: string | null }
 interface StRow { exercise_id: string; statement_number: number; statement_text: string }
 
-// Both buckets are private and plan-gated at the storage RLS layer — URLs
+// hoeren-images is private and plan-gated at the storage RLS layer — URLs
 // must be short-lived signed URLs fetched per-session, never getPublicUrl
 // (which would let anyone with a guessed/leaked path download premium
-// audio/images with no auth or subscription check at all).
+// images with no auth or subscription check at all).
+//
+// hoeren-audio is deliberately NOT signed here. Signing all of a page's
+// audio upfront (with a 1-hour TTL) would sit a real, directly-fetchable
+// Supabase Storage URL in React state — and therefore the DOM/network
+// history — for every exercise on the page for the whole session, whether
+// or not the student ever presses play. ProtectedAudioPlayer signs each
+// track individually, on demand, with a 90-second TTL, only when the user
+// actually presses play. See ProtectedAudioPlayer.tsx.
 async function signedImageUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
   const { data } = await supabase.storage.from("hoeren-images").createSignedUrl(path, 3600);
-  return data?.signedUrl ?? null;
-}
-async function signedAudioUrl(path: string | null): Promise<string | null> {
-  if (!path) return null;
-  const { data } = await supabase.storage.from("hoeren-audio").createSignedUrl(path, 3600);
   return data?.signedUrl ?? null;
 }
 
@@ -58,7 +61,7 @@ export function HoerenTeilPage({ teil }: Props) {
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [hiddenCount, setHiddenCount] = useState(0);
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
-  const [mediaByEx, setMediaByEx] = useState<Record<string, { image: string | null; audio: string | null }>>({});
+  const [imageByEx, setImageByEx] = useState<Record<string, string | null>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { hasAccess, loading: accessLoading } = useHasPlanAccess();
@@ -92,10 +95,10 @@ export function HoerenTeilPage({ teil }: Props) {
       setHiddenCount(hc);
 
       if (rows.length) {
-        const mediaEntries = await Promise.all(
-          rows.map(async (r) => [r.id, { image: await signedImageUrl(r.image_path), audio: await signedAudioUrl(r.audio_path) }] as const),
+        const imageEntries = await Promise.all(
+          rows.map(async (r) => [r.id, await signedImageUrl(r.image_path)] as const),
         );
-        if (!cancelled) setMediaByEx(Object.fromEntries(mediaEntries));
+        if (!cancelled) setImageByEx(Object.fromEntries(imageEntries));
       }
 
       if (rows.length) {
@@ -181,8 +184,8 @@ export function HoerenTeilPage({ teil }: Props) {
             teil,
             position: ex.position,
             instructions: ex.instructions ?? "",
-            imageUrl: mediaByEx[ex.id]?.image ?? null,
-            audioUrl: mediaByEx[ex.id]?.audio ?? null,
+            imageUrl: imageByEx[ex.id] ?? null,
+            audioPath: ex.audio_path,
             statements: statementsByEx[ex.id] ?? [],
           };
           const next = exercises[i + 1];

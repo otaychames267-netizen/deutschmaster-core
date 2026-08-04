@@ -16,6 +16,7 @@ import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
 import { parseVariant } from "@/lib/exercise-variant";
 import { NewBadge } from "@/components/VariantBadges";
+import { ProtectedAudioPlayer } from "@/components/exercise/hoeren/ProtectedAudioPlayer";
 
 export interface HoerenStatement {
   statement_number: number;
@@ -29,7 +30,10 @@ export interface HoerenExerciseData {
   position: number;
   instructions: string;
   imageUrl: string | null;
-  audioUrl: string | null;
+  /** Raw storage path (e.g. "teil1/insel-bali.m4a"), never a pre-signed URL —
+   * ProtectedAudioPlayer signs it on demand with a short-lived URL only when
+   * the user presses play. See ProtectedAudioPlayer.tsx for why. */
+  audioPath: string | null;
   statements: HoerenStatement[];
 }
 
@@ -228,9 +232,9 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           </div>
         )}
 
-        {/* Audio placeholder — becomes a real <audio> once audioUrl is set in Phase 2 */}
-        {exercise.audioUrl ? (
-          <audio controls src={exercise.audioUrl} className="w-full h-10" />
+        {/* Custom protected player — never a native <audio controls>, see ProtectedAudioPlayer.tsx */}
+        {exercise.audioPath ? (
+          <ProtectedAudioPlayer audioPath={exercise.audioPath} />
         ) : (
           <div className="flex items-center gap-3 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-2.5 text-muted-foreground/60">
             <Volume2 className="h-4 w-4 shrink-0" />
