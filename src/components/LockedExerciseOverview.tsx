@@ -41,7 +41,20 @@ export function LockedExerciseOverview({
 }) {
   const [dialogOpen, setDialogOpen] = useState(false);
   const titleOf = (t: string, i: number) => (t && t.trim() ? t : `Übung ${i + 1}`);
-  const { ordered, flaggedStartIndex, hiddenCount } = orderWithNoticeGroup(items);
+  // Conversion strategy: a non-subscriber's locked preview leads with the
+  // NEU/Original/Modified items — the freshest, most eye-catching content —
+  // to entice a subscription, rather than plain alphabetical/import order.
+  // Stable sort keeps everything else in its original relative order.
+  const prioritized = restrictedOnly
+    ? items
+    : [...items].sort((a, b) => {
+        const av = parseVariant(a.title);
+        const bv = parseVariant(b.title);
+        const aScore = av.isNew || av.variant ? 0 : 1;
+        const bScore = bv.isNew || bv.variant ? 0 : 1;
+        return aScore - bScore;
+      });
+  const { ordered, flaggedStartIndex, hiddenCount } = orderWithNoticeGroup(prioritized);
   const openPaywall = () => { if (!restrictedOnly) setDialogOpen(true); };
 
   return (
@@ -123,9 +136,9 @@ export function LockedExerciseOverview({
                     <div className="flex flex-wrap items-center gap-1.5">
                       <span className="truncate font-semibold text-foreground/85">{v.baseTitle}</span>
                       {v.variant && <VariantBadge variant={v.variant} />}
-                      {v.isNew && <NewBadge />}
                     </div>
                   </div>
+                  {v.isNew && <NewBadge />}
                   {restrictedOnly ? (
                     <span className="hidden shrink-0 rounded-lg bg-muted px-2.5 py-1 text-[11px] font-bold text-muted-foreground sm:block">
                       Restricted
@@ -158,9 +171,9 @@ export function LockedExerciseOverview({
                         <div className="flex flex-wrap items-center gap-1.5">
                           <span className="truncate font-semibold text-foreground/85">{v.baseTitle}</span>
                           {v.variant && <VariantBadge variant={v.variant} />}
-                          {v.isNew && <NewBadge />}
                         </div>
                       </div>
+                      {v.isNew && <NewBadge />}
                       {restrictedOnly ? (
                         <span className="hidden shrink-0 rounded-lg bg-muted px-2.5 py-1 text-[11px] font-bold text-muted-foreground sm:block">
                           Restricted
