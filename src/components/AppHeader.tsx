@@ -508,14 +508,17 @@ export function AppHeader() {
           </DropdownMenu>
           )}
 
-          {/* Guest CTA — replaces the user dropdown when signed out */}
+          {/* Guest CTA — replaces the user dropdown when signed out. Both are
+              styled as clearly-bordered buttons (not a plain text link plus a
+              button) so a guest always has two equally prominent ways to
+              reach auth, without either one auto-popping over the preview. */}
           {!user && (
             <div className="ml-1 flex items-center gap-2">
-              <Link to="/login" className="rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors">
-                Log in
+              <Link to="/login" className="rounded-lg border border-border px-3.5 py-1.5 text-xs font-bold text-foreground hover:bg-muted transition-colors">
+                Log In
               </Link>
-              <Link to="/register" className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all">
-                Sign up
+              <Link to="/register" className="rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-primary-foreground shadow-sm hover:opacity-90 transition-all">
+                Create Account
               </Link>
             </div>
           )}
