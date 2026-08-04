@@ -12,10 +12,16 @@ export const Route = createFileRoute("/_authenticated")({
 
 /** The one subtree a signed-out visitor may browse: the B2 Schriftlich
  * catalog preview (titles + the 4 free samples per section, everything else
- * shown locked). B1 stays gated (LevelLayout's useB1Visible check never runs
- * for a guest anyway, since this pattern only matches /b2), and Prüfung/
- * Mündlich/account/admin pages all still require a real session. */
-const GUEST_ALLOWED_PATTERN = /^\/b2\/schriftlich\/vorbereitung(\/|$)/;
+ * shown locked). Includes the Schriftlich landing page itself (`/b2/schriftlich`)
+ * — it's pure navigation chrome with no personal data, and it's also the page
+ * the sidebar's "Schriftlich" link actually points to, so excluding it used to
+ * bounce a guest straight to the login page the moment they clicked the most
+ * obvious nav item, before they'd seen any content at all. B1 stays gated
+ * (LevelLayout's useB1Visible check never runs for a guest anyway, since this
+ * pattern only matches /b2), and Prüfung/Mündlich/account/admin pages all
+ * still require a real session — those are genuine locked sections, so
+ * hitting them redirecting to login is correct, not a bug. */
+const GUEST_ALLOWED_PATTERN = /^\/b2\/schriftlich(\/vorbereitung(\/|$)|\/?$)/;
 
 function AuthenticatedLayout() {
   const { user, loading } = useAuth();
