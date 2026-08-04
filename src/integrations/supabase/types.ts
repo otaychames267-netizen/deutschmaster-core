@@ -2262,6 +2262,60 @@ export type Database = {
         }
         Relationships: []
       }
+      manual_subscription_actions: {
+        Row: {
+          action: string
+          action_label: string
+          admin_id: string | null
+          created_at: string
+          id: string
+          new_expires_at: string | null
+          new_status: string | null
+          notes: string | null
+          payment_method: string | null
+          plan_code: string | null
+          previous_expires_at: string | null
+          previous_status: string | null
+          reference: string | null
+          subscription_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          action: string
+          action_label: string
+          admin_id?: string | null
+          created_at?: string
+          id?: string
+          new_expires_at?: string | null
+          new_status?: string | null
+          notes?: string | null
+          payment_method?: string | null
+          plan_code?: string | null
+          previous_expires_at?: string | null
+          previous_status?: string | null
+          reference?: string | null
+          subscription_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          action?: string
+          action_label?: string
+          admin_id?: string | null
+          created_at?: string
+          id?: string
+          new_expires_at?: string | null
+          new_status?: string | null
+          notes?: string | null
+          payment_method?: string | null
+          plan_code?: string | null
+          previous_expires_at?: string | null
+          previous_status?: string | null
+          reference?: string | null
+          subscription_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       muendlich_chat: {
         Row: {
           body: string
@@ -4672,6 +4726,22 @@ export type Database = {
       admin_grant_muendlich_minutes: {
         Args: { p_minutes: number; p_note?: string; p_user_id: string }
         Returns: number
+      }
+      admin_manual_subscription_action: {
+        Args: {
+          p_action: string
+          p_action_label: string
+          p_admin_id: string
+          p_extend_days?: number
+          p_is_trial?: boolean
+          p_new_expires_at?: string
+          p_notes?: string
+          p_payment_method?: string
+          p_plan_code?: string
+          p_reference?: string
+          p_user_id: string
+        }
+        Returns: string
       }
       award_xp: {
         Args: { _source?: string; _user_id: string; _xp: number }

@@ -62,6 +62,7 @@ import { Route as AuthenticatedAdminPaymentsRouteImport } from './routes/_authen
 import { Route as AuthenticatedAdminMuendlichCreditsRouteImport } from './routes/_authenticated.admin.muendlich-credits'
 import { Route as AuthenticatedAdminMuendlichRouteImport } from './routes/_authenticated.admin.muendlich'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
+import { Route as AuthenticatedAdminManualSubscriptionRouteImport } from './routes/_authenticated.admin.manual-subscription'
 import { Route as AuthenticatedAdminLesenRouteImport } from './routes/_authenticated.admin.lesen'
 import { Route as AuthenticatedAdminImportReviewRouteImport } from './routes/_authenticated.admin.import-review'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
@@ -396,6 +397,12 @@ const AuthenticatedAdminMessagesRoute =
   AuthenticatedAdminMessagesRouteImport.update({
     id: '/messages',
     path: '/messages',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminManualSubscriptionRoute =
+  AuthenticatedAdminManualSubscriptionRouteImport.update({
+    id: '/manual-subscription',
+    path: '/manual-subscription',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminLesenRoute = AuthenticatedAdminLesenRouteImport.update({
@@ -788,6 +795,7 @@ export interface FileRoutesByFullPath {
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
   '/admin/lesen': typeof AuthenticatedAdminLesenRoute
+  '/admin/manual-subscription': typeof AuthenticatedAdminManualSubscriptionRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
   '/admin/muendlich-credits': typeof AuthenticatedAdminMuendlichCreditsRoute
@@ -894,6 +902,7 @@ export interface FileRoutesByTo {
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
   '/admin/lesen': typeof AuthenticatedAdminLesenRoute
+  '/admin/manual-subscription': typeof AuthenticatedAdminManualSubscriptionRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
   '/admin/muendlich-credits': typeof AuthenticatedAdminMuendlichCreditsRoute
@@ -1004,6 +1013,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
   '/_authenticated/admin/lesen': typeof AuthenticatedAdminLesenRoute
+  '/_authenticated/admin/manual-subscription': typeof AuthenticatedAdminManualSubscriptionRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
   '/_authenticated/admin/muendlich-credits': typeof AuthenticatedAdminMuendlichCreditsRoute
@@ -1116,6 +1126,7 @@ export interface FileRouteTypes {
     | '/admin/exercises'
     | '/admin/import-review'
     | '/admin/lesen'
+    | '/admin/manual-subscription'
     | '/admin/messages'
     | '/admin/muendlich'
     | '/admin/muendlich-credits'
@@ -1222,6 +1233,7 @@ export interface FileRouteTypes {
     | '/admin/exercises'
     | '/admin/import-review'
     | '/admin/lesen'
+    | '/admin/manual-subscription'
     | '/admin/messages'
     | '/admin/muendlich'
     | '/admin/muendlich-credits'
@@ -1331,6 +1343,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/import-review'
     | '/_authenticated/admin/lesen'
+    | '/_authenticated/admin/manual-subscription'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/muendlich'
     | '/_authenticated/admin/muendlich-credits'
@@ -1784,6 +1797,13 @@ declare module '@tanstack/react-router' {
       path: '/messages'
       fullPath: '/admin/messages'
       preLoaderRoute: typeof AuthenticatedAdminMessagesRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/manual-subscription': {
+      id: '/_authenticated/admin/manual-subscription'
+      path: '/manual-subscription'
+      fullPath: '/admin/manual-subscription'
+      preLoaderRoute: typeof AuthenticatedAdminManualSubscriptionRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/lesen': {
@@ -2346,6 +2366,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminImportReviewRoute: typeof AuthenticatedAdminImportReviewRoute
   AuthenticatedAdminLesenRoute: typeof AuthenticatedAdminLesenRoute
+  AuthenticatedAdminManualSubscriptionRoute: typeof AuthenticatedAdminManualSubscriptionRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminMuendlichRoute: typeof AuthenticatedAdminMuendlichRoute
   AuthenticatedAdminMuendlichCreditsRoute: typeof AuthenticatedAdminMuendlichCreditsRoute
@@ -2388,6 +2409,8 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminImportReviewRoute: AuthenticatedAdminImportReviewRoute,
   AuthenticatedAdminLesenRoute: AuthenticatedAdminLesenRoute,
+  AuthenticatedAdminManualSubscriptionRoute:
+    AuthenticatedAdminManualSubscriptionRoute,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
   AuthenticatedAdminMuendlichRoute: AuthenticatedAdminMuendlichRoute,
   AuthenticatedAdminMuendlichCreditsRoute:
