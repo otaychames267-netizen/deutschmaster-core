@@ -1,5 +1,6 @@
 import { useNavigate } from "@tanstack/react-router";
 import { Crown, Check, X, ArrowRight, Sparkles } from "lucide-react";
+import { useAuth } from "@/lib/auth";
 
 /**
  * Shared subscription paywall dialog. Two trigger contexts share this same
@@ -17,6 +18,7 @@ export function PaywallModal({
   reason?: "locked" | "sample-complete";
 }) {
   const nav = useNavigate();
+  const { user } = useAuth();
   if (!open) return null;
 
   const benefits = [
@@ -26,8 +28,12 @@ export function PaywallModal({
     "New content added regularly",
   ];
 
-  const headline = reason === "sample-complete" ? "Nice work! That was a free sample" : "The free launch period has ended";
-  const sub = reason === "sample-complete"
+  const headline = !user
+    ? "Log in & subscribe to unlock this"
+    : reason === "sample-complete" ? "Nice work! That was a free sample" : "The free launch period has ended";
+  const sub = !user
+    ? "Create a free account, then subscribe to unlock every exercise in every skill."
+    : reason === "sample-complete"
     ? "Subscribe to unlock every exercise in every skill."
     : "Thank you for trying AuraLingovia. To continue accessing all Premium exercises, simulations, and learning materials, please subscribe.";
 
@@ -73,11 +79,19 @@ export function PaywallModal({
             ))}
           </ul>
           <button
-            onClick={() => nav({ to: "/billing" })}
+            onClick={() => nav({ to: user ? "/billing" : "/register" })}
             className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-all hover:opacity-90"
           >
-            Subscribe now <ArrowRight className="h-4 w-4" />
+            {user ? "Subscribe now" : "Log in & Subscribe"} <ArrowRight className="h-4 w-4" />
           </button>
+          {!user && (
+            <p className="text-center text-xs text-muted-foreground">
+              Already have an account?{" "}
+              <button onClick={() => nav({ to: "/login" })} className="font-semibold text-primary hover:underline">
+                Log in
+              </button>
+            </p>
+          )}
           <p className="text-center text-xs text-muted-foreground">Cancel anytime · Instant access after payment is verified</p>
         </div>
       </div>

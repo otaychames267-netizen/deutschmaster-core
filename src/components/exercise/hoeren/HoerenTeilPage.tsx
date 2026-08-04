@@ -8,7 +8,9 @@ import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { PaywallModal } from "@/components/PaywallModal";
 import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
 import { orderWithNoticeGroup } from "@/lib/notice-group";
+import { parseVariant } from "@/lib/exercise-variant";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
+import { HoerenLockedPreviewCard } from "@/components/exercise/hoeren/HoerenLockedPreviewCard";
 
 interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null; import_notes?: string | null }
 interface StRow { exercise_id: string; statement_number: number; statement_text: string }
@@ -61,6 +63,7 @@ export function HoerenTeilPage({ teil }: Props) {
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [hiddenCount, setHiddenCount] = useState(0);
   const [statementsByEx, setStatementsByEx] = useState<Record<string, StRow[]>>({});
+  const [lockedStatementsByEx, setLockedStatementsByEx] = useState<Record<string, StRow[]>>({});
   const [imageByEx, setImageByEx] = useState<Record<string, string | null>>({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -119,18 +122,77 @@ export function HoerenTeilPage({ teil }: Props) {
     return () => { cancelled = true; };
   }, [teil, level]);
 
+  // Statement text for locked (non-free) exercises. `hoeren_statements`
+  // itself carries the same "free sample OR real subscription" RLS as every
+  // other content table (the _student view over it is NOT a public/RLS-free
+  // surface — that was a wrong assumption caught live: anon reads on a
+  // locked exercise correctly returned zero rows). get_hoeren_statement_preview
+  // is the actual mechanism: a SECURITY DEFINER RPC that deliberately
+  // bypasses RLS, hand-picking only statement_text (never correct_answer,
+  // never audio_path) — the security boundary lives in which columns the
+  // function selects, not in a loosened row policy.
+  useEffect(() => {
+    if (loading || catalog.loading) return;
+    const lockedIds = catalog.items.filter((c) => !exercises.some((e) => e.id === c.id)).map((c) => c.id);
+    if (lockedIds.length === 0) { setLockedStatementsByEx({}); return; }
+    let cancelled = false;
+    (supabase as any)
+      .rpc("get_hoeren_statement_preview", { p_exercise_ids: lockedIds })
+      .then(({ data }: { data: StRow[] | null }) => {
+        if (cancelled) return;
+        const grouped: Record<string, StRow[]> = {};
+        for (const s of data ?? []) (grouped[s.exercise_id] ??= []).push(s);
+        setLockedStatementsByEx(grouped);
+      });
+    return () => { cancelled = true; };
+  }, [loading, catalog.loading, catalog.items, exercises]);
+
   function scrollToExercise(id: string) {
     document.getElementById(`hoeren-ex-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function openLockedPaywall() {
+    setPaywallReason("locked");
+    setPaywallOpen(true);
   }
 
   // Non-subscribers: the direct fetch above is RLS-scoped server-side, so
   // `exercises` naturally contains ONLY the flagged free-sample rows for a
   // non-subscriber (real, fully interactive) — never full protected content.
-  // Everything else the catalog knows about is rendered as a locked row below.
+  // Everything else the catalog knows about renders as a locked preview card
+  // below (text visible, audio + Lösung anzeigen locked) for guests/
+  // unsubscribed viewers, or a neutral "Restricted" row for the rare case of
+  // an active subscriber with one NEU-restricted item.
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
-  const lockedRemainder = catalog.items.filter((c) => !exercises.some((e) => e.id === c.id));
+  const restrictedOnly = hasAccess === true;
+  const rawRemainder = catalog.items.filter((c) => !exercises.some((e) => e.id === c.id));
+  const { ordered: noticeOrderedRemainder, flaggedStartIndex: remFlaggedStart, hiddenCount: remHiddenCount } =
+    orderWithNoticeGroup(rawRemainder, { reveal: teil === 1 });
+  // Conversion priority within the locked set (guests/unsubscribed only):
+  // NEU/Modified pairs with audio float to the very top of their section,
+  // then NEU/Modified without audio, then plain audio-bearing exercises,
+  // then everything else — stable within each bucket so pairs stay
+  // adjacent. Sorted separately on each side of the notice-group boundary
+  // so the banner split stays intact.
+  function byConversionPriority(items: typeof rawRemainder) {
+    return [...items].sort((a, b) => {
+      const av = parseVariant(a.title);
+      const bv = parseVariant(b.title);
+      const aVariant = av.isNew || !!av.variant;
+      const bVariant = bv.isNew || !!bv.variant;
+      const aBucket = (aVariant ? 0 : 2) + (a.has_audio ? 0 : 1);
+      const bBucket = (bVariant ? 0 : 2) + (b.has_audio ? 0 : 1);
+      return aBucket - bBucket;
+    });
+  }
+  const lockedRemainder = restrictedOnly
+    ? noticeOrderedRemainder
+    : [
+        ...byConversionPriority(noticeOrderedRemainder.slice(0, remFlaggedStart)),
+        ...byConversionPriority(noticeOrderedRemainder.slice(remFlaggedStart)),
+      ];
 
   return (
     <div className="mx-auto max-w-3xl space-y-6 pb-16">
@@ -216,8 +278,43 @@ export function HoerenTeilPage({ teil }: Props) {
 
       {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
 
-      {lockedRemainder.length > 0 && (
-        <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly={hasAccess === true} />
+      {/* Restricted-only: an active subscriber with one NEU-restricted item —
+          nothing to sell here, so keep the old neutral title-only treatment. */}
+      {restrictedOnly && lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly />
+      )}
+
+      {/* Guests / unsubscribed: real preview cards — statement text visible,
+          audio + Lösung anzeigen locked behind the paywall. */}
+      {!restrictedOnly && lockedRemainder.length > 0 && (
+        <div className="space-y-5">
+          {lockedRemainder.slice(0, remFlaggedStart).map((item) => (
+            <HoerenLockedPreviewCard
+              key={item.id}
+              title={item.title}
+              instructions=""
+              hasAudio={item.has_audio === true}
+              statements={lockedStatementsByEx[item.id] ?? []}
+              onLockedAction={openLockedPaywall}
+            />
+          ))}
+          {remFlaggedStart < lockedRemainder.length && (
+            <>
+              <NoticeGroupBanner />
+              {lockedRemainder.slice(remFlaggedStart).map((item) => (
+                <HoerenLockedPreviewCard
+                  key={item.id}
+                  title={item.title}
+                  instructions=""
+                  hasAudio={item.has_audio === true}
+                  statements={lockedStatementsByEx[item.id] ?? []}
+                  onLockedAction={openLockedPaywall}
+                />
+              ))}
+            </>
+          )}
+          {remHiddenCount > 0 && <NoticeGroupBanner hiddenCount={remHiddenCount} />}
+        </div>
       )}
 
       <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />

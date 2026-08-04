@@ -44,7 +44,7 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftl
   return { hasAccess, loading: hasAccess === null };
 }
 
-export interface CatalogItem { id: string; title: string; import_notes?: string | null; is_free_sample?: boolean }
+export interface CatalogItem { id: string; title: string; import_notes?: string | null; is_free_sample?: boolean; has_audio?: boolean | null }
 
 /**
  * Titles-only catalog for the visible-but-locked preview. Calls the
@@ -66,7 +66,7 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
       .rpc("get_exercise_catalog", { p_skill: skill, p_level: level, p_teil: teil })
       .then(({ data }: { data: any }) => {
         if (cancelled) return;
-        setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title, import_notes: r.import_notes ?? null, is_free_sample: r.is_free_sample === true })));
+        setItems((data ?? []).map((r: any) => ({ id: r.id, title: r.title, import_notes: r.import_notes ?? null, is_free_sample: r.is_free_sample === true, has_audio: r.has_audio ?? null })));
         setLoading(false);
       });
     return () => { cancelled = true; };

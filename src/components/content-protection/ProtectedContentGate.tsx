@@ -35,7 +35,11 @@ export function ProtectedContentGate({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    // Guests have no account to suspend — treat the gate as immediately
+    // checked/unlocked rather than hanging on the loading spinner forever
+    // (the effect below that would normally flip `checked` never runs
+    // without a user).
+    if (!user) { setGate({ checked: true, locked: false, suspendedUntil: null }); return; }
     getContentAccessGate().then((res) => {
       if (!mountedRef.current) return;
       setGate({ checked: true, locked: res.accountLocked, suspendedUntil: res.suspendedUntil });

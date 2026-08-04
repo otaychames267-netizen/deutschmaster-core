@@ -10,24 +10,34 @@ export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
 });
 
+/** The one subtree a signed-out visitor may browse: the B2 Schriftlich
+ * catalog preview (titles + the 4 free samples per section, everything else
+ * shown locked). B1 stays gated (LevelLayout's useB1Visible check never runs
+ * for a guest anyway, since this pattern only matches /b2), and Prüfung/
+ * Mündlich/account/admin pages all still require a real session. */
+const GUEST_ALLOWED_PATTERN = /^\/b2\/schriftlich\/vorbereitung(\/|$)/;
+
 function AuthenticatedLayout() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
   const loc = useLocation();
+  const isGuestAllowedPath = GUEST_ALLOWED_PATTERN.test(loc.pathname);
 
   const [checking, setChecking]         = useState(true);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const checkedForRef                   = useRef<string | null>(null);
   const redirectedToLoginRef            = useRef(false);
 
-  /* Redirect unauthenticated users */
+  /* Redirect unauthenticated users — except into the guest-browsable
+   * preview subtree above, which renders with no session at all. */
   useEffect(() => {
     if (!loading && !user) {
+      if (GUEST_ALLOWED_PATTERN.test(loc.pathname)) return;
       if (redirectedToLoginRef.current) return;
       redirectedToLoginRef.current = true;
       nav({ to: "/login", replace: true });
     }
-  }, [user?.id, loading, nav]);
+  }, [user?.id, loading, nav, loc.pathname]);
 
   /* Gate unverified emails before anything else can render. A user must have
    * clicked their confirmation link (email_confirmed_at set) to reach
@@ -137,8 +147,29 @@ function AuthenticatedLayout() {
     return () => { cancelled = true; clearTimeout(safety); };
   }, [user?.id, emailVerified]);
 
-  if (loading || !user) {
+  if (loading) {
     return <LoadingScreen />;
+  }
+
+  /* Guest preview: no session, on the one subtree that allows it — render
+   * the same shell a logged-in visitor gets (AppHeader/AppSidebar already
+   * degrade gracefully with user=null), skipping every session-only check
+   * below (email verification, onboarding) since none of them apply. */
+  if (!user) {
+    if (!isGuestAllowedPath) {
+      return <LoadingScreen />; // redirect to /login is already in flight
+    }
+    return (
+      <SidebarProvider defaultOpen>
+        <AppSidebar />
+        <SidebarInset className="flex min-h-screen flex-col overflow-hidden">
+          <AppHeader />
+          <main className="flex-1 overflow-auto p-5 sm:p-6">
+            <Outlet />
+          </main>
+        </SidebarInset>
+      </SidebarProvider>
+    );
   }
 
   /* Unverified users only ever see the verify-email holding page */

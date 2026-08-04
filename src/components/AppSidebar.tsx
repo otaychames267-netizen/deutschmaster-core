@@ -9,7 +9,7 @@ import {
   Tag, ClipboardList, HardDrive, DollarSign,
   Search, Bell, User, HelpCircle,
   ChevronRight, Upload, Headphones, Wrench, Coins, ListChecks, Pencil,
-  Presentation, Type, ShieldAlert, Mail,
+  Presentation, Type, ShieldAlert, Mail, LogIn,
 } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
@@ -299,7 +299,9 @@ export function AppSidebar() {
 
       <SidebarContent className="py-1">
 
-        {/* ── Main ─────────────────────────────────────────────── */}
+        {/* ── Main — guests have no dashboard/search to browse ──── */}
+        {user && (
+        <>
         <SidebarGroup className="py-1">
           <SidebarMenu>
             <NavItem to={dashboardTo} label="Dashboard" icon={LayoutDashboard} active={isDashboardActive} />
@@ -308,6 +310,8 @@ export function AppSidebar() {
         </SidebarGroup>
 
         <SidebarSeparator />
+        </>
+        )}
 
         {/* ── Exam Preparation ─────────────────────────────────── */}
         <SidebarGroup className="py-1">
@@ -353,7 +357,9 @@ export function AppSidebar() {
 
         <SidebarSeparator />
 
-        {/* ── Progress & Community ──────────────────────────────── */}
+        {/* ── Progress & Community — signed-in only ─────────────── */}
+        {user && (
+        <>
         <SidebarGroup className="py-1">
           <SectionLabel>Progress</SectionLabel>
           <SidebarMenu>
@@ -374,6 +380,8 @@ export function AppSidebar() {
             <NavItem to="/security"      label="Security"       icon={Shield}      active={isActive("/security")}      />
           </SidebarMenu>
         </SidebarGroup>
+        </>
+        )}
 
         <SidebarSeparator />
 
@@ -423,29 +431,42 @@ export function AppSidebar() {
         )}
       </SidebarContent>
 
-      {/* ── Footer: User card + Sign out ─────────────────────── */}
+      {/* ── Footer: User card + Sign out (guests get a Log in prompt) ── */}
       <SidebarFooter className="border-t border-sidebar-border py-2">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link to="/profile" className="gap-3 hover:bg-sidebar-accent/60 transition-colors">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/20 text-[10px] font-black text-primary ring-1 ring-primary/20">
-                  {initials}
-                </div>
-                <div className="flex min-w-0 flex-1 flex-col group-data-[collapsible=icon]:hidden">
-                  <span className="truncate text-xs font-semibold text-sidebar-foreground">{displayName}</span>
-                  <span className="truncate text-[10px] text-sidebar-foreground/45">{user?.email}</span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {user ? (
+            <>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/profile" className="gap-3 hover:bg-sidebar-accent/60 transition-colors">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/20 text-[10px] font-black text-primary ring-1 ring-primary/20">
+                      {initials}
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-col group-data-[collapsible=icon]:hidden">
+                      <span className="truncate text-xs font-semibold text-sidebar-foreground">{displayName}</span>
+                      <span className="truncate text-[10px] text-sidebar-foreground/45">{user?.email}</span>
+                    </div>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={signOut} className="gap-2 text-sidebar-foreground/50 hover:text-destructive hover:bg-destructive/5 transition-colors">
-              <LogOut className="h-4 w-4" />
-              <span className="group-data-[collapsible=icon]:hidden text-xs">Sign out</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={signOut} className="gap-2 text-sidebar-foreground/50 hover:text-destructive hover:bg-destructive/5 transition-colors">
+                  <LogOut className="h-4 w-4" />
+                  <span className="group-data-[collapsible=icon]:hidden text-xs">Sign out</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </>
+          ) : (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link to="/login" className="gap-3 text-primary hover:bg-sidebar-accent/60 transition-colors">
+                  <LogIn className="h-4 w-4" />
+                  <span className="group-data-[collapsible=icon]:hidden text-xs font-semibold">Log in to subscribe</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

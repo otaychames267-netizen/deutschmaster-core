@@ -417,10 +417,12 @@ export function AppHeader() {
           )}
 
           {/* Essay grading credit balance */}
-          <div className="hidden md:flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/15 px-2.5 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-            <Coins className="h-3 w-3" />
-            <span>{creditBalance} {creditBalance === 1 ? "credit" : "credits"}</span>
-          </div>
+          {user && (
+            <div className="hidden md:flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/15 px-2.5 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+              <Coins className="h-3 w-3" />
+              <span>{creditBalance} {creditBalance === 1 ? "credit" : "credits"}</span>
+            </div>
+          )}
 
           {/* Language switcher */}
           <DropdownMenu>
@@ -448,6 +450,7 @@ export function AppHeader() {
           </button>
 
           {/* Notifications dropdown */}
+          {user && (
           <DropdownMenu onOpenChange={(open) => { if (open) loadNotifications(); }}>
             <DropdownMenuTrigger asChild>
               <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
@@ -503,8 +506,22 @@ export function AppHeader() {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
+          )}
+
+          {/* Guest CTA — replaces the user dropdown when signed out */}
+          {!user && (
+            <div className="ml-1 flex items-center gap-2">
+              <Link to="/login" className="rounded-lg px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted transition-colors">
+                Log in
+              </Link>
+              <Link to="/register" className="rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground hover:opacity-90 transition-all">
+                Sign up
+              </Link>
+            </div>
+          )}
 
           {/* User dropdown */}
+          {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="ml-1 flex items-center gap-2 rounded-xl px-2 py-1 text-left transition-colors hover:bg-muted">
@@ -601,6 +618,7 @@ export function AppHeader() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          )}
         </div>
       </header>
 
