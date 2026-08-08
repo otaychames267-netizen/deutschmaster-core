@@ -87,6 +87,7 @@ export function HoerenTeilPage({ teil }: Props) {
         .select("id, title, image_path, instructions, audio_path, position, level, import_notes")
         .eq("teil", teil)
         .eq("level", lvl)
+        .eq("is_hidden", false)
         .order("position", { ascending: true });
       if (cancelled) return;
       if (exErr) { setError(exErr.message); setLoading(false); return; }

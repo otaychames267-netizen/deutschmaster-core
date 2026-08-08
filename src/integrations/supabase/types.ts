@@ -1559,6 +1559,7 @@ export type Database = {
           image_path: string | null
           import_notes: string | null
           instructions: string | null
+          is_hidden: boolean
           level: string
           position: number
           source_pdf: string | null
@@ -1575,6 +1576,7 @@ export type Database = {
           image_path?: string | null
           import_notes?: string | null
           instructions?: string | null
+          is_hidden?: boolean
           level?: string
           position?: number
           source_pdf?: string | null
@@ -1591,6 +1593,7 @@ export type Database = {
           image_path?: string | null
           import_notes?: string | null
           instructions?: string | null
+          is_hidden?: boolean
           level?: string
           position?: number
           source_pdf?: string | null
