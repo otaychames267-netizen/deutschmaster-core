@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AuthLayout } from "@/components/AuthLayout";
+import { GoogleAuthButton, OrDivider } from "@/components/GoogleAuthButton";
 import { getSiteUrl } from "@/lib/site-url";
 import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
 import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react";
@@ -115,6 +116,8 @@ function RegisterPage() {
 
   return (
     <AuthLayout title={t("auth.sign_up")} subtitle="Create your account to get started">
+      <GoogleAuthButton />
+      <OrDivider />
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">

@@ -7,6 +7,7 @@ import {
   getD17PaymentConfigValues, setD17PaymentConfigValue,
 } from "@/lib/d17/platform-settings.functions";
 import { getPlanPrices, updatePlanPrice } from "@/lib/admin/plans.functions";
+import { setWhatsAppNumber } from "@/lib/admin/whatsapp-settings.functions";
 import { toast } from "sonner";
 
 const D17_CONFIG_FIELDS: { key: string; label: string; suffix: string }[] = [
@@ -36,6 +37,8 @@ function AdminSettingsPage() {
   const [d17PaymentBusyField, setD17PaymentBusyField] = useState<string | null>(null);
   const [planPrices, setPlanPrices] = useState<Record<string, number> | null>(null);
   const [planPriceBusyCode, setPlanPriceBusyCode] = useState<string | null>(null);
+  const [whatsapp, setWhatsappState] = useState<string | null | undefined>(undefined);
+  const [whatsappBusy, setWhatsappBusy] = useState(false);
   const [form, setForm] = useState({
     platformName: "AuraLingovia",
     supportEmail: "Support@auralingoviatestdeutsch.academy",
@@ -59,7 +62,23 @@ function AdminSettingsPage() {
     getD17ConfigValues({ data: undefined }).then((cfg) => setD17Config(cfg)).catch(() => setD17Config(null));
     getD17PaymentConfigValues({ data: undefined }).then((cfg) => setD17Payment(cfg)).catch(() => setD17Payment(null));
     getPlanPrices({ data: undefined }).then((p) => setPlanPrices(p)).catch(() => setPlanPrices(null));
+    supabase
+      .rpc("get_platform_setting", { p_key: "whatsapp_contact_number" })
+      .then(({ data }) => setWhatsappState((data as string | null) ?? null));
   }, []);
+
+  async function handleWhatsAppChange(value: string) {
+    setWhatsappBusy(true);
+    try {
+      const res = await setWhatsAppNumber({ data: { number: value } });
+      setWhatsappState(res.number);
+      toast.success(res.number ? "WhatsApp contact number updated." : "WhatsApp button hidden (no number set).");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not update the WhatsApp number.");
+    } finally {
+      setWhatsappBusy(false);
+    }
+  }
 
   async function handleD17PaymentChange(field: "number" | "iban" | "accountHolder", value: string) {
     setD17PaymentBusyField(field);
@@ -207,6 +226,25 @@ function AdminSettingsPage() {
       <Section icon={Globe} color="bg-blue-500/10 text-blue-500" title="General">
         <Field label="Platform name" name="platformName" />
         <Field label="Support email" name="supportEmail" type="email" />
+        <div className="space-y-1.5">
+          <label className="text-xs font-semibold text-foreground">WhatsApp contact number</label>
+          {whatsapp === undefined ? (
+            <div className="flex py-1"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
+          ) : (
+            <input
+              type="text"
+              defaultValue={whatsapp ?? ""}
+              key={whatsapp ?? "empty"}
+              disabled={whatsappBusy}
+              onBlur={(e) => e.target.value.trim() !== (whatsapp ?? "") && handleWhatsAppChange(e.target.value.trim())}
+              placeholder="e.g. +216XXXXXXXX (with country code)"
+              className="w-full rounded-xl border border-border bg-muted px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 disabled:opacity-50"
+            />
+          )}
+          <p className="text-xs text-muted-foreground">
+            Powers the WhatsApp button shown to signed-in users in the header. Leave empty to hide the button.
+          </p>
+        </div>
         <div className="space-y-3 pt-1">
           <Toggle label="Maintenance mode" name="maintenanceMode" desc="Show a maintenance page to non-admin users." />
           <Toggle label="Open registration" name="registrationOpen" desc="Allow new users to sign up." />

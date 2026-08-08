@@ -21,6 +21,7 @@ import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedWeeklyGoalsRouteImport } from './routes/_authenticated.weekly-goals'
 import { Route as AuthenticatedVerifyEmailRouteImport } from './routes/_authenticated.verify-email'
 import { Route as AuthenticatedTimerRouteImport } from './routes/_authenticated.timer'
@@ -177,6 +178,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedWeeklyGoalsRoute =
@@ -776,6 +782,7 @@ export interface FileRoutesByFullPath {
   '/timer': typeof AuthenticatedTimerRoute
   '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
   '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichRouteWithChildren
@@ -885,6 +892,7 @@ export interface FileRoutesByTo {
   '/timer': typeof AuthenticatedTimerRoute
   '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/$level/search': typeof AuthenticatedLevelSearchRoute
   '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
@@ -994,6 +1002,7 @@ export interface FileRoutesById {
   '/_authenticated/timer': typeof AuthenticatedTimerRoute
   '/_authenticated/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/_authenticated/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/_authenticated/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
   '/_authenticated/$level/schriftlich': typeof AuthenticatedLevelSchriftlichRouteWithChildren
@@ -1107,6 +1116,7 @@ export interface FileRouteTypes {
     | '/timer'
     | '/verify-email'
     | '/weekly-goals'
+    | '/auth/callback'
     | '/$level/dashboard'
     | '/$level/muendlich'
     | '/$level/schriftlich'
@@ -1216,6 +1226,7 @@ export interface FileRouteTypes {
     | '/timer'
     | '/verify-email'
     | '/weekly-goals'
+    | '/auth/callback'
     | '/$level/dashboard'
     | '/$level/search'
     | '/admin/analytics'
@@ -1324,6 +1335,7 @@ export interface FileRouteTypes {
     | '/_authenticated/timer'
     | '/_authenticated/verify-email'
     | '/_authenticated/weekly-goals'
+    | '/auth/callback'
     | '/_authenticated/$level/dashboard'
     | '/_authenticated/$level/muendlich'
     | '/_authenticated/$level/schriftlich'
@@ -1418,6 +1430,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
+  AuthCallbackRoute: typeof AuthCallbackRoute
   ApiAuthForgotPasswordRoute: typeof ApiAuthForgotPasswordRoute
   ApiAuthLoginRoute: typeof ApiAuthLoginRoute
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
@@ -1510,6 +1523,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/weekly-goals': {
@@ -2526,6 +2546,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   UnauthorizedRoute: UnauthorizedRoute,
+  AuthCallbackRoute: AuthCallbackRoute,
   ApiAuthForgotPasswordRoute: ApiAuthForgotPasswordRoute,
   ApiAuthLoginRoute: ApiAuthLoginRoute,
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,

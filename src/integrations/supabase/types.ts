@@ -2566,11 +2566,13 @@ export type Database = {
           created_by: string | null
           difficulty_level: string | null
           id: string
+          is_unassigned_center: boolean
           key_arguments: string[] | null
           level: string
           position: number | null
           sort_order: number
           source_pdf: string | null
+          speaking_toolbox: Json | null
           storage_path: string | null
           teil: number
           theme_category: string | null
@@ -2583,11 +2585,13 @@ export type Database = {
           created_by?: string | null
           difficulty_level?: string | null
           id?: string
+          is_unassigned_center?: boolean
           key_arguments?: string[] | null
           level?: string
           position?: number | null
           sort_order?: number
           source_pdf?: string | null
+          speaking_toolbox?: Json | null
           storage_path?: string | null
           teil: number
           theme_category?: string | null
@@ -2600,11 +2604,13 @@ export type Database = {
           created_by?: string | null
           difficulty_level?: string | null
           id?: string
+          is_unassigned_center?: boolean
           key_arguments?: string[] | null
           level?: string
           position?: number | null
           sort_order?: number
           source_pdf?: string | null
+          speaking_toolbox?: Json | null
           storage_path?: string | null
           teil?: number
           theme_category?: string | null

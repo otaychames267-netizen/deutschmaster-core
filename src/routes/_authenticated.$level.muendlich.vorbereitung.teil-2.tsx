@@ -3,6 +3,7 @@ import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useTrackLesson } from "@/lib/useLastLesson";
 import { useLevelSegment } from "@/lib/useActiveLevel";
 import { VorbereitungMaterials } from "@/components/muendlich/VorbereitungMaterials";
+import { MuendlichTeil2Themen } from "@/components/muendlich/MuendlichTeil2Themen";
 
 export const Route = createFileRoute("/_authenticated/$level/muendlich/vorbereitung/teil-2")({
   component: Teil2Page,
@@ -24,10 +25,11 @@ function Teil2Page() {
         </div>
         <p className="text-[10px] font-bold uppercase tracking-widest text-rose-500/70">Teil 2</p>
         <h1 className="text-2xl font-black tracking-tight text-foreground">Diskussion</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Study materials — read the uploaded PDFs (Themen, Tipps, Redemittel).</p>
+        <p className="mt-1 text-sm text-muted-foreground">Ihre Sprech-Toolbox: Themen nach Thema geordnet, mit Ideen, Redemitteln und Wortschatz zum Üben.</p>
       </div>
 
-      <VorbereitungMaterials teil={2} categories={["themen", "tipps", "redemittel"]} />
+      <MuendlichTeil2Themen />
+      <VorbereitungMaterials teil={2} categories={["tipps", "redemittel"]} />
 
       <div className="flex items-center justify-between">
         <Link to={`/${seg}/muendlich/vorbereitung/teil-1` as never} className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground hover:bg-muted transition-all">

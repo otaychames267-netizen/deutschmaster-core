@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
+import { GoogleAuthButton, OrDivider } from "@/components/GoogleAuthButton";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -67,6 +68,8 @@ function LoginPage() {
 
   return (
     <AuthLayout title={t("auth.sign_in")} subtitle="Enter your credentials to continue">
+      <GoogleAuthButton />
+      <OrDivider />
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">

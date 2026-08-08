@@ -4,7 +4,7 @@ import {
   Moon, Sun, Bell, Globe, LogOut, User,
   CreditCard, Shield, ChevronRight, Flame, Zap, Coins,
   Search, X, CheckCircle2, AlertCircle, Info, Command,
-  BookOpen, ArrowRight,
+  BookOpen, ArrowRight, MessageCircle,
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -295,7 +295,17 @@ export function AppHeader() {
   const [notifications, setNotifications] = useState<Notif[]>([]);
   const [notifsLoaded, setNotifsLoaded] = useState(false);
   const [subDaysLeft, setSubDaysLeft] = useState<number | null>(null);
+  const [whatsappNumber, setWhatsappNumber] = useState<string | null>(null);
   const displayName = user?.user_metadata?.full_name as string | undefined;
+
+  // Admin-configurable WhatsApp contact number (Admin Settings → General).
+  // Button renders only once a number is actually set — no hardcoded default.
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .rpc("get_platform_setting", { p_key: "whatsapp_contact_number" })
+      .then(({ data }) => setWhatsappNumber((data as string | null) ?? null));
+  }, [user?.id]);
 
   // Load subscription days remaining
   useEffect(() => {
@@ -506,6 +516,20 @@ export function AppHeader() {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
+          )}
+
+          {/* WhatsApp contact — visible only to signed-in users, and only
+              once an admin has set a number (Admin Settings → General). */}
+          {user && whatsappNumber && (
+            <a
+              href={`https://wa.me/${whatsappNumber.replace(/^\+/, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Chat with us on WhatsApp"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-emerald-500/10 hover:text-emerald-500"
+            >
+              <MessageCircle className="h-4 w-4" />
+            </a>
           )}
 
           {/* Guest CTA — replaces the user dropdown when signed out. Both are
