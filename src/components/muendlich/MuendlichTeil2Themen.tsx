@@ -33,7 +33,6 @@ import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { PdfViewer } from "./PdfViewer";
 
 interface Bilingual { de: string; ar: string }
-interface IdeaRow { idea: string; verbs: string }
 interface ExampleBlock { text: string; ar: string; label?: string }
 interface QAItem { q_de: string; q_ar?: string; answer_ideas: string[] }
 interface VocabItem { de: string; ar: string }
@@ -45,19 +44,20 @@ interface SpeakingToolboxV2 {
     extraction_guide_ar: string;
     inhalt_de: string;
     inhalt_redemittel: Bilingual[];
-    ideas: IdeaRow[];
+    /** Full, ready-to-speak German sentences (not abstract headings), each with an Arabic translation. */
+    ideas: Bilingual[];
   };
-  page3_meinung: { redemittel: Bilingual[]; ideas: IdeaRow[]; example: ExampleBlock };
+  page3_meinung: { redemittel: Bilingual[]; ideas: Bilingual[]; example: ExampleBlock };
   page4_erfahrung: {
     experience_redemittel: Bilingual[];
     heimatland_redemittel: Bilingual[];
-    experience_ideas: string[];
-    heimatland_ideas: string[];
+    experience_ideas: Bilingual[];
+    heimatland_ideas: Bilingual[];
     example: ExampleBlock;
   };
   page5_procontra: {
-    vorteile: { redemittel: Bilingual[]; ideas: IdeaRow[] };
-    nachteile: { redemittel: Bilingual[]; ideas: IdeaRow[] };
+    vorteile: { redemittel: Bilingual[]; ideas: Bilingual[] };
+    nachteile: { redemittel: Bilingual[]; ideas: Bilingual[] };
     example: ExampleBlock;
   };
   page6_fragen: { questions: QAItem[] };
@@ -146,14 +146,19 @@ function ArBlock({ text, className = "" }: { text: string; className?: string })
   );
 }
 
-function IdeaList({ items }: { items: IdeaRow[] }) {
+/** Full, ready-to-speak German sentences (bullet + sentence + toggle-gated
+ * Arabic translation) — replaces the old abstract "idea → trigger verbs"
+ * format everywhere a student should be able to just say the sentence. */
+function SentenceList({ items, showAr }: { items: Bilingual[]; showAr: boolean }) {
   return (
-    <ul className="space-y-1.5">
+    <ul className="space-y-3">
       {items.map((it, i) => (
         <li key={i} className="flex items-start gap-2 text-sm">
           <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" />
-          <span className="text-foreground">{it.idea}</span>
-          {it.verbs && <span className="text-muted-foreground">→ {it.verbs}</span>}
+          <div className="flex-1">
+            <span className="text-foreground">{it.de}</span>
+            {showAr && <ArBlock text={it.ar} className="mt-1" />}
+          </div>
         </li>
       ))}
     </ul>
@@ -267,7 +272,7 @@ function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void
             </div>
             <div>
               <h3 className="mb-2 text-sm font-black text-foreground">Ideen zum Text</h3>
-              <IdeaList items={tb.page2_inhalt.ideas} />
+              <SentenceList items={tb.page2_inhalt.ideas} showAr={showAr} />
             </div>
           </div>
         )}
@@ -280,7 +285,7 @@ function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void
             </div>
             <div>
               <h3 className="mb-2 text-sm font-black text-foreground">Ideen zur Meinung</h3>
-              <IdeaList items={tb.page3_meinung.ideas} />
+              <SentenceList items={tb.page3_meinung.ideas} showAr={showAr} />
             </div>
             <ExampleCallout example={tb.page3_meinung.example} showAr={showAr} />
           </div>
@@ -292,24 +297,12 @@ function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void
               <div>
                 <h3 className="mb-2 text-sm font-black text-foreground">Persönliche Erfahrung</h3>
                 <RedemittelList items={tb.page4_erfahrung.experience_redemittel} showAr={showAr} />
-                <ul className="mt-3 space-y-1.5">
-                  {tb.page4_erfahrung.experience_ideas.map((idea, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" /> {idea}
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-3"><SentenceList items={tb.page4_erfahrung.experience_ideas} showAr={showAr} /></div>
               </div>
               <div>
                 <h3 className="mb-2 text-sm font-black text-foreground">Mein Heimatland (Tunesien)</h3>
                 <RedemittelList items={tb.page4_erfahrung.heimatland_redemittel} showAr={showAr} />
-                <ul className="mt-3 space-y-1.5">
-                  {tb.page4_erfahrung.heimatland_ideas.map((idea, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" /> {idea}
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-3"><SentenceList items={tb.page4_erfahrung.heimatland_ideas} showAr={showAr} /></div>
               </div>
             </div>
             <ExampleCallout example={tb.page4_erfahrung.example} showAr={showAr} />
@@ -324,14 +317,14 @@ function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void
                   <ThumbsUp className="h-4 w-4" /> Vorteile
                 </h3>
                 <div className="mb-3"><RedemittelList items={tb.page5_procontra.vorteile.redemittel} showAr={showAr} /></div>
-                <IdeaList items={tb.page5_procontra.vorteile.ideas} />
+                <SentenceList items={tb.page5_procontra.vorteile.ideas} showAr={showAr} />
               </div>
               <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-4">
                 <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-red-600 dark:text-red-400">
                   <ThumbsDown className="h-4 w-4" /> Nachteile
                 </h3>
                 <div className="mb-3"><RedemittelList items={tb.page5_procontra.nachteile.redemittel} showAr={showAr} /></div>
-                <IdeaList items={tb.page5_procontra.nachteile.ideas} />
+                <SentenceList items={tb.page5_procontra.nachteile.ideas} showAr={showAr} />
               </div>
             </div>
             <ExampleCallout example={tb.page5_procontra.example} showAr={showAr} />

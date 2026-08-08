@@ -31,9 +31,13 @@ function ar(s) { return `<p class="ar">${esc(s)}</p>`; }
 function redemittelList(items) {
   return `<ul class="redemittel">${items.map(r => `<li><span class="de">„${esc(r.de)}"</span>${ar(r.ar)}</li>`).join("")}</ul>`;
 }
-function ideaList(items) {
-  return `<ul class="ideas">${items.map(i => `<li>${esc(i.idea)}${i.verbs ? ` <span class="verbs">→ ${esc(i.verbs)}</span>` : ""}</li>`).join("")}</ul>`;
+// Full, ready-to-speak German sentences with an Arabic translation under
+// each one — mirrors SentenceList in MuendlichTeil2Themen.tsx. Replaces the
+// old abstract "idea -> trigger verbs" bullet format.
+function sentenceList(items) {
+  return `<ul class="ideas">${items.map(i => `<li><span class="de-sentence">${esc(i.de)}</span>${ar(i.ar)}</li>`).join("")}</ul>`;
 }
+// Page-6 answer-strategy bullets stay plain (coaching hints, not scripted sentences).
 function plainList(items) {
   return `<ul class="ideas">${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>`;
 }
@@ -63,7 +67,7 @@ function renderHtml(topic) {
       <h3>Redemittel für den Inhalt</h3>
       ${redemittelList(tb.page2_inhalt.inhalt_redemittel)}
       <h3>Ideen zum Text</h3>
-      ${ideaList(tb.page2_inhalt.ideas)}
+      ${sentenceList(tb.page2_inhalt.ideas)}
     </section>`;
 
   const page3 = `
@@ -73,7 +77,7 @@ function renderHtml(topic) {
       <h3>Redemittel für die Meinung</h3>
       ${redemittelList(tb.page3_meinung.redemittel)}
       <h3>Ideen zur Meinung</h3>
-      ${ideaList(tb.page3_meinung.ideas)}
+      ${sentenceList(tb.page3_meinung.ideas)}
       <div class="example"><h3>Beispiel</h3><p>${marked(tb.page3_meinung.example.text)}</p>${ar(tb.page3_meinung.example.ar)}</div>
     </section>`;
 
@@ -85,12 +89,12 @@ function renderHtml(topic) {
         <div>
           <h3>Persönliche Erfahrung</h3>
           ${redemittelList(tb.page4_erfahrung.experience_redemittel)}
-          ${plainList(tb.page4_erfahrung.experience_ideas)}
+          ${sentenceList(tb.page4_erfahrung.experience_ideas)}
         </div>
         <div>
           <h3>Mein Heimatland (Tunesien)</h3>
           ${redemittelList(tb.page4_erfahrung.heimatland_redemittel)}
-          ${plainList(tb.page4_erfahrung.heimatland_ideas)}
+          ${sentenceList(tb.page4_erfahrung.heimatland_ideas)}
         </div>
       </div>
       <div class="example"><h3>${esc(tb.page4_erfahrung.example.label ?? "Beispiel")}</h3><p>${marked(tb.page4_erfahrung.example.text)}</p>${ar(tb.page4_erfahrung.example.ar)}</div>
@@ -101,8 +105,8 @@ function renderHtml(topic) {
       ${pageHeader(5, "Vor- & Nachteile")}
       <h2>${esc(topic.title)}</h2>
       <div class="two-col">
-        <div class="pro"><h3>Vorteile</h3>${redemittelList(tb.page5_procontra.vorteile.redemittel)}${ideaList(tb.page5_procontra.vorteile.ideas)}</div>
-        <div class="contra"><h3>Nachteile</h3>${redemittelList(tb.page5_procontra.nachteile.redemittel)}${ideaList(tb.page5_procontra.nachteile.ideas)}</div>
+        <div class="pro"><h3>Vorteile</h3>${redemittelList(tb.page5_procontra.vorteile.redemittel)}${sentenceList(tb.page5_procontra.vorteile.ideas)}</div>
+        <div class="contra"><h3>Nachteile</h3>${redemittelList(tb.page5_procontra.nachteile.redemittel)}${sentenceList(tb.page5_procontra.nachteile.ideas)}</div>
       </div>
       <div class="example"><h3>Beispiel</h3><p>${marked(tb.page5_procontra.example.text)}</p>${ar(tb.page5_procontra.example.ar)}</div>
     </section>`;
@@ -152,7 +156,9 @@ function renderHtml(topic) {
     ul.redemittel li { margin-bottom: 6px; }
     ul.redemittel .de { font-style: italic; }
     ul.ideas { margin: 0 0 10px; padding-left: 18px; }
-    ul.ideas li { margin-bottom: 3px; }
+    ul.ideas li { margin-bottom: 10px; }
+    ul.ideas .de-sentence { display: block; }
+    ul.ideas .ar { margin: 3px 0 0; font-size: 10pt; }
     .verbs { color: #6b7280; }
     .example { background: #fff1f2; border: 1px solid #fda4af; border-radius: 8px; padding: 10px 14px; margin-top: 10px; }
     .example h3 { margin-top: 0; color: #9f1239; }
