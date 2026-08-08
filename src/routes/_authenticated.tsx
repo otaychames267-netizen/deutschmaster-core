@@ -10,32 +10,27 @@ export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
 });
 
-/** Reverted back to requiring sign-in for content in general (per explicit
- * product decision) — the broader guest-browsing subtree this used to cover
- * (Schriftlich landing + full /vorbereitung, including Lesen/Sprachbausteine/
- * Schreiben) is gone. The one deliberate carve-out left is Hören: its Teil
- * pages stay reachable without a session so a guest can see the statement
- * text and the (non-functional) player, per HoerenTeilPage's own
- * guest-specific locked treatment — every other route redirects a signed-out
- * visitor to /login exactly as it did before any of the guest-preview work. */
-const GUEST_ALLOWED_PATTERN = /^\/b2\/schriftlich\/vorbereitung\/hoeren(\/|$)/;
+/** No unauthenticated access to any content route, full stop (per explicit
+ * product decision) — this includes the Hören-only guest-preview carve-out
+ * that used to live here. A signed-out visitor must reach /login before
+ * anything under /_authenticated renders. HoerenTeilPage still contains its
+ * own guest-specific locked-preview branch, but it is now unreachable dead
+ * code from a security standpoint — the route guard below is what actually
+ * keeps guests out, not that component's internal isGuest handling. */
 
 function AuthenticatedLayout() {
   const { user, loading } = useAuth();
   const nav = useNavigate();
   const loc = useLocation();
-  const isGuestAllowedPath = GUEST_ALLOWED_PATTERN.test(loc.pathname);
 
   const [checking, setChecking]         = useState(true);
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const checkedForRef                   = useRef<string | null>(null);
   const redirectedToLoginRef            = useRef(false);
 
-  /* Redirect unauthenticated users — except into the guest-browsable
-   * preview subtree above, which renders with no session at all. */
+  /* Redirect unauthenticated users to /login unconditionally. */
   useEffect(() => {
     if (!loading && !user) {
-      if (GUEST_ALLOWED_PATTERN.test(loc.pathname)) return;
       if (redirectedToLoginRef.current) return;
       redirectedToLoginRef.current = true;
       nav({ to: "/login", replace: true });
@@ -154,25 +149,10 @@ function AuthenticatedLayout() {
     return <LoadingScreen />;
   }
 
-  /* Guest preview: no session, on the one subtree that allows it — render
-   * the same shell a logged-in visitor gets (AppHeader/AppSidebar already
-   * degrade gracefully with user=null), skipping every session-only check
-   * below (email verification, onboarding) since none of them apply. */
+  /* No session at all — the redirect to /login above is already in flight;
+   * never render any content route in the meantime. */
   if (!user) {
-    if (!isGuestAllowedPath) {
-      return <LoadingScreen />; // redirect to /login is already in flight
-    }
-    return (
-      <SidebarProvider defaultOpen>
-        <AppSidebar />
-        <SidebarInset className="flex min-h-screen flex-col overflow-hidden">
-          <AppHeader />
-          <main className="flex-1 overflow-auto p-5 sm:p-6">
-            <Outlet />
-          </main>
-        </SidebarInset>
-      </SidebarProvider>
-    );
+    return <LoadingScreen />;
   }
 
   /* Unverified users only ever see the verify-email holding page */
