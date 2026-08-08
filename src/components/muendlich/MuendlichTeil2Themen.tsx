@@ -1,47 +1,67 @@
 /**
- * Rich Mündlich Teil 2 "speaking toolbox" study view. Replaces the old
- * inert PDF-tile treatment for teil=2 'themen' rows (those rows have no
- * storage_path — VorbereitungMaterials rendered them as disabled buttons
- * that did nothing). Each topic now gets 5 pages: the original text, then
- * content ideas/Redemittel/worked example, personal experience, Vorteile/
- * Nachteile, and topic vocabulary — see migration 20260808010000 for the
- * speaking_toolbox JSON shape.
+ * Rich Mündlich Teil 2 "speaking toolbox" study view — 7-page structure
+ * (schema_version 2): Text / Inhalt & Thema-Extraktion / Meinung / Erfahrung
+ * & Heimatland / Vor- & Nachteile / Prüfungsfragen / Wortschatz. See
+ * migration 20260808010000 + 20260808120000 for the speaking_toolbox JSON
+ * shape. Bilingual (DE/AR) fields are gated behind a single translation
+ * toggle; the Arabic Inhalt-explanation on page 2 is original explanatory
+ * content (not a "translation") and is always visible. Sample paragraphs
+ * mark connector phrases with **double asterisks**, rendered as highlighted
+ * <mark> spans by renderMarked() below.
  *
  * Gating: a plain client-side `.from("muendlich_materials").select()` call,
- * same as the component this replaces — has_plan_access(user_id,'muendlich')
- * RLS on the table itself is the only access-control boundary; a
- * non-subscribed user's query simply returns zero rows. No service-role
- * bypass here.
+ * same as before — has_plan_access(user_id,'muendlich') RLS on the table
+ * itself is the only access-control boundary; a non-subscribed user's query
+ * simply returns zero rows. No service-role bypass here.
  *
- * Topics are grouped by theme_category (already populated on every row from
- * earlier imports) into a fixed, hand-ordered study sequence, with the 9
- * owner-specified "not yet introduced in a center" topics forced into their
- * own final section via is_unassigned_center regardless of their
- * theme_category tag.
+ * Topics are grouped by theme_category into a fixed, hand-ordered study
+ * sequence, with the 9 owner-specified "not yet introduced in a center"
+ * topics forced into their own final section via is_unassigned_center.
+ *
+ * Rows carrying the old (schema_version 1 / absent) toolbox shape are shown
+ * with only Page 1 enabled and a "coming soon" notice on the rest, exactly
+ * like a topic with no toolbox at all — this lets the 7-page rollout happen
+ * topic-by-topic without breaking older rows.
  */
 import { useEffect, useMemo, useState } from "react";
 import {
-  Loader2, ChevronRight, ChevronDown, BookOpen, Lightbulb, MessageCircleHeart,
-  Scale, GraduationCap, Sparkles, ThumbsUp, ThumbsDown, X,
+  Loader2, ChevronRight, ChevronDown, BookOpen, Lightbulb, MessageCircle, MessageCircleHeart,
+  Scale, HelpCircle, GraduationCap, Sparkles, ThumbsUp, ThumbsDown, X, Languages, FileText,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
+import { PdfViewer } from "./PdfViewer";
 
+interface Bilingual { de: string; ar: string }
 interface IdeaRow { idea: string; verbs: string }
-interface SpeakingToolbox {
-  page2: {
-    explanation: string;
+interface ExampleBlock { text: string; ar: string; label?: string }
+interface QAItem { q_de: string; q_ar?: string; answer_ideas: string[] }
+interface VocabItem { de: string; ar: string }
+
+interface SpeakingToolboxV2 {
+  schema_version: 2;
+  page2_inhalt: {
+    ar_summary: string;
+    extraction_guide_ar: string;
+    inhalt_de: string;
+    inhalt_redemittel: Bilingual[];
     ideas: IdeaRow[];
-    content_redemittel: string[];
-    opinion_redemittel: string[];
-    worked_example: string;
   };
-  page3: { redemittel: string[]; ideas: string[] };
-  page4: {
-    vorteile: { redemittel: string[]; ideas: IdeaRow[] };
-    nachteile: { redemittel: string[]; ideas: IdeaRow[] };
+  page3_meinung: { redemittel: Bilingual[]; ideas: IdeaRow[]; example: ExampleBlock };
+  page4_erfahrung: {
+    experience_redemittel: Bilingual[];
+    heimatland_redemittel: Bilingual[];
+    experience_ideas: string[];
+    heimatland_ideas: string[];
+    example: ExampleBlock;
   };
-  page5: { verben: string[]; nomen: string[]; adjektive: string[]; expressions: string[] };
+  page5_procontra: {
+    vorteile: { redemittel: Bilingual[]; ideas: IdeaRow[] };
+    nachteile: { redemittel: Bilingual[]; ideas: IdeaRow[] };
+    example: ExampleBlock;
+  };
+  page6_fragen: { questions: QAItem[] };
+  page7_wortschatz: { verben: VocabItem[]; nomen: VocabItem[]; adjektive: VocabItem[]; expressions: VocabItem[] };
 }
 
 interface Topic {
@@ -51,7 +71,8 @@ interface Topic {
   theme_category: string | null;
   difficulty_level: string | null;
   is_unassigned_center: boolean;
-  speaking_toolbox: SpeakingToolbox | null;
+  speaking_toolbox: SpeakingToolboxV2 | { schema_version?: number } | null;
+  storage_path: string | null;
   level?: string | null;
 }
 
@@ -73,7 +94,6 @@ function groupTopics(topics: Topic[]) {
     const inGroup = assigned.filter((t) => (t.theme_category ?? "Sonstiges") === name);
     if (inGroup.length) groups.push({ name, topics: inGroup });
   }
-  // Any theme_category not in our hand-ordered list still gets shown, just after the known ones.
   const knownNames = new Set(GROUP_ORDER);
   const leftoverNames = [...new Set(assigned.map((t) => t.theme_category ?? "Sonstiges").filter((n) => !knownNames.has(n)))];
   for (const name of leftoverNames) {
@@ -85,18 +105,44 @@ function groupTopics(topics: Topic[]) {
 
 const PAGES = [
   { key: "text", label: "1. Text", icon: BookOpen },
-  { key: "ideas", label: "2. Verstehen & Ideen", icon: Lightbulb },
-  { key: "experience", label: "3. Erfahrung", icon: MessageCircleHeart },
-  { key: "proscons", label: "4. Vor- & Nachteile", icon: Scale },
-  { key: "vocab", label: "5. Wortschatz", icon: GraduationCap },
+  { key: "inhalt", label: "2. Inhalt", icon: Lightbulb },
+  { key: "meinung", label: "3. Meinung", icon: MessageCircle },
+  { key: "erfahrung", label: "4. Erfahrung", icon: MessageCircleHeart },
+  { key: "procontra", label: "5. Vor-/Nachteile", icon: Scale },
+  { key: "fragen", label: "6. Prüfungsfragen", icon: HelpCircle },
+  { key: "wortschatz", label: "7. Wortschatz", icon: GraduationCap },
 ] as const;
 type PageKey = typeof PAGES[number]["key"];
+
+function isV2(tb: Topic["speaking_toolbox"]): tb is SpeakingToolboxV2 {
+  return !!tb && (tb as any).schema_version === 2;
+}
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
     <span className="inline-flex items-center rounded-full border border-border bg-muted/60 px-2.5 py-1 text-xs font-medium text-foreground">
       {children}
     </span>
+  );
+}
+
+/** Renders `**phrase**` segments as highlighted connector/Redemittel spans. */
+function renderMarked(text: string) {
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <mark key={i} className="rounded bg-rose-500/15 px-1 py-0.5 font-bold text-rose-600 dark:text-rose-400">{part}</mark>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
+
+function ArBlock({ text, className = "" }: { text: string; className?: string }) {
+  return (
+    <p dir="rtl" className={`text-right text-sm leading-loose text-muted-foreground ${className}`} style={{ fontFamily: "Tahoma, 'Segoe UI', sans-serif" }}>
+      {text}
+    </p>
   );
 }
 
@@ -114,11 +160,37 @@ function IdeaList({ items }: { items: IdeaRow[] }) {
   );
 }
 
-function TopicDetail({ topic }: { topic: Topic }) {
-  const [page, setPage] = useState<PageKey>("text");
-  const tb = topic.speaking_toolbox;
+function RedemittelList({ items, showAr }: { items: Bilingual[]; showAr: boolean }) {
+  return (
+    <ul className="space-y-2 text-sm text-foreground">
+      {items.map((r, i) => (
+        <li key={i}>
+          <p className="italic">"{r.de}"</p>
+          {showAr && <ArBlock text={r.ar} className="mt-0.5" />}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
-  useEffect(() => setPage("text"), [topic.id]);
+function ExampleCallout({ example, showAr }: { example: ExampleBlock; showAr: boolean }) {
+  return (
+    <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4">
+      <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-black text-rose-600 dark:text-rose-400">
+        <Sparkles className="h-4 w-4" /> {example.label ?? "Beispiel"}
+      </h3>
+      <p className="text-sm leading-relaxed text-foreground">{renderMarked(example.text)}</p>
+      {showAr && <ArBlock text={example.ar} className="mt-2 border-t border-rose-500/20 pt-2" />}
+    </div>
+  );
+}
+
+function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void }) {
+  const [page, setPage] = useState<PageKey>("text");
+  const [showAr, setShowAr] = useState(false);
+  const tb = isV2(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
+
+  useEffect(() => { setPage("text"); }, [topic.id]);
 
   return (
     <div className="flex h-full flex-col">
@@ -127,7 +199,28 @@ function TopicDetail({ topic }: { topic: Topic }) {
           {topic.theme_category && <Pill>{topic.theme_category}</Pill>}
           {topic.difficulty_level && <Pill>{topic.difficulty_level}</Pill>}
         </div>
-        <h2 className="mt-2 text-lg font-black text-foreground">{topic.title}</h2>
+        <div className="mt-2 flex items-start justify-between gap-3">
+          <h2 className="text-lg font-black text-foreground">{topic.title}</h2>
+          <div className="flex shrink-0 items-center gap-1.5">
+            <button
+              onClick={() => setShowAr((v) => !v)}
+              title="Arabische Übersetzung ein-/ausblenden"
+              className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-bold transition-colors ${
+                showAr ? "border-indigo-500 bg-indigo-500 text-white" : "border-border bg-background text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Languages className="h-3.5 w-3.5" /> عربي
+            </button>
+            <button
+              onClick={onOpenPdf}
+              disabled={!topic.storage_path}
+              title={topic.storage_path ? "PDF öffnen" : "PDF noch nicht verfügbar"}
+              className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs font-bold text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <FileText className="h-3.5 w-3.5" /> PDF
+            </button>
+          </div>
+        </div>
       </div>
 
       <div className="flex flex-wrap gap-1 border-b border-border bg-muted/30 px-3 py-2">
@@ -154,101 +247,135 @@ function TopicDetail({ topic }: { topic: Topic }) {
           <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">{topic.body_text}</p>
         )}
 
-        {page === "ideas" && tb && (
+        {page === "inhalt" && tb && (
+          <div className="space-y-6">
+            <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-4">
+              <h3 className="mb-2 text-right text-sm font-black text-indigo-600 dark:text-indigo-400">الشرح والملخص</h3>
+              <ArBlock text={tb.page2_inhalt.ar_summary} />
+            </div>
+            <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-4">
+              <h3 className="mb-2 text-right text-sm font-black text-indigo-600 dark:text-indigo-400">كيف نستخرج موضوع النص</h3>
+              <ArBlock text={tb.page2_inhalt.extraction_guide_ar} />
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-black text-foreground">Inhalt (Zusammenfassung)</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">{tb.page2_inhalt.inhalt_de}</p>
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-black text-foreground">Redemittel für den Inhalt</h3>
+              <RedemittelList items={tb.page2_inhalt.inhalt_redemittel} showAr={showAr} />
+            </div>
+            <div>
+              <h3 className="mb-2 text-sm font-black text-foreground">Ideen zum Text</h3>
+              <IdeaList items={tb.page2_inhalt.ideas} />
+            </div>
+          </div>
+        )}
+
+        {page === "meinung" && tb && (
           <div className="space-y-6">
             <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Worum geht es?</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{tb.page2.explanation}</p>
+              <h3 className="mb-2 text-sm font-black text-foreground">Redemittel für die Meinung</h3>
+              <RedemittelList items={tb.page3_meinung.redemittel} showAr={showAr} />
             </div>
             <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Ideen zum Thema</h3>
-              <IdeaList items={tb.page2.ideas} />
+              <h3 className="mb-2 text-sm font-black text-foreground">Ideen zur Meinung</h3>
+              <IdeaList items={tb.page3_meinung.ideas} />
             </div>
+            <ExampleCallout example={tb.page3_meinung.example} showAr={showAr} />
+          </div>
+        )}
+
+        {page === "erfahrung" && tb && (
+          <div className="space-y-6">
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
-                <h3 className="mb-2 text-sm font-black text-foreground">Redemittel zum Inhalt</h3>
-                <ul className="space-y-1.5 text-sm text-foreground">
-                  {tb.page2.content_redemittel.map((r, i) => <li key={i} className="italic">"{r}"</li>)}
+                <h3 className="mb-2 text-sm font-black text-foreground">Persönliche Erfahrung</h3>
+                <RedemittelList items={tb.page4_erfahrung.experience_redemittel} showAr={showAr} />
+                <ul className="mt-3 space-y-1.5">
+                  {tb.page4_erfahrung.experience_ideas.map((idea, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" /> {idea}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div>
-                <h3 className="mb-2 text-sm font-black text-foreground">Redemittel für die Meinung</h3>
-                <ul className="space-y-1.5 text-sm text-foreground">
-                  {tb.page2.opinion_redemittel.map((r, i) => <li key={i} className="italic">"{r}"</li>)}
+                <h3 className="mb-2 text-sm font-black text-foreground">Mein Heimatland (Tunesien)</h3>
+                <RedemittelList items={tb.page4_erfahrung.heimatland_redemittel} showAr={showAr} />
+                <ul className="mt-3 space-y-1.5">
+                  {tb.page4_erfahrung.heimatland_ideas.map((idea, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" /> {idea}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
-            <div className="rounded-xl border border-rose-500/30 bg-rose-500/5 p-4">
-              <h3 className="mb-1.5 flex items-center gap-1.5 text-sm font-black text-rose-600 dark:text-rose-400">
-                <Sparkles className="h-4 w-4" /> Beispiel
-              </h3>
-              <p className="text-sm leading-relaxed text-foreground">{tb.page2.worked_example}</p>
-            </div>
+            <ExampleCallout example={tb.page4_erfahrung.example} showAr={showAr} />
           </div>
         )}
 
-        {page === "experience" && tb && (
+        {page === "procontra" && tb && (
           <div className="space-y-6">
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Redemittel für persönliche Erfahrung</h3>
-              <ul className="space-y-1.5 text-sm text-foreground">
-                {tb.page3.redemittel.map((r, i) => <li key={i} className="italic">"{r}"</li>)}
-              </ul>
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
+                <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-emerald-600 dark:text-emerald-400">
+                  <ThumbsUp className="h-4 w-4" /> Vorteile
+                </h3>
+                <div className="mb-3"><RedemittelList items={tb.page5_procontra.vorteile.redemittel} showAr={showAr} /></div>
+                <IdeaList items={tb.page5_procontra.vorteile.ideas} />
+              </div>
+              <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-4">
+                <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-red-600 dark:text-red-400">
+                  <ThumbsDown className="h-4 w-4" /> Nachteile
+                </h3>
+                <div className="mb-3"><RedemittelList items={tb.page5_procontra.nachteile.redemittel} showAr={showAr} /></div>
+                <IdeaList items={tb.page5_procontra.nachteile.ideas} />
+              </div>
             </div>
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Mögliche Erfahrungen zum Thema</h3>
-              <ul className="space-y-1.5">
-                {tb.page3.ideas.map((idea, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-foreground">
-                    <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" /> {idea}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ExampleCallout example={tb.page5_procontra.example} showAr={showAr} />
           </div>
         )}
 
-        {page === "proscons" && tb && (
-          <div className="grid gap-6 sm:grid-cols-2">
-            <div className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-4">
-              <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-emerald-600 dark:text-emerald-400">
-                <ThumbsUp className="h-4 w-4" /> Vorteile
-              </h3>
-              <ul className="mb-3 space-y-1 text-sm italic text-foreground">
-                {tb.page4.vorteile.redemittel.map((r, i) => <li key={i}>"{r}"</li>)}
-              </ul>
-              <IdeaList items={tb.page4.vorteile.ideas} />
-            </div>
-            <div className="rounded-xl border border-red-500/30 bg-red-500/5 p-4">
-              <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-red-600 dark:text-red-400">
-                <ThumbsDown className="h-4 w-4" /> Nachteile
-              </h3>
-              <ul className="mb-3 space-y-1 text-sm italic text-foreground">
-                {tb.page4.nachteile.redemittel.map((r, i) => <li key={i}>"{r}"</li>)}
-              </ul>
-              <IdeaList items={tb.page4.nachteile.ideas} />
-            </div>
+        {page === "fragen" && tb && (
+          <div className="space-y-4">
+            {tb.page6_fragen.questions.map((q, i) => (
+              <div key={i} className="rounded-xl border border-border bg-muted/30 p-4">
+                <p className="text-sm font-bold text-foreground">{i + 1}. {q.q_de}</p>
+                {showAr && q.q_ar && <ArBlock text={q.q_ar} className="mt-1" />}
+                <ul className="mt-2 space-y-1">
+                  {q.answer_ideas.map((a, j) => (
+                    <li key={j} className="flex items-start gap-2 text-sm text-muted-foreground">
+                      <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" /> {a}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         )}
 
-        {page === "vocab" && tb && (
+        {page === "wortschatz" && tb && (
           <div className="grid gap-6 sm:grid-cols-2">
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Verben</h3>
-              <div className="flex flex-wrap gap-1.5">{tb.page5.verben.map((w, i) => <Pill key={i}>{w}</Pill>)}</div>
-            </div>
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Nomen</h3>
-              <div className="flex flex-wrap gap-1.5">{tb.page5.nomen.map((w, i) => <Pill key={i}>{w}</Pill>)}</div>
-            </div>
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Adjektive</h3>
-              <div className="flex flex-wrap gap-1.5">{tb.page5.adjektive.map((w, i) => <Pill key={i}>{w}</Pill>)}</div>
-            </div>
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Nützliche Ausdrücke</h3>
-              <div className="flex flex-wrap gap-1.5">{tb.page5.expressions.map((w, i) => <Pill key={i}>{w}</Pill>)}</div>
-            </div>
+            {([
+              ["Verben", tb.page7_wortschatz.verben],
+              ["Nomen", tb.page7_wortschatz.nomen],
+              ["Adjektive", tb.page7_wortschatz.adjektive],
+              ["Nützliche Ausdrücke", tb.page7_wortschatz.expressions],
+            ] as [string, VocabItem[]][]).map(([label, items]) => (
+              <div key={label}>
+                <h3 className="mb-2 text-sm font-black text-foreground">{label}</h3>
+                <ul className="space-y-1.5">
+                  {items.map((it, i) => (
+                    <li key={i} className="flex flex-wrap items-baseline gap-x-2 text-sm">
+                      <span className="font-medium text-foreground">{it.de}</span>
+                      {showAr && <span dir="rtl" className="text-muted-foreground" style={{ fontFamily: "Tahoma, 'Segoe UI', sans-serif" }}>({it.ar})</span>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         )}
 
@@ -267,13 +394,14 @@ export function MuendlichTeil2Themen() {
   const [selected, setSelected] = useState<Topic | null>(null);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(false);
 
   useEffect(() => {
     if (!level) return;
     (async () => {
       const { data } = await supabase
         .from("muendlich_materials")
-        .select("id, title, body_text, theme_category, difficulty_level, is_unassigned_center, speaking_toolbox, level")
+        .select("id, title, body_text, theme_category, difficulty_level, is_unassigned_center, speaking_toolbox, storage_path, level")
         .eq("teil", 2).eq("category", "themen").eq("level", level)
         .order("title");
       setTopics(enforceLevel((data ?? []) as Topic[], level));
@@ -322,7 +450,7 @@ export function MuendlichTeil2Themen() {
 
       <div className="flex-1 overflow-hidden">
         {selected ? (
-          <TopicDetail topic={selected} />
+          <TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} />
         ) : (
           <div className="hidden h-full flex-col items-center justify-center gap-2 p-8 text-center sm:flex">
             <BookOpen className="h-8 w-8 text-muted-foreground/40" />
@@ -338,8 +466,12 @@ export function MuendlichTeil2Themen() {
           <button onClick={() => setMobileOpen(false)} className="flex items-center gap-1.5 border-b border-border p-3 text-sm font-semibold text-muted-foreground">
             <X className="h-4 w-4" /> Zurück zur Liste
           </button>
-          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} /></div>
+          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} /></div>
         </div>
+      )}
+
+      {pdfOpen && selected?.storage_path && (
+        <PdfViewer storagePath={selected.storage_path} title={selected.title} onClose={() => setPdfOpen(false)} />
       )}
     </div>
   );
