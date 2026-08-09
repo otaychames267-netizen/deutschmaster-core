@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppHeader } from "@/components/AppHeader";
+import { FloatingWhatsAppButton } from "@/components/FloatingWhatsAppButton";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
@@ -181,6 +182,7 @@ function AuthenticatedLayout() {
         <main className="flex-1 overflow-auto p-5 sm:p-6">
           <Outlet />
         </main>
+        <FloatingWhatsAppButton />
       </SidebarInset>
     </SidebarProvider>
   );
