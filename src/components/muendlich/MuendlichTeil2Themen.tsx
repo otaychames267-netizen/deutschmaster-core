@@ -72,7 +72,6 @@ interface Topic {
   difficulty_level: string | null;
   is_unassigned_center: boolean;
   speaking_toolbox: SpeakingToolboxV2 | { schema_version?: number } | null;
-  storage_path: string | null;
   level?: string | null;
 }
 
@@ -190,7 +189,7 @@ function ExampleCallout({ example, showAr }: { example: ExampleBlock; showAr: bo
   );
 }
 
-function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void }) {
+function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenPdf: () => void; pdfAvailable: boolean }) {
   const [page, setPage] = useState<PageKey>("text");
   const [showAr, setShowAr] = useState(false);
   const tb = isV2(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
@@ -218,8 +217,8 @@ function TopicDetail({ topic, onOpenPdf }: { topic: Topic; onOpenPdf: () => void
             </button>
             <button
               onClick={onOpenPdf}
-              disabled={!topic.storage_path}
-              title={topic.storage_path ? "PDF öffnen" : "PDF noch nicht verfügbar"}
+              disabled={!pdfAvailable}
+              title={pdfAvailable ? "Gesamtes PDF-Buch öffnen (alle Themen)" : "PDF-Buch noch nicht verfügbar"}
               className="flex items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs font-bold text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
             >
               <FileText className="h-3.5 w-3.5" /> PDF
@@ -388,17 +387,30 @@ export function MuendlichTeil2Themen() {
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [mobileOpen, setMobileOpen] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
+  /** One shared "Meisterbuch" PDF (all topics compiled into one book, same
+   * pattern as Teil 1) rather than a PDF per topic — fetched once here and
+   * reused by every topic's "PDF" button. */
+  const [book, setBook] = useState<{ storage_path: string; title: string } | null>(null);
 
   useEffect(() => {
     if (!level) return;
     (async () => {
       const { data } = await supabase
         .from("muendlich_materials")
-        .select("id, title, body_text, theme_category, difficulty_level, is_unassigned_center, speaking_toolbox, storage_path, level")
+        .select("id, title, body_text, theme_category, difficulty_level, is_unassigned_center, speaking_toolbox, level")
         .eq("teil", 2).eq("category", "themen").eq("level", level)
         .order("title");
       setTopics(enforceLevel((data ?? []) as Topic[], level));
       setLoading(false);
+    })();
+    (async () => {
+      const { data } = await supabase
+        .from("muendlich_materials")
+        .select("title, storage_path")
+        .eq("teil", 2).eq("category", "redemittel").eq("level", level)
+        .not("storage_path", "is", null)
+        .maybeSingle();
+      if (data?.storage_path) setBook({ storage_path: data.storage_path, title: data.title });
     })();
   }, [level]);
 
@@ -443,7 +455,7 @@ export function MuendlichTeil2Themen() {
 
       <div className="flex-1 overflow-hidden">
         {selected ? (
-          <TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} />
+          <TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} pdfAvailable={!!book} />
         ) : (
           <div className="hidden h-full flex-col items-center justify-center gap-2 p-8 text-center sm:flex">
             <BookOpen className="h-8 w-8 text-muted-foreground/40" />
@@ -459,12 +471,12 @@ export function MuendlichTeil2Themen() {
           <button onClick={() => setMobileOpen(false)} className="flex items-center gap-1.5 border-b border-border p-3 text-sm font-semibold text-muted-foreground">
             <X className="h-4 w-4" /> Zurück zur Liste
           </button>
-          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} /></div>
+          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} pdfAvailable={!!book} /></div>
         </div>
       )}
 
-      {pdfOpen && selected?.storage_path && (
-        <PdfViewer storagePath={selected.storage_path} title={selected.title} onClose={() => setPdfOpen(false)} />
+      {pdfOpen && book && (
+        <PdfViewer storagePath={book.storage_path} title={book.title} onClose={() => setPdfOpen(false)} />
       )}
     </div>
   );
