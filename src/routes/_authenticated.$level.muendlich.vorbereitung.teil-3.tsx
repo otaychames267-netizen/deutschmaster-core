@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { useTrackLesson } from "@/lib/useLastLesson";
 import { useLevelSegment } from "@/lib/useActiveLevel";
 import { VorbereitungMaterials } from "@/components/muendlich/VorbereitungMaterials";
+import { MuendlichTeil3Themen } from "@/components/muendlich/MuendlichTeil3Themen";
 
 export const Route = createFileRoute("/_authenticated/$level/muendlich/vorbereitung/teil-3")({
   component: Teil3Page,
@@ -24,9 +25,10 @@ function Teil3Page() {
         </div>
         <p className="text-[10px] font-bold uppercase tracking-widest text-rose-500/70">Teil 3</p>
         <h1 className="text-2xl font-black tracking-tight text-foreground">Gemeinsam planen</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Study materials — read the uploaded PDFs (Themen, häufige Fragen, Tipps, Redemittel).</p>
+        <p className="mt-1 text-sm text-muted-foreground">Themen nach Thema geordnet, mit Erklärung, Struktur, Redemitteln, Diskussionsideen, Tipps, Beispieldialog und Wortschatz.</p>
       </div>
 
+      <MuendlichTeil3Themen />
       <VorbereitungMaterials teil={3} categories={["themen", "repeated_questions", "tipps", "redemittel"]} />
 
       <div className="flex items-center justify-start">
