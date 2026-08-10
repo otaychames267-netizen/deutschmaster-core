@@ -48,7 +48,7 @@ export function MuendlichTeil2Themen() {
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {mainTopics.map((t, i) => (
           <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} />
         ))}
@@ -57,7 +57,7 @@ export function MuendlichTeil2Themen() {
       {unassignedTopics.length > 0 && (
         <div>
           <UnassignedTopicsNotice />
-          <div className="space-y-4">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {unassignedTopics.map((t, i) => (
               <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} />
             ))}

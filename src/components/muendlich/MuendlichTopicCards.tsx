@@ -20,8 +20,15 @@ export interface HeroCardTopic {
   theme_category: string | null;
   difficulty_level: string | null;
   is_unassigned_center: boolean;
+  body_text: string | null;
 }
 
+/**
+ * Medium vertical card (not a thin list bar): full-width gradient/icon
+ * banner on top, title + snippet below, "Thema öffnen" CTA pinned to the
+ * bottom. Grid layout (2-3 per row) is the caller's job — this component
+ * only renders one card.
+ */
 export function HeroCard({ topic, index, onOpen, loading }: { topic: HeroCardTopic; index: number; onOpen: () => void; loading?: boolean }) {
   const art = getThemeArt(topic.theme_category);
   const Icon = art.icon;
@@ -33,32 +40,36 @@ export function HeroCard({ topic, index, onOpen, loading }: { topic: HeroCardTop
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.35, delay: (index % 6) * 0.04, ease: "easeOut" }}
-      className="group flex w-full items-center gap-4 overflow-hidden rounded-2xl border border-border bg-card p-4 text-left shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-lg disabled:cursor-wait disabled:opacity-70 sm:p-5"
+      className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-border bg-card text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-xl disabled:cursor-wait disabled:opacity-70"
     >
       <div
-        className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl sm:h-20 sm:w-20"
+        className="relative flex h-32 shrink-0 items-center justify-center overflow-hidden sm:h-36"
         style={{ background: `linear-gradient(150deg, ${art.from}, ${art.to})` }}
       >
-        <div className="absolute -right-3 -top-4 h-14 w-14 rounded-full bg-white/15 blur-lg" />
-        <Icon className="h-7 w-7 text-white/90 drop-shadow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6 sm:h-9 sm:w-9" />
+        <div className="absolute -right-6 -top-8 h-32 w-32 rounded-full bg-white/15 blur-2xl" />
+        <div className="absolute -left-8 bottom-0 h-24 w-24 rounded-full bg-black/10 blur-xl" />
+        <Icon className="h-14 w-14 text-white/90 drop-shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
       </div>
 
-      <div className="min-w-0 flex-1">
-        <div className="mb-1.5 flex flex-wrap items-center gap-1.5">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
+        <div className="mb-2 flex flex-wrap items-center gap-1.5">
           {topic.theme_category && (
             <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{topic.theme_category}</span>
           )}
           <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-primary">B2</span>
         </div>
-        <h3 className="truncate text-base font-black leading-snug text-foreground">{topic.title}</h3>
-      </div>
-
-      <div className="flex shrink-0 items-center gap-1.5 rounded-xl bg-primary px-3.5 py-2 text-xs font-bold text-primary-foreground transition-opacity group-hover:opacity-90 sm:px-4">
-        {loading ? (
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-        ) : (
-          <>Thema öffnen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /></>
+        <h3 className="mb-1.5 text-base font-black leading-snug text-foreground">{topic.title}</h3>
+        {topic.body_text && (
+          <p className="mb-4 line-clamp-3 flex-1 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{topic.body_text}</p>
         )}
+
+        <div className="mt-auto flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3.5 py-2.5 text-xs font-bold text-primary-foreground transition-opacity group-hover:opacity-90">
+          {loading ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <>Thema öffnen <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" /></>
+          )}
+        </div>
       </div>
     </motion.button>
   );

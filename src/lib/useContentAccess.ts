@@ -88,18 +88,20 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
 
 export interface MuendlichCatalogItem {
   id: string; title: string; theme_category: string | null; difficulty_level: string | null;
-  is_unassigned_center: boolean;
+  is_unassigned_center: boolean; body_text: string | null;
 }
 
 /**
  * Browsable Hero Card grid for Mündlich: calls the SECURITY DEFINER
- * `get_muendlich_catalog` RPC, which returns ONLY id/title/theme_category/
- * difficulty_level/is_unassigned_center — never body_text, speaking_toolbox,
- * or storage_path. The grid (which topics exist) is safe for everyone —
- * subscriber, non-subscriber, or anon visitor — to see; the real content is
- * fetched separately per-topic on click, gated by the has_plan_access RLS
- * on muendlich_materials itself (a non-entitled click's row fetch returns
- * nothing, and the caller shows the paywall instead of a real modal).
+ * `get_muendlich_catalog` RPC, which returns id/title/theme_category/
+ * difficulty_level/is_unassigned_center plus the plain body_text (the raw
+ * scenario prompt, shown as the card's snippet) — never speaking_toolbox or
+ * storage_path. The grid is safe for everyone — subscriber, non-subscriber,
+ * or anon visitor — to see; the real content (dialogue, Redemittel,
+ * Wortschatz, Arabic) is fetched separately per-topic on click, gated by
+ * the has_plan_access RLS on muendlich_materials itself (a non-entitled
+ * click's row fetch returns nothing, and the caller shows the paywall
+ * instead of a real modal).
  */
 export function useMuendlichCatalog(teil: number, level: string | null) {
   const [items, setItems] = useState<MuendlichCatalogItem[]>([]);
