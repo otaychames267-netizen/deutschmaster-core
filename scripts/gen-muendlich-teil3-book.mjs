@@ -91,6 +91,23 @@ function renderTopicPages(topic, groupName) {
     <h2>Struktur für das Gespräch</h2>
     <p class="hint">Fragen stellen → Antworten geben → reagieren. Für jeden Punkt ein Beispiel:</p>
     ${tb.struktur.map(renderStrukturSection).join("")}
+    </section>`;
+
+  const page4 = `<section class="page">
+    ${pageBar(groupName, "Mögliche Fragen & Antworten")}
+    <h2>Mögliche Fragen &amp; Antworten</h2>
+    <div class="two-col">
+      <div>
+        <h3>Mögliche Fragen im Gespräch</h3>
+        <p class="hint">Realistische Fragen, die Ihr Gesprächspartner stellen könnte:</p>
+        ${plainList(tb.moegliche_fragen)}
+      </div>
+      <div>
+        <h3>Mögliche Antworten &amp; Ideen</h3>
+        <p class="hint">Verschiedene Ideen, aus denen Sie frei wählen können:</p>
+        ${plainList(tb.moegliche_antworten_ideen)}
+      </div>
+    </div>
     <div class="sk-card sk-appendix">
       <h3 class="sk-h">🔁 Zustimmen &amp; höflich widersprechen</h3>
       <div class="sk-rd sk-rd-3">
@@ -101,27 +118,13 @@ function renderTopicPages(topic, groupName) {
     </div>
     </section>`;
 
-  const page4 = `<section class="page">
-    ${pageBar(groupName, "Mögliche Fragen im Gespräch")}
-    <h2>Mögliche Fragen im Gespräch</h2>
-    <p class="hint">Realistische Fragen, die Ihr Gesprächspartner stellen könnte — gut vorbereitet sein:</p>
-    ${plainList(tb.moegliche_fragen)}
-    </section>`;
-
   const page5 = `<section class="page">
-    ${pageBar(groupName, "Mögliche Antworten & Ideen")}
-    <h2>Mögliche Antworten &amp; Ideen</h2>
-    <p class="hint">Verschiedene Ideen, aus denen Sie in der Prüfung frei wählen können:</p>
-    ${plainList(tb.moegliche_antworten_ideen)}
-    </section>`;
-
-  const page6 = `<section class="page">
     ${pageBar(groupName, "Beispieldialog")}
     <h2>Beispieldialog</h2>
     <div class="dialog">${renderDialog(tb.beispieldialog, tb.struktur)}</div>
     </section>`;
 
-  const page7 = `<section class="page">
+  const page6 = `<section class="page">
     ${pageBar(groupName, "Wortschatz")}
     <h2>Wortschatz</h2>
     <div class="vocab-grid">
@@ -131,7 +134,7 @@ function renderTopicPages(topic, groupName) {
     </div>
     </section>`;
 
-  return page1 + page2 + page3 + page4 + page5 + page6 + page7;
+  return page1 + page2 + page3 + page4 + page5 + page6;
 }
 
 function renderDialog(lines, struktur) {
