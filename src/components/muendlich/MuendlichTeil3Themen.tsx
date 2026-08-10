@@ -1,99 +1,34 @@
 /**
- * Rich Mündlich Teil 3 "gemeinsam etwas planen" study view — schema_version 2
- * (section-based Q&A structure modeled directly on the owner's reference
- * example): Aufgabe / Erklärung / Struktur & Redemittel (per-section
- * Frage+Antwort phrases with a topic demo exchange, e.g. 🟢 Start, 🎯 Ziel,
- * ⏰ Zeit, 📍 Ort, ...) / Mögliche Fragen / Mögliche Antworten / Beispieldialog
- * (with emoji section headers) / Wortschatz. German-only (no Arabic layer).
+ * Mündlich Teil 3 main view — dual-display layout (owner decision
+ * 2026-08-10): a large protected/animated PDF showcase (the real exam-prep
+ * content: Erklärung, Struktur, Beispieldialog, Wortschatz, Arabic
+ * explanations) plus a grid of plain-text-only topic cards (just the raw
+ * scenario prompt, safe to show everyone). The interactive tabbed detail
+ * view this page used earlier this session is retired — everything beyond
+ * the plain scenario text now lives exclusively in the protected PDF, so
+ * casual scraping of the native page yields no exam-answer content.
  *
- * The category Redemittel (Frage/Antwort per section key) live in
- * REDEMITTEL_LIBRARY, duplicated from scripts/teil3-redemittel-library.mjs
- * (same sync convention as Teil 2's GROUP_ORDER) since they're genuinely
- * reusable across topics — each topic just picks an ordered subset of keys
- * that fits its actual task and supplies a topic-specific demo exchange.
+ * Admins get the full table read (including is_unassigned_center topics,
+ * badged) same as before; everyone else — subscriber or not — gets the
+ * titles+category+body_text-only catalog RPC, since body_text alone carries
+ * no exam value (see get_muendlich_catalog's migration comment).
  */
 import { useEffect, useMemo, useState } from "react";
-import {
-  Loader2, ChevronRight, ChevronDown, FileText, ClipboardList,
-  HelpCircle, Lightbulb, MessagesSquare, GraduationCap, Download, AlertCircle, Lock,
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
-import { useHasPlanAccess, useMuendlichCatalog } from "@/lib/useContentAccess";
+import { useMuendlichCatalog } from "@/lib/useContentAccess";
 import { PaywallModal } from "@/components/PaywallModal";
+import { ProtectedPdfShowcase, TopicTextCard, type DualDisplayTopic, type MuendlichBook } from "./MuendlichDualDisplay";
 
-interface StrukturSection { key: string; demo: { frage: string; antwort: string; reaktion?: string } }
-interface DialogLine { speaker: "A" | "B"; text: string; section?: string }
-interface Erklaerung {
-  worum_geht_es: string; worum_geht_es_ar?: string;
-  was_wird_erwartet: string; was_wird_erwartet_ar?: string;
-  wichtige_punkte: string[]; wichtige_punkte_ar?: string[];
-  worauf_achten: string[];
-}
-interface Wortschatz { verben: string[]; woerter: string[]; adjektive: string[] }
-interface WortschatzAr { verben: string[]; woerter: string[]; adjektive: string[] }
-
-interface SpeakingToolboxT3V2 {
-  schema_version: 2 | 3;
-  erklaerung: Erklaerung;
-  struktur: StrukturSection[];
-  moegliche_fragen: string[];
-  moegliche_antworten_ideen: string[];
-  beispieldialog: DialogLine[];
-  wortschatz: Wortschatz;
-  wortschatz_ar?: WortschatzAr;
-}
-
-interface Topic {
-  id: string;
-  title: string;
-  body_text: string | null;
-  theme_category: string | null;
-  difficulty_level: string | null;
-  speaking_toolbox: SpeakingToolboxT3V2 | { schema_version?: number } | null;
-  level?: string | null;
-  is_unassigned_center?: boolean;
-}
-
-// ── same GROUP_ORDER as scripts/teil3-redemittel-library.mjs's book generator, kept in sync deliberately ──
 const GROUP_ORDER = [
   "Freizeit", "Bildung", "Gesellschaft", "Reisen", "Familie",
   "Beruf", "Gesundheit", "Technologie", "Soziales Engagement", "Medien",
 ];
 
-// ── same category Redemittel library as scripts/teil3-redemittel-library.mjs ──
-const REDEMITTEL_LIBRARY: Record<string, { emoji: string; label: string; frage: string[]; antwort: string[] }> = {
-  start: { emoji: "🟢", label: "Start", frage: ["Dann lass uns gemeinsam überlegen, wie wir … organisieren können.", "Sollen wir gleich mit der Planung anfangen?", "Wo, meinst du, sollten wir anfangen?"], antwort: ["Ja, das ist eine gute Idee. Schließlich ist das Thema wirklich wichtig.", "Gerne, ich habe auch schon ein paar erste Gedanken dazu.", "Ja, fangen wir am besten gleich an."] },
-  ziel: { emoji: "🎯", label: "Ziel / Zweck", frage: ["Was sollte deiner Meinung nach das Hauptziel sein?", "Was wollen wir mit … eigentlich erreichen?", "Was ist dir dabei besonders wichtig?"], antwort: ["Meiner Ansicht nach sollte das Hauptziel darin bestehen, …", "Ich denke, es geht vor allem darum, dass …", "Für mich steht im Vordergrund, dass …"] },
-  zeit: { emoji: "⏰", label: "Zeitpunkt", frage: ["Wann wäre deiner Meinung nach der geeignetste Zeitpunkt dafür?", "Welcher Termin würde dir am besten passen?", "Wann wäre es deiner Meinung nach am sinnvollsten, …?"], antwort: ["Am sinnvollsten wäre es wahrscheinlich, …", "Ich würde vorschlagen, dass wir …", "Ich halte … für den geeignetsten Zeitpunkt, weil …"] },
-  ort: { emoji: "📍", label: "Ort", frage: ["Welcher Ort wäre dafür am besten geeignet?", "Wo könnten wir das am besten organisieren?", "Was hältst du davon, wenn wir es in … machen?"], antwort: ["Ich halte … für die praktischste Lösung, weil …", "Ich würde eher … bevorzugen, da …", "Dort hätten wir den Vorteil, dass …"] },
-  verkehrsmittel: { emoji: "🚌", label: "Verkehrsmittel", frage: ["Wie sollen wir am besten dorthin kommen?", "Was hältst du von … als Verkehrsmittel?", "Wäre es nicht praktischer, mit … zu fahren?"], antwort: ["Ich würde … vorschlagen, weil das günstiger/schneller ist.", "Am bequemsten wäre wahrscheinlich …", "Dadurch würden wir außerdem Kosten sparen."] },
-  unterkunft: { emoji: "🏨", label: "Unterkunft", frage: ["Wo sollten wir übernachten?", "Was hältst du von einer Jugendherberge statt einem Hotel?", "Welche Unterkunft passt am besten zu unserem Budget?"], antwort: ["Ich würde … bevorzugen, weil es günstiger/zentraler ist.", "Das wäre sicher komfortabler, allerdings auch teurer.", "Dort hätten wir den Vorteil, dass …"] },
-  anlass: { emoji: "🎉", label: "Anlass", frage: ["Was genau möchten wir mit dieser Feier eigentlich feiern?", "Wie groß soll die Feier werden?", "Soll es eher überraschend oder offiziell angekündigt sein?"], antwort: ["Ich finde, wir sollten vor allem …", "Meiner Meinung nach sollte der Fokus auf … liegen.", "Ich denke, es sollte eher … sein."] },
-  gaeste: { emoji: "🙋", label: "Gäste", frage: ["Wen sollten wir alles einladen?", "Wie viele Gäste erwarten wir ungefähr?", "Sollen auch Familienmitglieder oder Partner eingeladen werden?"], antwort: ["Ich würde vorschlagen, dass wir …", "Am besten laden wir … ein, weil …", "Ich denke, wir sollten die Gästeliste auf … begrenzen."] },
-  essen: { emoji: "🍽️", label: "Essen & Getränke", frage: ["Was sollten wir zu essen und trinken anbieten?", "Sollen wir selbst kochen oder etwas bestellen?", "Sollten wir auf besondere Ernährungsbedürfnisse achten?"], antwort: ["Ich würde vorschlagen, dass jeder etwas mitbringt.", "Am einfachsten wäre es, wenn wir …", "Wir sollten auch an vegetarische Optionen denken."] },
-  programm: { emoji: "🎶", label: "Programm / Musik", frage: ["Was sollten wir für ein Programm planen?", "Was hältst du von Live-Musik statt einer Playlist?", "Sollten wir Spiele oder Aktivitäten einplanen?"], antwort: ["Ich hätte da eine Idee: Wir könnten …", "Das wäre sicher unterhaltsam, weil …", "Eine weitere Möglichkeit wäre …"] },
-  inhalte: { emoji: "📚", label: "Inhalte", frage: ["Welche Themen sollten unbedingt behandelt werden?", "Was sollte inhaltlich im Mittelpunkt stehen?", "Welche Aspekte dürfen wir nicht vergessen?"], antwort: ["Meiner Meinung nach sollten wir vor allem … behandeln.", "Das halte ich ebenfalls für sinnvoll. Vielleicht könnten wir zusätzlich …", "Dadurch würden die Teilnehmer einen umfassenderen Überblick bekommen."] },
-  aktivitaeten: { emoji: "🏞️", label: "Aktivitäten", frage: ["Welche Aktivitäten sollten wir einplanen?", "Was hältst du von …?", "Sollten wir eher etwas Ruhiges oder etwas Aktives einplanen?"], antwort: ["Ich würde vorschlagen, dass wir …", "Das wäre sicher interessant, weil …", "Wir könnten auch … einplanen, damit für jeden etwas dabei ist."] },
-  vorschlaege: { emoji: "💡", label: "Vorschläge", frage: ["Hast du dazu schon eine konkrete Idee?", "Was hältst du davon, wenn wir …?", "Wie wäre es mit …?"], antwort: ["Ich würde vorschlagen, dass wir …", "Eine weitere Möglichkeit wäre, …", "Das klingt nach einer sehr guten Idee, vor allem weil …"] },
-  material: { emoji: "🛠️", label: "Material", frage: ["Welche technischen Geräte und Materialien benötigen wir dafür?", "Glaubst du, dass wir noch etwas benötigen?", "Wer könnte das nötige Material besorgen?"], antwort: ["Wir brauchen auf jeden Fall …", "Ich könnte … besorgen, wenn du willst.", "Vielleicht sollten wir außerdem … einplanen."] },
-  werbung: { emoji: "📢", label: "Werbung", frage: ["Wie könnten wir möglichst viele Besucher erreichen?", "Über welche Kanäle sollten wir werben?", "Wer könnte uns beim Bekanntmachen helfen?"], antwort: ["Wir könnten Werbung über … machen.", "Das halte ich für sinnvoll, weil wir dadurch eine größere Zielgruppe ansprechen.", "Vielleicht sollten wir auch … um Hilfe bitten."] },
-  teilnehmer: { emoji: "🙋", label: "Teilnehmer", frage: ["An wen richtet sich das Angebot genau?", "Wie viele Teilnehmer erwarten wir?", "Sollten wir eine Anmeldung organisieren?"], antwort: ["Ich denke, vor allem … würden davon profitieren.", "Wir sollten eine ungefähre Teilnehmerzahl einplanen, um …", "Eine Anmeldeliste wäre sinnvoll, damit wir besser planen können."] },
-  aufgabenverteilung: { emoji: "👥", label: "Aufgabenverteilung", frage: ["Wie könnten wir die Aufgaben möglichst effizient aufteilen?", "Was würdest du gerne übernehmen?", "Wer kümmert sich am besten um …?"], antwort: ["Ich könnte mich um … kümmern. Würdest du dann … übernehmen?", "Ja, das mache ich gerne. Außerdem könnte ich …", "Das teilen wir uns am besten je nach Stärken auf."] },
-  kosten: { emoji: "💰", label: "Kosten", frage: ["Wie hoch sollte das Budget insgesamt sein?", "Wie teilen wir die Kosten am besten auf?", "Sollten wir versuchen, Kosten zu sparen?"], antwort: ["Ich würde vorschlagen, dass wir die Kosten gleich aufteilen.", "Wir sollten ein realistisches Budget von … einplanen.", "Vielleicht können wir bei … sparen, indem wir …"] },
-  ablauf: { emoji: "🔄", label: "Ablauf / Durchführung", frage: ["Wie sollte der genaue Ablauf aussehen?", "Was passiert zuerst, was danach?", "Sollten wir das in mehreren Schritten organisieren?"], antwort: ["Ich würde vorschlagen, dass wir zuerst … und danach …", "Am sinnvollsten wäre eine klare Reihenfolge: zuerst …, dann …", "Wir sollten genug Zeit für jeden Schritt einplanen."] },
-  abschluss: { emoji: "✅", label: "Abschluss", frage: ["Können wir das so festhalten?", "Sind wir uns bei allen Punkten einig?", "Passt das so für dich?"], antwort: ["Dann können wir festhalten, dass …", "Perfekt, dann haben wir einen guten Plan.", "Genau, ich denke, das wird gut funktionieren."] },
-};
-
-const ZUSTIMMUNG_WIDERSPRUCH = {
-  meinung_erfragen: ["Was meinst du dazu?", "Wie siehst du das?", "Wie findest du diese Idee?", "Wäre das auch für dich passend?"],
-  zustimmen: ["Das sehe ich genauso.", "Das halte ich ebenfalls für sinnvoll.", "Da stimme ich dir zu.", "Das klingt nach einer guten Lösung."],
-  widersprechen: ["Ich verstehe deinen Punkt, aber ich würde eher …", "Das könnte schwierig sein, weil …", "Ich sehe das etwas anders, denn …", "Das ist ein guter Gedanke, allerdings sollten wir auch bedenken, dass …"],
-};
-
-function groupTopics(topics: Topic[]) {
-  const groups: { name: string; topics: Topic[] }[] = [];
+function groupTopics(topics: DualDisplayTopic[]) {
+  const groups: { name: string; topics: DualDisplayTopic[] }[] = [];
   for (const name of GROUP_ORDER) {
     const inGroup = topics.filter((t) => (t.theme_category ?? "Sonstiges") === name);
     if (inGroup.length) groups.push({ name, topics: inGroup });
@@ -104,389 +39,35 @@ function groupTopics(topics: Topic[]) {
   return groups;
 }
 
-const PAGES = [
-  { key: "erklaerung", label: "Erklärung & Überblick", icon: ClipboardList },
-  { key: "vorstellung", label: "Vorstellung & Dialog", icon: MessagesSquare },
-  { key: "wortschatz", label: "Wortschatz", icon: GraduationCap },
-  { key: "pdf", label: "PDF", icon: FileText },
-] as const;
-type PageKey = typeof PAGES[number]["key"];
-
-function isReady(tb: Topic["speaking_toolbox"]): tb is SpeakingToolboxT3V2 {
-  return !!tb && ((tb as any).schema_version === 2 || (tb as any).schema_version === 3);
-}
-
-function Pill({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-border bg-muted/60 px-2.5 py-1 text-xs font-medium text-foreground">
-      {children}
-    </span>
-  );
-}
-
-function PlainList({ items }: { items: string[] }) {
-  return (
-    <ul className="space-y-2.5">
-      {items.map((it, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm">
-          <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-500" />
-          <span className="text-foreground">{it}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function PlainListBilingual({ items, itemsAr }: { items: string[]; itemsAr?: string[] }) {
-  return (
-    <ul className="space-y-2.5">
-      {items.map((it, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm">
-          <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-500" />
-          <div>
-            <span className="text-foreground">{it}</span>
-            {itemsAr?.[i] && <p dir="rtl" className="mt-0.5 text-right text-sm text-indigo-600 dark:text-indigo-400">{itemsAr[i]}</p>}
-          </div>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-function RedemittelCols({ frage, antwort }: { frage: string[]; antwort: string[] }) {
-  return (
-    <div className="grid gap-4 sm:grid-cols-2">
-      <div>
-        <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Fragen stellen</h5>
-        <ul className="space-y-1">{frage.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
-      </div>
-      <div>
-        <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Antworten geben</h5>
-        <ul className="space-y-1">{antwort.map((a, i) => <li key={i} className="text-sm italic text-muted-foreground">„{a}“</li>)}</ul>
-      </div>
-    </div>
-  );
-}
-
-function StrukturCard({ sec }: { sec: StrukturSection }) {
-  const lib = REDEMITTEL_LIBRARY[sec.key] ?? { emoji: "•", label: sec.key, frage: [], antwort: [] };
-  return (
-    <div className="rounded-xl border border-sky-500/20 bg-sky-500/[0.02] p-4 shadow-sm">
-      <h4 className="mb-3 flex items-center gap-1.5 text-sm font-black text-sky-700 dark:text-sky-400">
-        <span className="text-base">{lib.emoji}</span> {lib.label}
-      </h4>
-      <RedemittelCols frage={lib.frage} antwort={lib.antwort} />
-      <div className="mt-3 space-y-1 rounded-lg border border-sky-500/30 bg-sky-500/5 p-3">
-        <p className="mb-1 flex items-center gap-1 text-[10px] font-black uppercase tracking-wide text-sky-600/70 dark:text-sky-400/70">
-          <MessagesSquare className="h-3 w-3" /> Beispiel
-        </p>
-        <p className="text-sm"><span className="font-black text-sky-600 dark:text-sky-400">A:</span> {sec.demo.frage}</p>
-        <p className="text-sm"><span className="font-black text-rose-600 dark:text-rose-400">B:</span> {sec.demo.antwort}</p>
-        {sec.demo.reaktion && <p className="text-sm"><span className="font-black text-sky-600 dark:text-sky-400">A:</span> {sec.demo.reaktion}</p>}
-      </div>
-    </div>
-  );
-}
-
-function PdfInlineEmbed({ storagePath, title }: { storagePath: string; title: string }) {
-  const [url, setUrl] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const { data, error } = await (supabase as any).storage.from("muendlich-pdfs").createSignedUrl(storagePath, 3600);
-      if (!active) return;
-      if (error || !data?.signedUrl) setError(error?.message ?? "PDF konnte nicht geladen werden");
-      else setUrl(data.signedUrl);
-    })();
-    return () => { active = false; };
-  }, [storagePath]);
-
-  return (
-    <div className="flex h-full min-h-[480px] flex-col">
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <p className="min-w-0 flex-1 truncate text-sm font-bold text-foreground">{title}</p>
-        {url && (
-          <a
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-bold text-muted-foreground transition-colors hover:text-foreground"
-          >
-            <Download className="h-3.5 w-3.5" /> Öffnen / Herunterladen
-          </a>
-        )}
-      </div>
-      <div className="relative flex-1 overflow-hidden rounded-xl">
-        {error ? (
-          <div className="flex h-full items-center justify-center gap-2 text-sm text-rose-600"><AlertCircle className="h-5 w-5" />{error}</div>
-        ) : !url ? (
-          <div className="flex h-full items-center justify-center text-muted-foreground"><Loader2 className="h-6 w-6 animate-spin" /></div>
-        ) : (
-          <iframe title={title} src={`${url}#view=FitH`} className="h-full w-full border-0" />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function TopicDetail({ topic, book }: { topic: Topic; book: { storage_path: string; title: string } | null }) {
-  const [page, setPage] = useState<PageKey>("erklaerung");
-  const tb = isReady(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
-  const opening = tb?.beispieldialog?.[0];
-
-  useEffect(() => { setPage("erklaerung"); }, [topic.id]);
-
-  return (
-    <div className="flex h-full flex-col">
-      <div className="border-b border-border p-5">
-        <div className="flex flex-wrap items-center gap-2">
-          {topic.theme_category && <Pill>{topic.theme_category}</Pill>}
-          {topic.difficulty_level && <Pill>{topic.difficulty_level}</Pill>}
-        </div>
-        <h2 className="mt-2 text-lg font-black text-foreground">{topic.title}</h2>
-      </div>
-
-      <div className="flex flex-wrap gap-1 border-b border-border bg-muted/30 px-3 py-2">
-        {PAGES.map((p) => {
-          const Icon = p.icon;
-          const disabled = p.key === "pdf" ? !book : p.key !== "erklaerung" && !tb;
-          return (
-            <button
-              key={p.key}
-              onClick={() => !disabled && setPage(p.key)}
-              disabled={disabled}
-              className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-colors ${
-                page === p.key ? "bg-sky-600 text-white" : "text-muted-foreground hover:bg-muted hover:text-foreground"
-              } disabled:cursor-not-allowed disabled:opacity-40`}
-            >
-              <Icon className="h-3.5 w-3.5" /> {p.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <div className="flex-1 overflow-y-auto p-5">
-        {page === "erklaerung" && (
-          <div className="space-y-6">
-            {topic.body_text && (
-              <div className="rounded-xl border border-border bg-muted/20 p-4">
-                <h3 className="mb-2 text-sm font-black text-foreground">Aufgabe</h3>
-                <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">{topic.body_text}</p>
-              </div>
-            )}
-            {tb && (
-              <>
-                <div>
-                  <h3 className="mb-2 text-sm font-black text-foreground">Worum geht es?</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.worum_geht_es}</p>
-                  {tb.erklaerung.worum_geht_es_ar && (
-                    <p dir="rtl" className="mt-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.worum_geht_es_ar}</p>
-                  )}
-                </div>
-                <div>
-                  <h3 className="mb-2 text-sm font-black text-foreground">Was wird erwartet?</h3>
-                  <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.was_wird_erwartet}</p>
-                  {tb.erklaerung.was_wird_erwartet_ar && (
-                    <p dir="rtl" className="mt-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.was_wird_erwartet_ar}</p>
-                  )}
-                </div>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <div className="rounded-xl border border-border bg-muted/20 p-4">
-                    <h3 className="mb-2 text-sm font-black text-foreground">Wichtige Punkte</h3>
-                    <PlainListBilingual items={tb.erklaerung.wichtige_punkte} itemsAr={tb.erklaerung.wichtige_punkte_ar} />
-                  </div>
-                  <div className="rounded-xl border border-border bg-muted/20 p-4">
-                    <h3 className="mb-2 text-sm font-black text-foreground">Worauf achten?</h3>
-                    <PlainList items={tb.erklaerung.worauf_achten} />
-                  </div>
-                </div>
-              </>
-            )}
-            {!tb && <p className="text-sm text-muted-foreground">Weitere Inhalte für dieses Thema folgen in Kürze.</p>}
-          </div>
-        )}
-
-        {page === "vorstellung" && tb && (
-          <div className="space-y-6">
-            {opening && (
-              <div className="rounded-xl border border-sky-500/30 bg-sky-500/5 p-4">
-                <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-sky-700 dark:text-sky-400">
-                  <MessagesSquare className="h-4 w-4" /> Vorstellung des Themas (Eröffnung)
-                </h3>
-                <p className="text-sm leading-relaxed">
-                  <span className="font-black text-sky-600 dark:text-sky-400">A:</span>{" "}
-                  <span className="text-foreground">{opening.text}</span>
-                </p>
-                <p className="mt-2 text-xs italic text-muted-foreground">
-                  Kandidat/in A präsentiert das Szenario, bevor die Diskussion beginnt — so sollte jedes Gespräch in Teil 3 eröffnet werden.
-                </p>
-              </div>
-            )}
-
-            <div className="space-y-3">
-              <p className="text-xs italic text-muted-foreground">Fragen stellen → Antworten geben → reagieren. Für jeden Punkt ein Beispiel:</p>
-              {tb.struktur.map((sec, i) => <StrukturCard key={i} sec={sec} />)}
-              <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4">
-                <h4 className="mb-2 flex items-center gap-1.5 text-sm font-black text-violet-700 dark:text-violet-400">
-                  <span className="text-base">🔁</span> Zustimmen &amp; höflich widersprechen
-                </h4>
-                <div className="grid gap-4 sm:grid-cols-3">
-                  <div>
-                    <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Nach Meinung fragen</h5>
-                    <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.meinung_erfragen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
-                  </div>
-                  <div>
-                    <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Zustimmen</h5>
-                    <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.zustimmen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
-                  </div>
-                  <div>
-                    <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Höflich widersprechen</h5>
-                    <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.widersprechen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="mb-3 text-sm font-black text-foreground">Vollständiger Beispieldialog</h3>
-              <div className="space-y-1 rounded-xl border border-border bg-muted/20 p-4">
-                {(() => {
-                  let lastSection: string | undefined;
-                  return tb.beispieldialog.map((l, i) => {
-                    const showHeader = l.section && l.section !== lastSection;
-                    if (l.section) lastSection = l.section;
-                    const lib = l.section ? REDEMITTEL_LIBRARY[l.section] : null;
-                    return (
-                      <div key={i}>
-                        {showHeader && lib && (
-                          <p className="mb-1 mt-4 text-xs font-black uppercase tracking-wide text-sky-600 first:mt-0 dark:text-sky-400">{lib.emoji} {lib.label}</p>
-                        )}
-                        <p className="text-sm leading-relaxed">
-                          <span className={`font-black ${l.speaker === "A" ? "text-sky-600 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"}`}>{l.speaker}:</span>{" "}
-                          <span className="text-foreground">{l.text}</span>
-                        </p>
-                      </div>
-                    );
-                  });
-                })()}
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <h4 className="mb-2 flex items-center gap-1.5 text-xs font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">
-                  <HelpCircle className="h-3.5 w-3.5" /> Weitere mögliche Fragen
-                </h4>
-                <div className="space-y-2">
-                  {tb.moegliche_fragen.map((f, i) => (
-                    <div key={i} className="flex items-start gap-2.5 rounded-lg border border-amber-500/25 bg-amber-500/5 p-2.5">
-                      <HelpCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" />
-                      <p className="text-sm text-foreground">{f}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h4 className="mb-2 flex items-center gap-1.5 text-xs font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
-                  <Lightbulb className="h-3.5 w-3.5" /> Antwortideen
-                </h4>
-                <div className="space-y-2">
-                  {tb.moegliche_antworten_ideen.map((a, i) => (
-                    <div key={i} className="flex items-start gap-2.5 rounded-lg border border-emerald-500/25 bg-emerald-500/5 p-2.5">
-                      <Lightbulb className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
-                      <p className="text-sm text-foreground">{a}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {page === "wortschatz" && tb && (
-          <div className="grid gap-6 sm:grid-cols-3">
-            {([
-              ["Wichtige Verben", tb.wortschatz.verben, tb.wortschatz_ar?.verben],
-              ["Wichtige Wörter", tb.wortschatz.woerter, tb.wortschatz_ar?.woerter],
-              ["Wichtige Adjektive", tb.wortschatz.adjektive, tb.wortschatz_ar?.adjektive],
-            ] as [string, string[], string[] | undefined][]).map(([label, items, itemsAr]) => (
-              <div key={label}>
-                <h3 className="mb-2 text-sm font-black text-foreground">{label}</h3>
-                <ul className="space-y-1.5">
-                  {items.map((it, i) => (
-                    <li key={i} className="flex items-baseline justify-between gap-2 border-b border-dotted border-border pb-1 text-sm">
-                      <span className="font-medium text-foreground">{it}</span>
-                      {itemsAr?.[i] && <span dir="rtl" className="text-muted-foreground">{itemsAr[i]}</span>}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {page === "pdf" && (
-          book
-            ? <PdfInlineEmbed storagePath={book.storage_path} title={book.title} />
-            : <p className="text-sm text-muted-foreground">PDF-Buch noch nicht verfügbar.</p>
-        )}
-
-        {(page === "vorstellung" || page === "wortschatz") && !tb && (
-          <p className="text-sm text-muted-foreground">Weitere Inhalte für dieses Thema folgen in Kürze.</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
 export function MuendlichTeil3Themen() {
   const level = useActiveLevel();
   const { isAdmin } = useAuth();
-  const { hasAccess } = useHasPlanAccess("muendlich");
   const catalog = useMuendlichCatalog(3, level);
-  // Admins always see full content regardless of their own subscription state
-  // (dev-preview bypass, unchanged from before) — only a real non-admin
-  // without an active plan gets the titles-only locked preview.
-  const locked = !isAdmin && hasAccess !== true;
-  const [topics, setTopics] = useState<Topic[]>([]);
+  const [topics, setTopics] = useState<DualDisplayTopic[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState<Topic | null>(null);
-  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [book, setBook] = useState<{ storage_path: string; title: string } | null>(null);
+  const [book, setBook] = useState<MuendlichBook | null>(null);
   const [paywallOpen, setPaywallOpen] = useState(false);
 
   useEffect(() => {
-    if (!level || hasAccess === null) return;
-    if (locked) {
-      // Non-subscriber preview: titles + categories only (no body_text, no
-      // speaking_toolbox, no PDF) via the SECURITY DEFINER catalog RPC —
-      // clicking a topic opens the paywall instead of the real content.
+    if (!level) return;
+    if (isAdmin) {
+      (async () => {
+        const { data } = await supabase
+          .from("muendlich_materials")
+          .select("id, title, body_text, theme_category, difficulty_level, is_unassigned_center, level")
+          .eq("teil", 3).eq("category", "themen").eq("level", level)
+          .order("title");
+        setTopics(enforceLevel((data ?? []) as DualDisplayTopic[], level));
+        setLoading(false);
+      })();
+    } else {
       setTopics(catalog.items.map((c) => ({
-        id: c.id, title: c.title, body_text: null,
+        id: c.id, title: c.title, body_text: c.body_text,
         theme_category: c.theme_category, difficulty_level: c.difficulty_level,
-        speaking_toolbox: null, level, is_unassigned_center: false,
+        is_unassigned_center: false,
       })));
       setLoading(catalog.loading);
-      setBook(null);
-      return;
     }
-    (async () => {
-      const { data } = await supabase
-        .from("muendlich_materials")
-        .select("id, title, body_text, theme_category, difficulty_level, speaking_toolbox, level, is_unassigned_center")
-        .eq("teil", 3).eq("category", "themen").eq("level", level)
-        .order("title");
-      // Topics not yet introduced in any physical exam center in Tunisia are excluded from
-      // the student-facing dashboard entirely (they remain in the admin-only PDF appendix
-      // instead). Admins see everything, matching their PDF (see the book-fetch effect below).
-      const rows = (data ?? []) as Topic[];
-      const visible = isAdmin ? rows : rows.filter((t) => !t.is_unassigned_center);
-      setTopics(enforceLevel(visible, level));
-      setLoading(false);
-    })();
     (async () => {
       const { data } = await supabase
         .from("muendlich_materials")
@@ -495,79 +76,31 @@ export function MuendlichTeil3Themen() {
         .not("storage_path", "is", null)
         .maybeSingle();
       const path = isAdmin && data?.admin_storage_path ? data.admin_storage_path : data?.storage_path;
-      if (path) setBook({ storage_path: path, title: data!.title });
+      setBook(path ? { storage_path: path, title: data!.title } : null);
     })();
-  }, [level, isAdmin, hasAccess, locked, catalog.items, catalog.loading]);
+  }, [level, isAdmin, catalog.items, catalog.loading]);
 
   const groups = useMemo(() => groupTopics(topics), [topics]);
 
   if (loading) return <div className="flex justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>;
   if (!topics.length) return <p className="py-10 text-center text-sm text-muted-foreground">No topics available yet.</p>;
 
-  const list = (
-    <div className="space-y-1 overflow-y-auto">
-      {groups.map((g) => {
-        const isCollapsed = collapsed[g.name];
-        return (
-          <div key={g.name}>
-            <button
-              onClick={() => setCollapsed((c) => ({ ...c, [g.name]: !c[g.name] }))}
-              className="flex w-full items-center gap-1.5 px-3 py-2 text-left text-xs font-black uppercase tracking-wide text-muted-foreground hover:text-foreground"
-            >
-              {isCollapsed ? <ChevronRight className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
-              {g.name} <span className="ml-auto font-normal normal-case">{g.topics.length}</span>
-            </button>
-            {!isCollapsed && g.topics.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => {
-                  if (locked) { setPaywallOpen(true); return; }
-                  setSelected(t); setMobileOpen(true);
-                }}
-                className={`flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left text-sm transition-colors ${
-                  selected?.id === t.id ? "bg-sky-500/10 font-semibold text-sky-600 dark:text-sky-400" : "text-foreground hover:bg-muted"
-                }`}
-              >
-                <span className="truncate">{t.title}</span>
-                {locked && <Lock className="h-3 w-3 shrink-0 text-muted-foreground" />}
-                {isAdmin && t.is_unassigned_center && (
-                  <span className="shrink-0 rounded-full bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">
-                    Nicht eingeführt
-                  </span>
-                )}
-              </button>
-            ))}
-          </div>
-        );
-      })}
-    </div>
-  );
-
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm" style={{ height: "min(720px, 78vh)" }}>
-      <div className="hidden h-full sm:grid sm:grid-cols-[280px_1fr]">
-        <div className="border-r border-border p-3">{list}</div>
-        <div className="overflow-hidden">
-          {selected ? (
-            <TopicDetail topic={selected} book={book} />
-          ) : (
-            <div className="flex h-full items-center justify-center p-8 text-center text-sm text-muted-foreground">
-              Wählen Sie links ein Thema aus, um Erklärung, Struktur, Redemittel, mögliche Fragen &amp; Antworten, einen Beispieldialog und Wortschatz zu sehen.
+    <div className="space-y-8">
+      <ProtectedPdfShowcase book={book} onUnlock={() => setPaywallOpen(true)} />
+
+      <div className="space-y-6">
+        {groups.map((g) => (
+          <div key={g.name}>
+            <h3 className="mb-3 flex items-center gap-2 text-xs font-black uppercase tracking-wide text-muted-foreground">
+              {g.name} <span className="font-normal normal-case text-muted-foreground/70">({g.topics.length})</span>
+            </h3>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {g.topics.map((t, i) => <TopicTextCard key={t.id} topic={t} index={i} isAdmin={isAdmin} />)}
             </div>
-          )}
-        </div>
+          </div>
+        ))}
       </div>
-
-      <div className="flex h-full flex-col p-3 sm:hidden">{!mobileOpen && list}</div>
-
-      {mobileOpen && selected && (
-        <div className="fixed inset-0 z-40 flex flex-col bg-background sm:hidden">
-          <button onClick={() => setMobileOpen(false)} className="flex items-center gap-1.5 border-b border-border p-3 text-sm font-semibold text-muted-foreground">
-            <ChevronRight className="h-4 w-4 rotate-180" /> Zurück zur Liste
-          </button>
-          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} book={book} /></div>
-        </div>
-      )}
 
       <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} />
     </div>

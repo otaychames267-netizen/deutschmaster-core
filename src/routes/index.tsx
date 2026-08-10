@@ -40,19 +40,19 @@ const PLANS = [
   {
     key: "komplett",
     name: "Komplett",
-    price: "65",
+    price: "30",
     period: " TND",
     desc: "Complete preparation for both written and spoken",
     features: [
-      "Everything in Schriftlich",
+      "Lesen, Hören, Sprachbausteine & Schreiben",
       "Mündlich — full preparation",
       "Full exam simulations",
       "Priority support",
       "Progress analytics",
     ],
     highlighted: true,
-    badge: "Best Value",
-    save: "Save 20 TND vs. buying both separately",
+    badge: "Full access",
+    save: null,
   },
   {
     key: "muendlich",

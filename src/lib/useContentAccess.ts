@@ -86,15 +86,17 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
   return { items, loading };
 }
 
-export interface MuendlichCatalogItem { id: string; title: string; theme_category: string | null; difficulty_level: string | null }
+export interface MuendlichCatalogItem { id: string; title: string; theme_category: string | null; difficulty_level: string | null; body_text: string | null }
 
 /**
- * Titles-only catalog for Mündlich, mirroring useExerciseCatalog: calls the
- * SECURITY DEFINER `get_muendlich_catalog` RPC, which returns only
- * id/title/theme_category/difficulty_level — never body_text,
- * speaking_toolbox, or storage_path. Safe for non-subscribers (and anon
- * visitors) to receive, so the topic dashboard stays browsable even when
- * the real per-topic rows are hidden by has_plan_access RLS.
+ * Catalog for Mündlich, mirroring useExerciseCatalog: calls the SECURITY
+ * DEFINER `get_muendlich_catalog` RPC, which returns id/title/
+ * theme_category/difficulty_level plus the plain body_text (the raw topic
+ * scenario/task prompt) — never speaking_toolbox or storage_path, so the
+ * actual exam-prep content (Struktur, dialogue, vocabulary, Arabic
+ * explanations) never leaves the has_plan_access-gated table/PDF. Safe for
+ * everyone — subscriber, non-subscriber, or anon visitor — to receive, same
+ * "show the prompt, lock the answer" contract as the Lesen/Hören catalogs.
  */
 export function useMuendlichCatalog(teil: number, level: string | null) {
   const [items, setItems] = useState<MuendlichCatalogItem[]>([]);

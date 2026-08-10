@@ -37,7 +37,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "What are the available plans and prices?",
-        a: "Schriftlich: 30 TND/month — covers all written exam components. Mündlich: 55 TND/month (launching soon) — covers the oral exam. Komplett: 65 TND/month (launching soon) — written + oral, best value vs. buying both separately.",
+        a: "Komplett: 30 TND/month — full access to everything, written and spoken (Lesen, Hören, Sprachbausteine, Schreiben, Mündlich, and full exam simulations).",
       },
       {
         q: "How do I upgrade or change my plan?",

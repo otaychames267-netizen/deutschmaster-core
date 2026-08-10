@@ -73,13 +73,16 @@ export const SHOW_UNRELEASED_CONTENT = false;
 export type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 /**
- * Which subscription plans may be purchased right now. While Mündlich is
- * disabled, ONLY Schriftlich is sellable — both Komplett and Mündlich grant
- * speaking access, so neither may be sold until the Mündlich module is
- * finished. Enforced server-side at order/checkout creation AND used
- * client-side to filter the billing plan list, so the two can never drift.
+ * Which subscription plans may be purchased right now. Owner decision
+ * (2026-08-10): simplify to a single sellable plan — Komplett (30 TND,
+ * see `plans.price_tnd` in the DB, the actual amount both checkout paths
+ * charge) — so candidates only ever see and buy one package. Schriftlich
+ * and Mündlich stay in the codebase (existing subscribers on those plans
+ * keep their access) but are no longer purchasable by new customers.
+ * Enforced server-side at order/checkout creation (createD17OrderImpl,
+ * createCheckoutSessionImpl) AND used client-side to filter the billing
+ * plan list, so the two can never drift.
  */
 export function isPlanPurchasable(planCode: string): boolean {
-  if (MUENDLICH_ENABLED) return true;
-  return planCode === "schriftlich";
+  return planCode === "komplett";
 }
