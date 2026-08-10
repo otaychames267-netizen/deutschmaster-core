@@ -3,6 +3,7 @@ import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/auth";
 import { extractNormalizedDocumentWithMeta } from "@/lib/import/pdf-extractor";
 import { createLesenT3Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import { parseLesenT3, type ParsedT3Exercise, type T3Situation, type T3Text } from "@/lib/import/lesen-t3-parser";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
@@ -27,6 +28,7 @@ interface EditableExercise {
   situations: T3Situation[];
   texts:      T3Text[];
   include:    boolean;   // whether admin wants to import this exercise
+  situationAids: Record<number, LearningAidsFormValue>;
 }
 
 function ImportLesenT3Page() {
@@ -86,6 +88,7 @@ function ImportLesenT3Page() {
         situations: ex.situations.map(s => ({ ...s })),
         texts:      ex.texts.map(t => ({ ...t })),
         include:    true,
+        situationAids: {},
       }));
 
       setExercises(editable);
@@ -126,6 +129,11 @@ function ImportLesenT3Page() {
   function toggleInclude(idx: number) {
     setExercises(prev => prev.map((ex, ei) => ei !== idx ? ex : { ...ex, include: !ex.include }));
   }
+  function updateSituationAids(situationNumber: number, v: LearningAidsFormValue) {
+    setExercises(prev => prev.map((ex, ei) =>
+      ei !== activeIdx ? ex : { ...ex, situationAids: { ...ex.situationAids, [situationNumber]: v } }
+    ));
+  }
 
   async function handleSave() {
     if (!user) return;
@@ -151,6 +159,9 @@ function ImportLesenT3Page() {
               correct_letter: s.no_match ? null : s.correct_letter,
               no_match: s.no_match,
             })),
+            learningAids: assembleLearningAids(
+              Object.fromEntries(ex.situations.map(s => [String(s.number), ex.situationAids[s.number]])),
+            ),
           },
         });
         saved++;
@@ -371,24 +382,33 @@ function ImportLesenT3Page() {
             </div>
             <div className="divide-y divide-border">
               {active.situations.map((s, i) => (
-                <div key={i} className="flex items-start gap-3 px-5 py-3">
-                  <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
-                    {s.number}
-                  </span>
-                  <textarea value={s.description} rows={2}
-                    onChange={(e) => updateSituation(i, { description: e.target.value })}
-                    className="flex-1 resize-y rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                  <select
-                    value={s.no_match ? "X" : (s.correct_letter ?? "")}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      if (v === "X") updateSituation(i, { no_match: true, correct_letter: null });
-                      else updateSituation(i, { no_match: false, correct_letter: v || null });
-                    }}
-                    className="w-20 shrink-0 rounded-xl border border-input bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
-                    <option value="">—</option>
-                    {TEXT_LETTERS.map(l => <option key={l} value={l}>{l}</option>)}
-                  </select>
+                <div key={i} className="space-y-1.5 px-5 py-3">
+                  <div className="flex items-start gap-3">
+                    <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
+                      {s.number}
+                    </span>
+                    <textarea value={s.description} rows={2}
+                      onChange={(e) => updateSituation(i, { description: e.target.value })}
+                      className="flex-1 resize-y rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    <select
+                      value={s.no_match ? "X" : (s.correct_letter ?? "")}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (v === "X") updateSituation(i, { no_match: true, correct_letter: null });
+                        else updateSituation(i, { no_match: false, correct_letter: v || null });
+                      }}
+                      className="w-20 shrink-0 rounded-xl border border-input bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                      <option value="">—</option>
+                      {TEXT_LETTERS.map(l => <option key={l} value={l}>{l}</option>)}
+                    </select>
+                  </div>
+                  <div className="pl-10">
+                    <LearningAidsFields
+                      value={active.situationAids[s.number] ?? {}}
+                      onChange={(v) => updateSituationAids(s.number, v)}
+                      hideGrammar
+                    />
+                  </div>
                 </div>
               ))}
               {active.situations.length < 10 && (

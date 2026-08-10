@@ -7,8 +7,12 @@
  * — and only after submission.
  */
 import { useState, useRef, useEffect } from "react";
-import { CheckCircle2, XCircle, BookOpen, ChevronDown, X, Loader2 } from "lucide-react";
+import { CheckCircle2, XCircle, BookOpen, ChevronDown, X, Loader2, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T3Situation {
   number: number;
@@ -32,6 +36,7 @@ interface ScoreResult {
   correct: boolean;
   your_answer: string;
   correct_answer: string;
+  learning_aids?: LearningAidsItem | null;
 }
 
 interface Props {
@@ -150,6 +155,8 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const [solution, setSolution] = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
+  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
   const situations = [...exercise.situations].sort((a, b) => a.number - b.number);
   const texts      = [...exercise.texts].sort((a, b) => a.letter.localeCompare(b.letter));
@@ -315,6 +322,10 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
                     )}
                   </div>
 
+                  <div className="px-4 pb-2">
+                    <TranslateButton translation={translation?.questions?.[String(sit.number)]} loading={translationLoading} onRequest={loadTranslation} />
+                  </div>
+
                   {submitted && ans?.selected && result && (
                     <div className={`flex items-center justify-between border-t border-border/50 px-4 py-2 ${
                       isCorrect ? "bg-emerald-500/5" : "bg-rose-500/5"
@@ -335,6 +346,24 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
                         <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
                           Richtig: {correctDisplay(result.correct_answer)} — {adTitle(result.correct_answer)}
                         </span>
+                      )}
+                    </div>
+                  )}
+                  {submitted && isWrong && ans?.revealed && result?.learning_aids && (
+                    <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" />
+                  )}
+                  {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
+                    <div className="border-t border-border/50 px-4 py-2">
+                      {explainOpen[sit.number] ? (
+                        <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" />
+                      ) : (
+                        <button
+                          onClick={() => setExplainOpen((p) => ({ ...p, [sit.number]: true }))}
+                          type="button"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 transition-colors"
+                        >
+                          <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
+                        </button>
                       )}
                     </div>
                   )}

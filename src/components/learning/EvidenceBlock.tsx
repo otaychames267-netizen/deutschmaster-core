@@ -6,7 +6,7 @@
  * client-side, so the block renders nothing if the exercise has no aids for
  * this item yet.
  */
-import { BookText, Lightbulb, Languages } from "lucide-react";
+import { BookText, Lightbulb, Languages, GraduationCap } from "lucide-react";
 import type { LearningAidsItem, SavedExpressionCategory, Skill } from "./types";
 import { SaveExpressionButton } from "./SaveExpressionButton";
 
@@ -22,7 +22,7 @@ interface Props {
 export function EvidenceBlock({ aids, variant, skill, exerciseId, itemKey, saveCategory = "wichtiger_ausdruck" }: Props) {
   if (!aids) return null;
   const explanation = variant === "wrong" ? aids.explanation_wrong : aids.explanation_correct;
-  const hasAnything = aids.evidence_text || explanation;
+  const hasAnything = aids.evidence_text || explanation || aids.grammar_structure;
   if (!hasAnything) return null;
 
   return (
@@ -61,15 +61,35 @@ export function EvidenceBlock({ aids, variant, skill, exerciseId, itemKey, saveC
         <p className="border-t border-blue-500/10 pt-2 text-xs leading-relaxed text-muted-foreground">{explanation}</p>
       )}
 
+      {aids.grammar_structure && (
+        <div className="flex items-start gap-2 border-t border-blue-500/10 pt-2">
+          <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-violet-500" />
+          <div className="min-w-0 flex-1 space-y-1">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-wide text-violet-600 dark:text-violet-400">Grammatikstruktur</p>
+              <p className="text-sm font-semibold text-foreground">{aids.grammar_structure}</p>
+            </div>
+            {aids.grammar_example && (
+              <p className="text-xs italic leading-relaxed text-muted-foreground">„{aids.grammar_example}“</p>
+            )}
+            {aids.grammar_translation && (
+              <p className="text-xs leading-relaxed text-muted-foreground" dir="rtl">{aids.grammar_translation}</p>
+            )}
+          </div>
+        </div>
+      )}
+
       <div className="pt-0.5">
         <SaveExpressionButton
           skill={skill}
           exerciseId={exerciseId}
           itemKey={itemKey}
-          defaultGerman={aids.keyword || aids.evidence_text || ""}
+          defaultGerman={aids.grammar_structure || aids.keyword || aids.evidence_text || ""}
           defaultCategory={saveCategory}
-          translation={aids.evidence_translation}
+          translation={aids.evidence_translation || aids.grammar_translation}
           explanation={explanation}
+          grammar={aids.grammar_structure}
+          example={aids.grammar_example}
         />
       </div>
     </div>

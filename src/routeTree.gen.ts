@@ -22,6 +22,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
+import { Route as AuthenticatedWoerterRouteImport } from './routes/_authenticated.woerter'
 import { Route as AuthenticatedWeeklyGoalsRouteImport } from './routes/_authenticated.weekly-goals'
 import { Route as AuthenticatedVerifyEmailRouteImport } from './routes/_authenticated.verify-email'
 import { Route as AuthenticatedTimerRouteImport } from './routes/_authenticated.timer'
@@ -184,6 +185,11 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedWoerterRoute = AuthenticatedWoerterRouteImport.update({
+  id: '/woerter',
+  path: '/woerter',
+  getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedWeeklyGoalsRoute =
   AuthenticatedWeeklyGoalsRouteImport.update({
@@ -782,6 +788,7 @@ export interface FileRoutesByFullPath {
   '/timer': typeof AuthenticatedTimerRoute
   '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/woerter': typeof AuthenticatedWoerterRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
@@ -892,6 +899,7 @@ export interface FileRoutesByTo {
   '/timer': typeof AuthenticatedTimerRoute
   '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/woerter': typeof AuthenticatedWoerterRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/$level/search': typeof AuthenticatedLevelSearchRoute
@@ -1002,6 +1010,7 @@ export interface FileRoutesById {
   '/_authenticated/timer': typeof AuthenticatedTimerRoute
   '/_authenticated/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/_authenticated/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
+  '/_authenticated/woerter': typeof AuthenticatedWoerterRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/_authenticated/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
@@ -1116,6 +1125,7 @@ export interface FileRouteTypes {
     | '/timer'
     | '/verify-email'
     | '/weekly-goals'
+    | '/woerter'
     | '/auth/callback'
     | '/$level/dashboard'
     | '/$level/muendlich'
@@ -1226,6 +1236,7 @@ export interface FileRouteTypes {
     | '/timer'
     | '/verify-email'
     | '/weekly-goals'
+    | '/woerter'
     | '/auth/callback'
     | '/$level/dashboard'
     | '/$level/search'
@@ -1335,6 +1346,7 @@ export interface FileRouteTypes {
     | '/_authenticated/timer'
     | '/_authenticated/verify-email'
     | '/_authenticated/weekly-goals'
+    | '/_authenticated/woerter'
     | '/auth/callback'
     | '/_authenticated/$level/dashboard'
     | '/_authenticated/$level/muendlich'
@@ -1531,6 +1543,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/callback'
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/woerter': {
+      id: '/_authenticated/woerter'
+      path: '/woerter'
+      fullPath: '/woerter'
+      preLoaderRoute: typeof AuthenticatedWoerterRouteImport
+      parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/weekly-goals': {
       id: '/_authenticated/weekly-goals'
@@ -2494,6 +2513,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedTimerRoute: typeof AuthenticatedTimerRoute
   AuthenticatedVerifyEmailRoute: typeof AuthenticatedVerifyEmailRoute
   AuthenticatedWeeklyGoalsRoute: typeof AuthenticatedWeeklyGoalsRoute
+  AuthenticatedWoerterRoute: typeof AuthenticatedWoerterRoute
   AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
   AuthenticatedD17OrderIdStatusRoute: typeof AuthenticatedD17OrderIdStatusRoute
   AuthenticatedD17OrderIdVerifyRoute: typeof AuthenticatedD17OrderIdVerifyRoute
@@ -2521,6 +2541,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedTimerRoute: AuthenticatedTimerRoute,
   AuthenticatedVerifyEmailRoute: AuthenticatedVerifyEmailRoute,
   AuthenticatedWeeklyGoalsRoute: AuthenticatedWeeklyGoalsRoute,
+  AuthenticatedWoerterRoute: AuthenticatedWoerterRoute,
   AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
   AuthenticatedD17OrderIdStatusRoute: AuthenticatedD17OrderIdStatusRoute,
   AuthenticatedD17OrderIdVerifyRoute: AuthenticatedD17OrderIdVerifyRoute,

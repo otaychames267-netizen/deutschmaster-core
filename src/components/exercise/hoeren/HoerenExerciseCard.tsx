@@ -10,13 +10,17 @@
  * bar below just renders disabled in that case, no other code path changes.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2 } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
 import { parseVariant } from "@/lib/exercise-variant";
 import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 import { ProtectedAudioPlayer } from "@/components/exercise/hoeren/ProtectedAudioPlayer";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface HoerenStatement {
   statement_number: number;
@@ -42,6 +46,7 @@ interface ScoreResult {
   correct: boolean;
   your_answer: boolean | null;
   correct_answer: boolean;
+  learning_aids?: LearningAidsItem | null;
 }
 
 interface Props {
@@ -82,6 +87,10 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
   const [revealed, setRevealed]         = useState<Record<number, boolean>>({});
   const [revealing, setRevealing]       = useState(false);
   const [showScore, setShowScore]       = useState(false);
+  const [mixed, setMixed]               = useState(false);
+  const [shuffleSeed, setShuffleSeed]   = useState(1);
+  const [explainOpen, setExplainOpen]   = useState<Record<number, boolean>>({});
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("hoeren", exercise.id);
 
   const hydratedRef = useRef(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -95,6 +104,29 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
     () => [...exercise.statements].sort((a, b) => a.statement_number - b.statement_number),
     [exercise.statements],
   );
+
+  // "Sätze mischen" (training mode only): a display-order-only shuffle. It
+  // never touches `statements`, `answers`, or the payload/results keying —
+  // every lookup below still keys strictly by the real statement_number, so
+  // scoring and the official exam order are completely unaffected.
+  const displayStatements = useMemo(() => {
+    if (!mixed) return statements;
+    const arr = [...statements];
+    let seed = shuffleSeed;
+    const rand = () => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed / 0x7fffffff; };
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }, [mixed, shuffleSeed, statements]);
+
+  function toggleMixed() {
+    setMixed((prev) => {
+      if (!prev) setShuffleSeed(Date.now() & 0x7fffffff || 1);
+      return !prev;
+    });
+  }
 
   useEffect(() => {
     if (hydratedRef.current || authLoading) return;
@@ -258,9 +290,23 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
         </div>
       )}
 
+      {!submitted && statements.length > 1 && (
+        <div className="flex items-center justify-end border-b border-border px-4 py-1.5">
+          <button
+            onClick={toggleMixed}
+            type="button"
+            className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1 text-[11px] font-bold transition-colors ${FOCUS_RING} ${
+              mixed ? "border-violet-500/40 bg-violet-500/10 text-violet-700 dark:text-violet-300" : "border-border text-muted-foreground hover:border-violet-500/30 hover:text-violet-600"
+            }`}
+          >
+            <Shuffle className="h-3 w-3" /> Sätze mischen
+          </button>
+        </div>
+      )}
+
       {/* ── Statements: compact single-row layout ── */}
       <div className="divide-y divide-border">
-        {statements.map((s) => {
+        {displayStatements.map((s) => {
           const ans       = answers[s.statement_number];
           const result    = scoreResults?.find((r) => r.statement_number === s.statement_number);
           const isCorrect = showState && !!result?.correct;
@@ -304,6 +350,27 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
                 <p className="mt-1.5 pl-1 text-xs font-semibold text-blue-600 dark:text-blue-400">
                   Richtig wäre: {result.correct_answer ? "Richtig" : "Falsch"}
                 </p>
+              )}
+              <div className="mt-1.5 pl-1">
+                <TranslateButton translation={translation?.questions?.[String(s.statement_number)]} loading={translationLoading} onRequest={loadTranslation} />
+              </div>
+              {isWrong && result?.learning_aids && (
+                <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" />
+              )}
+              {isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
+                <div className="mt-1.5 pl-1">
+                  {explainOpen[s.statement_number] ? (
+                    <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" />
+                  ) : (
+                    <button
+                      onClick={() => setExplainOpen((p) => ({ ...p, [s.statement_number]: true }))}
+                      type="button"
+                      className={`inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 ${FOCUS_RING}`}
+                    >
+                      <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
+                    </button>
+                  )}
+                </div>
               )}
             </div>
           );

@@ -6,6 +6,7 @@ import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { parseLesenT1, type ParsedT1Exercise, type T1Headline, type T1Text } from "@/lib/import/lesen-t1-parser";
 import { createLesenT1Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Loader2,
   ChevronRight, RotateCcw, Save, Eye, EyeOff, ScanLine,
@@ -24,6 +25,7 @@ function ImportLesenT1Page() {
   const [parsed, setParsed] = useState<ParsedT1Exercise | null>(null);
   const [headlines, setHeadlines] = useState<T1Headline[]>([]);
   const [texts, setTexts] = useState<T1Text[]>([]);
+  const [textAids, setTextAids] = useState<Record<number, LearningAidsFormValue>>({});
   const [title, setTitle] = useState("");
   const [level, setLevel] = useState<"TELC_B1" | "TELC_B2">("TELC_B2");
   const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
@@ -112,6 +114,9 @@ function ImportLesenT1Page() {
             content: t.content,
             correct_headline: (t.correct_headline || "A") as string,
           })),
+          learningAids: assembleLearningAids(
+            Object.fromEntries(texts.map((t) => [String(t.position), textAids[t.position as number]])),
+          ),
         },
       });
 
@@ -127,7 +132,7 @@ function ImportLesenT1Page() {
   function reset() {
     setStep("upload"); setParsed(null); setHeadlines([]); setTexts([]);
     setTitle(""); setLevel("TELC_B2"); setFlagAsNewToTunisia(false);
-    setShowRaw(false); setIsOcr(false);
+    setShowRaw(false); setIsOcr(false); setTextAids({});
     if (fileRef.current) fileRef.current.value = "";
   }
 
@@ -348,6 +353,11 @@ function ImportLesenT1Page() {
                   <textarea value={t.content} rows={4}
                     onChange={(e) => setTexts(prev => prev.map((x, xi) => xi === i ? { ...x, content: e.target.value } : x))}
                     className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  <LearningAidsFields
+                    value={textAids[t.position] ?? {}}
+                    onChange={(v) => setTextAids((prev) => ({ ...prev, [t.position]: v }))}
+                    hideGrammar
+                  />
                 </div>
               ))}
             </div>

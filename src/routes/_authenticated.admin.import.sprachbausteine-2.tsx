@@ -3,13 +3,14 @@ import { useState } from "react";
 import { ChevronRight, Save, Loader2, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { createSbT2Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 
 export const Route = createFileRoute("/_authenticated/admin/import/sprachbausteine-2")({
   component: ImportSbT2Page,
 });
 
 type Word = { word_number: number; word: string };
-type Gap = { gap_number: number; correct_word: string };
+type Gap = { gap_number: number; correct_word: string; aids?: LearningAidsFormValue };
 
 function ImportSbT2Page() {
   const [title, setTitle] = useState("");
@@ -17,6 +18,7 @@ function ImportSbT2Page() {
   const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [instructions, setInstructions] = useState("");
   const [passage, setPassage] = useState("");
+  const [passageTranslation, setPassageTranslation] = useState("");
   const [words, setWords] = useState<Word[]>(Array.from({ length: 15 }, (_, i) => ({ word_number: i + 1, word: "" })));
   const [gaps, setGaps] = useState<Gap[]>(Array.from({ length: 10 }, (_, i) => ({ gap_number: i + 1, correct_word: "" })));
   const [saving, setSaving] = useState(false);
@@ -34,6 +36,9 @@ function ImportSbT2Page() {
   function updateGap(i: number, correct_word: string) {
     setGaps((prev) => prev.map((g, gi) => (gi === i ? { ...g, correct_word } : g)));
   }
+  function updateGapAids(i: number, aids: LearningAidsFormValue) {
+    setGaps((prev) => prev.map((g, gi) => (gi === i ? { ...g, aids } : g)));
+  }
   function addGap() {
     setGaps((prev) => [...prev, { gap_number: prev.length + 1, correct_word: "" }]);
   }
@@ -42,7 +47,7 @@ function ImportSbT2Page() {
   }
 
   function reset() {
-    setTitle(""); setInstructions(""); setPassage("");
+    setTitle(""); setInstructions(""); setPassage(""); setPassageTranslation("");
     setWords(Array.from({ length: 15 }, (_, i) => ({ word_number: i + 1, word: "" })));
     setGaps(Array.from({ length: 10 }, (_, i) => ({ gap_number: i + 1, correct_word: "" })));
     setFlagAsNewToTunisia(false);
@@ -58,7 +63,12 @@ function ImportSbT2Page() {
       const result = await createSbT2Exercise({
         data: {
           title: title.trim(), level, note: "", flagAsNewToTunisia,
-          passage, instructions: instructions.trim(), words, gaps,
+          passage, instructions: instructions.trim(), words,
+          gaps: gaps.map(({ aids: _aids, ...g }) => g),
+          learningAids: assembleLearningAids(
+            Object.fromEntries(gaps.map((g) => [String(g.gap_number), g.aids])),
+            passageTranslation,
+          ),
         },
       });
       toast.success(`"${result.title || title.trim()}" added to Sprachbausteine Teil 2.`);
@@ -114,6 +124,11 @@ function ImportSbT2Page() {
           <textarea value={passage} onChange={(e) => setPassage(e.target.value)} rows={8}
             className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
         </div>
+        <div className="space-y-2">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Ganztext-Übersetzung (Arabisch, optional)</p>
+          <textarea value={passageTranslation} onChange={(e) => setPassageTranslation(e.target.value)} rows={4} dir="rtl"
+            className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+        </div>
         <label className="flex items-start gap-3 rounded-xl border border-dashed border-border p-3 cursor-pointer">
           <input type="checkbox" checked={flagAsNewToTunisia} onChange={(e) => setFlagAsNewToTunisia(e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0" />
@@ -157,18 +172,27 @@ function ImportSbT2Page() {
         </div>
         <div className="divide-y divide-border">
           {gaps.map((g, i) => (
-            <div key={i} className="flex items-center gap-3 px-5 py-2.5">
-              <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
-                {g.gap_number}
-              </span>
-              <select value={g.correct_word} onChange={(e) => updateGap(i, e.target.value)}
-                className="flex-1 rounded-xl border border-input bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30">
-                <option value="">— select correct word —</option>
-                {words.filter((w) => w.word.trim()).map((w) => (
-                  <option key={w.word_number} value={w.word}>{w.word}</option>
-                ))}
-              </select>
-              <button onClick={() => removeGap(i)} className="shrink-0 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
+            <div key={i} className="space-y-1.5 px-5 py-2.5">
+              <div className="flex items-center gap-3">
+                <span className="shrink-0 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
+                  {g.gap_number}
+                </span>
+                <select value={g.correct_word} onChange={(e) => updateGap(i, e.target.value)}
+                  className="flex-1 rounded-xl border border-input bg-background px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30">
+                  <option value="">— select correct word —</option>
+                  {words.filter((w) => w.word.trim()).map((w) => (
+                    <option key={w.word_number} value={w.word}>{w.word}</option>
+                  ))}
+                </select>
+                <button onClick={() => removeGap(i)} className="shrink-0 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
+              </div>
+              <div className="pl-10">
+                <LearningAidsFields
+                  value={g.aids ?? {}}
+                  onChange={(v) => updateGapAids(i, v)}
+                  hideTranslation
+                />
+              </div>
             </div>
           ))}
         </div>

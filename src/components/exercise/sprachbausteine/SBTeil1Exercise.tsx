@@ -10,8 +10,12 @@
  * before submission.
  */
 import { useState, useRef, useEffect, useCallback } from "react";
-import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, BookOpen } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, BookOpen, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface SBT1Gap {
   gap_number: number;
@@ -32,6 +36,7 @@ interface ScoreResult {
   correct: boolean;
   your_answer: string;
   correct_answer: string;
+  learning_aids?: LearningAidsItem | null;
 }
 
 interface Props {
@@ -133,7 +138,9 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
   // they are never present in the student data load.
   const [solution, setSolution] = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
+  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("sprachbausteine", exercise.id);
 
   useEffect(() => {
     if (examMode) onAnswersChange?.(answers);
@@ -325,7 +332,10 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
     <div className="space-y-6">
       {/* Instructions */}
       <div className="rounded-2xl border border-border bg-card p-5">
-        <p className="text-sm font-bold text-foreground mb-1">Aufgabe</p>
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-sm font-bold text-foreground mb-1">Aufgabe</p>
+          {!examMode && <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />}
+        </div>
         <p className="text-sm text-muted-foreground leading-relaxed">
           Lesen Sie den Text. Klicken Sie auf eine Lücke und wählen Sie das richtige Wort (a, b oder c).
           Jede Lücke hat genau eine richtige Antwort.
@@ -355,23 +365,43 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
               const correctText = r.correct_answer
                 ? (r.correct_answer === "a" ? gap?.option_a : r.correct_answer === "b" ? gap?.option_b : gap?.option_c) ?? r.correct_answer
                 : "—";
+              const hasAids = r.learning_aids?.explanation_correct || r.learning_aids?.explanation_wrong || r.learning_aids?.grammar_structure || r.learning_aids?.evidence_text;
               return (
-                <div key={r.gap_number} className={`flex items-center gap-3 px-5 py-2.5 ${r.correct ? "bg-emerald-500/3" : "bg-rose-500/3"}`}>
-                  <span className="shrink-0 w-6 text-xs font-black text-muted-foreground text-center">{r.gap_number}</span>
-                  {r.correct
-                    ? <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
-                    : <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
-                  }
-                  <span className={`flex-1 text-sm ${r.correct ? "text-emerald-700 dark:text-emerald-300 font-medium" : "text-rose-700 dark:text-rose-300"}`}>
-                    {r.correct ? chosenText : (
-                      <><span className="line-through opacity-60">{chosenText}</span> → <span className="font-semibold">{correctText}</span></>
-                    )}
-                  </span>
-                  <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full ${
-                    r.correct ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
-                  }`}>
-                    {r.your_answer?.toUpperCase() || "—"}
-                  </span>
+                <div key={r.gap_number}>
+                  <div className={`flex items-center gap-3 px-5 py-2.5 ${r.correct ? "bg-emerald-500/3" : "bg-rose-500/3"}`}>
+                    <span className="shrink-0 w-6 text-xs font-black text-muted-foreground text-center">{r.gap_number}</span>
+                    {r.correct
+                      ? <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
+                      : <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
+                    }
+                    <span className={`flex-1 text-sm ${r.correct ? "text-emerald-700 dark:text-emerald-300 font-medium" : "text-rose-700 dark:text-rose-300"}`}>
+                      {r.correct ? chosenText : (
+                        <><span className="line-through opacity-60">{chosenText}</span> → <span className="font-semibold">{correctText}</span></>
+                      )}
+                    </span>
+                    <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full ${
+                      r.correct ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
+                    }`}>
+                      {r.your_answer?.toUpperCase() || "—"}
+                    </span>
+                  </div>
+                  {!examMode && hasAids && (
+                    explainOpen[r.gap_number] ? (
+                      <div className="px-5 pb-2.5">
+                        <EvidenceBlock aids={r.learning_aids} variant={r.correct ? "correct" : "wrong"} skill="sprachbausteine" exerciseId={exercise.id} itemKey={String(r.gap_number)} saveCategory="grammatikstruktur" />
+                      </div>
+                    ) : (
+                      <div className="px-5 pb-2.5">
+                        <button
+                          onClick={() => setExplainOpen((p) => ({ ...p, [r.gap_number]: true }))}
+                          type="button"
+                          className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors"
+                        >
+                          <HelpCircle className="h-3 w-3" /> Warum?
+                        </button>
+                      </div>
+                    )
+                  )}
                 </div>
               );
             })}

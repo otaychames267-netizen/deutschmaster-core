@@ -3,12 +3,13 @@ import { useState } from "react";
 import { ChevronRight, Save, Loader2, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { createSbT1Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 
 export const Route = createFileRoute("/_authenticated/admin/import/sprachbausteine-1")({
   component: ImportSbT1Page,
 });
 
-type Gap = { gap_number: number; option_a: string; option_b: string; option_c: string; correct: "a" | "b" | "c" };
+type Gap = { gap_number: number; option_a: string; option_b: string; option_c: string; correct: "a" | "b" | "c"; aids?: LearningAidsFormValue };
 
 function blankGap(n: number): Gap {
   return { gap_number: n, option_a: "", option_b: "", option_c: "", correct: "a" };
@@ -20,6 +21,7 @@ function ImportSbT1Page() {
   const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [instructions, setInstructions] = useState("");
   const [passage, setPassage] = useState("");
+  const [passageTranslation, setPassageTranslation] = useState("");
   const [gaps, setGaps] = useState<Gap[]>(Array.from({ length: 10 }, (_, i) => blankGap(i + 1)));
   const [saving, setSaving] = useState(false);
 
@@ -34,7 +36,7 @@ function ImportSbT1Page() {
   }
 
   function reset() {
-    setTitle(""); setInstructions(""); setPassage("");
+    setTitle(""); setInstructions(""); setPassage(""); setPassageTranslation("");
     setGaps(Array.from({ length: 10 }, (_, i) => blankGap(i + 1)));
     setFlagAsNewToTunisia(false);
   }
@@ -50,7 +52,12 @@ function ImportSbT1Page() {
       const result = await createSbT1Exercise({
         data: {
           title: title.trim(), level, note: "", flagAsNewToTunisia,
-          passage, instructions: instructions.trim(), gaps,
+          passage, instructions: instructions.trim(),
+          gaps: gaps.map(({ aids: _aids, ...g }) => g),
+          learningAids: assembleLearningAids(
+            Object.fromEntries(gaps.map((g) => [String(g.gap_number), g.aids])),
+            passageTranslation,
+          ),
         },
       });
       toast.success(`"${result.title || title.trim()}" added to Sprachbausteine Teil 1.`);
@@ -106,6 +113,11 @@ function ImportSbT1Page() {
           <textarea value={passage} onChange={(e) => setPassage(e.target.value)} rows={8}
             className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
         </div>
+        <div className="space-y-2">
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Ganztext-Übersetzung (Arabisch, optional)</p>
+          <textarea value={passageTranslation} onChange={(e) => setPassageTranslation(e.target.value)} rows={4} dir="rtl"
+            className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+        </div>
         <label className="flex items-start gap-3 rounded-xl border border-dashed border-border p-3 cursor-pointer">
           <input type="checkbox" checked={flagAsNewToTunisia} onChange={(e) => setFlagAsNewToTunisia(e.target.checked)}
             className="mt-0.5 h-4 w-4 shrink-0" />
@@ -125,24 +137,33 @@ function ImportSbT1Page() {
         </div>
         <div className="divide-y divide-border">
           {gaps.map((g, i) => (
-            <div key={i} className="flex items-start gap-3 px-5 py-3">
-              <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
-                {g.gap_number}
-              </span>
-              <div className="flex-1 grid grid-cols-3 gap-2">
-                {(["a", "b", "c"] as const).map((opt) => (
-                  <div key={opt} className="flex items-center gap-1.5">
-                    <button type="button" onClick={() => updateGap(i, { correct: opt })}
-                      className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-lg text-xs font-black uppercase transition-colors ${
-                        g.correct === opt ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"
-                      }`}>{opt}</button>
-                    <input value={opt === "a" ? g.option_a : opt === "b" ? g.option_b : g.option_c}
-                      onChange={(e) => updateGap(i, opt === "a" ? { option_a: e.target.value } : opt === "b" ? { option_b: e.target.value } : { option_c: e.target.value })}
-                      className="w-full rounded-xl border border-input bg-background px-2.5 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                  </div>
-                ))}
+            <div key={i} className="space-y-1.5 px-5 py-3">
+              <div className="flex items-start gap-3">
+                <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
+                  {g.gap_number}
+                </span>
+                <div className="flex-1 grid grid-cols-3 gap-2">
+                  {(["a", "b", "c"] as const).map((opt) => (
+                    <div key={opt} className="flex items-center gap-1.5">
+                      <button type="button" onClick={() => updateGap(i, { correct: opt })}
+                        className={`shrink-0 flex h-8 w-8 items-center justify-center rounded-lg text-xs font-black uppercase transition-colors ${
+                          g.correct === opt ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"
+                        }`}>{opt}</button>
+                      <input value={opt === "a" ? g.option_a : opt === "b" ? g.option_b : g.option_c}
+                        onChange={(e) => updateGap(i, opt === "a" ? { option_a: e.target.value } : opt === "b" ? { option_b: e.target.value } : { option_c: e.target.value })}
+                        className="w-full rounded-xl border border-input bg-background px-2.5 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    </div>
+                  ))}
+                </div>
+                <button onClick={() => removeGap(i)} className="shrink-0 mt-2 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
               </div>
-              <button onClick={() => removeGap(i)} className="shrink-0 mt-2 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
+              <div className="pl-10">
+                <LearningAidsFields
+                  value={g.aids ?? {}}
+                  onChange={(v) => updateGap(i, { aids: v })}
+                  hideTranslation
+                />
+              </div>
             </div>
           ))}
         </div>

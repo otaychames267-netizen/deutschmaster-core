@@ -9,6 +9,7 @@ import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { parseLesenT2, type ParsedT2Result } from "@/lib/import/lesen-t2-parser";
 import { createLesenT2Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Loader2,
   ChevronRight, RotateCcw, Save, ChevronDown, Sparkles, Copy, ScanLine,
@@ -30,6 +31,7 @@ interface LocalQuestion {
   option_c: string;
   correct: Correct;
   answerSource: string | null;
+  aids?: LearningAidsFormValue;
 }
 
 function answerSourceLabel(src: string | null): { label: string; color: string } {
@@ -126,6 +128,12 @@ function QuestionEditor({
                     className="flex-1 rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
                 </div>
               ))}
+              <LearningAidsFields
+                value={q.aids ?? {}}
+                onChange={(v) => update(i, { aids: v })}
+                hideTranslation
+                hideGrammar
+              />
             </div>
           );
         })}
@@ -164,6 +172,7 @@ function ImportLesenT2Page() {
   const [title1,      setTitle1]      = useState("");
   const [title2,      setTitle2]      = useState("");
   const [passage,     setPassage]     = useState("");
+  const [passageTranslation, setPassageTranslation] = useState("");
   const [level,       setLevel]       = useState<"TELC_B1" | "TELC_B2">("TELC_B2");
   const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [questions1,  setQuestions1]  = useState<LocalQuestion[]>([]);
@@ -261,6 +270,11 @@ function ImportLesenT2Page() {
           option_a: q.option_a, option_b: q.option_b, option_c: q.option_c,
           correct: q.correct,
         }));
+      const toLearningAids = (qs: LocalQuestion[]) =>
+        assembleLearningAids(
+          Object.fromEntries(qs.map((q) => [String(q.number), q.aids])),
+          passageTranslation,
+        );
 
       // Each exercise is inserted atomically (exercise + passage + questions)
       // by a single SECURITY DEFINER RPC — no orphaned rows on failure (§28).
@@ -268,14 +282,14 @@ function ImportLesenT2Page() {
       const note = sourcePdf ? `Source PDF: ${sourcePdf}` : "";
 
       const r1 = await createLesenT2Exercise({
-        data: { title: title1, level, note, flagAsNewToTunisia, passage, questions: toPayload(questions1) },
+        data: { title: title1, level, note, flagAsNewToTunisia, passage, questions: toPayload(questions1), learningAids: toLearningAids(questions1) },
       });
       savedTitles.push(r1.title || title1 || "(ohne Titel)");
 
       if (isTwoExercises && questions2.length > 0) {
         // Same printed title is fine — duplicates are auto-numbered server-side.
         const r2 = await createLesenT2Exercise({
-          data: { title: title2, level, note, flagAsNewToTunisia, passage, questions: toPayload(questions2) },
+          data: { title: title2, level, note, flagAsNewToTunisia, passage, questions: toPayload(questions2), learningAids: toLearningAids(questions2) },
         });
         savedTitles.push(r2.title || title2 || "(ohne Titel)");
       }
@@ -296,7 +310,7 @@ function ImportLesenT2Page() {
     setStep("upload"); setParsed(null); setReport(null);
     setTitle1(""); setTitle2(""); setPassage("");
     setLevel("TELC_B2"); setFlagAsNewToTunisia(false);
-    setQuestions1([]); setQuestions2([]);
+    setQuestions1([]); setQuestions2([]); setPassageTranslation("");
     setShowDiag(false); setShowReport(false); setIsOcr(false); setSourcePdf("");
     if (fileRef.current) fileRef.current.value = "";
   }
@@ -595,10 +609,15 @@ function ImportLesenT2Page() {
                 <span className="rounded-lg bg-rose-500/10 px-2.5 py-1 text-xs font-bold text-rose-600 dark:text-rose-400">needs manual input</span>
               )}
             </div>
-            <div className="p-5">
+            <div className="p-5 space-y-3">
               <textarea value={passage} rows={12} onChange={(e) => setPassage(e.target.value)}
                 placeholder="Paste the reading passage here…"
                 className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              <div className="space-y-2">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Ganztext-Übersetzung (Arabisch, optional)</p>
+                <textarea value={passageTranslation} rows={4} onChange={(e) => setPassageTranslation(e.target.value)} dir="rtl"
+                  className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground leading-relaxed focus:outline-none focus:ring-2 focus:ring-primary/30" />
+              </div>
             </div>
           </div>
 

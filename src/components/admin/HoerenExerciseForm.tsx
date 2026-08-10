@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { createHoerenExercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import { Save, Loader2, Music, Image as ImageIcon, X } from "lucide-react";
 import { toast } from "sonner";
 
-type Statement = { statement_number: number; statement_text: string; correct_answer: boolean };
+type Statement = { statement_number: number; statement_text: string; correct_answer: boolean; aids?: LearningAidsFormValue };
 
 const blankStatements = (): Statement[] =>
   Array.from({ length: 5 }, (_, i) => ({ statement_number: i + 1, statement_text: "", correct_answer: false }));
@@ -81,7 +82,10 @@ export function HoerenExerciseForm({ teil }: { teil: 1 | 2 | 3 }) {
           instructions: instructions.trim(),
           imagePath,
           audioPath,
-          statements,
+          statements: statements.map(({ aids: _aids, ...s }) => s),
+          learningAids: assembleLearningAids(
+            Object.fromEntries(statements.map((s) => [String(s.statement_number), s.aids])),
+          ),
         },
       });
       toast.success(`"${title.trim()}" added to Hören Teil ${teil}.`);
@@ -172,22 +176,31 @@ export function HoerenExerciseForm({ teil }: { teil: 1 | 2 | 3 }) {
         </div>
         <div className="divide-y divide-border">
           {statements.map((s, i) => (
-            <div key={i} className="flex items-start gap-3 px-5 py-3">
-              <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
-                {s.statement_number}
-              </span>
-              <textarea value={s.statement_text} rows={2}
-                onChange={(e) => updateStatement(i, { statement_text: e.target.value })}
-                className="flex-1 resize-y rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-              <div className="flex shrink-0 gap-1 mt-1">
-                <button type="button" onClick={() => updateStatement(i, { correct_answer: true })}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
-                    s.correct_answer ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"
-                  }`}>Richtig</button>
-                <button type="button" onClick={() => updateStatement(i, { correct_answer: false })}
-                  className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
-                    !s.correct_answer ? "bg-rose-500/15 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground"
-                  }`}>Falsch</button>
+            <div key={i} className="space-y-1.5 px-5 py-3">
+              <div className="flex items-start gap-3">
+                <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
+                  {s.statement_number}
+                </span>
+                <textarea value={s.statement_text} rows={2}
+                  onChange={(e) => updateStatement(i, { statement_text: e.target.value })}
+                  className="flex-1 resize-y rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                <div className="flex shrink-0 gap-1 mt-1">
+                  <button type="button" onClick={() => updateStatement(i, { correct_answer: true })}
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
+                      s.correct_answer ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"
+                    }`}>Richtig</button>
+                  <button type="button" onClick={() => updateStatement(i, { correct_answer: false })}
+                    className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${
+                      !s.correct_answer ? "bg-rose-500/15 text-rose-600 dark:text-rose-400" : "bg-muted text-muted-foreground"
+                    }`}>Falsch</button>
+                </div>
+              </div>
+              <div className="pl-10">
+                <LearningAidsFields
+                  value={s.aids ?? {}}
+                  onChange={(v) => updateStatement(i, { aids: v })}
+                  hideGrammar
+                />
               </div>
             </div>
           ))}

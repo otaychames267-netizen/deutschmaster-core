@@ -34,6 +34,29 @@ async function assertAdmin(ctx: { supabase: any; userId: string }) {
 
 type Level = "TELC_B1" | "TELC_B2";
 
+/**
+ * Optional learning-assistance content an admin can author alongside an
+ * exercise (translation / evidence / explanation / grammar) — never
+ * AI-generated, stored as-is on the exercise row's learning_aids JSONB
+ * column. `items` is keyed by the same per-item key the exercise's scoring
+ * RPC uses (position/number/gap_number/statement_number/letter/word_number,
+ * as a string). Both sub-objects are optional; omit entirely when a form
+ * collects nothing.
+ */
+export interface LearningAidsInput {
+  translation?: { text?: string; questions?: Record<string, string> };
+  items?: Record<string, {
+    evidence_text?: string;
+    evidence_translation?: string;
+    keyword?: string;
+    explanation_correct?: string;
+    explanation_wrong?: string;
+    grammar_structure?: string;
+    grammar_example?: string;
+    grammar_translation?: string;
+  }>;
+}
+
 // ── Lesen Teil 1 ─────────────────────────────────────────────────────────────
 export const createLesenT1Exercise = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
@@ -44,6 +67,7 @@ export const createLesenT1Exercise = createServerFn({ method: "POST" })
     flagAsNewToTunisia: boolean;
     headlines: { letter: string; text: string; is_distractor: boolean }[];
     texts: { position: number; title: string; content: string; correct_headline: string }[];
+    learningAids?: LearningAidsInput | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
@@ -55,6 +79,7 @@ export const createLesenT1Exercise = createServerFn({ method: "POST" })
       p_import_notes: buildImportNotes(data.note, data.flagAsNewToTunisia),
       p_headlines: data.headlines,
       p_texts: data.texts,
+      p_learning_aids: data.learningAids ?? null,
     });
     if (error) throw new Error(error.message);
     return result as { exercise_id: string; title: string };
@@ -70,6 +95,7 @@ export const createLesenT2Exercise = createServerFn({ method: "POST" })
     flagAsNewToTunisia: boolean;
     passage: string;
     questions: { number: number; question: string; option_a: string; option_b: string; option_c: string; correct: "a" | "b" | "c" }[];
+    learningAids?: LearningAidsInput | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
@@ -81,6 +107,7 @@ export const createLesenT2Exercise = createServerFn({ method: "POST" })
       p_import_notes: buildImportNotes(data.note, data.flagAsNewToTunisia),
       p_passage: data.passage,
       p_questions: data.questions,
+      p_learning_aids: data.learningAids ?? null,
     });
     if (error) throw new Error(error.message);
     return result as { exercise_id: string; title: string };
@@ -96,6 +123,7 @@ export const createLesenT3Exercise = createServerFn({ method: "POST" })
     flagAsNewToTunisia: boolean;
     texts: { letter: string; title: string; content: string }[];
     situations: { number: number; description: string; correct_letter: string | null; no_match: boolean }[];
+    learningAids?: LearningAidsInput | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
@@ -107,6 +135,7 @@ export const createLesenT3Exercise = createServerFn({ method: "POST" })
       p_import_notes: buildImportNotes(data.note, data.flagAsNewToTunisia),
       p_texts: data.texts,
       p_situations: data.situations,
+      p_learning_aids: data.learningAids ?? null,
     });
     if (error) throw new Error(error.message);
     return result as { exercise_id: string; title: string };
@@ -125,6 +154,7 @@ export const createHoerenExercise = createServerFn({ method: "POST" })
     imagePath: string | null;
     audioPath: string | null;
     statements: { statement_number: number; statement_text: string; correct_answer: boolean }[];
+    learningAids?: LearningAidsInput | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
@@ -139,6 +169,7 @@ export const createHoerenExercise = createServerFn({ method: "POST" })
       p_image_path: data.imagePath,
       p_audio_path: data.audioPath,
       p_statements: data.statements,
+      p_learning_aids: data.learningAids ?? null,
     });
     if (error) throw new Error(error.message);
     return result as { exercise_id: string; title: string };
@@ -155,6 +186,7 @@ export const createSbT1Exercise = createServerFn({ method: "POST" })
     passage: string;
     instructions: string;
     gaps: { gap_number: number; option_a: string; option_b: string; option_c: string; correct: "a" | "b" | "c" }[];
+    learningAids?: LearningAidsInput | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
@@ -167,6 +199,7 @@ export const createSbT1Exercise = createServerFn({ method: "POST" })
       p_passage: data.passage,
       p_instructions: data.instructions,
       p_gaps: data.gaps,
+      p_learning_aids: data.learningAids ?? null,
     });
     if (error) throw new Error(error.message);
     return result as { exercise_id: string; title: string };
@@ -184,6 +217,7 @@ export const createSbT2Exercise = createServerFn({ method: "POST" })
     instructions: string;
     words: { word_number: number; word: string }[];
     gaps: { gap_number: number; correct_word: string }[];
+    learningAids?: LearningAidsInput | null;
   }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
@@ -197,6 +231,7 @@ export const createSbT2Exercise = createServerFn({ method: "POST" })
       p_instructions: data.instructions,
       p_words: data.words,
       p_gaps: data.gaps,
+      p_learning_aids: data.learningAids ?? null,
     });
     if (error) throw new Error(error.message);
     return result as { exercise_id: string; title: string };

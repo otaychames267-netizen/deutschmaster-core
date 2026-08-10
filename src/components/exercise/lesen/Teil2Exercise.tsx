@@ -17,10 +17,14 @@
  * aria-checked state and a labelled group; the result is announced via aria-live.
  */
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, BookOpen, Loader2, AlertCircle, RotateCcw } from "lucide-react";
+import { CheckCircle2, XCircle, BookOpen, Loader2, AlertCircle, RotateCcw, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T2Question {
   number: number;
@@ -42,6 +46,7 @@ interface ScoreResult {
   correct: boolean;
   your_answer: string;
   correct_answer: string;
+  learning_aids?: LearningAidsItem | null;
 }
 
 interface Props {
@@ -85,6 +90,8 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   const [restored, setRestored]         = useState(false);
   const [solution, setSolution]         = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
+  const [explainOpen, setExplainOpen]   = useState<Record<number, boolean>>({});
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
   const hydratedRef = useRef(false);
 
@@ -241,8 +248,9 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
 
         {/* Reading passage */}
         <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="border-b border-border bg-muted/30 px-5 py-3 shrink-0">
+          <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/30 px-5 py-3 shrink-0">
             <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Lesetext</p>
+            <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />
           </div>
           <div className="px-6 py-5">
             <p className="text-sm text-foreground leading-[1.9] whitespace-pre-line max-w-4xl">{exercise.passage}</p>
@@ -356,6 +364,24 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                           : result.correct_answer.toUpperCase()
                         }
                       </span>
+                    )}
+                  </div>
+                )}
+                {submitted && isWrong && ans?.revealed && result?.learning_aids && (
+                  <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" />
+                )}
+                {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
+                  <div className="border-t border-border/60 px-5 py-2.5">
+                    {explainOpen[q.number] ? (
+                      <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" />
+                    ) : (
+                      <button
+                        onClick={() => setExplainOpen((p) => ({ ...p, [q.number]: true }))}
+                        type="button"
+                        className={`inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 ${FOCUS_RING}`}
+                      >
+                        <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
+                      </button>
                     )}
                   </div>
                 )}

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, GraduationCap, PenLine, Mic,
-  BarChart3, Gift, LogOut,
+  BarChart3, Gift, LogOut, BookMarked,
   Users, FileText, BookOpen, CreditCard,
   LayoutGrid, Star, Shield,
   TrendingUp, Settings2, Megaphone, ScrollText,
@@ -364,6 +364,7 @@ export function AppSidebar() {
           <SectionLabel>Progress</SectionLabel>
           <SidebarMenu>
             <NavItem to="/statistik" label="Statistics"       icon={BarChart3}  active={isActive("/statistik")} />
+            <NavItem to="/woerter"   label="Meine Wörter"     icon={BookMarked} active={isActive("/woerter")} />
             <NavItem to="/referrals" label="Referral Program" icon={Gift}        active={isActive("/referrals")} />
           </SidebarMenu>
         </SidebarGroup>
