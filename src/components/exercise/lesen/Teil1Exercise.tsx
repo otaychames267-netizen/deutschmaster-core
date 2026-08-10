@@ -11,16 +11,20 @@
  * for History/Statistics). Progress autosaves and resumes after a refresh.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, Eye } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, Eye, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T1Headline { letter: string; text: string; is_distractor: boolean; }
 export interface T1Text { position: number; title: string; content: string; }
 export interface T1ExerciseData { id: string; title: string; headlines: T1Headline[]; texts: T1Text[]; }
 
-interface ScoreResult { position: number; correct: boolean; your_answer: string; correct_answer: string; }
+interface ScoreResult { position: number; correct: boolean; your_answer: string; correct_answer: string; learning_aids?: LearningAidsItem | null; }
 interface Props { exercise: T1ExerciseData; onComplete?: (score: number, total: number) => void; }
 interface Persisted { exerciseId: string; answers: Record<number, string>; submitted: boolean; results: ScoreResult[] | null; score: number; total: number; }
 
@@ -74,8 +78,10 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const [revealed, setRevealed] = useState(false);
   const [restored, setRestored] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
+  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
   const btnRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const hydrated = useRef(false);
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
   const storageKey = useMemo(() => attemptKey(["lesen.t1", user?.id ?? "anon", exercise.id]), [user?.id, exercise.id]);
   const texts = useMemo(() => [...exercise.texts].sort((a, b) => a.position - b.position), [exercise.texts]);
@@ -178,9 +184,36 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                 <p className="text-xs text-emerald-700 dark:text-emerald-300"><span className="font-black">{res!.correct_answer}</span> — {headlineText(res!.correct_answer)}</p>
               </div>
             )}
+            {submitted && isWrong && revealed && res?.learning_aids && (
+              <div className="mt-2">
+                <EvidenceBlock aids={res.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" />
+              </div>
+            )}
+            {submitted && isCorrect && (res?.learning_aids?.explanation_correct || res?.learning_aids?.evidence_text) && (
+              <div className="mx-4 mt-2">
+                {explainOpen[t.position] ? (
+                  <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" />
+                ) : (
+                  <button
+                    onClick={() => setExplainOpen((p) => ({ ...p, [t.position]: true }))}
+                    type="button"
+                    className={`inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 ${FOCUS}`}
+                  >
+                    <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
+                  </button>
+                )}
+              </div>
+            )}
             {/* text */}
             <div className="px-5 py-4">
-              {t.title && <p className="text-sm font-bold text-foreground mb-1">{t.title}</p>}
+              <div className="mb-1.5 flex items-start justify-between gap-3">
+                {t.title ? <p className="text-sm font-bold text-foreground">{t.title}</p> : <span />}
+                <TranslateButton
+                  translation={translation?.questions?.[String(t.position)]}
+                  loading={translationLoading}
+                  onRequest={loadTranslation}
+                />
+              </div>
               <p className="text-sm text-foreground leading-[1.8] whitespace-pre-line">{t.content}</p>
             </div>
           </div>
