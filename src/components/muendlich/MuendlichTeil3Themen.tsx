@@ -24,17 +24,24 @@ import { PdfViewer } from "./PdfViewer";
 
 interface StrukturSection { key: string; demo: { frage: string; antwort: string; reaktion?: string } }
 interface DialogLine { speaker: "A" | "B"; text: string; section?: string }
-interface Erklaerung { worum_geht_es: string; was_wird_erwartet: string; wichtige_punkte: string[]; worauf_achten: string[] }
+interface Erklaerung {
+  worum_geht_es: string; worum_geht_es_ar?: string;
+  was_wird_erwartet: string; was_wird_erwartet_ar?: string;
+  wichtige_punkte: string[]; wichtige_punkte_ar?: string[];
+  worauf_achten: string[];
+}
 interface Wortschatz { verben: string[]; woerter: string[]; adjektive: string[] }
+interface WortschatzAr { verben: string[]; woerter: string[]; adjektive: string[] }
 
 interface SpeakingToolboxT3V2 {
-  schema_version: 2;
+  schema_version: 2 | 3;
   erklaerung: Erklaerung;
   struktur: StrukturSection[];
   moegliche_fragen: string[];
   moegliche_antworten_ideen: string[];
   beispieldialog: DialogLine[];
   wortschatz: Wortschatz;
+  wortschatz_ar?: WortschatzAr;
 }
 
 interface Topic {
@@ -108,7 +115,7 @@ const PAGES = [
 type PageKey = typeof PAGES[number]["key"];
 
 function isReady(tb: Topic["speaking_toolbox"]): tb is SpeakingToolboxT3V2 {
-  return !!tb && (tb as any).schema_version === 2;
+  return !!tb && ((tb as any).schema_version === 2 || (tb as any).schema_version === 3);
 }
 
 function Pill({ children }: { children: React.ReactNode }) {
@@ -126,6 +133,22 @@ function PlainList({ items }: { items: string[] }) {
         <li key={i} className="flex items-start gap-2 text-sm">
           <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-500" />
           <span className="text-foreground">{it}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function PlainListBilingual({ items, itemsAr }: { items: string[]; itemsAr?: string[] }) {
+  return (
+    <ul className="space-y-2.5">
+      {items.map((it, i) => (
+        <li key={i} className="flex items-start gap-2 text-sm">
+          <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-sky-500" />
+          <div>
+            <span className="text-foreground">{it}</span>
+            {itemsAr?.[i] && <p dir="rtl" className="mt-0.5 text-right text-sm text-indigo-600 dark:text-indigo-400">{itemsAr[i]}</p>}
+          </div>
         </li>
       ))}
     </ul>
@@ -217,15 +240,21 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
             <div>
               <h3 className="mb-2 text-sm font-black text-foreground">Worum geht es?</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.worum_geht_es}</p>
+              {tb.erklaerung.worum_geht_es_ar && (
+                <p dir="rtl" className="mt-2 rounded-lg bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.worum_geht_es_ar}</p>
+              )}
             </div>
             <div>
               <h3 className="mb-2 text-sm font-black text-foreground">Was wird erwartet?</h3>
               <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.was_wird_erwartet}</p>
+              {tb.erklaerung.was_wird_erwartet_ar && (
+                <p dir="rtl" className="mt-2 rounded-lg bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.was_wird_erwartet_ar}</p>
+              )}
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               <div>
                 <h3 className="mb-2 text-sm font-black text-foreground">Wichtige Punkte</h3>
-                <PlainList items={tb.erklaerung.wichtige_punkte} />
+                <PlainListBilingual items={tb.erklaerung.wichtige_punkte} itemsAr={tb.erklaerung.wichtige_punkte_ar} />
               </div>
               <div>
                 <h3 className="mb-2 text-sm font-black text-foreground">Worauf achten?</h3>
@@ -300,15 +329,18 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
         {page === "wortschatz" && tb && (
           <div className="grid gap-6 sm:grid-cols-3">
             {([
-              ["Wichtige Verben", tb.wortschatz.verben],
-              ["Wichtige Wörter", tb.wortschatz.woerter],
-              ["Wichtige Adjektive", tb.wortschatz.adjektive],
-            ] as [string, string[]][]).map(([label, items]) => (
+              ["Wichtige Verben", tb.wortschatz.verben, tb.wortschatz_ar?.verben],
+              ["Wichtige Wörter", tb.wortschatz.woerter, tb.wortschatz_ar?.woerter],
+              ["Wichtige Adjektive", tb.wortschatz.adjektive, tb.wortschatz_ar?.adjektive],
+            ] as [string, string[], string[] | undefined][]).map(([label, items, itemsAr]) => (
               <div key={label}>
                 <h3 className="mb-2 text-sm font-black text-foreground">{label}</h3>
                 <ul className="space-y-1.5">
                   {items.map((it, i) => (
-                    <li key={i} className="text-sm font-medium text-foreground">{it}</li>
+                    <li key={i} className="flex items-baseline justify-between gap-2 border-b border-dotted border-border pb-1 text-sm">
+                      <span className="font-medium text-foreground">{it}</span>
+                      {itemsAr?.[i] && <span dir="rtl" className="text-muted-foreground">{itemsAr[i]}</span>}
+                    </li>
                   ))}
                 </ul>
               </div>

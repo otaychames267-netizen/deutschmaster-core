@@ -50,9 +50,13 @@ function groupTopics(topics, { includeUnassigned } = { includeUnassigned: true }
 }
 
 function esc(s) { return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+function ar(s) { return `<p class="ar">${esc(s)}</p>`; }
 function plainList(items) { return `<ul class="ideas">${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>`; }
-function vocabCol(title, items) {
-  return `<div class="vocab-col"><h4>${esc(title)}</h4><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`;
+function plainListBilingual(items, itemsAr) {
+  return `<ul class="ideas">${items.map((i, idx) => `<li>${esc(i)}${itemsAr?.[idx] ? `<span class="ar-inline-block">${esc(itemsAr[idx])}</span>` : ""}</li>`).join("")}</ul>`;
+}
+function vocabCol(title, items, itemsAr) {
+  return `<div class="vocab-col"><h4>${esc(title)}</h4><ul>${items.map((i, idx) => `<li><span class="de">${esc(i)}</span>${itemsAr?.[idx] ? `<span class="ar-inline">${esc(itemsAr[idx])}</span>` : ""}</li>`).join("")}</ul></div>`;
 }
 function pageBar(groupName, label) {
   const rightLabel = groupName === UNASSIGNED_GROUP ? `Noch nicht eingeführt — ${label}` : `${esc(groupName)} — ${label}`;
@@ -88,9 +92,11 @@ function renderTopicPages(topic, groupName) {
     ${pageBar(groupName, "Erklärung")}
     <h2>${esc(topic.title)}</h2>
     <h3>Worum geht es?</h3><p>${esc(tb.erklaerung.worum_geht_es)}</p>
+    ${tb.erklaerung.worum_geht_es_ar ? `<div class="ar-box">${ar(tb.erklaerung.worum_geht_es_ar)}</div>` : ""}
     <h3>Was wird erwartet?</h3><p>${esc(tb.erklaerung.was_wird_erwartet)}</p>
+    ${tb.erklaerung.was_wird_erwartet_ar ? `<div class="ar-box">${ar(tb.erklaerung.was_wird_erwartet_ar)}</div>` : ""}
     <div class="two-col">
-      <div><h3>Wichtige Punkte</h3>${plainList(tb.erklaerung.wichtige_punkte)}</div>
+      <div><h3>Wichtige Punkte</h3>${plainListBilingual(tb.erklaerung.wichtige_punkte, tb.erklaerung.wichtige_punkte_ar)}</div>
       <div><h3>Worauf achten?</h3>${plainList(tb.erklaerung.worauf_achten)}</div>
     </div>
     </section>`;
@@ -137,9 +143,9 @@ function renderTopicPages(topic, groupName) {
     ${pageBar(groupName, "Wortschatz")}
     <h2>Wortschatz</h2>
     <div class="vocab-grid">
-      ${vocabCol("Wichtige Verben", tb.wortschatz.verben)}
-      ${vocabCol("Wichtige Wörter", tb.wortschatz.woerter)}
-      ${vocabCol("Wichtige Adjektive", tb.wortschatz.adjektive)}
+      ${vocabCol("Wichtige Verben", tb.wortschatz.verben, tb.wortschatz_ar?.verben)}
+      ${vocabCol("Wichtige Wörter", tb.wortschatz.woerter, tb.wortschatz_ar?.woerter)}
+      ${vocabCol("Wichtige Adjektive", tb.wortschatz.adjektive, tb.wortschatz_ar?.adjektive)}
     </div>
     </section>`;
 
@@ -242,6 +248,11 @@ function renderBookHtml(groups, topicCount) {
     ul.ideas { margin: 0 0 10px; padding-left: 18px; }
     ul.ideas li { margin-bottom: 7px; }
 
+    .ar-box { background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px; padding: 8px 12px; margin: -2px 0 10px; }
+    .ar { direction: rtl; text-align: right; font-family: Tahoma, 'Segoe UI', sans-serif; font-size: 10.3pt; line-height: 1.85; color: #3730a3; margin: 0; }
+    .ar-inline-block { direction: rtl; text-align: right; font-family: Tahoma, 'Segoe UI', sans-serif; font-size: 9.3pt; line-height: 1.7; color: #4338ca; display: block; margin-top: 2px; }
+    .ar-inline { direction: rtl; font-family: Tahoma, 'Segoe UI', sans-serif; color: #6b7280; font-size: 9.3pt; }
+
     .sk-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 9px 12px; margin-bottom: 9px; break-inside: avoid; }
     .sk-h { font-size: 10.5pt; margin: 0 0 6px; }
     .sk-rd { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
@@ -260,7 +271,8 @@ function renderBookHtml(groups, topicCount) {
 
     .vocab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 20px; }
     .vocab-col ul { list-style: none; padding: 0; margin: 0; }
-    .vocab-col li { border-bottom: 1px dotted #e5e7eb; padding: 3px 0; font-size: 10pt; }
+    .vocab-col li { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-bottom: 1px dotted #e5e7eb; padding: 3px 0; font-size: 10pt; }
+    .vocab-col .de { white-space: nowrap; }
 
     .page.cover { display: flex; align-items: center; justify-content: center; min-height: 262mm; background: linear-gradient(160deg, #eff6ff 0%, #ffffff 60%); }
     .cover-inner { text-align: center; }
@@ -296,8 +308,9 @@ async function main() {
     .order("title");
   if (error) throw error;
 
-  const ready = topics.filter(t => t.speaking_toolbox && t.speaking_toolbox.schema_version === 2);
-  const missing = topics.filter(t => !(t.speaking_toolbox && t.speaking_toolbox.schema_version === 2));
+  const isReady = t => t.speaking_toolbox && (t.speaking_toolbox.schema_version === 2 || t.speaking_toolbox.schema_version === 3);
+  const ready = topics.filter(isReady);
+  const missing = topics.filter(t => !isReady(t));
   console.log(`Level ${level}: ${ready.length}/${topics.length} topics have v2 content.`);
   if (missing.length) console.log("Missing content for:", missing.map(t => t.title).join(" | "));
   if (!ready.length) throw new Error("No topics with v2 content — nothing to compile.");
