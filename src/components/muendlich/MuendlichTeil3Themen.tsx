@@ -1,34 +1,37 @@
 /**
- * Rich Mündlich Teil 3 "gemeinsam etwas planen" study view — 7-page structure
- * (schema_version 1): Aufgabe / Erklärung & Struktur / Redemittel /
- * Diskussionsideen / Tipps / Beispieldialog / Wortschatz. German-only (no
- * Arabic translation layer, unlike Teil 2) per the source spec. Struktur and
- * Redemittel/Tipps come from the shared group template
- * (scripts/teil3-group-templates.mjs, duplicated here deliberately — same
- * sync convention already used for Teil 2's GROUP_ORDER) rather than being
- * stored per-topic, since they're genuinely reusable within a topic family;
- * Erklärung, Diskussionsideen, Beispieldialog and Wortschatz are topic-specific.
+ * Rich Mündlich Teil 3 "gemeinsam etwas planen" study view — schema_version 2
+ * (section-based Q&A structure modeled directly on the owner's reference
+ * example): Aufgabe / Erklärung / Struktur & Redemittel (per-section
+ * Frage+Antwort phrases with a topic demo exchange, e.g. 🟢 Start, 🎯 Ziel,
+ * ⏰ Zeit, 📍 Ort, ...) / Mögliche Fragen / Mögliche Antworten / Beispieldialog
+ * (with emoji section headers) / Wortschatz. German-only (no Arabic layer).
  *
- * Gating: plain client-side `.from("muendlich_materials").select()`, same
- * pattern as Teil 2 — RLS on the table is the only access-control boundary.
+ * The category Redemittel (Frage/Antwort per section key) live in
+ * REDEMITTEL_LIBRARY, duplicated from scripts/teil3-redemittel-library.mjs
+ * (same sync convention as Teil 2's GROUP_ORDER) since they're genuinely
+ * reusable across topics — each topic just picks an ordered subset of keys
+ * that fits its actual task and supplies a topic-specific demo exchange.
  */
 import { useEffect, useMemo, useState } from "react";
 import {
-  Loader2, ChevronRight, ChevronDown, FileText, ClipboardList, Lightbulb,
-  MessageSquareText, Sparkles, MessagesSquare, GraduationCap,
+  Loader2, ChevronRight, ChevronDown, FileText, ClipboardList, MessageSquareText,
+  HelpCircle, Lightbulb, MessagesSquare, GraduationCap,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { PdfViewer } from "./PdfViewer";
 
-interface DialogLine { speaker: "A" | "B"; text: string }
+interface StrukturSection { key: string; demo: { frage: string; antwort: string; reaktion?: string } }
+interface DialogLine { speaker: "A" | "B"; text: string; section?: string }
 interface Erklaerung { worum_geht_es: string; was_wird_erwartet: string; wichtige_punkte: string[]; worauf_achten: string[] }
 interface Wortschatz { verben: string[]; woerter: string[]; adjektive: string[] }
 
-interface SpeakingToolboxT3 {
-  schema_version: 1;
+interface SpeakingToolboxT3V2 {
+  schema_version: 2;
   erklaerung: Erklaerung;
-  diskussionsideen: string[];
+  struktur: StrukturSection[];
+  moegliche_fragen: string[];
+  moegliche_antworten_ideen: string[];
   beispieldialog: DialogLine[];
   wortschatz: Wortschatz;
 }
@@ -39,53 +42,45 @@ interface Topic {
   body_text: string | null;
   theme_category: string | null;
   difficulty_level: string | null;
-  speaking_toolbox: SpeakingToolboxT3 | { schema_version?: number } | null;
+  speaking_toolbox: SpeakingToolboxT3V2 | { schema_version?: number } | null;
   level?: string | null;
 }
 
-// ── same GROUP_ORDER as scripts/teil3-group-templates.mjs, kept in sync deliberately ──
+// ── same GROUP_ORDER as scripts/teil3-redemittel-library.mjs's book generator, kept in sync deliberately ──
 const GROUP_ORDER = [
   "Freizeit", "Bildung", "Gesellschaft", "Reisen", "Familie",
   "Beruf", "Gesundheit", "Technologie", "Soziales Engagement", "Medien",
 ];
 
-// ── same universal STRUKTUR as scripts/teil3-group-templates.mjs ──
-const STRUKTUR: { schritt: string; beschreibung: string }[] = [
-  { schritt: "1. Begrüßung & Einstieg", beschreibung: "Kurz das Thema benennen und den Gesprächspartner miteinbeziehen." },
-  { schritt: "2. Ideen sammeln", beschreibung: "Beide Seiten bringen erste Vorschläge und Ideen ein, ohne sie sofort zu bewerten." },
-  { schritt: "3. Vor- und Nachteile abwägen", beschreibung: "Die gesammelten Ideen gemeinsam durchsprechen: Was spricht dafür, was dagegen?" },
-  { schritt: "4. Auf Details einigen", beschreibung: "Konkrete Punkte klären (Zeit, Ort, Kosten, Organisation, Aufgabenverteilung)." },
-  { schritt: "5. Gemeinsame Entscheidung treffen", beschreibung: "Sich auf eine gemeinsame Lösung einigen, auch bei unterschiedlichen Meinungen." },
-  { schritt: "6. Zusammenfassung & Abschluss", beschreibung: "Das Ergebnis kurz zusammenfassen und das Gespräch höflich beenden." },
-];
+// ── same category Redemittel library as scripts/teil3-redemittel-library.mjs ──
+const REDEMITTEL_LIBRARY: Record<string, { emoji: string; label: string; frage: string[]; antwort: string[] }> = {
+  start: { emoji: "🟢", label: "Start", frage: ["Dann lass uns gemeinsam überlegen, wie wir … organisieren können.", "Sollen wir gleich mit der Planung anfangen?", "Wo, meinst du, sollten wir anfangen?"], antwort: ["Ja, das ist eine gute Idee. Schließlich ist das Thema wirklich wichtig.", "Gerne, ich habe auch schon ein paar erste Gedanken dazu.", "Ja, fangen wir am besten gleich an."] },
+  ziel: { emoji: "🎯", label: "Ziel / Zweck", frage: ["Was sollte deiner Meinung nach das Hauptziel sein?", "Was wollen wir mit … eigentlich erreichen?", "Was ist dir dabei besonders wichtig?"], antwort: ["Meiner Ansicht nach sollte das Hauptziel darin bestehen, …", "Ich denke, es geht vor allem darum, dass …", "Für mich steht im Vordergrund, dass …"] },
+  zeit: { emoji: "⏰", label: "Zeitpunkt", frage: ["Wann wäre deiner Meinung nach der geeignetste Zeitpunkt dafür?", "Welcher Termin würde dir am besten passen?", "Wann wäre es deiner Meinung nach am sinnvollsten, …?"], antwort: ["Am sinnvollsten wäre es wahrscheinlich, …", "Ich würde vorschlagen, dass wir …", "Ich halte … für den geeignetsten Zeitpunkt, weil …"] },
+  ort: { emoji: "📍", label: "Ort", frage: ["Welcher Ort wäre dafür am besten geeignet?", "Wo könnten wir das am besten organisieren?", "Was hältst du davon, wenn wir es in … machen?"], antwort: ["Ich halte … für die praktischste Lösung, weil …", "Ich würde eher … bevorzugen, da …", "Dort hätten wir den Vorteil, dass …"] },
+  verkehrsmittel: { emoji: "🚌", label: "Verkehrsmittel", frage: ["Wie sollen wir am besten dorthin kommen?", "Was hältst du von … als Verkehrsmittel?", "Wäre es nicht praktischer, mit … zu fahren?"], antwort: ["Ich würde … vorschlagen, weil das günstiger/schneller ist.", "Am bequemsten wäre wahrscheinlich …", "Dadurch würden wir außerdem Kosten sparen."] },
+  unterkunft: { emoji: "🏨", label: "Unterkunft", frage: ["Wo sollten wir übernachten?", "Was hältst du von einer Jugendherberge statt einem Hotel?", "Welche Unterkunft passt am besten zu unserem Budget?"], antwort: ["Ich würde … bevorzugen, weil es günstiger/zentraler ist.", "Das wäre sicher komfortabler, allerdings auch teurer.", "Dort hätten wir den Vorteil, dass …"] },
+  anlass: { emoji: "🎉", label: "Anlass", frage: ["Was genau möchten wir mit dieser Feier eigentlich feiern?", "Wie groß soll die Feier werden?", "Soll es eher überraschend oder offiziell angekündigt sein?"], antwort: ["Ich finde, wir sollten vor allem …", "Meiner Meinung nach sollte der Fokus auf … liegen.", "Ich denke, es sollte eher … sein."] },
+  gaeste: { emoji: "🙋", label: "Gäste", frage: ["Wen sollten wir alles einladen?", "Wie viele Gäste erwarten wir ungefähr?", "Sollen auch Familienmitglieder oder Partner eingeladen werden?"], antwort: ["Ich würde vorschlagen, dass wir …", "Am besten laden wir … ein, weil …", "Ich denke, wir sollten die Gästeliste auf … begrenzen."] },
+  essen: { emoji: "🍽️", label: "Essen & Getränke", frage: ["Was sollten wir zu essen und trinken anbieten?", "Sollen wir selbst kochen oder etwas bestellen?", "Sollten wir auf besondere Ernährungsbedürfnisse achten?"], antwort: ["Ich würde vorschlagen, dass jeder etwas mitbringt.", "Am einfachsten wäre es, wenn wir …", "Wir sollten auch an vegetarische Optionen denken."] },
+  programm: { emoji: "🎶", label: "Programm / Musik", frage: ["Was sollten wir für ein Programm planen?", "Was hältst du von Live-Musik statt einer Playlist?", "Sollten wir Spiele oder Aktivitäten einplanen?"], antwort: ["Ich hätte da eine Idee: Wir könnten …", "Das wäre sicher unterhaltsam, weil …", "Eine weitere Möglichkeit wäre …"] },
+  inhalte: { emoji: "📚", label: "Inhalte", frage: ["Welche Themen sollten unbedingt behandelt werden?", "Was sollte inhaltlich im Mittelpunkt stehen?", "Welche Aspekte dürfen wir nicht vergessen?"], antwort: ["Meiner Meinung nach sollten wir vor allem … behandeln.", "Das halte ich ebenfalls für sinnvoll. Vielleicht könnten wir zusätzlich …", "Dadurch würden die Teilnehmer einen umfassenderen Überblick bekommen."] },
+  aktivitaeten: { emoji: "🏞️", label: "Aktivitäten", frage: ["Welche Aktivitäten sollten wir einplanen?", "Was hältst du von …?", "Sollten wir eher etwas Ruhiges oder etwas Aktives einplanen?"], antwort: ["Ich würde vorschlagen, dass wir …", "Das wäre sicher interessant, weil …", "Wir könnten auch … einplanen, damit für jeden etwas dabei ist."] },
+  vorschlaege: { emoji: "💡", label: "Vorschläge", frage: ["Hast du dazu schon eine konkrete Idee?", "Was hältst du davon, wenn wir …?", "Wie wäre es mit …?"], antwort: ["Ich würde vorschlagen, dass wir …", "Eine weitere Möglichkeit wäre, …", "Das klingt nach einer sehr guten Idee, vor allem weil …"] },
+  material: { emoji: "🛠️", label: "Material", frage: ["Welche technischen Geräte und Materialien benötigen wir dafür?", "Glaubst du, dass wir noch etwas benötigen?", "Wer könnte das nötige Material besorgen?"], antwort: ["Wir brauchen auf jeden Fall …", "Ich könnte … besorgen, wenn du willst.", "Vielleicht sollten wir außerdem … einplanen."] },
+  werbung: { emoji: "📢", label: "Werbung", frage: ["Wie könnten wir möglichst viele Besucher erreichen?", "Über welche Kanäle sollten wir werben?", "Wer könnte uns beim Bekanntmachen helfen?"], antwort: ["Wir könnten Werbung über … machen.", "Das halte ich für sinnvoll, weil wir dadurch eine größere Zielgruppe ansprechen.", "Vielleicht sollten wir auch … um Hilfe bitten."] },
+  teilnehmer: { emoji: "🙋", label: "Teilnehmer", frage: ["An wen richtet sich das Angebot genau?", "Wie viele Teilnehmer erwarten wir?", "Sollten wir eine Anmeldung organisieren?"], antwort: ["Ich denke, vor allem … würden davon profitieren.", "Wir sollten eine ungefähre Teilnehmerzahl einplanen, um …", "Eine Anmeldeliste wäre sinnvoll, damit wir besser planen können."] },
+  aufgabenverteilung: { emoji: "👥", label: "Aufgabenverteilung", frage: ["Wie könnten wir die Aufgaben möglichst effizient aufteilen?", "Was würdest du gerne übernehmen?", "Wer kümmert sich am besten um …?"], antwort: ["Ich könnte mich um … kümmern. Würdest du dann … übernehmen?", "Ja, das mache ich gerne. Außerdem könnte ich …", "Das teilen wir uns am besten je nach Stärken auf."] },
+  kosten: { emoji: "💰", label: "Kosten", frage: ["Wie hoch sollte das Budget insgesamt sein?", "Wie teilen wir die Kosten am besten auf?", "Sollten wir versuchen, Kosten zu sparen?"], antwort: ["Ich würde vorschlagen, dass wir die Kosten gleich aufteilen.", "Wir sollten ein realistisches Budget von … einplanen.", "Vielleicht können wir bei … sparen, indem wir …"] },
+  ablauf: { emoji: "🔄", label: "Ablauf / Durchführung", frage: ["Wie sollte der genaue Ablauf aussehen?", "Was passiert zuerst, was danach?", "Sollten wir das in mehreren Schritten organisieren?"], antwort: ["Ich würde vorschlagen, dass wir zuerst … und danach …", "Am sinnvollsten wäre eine klare Reihenfolge: zuerst …, dann …", "Wir sollten genug Zeit für jeden Schritt einplanen."] },
+  abschluss: { emoji: "✅", label: "Abschluss", frage: ["Können wir das so festhalten?", "Sind wir uns bei allen Punkten einig?", "Passt das so für dich?"], antwort: ["Dann können wir festhalten, dass …", "Perfekt, dann haben wir einen guten Plan.", "Genau, ich denke, das wird gut funktionieren."] },
+};
 
-// ── same base Redemittel as scripts/teil3-group-templates.mjs (group-specific
-// additions live only in the compiled PDF; the UI shows the shared base set) ──
-const REDEMITTEL: { label: string; items: string[] }[] = [
-  { label: "Einstieg", items: ["Also, wir sollen ja gemeinsam … planen. Wo fangen wir an?", "Schön, dass wir das zusammen besprechen können. Hast du schon eine erste Idee?", "Fangen wir doch damit an, dass wir überlegen, was uns wichtig ist."] },
-  { label: "Idee einbringen", items: ["Ich hätte da eine Idee: Wir könnten …", "Mir würde spontan einfallen, dass wir …", "Was hältst du davon, wenn wir …"] },
-  { label: "Vorschlag machen", items: ["Ich schlage vor, dass wir …", "Wie wäre es, wenn wir …", "Ich würde vorschlagen, zuerst … zu klären."] },
-  { label: "Meinung erfragen", items: ["Was denkst du darüber?", "Wie siehst du das?", "Bist du damit einverstanden, oder hättest du einen anderen Vorschlag?"] },
-  { label: "Zustimmen", items: ["Da stimme ich dir voll und ganz zu.", "Das ist ein guter Punkt, das sehe ich genauso.", "Einverstanden, das klingt vernünftig."] },
-  { label: "Höflich widersprechen", items: ["Das verstehe ich, aber ich sehe das etwas anders.", "Da bin ich mir nicht so sicher, denn …", "Ich hätte da Bedenken, weil …"] },
-  { label: "Begründen", items: ["Das schlage ich vor, weil …", "Der Grund dafür ist, dass …", "Das wäre sinnvoll, denn …"] },
-  { label: "Vergleichen", items: ["Im Vergleich zu … finde ich … besser, weil …", "Auf der einen Seite …, auf der anderen Seite …", "Beide Möglichkeiten haben Vor- und Nachteile, aber …"] },
-  { label: "Vor- & Nachteile nennen", items: ["Ein Vorteil davon wäre, dass …", "Ein Nachteil könnte allerdings sein, dass …", "Man muss auch bedenken, dass …"] },
-  { label: "Reagieren", items: ["Das ist ein interessanter Punkt, daran habe ich noch gar nicht gedacht.", "Gute Idee, das könnten wir wirklich so machen.", "Hm, verstehe, aber wie stellst du dir das genau vor?"] },
-  { label: "Themenwechsel", items: ["Gut, dann wären wir uns da einig. Kommen wir zum nächsten Punkt.", "Lass uns jetzt noch über … sprechen.", "Ein weiterer wichtiger Punkt wäre …"] },
-  { label: "Entscheidung treffen", items: ["Dann einigen wir uns also darauf, dass …", "Ich denke, wir sind uns einig: Wir machen es so, dass …", "Fassen wir zusammen: Wir entscheiden uns für …"] },
-  { label: "Abschluss", items: ["Ich finde, wir haben einen guten Plan zusammengestellt.", "Dann halten wir das so fest. Vielen Dank für die gute Zusammenarbeit.", "Ich denke, damit haben wir alles Wichtige besprochen."] },
-];
-
-const TIPPS: string[] = [
-  "Beginnen Sie aktiv mit einem eigenen Vorschlag — warten Sie nicht nur ab.",
-  "Stellen Sie Ihrem Partner / Ihrer Partnerin echte Fragen und hören Sie aktiv zu.",
-  "Wenn Sie unsicher sind, sagen Sie das offen: „Ich bin mir nicht sicher, aber vielleicht …“",
-  "Widersprechen Sie höflich, nicht abweisend — bestätigen Sie erst, was gut ist, bevor Sie Einwände nennen.",
-  "Nutzen Sie Themenwechsel-Redemittel, um strukturiert von einem Punkt zum nächsten zu kommen.",
-  "Achten Sie darauf, wirklich zu einer gemeinsamen Entscheidung zu kommen — das wird explizit bewertet.",
-  "Vermeiden Sie lange Monologe; ein Gespräch lebt vom Hin und Her.",
-];
+const ZUSTIMMUNG_WIDERSPRUCH = {
+  meinung_erfragen: ["Was meinst du dazu?", "Wie siehst du das?", "Wie findest du diese Idee?", "Wäre das auch für dich passend?"],
+  zustimmen: ["Das sehe ich genauso.", "Das halte ich ebenfalls für sinnvoll.", "Da stimme ich dir zu.", "Das klingt nach einer guten Lösung."],
+  widersprechen: ["Ich verstehe deinen Punkt, aber ich würde eher …", "Das könnte schwierig sein, weil …", "Ich sehe das etwas anders, denn …", "Das ist ein guter Gedanke, allerdings sollten wir auch bedenken, dass …"],
+};
 
 function groupTopics(topics: Topic[]) {
   const groups: { name: string; topics: Topic[] }[] = [];
@@ -102,16 +97,16 @@ function groupTopics(topics: Topic[]) {
 const PAGES = [
   { key: "aufgabe", label: "1. Aufgabe", icon: FileText },
   { key: "erklaerung", label: "2. Erklärung", icon: ClipboardList },
-  { key: "redemittel", label: "3. Redemittel", icon: MessageSquareText },
-  { key: "ideen", label: "4. Ideen", icon: Lightbulb },
-  { key: "tipps", label: "5. Tipps", icon: Sparkles },
+  { key: "struktur", label: "3. Struktur", icon: MessageSquareText },
+  { key: "fragen", label: "4. Fragen", icon: HelpCircle },
+  { key: "antworten", label: "5. Antworten", icon: Lightbulb },
   { key: "dialog", label: "6. Dialog", icon: MessagesSquare },
   { key: "wortschatz", label: "7. Wortschatz", icon: GraduationCap },
 ] as const;
 type PageKey = typeof PAGES[number]["key"];
 
-function isReady(tb: Topic["speaking_toolbox"]): tb is SpeakingToolboxT3 {
-  return !!tb && (tb as any).schema_version === 1;
+function isReady(tb: Topic["speaking_toolbox"]): tb is SpeakingToolboxT3V2 {
+  return !!tb && (tb as any).schema_version === 2;
 }
 
 function Pill({ children }: { children: React.ReactNode }) {
@@ -132,6 +127,36 @@ function PlainList({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function RedemittelCols({ frage, antwort }: { frage: string[]; antwort: string[] }) {
+  return (
+    <div className="grid gap-4 sm:grid-cols-2">
+      <div>
+        <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Fragen stellen</h5>
+        <ul className="space-y-1">{frage.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+      </div>
+      <div>
+        <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Antworten geben</h5>
+        <ul className="space-y-1">{antwort.map((a, i) => <li key={i} className="text-sm italic text-muted-foreground">„{a}“</li>)}</ul>
+      </div>
+    </div>
+  );
+}
+
+function StrukturCard({ sec }: { sec: StrukturSection }) {
+  const lib = REDEMITTEL_LIBRARY[sec.key] ?? { emoji: "•", label: sec.key, frage: [], antwort: [] };
+  return (
+    <div className="rounded-xl border border-border p-4">
+      <h4 className="mb-2 text-sm font-black text-foreground">{lib.emoji} {lib.label}</h4>
+      <RedemittelCols frage={lib.frage} antwort={lib.antwort} />
+      <div className="mt-3 space-y-1 rounded-lg bg-sky-500/5 p-3">
+        <p className="text-sm"><span className="font-black text-sky-600 dark:text-sky-400">A:</span> {sec.demo.frage}</p>
+        <p className="text-sm"><span className="font-black text-rose-600 dark:text-rose-400">B:</span> {sec.demo.antwort}</p>
+        {sec.demo.reaktion && <p className="text-sm"><span className="font-black text-sky-600 dark:text-sky-400">A:</span> {sec.demo.reaktion}</p>}
+      </div>
+    </div>
   );
 }
 
@@ -205,47 +230,68 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
                 <PlainList items={tb.erklaerung.worauf_achten} />
               </div>
             </div>
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Struktur für das Gespräch</h3>
-              <ol className="space-y-2">
-                {STRUKTUR.map((s, i) => (
-                  <li key={i} className="text-sm text-foreground">
-                    <span className="font-bold">{s.schritt}</span>{" "}
-                    <span className="text-muted-foreground">— {s.beschreibung}</span>
-                  </li>
-                ))}
-              </ol>
+          </div>
+        )}
+
+        {page === "struktur" && tb && (
+          <div className="space-y-3">
+            <p className="text-xs italic text-muted-foreground">Fragen stellen → Antworten geben → reagieren. Für jeden Punkt ein Beispiel:</p>
+            {tb.struktur.map((sec, i) => <StrukturCard key={i} sec={sec} />)}
+            <div className="rounded-xl border border-border bg-muted/20 p-4">
+              <h4 className="mb-2 text-sm font-black text-foreground">🔁 Zustimmen &amp; höflich widersprechen</h4>
+              <div className="grid gap-4 sm:grid-cols-3">
+                <div>
+                  <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Nach Meinung fragen</h5>
+                  <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.meinung_erfragen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                </div>
+                <div>
+                  <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Zustimmen</h5>
+                  <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.zustimmen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                </div>
+                <div>
+                  <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Höflich widersprechen</h5>
+                  <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.widersprechen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {page === "redemittel" && tb && (
-          <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2">
-            {REDEMITTEL.map((cat) => (
-              <div key={cat.label}>
-                <h3 className="mb-1.5 text-sm font-black text-sky-600 dark:text-sky-400">{cat.label}</h3>
-                <ul className="space-y-1">
-                  {cat.items.map((r, i) => (
-                    <li key={i} className="text-sm italic text-muted-foreground">„{r}“</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+        {page === "fragen" && tb && (
+          <div>
+            <p className="mb-3 text-xs italic text-muted-foreground">Realistische Fragen, die Ihr Gesprächspartner stellen könnte:</p>
+            <PlainList items={tb.moegliche_fragen} />
           </div>
         )}
 
-        {page === "ideen" && tb && <PlainList items={tb.diskussionsideen} />}
-
-        {page === "tipps" && tb && <PlainList items={TIPPS} />}
+        {page === "antworten" && tb && (
+          <div>
+            <p className="mb-3 text-xs italic text-muted-foreground">Verschiedene Ideen, aus denen Sie in der Prüfung frei wählen können:</p>
+            <PlainList items={tb.moegliche_antworten_ideen} />
+          </div>
+        )}
 
         {page === "dialog" && tb && (
-          <div className="space-y-2.5">
-            {tb.beispieldialog.map((l, i) => (
-              <p key={i} className="text-sm leading-relaxed">
-                <span className={`font-black ${l.speaker === "A" ? "text-sky-600 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"}`}>{l.speaker}:</span>{" "}
-                <span className="text-foreground">{l.text}</span>
-              </p>
-            ))}
+          <div className="space-y-1">
+            {(() => {
+              let lastSection: string | undefined;
+              return tb.beispieldialog.map((l, i) => {
+                const showHeader = l.section && l.section !== lastSection;
+                if (l.section) lastSection = l.section;
+                const lib = l.section ? REDEMITTEL_LIBRARY[l.section] : null;
+                return (
+                  <div key={i}>
+                    {showHeader && lib && (
+                      <p className="mb-1 mt-4 text-xs font-black uppercase tracking-wide text-sky-600 first:mt-0 dark:text-sky-400">{lib.emoji} {lib.label}</p>
+                    )}
+                    <p className="text-sm leading-relaxed">
+                      <span className={`font-black ${l.speaker === "A" ? "text-sky-600 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"}`}>{l.speaker}:</span>{" "}
+                      <span className="text-foreground">{l.text}</span>
+                    </p>
+                  </div>
+                );
+              });
+            })()}
           </div>
         )}
 
@@ -352,7 +398,7 @@ export function MuendlichTeil3Themen() {
             <TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} pdfAvailable={!!book} />
           ) : (
             <div className="flex h-full items-center justify-center p-8 text-center text-sm text-muted-foreground">
-              Wählen Sie links ein Thema aus, um Erklärung, Struktur, Redemittel, Diskussionsideen, Tipps, einen Beispieldialog und Wortschatz zu sehen.
+              Wählen Sie links ein Thema aus, um Erklärung, Struktur, Redemittel, mögliche Fragen &amp; Antworten, einen Beispieldialog und Wortschatz zu sehen.
             </div>
           )}
         </div>

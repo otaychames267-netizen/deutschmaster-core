@@ -14,7 +14,7 @@ const db = createClient(
   { auth: { autoRefreshToken: false, persistSession: false } }
 );
 
-const REQUIRED_KEYS = ["erklaerung", "diskussionsideen", "beispieldialog", "wortschatz"];
+const REQUIRED_KEYS = ["erklaerung", "struktur", "moegliche_fragen", "moegliche_antworten_ideen", "beispieldialog", "wortschatz"];
 
 const files = process.argv.slice(2);
 if (files.length === 0) {
@@ -37,8 +37,8 @@ for (const file of files) {
       skipped++;
       continue;
     }
-    if (toolbox.schema_version !== 1) {
-      console.log(`  SKIP ${id}: schema_version is ${toolbox.schema_version}, expected 1`);
+    if (toolbox.schema_version !== 2) {
+      console.log(`  SKIP ${id}: schema_version is ${toolbox.schema_version}, expected 2`);
       skipped++;
       continue;
     }
