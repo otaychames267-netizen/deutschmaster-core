@@ -34,9 +34,9 @@ const GROUP_ORDER = [
 // group at the very end of the PDF, under an Arabic header.
 const UNASSIGNED_GROUP = "مواضيع لم تُدرج بعد في مراكز الامتحانات في تونس";
 
-function groupTopics(topics) {
+function groupTopics(topics, { includeUnassigned } = { includeUnassigned: true }) {
   const assigned = topics.filter(t => !t.is_unassigned_center);
-  const unassigned = topics.filter(t => t.is_unassigned_center);
+  const unassigned = includeUnassigned ? topics.filter(t => t.is_unassigned_center) : [];
   const groups = [];
   for (const name of GROUP_ORDER) {
     const inGroup = assigned.filter(t => (t.theme_category ?? "Sonstiges") === name);
@@ -302,27 +302,45 @@ async function main() {
   if (missing.length) console.log("Missing content for:", missing.map(t => t.title).join(" | "));
   if (!ready.length) throw new Error("No topics with v2 content — nothing to compile.");
 
-  const groups = groupTopics(ready);
-  console.log("Groups:", groups.map(g => `${g.name} (${g.topics.length})`).join(", "));
+  const activeCount = ready.filter(t => !t.is_unassigned_center).length;
 
-  const html = renderBookHtml(groups, ready.length);
-  writeFileSync(`${SCRATCH}\\muendlich-teil3-meisterbuch.html`, html, "utf8");
+  const studentGroups = groupTopics(ready, { includeUnassigned: false });
+  const adminGroups = groupTopics(ready, { includeUnassigned: true });
+  console.log("Student groups:", studentGroups.map(g => `${g.name} (${g.topics.length})`).join(", "));
+  console.log("Admin groups:", adminGroups.map(g => `${g.name} (${g.topics.length})`).join(", "));
 
   const browser = await chromium.launch({ channel: "msedge" });
-  const page = await browser.newPage();
-  await page.setContent(html, { waitUntil: "networkidle" });
-  await page.evaluate(() => document.fonts.ready);
-  await page.waitForTimeout(500);
-  const pdfPath = `${SCRATCH}\\muendlich-teil3-meisterbuch.pdf`;
-  await page.pdf({ path: pdfPath, format: "A4", printBackground: true });
-  await browser.close();
-  console.log("Rendered:", pdfPath);
 
-  const bytes = readFileSync(pdfPath);
-  const storagePath = "teil-3/redemittel/AuraLingovia-Sprechen-Teil3-Meisterbuch.pdf";
-  const up = await db.storage.from("muendlich-pdfs").upload(storagePath, bytes, { contentType: "application/pdf", upsert: true });
-  if (up.error) throw up.error;
-  console.log("Uploaded:", up.data.path, `(${(bytes.length / 1024 / 1024).toFixed(1)} MB)`);
+  async function renderVariant(groups, label, topicCount) {
+    const html = renderBookHtml(groups, topicCount);
+    writeFileSync(`${SCRATCH}\\muendlich-teil3-meisterbuch-${label}.html`, html, "utf8");
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: "networkidle" });
+    await page.evaluate(() => document.fonts.ready);
+    await page.waitForTimeout(500);
+    const pdfPath = `${SCRATCH}\\muendlich-teil3-meisterbuch-${label}.pdf`;
+    await page.pdf({ path: pdfPath, format: "A4", printBackground: true });
+    await page.close();
+    console.log("Rendered:", pdfPath);
+    return pdfPath;
+  }
+
+  const studentPdfPath = await renderVariant(studentGroups, "student", activeCount);
+  const adminPdfPath = await renderVariant(adminGroups, "admin", ready.length);
+  await browser.close();
+
+  const studentStoragePath = "teil-3/redemittel/AuraLingovia-Sprechen-Teil3-Meisterbuch.pdf";
+  const adminStoragePath = "teil-3/redemittel/admin/AuraLingovia-Sprechen-Teil3-Meisterbuch-Admin.pdf";
+
+  const studentBytes = readFileSync(studentPdfPath);
+  const upStudent = await db.storage.from("muendlich-pdfs").upload(studentStoragePath, studentBytes, { contentType: "application/pdf", upsert: true });
+  if (upStudent.error) throw upStudent.error;
+  console.log("Uploaded student:", upStudent.data.path, `(${(studentBytes.length / 1024 / 1024).toFixed(1)} MB)`);
+
+  const adminBytes = readFileSync(adminPdfPath);
+  const upAdmin = await db.storage.from("muendlich-pdfs").upload(adminStoragePath, adminBytes, { contentType: "application/pdf", upsert: true });
+  if (upAdmin.error) throw upAdmin.error;
+  console.log("Uploaded admin:", upAdmin.data.path, `(${(adminBytes.length / 1024 / 1024).toFixed(1)} MB)`);
 
   const { data: existing } = await db
     .from("muendlich_materials")
@@ -330,17 +348,17 @@ async function main() {
     .eq("teil", 3).eq("category", "redemittel").eq("level", level)
     .maybeSingle();
 
+  const title = `Sprechen Teil 3 — Das Meisterbuch (${activeCount} Themen)`;
   if (existing) {
     const { error: updErr } = await db.from("muendlich_materials")
-      .update({ title: `Sprechen Teil 3 — Das Meisterbuch (alle ${ready.length} Themen)`, storage_path: storagePath })
+      .update({ title, storage_path: studentStoragePath, admin_storage_path: adminStoragePath })
       .eq("id", existing.id);
     if (updErr) throw updErr;
     console.log("Updated existing Meisterbuch row:", existing.id);
   } else {
     const { data: ins, error: insErr } = await db.from("muendlich_materials").insert({
-      teil: 3, category: "redemittel", level,
-      title: `Sprechen Teil 3 — Das Meisterbuch (alle ${ready.length} Themen)`,
-      storage_path: storagePath, sort_order: 1,
+      teil: 3, category: "redemittel", level, title,
+      storage_path: studentStoragePath, admin_storage_path: adminStoragePath, sort_order: 1,
     }).select().single();
     if (insErr) throw insErr;
     console.log("Inserted new Meisterbuch row:", ins.id);

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
+import { useAuth } from "@/lib/auth";
 import { PdfViewer } from "./PdfViewer";
 
 interface StrukturSection { key: string; demo: { frage: string; antwort: string; reaktion?: string } }
@@ -325,6 +326,7 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
 
 export function MuendlichTeil3Themen() {
   const level = useActiveLevel();
+  const { isAdmin } = useAuth();
   const [topics, setTopics] = useState<Topic[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Topic | null>(null);
@@ -342,21 +344,24 @@ export function MuendlichTeil3Themen() {
         .eq("teil", 3).eq("category", "themen").eq("level", level)
         .order("title");
       // Topics not yet introduced in any physical exam center in Tunisia are excluded from
-      // the student-facing dashboard entirely (they remain in the PDF appendix instead).
-      const visible = ((data ?? []) as Topic[]).filter((t) => !t.is_unassigned_center);
+      // the student-facing dashboard entirely (they remain in the admin-only PDF appendix
+      // instead). Admins see everything, matching their PDF (see the book-fetch effect below).
+      const rows = (data ?? []) as Topic[];
+      const visible = isAdmin ? rows : rows.filter((t) => !t.is_unassigned_center);
       setTopics(enforceLevel(visible, level));
       setLoading(false);
     })();
     (async () => {
       const { data } = await supabase
         .from("muendlich_materials")
-        .select("title, storage_path")
+        .select("title, storage_path, admin_storage_path")
         .eq("teil", 3).eq("category", "redemittel").eq("level", level)
         .not("storage_path", "is", null)
         .maybeSingle();
-      if (data?.storage_path) setBook({ storage_path: data.storage_path, title: data.title });
+      const path = isAdmin && data?.admin_storage_path ? data.admin_storage_path : data?.storage_path;
+      if (path) setBook({ storage_path: path, title: data!.title });
     })();
-  }, [level]);
+  }, [level, isAdmin]);
 
   const groups = useMemo(() => groupTopics(topics), [topics]);
 
@@ -380,11 +385,16 @@ export function MuendlichTeil3Themen() {
               <button
                 key={t.id}
                 onClick={() => { setSelected(t); setMobileOpen(true); }}
-                className={`block w-full truncate rounded-lg px-4 py-2 text-left text-sm transition-colors ${
+                className={`flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left text-sm transition-colors ${
                   selected?.id === t.id ? "bg-sky-500/10 font-semibold text-sky-600 dark:text-sky-400" : "text-foreground hover:bg-muted"
                 }`}
               >
-                {t.title}
+                <span className="truncate">{t.title}</span>
+                {isAdmin && t.is_unassigned_center && (
+                  <span className="shrink-0 rounded-full bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                    Nicht eingeführt
+                  </span>
+                )}
               </button>
             ))}
           </div>

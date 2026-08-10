@@ -2563,6 +2563,7 @@ export type Database = {
       }
       muendlich_materials: {
         Row: {
+          admin_storage_path: string | null
           body_text: string | null
           category: string
           created_at: string
@@ -2582,6 +2583,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          admin_storage_path?: string | null
           body_text?: string | null
           category: string
           created_at?: string
@@ -2601,6 +2603,7 @@ export type Database = {
           title: string
         }
         Update: {
+          admin_storage_path?: string | null
           body_text?: string | null
           category?: string
           created_at?: string
