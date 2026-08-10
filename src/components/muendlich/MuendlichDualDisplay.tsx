@@ -1,16 +1,20 @@
 /**
  * Shared "dual display" building blocks for the Mündlich Teil 2 / Teil 3
- * main pages (owner decision 2026-08-10): a protected, animated PDF
- * showcase (the actual exam-prep content — Struktur, dialogue, vocabulary,
- * Arabic explanations) plus a grid of plain-text-only topic cards (just the
- * raw scenario prompt, safe to show everyone). Shared between both Teile so
- * the visual language and protection behavior never drift between them.
+ * main pages (owner decision 2026-08-10, extended 2026-08-10): a protected,
+ * animated PDF showcase (dialogue, vocabulary, Arabic explanations — stays
+ * PDF-exclusive) plus a stack of topic cards that each carry the topic's
+ * own title, full scenario text, AND its associated Redemittel/expressions.
+ * Shared between both Teile so the visual language and protection behavior
+ * never drift between them.
  */
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FileText, Loader2, AlertCircle, Lock, Download } from "lucide-react";
+import { FileText, Loader2, AlertCircle, Lock, Download, Info } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getThemeArt } from "./themeArt";
+
+/** Normalized Redemittel section, computed per-Teil (see MuendlichTeil2/3Themen) from either the admin's raw speaking_toolbox or the catalog RPC's minimized redemittel_data — TopicTextCard only ever sees this shape. */
+export interface RedemittelItem { label: string; lines: string[] }
 
 export interface DualDisplayTopic {
   id: string;
@@ -20,6 +24,7 @@ export interface DualDisplayTopic {
   difficulty_level: string | null;
   is_unassigned_center?: boolean;
   level?: string | null;
+  redemittelItems?: RedemittelItem[];
 }
 
 export interface MuendlichBook { storage_path: string; title: string }
@@ -111,13 +116,10 @@ function LockedPdfCta({ onUnlock }: { onUnlock: () => void }) {
   );
 }
 
-const ROTATE_CLASS = ["", "sm:translate-y-3", "sm:-translate-y-2"];
-
-/** Plain-text-only topic card — title + raw scenario prompt, no solutions,
- * dialogue, Redemittel, or vocabulary. The staggered translate + varied
- * per-category gradient/icon give the grid visual rhythm without needing an
- * actual masonry layout. */
-export function TopicTextCard({ topic, index, isAdmin }: { topic: DualDisplayTopic; index: number; isAdmin: boolean }) {
+/** Full topic card — title, complete scenario text, and its associated
+ * Redemittel/expressions. No dialogue transcript, vocabulary list, or
+ * Arabic explanation — those stay PDF-exclusive. */
+export function TopicTextCard({ topic, index }: { topic: DualDisplayTopic; index: number }) {
   const art = getThemeArt(topic.theme_category);
   const Icon = art.icon;
   return (
@@ -125,34 +127,65 @@ export function TopicTextCard({ topic, index, isAdmin }: { topic: DualDisplayTop
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.35, delay: (index % 6) * 0.05, ease: "easeOut" }}
-      className={`group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg ${ROTATE_CLASS[index % ROTATE_CLASS.length]}`}
+      transition={{ duration: 0.35, delay: (index % 6) * 0.04, ease: "easeOut" }}
+      className="overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-shadow duration-300 hover:shadow-lg"
     >
-      <div
-        className="relative flex h-24 items-center justify-center overflow-hidden"
-        style={{ background: `linear-gradient(135deg, ${art.from}, ${art.to})` }}
-      >
-        <div className="absolute -right-4 -top-6 h-24 w-24 rounded-full bg-white/15 blur-xl" />
-        <div className="absolute -left-6 bottom-0 h-16 w-16 rounded-full bg-black/10 blur-lg" />
-        <Icon className="h-10 w-10 text-white/90 drop-shadow transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6" />
-      </div>
-      <div className="p-4">
-        <div className="mb-2 flex flex-wrap items-center gap-1.5">
-          {topic.theme_category && (
-            <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{topic.theme_category}</span>
+      <div className="flex items-stretch">
+        <div
+          className="relative flex w-20 shrink-0 items-center justify-center overflow-hidden sm:w-28"
+          style={{ background: `linear-gradient(160deg, ${art.from}, ${art.to})` }}
+        >
+          <div className="absolute -right-4 -top-6 h-20 w-20 rounded-full bg-white/15 blur-xl" />
+          <div className="absolute -left-4 bottom-0 h-14 w-14 rounded-full bg-black/10 blur-lg" />
+          <Icon className="h-8 w-8 text-white/90 drop-shadow sm:h-10 sm:w-10" />
+        </div>
+        <div className="min-w-0 flex-1 p-4 sm:p-5">
+          <div className="mb-2 flex flex-wrap items-center gap-1.5">
+            {topic.theme_category && (
+              <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{topic.theme_category}</span>
+            )}
+          </div>
+          <h3 className="mb-2 text-base font-black leading-snug text-foreground">{topic.title}</h3>
+          {topic.body_text && (
+            <p className="mb-3 whitespace-pre-line text-sm leading-relaxed text-muted-foreground">{topic.body_text}</p>
           )}
-          {topic.difficulty_level && (
-            <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{topic.difficulty_level}</span>
-          )}
-          {isAdmin && topic.is_unassigned_center && (
-            <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">Nicht eingeführt</span>
+          {topic.redemittelItems && topic.redemittelItems.length > 0 && (
+            <div className="space-y-2.5 rounded-xl border border-border bg-muted/20 p-3">
+              <p className="text-[10px] font-black uppercase tracking-wide text-muted-foreground">Redemittel</p>
+              {topic.redemittelItems.map((item, i) => (
+                <div key={i}>
+                  <p className="mb-0.5 text-xs font-bold text-foreground">{item.label}</p>
+                  <ul className="space-y-0.5">
+                    {item.lines.map((line, j) => (
+                      <li key={j} className="text-xs italic leading-relaxed text-muted-foreground">„{line}“</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           )}
         </div>
-        <h3 className="mb-1.5 text-sm font-black leading-snug text-foreground">{topic.title}</h3>
-        {topic.body_text && (
-          <p className="line-clamp-6 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{topic.body_text}</p>
-        )}
       </div>
     </motion.div>
+  );
+}
+
+/** The "never introduced in a Tunisian exam center" section — one large,
+ * distinguished header (no per-topic badges needed, the header + notice
+ * already say it) followed by the required guidance notice, then the same
+ * TopicTextCard stack. */
+export function UnassignedTopicsNotice() {
+  return (
+    <div className="pt-2">
+      <h2 className="mb-4 text-xl font-black tracking-tight text-foreground sm:text-2xl">
+        Themen, die in Tunesien noch nie vorgekommen sind
+      </h2>
+      <div className="mb-6 flex items-start gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 sm:p-5">
+        <Info className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+        <p className="text-sm leading-relaxed text-foreground">
+          Hinweis: Diese Themen sind bisher in Tunesien noch nie in den Prüfungen vorgekommen. Wenn Sie noch genügend Zeit haben, unterschätzen Sie diese Themen nicht und gehen Sie sie durch. Falls Ihre Zeit jedoch knapp ist, machen Sie sich keine Sorgen und konzentrieren Sie sich zuerst auf die Hauptthemen.
+        </p>
+      </div>
+    </div>
   );
 }

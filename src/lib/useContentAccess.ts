@@ -86,17 +86,23 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
   return { items, loading };
 }
 
-export interface MuendlichCatalogItem { id: string; title: string; theme_category: string | null; difficulty_level: string | null; body_text: string | null }
+export interface MuendlichCatalogItem {
+  id: string; title: string; theme_category: string | null; difficulty_level: string | null;
+  body_text: string | null; is_unassigned_center: boolean; redemittel_data: unknown;
+}
 
 /**
  * Catalog for Mündlich, mirroring useExerciseCatalog: calls the SECURITY
  * DEFINER `get_muendlich_catalog` RPC, which returns id/title/
- * theme_category/difficulty_level plus the plain body_text (the raw topic
- * scenario/task prompt) — never speaking_toolbox or storage_path, so the
- * actual exam-prep content (Struktur, dialogue, vocabulary, Arabic
- * explanations) never leaves the has_plan_access-gated table/PDF. Safe for
- * everyone — subscriber, non-subscriber, or anon visitor — to receive, same
- * "show the prompt, lock the answer" contract as the Lesen/Hören catalogs.
+ * theme_category/difficulty_level/is_unassigned_center plus the plain
+ * body_text (the raw topic scenario/task prompt) and a minimized
+ * `redemittel_data` slice (Teil 3: the topic's own Struktur demo Q&A; Teil
+ * 2: its authored Redemittel phrase arrays) — never beispieldialog,
+ * wortschatz, erklaerung, Arabic explanations, or storage_path, so the
+ * PDF-exclusive exam-prep content never leaves the has_plan_access-gated
+ * table/PDF. Safe for everyone — subscriber, non-subscriber, or anon
+ * visitor — to receive, same "show the prompt, lock the answer" contract as
+ * the Lesen/Hören catalogs.
  */
 export function useMuendlichCatalog(teil: number, level: string | null) {
   const [items, setItems] = useState<MuendlichCatalogItem[]>([]);

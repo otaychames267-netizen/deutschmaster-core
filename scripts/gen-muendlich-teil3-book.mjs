@@ -155,11 +155,21 @@ function renderTopicPages(topic, groupName) {
 function renderDialog(lines, struktur) {
   const libByKey = (k) => REDEMITTEL_LIBRARY[k] ?? { emoji: "•", label: k };
   let lastSection = null;
+  let isFirstSection = true;
   let html = "";
   for (const l of lines) {
     if (l.section && l.section !== lastSection) {
-      const lib = libByKey(l.section);
-      html += `<p class="dl-section">${lib.emoji} ${esc(lib.label)}</p>`;
+      if (isFirstSection) {
+        // Every Teil 3 dialogue must visibly open with the candidate's
+        // presentation of the scenario before any proposals — labeling the
+        // opening exchange explicitly (rather than just its generic section
+        // name) makes that mandatory structure obvious to the reader.
+        html += `<p class="dl-section-intro">📣 Vorstellung des Themas (Eröffnung)</p>`;
+        isFirstSection = false;
+      } else {
+        const lib = libByKey(l.section);
+        html += `<p class="dl-section">${lib.emoji} ${esc(lib.label)}</p>`;
+      }
       lastSection = l.section;
     }
     html += `<p class="dl dl-${l.speaker === "A" ? "a" : "b"}"><span class="dl-speaker">${l.speaker}:</span> ${esc(l.text)}</p>`;
@@ -268,6 +278,7 @@ function renderBookHtml(groups, topicCount) {
     .dl-speaker { font-weight: 800; color: #0369a1; }
     .dl-b .dl-speaker { color: #be123c; }
     .dl-section { margin: 10px 0 4px; font-weight: 800; font-size: 9.5pt; color: #0369a1; text-transform: uppercase; letter-spacing: 0.02em; }
+    .dl-section-intro { margin: 0 0 6px; font-weight: 800; font-size: 10pt; color: #0369a1; background: #f0f9ff; padding: 5px 8px; border-radius: 6px; text-transform: none; letter-spacing: normal; }
 
     .vocab-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 20px; }
     .vocab-col ul { list-style: none; padding: 0; margin: 0; }
