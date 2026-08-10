@@ -1,19 +1,19 @@
 /**
  * features.ts — launch feature flags.
  *
- * The first public launch of AuraLingovia ships the **Schriftlich** (written)
- * exam module ONLY. The Mündlich (speaking) module is built but not yet
- * finished to the required standard, so at launch it must stay **hidden and
- * inaccessible** everywhere: it must not appear in navigation, on the
- * dashboard, on the landing page, or in the billing plan list, and it must be
- * impossible to purchase or to reach any Mündlich route directly by URL.
+ * AuraLingovia's first public launch shipped **Schriftlich** (written) only;
+ * Mündlich (speaking) stayed hidden behind `MUENDLICH_ENABLED` until its
+ * content and UI reached the required standard. Owner decision (2026-08-10):
+ * that bar is now met — Mündlich is launched. It follows the same
+ * browsable-but-locked pattern as every other module from here on: visible
+ * in navigation to everyone, content gated per-topic by `has_plan_access`
+ * (any active subscription now unlocks it — see migration
+ * 20260810120000), and purchasable like Schriftlich.
  *
- * Everything that hides or blocks Mündlich keys off `MUENDLICH_ENABLED`.
- * Flipping this single constant to `true` (and redeploying) re-enables the
- * whole module — no other change is needed. It is deliberately a hardcoded
- * constant, NOT an admin-toggleable platform_setting: gating an unfinished
- * module is a release decision, not an operational switch, and it must never
- * be flippable by accident from the admin UI.
+ * `MUENDLICH_ENABLED` is kept as the same hardcoded (not admin-toggleable)
+ * kill switch it always was, in case a real problem surfaces post-launch —
+ * flipping it back to `false` re-hides the module everywhere again with no
+ * other change needed.
  *
  * `CARD_PAYMENTS_ENABLED` mirrors reality: the Lemon Squeezy card integration
  * exists in the codebase but no live credentials are configured for launch,
@@ -26,8 +26,8 @@
  * server functions without tripping the *.server.* import-protection plugin.
  */
 
-/** Is the Mündlich (speaking) module ready for students? Launch: false. */
-export const MUENDLICH_ENABLED = false;
+/** Is the Mündlich (speaking) module launched? Launched 2026-08-10. */
+export const MUENDLICH_ENABLED = true;
 
 /**
  * Is the B1 course ready for students? Launch: false. Confirmed via direct

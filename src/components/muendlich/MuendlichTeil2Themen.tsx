@@ -26,11 +26,13 @@
 import { useEffect, useMemo, useState } from "react";
 import {
   Loader2, ChevronRight, ChevronDown, BookOpen, Lightbulb, MessageCircle, MessageCircleHeart,
-  Scale, HelpCircle, GraduationCap, Sparkles, ThumbsUp, ThumbsDown, X, Languages, FileText,
+  Scale, HelpCircle, GraduationCap, Sparkles, ThumbsUp, ThumbsDown, X, Languages, FileText, Lock,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
+import { useHasPlanAccess, useMuendlichCatalog } from "@/lib/useContentAccess";
+import { PaywallModal } from "@/components/PaywallModal";
 import { PdfViewer } from "./PdfViewer";
 
 interface Bilingual { de: string; ar: string }
@@ -380,19 +382,39 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
 export function MuendlichTeil2Themen() {
   const level = useActiveLevel();
   const { isAdmin } = useAuth();
+  const { hasAccess } = useHasPlanAccess("muendlich");
+  const catalog = useMuendlichCatalog(2, level);
+  // Admins always see full content regardless of their own subscription state
+  // (dev-preview bypass, unchanged from before) — only a real non-admin
+  // without an active plan gets the titles-only locked preview.
+  const locked = !isAdmin && hasAccess !== true;
   const [topics, setTopics] = useState<Topic[]>([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState<Topic | null>(null);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [mobileOpen, setMobileOpen] = useState(false);
   const [pdfOpen, setPdfOpen] = useState(false);
+  const [paywallOpen, setPaywallOpen] = useState(false);
   /** One shared "Meisterbuch" PDF (all topics compiled into one book, same
    * pattern as Teil 1) rather than a PDF per topic — fetched once here and
    * reused by every topic's "PDF" button. */
   const [book, setBook] = useState<{ storage_path: string; title: string } | null>(null);
 
   useEffect(() => {
-    if (!level) return;
+    if (!level || hasAccess === null) return;
+    if (locked) {
+      // Non-subscriber preview: titles + categories only (no body_text, no
+      // speaking_toolbox, no PDF) via the SECURITY DEFINER catalog RPC —
+      // clicking a topic opens the paywall instead of the real content.
+      setTopics(catalog.items.map((c) => ({
+        id: c.id, title: c.title, body_text: null,
+        theme_category: c.theme_category, difficulty_level: c.difficulty_level,
+        is_unassigned_center: false, speaking_toolbox: null, level,
+      })));
+      setLoading(catalog.loading);
+      setBook(null);
+      return;
+    }
     (async () => {
       const { data } = await supabase
         .from("muendlich_materials")
@@ -417,7 +439,7 @@ export function MuendlichTeil2Themen() {
       const path = isAdmin && data?.admin_storage_path ? data.admin_storage_path : data?.storage_path;
       if (path) setBook({ storage_path: path, title: data!.title });
     })();
-  }, [level, isAdmin]);
+  }, [level, isAdmin, hasAccess, locked, catalog.items, catalog.loading]);
 
   const groups = useMemo(() => groupTopics(topics), [topics]);
 
@@ -440,12 +462,16 @@ export function MuendlichTeil2Themen() {
             {!isCollapsed && g.topics.map((t) => (
               <button
                 key={t.id}
-                onClick={() => { setSelected(t); setMobileOpen(true); }}
+                onClick={() => {
+                  if (locked) { setPaywallOpen(true); return; }
+                  setSelected(t); setMobileOpen(true);
+                }}
                 className={`flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left text-sm transition-colors ${
                   selected?.id === t.id ? "bg-rose-500/10 font-semibold text-rose-600 dark:text-rose-400" : "text-foreground hover:bg-muted"
                 }`}
               >
                 <span className="truncate">{t.title}</span>
+                {locked && <Lock className="h-3 w-3 shrink-0 text-muted-foreground" />}
                 {isAdmin && t.is_unassigned_center && (
                   <span className="shrink-0 rounded-full bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">
                     Nicht eingeführt
@@ -488,6 +514,8 @@ export function MuendlichTeil2Themen() {
       {pdfOpen && book && (
         <PdfViewer storagePath={book.storage_path} title={book.title} onClose={() => setPdfOpen(false)} />
       )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} />
     </div>
   );
 }

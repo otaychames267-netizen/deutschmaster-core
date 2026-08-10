@@ -86,6 +86,38 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
   return { items, loading };
 }
 
+export interface MuendlichCatalogItem { id: string; title: string; theme_category: string | null; difficulty_level: string | null }
+
+/**
+ * Titles-only catalog for Mündlich, mirroring useExerciseCatalog: calls the
+ * SECURITY DEFINER `get_muendlich_catalog` RPC, which returns only
+ * id/title/theme_category/difficulty_level — never body_text,
+ * speaking_toolbox, or storage_path. Safe for non-subscribers (and anon
+ * visitors) to receive, so the topic dashboard stays browsable even when
+ * the real per-topic rows are hidden by has_plan_access RLS.
+ */
+export function useMuendlichCatalog(teil: number, level: string | null) {
+  const [items, setItems] = useState<MuendlichCatalogItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!level) return;
+    let cancelled = false;
+    setLoading(true);
+    (supabase as any)
+      .rpc("get_muendlich_catalog", { p_teil: teil, p_level: level })
+      .then(({ data }: { data: any }) => {
+        if (cancelled) return;
+        setItems((data ?? []) as MuendlichCatalogItem[]);
+        setLoading(false);
+      })
+      .catch(() => { if (!cancelled) { setItems([]); setLoading(false); } });
+    return () => { cancelled = true; };
+  }, [teil, level]);
+
+  return { items, loading };
+}
+
 /**
  * Titles-only catalog for Schreiben (Beschwerde / Bitte), which has no
  * numeric teil — exams.metadata->>'category' is the real sub-type
