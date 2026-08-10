@@ -29,15 +29,23 @@ const GROUP_ORDER = [
   "Beruf", "Gesundheit", "Technologie", "Soziales Engagement", "Medien",
 ];
 
+// Topics not yet introduced in any physical exam center in Tunisia (is_unassigned_center)
+// are excluded from the student-facing UI entirely and forced into a dedicated appendix
+// group at the very end of the PDF, under an Arabic header.
+const UNASSIGNED_GROUP = "مواضيع لم تُدرج بعد في مراكز الامتحانات في تونس";
+
 function groupTopics(topics) {
+  const assigned = topics.filter(t => !t.is_unassigned_center);
+  const unassigned = topics.filter(t => t.is_unassigned_center);
   const groups = [];
   for (const name of GROUP_ORDER) {
-    const inGroup = topics.filter(t => (t.theme_category ?? "Sonstiges") === name);
+    const inGroup = assigned.filter(t => (t.theme_category ?? "Sonstiges") === name);
     if (inGroup.length) groups.push({ name, topics: inGroup });
   }
   const known = new Set(GROUP_ORDER);
-  const leftover = [...new Set(topics.map(t => t.theme_category ?? "Sonstiges").filter(n => !known.has(n)))];
-  for (const name of leftover) groups.push({ name, topics: topics.filter(t => (t.theme_category ?? "Sonstiges") === name) });
+  const leftover = [...new Set(assigned.map(t => t.theme_category ?? "Sonstiges").filter(n => !known.has(n)))];
+  for (const name of leftover) groups.push({ name, topics: assigned.filter(t => (t.theme_category ?? "Sonstiges") === name) });
+  if (unassigned.length) groups.push({ name: UNASSIGNED_GROUP, topics: unassigned });
   return groups;
 }
 
@@ -47,7 +55,8 @@ function vocabCol(title, items) {
   return `<div class="vocab-col"><h4>${esc(title)}</h4><ul>${items.map(i => `<li>${esc(i)}</li>`).join("")}</ul></div>`;
 }
 function pageBar(groupName, label) {
-  return `<div class="page-bar"><span class="brand">AuraLingovia <span class="brand-sep">·</span> <span class="brand-author">Chames_Dean</span></span><span class="page-bar-r">${esc(groupName)} — ${label}</span></div>`;
+  const rightLabel = groupName === UNASSIGNED_GROUP ? `Noch nicht eingeführt — ${label}` : `${esc(groupName)} — ${label}`;
+  return `<div class="page-bar"><span class="brand">AuraLingovia <span class="brand-sep">·</span> <span class="brand-author">Chames_Dean</span></span><span class="page-bar-r">${rightLabel}</span></div>`;
 }
 
 function renderStrukturSection(sec) {
@@ -166,15 +175,31 @@ function renderCover(topicCount, groupCount) {
 function renderToc(groups) {
   return `<section class="page toc">
     <h1>Inhaltsverzeichnis</h1>
-    ${groups.map(g => `
+    ${groups.map(g => {
+      const isUnassigned = g.name === UNASSIGNED_GROUP;
+      const heading = isUnassigned
+        ? `<h3 class="ar-title" dir="rtl">${esc(g.name)} <span class="toc-count">${g.topics.length}</span></h3>`
+        : `<h3>${esc(g.name)} <span class="toc-count">${g.topics.length}</span></h3>`;
+      return `
       <div class="toc-group">
-        <h3>${esc(g.name)} <span class="toc-count">${g.topics.length}</span></h3>
+        ${heading}
         <ul>${g.topics.map(t => `<li>${esc(t.title)}</li>`).join("")}</ul>
-      </div>`).join("")}
+      </div>`;
+    }).join("")}
   </section>`;
 }
 
 function renderDivider(groupName, count) {
+  const isUnassigned = groupName === UNASSIGNED_GROUP;
+  if (isUnassigned) {
+    return `<section class="page divider divider-ar">
+      <div class="divider-inner">
+        <p class="divider-kicker">Noch nicht eingeführte Themen</p>
+        <h1 class="ar-title" dir="rtl">${esc(groupName)}</h1>
+        <p class="divider-count">${count} Themen</p>
+      </div>
+    </section>`;
+  }
   return `<section class="page divider">
     <div class="divider-inner">
       <p class="divider-kicker">Thematisches Zentrum</p>
@@ -185,8 +210,9 @@ function renderDivider(groupName, count) {
 }
 
 function renderBookHtml(groups, topicCount) {
+  const thematicGroupCount = groups.filter(g => g.name !== UNASSIGNED_GROUP).length;
   const body = [
-    renderCover(topicCount, groups.length),
+    renderCover(topicCount, thematicGroupCount),
     renderToc(groups),
     ...groups.flatMap(g => [
       renderDivider(g.name, g.topics.length),
@@ -255,13 +281,17 @@ function renderBookHtml(groups, topicCount) {
     .divider-kicker { font-size: 11pt; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #bae6fd; margin-bottom: 14px; }
     .divider-inner h1 { color: #fff; font-size: 30pt; margin-bottom: 10px; }
     .divider-count { color: #bae6fd; font-size: 12pt; }
+    .divider-ar { background: #44403c; }
+    .ar-title { direction: rtl; font-family: Tahoma, 'Segoe UI', sans-serif; }
+    .divider-inner .ar-title { font-size: 22pt; line-height: 1.6; max-width: 640px; margin: 0 auto 10px; }
+    h3.ar-title { color: #0369a1; justify-content: flex-end; }
   </style></head><body>${body}</body></html>`;
 }
 
 async function main() {
   const { data: topics, error } = await db
     .from("muendlich_materials")
-    .select("id, title, body_text, theme_category, speaking_toolbox")
+    .select("id, title, body_text, theme_category, speaking_toolbox, is_unassigned_center")
     .eq("teil", 3).eq("category", "themen").eq("level", level)
     .order("title");
   if (error) throw error;

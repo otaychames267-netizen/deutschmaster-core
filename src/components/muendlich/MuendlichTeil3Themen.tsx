@@ -44,6 +44,7 @@ interface Topic {
   difficulty_level: string | null;
   speaking_toolbox: SpeakingToolboxT3V2 | { schema_version?: number } | null;
   level?: string | null;
+  is_unassigned_center?: boolean;
 }
 
 // ── same GROUP_ORDER as scripts/teil3-redemittel-library.mjs's book generator, kept in sync deliberately ──
@@ -337,10 +338,13 @@ export function MuendlichTeil3Themen() {
     (async () => {
       const { data } = await supabase
         .from("muendlich_materials")
-        .select("id, title, body_text, theme_category, difficulty_level, speaking_toolbox, level")
+        .select("id, title, body_text, theme_category, difficulty_level, speaking_toolbox, level, is_unassigned_center")
         .eq("teil", 3).eq("category", "themen").eq("level", level)
         .order("title");
-      setTopics(enforceLevel((data ?? []) as Topic[], level));
+      // Topics not yet introduced in any physical exam center in Tunisia are excluded from
+      // the student-facing dashboard entirely (they remain in the PDF appendix instead).
+      const visible = ((data ?? []) as Topic[]).filter((t) => !t.is_unassigned_center);
+      setTopics(enforceLevel(visible, level));
       setLoading(false);
     })();
     (async () => {

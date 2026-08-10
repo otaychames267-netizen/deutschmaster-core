@@ -77,28 +77,25 @@ interface Topic {
 
 /** Hand-ordered study sequence — one thematic area at a time, largest/most
  * central groups first, matching the actual content mix in the DB rather
- * than a generic template. The unassigned-center bucket always renders
- * last regardless of this order (handled separately below). */
+ * than a generic template. Topics with is_unassigned_center are filtered
+ * out before this runs (see the fetch effect below) — they stay in the PDF
+ * appendix but never reach the student-facing dashboard. */
 const GROUP_ORDER = [
   "Gesundheit", "Technologie", "Beruf", "Bildung", "Gesellschaft",
   "Konsum", "Medien", "Familie", "Wohnen", "Finanzen", "Reisen",
 ];
-const UNASSIGNED_GROUP = "Noch in keinem Zentrum eingeführte Themen";
 
 function groupTopics(topics: Topic[]) {
-  const assigned = topics.filter((t) => !t.is_unassigned_center);
-  const unassigned = topics.filter((t) => t.is_unassigned_center);
   const groups: { name: string; topics: Topic[] }[] = [];
   for (const name of GROUP_ORDER) {
-    const inGroup = assigned.filter((t) => (t.theme_category ?? "Sonstiges") === name);
+    const inGroup = topics.filter((t) => (t.theme_category ?? "Sonstiges") === name);
     if (inGroup.length) groups.push({ name, topics: inGroup });
   }
   const knownNames = new Set(GROUP_ORDER);
-  const leftoverNames = [...new Set(assigned.map((t) => t.theme_category ?? "Sonstiges").filter((n) => !knownNames.has(n)))];
+  const leftoverNames = [...new Set(topics.map((t) => t.theme_category ?? "Sonstiges").filter((n) => !knownNames.has(n)))];
   for (const name of leftoverNames) {
-    groups.push({ name, topics: assigned.filter((t) => (t.theme_category ?? "Sonstiges") === name) });
+    groups.push({ name, topics: topics.filter((t) => (t.theme_category ?? "Sonstiges") === name) });
   }
-  if (unassigned.length) groups.push({ name: UNASSIGNED_GROUP, topics: unassigned });
   return groups;
 }
 
@@ -400,7 +397,10 @@ export function MuendlichTeil2Themen() {
         .select("id, title, body_text, theme_category, difficulty_level, is_unassigned_center, speaking_toolbox, level")
         .eq("teil", 2).eq("category", "themen").eq("level", level)
         .order("title");
-      setTopics(enforceLevel((data ?? []) as Topic[], level));
+      // Topics not yet introduced in any physical exam center are excluded from the
+      // student-facing dashboard entirely (they remain in the PDF appendix instead).
+      const visible = ((data ?? []) as Topic[]).filter((t) => !t.is_unassigned_center);
+      setTopics(enforceLevel(visible, level));
       setLoading(false);
     })();
     (async () => {
