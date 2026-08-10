@@ -14,13 +14,12 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import {
-  Loader2, ChevronRight, ChevronDown, FileText, ClipboardList, MessageSquareText,
-  HelpCircle, Lightbulb, MessagesSquare, GraduationCap,
+  Loader2, ChevronRight, ChevronDown, FileText, ClipboardList,
+  HelpCircle, Lightbulb, MessagesSquare, GraduationCap, Download, AlertCircle,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
-import { PdfViewer } from "./PdfViewer";
 
 interface StrukturSection { key: string; demo: { frage: string; antwort: string; reaktion?: string } }
 interface DialogLine { speaker: "A" | "B"; text: string; section?: string }
@@ -104,13 +103,10 @@ function groupTopics(topics: Topic[]) {
 }
 
 const PAGES = [
-  { key: "aufgabe", label: "1. Aufgabe", icon: FileText },
-  { key: "erklaerung", label: "2. Erklärung", icon: ClipboardList },
-  { key: "struktur", label: "3. Struktur", icon: MessageSquareText },
-  { key: "fragen", label: "4. Fragen", icon: HelpCircle },
-  { key: "antworten", label: "5. Antworten", icon: Lightbulb },
-  { key: "dialog", label: "6. Dialog", icon: MessagesSquare },
-  { key: "wortschatz", label: "7. Wortschatz", icon: GraduationCap },
+  { key: "erklaerung", label: "Erklärung & Überblick", icon: ClipboardList },
+  { key: "vorstellung", label: "Vorstellung & Dialog", icon: MessagesSquare },
+  { key: "wortschatz", label: "Wortschatz", icon: GraduationCap },
+  { key: "pdf", label: "PDF", icon: FileText },
 ] as const;
 type PageKey = typeof PAGES[number]["key"];
 
@@ -173,10 +169,15 @@ function RedemittelCols({ frage, antwort }: { frage: string[]; antwort: string[]
 function StrukturCard({ sec }: { sec: StrukturSection }) {
   const lib = REDEMITTEL_LIBRARY[sec.key] ?? { emoji: "•", label: sec.key, frage: [], antwort: [] };
   return (
-    <div className="rounded-xl border border-border p-4">
-      <h4 className="mb-2 text-sm font-black text-foreground">{lib.emoji} {lib.label}</h4>
+    <div className="rounded-xl border border-sky-500/20 bg-sky-500/[0.02] p-4 shadow-sm">
+      <h4 className="mb-3 flex items-center gap-1.5 text-sm font-black text-sky-700 dark:text-sky-400">
+        <span className="text-base">{lib.emoji}</span> {lib.label}
+      </h4>
       <RedemittelCols frage={lib.frage} antwort={lib.antwort} />
-      <div className="mt-3 space-y-1 rounded-lg bg-sky-500/5 p-3">
+      <div className="mt-3 space-y-1 rounded-lg border border-sky-500/30 bg-sky-500/5 p-3">
+        <p className="mb-1 flex items-center gap-1 text-[10px] font-black uppercase tracking-wide text-sky-600/70 dark:text-sky-400/70">
+          <MessagesSquare className="h-3 w-3" /> Beispiel
+        </p>
         <p className="text-sm"><span className="font-black text-sky-600 dark:text-sky-400">A:</span> {sec.demo.frage}</p>
         <p className="text-sm"><span className="font-black text-rose-600 dark:text-rose-400">B:</span> {sec.demo.antwort}</p>
         {sec.demo.reaktion && <p className="text-sm"><span className="font-black text-sky-600 dark:text-sky-400">A:</span> {sec.demo.reaktion}</p>}
@@ -185,11 +186,55 @@ function StrukturCard({ sec }: { sec: StrukturSection }) {
   );
 }
 
-function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenPdf: () => void; pdfAvailable: boolean }) {
-  const [page, setPage] = useState<PageKey>("aufgabe");
-  const tb = isReady(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
+function PdfInlineEmbed({ storagePath, title }: { storagePath: string; title: string }) {
+  const [url, setUrl] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => { setPage("aufgabe"); }, [topic.id]);
+  useEffect(() => {
+    let active = true;
+    (async () => {
+      const { data, error } = await (supabase as any).storage.from("muendlich-pdfs").createSignedUrl(storagePath, 3600);
+      if (!active) return;
+      if (error || !data?.signedUrl) setError(error?.message ?? "PDF konnte nicht geladen werden");
+      else setUrl(data.signedUrl);
+    })();
+    return () => { active = false; };
+  }, [storagePath]);
+
+  return (
+    <div className="flex h-full min-h-[480px] flex-col">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <p className="min-w-0 flex-1 truncate text-sm font-bold text-foreground">{title}</p>
+        {url && (
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-background px-3 py-1.5 text-xs font-bold text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <Download className="h-3.5 w-3.5" /> Öffnen / Herunterladen
+          </a>
+        )}
+      </div>
+      <div className="relative flex-1 overflow-hidden rounded-xl">
+        {error ? (
+          <div className="flex h-full items-center justify-center gap-2 text-sm text-rose-600"><AlertCircle className="h-5 w-5" />{error}</div>
+        ) : !url ? (
+          <div className="flex h-full items-center justify-center text-muted-foreground"><Loader2 className="h-6 w-6 animate-spin" /></div>
+        ) : (
+          <iframe title={title} src={`${url}#view=FitH`} className="h-full w-full border-0" />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TopicDetail({ topic, book }: { topic: Topic; book: { storage_path: string; title: string } | null }) {
+  const [page, setPage] = useState<PageKey>("erklaerung");
+  const tb = isReady(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
+  const opening = tb?.beispieldialog?.[0];
+
+  useEffect(() => { setPage("erklaerung"); }, [topic.id]);
 
   return (
     <div className="flex h-full flex-col">
@@ -198,23 +243,13 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
           {topic.theme_category && <Pill>{topic.theme_category}</Pill>}
           {topic.difficulty_level && <Pill>{topic.difficulty_level}</Pill>}
         </div>
-        <div className="mt-2 flex items-start justify-between gap-3">
-          <h2 className="text-lg font-black text-foreground">{topic.title}</h2>
-          <button
-            onClick={onOpenPdf}
-            disabled={!pdfAvailable}
-            title={pdfAvailable ? "Gesamtes PDF-Buch öffnen (alle Themen)" : "PDF-Buch noch nicht verfügbar"}
-            className="flex shrink-0 items-center gap-1.5 rounded-lg border border-border bg-background px-2.5 py-1.5 text-xs font-bold text-muted-foreground transition-colors hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <FileText className="h-3.5 w-3.5" /> PDF
-          </button>
-        </div>
+        <h2 className="mt-2 text-lg font-black text-foreground">{topic.title}</h2>
       </div>
 
       <div className="flex flex-wrap gap-1 border-b border-border bg-muted/30 px-3 py-2">
         {PAGES.map((p) => {
           const Icon = p.icon;
-          const disabled = p.key !== "aufgabe" && !tb;
+          const disabled = p.key === "pdf" ? !book : p.key !== "erklaerung" && !tb;
           return (
             <button
               key={p.key}
@@ -231,98 +266,140 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
       </div>
 
       <div className="flex-1 overflow-y-auto p-5">
-        {page === "aufgabe" && (
-          <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">{topic.body_text}</p>
-        )}
-
-        {page === "erklaerung" && tb && (
+        {page === "erklaerung" && (
           <div className="space-y-6">
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Worum geht es?</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.worum_geht_es}</p>
-              {tb.erklaerung.worum_geht_es_ar && (
-                <p dir="rtl" className="mt-2 rounded-lg bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.worum_geht_es_ar}</p>
-              )}
-            </div>
-            <div>
-              <h3 className="mb-2 text-sm font-black text-foreground">Was wird erwartet?</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.was_wird_erwartet}</p>
-              {tb.erklaerung.was_wird_erwartet_ar && (
-                <p dir="rtl" className="mt-2 rounded-lg bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.was_wird_erwartet_ar}</p>
-              )}
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div>
-                <h3 className="mb-2 text-sm font-black text-foreground">Wichtige Punkte</h3>
-                <PlainListBilingual items={tb.erklaerung.wichtige_punkte} itemsAr={tb.erklaerung.wichtige_punkte_ar} />
+            {topic.body_text && (
+              <div className="rounded-xl border border-border bg-muted/20 p-4">
+                <h3 className="mb-2 text-sm font-black text-foreground">Aufgabe</h3>
+                <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">{topic.body_text}</p>
               </div>
-              <div>
-                <h3 className="mb-2 text-sm font-black text-foreground">Worauf achten?</h3>
-                <PlainList items={tb.erklaerung.worauf_achten} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {page === "struktur" && tb && (
-          <div className="space-y-3">
-            <p className="text-xs italic text-muted-foreground">Fragen stellen → Antworten geben → reagieren. Für jeden Punkt ein Beispiel:</p>
-            {tb.struktur.map((sec, i) => <StrukturCard key={i} sec={sec} />)}
-            <div className="rounded-xl border border-border bg-muted/20 p-4">
-              <h4 className="mb-2 text-sm font-black text-foreground">🔁 Zustimmen &amp; höflich widersprechen</h4>
-              <div className="grid gap-4 sm:grid-cols-3">
+            )}
+            {tb && (
+              <>
                 <div>
-                  <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Nach Meinung fragen</h5>
-                  <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.meinung_erfragen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                  <h3 className="mb-2 text-sm font-black text-foreground">Worum geht es?</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.worum_geht_es}</p>
+                  {tb.erklaerung.worum_geht_es_ar && (
+                    <p dir="rtl" className="mt-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.worum_geht_es_ar}</p>
+                  )}
                 </div>
                 <div>
-                  <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Zustimmen</h5>
-                  <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.zustimmen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                  <h3 className="mb-2 text-sm font-black text-foreground">Was wird erwartet?</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">{tb.erklaerung.was_wird_erwartet}</p>
+                  {tb.erklaerung.was_wird_erwartet_ar && (
+                    <p dir="rtl" className="mt-2 rounded-xl border border-indigo-500/30 bg-indigo-500/5 p-3 text-right text-sm leading-loose text-indigo-700 dark:text-indigo-300">{tb.erklaerung.was_wird_erwartet_ar}</p>
+                  )}
                 </div>
-                <div>
-                  <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Höflich widersprechen</h5>
-                  <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.widersprechen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {page === "fragen" && tb && (
-          <div>
-            <p className="mb-3 text-xs italic text-muted-foreground">Realistische Fragen, die Ihr Gesprächspartner stellen könnte:</p>
-            <PlainList items={tb.moegliche_fragen} />
-          </div>
-        )}
-
-        {page === "antworten" && tb && (
-          <div>
-            <p className="mb-3 text-xs italic text-muted-foreground">Verschiedene Ideen, aus denen Sie in der Prüfung frei wählen können:</p>
-            <PlainList items={tb.moegliche_antworten_ideen} />
-          </div>
-        )}
-
-        {page === "dialog" && tb && (
-          <div className="space-y-1">
-            {(() => {
-              let lastSection: string | undefined;
-              return tb.beispieldialog.map((l, i) => {
-                const showHeader = l.section && l.section !== lastSection;
-                if (l.section) lastSection = l.section;
-                const lib = l.section ? REDEMITTEL_LIBRARY[l.section] : null;
-                return (
-                  <div key={i}>
-                    {showHeader && lib && (
-                      <p className="mb-1 mt-4 text-xs font-black uppercase tracking-wide text-sky-600 first:mt-0 dark:text-sky-400">{lib.emoji} {lib.label}</p>
-                    )}
-                    <p className="text-sm leading-relaxed">
-                      <span className={`font-black ${l.speaker === "A" ? "text-sky-600 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"}`}>{l.speaker}:</span>{" "}
-                      <span className="text-foreground">{l.text}</span>
-                    </p>
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div className="rounded-xl border border-border bg-muted/20 p-4">
+                    <h3 className="mb-2 text-sm font-black text-foreground">Wichtige Punkte</h3>
+                    <PlainListBilingual items={tb.erklaerung.wichtige_punkte} itemsAr={tb.erklaerung.wichtige_punkte_ar} />
                   </div>
-                );
-              });
-            })()}
+                  <div className="rounded-xl border border-border bg-muted/20 p-4">
+                    <h3 className="mb-2 text-sm font-black text-foreground">Worauf achten?</h3>
+                    <PlainList items={tb.erklaerung.worauf_achten} />
+                  </div>
+                </div>
+              </>
+            )}
+            {!tb && <p className="text-sm text-muted-foreground">Weitere Inhalte für dieses Thema folgen in Kürze.</p>}
+          </div>
+        )}
+
+        {page === "vorstellung" && tb && (
+          <div className="space-y-6">
+            {opening && (
+              <div className="rounded-xl border border-sky-500/30 bg-sky-500/5 p-4">
+                <h3 className="mb-2 flex items-center gap-1.5 text-sm font-black text-sky-700 dark:text-sky-400">
+                  <MessagesSquare className="h-4 w-4" /> Vorstellung des Themas (Eröffnung)
+                </h3>
+                <p className="text-sm leading-relaxed">
+                  <span className="font-black text-sky-600 dark:text-sky-400">A:</span>{" "}
+                  <span className="text-foreground">{opening.text}</span>
+                </p>
+                <p className="mt-2 text-xs italic text-muted-foreground">
+                  Kandidat/in A präsentiert das Szenario, bevor die Diskussion beginnt — so sollte jedes Gespräch in Teil 3 eröffnet werden.
+                </p>
+              </div>
+            )}
+
+            <div className="space-y-3">
+              <p className="text-xs italic text-muted-foreground">Fragen stellen → Antworten geben → reagieren. Für jeden Punkt ein Beispiel:</p>
+              {tb.struktur.map((sec, i) => <StrukturCard key={i} sec={sec} />)}
+              <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4">
+                <h4 className="mb-2 flex items-center gap-1.5 text-sm font-black text-violet-700 dark:text-violet-400">
+                  <span className="text-base">🔁</span> Zustimmen &amp; höflich widersprechen
+                </h4>
+                <div className="grid gap-4 sm:grid-cols-3">
+                  <div>
+                    <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Nach Meinung fragen</h5>
+                    <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.meinung_erfragen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                  </div>
+                  <div>
+                    <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Zustimmen</h5>
+                    <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.zustimmen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                  </div>
+                  <div>
+                    <h5 className="mb-1 text-[10px] font-black uppercase tracking-wide text-muted-foreground">Höflich widersprechen</h5>
+                    <ul className="space-y-1">{ZUSTIMMUNG_WIDERSPRUCH.widersprechen.map((f, i) => <li key={i} className="text-sm italic text-muted-foreground">„{f}“</li>)}</ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="mb-3 text-sm font-black text-foreground">Vollständiger Beispieldialog</h3>
+              <div className="space-y-1 rounded-xl border border-border bg-muted/20 p-4">
+                {(() => {
+                  let lastSection: string | undefined;
+                  return tb.beispieldialog.map((l, i) => {
+                    const showHeader = l.section && l.section !== lastSection;
+                    if (l.section) lastSection = l.section;
+                    const lib = l.section ? REDEMITTEL_LIBRARY[l.section] : null;
+                    return (
+                      <div key={i}>
+                        {showHeader && lib && (
+                          <p className="mb-1 mt-4 text-xs font-black uppercase tracking-wide text-sky-600 first:mt-0 dark:text-sky-400">{lib.emoji} {lib.label}</p>
+                        )}
+                        <p className="text-sm leading-relaxed">
+                          <span className={`font-black ${l.speaker === "A" ? "text-sky-600 dark:text-sky-400" : "text-rose-600 dark:text-rose-400"}`}>{l.speaker}:</span>{" "}
+                          <span className="text-foreground">{l.text}</span>
+                        </p>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <h4 className="mb-2 flex items-center gap-1.5 text-xs font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                  <HelpCircle className="h-3.5 w-3.5" /> Weitere mögliche Fragen
+                </h4>
+                <div className="space-y-2">
+                  {tb.moegliche_fragen.map((f, i) => (
+                    <div key={i} className="flex items-start gap-2.5 rounded-lg border border-amber-500/25 bg-amber-500/5 p-2.5">
+                      <HelpCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400" />
+                      <p className="text-sm text-foreground">{f}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="mb-2 flex items-center gap-1.5 text-xs font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
+                  <Lightbulb className="h-3.5 w-3.5" /> Antwortideen
+                </h4>
+                <div className="space-y-2">
+                  {tb.moegliche_antworten_ideen.map((a, i) => (
+                    <div key={i} className="flex items-start gap-2.5 rounded-lg border border-emerald-500/25 bg-emerald-500/5 p-2.5">
+                      <Lightbulb className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                      <p className="text-sm text-foreground">{a}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
@@ -348,8 +425,14 @@ function TopicDetail({ topic, onOpenPdf, pdfAvailable }: { topic: Topic; onOpenP
           </div>
         )}
 
-        {page !== "aufgabe" && !tb && (
-          <p className="text-sm text-muted-foreground">Weitere Seiten für dieses Thema folgen in Kürze.</p>
+        {page === "pdf" && (
+          book
+            ? <PdfInlineEmbed storagePath={book.storage_path} title={book.title} />
+            : <p className="text-sm text-muted-foreground">PDF-Buch noch nicht verfügbar.</p>
+        )}
+
+        {(page === "vorstellung" || page === "wortschatz") && !tb && (
+          <p className="text-sm text-muted-foreground">Weitere Inhalte für dieses Thema folgen in Kürze.</p>
         )}
       </div>
     </div>
@@ -364,7 +447,6 @@ export function MuendlichTeil3Themen() {
   const [selected, setSelected] = useState<Topic | null>(null);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [pdfOpen, setPdfOpen] = useState(false);
   const [book, setBook] = useState<{ storage_path: string; title: string } | null>(null);
 
   useEffect(() => {
@@ -441,7 +523,7 @@ export function MuendlichTeil3Themen() {
         <div className="border-r border-border p-3">{list}</div>
         <div className="overflow-hidden">
           {selected ? (
-            <TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} pdfAvailable={!!book} />
+            <TopicDetail topic={selected} book={book} />
           ) : (
             <div className="flex h-full items-center justify-center p-8 text-center text-sm text-muted-foreground">
               Wählen Sie links ein Thema aus, um Erklärung, Struktur, Redemittel, mögliche Fragen &amp; Antworten, einen Beispieldialog und Wortschatz zu sehen.
@@ -457,12 +539,8 @@ export function MuendlichTeil3Themen() {
           <button onClick={() => setMobileOpen(false)} className="flex items-center gap-1.5 border-b border-border p-3 text-sm font-semibold text-muted-foreground">
             <ChevronRight className="h-4 w-4 rotate-180" /> Zurück zur Liste
           </button>
-          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} onOpenPdf={() => setPdfOpen(true)} pdfAvailable={!!book} /></div>
+          <div className="flex-1 overflow-hidden"><TopicDetail topic={selected} book={book} /></div>
         </div>
-      )}
-
-      {pdfOpen && book && (
-        <PdfViewer storagePath={book.storage_path} title={book.title} onClose={() => setPdfOpen(false)} />
       )}
     </div>
   );
