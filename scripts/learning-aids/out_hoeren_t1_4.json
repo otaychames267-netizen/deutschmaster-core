@@ -1,0 +1,572 @@
+{
+  "8530934a-e867-48f6-bc4d-c43afd25df34": {
+    "translation": {
+      "questions": {
+        "1": "ألغى لورينزو بيانكي حفلته الموسيقية بسبب المرض.",
+        "2": "تطالب هيئة مراقبة المرور باتخاذ إجراءات جديدة في مجال حركة الدراجات.",
+        "3": "تؤثر أزمة نقص المعلمين بشكل خاص على المدن الكبرى.",
+        "4": "من المقرر افتتاح المتحف في فصل الخريف.",
+        "5": "يستفيد الأفراد من النموذج الضريبي الجديد."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "wegen Krankheit",
+        "explanation_correct": "Diese Aussage nennt einen konkreten Grund („wegen Krankheit\") für die Absage. Solche Begründungen sind oft eine Falle im Hörtext, da der tatsächliche Grund ein anderer sein kann. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Diese Aussage nennt einen konkreten Grund („wegen Krankheit\") für die Absage. Solche Begründungen sind oft eine Falle im Hörtext, da der tatsächliche Grund ein anderer sein kann. Diese Aussage ist als Falsch markiert."
+      },
+      "2": {
+        "keyword": "fordert neue Maßnahmen",
+        "explanation_correct": "Achten Sie auf Verben wie „fordert\", die eine Forderung oder einen Vorschlag ausdrücken – im Hörtext wird oft klar, wer genau etwas fordert und wofür. Diese Aussage ist als Richtig markiert, die Formulierung ist neutral und plausibel.",
+        "explanation_wrong": "Achten Sie auf Verben wie „fordert\", die eine Forderung oder einen Vorschlag ausdrücken – im Hörtext wird oft klar, wer genau etwas fordert und wofür. Diese Aussage ist als Richtig markiert, die Formulierung ist neutral und plausibel."
+      },
+      "3": {
+        "keyword": "vor allem Großstädte",
+        "explanation_correct": "Die Einschränkung „vor allem\" behauptet eine bestimmte geografische Verteilung des Problems. Solche einengenden Zusätze sind typische Fallen, da der Hörtext oft eine andere oder umgekehrte Verteilung nennt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Einschränkung „vor allem\" behauptet eine bestimmte geografische Verteilung des Problems. Solche einengenden Zusätze sind typische Fallen, da der Hörtext oft eine andere oder umgekehrte Verteilung nennt. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "für den Herbst",
+        "explanation_correct": "Zeitangaben wie „für den Herbst\" sind klassische Stolperfallen im TELC-Hörverstehen, da oft eine andere Jahreszeit oder ein anderer Zeitpunkt genannt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Zeitangaben wie „für den Herbst\" sind klassische Stolperfallen im TELC-Hörverstehen, da oft eine andere Jahreszeit oder ein anderer Zeitpunkt genannt wird. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "Privatpersonen",
+        "explanation_correct": "Achten Sie darauf, wer genau als Nutznießer genannt wird – oft vertauscht eine falsche Aussage die betroffene Gruppe (z. B. Unternehmen statt Privatpersonen). Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie darauf, wer genau als Nutznießer genannt wird – oft vertauscht eine falsche Aussage die betroffene Gruppe (z. B. Unternehmen statt Privatpersonen). Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "5dadfcfb-055f-4dd1-ab07-a4c3d6cc717a": {
+    "translation": {
+      "questions": {
+        "41": "فقدت شركة لوفتهانزا الألمانية مكانتها الريادية.",
+        "42": "يعرض نادٍ رياضي في بون عروضه للجمهور.",
+        "43": "تحتاج الظروف الإطارية في دور الرعاية الألمانية إلى تغيير عاجل.",
+        "44": "يمكن تخفيض تكاليف التدفئة بشكل كبير من خلال العزل الحراري الحديث.",
+        "45": "رفعت اللجنة الأولمبية الوطنية الحظر بسبب تعاطي المنشطات عن توم ساندرز."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Führungsposition verloren",
+        "explanation_correct": "Das Verb „verloren\" behauptet einen eindeutig negativen Ausgang; im Hörtext kann die tatsächliche Entwicklung anders oder sogar gegenteilig sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „verloren\" behauptet einen eindeutig negativen Ausgang; im Hörtext kann die tatsächliche Entwicklung anders oder sogar gegenteilig sein. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "Bonner Sportverein",
+        "explanation_correct": "Achten Sie auf Orts- und Akteursangaben wie „Bonner Sportverein\" – diese müssen exakt zum Hörtext passen. Diese Aussage ist als Richtig markiert, da Ort und Handlung plausibel und neutral formuliert sind.",
+        "explanation_wrong": "Achten Sie auf Orts- und Akteursangaben wie „Bonner Sportverein\" – diese müssen exakt zum Hörtext passen. Diese Aussage ist als Richtig markiert, da Ort und Handlung plausibel und neutral formuliert sind."
+      },
+      "43": {
+        "keyword": "bedürfen dringend einer Änderung",
+        "explanation_correct": "Formulierungen mit „dringend\" verstärken eine Aussage stark – prüfen Sie, ob der Hörtext tatsächlich eine so dringliche Notwendigkeit ausdrückt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Formulierungen mit „dringend\" verstärken eine Aussage stark – prüfen Sie, ob der Hörtext tatsächlich eine so dringliche Notwendigkeit ausdrückt. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "deutlich reduziert",
+        "explanation_correct": "Verstärkende Ausdrücke wie „deutlich\" behaupten ein großes Ausmaß einer Wirkung, das im Hörtext oft anders bewertet wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Verstärkende Ausdrücke wie „deutlich\" behaupten ein großes Ausmaß einer Wirkung, das im Hörtext oft anders bewertet wird. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "aufgehoben",
+        "explanation_correct": "Das Verb „aufgehoben\" behauptet eine bestimmte Entscheidung; im Hörtext könnte die Sperre bestätigt oder verlängert statt aufgehoben worden sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „aufgehoben\" behauptet eine bestimmte Entscheidung; im Hörtext könnte die Sperre bestätigt oder verlängert statt aufgehoben worden sein. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "fbd16763-27c4-4d5c-8592-639adb2ed23a": {
+    "translation": {
+      "questions": {
+        "41": "فقدت شركة لوفتهانزا الألمانية مكانتها الريادية.",
+        "42": "يعرض نادٍ رياضي في بون عروضه للجمهور.",
+        "43": "لم تتحسن الوضعية في قطاع الرعاية بعد.",
+        "44": "يمكن تخفيض تكاليف التدفئة بشكل كبير من خلال العزل الحراري الحديث.",
+        "45": "رفعت اللجنة الأولمبية الوطنية الحظر بسبب تعاطي المنشطات عن توم ساندرز."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Führungsposition verloren",
+        "explanation_correct": "Absolute Verben wie „verloren\" suggerieren ein eindeutiges negatives Ergebnis. Prüfen Sie im Hörtext genau, ob dies tatsächlich zutrifft oder ob die Lage nuancierter beschrieben wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Absolute Verben wie „verloren\" suggerieren ein eindeutiges negatives Ergebnis. Prüfen Sie im Hörtext genau, ob dies tatsächlich zutrifft oder ob die Lage nuancierter beschrieben wird. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "Bonner Sportverein",
+        "explanation_correct": "Orts- und Akteursdetails wie „Bonner Sportverein\" sollten Sie genau mit dem Hörtext abgleichen. Diese Aussage ist als Richtig markiert, die Angaben sind plausibel und sachlich formuliert.",
+        "explanation_wrong": "Orts- und Akteursdetails wie „Bonner Sportverein\" sollten Sie genau mit dem Hörtext abgleichen. Diese Aussage ist als Richtig markiert, die Angaben sind plausibel und sachlich formuliert."
+      },
+      "43": {
+        "keyword": "noch nicht verbessert",
+        "explanation_correct": "Die Verneinung „noch nicht\" ist entscheidend – sie behauptet, dass eine erwartete Verbesserung bisher ausgeblieben ist. Achten Sie im Hörtext genau auf solche zeitlichen Verneinungen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Verneinung „noch nicht\" ist entscheidend – sie behauptet, dass eine erwartete Verbesserung bisher ausgeblieben ist. Achten Sie im Hörtext genau auf solche zeitlichen Verneinungen. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "deutlich reduziert",
+        "explanation_correct": "Das Ausmaß einer möglichen Kostenersparnis wird hier mit „deutlich\" stark betont – solche quantifizierenden Wörter sind im TELC-Hörtest oft der Knackpunkt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Ausmaß einer möglichen Kostenersparnis wird hier mit „deutlich\" stark betont – solche quantifizierenden Wörter sind im TELC-Hörtest oft der Knackpunkt. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "aufgehoben",
+        "explanation_correct": "Prüfen Sie bei Entscheidungen wie einer Sperre genau, welches Verb im Hörtext verwendet wird – „aufgehoben\", „verlängert\" oder „bestätigt\" ergeben völlig unterschiedliche Aussagen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prüfen Sie bei Entscheidungen wie einer Sperre genau, welches Verb im Hörtext verwendet wird – „aufgehoben\", „verlängert\" oder „bestätigt\" ergeben völlig unterschiedliche Aussagen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "9dcd45db-b72c-4c32-846b-76a09dc16ad0": {
+    "translation": {
+      "questions": {
+        "41": "وفقًا لدراسة، تم بيع عدد أكبر بكثير من السيارات في ألمانيا والصين منذ بداية العام.",
+        "42": "من المفترض إنتاج المزيد من طاقة الرياح على السواحل الألمانية مستقبلاً.",
+        "43": "يمكن لكل مركز شرطة اعتبارًا من الآن أن يقرر بنفسه أي وشوم يُسمح لمتقدميه بامتلاكها.",
+        "44": "بسبب تلوث الهواء وهطول الرماد، نفقت أعداد كبيرة من الحيوانات في شرق أستراليا.",
+        "45": "يمنع جار يقظ عملية سطو مخطط لها على منزل سكني."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "deutlich mehr",
+        "explanation_correct": "Achten Sie auf die genannten Länder und die Steigerung „deutlich mehr\" – oft wird im Hörtext nur ein Land genannt oder eine andere Entwicklung, etwa ein Rückgang, beschrieben. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf die genannten Länder und die Steigerung „deutlich mehr\" – oft wird im Hörtext nur ein Land genannt oder eine andere Entwicklung, etwa ein Rückgang, beschrieben. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "mehr Windkraft",
+        "explanation_correct": "Zukunftsformulierungen wie „soll ... produziert werden\" kündigen ein Vorhaben an – prüfen Sie, ob der Hörtext dies bestätigt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Zukunftsformulierungen wie „soll ... produziert werden\" kündigen ein Vorhaben an – prüfen Sie, ob der Hörtext dies bestätigt. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Jede Polizeidienststelle",
+        "explanation_correct": "Der absolute Quantor „jede\" behauptet, dass die Regelung ausnahmslos für alle Dienststellen gilt. Solche All-Aussagen sind typische Fallen, da im Hörtext oft eine zentrale statt eine individuelle Regelung beschrieben wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der absolute Quantor „jede\" behauptet, dass die Regelung ausnahmslos für alle Dienststellen gilt. Solche All-Aussagen sind typische Fallen, da im Hörtext oft eine zentrale statt eine individuelle Regelung beschrieben wird. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "im Osten Australiens",
+        "explanation_correct": "Regionale Angaben wie „im Osten Australiens\" müssen exakt stimmen – der Hörtext könnte eine andere Region nennen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Regionale Angaben wie „im Osten Australiens\" müssen exakt stimmen – der Hörtext könnte eine andere Region nennen. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "aufmerksamer Nachbar",
+        "explanation_correct": "Achten Sie auf die handelnde Person („aufmerksamer Nachbar\") und die Handlung „verhindert\" – solche Akteur-Handlung-Kombinationen sind Kernpunkte im Hörverstehen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Achten Sie auf die handelnde Person („aufmerksamer Nachbar\") und die Handlung „verhindert\" – solche Akteur-Handlung-Kombinationen sind Kernpunkte im Hörverstehen. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "5646a7d6-cbed-4e14-a426-3b0821d08f65": {
+    "translation": {
+      "questions": {
+        "41": "لا تزال حرائق الغابات في جنوب كاليفورنيا خارجة عن السيطرة.",
+        "42": "وفقًا لرأي بعض السياسيين، يؤدي تقليص ساعات العمل حتمًا إلى فقدان الرخاء.",
+        "43": "تريد ألمانيا وفرنسا تحسين تعاونهما الاقتصادي.",
+        "44": "لا تزال هناك أماكن تدريب مهني شاغرة في مختلف المجالات المهنية.",
+        "45": "حصلت الرياضية الألمانية الشرقية كاتيا كايزر على تعويض مالي عن الأضرار من اللجنة الأولمبية الوطنية."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "noch nicht unter Kontrolle",
+        "explanation_correct": "Die Verneinung „noch nicht\" behauptet einen andauernden, unkontrollierten Zustand. Prüfen Sie im Hörtext, ob die Lage tatsächlich noch nicht oder bereits unter Kontrolle ist. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Verneinung „noch nicht\" behauptet einen andauernden, unkontrollierten Zustand. Prüfen Sie im Hörtext, ob die Lage tatsächlich noch nicht oder bereits unter Kontrolle ist. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "unweigerlich",
+        "explanation_correct": "Die Formulierung „nach Ansicht mancher\" kennzeichnet dies klar als Meinung einer Gruppe, nicht als allgemeine Tatsache – solche Zuschreibungen sollten Sie genau erfassen. Diese Aussage ist als Richtig markiert, da sie korrekt als fremde Meinung dargestellt wird.",
+        "explanation_wrong": "Die Formulierung „nach Ansicht mancher\" kennzeichnet dies klar als Meinung einer Gruppe, nicht als allgemeine Tatsache – solche Zuschreibungen sollten Sie genau erfassen. Diese Aussage ist als Richtig markiert, da sie korrekt als fremde Meinung dargestellt wird."
+      },
+      "43": {
+        "keyword": "wirtschaftliche Zusammenarbeit",
+        "explanation_correct": "Achten Sie auf den genannten Bereich der Zusammenarbeit („wirtschaftlich\") – der Hörtext könnte einen anderen Bereich wie Kultur oder Sicherheit nennen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf den genannten Bereich der Zusammenarbeit („wirtschaftlich\") – der Hörtext könnte einen anderen Bereich wie Kultur oder Sicherheit nennen. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "noch Lehrstellen frei",
+        "explanation_correct": "Das Wort „noch\" zeigt an, dass ein Zustand andauert – hier die Verfügbarkeit offener Stellen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „noch\" zeigt an, dass ein Zustand andauert – hier die Verfügbarkeit offener Stellen. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "erhielt Schmerzensgeld",
+        "explanation_correct": "Prüfen Sie genau, wer von wem etwas erhalten hat – Person, Institution und Handlung müssen exakt übereinstimmen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prüfen Sie genau, wer von wem etwas erhalten hat – Person, Institution und Handlung müssen exakt übereinstimmen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "5416f392-e470-417e-b4cb-65506976cb83": {
+    "translation": {
+      "questions": {
+        "41": "ليس من المؤكد ما إذا كانت هذه المشكلة قد تتكرر مرة أخرى.",
+        "42": "لم يؤيد سياسيو هامبورغ بناء مركز التسوق.",
+        "43": "تم تشغيل قطار جديد فائق السرعة بين فرنسا وألمانيا.",
+        "44": "لم تعد منتجات شركة TipTop مطلوبة بنفس القدر في ألمانيا.",
+        "45": "ستشارك إنغريد تيمه في بطولة العالم القادمة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "nicht sicher",
+        "explanation_correct": "Ausdrücke der Unsicherheit wie „nicht sicher, ob\" signalisieren, dass keine endgültige Aussage getroffen wird. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Ausdrücke der Unsicherheit wie „nicht sicher, ob\" signalisieren, dass keine endgültige Aussage getroffen wird. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "befürworteten nicht",
+        "explanation_correct": "Die Verneinung „nicht\" kehrt die Haltung der Politiker um – prüfen Sie im Hörtext genau, ob Zustimmung oder Ablehnung beschrieben wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Verneinung „nicht\" kehrt die Haltung der Politiker um – prüfen Sie im Hörtext genau, ob Zustimmung oder Ablehnung beschrieben wird. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "in Betrieb genommen",
+        "explanation_correct": "Das Verb „in Betrieb genommen\" behauptet einen bereits abgeschlossenen Start – im Hörtext könnte dies erst geplant oder noch nicht erfolgt sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „in Betrieb genommen\" behauptet einen bereits abgeschlossenen Start – im Hörtext könnte dies erst geplant oder noch nicht erfolgt sein. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "nicht mehr so gefragt",
+        "explanation_correct": "Die Kombination „nicht mehr so\" beschreibt einen Rückgang im Vergleich zu früher – solche vergleichenden Verneinungen sollten Sie genau erfassen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Kombination „nicht mehr so\" beschreibt einen Rückgang im Vergleich zu früher – solche vergleichenden Verneinungen sollten Sie genau erfassen. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "wird sich beteiligen",
+        "explanation_correct": "Zukunftsaussagen über eine Teilnahme sollten Sie kritisch prüfen – der Hörtext könnte eine Absage oder Verletzung erwähnen, die eine Teilnahme ausschließt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Zukunftsaussagen über eine Teilnahme sollten Sie kritisch prüfen – der Hörtext könnte eine Absage oder Verletzung erwähnen, die eine Teilnahme ausschließt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "9e7ee496-1c54-48d6-9da9-34333e16151a": {
+    "translation": {
+      "questions": {
+        "1": "توقف المدينة بناء محطات شحن كهربائية جديدة.",
+        "2": "يمكن للزوار مشاهدة صغير الفيل اعتبارًا من الآن.",
+        "3": "سينخفض معدل البطالة في قطاع الحرف اليدوية قريبًا.",
+        "4": "سيكون المبنى الشاهق الجديد أقل ارتفاعًا لأسباب تتعلق بحماية الآثار.",
+        "5": "لا تزال سفينة تسد قناة بحر الشمال والبلطيق."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "stoppt",
+        "explanation_correct": "Das Verb „stoppt\" behauptet eine vollständige Einstellung eines Vorhabens – prüfen Sie, ob der Hörtext tatsächlich einen Stopp oder eher eine Fortsetzung bzw. Erweiterung beschreibt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „stoppt\" behauptet eine vollständige Einstellung eines Vorhabens – prüfen Sie, ob der Hörtext tatsächlich einen Stopp oder eher eine Fortsetzung bzw. Erweiterung beschreibt. Diese Aussage ist als Falsch markiert."
+      },
+      "2": {
+        "keyword": "ab jetzt",
+        "explanation_correct": "Die Zeitangabe „ab jetzt\" behauptet einen sofortigen Beginn – im Hörtext könnte der Zeitpunkt später liegen oder noch nicht feststehen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Zeitangabe „ab jetzt\" behauptet einen sofortigen Beginn – im Hörtext könnte der Zeitpunkt später liegen oder noch nicht feststehen. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "wird bald abnehmen",
+        "explanation_correct": "Prognosen wie „wird bald abnehmen\" sollten Sie genau mit dem Hörtext abgleichen – oft wird das Gegenteil, also eine Zunahme oder ein Mangel an Arbeitskräften, beschrieben. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prognosen wie „wird bald abnehmen\" sollten Sie genau mit dem Hörtext abgleichen – oft wird das Gegenteil, also eine Zunahme oder ein Mangel an Arbeitskräften, beschrieben. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "aus Denkmalschutzgründen",
+        "explanation_correct": "Begründungen wie „aus Denkmalschutzgründen\" geben einen konkreten Grund an, der exakt zum Hörtext passen sollte. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Begründungen wie „aus Denkmalschutzgründen\" geben einen konkreten Grund an, der exakt zum Hörtext passen sollte. Diese Aussage ist als Richtig markiert."
+      },
+      "5": {
+        "keyword": "noch immer",
+        "explanation_correct": "Die Formulierung „noch immer\" behauptet einen andauernden Zustand – prüfen Sie, ob das Problem im Hörtext bereits gelöst wurde. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Formulierung „noch immer\" behauptet einen andauernden Zustand – prüfen Sie, ob das Problem im Hörtext bereits gelöst wurde. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "45222cda-4cdd-4783-b19c-68ccc2553c6e": {
+    "translation": {
+      "questions": {
+        "1": "تسمح باريس باستمرار باستخدام سكوترات التأجير دون قيود.",
+        "2": "بفضل الذكاء الاصطناعي، يتم اكتشاف الأمراض بشكل أكثر موثوقية.",
+        "3": "تريد أستراليا توسيع الوصول السياحي إلى الحاجز المرجاني العظيم.",
+        "4": "وفقًا للدراسات، لا ينتج عن استخدام الهواتف الذكية في الحصص الدراسية أي ضرر تعليمي.",
+        "5": "من شأن الضريبة الجديدة أن تتدخل بعمق في سوق الطاقة الأمريكي."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "ohne Einschränkungen",
+        "explanation_correct": "Der absolute Ausdruck „ohne Einschränkungen\" behauptet völlige Freiheit ohne Regeln – solche Formulierungen sind oft Übertreibungen im Vergleich zum Hörtext. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der absolute Ausdruck „ohne Einschränkungen\" behauptet völlige Freiheit ohne Regeln – solche Formulierungen sind oft Übertreibungen im Vergleich zum Hörtext. Diese Aussage ist als Falsch markiert."
+      },
+      "2": {
+        "keyword": "zuverlässiger erkannt",
+        "explanation_correct": "Der Komparativ „zuverlässiger\" behauptet eine Verbesserung im Vergleich zu vorher – achten Sie darauf, ob der Hörtext diese Steigerung bestätigt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Komparativ „zuverlässiger\" behauptet eine Verbesserung im Vergleich zu vorher – achten Sie darauf, ob der Hörtext diese Steigerung bestätigt. Diese Aussage ist als Richtig markiert."
+      },
+      "3": {
+        "keyword": "touristisch ausweiten",
+        "explanation_correct": "Das Verb „ausweiten\" behauptet eine Erweiterung des Zugangs – im Hörtext könnte stattdessen von einer Einschränkung des touristischen Zugangs die Rede sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „ausweiten\" behauptet eine Erweiterung des Zugangs – im Hörtext könnte stattdessen von einer Einschränkung des touristischen Zugangs die Rede sein. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "kein Lernnachteil",
+        "explanation_correct": "Die Verneinung „kein\" behauptet die völlige Abwesenheit eines negativen Effekts – solche Absolutformulierungen sind typische Fallen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Verneinung „kein\" behauptet die völlige Abwesenheit eines negativen Effekts – solche Absolutformulierungen sind typische Fallen. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "tief eingreifen",
+        "explanation_correct": "Der Konjunktiv „würde\" zusammen mit „tief eingreifen\" beschreibt eine mögliche, weitreichende Auswirkung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Konjunktiv „würde\" zusammen mit „tief eingreifen\" beschreibt eine mögliche, weitreichende Auswirkung. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "0e3a2c7d-967d-490a-9a63-eaa78766337e": {
+    "translation": {
+      "questions": {
+        "1": "يرتفع استهلاك المشروبات الغازية المحلاة بنسبة 10 بالمئة.",
+        "2": "فيما يتعلق بتكاليف المعيشة، تحتل ألمانيا مرتبة متوسطة فقط في المقارنة الأوروبية.",
+        "3": "نهاية إضراب الطيارين باتت وشيكة.",
+        "4": "يخشى الخبراء من وقوع أعمال عنف في الفعاليات الرياضية.",
+        "5": "تسعى أكاديمية ليوبولدينا إلى توجه دولي أقوى."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "um 10 %",
+        "explanation_correct": "Zahlenangaben wie „10 %\" sind im TELC-Hörverstehen besonders prüfungsrelevant – merken Sie sich die genaue Zahl, da sie leicht verändert werden kann. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Zahlenangaben wie „10 %\" sind im TELC-Hörverstehen besonders prüfungsrelevant – merken Sie sich die genaue Zahl, da sie leicht verändert werden kann. Diese Aussage ist als Richtig markiert."
+      },
+      "2": {
+        "keyword": "nur im Mittelfeld",
+        "explanation_correct": "Das einschränkende Wort „nur\" relativiert die Position Deutschlands – solche Einschränkungen sollten Sie genau mit dem Hörtext abgleichen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das einschränkende Wort „nur\" relativiert die Position Deutschlands – solche Einschränkungen sollten Sie genau mit dem Hörtext abgleichen. Diese Aussage ist als Richtig markiert."
+      },
+      "3": {
+        "keyword": "absehbar",
+        "explanation_correct": "Das Wort „absehbar\" behauptet, dass ein Ende bereits in Sicht ist – im Hörtext könnte die Situation als offen oder ungewiss beschrieben werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „absehbar\" behauptet, dass ein Ende bereits in Sicht ist – im Hörtext könnte die Situation als offen oder ungewiss beschrieben werden. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "befürchten Gewalt",
+        "explanation_correct": "Das Verb „befürchten\" drückt eine Sorge bzw. Erwartung aus, keine bereits eingetretene Tatsache – achten Sie im Hörtext auf solche modalen Verben. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Verb „befürchten\" drückt eine Sorge bzw. Erwartung aus, keine bereits eingetretene Tatsache – achten Sie im Hörtext auf solche modalen Verben. Diese Aussage ist als Richtig markiert."
+      },
+      "5": {
+        "keyword": "stärkere internationale Ausrichtung",
+        "explanation_correct": "Der Komparativ „stärkere\" behauptet eine gezielte Verstärkung eines bestimmten Aspekts – prüfen Sie, ob der Hörtext dieses Ziel tatsächlich nennt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Komparativ „stärkere\" behauptet eine gezielte Verstärkung eines bestimmten Aspekts – prüfen Sie, ob der Hörtext dieses Ziel tatsächlich nennt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "7cec99d9-4d45-48b0-8939-90a48f3e100f": {
+    "translation": {
+      "questions": {
+        "41": "ستحصل بافاريا وشمال الراين-وستفاليا مستقبلاً على 2.3 مليار يورو سنويًا لبناء طرق سريعة جديدة.",
+        "42": "بسبب درجات الحرارة المنخفضة جدًا تحت الصفر، لا توجد دراسة في عموم روسيا.",
+        "43": "خلال حفلة طلابية في فرنسا، سقط قتلى وجرحى.",
+        "44": "خفضت وزارة المالية الاتحادية الضرائب في العام الماضي.",
+        "45": "تخطط الحكومة لإجراء تغيير في فترة اختبار رخصة القيادة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "2,3 Milliarden Euro",
+        "explanation_correct": "Konkrete Zahlen wie „2,3 Milliarden Euro\" werden im TELC-Hörtest häufig leicht verändert – merken Sie sich Betrag, Zweck und die genannten Bundesländer genau. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Konkrete Zahlen wie „2,3 Milliarden Euro\" werden im TELC-Hörtest häufig leicht verändert – merken Sie sich Betrag, Zweck und die genannten Bundesländer genau. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "in ganz Russland",
+        "explanation_correct": "Die Formulierung „in ganz Russland\" behauptet eine landesweite Geltung – solche Verallgemeinerungen sind typische Fallen, wenn im Hörtext nur bestimmte Regionen betroffen sind. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Formulierung „in ganz Russland\" behauptet eine landesweite Geltung – solche Verallgemeinerungen sind typische Fallen, wenn im Hörtext nur bestimmte Regionen betroffen sind. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Tote und Verletzte",
+        "explanation_correct": "Achten Sie auf das Ausmaß eines Vorfalls („Tote und Verletzte\") – solche Begriffe sollten exakt mit dem im Hörtext beschriebenen Ereignis übereinstimmen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Achten Sie auf das Ausmaß eines Vorfalls („Tote und Verletzte\") – solche Begriffe sollten exakt mit dem im Hörtext beschriebenen Ereignis übereinstimmen. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "Steuern gesenkt",
+        "explanation_correct": "Das Verb „gesenkt\" behauptet eine Steuersenkung – im Hörtext könnte stattdessen von einer Erhöhung oder Beibehaltung der Steuern die Rede sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „gesenkt\" behauptet eine Steuersenkung – im Hörtext könnte stattdessen von einer Erhöhung oder Beibehaltung der Steuern die Rede sein. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "plant eine Änderung",
+        "explanation_correct": "Das Verb „plant\" zeigt an, dass es sich um ein Vorhaben und nicht um eine bereits umgesetzte Maßnahme handelt – achten Sie im Hörtext auf diesen Unterschied. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Verb „plant\" zeigt an, dass es sich um ein Vorhaben und nicht um eine bereits umgesetzte Maßnahme handelt – achten Sie im Hörtext auf diesen Unterschied. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "ef3ae7c2-1b95-4a8f-95a0-0d87bd61b179": {
+    "translation": {
+      "questions": {
+        "1": "يُلغى العرض الأول للمسرحية بسبب مرض الممثلة.",
+        "2": "تخطط السكك الحديدية الألمانية لجعل النقل بعيد المدى محايدًا مناخيًا بحلول عام 2030.",
+        "3": "يسود نقص في الرعاية سواء في المناطق الريفية أو في المدن الكبرى.",
+        "4": "يتأخر بناء الحديقة العامة في المدينة بسبب نقص التصاريح.",
+        "5": "تُطبَّق علاوة السكن بغض النظر عن دخل الوالدين."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "wegen Krankheit",
+        "explanation_correct": "Konkrete Begründungen wie „wegen Krankheit\" sind häufige Fallen – im Hörtext kann ein anderer Grund für die Absage oder Verschiebung genannt werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Konkrete Begründungen wie „wegen Krankheit\" sind häufige Fallen – im Hörtext kann ein anderer Grund für die Absage oder Verschiebung genannt werden. Diese Aussage ist als Falsch markiert."
+      },
+      "2": {
+        "keyword": "bis 2030",
+        "explanation_correct": "Jahreszahlen wie „2030\" sind zentrale Prüfdetails – der Hörtext könnte ein anderes Zieljahr nennen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Jahreszahlen wie „2030\" sind zentrale Prüfdetails – der Hörtext könnte ein anderes Zieljahr nennen. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "sowohl als auch",
+        "explanation_correct": "Die Konstruktion „sowohl ... als auch\" behauptet, dass ein Problem in beiden genannten Gebieten gleichermaßen besteht. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Konstruktion „sowohl ... als auch\" behauptet, dass ein Problem in beiden genannten Gebieten gleichermaßen besteht. Diese Aussage ist als Richtig markiert."
+      },
+      "4": {
+        "keyword": "wegen fehlender Genehmigungen",
+        "explanation_correct": "Auch hier ist der genannte Grund die entscheidende Falle – prüfen Sie, ob der Hörtext tatsächlich fehlende Genehmigungen oder einen anderen Grund, etwa die Finanzierung, nennt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Auch hier ist der genannte Grund die entscheidende Falle – prüfen Sie, ob der Hörtext tatsächlich fehlende Genehmigungen oder einen anderen Grund, etwa die Finanzierung, nennt. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "unabhängig vom Einkommen",
+        "explanation_correct": "Der Ausdruck „unabhängig von\" behauptet, dass ein bestimmter Faktor keine Rolle spielt – solche Formulierungen sollten Sie besonders aufmerksam prüfen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „unabhängig von\" behauptet, dass ein bestimmter Faktor keine Rolle spielt – solche Formulierungen sollten Sie besonders aufmerksam prüfen. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "897f4edb-22d3-4150-b381-301093605d65": {
+    "translation": {
+      "questions": {
+        "41": "للفوز بالتذاكر، يجب على المرء معرفة موعد الفعالية.",
+        "42": "في غضون 11 يومًا فقط، حقق فيلم \"جوراسيك وورلد\" أكثر من 700 مليون دولار خارج الولايات المتحدة.",
+        "43": "قد تحدث تأخيرات في كارينثيا بسبب حركة المرور المعاكسة الكثيفة.",
+        "44": "بسبب موجة برد، ينخفض خط تساقط الثلوج على طول الجانب الشمالي للألب إلى ما دون 2000 متر بقليل.",
+        "45": "تحدد الربع نهائي الأول لكأس العالم لكرة القدم النسائية بين فرنسا وكندا."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "muss man wissen",
+        "explanation_correct": "Bedingungssätze mit „muss man\" behaupten eine konkrete Teilnahmevoraussetzung – prüfen Sie, ob der Hörtext genau diese Bedingung nennt oder eine andere. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Bedingungssätze mit „muss man\" behaupten eine konkrete Teilnahmevoraussetzung – prüfen Sie, ob der Hörtext genau diese Bedingung nennt oder eine andere. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "700 Millionen Dollar",
+        "explanation_correct": "Zwei Zahlenangaben („11 Tage\" und „700 Millionen Dollar\") machen diese Aussage besonders anfällig für Fallen – im Hörtext kann eine der beiden Zahlen abweichen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Zwei Zahlenangaben („11 Tage\" und „700 Millionen Dollar\") machen diese Aussage besonders anfällig für Fallen – im Hörtext kann eine der beiden Zahlen abweichen. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "starkem Gegenverkehr",
+        "explanation_correct": "Achten Sie auf die genannte Ursache für Verzögerungen („Gegenverkehr\") sowie den Ort „Kärnten\" – beide Angaben müssen zusammenpassen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Achten Sie auf die genannte Ursache für Verzögerungen („Gegenverkehr\") sowie den Ort „Kärnten\" – beide Angaben müssen zusammenpassen. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "knapp unter 2000 m",
+        "explanation_correct": "Höhenangaben wie „2000 m\" sind konkrete Prüfdetails – merken Sie sich, ob die Grenze knapp darunter oder darüber liegt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Höhenangaben wie „2000 m\" sind konkrete Prüfdetails – merken Sie sich, ob die Grenze knapp darunter oder darüber liegt. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "Frankreich gegen Kanada",
+        "explanation_correct": "Die genannten Mannschaften („Frankreich gegen Kanada\") sind das entscheidende Detail – der Hörtext könnte andere Teams oder eine andere Runde nennen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die genannten Mannschaften („Frankreich gegen Kanada\") sind das entscheidende Detail – der Hörtext könnte andere Teams oder eine andere Runde nennen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "3ddcfa62-e0d6-46d0-ae5a-b5ce51ba02e7": {
+    "translation": {
+      "questions": {
+        "41": "يرغب كثير من الموظفين في العمل أربعة أيام فقط في الأسبوع.",
+        "42": "توجد حاليًا أماكن عمل شاغرة كثيرة في المهن الحرفية.",
+        "43": "يكتسب شراء المركبات عبر الإنترنت شعبية متزايدة.",
+        "44": "تعاني صناعة السياحة في ألمانيا هذا العام من خسائر.",
+        "45": "تم تشييد مبانٍ مكتبية جديدة في دوسلدورف."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "nur vier Tage",
+        "explanation_correct": "Die Kombination aus Zahl („vier Tage\") und Einschränkung („nur\") ist hier entscheidend – die Formulierung „würden gern\" drückt zudem einen Wunsch, keine Tatsache aus. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Kombination aus Zahl („vier Tage\") und Einschränkung („nur\") ist hier entscheidend – die Formulierung „würden gern\" drückt zudem einen Wunsch, keine Tatsache aus. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "viele freie Stellen",
+        "explanation_correct": "Das Wort „zurzeit\" verankert die Aussage in der Gegenwart – prüfen Sie, ob der Hörtext diese aktuelle Situation bestätigt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „zurzeit\" verankert die Aussage in der Gegenwart – prüfen Sie, ob der Hörtext diese aktuelle Situation bestätigt. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "gewinnt an Beliebtheit",
+        "explanation_correct": "Das Verb „gewinnt an Beliebtheit\" beschreibt einen positiven Trend – im Hörtext könnte stattdessen eine Zurückhaltung oder ein Rückgang beim Online-Kauf beschrieben werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „gewinnt an Beliebtheit\" beschreibt einen positiven Trend – im Hörtext könnte stattdessen eine Zurückhaltung oder ein Rückgang beim Online-Kauf beschrieben werden. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "kämpft mit Verlusten",
+        "explanation_correct": "Die Behauptung von „Verlusten\" beschreibt eine negative wirtschaftliche Entwicklung – im Hörtext könnte stattdessen von einem guten oder durchschnittlichen Jahr die Rede sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Behauptung von „Verlusten\" beschreibt eine negative wirtschaftliche Entwicklung – im Hörtext könnte stattdessen von einem guten oder durchschnittlichen Jahr die Rede sein. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "Düsseldorf",
+        "explanation_correct": "Ortsangaben wie „Düsseldorf\" sind ein häufiger Ansatzpunkt für Fallen – der Hörtext könnte eine andere Stadt nennen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Ortsangaben wie „Düsseldorf\" sind ein häufiger Ansatzpunkt für Fallen – der Hörtext könnte eine andere Stadt nennen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "98e938c3-fd7d-4f78-ae38-ce899e9cf1e0": {
+    "translation": {
+      "questions": {
+        "41": "سيدفع كثير من الزبائن رسومًا أعلى مقابل خدمات أفضل لشركة توصيل الطرود.",
+        "42": "بعد الحادث، لم تتمكن كلتا السفينتين من مواصلة رحلتهما.",
+        "43": "يتناقص عدد الطيور باستمرار في مختلف أنحاء أوروبا.",
+        "44": "اكتشفت الشرطة على الطريق السريع مركبة ممنوعة في ذلك المكان.",
+        "45": "في المهرجان، كان بإمكان الزوار حضور حفلات موسيقية في أماكن مختلفة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "höhere Gebühren zahlen",
+        "explanation_correct": "Der Konjunktiv „würden zahlen\" beschreibt eine hypothetische Bereitschaft – prüfen Sie, ob der Hörtext diese Zahlungsbereitschaft tatsächlich bestätigt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Konjunktiv „würden zahlen\" beschreibt eine hypothetische Bereitschaft – prüfen Sie, ob der Hörtext diese Zahlungsbereitschaft tatsächlich bestätigt. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "beide Schiffe",
+        "explanation_correct": "Der Ausdruck „beide\" behauptet, dass die Aussage auf beide Schiffe gleichermaßen zutrifft – im Hörtext könnte nur eines der Schiffe betroffen sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Ausdruck „beide\" behauptet, dass die Aussage auf beide Schiffe gleichermaßen zutrifft – im Hörtext könnte nur eines der Schiffe betroffen sein. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "immer weniger",
+        "explanation_correct": "Die Formulierung „immer weniger\" beschreibt einen fortlaufenden Rückgang – solche Trendaussagen sollten Sie mit dem Hörtext abgleichen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „immer weniger\" beschreibt einen fortlaufenden Rückgang – solche Trendaussagen sollten Sie mit dem Hörtext abgleichen. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "verbotenes Fahrzeug",
+        "explanation_correct": "Achten Sie auf die Art des Fundes („verbotenes Fahrzeug\") sowie den Ort „Autobahn\" – beide Details müssen zueinander passen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Achten Sie auf die Art des Fundes („verbotenes Fahrzeug\") sowie den Ort „Autobahn\" – beide Details müssen zueinander passen. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "an verschiedenen Orten",
+        "explanation_correct": "Der Ausdruck „verschiedene Orte\" beschreibt eine räumliche Verteilung der Veranstaltungen – prüfen Sie, ob der Hörtext diese Vielfalt an Orten bestätigt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „verschiedene Orte\" beschreibt eine räumliche Verteilung der Veranstaltungen – prüfen Sie, ob der Hörtext diese Vielfalt an Orten bestätigt. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "7a0de66e-6e6e-4cbb-8a93-cda7234c1ccc": {
+    "translation": {
+      "questions": {
+        "41": "بسبب أضرار العاصفة، تم إيواء المصطافين في مأوى طارئ.",
+        "42": "تمت إزالة جميع منتجات شركة ميريلا من المتاجر.",
+        "43": "بلغ عرض فرص العمل في ألمانيا الاتحادية أدنى مستوى له.",
+        "44": "في 21 مايو، يكون دخول المعرض الخاص مجانيًا.",
+        "45": "تسببت حيوانات هاربة في وقوع حادث على الطريق السريع."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Notunterkunft",
+        "explanation_correct": "Das Wort „Notunterkunft\" beschreibt eine konkrete, dringliche Maßnahme – der Hörtext sollte diese Art der Unterbringung genau bestätigen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „Notunterkunft\" beschreibt eine konkrete, dringliche Maßnahme – der Hörtext sollte diese Art der Unterbringung genau bestätigen. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "Sämtliche",
+        "explanation_correct": "Der absolute Quantor „sämtliche\" behauptet eine vollständige Entfernung ausnahmslos aller Waren – solche All-Aussagen sind typische Fallen, wenn im Hörtext nur ein Teil betroffen ist. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der absolute Quantor „sämtliche\" behauptet eine vollständige Entfernung ausnahmslos aller Waren – solche All-Aussagen sind typische Fallen, wenn im Hörtext nur ein Teil betroffen ist. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Tiefstand erreicht",
+        "explanation_correct": "Der Ausdruck „Tiefstand\" behauptet einen historischen Tiefpunkt – im Hörtext könnte stattdessen von einem Höchststand oder einer stabilen Lage die Rede sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Ausdruck „Tiefstand\" behauptet einen historischen Tiefpunkt – im Hörtext könnte stattdessen von einem Höchststand oder einer stabilen Lage die Rede sein. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Am 21. Mai",
+        "explanation_correct": "Datumsangaben wie „21. Mai\" in Verbindung mit „kostenlos\" sind zentrale Prüfdetails – ein anderes Datum würde die Aussage falsch machen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Datumsangaben wie „21. Mai\" in Verbindung mit „kostenlos\" sind zentrale Prüfdetails – ein anderes Datum würde die Aussage falsch machen. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "Entlaufene Tiere",
+        "explanation_correct": "Achten Sie auf die genannte Unfallursache („entlaufene Tiere\") – der Hörtext könnte eine andere Ursache für den Unfall nennen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf die genannte Unfallursache („entlaufene Tiere\") – der Hörtext könnte eine andere Ursache für den Unfall nennen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  }
+}
