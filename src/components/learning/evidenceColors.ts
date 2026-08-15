@@ -1,10 +1,12 @@
 /**
  * Fixed accessible highlight palette for evidence-in-text marks. Distinct
- * from the colors EvidenceBlock's own icons use (blue/amber/violet/indigo/
- * emerald/rose) so a highlighted sentence never visually collides with the
- * Warum-card chrome pointing at it. Classes are written out literally (not
- * built from interpolated color names) so Tailwind's JIT scanner picks them
- * up — a dynamic `bg-${color}-500/10` string would get purged in production.
+ * from the colors EvidenceBlock's own chrome uses (violet for Warum, amber
+ * for Merke, indigo for translation, emerald/rose for correct/wrong) so a
+ * highlighted sentence never visually collides with the card pointing at
+ * it, and from the app's own primary/selected-state blue. Classes are
+ * written out literally (not built from interpolated color names) so
+ * Tailwind's JIT scanner picks them up — a dynamic `bg-${color}-500/10`
+ * string would get purged in production.
  */
 export interface EvidenceColor {
   /** Classes for the highlighted <mark> span inside the passage/transcript. */
@@ -31,8 +33,8 @@ const PALETTE: EvidenceColor[] = [
     badge: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-500/25",
   },
   {
-    mark: "bg-lime-500/15 dark:bg-lime-400/20 ring-1 ring-lime-500/30 dark:ring-lime-400/30",
-    badge: "bg-lime-500/10 text-lime-700 dark:text-lime-300 border-lime-500/25",
+    mark: "bg-yellow-500/15 dark:bg-yellow-400/20 ring-1 ring-yellow-500/30 dark:ring-yellow-400/30",
+    badge: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-300 border-yellow-500/25",
   },
   {
     mark: "bg-sky-500/15 dark:bg-sky-400/20 ring-1 ring-sky-500/30 dark:ring-sky-400/30",

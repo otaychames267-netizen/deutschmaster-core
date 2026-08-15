@@ -67,7 +67,7 @@ export function EvidenceBlock({
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/25 bg-blue-500/5 px-2.5 py-1.5 text-[12px] font-bold text-blue-700 dark:text-blue-300 transition-colors hover:bg-blue-500/10"
+        className="inline-flex items-center gap-1.5 rounded-lg border border-violet-500/25 bg-violet-500/5 px-2.5 py-1.5 text-[12px] font-bold text-violet-700 dark:text-violet-300 transition-colors hover:bg-violet-500/10"
       >
         <Lightbulb className="h-3.5 w-3.5 shrink-0" />
         <span>{variant === "wrong" ? "Warum?" : "Warum ist das richtig?"}</span>
@@ -76,9 +76,9 @@ export function EvidenceBlock({
       </button>
 
       {open && (
-        <div className="mt-1.5 w-full max-w-md space-y-2 rounded-xl border border-blue-500/20 bg-blue-500/5 px-3.5 py-3">
+        <div className="mt-1.5 w-full max-w-md space-y-2 rounded-xl border border-violet-500/20 bg-violet-500/5 px-3.5 py-3">
           {(yourAnswerText || correctAnswerText) && (
-            <div className="space-y-1 border-b border-blue-500/10 pb-2">
+            <div className="space-y-1 border-b border-violet-500/10 pb-2">
               {yourAnswerText && (
                 <p className="flex items-center gap-1.5 text-xs">
                   {variant === "wrong"
@@ -124,7 +124,7 @@ export function EvidenceBlock({
           )}
 
           {showEvidenceQuote && aids.evidence_text && (
-            <p className={`text-xs italic leading-relaxed text-muted-foreground ${(explanation || aids.keyword || aids.grammar_example) ? "border-t border-blue-500/10 pt-2" : ""}`}>
+            <p className={`text-xs italic leading-relaxed text-muted-foreground ${(explanation || aids.keyword || aids.grammar_example) ? "border-t border-violet-500/10 pt-2" : ""}`}>
               „{aids.evidence_text}“
             </p>
           )}
