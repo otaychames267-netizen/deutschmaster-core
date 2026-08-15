@@ -1,0 +1,772 @@
+[
+  {
+    "id": "06fed183-8259-4d2f-9d40-969308077a81",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "her",
+        "option_b": "hin",
+        "option_c": "vorbei",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "erkrankt",
+        "option_b": "gekränkt",
+        "option_c": "kränklich",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "als",
+        "option_b": "da",
+        "option_c": "wenn",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "nicht nur... sondern",
+        "option_b": "teils... teils",
+        "option_c": "zwar... aber",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "werde",
+        "option_b": "wollte",
+        "option_c": "würde",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "Dafür",
+        "option_b": "Danach",
+        "option_c": "Darauf",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "darüber",
+        "option_b": "davon",
+        "option_c": "dazu",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "dich",
+        "option_b": "dir",
+        "option_c": "sich",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "beschäftigen lassen",
+        "option_b": "beschäftigt zu sein",
+        "option_c": "zu beschäftigen",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "weshalb",
+        "option_b": "wie",
+        "option_c": "wo",
+        "gap_number": 30
+      }
+    ],
+    "title": "Liebe Agnieszka",
+    "passage": "Liebe Agnieszka,\n\njetzt ist es schon bald ein halbes Jahr {{21}}, dass ich dir das letzte Mal geschrieben habe. Bitte denke jetzt nicht, dass ich dich vergessen habe. Aber, wie du ja schon weißt, stehe ich vor der Abschlussprüfung in Deutsch und das bedeutet jede Menge Arbeit und Stress.\n\nStell dir vor, ausgerechnet jetzt, nur zwei Wochen vor der Prüfung, ist unsere Lehrerin, Frau Reuter, {{22}}. Sie liegt sogar im Krankenhaus und kommt erst wieder zurück, {{23}} unsere Prüfung schon längst vorbei ist. Ihre Vertretung, Frau Eichhorn, ist {{24}} sehr nett, {{24}} sie hat gerade erst mit dem Unterrichten angefangen und noch keine Erfahrung. Das macht uns alle ein bisschen unsicher. Aber in zwei Wochen ist hoffentlich alles geschafft. Und dann {{25}} ich alle Bücher und Hefte in die Ecke legen und erst einmal ein paar Tage gar nichts tun. {{26}} freue ich mich schon riesig. Wenn du Zeit und Lust hast, kannst du mich doch besuchen kommen und wir können zusammen etwas unternehmen. Wir wollten doch schon lange Bad Homburg besuchen und im Taunus wandern. Was hältst du {{27}}?\n\nWas macht deine Au-pair-Familie? Musst du immer noch so viel Hausarbeit machen? Hören \"deine\" Kinder auf dich oder tanzen sie {{28}} noch immer auf der Nase herum, wie du in deinem letzten Brief geschrieben hast? Es ist bestimmt nicht so leicht, einen zweijährigen Jungen und ein vierjähriges Mädchen den ganzen Tag {{29}}. Aber ich kenne dich: Du hast gute Ideen und bestimmt hast du schon einen Weg gefunden, {{30}} du mit den Kindern zurechtkommst.\n\nSo, jetzt muss ich mich wieder an meine Prüfungsvorbereitung machen, sonst wird mir die Zeit zu knapp. Ich grüße dich ganz herzlich und wünsche dir alles Gute.\n\nBis bald\nDeine Louise"
+  },
+  {
+    "id": "b09ad2e1-e81a-4c4f-8578-b29ea39666c3",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "vergangen",
+        "option_b": "vergehend",
+        "option_c": "vergingen",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "gleich",
+        "option_b": "plötzlich",
+        "option_c": "sofort",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "als",
+        "option_b": "da",
+        "option_c": "wenn",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "sondern",
+        "option_b": "sowohl",
+        "option_c": "zwar",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "werde",
+        "option_b": "wollte",
+        "option_c": "würde",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "Damit",
+        "option_b": "Darauf",
+        "option_c": "Davon",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "darüber",
+        "option_b": "davon",
+        "option_c": "dazu",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "auf",
+        "option_c": "in",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "beschäftigen lassen",
+        "option_b": "beschäftigt zu sein",
+        "option_c": "zu beschäftigen",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "zurechtkamst",
+        "option_b": "zurechtkommst",
+        "option_c": "zurechtzukommen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Liebe Anna ( Original )",
+    "passage": "Liebe Anna,\n\njetzt ist schon bald ein halbes Jahr {{21}}, seit ich dir das letzte Mal geschrieben habe. Bitte denke jetzt nicht, dass ich dich vergessen habe. Aber, wie du ja schon weißt, stehe ich vor der Abschlussprüfung in Deutsch und das bedeutet jede Menge Arbeit und Stress.\n\nStell dir vor, ausgerechnet jetzt, nur zwei Wochen vor der Prüfung, ist unsere Lehrerin, Frau Reuter, {{22}} erkrankt. Sie liegt sogar im Krankenhaus und kommt erst wieder zurück, {{23}} unsere Prüfung schon längst vorbei ist. Ihre Vertretung, Frau Eichhorn, ist {{24}} sehr nett, aber sie hat gerade erst mit dem Unterrichten angefangen und noch keine Erfahrung. Das macht uns alle ein bisschen unsicher. Aber in zwei Wochen ist hoffentlich alles geschafft. Und dann {{25}} ich alle Bücher und Hefte in die Ecke legen und erst einmal ein paar Tage gar nichts tun. {{26}} freue ich mich schon riesig. Wenn du Zeit und Lust hast, kannst du mich doch besuchen kommen und wir können zusammen etwas unternehmen. Wir wollten doch schon lange Bad Homburg besuchen und im Taunus wandern. Was hältst du {{27}}?\n\nWas macht deine Au-pair-Familie? Musst du immer noch so viel Hausarbeit machen? Hören \"deine\" Kinder auf dich oder tanzen sie dir immer noch {{28}} der Nase herum, wie du in deinem letzten Brief geschrieben hast? Es ist bestimmt nicht so leicht, einen zweijährigen Jungen und ein vierjähriges Mädchen den ganzen Tag {{29}}. Aber ich kenne dich: Du hast gute Ideen und bestimmt hast du schon einen Weg gefunden, wie du mit den Kindern {{30}}.\n\nSo, jetzt muss ich mich wieder an meine Prüfungsvorbereitung machen, sonst wird mir die Zeit zu knapp. Ich grüße dich ganz herzlich und wünsche dir alles Gute.\n\nBis bald\nDeine Marta"
+  },
+  {
+    "id": "8253db62-d6e7-4550-ada0-4cd542598952",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "den",
+        "option_c": "der",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "bist",
+        "option_b": "hast",
+        "option_c": "warst",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "mich",
+        "option_b": "mir",
+        "option_c": "sich",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "doch",
+        "option_b": "obwohl",
+        "option_c": "sondern",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "erst",
+        "option_b": "noch",
+        "option_c": "schon",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "bearbeitet",
+        "option_b": "bedient",
+        "option_c": "bewirkt",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "lernen",
+        "option_b": "lernen müssen",
+        "option_c": "zu lernen",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "einsetzen",
+        "option_b": "fortsetzen",
+        "option_c": "übersetzen",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "Ob",
+        "option_b": "Wann",
+        "option_c": "Wenn",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "also",
+        "option_b": "kaum",
+        "option_c": "nämlich",
+        "gap_number": 30
+      }
+    ],
+    "title": "Liebe Anna (معدل)",
+    "passage": "Liebe Anna,\ndanke für deinen lieben Brief, {{21}} ich letzte Woche erhalten habe. Ich freue mich sehr, dass es dir gut geht und dass du einen schönen Urlaub in Verona verbracht {{22}}. Bestimmt wirst du jetzt öfter nach Italien reisen, wo doch dein Enkel dort die Frau fürs Leben gefunden hat und schon im September heiraten wird.\nDu hast {{23}} gefragt, was ich davon halte, wenn du in deinem Alter noch Italienisch lernst. Sicherlich sind wir beide nicht mehr die Allerjüngsten, {{24}} zum Sprachenlernen sind wir bestimmt {{25}} jung genug. Was sind schon sechzig Jahre?\nSieh mal: Als Chefsekretärin in deiner Firma sprichst du fließend Englisch und Französisch, du hast mit fünfzig noch gelernt, wie man einen Computer {{26}}. Und heute bist du eine Computerspezialistin! Willst du, dass der „Computer\" in deinem Kopf einrostet, bloß weil du Angst hast, mit sechzig noch etwas Neues {{27}}?\nNein, zu alt ist man nie! Lernen hält geistig fit und du kannst obendrein deine neuen Kenntnisse ganz praktisch {{28}}. Du hast doch immer von deinen Reiseplänen erzählt: Florenz, Rom, Neapel! Und die Freundin deines Enkels ist doch Italienerin.\n{{29}} du mich fragst, dann geh in den nächsten Italienischkurs und lerne diese Sprache. Und kümmere dich nicht um dein (oder besser gesagt unser) Alter. Denn auch ich habe angefangen, eine Sprache zu lernen: Seit zwei Wochen besuche ich zweimal pro Woche einen Russischkurs an der Volkshochschule. Das macht einen Riesenspaß.\nJetzt muss ich aber aufhören, ich muss {{30}} gleich in den Kurs. Bis bald – und viele Grüße an deinen Enkel und seine Verlobte.\nDeine\nKarin"
+  },
+  {
+    "id": "21e2864d-f830-452d-8346-76e4ff32edab",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "miteinander",
+        "option_b": "voneinander",
+        "option_c": "zueinander",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "durch",
+        "option_b": "über",
+        "option_c": "in",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "Als",
+        "option_b": "Wie",
+        "option_c": "Wenn",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "war",
+        "option_b": "wurde",
+        "option_c": "würde",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "es",
+        "option_b": "er",
+        "option_c": "man",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "erste",
+        "option_b": "ersten",
+        "option_c": "erst",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "daran",
+        "option_b": "darüber",
+        "option_c": "davon",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "kann",
+        "option_b": "mag",
+        "option_c": "muss",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "bei",
+        "option_b": "in",
+        "option_c": "mir",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "bräuchte",
+        "option_b": "dürfte",
+        "option_c": "könnte",
+        "gap_number": 30
+      }
+    ],
+    "title": "Liebe Clara",
+    "passage": "Hallo Clara,\n\naus Lyon sende ich dir herzliche Grüße! Ich sitze gerade in einem gemütlichen, aber ziemlich vollen Bistro in der Altstadt und genieße meinen Urlaub. Nun ist es ja schon einige Monate her, dass wir zuletzt {{21}} gehört haben. Ich hoffe, es geht dir gut!\n\nZurzeit mache ich eine Rundreise {{22}} Europa, die ich übrigens schon lange geplant hatte. {{23}} du weißt, habe ich in den letzten zwei Jahren sehr viel gearbeitet und konnte mir nur selten freinehmen. Nach dem ganzen Stress musste ich unbedingt mal eine längere Pause einlegen. Dank meiner gesammelten Überstunden kann ich nun acht Wochen Urlaub am Stück machen. Mein Chef {{24}} zuerst nicht gerade von dieser Idee begeistert, aber am Ende konnte ich ihn doch überzeugen. In den Sommermonaten ist {{25}} in der Firma ohnehin etwas ruhiger.\n\nNun klappere ich nach und nach alle Städte ab, die auf der Liste meiner Traumziele stehen. Ich bin nur mit dem Zug oder Bus unterwegs, denn ich fliege ja nicht sehr gerne. Meine {{26}} Station war Amsterdam, dann ging es über Brüssel nach Lyon und bald werde ich weiter Richtung Süden reisen. Der Büroalltag fehlt mir wirklich überhaupt nicht. Ich möchte gar nicht {{27}} denken, dass ich irgendwann wieder an den Schreibtisch zurück {{28}}. In den letzten Tagen kam {{29}} manchmal der Gedanke, dass ich nach meiner Rückkehr auch etwas ganz Neues anfangen {{30}}.\n\nIch wünsche dir einen schönen Sommer!\n\nHerzliche Grüße und bis bald\nMark"
+  },
+  {
+    "id": "26839c3c-eb9d-4cce-a655-53ba287ea16d",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "dich",
+        "option_b": "dir",
+        "option_c": "sich",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "könnte",
+        "option_b": "möchte",
+        "option_c": "müsste",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "mit",
+        "option_b": "von",
+        "option_c": "vor",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "für",
+        "option_c": "wie",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "aus",
+        "option_b": "in",
+        "option_c": "zu",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "hat",
+        "option_b": "ist",
+        "option_c": "wird",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "lebende",
+        "option_b": "lebenden",
+        "option_c": "lebender",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "wenige",
+        "option_b": "wenigen",
+        "option_c": "weniger",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "Sobald",
+        "option_b": "Sofern",
+        "option_c": "Somit",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "dürftest",
+        "option_b": "könntest",
+        "option_c": "würdest",
+        "gap_number": 30
+      }
+    ],
+    "title": "Liebe Sandra ( Original )",
+    "passage": "Liebe Sandra,\n\naus Helgoland sende ich dir herzlich Grüße! Vielleicht überrascht es {{21}}, dass ich Urlaub auf einer Nordseeinsel mache. Sonst zieht es mich ja immer in den Süden. Ehrlich gesagt, noch vor Kurzem hätte ich auch nicht gedacht, dass ein Urlaub ganz ohne Partyleben das Richtige für mich sein {{22}}. Aber ich hatte in den letzten Monaten auf der Arbeit viel Stress und wünsche mir im Moment vor allem Ruhe - wenn man sich {{23}} der Hektik des Alltags erholen möchte, ist Helgoland jedenfalls genau der richtige Ort. Man kann an den Strand gehen, baden oder einfach mal gar nichts unternehmen. Das Klima ist mild und nicht zu heiß, was ich {{24}} sehr angenehm empfinde. Es gibt weder Fabriken noch Autoverkehr und somit auch keine Luftverschmutzung. Helgoland besteht eigentlich {{25}} zwei Inseln, einer Felseninsel und einer kleineren Sandinsel, die per Fähre zu erreichen {{26}}. Man kann dort Seehunde und Kegelrobben beobachten. Ich glaube, es gibt kaum einen anderen Ort auf der Welt, wo man wild {{27}} Tiere so gut aus der Nähe beobachten kann. Viele Touristen bleiben übrigens nur {{28}} Stunden auf der Insel. {{29}} die Tagesausflügler wieder abgefahren sind, kehrt Stille ein. Nachts kann man hier wirklich gut schlafen, weil man nur ein bisschen Wellenrauschen hört. Was gibt es bei dir denn Neues? Du hast ja mal gesagt, dass du gern umziehen {{30}}. Wie sieht es aus? Hast du schon mit der Wohnungssuche begonnen? Ich freue mich, bald wieder von dir zu hören!\n\nViele Grüße\nDorothée"
+  },
+  {
+    "id": "0cbb3727-103b-43de-a79e-ee92097c2970",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "es",
+        "option_b": "was",
+        "option_c": "das",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "ob",
+        "option_b": "weil",
+        "option_c": "dass",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "viel",
+        "option_b": "viele",
+        "option_c": "großen",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "was",
+        "option_c": "es",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "aus",
+        "option_b": "in",
+        "option_c": "zu",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "erreichen",
+        "option_b": "erreicht",
+        "option_c": "erreichte",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "lebende",
+        "option_b": "lebenden",
+        "option_c": "lebender",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "wenige",
+        "option_b": "wenigen",
+        "option_c": "weniger",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "Sobald",
+        "option_b": "Sofern",
+        "option_c": "Somit",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "was",
+        "option_b": "wie",
+        "option_c": "warum",
+        "gap_number": 30
+      }
+    ],
+    "title": "Liebe Sandra (معدل)",
+    "passage": "Liebe Sandra,\n\naus Helgoland sende ich dir herzliche Grüße! Vielleicht überrascht {{21}} dich, {{22}} ich Urlaub auf einer Nordseeinsel mache. Sonst zieht es mich ja immer in den Süden.\n\nEhrlich gesagt, noch vor Kurzem hätte ich auch nicht gedacht, dass ein Urlaub ganz ohne Partyleben das Richtige für mich sein könnte. Aber ich hatte in den letzten Monaten auf der Arbeit {{23}} Stress und wünsche mir im Moment vor allem Ruhe – wenn man sich von der Hektik des Alltags erholen möchte, ist Helgoland jedenfalls genau der richtige Ort. Man kann an den Strand gehen, baden oder einfach mal gar nichts unternehmen.\n\nDas Klima ist mild und nicht zu heiß, {{24}} ich als sehr angenehm empfinde. Es gibt weder Fabriken noch Autoverkehr und somit auch keine Luftverschmutzung. Helgoland besteht eigentlich {{25}} zwei Inseln: einer Felseninsel und einer kleineren Sandinsel, die per Fähre zu {{26}} ist. Man kann dort Seehunde und Kegelrobben beobachten. Ich glaube, es gibt kaum einen anderen Ort auf der Welt, wo man wild {{27}} Tiere so gut aus der Nähe beobachten kann.\n\nViele Touristen bleiben übrigens nur {{28}} Stunden auf der Insel. {{29}} die Tagesausflügler wieder abgefahren sind, kehrt Stille ein. Nachts kann man hier wirklich gut schlafen, weil man nur ein bisschen Wellenrauschen hört.\n\n{{30}} gibt es bei dir denn Neues? Du hast ja mal gesagt, dass du gern umziehen würdest – wie sieht es aus? Hast du schon mit der Wohnungssuche begonnen? Ich freue mich, bald wieder von dir zu hören!\n\nViele Grüße\nDorothée"
+  },
+  {
+    "id": "34f47fe6-21e2-4b82-ad85-3c9502226b84",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "obwohl",
+        "option_b": "trotz",
+        "option_c": "während",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "hat",
+        "option_b": "hatte",
+        "option_c": "hätte",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "konnte",
+        "option_b": "sollte",
+        "option_c": "wollte",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "dafür",
+        "option_b": "damit",
+        "option_c": "davon",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "Einerseits... ...andererseits",
+        "option_b": "Weder...noch",
+        "option_c": "Zwar...aber",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "dabei",
+        "option_b": "davon",
+        "option_c": "dazu",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "aussuchen",
+        "option_b": "ausgesucht",
+        "option_c": "auszusuchen",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "grundlegende",
+        "option_b": "grundlegenden",
+        "option_c": "grundlegender",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "am",
+        "option_b": "im",
+        "option_c": "zum",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "dass",
+        "option_b": "ob",
+        "option_c": "wie",
+        "gap_number": 30
+      }
+    ],
+    "title": "Lieber Thomas",
+    "passage": "Lieber Thomas,\n\nich muss dir unbedingt etwas erzählen: Ich bin heute das erste Mal in meinem Leben Ski gefahren, {{21}} ich mir das bisher nie zugetraut hatte. Meine Freundin Lisa hat mich eingeladen, einige Tage mit ihr und ihren Eltern in den Bergen zu verbringen. Und bevor ich ankam, {{22}} sie schon einen individuellen Skikurs für mich gebucht! Du kannst dir vorstellen, wie mich das überrascht hat!\n\nIch {{23}} es mir schon anders überlegen, aber Lisa wollte nichts {{24}} hören. Heute Morgen ging es dann los. {{25}} war ich ziemlich aufgeregt, {{25}} habe ich mich auch unheimlich gefreut. Mit der Skilehrerin habe ich mich gleich gut verstanden. Sie hat mich abgeholt und mir {{26}} geholfen, im Sportgeschäft Schuhe, Skier, Stöcke und einen Helm für mich {{27}}.\n\nDann hat mir die Skilehrerin einige {{28}} Dinge erklärt. Ich war anfangs sehr unsicher, mit der Zeit ließ das aber nach. Die Kinder im Zwergerlkurs scheinen {{29}} Gegensatz zu mir überhaupt keine Angst zu haben.\n\nDas Schlimmste am ersten Tag war der Schlepplift. Erst habe ich den Lift einige Male verpasst, dann bin ich hingefallen. Irgendwie habe ich es dann doch noch geschafft. Und zum Schluss bin ich mit der Lehrerin sogar eine leichte Piste runtergefahren.\n\nMorgen habe ich wieder zwei Stunden. Ich habe jetzt schon Muskelkater und mir tut alles weh!\n\nIch weiß gar nicht, {{30}} ich das schaffen soll. Ich werde dich über meine Fortschritte auf dem Laufenden halten!\n\nBis bald und liebe Grüße\nSamira"
+  },
+  {
+    "id": "a97557bb-e61f-42d2-b95b-285202b2a320",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "nach",
+        "option_c": "von",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "danach",
+        "option_b": "daran",
+        "option_c": "darüber",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "war",
+        "option_b": "wäre",
+        "option_c": "würde",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "Andererseits",
+        "option_b": "weder",
+        "option_c": "zwar",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "mochte",
+        "option_b": "musste",
+        "option_c": "wollte",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "verschiedene",
+        "option_b": "verschiedenen",
+        "option_c": "verschiedener",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "hatte",
+        "option_b": "war",
+        "option_c": "wurde",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "keine",
+        "option_b": "keinen",
+        "option_c": "keiner",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "in",
+        "option_b": "mit",
+        "option_c": "zu",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "was",
+        "option_b": "welches",
+        "option_c": "wo",
+        "gap_number": 30
+      }
+    ],
+    "title": "Lina",
+    "passage": "Liebe Lina,\n\nvielen Dank für deine E-Mail! Ich hoffe sehr, dass du bei deiner Suche {{21}} einer größeren Wohnung bald Erfolg hast. Bei mir gibt es gute Neuigkeiten: Seit einem Monat arbeite ich als Pressereferentin beim Fichte-Verlag in München. Ich denke noch oft {{22}}, wie wir uns während des Studiums über unsere Berufswünsche und Zukunftspläne unterhalten haben. In einem Verlag zu arbeiten {{23}} schon damals mein Traum. Ich kann kaum glauben, dass es tatsächlich geklappt hat. Denn die Stellensuche nach dem Studium war ziemlich schwierig. {{24}} hatte ich einen guten Abschluss, aber ich {{25}} trotzdem unzählige Bewerbungen schreiben und habe mich Tag für Tag durch {{26}} Stellenbörsen geklickt. Dabei habe ich dann die Ausschreibung des Fichte-Verlags entdeckt: Für die Presseabteilung {{27}} eine Junior-Referentin gesucht, und zwar in Vollzeit und so schnell wie möglich. Eigentlich rechnete ich mir {{28}} großen Chancen aus. Einerseits hatte ich ja schon viele Praktika in diesem Bereich gemacht. Andererseits dachte ich, dass die Stelle auch für Bewerber mit mehr Berufserfahrung interessant sein könnte. Aber ich hatte Glück und bekam eine Einladung {{29}} einem Vorstellungsgespräch. An diesem Tag war ich natürlich ziemlich aufgeregt, aber es lief sehr gut. Zehn Tage später hatte ich die Zusage im Briefkasten. In den ersten Wochen im Verlag habe ich viel Neues gelernt und die Kollegen sind sehr freundlich. Das Einzige, {{30}} mich stört, sind die vielen Überstunden, aber daran werde ich mich wohl gewöhnen müssen. So viel für heute. Ich freue mich, bald wieder von dir zu hören.\n\nViele Grüße"
+  },
+  {
+    "id": "f3edd073-151b-426a-9d55-1f5fc601ce81",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "dürft",
+        "option_b": "könnt",
+        "option_c": "sollt",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "für",
+        "option_c": "in",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "bei",
+        "option_b": "unter",
+        "option_c": "zu",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "einige",
+        "option_b": "einigen",
+        "option_c": "einiges",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "dem",
+        "option_b": "den",
+        "option_c": "der",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "ist",
+        "option_b": "sind",
+        "option_c": "waren",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "wann",
+        "option_b": "wie",
+        "option_c": "wo",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "Dabei",
+        "option_b": "Daneben",
+        "option_c": "Darin",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "dies",
+        "option_b": "diesem",
+        "option_c": "dieses",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "man",
+        "option_b": "sich",
+        "option_c": "sie",
+        "gap_number": 30
+      }
+    ],
+    "title": "Lina und Florian",
+    "passage": "Liebe Lina, lieber Florian,\n\nnun sind wir schon einige Monate in unserer neuen Wohnung, und ihr habt uns noch immer nicht besucht. Ihr {{21}} doch endlich unser neues Heim und unsere kleine Stadt kennenlernen.\n\nDeshalb möchten wir euch {{22}} das verlängerte Wochenende Anfang Juni einladen. Wenn ihr am Donnerstagabend anreist, haben wir drei ganze Tage zur Verfügung. Wohnen könnt ihr natürlich {{23}} uns. Emma fährt im Juni in Urlaub, und sie überlässt euch gern ihr Zimmer.\n\nDie Stadt Steyr hat {{24}} zu bieten. Wir können eine Führung durch die historische Altstadt machen, die romantischen Innenhöfe besichtigen und auf {{25}} Turm der Stadtpfarrkirche steigen. Da geht es über 228 Stufen 60 Meter hinauf. Bei einem längeren Rundgang {{26}} auch die wunderbare Schlossbibliothek und das Tapetenzimmer zu besichtigen. Besonders interessant ist die Runde durch den Wehrgraben, {{27}} man an den alten Bauten den Wandel der Industrie nachvollziehen kann. {{28}} erfährt man alles über die Eisenindustrie, die den Reichtum der Stadt begründet hat.\n\nAußerdem finden an {{29}} Wochenende die jährlichen Literaturtage statt. Bei dieser Veranstaltung präsentieren zeitgenössische Autorinnen und Autoren ihre Neuerscheinungen. Die Lesungen finden zum Großteil in den prächtigen Arkadenhöfen statt. Die Stimmung dort ist wirklich eine ganz besondere. Lina, das wäre doch was für dich, oder?\n\nAuch die Umgebung kann {{30}} sehen lassen. Praktisch vor den Toren der Stadt beginnt der Nationalpark Kalkalpen. Dort kann man wunderbar wandern und Rad fahren. Ihr könnt in der Stadt auch Räder ausleihen.\n\nWir hoffen sehr, dass ihr noch keine Pläne für das Wochenende habt und zu uns kommen könnt.\n\nViele liebe Grüße und hoffentlich bis bald!\n\nChiara und Mark"
+  },
+  {
+    "id": "f233f356-f130-4502-9dfb-4a43e8313b96",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "momentan",
+        "option_b": "noch",
+        "option_c": "weiterhin",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "deswegen",
+        "option_b": "wegen",
+        "option_c": "weil",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "abgesehen",
+        "option_b": "außer",
+        "option_c": "bis",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "haben",
+        "option_b": "hatten",
+        "option_c": "hätten",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "für",
+        "option_c": "zur",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "auf",
+        "option_b": "in",
+        "option_c": "zu",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "absolut",
+        "option_b": "ganz",
+        "option_c": "vollkommen",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "obwohl",
+        "option_b": "trotzdem",
+        "option_c": "ungeachtet",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "durften",
+        "option_b": "konnten",
+        "option_c": "sollten",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "inzwischen",
+        "option_b": "während",
+        "option_c": "zwischen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Maria",
+    "passage": "Hallo Maria,\n\nbevor wieder der Arbeitsalltag beginnt, schicke ich dir {{21}} rasch einige Zeilen, um dir von unserem Wochenende zu erzählen. Es ist so schade, dass du {{22}} deiner Grippe nicht dabei sein konntest! Wir haben dich alle sehr vermisst.\n\n{{23}} auf Mirko sind alle mit dem Zug angereist und wir haben uns schon am Bahnhof getroffen. Von dort sind wir dann los in die Ferienwohnung, die Lilo für uns reserviert hatte.\n\nNachdem wir unser Gepäck abgestellt {{24}}, haben wir gleich einen Rundgang durch den Ort gemacht. Lilo wusste viel Interessantes zu erzählen. Sie lebt ja schon einige Jahre dort und hat sich {{25}} ausgezeichnete Fremdenführerin erwiesen. Besonders beeindruckt hat uns der wunderschöne Park, in dem gerade die Rhododendren blühten. Eine wahre Pracht. Das hätte dir auch gefallen! Später sind wir zum Amselsee gewandert, den man in kurzer Zeit vom Ort aus erreicht. Dort haben wir eine Bootsfahrt über den See gemacht. Vom Boot aus hat man einen wunderbaren Blick auf die beeindruckende Felsenlandschaft. Am Abend stand dann die Felsenbühne {{26}} dem Programm.\n\nDie Wanderung am nächsten Tag war {{27}} schön anstrengend, aber wunderbar.\n\n{{28}} alle ziemlich erschöpft waren, haben wir nach dem Abendessen noch lange zusammen gesessen und über alte Zeiten geplaudert. Am nächsten Morgen nach unserem gemeinsamen Frühstück waren wir uns einig, dass wir bald wieder zusammen einen Ausflug machen {{29}}. Und nächstes Mal musst du unbedingt dabei sein. Im Anhang schicke ich dir einige Fotos. Wie du siehst, war unser Treffen wirklich lustig! Ich hoffe, dass es dir {{30}} schon wieder besser geht.\n\nLiebe Grüße von uns allen,\nCem"
+  }
+]
