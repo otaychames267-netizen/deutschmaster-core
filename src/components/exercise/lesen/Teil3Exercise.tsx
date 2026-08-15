@@ -7,7 +7,7 @@
  * — and only after submission.
  */
 import { useState, useRef, useEffect } from "react";
-import { CheckCircle2, XCircle, BookOpen, ChevronDown, X, Loader2, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, BookOpen, ChevronDown, X, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
@@ -155,7 +155,6 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const [solution, setSolution] = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
-  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
   const situations = [...exercise.situations].sort((a, b) => a.number - b.number);
@@ -354,17 +353,7 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
                   )}
                   {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
                     <div className="border-t border-border/50 px-4 py-2">
-                      {explainOpen[sit.number] ? (
-                        <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" />
-                      ) : (
-                        <button
-                          onClick={() => setExplainOpen((p) => ({ ...p, [sit.number]: true }))}
-                          type="button"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 transition-colors"
-                        >
-                          <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
-                        </button>
-                      )}
+                      <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" />
                     </div>
                   )}
 

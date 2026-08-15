@@ -17,7 +17,7 @@
  * aria-checked state and a labelled group; the result is announced via aria-live.
  */
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, BookOpen, Loader2, AlertCircle, RotateCcw, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, BookOpen, Loader2, AlertCircle, RotateCcw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -90,7 +90,6 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   const [restored, setRestored]         = useState(false);
   const [solution, setSolution]         = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
-  const [explainOpen, setExplainOpen]   = useState<Record<number, boolean>>({});
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
   const hydratedRef = useRef(false);
@@ -372,17 +371,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                 )}
                 {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
                   <div className="border-t border-border/60 px-5 py-2.5">
-                    {explainOpen[q.number] ? (
-                      <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" />
-                    ) : (
-                      <button
-                        onClick={() => setExplainOpen((p) => ({ ...p, [q.number]: true }))}
-                        type="button"
-                        className={`inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 ${FOCUS_RING}`}
-                      >
-                        <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
-                      </button>
-                    )}
+                    <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" />
                   </div>
                 )}
               </div>

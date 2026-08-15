@@ -11,7 +11,7 @@
  * for History/Statistics). Progress autosaves and resumes after a refresh.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, Eye, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -78,7 +78,6 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const [revealed, setRevealed] = useState(false);
   const [restored, setRestored] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
-  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
   const btnRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const hydrated = useRef(false);
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
@@ -191,17 +190,7 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
             )}
             {submitted && isCorrect && (res?.learning_aids?.explanation_correct || res?.learning_aids?.evidence_text) && (
               <div className="mx-4 mt-2">
-                {explainOpen[t.position] ? (
-                  <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" />
-                ) : (
-                  <button
-                    onClick={() => setExplainOpen((p) => ({ ...p, [t.position]: true }))}
-                    type="button"
-                    className={`inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 ${FOCUS}`}
-                  >
-                    <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
-                  </button>
-                )}
+                <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" />
               </div>
             )}
             {/* text */}

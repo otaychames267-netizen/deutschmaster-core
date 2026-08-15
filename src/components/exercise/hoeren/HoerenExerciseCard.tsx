@@ -10,7 +10,7 @@
  * bar below just renders disabled in that case, no other code path changes.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -89,7 +89,6 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
   const [showScore, setShowScore]       = useState(false);
   const [mixed, setMixed]               = useState(false);
   const [shuffleSeed, setShuffleSeed]   = useState(1);
-  const [explainOpen, setExplainOpen]   = useState<Record<number, boolean>>({});
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("hoeren", exercise.id);
 
   const hydratedRef = useRef(false);
@@ -359,17 +358,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
               )}
               {isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
                 <div className="mt-1.5 pl-1">
-                  {explainOpen[s.statement_number] ? (
-                    <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" />
-                  ) : (
-                    <button
-                      onClick={() => setExplainOpen((p) => ({ ...p, [s.statement_number]: true }))}
-                      type="button"
-                      className={`inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10 ${FOCUS_RING}`}
-                    >
-                      <HelpCircle className="h-3 w-3" /> Warum ist das richtig?
-                    </button>
-                  )}
+                  <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" />
                 </div>
               )}
             </div>
