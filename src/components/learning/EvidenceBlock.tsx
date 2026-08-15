@@ -35,6 +35,10 @@ interface Props {
   /** Small suffix on the trigger, e.g. "Frage 6" — lets the student connect
    * this card back to a "🔎 Beleg für Frage 6" tag in the highlighted text. */
   triggerLabel?: string;
+  /** Start expanded. Use where the surrounding UI already required an
+   * explicit click to reveal this card (e.g. opening an anchored gap
+   * popover) — asking for a second click here would be redundant. */
+  defaultOpen?: boolean;
 }
 
 export function EvidenceBlock({
@@ -48,8 +52,9 @@ export function EvidenceBlock({
   correctAnswerText,
   showEvidenceQuote = true,
   triggerLabel,
+  defaultOpen = false,
 }: Props) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(defaultOpen);
   if (!aids) return null;
 
   const explanation = variant === "wrong" ? aids.explanation_wrong : aids.explanation_correct;

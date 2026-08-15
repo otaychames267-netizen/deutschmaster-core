@@ -10,11 +10,11 @@
  * before submission.
  */
 import { useState, useRef, useEffect, useCallback } from "react";
-import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, BookOpen, HelpCircle } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
-import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { AnchoredEvidencePopover } from "@/components/learning/AnchoredEvidencePopover";
 import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface SBT1Gap {
@@ -123,6 +123,13 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
   );
 }
 
+// ── Gap result popover (post-submit "Warum?", anchored to the gap itself) ──────
+
+function gapOptionText(gap: SBT1Gap, choice: string | null | undefined): string {
+  if (!choice) return "—";
+  return (choice === "a" ? gap.option_a : choice === "b" ? gap.option_b : gap.option_c) ?? choice;
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers, onAnswersChange }: Props) {
@@ -138,7 +145,6 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
   // they are never present in the student data load.
   const [solution, setSolution] = useState<Record<number, string> | null>(null);
   const [loadingSolution, setLoadingSolution] = useState(false);
-  const [explainOpen, setExplainOpen] = useState<Record<number, boolean>>({});
   const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("sprachbausteine", exercise.id);
 
@@ -217,21 +223,27 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
     const chosenText = splitOption(chosenFull, occ);
     const optionText = revealed ? splitOption(correctText, occ) : chosenText;
     const isOpen = openGap === gapNum;
+    // Same "does this item have anything to show" gate EvidenceBlock itself
+    // uses, so the gap never opens onto an empty popover.
+    const gapExplanation = result?.correct ? result?.learning_aids?.explanation_correct : result?.learning_aids?.explanation_wrong;
+    const hasAids = !examMode && submitted && !!result?.learning_aids &&
+      !!(gapExplanation || result.learning_aids.evidence_text || result.learning_aids.grammar_structure || result.learning_aids.keyword);
+    const clickable = !locked || hasAids;
 
     return (
       <span key={idx} className="relative inline-block">
         <button
           ref={(el) => { buttonRefs.current[gapNum] = el as HTMLButtonElement; }}
           onClick={() => toggleGap(gapNum)}
-          disabled={locked}
-          aria-haspopup="listbox"
+          disabled={!clickable}
+          aria-haspopup={submitted ? "dialog" : "listbox"}
           aria-expanded={isOpen}
           className={`relative inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium transition-all leading-normal ${
             submitted
               ? isCorrect
-                ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 cursor-default"
+                ? `border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 ${hasAids ? "cursor-pointer hover:bg-emerald-500/15" : "cursor-default"}`
                 : isWrong
-                  ? "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 cursor-default"
+                  ? `border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 ${hasAids ? "cursor-pointer hover:bg-rose-500/15" : "cursor-default"}`
                   : "border-border bg-muted/30 text-muted-foreground cursor-default"
               : revealed
                 ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 cursor-default"
@@ -259,6 +271,20 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
             gap={gap}
             current={chosen ?? ""}
             onSelect={(k) => selectAnswer(gapNum, k)}
+            onClose={() => setOpenGap(null)}
+            anchorEl={buttonRefs.current[gapNum]}
+          />
+        )}
+        {isOpen && hasAids && result && (
+          <AnchoredEvidencePopover
+            aids={result.learning_aids}
+            variant={result.correct ? "correct" : "wrong"}
+            skill="sprachbausteine"
+            exerciseId={exercise.id}
+            itemKey={String(result.gap_number)}
+            saveCategory="grammatikstruktur"
+            yourAnswerText={gapOptionText(gap, result.your_answer)}
+            correctAnswerText={gapOptionText(gap, result.correct_answer)}
             onClose={() => setOpenGap(null)}
             anchorEl={buttonRefs.current[gapNum]}
           />
@@ -350,63 +376,10 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
         </div>
       </div>
 
-      {/* Correction view */}
-      {submitted && scoreResults && (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="border-b border-border bg-muted/30 px-5 py-3">
-            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Auswertung</p>
-          </div>
-          <div className="divide-y divide-border/50">
-            {scoreResults.map(r => {
-              const gap = gapMap.get(r.gap_number)!;
-              const chosenText = r.your_answer
-                ? (r.your_answer === "a" ? gap?.option_a : r.your_answer === "b" ? gap?.option_b : gap?.option_c) ?? r.your_answer
-                : "—";
-              const correctText = r.correct_answer
-                ? (r.correct_answer === "a" ? gap?.option_a : r.correct_answer === "b" ? gap?.option_b : gap?.option_c) ?? r.correct_answer
-                : "—";
-              const hasAids = r.learning_aids?.explanation_correct || r.learning_aids?.explanation_wrong || r.learning_aids?.grammar_structure || r.learning_aids?.evidence_text;
-              return (
-                <div key={r.gap_number}>
-                  <div className={`flex items-center gap-3 px-5 py-2.5 ${r.correct ? "bg-emerald-500/3" : "bg-rose-500/3"}`}>
-                    <span className="shrink-0 w-6 text-xs font-black text-muted-foreground text-center">{r.gap_number}</span>
-                    {r.correct
-                      ? <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
-                      : <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
-                    }
-                    <span className={`flex-1 text-sm ${r.correct ? "text-emerald-700 dark:text-emerald-300 font-medium" : "text-rose-700 dark:text-rose-300"}`}>
-                      {r.correct ? chosenText : (
-                        <><span className="line-through opacity-60">{chosenText}</span> → <span className="font-semibold">{correctText}</span></>
-                      )}
-                    </span>
-                    <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full ${
-                      r.correct ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
-                    }`}>
-                      {r.your_answer?.toUpperCase() || "—"}
-                    </span>
-                  </div>
-                  {!examMode && hasAids && (
-                    explainOpen[r.gap_number] ? (
-                      <div className="px-5 pb-2.5">
-                        <EvidenceBlock aids={r.learning_aids} variant={r.correct ? "correct" : "wrong"} skill="sprachbausteine" exerciseId={exercise.id} itemKey={String(r.gap_number)} saveCategory="grammatikstruktur" />
-                      </div>
-                    ) : (
-                      <div className="px-5 pb-2.5">
-                        <button
-                          onClick={() => setExplainOpen((p) => ({ ...p, [r.gap_number]: true }))}
-                          type="button"
-                          className="inline-flex items-center gap-1.5 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors"
-                        >
-                          <HelpCircle className="h-3 w-3" /> Warum?
-                        </button>
-                      </div>
-                    )
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      {submitted && !examMode && (
+        <p className="text-xs text-muted-foreground text-center -mt-2">
+          Tippen Sie auf eine Lücke, um die Erklärung zu sehen.
+        </p>
       )}
 
       {/* Footer — exam mode has no self-scoring/reveal/reset, the parent owns save/submit */}
