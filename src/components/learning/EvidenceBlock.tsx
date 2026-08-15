@@ -58,7 +58,7 @@ export function EvidenceBlock({ aids, variant, skill, exerciseId, itemKey, saveC
       )}
 
       {explanation && (
-        <p className="border-t border-blue-500/10 pt-2 text-xs leading-relaxed text-muted-foreground">{explanation}</p>
+        <p dir="auto" className="border-t border-blue-500/10 pt-2 text-xs leading-relaxed text-muted-foreground">{explanation}</p>
       )}
 
       {aids.grammar_structure && (
