@@ -18,6 +18,7 @@ import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practi
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
 import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T1Headline { letter: string; text: string; is_distractor: boolean; }
@@ -148,6 +149,10 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
         const isWrong = submitted && !!res && !res.correct;
         const isOpen = open === t.position;
         const fieldTone = isCorrect ? "border-emerald-500/50 bg-emerald-500/5" : isWrong ? "border-rose-500/50 bg-rose-500/5" : ans ? "border-primary/40 bg-primary/5" : "border-input bg-background hover:border-primary/40";
+        const evidenceVisible = submitted && !!res && (res.correct || (!res.correct && revealed));
+        const highlightItems: HighlightItem[] = evidenceVisible && res?.learning_aids?.evidence_text
+          ? [{ itemKey: String(t.position), label: String(t.position), evidenceText: res.learning_aids.evidence_text, colorIndex: t.position }]
+          : [];
         return (
           <div key={t.position} className="relative rounded-2xl border border-border bg-card overflow-visible">
             {/* answer field ABOVE the text */}
@@ -185,12 +190,12 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
             )}
             {submitted && isWrong && revealed && res?.learning_aids && (
               <div className="mt-2">
-                <EvidenceBlock aids={res.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" />
+                <EvidenceBlock aids={res.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
               </div>
             )}
             {submitted && isCorrect && (res?.learning_aids?.explanation_correct || res?.learning_aids?.evidence_text) && (
               <div className="mx-4 mt-2">
-                <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" />
+                <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
               </div>
             )}
             {/* text */}
@@ -203,7 +208,9 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                   onRequest={loadTranslation}
                 />
               </div>
-              <p className="text-sm text-foreground leading-[1.8] whitespace-pre-line">{t.content}</p>
+              <div className="text-sm text-foreground leading-[1.8] whitespace-pre-line">
+                <HighlightedText text={t.content} items={highlightItems} />
+              </div>
             </div>
           </div>
         );

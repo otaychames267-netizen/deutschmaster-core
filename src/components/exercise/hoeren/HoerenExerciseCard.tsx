@@ -20,6 +20,7 @@ import { ProtectedAudioPlayer } from "@/components/exercise/hoeren/ProtectedAudi
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
 import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface HoerenStatement {
@@ -310,6 +311,9 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           const result    = scoreResults?.find((r) => r.statement_number === s.statement_number);
           const isCorrect = showState && !!result?.correct;
           const isWrong   = showState && !!result && !result.correct && ans !== undefined && ans !== null;
+          const highlightItems: HighlightItem[] = (isCorrect || isWrong) && result?.learning_aids?.evidence_text
+            ? [{ itemKey: String(s.statement_number), label: String(s.statement_number), evidenceText: result.learning_aids.evidence_text, colorIndex: s.statement_number }]
+            : [];
 
           return (
             <div key={s.statement_number}
@@ -343,7 +347,9 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
                   })}
                 </div>
                 <span className="shrink-0 text-[11px] font-black text-muted-foreground/50 tabular-nums">{s.statement_number}</span>
-                <p className="text-sm text-foreground leading-snug flex-1 min-w-[50%]">{s.statement_text}</p>
+                <div className="text-sm text-foreground leading-snug flex-1 min-w-[50%]">
+                  <HighlightedText text={s.statement_text} items={highlightItems} />
+                </div>
               </div>
               {isWrong && result && (
                 <p className="mt-1.5 pl-1 text-xs font-semibold text-blue-600 dark:text-blue-400">
@@ -354,11 +360,11 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
                 <TranslateButton translation={translation?.questions?.[String(s.statement_number)]} loading={translationLoading} onRequest={loadTranslation} />
               </div>
               {isWrong && result?.learning_aids && (
-                <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" />
+                <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Satz ${s.statement_number}`} />
               )}
               {isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
                 <div className="mt-1.5 pl-1">
-                  <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" />
+                  <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Satz ${s.statement_number}`} />
                 </div>
               )}
             </div>

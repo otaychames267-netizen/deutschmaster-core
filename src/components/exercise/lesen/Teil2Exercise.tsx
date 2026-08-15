@@ -24,6 +24,8 @@ import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practi
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
+import { SentenceTranslations } from "@/components/learning/SentenceTranslations";
 import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T2Question {
@@ -220,6 +222,37 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
 
   const answeredCount = questions.filter(q => !!answers[q.number]?.selected).length;
 
+  // Evidence highlighting: only for questions whose result is currently
+  // visible to the student (correct, or wrong-and-revealed) — never spoils
+  // an answer they haven't checked or revealed yet. Color assigned by the
+  // question's fixed position so it stays stable regardless of reveal order.
+  const revealedResults = questions
+    .map((q, idx) => {
+      const result = scoreResults?.find(r => r.number === q.number);
+      const ans = answers[q.number];
+      const visible = submitted && !!result && (result.correct || (!result.correct && !!ans?.revealed));
+      return visible ? { q, idx, result: result! } : null;
+    })
+    .filter((x): x is { q: T2Question; idx: number; result: ScoreResult } => x !== null);
+
+  const highlightItems: HighlightItem[] = revealedResults
+    .filter(({ result }) => !!result.learning_aids?.evidence_text)
+    .map(({ q, idx, result }) => ({
+      itemKey: String(q.number),
+      label: String(q.number),
+      evidenceText: result.learning_aids!.evidence_text,
+      colorIndex: idx,
+    }));
+
+  const translationItems = revealedResults
+    .filter(({ result }) => !!result.learning_aids?.evidence_text && !!result.learning_aids?.evidence_translation)
+    .map(({ q, result }) => ({
+      itemKey: String(q.number),
+      label: String(q.number),
+      german: result.learning_aids!.evidence_text!,
+      arabic: result.learning_aids!.evidence_translation!,
+    }));
+
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-border bg-card p-5">
@@ -249,10 +282,15 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
         <div className="rounded-2xl border border-border bg-card overflow-hidden">
           <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/30 px-5 py-3 shrink-0">
             <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Lesetext</p>
-            <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />
+            <div className="flex items-center gap-2">
+              <SentenceTranslations items={translationItems} />
+              <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />
+            </div>
           </div>
           <div className="px-6 py-5">
-            <p className="text-sm text-foreground leading-[1.9] whitespace-pre-line max-w-4xl">{exercise.passage}</p>
+            <div className="text-sm text-foreground leading-[1.9] whitespace-pre-line max-w-4xl">
+              <HighlightedText text={exercise.passage} items={highlightItems} />
+            </div>
           </div>
         </div>
 
@@ -367,11 +405,11 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                   </div>
                 )}
                 {submitted && isWrong && ans?.revealed && result?.learning_aids && (
-                  <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" />
+                  <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
                 )}
                 {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
                   <div className="border-t border-border/60 px-5 py-2.5">
-                    <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" />
+                    <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
                   </div>
                 )}
               </div>
