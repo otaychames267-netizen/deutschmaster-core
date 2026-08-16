@@ -18,7 +18,9 @@ import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practi
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { StrategyCard } from "@/components/learning/StrategyCard";
 import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
+import { SentenceTranslations } from "@/components/learning/SentenceTranslations";
 import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T1Headline { letter: string; text: string; is_distractor: boolean; }
@@ -126,13 +128,32 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const answeredCount = texts.filter((t) => answers[t.position]).length;
   const usedByOthers = (pos: number) => new Set(Object.entries(answers).filter(([p]) => +p !== pos).map(([, l]) => l).filter(Boolean));
 
+  // Sentence-level translation ("Sätze übersetzen"): every evidence sentence
+  // currently visible (correct, or wrong-and-revealed) across all 5 texts,
+  // gathered into one bulk toggle — mirrors T2/T3's SentenceTranslations.
+  const translationItems = texts
+    .map((t) => {
+      const r = results?.find((res) => res.position === t.position);
+      const visible = submitted && !!r && (r.correct || (!r.correct && revealed));
+      if (!visible || !r?.learning_aids?.evidence_text || !r.learning_aids.evidence_translation) return null;
+      return { itemKey: String(t.position), label: String(t.position), german: r.learning_aids.evidence_text, arabic: r.learning_aids.evidence_translation };
+    })
+    .filter((x): x is { itemKey: string; label: string; german: string; arabic: string } => x !== null);
+
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-border bg-card p-5">
-        <p className="text-sm font-bold text-foreground mb-0.5">Schlagzeilen zuordnen</p>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          Lesen Sie die Texte 1–5. Wählen Sie über jedem Text die passende Schlagzeile (A–J). Jede Schlagzeile passt nur zu einem Text — fünf bleiben übrig.
-        </p>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="text-sm font-bold text-foreground mb-0.5">Schlagzeilen zuordnen</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Lesen Sie die Texte 1–5. Wählen Sie über jedem Text die passende Schlagzeile (A–J). Jede Schlagzeile passt nur zu einem Text — fünf bleiben übrig.
+            </p>
+          </div>
+          {submitted && translationItems.length > 0 && (
+            <div className="shrink-0"><SentenceTranslations items={translationItems} /></div>
+          )}
+        </div>
       </div>
 
       {restored && !submitted && (
@@ -183,19 +204,24 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
             </div>
             {/* correct answer reveal */}
             {submitted && isWrong && revealed && (
-              <div className="mx-4 mt-2 flex items-start gap-2 rounded-lg border border-emerald-500/20 bg-emerald-500/5 px-3 py-1.5">
-                <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500 mt-0.5" />
-                <p className="text-xs text-emerald-700 dark:text-emerald-300"><span className="font-black">{res!.correct_answer}</span> — {headlineText(res!.correct_answer)}</p>
+              <div className="mx-4 mt-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
+                <p className="text-[10px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">Richtige Antwort</p>
+                <p className="flex items-start gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-200">
+                  <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
+                  <span><span className="rounded bg-emerald-500/20 px-1.5 py-0.5">{res!.correct_answer}</span> — {headlineText(res!.correct_answer)}</span>
+                </p>
               </div>
             )}
             {submitted && isWrong && revealed && res?.learning_aids && (
-              <div className="mt-2">
+              <div className="mx-4 mt-2 flex flex-wrap items-start gap-2">
                 <EvidenceBlock aids={res.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
+                <StrategyCard aids={res.learning_aids} triggerLabel={`Text ${t.position}`} />
               </div>
             )}
             {submitted && isCorrect && (res?.learning_aids?.explanation_correct || res?.learning_aids?.evidence_text) && (
-              <div className="mx-4 mt-2">
+              <div className="mx-4 mt-2 flex flex-wrap items-start gap-2">
                 <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
+                <StrategyCard aids={res!.learning_aids} triggerLabel={`Text ${t.position}`} />
               </div>
             )}
             {/* text */}

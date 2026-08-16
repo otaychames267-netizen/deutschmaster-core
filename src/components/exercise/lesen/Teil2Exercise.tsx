@@ -24,6 +24,7 @@ import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practi
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { StrategyCard } from "@/components/learning/StrategyCard";
 import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
 import { SentenceTranslations } from "@/components/learning/SentenceTranslations";
 import type { LearningAidsItem } from "@/components/learning/types";
@@ -405,11 +406,15 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                   </div>
                 )}
                 {submitted && isWrong && ans?.revealed && result?.learning_aids && (
-                  <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
+                  <div className="flex flex-wrap items-start gap-2 px-5 pb-3">
+                    <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
+                    <StrategyCard aids={result.learning_aids} triggerLabel={`Frage ${q.number}`} />
+                  </div>
                 )}
                 {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
-                  <div className="border-t border-border/60 px-5 py-2.5">
+                  <div className="flex flex-wrap items-start gap-2 border-t border-border/60 px-5 py-2.5">
                     <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
+                    <StrategyCard aids={result!.learning_aids} triggerLabel={`Frage ${q.number}`} />
                   </div>
                 )}
               </div>

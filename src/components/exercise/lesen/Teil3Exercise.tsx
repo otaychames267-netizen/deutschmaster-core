@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { StrategyCard } from "@/components/learning/StrategyCard";
 import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
 import { SentenceTranslations } from "@/components/learning/SentenceTranslations";
 import type { LearningAidsItem } from "@/components/learning/types";
@@ -385,11 +386,15 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
                     </div>
                   )}
                   {submitted && isWrong && ans?.revealed && result?.learning_aids && (
-                    <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Situation ${sit.number}`} />
+                    <div className="flex flex-wrap items-start gap-2 px-4 pb-2.5">
+                      <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Situation ${sit.number}`} />
+                      <StrategyCard aids={result.learning_aids} triggerLabel={`Situation ${sit.number}`} />
+                    </div>
                   )}
                   {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
-                    <div className="border-t border-border/50 px-4 py-2">
+                    <div className="flex flex-wrap items-start gap-2 border-t border-border/50 px-4 py-2">
                       <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(sit.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Situation ${sit.number}`} />
+                      <StrategyCard aids={result!.learning_aids} triggerLabel={`Situation ${sit.number}`} />
                     </div>
                   )}
 
