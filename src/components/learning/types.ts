@@ -25,6 +25,11 @@ export interface OptionReasoning {
 export interface LearningAidsItem {
   evidence_text?: string | null;
   evidence_translation?: string | null;
+  /** Arabic translation of the correct answer itself (the headline / MC
+   * option text) — distinct from evidence_translation, which translates the
+   * passage sentence that proves it. Optional; the solution view simply
+   * omits the translation line when an exercise hasn't been authored yet. */
+  answer_translation?: string | null;
   keyword?: string | null;
   explanation_correct?: string | null;
   explanation_wrong?: string | null;

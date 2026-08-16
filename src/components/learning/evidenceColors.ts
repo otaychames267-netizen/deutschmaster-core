@@ -1,12 +1,13 @@
 /**
- * Fixed accessible highlight palette for evidence-in-text marks. Distinct
- * from the colors EvidenceBlock's own chrome uses (violet for Warum, amber
- * for Merke, indigo for translation, emerald/rose for correct/wrong) so a
- * highlighted sentence never visually collides with the card pointing at
- * it, and from the app's own primary/selected-state blue. Classes are
- * written out literally (not built from interpolated color names) so
- * Tailwind's JIT scanner picks them up — a dynamic `bg-${color}-500/10`
- * string would get purged in production.
+ * Single neutral highlight style for evidence-in-text marks. Deliberately
+ * NOT green or red — those are reserved for the correct/wrong indicator on
+ * the answer itself, and reusing them on the evidence mark would make
+ * students read "this sentence is correct" instead of "this sentence is
+ * the evidence". One consistent amber "highlighter" color (rather than a
+ * per-question rotating palette) also reads better now that Lösung
+ * anzeigen reveals every question's evidence at once — the numbered badge
+ * on each mark (see HighlightedText) is what distinguishes which question
+ * a given mark belongs to, not the color.
  */
 export interface EvidenceColor {
   /** Classes for the highlighted <mark> span inside the passage/transcript. */
@@ -15,41 +16,11 @@ export interface EvidenceColor {
   badge: string;
 }
 
-const PALETTE: EvidenceColor[] = [
-  {
-    mark: "bg-teal-500/15 dark:bg-teal-400/20 ring-1 ring-teal-500/30 dark:ring-teal-400/30",
-    badge: "bg-teal-500/10 text-teal-700 dark:text-teal-300 border-teal-500/25",
-  },
-  {
-    mark: "bg-orange-500/15 dark:bg-orange-400/20 ring-1 ring-orange-500/30 dark:ring-orange-400/30",
-    badge: "bg-orange-500/10 text-orange-700 dark:text-orange-300 border-orange-500/25",
-  },
-  {
-    mark: "bg-cyan-500/15 dark:bg-cyan-400/20 ring-1 ring-cyan-500/30 dark:ring-cyan-400/30",
-    badge: "bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 border-cyan-500/25",
-  },
-  {
-    mark: "bg-fuchsia-500/15 dark:bg-fuchsia-400/20 ring-1 ring-fuchsia-500/30 dark:ring-fuchsia-400/30",
-    badge: "bg-fuchsia-500/10 text-fuchsia-700 dark:text-fuchsia-300 border-fuchsia-500/25",
-  },
-  {
-    mark: "bg-yellow-500/15 dark:bg-yellow-400/20 ring-1 ring-yellow-500/30 dark:ring-yellow-400/30",
-    badge: "bg-yellow-500/10 text-yellow-700 dark:text-yellow-300 border-yellow-500/25",
-  },
-  {
-    mark: "bg-sky-500/15 dark:bg-sky-400/20 ring-1 ring-sky-500/30 dark:ring-sky-400/30",
-    badge: "bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-500/25",
-  },
-  {
-    mark: "bg-pink-500/15 dark:bg-pink-400/20 ring-1 ring-pink-500/30 dark:ring-pink-400/30",
-    badge: "bg-pink-500/10 text-pink-700 dark:text-pink-300 border-pink-500/25",
-  },
-  {
-    mark: "bg-purple-500/15 dark:bg-purple-400/20 ring-1 ring-purple-500/30 dark:ring-purple-400/30",
-    badge: "bg-purple-500/10 text-purple-700 dark:text-purple-300 border-purple-500/25",
-  },
-];
+const EVIDENCE_COLOR: EvidenceColor = {
+  mark: "bg-amber-400/25 dark:bg-amber-300/25 ring-1 ring-amber-500/40 dark:ring-amber-300/40",
+  badge: "bg-amber-500/15 text-amber-800 dark:text-amber-200 border-amber-500/30",
+};
 
-export function getEvidenceColor(index: number): EvidenceColor {
-  return PALETTE[index % PALETTE.length];
+export function getEvidenceColor(): EvidenceColor {
+  return EVIDENCE_COLOR;
 }

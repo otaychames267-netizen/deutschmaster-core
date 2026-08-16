@@ -1,13 +1,18 @@
 /**
  * Lesen Teil 2 — Lesetext + Fragen
  *
- * Security: `correct` is NEVER in the component's data.
- * After submission, answers are scored server-side via supabase.rpc("score_lesen_t2").
- * The server returns per-question correctness; correct letters are revealed only
- * when the student clicks "Lösung zeigen" — and only after submission.
+ * Security: `correct` is NEVER in the component's data. Scoring runs
+ * server-side via score_lesen_t2 / score_and_save_lesen_t2.
  *
  * Layout: the reading passage spans the full page width above the questions,
  * which follow in a full-width list below — on both desktop and mobile.
+ *
+ * Solution reveal: ONE "Lösung anzeigen" button for the whole exercise (not
+ * one per question) — clicking it fetches every correct answer + evidence +
+ * Warum via the non-saving score_lesen_t2 RPC and shows it for all questions
+ * at once; a second click hides it again. After the student submits
+ * (Auswertung), the same full solution shows automatically for every
+ * question — no extra click needed.
  *
  * Resilience (§23, §30): in-progress answers + graded results autosave to
  * localStorage and are restored after a refresh or a closed browser; scoring
@@ -17,7 +22,7 @@
  * aria-checked state and a labelled group; the result is announced via aria-live.
  */
 import { useEffect, useId, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, BookOpen, Loader2, AlertCircle, RotateCcw } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -58,12 +63,11 @@ interface Props {
 }
 
 type Choice = "a" | "b" | "c";
-type AnswerState = { selected: Choice | null; revealed: boolean };
 
 /** Shape persisted to localStorage for resume-after-refresh. */
 interface PersistedAttempt {
   exerciseId: string;
-  answers: Record<number, AnswerState>;
+  answers: Record<number, Choice>;
   submitted: boolean;
   scoreResults: ScoreResult[] | null;
   scoreCount: number;
@@ -83,7 +87,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   const { user, loading: authLoading } = useAuth();
   const groupBaseId = useId();
 
-  const [answers, setAnswers]           = useState<Record<number, AnswerState>>({});
+  const [answers, setAnswers]           = useState<Record<number, Choice>>({});
   const [submitted, setSubmitted]       = useState(false);
   const [scoring, setScoring]           = useState(false);
   const [scoreError, setScoreError]     = useState<string | null>(null);
@@ -91,8 +95,8 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   const [scoreTotal, setScoreTotal]     = useState(0);
   const [scoreCount, setScoreCount]     = useState(0);
   const [restored, setRestored]         = useState(false);
-  const [solution, setSolution]         = useState<Record<number, string> | null>(null);
-  const [loadingSolution, setLoadingSolution] = useState(false);
+  const [previewResults, setPreviewResults] = useState<ScoreResult[] | null>(null);
+  const [loadingPreview, setLoadingPreview] = useState(false);
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
   const hydratedRef = useRef(false);
@@ -143,25 +147,17 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
 
   function select(num: number, choice: Choice) {
     if (submitted) return;
-    setAnswers(prev => ({ ...prev, [num]: { selected: choice, revealed: false } }));
+    setAnswers(prev => ({ ...prev, [num]: choice }));
   }
 
-  function reveal(num: number) {
-    setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: true } }));
-  }
-
-  function hideReveal(num: number) {
-    setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: false } }));
-  }
-
-  // "Lösungen anzeigen": fetch the correct answers via the non-saving
-  // scoring RPC (empty answers → each result's correct_answer is the right
-  // letter). Mirrors Teil3Exercise's showSolution — keeps the answer key
-  // server-side; nothing is pre-loaded into the component, and no attempt
-  // record is created (score_lesen_t2 has no "_and_save" side effect).
-  async function showSolution() {
-    if (solution) { setSolution(null); return; } // toggle off
-    setLoadingSolution(true);
+  // "Lösung anzeigen" — the ONE reveal button for the whole exercise. Fetches
+  // every correct answer + evidence + Warum via the non-saving RPC (empty
+  // answers → each result's correct_answer is the right letter) and shows it
+  // for every question at once. A second click hides it again. Mirrors what
+  // happens automatically once the student submits (Auswertung).
+  async function toggleSolutionPreview() {
+    if (previewResults) { setPreviewResults(null); return; }
+    setLoadingPreview(true);
     try {
       const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
         p_exercise_id: exercise.id,
@@ -169,13 +165,11 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
       });
       if (error) throw error;
       const res = data as unknown as { results: ScoreResult[] };
-      const map: Record<number, string> = {};
-      for (const r of res.results) map[r.number] = r.correct_answer;
-      setSolution(map);
+      setPreviewResults(res.results);
     } catch (e) {
       console.error("Lösung konnte nicht geladen werden:", e);
     } finally {
-      setLoadingSolution(false);
+      setLoadingPreview(false);
     }
   }
 
@@ -186,7 +180,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
       // Build answers payload { "6": "a", "7": "b", ... } keyed by question number
       const payload: Record<string, string> = {};
       for (const q of questions) {
-        if (answers[q.number]?.selected) payload[String(q.number)] = answers[q.number].selected!;
+        if (answers[q.number]) payload[String(q.number)] = answers[q.number];
       }
 
       // Scores server-side from the official key AND records the attempt
@@ -204,6 +198,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
       setScoreTotal(res.total);
       setSubmitted(true);
       setRestored(false);
+      setPreviewResults(null);
       onComplete?.(res.score, res.total);
     } catch (e) {
       // No silent failures: keep the student's answers and let them retry.
@@ -225,32 +220,33 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
     clearAttempt(storageKey);
   }
 
-  const answeredCount = questions.filter(q => !!answers[q.number]?.selected).length;
+  const answeredCount = questions.filter(q => !!answers[q.number]).length;
 
-  // Evidence highlighting: only for questions whose result is currently
-  // visible to the student (correct, or wrong-and-revealed) — never spoils
-  // an answer they haven't checked or revealed yet. Color assigned by the
-  // question's fixed position so it stays stable regardless of reveal order.
-  const revealedResults = questions
+  // Revealed solution content = whatever's active right now: the real,
+  // scored results after submitting, or the preview fetched by "Lösung
+  // anzeigen" beforehand. Both share the same shape, so every question shows
+  // its full solution (correct answer, translation, evidence, Warum,
+  // strategy) the same way regardless of which path produced it — and, per
+  // question, regardless of whether the student got it right or wrong.
+  const activeResults = scoreResults ?? previewResults;
+
+  const solvedQuestions = questions
     .map((q, idx) => {
-      const result = scoreResults?.find(r => r.number === q.number);
-      const ans = answers[q.number];
-      const visible = submitted && !!result && (result.correct || (!result.correct && !!ans?.revealed));
-      return visible ? { q, idx, result: result! } : null;
+      const result = activeResults?.find(r => r.number === q.number);
+      return result ? { q, idx, result } : null;
     })
     .filter((x): x is { q: T2Question; idx: number; result: ScoreResult } => x !== null);
 
-  const highlightItems: HighlightItem[] = revealedResults
+  const highlightItems: HighlightItem[] = solvedQuestions
     .filter(({ result }) => !!result.learning_aids?.evidence_text)
-    .map(({ q, idx, result }) => ({
+    .map(({ q, result }) => ({
       itemKey: String(q.number),
       label: String(q.number),
       evidenceText: result.learning_aids!.evidence_text,
       evidenceTranslation: result.learning_aids!.evidence_translation,
-      colorIndex: idx,
     }));
 
-  const translationItems = revealedResults
+  const translationItems = solvedQuestions
     .filter(({ result }) => !!result.learning_aids?.evidence_text && !!result.learning_aids?.evidence_translation)
     .map(({ q, result }) => ({
       itemKey: String(q.number),
@@ -305,17 +301,19 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
           <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Aufgaben</p>
           {questions.map((q) => {
             const ans       = answers[q.number];
-            const result    = scoreResults?.find(r => r.number === q.number);
-            const isCorrect = submitted && !!result?.correct;
-            const isWrong   = submitted && !!result && !result.correct;
+            const result    = activeResults?.find(r => r.number === q.number);
+            const hasSolution = !!result;
+            const isSubmittedCorrect = submitted && !!result?.correct;
+            const isSubmittedWrong   = submitted && !!result && !result.correct;
             const rfMode    = isRichtigFalsch(q);
             const labelId   = `${groupBaseId}-q${q.number}`;
             const keys: Choice[] = rfMode ? ["a", "b"] : ["a", "b", "c"];
+            const correctLabel = result ? (result.correct_answer === "a" ? q.option_a : result.correct_answer === "b" ? q.option_b : q.option_c) : null;
 
             return (
               <div key={q.number}
                 className={`rounded-2xl border overflow-hidden transition-colors ${
-                  isCorrect ? "border-emerald-500/40" : isWrong ? "border-rose-500/40" : "border-border"
+                  isSubmittedCorrect ? "border-emerald-500/40" : isSubmittedWrong ? "border-rose-500/40" : "border-border"
                 } bg-card`}>
 
                 <div className="flex items-start gap-3 px-5 py-4 border-b border-border bg-muted/10">
@@ -323,21 +321,14 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                     {q.number}
                   </span>
                   <p id={labelId} className="text-sm font-semibold text-foreground leading-snug flex-1">{q.question}</p>
-                  {!submitted && solution?.[q.number] && (
-                    <span className="shrink-0 rounded-lg bg-emerald-500/10 px-2 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                      Richtig: {rfMode
-                        ? (solution[q.number] === "a" ? q.option_a : q.option_b)
-                        : solution[q.number].toUpperCase()}
-                    </span>
-                  )}
                 </div>
 
                 <div role="radiogroup" aria-labelledby={labelId}
                   className={rfMode ? "px-5 py-3 flex gap-3" : "px-5 py-3 space-y-2"}>
                   {keys.map((key) => {
                     const label       = key === "a" ? q.option_a : key === "b" ? q.option_b : q.option_c;
-                    const isSelected  = ans?.selected === key;
-                    const showCorrect = submitted && result?.correct_answer === key;
+                    const isSelected  = ans === key;
+                    const showCorrect = hasSolution && result!.correct_answer === key;
                     const showWrong   = submitted && isSelected && result?.correct_answer !== key;
 
                     if (rfMode) {
@@ -352,8 +343,8 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                             : "border-border hover:border-primary/30 hover:bg-muted/30 text-foreground"
                           }`}>
                           <div className="flex items-center justify-center gap-2">
-                            {submitted && showCorrect && <CheckCircle2 className="h-4 w-4" />}
-                            {submitted && showWrong   && <XCircle      className="h-4 w-4" />}
+                            {showCorrect && <CheckCircle2 className="h-4 w-4" />}
+                            {showWrong   && <XCircle      className="h-4 w-4" />}
                             {label}
                           </div>
                         </button>
@@ -377,46 +368,45 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                           : "bg-muted text-muted-foreground"
                         }`}>{key}</span>
                         <span className="flex-1 leading-snug">{label}</span>
-                        {submitted && showCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
-                        {submitted && showWrong   && <XCircle      className="h-4 w-4 shrink-0 text-rose-500"    />}
+                        {showCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
+                        {showWrong   && <XCircle      className="h-4 w-4 shrink-0 text-rose-500"    />}
                       </button>
                     );
                   })}
                 </div>
 
-                {submitted && ans?.selected && result && (
-                  <div className={`flex items-center justify-between border-t border-border px-5 py-2 ${
-                    isCorrect ? "bg-emerald-500/5" : "bg-rose-500/5"
+                {submitted && ans && result && (
+                  <div className={`flex items-center gap-1.5 border-t border-border px-5 py-2 ${
+                    isSubmittedCorrect ? "bg-emerald-500/5" : "bg-rose-500/5"
                   }`}>
-                    <div className="flex items-center gap-1.5">
-                      {isCorrect
-                        ? <><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Richtig</span></>
-                        : <><XCircle className="h-3.5 w-3.5 text-rose-500" /><span className="text-xs font-bold text-rose-600 dark:text-rose-400">Falsch</span></>
-                      }
-                    </div>
-                    {isWrong && !ans.revealed && (
-                      <button onClick={() => reveal(q.number)}
-                        className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS_RING}`}>
-                        <BookOpen className="h-3 w-3" /> Lösung zeigen
-                      </button>
-                    )}
-                    {isWrong && ans.revealed && (
-                      <button onClick={() => hideReveal(q.number)}
-                        className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS_RING}`}>
-                        <BookOpen className="h-3 w-3" /> Lösung ausblenden
-                      </button>
+                    {isSubmittedCorrect
+                      ? <><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Richtig</span></>
+                      : <><XCircle className="h-3.5 w-3.5 text-rose-500" /><span className="text-xs font-bold text-rose-600 dark:text-rose-400">Falsch</span></>
+                    }
+                  </div>
+                )}
+
+                {/* Solution: correct answer + its Arabic translation — shown
+                    whenever a preview or a real submission produced a result,
+                    unless the field itself already made it obvious (submitted
+                    + correct: the highlighted option already says it all). */}
+                {hasSolution && !isSubmittedCorrect && (
+                  <div className="mx-5 mt-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
+                    <p className="text-[10px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">Richtige Antwort</p>
+                    <p className="flex items-start gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-200">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
+                      <span>{correctLabel}</span>
+                    </p>
+                    {result!.learning_aids?.answer_translation && (
+                      <p dir="rtl" className="mt-1.5 text-xs leading-relaxed text-emerald-800/80 dark:text-emerald-200/80">
+                        {result!.learning_aids.answer_translation}
+                      </p>
                     )}
                   </div>
                 )}
-                {submitted && isWrong && ans?.revealed && result?.learning_aids && (
-                  <div className="flex flex-wrap items-start gap-2 px-5 pb-3">
-                    <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
-                    <StrategyCard aids={result.learning_aids} triggerLabel={`Frage ${q.number}`} />
-                  </div>
-                )}
-                {submitted && isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
-                  <div className="flex flex-wrap items-start gap-2 border-t border-border/60 px-5 py-2.5">
-                    <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
+                {hasSolution && (result!.learning_aids?.explanation_correct || result!.learning_aids?.explanation_wrong || result!.learning_aids?.evidence_text) && (
+                  <div className="flex flex-wrap items-start gap-2 px-5 pb-3 pt-2">
+                    <EvidenceBlock aids={result!.learning_aids} variant={isSubmittedWrong ? "wrong" : "correct"} skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
                     <StrategyCard aids={result!.learning_aids} triggerLabel={`Frage ${q.number}`} />
                   </div>
                 )}
@@ -445,10 +435,10 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                 <p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p>
               </div>
               <div className="flex items-center gap-2">
-                <button onClick={showSolution} disabled={loadingSolution}
+                <button onClick={toggleSolutionPreview} disabled={loadingPreview}
                   className={`rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
-                  {loadingSolution && <Loader2 className="h-4 w-4 animate-spin" />}
-                  {solution ? "Lösungen ausblenden" : "Lösungen anzeigen"}
+                  {loadingPreview ? <Loader2 className="h-4 w-4 animate-spin" /> : previewResults ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {previewResults ? "Lösung ausblenden" : "Lösung anzeigen"}
                 </button>
                 <button onClick={handleSubmit} disabled={answeredCount < questions.length || scoring}
                   className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>

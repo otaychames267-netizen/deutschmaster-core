@@ -31,7 +31,6 @@ export interface HighlightItem {
   /** Arabic translation of evidenceText, if authored — enables the inline
    * per-sentence translate toggle right after this specific mark. */
   evidenceTranslation?: string | null;
-  colorIndex: number;
   /** Unit noun for the "Beleg für ⟨unit⟩ N" badge tooltip. Default "Frage" —
    * Lesen Teil 1 has no numbered questions, only Texte, so it passes "Text". */
   unitLabel?: string;
@@ -130,7 +129,7 @@ export function HighlightedText({ text, items, className }: Props) {
     if (!range) continue;
     const { start, end } = range;
     if (matches.some((m) => start < m.end && end > m.start)) continue;
-    matches.push({ start, end, item, color: getEvidenceColor(item.colorIndex) });
+    matches.push({ start, end, item, color: getEvidenceColor() });
   }
 
   if (matches.length === 0) {

@@ -276,14 +276,13 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
     .filter((x): x is { sit: T3Situation; idx: number; result: ScoreResult } => x !== null);
 
   const highlightsByLetter: Record<string, HighlightItem[]> = {};
-  for (const { sit, idx, result } of revealedSituationResults) {
+  for (const { sit, result } of revealedSituationResults) {
     const letter = result.correct_answer;
     if (!letter || letter === "0" || !result.learning_aids?.evidence_text) continue;
     (highlightsByLetter[letter] ||= []).push({
       itemKey: String(sit.number),
       label: String(sit.number),
       evidenceText: result.learning_aids.evidence_text,
-      colorIndex: idx,
     });
   }
 

@@ -10,13 +10,14 @@
  * server-side via score_and_save_lesen_t1 (records the attempt in lesen_attempts
  * for History/Statistics). Progress autosaves and resumes after a refresh.
  *
- * Solution preview + per-text reveal mirror Teil 2 exactly: a pre-submit
- * "Lösungen anzeigen"/"Lösungen ausblenden" toggle (via the non-saving
- * score_lesen_t1 RPC) and, after submission, a per-text "Lösung
- * zeigen"/"Lösung ausblenden" toggle — never a one-way reveal.
+ * Solution reveal: ONE "Lösung anzeigen" button for the whole exercise (not one
+ * per text) — clicking it fetches every correct headline + evidence + Warum via
+ * the non-saving score_lesen_t1 RPC and shows it for all 5 texts at once; a
+ * second click hides it again. After the student submits (Auswertung), the same
+ * full solution shows automatically for every text — no extra click needed.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, BookOpen } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -83,9 +84,8 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const [results, setResults] = useState<ScoreResult[] | null>(null);
   const [score, setScore] = useState(0);
   const [total, setTotal] = useState(0);
-  const [revealed, setRevealed] = useState<Record<number, boolean>>({});
-  const [solution, setSolution] = useState<Record<number, string> | null>(null);
-  const [loadingSolution, setLoadingSolution] = useState(false);
+  const [previewResults, setPreviewResults] = useState<ScoreResult[] | null>(null);
+  const [loadingPreview, setLoadingPreview] = useState(false);
   const [restored, setRestored] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
   const btnRefs = useRef<Record<number, HTMLButtonElement | null>>({});
@@ -114,29 +114,25 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   }, [answers, submitted, results, score, total, storageKey, exercise.id]);
 
   function select(pos: number, letter: string) { if (!submitted) setAnswers((p) => ({ ...p, [pos]: letter })); }
-  function reset() { setAnswers({}); setSubmitted(false); setResults(null); setScore(0); setTotal(0); setRevealed({}); setRestored(false); setOpen(null); clearAttempt(storageKey); }
+  function reset() { setAnswers({}); setSubmitted(false); setResults(null); setScore(0); setTotal(0); setRestored(false); setOpen(null); clearAttempt(storageKey); }
 
-  function reveal(pos: number) { setRevealed((p) => ({ ...p, [pos]: true })); }
-  function hideReveal(pos: number) { setRevealed((p) => ({ ...p, [pos]: false })); }
-
-  // "Lösungen anzeigen": fetch the correct headlines via the non-saving
-  // scoring RPC (empty answers → each result's correct_answer is the right
-  // letter). Mirrors Teil2Exercise's showSolution exactly — same toggle
-  // behavior, same RPC shape, no attempt record created.
-  async function showSolution() {
-    if (solution) { setSolution(null); return; } // toggle off
-    setLoadingSolution(true);
+  // "Lösung anzeigen" — the ONE reveal button for the whole exercise. Fetches
+  // every correct headline + evidence + Warum via the non-saving RPC (empty
+  // answers → each result's correct_answer is the right letter) and shows it
+  // for all 5 texts at once. A second click hides it again. Mirrors what
+  // happens automatically once the student submits (Auswertung).
+  async function toggleSolutionPreview() {
+    if (previewResults) { setPreviewResults(null); return; }
+    setLoadingPreview(true);
     try {
       const { data, error } = await (supabase as any).rpc("score_lesen_t1", { p_exercise_id: exercise.id, p_answers: {} });
       if (error) throw error;
-      const res = data as unknown as { results: ScoreResult[] };
-      const map: Record<number, string> = {};
-      for (const r of res.results) map[r.position] = r.correct_answer;
-      setSolution(map);
+      const r = data as { results: ScoreResult[] };
+      setPreviewResults(r.results);
     } catch (e) {
       console.error("Lösung konnte nicht geladen werden:", e);
     } finally {
-      setLoadingSolution(false);
+      setLoadingPreview(false);
     }
   }
 
@@ -149,6 +145,7 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
       if (error) throw error;
       const r = data as { score: number; total: number; results: ScoreResult[] };
       setResults(r.results); setScore(r.score); setTotal(r.total); setSubmitted(true); setRestored(false);
+      setPreviewResults(null);
       onComplete?.(r.score, r.total);
     } catch (e) {
       console.error("T1 scoring failed:", e);
@@ -159,14 +156,17 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const answeredCount = texts.filter((t) => answers[t.position]).length;
   const usedByOthers = (pos: number) => new Set(Object.entries(answers).filter(([p]) => +p !== pos).map(([, l]) => l).filter(Boolean));
 
-  // Sentence-level translation ("Sätze übersetzen"): every evidence sentence
-  // currently visible (correct, or wrong-and-revealed) across all 5 texts,
-  // gathered into one bulk toggle — mirrors T2/T3's SentenceTranslations.
+  // Revealed solution content = whatever's active right now: the real,
+  // scored results after submitting, or the preview fetched by "Lösung
+  // anzeigen" beforehand. Both share the same shape, so every text renders
+  // its full solution (correct headline, translation, evidence, Warum,
+  // strategy) the same way regardless of which path produced it.
+  const activeResults = results ?? previewResults;
+
   const translationItems = texts
     .map((t) => {
-      const r = results?.find((res) => res.position === t.position);
-      const visible = submitted && !!r && (r.correct || (!r.correct && !!revealed[t.position]));
-      if (!visible || !r?.learning_aids?.evidence_text || !r.learning_aids.evidence_translation) return null;
+      const r = activeResults?.find((res) => res.position === t.position);
+      if (!r?.learning_aids?.evidence_text || !r.learning_aids.evidence_translation) return null;
       return { itemKey: String(t.position), label: String(t.position), german: r.learning_aids.evidence_text, arabic: r.learning_aids.evidence_translation };
     })
     .filter((x): x is { itemKey: string; label: string; german: string; arabic: string } => x !== null);
@@ -181,7 +181,7 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
               Lesen Sie die Texte 1–5. Wählen Sie über jedem Text die passende Schlagzeile (A–J). Jede Schlagzeile passt nur zu einem Text — fünf bleiben übrig.
             </p>
           </div>
-          {submitted && translationItems.length > 0 && (
+          {activeResults && translationItems.length > 0 && (
             <div className="shrink-0"><SentenceTranslations items={translationItems} /></div>
           )}
         </div>
@@ -196,16 +196,17 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
 
       {texts.map((t) => {
         const ans = answers[t.position];
-        const res = results?.find((r) => r.position === t.position);
-        const isCorrect = submitted && !!res?.correct;
-        const isWrong = submitted && !!res && !res.correct;
-        const isRevealed = !!revealed[t.position];
+        const res = activeResults?.find((r) => r.position === t.position);
+        const isSubmittedCorrect = submitted && !!res?.correct;
+        const isSubmittedWrong = submitted && !!res && !res.correct;
         const isOpen = open === t.position;
-        const fieldTone = isCorrect ? "border-emerald-500/50 bg-emerald-500/5" : isWrong ? "border-rose-500/50 bg-rose-500/5" : ans ? "border-primary/40 bg-primary/5" : "border-input bg-background hover:border-primary/40";
-        const evidenceVisible = submitted && !!res && (res.correct || (!res.correct && isRevealed));
-        const highlightItems: HighlightItem[] = evidenceVisible && res?.learning_aids?.evidence_text
-          ? [{ itemKey: String(t.position), label: String(t.position), evidenceText: res.learning_aids.evidence_text, evidenceTranslation: res.learning_aids.evidence_translation, colorIndex: t.position, unitLabel: "Text" }]
+        const fieldTone = isSubmittedCorrect ? "border-emerald-500/50 bg-emerald-500/5" : isSubmittedWrong ? "border-rose-500/50 bg-rose-500/5" : ans ? "border-primary/40 bg-primary/5" : "border-input bg-background hover:border-primary/40";
+        const highlightItems: HighlightItem[] = res?.learning_aids?.evidence_text
+          ? [{ itemKey: String(t.position), label: String(t.position), evidenceText: res.learning_aids.evidence_text, evidenceTranslation: res.learning_aids.evidence_translation, unitLabel: "Text" }]
           : [];
+        // Show the dedicated solution box unless the field itself already makes
+        // the correct answer obvious (submitted-and-correct, shown in green).
+        const showSolutionBox = !!res && !isSubmittedCorrect;
         return (
           <div key={t.position} className="relative rounded-2xl border border-border bg-card overflow-visible">
             {/* answer field ABOVE the text */}
@@ -218,15 +219,15 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                   className={`w-full flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-left text-sm transition-all disabled:cursor-default ${fieldTone} ${FOCUS}`}>
                   {ans ? (
                     <>
-                      <span className={`shrink-0 flex h-6 w-6 items-center justify-center rounded-md text-xs font-black ${isCorrect ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" : isWrong ? "bg-rose-500/20 text-rose-700 dark:text-rose-300" : "bg-primary/15 text-primary"}`}>{ans}</span>
+                      <span className={`shrink-0 flex h-6 w-6 items-center justify-center rounded-md text-xs font-black ${isSubmittedCorrect ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300" : isSubmittedWrong ? "bg-rose-500/20 text-rose-700 dark:text-rose-300" : "bg-primary/15 text-primary"}`}>{ans}</span>
                       <span className="min-w-0 flex-1 truncate text-foreground">{headlineText(ans)}</span>
                     </>
                   ) : (
                     <span className="flex-1 text-muted-foreground">Schlagzeile wählen…</span>
                   )}
                   {!submitted && <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`} />}
-                  {isCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
-                  {isWrong && <XCircle className="h-4 w-4 shrink-0 text-rose-500" />}
+                  {isSubmittedCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
+                  {isSubmittedWrong && <XCircle className="h-4 w-4 shrink-0 text-rose-500" />}
                 </button>
                 {isOpen && !submitted && (
                   <Picker headlines={exercise.headlines} current={ans ?? ""} disabled={usedByOthers(t.position)}
@@ -235,59 +236,35 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
               </div>
             </div>
 
-            {/* pre-submit solution-preview badge */}
-            {!submitted && solution?.[t.position] && (
-              <div className="px-4 pt-2">
-                <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-300">
-                  Richtig: {solution[t.position]} — {headlineText(solution[t.position])}
-                </span>
-              </div>
-            )}
-
-            {/* Richtig/Falsch status row + per-text Lösung zeigen/ausblenden toggle */}
+            {/* Richtig/Falsch status row — only meaningful once actually submitted */}
             {submitted && ans && res && (
-              <div className={`flex items-center justify-between px-4 pt-2.5 ${isWrong ? "pb-2.5" : ""}`}>
-                <div className="flex items-center gap-1.5">
-                  {isCorrect
-                    ? <><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Richtig</span></>
-                    : <><XCircle className="h-3.5 w-3.5 text-rose-500" /><span className="text-xs font-bold text-rose-600 dark:text-rose-400">Falsch</span></>
-                  }
-                </div>
-                {isWrong && !isRevealed && (
-                  <button onClick={() => reveal(t.position)}
-                    className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS}`}>
-                    <BookOpen className="h-3 w-3" /> Lösung zeigen
-                  </button>
-                )}
-                {isWrong && isRevealed && (
-                  <button onClick={() => hideReveal(t.position)}
-                    className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS}`}>
-                    <BookOpen className="h-3 w-3" /> Lösung ausblenden
-                  </button>
-                )}
+              <div className="flex items-center gap-1.5 px-4 pt-2.5">
+                {isSubmittedCorrect
+                  ? <><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Richtig</span></>
+                  : <><XCircle className="h-3.5 w-3.5 text-rose-500" /><span className="text-xs font-bold text-rose-600 dark:text-rose-400">Falsch</span></>
+                }
               </div>
             )}
 
-            {/* correct answer reveal */}
-            {submitted && isWrong && isRevealed && (
-              <div className="mx-4 mb-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
+            {/* Solution: correct headline + its Arabic translation */}
+            {showSolutionBox && (
+              <div className="mx-4 mt-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
                 <p className="text-[10px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">Richtige Antwort</p>
                 <p className="flex items-start gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
                   <span><span className="rounded bg-emerald-500/20 px-1.5 py-0.5">{res!.correct_answer}</span> — {headlineText(res!.correct_answer)}</span>
                 </p>
+                {res!.learning_aids?.answer_translation && (
+                  <p dir="rtl" className="mt-1.5 text-xs leading-relaxed text-emerald-800/80 dark:text-emerald-200/80">
+                    {res!.learning_aids.answer_translation}
+                  </p>
+                )}
               </div>
             )}
-            {submitted && isWrong && isRevealed && res?.learning_aids && (
-              <div className="mx-4 mb-2 flex flex-wrap items-start gap-2">
-                <EvidenceBlock aids={res.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
+            {res && (res.learning_aids?.explanation_correct || res.learning_aids?.explanation_wrong || res.learning_aids?.evidence_text) && (
+              <div className="mx-4 mt-2 flex flex-wrap items-start gap-2">
+                <EvidenceBlock aids={res.learning_aids} variant={isSubmittedWrong ? "wrong" : "correct"} skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
                 <StrategyCard aids={res.learning_aids} triggerLabel={`Text ${t.position}`} />
-              </div>
-            )}
-            {submitted && isCorrect && (res?.learning_aids?.explanation_correct || res?.learning_aids?.evidence_text) && (
-              <div className="mx-4 mb-2 flex flex-wrap items-start gap-2">
-                <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
-                <StrategyCard aids={res!.learning_aids} triggerLabel={`Text ${t.position}`} />
               </div>
             )}
             {/* text */}
@@ -321,10 +298,10 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
           <div className="flex flex-col"><p className="text-sm text-muted-foreground">{answeredCount} / {texts.length} zugeordnet</p><p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p></div>
           <div className="flex items-center gap-2">
-            <button onClick={showSolution} disabled={loadingSolution}
+            <button onClick={toggleSolutionPreview} disabled={loadingPreview}
               className={`rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2 ${FOCUS}`}>
-              {loadingSolution && <Loader2 className="h-4 w-4 animate-spin" />}
-              {solution ? "Lösungen ausblenden" : "Lösungen anzeigen"}
+              {loadingPreview ? <Loader2 className="h-4 w-4 animate-spin" /> : previewResults ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {previewResults ? "Lösung ausblenden" : "Lösung anzeigen"}
             </button>
             <button onClick={handleSubmit} disabled={answeredCount < texts.length || scoring}
               className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS}`}>

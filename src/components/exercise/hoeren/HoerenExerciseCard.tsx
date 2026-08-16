@@ -312,7 +312,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           const isCorrect = showState && !!result?.correct;
           const isWrong   = showState && !!result && !result.correct && ans !== undefined && ans !== null;
           const highlightItems: HighlightItem[] = (isCorrect || isWrong) && result?.learning_aids?.evidence_text
-            ? [{ itemKey: String(s.statement_number), label: String(s.statement_number), evidenceText: result.learning_aids.evidence_text, colorIndex: s.statement_number }]
+            ? [{ itemKey: String(s.statement_number), label: String(s.statement_number), evidenceText: result.learning_aids.evidence_text }]
             : [];
 
           return (
