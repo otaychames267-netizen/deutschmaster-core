@@ -77,6 +77,11 @@ export function EvidenceBlock({
 
       {open && (
         <div className="mt-1.5 w-full max-w-md space-y-2 rounded-xl border border-violet-500/20 bg-violet-500/5 px-3.5 py-3">
+          {!showEvidenceQuote && aids.evidence_text && triggerLabel && (
+            <p className="text-[11px] font-bold text-violet-600 dark:text-violet-400">
+              🔎 Beleg für {triggerLabel} — im Text markiert
+            </p>
+          )}
           {(yourAnswerText || correctAnswerText) && (
             <div className="space-y-1 border-b border-violet-500/10 pb-2">
               {yourAnswerText && (

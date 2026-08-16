@@ -9,9 +9,14 @@
  * Security: correct_headline is NEVER in the client data. Scoring + saving runs
  * server-side via score_and_save_lesen_t1 (records the attempt in lesen_attempts
  * for History/Statistics). Progress autosaves and resumes after a refresh.
+ *
+ * Solution preview + per-text reveal mirror Teil 2 exactly: a pre-submit
+ * "Lösungen anzeigen"/"Lösungen ausblenden" toggle (via the non-saving
+ * score_lesen_t1 RPC) and, after submission, a per-text "Lösung
+ * zeigen"/"Lösung ausblenden" toggle — never a one-way reveal.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, Eye } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, X, Loader2, AlertCircle, RotateCcw, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -78,7 +83,9 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const [results, setResults] = useState<ScoreResult[] | null>(null);
   const [score, setScore] = useState(0);
   const [total, setTotal] = useState(0);
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = useState<Record<number, boolean>>({});
+  const [solution, setSolution] = useState<Record<number, string> | null>(null);
+  const [loadingSolution, setLoadingSolution] = useState(false);
   const [restored, setRestored] = useState(false);
   const [open, setOpen] = useState<number | null>(null);
   const btnRefs = useRef<Record<number, HTMLButtonElement | null>>({});
@@ -107,7 +114,31 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   }, [answers, submitted, results, score, total, storageKey, exercise.id]);
 
   function select(pos: number, letter: string) { if (!submitted) setAnswers((p) => ({ ...p, [pos]: letter })); }
-  function reset() { setAnswers({}); setSubmitted(false); setResults(null); setScore(0); setTotal(0); setRevealed(false); setRestored(false); setOpen(null); clearAttempt(storageKey); }
+  function reset() { setAnswers({}); setSubmitted(false); setResults(null); setScore(0); setTotal(0); setRevealed({}); setRestored(false); setOpen(null); clearAttempt(storageKey); }
+
+  function reveal(pos: number) { setRevealed((p) => ({ ...p, [pos]: true })); }
+  function hideReveal(pos: number) { setRevealed((p) => ({ ...p, [pos]: false })); }
+
+  // "Lösungen anzeigen": fetch the correct headlines via the non-saving
+  // scoring RPC (empty answers → each result's correct_answer is the right
+  // letter). Mirrors Teil2Exercise's showSolution exactly — same toggle
+  // behavior, same RPC shape, no attempt record created.
+  async function showSolution() {
+    if (solution) { setSolution(null); return; } // toggle off
+    setLoadingSolution(true);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_lesen_t1", { p_exercise_id: exercise.id, p_answers: {} });
+      if (error) throw error;
+      const res = data as unknown as { results: ScoreResult[] };
+      const map: Record<number, string> = {};
+      for (const r of res.results) map[r.position] = r.correct_answer;
+      setSolution(map);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingSolution(false);
+    }
+  }
 
   async function handleSubmit() {
     setScoring(true); setScoreError(null); setOpen(null);
@@ -134,7 +165,7 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
   const translationItems = texts
     .map((t) => {
       const r = results?.find((res) => res.position === t.position);
-      const visible = submitted && !!r && (r.correct || (!r.correct && revealed));
+      const visible = submitted && !!r && (r.correct || (!r.correct && !!revealed[t.position]));
       if (!visible || !r?.learning_aids?.evidence_text || !r.learning_aids.evidence_translation) return null;
       return { itemKey: String(t.position), label: String(t.position), german: r.learning_aids.evidence_text, arabic: r.learning_aids.evidence_translation };
     })
@@ -168,11 +199,12 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
         const res = results?.find((r) => r.position === t.position);
         const isCorrect = submitted && !!res?.correct;
         const isWrong = submitted && !!res && !res.correct;
+        const isRevealed = !!revealed[t.position];
         const isOpen = open === t.position;
         const fieldTone = isCorrect ? "border-emerald-500/50 bg-emerald-500/5" : isWrong ? "border-rose-500/50 bg-rose-500/5" : ans ? "border-primary/40 bg-primary/5" : "border-input bg-background hover:border-primary/40";
-        const evidenceVisible = submitted && !!res && (res.correct || (!res.correct && revealed));
+        const evidenceVisible = submitted && !!res && (res.correct || (!res.correct && isRevealed));
         const highlightItems: HighlightItem[] = evidenceVisible && res?.learning_aids?.evidence_text
-          ? [{ itemKey: String(t.position), label: String(t.position), evidenceText: res.learning_aids.evidence_text, colorIndex: t.position }]
+          ? [{ itemKey: String(t.position), label: String(t.position), evidenceText: res.learning_aids.evidence_text, evidenceTranslation: res.learning_aids.evidence_translation, colorIndex: t.position, unitLabel: "Text" }]
           : [];
         return (
           <div key={t.position} className="relative rounded-2xl border border-border bg-card overflow-visible">
@@ -202,9 +234,43 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                 )}
               </div>
             </div>
+
+            {/* pre-submit solution-preview badge */}
+            {!submitted && solution?.[t.position] && (
+              <div className="px-4 pt-2">
+                <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-500/10 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:text-emerald-300">
+                  Richtig: {solution[t.position]} — {headlineText(solution[t.position])}
+                </span>
+              </div>
+            )}
+
+            {/* Richtig/Falsch status row + per-text Lösung zeigen/ausblenden toggle */}
+            {submitted && ans && res && (
+              <div className={`flex items-center justify-between px-4 pt-2.5 ${isWrong ? "pb-2.5" : ""}`}>
+                <div className="flex items-center gap-1.5">
+                  {isCorrect
+                    ? <><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Richtig</span></>
+                    : <><XCircle className="h-3.5 w-3.5 text-rose-500" /><span className="text-xs font-bold text-rose-600 dark:text-rose-400">Falsch</span></>
+                  }
+                </div>
+                {isWrong && !isRevealed && (
+                  <button onClick={() => reveal(t.position)}
+                    className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS}`}>
+                    <BookOpen className="h-3 w-3" /> Lösung zeigen
+                  </button>
+                )}
+                {isWrong && isRevealed && (
+                  <button onClick={() => hideReveal(t.position)}
+                    className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS}`}>
+                    <BookOpen className="h-3 w-3" /> Lösung ausblenden
+                  </button>
+                )}
+              </div>
+            )}
+
             {/* correct answer reveal */}
-            {submitted && isWrong && revealed && (
-              <div className="mx-4 mt-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
+            {submitted && isWrong && isRevealed && (
+              <div className="mx-4 mb-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
                 <p className="text-[10px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">Richtige Antwort</p>
                 <p className="flex items-start gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-200">
                   <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
@@ -212,14 +278,14 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
                 </p>
               </div>
             )}
-            {submitted && isWrong && revealed && res?.learning_aids && (
-              <div className="mx-4 mt-2 flex flex-wrap items-start gap-2">
+            {submitted && isWrong && isRevealed && res?.learning_aids && (
+              <div className="mx-4 mb-2 flex flex-wrap items-start gap-2">
                 <EvidenceBlock aids={res.learning_aids} variant="wrong" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
                 <StrategyCard aids={res.learning_aids} triggerLabel={`Text ${t.position}`} />
               </div>
             )}
             {submitted && isCorrect && (res?.learning_aids?.explanation_correct || res?.learning_aids?.evidence_text) && (
-              <div className="mx-4 mt-2 flex flex-wrap items-start gap-2">
+              <div className="mx-4 mb-2 flex flex-wrap items-start gap-2">
                 <EvidenceBlock aids={res!.learning_aids} variant="correct" skill="lesen" exerciseId={exercise.id} itemKey={String(t.position)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Text ${t.position}`} />
                 <StrategyCard aids={res!.learning_aids} triggerLabel={`Text ${t.position}`} />
               </div>
@@ -254,21 +320,23 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
       {!submitted ? (
         <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
           <div className="flex flex-col"><p className="text-sm text-muted-foreground">{answeredCount} / {texts.length} zugeordnet</p><p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p></div>
-          <button onClick={handleSubmit} disabled={answeredCount < texts.length || scoring}
-            className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS}`}>
-            {scoring && <Loader2 className="h-4 w-4 animate-spin" />}Auswertung
-          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={showSolution} disabled={loadingSolution}
+              className={`rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2 ${FOCUS}`}>
+              {loadingSolution && <Loader2 className="h-4 w-4 animate-spin" />}
+              {solution ? "Lösungen ausblenden" : "Lösungen anzeigen"}
+            </button>
+            <button onClick={handleSubmit} disabled={answeredCount < texts.length || scoring}
+              className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS}`}>
+              {scoring && <Loader2 className="h-4 w-4 animate-spin" />}Auswertung
+            </button>
+          </div>
         </div>
       ) : (
         <div aria-live="polite" className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
           <p className="text-3xl font-black text-foreground">{score} / {total}</p>
           <p className="text-sm text-muted-foreground">{score === total ? "Perfekt! Alle Schlagzeilen korrekt zugeordnet." : score >= 4 ? "Sehr gut! Fast perfekt." : score >= 3 ? "Gut gemacht." : "Weiter üben — du schaffst es!"}</p>
-          <div className="flex items-center justify-center gap-2 pt-1">
-            {!revealed && score < total && (
-              <button onClick={() => setRevealed(true)} className={`inline-flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm font-bold text-blue-700 dark:text-blue-300 hover:bg-blue-500/15 ${FOCUS}`}><Eye className="h-4 w-4" />Lösung anzeigen</button>
-            )}
-            <button onClick={reset} className={`rounded-xl border border-border bg-muted px-4 py-2 text-sm font-medium hover:bg-muted/70 ${FOCUS}`}>Nochmal versuchen</button>
-          </div>
+          <button onClick={reset} className={`rounded-xl border border-border bg-muted px-4 py-2 text-sm font-medium hover:bg-muted/70 ${FOCUS}`}>Nochmal versuchen</button>
         </div>
       )}
     </div>

@@ -150,6 +150,10 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
     setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: true } }));
   }
 
+  function hideReveal(num: number) {
+    setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: false } }));
+  }
+
   // "Lösungen anzeigen": fetch the correct answers via the non-saving
   // scoring RPC (empty answers → each result's correct_answer is the right
   // letter). Mirrors Teil3Exercise's showSolution — keeps the answer key
@@ -242,6 +246,7 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
       itemKey: String(q.number),
       label: String(q.number),
       evidenceText: result.learning_aids!.evidence_text,
+      evidenceTranslation: result.learning_aids!.evidence_translation,
       colorIndex: idx,
     }));
 
@@ -396,12 +401,10 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                       </button>
                     )}
                     {isWrong && ans.revealed && (
-                      <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
-                        Richtig: {rfMode
-                          ? (result.correct_answer === "a" ? q.option_a : q.option_b)
-                          : result.correct_answer.toUpperCase()
-                        }
-                      </span>
+                      <button onClick={() => hideReveal(q.number)}
+                        className={`flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors ${FOCUS_RING}`}>
+                        <BookOpen className="h-3 w-3" /> Lösung ausblenden
+                      </button>
                     )}
                   </div>
                 )}

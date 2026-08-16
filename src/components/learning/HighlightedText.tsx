@@ -1,8 +1,12 @@
 /**
  * Renders a passage/transcript with per-question evidence sentences
  * highlighted inline via whitespace-tolerant substring matching. Each
- * match gets a small numbered tag so the student can trace it back to the
- * matching "Warum?" card (see EvidenceBlock's triggerLabel).
+ * match gets a small numbered "Beleg für Frage N" tag so the student can
+ * trace it back to the matching "Warum?" card (see EvidenceBlock's
+ * triggerLabel), plus its own inline "🇸🇦" toggle that reveals the Arabic
+ * translation of THAT sentence directly underneath it — independent of any
+ * bulk "Sätze übersetzen" summary, so a student can translate one sentence
+ * without leaving the passage or opening every question's card.
  *
  * PDF-derived source text often carries its original line-wrap `\n`s where
  * a naturally-authored evidence_text sentence has plain spaces — an exact
@@ -15,7 +19,8 @@
  * scripts/learning-aids/verify-evidence-substrings.mjs checks this across
  * the DB separately (with the same whitespace-tolerant logic).
  */
-import { Fragment, type ReactNode } from "react";
+import { Fragment, useState, type ReactNode } from "react";
+import { Languages } from "lucide-react";
 import { getEvidenceColor, type EvidenceColor } from "./evidenceColors";
 
 export interface HighlightItem {
@@ -23,7 +28,13 @@ export interface HighlightItem {
   /** Short tag text, e.g. "6" or "Frage 6". */
   label: string;
   evidenceText: string | null | undefined;
+  /** Arabic translation of evidenceText, if authored — enables the inline
+   * per-sentence translate toggle right after this specific mark. */
+  evidenceTranslation?: string | null;
   colorIndex: number;
+  /** Unit noun for the "Beleg für ⟨unit⟩ N" badge tooltip. Default "Frage" —
+   * Lesen Teil 1 has no numbered questions, only Texte, so it passes "Text". */
+  unitLabel?: string;
 }
 
 interface Match {
@@ -74,6 +85,43 @@ function findEvidenceRange(source: string, evidence: string): { start: number; e
   return { start: map[idx], end: map[idx + normEvidence.length - 1] + 1 };
 }
 
+/** One highlighted evidence span + its own inline "🇸🇦" translate toggle. */
+function EvidenceMark({ text, item, color }: { text: string; item: HighlightItem; color: EvidenceColor }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <mark className={`rounded px-0.5 py-px text-foreground ${color.mark}`}>
+        {text}
+        <sup
+          title={`Beleg für ${item.unitLabel ?? "Frage"} ${item.label}`}
+          className={`ml-0.5 rounded-full border px-1 text-[9px] font-black not-italic ${color.badge}`}
+        >
+          {item.label}
+        </sup>
+        {item.evidenceTranslation && (
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            title="Satz übersetzen"
+            className={`ml-0.5 inline-flex items-center rounded-full border px-1 py-px align-middle not-italic ${color.badge} hover:brightness-110`}
+          >
+            <Languages className="h-2.5 w-2.5" />
+          </button>
+        )}
+      </mark>
+      {open && item.evidenceTranslation && (
+        <span
+          dir="rtl"
+          className={`mx-1 my-1 inline-block max-w-full rounded-lg border px-2 py-1 text-xs leading-relaxed align-middle ${color.badge}`}
+        >
+          {item.evidenceTranslation}
+        </span>
+      )}
+    </>
+  );
+}
+
 export function HighlightedText({ text, items, className }: Props) {
   const matches: Match[] = [];
   for (const item of items) {
@@ -96,12 +144,7 @@ export function HighlightedText({ text, items, className }: Props) {
   matches.forEach((m, i) => {
     if (m.start > cursor) nodes.push(<Fragment key={`t-${i}`}>{text.slice(cursor, m.start)}</Fragment>);
     nodes.push(
-      <mark key={`m-${i}`} className={`rounded px-0.5 py-px text-foreground ${m.color.mark}`}>
-        {text.slice(m.start, m.end)}
-        <sup className={`ml-0.5 rounded-full border px-1 text-[9px] font-black not-italic ${m.color.badge}`}>
-          {m.item.label}
-        </sup>
-      </mark>,
+      <EvidenceMark key={`m-${i}`} text={text.slice(m.start, m.end)} item={m.item} color={m.color} />,
     );
     cursor = m.end;
   });
