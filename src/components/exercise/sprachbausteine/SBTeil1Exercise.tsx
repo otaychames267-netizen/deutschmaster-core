@@ -8,9 +8,22 @@
  * popover directly under the gap showing options A, B, C. The
  * selected answer is shown inside the gap. Answers can be changed
  * before submission.
+ *
+ * Solution reveal: ONE "Lösung anzeigen" button for the whole exercise
+ * (mirrors Lesen T1/T2/T3) — fetches every correct answer + Warum via the
+ * non-saving score_sb_t1 RPC (empty answers) and shows the full solution
+ * for every gap at once, exactly like after a real submission. A second
+ * click hides it again.
+ *
+ * Two-part correlatives (e.g. "sowohl…als auch") occupy TWO gap buttons
+ * that share the SAME gap_number. State keyed only by gap_number would
+ * make both occurrences fight over one popover/ref — every piece of
+ * per-occurrence UI state (open popover, DOM ref) is keyed by
+ * `${gapNumber}:${occurrenceIndex}` instead, while the underlying answer
+ * itself stays keyed by plain gap_number (it's genuinely one selection).
  */
 import { useState, useRef, useEffect, useCallback } from "react";
-import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, BookOpen } from "lucide-react";
+import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, Eye, EyeOff, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
@@ -123,8 +136,6 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
   );
 }
 
-// ── Gap result popover (post-submit "Warum?", anchored to the gap itself) ──────
-
 function gapOptionText(gap: SBT1Gap, choice: string | null | undefined): string {
   if (!choice) return "—";
   return (choice === "a" ? gap.option_a : choice === "b" ? gap.option_b : gap.option_c) ?? choice;
@@ -134,18 +145,20 @@ function gapOptionText(gap: SBT1Gap, choice: string | null | undefined): string 
 
 export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers, onAnswersChange }: Props) {
   const [answers, setAnswers] = useState<Record<number, string>>(() => initialAnswers ?? {});
-  const [openGap, setOpenGap] = useState<number | null>(null);
+  // Open popover/card, keyed by "<gapNumber>:<occurrenceIndex>" so two-part
+  // correlatives (same gap_number, two DOM spots) never collide.
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [scoring, setScoring] = useState(false);
   const [scoreResults, setScoreResults] = useState<ScoreResult[] | null>(null);
   const [scoreCount, setScoreCount] = useState(0);
   const [scoreTotal, setScoreTotal] = useState(0);
-  // "Lösung anzeigen" (practice/study mode): reveal correct answers without grading.
-  // Correct answers are fetched securely via the scoring RPC with empty answers —
-  // they are never present in the student data load.
-  const [solution, setSolution] = useState<Record<number, string> | null>(null);
-  const [loadingSolution, setLoadingSolution] = useState(false);
-  const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  // "Lösung anzeigen" — ONE button for the whole exercise. Fetches every
+  // correct answer + Warum/translation via the non-saving RPC and shows the
+  // full solution for every gap at once, same shape as a real submission.
+  const [previewResults, setPreviewResults] = useState<ScoreResult[] | null>(null);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("sprachbausteine", exercise.id);
 
   useEffect(() => {
@@ -159,26 +172,33 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
     setAnswers(prev => ({ ...prev, [gapNum]: choice }));
   }, [submitted]);
 
-  function toggleGap(gapNum: number) {
-    setOpenGap(prev => prev === gapNum ? null : gapNum);
+  function toggleKey(key: string) {
+    setOpenKey(prev => prev === key ? null : key);
   }
 
   // Close popover on outside click
   useEffect(() => {
-    if (openGap === null) return;
+    if (openKey === null) return;
     function handler(e: MouseEvent) {
-      const btn = buttonRefs.current[openGap!];
+      const btn = buttonRefs.current[openKey!];
       if (btn && btn.contains(e.target as Node)) return;
-      // Check if click is inside any popover
-      const popovers = document.querySelectorAll('[role="listbox"]');
+      const popovers = document.querySelectorAll('[role="listbox"], [role="dialog"]');
       for (const pop of popovers) {
         if (pop.contains(e.target as Node)) return;
       }
-      setOpenGap(null);
+      setOpenKey(null);
     }
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [openGap]);
+  }, [openKey]);
+
+  // activeResults = whatever's live right now: the real scored results after
+  // submitting, or the preview fetched by "Lösung anzeigen" beforehand. Both
+  // share the same shape, so every gap shows its full solution (correct
+  // answer, translation, Warum) the same way regardless of which path
+  // produced it — mirrors the Lesen T1/T2/T3 pattern exactly.
+  const activeResults = scoreResults ?? previewResults;
+  const revealed = !submitted && previewResults !== null;
 
   // Split passage by gap markers for rendering with interactive gaps
   const gapMap = new Map(gaps.map(g => [g.gap_number, g]));
@@ -205,13 +225,13 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
     if (!gap) return <span key={idx}>[{gapNum}]</span>;
     const occ = occurrenceCount[gapNum] ?? 0;
     occurrenceCount[gapNum] = occ + 1;
+    const key = `${gapNum}:${occ}`;
     const chosen = answers[gapNum];
-    const result = scoreResults?.find(r => r.gap_number === gapNum);
-    const isCorrect = submitted && !!result?.correct;
-    const isWrong = submitted && !!result && !result.correct;
-    // Reveal mode ("Lösung anzeigen"): show the official correct answer without grading.
-    const revealed = solution !== null && !submitted;
-    const correctChoice = revealed ? solution![gapNum] : undefined;
+    const result = activeResults?.find(r => r.gap_number === gapNum);
+    const isSubmittedCorrect = submitted && !!result?.correct;
+    const isSubmittedWrong = submitted && !!result && !result.correct;
+    const hasSolution = !!result;
+    const correctChoice = result?.correct_answer;
     const correctText = correctChoice
       ? (correctChoice === "a" ? gap.option_a : correctChoice === "b" ? gap.option_b : gap.option_c)
       : null;
@@ -221,32 +241,32 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
       ? (chosen === "a" ? gap.option_a : chosen === "b" ? gap.option_b : gap.option_c)
       : null;
     const chosenText = splitOption(chosenFull, occ);
-    const optionText = revealed ? splitOption(correctText, occ) : chosenText;
-    const isOpen = openGap === gapNum;
+    const optionText = (locked && correctText) ? splitOption(correctText, occ) : chosenText;
+    const isOpen = openKey === key;
     // Same "does this item have anything to show" gate EvidenceBlock itself
     // uses, so the gap never opens onto an empty popover.
     const gapExplanation = result?.correct ? result?.learning_aids?.explanation_correct : result?.learning_aids?.explanation_wrong;
-    const hasAids = !examMode && submitted && !!result?.learning_aids &&
+    const hasAids = !examMode && hasSolution && !!result?.learning_aids &&
       !!(gapExplanation || result.learning_aids.evidence_text || result.learning_aids.grammar_structure || result.learning_aids.keyword);
     const clickable = !locked || hasAids;
 
     return (
       <span key={idx} className="relative inline-block">
         <button
-          ref={(el) => { buttonRefs.current[gapNum] = el as HTMLButtonElement; }}
-          onClick={() => toggleGap(gapNum)}
+          ref={(el) => { buttonRefs.current[key] = el as HTMLButtonElement; }}
+          onClick={() => toggleKey(key)}
           disabled={!clickable}
-          aria-haspopup={submitted ? "dialog" : "listbox"}
+          aria-haspopup={locked ? "dialog" : "listbox"}
           aria-expanded={isOpen}
           className={`relative inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium transition-all leading-normal ${
             submitted
-              ? isCorrect
+              ? isSubmittedCorrect
                 ? `border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 ${hasAids ? "cursor-pointer hover:bg-emerald-500/15" : "cursor-default"}`
-                : isWrong
+                : isSubmittedWrong
                   ? `border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 ${hasAids ? "cursor-pointer hover:bg-rose-500/15" : "cursor-default"}`
                   : "border-border bg-muted/30 text-muted-foreground cursor-default"
               : revealed
-                ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 cursor-default"
+                ? `border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 ${hasAids ? "cursor-pointer hover:bg-emerald-500/15" : "cursor-default"}`
                 : isOpen
                   ? "border-primary bg-primary/8 text-primary"
                   : chosen
@@ -256,23 +276,28 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
         >
           <span className="text-[10px] font-black opacity-50">{gapNum}</span>
           {optionText
-            ? <span className="max-w-[160px] truncate">{optionText}</span>
+            ? <span className="max-w-[160px] truncate font-semibold">{optionText}</span>
             : <span className="italic opacity-50 w-12 text-center text-[13px]">___</span>
           }
           {revealWrong && chosenText && (
             <span className="text-[11px] text-rose-500 line-through opacity-70 max-w-[80px] truncate">{chosenText}</span>
           )}
           {!locked && <ChevronDown className={`h-2.5 w-2.5 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`} />}
-          {((submitted && isCorrect) || revealed) && <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
-          {submitted && isWrong && <XCircle className="h-3 w-3 text-rose-500 shrink-0" />}
+          {((submitted && isSubmittedCorrect) || (revealed && correctText)) && <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
+          {submitted && isSubmittedWrong && <XCircle className="h-3 w-3 text-rose-500 shrink-0" />}
+          {hasAids && (
+            <span className="ml-0.5 flex items-center gap-0.5 rounded-full bg-violet-500/15 px-1 py-0.5 text-[9px] font-black text-violet-600 dark:text-violet-300">
+              <HelpCircle className="h-2.5 w-2.5" /> Warum?
+            </span>
+          )}
         </button>
         {isOpen && !locked && (
           <GapPopover
             gap={gap}
             current={chosen ?? ""}
             onSelect={(k) => selectAnswer(gapNum, k)}
-            onClose={() => setOpenGap(null)}
-            anchorEl={buttonRefs.current[gapNum]}
+            onClose={() => setOpenKey(null)}
+            anchorEl={buttonRefs.current[key]}
           />
         )}
         {isOpen && hasAids && result && (
@@ -283,10 +308,10 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
             exerciseId={exercise.id}
             itemKey={String(result.gap_number)}
             saveCategory="grammatikstruktur"
-            yourAnswerText={gapOptionText(gap, result.your_answer)}
+            yourAnswerText={submitted ? gapOptionText(gap, result.your_answer) : null}
             correctAnswerText={gapOptionText(gap, result.correct_answer)}
-            onClose={() => setOpenGap(null)}
-            anchorEl={buttonRefs.current[gapNum]}
+            onClose={() => setOpenKey(null)}
+            anchorEl={buttonRefs.current[key]}
           />
         )}
       </span>
@@ -295,7 +320,7 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
 
   async function handleSubmit() {
     setScoring(true);
-    setOpenGap(null);
+    setOpenKey(null);
     try {
       const payload: Record<string, string> = {};
       for (const [k, v] of Object.entries(answers)) payload[k] = v;
@@ -311,6 +336,7 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
       setScoreCount(res.score);
       setScoreTotal(res.total);
       setSubmitted(true);
+      setPreviewResults(null);
       onComplete?.(res.score, res.total);
     } catch (e) {
       console.error("Scoring error:", e);
@@ -320,10 +346,10 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
     }
   }
 
-  async function showSolution() {
-    if (solution) { setSolution(null); return; } // toggle off
-    setLoadingSolution(true);
-    setOpenGap(null);
+  async function toggleSolutionPreview() {
+    if (previewResults) { setPreviewResults(null); return; }
+    setLoadingPreview(true);
+    setOpenKey(null);
     try {
       const { data, error } = await (supabase as any).rpc("score_sb_t1", {
         p_exercise_id: exercise.id,
@@ -331,24 +357,22 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
       });
       if (error) throw error;
       const res = data as unknown as { results: ScoreResult[] };
-      const map: Record<number, string> = {};
-      for (const r of res.results) map[r.gap_number] = r.correct_answer;
-      setSolution(map);
+      setPreviewResults(res.results);
     } catch (e) {
       console.error("Lösung konnte nicht geladen werden:", e);
     } finally {
-      setLoadingSolution(false);
+      setLoadingPreview(false);
     }
   }
 
   function reset() {
     setAnswers({});
     setSubmitted(false);
-    setOpenGap(null);
+    setOpenKey(null);
     setScoreResults(null);
     setScoreCount(0);
     setScoreTotal(0);
-    setSolution(null);
+    setPreviewResults(null);
   }
 
   const answeredCount = Object.keys(answers).length;
@@ -376,9 +400,9 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
         </div>
       </div>
 
-      {submitted && !examMode && (
+      {(submitted || revealed) && !examMode && (
         <p className="text-xs text-muted-foreground text-center -mt-2">
-          Tippen Sie auf eine Lücke, um die Erklärung zu sehen.
+          Tippen Sie auf eine Lücke mit „Warum?", um die Erklärung zu sehen.
         </p>
       )}
 
@@ -390,18 +414,18 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
       ) : !submitted ? (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
           <p className="text-sm text-muted-foreground">
-            {solution ? "Lösung wird angezeigt" : `${answeredCount} / ${gaps.length} beantwortet`}
+            {revealed ? "Lösung wird angezeigt" : `${answeredCount} / ${gaps.length} beantwortet`}
           </p>
           <div className="flex items-center gap-2">
             <button
-              onClick={showSolution}
-              disabled={loadingSolution}
-              className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2 disabled:opacity-40"
+              onClick={toggleSolutionPreview}
+              disabled={loadingPreview}
+              className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2"
             >
-              {loadingSolution ? <Loader2 className="h-4 w-4 animate-spin" /> : <BookOpen className="h-4 w-4" />}
-              {solution ? "Lösung ausblenden" : "Lösung anzeigen"}
+              {loadingPreview ? <Loader2 className="h-4 w-4 animate-spin" /> : previewResults ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {previewResults ? "Lösung ausblenden" : "Lösung anzeigen"}
             </button>
-            {(answeredCount > 0 || solution) && (
+            {(answeredCount > 0 || previewResults) && (
               <button
                 onClick={reset}
                 className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2"
@@ -411,7 +435,7 @@ export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers
             )}
             <button
               onClick={handleSubmit}
-              disabled={!allAnswered || scoring || !!solution}
+              disabled={!allAnswered || scoring || !!previewResults}
               className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2"
             >
               {scoring && <Loader2 className="h-4 w-4 animate-spin" />}

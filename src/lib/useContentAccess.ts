@@ -9,9 +9,21 @@ import { useAuth } from "@/lib/auth";
  * is a UX signal only: even if it were tampered with client-side, every
  * content table + RPC independently re-checks access server-side, so a forced
  * `hasAccess = true` still yields zero content.
+ *
+ * Staff/admin bypass: every RLS policy and scoring RPC already ORs in
+ * `is_d17_staff(auth.uid())` alongside `has_plan_access(...)` (see
+ * 20260716020000_plan_scoped_content_gating.sql) — an admin can always read
+ * and score real content regardless of their own subscription state. This
+ * hook previously ignored that and asked ONLY `has_plan_access`, so an admin
+ * whose personal subscription had lapsed (a real, confirmed case — the owner
+ * account's own `komplett` plan expired days ago and nothing had renewed it)
+ * was shown the same locked/"FREE SAMPLE"/paywall UI as an ordinary
+ * non-subscriber, even though the database already granted them full access
+ * underneath. Folding `isAdmin` in here fixes that everywhere this hook is
+ * used, in one place, matching what the backend already does.
  */
 export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftlich") {
-  const { user } = useAuth();
+  const { user, isAdmin, roleLoading } = useAuth();
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   // Read inside the interval without making it a dependency — putting
   // hasAccess in the effect's deps would tear down and rebuild the interval
@@ -22,6 +34,10 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftl
 
   useEffect(() => {
     if (!user) { setHasAccess(false); return; }
+    // Wait for the role check to resolve before deciding — otherwise a real
+    // admin would flash "locked" for a moment on every page load.
+    if (roleLoading) return;
+    if (isAdmin) { setHasAccess(true); return; }
     let cancelled = false;
     function check() {
       // Cast past the generated types (these RPCs aren't in the checked-in
@@ -46,9 +62,9 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftl
     // keep checking a long-term subscriber every 20s on every page).
     const interval = setInterval(() => { if (hasAccessRef.current !== true) check(); }, 20000);
     return () => { cancelled = true; clearInterval(interval); };
-  }, [user?.id, module]);
+  }, [user?.id, module, isAdmin, roleLoading]);
 
-  return { hasAccess, loading: hasAccess === null };
+  return { hasAccess, loading: hasAccess === null || (!!user && roleLoading) };
 }
 
 export interface CatalogItem { id: string; title: string; import_notes?: string | null; is_free_sample?: boolean; has_audio?: boolean | null }

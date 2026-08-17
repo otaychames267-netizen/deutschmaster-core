@@ -102,6 +102,11 @@ export function EvidenceBlock({
                   <span className="font-semibold text-emerald-600 dark:text-emerald-400">{correctAnswerText}</span>
                 </p>
               )}
+              {aids.answer_translation && (
+                <p dir="rtl" className="ps-5 text-xs leading-relaxed text-emerald-700/90 dark:text-emerald-300/90">
+                  {aids.answer_translation}
+                </p>
+              )}
             </div>
           )}
 
