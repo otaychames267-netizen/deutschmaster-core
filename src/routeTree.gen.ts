@@ -50,6 +50,7 @@ import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api.p
 import { Route as ApiAuthRegisterRouteImport } from './routes/api.auth.register'
 import { Route as ApiAuthLoginRouteImport } from './routes/api.auth.login'
 import { Route as ApiAuthForgotPasswordRouteImport } from './routes/api.auth.forgot-password'
+import { Route as AuthenticatedPaiementOrderIdRouteImport } from './routes/_authenticated.paiement.$orderId'
 import { Route as AuthenticatedLearnLevelRouteImport } from './routes/_authenticated.learn.$level'
 import { Route as AuthenticatedExamIdRouteImport } from './routes/_authenticated.exam.$id'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
@@ -65,6 +66,7 @@ import { Route as AuthenticatedAdminMuendlichCreditsRouteImport } from './routes
 import { Route as AuthenticatedAdminMuendlichRouteImport } from './routes/_authenticated.admin.muendlich'
 import { Route as AuthenticatedAdminMessagesRouteImport } from './routes/_authenticated.admin.messages'
 import { Route as AuthenticatedAdminManualSubscriptionRouteImport } from './routes/_authenticated.admin.manual-subscription'
+import { Route as AuthenticatedAdminManualPaymentsRouteImport } from './routes/_authenticated.admin.manual-payments'
 import { Route as AuthenticatedAdminLesenRouteImport } from './routes/_authenticated.admin.lesen'
 import { Route as AuthenticatedAdminImportReviewRouteImport } from './routes/_authenticated.admin.import-review'
 import { Route as AuthenticatedAdminExercisesRouteImport } from './routes/_authenticated.admin.exercises'
@@ -332,6 +334,12 @@ const ApiAuthForgotPasswordRoute = ApiAuthForgotPasswordRouteImport.update({
   path: '/api/auth/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedPaiementOrderIdRoute =
+  AuthenticatedPaiementOrderIdRouteImport.update({
+    id: '/paiement/$orderId',
+    path: '/paiement/$orderId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedLearnLevelRoute = AuthenticatedLearnLevelRouteImport.update({
   id: '/$level',
   path: '/$level',
@@ -415,6 +423,12 @@ const AuthenticatedAdminManualSubscriptionRoute =
   AuthenticatedAdminManualSubscriptionRouteImport.update({
     id: '/manual-subscription',
     path: '/manual-subscription',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminManualPaymentsRoute =
+  AuthenticatedAdminManualPaymentsRouteImport.update({
+    id: '/manual-payments',
+    path: '/manual-payments',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
 const AuthenticatedAdminLesenRoute = AuthenticatedAdminLesenRouteImport.update({
@@ -809,6 +823,7 @@ export interface FileRoutesByFullPath {
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
   '/admin/lesen': typeof AuthenticatedAdminLesenRoute
+  '/admin/manual-payments': typeof AuthenticatedAdminManualPaymentsRoute
   '/admin/manual-subscription': typeof AuthenticatedAdminManualSubscriptionRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
@@ -824,6 +839,7 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/paiement/$orderId': typeof AuthenticatedPaiementOrderIdRoute
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
@@ -918,6 +934,7 @@ export interface FileRoutesByTo {
   '/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
   '/admin/lesen': typeof AuthenticatedAdminLesenRoute
+  '/admin/manual-payments': typeof AuthenticatedAdminManualPaymentsRoute
   '/admin/manual-subscription': typeof AuthenticatedAdminManualSubscriptionRoute
   '/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
@@ -933,6 +950,7 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
   '/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/paiement/$orderId': typeof AuthenticatedPaiementOrderIdRoute
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
@@ -1031,6 +1049,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/exercises': typeof AuthenticatedAdminExercisesRouteWithChildren
   '/_authenticated/admin/import-review': typeof AuthenticatedAdminImportReviewRoute
   '/_authenticated/admin/lesen': typeof AuthenticatedAdminLesenRoute
+  '/_authenticated/admin/manual-payments': typeof AuthenticatedAdminManualPaymentsRoute
   '/_authenticated/admin/manual-subscription': typeof AuthenticatedAdminManualSubscriptionRoute
   '/_authenticated/admin/messages': typeof AuthenticatedAdminMessagesRoute
   '/_authenticated/admin/muendlich': typeof AuthenticatedAdminMuendlichRoute
@@ -1046,6 +1065,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/exam/$id': typeof AuthenticatedExamIdRoute
   '/_authenticated/learn/$level': typeof AuthenticatedLearnLevelRoute
+  '/_authenticated/paiement/$orderId': typeof AuthenticatedPaiementOrderIdRoute
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
@@ -1146,6 +1166,7 @@ export interface FileRouteTypes {
     | '/admin/exercises'
     | '/admin/import-review'
     | '/admin/lesen'
+    | '/admin/manual-payments'
     | '/admin/manual-subscription'
     | '/admin/messages'
     | '/admin/muendlich'
@@ -1161,6 +1182,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/exam/$id'
     | '/learn/$level'
+    | '/paiement/$orderId'
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
@@ -1255,6 +1277,7 @@ export interface FileRouteTypes {
     | '/admin/exercises'
     | '/admin/import-review'
     | '/admin/lesen'
+    | '/admin/manual-payments'
     | '/admin/manual-subscription'
     | '/admin/messages'
     | '/admin/muendlich'
@@ -1270,6 +1293,7 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/exam/$id'
     | '/learn/$level'
+    | '/paiement/$orderId'
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
@@ -1367,6 +1391,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/exercises'
     | '/_authenticated/admin/import-review'
     | '/_authenticated/admin/lesen'
+    | '/_authenticated/admin/manual-payments'
     | '/_authenticated/admin/manual-subscription'
     | '/_authenticated/admin/messages'
     | '/_authenticated/admin/muendlich'
@@ -1382,6 +1407,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/users'
     | '/_authenticated/exam/$id'
     | '/_authenticated/learn/$level'
+    | '/_authenticated/paiement/$orderId'
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
@@ -1740,6 +1766,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/paiement/$orderId': {
+      id: '/_authenticated/paiement/$orderId'
+      path: '/paiement/$orderId'
+      fullPath: '/paiement/$orderId'
+      preLoaderRoute: typeof AuthenticatedPaiementOrderIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
     '/_authenticated/learn/$level': {
       id: '/_authenticated/learn/$level'
       path: '/$level'
@@ -1843,6 +1876,13 @@ declare module '@tanstack/react-router' {
       path: '/manual-subscription'
       fullPath: '/admin/manual-subscription'
       preLoaderRoute: typeof AuthenticatedAdminManualSubscriptionRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/manual-payments': {
+      id: '/_authenticated/admin/manual-payments'
+      path: '/manual-payments'
+      fullPath: '/admin/manual-payments'
+      preLoaderRoute: typeof AuthenticatedAdminManualPaymentsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
     '/_authenticated/admin/lesen': {
@@ -2405,6 +2445,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminExercisesRoute: typeof AuthenticatedAdminExercisesRouteWithChildren
   AuthenticatedAdminImportReviewRoute: typeof AuthenticatedAdminImportReviewRoute
   AuthenticatedAdminLesenRoute: typeof AuthenticatedAdminLesenRoute
+  AuthenticatedAdminManualPaymentsRoute: typeof AuthenticatedAdminManualPaymentsRoute
   AuthenticatedAdminManualSubscriptionRoute: typeof AuthenticatedAdminManualSubscriptionRoute
   AuthenticatedAdminMessagesRoute: typeof AuthenticatedAdminMessagesRoute
   AuthenticatedAdminMuendlichRoute: typeof AuthenticatedAdminMuendlichRoute
@@ -2448,6 +2489,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
     AuthenticatedAdminExercisesRouteWithChildren,
   AuthenticatedAdminImportReviewRoute: AuthenticatedAdminImportReviewRoute,
   AuthenticatedAdminLesenRoute: AuthenticatedAdminLesenRoute,
+  AuthenticatedAdminManualPaymentsRoute: AuthenticatedAdminManualPaymentsRoute,
   AuthenticatedAdminManualSubscriptionRoute:
     AuthenticatedAdminManualSubscriptionRoute,
   AuthenticatedAdminMessagesRoute: AuthenticatedAdminMessagesRoute,
@@ -2515,6 +2557,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedWeeklyGoalsRoute: typeof AuthenticatedWeeklyGoalsRoute
   AuthenticatedWoerterRoute: typeof AuthenticatedWoerterRoute
   AuthenticatedExamIdRoute: typeof AuthenticatedExamIdRoute
+  AuthenticatedPaiementOrderIdRoute: typeof AuthenticatedPaiementOrderIdRoute
   AuthenticatedD17OrderIdStatusRoute: typeof AuthenticatedD17OrderIdStatusRoute
   AuthenticatedD17OrderIdVerifyRoute: typeof AuthenticatedD17OrderIdVerifyRoute
   AuthenticatedD17OrderIdIndexRoute: typeof AuthenticatedD17OrderIdIndexRoute
@@ -2543,6 +2586,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedWeeklyGoalsRoute: AuthenticatedWeeklyGoalsRoute,
   AuthenticatedWoerterRoute: AuthenticatedWoerterRoute,
   AuthenticatedExamIdRoute: AuthenticatedExamIdRoute,
+  AuthenticatedPaiementOrderIdRoute: AuthenticatedPaiementOrderIdRoute,
   AuthenticatedD17OrderIdStatusRoute: AuthenticatedD17OrderIdStatusRoute,
   AuthenticatedD17OrderIdVerifyRoute: AuthenticatedD17OrderIdVerifyRoute,
   AuthenticatedD17OrderIdIndexRoute: AuthenticatedD17OrderIdIndexRoute,

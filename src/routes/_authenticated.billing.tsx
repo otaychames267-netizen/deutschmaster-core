@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/billing/checkout.functions";
 import { createD17Order } from "@/lib/d17/orders.functions";
+import { createManualPaymentOrder, type ManualMethod } from "@/lib/payment/manual-orders.functions";
 import { isPlanPurchasable, CARD_PAYMENTS_ENABLED, LEMONSQUEEZY_VISIBLE } from "@/lib/features";
 import { toast } from "sonner";
 import {
@@ -11,7 +12,7 @@ import {
   Check, Shield, Zap, Clock, RefreshCw,
   Crown, Calendar, TrendingUp, BookOpen,
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
-  Landmark, Sparkles,
+  Landmark, Sparkles, Wallet,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/billing")({
@@ -109,6 +110,7 @@ function BillingPage() {
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
   const [d17Plan, setD17Plan] = useState<string | null>(null);
   const [d17Disabled, setD17Disabled] = useState(false);
+  const [manualPlan, setManualPlan] = useState<string | null>(null);
 
   async function handleSubscribe(planCode: "schriftlich" | "muendlich" | "komplett") {
     if (!CARD_PAYMENTS_ENABLED) {
@@ -136,6 +138,17 @@ function BillingPage() {
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start D17 payment. Please try again.");
       setD17Plan(null);
+    }
+  }
+
+  async function handleManualPayment(planCode: "schriftlich" | "muendlich" | "komplett", method: ManualMethod) {
+    setManualPlan(planCode);
+    try {
+      const order = await createManualPaymentOrder({ data: { plan_code: planCode, method } });
+      nav({ to: "/paiement/$orderId", params: { orderId: order.id } });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not start payment. Please try again.");
+      setManualPlan(null);
     }
   }
 
@@ -369,7 +382,7 @@ function BillingPage() {
                       <>
                         <button
                           onClick={() => handleD17(plan.code as "schriftlich" | "muendlich" | "komplett")}
-                          disabled={checkoutPlan !== null || d17Plan !== null}
+                          disabled={checkoutPlan !== null || d17Plan !== null || manualPlan !== null}
                           title="Pay by D17 mobile transfer, then upload your confirmation. Verified automatically in moments, or by our team within 8 working hours."
                           className={
                             LEMONSQUEEZY_VISIBLE
@@ -387,6 +400,27 @@ function BillingPage() {
                         <p className="flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
                           <Clock className="h-3 w-3" /> Verified in moments — manual review up to 8 working hours
                         </p>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "postal")}
+                            disabled={checkoutPlan !== null || d17Plan !== null || manualPlan !== null}
+                            title="Pay via La Poste Tunisienne (Virement Postal), then send your receipt on WhatsApp."
+                            className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                          >
+                            {manualPlan === plan.code ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Landmark className="h-3.5 w-3.5" />}
+                            Virement Postal
+                          </button>
+                          <button
+                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "bancaire")}
+                            disabled={checkoutPlan !== null || d17Plan !== null || manualPlan !== null}
+                            title="Pay via bank transfer (Virement Bancaire), then send your receipt on WhatsApp."
+                            className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                          >
+                            {manualPlan === plan.code ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wallet className="h-3.5 w-3.5" />}
+                            Virement Bancaire
+                          </button>
+                        </div>
                       </>
                     )}
                   </div>

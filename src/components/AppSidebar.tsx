@@ -411,6 +411,7 @@ export function AppSidebar() {
                 <NavItem to="/admin/lesen"          label="Lesen Titles"   icon={Type}           active={isActive("/admin/lesen")}          color="amber" />
                 <NavItem to="/admin/pdf-import"     label="PDF Library"    icon={FileText}       active={isActive("/admin/pdf-import")}     color="amber" />
                 <NavItem to="/admin/payments"       label="Payments"       icon={DollarSign}     active={isActive("/admin/payments")}       color="amber" />
+                <NavItem to="/admin/manual-payments" label="Manual Payments" icon={DollarSign}    active={isActive("/admin/manual-payments")} color="amber" />
                 <NavItem to="/admin/reconciliation" label="Reconciliation" icon={ListChecks}     active={isActive("/admin/reconciliation")} color="amber" />
                 <NavItem to="/admin/coupons"        label="Coupons"        icon={Tag}            active={isActive("/admin/coupons")}        color="amber" />
                 <NavItem to="/admin/credits"        label="Essay Credits"  icon={Coins}          active={isActive("/admin/credits")}        color="amber" />
