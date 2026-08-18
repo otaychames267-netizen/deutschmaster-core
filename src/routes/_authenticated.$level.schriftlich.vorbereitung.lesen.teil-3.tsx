@@ -36,15 +36,17 @@ function LesenTeil3Page() {
     const lvl = level;
     async function load() {
       try {
-        const { data: exListRaw, error: exErr } = await supabase
+        const { data: exListRaw, error: exErr } = await (supabase as any)
           .from("lesen_exercises")
           .select("id, title, level, import_notes")
           .eq("teil", 3)
           .eq("level", lvl)
+          .eq("is_hidden", false)
           .order("sort_order", { ascending: true, nullsFirst: false })
           .order("created_at", { ascending: true });
         if (exErr) throw exErr;
-        const enforced = enforceLevel(exListRaw, lvl);
+        type ExMeta = { id: string; title: string; level: string | null; import_notes: string | null };
+        const enforced = enforceLevel((exListRaw ?? []) as ExMeta[], lvl);
         const { ordered: exList, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
         setHiddenCount(hc);
         setFlaggedStartIndex(fsi);

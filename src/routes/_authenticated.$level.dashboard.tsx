@@ -15,6 +15,7 @@ import {
   TrendingUp, PlayCircle, CreditCard,
 } from "lucide-react";
 import { getLastLesson, type LastLesson } from "@/lib/useLastLesson";
+import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -247,6 +248,8 @@ function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 pb-10">
+
+      <AnnouncementBanner />
 
       {/* ── Hero Banner ──────────────────────────────────────── */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-[#1e1b4b] to-slate-900 dark:from-[#0f0c29] dark:via-[#1a1740] dark:to-[#0f0c29] p-7 shadow-2xl">

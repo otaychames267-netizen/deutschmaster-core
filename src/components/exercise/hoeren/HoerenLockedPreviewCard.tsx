@@ -7,7 +7,7 @@
  * element here is a dead end that opens the paywall modal instead of doing
  * anything real; there is no attempt-storage, scoring, or reveal wiring.
  */
-import { Headphones, Lock, BookOpen } from "lucide-react";
+import { Headphones, Lock, BookOpen, Clock3 } from "lucide-react";
 import { parseVariant } from "@/lib/exercise-variant";
 import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 
@@ -24,6 +24,35 @@ interface Props {
 export function HoerenLockedPreviewCard({ title, instructions, hasAudio, statements, onLockedAction }: Props) {
   const v = parseVariant(title);
   const sorted = [...statements].sort((a, b) => a.statement_number - b.statement_number);
+
+  // Topic registered but content not authored yet — never invite a
+  // subscribe click for something subscribing wouldn't actually unlock.
+  if (sorted.length === 0) {
+    return (
+      <div className="rounded-2xl border border-border bg-card overflow-hidden opacity-95">
+        <div className="p-5 space-y-3 border-b border-border bg-muted/10">
+          <div className="flex items-start gap-3">
+            <span className="shrink-0 flex h-8 w-8 items-center justify-center rounded-xl bg-muted text-muted-foreground">
+              <Lock className="h-3.5 w-3.5" />
+            </span>
+            <div className="flex-1 min-w-0 pt-0.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-base font-bold text-foreground">{v.baseTitle}</p>
+                {v.variant && <VariantBadge variant={v.variant} />}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-2.5 px-5 py-10 text-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/10">
+            <Clock3 className="h-5 w-5 text-amber-500" />
+          </div>
+          <p className="text-sm font-bold text-foreground">Inhalt noch nicht verfügbar</p>
+          <p className="max-w-xs text-xs text-muted-foreground leading-relaxed">Die Aufgaben und Sätze werden später ergänzt.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="rounded-2xl border border-border bg-card overflow-hidden opacity-95">

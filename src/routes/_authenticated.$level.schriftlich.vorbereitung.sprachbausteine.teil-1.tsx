@@ -43,11 +43,12 @@ function SBTeil1Page() {
     if (!level) return;
     const lvl = level;
     async function load() {
-      const { data: exList, error: exErr } = await supabase
+      const { data: exList, error: exErr } = await (supabase as any)
         .from("sb_exercises")
         .select("id, title, level, import_notes")
         .eq("teil", 1)
         .eq("level", lvl)
+        .eq("is_hidden", false)
         .order("position", { ascending: true }); // official PDF order
       if (exErr) { setError(exErr.message); setLoading(false); return; }
       const enforced = enforceLevel((exList ?? []) as ExMeta[], lvl);

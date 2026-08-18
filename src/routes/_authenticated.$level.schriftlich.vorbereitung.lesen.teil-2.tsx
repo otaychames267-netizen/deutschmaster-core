@@ -47,15 +47,17 @@ function LesenTeil2Page() {
     setListLoading(true);
     setListError(false);
     try {
-      const { data: exListRaw, error: exErr } = await supabase
+      const { data: exListRaw, error: exErr } = await (supabase as any)
         .from("lesen_exercises")
         .select("id, title, level, import_notes")
         .eq("teil", 2)
         .eq("level", level)
+        .eq("is_hidden", false)
         .order("sort_order", { ascending: true, nullsFirst: false })
         .order("created_at", { ascending: true });
       if (exErr) throw exErr;
-      const enforced = enforceLevel(exListRaw, level);
+      type ExMeta = { id: string; title: string; level: string | null; import_notes: string | null };
+      const enforced = enforceLevel((exListRaw ?? []) as ExMeta[], level);
       const { ordered: exList, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
       setFlaggedStartIndex(fsi);
       setHiddenCount(hc);

@@ -10,7 +10,7 @@
  * bar below just renders disabled in that case, no other code path changes.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle, Clock3 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -240,6 +240,37 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
   const answeredCount = statements.filter((s) => answers[s.statement_number] !== undefined && answers[s.statement_number] !== null).length;
   const solutionShown = Object.keys(revealed).length > 0 && !submitted;
   const showState = submitted || solutionShown;
+
+  // Topic registered but content not authored yet — a clean, non-interactive
+  // placeholder instead of a broken 0-statement exercise (empty statement
+  // list, an always-enabled "Antworten prüfen" that would call the scoring
+  // RPC with nothing to score). No answers/audio/Lösung to fake here.
+  if (statements.length === 0) {
+    return (
+      <div id={`hoeren-ex-${exercise.id}`} className="rounded-2xl border border-border bg-card overflow-hidden scroll-mt-6">
+        <div className="p-5 space-y-3 border-b border-border bg-muted/10">
+          <div className="flex items-start gap-3">
+            <span className="shrink-0 flex h-8 w-8 items-center justify-center rounded-xl bg-violet-500/10 text-sm font-black text-violet-600 dark:text-violet-400">
+              {index + 1}
+            </span>
+            <div className="flex-1 min-w-0 pt-0.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-base font-bold text-foreground">{parseVariant(exercise.title).baseTitle}</p>
+                {parseVariant(exercise.title).variant && <VariantBadge variant={parseVariant(exercise.title).variant!} />}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center gap-2.5 px-5 py-10 text-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/10">
+            <Clock3 className="h-5 w-5 text-amber-500" />
+          </div>
+          <p className="text-sm font-bold text-foreground">Inhalt noch nicht verfügbar</p>
+          <p className="max-w-xs text-xs text-muted-foreground leading-relaxed">Die Aufgaben und Sätze werden später ergänzt.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div ref={cardRef} id={`hoeren-ex-${exercise.id}`} className="rounded-2xl border border-border bg-card overflow-hidden scroll-mt-6">
