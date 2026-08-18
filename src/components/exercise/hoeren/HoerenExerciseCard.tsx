@@ -10,7 +10,7 @@
  * bar below just renders disabled in that case, no other code path changes.
  */
 import { useEffect, useMemo, useRef, useState } from "react";
-import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle, Clock3 } from "lucide-react";
+import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, BookOpen, ArrowRight, BarChart3, Volume2, Shuffle, Clock3, AlertTriangle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
@@ -44,6 +44,9 @@ export interface HoerenExerciseData {
    * a mapping identifier only, never a correct-answer key. Shown on the
    * empty-state placeholder card so the reference stays traceable. */
   referenceCode?: string | null;
+  /** Optional admin-authored note shown on the placeholder card (e.g. a
+   * correction notice) — never exercise content, answers, or a transcript. */
+  adminNote?: string | null;
 }
 
 interface ScoreResult {
@@ -262,21 +265,25 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
                 <p className="text-base font-bold text-foreground">{parseVariant(exercise.title).baseTitle}</p>
                 {parseVariant(exercise.title).variant && <VariantBadge variant={parseVariant(exercise.title).variant!} />}
               </div>
-              <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                <span>Teil {exercise.teil}</span>
-                {exercise.referenceCode && (
-                  <>
-                    <span className="opacity-40">·</span>
-                    <span className="font-mono font-semibold">Referenzcode: {exercise.referenceCode}</span>
-                  </>
-                )}
-              </div>
+              <p className="mt-0.5 text-xs text-muted-foreground">Teil {exercise.teil}</p>
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-2.5 px-5 py-10 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/10">
-            <Clock3 className="h-5 w-5 text-amber-500" />
+        <div className="flex flex-col items-center gap-3 px-5 py-8 text-center">
+          {exercise.referenceCode && (
+            <div className="flex flex-col items-center gap-0.5 rounded-2xl border border-violet-500/25 bg-gradient-to-b from-violet-500/10 to-violet-500/[0.03] px-8 py-3 shadow-[0_0_22px_rgba(139,92,246,0.22)]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400">Referenzcode</span>
+              <span className="text-2xl font-black tabular-nums text-violet-700 dark:text-violet-300">{exercise.referenceCode}</span>
+            </div>
+          )}
+          {exercise.adminNote && (
+            <div className="flex max-w-sm items-start gap-2 rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3 text-left">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500 mt-0.5" />
+              <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300">{exercise.adminNote}</p>
+            </div>
+          )}
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+            <Clock3 className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className="text-sm font-bold text-foreground">Inhalt noch nicht verfügbar</p>
           <p className="max-w-xs text-xs text-muted-foreground leading-relaxed">Die Aufgaben und Sätze werden später ergänzt.</p>

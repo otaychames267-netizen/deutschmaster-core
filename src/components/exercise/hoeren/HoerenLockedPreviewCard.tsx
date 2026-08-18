@@ -7,7 +7,7 @@
  * element here is a dead end that opens the paywall modal instead of doing
  * anything real; there is no attempt-storage, scoring, or reveal wiring.
  */
-import { Headphones, Lock, BookOpen, Clock3 } from "lucide-react";
+import { Headphones, Lock, BookOpen, Clock3, AlertTriangle } from "lucide-react";
 import { parseVariant } from "@/lib/exercise-variant";
 import { VariantBadge, NewBadge } from "@/components/VariantBadges";
 
@@ -23,10 +23,12 @@ interface Props {
   /** Source lookup code for topics registered ahead of real content — a
    * mapping identifier only, never a correct-answer key. */
   referenceCode?: string | null;
+  /** Optional admin-authored note shown on the placeholder card. */
+  adminNote?: string | null;
   onLockedAction: () => void;
 }
 
-export function HoerenLockedPreviewCard({ title, instructions, hasAudio, statements, teil, referenceCode, onLockedAction }: Props) {
+export function HoerenLockedPreviewCard({ title, instructions, hasAudio, statements, teil, referenceCode, adminNote, onLockedAction }: Props) {
   const v = parseVariant(title);
   const sorted = [...statements].sort((a, b) => a.statement_number - b.statement_number);
 
@@ -45,19 +47,25 @@ export function HoerenLockedPreviewCard({ title, instructions, hasAudio, stateme
                 <p className="text-base font-bold text-foreground">{v.baseTitle}</p>
                 {v.variant && <VariantBadge variant={v.variant} />}
               </div>
-              {(teil || referenceCode) && (
-                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                  {teil && <span>Teil {teil}</span>}
-                  {teil && referenceCode && <span className="opacity-40">·</span>}
-                  {referenceCode && <span className="font-mono font-semibold">Referenzcode: {referenceCode}</span>}
-                </div>
-              )}
+              {teil && <p className="mt-0.5 text-xs text-muted-foreground">Teil {teil}</p>}
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-2.5 px-5 py-10 text-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-500/10">
-            <Clock3 className="h-5 w-5 text-amber-500" />
+        <div className="flex flex-col items-center gap-3 px-5 py-8 text-center">
+          {referenceCode && (
+            <div className="flex flex-col items-center gap-0.5 rounded-2xl border border-violet-500/25 bg-gradient-to-b from-violet-500/10 to-violet-500/[0.03] px-8 py-3 shadow-[0_0_22px_rgba(139,92,246,0.22)]">
+              <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400">Referenzcode</span>
+              <span className="text-2xl font-black tabular-nums text-violet-700 dark:text-violet-300">{referenceCode}</span>
+            </div>
+          )}
+          {adminNote && (
+            <div className="flex max-w-sm items-start gap-2 rounded-xl border border-amber-500/25 bg-amber-500/5 px-4 py-3 text-left">
+              <AlertTriangle className="h-4 w-4 shrink-0 text-amber-500 mt-0.5" />
+              <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300">{adminNote}</p>
+            </div>
+          )}
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted">
+            <Clock3 className="h-5 w-5 text-muted-foreground" />
           </div>
           <p className="text-sm font-bold text-foreground">Inhalt noch nicht verfügbar</p>
           <p className="max-w-xs text-xs text-muted-foreground leading-relaxed">Die Aufgaben und Sätze werden später ergänzt.</p>

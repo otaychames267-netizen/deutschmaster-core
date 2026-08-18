@@ -13,7 +13,7 @@ import { parseVariant } from "@/lib/exercise-variant";
 import { HoerenExerciseCard, type HoerenExerciseData } from "@/components/exercise/hoeren/HoerenExerciseCard";
 import { HoerenLockedPreviewCard } from "@/components/exercise/hoeren/HoerenLockedPreviewCard";
 
-interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null; import_notes?: string | null; reference_code?: string | null }
+interface ExRow { id: string; title: string; image_path: string | null; instructions: string | null; audio_path: string | null; position: number; level?: string | null; import_notes?: string | null; reference_code?: string | null; admin_note?: string | null }
 interface StRow { exercise_id: string; statement_number: number; statement_text: string }
 
 // hoeren-images is private and plan-gated at the storage RLS layer — URLs
@@ -84,7 +84,7 @@ export function HoerenTeilPage({ teil }: Props) {
       setError(null);
       const { data: exList, error: exErr } = await (supabase as any)
         .from("hoeren_exercises")
-        .select("id, title, image_path, instructions, audio_path, position, level, import_notes, reference_code")
+        .select("id, title, image_path, instructions, audio_path, position, level, import_notes, reference_code, admin_note")
         .eq("teil", teil)
         .eq("level", lvl)
         .eq("is_hidden", false)
@@ -261,6 +261,7 @@ export function HoerenTeilPage({ teil }: Props) {
                   statements={statementsByEx[ex.id] ?? []}
                   teil={teil}
                   referenceCode={ex.reference_code}
+                  adminNote={ex.admin_note}
                   onLockedAction={openLockedPaywall}
                 />
               </Fragment>
@@ -277,6 +278,7 @@ export function HoerenTeilPage({ teil }: Props) {
             audioPath: ex.audio_path,
             statements: statementsByEx[ex.id] ?? [],
             referenceCode: ex.reference_code,
+            adminNote: ex.admin_note,
           };
           return (
             <Fragment key={ex.id}>
@@ -325,6 +327,7 @@ export function HoerenTeilPage({ teil }: Props) {
               statements={lockedStatementsByEx[item.id] ?? []}
               teil={teil}
               referenceCode={item.reference_code}
+              adminNote={item.admin_note}
               onLockedAction={openLockedPaywall}
             />
           ))}
@@ -340,6 +343,7 @@ export function HoerenTeilPage({ teil }: Props) {
                   statements={lockedStatementsByEx[item.id] ?? []}
                   teil={teil}
                   referenceCode={item.reference_code}
+                  adminNote={item.admin_note}
                   onLockedAction={openLockedPaywall}
                 />
               ))}
