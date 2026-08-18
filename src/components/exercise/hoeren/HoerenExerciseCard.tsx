@@ -40,6 +40,10 @@ export interface HoerenExerciseData {
    * the user presses play. See ProtectedAudioPlayer.tsx for why. */
   audioPath: string | null;
   statements: HoerenStatement[];
+  /** Source lookup code for topics registered ahead of real content (e.g. "125") —
+   * a mapping identifier only, never a correct-answer key. Shown on the
+   * empty-state placeholder card so the reference stays traceable. */
+  referenceCode?: string | null;
 }
 
 interface ScoreResult {
@@ -257,6 +261,15 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
               <div className="flex flex-wrap items-center gap-2">
                 <p className="text-base font-bold text-foreground">{parseVariant(exercise.title).baseTitle}</p>
                 {parseVariant(exercise.title).variant && <VariantBadge variant={parseVariant(exercise.title).variant!} />}
+              </div>
+              <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                <span>Teil {exercise.teil}</span>
+                {exercise.referenceCode && (
+                  <>
+                    <span className="opacity-40">·</span>
+                    <span className="font-mono font-semibold">Referenzcode: {exercise.referenceCode}</span>
+                  </>
+                )}
               </div>
             </div>
           </div>

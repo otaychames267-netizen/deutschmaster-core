@@ -18,10 +18,15 @@ interface Props {
   instructions: string;
   hasAudio: boolean;
   statements: HoerenPreviewStatement[];
+  /** Teil number, shown alongside the reference code on the empty-state card. */
+  teil?: number;
+  /** Source lookup code for topics registered ahead of real content — a
+   * mapping identifier only, never a correct-answer key. */
+  referenceCode?: string | null;
   onLockedAction: () => void;
 }
 
-export function HoerenLockedPreviewCard({ title, instructions, hasAudio, statements, onLockedAction }: Props) {
+export function HoerenLockedPreviewCard({ title, instructions, hasAudio, statements, teil, referenceCode, onLockedAction }: Props) {
   const v = parseVariant(title);
   const sorted = [...statements].sort((a, b) => a.statement_number - b.statement_number);
 
@@ -40,6 +45,13 @@ export function HoerenLockedPreviewCard({ title, instructions, hasAudio, stateme
                 <p className="text-base font-bold text-foreground">{v.baseTitle}</p>
                 {v.variant && <VariantBadge variant={v.variant} />}
               </div>
+              {(teil || referenceCode) && (
+                <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                  {teil && <span>Teil {teil}</span>}
+                  {teil && referenceCode && <span className="opacity-40">·</span>}
+                  {referenceCode && <span className="font-mono font-semibold">Referenzcode: {referenceCode}</span>}
+                </div>
+              )}
             </div>
           </div>
         </div>
