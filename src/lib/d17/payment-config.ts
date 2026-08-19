@@ -27,7 +27,7 @@ export interface D17PaymentConfig {
  * If this number ever changes, it must be changed HERE (one place) — do not
  * rely on the platform_settings override alone for the security check.
  */
-export const OFFICIAL_D17_RECIPIENT = "20046880";
+export const OFFICIAL_D17_RECIPIENT = "46372158";
 
 const KEYS = ["d17_payment_number", "d17_payment_iban", "d17_payment_account_holder"] as const;
 
