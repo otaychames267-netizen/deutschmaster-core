@@ -131,7 +131,6 @@ function SBTeil1Page() {
             <SBTeil1Exercise
               key={ex.id}
               exercise={ex}
-              onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
             />
           )
           : <div className="flex items-center justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>}

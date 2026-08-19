@@ -297,7 +297,6 @@ export function HoerenTeilPage({ teil }: Props) {
                     index={displayIndex}
                     hasNext={!!next}
                     onNext={next ? () => scrollToExercise(next.id) : undefined}
-                    onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
                   />
                 )}
               </LazyCard>

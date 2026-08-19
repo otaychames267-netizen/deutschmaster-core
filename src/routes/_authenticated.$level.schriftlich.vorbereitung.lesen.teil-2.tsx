@@ -176,7 +176,6 @@ function LesenTeil2Page() {
         {detail && (
           <Teil2Exercise
             exercise={detail}
-            onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
           />
         )}
         <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />

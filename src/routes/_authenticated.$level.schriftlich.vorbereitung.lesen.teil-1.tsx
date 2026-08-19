@@ -116,7 +116,6 @@ function LesenTeil1Page() {
         <Teil1Exercise
           key={ex.id}
           exercise={ex}
-          onComplete={hasAccess === false ? () => { setPaywallReason("sample-complete"); setPaywallOpen(true); } : undefined}
         />
         <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
