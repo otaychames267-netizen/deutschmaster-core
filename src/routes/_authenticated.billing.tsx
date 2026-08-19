@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { createCheckoutSession } from "@/lib/billing/checkout.functions";
-import { createD17Order } from "@/lib/d17/orders.functions";
 import { createManualPaymentOrder, type ManualMethod } from "@/lib/payment/manual-orders.functions";
 import { isPlanPurchasable, CARD_PAYMENTS_ENABLED, LEMONSQUEEZY_VISIBLE } from "@/lib/features";
 import { toast } from "sonner";
@@ -108,7 +107,6 @@ function BillingPage() {
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
-  const [d17Plan, setD17Plan] = useState<string | null>(null);
   const [d17Disabled, setD17Disabled] = useState(false);
   const [manualPlan, setManualPlan] = useState<string | null>(null);
 
@@ -127,17 +125,6 @@ function BillingPage() {
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start checkout. Please try again.");
       setCheckoutPlan(null);
-    }
-  }
-
-  async function handleD17(planCode: "schriftlich" | "muendlich" | "komplett") {
-    setD17Plan(planCode);
-    try {
-      const order = await createD17Order({ data: { plan_code: planCode } });
-      nav({ to: "/d17/$orderId", params: { orderId: order.id } });
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not start D17 payment. Please try again.");
-      setD17Plan(null);
     }
   }
 
@@ -337,7 +324,7 @@ function BillingPage() {
                       <>
                         <button
                           onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
-                          disabled={checkoutPlan !== null || d17Plan !== null}
+                          disabled={checkoutPlan !== null || manualPlan !== null}
                           className={`relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
                         >
                           {checkoutPlan === plan.code ? (
@@ -381,30 +368,27 @@ function BillingPage() {
                     ) : (
                       <>
                         <button
-                          onClick={() => handleD17(plan.code as "schriftlich" | "muendlich" | "komplett")}
-                          disabled={checkoutPlan !== null || d17Plan !== null || manualPlan !== null}
-                          title="Pay by D17 mobile transfer, then upload your confirmation. Verified automatically in moments, or by our team within 8 working hours."
+                          onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "d17")}
+                          disabled={checkoutPlan !== null || manualPlan !== null}
+                          title="Pay via D17 mobile transfer, then send your receipt on WhatsApp."
                           className={
                             LEMONSQUEEZY_VISIBLE
                               ? "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
                               : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`
                           }
                         >
-                          {d17Plan === plan.code ? (
+                          {manualPlan === plan.code ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
                           ) : (
                             <Landmark className="h-4 w-4" />
                           )}
                           Pay with D17 Mobile Transfer
                         </button>
-                        <p className="flex items-center justify-center gap-1 text-center text-[10px] text-muted-foreground">
-                          <Clock className="h-3 w-3" /> Verified in moments — manual review up to 8 working hours
-                        </p>
 
                         <div className="grid grid-cols-2 gap-2">
                           <button
                             onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "postal")}
-                            disabled={checkoutPlan !== null || d17Plan !== null || manualPlan !== null}
+                            disabled={checkoutPlan !== null || manualPlan !== null}
                             title="Pay via La Poste Tunisienne (Virement Postal), then send your receipt on WhatsApp."
                             className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
                           >
@@ -413,7 +397,7 @@ function BillingPage() {
                           </button>
                           <button
                             onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "bancaire")}
-                            disabled={checkoutPlan !== null || d17Plan !== null || manualPlan !== null}
+                            disabled={checkoutPlan !== null || manualPlan !== null}
                             title="Pay via bank transfer (Virement Bancaire), then send your receipt on WhatsApp."
                             className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
                           >
@@ -434,7 +418,7 @@ function BillingPage() {
       {/* ── Benefits overview ─────────────────────────────────── */}
       <div className="grid gap-4 sm:grid-cols-3">
         {[
-          { icon: Zap,       title: "Fast verification",  desc: "Most D17 transfers are verified automatically within moments.",  color: "text-amber-500 bg-amber-500/10" },
+          { icon: Zap,       title: "Fast verification",  desc: "Send your receipt on WhatsApp — most payments are confirmed within minutes.",  color: "text-amber-500 bg-amber-500/10" },
           { icon: Shield,    title: "Secure by design",   desc: "Your payment is reviewed before any access is granted — we never store card details.", color: "text-blue-500 bg-blue-500/10"   },
           { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Contact support and we'll cancel it right away, no questions asked.", color: "text-emerald-500 bg-emerald-500/10" },
         ].map((item) => (

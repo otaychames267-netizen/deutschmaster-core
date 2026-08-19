@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { getManualPaymentOrder, type ManualPaymentOrder } from "@/lib/payment/manual-orders.functions";
-import { POSTAL_PAYMENT, BANCAIRE_PAYMENT, buildWhatsAppReceiptUrl } from "@/lib/payment/payment-methods";
+import { POSTAL_PAYMENT, BANCAIRE_PAYMENT, D17_PAYMENT, buildWhatsAppReceiptUrl } from "@/lib/payment/payment-methods";
 import {
   ArrowLeft, Copy, Check, MessageCircle, Clock, ShieldCheck,
-  CheckCircle2, XCircle, Loader2, Landmark, Wallet,
+  CheckCircle2, XCircle, Loader2, Landmark, Wallet, Smartphone,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/paiement/$orderId")({
@@ -76,6 +76,18 @@ function bancaireSteps(amountTnd: number): string[] {
   ];
 }
 
+function d17Steps(amountTnd: number): string[] {
+  return [
+    "افتح تطبيق D17 على هاتفك.",
+    "اختر خدمة تحويل الأموال إلى رقم هاتف.",
+    `أدخل رقم D17 الرسمي الموضح أسفل هذه الصفحة، وقم بتحويل بقيمة ${amountTnd} دينارًا تونسيًا بالضبط.`,
+    "بعد إتمام التحويل، سيعرض لك التطبيق شاشة تأكيد الدفع — احتفظ بلقطة شاشة لها.",
+    "اضغط على زر WhatsApp الموجود أسفل الصفحة للتواصل مباشرة مع فريق AuraLingovia.",
+    "أرسل لقطة شاشة تأكيد الدفع في محادثة WhatsApp.",
+    "سيتحقق فريقنا من الوصل، وبعد التأكد من الدفع سيتم تفعيل الاشتراك خلال دقائق.",
+  ];
+}
+
 function ManualPaymentPage() {
   const { orderId } = Route.useParams();
   const { user } = useAuth();
@@ -117,10 +129,12 @@ function ManualPaymentPage() {
   }
 
   const isPostal = order.method === "postal";
+  const isD17 = order.method === "d17";
   const amountTnd = Number(order.amount_tnd);
-  const steps = isPostal ? postalSteps(amountTnd) : bancaireSteps(amountTnd);
-  const arabicTitle = isPostal ? "التحويل البريدي – البريد التونسي" : "التحويل البنكي – بنك البركة";
-  const methodLabel = isPostal ? "تحويل بريدي" : "تحويل بنكي";
+  const steps = isD17 ? d17Steps(amountTnd) : isPostal ? postalSteps(amountTnd) : bancaireSteps(amountTnd);
+  const arabicTitle = isD17 ? "الدفع عبر D17" : isPostal ? "التحويل البريدي – البريد التونسي" : "التحويل البنكي – بنك البركة";
+  const titleEmoji = isD17 ? "📲" : isPostal ? "📮" : "🏦";
+  const methodLabel = isD17 ? "D17" : isPostal ? "تحويل بريدي" : "تحويل بنكي";
   const planName = PLAN_LABEL[order.plan_code] ?? order.plan_code;
   const whatsappUrl = buildWhatsAppReceiptUrl({ planName, amountTnd, methodLabel, email: user?.email ?? "" });
 
@@ -132,11 +146,11 @@ function ManualPaymentPage() {
 
       <div dir="rtl" className="flex items-center gap-3 text-right">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
-          {isPostal ? <Landmark className="h-6 w-6 text-primary" /> : <Wallet className="h-6 w-6 text-primary" />}
+          {isD17 ? <Smartphone className="h-6 w-6 text-primary" /> : isPostal ? <Landmark className="h-6 w-6 text-primary" /> : <Wallet className="h-6 w-6 text-primary" />}
         </div>
         <div>
           <h1 className="text-xl font-black text-foreground">
-            {isPostal ? "📮" : "🏦"} {arabicTitle}
+            {titleEmoji} {arabicTitle}
           </h1>
         </div>
       </div>
@@ -193,9 +207,11 @@ function ManualPaymentPage() {
             </ol>
 
             <div className="space-y-2.5 pt-1">
-              {isPostal ? (
+              {isD17 ? (
+                <CopyRow label="رقم D17 الرسمي" value={D17_PAYMENT.number} />
+              ) : isPostal ? (
                 <>
-                  <CopyRow label="رقم بطاقة D17 / البريد" value={POSTAL_PAYMENT.cardNumber} />
+                  <CopyRow label="رقم البطاقة البريدية" value={POSTAL_PAYMENT.cardNumber} />
                   <CopyRow label="صاحب الحساب" value={POSTAL_PAYMENT.accountHolder} />
                 </>
               ) : (

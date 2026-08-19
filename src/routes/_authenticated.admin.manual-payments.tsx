@@ -5,7 +5,7 @@ import {
   adminListManualPaymentOrders, adminApproveManualPaymentOrder, adminRejectManualPaymentOrder,
   type ManualPaymentOrderAdminRow,
 } from "@/lib/payment/manual-orders.functions";
-import { CheckCircle2, XCircle, Clock, Loader2, Landmark, Wallet } from "lucide-react";
+import { CheckCircle2, XCircle, Clock, Loader2, Landmark, Wallet, Smartphone } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/manual-payments")({
   component: ManualPaymentsAdminPage,
@@ -69,7 +69,7 @@ function ManualPaymentsAdminPage() {
     <div className="mx-auto max-w-4xl space-y-6 pb-10">
       <div>
         <h1 className="text-2xl font-black text-foreground">Manual Payments</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Virement Postal & Virement Bancaire — review and activate.</p>
+        <p className="mt-1 text-sm text-muted-foreground">D17, Virement Postal & Virement Bancaire — review and activate.</p>
       </div>
 
       <div className="flex gap-2">
@@ -97,14 +97,14 @@ function ManualPaymentsAdminPage() {
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="flex items-start gap-3">
                   <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10">
-                    {o.method === "postal" ? <Landmark className="h-4.5 w-4.5 text-primary" /> : <Wallet className="h-4.5 w-4.5 text-primary" />}
+                    {o.method === "d17" ? <Smartphone className="h-4.5 w-4.5 text-primary" /> : o.method === "postal" ? <Landmark className="h-4.5 w-4.5 text-primary" /> : <Wallet className="h-4.5 w-4.5 text-primary" />}
                   </div>
                   <div>
                     <p className="font-bold text-foreground">{o.full_name ?? o.email ?? o.user_id}</p>
                     <p className="text-xs text-muted-foreground">{o.email}</p>
                     <p className="mt-1 text-sm text-foreground">
                       {PLAN_LABEL[o.plan_code] ?? o.plan_code} · <span className="font-bold">{Number(o.amount_tnd).toFixed(0)} TND</span> ·{" "}
-                      <span className="capitalize">{o.method === "postal" ? "Virement Postal" : "Virement Bancaire"}</span>
+                      <span className="capitalize">{o.method === "d17" ? "D17" : o.method === "postal" ? "Virement Postal" : "Virement Bancaire"}</span>
                     </p>
                     <p className="mt-0.5 text-xs text-muted-foreground">{new Date(o.created_at).toLocaleString()}</p>
                     {o.rejection_reason && <p className="mt-1 text-xs text-rose-500">Reason: {o.rejection_reason}</p>}

@@ -14,7 +14,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  * elsewhere in this codebase for RPCs ahead of a types regen.
  */
 
-export type ManualMethod = "postal" | "bancaire";
+export type ManualMethod = "postal" | "bancaire" | "d17";
 type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
@@ -140,6 +140,7 @@ export const adminListManualPaymentOrders = createServerFn({ method: "POST" })
 const MANUAL_METHOD_LABEL: Record<ManualMethod, string> = {
   postal: "Virement Postal",
   bancaire: "Virement Bancaire",
+  d17: "D17",
 };
 
 export const adminApproveManualPaymentOrder = createServerFn({ method: "POST" })
@@ -174,10 +175,11 @@ export const adminApproveManualPaymentOrder = createServerFn({ method: "POST" })
       p_new_expires_at: new Date(Date.now() + 30 * 86_400_000).toISOString(),
       // manual_subscription_actions.payment_method has a CHECK constraint
       // limited to ('virement','cash','d17','other') — postal/bancaire are
-      // both literally "virement" (transfer) in that vocabulary. The exact
-      // method is preserved in p_action_label below and in this order's own
-      // `method` column, so no information is actually lost.
-      p_payment_method: "virement",
+      // both literally "virement" (transfer) in that vocabulary, while d17
+      // maps to its own literal value for accurate accounting. The exact
+      // method is also preserved in p_action_label below and in this
+      // order's own `method` column either way.
+      p_payment_method: order.method === "d17" ? "d17" : "virement",
       p_reference: order.id,
     });
     if (grantError) throw new Error(grantError.message);
