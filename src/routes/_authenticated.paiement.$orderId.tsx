@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/lib/auth";
 import { getManualPaymentOrder, type ManualPaymentOrder } from "@/lib/payment/manual-orders.functions";
 import { POSTAL_PAYMENT, BANCAIRE_PAYMENT, buildWhatsAppReceiptUrl } from "@/lib/payment/payment-methods";
 import {
@@ -51,26 +52,33 @@ function CopyRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-const POSTAL_STEPS = [
-  "الخطوة 1: توجه إلى أقرب مكتب بريد تونسي أو افتح تطبيق D17.",
-  "الخطوة 2: اختر خدمة التحويل إلى رقم بطاقة بريدية.",
-  "الخطوة 3: أدخل رقم البطاقة الموضح أدناه.",
-  "الخطوة 4: أدخل المبلغ المطلوب بالضبط كما هو موضح.",
-  "الخطوة 5: أكمل عملية الدفع واحتفظ بالوصل.",
-  "الخطوة 6: أرسل صورة الوصل إلينا عبر WhatsApp (الزر أدناه).",
-];
+function postalSteps(amountTnd: number): string[] {
+  return [
+    "توجّه إلى أقرب مكتب بريد.",
+    "أعطِ الموظف رقم البطاقة البريدية الموجود أسفل هذه الصفحة.",
+    `أخبر الموظف أنك تريد إجراء تحويل بقيمة ${amountTnd} دينارًا تونسيًا إلى هذا الحساب.`,
+    "بعد إتمام العملية، سيعطيك موظف البريد وصل التحويل.",
+    "اضغط على زر WhatsApp الموجود أسفل الصفحة للتواصل مع فريق AuraLingovia.",
+    "أرسل صورة واضحة لوصل التحويل في محادثة WhatsApp.",
+    "سيتحقق فريقنا من الوصل، وبعد التأكد من الدفع سيتم تفعيل الاشتراك خلال دقائق.",
+  ];
+}
 
-const BANCAIRE_STEPS = [
-  "الخطوة 1: افتح تطبيق البنك الخاص بك أو توجه إلى الفرع.",
-  "الخطوة 2: اختر التحويل البنكي (Virement).",
-  "الخطوة 3: أدخل RIB الموضح أدناه.",
-  "الخطوة 4: أدخل المبلغ الخاص باشتراكك بالضبط.",
-  "الخطوة 5: أكمل التحويل واحتفظ بوصل التحويل.",
-  "الخطوة 6: أرسل صورة الوصل إلينا عبر WhatsApp (الزر أدناه).",
-];
+function bancaireSteps(amountTnd: number): string[] {
+  return [
+    "توجّه إلى أقرب فرع من فروع بنك البركة.",
+    "أعطِ موظف البنك رقم الـRIB الموجود أسفل هذه الصفحة.",
+    `أخبر الموظف أنك تريد إجراء تحويل بقيمة ${amountTnd} دينارًا تونسيًا إلى هذا الحساب.`,
+    "بعد إتمام التحويل، سيعطيك موظف البنك وصل التحويل.",
+    "اضغط على زر WhatsApp الموجود أسفل الصفحة للتواصل مباشرة مع فريق AuraLingovia.",
+    "أرسل صورة واضحة لوصل التحويل في محادثة WhatsApp.",
+    "سيتحقق فريقنا من الوصل، وبعد التأكد من عملية الدفع سيتم تفعيل الاشتراك خلال دقائق.",
+  ];
+}
 
 function ManualPaymentPage() {
   const { orderId } = Route.useParams();
+  const { user } = useAuth();
   const [order, setOrder] = useState<ManualPaymentOrder | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -109,10 +117,12 @@ function ManualPaymentPage() {
   }
 
   const isPostal = order.method === "postal";
-  const steps = isPostal ? POSTAL_STEPS : BANCAIRE_STEPS;
-  const methodLabel = isPostal ? "Virement Postal" : "Virement Bancaire";
+  const amountTnd = Number(order.amount_tnd);
+  const steps = isPostal ? postalSteps(amountTnd) : bancaireSteps(amountTnd);
+  const arabicTitle = isPostal ? "التحويل البريدي – البريد التونسي" : "التحويل البنكي – بنك البركة";
+  const methodLabel = isPostal ? "تحويل بريدي" : "تحويل بنكي";
   const planName = PLAN_LABEL[order.plan_code] ?? order.plan_code;
-  const whatsappUrl = buildWhatsAppReceiptUrl({ planName, methodLabel });
+  const whatsappUrl = buildWhatsAppReceiptUrl({ planName, amountTnd, methodLabel, email: user?.email ?? "" });
 
   return (
     <div className="mx-auto max-w-2xl space-y-6 pb-10">
@@ -120,13 +130,14 @@ function ManualPaymentPage() {
         <ArrowLeft className="h-4 w-4" /> Billing
       </Link>
 
-      <div className="flex items-center gap-3">
+      <div dir="rtl" className="flex items-center gap-3 text-right">
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
           {isPostal ? <Landmark className="h-6 w-6 text-primary" /> : <Wallet className="h-6 w-6 text-primary" />}
         </div>
         <div>
-          <h1 className="text-xl font-black text-foreground">{methodLabel}</h1>
-          <p className="text-sm text-muted-foreground">Bank/postal transfer — manually verified by our team</p>
+          <h1 className="text-xl font-black text-foreground">
+            {isPostal ? "📮" : "🏦"} {arabicTitle}
+          </h1>
         </div>
       </div>
 
@@ -212,10 +223,10 @@ function ManualPaymentPage() {
             </a>
           </div>
 
-          <div className="flex items-center gap-2.5 rounded-2xl border border-border bg-muted/30 px-4 py-3.5">
+          <div dir="rtl" className="flex items-center gap-2.5 rounded-2xl border border-border bg-muted/30 px-4 py-3.5">
             <Clock className="h-4 w-4 shrink-0 text-amber-500" />
-            <p className="text-sm text-muted-foreground">
-              بانتظار التحقق من الدفع — سيتم تفعيل اشتراكك بعد تأكيد استلام الوصل.
+            <p className="text-sm font-medium text-foreground">
+              ⏱️ يتم تفعيل الاشتراك خلال دقائق بعد التحقق من وصل الدفع.
             </p>
           </div>
 

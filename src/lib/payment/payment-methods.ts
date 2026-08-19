@@ -21,11 +21,13 @@ export const BANCAIRE_PAYMENT = {
   accountHolder: "SHAMS EDDINE OTTAY",
 };
 
-export function buildWhatsAppReceiptUrl(params: { planName: string; methodLabel: string }): string {
+export function buildWhatsAppReceiptUrl(params: { planName: string; amountTnd: number; methodLabel: string; email: string }): string {
   const message =
-    `السلام عليكم، قمت بدفع اشتراكي في AuraLingovia.\n` +
-    `الخطة: ${params.planName}\n` +
-    `طريقة الدفع: ${params.methodLabel}\n` +
-    `هذا هو وصل الدفع.`;
+    `مرحبًا، قمت بدفع اشتراك AuraLingovia.\n\n` +
+    `البريد الإلكتروني لحسابي: ${params.email}\n` +
+    `الخطة: ${params.planName} – ${params.amountTnd} دينارًا\n` +
+    `طريقة الدفع: ${params.methodLabel}\n\n` +
+    `أرفقت وصل الدفع للتحقق منه.\n` +
+    `شكرًا لكم.`;
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
