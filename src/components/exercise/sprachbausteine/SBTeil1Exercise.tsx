@@ -22,12 +22,14 @@
  * `${gapNumber}:${occurrenceIndex}` instead, while the underlying answer
  * itself stays keyed by plain gap_number (it's genuinely one selection).
  */
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, Eye, EyeOff, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
 import { AnchoredEvidencePopover } from "@/components/learning/AnchoredEvidencePopover";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface SBT1Gap {
@@ -76,8 +78,41 @@ interface GapPopoverProps {
   anchorEl: HTMLButtonElement | null;
 }
 
+const GAP_POPOVER_MARGIN = 8;
+const GAP_POPOVER_WIDTH = 224;
+
+// `position: fixed` via a portal, coordinates computed from the anchor's
+// real screen position and clamped to the viewport — NOT `absolute` inside
+// the gap's own inline span. A gap sits in the middle of flowing paragraph
+// text, so anchoring a wide popover directly to that tiny inline element
+// let it overlap the surrounding sentence, especially on narrow screens.
+// Same fix as AnchoredEvidencePopover, applied here for the same reason.
 function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverProps) {
   const popRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const [style, setStyle] = useState<{ top: number; left: number } | null>(null);
+
+  useLayoutEffect(() => {
+    if (isMobile || !anchorEl) return;
+    function place() {
+      const rect = anchorEl!.getBoundingClientRect();
+      const width = Math.min(GAP_POPOVER_WIDTH, window.innerWidth - GAP_POPOVER_MARGIN * 2);
+      let left = rect.left + rect.width / 2 - width / 2;
+      left = Math.min(Math.max(left, GAP_POPOVER_MARGIN), window.innerWidth - width - GAP_POPOVER_MARGIN);
+      const popHeight = popRef.current?.offsetHeight ?? 0;
+      const spaceBelow = window.innerHeight - rect.bottom - GAP_POPOVER_MARGIN;
+      const openUpward = popHeight > spaceBelow && rect.top > spaceBelow;
+      const top = openUpward ? Math.max(rect.top - popHeight - 6, GAP_POPOVER_MARGIN) : rect.bottom + 6;
+      setStyle({ top, left });
+    }
+    place();
+    window.addEventListener("scroll", place, true);
+    window.addEventListener("resize", place);
+    return () => {
+      window.removeEventListener("scroll", place, true);
+      window.removeEventListener("resize", place);
+    };
+  }, [anchorEl, isMobile]);
 
   useEffect(() => {
     function onDown(e: MouseEvent) {
@@ -101,12 +136,8 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
     { key: "c", label: "C", text: gap.option_c },
   ];
 
-  return (
-    <div
-      ref={popRef}
-      role="listbox"
-      className="absolute z-50 top-full left-1/2 -translate-x-1/2 mt-1 w-56 rounded-xl border border-border bg-card shadow-xl overflow-hidden"
-    >
+  const list = (
+    <div role="listbox">
       {options.map(({ key, label, text }) => {
         const isSelected = current === key;
         return (
@@ -115,7 +146,7 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
             role="option"
             aria-selected={isSelected}
             onClick={() => { onSelect(key); onClose(); }}
-            className={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors hover:bg-muted/60 ${
+            className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-sm transition-colors hover:bg-muted/60 ${
               isSelected ? "bg-primary/8" : ""
             }`}
           >
@@ -133,6 +164,33 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
         );
       })}
     </div>
+  );
+
+  if (isMobile) {
+    return createPortal(
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+        <div
+          ref={popRef}
+          className="absolute inset-x-0 bottom-0 max-h-[75vh] overflow-y-auto rounded-t-2xl border-t border-border bg-card pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-2xl"
+        >
+          <div className="flex justify-center py-2"><div className="h-1 w-10 rounded-full bg-muted-foreground/25" /></div>
+          {list}
+        </div>
+      </div>,
+      document.body,
+    );
+  }
+
+  return createPortal(
+    <div
+      ref={popRef}
+      className="fixed z-50 rounded-xl border border-border bg-card shadow-xl overflow-hidden"
+      style={style ? { top: style.top, left: style.left, width: GAP_POPOVER_WIDTH, maxWidth: `calc(100vw - ${GAP_POPOVER_MARGIN * 2}px)` } : { visibility: "hidden", top: 0, left: 0, width: GAP_POPOVER_WIDTH }}
+    >
+      {list}
+    </div>,
+    document.body,
   );
 }
 
