@@ -4,9 +4,10 @@ import type { MuendlichEvaluationResult } from "@/lib/grading/muendlich-evaluato
 
 /**
  * Post-exam scorecard + "Download Official telc-Simulation Report" button.
- * Not yet wired into a live page (Room 2's exam flow doesn't exist yet) — this
- * is the reusable piece ready to drop in once it does. Verified independently
- * against a fixture via scripts/_tmp_test_pdf.mjs during development.
+ * Rendered inside ScoreRevealModal once the live exam finishes. The detailed
+ * per-criterion breakdown (Stärken/Schwächen, Fehlerkorrektur, etc.) lives
+ * only in the downloadable PDF (evaluationPdf.ts) — this component stays a
+ * compact scorecard by design, matching that split.
  */
 export function EvaluationReport({
   evaluation,

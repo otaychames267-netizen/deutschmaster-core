@@ -13,6 +13,36 @@ export interface EvaluationPdfMeta {
   examDate: Date;
 }
 
+// AI-generated German text occasionally reaches for a Unicode symbol (an
+// arrow to show a grammatical transformation, a checkmark, etc.) that pdf-lib's
+// standard 14 fonts (WinAnsi/CP1252 encoding) cannot render — caught for real
+// by an actual model response using "→" in a grammar explanation, which
+// crashed the whole PDF generation. Map the characters a model is actually
+// likely to produce to a WinAnsi-safe equivalent, then strip anything else
+// outside WinAnsi's range as a catch-all so no future symbol can crash this.
+const CHAR_REPLACEMENTS: Record<string, string> = {
+  "→": "->", "⇒": "=>", "↔": "<->", "⟶": "->",
+  "✓": "[ok]", "✔": "[ok]", "✗": "[x]", "✘": "[x]",
+  "≈": "~", "×": "x", " ": " ",
+};
+// WinAnsi/CP1252 also maps a block of "smart typography" Unicode code points
+// (curly quotes, en/em dash, bullet, ellipsis) that live numerically way
+// outside 0xA0-0xFF — this file itself uses „ " – • throughout. A first
+// version of this allowlist checked only 0xA0-0xFF and silently stripped
+// every one of those (caught by actually reading the rendered PDF, not just
+// confirming it didn't crash — the crash-fix alone would have shipped a
+// report with every opening „ and every • bullet silently missing).
+const CP1252_EXTRA = "‘’‚“”„†‡•…–—™€";
+function sanitizeForPdf(text: string): string {
+  let out = text;
+  for (const [from, to] of Object.entries(CHAR_REPLACEMENTS)) out = out.split(from).join(to);
+  // WinAnsi covers 0x20-0x7E, the Latin-1/CP1252 upper range (0xA0-0xFF,
+  // German umlauts/ß included), and the extra CP1252 typography block above
+  // — strip anything else rather than crash.
+  const allowed = new RegExp(`[^\\x20-\\x7E\\xA0-\\xFF${CP1252_EXTRA}]`, "g");
+  return out.replace(allowed, "");
+}
+
 const PAGE_W = 595.28; // A4 pt
 const PAGE_H = 841.89;
 const MARGIN = 50;
@@ -53,7 +83,8 @@ class Writer {
     if (this.y - needed < MARGIN + 20) this.newPage();
   }
 
-  wrapText(text: string, font: PDFFont, size: number, maxWidth: number): string[] {
+  wrapText(rawText: string, font: PDFFont, size: number, maxWidth: number): string[] {
+    const text = sanitizeForPdf(rawText);
     const words = text.split(/\s+/);
     const lines: string[] = [];
     let current = "";
@@ -131,11 +162,20 @@ export async function generateEvaluationPdfBytes(
   const w = new Writer();
   await w.init();
 
+  // Rows generated before the 2026-08-22 criteria expansion only have the
+  // original 4 per-Teil criteria and lack these top-level fields entirely —
+  // every access below goes through these safe fallbacks rather than
+  // assuming the newer shape.
+  const strengths = evaluation.feedback.strengths ?? [];
+  const weaknesses = evaluation.feedback.weaknesses ?? [];
+  const recurringPatterns = evaluation.feedback.recurring_patterns ?? [];
+  const betterFormulations = evaluation.feedback.better_formulations ?? [];
+
   // ── Header ──
   w.y -= 10;
   w.page.drawText("Offizieller telc-Simulationsbericht", { x: MARGIN, y: w.y, size: 22, font: w.bold, color: NAVY });
   w.y -= 26;
-  w.page.drawText(`Kandidat: ${meta.candidateName}   ·   Raum: ${meta.roomCode}   ·   Datum: ${meta.examDate.toLocaleDateString("de-DE")}`, {
+  w.page.drawText(`Kandidat: ${sanitizeForPdf(meta.candidateName)}   ·   Raum: ${sanitizeForPdf(meta.roomCode)}   ·   Datum: ${meta.examDate.toLocaleDateString("de-DE")}`, {
     x: MARGIN, y: w.y, size: 10, font: w.regular, color: GRAY,
   });
   w.y -= 30;
@@ -163,12 +203,43 @@ export async function generateEvaluationPdfBytes(
   w.heading("Detaillierte Bewertung nach Prüfungsteilen");
   for (const t of evaluation.feedback.teil_breakdown) {
     w.heading(`${teilLabels[t.teil]} (${t.score}/25)`, 11, NAVY, 14);
+    if (t.task_completion) w.labeledParagraph("Aufgabenbewältigung", t.task_completion);
     w.labeledParagraph("Aussprache", t.pronunciation);
+    if (t.intelligibility) w.labeledParagraph("Verständlichkeit", t.intelligibility);
     w.labeledParagraph("Wortschatz", t.vocabulary);
     w.labeledParagraph("Grammatik", t.grammar);
     w.labeledParagraph("Flüssigkeit", t.fluency);
+    if (t.interaction) w.labeledParagraph("Interaktion", t.interaction);
   }
   w.divider();
+
+  // ── Stärken & Schwächen ──
+  if (strengths.length > 0 || weaknesses.length > 0) {
+    w.heading("Stärken & Schwächen");
+    if (strengths.length > 0) {
+      w.labeledParagraph("Stärken", "");
+      for (const s of strengths) w.paragraph(`•  ${s}`, 9.5, EMERALD, 8);
+      w.y -= 4;
+    }
+    if (weaknesses.length > 0) {
+      w.labeledParagraph("Schwächen", "");
+      for (const s of weaknesses) w.paragraph(`•  ${s}`, 9.5, ROSE, 8);
+    }
+    w.divider();
+  }
+
+  // ── Recurring mistake patterns (diagnosis, not just isolated corrections) ──
+  if (recurringPatterns.length > 0) {
+    w.heading("Wiederkehrende Fehlermuster");
+    for (const p of recurringPatterns) {
+      w.ensureSpace(60);
+      w.paragraph(p.pattern, 9.5, NAVY);
+      if (p.examples.length > 0) w.paragraph(`Beispiele: ${p.examples.map((e) => `„${e}"`).join("; ")}`, 8.5, GRAY, 8);
+      if (p.improvement_tip) w.paragraph(p.improvement_tip, 8.5, undefined, 8);
+      w.y -= 6;
+    }
+    w.divider();
+  }
 
   // ── Error correction matrix ──
   if (evaluation.feedback.error_correction_matrix.length > 0) {
@@ -178,6 +249,19 @@ export async function generateEvaluationPdfBytes(
       w.paragraph(`Fehler: „${e.original}"`, 9.5, ROSE);
       w.paragraph(`Korrektur: „${e.correction}"`, 9.5, EMERALD);
       if (e.explanation) w.paragraph(e.explanation, 8.5, GRAY, 8);
+      w.y -= 6;
+    }
+    w.divider();
+  }
+
+  // ── Better formulations (upgrading correct-but-basic phrasing) ──
+  if (betterFormulations.length > 0) {
+    w.heading("Bessere Formulierungen");
+    for (const b of betterFormulations) {
+      w.ensureSpace(50);
+      w.paragraph(`Original: „${b.original}"`, 9.5, GRAY);
+      w.paragraph(`Besser: „${b.improved}"`, 9.5, EMERALD);
+      if (b.why_better) w.paragraph(b.why_better, 8.5, GRAY, 8);
       w.y -= 6;
     }
     w.divider();
