@@ -4,7 +4,8 @@ import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { Moon, Sun, Globe, GraduationCap, User as UserIcon } from "lucide-react";
+import { Moon, Sun, Globe, User as UserIcon } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import { RTL_LANGS } from "@/lib/i18n";
 import { useEffect } from "react";
 
@@ -39,7 +40,7 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <GraduationCap className="h-6 w-6 text-accent" />
+          <BrandMark className="h-6 w-6 text-accent" />
           <span>AuraLingovia</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">

@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { BrandMark } from "@/components/BrandMark";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
 import { MUENDLICH_ENABLED, isPlanPurchasable, LEMONSQUEEZY_VISIBLE, CARD_PAYMENTS_ENABLED } from "@/lib/features";
@@ -8,7 +9,7 @@ import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import i18n from "@/lib/i18n";
 import {
-  BookOpen, Headphones, PenLine, Mic, GraduationCap,
+  BookOpen, Headphones, PenLine, Mic,
   Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
   Zap, Shield, Clock, TrendingUp, Award, Play,
   ChevronDown, Menu, X, Landmark, CreditCard,
@@ -178,7 +179,7 @@ function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-sm">
-            <GraduationCap className="h-4 w-4 text-primary-foreground" />
+            <BrandMark className="h-4 w-4 text-primary-foreground" />
           </div>
           <span className="text-base font-semibold tracking-tight text-foreground">
             AuraLingovia
@@ -668,7 +669,7 @@ function Footer() {
           <div className="col-span-2 sm:col-span-1">
             <div className="flex items-center gap-2">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary shadow-sm">
-                <GraduationCap className="h-4 w-4 text-primary-foreground" />
+                <BrandMark className="h-4 w-4 text-primary-foreground" />
               </div>
               <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
             </div>

@@ -77,7 +77,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "AuraLingovia — Professional German Exam Preparation" },
       { name: "description", content: "Prepare for the TELC B2 German exam with structured practice, realistic simulations, and a beautifully designed learning experience." },
       { name: "author", content: "AuraLingovia" },
-      { name: "theme-color", content: "#1a1f36" },
+      { name: "theme-color", content: "#c96442" },
       { property: "og:title", content: "AuraLingovia — Professional German Exam Preparation" },
       { property: "og:description", content: "Prepare for TELC B2 with structured practice and realistic exam simulations." },
       { property: "og:type", content: "website" },
@@ -86,6 +86,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", href: "/icon-192.png" },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },

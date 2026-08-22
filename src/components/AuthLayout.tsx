@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useTheme } from "@/lib/theme";
-import { Moon, Sun, GraduationCap, CheckCircle2, Shield, Clock } from "lucide-react";
+import { Moon, Sun, CheckCircle2, Shield, Clock } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import type { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -40,7 +41,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         {/* Logo */}
         <div className="relative z-10 flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm ring-1 ring-white/20">
-            <GraduationCap className="h-5 w-5 text-white" />
+            <BrandMark className="h-5 w-5 text-white" />
           </div>
           <span className="text-lg font-semibold text-white">AuraLingovia</span>
         </div>
@@ -78,7 +79,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           {/* Mobile logo */}
           <Link to="/" className="flex items-center gap-2 lg:hidden">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary">
-              <GraduationCap className="h-4 w-4 text-primary-foreground" />
+              <BrandMark className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
           </Link>

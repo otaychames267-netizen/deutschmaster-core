@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, GraduationCap, PenLine, Mic,
+  LayoutDashboard, PenLine, Mic,
   BarChart3, Gift, LogOut, BookMarked,
   Users, FileText, BookOpen, CreditCard,
   LayoutGrid, Star, Shield,
@@ -11,6 +11,7 @@ import {
   ChevronRight, Upload, Headphones, Wrench, Coins, ListChecks, Pencil,
   Presentation, Type, ShieldAlert, Mail, LogIn, UserCog,
 } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
@@ -282,7 +283,7 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/dashboard" className="flex items-center gap-3 px-2 py-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-sm shadow-primary/30">
-            <GraduationCap className="h-4 w-4 text-primary-foreground" />
+            <BrandMark className="h-4 w-4 text-primary-foreground" />
           </div>
           <div className="flex min-w-0 flex-1 items-center justify-between group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-black tracking-tight text-sidebar-foreground">
