@@ -44,6 +44,7 @@ import { createServer } from "node:http";
 import { createClient } from "@supabase/supabase-js";
 import { openMuendlichLiveSession, type MuendlichLiveSession } from "./geminiLive.js";
 import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
+import { pickOpening, pickHandoff, pickTransition } from "./examinerPhrases.js";
 
 const PORT = Number(process.env.PORT ?? 8787);
 const SUPABASE_URL = process.env.SUPABASE_URL!;
@@ -194,7 +195,7 @@ function logTranscript(room: RoomSession, speaker: string, teil: number, text: s
   }
 }
 
-async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: string; bName: string; teil1TopicA: string }) {
+async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: string; bName: string; teil1TopicA: string; teil2Topic: string }) {
   room.examStage = stage;
   room.examStageStartedAt = Date.now();
   room.lastAudioAt = Date.now(); // reset so setup/connection latency doesn't eat into the anti-silence budget
@@ -216,8 +217,23 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   // Explicit trigger here matches the one reliable pattern already proven
   // everywhere else in this file.
   if (stage === 1 && ctx) {
+    const opening = pickOpening({ aName: ctx.aName, bName: ctx.bName, topicA: ctx.teil1TopicA });
     room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Die Prüfung beginnt jetzt. Begrüßen Sie ${ctx.aName} und ${ctx.bName} kurz und laden Sie dann ${ctx.aName} ein: "${ctx.aName}, bitte präsentieren Sie jetzt Ihr Thema: ${ctx.teil1TopicA}. Sie haben dafür etwa anderthalb Minuten."`,
+      turns: `[SYSTEM] Die Prüfung beginnt jetzt. Sagen Sie GENAU diesen Satz (nicht umformulieren): "${opening}"`,
+      turnComplete: true,
+    });
+  }
+
+  // Teil 1 -> Teil 2: previously had NO explicit trigger at all (unlike every
+  // other AI-initiated moment in this file) — the model was left to notice
+  // the stage change on its own with no signal, which is the same unreliable
+  // pattern the comment above already found didn't work for stage 1's own
+  // opening. Fixed the same way: an explicit trigger, now with a varied
+  // transition sentence instead of the single hardcoded one stage 1 used to have.
+  if (stage === 2 && ctx) {
+    const transition = pickTransition({ teil2Topic: ctx.teil2Topic });
+    room.live?.session.sendClientContent({
+      turns: `[SYSTEM] Teil 1 ist beendet, Teil 2 beginnt jetzt. Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${transition}" Hören Sie sich danach das Gespräch der Kandidaten zunächst an, ohne einzugreifen — diese Anweisung ist NUR für Sie, sprechen Sie sie nicht laut aus.`,
       turnComplete: true,
     });
   }
@@ -304,7 +320,7 @@ async function startRoomIfReady(room: RoomSession) {
   room.mainTick = setInterval(() => tick(room, ctx), TICK_MS);
 }
 
-function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicB: string }) {
+function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicB: string; teil2Topic: string }) {
   if (room.finishing) return;
 
   // A stage's duration just elapsed -> we're on a 15s breather before the
@@ -317,7 +333,7 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
       room.intermissionUntil = null;
       room.pendingNextStage = null;
       if (next === null) finishExam(room);
-      else startStage(room, next);
+      else startStage(room, next, ctx);
     }
     return;
   }
@@ -330,8 +346,9 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
   // to Person B's — mirrors the Teil-2-takeover mechanic below.
   if (room.examStage === 1 && !room.teil1HandoffSent && elapsedMs >= TEIL1_HANDOFF_AT_SEC * 1000) {
     room.teil1HandoffSent = true;
+    const handoff = pickHandoff({ bName: ctx.bName, topicB: ctx.teil1TopicB });
     room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Die Zeit für ${ctx.aName}s Präsentation und Nachfragen ist um. Beenden Sie höflich diesen Teil und übergeben Sie jetzt an ${ctx.bName}: "${ctx.bName}, jetzt sind Sie dran. Bitte präsentieren Sie Ihr Thema: ${ctx.teil1TopicB}. Sie haben dafür etwa anderthalb Minuten." Hören Sie sich die Präsentation an, ohne zu unterbrechen, und stellen Sie danach 1-2 kurze Nachfragen.`,
+      turns: `[SYSTEM] Die Zeit für ${ctx.aName}s Präsentation und Nachfragen ist um. Beenden Sie höflich diesen Teil. Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${handoff}" Hören Sie sich danach die Präsentation an, ohne zu unterbrechen, und stellen Sie anschließend 1-2 kurze Nachfragen, die sich konkret auf das Gesagte beziehen — diese Anweisung ist NUR für Sie, sprechen Sie sie nicht laut aus.`,
       turnComplete: true,
     });
   }
