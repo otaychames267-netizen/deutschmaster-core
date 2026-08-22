@@ -68,6 +68,19 @@ const STAGE_SECONDS: Record<1 | 2 | 3, number> = {
 };
 const TEIL1_HANDOFF_AT_SEC = Number(process.env.MUENDLICH_TEIL1_HANDOFF_SEC ?? STAGE_SECONDS[1] / 2); // switch from A to B at the midpoint
 const TEIL2_TAKEOVER_AT_SEC = Number(process.env.MUENDLICH_TEIL2_TAKEOVER_SEC ?? 210); // 3.5 minutes into Teil 2
+// Both marks above are hard wall-clock cutoffs with no awareness of whether a
+// candidate is mid-sentence right at that instant. Rather than build real
+// speech-boundary detection, reuse the lastAudioAt tracking that already
+// exists: if audio arrived recently, treat that as "still actively engaged"
+// and hold a few more ticks for a natural pause instead of cutting someone
+// off mid-word/mid-thought — but only up to a hard cap, so this can never
+// meaningfully eat into the other candidate's own turn. The active-speech
+// window is deliberately shorter than SILENCE_THRESHOLD_MS below (which
+// tolerates a full thinking-pause as "not stalled") — otherwise the grace
+// period would end up firing at its hard cap for almost every candidate
+// instead of the rare one who's genuinely still mid-thought at the mark.
+const HANDOFF_ACTIVE_SPEECH_MS = Number(process.env.MUENDLICH_HANDOFF_ACTIVE_SPEECH_MS ?? 4_000);
+const HANDOFF_MAX_GRACE_MS = Number(process.env.MUENDLICH_HANDOFF_GRACE_MS ?? 15_000);
 // Teil 1 gets a longer threshold than Teil 2 — a candidate collecting their
 // thoughts mid-presentation is normal, unlike a stalled back-and-forth discussion.
 const SILENCE_THRESHOLD_MS: Record<1 | 2 | 3, number> = { 1: 8_000, 2: 4_000, 3: 10_000 };
@@ -184,6 +197,14 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
     aName: nameOf(a.userId), bName: nameOf(b.userId),
     level,
   };
+}
+
+/** True if audio arrived recently enough that the candidate is likely still
+ * actively mid-utterance right now, rather than paused/finished. Pulled out
+ * as a named, independently-testable function rather than an inline
+ * condition — see muendlich-relay's own test suite for direct coverage. */
+function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
+  return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
 }
 
 function logTranscript(room: RoomSession, speaker: string, teil: number, text: string) {
@@ -345,22 +366,34 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
   // Teil 1: at the midpoint, hand off from Person A's presentation+followups
   // to Person B's — mirrors the Teil-2-takeover mechanic below.
   if (room.examStage === 1 && !room.teil1HandoffSent && elapsedMs >= TEIL1_HANDOFF_AT_SEC * 1000) {
-    room.teil1HandoffSent = true;
-    const handoff = pickHandoff({ bName: ctx.bName, topicB: ctx.teil1TopicB });
-    room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Die Zeit für ${ctx.aName}s Präsentation und Nachfragen ist um. Beenden Sie höflich diesen Teil. Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${handoff}" Hören Sie sich danach die Präsentation an, ohne zu unterbrechen, und stellen Sie anschließend 1-2 kurze Nachfragen, die sich konkret auf das Gesagte beziehen — diese Anweisung ist NUR für Sie, sprechen Sie sie nicht laut aus.`,
-      turnComplete: true,
-    });
+    const withinGraceCap = elapsedMs < TEIL1_HANDOFF_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+    // Candidate looks like they're actively speaking right at the 120s mark
+    // -> hold a few more ticks for a natural pause instead of cutting them
+    // off mid-sentence, but never past the hard grace cap above.
+    if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
+      room.teil1HandoffSent = true;
+      const handoff = pickHandoff({ bName: ctx.bName, topicB: ctx.teil1TopicB });
+      room.live?.session.sendClientContent({
+        turns: `[SYSTEM] Die Zeit für ${ctx.aName}s Präsentation und Nachfragen ist um. Beenden Sie höflich diesen Teil. Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${handoff}" Hören Sie sich danach die Präsentation an, ohne zu unterbrechen, und stellen Sie anschließend 1-2 kurze Nachfragen, die sich konkret auf das Gesagte beziehen — diese Anweisung ist NUR für Sie, sprechen Sie sie nicht laut aus.`,
+        turnComplete: true,
+      });
+    }
   }
 
   // Teil 2: at the 3.5-minute mark, the AI must switch from listening to the
   // students' own conversation into asking each candidate a direct question.
+  // Same mid-speech grace as the Teil 1 handoff above — interrupting an
+  // ongoing discussion to redirect it is normal for this Teil, but shouldn't
+  // land literally mid-word if avoidable.
   if (room.examStage === 2 && !room.teil2TakeoverSent && elapsedMs >= TEIL2_TAKEOVER_AT_SEC * 1000) {
-    room.teil2TakeoverSent = true;
-    room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Die 3,5-Minuten-Marke ist erreicht. Übernehmen Sie jetzt aktiv die Gesprächsführung: unterbrechen Sie das Gespräch der Kandidaten höflich, stellen Sie ${ctx.aName} eine gezielte Frage, warten Sie auf die Antwort, dann stellen Sie ${ctx.bName} eine unabhängige Frage. Jede Antwort maximal 30 Sekunden.`,
-      turnComplete: true,
-    });
+    const withinGraceCap = elapsedMs < TEIL2_TAKEOVER_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+    if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
+      room.teil2TakeoverSent = true;
+      room.live?.session.sendClientContent({
+        turns: `[SYSTEM] Die 3,5-Minuten-Marke ist erreicht. Übernehmen Sie jetzt aktiv die Gesprächsführung: unterbrechen Sie das Gespräch der Kandidaten höflich, stellen Sie ${ctx.aName} eine gezielte Frage, warten Sie auf die Antwort, dann stellen Sie ${ctx.bName} eine unabhängige Frage. Jede Antwort maximal 30 Sekunden.`,
+        turnComplete: true,
+      });
+    }
   }
 
   // Anti-silence: nobody has sent audio in a while during Teil 2/3 -> AI takes over.
@@ -517,7 +550,13 @@ wss.on("connection", async (ws, req) => {
         } else if (msg.type === "audio" && room!.live) {
           room!.lastSenderSlot = participantRow.slot as "A" | "B";
           room!.lastAudioAt = Date.now();
-          room!.live.sendAudioChunk(msg.data);
+          // Don't forward mic audio to Gemini during the 15s inter-stage
+          // breather — candidates chatting between Teile ("was kommt jetzt?")
+          // would otherwise still reach Gemini's own VAD and could trigger an
+          // unsolicited spoken response mid-breather. lastAudioAt above still
+          // updates regardless, so the anti-silence bookkeeping stays accurate
+          // the moment the next stage actually starts.
+          if (!room!.intermissionUntil) room!.live.sendAudioChunk(msg.data);
         } else if (msg.type === "repeat" && room!.live) {
           // "Wie bitte?" — capped at MAX_REPEAT_USES per exam so it can't be
           // used to spam the session; doesn't touch the score/credit logic.

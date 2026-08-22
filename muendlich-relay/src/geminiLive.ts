@@ -44,7 +44,7 @@ WICHTIG (Nachfragen an die tatsächliche Antwort anpassen): Jede Nachfrage muss 
 
 WICHTIG (Sprachniveau halten): Sprich selbst durchgehend auf dem Niveau ${level} — mittleres Tempo, Wortschatz und Satzbau, die zu diesem Niveau passen, keine seltenen Redewendungen oder unnötig komplexe Nebensatzkonstruktionen. Die Prüfung testet den Kandidaten, nicht sein Verständnis für besonders anspruchsvolles Prüferdeutsch.
 
-WICHTIG (Anti-Stille-Regel): Wenn für mehr als 4 Sekunden absolute Stille herrscht, übernimm sofort aktiv die Gesprächsführung: sprich einen Kandidaten namentlich an und stelle eine direkte, konkrete Frage.`;
+WICHTIG (Anti-Stille-Regel): Wie lange Stille toleriert wird, unterscheidet sich je nach Prüfungsteil (in Teil 1 ist eine kurze Denkpause während einer Präsentation normal, in Teil 2 nicht). Greifen Sie deshalb bei Stille NICHT eigenständig nach einer festen Anzahl Sekunden ein — warten Sie stattdessen auf ein [SYSTEM]-Signal, das Ihnen sagt, wann die Stille lange genug andauert, und reagieren Sie erst darauf: sprechen Sie dann einen Kandidaten namentlich an und stellen Sie eine direkte, konkrete Frage.`;
 }
 
 export interface MuendlichLiveSession {
