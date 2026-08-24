@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, useNavigate, useLocation, Navigate } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate, useLocation } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +28,7 @@ function AuthenticatedLayout() {
   const [needsOnboarding, setNeedsOnboarding] = useState(false);
   const checkedForRef                   = useRef<string | null>(null);
   const redirectedToLoginRef            = useRef(false);
+  const redirectedToOnboardingRef       = useRef(false);
 
   /* Redirect unauthenticated users to /login unconditionally. */
   useEffect(() => {
@@ -86,9 +87,22 @@ function AuthenticatedLayout() {
    *    the query completes, checkedForRef gets claimed, yet the app is
    *    stuck on LoadingScreen forever (reproduced repeatedly for brand-new
    *    not-yet-onboarded accounts specifically). Fixed by not calling
-   *    nav() here at all: this effect only sets state now, and the render
-   *    body below declares the redirect via <Navigate>, the same pattern
-   *    already proven reliable elsewhere (LevelGatePage's redirect).
+   *    nav() here at all: this effect only sets state now.
+   *
+   * 4. A fourth bug, found later: the render body used to declare the
+   *    redirect via a bare `<Navigate to="/onboarding" replace />` (mirroring
+   *    LevelGatePage's own redirect pattern). That's fine for a leaf route
+   *    with nothing nested under it, but here it let a child route
+   *    (LevelGatePage, mounted at the sibling /dashboard path) render and
+   *    fire its OWN redirect before this effect's async profile query
+   *    resolved — the two redirects fought each other every render, a real
+   *    "Maximum update depth exceeded" crash confirmed live for a brand-new
+   *    not-yet-onboarded account landing on bare /dashboard. Fixed by moving
+   *    the redirect into its own ref-guarded effect below (same pattern as
+   *    redirectedToLoginRef — a plain synchronous effect, not nested inside
+   *    this async callback, so bug #3 above doesn't apply) and rendering
+   *    LoadingScreen instead of Outlet while needsOnboarding is true, so no
+   *    child route can mount until the redirect has actually happened.
    */
   useEffect(() => {
     if (!user || !emailVerified) return;
@@ -123,16 +137,9 @@ function AuthenticatedLayout() {
         clearTimeout(safety);
         checkedForRef.current = user.id;
 
-        // Set state and let the render below decide whether to redirect,
-        // via a declarative <Navigate> — instead of calling nav() directly
-        // from inside this async callback, which was observed live to
-        // sometimes never actually change the route (the exact mechanism is
-        // still unclear, but a real, reproducible hang was confirmed on
-        // production for every brand-new not-yet-onboarded account: the
-        // profile query completes fine, yet the app never leaves the
-        // loading screen). <Navigate> rendered from the component body is
-        // the same pattern already proven reliable elsewhere in this app
-        // (LevelGatePage's /$level/dashboard redirect).
+        // Only set state here — do not call nav() directly from inside this
+        // async callback (bug #3 above). The dedicated effect further below
+        // owns the actual redirect once this state commits.
         setNeedsOnboarding(!data || !data.onboarding_completed || !data.level);
         setChecking(false);
       } catch {
@@ -145,6 +152,30 @@ function AuthenticatedLayout() {
 
     return () => { cancelled = true; clearTimeout(safety); };
   }, [user?.id, emailVerified]);
+
+  /* Fire the onboarding redirect exactly once, from an effect — not
+   * declaratively from the render body. Rendering <Navigate> directly in the
+   * render body (the previous approach) meant every re-render while
+   * needsOnboarding stayed true produced a fresh <Navigate> element; a real,
+   * reproducible "Maximum update depth exceeded" crash was caught live for a
+   * brand-new not-yet-onboarded account landing on the bare /dashboard
+   * route — its own LevelGatePage briefly renders and fires its own
+   * redirect to /$level/dashboard before this check's async profile query
+   * resolves, and the two redirects fight each other on every subsequent
+   * render. A ref-guarded single nav() call (same pattern as
+   * redirectedToLoginRef above) cannot repeat regardless of the exact race,
+   * and rendering LoadingScreen instead of Outlet while needsOnboarding is
+   * true keeps LevelGatePage (or any other child route) from mounting at
+   * all until the redirect has actually happened. */
+  useEffect(() => {
+    if (needsOnboarding) {
+      if (loc.pathname.startsWith("/onboarding") || redirectedToOnboardingRef.current) return;
+      redirectedToOnboardingRef.current = true;
+      nav({ to: "/onboarding", replace: true });
+    } else {
+      redirectedToOnboardingRef.current = false;
+    }
+  }, [needsOnboarding, loc.pathname, nav]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -166,7 +197,9 @@ function AuthenticatedLayout() {
   }
 
   if (needsOnboarding && !loc.pathname.startsWith("/onboarding")) {
-    return <Navigate to="/onboarding" replace />;
+    // The effect above owns navigating away — never render Outlet (and so
+    // never mount a child route like LevelGatePage) while that's pending.
+    return <LoadingScreen />;
   }
 
   /* Onboarding has its own full-screen layout */

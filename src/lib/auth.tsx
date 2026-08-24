@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
@@ -146,8 +146,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await supabase.auth.signOut();
   }
 
+  // Stable reference — see theme.tsx for why an unmemoized object here is a
+  // real risk in a provider this central (every authenticated page consumes it).
+  const value = useMemo(
+    () => ({ user, session, loading, isAdmin, roleLoading, level, signOut }),
+    [user, session, loading, isAdmin, roleLoading, level],
+  );
   return (
-    <AuthContext.Provider value={{ user, session, loading, isAdmin, roleLoading, level, signOut }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

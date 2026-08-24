@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 type Theme = "light" | "dark";
 const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({ theme: "light", toggle: () => {} });
@@ -24,6 +24,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     document.documentElement.classList.toggle("dark", theme === "dark");
     try { localStorage.setItem("theme", theme); } catch { /* storage blocked — theme still applies for this session */ }
   }, [theme]);
-  return <ThemeContext.Provider value={{ theme, toggle: () => setTheme((t) => (t === "dark" ? "light" : "dark")) }}>{children}</ThemeContext.Provider>;
+  // Stable reference: without this, every render (including ones caused by
+  // completely unrelated state elsewhere) creates a new context value object,
+  // which every consumer sees as "changed" and re-renders for — a textbook
+  // contributor to cascading re-render loops in an app-wide provider.
+  const value = useMemo(() => ({ theme, toggle: () => setTheme((t) => (t === "dark" ? "light" : "dark")) }), [theme]);
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
 export const useTheme = () => useContext(ThemeContext);
