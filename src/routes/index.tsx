@@ -181,8 +181,9 @@ function Navbar() {
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-sm">
             <BrandMark className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-base font-semibold tracking-tight text-foreground">
-            AuraLingovia
+          <span className="text-base font-semibold tracking-tight">
+            <span className="bg-gradient-to-br from-[#a9782c] via-[#e7bb54] to-[#9c6d28] bg-clip-text text-transparent">Aura</span>
+            <span className="text-foreground">Lingovia</span>
           </span>
         </Link>
 
@@ -671,7 +672,10 @@ function Footer() {
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary shadow-sm">
                 <BrandMark className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
+              <span className="text-sm font-semibold">
+                <span className="bg-gradient-to-br from-[#a9782c] via-[#e7bb54] to-[#9c6d28] bg-clip-text text-transparent">Aura</span>
+                <span className="text-foreground">Lingovia</span>
+              </span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
               Professional TELC B2 exam preparation. Structured, authentic, effective.
