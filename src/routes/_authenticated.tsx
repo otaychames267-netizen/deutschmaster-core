@@ -162,20 +162,33 @@ function AuthenticatedLayout() {
    * route — its own LevelGatePage briefly renders and fires its own
    * redirect to /$level/dashboard before this check's async profile query
    * resolves, and the two redirects fight each other on every subsequent
-   * render. A ref-guarded single nav() call (same pattern as
-   * redirectedToLoginRef above) cannot repeat regardless of the exact race,
-   * and rendering LoadingScreen instead of Outlet while needsOnboarding is
-   * true keeps LevelGatePage (or any other child route) from mounting at
-   * all until the redirect has actually happened. */
+   * render. A ref-guarded single call (same pattern as redirectedToLoginRef
+   * above) cannot repeat regardless of the exact race, and rendering
+   * LoadingScreen instead of Outlet while needsOnboarding is true keeps
+   * LevelGatePage (or any other child route) from mounting at all until the
+   * redirect has actually happened.
+   *
+   * A FIFTH bug, found live on production right after deploying the fix
+   * above: TanStack Router's nav() silently no-ops here when the current
+   * route is /$level/dashboard (a route with a required path param) —
+   * confirmed via direct React fiber inspection in production: needsOnboarding
+   * was correctly true, redirectedToOnboardingRef.current was correctly set
+   * to true (proving nav() was actually called), yet the router's own
+   * location never changed, leaving the account stuck on this LoadingScreen
+   * forever with zero errors. Same failure class as the nav()-from-async-
+   * effect bug already documented above, just a different trigger. Fixed the
+   * same way this codebase already fixes every other confirmed nav()
+   * reliability issue (see login.tsx and _authenticated.onboarding.tsx's own
+   * comments) — a hard navigation instead of the client-side router call. */
   useEffect(() => {
     if (needsOnboarding) {
       if (loc.pathname.startsWith("/onboarding") || redirectedToOnboardingRef.current) return;
       redirectedToOnboardingRef.current = true;
-      nav({ to: "/onboarding", replace: true });
+      window.location.href = "/onboarding";
     } else {
       redirectedToOnboardingRef.current = false;
     }
-  }, [needsOnboarding, loc.pathname, nav]);
+  }, [needsOnboarding, loc.pathname]);
 
   if (loading) {
     return <LoadingScreen />;
