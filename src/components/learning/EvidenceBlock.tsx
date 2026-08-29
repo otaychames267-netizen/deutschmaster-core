@@ -6,17 +6,21 @@
  * generated or guessed client-side, so it renders nothing if the exercise
  * has no aids for this item yet.
  *
- * Deliberately NOT a grammar lecture: the quoted sentence (bold answer)
- * first, then one short line for why it fits, a "🔑 Merke" tag, an optional
- * example, an optional Arabic translation, and a save-to-vocabulary action.
- * The "memorize fixed expressions" reinforcement line under Merke is
- * CONDITIONAL on aids.merke_type === "fixed_expression" — a general grammar
- * rule (conjunction, case, tense, word order) is not a fixed phrase to
- * memorize, so showing that line there would be actively misleading.
+ * Deliberately NOT a grammar lecture: Richtig -> Typ -> quoted sentence
+ * (bold answer) -> one short "Warum?" line -> a "🔑 Merke" tag -> optional
+ * translation/example -> save-to-vocabulary action. The "Typ:" badge (see
+ * ITEM_TYPE_INFO in ./types) tells the student what KIND of item this is
+ * (Verb, Präposition, Konnektor, Feste Struktur...) so the explanation reads
+ * as "why does THIS category work this way" instead of one generic
+ * template for every gap. The "memorize fixed expressions" reinforcement
+ * line under Merke only shows for the two categories worth memorizing as an
+ * inseparable chunk (fixed_expression, verb_prep) — a conjunction or case
+ * rule generalizes far beyond this one sentence, so that line there would
+ * be actively misleading.
  */
 import { useState } from "react";
-import { CheckCircle2, XCircle, Lightbulb, KeyRound, Pin, Languages, ChevronDown } from "lucide-react";
-import type { LearningAidsItem, SavedExpressionCategory, Skill } from "./types";
+import { CheckCircle2, XCircle, Lightbulb, KeyRound, Pin, Languages, ChevronDown, Tag } from "lucide-react";
+import { ITEM_TYPE_INFO, type LearningAidsItem, type SavedExpressionCategory, type Skill } from "./types";
 import { SaveExpressionButton } from "./SaveExpressionButton";
 
 interface Props {
@@ -149,12 +153,22 @@ export function EvidenceBlock({
                   <span className="font-semibold text-emerald-600 dark:text-emerald-400">{correctAnswerText}</span>
                 </p>
               )}
-              {aids.answer_translation && (
-                <p dir="rtl" className="ps-5 text-xs leading-relaxed text-emerald-700/90 dark:text-emerald-300/90">
-                  {aids.answer_translation}
-                </p>
-              )}
             </div>
+          )}
+
+          {aids.item_type && (
+            <div className="flex items-center gap-1.5">
+              <Tag className="h-3 w-3 shrink-0 text-violet-500/70" />
+              <span className="text-[10px] font-bold uppercase tracking-wide text-violet-600/80 dark:text-violet-400/80">
+                Typ: <span className="normal-case">{ITEM_TYPE_INFO[aids.item_type].label}</span>
+              </span>
+            </div>
+          )}
+
+          {aids.answer_translation && (
+            <p dir="rtl" className="text-xs leading-relaxed text-emerald-700/90 dark:text-emerald-300/90">
+              <span className="font-bold">Bedeutung: </span>{aids.answer_translation}
+            </p>
           )}
 
           {showEvidenceQuote && aids.evidence_text && (
@@ -177,7 +191,7 @@ export function EvidenceBlock({
                 <span className="text-[10px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">Merke</span>
                 <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-300">{aids.keyword}</span>
               </div>
-              {aids.merke_type === "fixed_expression" && (
+              {aids.item_type && ITEM_TYPE_INFO[aids.item_type].reinforceMemorize && (
                 <p dir="rtl" className="text-[11px] leading-relaxed text-amber-700/90 dark:text-amber-300/90">{MERKE_REINFORCEMENT_AR}</p>
               )}
             </div>

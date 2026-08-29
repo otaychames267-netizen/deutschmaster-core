@@ -1,0 +1,8395 @@
+[
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "erst (دلالة على التأخر)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bestens + funktionieren",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "zu + Dativ",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "صفة نعتية قبل الاسم (Akkusativ بعد keine)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "weitere (إضافة من نفس النوع)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich bewerben",
+    "item_type": "verb"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Leider",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "übrigens",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entscheiden zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "erst (دلالة على التأخر)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bestens + funktionieren",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "zu + Dativ",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "ziemlich (تكثيف صفة)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "صفة نعتية قبل الاسم (Akkusativ بعد keine)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "weitere (إضافة من نفس النوع)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich bewerben",
+    "item_type": "verb"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sonst + Konjunktiv II",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "übrigens",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entscheiden zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "wie ihr wisst",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "vorliegen (التوفر/الجاهزية)",
+    "item_type": "verb"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "im Interesse von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "abliefern",
+    "item_type": "verb"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bei jmd. liegen (الملكية)",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "stark zurückgehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "bitten um / darum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ansprechen (يلامس الاهتمام)",
+    "item_type": "verb"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich verstehen als",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "vor + اسم جمع (-n)",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Ihnen (مع mitteilen)",
+    "item_type": "verb"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "Präteritum musste مع funktionierte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "noch (مدة متبقية)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "deshalb",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "entweder...oder",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "bitten um",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "in + meine Heimat (مؤنث)",
+    "item_type": "verb"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "möchte...mitnehmen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "jemanden benachrichtigen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es tut mir leid, dass...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "sich beschäftigen mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "doch + wie Sand am Meer",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "insbesondere",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "überwiegend",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "müssen (مع leider)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenig Lust haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "(Lust) kommt wieder",
+    "item_type": "verb"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sich Zeit lassen → lässt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "so früh wie möglich",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es tut mir leid, dass...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "sich beschäftigen mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "doch + wie Sand am Meer",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "insbesondere",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "überwiegend",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "fast + كمية زمنية",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenig Lust haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "(Lust) kommt wieder",
+    "item_type": "verb"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sich Zeit lassen → lässt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "so früh wie möglich",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "eigentlich (مع wollte)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "man...man",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "dessen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "eine Zeit überstehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "etwas Tolles unternehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ganz besonders",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sich interessieren für",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Mach doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wir → uns",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "noch schöner",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich etwas anschauen",
+    "item_type": "verb"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sollten",
+    "item_type": "tense"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ankommen wirst",
+    "item_type": "tense"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "falls",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seitdem",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Erinnerungen auffrischen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "als (لا wenn)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "lass dich überraschen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "noch schöner",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich etwas anschauen",
+    "item_type": "verb"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sollten",
+    "item_type": "tense"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ankommen wirst",
+    "item_type": "tense"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "falls",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seitdem",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Erinnerungen auffrischen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "als (لا wenn)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "kaum zu glauben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "anlässlich",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "denen (مع sich widmen)",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "es geht darum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "um...zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "Herz → Herzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "anhand + Genitiv",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "schaffen → geschaffen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "größter",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "lässt sich vermeiden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "während",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Antwort auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "abschließen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "ein bisschen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einen Kurs machen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Frage an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "irgendjemandem",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "danke, dass...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "schon",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "vorschlagen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "ein bisschen mehr",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "um...zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "aber (مع anderseits)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "unbedingt",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ich → mich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "kommenden",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Lust dazu haben",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "nicht nur...sondern auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "etwas für jemanden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "um...zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "doch (مع anderseits)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "unbedingt",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ich → mich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "kommenden",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Lust dazu haben",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einfach",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "mittwochs",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "Beginn + Genitiv",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "dessen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Ihnen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sein + Partizip II (Zustandspassiv)",
+    "item_type": "tense"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "Verbletztstellung",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "in dem",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "untergebracht sein",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sich befinden",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "zeigen → gezeigt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "der)",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "berühmt für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "zur Verfügung stehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "an etwas teilnehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einen Überblick verschaffen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "anlässlich",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "ob (مع anfragen)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sowohl...als auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "von...bis",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "deren",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "Vortragende",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "die Möglichkeit geben, zu...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "zur Verfügung stehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "ein paar Tage (vorher)",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "rechnen mit → dabei/damit",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Interesse an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in Höhe von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "für",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sich anschließen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bezüglich",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "so...wie möglich",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "einer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "damit",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "bei weiteren Fragen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "anbei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in Höhe von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "zur",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "stattfinden",
+    "item_type": "verb"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bezüglich",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "möglichst",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "einer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "damit",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "bei weiteren Fragen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "dafür",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "werden + Partizip II",
+    "item_type": "tense"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "bis",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "behoben werden müssen",
+    "item_type": "tense"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "um...zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "Zugang ermöglichen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "letzter Zeit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "darauf achten, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Bällen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "freundlichen Grüßen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "allergrößtem",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in dem",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "dem Ihren",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "übernehmen zu können",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Lehre bei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ein Jahr lang",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seine Liebe zu etwas entdecken",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "was...angeht",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sowohl...als auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entschließen, zu...",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "allergrößtem",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in dem",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "so...wie",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "übernehmen zu können",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Lehre begann",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ein Jahr lang",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seine Liebe zu etwas entdecken",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Während",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sowohl...als auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entschließen, zu...",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Anfrage zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "kommenden Oktober",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nach Kriterien auswählen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "anbieten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "so dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "gemeinsam mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "der Besuch",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ist geplant (Zustandspassiv)",
+    "item_type": "tense"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "besprechen → besprochen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Ihrer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "kommenden Oktober",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nach Kriterien auswählen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "anbieten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "so dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "gemeinsam mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "der Besuch",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ist geplant",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "besprechen → besprochen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Dank für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "jeweils",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "einer Sache gewidmet sein",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "vorbereitende",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "die meisten (+Genitiv)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "entlang",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auf den Spuren",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "deren",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sofern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "erreichbar",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen auf",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "hätte...können",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "ich → mich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nachdem + Plusquamperfekt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "es liegt daran, dass",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "miteinander",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "anders als",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "bei uns",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "eigentlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "Zug fahren",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "abhängen davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sprechen → gesprochen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "vorschlagen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "die beiden → sich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "der",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "jedenfalls",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "will...lassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "als + اسم بدون أداة",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ziemlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "beim + اسم",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "durchzusetzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "totalem",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich(Dativ) etwas vorstellen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Hoffentlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "nämlich",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "schon",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einverstanden sein damit",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "miteinander",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "kurz vor",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "weshalb",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "vollkommen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einen angenehmen Tag",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "voneinander hören",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "eine Rundreise durch",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wie du weißt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "war",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "es",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "erste",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "denken daran",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "müssen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "mir kommt ein Gedanke",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "könnte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "hattest...konntest",
+    "item_type": "tense"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "würde",
+    "item_type": "tense"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "Zeit für etwas haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "vielen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "Fachwerkhäuser gefallen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "dann",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "ausgeräumter",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "gar nicht",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nicht besonders",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "schließlich",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "weit entfernt",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "die Stelle wechseln",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ehrlich gesagt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "kommenden",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "je + Komparativ",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie wäre es",
+    "item_type": "tense"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "zum ersten Mal",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nicht besonders",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "schließlich",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "weit entfernt",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "die Stelle wechseln",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ehrlich gesagt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "kommenden",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "je",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie wäre es",
+    "item_type": "tense"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Grund dafür",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wegen",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "verschoben",
+    "item_type": "tense"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nicht mehr",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ins Krankenhaus einweisen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "Übergewicht",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "zur Behandlung",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "über",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "unter anderem",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "gar nicht",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie ist es denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "eine Einladung annehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich kümmern um",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auch wenn",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sich freuen für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "mal überlegen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wollen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie ist es denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nebenbei jobben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Einladung annehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auch wenn",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ihr versteht euch",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "neulich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "nicht viel zumuten",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie ist es denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nebenbei jobben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Einladung annehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auch wenn",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "freuen für dich",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "wollen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "nicht viel zumuten",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "einladen dazu",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Wenn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "beim Sparen helfen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "etwas gewinnen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "spätestens",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "zwischen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich melden bei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "überprüfen lassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "am Herzen liegen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "hoffen auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "deinen Brief",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch gut wissen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "für ... wünschen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "neuen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "du weißt ja",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "stolz darauf",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "es wäre schön, wenn",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "trotz",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "damit...können",
+    "item_type": "tense"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "von denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "es war",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich gewöhnen daran",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einen Pullover",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "müsse",
+    "item_type": "tense"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "aus der Nähe von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "mit den großen Containerschiffen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "um die Schiffe",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "in einem der Cafés",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wiedersehen müssen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Grüße aus",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "was los war",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "wird organisiert",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "wäre geblieben",
+    "item_type": "tense"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "konnte schlecht",
+    "item_type": "tense"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Beides",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "erst noch keine Pläne",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich freuen auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es ist ... her",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "ist erkrankt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wenn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "zwar...aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "werde...legen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sich freuen darauf",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "halten davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "jmdm. auf der Nase herumtanzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "es ist nicht leicht, zu...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einen Weg finden, wie",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "vergangen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "plötzlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wenn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "zwar...aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "werde...legen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sich freuen darauf",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "halten davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "auf der Nase herumtanzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "es ist nicht leicht, zu...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie du zurechtkommst",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "den",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "hast verbracht",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "fragen mich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "noch jung genug",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "einen Computer bedienen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "Angst haben, zu...",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Kenntnisse einsetzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "wenn du mich fragst",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "nämlich",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "voneinander hören",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "eine Rundreise durch",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wie du weißt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "war",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "es",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "erste",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "denken daran",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "müssen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "mir kommt ein Gedanke",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "könnte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "überraschen dich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "könnte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich erholen von",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "etwas als X empfinden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bestehen aus",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ist zu erreichen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "lebenden",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "wenige",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "würdest gern umziehen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es überrascht",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "es überrascht, dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "viel Stress",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bestehen aus",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "zu erreichen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "lebenden",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "wenige",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "was gibt es Neues",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bevor + Plusquamperfekt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wollte (نية شخصية)",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nichts davon hören wollen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "einerseits...andererseits",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "helfen dabei",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auszusuchen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "grundlegende",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "im Gegensatz zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "suchen nach",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "denken daran",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "war",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "zwar...aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "musste",
+    "item_type": "verb"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "verschiedenen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wurde gesucht",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "keine",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "eine Einladung zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sollt (mit endlich)",
+    "item_type": "verb"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "einladen für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wohnen bei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einiges zu bieten haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "auf den Turm steigen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ist möglich",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wo",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Dabei",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "an diesem Wochenende",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich sehen lassen können",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "noch rasch",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wegen",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "bis auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nachdem + Plusquamperfekt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich erweisen als",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "auf dem Programm stehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ganz schön",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sollten",
+    "item_type": "tense"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "inzwischen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "nachdem + Plusquamperfekt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich freuen für",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sowohl...als auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "تصريف الصفة المُسمّاة بعد alle (جمع، تصريف ضعيف)",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "einige + Genitiv",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "als (وصف حالة حقيقية سابقة)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "alle Hände voll zu tun haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "die Gelegenheit haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "wohl",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "etwas hinter sich haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "bestehen → bestanden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "ja",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich fangen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich bewerben bei",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "was",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "von + der (مؤنث)",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "und zwar (تفصيل دقيق)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "تصريف الصفة بعد أداة ملكية في Dativ مؤنث",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "seit (بداية مستمرة)",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nachdenken über / darüber",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sich einschreiben",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "könnte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "so...wie",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "die Vorbereitungen nehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "für + mich",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "in + denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "die",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "überzeugt, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "unseres Magazins",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "für...denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "zu stärken",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "im Sommer",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "dieses Mal",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sich bedanken bei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "welches",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "gemeinsamen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "kennenlernen sie",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "deshalb",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wann",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "auf jeden Fall",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich vorstellen können",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "halten davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Ausbildung als",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie dem auch sei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "sich befinden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "von dem",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "kann...gestaltet werden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich beschäftigen mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "während",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "zwar...aber (ضمنية)",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "dessen Lebensstil",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "damit",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wenn...gewusst hätte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bevor + Plusquamperfekt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wollte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nichts davon hören wollen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "einerseits...andererseits",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "helfen dabei",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auszusuchen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "grundlegende",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "im Gegensatz zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "eine Tour durch",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "mit einer Gruppe",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "dir denken können",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "aufgeregt sein",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "im Herbst",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "würde...wiedersehen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "hätte lernen können",
+    "item_type": "tense"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "etwas davon haben",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wiedergefunden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "über den Brief",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "nichts mehr gehört",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "du weißt doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "Wie ist es",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "am Fuß der Alpen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "weh getan",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "umfallen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "dir vorstellen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "jede Menge",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "aufhören damit",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "auf den Punkt bringen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "aus der Welt schaffen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "bieten...an",
+    "item_type": "verb"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "weitere",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "es geht darum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Mittel zum Zweck",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "entgehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "wovon handeln",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "am Unwillen liegen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eher...als",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "möchte",
+    "item_type": "verb"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "eine Chance geben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "warum",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Verantwortung übernehmen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "könnten",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "(zur/vor) Verfügung stehen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "trotzdem",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "vorstellen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ebenfalls",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "die Jahre davor",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "vielmehr",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "herrschen...vor",
+    "item_type": "verb"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "bereit sein, zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "wohl",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "durch",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "sich erfolgreich behaupten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "damit ein Qualitätsanspruch verbunden ist",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "kaum",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "umsteigen auf",
+    "item_type": "verb_prep"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "an...vorbei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "statt zu sitzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "innerhalb",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "aufhalten müssen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Angebot an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "dann",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "während",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "dadurch",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "unumstritten, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "um",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Nachkommen bekommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "der Grund dafür",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "menschliche Eingriffe",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "noch überall",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "es ging bergab mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "was...betrifft",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "jetzt",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Experimente an der Universität",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "auswählen aus",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "darauf erkennen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "so dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "nicht nur...sondern auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "von denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "schließen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "keine",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zwar...jedoch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wurden durchgeführt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "an den Augen ablesen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "reagieren auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sei",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "war",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um...herum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "davon ausgehen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "stolz darauf",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zwar...jedoch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wurden durchgeführt",
+    "item_type": "tense"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "an den Augen ablesen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "reagieren auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sei",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "war",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um...herum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "davon ausgehen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "stolz darauf",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "verglichen mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "bei dem Kind bleiben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Das",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "der Grund dafür",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "obwohl",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "so...dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Anspruch auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sprechen von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zur Verfügung stehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "bei dem Kind bleiben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Das",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "dennoch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "niemanden",
+    "item_type": "verb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "so...dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Anspruch auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zur Verfügung stehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "dennoch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zu vereinbaren",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "niemanden",
+    "item_type": "verb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "werden geschlossen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "so...dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich breitmachen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Anspruch auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dabei meinen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "an das",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "geworden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "ist ausgebaut worden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht nur...sondern auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "sich verwandeln in",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Kritik daran üben",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "führen zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Wert legen auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "eingestellt",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Kunden gewinnen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "aus Gründen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "in Mode kommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Konkurrenz machen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ganz schön",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "als + صفة",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "während",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "voreilig sein",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "in Mode bringen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ganz so schnell",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "könnten...ausweiten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "insgesamt",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "eine neue",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "eingestellt werden",
+    "item_type": "verb"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Konkurrenten",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "durch",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gestaltet wäre",
+    "item_type": "tense"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wegen",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "rechnen mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "gültig",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sieht...vor",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "sollte",
+    "item_type": "verb"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "so...dass",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "die Fahrweise anpassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "allerdings",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "den Rand benützen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "eine solche Stelle",
+    "item_type": "verb"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Personalien angeben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nach Angaben von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "drastisch sinken",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "rechnen mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aufgrund",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "steigen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "unschwer erahnen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich einstellen auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich interessieren für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "im Konsum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Probleme beheben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "genau das Gegenteil",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "zu etwas fähig sein",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "entwickelten",
+    "item_type": "tense"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "durch Beobachtung lernen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "noch nicht einmal",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "übrigens",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "für intelligent halten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "andere...als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich setzen lassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "werden gezüchtet",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Vorteile liegen auf der Hand",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "je mehr, desto höher",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Schutz vor",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "es grünt",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich einfach wohl fühlen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "mittlerweile",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "solche Städtchen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dadurch",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "von Handy zu Handy",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "herankommen an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "schon da",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus der Mode kommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dafür umso",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "dabei",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "daraus machen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "also",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "drastisch ansteigen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "gehören nicht auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "behält...an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "so mancher",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "mit 'Fräulein' rufen",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dagegen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ein Wink mit der Hand",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "mit dem Essen fertig sein",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Takt ist gefragt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "jmdm. etwas klarmachen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "gehören nicht auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "behält...an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "bereitet manchem",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "mit der Anrede",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dagegen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ein Wink mit der Hand",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "mit dem Essen fertig sein",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Taktgefühl ist wichtig",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "jmdm. etwas klarmachen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seltener...als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "die vergangene Woche",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zwar",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "durch",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dieselbe Wirkung",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "wurden beobachtet",
+    "item_type": "tense"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "ein geringeres Risiko",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "weniger auftreten",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "deutlich besser",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "das Gegenteil ergeben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie immer",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "teilnehmen an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "als + صفة",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "bei",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "was",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie immer",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "teilnehmen an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "im Bundesfinale",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "bei",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "macht aufmerksam",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "eigene Argumente",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eine Chance, zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "teilnehmen möchten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "im Bundesfinale",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "bei",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "macht aufmerksam",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "eigene Argumente",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "prüfen kannst",
+    "item_type": "verb"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eine Chance, zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich treffen zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie lange",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Sicher ist nur",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "damals",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "nicht nur...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "von",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "konnten sich leisten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "bis heute",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "aus aller Welt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "immer häufiger",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "in der Lage sein",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nach eigenen Angaben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "das Verhalten untersuchen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "zunächst",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "immer weiter",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sofern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "es ist bekannt, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "bloß",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "vor Ostern",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "einzelner Jahre",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "vieler Forscher",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "werden...steigen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "falls",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "bedrohlichen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Risse bekommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "befestigt worden",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "überhaupt",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "davor gewarnt werden",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "genauso...wie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "leiden unter",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "das stimmt nicht",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "findet...statt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "keine Rolle spielen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "nicht allzu",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "zur Ruhe kommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "höchst rege",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "an einer Universität",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "allein",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "darauf folgten",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dürften sein",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "verzichten auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "stattdessen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "zu kurz kommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "aufgrund dessen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "gespeist werden durch",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nutzen die Chance",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wird angeboten",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "als + صفة",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "dagegen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "könnten sein",
+    "item_type": "tense"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "sich einsetzen für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "erwachsen sein",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "während",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "daher",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "einige Kompetenzen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "anhand",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Kategorien von",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sowie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus denen",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "liegt auf der Hand",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "zu anstrengend",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "folglich",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "eher skeptisch",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gehören zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wohl",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zufolge",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Kategorien von",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sowie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "jede Frau",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "zu anstrengend",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "folglich",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gehören zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "vermutlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zufolge",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "sowie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "und",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "jede Frau",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "zu anstrengend",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "folglich",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gehören zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "vermutlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ein Grund für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Unterschied zwischen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht irgendein",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "die Voraussetzung dafür",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "davon abhängen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "helfen...weiter",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "führt dazu",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "das Problem ist, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "das Interessante daran",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zum Kochtopf greifen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ein Grund für",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Unterschied zwischen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "denen",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "gelten als",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "davon abhängen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um die Ecke",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "führt dazu",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "das Problem ist, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "genauso...wie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "eine Flut von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "recht einfach",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "stellt sich die Frage",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "diesen Fragen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "die meisten",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "korrekt bestimmen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "unlogische Abweichungen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "zwischen...unterscheiden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "somit",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich darüber ärgern",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "fast nur noch",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "ans Licht bringen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "weder...noch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "suchen müssen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "das",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen ermöglichen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "dürfen sich freuen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sich freuen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich darüber aufregen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "fast nur noch",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "kam zu einer Erkenntnis",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "weder...noch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "habe zugenommen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Das",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen ermöglichen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "sich freuen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "gleich groß",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "traurig darüber",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ganz besonders",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zeigen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "meinte",
+    "item_type": "tense"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "wollte nichts annehmen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wenigstens",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "doch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "leitet",
+    "item_type": "verb"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "bis sie ankommt",
+    "item_type": "verb"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nämlich",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "darf keinesfalls",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "schlimmer als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich genau ansehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "erwerben",
+    "item_type": "verb"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "abgeschlossen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sogar",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Partnerschaft mit",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "nicht nur...sondern auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ohne dass",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "anstatt zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "besonders geeignet",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollte besser",
+    "item_type": "verb"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "um zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "schon",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "wäre",
+    "item_type": "tense"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Grund dafür",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mag sein",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "zwar...aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "zwar...aber",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "mehr...als",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "zweifeln daran",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Einfluss darauf",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "würde entstehen",
+    "item_type": "tense"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "danach befragt",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "immer mehr",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mit etwas zu tun haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "wie Figuren",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "werden empfunden",
+    "item_type": "verb"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Erfahrungen damit machen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf spielerische Weise",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ein Anliegen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "zu gestalten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "von der Hand gehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "anstatt zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nicht jede",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Argument gegen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "abgesehen davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "will sehen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "die Ausnahme bilden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "leer ausgehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "solche Fälle",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "es mit...zu tun bekommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "meistens",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "anstatt zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nicht jede",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Argument gegen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "abgesehen davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "will sehen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "stellen...dar",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "leer ausgehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "solche Fälle",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "es mit...zu tun bekommen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "meistens",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "deshalb",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nicht immer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sich konzentrieren auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "sich selbst halten",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "es ist hilfreich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Schritt für Schritt",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "das Verhalten im Straßenverkehr",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "kritische Situationen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "sich selbstbewusst verhalten",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Lösungen finden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "kaum",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "umsteigen auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zumeist",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "statt zu sitzen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "innerhalb",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "aufhalten müssen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Angebot an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "dann",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "musste denken",
+    "item_type": "verb"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "beide",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "die",
+    "item_type": "pronoun"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "wie wäre es",
+    "item_type": "tense"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "schon seit",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "überhaupt nichts",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "man kennt",
+    "item_type": "verb"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "es geht darum",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "auch wenn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "bald hören lassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "davon träumen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wer",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "daraus folgt, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "oft",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "als sie fahren",
+    "item_type": "verb"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "denn",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "führt dazu",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "um zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "graben sich",
+    "item_type": "verb"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Überzeugungsarbeit kosten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "konnte nachweisen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "fähig zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "dazu",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "eines davon",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sei gewesen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nur",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "fressen konnten",
+    "item_type": "tense"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "liefert Hinweise",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Acht geben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "genau wie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "deutlich",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Fazit ziehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Erfahrungen bei",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht...sondern",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "in voller Höhe",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ganz abgesehen davon",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich wenden an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sogar unbefristet",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "genauso...wie",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dabei",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nicht nur...sondern auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "wegen",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ab",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "am Ende",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "es ist wichtig",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "da",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich darum kümmern",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "auf diese Weise",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "um zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nicht nur...sondern auch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "wegen",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ab",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "des Projekts",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Wolfgang Neuhausen",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "keine Gelder",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "werden aufgehängt",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "auf diese Weise",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "noch gesucht",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "deutlich erhöht",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Auswirkungen auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "beides",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "den Bedarf decken",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "kommen...vor",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "steckt in",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "überprüfen lassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "kommt es an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "ersetzen durch",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "vegetarisch ernährte Kinder",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "stimmen...zu",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "meinen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Wunsch nach",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ein höfliches Miteinander",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "vergeblich suchen",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "gut die Hälfte",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "empfinden mögen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich stören an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "den Vortritt lassen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "was sich gehört",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "enthalten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "hinter...steht",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "entlastet",
+    "item_type": "verb"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "kommen aus",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf Wochenmärkten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "verwendet werden",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "wirklich nur",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "garantieren, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "ob",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "enthalten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "hinter...steht",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "entlastet",
+    "item_type": "verb"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "kommen aus",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf Wochenmärkten",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "verwendet werden",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "wirklich nur",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "garantieren, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "immer mehr",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mit etwas zu tun haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "wurde gefürchtet",
+    "item_type": "tense"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Verbindung von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Erfahrungen damit machen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf spielerische Weise",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ein Anliegen, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "zu gestalten",
+    "item_type": "verb"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "von der Hand gehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "immer mehr",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mit etwas zu tun haben",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "Erfahrungen damit machen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "auf spielerische Weise",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "wichtig, dass",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "zu suchen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "von der Hand gehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Verbindung von",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wurde gefürchtet",
+    "item_type": "tense"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "durch",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "vor allem",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "welche",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "unterschieden sich",
+    "item_type": "tense"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "ließen enden",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "wie sehr",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "von",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "mit dem",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "was",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dann, wenn",
+    "item_type": "adjective_adverb"
+  }
+]

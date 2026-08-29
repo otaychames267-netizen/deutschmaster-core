@@ -9,18 +9,23 @@
  */
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { ITEM_TYPE_INFO } from "@/components/learning/types";
 
 export interface LearningAidsFormValue {
   translation?: string;
   evidence_text?: string;
   evidence_translation?: string;
+  answer_translation?: string;
   keyword?: string;
+  item_type?: string;
   explanation_correct?: string;
   explanation_wrong?: string;
   grammar_structure?: string;
   grammar_example?: string;
   grammar_translation?: string;
 }
+
+const ITEM_TYPE_OPTIONS = Object.entries(ITEM_TYPE_INFO) as [string, { label: string; reinforceMemorize: boolean }][];
 
 interface Props {
   value: LearningAidsFormValue;
@@ -59,10 +64,24 @@ export function LearningAidsFields({ value, onChange, hideTranslation, hideGramm
           {!hideTranslation && (
             <Field label="Übersetzung (Arabisch)" value={value.translation} onChange={(v) => set("translation", v)} dir="rtl" />
           )}
-          <Field label="Textbeleg (Beweissatz aus dem Originaltext)" value={value.evidence_text} onChange={(v) => set("evidence_text", v)} />
+          <label className="block space-y-1">
+            <span className="text-[10px] font-semibold text-muted-foreground">Typ (steuert Erklärungsstil + Merke-Hinweis)</span>
+            <select
+              value={value.item_type ?? ""}
+              onChange={(e) => set("item_type", e.target.value)}
+              className="w-full rounded-md border border-input bg-background px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              <option value="">— kein Typ —</option>
+              {ITEM_TYPE_OPTIONS.map(([key, info]) => (
+                <option key={key} value={key}>{info.label}{info.reinforceMemorize ? " (Merke-Hinweis)" : ""}</option>
+              ))}
+            </select>
+          </label>
+          <Field label="Textbeleg (Beweissatz aus dem Originaltext, ** um die Antwort für Fettdruck **)" value={value.evidence_text} onChange={(v) => set("evidence_text", v)} />
           <Field label="Übersetzung des Textbelegs (Arabisch)" value={value.evidence_translation} onChange={(v) => set("evidence_translation", v)} dir="rtl" />
-          <Field label="Schlüsselwort" value={value.keyword} onChange={(v) => set("keyword", v)} short />
-          <Field label="Erklärung — warum richtig" value={value.explanation_correct} onChange={(v) => set("explanation_correct", v)} />
+          <Field label="Bedeutung/Übersetzung der Antwort selbst (Arabisch)" value={value.answer_translation} onChange={(v) => set("answer_translation", v)} dir="rtl" />
+          <Field label="Schlüsselwort / Merke-Formel" value={value.keyword} onChange={(v) => set("keyword", v)} short />
+          <Field label="Erklärung — warum richtig (1-1.5 Sätze, einfach, für B1/B2)" value={value.explanation_correct} onChange={(v) => set("explanation_correct", v)} />
           <Field label="Erklärung — warum falsch (bei typischem Fehler)" value={value.explanation_wrong} onChange={(v) => set("explanation_wrong", v)} />
           {!hideGrammar && (
             <>

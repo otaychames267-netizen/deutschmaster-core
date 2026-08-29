@@ -36,15 +36,31 @@ export interface LearningAidsItem {
   grammar_structure?: string | null;
   grammar_example?: string | null;
   grammar_translation?: string | null;
-  /** Classifies the MERKE box so the UI knows whether the "memorize fixed
-   * expressions" Arabic reinforcement line applies. "grammar" = a general
-   * rule (conjunctions, cases, tenses, word order) that generalizes beyond
-   * this one sentence — showing a "memorize this fixed phrase" nudge there
-   * is actively misleading. "fixed_expression" = a specific collocation
-   * (Nomen-Verb-Verbindung, idiom, fixed prep+verb pairing) that genuinely
-   * IS worth memorizing as one chunk. Unset/null renders no reinforcement
-   * line (safe default — don't claim a classification nobody made). */
-  merke_type?: "grammar" | "fixed_expression" | null;
+  /** The linguistic category of this gap — drives BOTH the "Typ:" label
+   * shown to the student AND which fields/tone are appropriate, so a
+   * conjunction gets a logic/timing explanation while a preposition gets a
+   * case-government explanation instead of one generic template for
+   * everything. Supersedes the earlier binary merke_type: "fixed_expression"
+   * and "verb_prep" are the two categories genuinely worth memorizing as a
+   * chunk (the "هذا تركيب ثابت..." reinforcement line under Merke only shows
+   * for those two); the other eight are general patterns that generalize
+   * beyond this one sentence, where that reinforcement line would be
+   * actively misleading. Unset/null renders no Typ badge and no
+   * reinforcement line (safe default — don't claim a classification nobody
+   * made). */
+  item_type?:
+    | "fixed_expression" // Feste Wendung/Struktur: es ist + Adj + zu + Infinitiv, einen Weg finden wie, in Kauf nehmen
+    | "verb" // erkranken, bestehen (meaning/form of the verb itself)
+    | "verb_prep" // sich freuen auf + Akk, denken an + Akk, warten auf + Akk (Rektion — also memorize-as-chunk)
+    | "noun" // gender/case/plural fact about a specific noun
+    | "preposition" // mit + Dativ, während + Genitiv (case-governing preposition alone)
+    | "conjunction" // wenn, weil, obwohl, zwar...aber, sowohl...als auch — connects clauses/ideas
+    | "adjective_adverb" // adjective/adverb choice or declension ending
+    | "tense" // Perfekt/Präteritum/Passiv/Konjunktiv II — the tense/mood/voice itself is the point
+    | "pronoun" // personal/possessive/relative pronoun, case agreement
+    | "pronoun_adverb" // da(r)+preposition: davon, daran, darauf, damit...
+    | "grammar_structure" // word order, other sentence-structure patterns not covered above
+    | null;
   /** Optional "Wie finde ich die Antwort?" strategy content — a reusable
    * B2 technique, not a repeat of the mandatory evidence/explanation above.
    * All three fields are independently optional; the strategy trigger only
@@ -58,6 +74,22 @@ export interface LearningAidsItem {
   /** Elimination reasoning for the plausible options (see OptionReasoning). */
   options_reasoning?: OptionReasoning[] | null;
 }
+
+/** "Typ:" label shown on the Warum card, and whether that category's Merke
+ * box gets the "memorize this as a fixed chunk" reinforcement line. */
+export const ITEM_TYPE_INFO: Record<NonNullable<LearningAidsItem["item_type"]>, { label: string; reinforceMemorize: boolean }> = {
+  fixed_expression: { label: "Feste Struktur", reinforceMemorize: true },
+  verb: { label: "Verb", reinforceMemorize: false },
+  verb_prep: { label: "Verb + Präposition", reinforceMemorize: true },
+  noun: { label: "Nomen", reinforceMemorize: false },
+  preposition: { label: "Präposition", reinforceMemorize: false },
+  conjunction: { label: "Konnektor", reinforceMemorize: false },
+  adjective_adverb: { label: "Adjektiv/Adverb", reinforceMemorize: false },
+  tense: { label: "Zeitform", reinforceMemorize: false },
+  pronoun: { label: "Pronomen", reinforceMemorize: false },
+  pronoun_adverb: { label: "Pronominaladverb", reinforceMemorize: false },
+  grammar_structure: { label: "Grammatikstruktur", reinforceMemorize: false },
+};
 
 export type Skill = "lesen" | "hoeren" | "sprachbausteine";
 
