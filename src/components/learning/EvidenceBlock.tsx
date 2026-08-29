@@ -59,6 +59,29 @@ function renderBoldSegments(text: string) {
   });
 }
 
+/** Wraps double-quoted German/Latin spans inside an Arabic explanation
+ * sentence in `<bdi>` (bidirectional isolation), e.g. 'تركيب "es ist (nicht)
+ * leicht, zu+Infinitiv" يحدد "zu beschäftigen".' — every explanation here
+ * quotes the specific German word/phrase it's talking about mid-sentence,
+ * and without isolation the browser's bidi algorithm can visually reorder
+ * that embedded LTR run against the surrounding RTL text in a genuinely
+ * confusing way, especially once the sentence wraps across lines on a
+ * narrow screen (found live on mobile this session — the whole point of
+ * `<bdi>` is exactly this: keep an embedded opposite-direction run from
+ * disturbing the ordering of the text around it, regardless of line
+ * wrapping). `dir="auto"`/`dir="rtl"` on the containing element alone does
+ * NOT fix this — it only sets the paragraph's base direction, not how
+ * embedded runs of the other direction interleave with wrapped lines. */
+function renderBidiIsolatedQuotes(text: string) {
+  const parts = text.split(/("[^"]+")/g);
+  return parts.map((part, i) => {
+    if (part.startsWith('"') && part.endsWith('"') && /[A-Za-zÀ-ÖØ-öø-ÿ]/.test(part)) {
+      return <bdi key={i} dir="ltr">{part}</bdi>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 /** Fixed reinforcement line shown under every Merke box — same wording for
  * every exercise, so it's rendered here once rather than authored per gap
  * (content that never varies isn't worth a data field or repeated typing
@@ -141,9 +164,9 @@ export function EvidenceBlock({
           )}
 
           {explanation && (
-            <p dir="auto" className="text-xs leading-relaxed text-foreground">
+            <p dir="rtl" className="text-xs leading-relaxed text-foreground">
               <span className="font-bold not-italic text-violet-700 dark:text-violet-300">التفسير: </span>
-              {explanation}
+              {renderBidiIsolatedQuotes(explanation)}
             </p>
           )}
 
