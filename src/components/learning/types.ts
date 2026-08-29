@@ -36,6 +36,15 @@ export interface LearningAidsItem {
   grammar_structure?: string | null;
   grammar_example?: string | null;
   grammar_translation?: string | null;
+  /** Classifies the MERKE box so the UI knows whether the "memorize fixed
+   * expressions" Arabic reinforcement line applies. "grammar" = a general
+   * rule (conjunctions, cases, tenses, word order) that generalizes beyond
+   * this one sentence — showing a "memorize this fixed phrase" nudge there
+   * is actively misleading. "fixed_expression" = a specific collocation
+   * (Nomen-Verb-Verbindung, idiom, fixed prep+verb pairing) that genuinely
+   * IS worth memorizing as one chunk. Unset/null renders no reinforcement
+   * line (safe default — don't claim a classification nobody made). */
+  merke_type?: "grammar" | "fixed_expression" | null;
   /** Optional "Wie finde ich die Antwort?" strategy content — a reusable
    * B2 technique, not a repeat of the mandatory evidence/explanation above.
    * All three fields are independently optional; the strategy trigger only

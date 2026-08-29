@@ -6,9 +6,13 @@
  * generated or guessed client-side, so it renders nothing if the exercise
  * has no aids for this item yet.
  *
- * Deliberately NOT a grammar lecture: one short line for why the answer is
- * right/wrong, a "🔑 Merke" fixed-expression tag, an optional example, an
- * optional Arabic translation, and a save-to-vocabulary action. That's it.
+ * Deliberately NOT a grammar lecture: the quoted sentence (bold answer)
+ * first, then one short line for why it fits, a "🔑 Merke" tag, an optional
+ * example, an optional Arabic translation, and a save-to-vocabulary action.
+ * The "memorize fixed expressions" reinforcement line under Merke is
+ * CONDITIONAL on aids.merke_type === "fixed_expression" — a general grammar
+ * rule (conjunction, case, tense, word order) is not a fixed phrase to
+ * memorize, so showing that line there would be actively misleading.
  */
 import { useState } from "react";
 import { CheckCircle2, XCircle, Lightbulb, KeyRound, Pin, Languages, ChevronDown } from "lucide-react";
@@ -130,18 +134,29 @@ export function EvidenceBlock({
             </div>
           )}
 
+          {showEvidenceQuote && aids.evidence_text && (
+            <p className="text-xs italic leading-relaxed text-muted-foreground">
+              „{renderBoldSegments(aids.evidence_text)}“
+            </p>
+          )}
+
           {explanation && (
-            <p dir="auto" className="text-xs leading-relaxed text-foreground">{explanation}</p>
+            <p dir="auto" className="text-xs leading-relaxed text-foreground">
+              <span className="font-bold not-italic text-violet-700 dark:text-violet-300">التفسير: </span>
+              {explanation}
+            </p>
           )}
 
           {aids.keyword && (
-            <div className="space-y-1">
+            <div className="space-y-1 border-t border-violet-500/10 pt-2">
               <div className="flex items-center gap-1.5 flex-wrap">
                 <KeyRound className="h-3 w-3 shrink-0 text-amber-500" />
                 <span className="text-[10px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">Merke</span>
                 <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-300">{aids.keyword}</span>
               </div>
-              <p dir="rtl" className="text-[11px] leading-relaxed text-amber-700/90 dark:text-amber-300/90">{MERKE_REINFORCEMENT_AR}</p>
+              {aids.merke_type === "fixed_expression" && (
+                <p dir="rtl" className="text-[11px] leading-relaxed text-amber-700/90 dark:text-amber-300/90">{MERKE_REINFORCEMENT_AR}</p>
+              )}
             </div>
           )}
 
@@ -154,12 +169,6 @@ export function EvidenceBlock({
               <Pin className="mt-0.5 h-3 w-3 shrink-0 text-violet-500" />
               <p className="text-xs italic leading-relaxed text-muted-foreground">„{aids.grammar_example}“</p>
             </div>
-          )}
-
-          {showEvidenceQuote && aids.evidence_text && (
-            <p className={`text-xs italic leading-relaxed text-muted-foreground ${(explanation || aids.keyword || aids.grammar_example) ? "border-t border-violet-500/10 pt-2" : ""}`}>
-              „{renderBoldSegments(aids.evidence_text)}“
-            </p>
           )}
 
           {(aids.evidence_translation || aids.grammar_translation) && (
