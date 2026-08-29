@@ -204,7 +204,10 @@ export function EvidenceBlock({
           {aids.grammar_example && (
             <div className="flex items-start gap-1.5">
               <Pin className="mt-0.5 h-3 w-3 shrink-0 text-violet-500" />
-              <p className="text-xs italic leading-relaxed text-muted-foreground">„{aids.grammar_example}“</p>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                <span className="font-bold not-italic text-foreground">Beispiel: </span>
+                <span className="italic">„{renderBoldSegments(aids.grammar_example)}“</span>
+              </p>
             </div>
           )}
 
