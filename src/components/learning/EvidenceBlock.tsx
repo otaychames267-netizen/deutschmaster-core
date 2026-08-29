@@ -41,6 +41,26 @@ interface Props {
   defaultOpen?: boolean;
 }
 
+/** Renders `**bold**` spans inside admin-authored quote text (e.g. the exact
+ * answer word/phrase within an evidence sentence) as real emphasis, without
+ * pulling in a full markdown renderer for one inline pattern. Plain text
+ * (no `**`) renders unchanged. */
+function renderBoldSegments(text: string) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
+      return <strong key={i} className="font-bold text-violet-700 dark:text-violet-300">{part.slice(2, -2)}</strong>;
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
+/** Fixed reinforcement line shown under every Merke box — same wording for
+ * every exercise, so it's rendered here once rather than authored per gap
+ * (content that never varies isn't worth a data field or repeated typing
+ * across ~1200 exercise items). */
+const MERKE_REINFORCEMENT_AR = "هذا تركيب ثابت، يجب التركيز على التراكيب الثابتة وحفظها لأنها تتكرر دائماً في الامتحانات.";
+
 export function EvidenceBlock({
   aids,
   variant,
@@ -115,10 +135,13 @@ export function EvidenceBlock({
           )}
 
           {aids.keyword && (
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <KeyRound className="h-3 w-3 shrink-0 text-amber-500" />
-              <span className="text-[10px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">Merke</span>
-              <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-300">{aids.keyword}</span>
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <KeyRound className="h-3 w-3 shrink-0 text-amber-500" />
+                <span className="text-[10px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">Merke</span>
+                <span className="rounded-md bg-amber-500/10 px-1.5 py-0.5 text-xs font-bold text-amber-700 dark:text-amber-300">{aids.keyword}</span>
+              </div>
+              <p dir="rtl" className="text-[11px] leading-relaxed text-amber-700/90 dark:text-amber-300/90">{MERKE_REINFORCEMENT_AR}</p>
             </div>
           )}
 
@@ -135,7 +158,7 @@ export function EvidenceBlock({
 
           {showEvidenceQuote && aids.evidence_text && (
             <p className={`text-xs italic leading-relaxed text-muted-foreground ${(explanation || aids.keyword || aids.grammar_example) ? "border-t border-violet-500/10 pt-2" : ""}`}>
-              „{aids.evidence_text}“
+              „{renderBoldSegments(aids.evidence_text)}“
             </p>
           )}
 
