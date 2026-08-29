@@ -472,7 +472,7 @@
     "title": "Daniela",
     "teil": 1,
     "gap": "28",
-    "keyword": "sich interessieren für",
+    "keyword": "sich interessieren für + Akk.",
     "item_type": "verb_prep"
   },
   {
@@ -675,7 +675,7 @@
     "title": "Eltern und Erziehungsberechtigte",
     "teil": 1,
     "gap": "27",
-    "keyword": "schaffen → geschaffen",
+    "keyword": "werden + Partizip II (Passiv)",
     "item_type": "tense"
   },
   {
@@ -774,7 +774,7 @@
     "teil": 1,
     "gap": "21",
     "keyword": "um...zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Ferdinand, Phillip, Christopher ( Original )",
@@ -844,7 +844,7 @@
     "teil": 1,
     "gap": "21",
     "keyword": "um...zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Ferdinand, Phillip, Christopher (معدل)",
@@ -1089,7 +1089,7 @@
     "teil": 1,
     "gap": "27",
     "keyword": "die Möglichkeit geben, zu...",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Frau Stein ( Neu )",
@@ -1285,7 +1285,7 @@
     "teil": 1,
     "gap": "25",
     "keyword": "um...zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "HausbewohnerInnen",
@@ -1348,7 +1348,7 @@
     "teil": 1,
     "gap": "24",
     "keyword": "übernehmen zu können",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Herr Dr. Dobromil",
@@ -1418,7 +1418,7 @@
     "teil": 1,
     "gap": "24",
     "keyword": "übernehmen zu können",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Herr Dr. Moosberger",
@@ -1859,7 +1859,7 @@
     "teil": 1,
     "gap": "27",
     "keyword": "durchzusetzen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Jens' Fußballtrainer-Sorgen",
@@ -2425,15 +2425,15 @@
     "title": "Karin (معدل)",
     "teil": 1,
     "gap": "28",
-    "keyword": "ihr versteht euch",
-    "item_type": "pronoun"
+    "keyword": "freuen für dich",
+    "item_type": "fixed_expression"
   },
   {
     "title": "Karin (معدل)",
     "teil": 1,
     "gap": "29",
-    "keyword": "neulich",
-    "item_type": "adjective_adverb"
+    "keyword": "wollen",
+    "item_type": "verb"
   },
   {
     "title": "Karin (معدل)",
@@ -2495,15 +2495,15 @@
     "title": "Karin (معدل)",
     "teil": 1,
     "gap": "28",
-    "keyword": "freuen für dich",
-    "item_type": "fixed_expression"
+    "keyword": "ihr versteht euch",
+    "item_type": "pronoun"
   },
   {
     "title": "Karin (معدل)",
     "teil": 1,
     "gap": "29",
-    "keyword": "wollen",
-    "item_type": "verb"
+    "keyword": "neulich",
+    "item_type": "adjective_adverb"
   },
   {
     "title": "Karin (معدل)",
@@ -2803,21 +2803,21 @@
     "title": "Liebe Agnieszka",
     "teil": 1,
     "gap": "22",
-    "keyword": "ist erkrankt",
+    "keyword": "erkranken → ist erkrankt",
     "item_type": "fixed_expression"
   },
   {
     "title": "Liebe Agnieszka",
     "teil": 1,
     "gap": "23",
-    "keyword": "wenn",
+    "keyword": "wenn = إذا/عندما → الحاضر والمستقبل",
     "item_type": "conjunction"
   },
   {
     "title": "Liebe Agnieszka",
     "teil": 1,
     "gap": "24",
-    "keyword": "zwar...aber",
+    "keyword": "zwar ..., aber ...",
     "item_type": "conjunction"
   },
   {
@@ -2838,7 +2838,7 @@
     "title": "Liebe Agnieszka",
     "teil": 1,
     "gap": "27",
-    "keyword": "halten davon",
+    "keyword": "von + dem → davon",
     "item_type": "pronoun_adverb"
   },
   {
@@ -2852,8 +2852,8 @@
     "title": "Liebe Agnieszka",
     "teil": 1,
     "gap": "29",
-    "keyword": "es ist nicht leicht, zu...",
-    "item_type": "fixed_expression"
+    "keyword": "Es ist + Adjektiv + zu + Infinitiv",
+    "item_type": "grammar_structure"
   },
   {
     "title": "Liebe Agnieszka",
@@ -2923,7 +2923,7 @@
     "teil": 1,
     "gap": "29",
     "keyword": "es ist nicht leicht, zu...",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Liebe Anna ( Original )",
@@ -2979,7 +2979,7 @@
     "teil": 1,
     "gap": "27",
     "keyword": "Angst haben, zu...",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Liebe Anna (معدل)",
@@ -3112,7 +3112,7 @@
     "teil": 1,
     "gap": "26",
     "keyword": "ist zu erreichen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Liebe Sandra ( Original )",
@@ -3182,7 +3182,7 @@
     "teil": 1,
     "gap": "26",
     "keyword": "zu erreichen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Liebe Sandra (معدل)",
@@ -3259,7 +3259,7 @@
     "teil": 1,
     "gap": "27",
     "keyword": "auszusuchen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Lieber Thomas",
@@ -3392,7 +3392,7 @@
     "teil": 1,
     "gap": "26",
     "keyword": "ist möglich",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Lina und Florian",
@@ -3882,7 +3882,7 @@
     "teil": 1,
     "gap": "26",
     "keyword": "während",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Rahim",
@@ -3959,7 +3959,7 @@
     "teil": 1,
     "gap": "27",
     "keyword": "auszusuchen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Ramon",
@@ -4134,7 +4134,7 @@
     "teil": 2,
     "gap": "32",
     "keyword": "aus der Welt schaffen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Allein das Wort „Museum“ ist schon fad",
@@ -4155,7 +4155,7 @@
     "teil": 2,
     "gap": "35",
     "keyword": "es geht darum",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Allein das Wort „Museum“ ist schon fad",
@@ -4169,7 +4169,7 @@
     "teil": 2,
     "gap": "37",
     "keyword": "entgehen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Allein das Wort „Museum“ ist schon fad",
@@ -4232,7 +4232,7 @@
     "teil": 2,
     "gap": "36",
     "keyword": "Verantwortung übernehmen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Ausbildung mit über 30",
@@ -4302,7 +4302,7 @@
     "teil": 2,
     "gap": "36",
     "keyword": "bereit sein, zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Crowdfunding boomt, Print lebt",
@@ -4358,7 +4358,7 @@
     "teil": 2,
     "gap": "34",
     "keyword": "statt zu sitzen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
@@ -4763,6 +4763,76 @@
     "title": "Deutschland – ein Paradies für Kinder? (معدل)",
     "teil": 2,
     "gap": "32",
+    "keyword": "dennoch",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zu vereinbaren",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "niemanden",
+    "item_type": "verb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "weil",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "werden geschlossen",
+    "item_type": "verb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "so...dass",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich breitmachen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Anspruch auf",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dabei meinen",
+    "item_type": "pronoun_adverb"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zur Verfügung stehen",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "32",
     "keyword": "bei dem Kind bleiben",
     "item_type": "fixed_expression"
   },
@@ -4821,76 +4891,6 @@
     "gap": "40",
     "keyword": "Anspruch auf",
     "item_type": "fixed_expression"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "31",
-    "keyword": "zur Verfügung stehen",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "32",
-    "keyword": "dennoch",
-    "item_type": "conjunction"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "33",
-    "keyword": "zu vereinbaren",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "34",
-    "keyword": "niemanden",
-    "item_type": "verb"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "35",
-    "keyword": "weil",
-    "item_type": "conjunction"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "36",
-    "keyword": "werden geschlossen",
-    "item_type": "verb"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "37",
-    "keyword": "so...dass",
-    "item_type": "conjunction"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "38",
-    "keyword": "sich breitmachen",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "39",
-    "keyword": "Anspruch auf",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
-    "teil": 2,
-    "gap": "40",
-    "keyword": "dabei meinen",
-    "item_type": "pronoun_adverb"
   },
   {
     "title": "Die Internet-Hauptstadt Deutschlands",
@@ -5743,76 +5743,6 @@
     "title": "Jugend diskutiert – mach mit! (معدل)",
     "teil": 2,
     "gap": "32",
-    "keyword": "wie immer",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "33",
-    "keyword": "warum",
-    "item_type": "conjunction"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "34",
-    "keyword": "außerdem",
-    "item_type": "grammar_structure"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "35",
-    "keyword": "teilnehmen an",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "36",
-    "keyword": "im Bundesfinale",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "37",
-    "keyword": "bei",
-    "item_type": "preposition"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "38",
-    "keyword": "macht aufmerksam",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "39",
-    "keyword": "eigene Argumente",
-    "item_type": "adjective_adverb"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "40",
-    "keyword": "eine Chance, zu",
-    "item_type": "fixed_expression"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "31",
-    "keyword": "seit",
-    "item_type": "preposition"
-  },
-  {
-    "title": "Jugend diskutiert – mach mit! (معدل)",
-    "teil": 2,
-    "gap": "32",
     "keyword": "teilnehmen möchten",
     "item_type": "fixed_expression"
   },
@@ -5870,7 +5800,77 @@
     "teil": 2,
     "gap": "40",
     "keyword": "eine Chance, zu",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie immer",
     "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "item_type": "conjunction"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "item_type": "grammar_structure"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "teilnehmen an",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "im Bundesfinale",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "bei",
+    "item_type": "preposition"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "macht aufmerksam",
+    "item_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "eigene Argumente",
+    "item_type": "adjective_adverb"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eine Chance, zu",
+    "item_type": "grammar_structure"
   },
   {
     "title": "Kaffee und Kuchen – ein Stück Tradition",
@@ -5947,7 +5947,7 @@
     "teil": 2,
     "gap": "31",
     "keyword": "in der Lage sein",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Katzen kennen ihren Namen",
@@ -6373,14 +6373,14 @@
     "title": "Liebesgrüße aus der Kühltruhe (معدل)",
     "teil": 2,
     "gap": "32",
-    "keyword": "Kategorien von",
-    "item_type": "preposition"
+    "keyword": "sowie",
+    "item_type": "grammar_structure"
   },
   {
     "title": "Liebesgrüße aus der Kühltruhe (معدل)",
     "teil": 2,
     "gap": "33",
-    "keyword": "sowie",
+    "keyword": "und",
     "item_type": "grammar_structure"
   },
   {
@@ -6443,14 +6443,14 @@
     "title": "Liebesgrüße aus der Kühltruhe (معدل)",
     "teil": 2,
     "gap": "32",
-    "keyword": "sowie",
-    "item_type": "grammar_structure"
+    "keyword": "Kategorien von",
+    "item_type": "preposition"
   },
   {
     "title": "Liebesgrüße aus der Kühltruhe (معدل)",
     "teil": 2,
     "gap": "33",
-    "keyword": "und",
+    "keyword": "sowie",
     "item_type": "grammar_structure"
   },
   {
@@ -6899,7 +6899,7 @@
     "teil": 2,
     "gap": "37",
     "keyword": "um zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Menschen helfen Menschen",
@@ -7025,7 +7025,7 @@
     "teil": 2,
     "gap": "35",
     "keyword": "anstatt zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
@@ -7053,7 +7053,7 @@
     "teil": 2,
     "gap": "39",
     "keyword": "um zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
@@ -7207,7 +7207,7 @@
     "teil": 2,
     "gap": "31",
     "keyword": "anstatt zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Schwarzarbeit kann teuer werden ( Original )",
@@ -7277,7 +7277,7 @@
     "teil": 2,
     "gap": "31",
     "keyword": "anstatt zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Schwarzarbeit kann teuer werden (معدل)",
@@ -7438,7 +7438,7 @@
     "teil": 2,
     "gap": "34",
     "keyword": "statt zu sitzen",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
@@ -7536,7 +7536,7 @@
     "teil": 2,
     "gap": "38",
     "keyword": "es geht darum",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Songwettbewerb auf der Burg Tanneck",
@@ -7606,7 +7606,7 @@
     "teil": 2,
     "gap": "38",
     "keyword": "um zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Städte vor dem Infarkt",
@@ -7816,7 +7816,7 @@
     "teil": 2,
     "gap": "38",
     "keyword": "sich darum kümmern",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Theater für Kinder und Jugendliche ( Original )",
@@ -7830,7 +7830,7 @@
     "teil": 2,
     "gap": "40",
     "keyword": "um zu",
-    "item_type": "fixed_expression"
+    "item_type": "grammar_structure"
   },
   {
     "title": "Theater für Kinder und Jugendliche (معدل)",

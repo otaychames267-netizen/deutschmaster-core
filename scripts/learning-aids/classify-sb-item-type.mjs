@@ -75,18 +75,25 @@ function classify(originalItem, currentKeyword) {
     return "verb_prep";
   }
 
-  // 4. Fixed verb+zu-Infinitiv constructions and other explicitly-marked
-  // fixed expressions/idioms (تعبير ثابت / تركيب ثابت / اصطلاحي, excluding
-  // the "stable state" false-positive sense of ثابت already stripped
-  // above) -- checked BEFORE the closed-class conjunction lookup below, so
-  // a phrase like "es tut mir leid, dass..." (explicitly marked as a fixed
-  // formula in the original text) stays fixed_expression even though its
-  // gap answer happens to be the conjunction word "dass". An explicit
-  // "this is a fixed expression" signal from the original careful
-  // authoring pass outranks a generic word-class heuristic.
+  // 4. "[Adjective/control verb] + zu + Infinitiv" (es ist leicht/schwer/
+  // möglich zu..., sich entschließen zu..., versuchen zu...) -- explicitly
+  // corrected by the user to grammar_structure, NOT fixed_expression: this
+  // is a PRODUCTIVE pattern (any predicative adjective or control verb can
+  // fill the slot), unlike a genuine fixed lexical collocation ("in Kauf
+  // nehmen") that only exists as that exact word combination. Checked
+  // before the generic فعل/حرف الجر signal below so a multi-word keyword
+  // like "auf Ihre Anzeige zu antworten" doesn't get diverted to verb_prep
+  // off its first word.
   if (/es ist.{0,20}zu[+\s]/i.test(currentKw) || /leicht.{0,10}zu[+\s]*infinitiv/i.test(cleanText) || /entschlie(ß|ss)en.{0,10}zu|zu\+?infinitiv/i.test(cleanText)) {
-    return "fixed_expression";
+    return "grammar_structure";
   }
+
+  // 5. Genuine fixed lexical collocation/idiom, explicitly marked (تعبير
+  // ثابت / تركيب ثابت / اصطلاحي, excluding the "stable state" false-
+  // positive sense of ثابت already stripped above) -- checked BEFORE the
+  // closed-class conjunction lookup below, so a phrase like "es tut mir
+  // leid, dass..." (a real fixed formula) stays fixed_expression even
+  // though its gap answer happens to be the conjunction word "dass".
   if (/ثابت|اصطلاحي/.test(cleanText)) return "fixed_expression";
 
   // 5. Closed-class subordinating/coordinating conjunctions and indirect-
