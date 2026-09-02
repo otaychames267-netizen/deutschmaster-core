@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
@@ -25,12 +25,6 @@ import { useAuth } from "@/lib/auth";
 export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftlich") {
   const { user, isAdmin, roleLoading } = useAuth();
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
-  // Read inside the interval without making it a dependency — putting
-  // hasAccess in the effect's deps would tear down and rebuild the interval
-  // on every single poll response, collapsing the 20s cadence into a tight
-  // back-to-back-request loop instead of an actual interval.
-  const hasAccessRef = useRef(hasAccess);
-  hasAccessRef.current = hasAccess;
 
   useEffect(() => {
     if (!user) { setHasAccess(false); return; }
@@ -54,13 +48,21 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftl
         .catch(() => { if (!cancelled) setHasAccess(false); });
     }
     check();
-    // Poll while still locked so a payment approved elsewhere (auto-approve
-    // finishing, or an admin approving a manual-review order) unlocks content
-    // on whatever page the student is already sitting on — without this, a
-    // student mid-checkout would stay stuck on a locked screen until they
-    // manually reloaded. Stops polling once access is granted (no need to
-    // keep checking a long-term subscriber every 20s on every page).
-    const interval = setInterval(() => { if (hasAccessRef.current !== true) check(); }, 20000);
+    // Keep polling regardless of the current answer — in both directions:
+    //   - still locked: a payment approved elsewhere (auto-approve finishing,
+    //     or an admin approving a manual-review order) unlocks content on
+    //     whatever page the student is already sitting on, without a manual
+    //     reload.
+    //   - already granted: a subscription that expires (or gets
+    //     cancelled/suspended) WHILE the student is mid-session must flip
+    //     this back to locked within one poll interval — otherwise a student
+    //     already on an unlocked page keeps seeing unlocked UI indefinitely,
+    //     even though every actual content fetch is independently re-checked
+    //     server-side regardless of what this flag says (see the file-level
+    //     comment). Previously this stopped polling once `hasAccess === true`,
+    //     which is what let that stale-UI window stay open for an entire
+    //     session instead of closing within 20s.
+    const interval = setInterval(check, 20000);
     return () => { cancelled = true; clearInterval(interval); };
   }, [user?.id, module, isAdmin, roleLoading]);
 

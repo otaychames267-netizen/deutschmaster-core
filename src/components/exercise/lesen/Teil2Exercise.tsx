@@ -14,9 +14,20 @@
  * (Auswertung), the same full solution shows automatically for every
  * question — no extra click needed.
  *
- * Resilience (§23, §30): in-progress answers + graded results autosave to
- * localStorage and are restored after a refresh or a closed browser; scoring
- * failures surface a retryable error instead of silently "submitting".
+ * Resilience (§23, §30): in-progress answers autosave to localStorage and are
+ * restored after a refresh or a closed browser; scoring failures surface a
+ * retryable error instead of silently "submitting".
+ *
+ * Security: the graded solution (correct_answer + learning_aids/Warum text)
+ * is deliberately NEVER written to localStorage — only the student's own
+ * answer choices and the numeric score are. If a previously-submitted
+ * attempt is restored, the solution is re-fetched from score_lesen_t2 (the
+ * same server RPC "Lösung anzeigen" uses), which re-checks the caller's
+ * subscription on every call. Without this, a student who solved the
+ * exercise while subscribed would keep seeing the cached answer key from
+ * localStorage after their subscription expired — refresh, logout/login,
+ * or a new device would all replay it, since nothing server-side is
+ * consulted again once it's sitting in the browser's own storage.
  *
  * Accessibility (§24): each question's options form an ARIA radiogroup with
  * aria-checked state and a labelled group; the result is announced via aria-live.
@@ -64,12 +75,16 @@ interface Props {
 
 type Choice = "a" | "b" | "c";
 
-/** Shape persisted to localStorage for resume-after-refresh. */
+/**
+ * Shape persisted to localStorage for resume-after-refresh. Deliberately
+ * holds ONLY the student's own answer choices + the numeric score — never
+ * `scoreResults` (which carries the real correct_answer and learning_aids
+ * text). See the Security note in the file header.
+ */
 interface PersistedAttempt {
   exerciseId: string;
   answers: Record<number, Choice>;
   submitted: boolean;
-  scoreResults: ScoreResult[] | null;
   scoreCount: number;
   scoreTotal: number;
   updatedAt: number;
@@ -112,19 +127,57 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   );
 
   // ── Resume: hydrate saved attempt once auth has resolved (so the key is stable) ──
+  // Note: `scoreResults` (the real solution) is never in the saved blob — if
+  // the restored attempt was already submitted, a separate effect below
+  // re-fetches it from the server, which re-validates access on every call.
   useEffect(() => {
     if (hydratedRef.current || authLoading) return;
     const saved = loadAttempt<PersistedAttempt>(storageKey);
     if (saved && saved.exerciseId === exercise.id) {
       setAnswers(saved.answers ?? {});
       setSubmitted(!!saved.submitted);
-      setScoreResults(saved.scoreResults ?? null);
       setScoreCount(saved.scoreCount ?? 0);
       setScoreTotal(saved.scoreTotal ?? 0);
       if (saved.submitted || Object.keys(saved.answers ?? {}).length > 0) setRestored(true);
     }
     hydratedRef.current = true;
   }, [authLoading, storageKey, exercise.id]);
+
+  // ── Re-derive the solution for a restored, already-submitted attempt.
+  // Deliberately a server round-trip (score_lesen_t2, the same non-saving
+  // RPC "Lösung anzeigen" uses) rather than trusting anything cached —
+  // this is what re-enforces the subscription check after a refresh, a
+  // logout/login, or a subscription that expired since the student last
+  // submitted. See the Security note in the file header. ──
+  useEffect(() => {
+    if (!hydratedRef.current || !submitted || scoreResults) return;
+    let cancelled = false;
+    (async () => {
+      const payload: Record<string, string> = {};
+      for (const q of questions) if (answers[q.number]) payload[String(q.number)] = answers[q.number];
+      try {
+        const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
+          p_exercise_id: exercise.id,
+          p_answers: payload,
+        });
+        if (error) throw error;
+        if (cancelled) return;
+        const res = data as unknown as { score: number; total: number; results: ScoreResult[] };
+        setScoreResults(res.results);
+        setScoreCount(res.score);
+        setScoreTotal(res.total);
+      } catch (e) {
+        // The subscription likely lapsed since this was submitted (or the
+        // exercise was unpublished) — fall back to a plain "start over"
+        // state rather than leaving a permanently-blank "submitted" screen.
+        if (!cancelled) {
+          console.error("Could not re-derive the stored solution:", e);
+          setSubmitted(false);
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [submitted, scoreResults, exercise.id, questions, answers]);
 
   // ── Autosave: persist whenever meaningful state changes (after hydration) ──
   useEffect(() => {
@@ -138,12 +191,11 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
       exerciseId: exercise.id,
       answers,
       submitted,
-      scoreResults,
       scoreCount,
       scoreTotal,
       updatedAt: Date.now(),
     });
-  }, [answers, submitted, scoreResults, scoreCount, scoreTotal, storageKey, exercise.id]);
+  }, [answers, submitted, scoreCount, scoreTotal, storageKey, exercise.id]);
 
   function select(num: number, choice: Choice) {
     if (submitted) return;

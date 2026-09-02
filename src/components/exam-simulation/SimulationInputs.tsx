@@ -12,6 +12,8 @@
  * TELC-authentic UI rather than a different one.
  */
 import { ChevronDown } from "lucide-react";
+import { useRef } from "react";
+import { UmlautToolbar, useUmlautInsertion } from "@/components/schreiben/UmlautToolbar";
 
 const CARD = "rounded-2xl border border-border bg-card p-5";
 
@@ -208,13 +210,17 @@ export function HoerenInput({ data, value, onChange }: { data: HoerenData; value
 
 export function SchreibenInput({ task, value, onChange }: { task: string; value: string; onChange: (v: string) => void }) {
   const wordCount = value.trim() ? value.trim().split(/\s+/).length : 0;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const insertChar = useUmlautInsertion(textareaRef, value, onChange);
   return (
     <div className="space-y-4">
       <div className={CARD}>
         <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Aufgabe</p>
         <p className="text-sm leading-relaxed whitespace-pre-wrap text-foreground">{task}</p>
       </div>
+      <UmlautToolbar onInsert={insertChar} />
       <textarea
+        ref={textareaRef}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={16}

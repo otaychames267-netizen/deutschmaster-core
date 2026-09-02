@@ -1,9 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 import { recordCompletion } from "@/lib/useUserProgress";
 import { notifyCreditsChanged } from "@/lib/useStudentCredits";
 import { EssayFeedback, type EssayGradingResult } from "./EssayFeedback";
+import { UmlautToolbar, useUmlautInsertion } from "@/components/schreiben/UmlautToolbar";
 import { toast } from "sonner";
 import {
   ChevronLeft, ChevronRight, Send, RotateCcw,
@@ -196,6 +197,8 @@ function WritingPrompt({
   const maxWords = (content.max_words as number) ?? 150;
   const text = (answer as string) ?? "";
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const insertChar = useUmlautInsertion(textareaRef, text, onChange);
 
   return (
     <div className="space-y-4">
@@ -203,13 +206,15 @@ function WritingPrompt({
         {task}
       </div>
       <div>
+        <UmlautToolbar onInsert={insertChar} disabled={disabled} />
         <textarea
+          ref={textareaRef}
           disabled={disabled}
           value={text}
           onChange={(e) => onChange(e.target.value)}
           rows={10}
           placeholder="Write your response here…"
-          className="w-full resize-none rounded-xl border border-input bg-background p-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:cursor-default disabled:opacity-60"
+          className="mt-2 w-full resize-none rounded-xl border border-input bg-background p-4 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:cursor-default disabled:opacity-60"
         />
         <div className="mt-1.5 flex items-center justify-between text-xs text-muted-foreground">
           <span>{wordCount} words</span>
