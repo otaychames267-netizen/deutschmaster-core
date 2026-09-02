@@ -76,7 +76,12 @@ function LesenTeil3Page() {
       }
     }
     load();
-  }, [level]);
+    // `hasAccess` deliberately included: this query is RLS-scoped
+    // server-side, so re-running it is what shrinks `exercises` to the true
+    // free-sample set the instant a mid-session expiry is detected (or
+    // restores it on a mid-session renewal) — see Lesen T1's identical fix
+    // for the full explanation of the bug this closes.
+  }, [level, hasAccess]);
 
   if (accessLoading || (hasAccess === false && catalog.loading)) {
     return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;

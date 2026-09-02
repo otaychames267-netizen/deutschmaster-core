@@ -86,9 +86,16 @@ function LesenTeil2Page() {
     }
   }, [level]);
 
+  // `hasAccess` is a deliberate dependency here even though loadList()
+  // doesn't read it directly: the query inside is RLS-scoped server-side, so
+  // re-running it is what actually shrinks `summaries` down to the true
+  // free-sample set the instant useHasPlanAccess's 20s poll detects a
+  // mid-session expiry (or grows it back on a mid-session renewal). Without
+  // this, the list stayed stale after expiry — a real bug caught via a live
+  // production test.
   useEffect(() => {
     loadList();
-  }, [loadList]);
+  }, [loadList, hasAccess]);
 
   // ── Load one exercise's full content on demand ─────────────────────────────
   const openExercise = useCallback(async (summary: T2Summary) => {

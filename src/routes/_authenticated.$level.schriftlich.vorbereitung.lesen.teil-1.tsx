@@ -66,7 +66,16 @@ function LesenTeil1Page() {
       finally { setLoading(false); }
     }
     load();
-  }, [level]);
+    // `hasAccess` is intentionally a dependency, even though it's not read
+    // inside `load()`: the query below is RLS-scoped server-side, so its
+    // actual result set changes the instant the student's subscription
+    // state changes (e.g. useHasPlanAccess's 20s poll detects a mid-session
+    // expiry). Without re-running this effect, `exercises` would keep
+    // showing the stale, pre-expiry full list — a real bug caught via a
+    // live production test: the catalog never shrank to the free-sample-only
+    // view after expiry, even though the underlying RLS still correctly
+    // blocked the actual exercise content on click.
+  }, [level, hasAccess]);
 
   // Non-subscribers: the direct fetch below is RLS-scoped server-side, so
   // `exercises` naturally contains ONLY the flagged free-sample rows for a

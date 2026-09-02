@@ -124,7 +124,12 @@ export function HoerenTeilPage({ teil }: Props) {
     }
     load();
     return () => { cancelled = true; };
-  }, [teil, level]);
+    // `hasAccess` deliberately included: this query is RLS-scoped
+    // server-side, so re-running it is what shrinks `exercises` to the true
+    // free-sample set the instant a mid-session expiry is detected (or
+    // restores it on a mid-session renewal) — see the Lesen list routes'
+    // identical fix for the full explanation of the bug this closes.
+  }, [teil, level, hasAccess]);
 
   // Statement text for locked (non-free) exercises. `hoeren_statements`
   // itself carries the same "free sample OR real subscription" RLS as every

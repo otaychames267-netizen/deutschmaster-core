@@ -29,6 +29,10 @@ const titleOf = (ex: ExMeta, i: number) => (ex.title && ex.title.trim() ? ex.tit
 function SBTeil1Page() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
+  // Hoisted above the data-loading effect below (was previously declared
+  // right before the detail view) so `hasAccess` is in scope for that
+  // effect's dependency array — see the comment there for why.
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const [list, setList] = useState<ExMeta[]>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [hiddenCount, setHiddenCount] = useState(0);
@@ -59,7 +63,12 @@ function SBTeil1Page() {
       setLoading(false);
     }
     load();
-  }, [level]);
+    // `hasAccess` deliberately included: this query is RLS-scoped
+    // server-side, so re-running it is what shrinks `list` to the true
+    // free-sample set the instant a mid-session expiry is detected (or
+    // restores it on a mid-session renewal) — see Lesen T1's identical fix
+    // for the full explanation of the bug this closes.
+  }, [level, hasAccess]);
 
   async function openExercise(i: number) {
     const meta = list[i];
@@ -83,7 +92,6 @@ function SBTeil1Page() {
   }
 
   // ── Detail view with Previous/Next navigation ──
-  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
   const catalog = useExerciseCatalog("sprachbausteine", level, 1);
   const [paywallOpen, setPaywallOpen] = useState(false);
   const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
