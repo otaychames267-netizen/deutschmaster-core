@@ -410,9 +410,7 @@ function SchriftlichPruefungPage() {
       contentCacheRef.current = {};
       setPhase("exam");
     } catch (e: any) {
-      if (e?.message?.includes("MONTHLY_LIMIT_REACHED")) {
-        toast.error("Sie haben Ihr monatliches Limit von 20 Simulationen erreicht.");
-      } else if (e?.message?.includes("NOT_ENOUGH_CONTENT")) {
+      if (e?.message?.includes("NOT_ENOUGH_CONTENT")) {
         toast.error("Noch nicht genug Aufgaben verfügbar. Bitte versuchen Sie es später erneut.");
       } else {
         toast.error("Die Prüfung konnte nicht gestartet werden.");
