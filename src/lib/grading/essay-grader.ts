@@ -68,7 +68,18 @@ Bewerte den folgenden Text nach genau drei offiziellen telc-Hauptkriterien, jewe
 
 Für formal_accuracy: zitiere im Feedback, wo immer Fehler vorhanden sind, mindestens 2-3 konkrete Beispiele direkt aus dem Text (Originalstelle + kurze Korrektur) — keine rein allgemeine Einschätzung ohne Belege.
 
-Sei so streng und kompromisslos genau, wie es ein echter telc-Prüfer für das Niveau ${level} sein muss — nicht strenger als das Raster, aber auch keinen einzigen Punkt großzügiger. Rufe ausschließlich das Tool "submit_grading" mit deiner Bewertung auf — keine Erklärungen außerhalb des Tool-Aufrufs.`;
+Sei so streng und kompromisslos genau, wie es ein echter telc-Prüfer für das Niveau ${level} sein muss — nicht strenger als das Raster, aber auch keinen einzigen Punkt großzügiger.
+
+ZUSÄTZLICH: Erstelle eine Liste "corrections" mit 3 bis 8 der wichtigsten konkreten Fehlern aus dem Text (bei einem fehlerfreien Text darf die Liste leer bleiben). Diese Liste ist für einen arabischsprachigen Deutschlerner gedacht — die Erklärungen darin MÜSSEN auf Arabisch sein, professionell und pädagogisch formuliert, keine wörtliche Maschinenübersetzung. Für jeden Eintrag:
+- "original": ein WÖRTLICHES Zitat aus dem tatsächlichen Text des Kandidaten (nie erfunden oder umformuliert).
+- "corrected": die korrigierte deutsche Version genau dieser Stelle.
+- "category": ein kurzer deutscher Grammatikbegriff (z. B. "Kasus – Dativ/Akkusativ", "Artikel", "Präposition", "Verbform", "Wortstellung", "Konnektor", "Rechtschreibung", "Register", "Aufgabenerfüllung" — wähle den Begriff, der den Fehler am genauesten trifft).
+- "explanation_ar": eine klare, professionelle arabische Erklärung, WARUM genau diese Stelle falsch ist und WARUM die Korrektur richtig ist — bezogen auf diesen konkreten Fehler, nicht allgemein. Nenne bei Grammatikfehlern den deutschen Fachbegriff (z. B. Dativ, Akkusativ, Nominativ, Präposition, Nebensatz, Konjunktiv), wo es hilfreich ist.
+- "tip_ar": ein kurzer, praktischer arabischer Lerntipp, wie dieser Fehlertyp künftig vermieden werden kann.
+
+Deckt die Liste nach Möglichkeit unterschiedliche Fehlerarten ab (nicht 8x denselben Fehlertyp), priorisiert die gravierendsten und lehrreichsten Fehler. Wurde die Aufgabenstellung inhaltlich verfehlt, füge dafür ebenfalls einen Eintrag hinzu (category "Aufgabenerfüllung"), mit "original"/"corrected" als kurzer Beschreibung des Problems statt eines Zitats.
+
+Rufe ausschließlich das Tool "submit_grading" mit deiner Bewertung auf — keine Erklärungen außerhalb des Tool-Aufrufs.`;
 }
 
 const GRADING_TOOL_SCHEMA = {
@@ -87,9 +98,38 @@ const GRADING_TOOL_SCHEMA = {
       },
       required: ["task_achievement", "communicative_design", "formal_accuracy", "summary"],
     },
+    corrections: {
+      type: "array",
+      maxItems: 8,
+      description: "3-8 der wichtigsten konkreten Fehler (leer bei einem fehlerfreien Text) — für einen arabischsprachigen Lerner, siehe Systemprompt.",
+      items: {
+        type: "object",
+        properties: {
+          original: { type: "string", description: "Wörtliches Zitat aus dem Text des Kandidaten." },
+          corrected: { type: "string", description: "Korrigierte deutsche Version dieser Stelle." },
+          category: { type: "string", description: "Kurzer deutscher Grammatikbegriff, z. B. 'Kasus – Dativ/Akkusativ'." },
+          explanation_ar: { type: "string", description: "Professionelle arabische Erklärung, warum dieser konkrete Fehler falsch ist und die Korrektur richtig ist." },
+          tip_ar: { type: "string", description: "Kurzer praktischer arabischer Lerntipp gegen diesen Fehlertyp." },
+        },
+        required: ["original", "corrected", "category", "explanation_ar", "tip_ar"],
+      },
+    },
   },
-  required: ["task_achievement_score", "communicative_design_score", "formal_accuracy_score", "feedback"],
+  required: ["task_achievement_score", "communicative_design_score", "formal_accuracy_score", "feedback", "corrections"],
 } as const;
+
+/** One concrete, quoted mistake + its correction, explained in Arabic for
+ * an Arabic-speaking German learner — this is the "Fehleranalyse" data for
+ * Schreiben (mirrors the {original} vs {corrected} pattern the Arabic
+ * mistake-analysis feature uses for Lesen/Sprachbausteine/Hören, whose
+ * per-question `learning_aids` are authored content in the same style). */
+export interface EssayCorrection {
+  original: string;
+  corrected: string;
+  category: string;
+  explanation_ar: string;
+  tip_ar: string;
+}
 
 export interface GradingResult {
   task_achievement_score: number;
@@ -102,12 +142,14 @@ export interface GradingResult {
     communicative_design: string;
     formal_accuracy: string;
     summary: string;
+    corrections: EssayCorrection[];
   };
   model: string;
 }
 
 const SCORE_KEYS = ["task_achievement_score", "communicative_design_score", "formal_accuracy_score"] as const;
 const FEEDBACK_KEYS = ["task_achievement", "communicative_design", "formal_accuracy", "summary"] as const;
+const CORRECTION_KEYS = ["original", "corrected", "category", "explanation_ar", "tip_ar"] as const;
 
 /** Schema-forced tool output is already well-shaped, but the model can still
  * violate declared bounds/required-ness in principle — this is the same
@@ -126,6 +168,16 @@ function validate(raw: any): Omit<GradingResult, "overall_score" | "passed" | "m
       throw new Error(`grading response invalid: feedback.${k} missing or empty`);
     }
   }
+  const rawCorrections = raw?.corrections;
+  if (!Array.isArray(rawCorrections)) throw new Error("grading response invalid: corrections missing or not an array");
+  const corrections: EssayCorrection[] = rawCorrections.map((c: any, i: number) => {
+    for (const k of CORRECTION_KEYS) {
+      if (!c?.[k] || typeof c[k] !== "string" || !c[k].trim()) {
+        throw new Error(`grading response invalid: corrections[${i}].${k} missing or empty`);
+      }
+    }
+    return { original: c.original, corrected: c.corrected, category: c.category, explanation_ar: c.explanation_ar, tip_ar: c.tip_ar };
+  });
   return {
     task_achievement_score: raw.task_achievement_score,
     communicative_design_score: raw.communicative_design_score,
@@ -135,6 +187,7 @@ function validate(raw: any): Omit<GradingResult, "overall_score" | "passed" | "m
       communicative_design: fb.communicative_design,
       formal_accuracy: fb.formal_accuracy,
       summary: fb.summary,
+      corrections,
     },
   };
 }
@@ -155,7 +208,7 @@ export async function gradeEssay(taskPrompt: string, essayText: string, supabase
       toolName: "submit_grading",
       toolDescription: "Submit the three-criteria telc Schreiben grading for the candidate's essay.",
       inputSchema: GRADING_TOOL_SCHEMA,
-      maxTokens: 1500,
+      maxTokens: 3000,
     });
 
     const validated = validate(data);

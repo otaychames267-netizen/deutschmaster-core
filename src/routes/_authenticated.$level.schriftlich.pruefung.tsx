@@ -18,6 +18,12 @@ import {
 import { SBTeil1Exercise, type SBT1ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil1Exercise";
 import { SBTeil2Exercise, type SBT2ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil2Exercise";
 import { ProtectedContentGate } from "@/components/content-protection/ProtectedContentGate";
+import {
+  FehleranalyseSection, SchreibenCorrections,
+  resolveLesenT1, resolveLesenT2, resolveLesenT3, resolveSbT1, resolveSbT2, resolveHoeren,
+  type FehlerItem,
+} from "@/components/exam-simulation/Fehleranalyse";
+import type { EssayCorrection } from "@/lib/grading/essay-grader";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/pruefung")({
   component: () => (
@@ -185,41 +191,153 @@ function PreExamScreen({ onStart, starting }: { onStart: () => void; starting: b
 
 /* ─── Result screen ─────────────────────────────────────────── */
 
-function ResultsScreen({ result }: { result: ResultShape }) {
+interface FehleranalyseData {
+  bySection: Record<Exclude<SectionKey, "schreiben">, FehlerItem[]>;
+  schreibenCorrections: EssayCorrection[];
+  schreibenBlank: boolean;
+}
+
+/** Loads everything the Arabic Fehleranalyse needs and isn't already in
+ * `attempt`/`result` state: the authoritative `section_results` snapshot
+ * (written once by score_simulation_sections, at scoring time — the
+ * `attempt` row in the parent's state is stale, fetched before scoring),
+ * each section's own content (option/headline/statement text, to resolve
+ * answer keys into human-readable text), and the essay grading's
+ * `corrections` array. Read-only, side-effect-free — safe to run every
+ * time the results screen mounts. */
+function useFehleranalyse(attempt: AttemptRow, essayGradingId: string | null): { data: FehleranalyseData | null; loading: boolean } {
+  const [data, setData] = useState<FehleranalyseData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      const [{ data: row }, contents, gradingRes] = await Promise.all([
+        (supabase as any).from("simulation_attempts").select("section_results").eq("id", attempt.id).maybeSingle(),
+        Promise.all(SECTIONS.filter((s) => s.key !== "schreiben").map((s) => loadSectionContent(s.key, attempt))),
+        essayGradingId
+          ? (supabase as any).from("essay_gradings").select("feedback").eq("id", essayGradingId).maybeSingle()
+          : Promise.resolve({ data: null }),
+      ]);
+      if (cancelled) return;
+      const sr = (row?.section_results ?? {}) as Record<string, any>;
+      const objectiveSections = SECTIONS.filter((s) => s.key !== "schreiben").map((s) => s.key);
+      const contentBySection = Object.fromEntries(objectiveSections.map((k, i) => [k, contents[i]])) as Record<string, unknown>;
+
+      const bySection: FehleranalyseData["bySection"] = {
+        lesen_t1: resolveLesenT1(sr.lesen_t1, contentBySection.lesen_t1 as any),
+        lesen_t2: resolveLesenT2(sr.lesen_t2, contentBySection.lesen_t2 as any),
+        lesen_t3: resolveLesenT3(sr.lesen_t3, contentBySection.lesen_t3 as any),
+        sb_t1: resolveSbT1(sr.sb_t1, contentBySection.sb_t1 as any),
+        sb_t2: resolveSbT2(sr.sb_t2),
+        hoeren_t1: resolveHoeren(1, sr.hoeren_t1, contentBySection.hoeren_t1 as any),
+        hoeren_t2: resolveHoeren(2, sr.hoeren_t2, contentBySection.hoeren_t2 as any),
+        hoeren_t3: resolveHoeren(3, sr.hoeren_t3, contentBySection.hoeren_t3 as any),
+      };
+      const feedback = (gradingRes as any)?.data?.feedback as { corrections?: EssayCorrection[] } | undefined;
+      setData({
+        bySection,
+        schreibenCorrections: feedback?.corrections ?? [],
+        schreibenBlank: !essayGradingId,
+      });
+      setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [attempt.id, essayGradingId]);
+
+  return { data, loading };
+}
+
+const SECTION_GROUP_LABEL: Record<string, string> = { Lesen: "Lesen", Sprachbausteine: "Sprachbausteine", Hören: "Hören" };
+
+function ResultsScreen({ result, attempt, essayGradingId }: { result: ResultShape; attempt: AttemptRow; essayGradingId: string | null }) {
   const rows = [
     { label: "Lesen", score: result.score_lesen, max: 75 },
     { label: "Sprachbausteine", score: result.score_sb, max: 30 },
     { label: "Hören", score: result.score_hoeren, max: 75 },
     { label: "Schreiben", score: result.score_schreiben, max: 45 },
   ];
+  const { data: fehler, loading: fehlerLoading } = useFehleranalyse(attempt, essayGradingId);
+
+  const groups = fehler
+    ? (["Lesen", "Sprachbausteine", "Hören"] as const).map((group) => ({
+        group,
+        sections: SECTIONS.filter((s) => s.group === group).map((s) => ({ key: s.key as Exclude<SectionKey, "schreiben">, items: fehler.bySection[s.key as Exclude<SectionKey, "schreiben">] ?? [] })),
+      }))
+    : [];
+  const totalMistakes = fehler
+    ? Object.values(fehler.bySection).reduce((n, items) => n + items.length, 0) + fehler.schreibenCorrections.length
+    : 0;
+
   return (
-    <div className="mx-auto max-w-lg space-y-6 pb-8 text-center">
-      <div className={`mx-auto flex h-24 w-24 items-center justify-center rounded-2xl ${result.passed ? "bg-emerald-500/10" : "bg-destructive/10"}`}>
-        {result.passed ? <CheckCircle2 className="h-12 w-12 text-emerald-500" /> : <AlertCircle className="h-12 w-12 text-destructive" />}
-      </div>
-      <div>
-        <p className="text-4xl font-bold text-foreground">{result.score_total} / 225</p>
-        <p className={`mt-2 font-semibold ${result.passed ? "text-emerald-500" : "text-destructive"}`}>
-          {result.passed ? "BESTANDEN" : "NICHT BESTANDEN"}
-        </p>
-      </div>
-      <div className="space-y-3 rounded-2xl border border-border bg-card p-5 text-left">
-        {rows.map((r) => (
-          <div key={r.label}>
-            <div className="mb-1 flex items-center justify-between text-sm">
-              <span className="font-medium text-foreground">{r.label}</span>
-              <span className="text-muted-foreground">{r.score} / {r.max}</span>
+    <div className="mx-auto max-w-3xl space-y-6 pb-12">
+      <div className="mx-auto max-w-lg space-y-6 text-center">
+        <div className={`mx-auto flex h-24 w-24 items-center justify-center rounded-2xl ${result.passed ? "bg-emerald-500/10" : "bg-destructive/10"}`}>
+          {result.passed ? <CheckCircle2 className="h-12 w-12 text-emerald-500" /> : <AlertCircle className="h-12 w-12 text-destructive" />}
+        </div>
+        <div>
+          <p className="text-4xl font-bold text-foreground">{result.score_total} / 225</p>
+          <p className={`mt-2 font-semibold ${result.passed ? "text-emerald-500" : "text-destructive"}`}>
+            {result.passed ? "BESTANDEN" : "NICHT BESTANDEN"}
+          </p>
+        </div>
+        <div className="space-y-3 rounded-2xl border border-border bg-card p-5 text-left">
+          {rows.map((r) => (
+            <div key={r.label}>
+              <div className="mb-1 flex items-center justify-between text-sm">
+                <span className="font-medium text-foreground">{r.label}</span>
+                <span className="text-muted-foreground">{r.score} / {r.max}</span>
+              </div>
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+                <div className="h-full rounded-full bg-primary" style={{ width: `${(r.score / r.max) * 100}%` }} />
+              </div>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-              <div className="h-full rounded-full bg-primary" style={{ width: `${(r.score / r.max) * 100}%` }} />
-            </div>
+          ))}
+        </div>
+        <button onClick={() => window.location.reload()}
+          className="mx-auto flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
+          Neue Prüfung starten
+        </button>
+      </div>
+
+      {/* ── Fehleranalyse (Arabic mistake analysis) ── */}
+      <div className="space-y-5">
+        <div dir="rtl" lang="ar" className="flex items-center justify-between border-t border-border pt-6">
+          <h2 className="text-lg font-black text-foreground">📊 تحليل الأخطاء (Fehleranalyse)</h2>
+          {fehlerLoading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+        </div>
+
+        {!fehlerLoading && fehler && totalMistakes === 0 && (
+          <div dir="rtl" lang="ar" className="rounded-2xl border border-emerald-500/20 bg-emerald-500/5 p-5 text-center">
+            <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">🎉 لا توجد أخطاء لتحليلها — أداء ممتاز في هذه المحاولة!</p>
           </div>
-        ))}
+        )}
+
+        {fehler && groups.map(({ group, sections }) => {
+          const groupHasMistakes = sections.some((s) => s.items.length > 0);
+          if (!groupHasMistakes) return null;
+          return (
+            <div key={group} className="space-y-3">
+              <h3 dir="rtl" lang="ar" className="text-sm font-bold text-foreground">{SECTION_GROUP_LABEL[group]}</h3>
+              {sections.map(({ key, items }) => <FehleranalyseSection key={key} sectionKey={key} items={items} />)}
+            </div>
+          );
+        })}
+
+        {fehler && (fehler.schreibenCorrections.length > 0 || fehler.schreibenBlank) && (
+          <div className="space-y-3">
+            <h3 dir="rtl" lang="ar" className="text-sm font-bold text-foreground">Schreiben</h3>
+            {fehler.schreibenBlank ? (
+              <div dir="rtl" lang="ar" className="rounded-2xl border border-rose-500/20 bg-rose-500/[0.03] p-5 text-sm text-muted-foreground">
+                لم يتم تسليم نص كافٍ في جزء الكتابة (Schreiben) في هذه المحاولة، لذلك لا يوجد تصحيح لعرضه.
+              </div>
+            ) : (
+              <SchreibenCorrections corrections={fehler.schreibenCorrections} />
+            )}
+          </div>
+        )}
       </div>
-      <button onClick={() => window.location.reload()}
-        className="mx-auto flex items-center gap-2 rounded-xl bg-primary px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90 transition-colors">
-        Neue Prüfung starten
-      </button>
     </div>
   );
 }
@@ -241,6 +359,7 @@ function SchriftlichPruefungPage() {
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [schreibenText, setSchreibenText] = useState("");
   const [result, setResult] = useState<ResultShape | null>(null);
+  const [essayGradingId, setEssayGradingId] = useState<string | null>(null);
   const [remaining, setRemaining] = useState(EXAM_DURATION_SEC);
 
   const offsetRef = useRef(0);
@@ -367,6 +486,7 @@ function SchriftlichPruefungPage() {
       if (!res.ok) throw new Error("submit failed");
       const data = await res.json();
       setResult(data as ResultShape);
+      setEssayGradingId((data as any).essay_grading_id ?? null);
       setPhase("result");
     } catch (e) {
       console.error("submitExam failed:", e);
@@ -490,8 +610,8 @@ function SchriftlichPruefungPage() {
     return <PreExamScreen onStart={startExam} starting={starting} />;
   }
 
-  if (phase === "result" && result) {
-    return <ResultsScreen result={result} />;
+  if (phase === "result" && result && attempt) {
+    return <ResultsScreen result={result} attempt={attempt} essayGradingId={essayGradingId} />;
   }
 
   // exam / submitting
