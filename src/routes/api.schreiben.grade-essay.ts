@@ -128,7 +128,7 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
           console.error("[grade-essay] grading failed, credit refunded:", e);
           return Response.json(
-            { error: "GRADING_FAILED", message: "Grading failed — your credit was refunded. Please try again.", debug: String((e as any)?.message ?? e) },
+            { error: "GRADING_FAILED", message: "Grading failed — your credit was refunded. Please try again." },
             { status: 502 },
           );
         }
