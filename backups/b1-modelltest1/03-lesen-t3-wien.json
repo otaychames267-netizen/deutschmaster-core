@@ -1,0 +1,34 @@
+{
+  "teil": 3,
+  "title": "Wien",
+  "level": "TELC_B1",
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 1/16 (Petra/Language Tests, pages 5-6). Answer key from Lösungen page (p.13): 11G 12F 13J 14A 15X 16E 17X 18C 19I 20L.",
+  "key": "GFJAXEXCIL",
+  "situations": {
+    "11": "Sie möchten für ein Jahr in Wien Psychologie studieren und suchen daher eine günstige Mietwohnung.",
+    "12": "Sie möchten am Abend ins Kino gehen und suchen daher eine verlässliche Person, die auf Ihr Kind aufpasst.",
+    "13": "Sie möchten in den Sommerferien nebenbei ein wenig Geld dazu verdienen und suchen daher einen passenden Job.",
+    "14": "Sie möchten ein Geburtstagsfest organisieren und brauchen dafür einen Raum. Um das Essen und die Getränke für die Gäste möchten Sie sich selbst kümmern.",
+    "15": "Ihre Bekannten aus Deutschland müssen aus beruflichen Gründen nach Salzburg umziehen und haben Sie gebeten, eine Mietwohnung für sie suchen.",
+    "16": "Ihre 23-jährige Freundin hat soeben einen Computerkurs abgeschlossen und sucht einen Job.",
+    "17": "Ihr 12-jähriger Sohn wünscht sich zum Geburtstag ein Buch über Sterne.",
+    "18": "Ihre Kinder möchten am Nachmittag ins Kino gehen. Sie suchen einen passenden Film für Kinder.",
+    "19": "Sie möchten mit Freunden gern ins Kino gehen. Da es ein sehr warmer Sommerabend ist, suchen Sie nach einer Vorstellung im Freien.",
+    "20": "Ihre Freundin ist Erzieherin und zur Zeit arbeitslos. Sie möchte daher als Kindermädchen bei einer Familie arbeiten."
+  },
+  "texts": {
+    "A": { "title": "", "content": "Feiern im Café-Restaurant WEBERKNECHT. Großer Festsaal (bis zu 100 Gäste) mit Musikanlage, Buffet und Getränken, alles inklusive ab 100 Euro. Bei mitgebrachten Speisen und Getränken zahlen Sie nur die Saalmiete! Nähere Informationen unter: 313 43 56" },
+    "B": { "title": "", "content": "Nach 3 freie Plätze im Privatkindergarten BAMBI!!! Pädagogisches Top-Team, helle, kindergerechte Räume, eigene Spielwiese, ganzjährig geöffnet, Betreuung Mo-Fr 6-18 Uhr. Wir freuen uns auf Ihren Liebling! Tel: 533 12 43" },
+    "C": { "title": "", "content": "KINO-CENTER 312 45 89. Saal 1: 15:30 Shrek 2, 19:00 Sin städtische Doppelvorstellung; Saal 2: 16:00 Das Komplott, 20:15 Sixth Sense; Saal 3: 14:30 Mäusejagd (ab 0 Jahren); Saal 4: 20:15 Besser geht's nicht (Oscar-Gewinner)" },
+    "D": { "title": "", "content": "Sie wollen ein unvergessliches Fest feiern? Dann holen Sie den Partyservice! Wir kümmern uns um Speisen und Getränke für jedes Fest, Geburtstag, Hochzeit, Kinderparties, etc. Reservierungen spätestens 4 Wochen vor dem Fest! Tel: 214 34 65, Frau Korn" },
+    "E": { "title": "", "content": "AirPlus (Austrian Airlines/Diners Club Kreditkarte) sucht Sachbearbeiter(in) für Kundendienst. 22- bis 26-Jährige mit Maturaniveau und Berufserfahrung (Computerkenntnisse). Sind Sie genau und zuverlässig und haben Interesse an telefonischem Kontakt mit unseren Kunden, dann sollten Sie uns Ihre Bewerbungsunterlagen mit Foto nach zusenden. AirPlus, A-1107 Wien, Fontanastraße 1, (01) 1766/3661" },
+    "F": { "title": "", "content": "23-jährige Psychologiestudentin, kinderlieb, zeitlich flexibel und im Umgang mit Kindern erfahren, kümmert sich stundenweise gerne um Ihre Kinder! 10 Euro/Stunde! Ich freue mich auf Ihren Anruf. Lisa, Tel: 312 04 23" },
+    "G": { "title": "", "content": "Studentenhit in Wien! 1-Zimmer-Wohnung, 30 m², Bad, WC, Uni-Nähe, keine Ablöse, befristet für 1 Jahr, monatlich 300 Euro inkl. Betriebskosten. Uni-Real, 5533-0" },
+    "H": { "title": "", "content": "A-1030 Wien, Hangmayerstraße. Studenteneigentum. 1-Zi.-Wohnung, Küche, Bad, Balkon, 29 m², ruhige Lage, sofort anrufen, KP 50.000 Euro. Tel. 38 80 44" },
+    "I": { "title": "", "content": "KINO UNTER STERNEN. OPEN AIR IM AUGARTEN. Der Film heute: MEET ME IN ST. LOUIS. Musical über die 4 Jahreszeiten einer Familie, mit Judy Garland / 21:30" },
+    "J": { "title": "", "content": "STADTKINO sucht für die Sommermonate Juli - September junge MitarbeiterInnen für den Kartenverkauf und das Buffet, 10 Stunden/Woche, abends, guter Verdienst. Nähere Auskünfte: Karin Moor, Tel.: 712 6276" },
+    "K": { "title": "", "content": "\"PC-Kenntnisse notwendig\" - steht das auch in der Anzeige für Ihren Traumjob? Kein Problem! Die Volkshochschule Simmering bietet berufsorientierte PC-Kurse (Abend- und Wochenendkurse)" },
+    "L": { "title": "", "content": "Familie sucht Babysitterin bzw. Kindermädchen (zuverlässig, erfahren, freundlich). Arbeitszeit nach Absprache. Familie Hock, Tel. 217 354" }
+  }
+}

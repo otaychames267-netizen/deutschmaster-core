@@ -1,0 +1,22 @@
+{
+  "title": "Frau Schäfer",
+  "teil": 2,
+  "level": "B1",
+  "position": 1,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 1/16 (Petra/Language Tests, page 10). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.13): 46- 47- 48+ 49- 50+ 51+ 52+ 53+ 54- 55-.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Frau Schäfer hat von dem Verein kurz nach der Gründung zum ersten Mal gehört.", "correct": false },
+    { "number": 47, "text": "Die Mitglieder des Vereins kommen aus ganz Deutschland.", "correct": false },
+    { "number": 48, "text": "Die Mitglieder des Vereins wissen über Hausarbeit gut Bescheid.", "correct": true },
+    { "number": 49, "text": "Im Verein werden oft Feste gefeiert.", "correct": false },
+    { "number": 50, "text": "Der Verein bietet auch die Organisation von Festen an.", "correct": true },
+    { "number": 51, "text": "Der Verein vermittelt Senioren, die tagsüber Kinder betreuen.", "correct": true },
+    { "number": 52, "text": "Laut Frau Schäfer vertrauen viele Familien den Mitarbeiterinnen des Vereins mehr als anderen.", "correct": true },
+    { "number": 53, "text": "Vereinsmitglied kann nur werden, wer einen Beruf gelernt hat.", "correct": true },
+    { "number": 54, "text": "Die Mitarbeiterinnen bekommen für ihre Arbeiten 10 Euro pro Stunde.", "correct": false },
+    { "number": 55, "text": "Kunden mit wenig Geld zahlen für den Service nichts.", "correct": false }
+  ]
+}

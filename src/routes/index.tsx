@@ -1,15 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { BrandMark } from "@/components/BrandMark";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
+import { MUENDLICH_ENABLED, isPlanPurchasable, LEMONSQUEEZY_VISIBLE, CARD_PAYMENTS_ENABLED } from "@/lib/features";
+import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import i18n from "@/lib/i18n";
 import {
-  BookOpen, Headphones, PenLine, Mic, GraduationCap,
+  BookOpen, Headphones, PenLine, Mic,
   Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
-  Zap, Shield, Clock, TrendingUp, Users, Award, Play,
-  ChevronDown, Menu, X,
+  Zap, Shield, Clock, TrendingUp, Award, Play,
+  ChevronDown, Menu, X, Landmark, CreditCard,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -22,7 +25,7 @@ const PLANS = [
   {
     key: "schriftlich",
     name: "Schriftlich",
-    price: "25",
+    price: "30",
     period: " TND",
     desc: "Master all written exam components",
     features: [
@@ -38,24 +41,24 @@ const PLANS = [
   {
     key: "komplett",
     name: "Komplett",
-    price: "60",
+    price: "30",
     period: " TND",
     desc: "Complete preparation for both written and spoken",
     features: [
-      "Everything in Schriftlich",
+      "Lesen, Hören, Sprachbausteine & Schreiben",
       "Mündlich — full preparation",
       "Full exam simulations",
       "Priority support",
       "Progress analytics",
     ],
     highlighted: true,
-    badge: "Best Value",
-    save: "Save 10 TND vs. buying both separately",
+    badge: "Full access",
+    save: null,
   },
   {
     key: "muendlich",
     name: "Mündlich",
-    price: "45",
+    price: "55",
     period: " TND",
     desc: "Perfect your speaking and oral skills",
     features: [
@@ -118,8 +121,8 @@ const FEATURES = [
 const STEPS = [
   {
     number: "01",
-    title: "Choose your level",
-    desc: "Select TELC B1 or B2. Set your exam date to activate a personalised study plan.",
+    title: "Get started",
+    desc: "Set your exam date to activate a personalised TELC B2 study plan.",
   },
   {
     number: "02",
@@ -133,42 +136,16 @@ const STEPS = [
   },
 ];
 
-const TESTIMONIALS = [
-  {
-    name: "Amina R.",
-    role: "Passed TELC B2 — March 2026",
-    body: "I practised for 3 weeks using AuraLingovia and scored 87 points. The exam simulations were almost identical to the real test. I can't recommend it enough.",
-    rating: 5,
-  },
-  {
-    name: "Mehmet K.",
-    role: "Passed TELC B1 — January 2026",
-    body: "The Sprachbausteine and Hören sections used to terrify me. After two weeks of daily practice the patterns became second nature. The interface is genuinely beautiful.",
-    rating: 5,
-  },
-  {
-    name: "Lena B.",
-    role: "Preparing for TELC B2",
-    body: "I tried several apps before this one. AuraLingovia is the only platform that covers every single part of the exam with real-quality content. The analytics helped me see exactly where I was losing marks.",
-    rating: 5,
-  },
-];
-
 const STATS = [
-  { value: "10,000+", label: "Active students", icon: Users },
-  { value: "94%",     label: "Pass rate",        icon: Award },
-  { value: "500+",    label: "Practice exams",   icon: BookOpen },
-  { value: "7",       label: "UI languages",     icon: Globe },
+  { value: "500+", label: "Practice exercises", icon: BookOpen },
+  { value: "4",    label: "Exam sections live", icon: Award },
+  { value: "7",    label: "UI languages",       icon: Globe },
 ];
 
 const FAQ_ITEMS = [
   {
-    q: "What is included in the 3-day free trial?",
-    a: "You get full, unrestricted access to every feature for 3 days — no credit card required. After the trial you simply choose the plan that matches your preparation goals.",
-  },
-  {
-    q: "Can I switch between TELC B1 and B2?",
-    a: "Yes. You can change your target level at any time from your profile settings. Progress in each level is tracked independently.",
+    q: "Which exam level does AuraLingovia cover?",
+    a: "AuraLingovia currently focuses exclusively on TELC B2, with every section — Lesen, Hören, Sprachbausteine, Schreiben, and Mündlich — built to that standard.",
   },
   {
     q: "How is my score calculated?",
@@ -176,7 +153,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is payment secure?",
-    a: "Payments are processed by Stripe — the industry standard for online payments. Your card details are never stored on our servers.",
+    a: "Yes. Students in Tunisia can pay via D17 mobile transfer, verified by our team — usually within moments, up to 8 working hours for manual review. Card payments via Lemon Squeezy are coming soon; your card details are never stored on our servers.",
   },
   {
     q: "Which languages is the interface available in?",
@@ -184,7 +161,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Can I cancel my subscription at any time?",
-    a: "Yes — cancel from your billing page with one click. No hidden fees, no awkward retention flows. Your access remains active until the end of the billing period.",
+    a: "Yes — contact support any time and we'll cancel your subscription right away, no questions asked and no hidden fees. Your access remains active until the end of the billing period you've already paid for.",
   },
 ];
 
@@ -202,19 +179,21 @@ function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-primary shadow-sm">
-            <GraduationCap className="h-4 w-4 text-primary-foreground" />
+            <BrandMark className="h-4 w-4 text-primary-foreground" />
           </div>
-          <span className="text-base font-semibold tracking-tight text-foreground">
-            AuraLingovia
+          <span className="text-base font-semibold tracking-tight">
+            <span className="bg-gradient-to-br from-[#a9782c] via-[#e7bb54] to-[#9c6d28] bg-clip-text text-transparent">Aura</span>
+            <span className="text-foreground">Lingovia</span>
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground md:flex">
+        <nav className="hidden items-center gap-6 text-sm font-medium text-muted-foreground lg:flex">
           <a href="#features" className="transition-colors hover:text-foreground">{t("nav.features")}</a>
           <a href="#how-it-works" className="transition-colors hover:text-foreground">How it works</a>
           <a href="#pricing" className="transition-colors hover:text-foreground">{t("nav.pricing")}</a>
           <a href="#faq" className="transition-colors hover:text-foreground">{t("nav.faq")}</a>
+          <Link to="/contact" className="transition-colors hover:text-foreground">{t("nav.contact")}</Link>
         </nav>
 
         {/* Right controls */}
@@ -259,14 +238,14 @@ function Navbar() {
                 to="/register"
                 className="inline-flex items-center rounded-lg bg-primary px-3.5 py-1.5 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90"
               >
-                Start free trial
+                Get Started
               </Link>
             </div>
           )}
 
           {/* Mobile hamburger */}
           <button
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground sm:hidden"
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground lg:hidden"
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -276,7 +255,7 @@ function Navbar() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 sm:hidden">
+        <div className="border-t border-border bg-background/95 px-4 pb-4 pt-2 lg:hidden">
           <nav className="flex flex-col gap-1">
             {["features", "how-it-works", "pricing", "faq"].map((id) => (
               <a
@@ -288,6 +267,13 @@ function Navbar() {
                 {id === "how-it-works" ? "How it works" : id.charAt(0).toUpperCase() + id.slice(1)}
               </a>
             ))}
+            <Link
+              to="/contact"
+              onClick={() => setOpen(false)}
+              className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              {t("nav.contact")}
+            </Link>
             <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
               <Link to="/login" className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted">
                 Sign in
@@ -296,7 +282,7 @@ function Navbar() {
                 to="/register"
                 className="inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground"
               >
-                Start free trial — 3 days free
+                Get Started
               </Link>
             </div>
           </nav>
@@ -319,7 +305,7 @@ function Hero() {
         {/* Badge */}
         <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-border bg-background/80 px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur-sm">
           <Zap className="h-3.5 w-3.5 text-gold" />
-          TELC B1 &amp; B2 · Professional Exam Preparation
+          TELC B2 · Professional Exam Preparation
         </div>
 
         {/* Headline */}
@@ -330,7 +316,7 @@ function Hero() {
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          AuraLingovia covers every section of the TELC B1 and B2 exam — Lesen,
+          AuraLingovia covers every section of the TELC B2 exam — Lesen,
           Hören, Schreiben, Sprachbausteine, and Mündlich — with authentic
           practice material and full exam simulations.
         </p>
@@ -341,7 +327,7 @@ function Hero() {
             to="/register"
             className="inline-flex items-center gap-2 rounded-xl bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary/90 hover:shadow-primary/30"
           >
-            Start your free trial
+            Get Started
             <ArrowRight className="h-4 w-4" />
           </Link>
           <a
@@ -355,13 +341,13 @@ function Hero() {
 
         {/* Trust line */}
         <p className="mt-5 text-xs text-muted-foreground">
-          3-day free trial · No credit card required · Cancel anytime
+          Secure payments · Cancel anytime
         </p>
       </div>
 
       {/* Stats bar */}
       <div className="relative mx-auto mt-20 max-w-3xl px-4">
-        <div className="grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-md sm:grid-cols-4">
+        <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border shadow-md sm:grid-cols-3">
           {STATS.map((s) => (
             <div key={s.label} className="flex flex-col items-center justify-center gap-1 bg-card/80 px-4 py-5 backdrop-blur-sm">
               <s.icon className="mb-0.5 h-4 w-4 text-muted-foreground" />
@@ -413,6 +399,7 @@ function HowItWorks() {
 /* ─── Features ──────────────────────────────────────────────────────── */
 
 function Features() {
+  const muendlichVisible = useMuendlichVisible();
   return (
     <section id="features" className="py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -424,12 +411,14 @@ function Features() {
             Every exam section. Fully covered.
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base text-muted-foreground">
-            AuraLingovia is the only platform built exclusively around the TELC B1 and B2 exam structure — nothing extra, nothing missing.
+            AuraLingovia is the only platform built exclusively around the TELC B2 exam structure — nothing extra, nothing missing.
           </p>
         </div>
 
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map((f) => (
+          {/* Mündlich card is hidden until the speaking module ships (features.ts),
+              with a per-account developer preview for admins via useMuendlichVisible. */}
+          {FEATURES.filter((f) => muendlichVisible || f.title !== "Mündlich").map((f) => (
             <div
               key={f.title}
               className={`group rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:shadow-md ${f.border}`}
@@ -449,58 +438,11 @@ function Features() {
             { icon: Shield, text: "Bank-grade security" },
             { icon: Clock, text: "Instant access after signup" },
             { icon: Globe, text: "Available in 7 languages" },
-            { icon: Award, text: "94 % student pass rate" },
+            { icon: Award, text: "Built to the real TELC B2 exam structure" },
           ].map((t) => (
             <div key={t.text} className="flex items-center gap-1.5">
               <t.icon className="h-3.5 w-3.5 text-primary" />
               <span>{t.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─── Testimonials ──────────────────────────────────────────────────── */
-
-function Testimonials() {
-  return (
-    <section className="border-y border-border bg-muted/30 py-20 sm:py-28">
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <div className="text-center">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
-            Student results
-          </p>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Trusted by thousands of learners
-          </h2>
-        </div>
-
-        <div className="mt-12 grid gap-5 sm:grid-cols-3">
-          {TESTIMONIALS.map((t, i) => (
-            <div
-              key={i}
-              className="flex flex-col rounded-2xl border border-border bg-card p-6 shadow-sm"
-            >
-              {/* Stars */}
-              <div className="mb-4 flex gap-0.5">
-                {Array.from({ length: t.rating }).map((_, j) => (
-                  <Star key={j} className="h-3.5 w-3.5 fill-gold text-gold" />
-                ))}
-              </div>
-
-              <p className="flex-1 text-sm leading-relaxed text-foreground">"{t.body}"</p>
-
-              <div className="mt-5 flex items-center gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-xs font-bold text-primary">
-                  {t.name.split(" ")[0][0]}{t.name.split(" ")[1]?.[0]}
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-foreground">{t.name}</p>
-                  <p className="text-xs text-muted-foreground">{t.role}</p>
-                </div>
-              </div>
             </div>
           ))}
         </div>
@@ -525,12 +467,14 @@ function Pricing() {
             {t("pricing.title")}
           </h2>
           <p className="mt-3 text-base text-muted-foreground">
-            3-day free trial on every plan. No credit card required.
+            Choose the plan that matches your exam goals.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
-          {PLANS.map((plan) => (
+        {/* Only purchasable plans are shown. While Mündlich is disabled, that's
+            Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
+          {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
@@ -588,7 +532,7 @@ function Pricing() {
                     : "bg-primary text-primary-foreground hover:bg-primary/90"
                 }`}
               >
-                Start free trial <ChevronRight className="h-3.5 w-3.5" />
+                Get Started <ChevronRight className="h-3.5 w-3.5" />
               </Link>
             </div>
           ))}
@@ -596,8 +540,30 @@ function Pricing() {
 
         {/* Guarantee note */}
         <p className="mt-8 text-center text-xs text-muted-foreground">
-          All plans include a 3-day free trial. Cancel anytime — no questions asked.
+          Cancel anytime — no questions asked.
         </p>
+
+        {/* Accepted payment methods */}
+        <div className="mx-auto mt-6 flex max-w-md flex-col items-center gap-3 rounded-2xl border border-border bg-card/50 px-6 py-4">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+            Accepted payment methods
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+              <Landmark className="h-4 w-4 text-muted-foreground" /> D17 Mobile Transfer
+            </div>
+            {LEMONSQUEEZY_VISIBLE && (
+              <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+                <CreditCard className="h-4 w-4 text-muted-foreground" /> Lemon Squeezy
+                {!CARD_PAYMENTS_ENABLED && (
+                  <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">
+                    Coming soon
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -668,7 +634,7 @@ function CTABanner() {
               Your exam preparation starts now
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-white/70">
-              Join over 10,000 students who chose AuraLingovia to prepare for their TELC exam. 3 days free — no card needed.
+              Structured, exam-aligned practice for every part of the TELC B2 exam — start today.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
@@ -704,12 +670,15 @@ function Footer() {
           <div className="col-span-2 sm:col-span-1">
             <div className="flex items-center gap-2">
               <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary shadow-sm">
-                <GraduationCap className="h-4 w-4 text-primary-foreground" />
+                <BrandMark className="h-4 w-4 text-primary-foreground" />
               </div>
-              <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
+              <span className="text-sm font-semibold">
+                <span className="bg-gradient-to-br from-[#a9782c] via-[#e7bb54] to-[#9c6d28] bg-clip-text text-transparent">Aura</span>
+                <span className="text-foreground">Lingovia</span>
+              </span>
             </div>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-              Professional TELC B1 &amp; B2 exam preparation. Structured, authentic, effective.
+              Professional TELC B2 exam preparation. Structured, authentic, effective.
             </p>
           </div>
 
@@ -720,6 +689,7 @@ function Footer() {
               <a href="#features" className="hover:text-foreground transition-colors">Features</a>
               <a href="#pricing" className="hover:text-foreground transition-colors">Pricing</a>
               <a href="#faq" className="hover:text-foreground transition-colors">FAQ</a>
+              <Link to="/contact" className="hover:text-foreground transition-colors">Contact</Link>
             </div>
           </div>
 
@@ -750,7 +720,7 @@ function Footer() {
           </p>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Shield className="h-3 w-3" />
-            Secured by Supabase · Payments by Stripe
+            Secured by Supabase · Payments via D17 & Lemon Squeezy
           </div>
         </div>
       </div>
@@ -768,7 +738,6 @@ function LandingPage() {
         <Hero />
         <HowItWorks />
         <Features />
-        <Testimonials />
         <Pricing />
         <FAQ />
         <CTABanner />

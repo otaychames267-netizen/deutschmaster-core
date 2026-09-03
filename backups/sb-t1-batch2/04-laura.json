@@ -1,0 +1,20 @@
+{
+  "title": "Laura",
+  "level": "B2",
+  "position": 43,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Liebe Laura,\n\nseit drei Wochen bin ich jetzt schon in Deutschland. Mein Praktikum bei der Firma Intermarketing macht mir großen Spaß und ich habe schon viele Dinge gelernt, von {{21}} man an der Berufsschule bestenfalls am Rande hört. Mein Chef ist sehr geduldig mit mir. Besonders in den ersten beiden Wochen war {{22}} mühevoll, an einem fremden Computer zu sitzen und mit all den neuen unbekannten Programmen zu arbeiten. Aber nun habe ich mich {{23}} gewöhnt und muss meinen Chef kaum noch um Rat fragen.\nAn das Wetter hier in Wilhelmshaven muss ich mich aber noch gewöhnen. Denn obwohl wir Sommer haben, bläst hier immer ein ordentlicher Wind – eine steife Brise, wie man hier sagt – von der Nordsee her. Man muss ständig {{24}} Pullover dabeihaben, sonst kann man hier auch im August eine Gänsehaut bekommen. Mein Chef sagt dann immer, gegen die steife Brise {{25}} man einen Grog trinken, das ist heißer Tee mit Rum, aber das mag ich nicht.\nIn der Firma habe ich Marion kennengelernt. Sie ist wie ich Praktikantin, aber sie ist Deutsche und kommt aus {{26}} Wilhelmshaven. Sie hat mir schon ein bisschen von der Gegend gezeigt und mir die Sehenswürdigkeiten der Stadt vorgestellt. Besonders der Hafen mit {{27}} Containerschiffen und den vielen Seemöwen, die unablässig um {{28}} herumkreisen, hat es mir angetan. Nach der Arbeit verbringen wir hier oft ein oder zwei Stunden in {{29}} der Cafés – oder Teehäuser, denn die Leute hier trinken viel mehr Tee als Kaffee.\nManchmal bekomme ich aber schon Heimweh. Dann denke ich auch an dich und daran, dass wir uns bald {{30}}. Es gibt so viel zu erzählen. Melde dich. Warte nicht so lange wie ich, bis du mir schreibst.\n\nHerzliche Grüße\nAlexandra",
+  "gaps": [
+    {"n":21,"a":"dem","b":"denen","c":"deren","correct":"b"},
+    {"n":22,"a":"man","b":"es","c":"-","correct":"b"},
+    {"n":23,"a":"darauf","b":"dazu","c":"daran","correct":"c"},
+    {"n":24,"a":"einen","b":"ein","c":"einer","correct":"a"},
+    {"n":25,"a":"müsse","b":"musste","c":"brauche","correct":"a"},
+    {"n":26,"a":"der Nähe","b":"die Nähe","c":"der Nähe von","correct":"c"},
+    {"n":27,"a":"den großen","b":"großem","c":"dem großen","correct":"a"},
+    {"n":28,"a":"den Schiffen","b":"die Schiffe","c":"die Schiffen","correct":"b"},
+    {"n":29,"a":"eins","b":"einem","c":"ein","correct":"b"},
+    {"n":30,"a":"wiederzusehen brauchen","b":"müssen wiedersehen","c":"wiedersehen müssen","correct":"c"}
+  ]
+}

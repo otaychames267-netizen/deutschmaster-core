@@ -1,0 +1,17 @@
+{
+  "title": "Einzelkind",
+  "teil": 1,
+  "level": "B1",
+  "position": 4,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 4/16 (Nadia2/Language Tests, page 49 printed / PDF page 50). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.52 / PDF p.53): 41- 42+ 43- 44+ 45+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Die Sprecherin wäre lieber ein Einzelkind.", "correct": false },
+    { "number": 42, "text": "Der Sprecher hat heute ein gutes Verhältnis zu seinem Bruder.", "correct": true },
+    { "number": 43, "text": "Die Sprecherin würde heute gern noch eine Schwester haben.", "correct": false },
+    { "number": 44, "text": "Die Sprecherin hat schon früh lernen müssen, dass man im Zusammenleben viel Rücksicht nehmen muss.", "correct": true },
+    { "number": 45, "text": "Die Sprecherin versteht sich sehr gut mit ihrem Bruder.", "correct": true }
+  ]
+}

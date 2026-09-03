@@ -1,0 +1,17 @@
+{
+  "title": "Mannheim",
+  "teil": 3,
+  "level": "B1",
+  "position": 14,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 14/16 (Petra/Language Tests, page 191 printed / PDF page 192). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.193): 56+ 57- 58- 59- 60+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Der Zug nach Mannheim fährt um 13:14 Uhr ab.", "correct": true },
+    { "number": 57, "text": "Dr. Hoffmann ist um Urlaub unter der Nummer 957 30 75 zu erreichen.", "correct": false },
+    { "number": 58, "text": "Sie können den Film Das Leben ist schön um 18:15 Uhr im Central sehen.", "correct": false },
+    { "number": 59, "text": "Heute Abend beginnt es zu schneien.", "correct": false },
+    { "number": 60, "text": "Katrin hätte am Dreiundzwanzigsten Zeit.", "correct": true }
+  ]
+}

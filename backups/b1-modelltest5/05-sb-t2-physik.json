@@ -1,0 +1,22 @@
+{
+  "title": "Physik",
+  "level": "B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 5/16 (Petra/Language Tests, page 61 printed / PDF page 62). Letter signed by Josef Martinell; Lösungen page short label is 'Physik' (topic-derived), used verbatim as title per this platform's convention of using the Lösungen page's own short label. Answer key from Lösungen page (printed p.66 / PDF p.67): 31G KANN, 32D DESHALB, 33F IN, 34A ABER, 35J MIR, 36E DIESE, 37K OB, 38O WANN, 39H KÖNNTEN, 40M UNTER.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Damen und Herren,\n\nmit großem Interesse und auch mit Hoffnung habe ich Ihre Anzeige gelesen. Leider {{31}} ich Sie im Moment nicht anrufen, da das Telefon immer belegt ist. {{32}} schreibe ich Ihnen diese Mail. Mein Sohn Matthias macht {{33}} zwei Jahren sein Abitur, {{34}} seine Leistungen sind zurzeit nicht so gut. Ich mache {{35}} vor allem bei den Fächern Physik und Mathematik große Sorgen. Matthias ist nicht dumm, aber er ist etwas faul und denkt, er brauche {{36}} Fächer nicht.\n\nFragen wollte ich nun, {{37}} es bei Ihnen auch individuelle Physik – und Mathematiknachhilfe gibt. Und {{38}} finden die Stunden statt? Am späten Nachmittag oder am frühen Abend? Mir wäre es jedenfalls sehr wichtig, dass Sie meinem Sohn helfen {{39}}.\n\nAb 19.30 Uhr bin ich telefonisch {{40}} der Nummer 0428-1734 zu erreichen.\n\nMit freundlichen Grüßen\nJOSEF MARTINELL",
+  "words": ["ABER", "DARF", "DASS", "DESHALB", "DIESE", "IN", "KANN", "KÖNNTEN", "MICH", "MIR", "OB", "OBWOHL", "UNTER", "VOR", "WANN"],
+  "answers": {
+    "31": "KANN",
+    "32": "DESHALB",
+    "33": "IN",
+    "34": "ABER",
+    "35": "MIR",
+    "36": "DIESE",
+    "37": "OB",
+    "38": "WANN",
+    "39": "KÖNNTEN",
+    "40": "UNTER"
+  }
+}

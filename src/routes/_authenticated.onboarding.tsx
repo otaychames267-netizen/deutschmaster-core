@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "@/lib/auth";
@@ -11,15 +11,12 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
   component: OnboardingPage,
 });
 
-type Level = "TELC_B1" | "TELC_B2";
+type Level = "TELC_B2";
 
+// B1 is intentionally not offered here — see B1_ENABLED in src/lib/features.ts.
+// AuraLingovia is a dedicated TELC B2 platform for now; this is the only place
+// level is ever set, once, for the lifetime of the account.
 const LEVELS: { value: Level; labelKey: string; descKey: string; badge: string }[] = [
-  {
-    value: "TELC_B1",
-    labelKey: "onboarding.b1",
-    descKey: "onboarding.b1_desc",
-    badge: "B1",
-  },
   {
     value: "TELC_B2",
     labelKey: "onboarding.b2",
@@ -32,7 +29,6 @@ function OnboardingPage() {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { theme, toggle } = useTheme();
-  const nav = useNavigate();
 
   const [selected, setSelected] = useState<Level | null>(null);
   const [loading, setLoading]   = useState(false);
@@ -41,14 +37,23 @@ function OnboardingPage() {
     if (!selected || !user) return;
     setLoading(true);
 
+    // upsert + .select().single(), not .update(): a plain UPDATE whose
+    // WHERE/RLS predicate matches zero rows (e.g. no profiles row exists yet
+    // for this user) returns error: null with 0 rows changed in PostgREST —
+    // a silent no-op that looked like success, sent the user to /dashboard,
+    // got bounced straight back here by _authenticated.tsx's onboarding
+    // check, and reset `selected` to null. Confirmed live: this is why
+    // users got permanently stuck in an onboarding loop with no error ever
+    // shown. .select().single() throws a real, catchable error whenever the
+    // write didn't actually land.
     const { error } = await supabase
       .from("profiles")
-      .update({
-        level: selected,
-        target_level: selected,
-        onboarding_completed: true,
-      })
-      .eq("id", user.id);
+      .upsert(
+        { id: user.id, level: selected, target_level: selected, onboarding_completed: true },
+        { onConflict: "id" },
+      )
+      .select()
+      .single();
 
     setLoading(false);
 
@@ -58,7 +63,17 @@ function OnboardingPage() {
     }
 
     toast.success("Level set! Welcome to AuraLingovia.");
-    nav({ to: "/dashboard" });
+    // A real navigation, not TanStack Router's client-side nav(): _authenticated.tsx's
+    // onboarding-check effect only depends on [user?.id, emailVerified] (deliberately, to
+    // avoid an earlier documented bug — see that file's comment history), so a client-side
+    // nav() here does NOT re-run it. checkedForRef is already claimed for this user from the
+    // FIRST check (which correctly found needsOnboarding=true before this form was filled),
+    // so the stale needsOnboarding=true state persists and the declarative <Navigate> guard
+    // bounces the user straight back to /onboarding — reproduced live: every single
+    // onboarding completion looped back to this page instead of reaching the dashboard. A
+    // hard navigation forces _authenticated.tsx to remount and re-fetch the profile fresh,
+    // the same fix already proven reliable for the analogous problem in login.tsx.
+    window.location.href = "/dashboard";
   }
 
   return (
@@ -96,18 +111,18 @@ function OnboardingPage() {
             {t("onboarding.subtitle")}
           </p>
 
-          {/* Level cards */}
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+          {/* Level card — TELC B2 only for now */}
+          <div className="mt-8 mx-auto max-w-xs">
             {LEVELS.map((level) => {
               const isSelected = selected === level.value;
               return (
                 <button
                   key={level.value}
                   onClick={() => setSelected(level.value)}
-                  className={`relative flex flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+                  className={`relative flex w-full flex-col items-start gap-3 rounded-2xl border-2 p-6 text-left transition-all ${
                     isSelected
-                      ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
-                      : "border-border bg-card hover:border-primary/40"
+                      ? "border-primary bg-primary/5 shadow-md shadow-primary/10 hover:-translate-y-0.5 hover:shadow-lg"
+                      : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg"
                   }`}
                 >
                   {isSelected && (
@@ -133,9 +148,7 @@ function OnboardingPage() {
                       <div
                         key={dot}
                         className={`h-1.5 w-1.5 rounded-full transition-colors ${
-                          level.value === "TELC_B1"
-                            ? dot <= 3 ? "bg-primary" : "bg-muted"
-                            : dot <= 4 ? "bg-primary" : "bg-muted"
+                          dot <= 4 ? "bg-primary" : "bg-muted"
                         }`}
                       />
                     ))}

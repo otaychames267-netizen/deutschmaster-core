@@ -1,0 +1,21 @@
+{
+  "title": "Olivia",
+  "level": "B1",
+  "position": 11,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 11/16 (Petra/Language Tests, page 152). Answer key from Lösungen page (p.158): 21c 22b 23a 24b 25c 26a 27c 28a 29a 30b.",
+  "instructions": "Lesen Sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Liebe Olivia,\n\nwie du ja weißt, mache ich gerade Urlaub auf Fehmarn. Und dass ich mein Fahrrad mitgenommen habe, war wirklich eine gute Idee. Radfahren macht hier nämlich viel Spaß trotz {{21}} Windes. Und es gibt auch Angebote für Radfahrer wie {{22}}, die sich vor allem erholen und nicht besonders anstrengen wollen.\n\nSo kann man hier zum Beispiel {{23}} Fahrkarten kaufen, um mit dem Bus in einen anderen Ort zu fahren und mit dem Rad zurück. Oder es gibt Angebote mit Schiffen, die das Rad {{24}} wenig Geld transportieren.\n\nBesonders {{25}} hat mich aber die Stadt Burg auf Fehmarn. Schon {{26}} Hafen sind mir die vielen Fahrräder aufgefallen. {{27}} gibt es Markierungen auf den Straßen, die den Radfahrern {{28}}, sich bei roten Ampeln vor die Autos zu stellen. {{29}} Ampeln schalten für Radfahrer sogar früher auf Grün als für Autos.\n\nDu siehst also: Es hat sich gelohnt, das Fahrrad {{30}}.\n\nLiebe Grüße\n\nLutz",
+  "gaps": [
+    { "n": 21, "a": "den", "b": "der", "c": "des", "correct": "c" },
+    { "n": 22, "a": "mein", "b": "mich", "c": "mir", "correct": "b" },
+    { "n": 23, "a": "besondere", "b": "besonderem", "c": "besonderen", "correct": "a" },
+    { "n": 24, "a": "durch", "b": "für", "c": "mit", "correct": "b" },
+    { "n": 25, "a": "beeindrucken", "b": "beeindruckend", "c": "beeindruckt", "correct": "c" },
+    { "n": 26, "a": "am", "b": "im", "c": "zum", "correct": "a" },
+    { "n": 27, "a": "Aber", "b": "Außer", "c": "Außerdem", "correct": "c" },
+    { "n": 28, "a": "erlauben", "b": "erlaubt", "c": "erlaubte", "correct": "a" },
+    { "n": 29, "a": "Einige", "b": "Einigen", "c": "Einiges", "correct": "a" },
+    { "n": 30, "a": "mitgenommen", "b": "mitnehmen", "c": "mitzunehmen", "correct": "b" }
+  ]
+}

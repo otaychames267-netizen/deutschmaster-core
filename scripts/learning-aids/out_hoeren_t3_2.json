@@ -1,0 +1,192 @@
+{
+  "55705154-f008-4be6-a9e8-eea9f4fa02d8": {
+    "translation": {
+      "questions": {
+        "56": "يمكن حجز جولات الدراجات الهوائية التابعة لـ „برلين على عجلتين“ ليس فقط للأغراض الشخصية، بل أيضًا في السياق المهني.",
+        "57": "لا تزال الشوارع في مدينة باساو مغلقة اليوم بسبب العاصفة القوية حتى الساعة الرابعة.",
+        "58": "حجوزات المقاعد في قطار الـ ICE غير صالحة في العربات من رقم 24 إلى 38 بسبب مشاكل تقنية.",
+        "59": "تقترح سلمى تأجيل الموعد إلى يوم السبت.",
+        "60": "‚الليلة الطويلة للعمارة‘ مجانية، بشرط التسجيل مسبقًا عبر الإنترنت."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "nicht nur ... sondern auch",
+        "explanation_correct": "Achten Sie beim Hören genau auf Formulierungen wie „nicht nur ... sondern auch“, denn sie zeigen an, dass zwei Bereiche gleichzeitig gültig sind. Diese Aussage ist richtig; solche Erweiterungen sind ein typisches TELC-Detail, das leicht übersehen wird, wenn man nur auf einen Teilaspekt hört.",
+        "explanation_wrong": "Achten Sie beim Hören genau auf Formulierungen wie „nicht nur ... sondern auch“, denn sie zeigen an, dass zwei Bereiche gleichzeitig gültig sind. Diese Aussage ist richtig; solche Erweiterungen sind ein typisches TELC-Detail, das leicht übersehen wird, wenn man nur auf einen Teilaspekt hört."
+      },
+      "57": {
+        "keyword": "bis vier Uhr",
+        "explanation_correct": "Uhrzeiten wie „bis vier Uhr“ gehören zu den Details, die in TELC-Hörtexten häufig verändert werden, um eine falsche Aussage zu erzeugen. Diese Aussage ist falsch; prüfen Sie bei Zeitangaben immer genau, ob die genannte Stunde tatsächlich mit dem übereinstimmt, was im Hörtext gesagt wird.",
+        "explanation_wrong": "Uhrzeiten wie „bis vier Uhr“ gehören zu den Details, die in TELC-Hörtexten häufig verändert werden, um eine falsche Aussage zu erzeugen. Diese Aussage ist falsch; prüfen Sie bei Zeitangaben immer genau, ob die genannte Stunde tatsächlich mit dem übereinstimmt, was im Hörtext gesagt wird."
+      },
+      "58": {
+        "keyword": "Wagen 24-38",
+        "explanation_correct": "Konkrete Zahlenangaben wie eine Wagennummer sind klassische Stolperfallen, weil sie leicht verwechselt oder verändert werden können. Diese Aussage ist falsch; hören Sie bei solchen Nummern besonders genau hin, statt sich nur an die ungefähre Größenordnung zu erinnern.",
+        "explanation_wrong": "Konkrete Zahlenangaben wie eine Wagennummer sind klassische Stolperfallen, weil sie leicht verwechselt oder verändert werden können. Diese Aussage ist falsch; hören Sie bei solchen Nummern besonders genau hin, statt sich nur an die ungefähre Größenordnung zu erinnern."
+      },
+      "59": {
+        "keyword": "Samstag",
+        "explanation_correct": "Bei Aussagen über Personen und deren Vorschläge lohnt es sich, genau auf den genannten Wochentag zu achten, da dieser oft der entscheidende Unterschied zur Realität ist. Diese Aussage ist falsch; TELC-Aufgaben tauschen gerne Tage oder Akteure aus, um eine plausible, aber falsche Aussage zu formulieren.",
+        "explanation_wrong": "Bei Aussagen über Personen und deren Vorschläge lohnt es sich, genau auf den genannten Wochentag zu achten, da dieser oft der entscheidende Unterschied zur Realität ist. Diese Aussage ist falsch; TELC-Aufgaben tauschen gerne Tage oder Akteure aus, um eine plausible, aber falsche Aussage zu formulieren."
+      },
+      "60": {
+        "keyword": "wenn man sich vorher online anmeldet",
+        "explanation_correct": "Bedingungssätze mit „wenn“ sind wichtig, weil eine Aussage nur unter der genannten Bedingung zutrifft. Diese Aussage ist richtig; achten Sie darauf, ob die im Hörtext genannte Voraussetzung – hier die vorherige Online-Anmeldung – exakt der Aussage entspricht.",
+        "explanation_wrong": "Bedingungssätze mit „wenn“ sind wichtig, weil eine Aussage nur unter der genannten Bedingung zutrifft. Diese Aussage ist richtig; achten Sie darauf, ob die im Hörtext genannte Voraussetzung – hier die vorherige Online-Anmeldung – exakt der Aussage entspricht."
+      }
+    }
+  },
+  "40b7b441-4f9a-4ecf-b8bd-c4e70fcc5861": {
+    "translation": {
+      "questions": {
+        "56": "تقوم فرقة „Die Prinzen“ (الأمراء) بالغناء في مدينة كيل في 23 يونيو.",
+        "57": "يبدأ سباق JPMorgan Chase Corporate Challenge في فرانكفورت بالقرب من الأوبرا القديمة (Alte Oper).",
+        "58": "تُقام ‚الليلة البراغية‘ في كاتدرائية ريغنسبورغ.",
+        "59": "على الطريق السريع A3 باتجاه فورتسبورغ انطلاقًا من فرانكفورت، هناك ازدحام مروري بين أوفنباخ وزليغنشتات.",
+        "60": "يقوم مزود الخدمة „Call & Call“ بتوصيلك مجانًا بمحدثك."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "23. Juni in Kiel",
+        "explanation_correct": "Datum und Ort zusammen sind ein typisches Detailpaar, das in TELC-Aufgaben genau geprüft wird. Diese Aussage ist richtig; merken Sie sich bei Veranstaltungsankündigungen immer sowohl das genaue Datum als auch den genannten Ort.",
+        "explanation_wrong": "Datum und Ort zusammen sind ein typisches Detailpaar, das in TELC-Aufgaben genau geprüft wird. Diese Aussage ist richtig; merken Sie sich bei Veranstaltungsankündigungen immer sowohl das genaue Datum als auch den genannten Ort."
+      },
+      "57": {
+        "keyword": "in der Nähe der Alten Oper",
+        "explanation_correct": "Ortsangaben wie ein bestimmter Startpunkt werden in Hörtexten oft leicht abgeändert, um eine falsche Aussage zu erzeugen. Diese Aussage ist falsch; achten Sie bei Veranstaltungsdetails genau darauf, welcher Ort tatsächlich genannt wird.",
+        "explanation_wrong": "Ortsangaben wie ein bestimmter Startpunkt werden in Hörtexten oft leicht abgeändert, um eine falsche Aussage zu erzeugen. Diese Aussage ist falsch; achten Sie bei Veranstaltungsdetails genau darauf, welcher Ort tatsächlich genannt wird."
+      },
+      "58": {
+        "keyword": "im Regensburger Dom",
+        "explanation_correct": "Ein falscher Veranstaltungsort ist eine sehr häufige TELC-Falle, besonders wenn der genannte Name plausibel klingt. Diese Aussage ist falsch; prüfen Sie immer, ob der genannte Ort wirklich zur Veranstaltung passt.",
+        "explanation_wrong": "Ein falscher Veranstaltungsort ist eine sehr häufige TELC-Falle, besonders wenn der genannte Name plausibel klingt. Diese Aussage ist falsch; prüfen Sie immer, ob der genannte Ort wirklich zur Veranstaltung passt."
+      },
+      "59": {
+        "keyword": "zwischen Offenbach und Seligenstadt",
+        "explanation_correct": "Streckenabschnitte mit zwei Ortsnamen sind wichtige Details bei Verkehrsmeldungen. Diese Aussage ist richtig; solche präzisen Streckenangaben werden in TELC-Texten oft korrekt wiedergegeben, aber genaues Zuhören bleibt wichtig, um sie sicher zu bestätigen.",
+        "explanation_wrong": "Streckenabschnitte mit zwei Ortsnamen sind wichtige Details bei Verkehrsmeldungen. Diese Aussage ist richtig; solche präzisen Streckenangaben werden in TELC-Texten oft korrekt wiedergegeben, aber genaues Zuhören bleibt wichtig, um sie sicher zu bestätigen."
+      },
+      "60": {
+        "keyword": "kostenlos",
+        "explanation_correct": "Preisangaben wie „kostenlos“ sind ein klassisches TELC-Fallendetail, das eine kostenpflichtige Leistung fälschlich als gratis darstellt. Diese Aussage ist falsch; achten Sie bei Angeboten immer genau darauf, ob wirklich von keinen Kosten die Rede ist.",
+        "explanation_wrong": "Preisangaben wie „kostenlos“ sind ein klassisches TELC-Fallendetail, das eine kostenpflichtige Leistung fälschlich als gratis darstellt. Diese Aussage ist falsch; achten Sie bei Angeboten immer genau darauf, ob wirklich von keinen Kosten die Rede ist."
+      }
+    }
+  },
+  "e343d65d-7b11-4cee-a60c-4069c2bcf78a": {
+    "translation": {
+      "questions": {
+        "56": "يُقام معرض الأدب لدور النشر الصغيرة لأول مرة.",
+        "57": "في المسابقة، قامت زاسكيا فينتسر بكل شيء بشكل صحيح.",
+        "58": "يوم السبت من المتوقع أن تكون الشمس ساطعة طوال اليوم.",
+        "59": "تُعرض المسرحية لأول مرة في المسرح البلدي.",
+        "60": "أثناء برنامج الترفيه، تتوفر أيضًا رعاية للأطفال."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "zum ersten Mal",
+        "explanation_correct": "Ausdrücke wie „zum ersten Mal“ behaupten eine Einmaligkeit, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; seien Sie bei solchen Erstmaligkeitsangaben besonders aufmerksam.",
+        "explanation_wrong": "Ausdrücke wie „zum ersten Mal“ behaupten eine Einmaligkeit, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; seien Sie bei solchen Erstmaligkeitsangaben besonders aufmerksam."
+      },
+      "57": {
+        "keyword": "alles richtig",
+        "explanation_correct": "Absolute Formulierungen wie „alles richtig“ sind in TELC-Aufgaben ein Warnsignal, da selten wirklich jeder einzelne Punkt zutrifft. Diese Aussage ist falsch; hinterfragen Sie solche pauschalen Behauptungen kritisch.",
+        "explanation_wrong": "Absolute Formulierungen wie „alles richtig“ sind in TELC-Aufgaben ein Warnsignal, da selten wirklich jeder einzelne Punkt zutrifft. Diese Aussage ist falsch; hinterfragen Sie solche pauschalen Behauptungen kritisch."
+      },
+      "58": {
+        "keyword": "den ganzen Tag",
+        "explanation_correct": "Zeitliche Rundum-Aussagen wie „den ganzen Tag“ werden gern verändert, wenn tatsächlich nur ein Teil des Tages gemeint ist. Diese Aussage ist falsch; achten Sie darauf, ob eine zeitliche Einschränkung vorliegt, die die Aussage widerlegt.",
+        "explanation_wrong": "Zeitliche Rundum-Aussagen wie „den ganzen Tag“ werden gern verändert, wenn tatsächlich nur ein Teil des Tages gemeint ist. Diese Aussage ist falsch; achten Sie darauf, ob eine zeitliche Einschränkung vorliegt, die die Aussage widerlegt."
+      },
+      "59": {
+        "keyword": "zum ersten Mal",
+        "explanation_correct": "Auch hier signalisiert „zum ersten Mal“ eine Einmaligkeit, die überprüft werden muss. Diese Aussage ist falsch; TELC-Texte nutzen solche Formulierungen häufig, um eine bereits bekannte Sache als neu darzustellen.",
+        "explanation_wrong": "Auch hier signalisiert „zum ersten Mal“ eine Einmaligkeit, die überprüft werden muss. Diese Aussage ist falsch; TELC-Texte nutzen solche Formulierungen häufig, um eine bereits bekannte Sache als neu darzustellen."
+      },
+      "60": {
+        "keyword": "auch Kinderbetreuung",
+        "explanation_correct": "Zusatzangebote, die mit „auch“ eingeführt werden, sind oft ein wichtiges Detail, das bestätigt oder widerlegt werden muss. Diese Aussage ist richtig; solche ergänzenden Informationen werden in TELC-Aufgaben gern korrekt abgefragt, sollten aber immer genau geprüft werden.",
+        "explanation_wrong": "Zusatzangebote, die mit „auch“ eingeführt werden, sind oft ein wichtiges Detail, das bestätigt oder widerlegt werden muss. Diese Aussage ist richtig; solche ergänzenden Informationen werden in TELC-Aufgaben gern korrekt abgefragt, sollten aber immer genau geprüft werden."
+      }
+    }
+  },
+  "dac368a1-7f32-4e19-b303-8404a04db138": {
+    "translation": {
+      "questions": {
+        "56": "يمكن للمرء المشاركة على سبيل التجربة في ‚يوم العمل التطوعي‘.",
+        "57": "عرض التزلج على الألواح (سكيتبورد) لن يُقام هذه المرة.",
+        "58": "يتم التحذير من برامج كلمات المرور.",
+        "59": "يُنصح بالذهاب بالدراجة إلى المتنزه الشعبي (Volkspark).",
+        "60": "إذا أراد المرء تجربة التدريب، يجب عليه إبلاغهم مسبقًا."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "probeweise",
+        "explanation_correct": "Der Ausdruck „probeweise“ zeigt an, dass eine Teilnahme unverbindlich zum Testen möglich ist. Diese Aussage ist richtig; solche Bedingungen für ein Ausprobieren sind ein häufiges Detail in TELC-Ankündigungen.",
+        "explanation_wrong": "Der Ausdruck „probeweise“ zeigt an, dass eine Teilnahme unverbindlich zum Testen möglich ist. Diese Aussage ist richtig; solche Bedingungen für ein Ausprobieren sind ein häufiges Detail in TELC-Ankündigungen."
+      },
+      "57": {
+        "keyword": "fällt ... aus",
+        "explanation_correct": "Aussagen über eine Absage („fällt aus“) sind besonders fehleranfällig, weil oft genau das Gegenteil zutrifft. Diese Aussage ist falsch; prüfen Sie bei solchen Formulierungen immer, ob eine Veranstaltung wirklich nicht stattfindet.",
+        "explanation_wrong": "Aussagen über eine Absage („fällt aus“) sind besonders fehleranfällig, weil oft genau das Gegenteil zutrifft. Diese Aussage ist falsch; prüfen Sie bei solchen Formulierungen immer, ob eine Veranstaltung wirklich nicht stattfindet."
+      },
+      "58": {
+        "keyword": "Passwort-Programmen",
+        "explanation_correct": "Ein konkretes Thema wie „Passwort-Programme“ kann in einer Falschaussage durch ein ähnliches, aber falsches Thema ersetzt werden. Diese Aussage ist falsch; hören Sie genau, worauf sich eine Warnung tatsächlich bezieht.",
+        "explanation_wrong": "Ein konkretes Thema wie „Passwort-Programme“ kann in einer Falschaussage durch ein ähnliches, aber falsches Thema ersetzt werden. Diese Aussage ist falsch; hören Sie genau, worauf sich eine Warnung tatsächlich bezieht."
+      },
+      "59": {
+        "keyword": "mit dem Fahrrad",
+        "explanation_correct": "Empfehlungen zu einem bestimmten Verkehrsmittel sind ein typisches TELC-Detail, das leicht gegen ein anderes Mittel ausgetauscht wird. Diese Aussage ist falsch; achten Sie genau darauf, welches Fortbewegungsmittel wirklich empfohlen wird.",
+        "explanation_wrong": "Empfehlungen zu einem bestimmten Verkehrsmittel sind ein typisches TELC-Detail, das leicht gegen ein anderes Mittel ausgetauscht wird. Diese Aussage ist falsch; achten Sie genau darauf, welches Fortbewegungsmittel wirklich empfohlen wird."
+      },
+      "60": {
+        "keyword": "vorher Bescheid sagen",
+        "explanation_correct": "Bedingungen wie eine vorherige Ankündigung sind ein wichtiges Detail bei Angeboten zum Ausprobieren. Diese Aussage ist richtig; solche Voraussetzungen werden in TELC-Texten oft korrekt formuliert, aber genau zuhören lohnt sich trotzdem.",
+        "explanation_wrong": "Bedingungen wie eine vorherige Ankündigung sind ein wichtiges Detail bei Angeboten zum Ausprobieren. Diese Aussage ist richtig; solche Voraussetzungen werden in TELC-Texten oft korrekt formuliert, aber genau zuhören lohnt sich trotzdem."
+      }
+    }
+  },
+  "d629e2a2-ff34-4c90-8265-0deba67c9008": {
+    "translation": {
+      "questions": {
+        "56": "يمكن للمرء المشاركة على سبيل التجربة في ‚يوم العمل التطوعي‘.",
+        "57": "عرض التزلج على الألواح (سكيتبورد) لن يُقام هذه المرة.",
+        "58": "يتم التحذير من برامج كلمات المرور.",
+        "59": "يُنصح بركن الدراجات مباشرة عند المتنزه الشعبي.",
+        "60": "إذا أراد المرء تجربة التدريب، يجدر به إبلاغهم مسبقًا."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "probeweise",
+        "explanation_correct": "Der Ausdruck „probeweise“ weist auf eine unverbindliche Teilnahmemöglichkeit hin. Diese Aussage ist richtig; solche Detailinformationen zu Bedingungen tauchen in TELC-Aufgaben regelmäßig auf und sollten genau erfasst werden.",
+        "explanation_wrong": "Der Ausdruck „probeweise“ weist auf eine unverbindliche Teilnahmemöglichkeit hin. Diese Aussage ist richtig; solche Detailinformationen zu Bedingungen tauchen in TELC-Aufgaben regelmäßig auf und sollten genau erfasst werden."
+      },
+      "57": {
+        "keyword": "fällt dieses Mal aus",
+        "explanation_correct": "Eine angekündigte Absage einer Vorführung ist ein Detail, das im Hörtext oft anders lautet als in der Aussage. Diese Aussage ist falsch; verlassen Sie sich nicht auf die erste Vermutung, sondern hören Sie genau, ob wirklich von einem Ausfall die Rede ist.",
+        "explanation_wrong": "Eine angekündigte Absage einer Vorführung ist ein Detail, das im Hörtext oft anders lautet als in der Aussage. Diese Aussage ist falsch; verlassen Sie sich nicht auf die erste Vermutung, sondern hören Sie genau, ob wirklich von einem Ausfall die Rede ist."
+      },
+      "58": {
+        "keyword": "Passwort-Programmen",
+        "explanation_correct": "Auch hier gilt: Ein spezifisches Thema wie Passwort-Programme kann leicht durch ein anderes Thema ersetzt sein. Diese Aussage ist falsch; konzentrieren Sie sich beim Hören genau auf das genannte Thema der Warnung.",
+        "explanation_wrong": "Auch hier gilt: Ein spezifisches Thema wie Passwort-Programme kann leicht durch ein anderes Thema ersetzt sein. Diese Aussage ist falsch; konzentrieren Sie sich beim Hören genau auf das genannte Thema der Warnung."
+      },
+      "59": {
+        "keyword": "direkt am Volkspark zu parken",
+        "explanation_correct": "Ortsdetails wie „direkt am Volkspark“ sind eine beliebte TELC-Falle, wenn eigentlich ein anderer Ort oder eine andere Handlung gemeint ist. Diese Aussage ist falsch; achten Sie genau darauf, was tatsächlich zum Abstellen der Fahrräder empfohlen wird.",
+        "explanation_wrong": "Ortsdetails wie „direkt am Volkspark“ sind eine beliebte TELC-Falle, wenn eigentlich ein anderer Ort oder eine andere Handlung gemeint ist. Diese Aussage ist falsch; achten Sie genau darauf, was tatsächlich zum Abstellen der Fahrräder empfohlen wird."
+      },
+      "60": {
+        "keyword": "vorher Bescheid sagen",
+        "explanation_correct": "Die Bedingung einer vorherigen Rückmeldung ist ein Detail, das genau mit dem Hörtext übereinstimmen muss. Diese Aussage ist richtig; solche Voraussetzungen werden in TELC-Prüfungen häufig korrekt, aber unauffällig formuliert.",
+        "explanation_wrong": "Die Bedingung einer vorherigen Rückmeldung ist ein Detail, das genau mit dem Hörtext übereinstimmen muss. Diese Aussage ist richtig; solche Voraussetzungen werden in TELC-Prüfungen häufig korrekt, aber unauffällig formuliert."
+      }
+    }
+  }
+}

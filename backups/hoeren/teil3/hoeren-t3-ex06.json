@@ -1,0 +1,38 @@
+{
+  "title": "im Süden Deutschlands - Schnee",
+  "teil": 3,
+  "level": "B2",
+  "position": 6,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 7 (code 15) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Morgen muss man im Süden Deutschlands mit Schnee rechnen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Die zwei Jungen sind von zu Hause weggelaufen.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Am Samstag können Sie einen Mitarbeiter der Firma anrufen.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Wegen einer Demonstration ist es verboten, in die Nürnberger Altstadt zu fahren.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Die historische elektrische Eisenbahn wird im Dezember wie gewohnt fahren.",
+      "correct": true
+    }
+  ]
+}

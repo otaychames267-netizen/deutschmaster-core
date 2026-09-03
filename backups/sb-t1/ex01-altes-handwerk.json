@@ -1,0 +1,80 @@
+{
+  "title": "Agnieszka",
+  "level": "B2",
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Agnieszka,\n\njetzt ist es schon bald ein halbes Jahr {{21}}, dass ich dir das letzte Mal geschrieben habe. Bitte denke jetzt nicht, dass ich dich vergessen habe. Aber, wie du ja schon weißt, stehe ich vor der Abschlussprüfung in Deutsch und das bedeutet jede Menge Arbeit und Stress.\n\nStell dir vor, ausgerechnet jetzt, nur zwei Wochen vor der Prüfung, ist unsere Lehrerin, Frau Reuter, {{22}}. Sie liegt sogar im Krankenhaus und kommt erst wieder zurück, {{23}} unsere Prüfung schon längst vorbei ist. Ihre Vertretung, Frau Eichhorn, ist {{24}} sehr nett, {{24}} sie hat gerade erst mit dem Unterrichten angefangen und noch keine Erfahrung. Das macht uns alle ein bisschen unsicher. Aber in zwei Wochen ist hoffentlich alles geschafft. Und dann {{25}} ich alle Bücher und Hefte in die Ecke legen und erst einmal ein paar Tage gar nichts tun. {{26}} freue ich mich schon riesig. Wenn du Zeit und Lust hast, kannst du mich doch besuchen kommen und wir können zusammen etwas unternehmen. Wir wollten doch schon lange Bad Homburg besuchen und im Taunus wandern. Was hältst du {{27}}?\n\nWas macht deine Au-pair-Familie? Musst du immer noch so viel Hausarbeit machen? Hören \"deine\" Kinder auf dich oder tanzen sie {{28}} noch immer auf der Nase herum, wie du in deinem letzten Brief geschrieben hast? Es ist bestimmt nicht so leicht, einen zweijährigen Jungen und ein vierjähriges Mädchen den ganzen Tag {{29}}. Aber ich kenne dich: Du hast gute Ideen und bestimmt hast du schon einen Weg gefunden, {{30}} du mit den Kindern zurechtkommst.\n\nSo, jetzt muss ich mich wieder an meine Prüfungsvorbereitung machen, sonst wird mir die Zeit zu knapp. Ich grüße dich ganz herzlich und wünsche dir alles Gute.\n\nBis bald\nDeine Louise",
+  "gaps": [
+    {
+      "n": 21,
+      "a": "her",
+      "b": "hin",
+      "c": "vorbei",
+      "correct": "a"
+    },
+    {
+      "n": 22,
+      "a": "erkrankt",
+      "b": "gekränkt",
+      "c": "kränklich",
+      "correct": "a"
+    },
+    {
+      "n": 23,
+      "a": "als",
+      "b": "da",
+      "c": "wenn",
+      "correct": "c"
+    },
+    {
+      "n": 24,
+      "a": "nicht nur... sondern",
+      "b": "teils... teils",
+      "c": "zwar... aber",
+      "correct": "c"
+    },
+    {
+      "n": 25,
+      "a": "werde",
+      "b": "wollte",
+      "c": "würde",
+      "correct": "a"
+    },
+    {
+      "n": 26,
+      "a": "Dafür",
+      "b": "Danach",
+      "c": "Darauf",
+      "correct": "c"
+    },
+    {
+      "n": 27,
+      "a": "darüber",
+      "b": "davon",
+      "c": "dazu",
+      "correct": "b"
+    },
+    {
+      "n": 28,
+      "a": "dich",
+      "b": "dir",
+      "c": "sich",
+      "correct": "b"
+    },
+    {
+      "n": 29,
+      "a": "beschäftigen lassen",
+      "b": "beschäftigt zu sein",
+      "c": "zu beschäftigen",
+      "correct": "c"
+    },
+    {
+      "n": 30,
+      "a": "weshalb",
+      "b": "wie",
+      "c": "wo",
+      "correct": "b"
+    }
+  ],
+  "position": 1
+}

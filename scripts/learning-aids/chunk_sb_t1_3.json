@@ -1,0 +1,772 @@
+[
+  {
+    "id": "80ffee8e-c7f0-4f0d-800c-a7bb54915290",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "allergrößte",
+        "option_b": "allergrößtem",
+        "option_c": "allergrößten",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "an dem",
+        "option_b": "auf dem",
+        "option_c": "in dem",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "so",
+        "option_b": "als",
+        "option_c": "wie",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "können",
+        "option_b": "könnte",
+        "option_c": "zu können",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "begann",
+        "option_b": "beging",
+        "option_c": "belief",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "durch ein Jahr",
+        "option_b": "ein Jahr lang",
+        "option_c": "seit einem Jahr",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "entdeckte",
+        "option_b": "erfand",
+        "option_c": "merkte",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "Dabei",
+        "option_b": "Inzwischen",
+        "option_c": "Während",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "sowohl ... als auch",
+        "option_b": "teils ... teils",
+        "option_c": "weder ... noch",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "auf Ihre Anzeige antworten",
+        "option_b": "auf Ihre Anzeige zu antworten",
+        "option_c": "um auf Ihre Anzeige zu antworten",
+        "gap_number": 30
+      }
+    ],
+    "title": "Herr Dr. Moosberger",
+    "passage": "Sehr geehrter Herr Dr. Moosberger,\n\nmit {{21}} Interesse habe ich Ihr Stellenangebot in der Essener Zeitung gelesen, {{22}} Sie eine Teilzeit-Mitarbeiterin in Ihrem Antiquitätengeschäft suchen. Es reizt mich eine verantwortungsvolle Aufgabe in einem {{23}} renommierten Geschäft wie dem Ihrigen übernehmen {{24}}. Nach dem Abitur am Kreisgymnasium in Velbert {{25}} ich eine dreijährige Schreinerlehre bei der Firma Eichelbohrer & Co und besuchte die Kreisberufsschule in Velbert. Nach erfolgreichem Abschluss meiner Berufsausbildung arbeitete ich {{26}} bei Stutz & Partner - Möbeldesign in Düsseldorf. Danach schrieb ich mich an der Fachhochschule Köln im Fachbereich Möbeldesign ein und {{27}} meine Liebe zu antiquarischen Möbelstücken. Meine Spezialität ist das stilgenaue Restaurieren und Aufarbeiten antiquarischer Möbel, insbesondere aus dem Biedermeier und dem Jugendstil. {{28}} meiner Berufstätigkeit und meines Studiums konnte ich umfangreiche Kenntnisse erwerben, was Möbelstile und die Herstellungskunst in den verschiedensten Epochen {{29}} in Nord- {{29}} in Südeuropa angeht. Mein Studium lässt mir genügend Zeit, eine Teilzeitstelle zu übernehmen, die darüber hinaus meinen beruflichen Fähigkeiten und Neigungen entspricht. Aus diesem Grund habe ich mich entschlossen, {{30}}, und bewerbe mich um die von Ihnen angebotene Teilzeitstelle. Ich freue mich auf ein persönliches Gespräch.\n\nMit freundlichen Grüßen,\nSabine Holzinger"
+  },
+  {
+    "id": "74c45095-393b-482c-8dac-8e55b739e34c",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "an",
+        "option_b": "von",
+        "option_c": "zu",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "ankommenden",
+        "option_b": "gekommenen",
+        "option_c": "kommenden",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "aus",
+        "option_b": "mit",
+        "option_c": "nach",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "bieten",
+        "option_b": "fordern",
+        "option_c": "nehmen",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "so dass",
+        "option_b": "weil",
+        "option_c": "wenn",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "Gemeinsam mit",
+        "option_b": "Verbunden von",
+        "option_c": "Zusammen neben",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "die Ansicht",
+        "option_b": "der Besuch",
+        "option_c": "das Betrachten",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "hat geplant",
+        "option_b": "ist geplant",
+        "option_c": "wird geplant haben",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "besprochen",
+        "option_b": "gesprochen",
+        "option_c": "versprochen",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "haben",
+        "option_b": "hatten",
+        "option_c": "hätten",
+        "gap_number": 30
+      }
+    ],
+    "title": "Herr Martini ( Original )",
+    "passage": "Sehr geehrter Herr Martini,\n\nvielen Dank für Ihre Anfrage vom 16. Juni zu der Studienreise {{21}} Schulklasse nach Frankfurt am Main im {{22}} Oktober.\n\nDie Unterkunft bei deutschen Gastfamilien ist prinzipiell möglich. Die Familien werden von uns sorgfältig {{23}} strengen Kriterien ausgewählt, die Sie in der beiliegenden Informationsbroschüre auf den Seiten 15 bis 17 finden. Pro Gastfamilie können ein oder zwei Schülerinnen bzw. Schüler untergebracht werden. Unsere Gastfamilien {{24}} Halbpension, d. h. in der Regel Frühstück und Abendessen, an. Alle Familien wohnen im näheren Umkreis der Schule, {{25}} der Weg von der Unterkunft zum Unterricht innerhalb von maximal 10 Minuten zu Fuß zurückgelegt werden kann.\n\nZweimal pro Woche ist die Teilnahme am Schulunterricht Ihrer Partnerschule in Frankfurt, der Heinrich-Böll-Schule, in den Fächern Geografie, Kunst und Deutsch vorgesehen. Die Unterrichtssprache ist Deutsch. {{26}} Schülerinnen und Schülern der Partnerschule wird das Freizeit- und Kulturprogramm durchgeführt.\n\nDazu gehört z. B. {{27}} der Gemäldegalerie \"Städel\", des Museums für Kunsthandwerk und des Deutschen Postmuseums. Auch ein Besuch beim Hessischen Rundfunk {{28}}. Jeweils dienstags und freitags werden Kulturabende veranstaltet, an denen die verschiedenen Aspekte und Unterschiede der deutschen und der italienischen Kultur {{29}} werden sollen.\n\nWeitere Informationen finden Sie in der beiliegenden Broschüre. Wir hoffen, dass Sie und Ihre Klasse einen erlebnisreichen und unvergesslichen Aufenthalt in Frankfurt {{30}} werden. Bei weiteren Fragen setzen Sie sich bitte mit uns in Verbindung.\n\nMit freundlichen Grüßen\nSibylle Lauterbacher\n\nStiftung Schüleraustausch Frankfurt"
+  },
+  {
+    "id": "03f1a1a2-7c40-491c-b88b-90b984ff62a4",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "Seiner",
+        "option_b": "Deiner",
+        "option_c": "Ihrer",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "ankommenden",
+        "option_b": "gekommenden",
+        "option_c": "kommenden",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "aus",
+        "option_b": "mit",
+        "option_c": "nach",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "bieten",
+        "option_b": "fordern",
+        "option_c": "nehmen",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "so dass",
+        "option_b": "weil",
+        "option_c": "wenn",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "gemeinsam mit",
+        "option_b": "verbunden von",
+        "option_c": "zusammen neben",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "die",
+        "option_b": "der Besuch",
+        "option_c": "das Betrachten",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "hat geplant",
+        "option_b": "ist geplant",
+        "option_c": "wird geplant haben",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "besprochen",
+        "option_b": "gesprochen",
+        "option_c": "versprochen",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "haben",
+        "option_b": "hatten",
+        "option_c": "hätten",
+        "gap_number": 30
+      }
+    ],
+    "title": "Herr Martini (معدل)",
+    "passage": "Sehr geehrter Herr Martini,\n\nvielen Dank für Ihre Anfrage vom 16. Juni {{21}} der Studienreise Ihrer Schulklasse nach Frankfurt am Main im {{22}} Oktober.\n\nDie Unterkunft bei deutschen Gastfamilien ist prinzipiell möglich. Die Familien werden von uns sorgfältig {{23}} strengen Kriterien ausgewählt, die Sie in der beiliegenden Informationsbroschüre auf den Seiten 15 bis 17 finden. Pro Gastfamilie können ein oder zwei Schülerinnen bzw. Schüler untergebracht werden. Unsere Gastfamilien {{24}} Halbpension, d. h. in der Regel Frühstück und Abendessen, an. Alle Familien wohnen im näheren Umkreis der Schule, {{25}} der Weg von der Unterkunft zum Unterricht innerhalb von maximal 10 Minuten zu Fuß zurückgelegt werden kann.\n\nZweimal pro Woche ist die Teilnahme am Schulunterricht Ihrer Partnerschule in Frankfurt, der Heinrich-Böll-Schule, in den Fächern Geografie, Kunst und Deutsch vorgesehen. Die Unterrichtssprache ist Deutsch. {{26}} Schülerinnen und Schülern der Partnerschule wird das Freizeit- und Kulturprogramm durchgeführt.\n\nDazu gehört z. B. {{27}} der Gemäldegalerie \"Städel\", des Museums für Kunsthandwerk und des Deutschen Postmuseums. Auch ein Besuch beim Hessischen Rundfunk {{28}}. Jeweils dienstags und freitags werden Kulturabende veranstaltet, an denen die verschiedenen Aspekte und Unterschiede der deutschen und der italienischen Kultur {{29}} werden sollen.\n\nWeitere Informationen finden Sie in der beiliegenden Broschüre. Wir hoffen, dass Sie und Ihre Klasse einen erlebnisreichen und unvergesslichen Aufenthalt in Frankfurt {{30}} werden. Bei weiteren Fragen setzen Sie sich bitte mit uns in Verbindung.\n\nMit freundlichen Grüßen\nSibylle Lauterbacher\n\nStiftung Schüleraustausch Frankfurt"
+  },
+  {
+    "id": "801bfcf8-0ef8-4d25-8a3f-e42514768243",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "auf",
+        "option_b": "für",
+        "option_c": "wegen",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "jeden",
+        "option_b": "jedoch",
+        "option_c": "jeweils",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "gedacht",
+        "option_b": "geeignet",
+        "option_c": "gewidmet",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "vorbereitende",
+        "option_b": "vorbereitend",
+        "option_c": "vorbereiteten",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "am meisten",
+        "option_b": "meisten",
+        "option_c": "meistens",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "entlang",
+        "option_b": "gegenüber",
+        "option_c": "während",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "auf",
+        "option_b": "hinter",
+        "option_c": "neben",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "der",
+        "option_b": "deren",
+        "option_c": "dessen",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "sofern",
+        "option_b": "sogar",
+        "option_c": "sogleich",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "erhältlich",
+        "option_b": "erreichbar",
+        "option_c": "wirksam",
+        "gap_number": 30
+      }
+    ],
+    "title": "Herr Wenzel",
+    "passage": "Sehr geehrter Herr Wenzel,\n\nvielen Dank {{21}} Ihre Anfrage bezüglich der Aktivitäten des Kulturbunds. Unser Hauptanliegen ist es, das kulturelle Leben zu bereichern und kulturelle Initiativen zu fördern. Für unsere Mitglieder findet einmal im Monat - und zwar {{22}} am ersten Montag - ein kultureller Abend in unserer Geschäftsstelle in der Villa Emilia statt. Jeder Abend ist einem bestimmten kulturellen Aspekt {{23}}, von der Dichtung über die Musik bis hin zum Theater.\n\nDarüber hinaus besuchen wir regelmäßig Theateraufführungen innerhalb Deutschlands und haben dazu mehrere {{24}} Treffen. Von besonderem Interesse dürften für die {{25}} unserer Mitglieder unsere Studienreisen sein. Diese führen beispielsweise {{26}} der Route deutscher Dichter von Frankfurt nach Weimar, nach Salzburg und vieles mehr.\n\nIn diesem Jahr bieten wir übrigens eine ganz besondere Reise an: {{27}} den Spuren Tschaikowskis nach Russland. Alle von uns veranstalteten Reisen werden von sachkundigen Musik- oder Literaturwissenschaftlern begleitet, mit {{28}} Hilfe Sie Ihr kulturelles Wissen erweitern können. Auch bei der Wahl der Verkehrsmittel und Unterkünfte wird auf besonderen Komfort geachtet.\n\nEin besonderer Service ist der Kartentausch. Wenn Sie Theaterkarten besitzen, aber nicht nutzen wollen, können Sie diese bei uns gegen andere Karten umtauschen - {{29}} dies organisatorisch möglich ist.\n\nDer Preis für die Mitgliedschaft beträgt 200 Euro pro Jahr für eine Einzelperson bzw. 300 Euro für eine Doppelmitgliedschaft (zwei Personen, z.B. Ehepaare, Freunde etc.). Unsere Geschäftsstelle ist von Montag bis Freitag von 9 bis 12 und von 14 bis 17 Uhr {{30}} und steht Ihnen für Fragen gern zur Verfügung. Eine Anmeldeformular liegt diesem Schreiben bei.\nIn kultureller Verbundenheit grüßen wir Sie herzlich\n\nSabine Sänger\nKulturbund"
+  },
+  {
+    "id": "d603954a-35c2-4af9-89f6-b159a511ca0a",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "auf",
+        "option_c": "wegen",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "habe",
+        "option_b": "hätte",
+        "option_c": "würde",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "dich",
+        "option_b": "uns",
+        "option_c": "mich",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "ausgepackt habe",
+        "option_b": "ausgepackt hatte",
+        "option_c": "auspackte",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "daran",
+        "option_b": "darauf",
+        "option_c": "darin",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "einander",
+        "option_b": "gegeneinander",
+        "option_c": "miteinander",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "denn",
+        "option_c": "wenn",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "obwohl",
+        "option_b": "trotzdem",
+        "option_c": "während",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "mit",
+        "option_b": "bei",
+        "option_c": "zu",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "eigentlich",
+        "option_b": "hoffentlich",
+        "option_c": "sicherlich",
+        "gap_number": 30
+      }
+    ],
+    "title": "Ida",
+    "passage": "Liebe Ida,\n\nnun ist es schon drei Monate her, dass ich nach Frankfurt gezogen bin. Es hat ziemlich lange gedauert, bis ich mich hier eingelebt habe. Am Anfang hatte ich mich auch gar nicht {{21}} die neue Stelle und das Leben in der Stadt gefreut. Dass ich für meine neue Arbeitsstelle umgezogen war, hatte mich eine Zeitlang sogar ein bisschen geärgert. Ich {{22}} ja auch täglich mit dem Zug fahren können, statt mir eine Wohnung in der Nähe der Firma zu suchen. Zuerst habe ich {{23}} in meiner neuen Wohnung auch gar nicht richtig wohlgefühlt. Aber nachdem ich meine Umzugskartons {{24}}, konnte ich endlich die Stadt richtig erkunden.\nSeit einiger Zeit gefällt es mir in Frankfurt nun richtig gut. Das liegt vor allem {{25}}, dass ich eine neue Freundin gefunden habe. Annabelle wohnt in derselben Straße wie ich und wir haben uns auf einem Flohmarkt in unserem Stadtviertel kennengelernt. Sie hat dort ihre alten Bücher verkauft. Als wir {{26}} ins Gespräch kamen, haben wir festgestellt, dass wir ähnliche Interessen und Hobbys teilen: Sie mag ebenfalls ausgefallene Mode und moderne Kunst und wir gehen nun regelmäßig zusammen ins Schwimmbad.\nMein Leben sieht nun also ganz anders aus {{27}} noch vor drei Monaten. Mit meiner neuen Stelle bin ich auch zufrieden, {{28}} ich oft Überstunden machen muss. Dafür herrscht jedoch ein angenehmes Betriebsklima {{29}} uns in der Abteilung. Jetzt habe ich viel von mir erzählt, aber Dich noch gar nicht gefragt, wie es Dir {{30}} geht. Gibt es etwas Neues bei Dir? Ich freue mich auf Deine nächste Mail!\n\nHerzliche Grüße\nDeine Emilia"
+  },
+  {
+    "id": "46c312c5-bf2c-4904-a965-004e4928fbb6",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "mit",
+        "option_b": "über",
+        "option_c": "wegen",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "außerdem",
+        "option_b": "sonst",
+        "option_c": "weiterhin",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "fahren",
+        "option_b": "kommen",
+        "option_c": "nehmen",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "da",
+        "option_b": "darum",
+        "option_c": "deshalb",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "deshalb",
+        "option_b": "damit",
+        "option_c": "davon",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "besprochen",
+        "option_b": "gesprochen",
+        "option_c": "versprochen",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "als",
+        "option_b": "dass",
+        "option_c": "wenn",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "euch",
+        "option_b": "sich",
+        "option_c": "uns",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "der",
+        "option_c": "die",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "bestenfalls",
+        "option_b": "jedenfalls",
+        "option_c": "keinesfalls",
+        "gap_number": 30
+      }
+    ],
+    "title": "Igor",
+    "passage": "Lieber Igor,\n\nvielen Dank für deine Nachricht, {{21}} die ich mich sehr gefreut habe. Es ist echt eine tolle Idee, im Sommer gemeinsam zu verreisen! Aber möchtest du wirklich mit dem Auto fahren? Ich würde lieber die Bahn nehmen, denn das ist umweltfreundlicher und {{22}} noch billiger. Momentan bin ich nämlich mal wieder etwas knapp bei Kasse.\nWir könnten doch eine Interrail-Tour machen. Mit einem Global Pass können wir in 30 europäischen Ländern Zug {{23}} und zwar wann und wohin auch immer - allerdings nicht bei uns in Deutschland. Hier müssen wir extra zahlen. Aber wir haben es ja von mir aus nicht allzu weit bis zur Grenze. {{24}} wir noch keine 26 Jahre alt sind, können wir den Pass ausgesprochen günstig bekommen. Der Preis hängt {{25}} ab, wie lange wir unterwegs sein wollen. Wenn du lieber nur ein einziges Land bereisen möchtest, schlage ich vor, nach Frankreich zu fahren. Dann nämlich würden wir für ein Interrail-Ticket sogar noch weniger zahlen. Ich habe auch schon mit meiner Tante in Marseille {{26}}, und sie hat gleich vorgeschlagen, {{27}} wir einige Tage bei ihr verbringen. Meine Cousins Jérôme und Matthieu, die in Paris studieren, haben Semesterferien und werden auch dort sein. Die beiden würden {{28}} freuen, mit uns um die Häuser zu ziehen, und könnten uns sicherlich die angesagtesten Clubs der Stadt zeigen. Wegen {{29}} Sprachkenntnisse brauchst du dir nicht den Kopf zu zerbrechen, denn die beiden sprechen ziemlich gut Deutsch. Was hältst du davon? Hast du noch andere Vorschläge? Ich freue mich {{30}} schon sehr auf unsere gemeinsame Reise.\n\nBis bald\nThomas"
+  },
+  {
+    "id": "171c4f78-cb86-4f4c-9705-1c11dd07632e",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "gelassen",
+        "option_b": "lassen",
+        "option_c": "ließ",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "denn",
+        "option_b": "weil",
+        "option_c": "wenn",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "für",
+        "option_c": "wie",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "dass",
+        "option_b": "ob",
+        "option_c": "wann",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "eigentlich",
+        "option_b": "unbedingt",
+        "option_c": "ziemlich",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "beim",
+        "option_b": "für",
+        "option_c": "während",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "durchsetzen",
+        "option_b": "durchzusetzen",
+        "option_c": "zu durchsetzen",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "was",
+        "option_c": "welches",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "totalem",
+        "option_b": "totalen",
+        "option_c": "totales",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "mich",
+        "option_b": "mir",
+        "option_c": "sich",
+        "gap_number": 30
+      }
+    ],
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "passage": "Hi Jens,\n\ndanke für Deine Mail, schön. von Dir zu hören! Ich freu mich, dass es Dir so gut geht in einer fremden Stadt ganz neu anzufangen ist ja doch nicht so ohne ...\nDieses Mal will ich Dich nicht wieder so ewig auf meine Antwort warten {{21}} und schreibe entgegen meinen sonstigen Gewohnheiten gleich zurück.\nNicht zuletzt. {{22}} ich gern noch mehr über Deinen neuen Job {{23}} Fußballtrainer für Kinder erfahren möchte. Ich wusste gar nicht, {{24}} Du so fußballbegeistert bist!\nFrüher warst Du doch in einer Handballmannschaft, oder? Wie kommst Du denn mit den Kindern klar, hast Du da nicht ständig Probleme mit der Disziplin? Und wie alt sind die Kinder, die Du trainierst, genau?\nIch frage, weil ich in meinem Sportunterricht zurzeit {{25}} viel Stress habe.\nDu hast ja noch, dass ich ein Sportstudium angefangen habe, oder? Tja, an der Uni lief bisher auch alles glatt, {{26}} Schulpraktikum habe ich es einfach nicht geschafft, mich einer Gruppe von zwanzig 14-jährigen Jungs {{27}}. Die waren total laut und haben nur das gemacht, {{28}} sie wollten. Die Stunde endete in einem {{29}} Chaos.\nDeshalb hab ich im Moment eine mittelgroße Krise und kann {{30}} gar nicht mehr vorstellen, Lehrer zu werden.\nAber vielleicht hast Du ja ein paar Tipps und Kniffe für mich, wie man sich einem Haufen pubertierenden Jungs Gehör verschaffen kann?\n\nBitte schreib mir schnell zurück!\n\nAlso hoffentlich bis bald\n\nDein etwas verzweifelter Matthias"
+  },
+  {
+    "id": "067c186b-1365-4d5a-9233-2e54fa7377f9",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "Zuversichtlich",
+        "option_b": "Möglichst",
+        "option_c": "Hoffentlich",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "vermutlich",
+        "option_b": "nämlich",
+        "option_c": "bestimmt",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "schon",
+        "option_b": "fast",
+        "option_c": "beinahe",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "damit",
+        "option_b": "dafür",
+        "option_c": "dadurch",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "Wenn",
+        "option_b": "Wann",
+        "option_c": "Als",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "zueinander",
+        "option_b": "voneinander",
+        "option_c": "miteinander",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "vor Kurzem",
+        "option_b": "kürzlich",
+        "option_c": "kurz",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "weshalb",
+        "option_b": "insofern",
+        "option_c": "deshalb",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "vollkommen",
+        "option_b": "sämtlich",
+        "option_c": "erschöpfend",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "passenden",
+        "option_b": "bequemen",
+        "option_c": "angenehmen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Judith oder Lina",
+    "passage": "Hallo Judith, oder Lina\n\nwir habe uns ja lange nicht gesehen. Ich hoffe, du hattest einen richtig schönen Urlaub in Kroatien! Danke auch für deine Urlaubskartei! Die hat mich echt neidisch gemacht; ich habe ja erst im September Urlaub.\n{{21}} rufst du heute schon deine E-Mails ab and liest diese Nachricht von mir!\n\nWir, als das gesamte Team, möchten {{22}} unserer Kollegin Elena zu ihrer Pensionierung gemeinsam etwas zum Abschied schenken. Ihre Abschiedsfeier ist ja {{23}} übermorgen abends im großen Konferenzraum unserer Firma. Bist du {{24}} einverstanden, dass wir ihr zusammen einen Gutschein und einen Blumenstrauß schenken? Jeder zahlt etwas 10 € dazu. Ich denke, das ist angemessen. Du erinnerst dich: {{25}} wir das letzte Mal gesammelt hatten, gab es Beschwerden wegen der Höhe des Betrags. Aber möglicherweise hast du eine bessere Idee.\n\nMichael und ich gehen dann nachmittags {{26}} in der Stadt einkaufen. Die Glückwunschkarte für Elena könntest du dann übermorgen noch {{27}} vor der Feier unterschreiben. Wir treffen uns ja alle vorher und gehen gemeinsam hin.\n\nIn der Firma war heute nicht viel los. Aber in den letzten 14 Tagen hatten viele Kollegen Urlaub, {{28}} ich sehr viel zu tun hatte. Es gibt übrigens auch {{29}} neue Entwicklungen in der Firma, von denen ich dir dann übermorgen erzählen kann.\nWahrscheinlich bist du nach der langen Fahrt sehr müde. Schlaf dich morgen gut aus; wir sehen uns dann auf Elenas Feier! Ich wünsche dir heute einen {{30}} Tag...\n\nLiebe Grüße,\nCosima"
+  },
+  {
+    "id": "2e4cb5d1-1205-44af-b53c-8b845b21abbe",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "miteinander",
+        "option_b": "voneinander",
+        "option_c": "zueinander",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "durch",
+        "option_b": "über",
+        "option_c": "von",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "Als",
+        "option_b": "weil",
+        "option_c": "wie",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "war",
+        "option_b": "wurde",
+        "option_c": "würde",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "er",
+        "option_b": "es",
+        "option_c": "man",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "erste",
+        "option_b": "ersten",
+        "option_c": "erster",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "daran",
+        "option_b": "darüber",
+        "option_c": "davon",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "kann",
+        "option_b": "mag",
+        "option_c": "muss",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "ich",
+        "option_b": "mich",
+        "option_c": "mir",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "bräuchte",
+        "option_b": "dürfte",
+        "option_c": "könnte",
+        "gap_number": 30
+      }
+    ],
+    "title": "Julia",
+    "passage": "Liebe Julia,\n\naus Paris sende ich dir herzliche Grüße! Ich sitze gerade in einem gemütlichen, aber ziemlich vollen Bistro in der Nähe des Louvre und genieße meinen Urlaub. Nun ist es ja schon einige Monate her, dass wir zuletzt {{21}} gehört haben. Ich hoffe, es geht dir gut.\nZurzeit mache ich eine Rundreise {{22}} Europa, die ich übrigens schon länger geplant hatte. {{23}} du weißt, habe ich in den letzten zwei Jahren sehr viel gearbeitet und konnte mir nur selten freinehmen. Nach dem ganzen Stress musste ich unbedingt mal eine längere Pause einlegen. Dank meiner gesammelten Überstunden kann ich nun acht Wochen Urlaub am Stück machen. Mein Chef {{24}} zuerst nicht gerade von dieser Idee begeistert, aber am Ende konnte ich ihn doch überzeugen. In den Sommermonaten ist {{25}} in der Firma ohnehin etwas ruhiger. Nun klappere ich nach und nach alle Städte ab, die auf der Liste meiner Traumziele stehen. Ich bin nur mit dem Zug oder Bus unterwegs, denn ich fliege ja nicht sehr gerne. Meine {{26}} Station war Amsterdam, dann ging es über Brüssel nach Paris und bald werde ich weiter Richtung Süden reisen. Der Büroalltag fehlt mir wirklich überhaupt nicht. Ich möchte gar nicht {{27}} denken, dass ich irgendwann wieder an den Schreibtisch zurück {{28}}. In den letzten Tagen kam {{29}} manchmal der Gedanke, dass ich nach meiner Rückkehr auch etwas ganz Neues anfangen {{30}}... Ich wünsche dir einen schönen Sommer!\nHerzliche Grüße und bis bald\nJudith"
+  },
+  {
+    "id": "c94ca060-b403-4762-8da3-3e5e0894546d",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "konntest",
+        "option_b": "können",
+        "option_c": "dürfen",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "würde",
+        "option_b": "werden",
+        "option_c": "wäre",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "für",
+        "option_b": "als",
+        "option_c": "von",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "vielen",
+        "option_b": "mehr",
+        "option_c": "viel",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "gefällt",
+        "option_b": "mögen",
+        "option_c": "gefallen",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "als",
+        "option_b": "denn",
+        "option_c": "wenn",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "wenn",
+        "option_b": "außerdem",
+        "option_c": "da",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "dann",
+        "option_b": "wenn",
+        "option_c": "denn",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "entladener",
+        "option_b": "entleerter",
+        "option_c": "ausgeräumter",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "weil",
+        "option_b": "so dass",
+        "option_c": "zu",
+        "gap_number": 30
+      }
+    ],
+    "title": "Julian",
+    "passage": "Lieber Julian,\n\nwie geht es dir? Ich hoffe, du hattest eine schöne Reise und {{21}} dich gut erholen. Ich {{22}} ja auch gerne mal wieder ans Meer fahren, aber im Moment habe ich leider keine Zeit {{23}} Urlaub. Wie du dir bestimmt vorstellen kannst, war ich in den letzten Wochen vor allem mit meinem Umzug beschäftigt. Du weißt ja, dass ich zuerst ziemlich skeptisch war; nach so {{24}} Jahren in Berlin konnte ich mir gar nicht mehr vorstellen, mich in einer kleinen Stadt wie Bamberg niederzulassen.\n\nBamberg hat nur rund 77.000 Einwohner, aber langweilig ist es hier trotzdem nicht, wie ich inzwischen festgestellt habe. Mittlerweile fühle ich mich hier sogar richtig wohl. Die Stadt hat wirklich viel zu bieten. Es gibt jahrhundertealte Sehenswürdigkeiten in Hülle und Fülle, und in der Altstadt {{25}} mir besonders die schönen Fachwerkhäuser, die überwiegend aus dem Mittelalter stammen. Ich gehe oft durch die Fußgängerzone, {{26}} dort gibt es viele kleine Läden, Cafés und Restaurants mit typisch fränkischen Spezialitäten. Ich glaube, dir würde es hier auch gefallen. {{27}} du willst, zeige ich dir gerne mal die Stadt. Hättest du vielleicht Lust, mich im nächsten Monat zu besuchen? {{28}} ist bei mir auch der Umzugsstress vorbei. Im Moment steht noch eine große Anzahl nicht {{29}} Kisten in meinem Wohnzimmer, die ausgepackt werden müssen. Mit meiner neuen Wohnung habe ich übrigens auch Glück gehabt, {{30}} sie geräumig und zentral gelegen ist. Wir können ja mal telefonieren, dann erzähle ich dir mehr.\n\nLiebe Grüße,\nAnna"
+  }
+]

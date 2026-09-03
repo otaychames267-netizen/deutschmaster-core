@@ -1,0 +1,20 @@
+{
+  "title": "Igor",
+  "level": "B2",
+  "position": 30,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Lieber Igor,\n\nvielen Dank für deine Nachricht, {{21}} die ich mich sehr gefreut habe. Es ist echt eine tolle Idee, im Sommer gemeinsam zu verreisen! Aber möchtest du wirklich mit dem Auto fahren? Ich würde lieber die Bahn nehmen, denn das ist umweltfreundlicher und {{22}} noch billiger. Momentan bin ich nämlich mal wieder etwas knapp bei Kasse.\nWir könnten doch eine Interrail-Tour machen. Mit einem Global Pass können wir in 30 europäischen Ländern Zug {{23}}, und zwar wann und wohin auch immer - allerdings nicht bei uns in Deutschland. Hier müssen wir extra zahlen. Aber wir haben es ja von mir aus nicht allzu weit bis zur Grenze. {{24}} wir noch keine 26 Jahre alt sind, können wir den Pass ausgesprochen günstig bekommen. Der Preis hängt {{25}} ab, wie lange wir unterwegs sein wollen. Wenn du lieber nur ein einziges Land bereisen möchtest, schlage ich vor, nach Frankreich zu fahren. Dann nämlich würden wir für ein Interrail-Ticket sogar noch weniger zahlen. Ich habe auch schon mit meiner Tante in Marseille {{26}}, und sie hat gleich vorgeschlagen, {{27}} wir einige Tage bei ihr verbringen. Meine Cousins Jérôme und Matthieu, die in Paris studieren, haben Semesterferien und werden auch dort sein. Die beiden würden {{28}} freuen, mit uns um die Häuser zu ziehen, und könnten uns sicherlich die angesagtesten Clubs der Stadt zeigen. Wegen {{29}} Sprachkenntnisse brauchst du dir nicht den Kopf zu zerbrechen, denn die beiden sprechen ziemlich gut Deutsch. Was hältst du davon? Hast du noch andere Vorschläge? Ich freue mich {{30}} schon sehr auf unsere gemeinsame Reise.\n\nBis bald\nThomas",
+  "gaps": [
+    { "n": 21, "a": "mit", "b": "über", "c": "wegen", "correct": "b" },
+    { "n": 22, "a": "außerdem", "b": "sonst", "c": "weiterhin", "correct": "a" },
+    { "n": 23, "a": "fahren", "b": "kommen", "c": "nehmen", "correct": "a" },
+    { "n": 24, "a": "da", "b": "darum", "c": "deshalb", "correct": "a" },
+    { "n": 25, "a": "dadurch", "b": "damit", "c": "davon", "correct": "c" },
+    { "n": 26, "a": "besprochen", "b": "gesprochen", "c": "versprochen", "correct": "b" },
+    { "n": 27, "a": "als", "b": "dass", "c": "wenn", "correct": "b" },
+    { "n": 28, "a": "euch", "b": "sich", "c": "uns", "correct": "b" },
+    { "n": 29, "a": "das", "b": "der", "c": "die", "correct": "b" },
+    { "n": 30, "a": "bestenfalls", "b": "jedenfalls", "c": "keinesfalls", "correct": "b" }
+  ]
+}

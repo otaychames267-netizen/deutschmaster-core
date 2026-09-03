@@ -1,0 +1,38 @@
+{
+  "title": "Für das Konzert mit Romano",
+  "teil": 3,
+  "level": "B2",
+  "position": 23,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 24 (code 35) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Der Software-Service von Macrohard steht rund um die Uhr zur Verfügung.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Für das Konzert mit Romano Castelli gibt es noch Karten ab 200 Euro.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Über den neuen Tarif von T-Upline können Sie sich im Internet informieren.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Weil das Schwerpunktthema „Japan“ lautet, treten im Park des Museums für Völkerkunde in diesem Jahr nur japanische Musiker auf.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Bei dem Festival gibt es nicht nur folkloristische Unterhaltung, sondern auch kulinarische Spezialitäten aus dem In- und Ausland.: In der ganzen Stadt",
+      "correct": true
+    }
+  ]
+}

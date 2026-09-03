@@ -1,0 +1,63 @@
+{
+  "title": "Herr Kemper",
+  "teil": 2,
+  "level": "B2",
+  "position": 38,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 39 (code 136790) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Herr Kemper arbeitet aus Dankbarkeit für die Hilfe, die er früher bekommen hat, ehrenamtlich.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Der Tierschutz hat für Herrn Kemper oberste Priorität.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Herr Kemper hat zuerst handwerkliche Arbeiten im Tierheim gemacht.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Herr Kemper hat es abgelehnt, Reinigungsarbeiten zu übernehmen.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Alle Helferinnen und Helfer arbeiten mehrmals in der Woche im Tierheim.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Greta hat angefangen, ehrenamtlich zu arbeiten, weil sie zu Hause Langeweile hatte.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Herr Kemper hat einer jungen Frau geholfen, ihren beruflichen Weg zu finden.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Herr Kemper findet, dass sich jeder Mensch ehrenamtlich engagieren sollte.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Herr Kemper hat auch Verständnis für Menschen, die sich nicht ehrenamtlich engagieren.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Herr Kemper wohnt in einem Haus, in dem Tierhaltung verboten ist.",
+      "correct": true
+    }
+  ]
+}

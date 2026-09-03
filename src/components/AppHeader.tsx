@@ -2,9 +2,9 @@ import { useTheme } from "@/lib/theme";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   Moon, Sun, Bell, Globe, LogOut, User,
-  CreditCard, Shield, ChevronRight, Flame, Zap,
+  CreditCard, Shield, ChevronRight, Flame, Zap, Coins,
   Search, X, CheckCircle2, AlertCircle, Info, Command,
-  BookOpen, ArrowRight,
+  BookOpen, ArrowRight, MessageCircle,
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -17,12 +17,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
+import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useUserProgress } from "@/lib/useUserProgress";
+import { useStudentCredits } from "@/lib/useStudentCredits";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 /* ─── Breadcrumb map ────────────────────────────────────────────── */
 const BREADCRUMB_MAP: Record<string, string> = {
+  b1:              "B1",
+  b2:              "B2",
   dashboard:       "Dashboard",
   schriftlich:     "Schriftlich",
   muendlich:       "Mündlich",
@@ -89,7 +94,7 @@ function Breadcrumbs() {
 }
 
 /* ─── Search modal ──────────────────────────────────────────────── */
-interface ExamResult { id: string; title: string; section: string; teil: number | null; }
+interface ExamResult { id: string; title: string; section: string; teil: number | null; level?: string | null; }
 
 const SECTION_ROUTES: Record<string, string> = {
   lesen:           "/schriftlich/vorbereitung/lesen",
@@ -99,13 +104,16 @@ const SECTION_ROUTES: Record<string, string> = {
 };
 
 const QUICK_LINKS = [
-  { label: "Schriftlich Vorbereitung", to: "/schriftlich/vorbereitung", icon: BookOpen,    color: "text-blue-500" },
-  { label: "Mündlich Vorbereitung",    to: "/muendlich",                icon: BookOpen,    color: "text-rose-500" },
-  { label: "Statistik",                to: "/statistik",                icon: ArrowRight,  color: "text-violet-500" },
-  { label: "Referral Program",         to: "/referrals",                icon: ArrowRight,  color: "text-emerald-500" },
-];
+  { label: "Schriftlich Vorbereitung", levelPath: "/schriftlich/vorbereitung", icon: BookOpen,    color: "text-blue-500" },
+  { label: "Mündlich Vorbereitung",    levelPath: "/muendlich",                icon: BookOpen,    color: "text-rose-500" },
+  { label: "Statistik",                levelPath: null, to: "/statistik",      icon: ArrowRight,  color: "text-violet-500" },
+  { label: "Referral Program",         levelPath: null, to: "/referrals",      icon: ArrowRight,  color: "text-emerald-500" },
+] as const;
 
 function SearchModal({ onClose }: { onClose: () => void }) {
+  const level = useActiveLevel();
+  const seg = useLevelSegment();
+  const muendlichVisible = useMuendlichVisible();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<ExamResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -118,17 +126,19 @@ function SearchModal({ onClose }: { onClose: () => void }) {
   useEffect(() => {
     if (debounce.current) clearTimeout(debounce.current);
     const q = query.trim();
-    if (!q || q.length < 2) { setResults([]); return; }
+    if (!q || q.length < 2 || !level) { setResults([]); return; }
+    const activeLevel = level;
     debounce.current = setTimeout(async () => {
       setLoading(true);
       const { data } = await supabase.from("exams")
-        .select("id, title, section, teil")
+        .select("id, title, section, teil, level")
         .ilike("title", `%${q}%`)
+        .eq("level", activeLevel)
         .limit(8);
-      setResults((data as ExamResult[]) ?? []);
+      setResults(enforceLevel((data as ExamResult[]) ?? [], activeLevel));
       setLoading(false);
     }, 250);
-  }, [query]);
+  }, [query, level]);
 
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === "Escape") onClose();
@@ -178,7 +188,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
           {query.trim().length >= 2 && results.length === 0 && !loading && (
             <div className="flex flex-col items-center gap-2 py-8 text-center">
               <p className="text-sm text-muted-foreground">No results for "{query}"</p>
-              <button onClick={() => goTo("/search")} className="text-xs font-medium text-primary hover:underline">
+              <button onClick={() => goTo(seg ? `/${seg}/search` : "/dashboard")} className="text-xs font-medium text-primary hover:underline">
                 Open full search →
               </button>
             </div>
@@ -190,7 +200,7 @@ function SearchModal({ onClose }: { onClose: () => void }) {
                 Exercises
               </p>
               {results.map((r) => {
-                const baseRoute = SECTION_ROUTES[r.section] ?? "/dashboard";
+                const baseRoute = seg && SECTION_ROUTES[r.section] ? `/${seg}${SECTION_ROUTES[r.section]}` : "/dashboard";
                 const href = r.teil ? `${baseRoute}/teil-${r.teil}` : baseRoute;
                 return (
                   <button
@@ -216,24 +226,27 @@ function SearchModal({ onClose }: { onClose: () => void }) {
               <p className="px-4 py-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                 Quick navigation
               </p>
-              {QUICK_LINKS.map((link) => (
-                <button
-                  key={link.to}
-                  onClick={() => goTo(link.to)}
-                  className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/50 transition-colors"
-                >
-                  <link.icon className={`h-4 w-4 shrink-0 ${link.color}`} />
-                  <span className="text-sm text-foreground">{link.label}</span>
-                  <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground" />
-                </button>
-              ))}
+              {QUICK_LINKS.filter((link) => muendlichVisible || link.levelPath !== "/muendlich").map((link) => {
+                const dest = link.levelPath ? (seg ? `/${seg}${link.levelPath}` : "/dashboard") : link.to;
+                return (
+                  <button
+                    key={link.label}
+                    onClick={() => goTo(dest)}
+                    className="flex w-full items-center gap-3 px-4 py-2.5 text-left hover:bg-muted/50 transition-colors"
+                  >
+                    <link.icon className={`h-4 w-4 shrink-0 ${link.color}`} />
+                    <span className="text-sm text-foreground">{link.label}</span>
+                    <ArrowRight className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
 
         <div className="border-t border-border bg-muted/30 px-4 py-2.5 flex items-center justify-between">
           <p className="text-[10px] text-muted-foreground">⏎ to navigate · Esc to close</p>
-          <button onClick={() => goTo("/search")} className="text-[10px] font-medium text-primary hover:underline">
+          <button onClick={() => goTo(seg ? `/${seg}/search` : "/dashboard")} className="text-[10px] font-medium text-primary hover:underline">
             Advanced search →
           </button>
         </div>
@@ -243,30 +256,21 @@ function SearchModal({ onClose }: { onClose: () => void }) {
 }
 
 /* ─── Notification dropdown ─────────────────────────────────────── */
-const NOTIF_ICONS = {
+const NOTIF_ICONS: Record<string, { icon: typeof CheckCircle2; bg: string; text: string }> = {
   success: { icon: CheckCircle2, bg: "bg-emerald-500/10", text: "text-emerald-500" },
   warning: { icon: AlertCircle,  bg: "bg-amber-500/10",   text: "text-amber-500"   },
+  error:   { icon: AlertCircle,  bg: "bg-red-500/10",     text: "text-red-500"     },
   info:    { icon: Info,          bg: "bg-blue-500/10",    text: "text-blue-500"    },
   system:  { icon: Zap,           bg: "bg-primary/10",     text: "text-primary"     },
 };
+const DEFAULT_NOTIF_ICON = NOTIF_ICONS.info;
 
 interface Notif {
   id: string;
-  type: "success" | "warning" | "info" | "system";
+  type: string;
   title: string;
   body: string;
   read: boolean;
-}
-
-function buildNotifications(sub: { status: string; expires_at: string } | null): Notif[] {
-  const items: Notif[] = [
-    { id: "welcome", type: "success", title: "Welcome to AuraLingovia", body: "Start practising to boost your TELC score.", read: false },
-  ];
-  if (sub?.status === "trial") {
-    const days = Math.ceil((new Date(sub.expires_at).getTime() - Date.now()) / 86400000);
-    items.push({ id: "trial", type: "warning", title: "Trial ending soon", body: `Your free trial expires in ${days} day${days !== 1 ? "s" : ""}.`, read: false });
-  }
-  return items;
 }
 
 /* ─── User avatar ───────────────────────────────────────────────── */
@@ -286,12 +290,22 @@ export function AppHeader() {
   const { theme, toggle }     = useTheme();
   const { user, signOut }     = useAuth();
   const { progress }          = useUserProgress();
+  const { balance: creditBalance } = useStudentCredits();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notif[]>([]);
   const [notifsLoaded, setNotifsLoaded] = useState(false);
   const [subDaysLeft, setSubDaysLeft] = useState<number | null>(null);
-  const [subStatus, setSubStatus] = useState<string | null>(null);
+  const [whatsappNumber, setWhatsappNumber] = useState<string | null>(null);
   const displayName = user?.user_metadata?.full_name as string | undefined;
+
+  // Admin-configurable WhatsApp contact number (Admin Settings → General).
+  // Button renders only once a number is actually set — no hardcoded default.
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .rpc("get_platform_setting", { p_key: "whatsapp_contact_number" })
+      .then(({ data }) => setWhatsappNumber((data as string | null) ?? null));
+  }, [user?.id]);
 
   // Load subscription days remaining
   useEffect(() => {
@@ -299,13 +313,14 @@ export function AppHeader() {
     supabase.from("subscriptions")
       .select("status, expires_at")
       .eq("user_id", user.id)
-      .in("status", ["active", "trial"])
+      .eq("status", "active")
+      .gt("expires_at", new Date().toISOString())
+      .order("expires_at", { ascending: false })
       .limit(1).maybeSingle()
       .then(({ data }) => {
         if (data) {
           const days = Math.max(0, Math.ceil((new Date(data.expires_at).getTime() - Date.now()) / 86400000));
           setSubDaysLeft(days);
-          setSubStatus(data.status);
         }
       });
   }, [user?.id]);
@@ -322,20 +337,30 @@ export function AppHeader() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Load notifications
+  // Load real notifications from the notifications table.
   const loadNotifications = useCallback(async () => {
     if (notifsLoaded || !user) return;
-    const { data } = await supabase.from("subscriptions")
-      .select("status, expires_at").eq("user_id", user.id)
-      .in("status", ["active", "trial"]).limit(1).maybeSingle();
-    setNotifications(buildNotifications(data));
+    const { data } = await supabase
+      .from("notifications")
+      .select("id, type, title, body, read")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(20);
+    setNotifications(data ?? []);
     setNotifsLoaded(true);
   }, [user, notifsLoaded]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  function markAllRead() {
+  async function markAllRead() {
+    if (!user) return;
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    await supabase.from("notifications").update({ read: true }).eq("user_id", user.id).eq("read", false);
+  }
+
+  async function markOneRead(id: string) {
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    await supabase.from("notifications").update({ read: true }).eq("id", id);
   }
 
   return (
@@ -377,8 +402,6 @@ export function AppHeader() {
               className={`hidden lg:flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition-colors hover:opacity-80 ${
                 subDaysLeft <= 3
                   ? "bg-rose-500/10 border-rose-500/15 text-rose-600 dark:text-rose-400"
-                  : subStatus === "trial"
-                  ? "bg-amber-500/10 border-amber-500/15 text-amber-600 dark:text-amber-400"
                   : "bg-emerald-500/10 border-emerald-500/15 text-emerald-600 dark:text-emerald-400"
               }`}
             >
@@ -400,6 +423,14 @@ export function AppHeader() {
             <div className="hidden md:flex items-center gap-1 rounded-full bg-orange-500/10 border border-orange-500/15 px-2.5 py-1 text-xs font-bold text-orange-600 dark:text-orange-400">
               <Flame className="h-3 w-3" />
               <span>{progress.streak_current}d</span>
+            </div>
+          )}
+
+          {/* Essay grading credit balance */}
+          {user && (
+            <div className="hidden md:flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/15 px-2.5 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+              <Coins className="h-3 w-3" />
+              <span>{creditBalance} {creditBalance === 1 ? "credit" : "credits"}</span>
             </div>
           )}
 
@@ -429,6 +460,7 @@ export function AppHeader() {
           </button>
 
           {/* Notifications dropdown */}
+          {user && (
           <DropdownMenu onOpenChange={(open) => { if (open) loadNotifications(); }}>
             <DropdownMenuTrigger asChild>
               <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
@@ -457,10 +489,12 @@ export function AppHeader() {
                   </div>
                 ) : (
                   notifications.map((n) => {
-                    const cfg = NOTIF_ICONS[n.type];
+                    const cfg = NOTIF_ICONS[n.type] ?? DEFAULT_NOTIF_ICON;
                     return (
-                      <div key={n.id}
-                        className={`flex items-start gap-3 border-b border-border px-4 py-3 transition-colors last:border-0 ${n.read ? "opacity-60" : ""}`}>
+                      <button
+                        key={n.id}
+                        onClick={() => !n.read && markOneRead(n.id)}
+                        className={`flex w-full items-start gap-3 border-b border-border px-4 py-3 text-left transition-colors last:border-0 hover:bg-muted/40 ${n.read ? "opacity-60" : ""}`}>
                         <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${cfg.bg}`}>
                           <cfg.icon className={`h-3.5 w-3.5 ${cfg.text}`} />
                         </div>
@@ -469,7 +503,7 @@ export function AppHeader() {
                           <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{n.body}</p>
                         </div>
                         {!n.read && <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />}
-                      </div>
+                      </button>
                     );
                   })
                 )}
@@ -482,8 +516,39 @@ export function AppHeader() {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
+          )}
+
+          {/* WhatsApp contact — visible only to signed-in users, and only
+              once an admin has set a number (Admin Settings → General). */}
+          {user && whatsappNumber && (
+            <a
+              href={`https://wa.me/${whatsappNumber.replace(/^\+/, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Chat with us on WhatsApp"
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-emerald-500/10 hover:text-emerald-500"
+            >
+              <MessageCircle className="h-4 w-4" />
+            </a>
+          )}
+
+          {/* Guest CTA — replaces the user dropdown when signed out. Both are
+              styled as clearly-bordered buttons (not a plain text link plus a
+              button) so a guest always has two equally prominent ways to
+              reach auth, without either one auto-popping over the preview. */}
+          {!user && (
+            <div className="ml-1 flex items-center gap-2">
+              <Link to="/login" className="rounded-lg border border-border px-3.5 py-1.5 text-xs font-bold text-foreground hover:bg-muted transition-colors">
+                Log In
+              </Link>
+              <Link to="/register" className="rounded-lg bg-primary px-3.5 py-1.5 text-xs font-bold text-primary-foreground shadow-sm hover:opacity-90 transition-all">
+                Create Account
+              </Link>
+            </div>
+          )}
 
           {/* User dropdown */}
+          {user && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="ml-1 flex items-center gap-2 rounded-xl px-2 py-1 text-left transition-colors hover:bg-muted">
@@ -580,6 +645,7 @@ export function AppHeader() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          )}
         </div>
       </header>
 

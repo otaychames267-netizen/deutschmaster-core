@@ -1,0 +1,22 @@
+{
+  "title": "Wallner-Calletti",
+  "teil": 2,
+  "level": "B1",
+  "position": 10,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 10/16 (Carolina/Language Tests, page 129 printed / PDF page 130). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.132 / PDF p.133): 46- 47+ 48- 49+ 50- 51- 52- 53+ 54- 55+.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Frau Wallner-Calletti lebt seit fünf Jahren in Italien.", "correct": false },
+    { "number": 47, "text": "Sie wollten zuerst nur ein Jahr an einem italienischen Gymnasium unterrichten.", "correct": true },
+    { "number": 48, "text": "Sie hat ihren Mann bei einem Italienischkurs kennengelernt.", "correct": false },
+    { "number": 49, "text": "Sie eröffnete ein Wiener Restaurant in Rom.", "correct": true },
+    { "number": 50, "text": "Sie hatte am Anfang große Probleme, da sie das Kochen erst lernen musste.", "correct": false },
+    { "number": 51, "text": "Frau Wallner-Calletti besitzt inzwischen auch ein italienisches Weinlokal.", "correct": false },
+    { "number": 52, "text": "Sie hatte immer große Schwierigkeiten mit den Behörden.", "correct": false },
+    { "number": 53, "text": "Ihre Tochter lernt die deutsche und die italienische Sprache.", "correct": true },
+    { "number": 54, "text": "Sie möchte bald eine Filiale des Wiener Café Central in Rom eröffnen.", "correct": false },
+    { "number": 55, "text": "Sie glaubt, dass man überall Erfolg haben kann, wenn man sich bemüht.", "correct": true }
+  ]
+}

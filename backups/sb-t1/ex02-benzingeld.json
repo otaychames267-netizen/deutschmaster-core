@@ -1,0 +1,80 @@
+{
+  "title": "Frau Goronsksa",
+  "level": "B2",
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Sehr geehrte Frau Goronsksa,\n\nvielen Dank für Ihre Anfrage vom 12. September bezüglich unserer Sprachurlaube in Deutschland und Österreich. Unsere Organisation unterhält insgesamt zehn Schulen, acht {{21}} in Deutschland und zwei in Österreich, an {{22}} Sie ausnhamlos sowohl Ihr Deutsch verbessern als auch an einem anspruchsvollen Kultur- und Freizeitprogramm teilnehmen können.\n\nDer Sprachunterricht findet in der Regel {{23}} fünf Tagen pro Woche statt, jeweils in der Zeit von 9 bis 13 und von 15 bis 17 Uhr. {{24}} ist kein Nachmittagsunterricht. Das Kursangebot umfasst alle Niveaustufen. Die Mindestdauer für einen Kurs beträgt zwei Wochen, Sie können jedoch auch vier, sechs oder acht Wochen bleiben. Zu Beginn {{25}} wird ein Einstufungstest durchgeführt, mit {{26}} Hilfe wir herausfinden, welcher Kurs für Sie der geeignete ist. Nach Abschluss Ihres Aufenthaltes erhalten Sie eine Teilnahmebescheinigung.\n\nSelbstverständlich können Sie bei uns Tests auf allen Niveaustufen von A1 bis C1 ablegen und erhalten, {{27}} Sie den Test bestehen, ein international anerkanntes Zertifikat. Hinsichtlich unseres Kultur- und Freizeitprogramms gibt es verschiedene Wahlmöglichkeiten, die {{28}} vor Ort angeboten werden. Dazu zählen Ausflüge in die nähere Umgebung, Museums- und Theaterbesuche und vieles mehr.\n\nWas die Übernachtung am Kursort angeht, können Sie zwischen einer Unterbringung in einer Gastfamilie und der Unterkunft in einfachen Hotels wählen. Im Unterkunftspreis {{29}} jeweils Halbpension eingeschlossen, das heißt Frühstück und Mittagessen. Bitte teilen Sie uns mit, wenn Sie bestimmte Lebensmittel ausschließen, z. B. vegetarisch essen oder {{30}}. Alles Weitere entnehmen Sie bitte dem beiliegenden Katalog. Bei weiteren Fragen sind wir gerne für Sie da.\n\nMit freundlichen Grüßen\nNatalie Spengler",
+  "gaps": [
+    {
+      "n": 21,
+      "a": "dabei",
+      "b": "daraus",
+      "c": "davon",
+      "correct": "c"
+    },
+    {
+      "n": 22,
+      "a": "denen",
+      "b": "die",
+      "c": "den",
+      "correct": "a"
+    },
+    {
+      "n": 23,
+      "a": "an",
+      "b": "durch",
+      "c": "in",
+      "correct": "a"
+    },
+    {
+      "n": 24,
+      "a": "Jeder Mittwoch",
+      "b": "Mittwochs",
+      "c": "Zum Mittwoch",
+      "correct": "b"
+    },
+    {
+      "n": 25,
+      "a": "jedem Kurs",
+      "b": "jeden Kurs",
+      "c": "jedes Kurses",
+      "correct": "c"
+    },
+    {
+      "n": 26,
+      "a": "der",
+      "b": "deren",
+      "c": "dessen",
+      "correct": "c"
+    },
+    {
+      "n": 27,
+      "a": "obwohl",
+      "b": "wenn",
+      "c": "wobei",
+      "correct": "b"
+    },
+    {
+      "n": 28,
+      "a": "Ihnen",
+      "b": "Sie",
+      "c": "Euch",
+      "correct": "a"
+    },
+    {
+      "n": 29,
+      "a": "hat",
+      "b": "ist",
+      "c": "wird",
+      "correct": "b"
+    },
+    {
+      "n": 30,
+      "a": "eine Diät halten müssen",
+      "b": "müssen eine Diät halten",
+      "c": "müssen halten eine Diät",
+      "correct": "a"
+    }
+  ],
+  "position": 2
+}

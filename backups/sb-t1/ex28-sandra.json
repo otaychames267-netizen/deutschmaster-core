@@ -1,0 +1,21 @@
+{
+  "title": "Sandra",
+  "level": "B2",
+  "position": 29,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual transcription (page 35, photographed/low-quality source); orthography corrected.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Sandra,\n\naus Helgoland sende ich dir herzlich Grüße! Vielleicht überrascht es {{21}}, dass ich Urlaub auf einer Nordseeinsel mache. Sonst zieht es mich ja immer in den Süden. Ehrlich gesagt, noch vor Kurzem hätte ich auch nicht gedacht, dass ein Urlaub ganz ohne Partyleben das Richtige für mich sein {{22}}. Aber ich hatte in den letzten Monaten auf der Arbeit viel Stress und wünsche mir im Moment vor allem Ruhe - wenn man sich {{23}} der Hektik des Alltags erholen möchte, ist Helgoland jedenfalls genau der richtige Ort. Man kann an den Strand gehen, baden oder einfach mal gar nichts unternehmen. Das Klima ist mild und nicht zu heiß, was ich {{24}} sehr angenehm empfinde. Es gibt weder Fabriken noch Autoverkehr und somit auch keine Luftverschmutzung. Helgoland besteht eigentlich {{25}} zwei Inseln, einer Felseninsel und einer kleineren Sandinsel, die per Fähre zu erreichen {{26}}. Man kann dort Seehunde und Kegelrobben beobachten. Ich glaube, es gibt kaum einen anderen Ort auf der Welt, wo man wild {{27}} Tiere so gut aus der Nähe beobachten kann. Viele Touristen bleiben übrigens nur {{28}} Stunden auf der Insel. {{29}} die Tagesausflügler wieder abgefahren sind, kehrt Stille ein. Nachts kann man hier wirklich gut schlafen, weil man nur ein bisschen Wellenrauschen hört. Was gibt es bei dir denn Neues? Du hast ja mal gesagt, dass du gern umziehen {{30}}. Wie sieht es aus? Hast du schon mit der Wohnungssuche begonnen? Ich freue mich, bald wieder von dir zu hören!\n\nViele Grüße\nDorothée",
+  "gaps": [
+    { "n": 21, "a": "dich", "b": "dir", "c": "sich", "correct": "a" },
+    { "n": 22, "a": "könnte", "b": "möchte", "c": "müsste", "correct": "a" },
+    { "n": 23, "a": "mit", "b": "von", "c": "vor", "correct": "b" },
+    { "n": 24, "a": "als", "b": "für", "c": "wie", "correct": "a" },
+    { "n": 25, "a": "aus", "b": "in", "c": "zu", "correct": "a" },
+    { "n": 26, "a": "hat", "b": "ist", "c": "wird", "correct": "b" },
+    { "n": 27, "a": "lebende", "b": "lebenden", "c": "lebender", "correct": "b" },
+    { "n": 28, "a": "wenige", "b": "wenigen", "c": "weniger", "correct": "a" },
+    { "n": 29, "a": "Sobald", "b": "Sofern", "c": "Somit", "correct": "a" },
+    { "n": 30, "a": "dürftest", "b": "könntest", "c": "würdest", "correct": "c" }
+  ]
+}

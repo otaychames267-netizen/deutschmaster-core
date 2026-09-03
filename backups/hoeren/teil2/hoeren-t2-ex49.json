@@ -1,0 +1,63 @@
+{
+  "title": "Sie - Frau Kiddar 3",
+  "teil": 2,
+  "level": "B2",
+  "position": 49,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Sie - Frau Kiddar",
+  "notes": "PDF page 50 (code 23679) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Frau Kiddar stammt aus Düsseldorf.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Sie lebt heute auf Malta.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Sie ist auf Malta beruflich tätig.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Frau Kiddar möchte gerne bald nach Valletta ziehen.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Sie genießt es, das ganze Jahr über im Mittelmeer zu baden.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Der Moderator weiß nicht, wie viel Grad das Mittelmeer im Winter hat.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Frau Kiddar weist darauf hin, dass die Einwohner Maltas ursprünglich aus verschiedenen Regionen stammten.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Die Malteser haben sich ihr gegenüber aber zurückhaltend, ja misstrauisch verhalten.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Der Moderator denkt, dass es auf Malta drei Amtssprachen gibt.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Frau Kiddar plant, bald die maltesische Sprache zu lernen.",
+      "correct": false
+    }
+  ]
+}
