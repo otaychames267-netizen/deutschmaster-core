@@ -208,7 +208,15 @@ export async function gradeEssay(taskPrompt: string, essayText: string, supabase
       toolName: "submit_grading",
       toolDescription: "Submit the three-criteria telc Schreiben grading for the candidate's essay.",
       inputSchema: GRADING_TOOL_SCHEMA,
-      maxTokens: 3000,
+      // The 4 German feedback paragraphs + up to 8 Arabic correction entries
+      // routinely need ~3000-3200 output tokens (measured directly against
+      // Anthropic) — 1500 silently truncated the tool call mid-object
+      // (stop_reason "max_tokens"), which validate() correctly rejected as
+      // malformed, burning all 3 retry attempts before failing for real.
+      // 5000 leaves real headroom; timeoutMs raised to match (a real
+      // ~3100-token generation took ~34s in testing).
+      maxTokens: 5000,
+      timeoutMs: 60000,
     });
 
     const validated = validate(data);

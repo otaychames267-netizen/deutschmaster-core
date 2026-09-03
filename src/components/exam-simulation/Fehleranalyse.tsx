@@ -77,13 +77,30 @@ const SB_TIP_BY_TYPE: Record<string, string> = {
 const LESEN_TIP_DEFAULT = "ركّز على الكلمات المرادفة (Paraphrasen) في النص بدل البحث عن نفس الكلمات الحرفية، وتحقق من كل التفاصيل قبل اختيار الإجابة.";
 const HOEREN_TIP_DEFAULT = "التفاصيل الدقيقة (الأرقام، الأسماء، الأماكن، الشروط مثل \"فقط\" أو \"الجميع\") هي غالباً مصدر الأخطاء في الاستماع — استمع للتسجيل مرة أخرى مع التركيز عليها.";
 
+const ARABIC_RE = /[؀-ۿ]/;
+/** The "explanation must be in Arabic" requirement is non-negotiable — a
+ * field that exists but isn't actually Arabic (Hören's learning_aids are
+ * currently authored in German, a real, disclosed content gap not yet
+ * translated) must NOT be shown as if it were the Arabic explanation. */
+function arabicOrNull(text: string | null | undefined): string | null {
+  return text && ARABIC_RE.test(text) ? text : null;
+}
+
 function resolveExplanations(aid: RawLearningAid | null, yourAnswerKey: string | null, defaultTip: string): { whyWrong: string | null; whyCorrect: string | null; tip: string } {
   if (!aid) return { whyWrong: null, whyCorrect: null, tip: defaultTip };
   const matchedOption = yourAnswerKey != null ? aid.options_reasoning?.find((o) => o.key === yourAnswerKey && !o.correct) : undefined;
   const tip = aid.item_type && SB_TIP_BY_TYPE[aid.item_type] ? SB_TIP_BY_TYPE[aid.item_type] : defaultTip;
+  // A matched option (the student's own specific wrong choice) is shown as-is;
+  // falling back to the exercise's general explanation_wrong means it talks
+  // about a DIFFERENT likely-confused option, not the one actually chosen —
+  // say so honestly instead of presenting it as if it addressed this answer.
+  const whyWrong = arabicOrNull(matchedOption?.reason)
+    ?? (arabicOrNull(aid.explanation_wrong)
+      ? `ملاحظة: لا يتوفر شرح خاص بإجابتك المحددة، لكن إليك خطأً شائعاً آخر في هذا السؤال قد يفيدك: ${aid.explanation_wrong}`
+      : null);
   return {
-    whyWrong: matchedOption?.reason ?? aid.explanation_wrong ?? null,
-    whyCorrect: aid.explanation_correct ?? null,
+    whyWrong,
+    whyCorrect: arabicOrNull(aid.explanation_correct),
     tip,
   };
 }
