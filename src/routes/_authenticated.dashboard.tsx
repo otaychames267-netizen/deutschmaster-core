@@ -12,16 +12,21 @@ const CARDS: { value: "TELC_B1" | "TELC_B2"; seg: "b1" | "b2"; badge: string; la
   { value: "TELC_B2", seg: "b2", badge: "B2", label: "B2 Level", desc: "Selbstständige Sprachverwendung", gradient: "from-rose-700 via-rose-500 to-pink-400" },
 ];
 
-/** AuraLingovia is a dedicated TELC B2 platform for now — regular students are
- * sent straight into `/b2/dashboard`, no chooser. Admins keep the two-card
- * chooser below so B1 content work can continue (see useB1Visible). */
+/** Regular students never see a level chooser here: their course was fixed
+ * once at onboarding (`profiles.level`), so this page just forwards them
+ * straight to `/$level/dashboard`. Only admins keep the two-card chooser
+ * below, since they legitimately need to jump between B1 and B2 to work on
+ * either course's content (see useB1Visible). */
 function LevelGatePage() {
-  const { level } = useAuth();
+  const { level, isAdmin, roleLoading } = useAuth();
   const nav = useNavigate();
   const b1Visible = useB1Visible();
 
-  if (!b1Visible) {
-    return <Navigate to="/$level/dashboard" params={{ level: "b2" }} replace />;
+  if (roleLoading) return null;
+
+  if (!isAdmin) {
+    const seg = level === "TELC_B1" ? "b1" : "b2";
+    return <Navigate to="/$level/dashboard" params={{ level: seg }} replace />;
   }
 
   return (
