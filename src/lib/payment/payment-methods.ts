@@ -12,7 +12,7 @@
  */
 import { OFFICIAL_D17_RECIPIENT } from "@/lib/d17/payment-config";
 
-export const WHATSAPP_NUMBER = "20046880";
+export const WHATSAPP_NUMBER = "46372158";
 
 export const POSTAL_PAYMENT = {
   cardNumber: "5359 4014 2661 2392",
