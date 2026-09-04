@@ -11,12 +11,18 @@ export const Route = createFileRoute("/_authenticated/onboarding")({
   component: OnboardingPage,
 });
 
-type Level = "TELC_B2";
+type Level = "TELC_B1" | "TELC_B2";
 
-// B1 is intentionally not offered here — see B1_ENABLED in src/lib/features.ts.
-// AuraLingovia is a dedicated TELC B2 platform for now; this is the only place
-// level is ever set, once, for the lifetime of the account.
+// This is the only place level is ever set, once, for the lifetime of the
+// account (see src/lib/useActiveLevel.ts) — an existing account can't switch
+// levels here after onboarding, only by leaving its course via /dashboard.
 const LEVELS: { value: Level; labelKey: string; descKey: string; badge: string }[] = [
+  {
+    value: "TELC_B1",
+    labelKey: "onboarding.b1",
+    descKey: "onboarding.b1_desc",
+    badge: "B1",
+  },
   {
     value: "TELC_B2",
     labelKey: "onboarding.b2",
@@ -111,8 +117,8 @@ function OnboardingPage() {
             {t("onboarding.subtitle")}
           </p>
 
-          {/* Level card — TELC B2 only for now */}
-          <div className="mt-8 mx-auto max-w-xs">
+          {/* Level cards */}
+          <div className="mt-8 mx-auto max-w-xs space-y-3">
             {LEVELS.map((level) => {
               const isSelected = selected === level.value;
               return (

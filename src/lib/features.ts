@@ -30,15 +30,21 @@
 export const MUENDLICH_ENABLED = true;
 
 /**
- * Is the B1 course ready for students? Launch: false. Confirmed via direct
- * DB audit (2026-07-20): B1 has ~25-30% of B2's exercise volume across
- * Lesen/Hören/Sprachbausteine, and Schreiben is non-functional for B1 (every
- * B1 writing exam is the "informell" TELC B1 letter format, but no B1 route
- * serves that category — Beschwerde/Bitte are B2's formal-letter format).
- * Only B2 is sellable/enterable while this is false; flipping it re-enables
- * B1 everywhere in one place, same contract as MUENDLICH_ENABLED.
+ * Is the B1 course ready for students? Launch: true (2026-09-04). The two
+ * blockers noted in the original 2026-07-20 audit are now both resolved:
+ * volume has grown substantially (Lesen 36-59%, Schreiben 58%, SB ~35% of
+ * B2's; Hören still thinner at 20-25% but usable), and Schreiben now has a
+ * real serving route for B1's "informell" letter format (see
+ * .../schreiben/informell.tsx + the register-aware branch added to
+ * src/lib/grading/essay-grader.ts's rubric). start_simulation() was also
+ * extended to accept a level parameter instead of being hardcoded to B2
+ * (supabase/migrations/20260904090000_simulation_b1_support.sql). One plan
+ * ("Komplett") covers both levels — entitlement was already level-agnostic,
+ * confirmed via has_plan_access(), so no pricing change was needed. Flipping
+ * this back to false re-hides B1 everywhere in one place if a real problem
+ * surfaces post-launch, same contract as MUENDLICH_ENABLED.
  */
-export const B1_ENABLED = false;
+export const B1_ENABLED = true;
 
 /** Is real card checkout (Lemon Squeezy) live? Launch: false → D17 only. */
 export const CARD_PAYMENTS_ENABLED = false;

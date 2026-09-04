@@ -55,6 +55,7 @@ const BREADCRUMB_MAP: Record<string, string> = {
   "teil-3":        "Teil 3",
   beschwerde:      "Beschwerde",
   bitte:           "Bitte um Info",
+  informell:       "Informeller Brief",
   roles:           "Roles",
   settings:        "Settings",
   "pdf-import":    "PDF Import",

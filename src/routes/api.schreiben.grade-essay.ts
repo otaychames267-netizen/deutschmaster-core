@@ -91,6 +91,17 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           return Response.json({ error: "Malformed exercise content" }, { status: 500 });
         }
 
+        // Which Schreiben letter type this is (e.g. "informell" for B1's
+        // personal letters vs "beschwerde"/"bitte" for B2's formal ones) —
+        // the rubric's register criterion needs this to grade a B1 informal
+        // letter fairly instead of penalizing its correct Du-register.
+        const { data: examRow } = await supabaseAdmin
+          .from("exams")
+          .select("metadata")
+          .eq("id", item.exam_id)
+          .maybeSingle();
+        const category = (examRow?.metadata as any)?.category as string | undefined;
+
         // 1. Global budget gate — checked BEFORE spending a credit, so a
         // budget-exceeded rejection never costs the student anything.
         if (await isBudgetExceeded(supabaseAsUser)) {
@@ -123,7 +134,7 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
 
         let result;
         try {
-          result = await gradeEssay(task, essayText, supabaseAsUser, level);
+          result = await gradeEssay(task, essayText, supabaseAsUser, level, category);
         } catch (e) {
           await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
           console.error("[grade-essay] grading failed, credit refunded:", e);

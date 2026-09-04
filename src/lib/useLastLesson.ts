@@ -21,6 +21,7 @@ const LESSON_LABELS: Record<string, { label: string; section: string }> = {
   "/schriftlich/vorbereitung/sprachbausteine/teil-2": { label: "Sprachbausteine — Teil 2", section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/beschwerde":   { label: "Schreiben — Beschwerde",   section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/bitte":        { label: "Schreiben — Bitte",         section: "Schriftlich" },
+  "/schriftlich/vorbereitung/schreiben/informell":    { label: "Schreiben — Informeller Brief", section: "Schriftlich" },
   "/schriftlich/pruefung":                            { label: "Prüfungssimulation",         section: "Schriftlich" },
   "/muendlich/vorbereitung/teil-1":                   { label: "Präsentation (Teil 1)",      section: "Mündlich" },
   "/muendlich/vorbereitung/teil-2":                   { label: "Thema sprechen (Teil 2)",    section: "Mündlich" },

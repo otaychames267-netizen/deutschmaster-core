@@ -90,7 +90,7 @@ export const Route = createFileRoute("/api/schreiben/submit-simulation")({
         if (wordCount >= 15) {
           const { data: examRow } = await supabaseAdmin
             .from("exams")
-            .select("id")
+            .select("id, metadata")
             .eq("id", attempt.schreiben_exam_id as string)
             .maybeSingle();
           const { data: item } = await supabaseAdmin
@@ -108,9 +108,10 @@ export const Route = createFileRoute("/api/schreiben/submit-simulation")({
               .eq("id", userId)
               .maybeSingle();
             const level = normalizeCefrLevel(profile?.level);
+            const category = (examRow.metadata as any)?.category as string | undefined;
 
             try {
-              const result = await gradeEssay(task, essayText, supabaseAsUser, level);
+              const result = await gradeEssay(task, essayText, supabaseAsUser, level, category);
               scoreSchreiben = result.overall_score;
 
               const { data: saved } = await (supabaseAdmin as any)

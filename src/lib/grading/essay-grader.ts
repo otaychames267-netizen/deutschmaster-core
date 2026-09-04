@@ -26,7 +26,21 @@ export function normalizeCefrLevel(raw: string | null | undefined): CefrLevel {
   return raw?.toUpperCase().includes("B1") ? "B1" : "B2";
 }
 
-function systemPrompt(level: CefrLevel): string {
+/**
+ * Is this an informal personal letter (telc B1's exclusive Schreiben format,
+ * e.g. "Liebe Isabelle, ...") rather than a formal Sie-register letter
+ * (telc B2's Beschwerde/Bitte)? Drives the one register-specific branch in
+ * the rubric below — everything else stays level-aware but format-agnostic.
+ * `category` is `exams.metadata->>'category'`; treat anything else
+ * (including undefined, for older rows with no category set) as formal, so
+ * existing B2 grading behavior is byte-for-byte unchanged.
+ */
+function isInformalLetter(category: string | null | undefined): boolean {
+  return category === "informell";
+}
+
+function systemPrompt(level: CefrLevel, category: string | null | undefined): string {
+  const informal = isInformalLetter(category);
   return `Du bist ein erfahrener telc-Prüfer für die Prüfung Deutsch ${level}, Prüfungsteil Schreiben, im STRENGSTEN EXAMENSMODUS — kein Lehrer, kein Motivationscoach, kein wohlwollender Muttersprachler, der einfach "versteht, was gemeint ist". Du bist ein Prüfer, der eine echte, folgenreiche Note vergibt. KEINE NACHSICHT. KEINE GROSSZÜGIGE BEWERTUNG. KEIN "reicht schon aus". Ein schwacher Text bekommt eine schwache Note — Punkt.
 
 STRIKTE PRÜFUNGSGRUNDSÄTZE (bindend, ohne Ausnahme):
@@ -48,7 +62,10 @@ Bewerte den folgenden Text nach genau drei offiziellen telc-Hauptkriterien, jewe
    - Sprachniveau: Bleibt der Text erkennbar unter dem für ${level} geforderten Niveau (Wortschatz, Satzkomplexität, Ausdrucksvermögen), darf das hier nicht großzügig übergangen werden.
 
 2. Kommunikative Gestaltung (communicative_design) — 0-15 Punkte
-   - Register: durchgehend formell und situationsangemessen — jeder Wechsel zu informeller Sprache ist ein Fehler.
+   - Register: ${informal
+       ? "Dies ist ein PERSÖNLICHER/INFORMELLER Brief (z. B. an eine Freundin/einen Freund) — die Du-Form, eine informelle Anrede (\"Liebe/Lieber ...\") und ein persönlicher, informeller Schlussgruß (\"Viele/Herzliche Grüße\" o. Ä.) sind hier die GEFORDERTE, korrekte Form, KEIN Fehler. Bewerte das Register stattdessen danach, ob es durchgehend konsistent informell-persönlich bleibt — ein unmotivierter Wechsel zu einer förmlichen Sie-Anrede oder einem steifen, unpersönlichen Amtsdeutsch WÄRE hier der eigentliche Fehler."
+       : "durchgehend formell und situationsangemessen — jeder Wechsel zu informeller Sprache ist ein Fehler."
+     }
    - Textaufbau: klare, erkennbare Form (Absender/Anschrift/Datum sofern gefordert, Anrede, Einleitung, sinnvoll gegliederte Absätze, Schluss/Schlussformel).
    - Kohärenz und Konnektoren: logischer, nachvollziehbarer Zusammenhang zwischen Sätzen und Absätzen, korrekt und passend verwendete Konnektoren, kein abrupter Themenwechsel.
    - Ausdruck und Natürlichkeit: Liest sich der Text wie natürliches, authentisches Deutsch — oder wirkt er übersetzt, holprig oder unidiomatisch?
@@ -194,7 +211,13 @@ function validate(raw: any): Omit<GradingResult, "overall_score" | "passed" | "m
 
 export { isBudgetExceeded };
 
-export async function gradeEssay(taskPrompt: string, essayText: string, supabase: any, level: CefrLevel = "B2"): Promise<GradingResult> {
+export async function gradeEssay(
+  taskPrompt: string,
+  essayText: string,
+  supabase: any,
+  level: CefrLevel = "B2",
+  category: string | null | undefined = undefined,
+): Promise<GradingResult> {
   if (await isBudgetExceeded(supabase)) {
     throw new Error("BUDGET_EXCEEDED");
   }
@@ -203,7 +226,7 @@ export async function gradeEssay(taskPrompt: string, essayText: string, supabase
 
   try {
     const { data, model, inputTokens, outputTokens } = await callClaudeTool<any>({
-      system: systemPrompt(level),
+      system: systemPrompt(level, category),
       userMessage,
       toolName: "submit_grading",
       toolDescription: "Submit the three-criteria telc Schreiben grading for the candidate's essay.",

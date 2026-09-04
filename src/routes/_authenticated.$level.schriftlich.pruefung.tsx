@@ -518,7 +518,7 @@ function SchriftlichPruefungPage() {
     if (!user) return;
     setStarting(true);
     try {
-      const { data, error } = await (supabase as any).rpc("start_simulation", { p_user_id: user.id });
+      const { data, error } = await (supabase as any).rpc("start_simulation", { p_user_id: user.id, p_level: level ?? "TELC_B2" });
       if (error) throw error;
       offsetRef.current = await fetchServerOffsetMs();
       const { data: row } = await (supabase as any).from("simulation_attempts").select("*").eq("id", data.attempt_id).single();

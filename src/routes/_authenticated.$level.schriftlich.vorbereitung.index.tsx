@@ -10,7 +10,40 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
   component: SchriftlichVorbereitungHub,
 });
 
-const SKILLS = [
+/**
+ * Schreiben's practice links differ by level: B1's only Schreiben content is
+ * the informal-letter format (no beschwerde/bitte exams exist for B1), while
+ * B2 has only formal beschwerde/bitte content (no informell exams exist for
+ * B2) — see B1_ENABLED's comment in src/lib/features.ts for the content-shape
+ * background. Every other skill (Lesen/Hören/Sprachbausteine) is identical
+ * across levels, so only this one array needs a level branch.
+ */
+function schreibenParts(seg: "b1" | "b2" | undefined) {
+  if (seg === "b1") {
+    return [{ label: "Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/informell" }];
+  }
+  return [
+    { label: "Beschwerde — Formal complaint", to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
+    { label: "Bitte um Informationen",         to: "/schriftlich/vorbereitung/schreiben/bitte" },
+    { label: "Vorlagen — Premium writing templates", to: "/schriftlich/vorbereitung/schreiben/vorlagen" },
+  ];
+}
+
+function getSkills(seg: "b1" | "b2" | undefined) {
+  return SKILLS_BASE.map((skill) =>
+    skill.label === "Schreiben"
+      ? {
+          ...skill,
+          parts: schreibenParts(seg),
+          description: seg === "b1"
+            ? "Written expression — a personal, informal letter to a friend"
+            : skill.description,
+        }
+      : skill,
+  );
+}
+
+const SKILLS_BASE = [
   {
     icon: BookOpen,
     label: "Lesen",
@@ -79,6 +112,7 @@ const SKILLS = [
 function SchriftlichVorbereitungHub() {
   const [openSkill, setOpenSkill] = useState<string | null>(null);
   const seg = useLevelSegment();
+  const SKILLS = getSkills(seg);
 
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-10">

@@ -115,6 +115,7 @@ import { Route as AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport } from
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-2'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-1'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.vorlagen'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.informell'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.bitte'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.beschwerde'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungLesenTeil3RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.lesen.teil-3'
@@ -720,6 +721,14 @@ const AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute =
     path: '/schreiben/vorlagen',
     getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
   } as any)
+const AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute =
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRouteImport.update(
+    {
+      id: '/schreiben/informell',
+      path: '/schreiben/informell',
+      getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+    } as any,
+  )
 const AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute =
   AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRouteImport.update({
     id: '/schreiben/bitte',
@@ -882,6 +891,7 @@ export interface FileRoutesByFullPath {
   '/$level/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
   '/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   '/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  '/$level/schriftlich/vorbereitung/schreiben/informell': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
   '/$level/schriftlich/vorbereitung/schreiben/vorlagen': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute
   '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
   '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
@@ -991,6 +1001,7 @@ export interface FileRoutesByTo {
   '/$level/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
   '/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   '/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  '/$level/schriftlich/vorbereitung/schreiben/informell': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
   '/$level/schriftlich/vorbereitung/schreiben/vorlagen': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute
   '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
   '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
@@ -1108,6 +1119,7 @@ export interface FileRoutesById {
   '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3': typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  '/_authenticated/$level/schriftlich/vorbereitung/schreiben/informell': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/vorlagen': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute
   '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
   '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
@@ -1225,6 +1237,7 @@ export interface FileRouteTypes {
     | '/$level/schriftlich/vorbereitung/lesen/teil-3'
     | '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
     | '/$level/schriftlich/vorbereitung/schreiben/bitte'
+    | '/$level/schriftlich/vorbereitung/schreiben/informell'
     | '/$level/schriftlich/vorbereitung/schreiben/vorlagen'
     | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
     | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
@@ -1334,6 +1347,7 @@ export interface FileRouteTypes {
     | '/$level/schriftlich/vorbereitung/lesen/teil-3'
     | '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
     | '/$level/schriftlich/vorbereitung/schreiben/bitte'
+    | '/$level/schriftlich/vorbereitung/schreiben/informell'
     | '/$level/schriftlich/vorbereitung/schreiben/vorlagen'
     | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
     | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
@@ -1450,6 +1464,7 @@ export interface FileRouteTypes {
     | '/_authenticated/$level/schriftlich/vorbereitung/lesen/teil-3'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte'
+    | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/informell'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/vorlagen'
     | '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
     | '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
@@ -2221,6 +2236,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRouteImport
       parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
     }
+    '/_authenticated/$level/schriftlich/vorbereitung/schreiben/informell': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/schreiben/informell'
+      path: '/schreiben/informell'
+      fullPath: '/$level/schriftlich/vorbereitung/schreiben/informell'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
     '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte': {
       id: '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte'
       path: '/schreiben/bitte'
@@ -2335,6 +2357,7 @@ interface AuthenticatedLevelSchriftlichVorbereitungRouteChildren {
   AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route: typeof AuthenticatedLevelSchriftlichVorbereitungLesenTeil3Route
   AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
   AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute
   AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
   AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route
@@ -2360,6 +2383,8 @@ const AuthenticatedLevelSchriftlichVorbereitungRouteChildren: AuthenticatedLevel
       AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute,
     AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute:
       AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute,
+    AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute:
+      AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute,
     AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute:
       AuthenticatedLevelSchriftlichVorbereitungSchreibenVorlagenRoute,
     AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route:
