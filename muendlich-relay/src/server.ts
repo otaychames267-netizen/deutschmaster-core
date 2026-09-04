@@ -1,8 +1,11 @@
 /**
  * server.ts — Room 2 audio relay. Persistent process (Fly.io), NOT the main
  * Vercel app. Each WebSocket connection is one student, scoped to one room.
- * When both participants of a room are connected, opens ONE shared Gemini
- * Live session for that room and bridges audio both directions.
+ * When both participants of a room are connected, opens ONE shared voice
+ * session for that room (via voiceBackend.ts — either Gemini Live, or
+ * Claude + ElevenLabs v3, selected by MUENDLICH_VOICE_BACKEND) and bridges
+ * audio both directions. This file itself doesn't know or care which
+ * backend is active — see voiceBackend.ts for that switch.
  *
  * Protocol (JSON text frames):
  *   client -> relay: { type: "audio", data: "<base64 pcm16 16kHz>" }
@@ -42,15 +45,48 @@
 import { WebSocketServer, WebSocket } from "ws";
 import { createServer } from "node:http";
 import { createClient } from "@supabase/supabase-js";
-import { openMuendlichLiveSession, type MuendlichLiveSession } from "./geminiLive.js";
+import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "./voiceBackend.js";
 import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
-import { pickOpening, pickHandoff, pickTransition } from "./examinerPhrases.js";
+import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23 } from "./examinerPhrases.js";
+import { checkCreditBudget, recordExamUsage } from "./voice/creditBudget.js";
+
+// Process-level safety net — real finding from a full failure-handling
+// audit: no such handler existed anywhere in this package before, and a
+// real, now-fixed bug (an unguarded async onVoiceError callback in
+// muendlichVoiceSession.ts) could turn ONE room's transient ElevenLabs
+// failure into an unhandled rejection that, by Node's default behavior,
+// crashes the ENTIRE process — taking down every OTHER concurrent exam
+// room on this relay instance, not just the failing one. That specific bug
+// is fixed at its source; this is defense-in-depth for anything similar
+// that isn't found yet. Logging and continuing is the correct, documented
+// response for unhandledRejection specifically (unlike uncaughtException,
+// which Node's own docs say leaves process state genuinely undefined —
+// deliberately NOT swallowed here, only logged loudly, since blindly
+// continuing after a synchronous crash risks worse, silent corruption
+// across all rooms).
+process.on("unhandledRejection", (reason) => {
+  console.error("[server] UNHANDLED REJECTION (would have crashed the whole relay before this safety net existed):", reason);
+});
+process.on("uncaughtException", (err) => {
+  console.error("[server] UNCAUGHT EXCEPTION — process state may now be inconsistent, but staying up rather than killing every concurrent exam room:", err);
+});
 
 const PORT = Number(process.env.PORT ?? 8787);
 const SUPABASE_URL = process.env.SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY!;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-for (const [k, v] of Object.entries({ SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, GEMINI_API_KEY: process.env.GEMINI_API_KEY })) {
+// Only the vendor keys the ACTIVE voice backend actually needs are
+// required — MUENDLICH_VOICE_BACKEND=gemini (default) doesn't need
+// ElevenLabs configured at all, and vice versa, so switching backends via
+// env never requires provisioning both vendors' credentials at once.
+const requiredEnv: Record<string, string | undefined> = { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY };
+if (activeVoiceBackend() === "gemini") {
+  requiredEnv.GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+} else {
+  requiredEnv.ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+  requiredEnv.ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
+}
+for (const [k, v] of Object.entries(requiredEnv)) {
   if (!v) throw new Error(`Missing required env var: ${k}`);
 }
 
@@ -63,11 +99,21 @@ const TICK_MS = 1_000; // stage-timer + anti-silence check cadence
 // default — do NOT change these in production without updating the spec).
 const STAGE_SECONDS: Record<1 | 2 | 3, number> = {
   1: Number(process.env.MUENDLICH_STAGE1_SECONDS ?? 240),
-  2: Number(process.env.MUENDLICH_STAGE2_SECONDS ?? 300),
-  3: Number(process.env.MUENDLICH_STAGE3_SECONDS ?? 300),
+  2: Number(process.env.MUENDLICH_STAGE2_SECONDS ?? 360), // ~4min natural dialogue + ~2min AI-facilitated takeover
+  3: Number(process.env.MUENDLICH_STAGE3_SECONDS ?? 360), // ~3:30-4:00 natural planning + ~2min AI-moderated completion
 };
 const TEIL1_HANDOFF_AT_SEC = Number(process.env.MUENDLICH_TEIL1_HANDOFF_SEC ?? STAGE_SECONDS[1] / 2); // switch from A to B at the midpoint
-const TEIL2_TAKEOVER_AT_SEC = Number(process.env.MUENDLICH_TEIL2_TAKEOVER_SEC ?? 210); // 3.5 minutes into Teil 2
+const TEIL2_TAKEOVER_AT_SEC = Number(process.env.MUENDLICH_TEIL2_TAKEOVER_SEC ?? 240); // 4 minutes into Teil 2
+// Once the scheduled takeover begins, each direct question gets a hard-capped
+// response window — long enough for a real B2 answer, short enough that a
+// silent or rambling candidate can't stall the whole segment.
+const TEIL2_RESPONSE_WINDOW_MS = Number(process.env.MUENDLICH_TEIL2_RESPONSE_WINDOW_MS ?? 30_000);
+// Teil 3 does NOT get a Teil-2-style structured takeover — candidates keep
+// doing the actual planning throughout. This mark only fires a one-shot
+// signal telling the AI to become a more actively involved moderator
+// (identify unresolved points, work toward a real conclusion); it never
+// hands over to a rigid alternating-turn interview like Teil 2's.
+const TEIL3_COMPLETION_AT_SEC = Number(process.env.MUENDLICH_TEIL3_COMPLETION_SEC ?? 240); // ~4 minutes into Teil 3
 // Both marks above are hard wall-clock cutoffs with no awareness of whether a
 // candidate is mid-sentence right at that instant. Rather than build real
 // speech-boundary detection, reuse the lastAudioAt tracking that already
@@ -82,8 +128,13 @@ const TEIL2_TAKEOVER_AT_SEC = Number(process.env.MUENDLICH_TEIL2_TAKEOVER_SEC ??
 const HANDOFF_ACTIVE_SPEECH_MS = Number(process.env.MUENDLICH_HANDOFF_ACTIVE_SPEECH_MS ?? 4_000);
 const HANDOFF_MAX_GRACE_MS = Number(process.env.MUENDLICH_HANDOFF_GRACE_MS ?? 15_000);
 // Teil 1 gets a longer threshold than Teil 2 — a candidate collecting their
-// thoughts mid-presentation is normal, unlike a stalled back-and-forth discussion.
-const SILENCE_THRESHOLD_MS: Record<1 | 2 | 3, number> = { 1: 8_000, 2: 4_000, 3: 10_000 };
+// thoughts mid-presentation is normal, unlike a stalled back-and-forth
+// discussion. Teil 3's 5s is deliberately the tightest of the three (per
+// explicit spec): dead air during a live joint-planning task reads as a
+// stalled negotiation faster than during free discussion, and unlike Teil 2
+// this same threshold stays the sole silence authority for the ENTIRE stage,
+// including the post-completion-mark moderation phase — never suppressed.
+const SILENCE_THRESHOLD_MS: Record<1 | 2 | 3, number> = { 1: 8_000, 2: 4_000, 3: 5_000 };
 const NUDGE_DEBOUNCE_MS = 8_000;
 const INTERMISSION_SECONDS = Number(process.env.MUENDLICH_INTERMISSION_SECONDS ?? 15);
 const MAX_REPEAT_USES = 2;
@@ -108,15 +159,33 @@ interface Participant {
 interface RoomSession {
   roomId: string;
   participants: Map<string, Participant>; // userId -> participant
-  live?: MuendlichLiveSession;
+  live?: VoiceBackendSession;
   examSessionId?: string;
   lastSenderSlot: "A" | "B" | null;
-  lastAudioAt: number;
+  lastAudioAt: number; // room-wide: max(lastAudioAtBySlot.A, lastAudioAtBySlot.B) — silence-trigger condition unchanged
+  // Per-candidate breakdown of the same signal — lets a stage-specific nudge
+  // message name WHICH candidate has actually been quieter for longer,
+  // instead of leaving that entirely to the model's own inference.
+  lastAudioAtBySlot: Record<"A" | "B", number>;
   lastNudgeAt: number;
   examStage: 1 | 2 | 3 | null;
   examStageStartedAt: number;
   teil1HandoffSent: boolean;
-  teil2TakeoverSent: boolean;
+  // Teil 2's candidate<->candidate discussion is the default; "takeover" is
+  // the scheduled, code-driven, alternating direct-questioning phase entered
+  // once near the ~4min mark (see tick()). This is deliberately separate from
+  // the generic anti-silence nudge below, which still independently handles
+  // an EARLY conversation stall (before the scheduled mark) as a lightweight,
+  // one-shot re-engagement nudge — not a mode change — so it can naturally
+  // step back once the candidates resume talking to each other.
+  teil2Mode: "natural" | "takeover";
+  teil2TakeoverTurn: "A" | "B" | null; // whose response window is currently open
+  teil2TakeoverWindowOpenedAt: number;
+  teil2TakeoverWindowEndsAt: number;
+  // Teil 3 has no analogous "mode" — candidates keep planning throughout;
+  // this just tracks whether the one-shot ~4min "be a more active moderator"
+  // signal has already been sent, so it never fires twice.
+  teil3CompletionSignalSent: boolean;
   repeatCount: number;
   intermissionUntil: number | null;
   pendingNextStage: 1 | 2 | 3 | null;
@@ -128,7 +197,7 @@ interface RoomSession {
   // Set the instant a Gemini Live error fires — checked at the start of the
   // credit tick so a tick already scheduled can't charge for a minute the
   // session couldn't actually deliver.
-  geminiErrored: boolean;
+  voiceBackendErrored: boolean;
   // When the Gemini Live session actually opened — used to approximate token
   // usage for the global cost-cap ledger at session end.
   liveSessionStartedAt: number | null;
@@ -154,30 +223,62 @@ async function userScopedClient(accessToken: string) {
   });
 }
 
-/** Teil 1 title -> "title (guiding points)" for the system prompt, so the AI
- * knows what a candidate's chosen category is actually meant to cover — falls
- * back to the bare title if the material row (or its body_text) is missing. */
-function formatTeil1Topic(title: string | undefined, materials: { title: string; body_text: string | null }[] | null | undefined): string {
+/** Selected-title -> "title (guiding points)" for the system prompt, so the
+ * AI knows what a candidate's chosen topic is actually meant to cover — falls
+ * back to the bare title if the material row (or its body_text) is missing.
+ * Was Teil-1-only; Teil 2/3 previously reached the model as a bare title with
+ * none of muendlich_materials' body_text guidance, which is exactly the
+ * "know the exact active topic, not just its name" context Teil 2 in
+ * particular needs to judge on-topic vs off-topic relevance well. */
+function formatTopic(title: string | undefined, materials: { title: string; body_text: string | null }[] | null | undefined): string {
   if (!title) return "(kein Thema ausgewählt)";
   const m = materials?.find((x) => x.title === title);
   return m?.body_text ? `${title} (${m.body_text})` : title;
+}
+
+/** Pure resolution of raw muendlich_selections rows into the per-Teil topic
+ * strings the exam prompt needs — pulled out of fetchRoomContext() so it can
+ * be exercised directly by a test without a live Supabase round trip. Mirrors
+ * exactly what the client's own preview panel does (title-string lookup
+ * against muendlich_materials, no separate id/FK involved on either side). */
+function resolveSelections(
+  selections: { teil: number; slot: string | null; value: string }[] | null | undefined,
+  materialsByTeil: Record<1 | 2 | 3, { title: string; body_text: string | null }[] | null | undefined>,
+): { teil1TopicA: string; teil1TopicB: string; teil2Topic: string; teil3Topic: string; teil1TopicATitle: string; teil1TopicBTitle: string } {
+  const teil1A = selections?.find((s) => s.teil === 1 && s.slot === "A")?.value;
+  const teil1B = selections?.find((s) => s.teil === 1 && s.slot === "B")?.value;
+  const teil2 = selections?.find((s) => s.teil === 2)?.value;
+  const teil3 = selections?.find((s) => s.teil === 3)?.value;
+  return {
+    teil1TopicA: formatTopic(teil1A, materialsByTeil[1]),
+    teil1TopicB: formatTopic(teil1B, materialsByTeil[1]),
+    teil2Topic: formatTopic(teil2, materialsByTeil[2]),
+    teil3Topic: formatTopic(teil3, materialsByTeil[3]),
+    // Raw title (e.g. "Reise"), separate from the formatted display string
+    // above (which appends body_text guidance in parens) — needed to look
+    // up teil1Questions.ts's per-topic library pool, which is keyed on the
+    // exact muendlich_materials.title strings, not the formatted string.
+    teil1TopicATitle: teil1A ?? "",
+    teil1TopicBTitle: teil1B ?? "",
+  };
 }
 
 async function fetchRoomContext(roomId: string, participants: Participant[]) {
   const a = participants.find((p) => p.slot === "A")!;
   const b = participants.find((p) => p.slot === "B")!;
 
-  const [profilesRes, selectionsRes, teil1MaterialsRes] = await Promise.all([
+  const [profilesRes, selectionsRes, teil1MaterialsRes, teil2MaterialsRes, teil3MaterialsRes] = await Promise.all([
     admin.from("profiles").select("id, full_name, level").in("id", [a.userId, b.userId]),
     admin.from("muendlich_selections").select("teil, slot, value").eq("room_id", roomId).in("teil", [1, 2, 3]),
     admin.from("muendlich_materials").select("title, body_text").eq("teil", 1).eq("category", "themen"),
+    admin.from("muendlich_materials").select("title, body_text").eq("teil", 2).eq("category", "themen"),
+    admin.from("muendlich_materials").select("title, body_text").eq("teil", 3).eq("category", "themen"),
   ]);
 
   const nameOf = (userId: string) => profilesRes.data?.find((p) => p.id === userId)?.full_name || "Kandidat";
-  const teil1A = selectionsRes.data?.find((s) => s.teil === 1 && s.slot === "A")?.value;
-  const teil1B = selectionsRes.data?.find((s) => s.teil === 1 && s.slot === "B")?.value;
-  const teil2 = selectionsRes.data?.find((s) => s.teil === 2)?.value ?? "(kein Thema ausgewählt)";
-  const teil3 = selectionsRes.data?.find((s) => s.teil === 3)?.value ?? "(kein Thema ausgewählt)";
+  const topics = resolveSelections(selectionsRes.data, {
+    1: teil1MaterialsRes.data, 2: teil2MaterialsRes.data, 3: teil3MaterialsRes.data,
+  });
 
   // muendlich_rooms itself carries no level column — the room's level is
   // derived from its two participants' own profiles.level. Normal case: both
@@ -191,9 +292,7 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
 
   return {
     personAName: nameOf(a.userId), personBName: nameOf(b.userId),
-    teil1TopicA: formatTeil1Topic(teil1A, teil1MaterialsRes.data),
-    teil1TopicB: formatTeil1Topic(teil1B, teil1MaterialsRes.data),
-    teil2Topic: teil2, teil3Topic: teil3,
+    ...topics,
     aName: nameOf(a.userId), bName: nameOf(b.userId),
     level,
   };
@@ -207,6 +306,37 @@ function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
   return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
 }
 
+/** Opens (or re-opens, for the next candidate) a Teil 2 takeover response
+ * window: updates room state deterministically (app-owned, per the spec's
+ * "don't rely on the LLM prompt for timing" principle) and sends a single
+ * instruction turn. Question WORDING and strategy stay entirely with the
+ * live model — same division of labor already proven for Teil 1's grounded
+ * follow-ups — this function only ever tells it WHO to ask and WHY now. */
+function openTeil2TakeoverWindow(
+  room: RoomSession,
+  ctx: { aName: string; bName: string },
+  candidate: "A" | "B",
+  opts: { first: boolean; previousResponded: boolean },
+) {
+  const now = Date.now();
+  room.teil2TakeoverTurn = candidate;
+  room.teil2TakeoverWindowOpenedAt = now;
+  room.teil2TakeoverWindowEndsAt = now + TEIL2_RESPONSE_WINDOW_MS;
+
+  const targetName = candidate === "A" ? ctx.aName : ctx.bName;
+  const otherName = candidate === "A" ? ctx.bName : ctx.aName;
+
+  const framing = opts.first
+    ? "Die Zeit für das freie Gespräch der Kandidaten ist um. Übernehmen Sie jetzt aktiv die Gesprächsführung."
+    : opts.previousResponded
+      ? "Bedanken Sie sich kurz für die Antwort und wechseln Sie dann höflich das Wort."
+      : "Der vorherige Kandidat hat nicht geantwortet — wechseln Sie ohne Kommentar dazu direkt weiter.";
+
+  room.live?.sendSystemMessage(
+    `${framing} Stellen Sie ${targetName} jetzt eine direkte Frage zum Thema. Wählen Sie eine andere Art von Frage als beim letzten Mal (Meinung, Grund, Beispiel, Vergleich, Reaktion auf ${otherName}s Beitrag, Gegenargument oder Konsequenz), und gründen Sie die Frage nach Möglichkeit auf etwas, das tatsächlich bereits gesagt wurde. ${targetName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
+  );
+}
+
 function logTranscript(room: RoomSession, speaker: string, teil: number, text: string) {
   broadcast(room, { type: "transcript", speaker, text });
   if (room.examSessionId) {
@@ -216,12 +346,16 @@ function logTranscript(room: RoomSession, speaker: string, teil: number, text: s
   }
 }
 
-async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: string; bName: string; teil1TopicA: string; teil2Topic: string }) {
+async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil2Topic: string; teil3Topic: string }) {
   room.examStage = stage;
+  room.live?.setStage(stage);
   room.examStageStartedAt = Date.now();
   room.lastAudioAt = Date.now(); // reset so setup/connection latency doesn't eat into the anti-silence budget
+  room.lastAudioAtBySlot = { A: Date.now(), B: Date.now() };
   room.teil1HandoffSent = false;
-  room.teil2TakeoverSent = false;
+  room.teil2Mode = "natural";
+  room.teil2TakeoverTurn = null;
+  room.teil3CompletionSignalSent = false;
   const seconds = STAGE_SECONDS[stage];
   await admin.from("muendlich_rooms").update({
     exam_stage: stage, exam_stage_started_at: new Date().toISOString(), exam_stage_seconds: seconds,
@@ -237,26 +371,35 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   // it skipped straight past Person A's turn to whatever nudge fired next.
   // Explicit trigger here matches the one reliable pattern already proven
   // everywhere else in this file.
+  // Opening: a fully fixed, pre-generated (or dynamically-synthesized
+  // fallback) welcome, immediately followed by the exam_start sentence
+  // (Person A's name + topic — inherently per-exam data, so it stays a
+  // scripted dynamic-TTS line). Both SKIP Claude entirely: there is no
+  // "what to say" decision left once the text is picked, so the old
+  // "sendSystemMessage + hope Claude repeats it verbatim" round-trip was
+  // pure overhead. See voice/phraseLibrary/ for the full design.
   if (stage === 1 && ctx) {
-    const opening = pickOpening({ aName: ctx.aName, bName: ctx.bName, topicA: ctx.teil1TopicA });
-    room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Die Prüfung beginnt jetzt. Sagen Sie GENAU diesen Satz (nicht umformulieren): "${opening}"`,
-      turnComplete: true,
-    });
+    const voiceId = room.live?.getVoiceId() ?? "gemini-default";
+    await room.live?.playLibraryPhrase("welcome");
+    await room.live?.speakScriptedText(pickExamStart({ aName: ctx.aName, topicA: ctx.teil1TopicA }, voiceId));
+    // The actual presentation prompt — a real question from the 7-topic
+    // library (teil1Questions.ts), not just a topic label. From here the
+    // candidate does almost all of the talking; the examiner only speaks
+    // again for a genuinely necessary short follow-up (organic trigger) or
+    // the scheduled handoff below.
+    await room.live?.playTeil1Question(ctx.teil1TopicATitle);
   }
 
-  // Teil 1 -> Teil 2: previously had NO explicit trigger at all (unlike every
-  // other AI-initiated moment in this file) — the model was left to notice
-  // the stage change on its own with no signal, which is the same unreliable
-  // pattern the comment above already found didn't work for stage 1's own
-  // opening. Fixed the same way: an explicit trigger, now with a varied
-  // transition sentence instead of the single hardcoded one stage 1 used to have.
+  // Teil 1 -> Teil 2. Skips Claude for the same reason as above.
   if (stage === 2 && ctx) {
-    const transition = pickTransition({ teil2Topic: ctx.teil2Topic });
-    room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Teil 1 ist beendet, Teil 2 beginnt jetzt. Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${transition}" Hören Sie sich danach das Gespräch der Kandidaten zunächst an, ohne einzugreifen — diese Anweisung ist NUR für Sie, sprechen Sie sie nicht laut aus.`,
-      turnComplete: true,
-    });
+    const voiceId = room.live?.getVoiceId() ?? "gemini-default";
+    await room.live?.speakScriptedText(pickSectionTransition12({ teil2Topic: ctx.teil2Topic }, voiceId));
+  }
+
+  // Teil 2 -> Teil 3. Skips Claude for the same reason as above.
+  if (stage === 3 && ctx) {
+    const voiceId = room.live?.getVoiceId() ?? "gemini-default";
+    await room.live?.speakScriptedText(pickSectionTransition23({ teil3Topic: ctx.teil3Topic }, voiceId));
   }
 }
 
@@ -279,6 +422,25 @@ async function startRoomIfReady(room: RoomSession) {
     endRoom(room, "insufficient_minutes_preflight");
     return;
   }
+
+  // Per-user 60,000-credit ElevenLabs allowance — separate from (additive
+  // to) the minutes check above, since it protects against a different
+  // real cost: this specific vendor's per-character/per-minute billing.
+  // Only relevant when this backend is actually the one making ElevenLabs
+  // calls; the Gemini backend never touches this budget.
+  if (activeVoiceBackend() === "elevenlabs") {
+    const [budgetA, budgetB] = await Promise.all([
+      checkCreditBudget(admin, participants[0].userId),
+      checkCreditBudget(admin, participants[1].userId),
+    ]);
+    if (!budgetA.allowed || !budgetB.allowed) {
+      console.log(`[room ${room.roomId}] ElevenLabs credit allowance exhausted (A: ${budgetA.creditsRemaining} remaining, B: ${budgetB.creditsRemaining} remaining), refusing new session`);
+      broadcast(room, { type: "terminated", reason: "insufficient_minutes" });
+      endRoom(room, "insufficient_credits_preflight");
+      return;
+    }
+  }
+
   // Same env-configured cap + comparison pattern as essay-grader-gemini.ts's
   // isBudgetExceeded() — the SQL side only exposes raw usage (get_today_api_
   // usage), the cap itself stays adjustable via env without a migration.
@@ -293,6 +455,27 @@ async function startRoomIfReady(room: RoomSession) {
   const ctx = await fetchRoomContext(room.roomId, participants);
   room.examLevel = ctx.level;
 
+  // Real fix, found during a full audit: nothing previously verified that
+  // both candidates actually made every required topic selection before
+  // the exam started. formatTopic() falls back to the literal string
+  // "(kein Thema ausgewählt)" for anything missing, and — with no gate —
+  // that fallback string would flow straight into the AI examiner's
+  // spoken/system-prompt content (e.g. announcing a Teil-2 topic of
+  // "(kein Thema ausgewählt)" out loud). Fails closed here instead, before
+  // any Claude/ElevenLabs cost is incurred, with the same
+  // broadcast+endRoom pattern as every other pre-flight guard above.
+  const NO_TOPIC_SELECTED = "(kein Thema ausgewählt)";
+  const missingTopics = [
+    ["Teil 1 (A)", ctx.teil1TopicA], ["Teil 1 (B)", ctx.teil1TopicB],
+    ["Teil 2", ctx.teil2Topic], ["Teil 3", ctx.teil3Topic],
+  ].filter(([, value]) => value === NO_TOPIC_SELECTED).map(([label]) => label);
+  if (missingTopics.length > 0) {
+    console.log(`[room ${room.roomId}] missing topic selection(s): ${missingTopics.join(", ")} — refusing to start`);
+    broadcast(room, { type: "terminated", reason: "missing_topic_selection" });
+    endRoom(room, "missing_topic_selection_preflight");
+    return;
+  }
+
   const { data: sessionRow } = await admin
     .from("muendlich_exam_sessions")
     .insert({ room_id: room.roomId })
@@ -300,31 +483,43 @@ async function startRoomIfReady(room: RoomSession) {
     .single();
   room.examSessionId = sessionRow?.id;
 
-  room.live = await openMuendlichLiveSession(ctx, {
+  room.live = await openVoiceBackend(ctx, room.examSessionId!, {
     onOpen: async () => {
       broadcast(room, { type: "ready" });
       await startStage(room, 1, ctx);
     },
     onAudioChunk: (b64) => broadcast(room, { type: "audio", data: b64 }),
     onOutputTranscript: (text) => logTranscript(room, "examiner", room.examStage ?? 2, text),
-    onInputTranscript: (text) => logTranscript(room, room.lastSenderSlot ?? "A", room.examStage ?? 2, text),
+    onInputTranscript: (text, slot) => logTranscript(room, slot, room.examStage ?? 2, text),
     onError: (message) => {
-      console.error(`[room ${room.roomId}] Gemini Live error:`, message);
+      console.error(`[room ${room.roomId}] voice backend error:`, message);
       // Set before broadcasting/ending — a credit tick already in flight
       // checks this flag first and skips charging for a minute the session
       // couldn't actually deliver.
-      room.geminiErrored = true;
+      room.voiceBackendErrored = true;
       broadcast(room, { type: "terminated", reason: "ai_error" });
-      endRoom(room, "technical_issue");
+      // Real fix, found during a full audit: this used to call endRoom()
+      // directly, skipping evaluation ENTIRELY — a transient TTS/Claude
+      // hiccup near the end of an otherwise-complete exam meant both
+      // candidates got zero score, no matter how much legitimate transcript
+      // existed. Now attempts the same best-effort evaluation finishExam()
+      // uses, sharing its own "too little transcript to grade" guard rather
+      // than a bespoke one. room.finishing double-guards against a race
+      // with a legitimate finishExam() call landing around the same time.
+      if (room.finishing) return;
+      room.finishing = true;
+      attemptBestEffortEvaluation(room, "technical_issue")
+        .catch((e) => console.error(`[room ${room.roomId}] best-effort evaluation on technical failure threw unexpectedly:`, e))
+        .finally(() => endRoom(room, "technical_issue"));
     },
-    onClose: (reason) => console.log(`[room ${room.roomId}] Gemini Live closed:`, reason),
+    onClose: (reason) => console.log(`[room ${room.roomId}] voice backend closed:`, reason),
   });
   room.liveSessionStartedAt = Date.now();
 
   // Atomic dual-deduction, one tick per elapsed minute — hard-stops the room
   // the instant either participant's balance/window can't cover it.
   room.creditTick = setInterval(async () => {
-    if (room.geminiErrored) return;
+    if (room.voiceBackendErrored) return;
     const [pa, pb] = [participants[0], participants[1]];
     const asUser = await userScopedClient(pa.accessToken);
     const { error } = await asUser.rpc("deduct_muendlich_minutes_dual", {
@@ -334,6 +529,30 @@ async function startRoomIfReady(room: RoomSession) {
       console.log(`[room ${room.roomId}] credit deduction failed, hard-stopping:`, error.message);
       broadcast(room, { type: "terminated", reason: error.message.includes("INSUFFICIENT") ? "insufficient_minutes" : "window_expired" });
       endRoom(room, "expired_mid_exam");
+      return;
+    }
+
+    // ElevenLabs credit hard cap — same cadence, additive to the minutes
+    // check above. Persists the REAL running usage (real characters sent to
+    // TTS, real audio-minutes sent to STT — see muendlichVoiceSession.ts's
+    // getUsage()) for both participants every tick, so a mid-exam crash
+    // still leaves an accurate partial record, and hard-stops the instant
+    // either candidate's 60,000-credit allowance would be exceeded.
+    if (activeVoiceBackend() === "elevenlabs" && room.live && room.examSessionId) {
+      const usage = room.live.getUsage();
+      await Promise.all([
+        recordExamUsage(admin, pa.userId, room.examSessionId, usage),
+        recordExamUsage(admin, pb.userId, room.examSessionId, usage),
+      ]);
+      const [budgetA, budgetB] = await Promise.all([
+        checkCreditBudget(admin, pa.userId),
+        checkCreditBudget(admin, pb.userId),
+      ]);
+      if (!budgetA.allowed || !budgetB.allowed) {
+        console.log(`[room ${room.roomId}] ElevenLabs credit allowance exhausted mid-exam (A: ${budgetA.creditsRemaining}, B: ${budgetB.creditsRemaining}), hard-stopping`);
+        broadcast(room, { type: "terminated", reason: "insufficient_minutes" });
+        endRoom(room, "insufficient_credits_mid_exam");
+      }
     }
   }, CREDIT_TICK_MS);
 
@@ -341,7 +560,7 @@ async function startRoomIfReady(room: RoomSession) {
   room.mainTick = setInterval(() => tick(room, ctx), TICK_MS);
 }
 
-function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicB: string; teil2Topic: string }) {
+function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil1TopicB: string; teil1TopicBTitle: string; teil2Topic: string; teil3Topic: string }) {
   if (room.finishing) return;
 
   // A stage's duration just elapsed -> we're on a 15s breather before the
@@ -372,39 +591,120 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
     // off mid-sentence, but never past the hard grace cap above.
     if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
       room.teil1HandoffSent = true;
-      const handoff = pickHandoff({ bName: ctx.bName, topicB: ctx.teil1TopicB });
-      room.live?.session.sendClientContent({
-        turns: `[SYSTEM] Die Zeit für ${ctx.aName}s Präsentation und Nachfragen ist um. Beenden Sie höflich diesen Teil. Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${handoff}" Hören Sie sich danach die Präsentation an, ohne zu unterbrechen, und stellen Sie anschließend 1-2 kurze Nachfragen, die sich konkret auf das Gesagte beziehen — diese Anweisung ist NUR für Sie, sprechen Sie sie nicht laut aus.`,
-        turnComplete: true,
-      });
+      // Skips Claude — see startStage()'s comment above for why. The
+      // follow-up-question behavior this used to remind Claude about for
+      // Person B's presentation is now a standing rule in
+      // examinerBrain.ts's system prompt (generalized to "whichever
+      // candidate is presenting," not hardcoded to Person A), so no
+      // per-call reminder is needed here anymore.
+      const voiceId = room.live?.getVoiceId() ?? "gemini-default";
+      // Chained via .then() (not awaited — tick() is sync) so the handoff
+      // sentence finishes before the question starts: both calls share the
+      // same generation-id supersession machinery, so firing them
+      // concurrently would let the question cancel the handoff mid-word.
+      void room.live?.speakScriptedText(pickTaskTransition({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
+        .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle));
     }
   }
 
-  // Teil 2: at the 3.5-minute mark, the AI must switch from listening to the
-  // students' own conversation into asking each candidate a direct question.
-  // Same mid-speech grace as the Teil 1 handoff above — interrupting an
-  // ongoing discussion to redirect it is normal for this Teil, but shouldn't
-  // land literally mid-word if avoidable.
-  if (room.examStage === 2 && !room.teil2TakeoverSent && elapsedMs >= TEIL2_TAKEOVER_AT_SEC * 1000) {
-    const withinGraceCap = elapsedMs < TEIL2_TAKEOVER_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+  // Teil 2: candidates talk to each other by default ("natural" mode). Around
+  // the ~4-minute mark the AI takes over as a structured, alternating
+  // question-and-answer facilitator ("takeover" mode) for the rest of the
+  // stage. This scheduled takeover is deliberately separate from the generic
+  // anti-silence nudge below, which still independently handles an EARLY
+  // stall (conversation dies before the 4-minute mark) as a lightweight,
+  // one-shot re-engagement — not a mode change, so it naturally stops firing
+  // (and never enters/needs an explicit "return to natural" transition) the
+  // moment the candidates start talking to each other again.
+  if (room.examStage === 2) {
+    if (room.teil2Mode === "natural" && elapsedMs >= TEIL2_TAKEOVER_AT_SEC * 1000) {
+      const withinGraceCap = elapsedMs < TEIL2_TAKEOVER_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+      // Same mid-speech grace as the Teil 1 handoff — interrupting an ongoing
+      // discussion to redirect it is normal for this Teil, but shouldn't land
+      // literally mid-word if avoidable.
+      if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
+        room.teil2Mode = "takeover";
+        openTeil2TakeoverWindow(room, ctx, "A", { first: true, previousResponded: false });
+      }
+    } else if (room.teil2Mode === "takeover" && room.teil2TakeoverTurn) {
+      const turn = room.teil2TakeoverTurn;
+      const now = Date.now();
+      // Has the addressed candidate actually spoken since this window opened?
+      // (lastSenderSlot/lastAudioAt are the same signals the rest of this
+      // file already relies on — no new speaker-detection mechanism.)
+      const hasResponded = room.lastAudioAt > room.teil2TakeoverWindowOpenedAt && room.lastSenderSlot === turn;
+      const trailingSilenceMs = now - room.lastAudioAt;
+      // Reusing HANDOFF_ACTIVE_SPEECH_MS here too, inverted: there it means
+      // "recent audio -> still mid-thought, don't interrupt"; here it means
+      // "answered, then this many ms of silence -> the answer looks finished,
+      // don't make them wait out the rest of the 30s for nothing."
+      const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
+      const windowExpired = now >= room.teil2TakeoverWindowEndsAt;
+      if (looksFinished || windowExpired) {
+        const next = turn === "A" ? "B" : "A";
+        openTeil2TakeoverWindow(room, ctx, next, { first: false, previousResponded: hasResponded });
+      }
+    }
+  }
+
+  // Teil 3: candidates plan together throughout — unlike Teil 2, there is no
+  // structured turn-taking phase to enter. This is a single one-shot signal
+  // around the ~4min mark telling the AI to become a more actively involved
+  // moderator (identify unresolved points, work the discussion toward a real
+  // joint decision) — NOT a takeover, and it does NOT touch the anti-silence
+  // mechanism below, which keeps working exactly the same before and after
+  // this point (5s threshold active for the entire stage, per spec).
+  if (room.examStage === 3 && !room.teil3CompletionSignalSent && elapsedMs >= TEIL3_COMPLETION_AT_SEC * 1000) {
+    const withinGraceCap = elapsedMs < TEIL3_COMPLETION_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+    // Same mid-speech grace as elsewhere — this is explicitly NOT meant to be
+    // an abrupt takeover, so if they're actively mid-negotiation right at the
+    // mark, let the moment pass rather than interrupting.
     if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
-      room.teil2TakeoverSent = true;
-      room.live?.session.sendClientContent({
-        turns: `[SYSTEM] Die 3,5-Minuten-Marke ist erreicht. Übernehmen Sie jetzt aktiv die Gesprächsführung: unterbrechen Sie das Gespräch der Kandidaten höflich, stellen Sie ${ctx.aName} eine gezielte Frage, warten Sie auf die Antwort, dann stellen Sie ${ctx.bName} eine unabhängige Frage. Jede Antwort maximal 30 Sekunden.`,
-        turnComplete: true,
-      });
+      room.teil3CompletionSignalSent = true;
+      room.live?.sendSystemMessage(
+        `Die geplante freie Planungszeit nähert sich dem Ende. Werden Sie ab jetzt aktiver als Moderatorin: Identifizieren Sie noch offene Planungspunkte und stellen Sie gezielte Fragen, damit die Kandidaten zu einer konkreten gemeinsamen Entscheidung kommen. Die Kandidaten sollen weiterhin selbst planen und entscheiden — Sie moderieren, Sie planen nicht für sie. Kein abruptes Eingreifen: Wenn gerade aktiv verhandelt wird, lassen Sie das laufen und steigen Sie beim nächsten passenden Moment ein.`,
+      );
     }
   }
 
-  // Anti-silence: nobody has sent audio in a while during Teil 2/3 -> AI takes over.
+  // Anti-silence: nobody has sent audio in a while -> AI takes over. Skipped
+  // during Teil 2's structured takeover above, which already owns silence
+  // handling for that phase via its own 30s window — letting both fire
+  // independently would risk two competing AI messages for the same gap
+  // (exactly the duplicate-trigger failure mode this file works hard to avoid
+  // everywhere else). Teil 3 has NO equivalent suppression — its 5s threshold
+  // stays the sole, unsuppressed silence authority for the entire stage,
+  // including after the completion signal above, exactly as specified.
+  //
+  // Also skipped while a participant is mid-reconnect (room.participants.size
+  // < 2 the instant a socket closes, per the ws "close" handler below) — a
+  // dropped WebSocket, not real candidate silence, would otherwise look
+  // identical to genuine dead air to this room-wide check and fire a
+  // nonsensical AI question at a candidate who currently can't hear it. This
+  // guard is stage-agnostic and only changes behavior in that disconnect
+  // edge case — the normal both-connected case (what Teil 1/2's already-
+  // verified behavior was tested under) is completely unaffected.
   const silenceMs = Date.now() - room.lastAudioAt;
-  if (silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
+  const teil2TakeoverOwnsSilence = room.examStage === 2 && room.teil2Mode === "takeover";
+  const bothConnected = room.participants.size === 2;
+  if (bothConnected && !teil2TakeoverOwnsSilence && silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
     room.lastNudgeAt = Date.now();
     broadcast(room, { type: "nudge" }); // surfaces the AI's takeover to the client as a toast
-    room.live?.session.sendClientContent({
-      turns: `[SYSTEM] Es herrscht seit mehreren Sekunden absolute Stille. Übernehmen Sie sofort die Gesprächsführung: sprechen Sie einen Kandidaten namentlich an (${ctx.aName} oder ${ctx.bName}) und stellen Sie eine direkte, konkrete Frage.`,
-      turnComplete: true,
-    });
+    // Teil 3 gets a candidate-aware variant: which of A/B has actually been
+    // quieter for longer, computed from real per-slot audio-arrival state
+    // (lastAudioAtBySlot) rather than left to the model's own inference.
+    // Teil 1/2 keep the exact same generic message as before, unchanged.
+    const turns = room.examStage === 3
+      ? (() => {
+          const now = Date.now();
+          const aSilentMs = now - room.lastAudioAtBySlot.A;
+          const bSilentMs = now - room.lastAudioAtBySlot.B;
+          const quieterName = aSilentMs >= bSilentMs ? ctx.aName : ctx.bName;
+          const quieterSilentSec = Math.round(Math.max(aSilentMs, bSilentMs) / 1000);
+          return `Es herrscht seit mehreren Sekunden absolute Stille. ${quieterName} hat davon am längsten nichts mehr gesagt (seit etwa ${quieterSilentSec} Sekunden) — beziehen Sie ${quieterName} bevorzugt aktiv mit ein, gegründet auf den bisherigen Gesprächsverlauf. Stellen Sie eine konkrete, auf die Planung bezogene Frage; treffen Sie die Entscheidung nicht selbst.`;
+        })()
+      : `Es herrscht seit mehreren Sekunden absolute Stille. Übernehmen Sie sofort die Gesprächsführung: sprechen Sie einen Kandidaten namentlich an (${ctx.aName} oder ${ctx.bName}) und stellen Sie eine direkte, konkrete Frage.`;
+    room.live?.sendSystemMessage(turns);
   }
 
   // Hard idle-close: even the AI's own takeover attempt(s) above got no
@@ -422,14 +722,29 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
     room.pendingNextStage = room.examStage === 1 ? 2 : room.examStage === 2 ? 3 : null;
     room.intermissionUntil = Date.now() + INTERMISSION_SECONDS * 1000;
     broadcast(room, { type: "intermission", seconds: INTERMISSION_SECONDS });
+    // Teil 3 just ended (no next stage) -> play the fixed exam_end phrase
+    // during this same 15s breather, before finishExam() closes the
+    // sockets. Fire-and-forget (tick() is sync); the 15s window gives it
+    // time to finish. Previously there was NO spoken closing statement at
+    // all — the room just went silent and ended.
+    if (room.pendingNextStage === null) void room.live?.playLibraryPhrase("exam_end");
   }
 }
 
-async function finishExam(room: RoomSession) {
-  if (room.finishing) return;
-  room.finishing = true;
-  broadcast(room, { type: "finished" });
+// Minimum real candidate turns before attempting to grade a prematurely-
+// ended exam — below this, there's genuinely nothing to evaluate, and
+// running (and paying for) a Claude evaluation call against a near-empty
+// transcript would be wasteful, not more helpful.
+const MIN_TRANSCRIPT_NODES_FOR_BEST_EFFORT_EVALUATION = 4;
 
+/** Shared by both the normal completion path (finishExam) and the
+ * technical-failure path (voice-backend onError below) — a REAL fix found
+ * during a full audit: a TTS/Claude failure used to skip evaluation
+ * entirely via a direct endRoom() call, meaning both candidates got ZERO
+ * score even after a mostly-complete, legitimately gradable exam. Now both
+ * paths attempt a best-effort evaluation from whatever real transcript
+ * exists, and only skip it if there's genuinely too little to grade. */
+async function attemptBestEffortEvaluation(room: RoomSession, endReason: string) {
   const participants = [...room.participants.values()];
   const examSessionId = room.examSessionId;
 
@@ -441,13 +756,18 @@ async function finishExam(room: RoomSession) {
       .eq("session_id", examSessionId)
       .order("started_at", { ascending: true });
 
-    const transcriptText = (nodes ?? [])
+    await admin.from("muendlich_exam_sessions").update({
+      transcript: nodes ?? [], ended_at: new Date().toISOString(), end_reason: endReason,
+    }).eq("id", examSessionId);
+
+    if (!nodes || nodes.length < MIN_TRANSCRIPT_NODES_FOR_BEST_EFFORT_EVALUATION) {
+      console.log(`[room ${room.roomId}] too little transcript (${nodes?.length ?? 0} nodes) to attempt an evaluation — skipping, not scoring an near-empty exam`);
+      return;
+    }
+
+    const transcriptText = nodes
       .map((n) => `${n.speaker === "examiner" ? "Prüferin" : n.speaker === "A" ? "Person A" : "Person B"}: ${n.text}`)
       .join("\n");
-
-    await admin.from("muendlich_exam_sessions").update({
-      transcript: nodes ?? [], ended_at: new Date().toISOString(), end_reason: "completed",
-    }).eq("id", examSessionId);
 
     // Two independent, private evaluations — one per candidate.
     for (const label of ["Person A", "Person B"] as const) {
@@ -466,10 +786,16 @@ async function finishExam(room: RoomSession) {
       }
     }
   } catch (e) {
-    console.error(`[room ${room.roomId}] finishExam failed:`, e);
-  } finally {
-    endRoom(room, "completed");
+    console.error(`[room ${room.roomId}] attemptBestEffortEvaluation failed:`, e);
   }
+}
+
+async function finishExam(room: RoomSession) {
+  if (room.finishing) return;
+  room.finishing = true;
+  broadcast(room, { type: "finished" });
+  await attemptBestEffortEvaluation(room, "completed");
+  endRoom(room, "completed");
 }
 
 function endRoom(room: RoomSession, endReason: string) {
@@ -489,6 +815,16 @@ function endRoom(room: RoomSession, endReason: string) {
     admin.rpc("record_api_usage", { p_tokens: elapsedMinutes * GEMINI_AUDIO_TOKENS_PER_MINUTE }).then(({ error }) => {
       if (error) console.error(`[room ${room.roomId}] failed to record API usage:`, error.message);
     });
+  }
+
+  // Final ElevenLabs usage snapshot before closing — the periodic tick only
+  // records every CREDIT_TICK_MS (60s), so without this, up to a minute of
+  // real usage right before the exam ended would never get persisted.
+  if (activeVoiceBackend() === "elevenlabs" && room.live && room.examSessionId) {
+    const usage = room.live.getUsage();
+    for (const p of room.participants.values()) {
+      recordExamUsage(admin, p.userId, room.examSessionId, usage).catch(() => {});
+    }
   }
 
   room.live?.close();
@@ -526,11 +862,15 @@ wss.on("connection", async (ws, req) => {
     let room = rooms.get(roomId);
     if (!room) {
       room = {
-        roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(), lastNudgeAt: 0,
-        examStage: null, examStageStartedAt: 0, teil1HandoffSent: false, teil2TakeoverSent: false, repeatCount: 0,
+        roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
+        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastNudgeAt: 0,
+        examStage: null, examStageStartedAt: 0, teil1HandoffSent: false,
+        teil2Mode: "natural", teil2TakeoverTurn: null, teil2TakeoverWindowOpenedAt: 0, teil2TakeoverWindowEndsAt: 0,
+        teil3CompletionSignalSent: false,
+        repeatCount: 0,
         intermissionUntil: null, pendingNextStage: null,
         disconnectTimers: new Map(), finishing: false, ended: false,
-        geminiErrored: false, liveSessionStartedAt: null,
+        voiceBackendErrored: false, liveSessionStartedAt: null,
       };
       rooms.set(roomId, room);
     }
@@ -550,13 +890,14 @@ wss.on("connection", async (ws, req) => {
         } else if (msg.type === "audio" && room!.live) {
           room!.lastSenderSlot = participantRow.slot as "A" | "B";
           room!.lastAudioAt = Date.now();
+          room!.lastAudioAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
           // Don't forward mic audio to Gemini during the 15s inter-stage
           // breather — candidates chatting between Teile ("was kommt jetzt?")
           // would otherwise still reach Gemini's own VAD and could trigger an
           // unsolicited spoken response mid-breather. lastAudioAt above still
           // updates regardless, so the anti-silence bookkeeping stays accurate
           // the moment the next stage actually starts.
-          if (!room!.intermissionUntil) room!.live.sendAudioChunk(msg.data);
+          if (!room!.intermissionUntil) room!.live.sendAudioChunk(participantRow.slot as "A" | "B", msg.data);
         } else if (msg.type === "repeat" && room!.live) {
           // "Wie bitte?" — capped at MAX_REPEAT_USES per exam so it can't be
           // used to spam the session; doesn't touch the score/credit logic.
@@ -564,10 +905,9 @@ wss.on("connection", async (ws, req) => {
             send(ws, { type: "repeat_denied" });
           } else {
             room!.repeatCount++;
-            room!.live.session.sendClientContent({
-              turns: `[SYSTEM] Der Kandidat hat um Wiederholung gebeten. Wiederholen Sie freundlich und knapp nur Ihre letzte Aussage bzw. Frage, ohne eine neue Frage zu stellen.`,
-              turnComplete: true,
-            });
+            room!.live.sendSystemMessage(
+              `Der Kandidat hat um Wiederholung gebeten. Wiederholen Sie freundlich und knapp nur Ihre letzte Aussage bzw. Frage, ohne eine neue Frage zu stellen.`,
+            );
             broadcast(room!, { type: "repeat_ack", remaining: MAX_REPEAT_USES - room!.repeatCount });
           }
         }
@@ -584,11 +924,19 @@ wss.on("connection", async (ws, req) => {
       // "disconnect_timeout" reason, clobbering the correct one. Caught by
       // actually running the full exam lifecycle, not by inspection.
       if (room!.finishing) return;
-      if (room!.participants.size === 0) { endRoom(room!, "disconnect_timeout"); return; }
-      // One participant left — give them RECONNECT_GRACE_MS to come back
-      // before treating the room as abandoned. (Spec's "AI pivots to play
-      // both roles" for the remaining student is NOT implemented yet — see
-      // file header.)
+      // Real fix, found during a full audit: this used to end the room
+      // IMMEDIATELY with zero grace period the instant BOTH participants'
+      // sockets happened to close close together (e.g. a shared network
+      // blip, or both tabs backgrounded at once) — each socket's "close"
+      // handler fires independently and isn't coordinated, so the SECOND
+      // one to fire always saw participants.size===0 and ended the room on
+      // the spot, silently clearing whatever grace timer the first
+      // disconnect had already scheduled. Neither candidate got any
+      // chance to reconnect in that case, unlike a single-candidate
+      // disconnect. Now both cases get the identical RECONNECT_GRACE_MS
+      // window — symmetric treatment, same broadcast/reason once it
+      // actually expires. (Spec's "AI pivots to play both roles" for a
+      // remaining student is still NOT implemented — see file header.)
       const timer = setTimeout(() => {
         broadcast(room!, { type: "terminated", reason: "partner_disconnected" });
         endRoom(room!, "disconnect_timeout");

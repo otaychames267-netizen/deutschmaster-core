@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Mic, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
+import { describeMicError } from "@/lib/muendlich/micError";
 
 /** Pre-flight hardware check shown once before the live exam connection
  * opens (separate from Room 1's own ReadyCheck mic test — this one has a
@@ -8,6 +9,7 @@ import { Mic, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
 export function HardwareCheck({ onConfirm }: { onConfirm: () => void }) {
   const [level, setLevel] = useState(0);
   const [status, setStatus] = useState<"checking" | "ok" | "denied">("checking");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -32,7 +34,8 @@ export function HardwareCheck({ onConfirm }: { onConfirm: () => void }) {
         };
         tick();
         setStatus("ok");
-      } catch {
+      } catch (e) {
+        setErrorMessage(describeMicError(e));
         setStatus("denied");
       }
     })();
@@ -60,7 +63,7 @@ export function HardwareCheck({ onConfirm }: { onConfirm: () => void }) {
 
       {status === "checking" && <p className="text-xs text-muted-foreground">Mikrofonzugriff wird angefragt…</p>}
       {status === "ok" && <p className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600"><CheckCircle2 className="h-4 w-4" /> Mikrofon aktiv</p>}
-      {status === "denied" && <p className="flex items-center gap-1.5 text-xs font-semibold text-destructive"><AlertTriangle className="h-4 w-4" /> Kein Mikrofonzugriff — bitte in den Browser-Einstellungen erlauben und neu laden.</p>}
+      {status === "denied" && <p className="flex items-center gap-1.5 text-xs font-semibold text-destructive"><AlertTriangle className="h-4 w-4" /> {errorMessage}</p>}
 
       <button
         type="button"

@@ -23,6 +23,7 @@ import {
 } from "@/lib/muendlich/room";
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useAuth } from "@/lib/auth";
 
 // Defaults to local dev — set VITE_MUENDLICH_RELAY_URL once the relay is
 // deployed (see muendlich-relay/README.md).
@@ -37,8 +38,14 @@ const db = supabase as any;
 function PruefungPage() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
-  // Level-scoped so a B2 room in progress never leaks into a B1 session (or vice versa).
-  const LS_KEY = `muendlich.room.${seg}`;
+  const { user } = useAuth();
+  // Level- AND user-scoped. Without the user id, this localStorage key is
+  // shared by the whole browser origin — a second account signing in on
+  // another tab of the same browser would silently overwrite the first
+  // account's recovered room/slot, showing one user's session under another
+  // user's screen (found via live testing: real, reproducible, though RLS
+  // still blocks any actual cross-user write this confusion could cause).
+  const LS_KEY = user ? `muendlich.room.${user.id}.${seg}` : null;
   const [roomId, setRoomId] = useState<string | null>(null);
   const [slot, setSlot] = useState<Slot | null>(null);
   const [room, setRoom] = useState<Room | null>(null);
@@ -78,8 +85,12 @@ function PruefungPage() {
   // measure server clock offset once (synchronized timer)
   useEffect(() => { fetchServerOffsetMs().then(setOffsetMs); }, []);
 
-  // session recovery — only restore if the room still exists & is active
+  // session recovery — only restore if the room still exists & is active.
+  // Depends on LS_KEY (not []): it starts out null until the auth session
+  // resolves, so this must re-run once the real per-user key is known,
+  // otherwise recovery silently no-ops on first mount.
   useEffect(() => {
+    if (!LS_KEY) return;
     const saved = localStorage.getItem(LS_KEY);
     if (!saved) return;
     (async () => {
@@ -89,7 +100,7 @@ function PruefungPage() {
         else localStorage.removeItem(LS_KEY);
       } catch { localStorage.removeItem(LS_KEY); }
     })();
-  }, []);
+  }, [LS_KEY]);
 
   // subscribe (instant) + 2s poll (reliable real-time sync for chat/state/timer)
   useEffect(() => {
@@ -106,10 +117,10 @@ function PruefungPage() {
     setBusy(false);
     if ("error" in r) { setError(r.error); return; }
     setRoomId(r.room.id); setSlot(r.slot);
-    localStorage.setItem(LS_KEY, JSON.stringify({ roomId: r.room.id, slot: r.slot }));
+    if (LS_KEY) localStorage.setItem(LS_KEY, JSON.stringify({ roomId: r.room.id, slot: r.slot }));
   }
 
-  function leave() { if (roomId) markDisconnected(roomId); localStorage.removeItem(LS_KEY); setRoomId(null); setSlot(null); setRoom(null); }
+  function leave() { if (roomId) markDisconnected(roomId); if (LS_KEY) localStorage.removeItem(LS_KEY); setRoomId(null); setSlot(null); setRoom(null); }
 
   // ── Landing ──
   if (!roomId) {
@@ -316,13 +327,17 @@ function PrepRoom({ room, slot, me, participants, selections, chat, offsetMs, ma
   );
 }
 
-function VoiceCall({ roomId, slot, me }: { roomId: string; slot: Slot; me?: Participant }) {
+function VoiceCall({ roomId, slot, me, onToggle }: { roomId: string; slot: Slot; me?: Participant; onToggle?: (micOn: boolean) => void }) {
   const { connected, micOn, toggleMic, error } = useVoiceCall(roomId, slot, true);
   useEffect(() => { if (connected && me && !me.voice_ok) setConnChecks(me.id, { voice_ok: true }); }, [connected, me?.id]);
+  // onToggle lets a caller (the live ExamRoom) keep a second, independent mic
+  // feed — the one actually sent to the AI examiner — in sync with this
+  // button, so "Mute" silences the mic everywhere, not just to the partner.
+  function handleToggle() { onToggle?.(!micOn); toggleMic(); }
   return (
     <div className={`mt-2 flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-xs ${connected ? "bg-emerald-500/10 text-emerald-600" : "bg-amber-500/10 text-amber-600"}`}>
       <span className="flex items-center gap-1.5"><PhoneCall className="h-3.5 w-3.5" /> {error ? "Voice error" : connected ? "Voice call active" : "Connecting voice…"}</span>
-      <button aria-label={micOn ? "Mute microphone" : "Unmute microphone"} onClick={toggleMic} className="rounded p-1 hover:bg-black/5" title={micOn ? "Mute" : "Unmute"}>{micOn ? <Mic className="h-3.5 w-3.5" /> : <MicOff className="h-3.5 w-3.5" />}</button>
+      <button aria-label={micOn ? "Mute microphone" : "Unmute microphone"} onClick={handleToggle} className="rounded p-1 hover:bg-black/5" title={micOn ? "Mute" : "Unmute"}>{micOn ? <Mic className="h-3.5 w-3.5" /> : <MicOff className="h-3.5 w-3.5" />}</button>
     </div>
   );
 }
@@ -353,6 +368,7 @@ const TERMINATED_LABELS: Record<string, string> = {
   ai_error: "Ein technisches Problem hat die Prüfung unterbrochen.",
   idle_timeout: "Die Prüfung wurde wegen Inaktivität beendet.",
   budget_exceeded: "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später erneut.",
+  missing_topic_selection: "Es wurde nicht für alle Teile ein Thema ausgewählt. Bitte gehen Sie zurück zur Themenauswahl.",
 };
 
 function StageCountdown({ stageSeconds, stageStartedAt, onFraction }: { stageSeconds: number; stageStartedAt: number; onFraction?: (f: number) => void }) {
@@ -423,6 +439,7 @@ function ExamRoom({ room, participants, selections, slot, materials }: { room: R
   // deduction) does not open a moment earlier.
   const live = phase === "live";
   const audio = useRelayAudio(live ? RELAY_URL : null, live ? room.id : null, live ? accessToken : null);
+  const me = participants.find((p) => p.slot === slot);
   const { credits } = useMuendlichCredits();
   const activeTurn = useActiveTurn(audio.transcript);
   const transcriptEndRef = useRef<HTMLDivElement>(null);
@@ -486,6 +503,14 @@ function ExamRoom({ room, participants, selections, slot, materials }: { room: R
           {audio.latencyMs != null && <span className="text-muted-foreground">{audio.latencyMs}ms</span>}
         </div>
       </div>
+
+      {/* Direct peer-to-peer voice between the two candidates — required for
+       * Teil 2/3, where the exam prompt has them speak WITH EACH OTHER, not
+       * with the AI. Without this, only the AI's own TTS reaches either
+       * candidate; the relay never forwards one candidate's mic audio to the
+       * other (it only feeds Gemini and plays back Gemini's response). Reuses
+       * the same WebRTC channel already used during Preparation. */}
+      {live && <VoiceCall roomId={room.id} slot={slot} me={me} onToggle={(on) => audio.setMicMuted(!on)} />}
 
       {(!audio.connected || (audio.latencyMs != null && audio.latencyMs > 700)) && (
         <div className="flex items-center justify-between gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-700">

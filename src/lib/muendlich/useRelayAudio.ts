@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { describeMicError } from "./micError";
 
 /**
  * useRelayAudio — captures the student's microphone, encodes to PCM16 16kHz,
@@ -117,6 +118,12 @@ export function useRelayAudio(relayUrl: string | null, roomId: string | null, ac
   // Mirrors state.aiSpeaking / last transcript speaker+time inside the audio callback without
   // re-subscribing the ScriptProcessorNode on every state change (which would glitch capture).
   const duckRef = useRef({ aiSpeaking: false, lastSpeaker: null as "A" | "B" | null, lastSpeakerAt: 0, mySlot: null as "A" | "B" | null });
+  // Read inside the onaudioprocess closure (same reason as duckRef above — that
+  // closure is set up once per WS connection, not per render). Muting here stops
+  // audio from ever reaching the AI/relay, unlike useVoiceCall's own mute which
+  // only silences what the exam partner hears — see setMicMuted's doc comment.
+  const micMutedRef = useRef(false);
+  const [micMuted, setMicMutedState] = useState(false);
 
   const stop = useCallback(() => {
     processorRef.current?.disconnect();
@@ -140,6 +147,12 @@ export function useRelayAudio(relayUrl: string | null, roomId: string | null, ac
 
   /** mySlot is used only for the ducking heuristic (to know which transcript speaker counts as "the partner"). */
   const setMySlot = useCallback((slot: "A" | "B" | null) => { duckRef.current.mySlot = slot; }, []);
+
+  /** Mutes what actually reaches the AI examiner/transcript — distinct from
+   * useVoiceCall's own mute, which only silences the peer-to-peer channel the
+   * exam partner hears. A caller that wants "Mute" to mean "my mic is off,
+   * full stop" (the exam-room UI does) must call both. */
+  const setMicMuted = useCallback((muted: boolean) => { micMutedRef.current = muted; setMicMutedState(muted); }, []);
 
   useEffect(() => {
     if (!relayUrl || !roomId || !accessToken) return;
@@ -228,7 +241,7 @@ export function useRelayAudio(relayUrl: string | null, roomId: string | null, ac
             }, THINKING_TIMEOUT_MS);
           }
 
-          if (ws.readyState !== WebSocket.OPEN) return;
+          if (ws.readyState !== WebSocket.OPEN || micMutedRef.current) return;
 
           // Client-side audio ducking: attenuate outgoing mic samples while the
           // AI's audio is actually playing (hard signal, reduces the chance
@@ -255,7 +268,7 @@ export function useRelayAudio(relayUrl: string | null, roomId: string | null, ac
         processor.connect(silentGain);
         silentGain.connect(audioCtx.destination);
       } catch (e: any) {
-        if (!cancelled) setState((s) => ({ ...s, error: e?.message ?? "Mikrofonzugriff nicht möglich." }));
+        if (!cancelled) setState((s) => ({ ...s, error: describeMicError(e) }));
       }
     })();
 
@@ -267,7 +280,7 @@ export function useRelayAudio(relayUrl: string | null, roomId: string | null, ac
     };
   }, [relayUrl, roomId, accessToken, stop, reconnectNonce]);
 
-  return { ...state, reconnect, sendRepeat, setMySlot };
+  return { ...state, reconnect, sendRepeat, setMySlot, micMuted, setMicMuted };
 }
 
 function playChunk(audioCtx: AudioContext, pcm16: Int16Array, nextPlayTimeRef: { current: number }) {

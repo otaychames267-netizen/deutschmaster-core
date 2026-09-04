@@ -1,6 +1,15 @@
 # muendlich-relay
 
-Standalone WebSocket relay bridging Room 2 student audio to a shared Gemini Live session. Runs as its own persistent process — deliberately **not** part of the main app, which deploys to Vercel serverless and cannot host a long-lived stateful connection.
+Standalone WebSocket relay bridging Room 2 student audio to a shared AI-examiner voice session. Runs as its own persistent process — deliberately **not** part of the main app, which deploys to Vercel serverless and cannot host a long-lived stateful connection.
+
+## Voice backend: Gemini Live vs. Claude + ElevenLabs v3
+
+Which AI actually runs the exam is controlled entirely by one env var, `MUENDLICH_VOICE_BACKEND` (see `voiceBackend.ts`):
+
+- **`gemini`** (default) — the original, unchanged Gemini Live pipeline (`geminiLive.ts`): one integrated session handles listening, reasoning, and speaking together.
+- **`elevenlabs`** — Claude Sonnet 5 (reasoning, via `voice/examinerBrain.ts`) + ElevenLabs Scribe v2 Realtime (listening, per-candidate) + ElevenLabs v3 (speaking) + a Voice Manager that assigns and persists a distinct examiner voice per exam session (`voice/`). See `voice/README.md` for the full architecture, what's live-verified vs. protocol-verified-from-docs-only, and the current external blocker (the ElevenLabs account this was built against is on the free tier, which the API itself explicitly rejects any TTS/STT use of the library voices on — nothing to do with this code).
+
+Switching backends is a one-line env change and a redeploy — no code changes, and nothing about the exam's timing/state-machine/credit-deduction logic in `server.ts` changes either way.
 
 ## What's verified vs. what needs real human testing
 
@@ -35,6 +44,15 @@ fly secrets set \
   GEMINI_API_KEY=<same as main app's .env>
 fly deploy
 ```
+
+To run the `elevenlabs` backend instead, also set:
+```
+fly secrets set \
+  MUENDLICH_VOICE_BACKEND=elevenlabs \
+  ANTHROPIC_API_KEY=<same as main app's .env> \
+  ELEVENLABS_API_KEY=<a real key with voices_read + text_to_speech + speech_to_text permissions, on a paid plan — see voice/README.md>
+```
+(`GEMINI_API_KEY` can stay set even when unused — it's simply not read by this backend.)
 
 Once deployed, the browser client connects to `wss://<your-app>.fly.dev/room/<roomId>?token=<the user's current Supabase access_token>`.
 
