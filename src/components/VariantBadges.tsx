@@ -17,7 +17,7 @@ export function VariantBadge({ variant }: { variant: "original" | "modified" }) 
   return (
     <span className="relative inline-flex shrink-0 items-center gap-1 rounded-full bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-600 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white shadow-md shadow-violet-500/30 ring-1 ring-white/25">
       <span className="pointer-events-none absolute inset-0 -z-10 rounded-full bg-gradient-to-r from-violet-500 via-purple-500 to-indigo-600 opacity-60 blur-[5px]" />
-      <RefreshCw className="h-2.5 w-2.5" /> Modified
+      <RefreshCw className="h-2.5 w-2.5" /> Modifiziert
     </span>
   );
 }
