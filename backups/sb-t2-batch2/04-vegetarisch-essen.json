@@ -1,0 +1,22 @@
+{
+  "title": "Vegetarisch essen",
+  "level": "B2",
+  "position": 54,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 4. Source word bank marks 'STECKT' and 'AUF' both with the digit 6 (a genuine duplicate, confirmed by isolated zoom on each mark), and no mark '2' exists anywhere (all 4 remaining unmarked candidates individually zoom-checked). Gap 32 answer (AUF, idiom 'Auswirkungen auf etwas haben') determined by grammar + elimination, keeping STECKT for gap 36 ('stecken in' = to be contained in, its unambiguous own context). Using AUF for gap 32 leaves exactly the required 5 distractors (BEIDF/BEIDE, EINSETZEN, ESSENDE, SCHWER, WORAUF). All other 9 gaps verified against explicit unambiguous source marks.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Ein neuer Trend in unserer Zeit\n\nVegetarierinnen, die schwanger werden, möchten sich oft weiter vegetarisch ernähren. Worauf sollten sie dann achten? Abwechslungsreich essen ist wichtig für Schwangere. Schwangere haben einen teilweise {{31}} erhöhten Nährstoffbedarf, insbesondere bei Eiweiß, Vitaminen und Mineralstoffen. Verzichten sie auf Fisch, muss das aber keine Auswirkungen {{32}} das ungeborene Kind haben.\n\nEssen sie wie die meisten Vegetarier Eier oder Milchprodukte oder sogar {{33}}, dann können sie mit einer abwechslungsreichen Ernährung den Bedarf der meisten Nährstoffe {{34}}. Mängel können zwar bei der Versorgung mit Vitamin D, Eisen, Jod und Zink auftreten - das gilt allerdings auch für Nichtvegetarierinnen. Anders als oft vermutet, kommen gerade Eisenmangelanämien bei Vegetariern nicht häufiger als bei Nichtvegetariern {{35}}. Besonders achten sollten vegetarische Schwangere auf ausreichend Folat und Vitamin B12. Folat, das in seiner synthetischen Form Folsäure heißt, {{36}} zum Beispiel in Tomaten, Spinat und Vollkornprodukten. Vitamin B12 ist in pflanzlichen Lebensmitteln nicht enthalten, aber in Milch und Eiern.\n\nErnährungswissenschaftler empfehlen schwangeren Vegetarierinnen ihren Nährstoffstatus regelmäßig {{37}} zu lassen. Wer diese Ratschläge befolgt, kann auch als Vegetarierin sein Baby stillen, ohne eine Mangelversorgung für das Baby befürchten zu müssen. Außerdem kommt es auf die richtige Mischung der Lebensmittel {{38}}. Bei der Einführung der Beikost zwischen dem fünften und siebten Lebensmonat sollten Eltern bei vegetarischer Ernährung den eisenreichen Gemüse-Kartoffel-Fleisch-Brei durch einen vegetarischen Gemüse-Kartoffel-Getreide-Brei {{39}}. Denn beim schnellen Wachstum von Babys und Kindern ist die Versorgung mit Eisen besonders wichtig. Deshalb sollten vegetarisch {{40}} Kinder viel eisenreiches Vollkorngetreide und Vitamin-C-reiches Gemüse wie Blumenkohl und Brokkoli essen.",
+  "words": ["STECKT", "BEIDE", "AUF", "EINSETZEN", "ERNÄHRTE", "ÜBERPRÜFEN", "BEIDES", "ESSENDE", "VOR", "AN", "SCHWER", "DEUTLICH", "ERSETZEN", "DECKEN", "WORAUF"],
+  "answers": {
+    "31": "DEUTLICH",
+    "32": "AUF",
+    "33": "BEIDES",
+    "34": "DECKEN",
+    "35": "VOR",
+    "36": "STECKT",
+    "37": "ÜBERPRÜFEN",
+    "38": "AN",
+    "39": "ERSETZEN",
+    "40": "ERNÄHRTE"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Mitarbeiterinnen und Mitarbeiter",
+  "level": "B2",
+  "position": 47,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Liebe Mitarbeiterinnen und Mitarbeiter,\n\nwir haben nun fast das Halbjahr geschafft und ich möchte mich bei allen für diese gute und fruchtbare Zusammenarbeit bedanken. Einige der Jahresziele, {{21}} wir uns im letzten Jahr für heuer vorgenommen hatten, konnten wir bereits erreichen und ich bin davon überzeugt, {{22}} wir auch noch die restlichen bis Jahresende gut meistern werden.\nUm einige der Besonderheiten in diesem Jahr zu nennen:\nIm ersten Halbjahr konnten wir die Verkaufszahlen unseres {{23}} um 35% steigern und die Klicks auf unserer Homepage haben sich mehr als verdoppelt. Dies ist auch ein Mitverdienst der KommunikationsexpertInnen in unserer Firma, {{24}} ich ein besonderes Lob für die guten Werbemaßnahmen aussprechen möchte.\nWeiters konnten wir mit zwei großen Verlagen in Österreich Kooperationspartnerschaften eingehen und dadurch unseren Absatzmarkt erweitern. Hier gilt weiterhin, die Kooperationen {{25}} stärken, viel Arbeit zu investieren und dennoch auf die Interessen der Kooperationspartner nicht zu vergessen. Eine solche Annäherung bedarf großer Sensibilität, damit die Arbeit auch in Zukunft Früchte tragen wird.\nDie Ausgabe {{26}} Sommer haben wir bereits finalisiert und es sind nur mehr einige wenige Schritte bis zum Druck notwendig. {{27}} Mal werden auch beide Kooperationspartner auf der Titelseite vertreten sein. An dieser Stelle muss ich mich auch {{28}} den GraphikerInnen für die besonders gelungene und ansprechende Lösung bedanken. Beide Partner waren von der Gestaltung mehr als begeistert.\nAbschließend darf ich nun die Einladung zum diesjährigen Sommerfest verkünden, {{29}} diesmal im Palais Schönberg stattfinden wird. Ich lade Sie alle herzlich dazu ein, unseren {{30}} Erfolg in diesem Halbjahr bei einem wunderbaren Buffet und herrlicher Musik zu feiern.\n\nHerzlichst\nDie Geschäftsführung",
+  "gaps": [
+    {"n":21,"a":"der","b":"die","c":"diese","correct":"b"},
+    {"n":22,"a":"das","b":"dass","c":"ob","correct":"b"},
+    {"n":23,"a":"Magazin","b":"Magazins","c":"Magazines","correct":"b"},
+    {"n":24,"a":"den","b":"dem","c":"denen","correct":"c"},
+    {"n":25,"a":"zu","b":"zum","c":"zur","correct":"a"},
+    {"n":26,"a":"im","b":"in","c":"aus","correct":"a"},
+    {"n":27,"a":"Dieses","b":"Diese","c":"Diesen","correct":"a"},
+    {"n":28,"a":"von","b":"bei","c":"für","correct":"b"},
+    {"n":29,"a":"welcher","b":"welchem","c":"welches","correct":"c"},
+    {"n":30,"a":"gemeinsames","b":"gemeinsamen","c":"gemein","correct":"b"}
+  ]
+}

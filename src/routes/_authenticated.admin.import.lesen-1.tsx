@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
 import { extractNormalizedDocumentWithMeta, buildExtractionReport, mergeRichLines } from "@/lib/import/pdf-extractor";
 import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { parseLesenT1, type ParsedT1Exercise, type T1Headline, type T1Text } from "@/lib/import/lesen-t1-parser";
+import { createLesenT1Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import {
   Upload, FileText, AlertCircle, CheckCircle2, Loader2,
   ChevronRight, RotateCcw, Save, Eye, EyeOff, ScanLine,
@@ -24,7 +25,10 @@ function ImportLesenT1Page() {
   const [parsed, setParsed] = useState<ParsedT1Exercise | null>(null);
   const [headlines, setHeadlines] = useState<T1Headline[]>([]);
   const [texts, setTexts] = useState<T1Text[]>([]);
+  const [textAids, setTextAids] = useState<Record<number, LearningAidsFormValue>>({});
   const [title, setTitle] = useState("");
+  const [level, setLevel] = useState<"TELC_B1" | "TELC_B2">("TELC_B2");
+  const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [showRaw, setShowRaw] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -94,50 +98,41 @@ function ImportLesenT1Page() {
     setStep("saving");
 
     try {
-      // 1. Insert exercise header
-      const { data: ex, error: exErr } = await supabase
-        .from("lesen_exercises")
-        .insert({ title, teil: 1 as 1, created_by: user.id, source_pdf: parsed.title })
-        .select("id")
-        .single();
-
-      if (exErr || !ex) throw exErr ?? new Error("Insert failed");
-      const exerciseId = ex.id;
-
-      // 2. Insert headlines
-      if (headlines.length > 0) {
-        const { error: hlErr } = await supabase.from("lesen_t1_headlines").insert(
-          headlines.map((h) => ({ exercise_id: exerciseId, letter: h.letter, text: h.text, is_distractor: h.is_distractor }))
-        );
-        if (hlErr) throw hlErr;
-      }
-
-      // 3. Insert texts
-      if (texts.length > 0) {
-        const { error: txErr } = await supabase.from("lesen_t1_texts").insert(
-          texts.map((t) => ({
-            exercise_id: exerciseId,
+      // Single atomic call — validates + inserts exercise/headlines/texts in
+      // one transaction (admin_create_lesen_t1_exercise), unlike the old
+      // 3-separate-inserts path this replaced.
+      await createLesenT1Exercise({
+        data: {
+          title,
+          level,
+          note: parsed.title ? `Source PDF: ${parsed.title}` : "",
+          flagAsNewToTunisia,
+          headlines: headlines.map((h) => ({ letter: h.letter, text: h.text, is_distractor: h.is_distractor })),
+          texts: texts.map((t) => ({
             position: t.position as number,
             title: t.title,
             content: t.content,
             correct_headline: (t.correct_headline || "A") as string,
-          }))
-        );
-        if (txErr) throw txErr;
-      }
+          })),
+          learningAids: assembleLearningAids(
+            Object.fromEntries(texts.map((t) => [String(t.position), textAids[t.position as number]])),
+          ),
+        },
+      });
 
       setStep("done");
       toast.success(`"${title}" imported successfully.`);
     } catch (err) {
       console.error(err);
-      toast.error("Save failed. Check console for details.");
+      toast.error(err instanceof Error ? err.message : "Save failed. Check console for details.");
       setStep("review");
     }
   }
 
   function reset() {
     setStep("upload"); setParsed(null); setHeadlines([]); setTexts([]);
-    setTitle(""); setShowRaw(false); setIsOcr(false);
+    setTitle(""); setLevel("TELC_B2"); setFlagAsNewToTunisia(false);
+    setShowRaw(false); setIsOcr(false); setTextAids({});
     if (fileRef.current) fileRef.current.value = "";
   }
 
@@ -260,11 +255,31 @@ function ImportLesenT1Page() {
             </div>
           )}
 
-          {/* Title */}
-          <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
-            <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Exercise Title</p>
-            <input value={title} onChange={(e) => setTitle(e.target.value)}
-              className="w-full rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+          {/* Title, level, notice flag */}
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Exercise Title</p>
+              <input value={title} onChange={(e) => setTitle(e.target.value)}
+                className="w-full rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+            </div>
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Level</p>
+              <div className="flex gap-2">
+                {(["TELC_B1", "TELC_B2"] as const).map((l) => (
+                  <button key={l} type="button" onClick={() => setLevel(l)}
+                    className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
+                      level === l ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
+                    }`}>
+                    {l === "TELC_B1" ? "B1" : "B2"}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <label className="flex items-start gap-3 rounded-xl border border-dashed border-border p-3 cursor-pointer">
+              <input type="checkbox" checked={flagAsNewToTunisia} onChange={(e) => setFlagAsNewToTunisia(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0" />
+              <span className="text-xs text-muted-foreground" dir="rtl">{NOTICE_TEXT}</span>
+            </label>
           </div>
 
           {/* Headlines A–J */}
@@ -338,6 +353,11 @@ function ImportLesenT1Page() {
                   <textarea value={t.content} rows={4}
                     onChange={(e) => setTexts(prev => prev.map((x, xi) => xi === i ? { ...x, content: e.target.value } : x))}
                     className="w-full resize-y rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                  <LearningAidsFields
+                    value={textAids[t.position] ?? {}}
+                    onChange={(v) => setTextAids((prev) => ({ ...prev, [t.position]: v }))}
+                    hideGrammar
+                  />
                 </div>
               ))}
             </div>
@@ -374,9 +394,9 @@ function ImportLesenT1Page() {
             <button onClick={reset} className="flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors">
               <FileText className="h-4 w-4" /> Import another
             </button>
-            <Link to="/schriftlich/vorbereitung/lesen/teil-1"
+            <Link to="/dashboard"
               className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors">
-              View exercises <ChevronRight className="h-4 w-4" />
+              Go verify in a course <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

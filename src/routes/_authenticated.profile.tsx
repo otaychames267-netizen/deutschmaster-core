@@ -75,12 +75,13 @@ function ProfilePage() {
   useEffect(() => {
     if (!user) return;
     Promise.all([
-      supabase.from("profiles").select("full_name, level, exam_date, avatar_url").eq("id", user.id).maybeSingle(),
-      supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).in("status", ["active", "trial"]).order("expires_at", { ascending: false }).limit(1).maybeSingle(),
+      (supabase.from("profiles") as any).select("full_name, level, exam_date, avatar_url, bio").eq("id", user.id).maybeSingle(),
+      supabase.from("subscriptions").select("status, plan_code, expires_at").eq("user_id", user.id).eq("status", "active").gt("expires_at", new Date().toISOString()).order("expires_at", { ascending: false }).limit(1).maybeSingle(),
     ]).then(([profileRes, subRes]) => {
       if (profileRes.data) {
-        setProfile({ ...(profileRes.data as Profile), bio: null });
+        setProfile(profileRes.data as Profile);
         setFullName(profileRes.data.full_name ?? "");
+        setBio((profileRes.data as Profile).bio ?? "");
         setLevel(profileRes.data.level ?? "");
         setExamDate(profileRes.data.exam_date ?? "");
       }
@@ -93,9 +94,15 @@ function ProfilePage() {
     e.preventDefault();
     if (!user) return;
     setSaving(true);
-    const { error } = await supabase
-      .from("profiles")
-      .update({ full_name: fullName || null, level: (level || null) as "TELC_B1" | "TELC_B2" | null, exam_date: examDate || null })
+    // Deliberately does NOT touch `level` — that field is set once at onboarding
+    // and can only be changed by leaving a course via /dashboard (see the "by
+    // design: no switcher inside either course" comment on that gate page).
+    // Letting this form silently rewrite it with no navigation was a real bug:
+    // a user could flip their stored course here while still sitting on the
+    // other course's URLs, with nothing telling them anything had changed.
+    const { error } = await (supabase
+      .from("profiles") as any)
+      .update({ full_name: fullName || null, exam_date: examDate || null, bio: bio || null })
       .eq("id", user.id);
     setSaving(false);
     if (error) toast.error("Failed to save. Please try again.");
@@ -258,13 +265,14 @@ function ProfilePage() {
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-1.5">
-              <label className="text-sm font-medium text-foreground" htmlFor="level">Target exam</label>
-              <select id="level" value={level} onChange={(e) => setLevel(e.target.value)}
-                className="w-full rounded-xl border border-input bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 transition-colors">
-                <option value="">Not set</option>
-                <option value="TELC_B1">TELC B1</option>
-                <option value="TELC_B2">TELC B2</option>
-              </select>
+              <label className="text-sm font-medium text-foreground">Current course</label>
+              <div className="flex items-center gap-2 rounded-xl border border-input bg-muted/50 px-3.5 py-2.5">
+                <span className="text-sm text-muted-foreground">{level ? `TELC ${level === "TELC_B1" ? "B1" : "B2"}` : "Not set"}</span>
+                <span className="ml-auto rounded-md bg-muted px-2 py-0.5 text-xs text-muted-foreground">Read-only</span>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                B1 and B2 are separate courses. To switch, <Link to="/dashboard" className="font-medium text-primary hover:underline">leave this course</Link> and pick the other one — your progress in each is kept separately.
+              </p>
             </div>
             <div className="space-y-1.5">
               <label className="text-sm font-medium text-foreground" htmlFor="examDate">Exam date <span className="text-muted-foreground">(optional)</span></label>
@@ -375,28 +383,23 @@ function ProfilePage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between rounded-xl border border-border bg-muted/20 p-4">
               <div className="flex items-center gap-3">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${subscription.status === "trial" ? "bg-amber-500/10" : "bg-emerald-500/10"}`}>
-                  {subscription.status === "trial"
-                    ? <AlertCircle className="h-5 w-5 text-amber-500" />
-                    : <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-                  }
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10">
+                  <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                 </div>
                 <div>
                   <p className="text-sm font-bold text-foreground capitalize">{subscription.plan_code} Plan</p>
-                  <p className="text-xs text-muted-foreground">
-                    {subscription.status === "trial" ? "Free trial" : "Active subscription"}
-                  </p>
+                  <p className="text-xs text-muted-foreground">Active subscription</p>
                 </div>
               </div>
               <div className="text-right">
-                <p className={`text-2xl font-black ${subscription.status === "trial" ? "text-amber-500" : "text-emerald-500"}`}>
+                <p className="text-2xl font-black text-emerald-500">
                   {Math.max(0, Math.ceil((new Date(subscription.expires_at).getTime() - Date.now()) / 86400000))}
                 </p>
                 <p className="text-xs text-muted-foreground">days left</p>
               </div>
             </div>
             <p className="text-xs text-muted-foreground">
-              {subscription.status === "trial" ? "Expires" : "Renews"}{" "}
+              Renews{" "}
               {new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}
             </p>
             <Link to="/billing" className="inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:underline">
@@ -408,7 +411,7 @@ function ProfilePage() {
             <AlertCircle className="h-5 w-5 text-amber-500 shrink-0" />
             <div className="flex-1">
               <p className="text-sm font-semibold text-foreground">No active subscription</p>
-              <p className="text-xs text-muted-foreground">Start a free trial to access all exam content.</p>
+              <p className="text-xs text-muted-foreground">Subscribe to access exam content.</p>
             </div>
             <Link to="/billing" className="shrink-0 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground hover:bg-primary/90 transition-colors">
               View plans

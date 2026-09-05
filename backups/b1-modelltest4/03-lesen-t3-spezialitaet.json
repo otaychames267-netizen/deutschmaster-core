@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "Spezialität",
+  "level": "TELC_B1",
+  "position": 4,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 4/16 (Nadia2/Language Tests, pages 45-46 printed = PDF pages 46-47 for situations, PDF page 47 for the ad block). The ad block page is an out-of-focus/blurry photograph of an actual printed 'telc Deutsch B1' exam booklet page embedded in the source PDF (visible footer code '1061-S10-010902') — re-rendering at up to 600 DPI did not recover additional detail since the blur is baked into the source photo itself, not a rendering-resolution issue. All 12 ad headlines/titles are legible; body-text fine print (exact addresses, phone numbers, precise opening hours) could not be fully verified pixel-by-pixel and is transcribed on a best-effort basis, with genuinely illegible fragments bracketed. This does not affect the exercise's core answer-matching logic, which was independently re-verified against the printed Lösungen key (11E 12F 13B 14K 15C 16J 17H 18X 19X 20L). Note situation 12 ('Museum am Montag') correctly maps to ad F rather than the more obvious-looking ad A ('Museum der Stadt Füssen') — a partial legible fragment on ad A's hours ('Mo. geschlossen') indicates it is closed Mondays, making it a deliberate distractor.",
+  "key": "EFBKCJHXXL",
+  "situations": {
+    "11": "Sie wollen am Wochenende gerne in ein Klavierkonzert gehen.",
+    "12": "Sie sind in Füssen und wollen am Montag ins Museum gehen.",
+    "13": "Sie sind in Süddeutschland im Urlaub und möchten gerne eine bayerische Spezialität essen.",
+    "14": "Sie haben sich mit Bekannten zu einem Fischessen verabredet.",
+    "15": "Sie sind in Bayern und wollen Käsespezialitäten einkaufen.",
+    "16": "Sie möchten einen Deutschkurs in Wien besuchen.",
+    "17": "Ihr 16-jähriger Sohn soll in den Ferien im Ausland Englisch lernen.",
+    "18": "Sie interessieren sich für einen Sprachkurs auf CD.",
+    "19": "Sie wollen, dass Ihre 10-jährige Tochter in den Ferien eine Fremdsprache lernt.",
+    "20": "Eine Bekannte will ihren Geburtstag in einem Restaurant feiern und dort auch übernachten."
+  },
+  "texts": {
+    "A": { "title": "", "content": "Museum der Stadt Füssen, Lechhalde 3, 87629 Füssen. Staatsgalerie im Hohen Schloss Füssen. Öffnungszeiten: April bis Oktober: Di.-So. 11.00-16.00 Uhr, Mo. geschlossen. November bis März: Di.-So. 14.00-16.00 Uhr, Mo. geschlossen. [Quellfoto unscharf – Adresse/Öffnungszeiten teils nicht mit Sicherheit lesbar]" },
+    "B": { "title": "", "content": "Franziskaner Stüberl. [Quellfoto unscharf – nur der Name des Restaurants ist sicher lesbar; weitere Details zu Küche, Öffnungszeiten und Adresse nicht mit Sicherheit entzifferbar]" },
+    "C": { "title": "", "content": "Fisch vom Erzeuger – Frischfisch, Räucherfisch, Forellen, eigene Fischerei, Spezialitäten aus eigener Zucht. [Quellfoto unscharf – Adresse/Kontaktdaten nicht mit Sicherheit lesbar]" },
+    "D": { "title": "", "content": "Sprachen lernen & Leute treffen. Muttersprachler für Erwachsene: Englisch, Italienisch, Französisch, Spanisch und Russisch. Profitieren Sie von unserem lebendigen Training, das Sie an einem Ort Ihrer Wahl buchen können. Sprachcafé. [Quellfoto unscharf – Telefonnummer nicht mit Sicherheit lesbar]" },
+    "E": { "title": "", "content": "Jahreskonzert Füssen. Wolfgang Amadeus Mozart, Klavierkonzert Nr. 21 in C-Dur. Pianist: Hanns Porer. Leitung: Stadtmusikdirektor Rupert Merz. Karten an der Vorverkaufsstelle und an der Abendkasse." },
+    "F": { "title": "", "content": "Das Hauptmuseum Füssen [Quellfoto unscharf – weiterer Ausstellungstext nicht mit Sicherheit lesbar]. Besuch bis [Datum unleserlich]." },
+    "G": { "title": "", "content": "Spezialitätenkäserei R. und U. Altmann-Kuhn, Lorenzenbergstraße 14. [Quellfoto unscharf – Postleitzahl/Ort nicht mit Sicherheit lesbar]" },
+    "H": { "title": "", "content": "Alfa Sprachreisen. Crash-Kurse für Manager, Sprachkurse und High-School-Programme für 13- bis 18-Jährige. Englisch, Französisch, Spanisch. 17 Länder, mehr als 60 Kursorte. Fordern Sie unseren kostenlosen Katalog an. Alfa-Sprachreisen GmbH, Stuttgart. Tel. 0711-61 55 630, Fax 0711-61 55 360. www.alfa-sprachreisen.de" },
+    "I": { "title": "", "content": "Deutsche Schlagernacht – 70er/80er Jahre Party. Neu: Schlittschuh-Woche. Café-Bistro Amadeus. [Quellfoto unscharf – Adresse/Datum nicht mit Sicherheit lesbar]" },
+    "J": { "title": "", "content": "Free-System. Englisch, Französisch, Italienisch, Spanisch, Deutsch für Ausländer. Sie bestimmen die Unterrichtszeit, Sie lernen so rasch Sie wollen. Intensivkurse, Einzel-/Privat- und Kleingruppen (1-5 Teilnehmer), Intensive Crash Courses, Brush up and Business, Sprachkurse für Manager, English for Secretaries, Firmenkurse (Inhouse/extern), First/Proficiency/TOEFL/GMAT, Alliance Française. Kursbeginn jetzt! Institut Grünberger, Wien, direkt beim Hauptbahnhof." },
+    "K": { "title": "", "content": "Ritterstuben – Fischspezialitäten. Das Restaurant mit gepflegter Gastlichkeit im Herzen der Altstadt. Geöffnet von 11-14 Uhr und 17-24 Uhr. Montag Ruhetag. Warme Küche bis 23 Uhr. Ritterstraße 4, 87629 Füssen, Tel. 08362/7259." },
+    "L": { "title": "", "content": "Hotel-Café-Pension, Füssen im Allgäu. [Quellfoto unscharf – weitere Adress- und Kontaktdetails nicht mit Sicherheit lesbar]" }
+  }
+}

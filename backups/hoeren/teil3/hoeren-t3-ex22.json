@@ -1,0 +1,38 @@
+{
+  "title": "spätestens in Hannover",
+  "teil": 3,
+  "level": "B2",
+  "position": 22,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 23 (code 123) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Sie müssen spätestens in Hannover in den hinteren Zugteil umsteigen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Wenn Sie für das Radio eine Geschichte über Ihren eigenen 18. Geburtstag schreiben, müssen Sie bei der Party keinen Eintritt bezahlen.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Ihrer Freundin geht es nicht gut.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Auf dem Festival wird auch Musik von Beethoven gespielt.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Sie können das Eisbärbaby jederzeit im Freien beobachten.",
+      "correct": false
+    }
+  ]
+}

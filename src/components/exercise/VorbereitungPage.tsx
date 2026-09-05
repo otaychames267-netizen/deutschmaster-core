@@ -1,13 +1,18 @@
 import { useState } from "react";
-import { ArrowLeft, Clock, BookOpen, Zap } from "lucide-react";
+import { ArrowLeft, Clock, BookOpen, Zap, Loader2, Sparkles } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { ExamList } from "./ExamList";
 import { ExercisePlayer } from "./ExercisePlayer";
 import { useTrackLesson } from "@/lib/useLastLesson";
+import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useSchreibenCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
 
 interface SelectedExam {
   id: string;
   title: string;
+  isFreeSample?: boolean;
 }
 
 interface VorbereitungPageProps {
@@ -15,6 +20,9 @@ interface VorbereitungPageProps {
   subtitle: string;
   section: string;
   teil?: string;
+  /** exams.metadata->>'category' filter — used by Schreiben (no numeric teil)
+   *  to distinguish Beschwerde/Bitte and to scope the locked-preview catalog. */
+  metadataCategory?: string;
   tips?: string[];
   backTo?: string;
   backLabel?: string;
@@ -34,16 +42,39 @@ export function VorbereitungPage({
   subtitle,
   section,
   teil,
+  metadataCategory,
   tips,
-  backTo = "/schriftlich/vorbereitung",
+  backTo,
   backLabel = "Schriftlich Vorbereitung",
   xpReward = 50,
   estimatedTime = "15–25 min",
 }: VorbereitungPageProps) {
   const [active, setActive] = useState<SelectedExam | null>(null);
+  const [loadedExams, setLoadedExams] = useState<{ id: string }[]>([]);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
   useTrackLesson();
+  const level = useActiveLevel();
+  const seg = useLevelSegment();
+  const resolvedBackTo = backTo ?? `/${seg}/schriftlich/vorbereitung`;
+  const schriftlichTo = `/${seg}/schriftlich`;
 
   const sc = SECTION_COLORS[section] ?? { color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" };
+
+  // Non-subscribers: titles-only locked preview (content is RLS-gated
+  // server-side regardless). Only Schreiben passes metadataCategory today.
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const catalog = useSchreibenCatalog(level, metadataCategory ?? "");
+
+  if (metadataCategory && (accessLoading || (hasAccess === false && catalog.loading))) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  // ExamList's own fetch is RLS-scoped server-side, so it naturally returns
+  // ONLY the flagged free-sample rows for a non-subscriber (real, fully
+  // interactive). Everything else the catalog knows about is a locked row.
+  const lockedRemainder = metadataCategory && hasAccess === false
+    ? catalog.items.filter((c) => !loadedExams.some((e) => e.id === c.id))
+    : [];
 
   if (active) {
     return (
@@ -54,11 +85,17 @@ export function VorbereitungPage({
         >
           <ArrowLeft className="h-4 w-4" /> Back to exercises
         </button>
+        {hasAccess === false && active.isFreeSample && (
+          <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+            <Sparkles className="h-3 w-3" /> FREE SAMPLE
+          </span>
+        )}
         <ExercisePlayer
           examId={active.id}
           examTitle={active.title}
           onClose={() => setActive(null)}
         />
+        <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
     );
   }
@@ -72,16 +109,16 @@ export function VorbereitungPage({
       {/* ── Breadcrumb navigation ─────────────────────────────── */}
       <div>
         <Link
-          to={backTo as never}
+          to={resolvedBackTo as never}
           className="mb-4 inline-flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
         >
           <ArrowLeft className="h-4 w-4" /> {backLabel}
         </Link>
 
         <div className="mb-2 flex items-center gap-1.5 text-xs text-muted-foreground flex-wrap">
-          <Link to="/schriftlich" className="hover:text-foreground transition-colors">Schriftlich</Link>
+          <Link to={schriftlichTo as never} className="hover:text-foreground transition-colors">Schriftlich</Link>
           <span>/</span>
-          <Link to={backTo as never} className="hover:text-foreground transition-colors">Vorbereitung</Link>
+          <Link to={resolvedBackTo as never} className="hover:text-foreground transition-colors">Vorbereitung</Link>
           {sectionLabel && (
             <>
               <span>/</span>
@@ -141,9 +178,18 @@ export function VorbereitungPage({
         <ExamList
           section={section}
           teil={teil}
-          onSelect={(exam) => setActive({ id: exam.id, title: exam.title })}
+          metadataCategory={metadataCategory}
+          hasAccess={hasAccess}
+          onLoaded={(exams) => setLoadedExams(exams)}
+          onSelect={(exam) => setActive({ id: exam.id, title: exam.title, isFreeSample: exam.is_free_sample === true })}
         />
       </div>
+
+      {lockedRemainder.length > 0 && (
+        <LockedExerciseOverview heading="" items={lockedRemainder} compact />
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
     </div>
   );
 }

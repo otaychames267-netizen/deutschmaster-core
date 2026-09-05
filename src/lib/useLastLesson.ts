@@ -21,6 +21,7 @@ const LESSON_LABELS: Record<string, { label: string; section: string }> = {
   "/schriftlich/vorbereitung/sprachbausteine/teil-2": { label: "Sprachbausteine — Teil 2", section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/beschwerde":   { label: "Schreiben — Beschwerde",   section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/bitte":        { label: "Schreiben — Bitte",         section: "Schriftlich" },
+  "/schriftlich/vorbereitung/schreiben/informell":    { label: "Schreiben — Informeller Brief", section: "Schriftlich" },
   "/schriftlich/pruefung":                            { label: "Prüfungssimulation",         section: "Schriftlich" },
   "/muendlich/vorbereitung/teil-1":                   { label: "Präsentation (Teil 1)",      section: "Mündlich" },
   "/muendlich/vorbereitung/teil-2":                   { label: "Thema sprechen (Teil 2)",    section: "Mündlich" },
@@ -28,12 +29,18 @@ const LESSON_LABELS: Record<string, { label: string; section: string }> = {
   "/muendlich/pruefung":                              { label: "Prüfungssimulation",         section: "Mündlich" },
 };
 
+/** Strips a leading /b1 or /b2 segment so lesson labels are looked up by their
+ * level-agnostic suffix (both levels share the same set of lesson labels). */
+function stripLevelPrefix(pathname: string): string {
+  return pathname.replace(/^\/(b1|b2)(?=\/|$)/, "");
+}
+
 export function useTrackLesson() {
   const state = useRouterState();
   const pathname = state.location.pathname;
 
   useEffect(() => {
-    const info = LESSON_LABELS[pathname];
+    const info = LESSON_LABELS[stripLevelPrefix(pathname)];
     if (!info) return;
     const lesson: LastLesson = { path: pathname, label: info.label, section: info.section, ts: Date.now() };
     try {

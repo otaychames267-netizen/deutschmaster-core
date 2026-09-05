@@ -1,0 +1,21 @@
+{
+  "title": "Herr Martini 2",
+  "level": "B2",
+  "position": 6,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 7, اساسي/basic version). Modified version on page 6 pending — missing option boxes for gaps 23/26/29 in source.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Sehr geehrter Herr Martini,\n\nvielen Dank für Ihre Anfrage vom 16. Juni {{21}} der Studienreise Ihrer Schulklasse nach Frankfurt am Main im {{22}} Oktober.\n\nDie Unterkunft bei deutschen Gastfamilien ist prinzipiell möglich. Die Familien werden von uns sorgfältig {{23}} strengen Kriterien ausgewählt, die Sie in der beiliegenden Informationsbroschüre auf den Seiten 15 bis 17 finden. Pro Gastfamilie können ein oder zwei Schülerinnen bzw. Schüler untergebracht werden. Unsere Gastfamilien {{24}} Halbpension, d. h. in der Regel Frühstück und Abendessen, an. Alle Familien wohnen im näheren Umkreis der Schule, {{25}} der Weg von der Unterkunft zum Unterricht innerhalb von maximal 10 Minuten zu Fuß zurückgelegt werden kann.\n\nZweimal pro Woche ist die Teilnahme am Schulunterricht Ihrer Partnerschule in Frankfurt, der Heinrich-Böll-Schule, in den Fächern Geografie, Kunst und Deutsch vorgesehen. Die Unterrichtssprache ist Deutsch. {{26}} Schülerinnen und Schülern der Partnerschule wird das Freizeit- und Kulturprogramm durchgeführt.\n\nDazu gehört z. B. {{27}} der Gemäldegalerie \"Städel\", des Museums für Kunsthandwerk und des Deutschen Postmuseums. Auch ein Besuch beim Hessischen Rundfunk {{28}}. Jeweils dienstags und freitags werden Kulturabende veranstaltet, an denen die verschiedenen Aspekte und Unterschiede der deutschen und der italienischen Kultur {{29}} werden sollen.\n\nWeitere Informationen finden Sie in der beiliegenden Broschüre. Wir hoffen, dass Sie und Ihre Klasse einen erlebnisreichen und unvergesslichen Aufenthalt in Frankfurt {{30}} werden. Bei weiteren Fragen setzen Sie sich bitte mit uns in Verbindung.\n\nMit freundlichen Grüßen\nSibylle Lauterbacher\n\nStiftung Schüleraustausch Frankfurt",
+  "gaps": [
+    { "n": 21, "a": "an", "b": "von", "c": "zu", "correct": "c" },
+    { "n": 22, "a": "ankommenden", "b": "gekommenen", "c": "kommenden", "correct": "c" },
+    { "n": 23, "a": "aus", "b": "mit", "c": "nach", "correct": "c" },
+    { "n": 24, "a": "bieten", "b": "fordern", "c": "nehmen", "correct": "a" },
+    { "n": 25, "a": "so dass", "b": "weil", "c": "wenn", "correct": "a" },
+    { "n": 26, "a": "Gemeinsam mit", "b": "Verbunden von", "c": "Zusammen neben", "correct": "a" },
+    { "n": 27, "a": "die Ansicht", "b": "der Besuch", "c": "das Betrachten", "correct": "b" },
+    { "n": 28, "a": "hat geplant", "b": "ist geplant", "c": "wird geplant haben", "correct": "b" },
+    { "n": 29, "a": "besprochen", "b": "gesprochen", "c": "versprochen", "correct": "a" },
+    { "n": 30, "a": "haben", "b": "hatten", "c": "hätten", "correct": "a" }
+  ]
+}

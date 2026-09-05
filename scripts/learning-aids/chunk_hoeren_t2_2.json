@@ -1,0 +1,629 @@
+[
+  {
+    "id": "5e895740-28d7-4942-858d-c051b97b71d7",
+    "teil": 2,
+    "title": "Die Radiosendung",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Radiosendung stellt wöchentlich Leute aus ganz Deutschland vor.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Eva Küpper läuft im Training wenigstens einmal pro Woche auch über die Marathondistanz.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ihren Job als Bankangestellte würde Eva Küpper gerne kündigen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Nach der Ausbildung hat Eva Küpper ihren Lebensstil radikal verändert.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Eva Küpper kommt ursprünglich aus München.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Eva Küpper gefallen Dauerläufe in der Stadt genauso gut wie in den Bergen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Während eines Ultramarathons wechselt Eva Küpper die Laufschuhe dreimal.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die spezielle Uhr ist für Eva Küpper nicht nur im Training, sondern auch im Wettkampf wichtig.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Solange der Körper gesund ist, will Eva Küpper weiterhin Ultramarathons laufen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach dem Berlin Marathon kann Eva Küpper dem Lauf-Club offiziell beitreten.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "7502404d-2c48-4483-991f-183e52234f4f",
+    "teil": 2,
+    "title": "Die TU Dresden",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die TU Dresden ist eine kleine Universität.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "An der TU Dresden kann man nur technische Fächer studieren.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ältere Studierende kümmern sich um neue Studierende.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man erreicht die Neustadt nicht mit öffentlichen Verkehrsmitteln.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Jens ist nicht sicher, ob er nach dem Studium einen interessanten Job bekommt.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Studienanfänger können noch zwischen Bachelor und Diplom wählen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Mit dem Semesterticket dürfen Studierende öffentliche Verkehrsmittel in Dresden nutzen.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für Studienanfänger gibt es die Möglichkeit, bestimmte Grundkenntnisse aufzufrischen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Studium gibt es keine Gruppenarbeit.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "An der TU Dresden kann man auch außergewöhnliche Sportarten treiben.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "a386cb6b-144c-49cb-b049-d04c4c31ae06",
+    "teil": 2,
+    "title": "Dr. Lenz",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Dr. Lenz spricht aus ihrem ruhigen Büro.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Projekt „Lern-Zukunft” läuft erst seit wenigen Wochen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Es gibt für die Schüler keine Anwesenheitspflicht.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Feedbackgespräche ersetzen die klassischen Schulnoten.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lehrer halten weiterhin überwiegend Frontalunterricht.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Alle Eltern befürworteten das Konzept von Anfang an.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Schule wurde rein aus Staatsmitteln finanziert.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Interesse am Schulmodell hat zugenommen.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Konzept verlangt viel Selbstorganisation.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Dr. Lenz blickt trotz Stress positiv in die Zukunft.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "a7b2f83f-1142-4a9e-878b-e97179827b7a",
+    "teil": 2,
+    "title": "Eisschwimmen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Mit der Gründung der Eisschwimmervereinigung wollte Elias Wunderlich dem Eisschwimmen unter anderem zu einem offiziellen Status verhelfen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Eisschwimmen hat Elias Wunderlich durch den Austausch mit anderen Sportlern entdeckt.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Ärzte sind sich einig, dass Eisschwimmen die Gesundheit fördert.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nur durchtrainierte Menschen sollten Eisschwimmen betreiben.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für den Einstieg in den Eisschwimmsport ist der Winterbeginn der beste Zeitpunkt.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Elias Wunderlich hält sich strikt an seine eigenen Empfehlungen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Warmhaltendes Fett wird auch durch die Reaktion des Körpers auf Kälte erzeugt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei Wettbewerben ist schützende Ganzkörperbekleidung vorgesehen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Elias Wunderlich nimmt an Wettbewerben teil, um zu siegen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Laut Elias Wunderlich kann Eisschwimmen zur Abhängigkeit führen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "32579eec-9dab-4f99-8e73-b05561ca4ff3",
+    "teil": 2,
+    "title": "Familie - Eltern",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Fast 11500 Kinder leben nicht bei ihren leiblichen Eltern.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Früher wurden Fälle von Gewalt in der Familie oft nicht bekannt.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Kinder werden nicht sofort von ihren Familien getrennt.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Materielle Unterstützung wie Elektrogeräte kann keine Hilfe sein.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Nachmittagsbetreuung für die ältesten Kinder ist kostenlos.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Skandinavien gibt es eine bessere Familienvorsorge.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Früher lernte man Erziehung an Modellsituationen in der Großfamilie.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Kontakt zwischen Kindern und leiblichen Eltern wird möglichst erhalten.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es gibt spezielle WGs für Jugendliche, die nicht bei ihren Eltern leben.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Blaschitz bittet die Hörer um Unterstützung.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "7fef871a-6ffd-496f-91b4-8318e4d0b495",
+    "teil": 2,
+    "title": "Franz Schumacher",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Franz Schumacher handelt nicht nur mit Produkten aus eigenem Anbau.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Schumacher lässt sich auch von anderen Bauern Produkte liefern.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf dem Markt sind schon viele Besucher unterwegs.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die große Mehrheit der Kunden von Herrn Schumacher sind Stammkunden.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Schumacher ist auf die Pfälzer Kartoffeln besonders stolz.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Franz Schumacher hat keine hohe Meinung vom „Fachhändlerverein vom Rathausplatz\".",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Schumacher kommt morgens sehr früh auf den Markt, um sich einen guten Platz für seinen Stand zu sichern.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Schumacher hat seit über 20 Jahren einen Stand auf dem Landauer Markt.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Schumacher trägt eine Mütze, um sich vor Kälte zu schützen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Schumacher möchte in Zukunft einen Verkaufsstand in einer Markthalle eröffnen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "9d65952e-f768-446b-8719-94f3506d498f",
+    "teil": 2,
+    "title": "Frau Eichhorn",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Vater des Gründers hatte früher einen Stand auf einem Markt.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die ersten Schritte in die Selbstständigkeit waren problemlos.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zu Beginn war es schwierig, passende Lieferanten zu finden.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Eichhorn erzählt, wie sie die ersten Kunden gewonnen hat.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Angebot des Geschäfts richtet sich ausschließlich an Kunden aus der eigenen Stadt.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Anfangs hatten einige Kunden Zweifel an der Qualität der Produkte.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Eichhorn spricht über die Zusammenarbeit mit Produzenten und Lieferanten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Inhaber plant, in naher Zukunft eine weitere Filiale in der Stadt zu eröffnen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Verkauf der Produkte in andere Länder ist grundsätzlich vorgesehen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Persönliche Beratung im Geschäft bleibt auch in Zukunft sehr wichtig.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "51e531e8-af6d-411b-91b1-a5149b2d8ecf",
+    "teil": 2,
+    "title": "Frau Hahn",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Journalist spricht mit einer Kundin im Kaufhaus.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Hahn hat ihren Beruf im Kaufhaus Brück gelernt.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Hahn wollte schon als Kind Verkäuferin im Kaufhaus Brück werden.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Hahn fand es wichtig, nette Kollegen zu haben.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Hahns Mann arbeitet jetzt in demselben Kaufhaus wie sie.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Mann von Frau Hahn hat als Schuhverkäufer gearbeitet.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Kaufhaus Brück wird nach der Schließung abgerissen.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Hahn findet es wichtig, in einem schönen Haus zu arbeiten.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die neuen Inhaber hätten das Kaufhaus gerne weitergeführt.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Hahn will nicht in einem anderen Kaufhaus arbeiten.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "a1c4d525-1f93-4faa-926b-0c9faa539051",
+    "teil": 2,
+    "title": "Frau Makeba",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Meron Makeba hat schon in Ghana Leichtathletik gemacht.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Makeba ist mit ihrem Ergebnis bei der WM sehr zufrieden.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Makeba hat im vergangenen Jahr ihre Eltern in Ghana besucht.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Publikum hat bei der WM die Sportler aller Nationen unterstützt.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Makeba trifft selten andere Sportler aus Ghana.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für Frau Makeba ist Ghana noch immer ihre Heimat.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen ihres Migrationshintergrundes hatte Frau Makeba keine Schwierigkeiten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Anfangs war Frau Makeba in ihrem Verein die einzige Migrantin.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Makeba glaubt nicht, dass man aufgrund der Herkunft in bestimmten Sportarten bevorzugt wird.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Makebas Erfahrungen im privaten Bereich unterscheiden sich stark von denen im Sport.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "72add935-e365-4166-b35c-eaea66c90d65",
+    "teil": 2,
+    "title": "Frau Pesina",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Pesina ist die Chefin des Kosmos Kinos.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Von Hanau nach Frankfurt braucht man weniger als eine halbe Stunde.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Gründung des Kinos vor 100 Jahren war eher ein Zufall.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Großonkel baute sofort einen separaten Kinosaal.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach ihrem Großonkel leitete gleich Frau Pesina das Kino.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Manchmal denkt sie, es wäre besser gewesen, die sichere Stelle bei der Bank zu behalten.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In dem Kino gibt es heute außer der Schwägerin und den beiden Schwestern auch noch weitere Mitarbeiter.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Arbeitsalltag im Kino läuft immer völlig reibungslos ab.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Pesina entscheidet immer allein, was im Kosmos Kino läuft.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Manchmal gibt es in dem Kino ein spezielles Programm für Frauen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "511cddac-0c97-46bc-887c-86a6885a14fe",
+    "teil": 2,
+    "title": "Frau Schenk  ( Original )",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Schenk hat kurze blondierte Haar.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Angie ist der Künstlername von Frau Schenk.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Schenk lebt seit etwas mehr als zwei Jahren in Bayer.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Interview hat keine guten Erinnerungen an seine Aufenthalte in Jugendherberge.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auch in der modernen Jugendherberge von Frau Schenk gibt es Schlafraum mit mehr als zehn Bette.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Nur bei Schullassen achtet man auf Geschlechtserfrennung in den Schlafräume.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Angebot an Speisen werden auf die Wünsche der Gäste zugeschnitten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Schüler aus ländlichen Regionen sind meist unproblematische Gäste.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Reiten zählt zu dem Sportprogramm der Jugendherberge.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Schenk muss für ihre Dienstwohnung 800€ bezahle.",
+        "statement_number": 55
+      }
+    ]
+  }
+]

@@ -1,0 +1,514 @@
+[
+  {
+    "id": "1d675d81-cf0b-4ac1-baec-a7f7422e3a8e",
+    "teil": 1,
+    "title": "AirBerlin",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "AirBerlin-New ist wieder europäischer Branchenführer.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Sportverein in Hamburg bietet nur Kurse für Mitglieder an.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In der Altenpflege gibt es weiterhin große Personalprobleme.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch dreifach verglaste Fenster sinken die Heizkosten deutlich.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Marc Weber ist wieder für Turniere zugelassen.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "4e3d392b-5237-4051-9beb-ce26ebab64fe",
+    "teil": 1,
+    "title": "Bauern warnen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Spektakulärer Drogenfund: Polizei entdeckt Kokain auf einem Frachtschiff.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bauern warnen: Zu viel Umweltschutz gefährdet die Existenz vieler Bauernhöfe.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Verschiedene Verkehrsverbände einigen sich mit der Automobilindustrie auf ein Tempolimit.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Deutliche Unterschiede bei den Gehältern zwischen ost- und westdeutschen Bundesländern.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Raucher hat einen Brand in einem mehrstöckigen Wohnhaus verursacht.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "4f7433b2-3521-44cd-97eb-0aa36d5c3265",
+    "teil": 1,
+    "title": "Bei den Europawahlen (Original)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Bei den Europawahlen haben die Linksparteien deutlich zugelegt.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Tarifverhandlungen haben sich aufgrund internationaler Einflussfaktoren erhöht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Benzinpreis hat sich aufgrund internationaler Einflussfaktoren erhöht.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Rechtschreibreform in den deutschsprachigen Ländern wird abermals überarbeitet.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei einem S-Bahn-Unglück in München gab es zahlreiche Verletzte und einen hohen Sachschaden.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "f2e29af1-ffee-4d83-ab50-24ff5bf7b3a3",
+    "teil": 1,
+    "title": "Bei den Europawahlen (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Bei den Europawahlen haben die CDU und CSU fast die Hälfte aller Stimmen erhalten.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Tarifverhandlungen haben sich aufgrund internationaler Einflussfaktoren erhöht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Benzinpreis hat sich aufgrund internationaler Einflussfaktoren erhöht.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Rechtschreibreform in den deutschsprachigen Ländern wird abermals überarbeitet.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei einem S-Bahn-Unglück in München gab es zahlreiche Verletzte und einen hohen Sachschaden.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "e28cc262-9310-4dfa-ac4c-bfd45aad24e9",
+    "teil": 1,
+    "title": "Bei der Sportveranstaltung",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die ÖBB wollen ihre Kooperation mit den Schweizer Bundesbahnen (SBB) ausbauen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Aufgrund eines Unfalls kam es zu einem Großaufgebot von Einsatzwagen.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Baden bereitet den Antrag für die Aufnahme als „Kleine historische Stadt“ vor.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei der Sportveranstaltung „Stilecht“ sind Fahrräder aller Arten vertreten.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In den nächsten Wochen sind österreichweit starke Niederschläge zu erwarten.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "f2ab562b-99f7-43e1-b9cd-556dfe06619a",
+    "teil": 1,
+    "title": "Belegschaftsengpass",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Belegschaftsengpass könnte die öffentliche Verwaltung an den Rand des Zusammenbruchs bringen.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Offshore-Windkraftprojekt wird von Umweltgruppen als uneingeschränkt konfliktfrei betrachtet.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Ausstellung im Vatikan thematisiert ausschließlich die Restaurierung antiker Stätten.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Reaktion der Passagiere wurde von Luftfahrtexperten als Beleg für das hervorragende Krisenmanagement der Piloten gewertet.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die genauen Ursachen des Frachterunglücks in der Nordsee sind weiterhin Gegenstand einer Untersuchung.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "1e2db0ee-0f87-4450-a411-fff1e65aa319",
+    "teil": 1,
+    "title": "Bierkonsum (Original)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Bierkonsum steigt um 10%.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Deutsche Einkommen liegen im europäischen Vergleich nur im Mittelfeld.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Es ist ein Ende des Bahnstreiks in Sicht.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es wird Gewalt von Fußballfans auch in Deutschland befürchtet.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Leopoldina soll internationale Akademie werden.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "507bd7c5-2ca5-43b6-be65-4b6de40b5929",
+    "teil": 1,
+    "title": "Bierkonsum (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Verbrauch von Bier steigt um 10%.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Deutsche Einkommen liegen im europäischen Vergleich nur im Mittelfeld.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Es ist ein Ende des Bahnstreiks in Sicht.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Man befürchtet auch in Deutschland Gewalt von Fußballfans.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Leopoldina eine internationale Akademie werden.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "454040f2-39c2-4f7c-9ff8-ebe5d7dcd817",
+    "teil": 1,
+    "title": "BILD AM SONNTAG",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Laut BILD AM SONNTAG können in Zukunft nur Mieter, aber nicht Vermieter bestimmte Mietverträge schneller kündigen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In bestimmten Bundesländern sollen Wohnhäuser abgerissen werden, weil sie unbewohnt sind.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sowohl die Waldbrände als auch die Hitzewelle in Griechenland sind zu Ende.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Kanada mussten die Bergungsarbeiten nach einem Tornado wegen erneuter Unwetterwarnungen eingestellt werden.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei einem Fährunglück in der Nähe von Gibraltar gab es nur Sachschaden.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "b035684c-9aa2-472d-b457-97dafec3442f",
+    "teil": 1,
+    "title": "Bio-Siegels",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Die Verwendung des Bio-Siegels ist streng geregelt.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die EU-Agrarminister vertreten unterschiedliche Positionen.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der S-Bahn-Betrieb in Berlin verlief störungsfrei.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Neue Regelungen zur Gasförderung wurden beschlossen.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die EU-Kommission kritisiert die Stickstoffdioxid-Werte in deutschen Städten.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "302eb6bc-a685-492e-853b-4f35da4150aa",
+    "teil": 1,
+    "title": "Bürger   ( Neu )",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Bürger suchten nach dem Beben Kontakt zu den Einsatzkräften.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Erzieher in der Kita beraten die Eltern zum Impfen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Verkehrsbehinderungen werden vor allem für das Wochenende erwartet.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Defekte Rohrleitungen sind die Hauptursache für Umweltschäden in SH.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Schadstoffbelastung der Luft nimmt nächste Woche ab.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "d34d3964-aea1-490a-af7b-964c33bb80b0",
+    "teil": 1,
+    "title": "Busfahrer",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Länder fordern einheitliche Regeln gegen Wohnungsknappheit.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein geplantes Solarkraftwerk in Spanien stößt auf breite Zustimmung der Anwohner.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Ausstellung zeigt nur Technik aus dem 21. Jahrhundert.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein Busfahrer in Wien wurde für sein mutiges Eingreifen bei einem Überfall ausgezeichnet.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Gründe für den Stromausfall in Prag stehen inzwischen fest.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "a762e0c2-7cf9-4832-bc82-67c9e15e36f9",
+    "teil": 1,
+    "title": "Co-Living",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Co-Living ist inzwischen ein Standardmodell für Familien.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "KI-Systeme machen Ärzte in Zukunft überflüssig.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Fast-Fashion-Markt wächst trotz Nachhaltigkeitstrend weiter.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Gratis-ÖPNV reicht als Lösung für die Verkehrswende aus.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Bevölkerung befürwortet Pflegeroboter ohne Vorbehalte.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "ee0cdd07-e01c-4d3e-9ceb-0d14a5dbf008",
+    "teil": 1,
+    "title": "Das Bundesfamilienministerium",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "In Zukunft wird es schwieriger sein, Bauvorhaben des Bundes – wie Autobahnen oder Schienenwege – zu verhindern.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Eine weitere Verlängerung der Lebensarbeitszeit würde keine ernsthaften sozialen Probleme verursachen.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der auf der Nordsee in Seenot geratene Fischkutter ist inzwischen gefunden worden.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Bundesfamilienministerium betrachtet den Ausbau der Familienpolitik als abgeschlossen.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für Kinder, die sich im Kindergarten beim Spielen verletzen, haftet nicht automatisch die Einrichtung.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "a79b1845-7bdc-4dfe-bed3-ea9b88560691",
+    "teil": 1,
+    "title": "Das Schladminger",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Das Schladminger Skirennen fällt wieder aus.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Mehr Mädchen als Jungen leisten als pflegende Kinder und Jugendliche Betreuungsarbeit in den Familien.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Grazer Wohnhaus brannte bei einem Großbrand komplett aus.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Alle bei Australien gestrandeten Wale sind verendet.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Insgesamt bleibt es mild.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "49d902b6-aed8-4d5f-923e-aa9fbdb27425",
+    "teil": 1,
+    "title": "Der Bau",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Bau des höchsten Gebäudes der Welt in Dubai hat eine Milliarde Dollar gekostet.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach der Aussage der Bundesbank wirkt sich die abkühlende US-Konjunktur auffallend auf die deutsche Industrie aus.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die niedersächsischen Grünen haben vor, viel Geld in die Bereiche Klimaschutz und Bildung zu stecken.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Freiburger FC hat das Finale verloren.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Nachmittag herrscht Windstille und die Temperaturen steigen im Norden und Nordosten auf 2 bis 7 Grad, im Westen und Südwesten auf 6 bis 11 Grad.",
+        "statement_number": 45
+      }
+    ]
+  }
+]

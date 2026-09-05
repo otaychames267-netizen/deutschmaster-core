@@ -1,0 +1,17 @@
+{
+  "title": "in der Schule",
+  "teil": 1,
+  "level": "B1",
+  "position": 8,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 8/16 (Petra/Language Tests, page 102). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.106): 41- 42+ 43- 44+ 45+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Für die Sprecher ist es unwichtig, ob ihre Kinder in der Schule gut sind.", "correct": false },
+    { "number": 42, "text": "Der Sprecher findet es wichtig, dass Eltern immer für ihre Kinder da sind.", "correct": true },
+    { "number": 43, "text": "Die Sprecherin glaubt, dass sie mehr mit ihrer Tochter sprechen müsste.", "correct": false },
+    { "number": 44, "text": "Es ist dem Sprecher wichtig, dass seine Kinder gesund leben.", "correct": true },
+    { "number": 45, "text": "Der Sprecher möchte, dass sein Kind die eigenen Ideen realisieren kann.", "correct": true }
+  ]
+}

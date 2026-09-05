@@ -1,0 +1,63 @@
+{
+  "title": "Die Deutschen machen",
+  "teil": 2,
+  "level": "B2",
+  "position": 27,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 28 (code 359) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Die Deutschen machen zurzeit gerne bis zu drei Wochen oder mehr Urlaub.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Viele Wellness-Hotels befinden sich in Großstädten.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Wellness-Angebote gibt es vor allem in Hotels der gehobenen Kategorie.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Die von den Hotels angebotenen „Pakete“ enthalten in der Regel Vollpension.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "In den Hotels kann man auch schwimmen und in die Sauna gehen.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Die Gäste nehmen die Sportangebote kaum wahr.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Oft bieten die Hotels auch kulturelle Rahmenprogramme wie Stadtführungen und Opernbesuche an.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Frauen kommen fast immer in Begleitung ihrer Ehemänner.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Die Hotels haben besondere Angebote für Männer.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Mitglieder von Krankenkassen können die Hotels kostenlos besuchen.",
+      "correct": false
+    }
+  ]
+}

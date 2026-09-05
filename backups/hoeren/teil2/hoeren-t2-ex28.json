@@ -1,0 +1,63 @@
+{
+  "title": "Franz Schumacher",
+  "teil": 2,
+  "level": "B2",
+  "position": 28,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 29 (code 124680) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Franz Schumacher handelt nicht nur mit Produkten aus eigenem Anbau.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Herr Schumacher lässt sich auch von anderen Bauern Produkte liefern.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Auf dem Markt sind schon viele Besucher unterwegs.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Die große Mehrheit der Kunden von Herrn Schumacher sind Stammkunden.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Herr Schumacher ist auf die Pfälzer Kartoffeln besonders stolz.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Franz Schumacher hat keine hohe Meinung vom „Fachhändlerverein vom Rathausplatz\".",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Herr Schumacher kommt morgens sehr früh auf den Markt, um sich einen guten Platz für seinen Stand zu sichern.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Herr Schumacher hat seit über 20 Jahren einen Stand auf dem Landauer Markt.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Herr Schumacher trägt eine Mütze, um sich vor Kälte zu schützen.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Herr Schumacher möchte in Zukunft einen Verkaufsstand in einer Markthalle eröffnen.",
+      "correct": true
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { adminRevokeSubscription } from "@/lib/admin/subscriptions.functions";
+import { toast } from "sonner";
 import {
   Search, ChevronLeft, ChevronRight as ChevronRightIcon,
-  RefreshCw, Filter, CreditCard, Clock, CheckCircle2, XCircle,
+  RefreshCw, Filter, CreditCard, Clock, CheckCircle2, XCircle, Ban,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/subscriptions")({
@@ -24,9 +26,9 @@ const PAGE_SIZE = 20;
 
 const STATUS_CONFIG: Record<string, { label: string; icon: React.ComponentType<{ className?: string }>; cls: string }> = {
   active:  { label: "Active",  icon: CheckCircle2, cls: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" },
-  trial:   { label: "Trial",   icon: Clock,        cls: "bg-blue-500/10 text-blue-600 dark:text-blue-400"         },
   expired: { label: "Expired", icon: XCircle,      cls: "bg-muted text-muted-foreground"                           },
   cancelled: { label: "Cancelled", icon: XCircle,  cls: "bg-destructive/10 text-destructive"                       },
+  suspended: { label: "Suspended", icon: Clock,    cls: "bg-amber-500/10 text-amber-600 dark:text-amber-400"       },
 };
 
 function SubBadge({ status }: { status: string }) {
@@ -46,38 +48,64 @@ function AdminSubscriptionsPage() {
   const [search, setSearch]     = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [loading, setLoading]   = useState(true);
+  const [revokingId, setRevokingId] = useState<string | null>(null);
 
   const fetchSubs = useCallback(async () => {
     setLoading(true);
 
     let query = supabase
       .from("subscriptions")
-      .select("id, user_id, status, plan_code, expires_at, created_at, profiles(full_name)", { count: "exact" })
+      .select("id, user_id, status, plan_code, expires_at, created_at", { count: "exact" })
       .order("created_at", { ascending: false })
       .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
 
     if (filterStatus !== "all") {
-      query = query.eq("status", filterStatus as "expired" | "trial" | "active" | "cancelled" | "suspended");
+      query = query.eq("status", filterStatus as "expired" | "active" | "cancelled" | "suspended");
     }
 
     const { data, count } = await query;
-    setSubs((data as unknown as SubRow[]) ?? []);
+    const rows = data ?? [];
+
+    /* subscriptions.user_id references auth.users, not public.profiles --
+     * there's no FK PostgREST can use for an embedded `profiles(full_name)`
+     * select, so names are looked up separately and merged in here. */
+    const userIds = [...new Set(rows.map((r) => r.user_id))];
+    const { data: profileRows } = userIds.length
+      ? await supabase.from("profiles").select("id, full_name").in("id", userIds)
+      : { data: [] as { id: string; full_name: string | null }[] };
+    const profileMap = new Map((profileRows ?? []).map((p) => [p.id, { full_name: p.full_name }]));
+
+    setSubs(rows.map((r) => ({ ...r, profiles: profileMap.get(r.user_id) ?? null })));
     setTotal(count ?? 0);
     setLoading(false);
   }, [page, filterStatus]);
 
   useEffect(() => { fetchSubs(); }, [fetchSubs]);
 
+  async function handleRevoke(sub: SubRow) {
+    const reason = window.prompt(`Revoke this ${sub.plan_code} subscription for ${sub.profiles?.full_name ?? sub.user_id}?\n\nReason (required):`);
+    if (!reason?.trim()) return;
+    setRevokingId(sub.id);
+    try {
+      await adminRevokeSubscription({ data: { subscription_id: sub.id, reason: reason.trim() } });
+      toast.success("Subscription revoked — access is denied immediately.");
+      fetchSubs();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Failed to revoke subscription.");
+    } finally {
+      setRevokingId(null);
+    }
+  }
+
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   /* Summary counts */
-  const [counts, setCounts] = useState({ active: 0, trial: 0, expired: 0 });
+  const [counts, setCounts] = useState({ active: 0, expired: 0 });
   useEffect(() => {
     Promise.all([
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
-      supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "expired"),
-    ]).then(([a, t, e]) => setCounts({ active: a.count ?? 0, trial: t.count ?? 0, expired: e.count ?? 0 }));
+    ]).then(([a, e]) => setCounts({ active: a.count ?? 0, expired: e.count ?? 0 }));
   }, []);
 
   return (
@@ -99,7 +127,6 @@ function AdminSubscriptionsPage() {
       <div className="flex flex-wrap gap-3">
         {[
           { label: "Active",  count: counts.active,  cls: "border-emerald-500/30 bg-emerald-500/5 text-emerald-600 dark:text-emerald-400" },
-          { label: "Trial",   count: counts.trial,   cls: "border-blue-500/30 bg-blue-500/5 text-blue-600 dark:text-blue-400"             },
           { label: "Expired", count: counts.expired, cls: "border-border bg-muted text-muted-foreground"                                   },
         ].map((s) => (
           <div key={s.label} className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-medium ${s.cls}`}>
@@ -130,9 +157,9 @@ function AdminSubscriptionsPage() {
           >
             <option value="all">All statuses</option>
             <option value="active">Active</option>
-            <option value="trial">Trial</option>
             <option value="expired">Expired</option>
             <option value="cancelled">Cancelled</option>
+            <option value="suspended">Suspended</option>
           </select>
         </div>
       </div>
@@ -148,12 +175,13 @@ function AdminSubscriptionsPage() {
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Status</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Expires</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground">Created</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center">
+                  <td colSpan={6} className="py-8 text-center">
                     <div className="flex items-center justify-center gap-2 text-muted-foreground">
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
                       Loading…
@@ -162,7 +190,7 @@ function AdminSubscriptionsPage() {
                 </tr>
               ) : subs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
+                  <td colSpan={6} className="py-8 text-center text-sm text-muted-foreground">
                     No subscriptions found
                   </td>
                 </tr>
@@ -192,6 +220,18 @@ function AdminSubscriptionsPage() {
                     </td>
                     <td className="px-4 py-3.5 text-xs text-muted-foreground">
                       {new Date(s.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
+                    </td>
+                    <td className="px-4 py-3.5 text-right">
+                      {s.status === "active" && (
+                        <button
+                          onClick={() => handleRevoke(s)}
+                          disabled={revokingId === s.id}
+                          title="Revoke this subscription — access is denied immediately"
+                          className="inline-flex items-center gap-1 rounded-lg border border-destructive/30 px-2.5 py-1 text-xs font-semibold text-destructive hover:bg-destructive/10 disabled:opacity-50"
+                        >
+                          <Ban className="h-3 w-3" /> Revoke
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))

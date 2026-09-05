@@ -1,0 +1,238 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { ArrowLeft, Loader2, BookOpen, AlertCircle, ChevronRight, ChevronLeft, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
+import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
+import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
+import { PaywallModal } from "@/components/PaywallModal";
+import { NoticeGroupBanner } from "@/components/NoticeGroupBanner";
+import { orderWithNoticeGroup } from "@/lib/notice-group";
+import { parseVariant } from "@/lib/exercise-variant";
+import { VariantBadge, NewBadge } from "@/components/VariantBadges";
+import { SBTeil2Exercise, type SBT2ExerciseData } from "@/components/exercise/sprachbausteine/SBTeil2Exercise";
+
+export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2")({
+  component: SBTeil2Page,
+});
+
+// Overview list item (order = official PDF position).
+interface ExMeta { id: string; title: string; level?: string | null; import_notes?: string | null }
+
+const titleOf = (ex: ExMeta, i: number) => (ex.title && ex.title.trim() ? ex.title : `Übung ${i + 1}`);
+
+function SBTeil2Page() {
+  const level = useActiveLevel();
+  const seg = useLevelSegment();
+  // Hoisted above the data-loading effect below (was previously declared
+  // right before the detail view) so `hasAccess` is in scope for that
+  // effect's dependency array — see the comment there for why.
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess();
+  const [list, setList] = useState<ExMeta[]>([]);
+  const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
+  const [hiddenCount, setHiddenCount] = useState(0);
+  const [idx, setIdx] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  // Lazy cache of fully-loaded exercises (passage + words) keyed by id.
+  const [cache, setCache] = useState<Record<string, SBT2ExerciseData>>({});
+  const [detailLoading, setDetailLoading] = useState(false);
+
+  useEffect(() => {
+    if (!level) return;
+    const lvl = level;
+    async function load() {
+      const { data: exList, error: exErr } = await (supabase as any)
+        .from("sb_exercises")
+        .select("id, title, level, import_notes")
+        .eq("teil", 2)
+        .eq("level", lvl)
+        .eq("is_hidden", false)
+        .order("position", { ascending: true }); // official PDF order
+      if (exErr) { setError(exErr.message); setLoading(false); return; }
+      const enforced = enforceLevel((exList ?? []) as ExMeta[], lvl);
+      const { ordered, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
+      setHiddenCount(hc);
+      setList(ordered);
+      setFlaggedStartIndex(fsi);
+      setLoading(false);
+    }
+    load();
+    // `hasAccess` deliberately included: this query is RLS-scoped
+    // server-side, so re-running it is what shrinks `list` to the true
+    // free-sample set the instant a mid-session expiry is detected (or
+    // restores it on a mid-session renewal) — see Lesen T1's identical fix
+    // for the full explanation of the bug this closes.
+  }, [level, hasAccess]);
+
+  async function openExercise(i: number) {
+    const meta = list[i];
+    setIdx(i);
+    if (cache[meta.id]) return;
+    setDetailLoading(true);
+    const [passageRes, wordsRes] = await Promise.all([
+      supabase.from("sb_t2_passages").select("passage").eq("exercise_id", meta.id).single(),
+      supabase.from("sb_t2_words").select("word_number, word").eq("exercise_id", meta.id).order("word_number"),
+    ]);
+    if (passageRes.error || wordsRes.error) {
+      setError((passageRes.error ?? wordsRes.error)?.message ?? "Load failed");
+      setDetailLoading(false);
+      return;
+    }
+    setCache((prev) => ({
+      ...prev,
+      [meta.id]: { id: meta.id, title: meta.title, passage: passageRes.data?.passage ?? "", words: wordsRes.data ?? [] },
+    }));
+    setDetailLoading(false);
+  }
+
+  // ── Detail view with Previous/Next navigation ──
+  const catalog = useExerciseCatalog("sprachbausteine", level, 2);
+  const [paywallOpen, setPaywallOpen] = useState(false);
+  const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
+  if (accessLoading || (hasAccess === false && catalog.loading)) {
+    return <div className="flex items-center justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
+  }
+  // Non-subscribers: the list fetch above is RLS-scoped server-side, so
+  // `list` naturally contains ONLY the flagged free-sample rows for a
+  // non-subscriber (real, fully interactive). Everything else is a locked row.
+  const lockedRemainder = catalog.items.filter((c) => !list.some((l) => l.id === c.id));
+
+  if (idx !== null && list[idx]) {
+    const meta = list[idx];
+    const ex = cache[meta.id];
+    return (
+      <div className="mx-auto max-w-5xl pb-10">
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <button onClick={() => setIdx(null)}
+            className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-all">
+            <ArrowLeft className="h-4 w-4" /> Übersicht
+          </button>
+          <div className="flex items-center gap-2">
+            <button onClick={() => openExercise(idx - 1)} disabled={idx === 0}
+              className="flex items-center gap-1 rounded-xl border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+              <ChevronLeft className="h-4 w-4" /> Zurück
+            </button>
+            <span className="text-xs font-medium text-muted-foreground tabular-nums">{idx + 1} / {list.length}</span>
+            <button onClick={() => openExercise(idx + 1)} disabled={idx === list.length - 1}
+              className="flex items-center gap-1 rounded-xl border border-border bg-card px-3 py-1.5 text-sm font-medium text-foreground hover:bg-muted disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+              Weiter <ChevronRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+        <div className="mb-6">
+          {hasAccess === false && (
+            <span className="mb-2 inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <Sparkles className="h-3 w-3" /> FREE SAMPLE
+            </span>
+          )}
+          <h1 className="text-2xl font-black text-foreground">{titleOf(meta, idx)}</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">Sprachbausteine · Teil 2 — Lückentext (gemeinsame Wortliste)</p>
+        </div>
+        {ex && !detailLoading
+          ? (
+            <SBTeil2Exercise
+              key={ex.id}
+              exercise={ex}
+            />
+          )
+          : <div className="flex items-center justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>}
+        <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="mx-auto max-w-3xl space-y-6 pb-10">
+      <div className="flex items-center gap-2 text-xs text-muted-foreground">
+        <Link to={`/${seg}/schriftlich` as never} className="hover:text-foreground">Schriftlich</Link>
+        <ChevronRight className="h-3 w-3" />
+        <Link to={`/${seg}/schriftlich/vorbereitung` as never} className="hover:text-foreground">Vorbereitung</Link>
+        <ChevronRight className="h-3 w-3" />
+        <span className="text-foreground font-semibold">Sprachbausteine Teil 2</span>
+      </div>
+
+      <div>
+        <h1 className="text-2xl font-black text-foreground">Sprachbausteine — Teil 2</h1>
+        <p className="text-sm text-muted-foreground mt-1">Lückentext · das richtige Wort aus der Wortliste wählen · Aufgaben 31–40</p>
+      </div>
+
+      <div className="rounded-2xl border border-blue-500/20 bg-blue-500/5 p-5">
+        <div className="flex items-start gap-3">
+          <BookOpen className="h-4 w-4 shrink-0 text-blue-500 mt-0.5" />
+          <div className="space-y-1.5">
+            <p className="text-xs font-bold text-blue-700 dark:text-blue-300">Strategie</p>
+            <ul className="space-y-1 text-xs text-muted-foreground list-disc list-inside">
+              <li>Lesen Sie zuerst den ganzen Text, um den Zusammenhang zu verstehen.</li>
+              <li>Klicken Sie auf eine Lücke und wählen Sie das passende Wort aus der Wortliste.</li>
+              <li>Jedes Wort passt nur in eine Lücke und kann nur einmal verwendet werden — es gibt mehr Wörter als Lücken.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        {loading && <div className="flex items-center justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>}
+        {error && (
+          <div className="flex items-center gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/5 p-5">
+            <AlertCircle className="h-5 w-5 text-rose-500 shrink-0" /><p className="text-sm text-rose-700 dark:text-rose-300">{error}</p>
+          </div>
+        )}
+        {!loading && !error && list.length === 0 && (
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border py-16 text-center">
+            <BookOpen className="h-10 w-10 text-muted-foreground/40" />
+            <div><p className="text-sm font-semibold text-foreground">Noch keine Übungen verfügbar</p></div>
+          </div>
+        )}
+        {!loading && !error && list.slice(0, flaggedStartIndex ?? list.length).map((ex, i) => {
+          const v = parseVariant(titleOf(ex, i));
+          return (
+          <button key={ex.id} onClick={() => openExercise(i)}
+            className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-sm font-black text-blue-600 dark:text-blue-400">{i + 1}</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <p className="text-sm font-bold text-foreground truncate">{v.baseTitle}</p>
+                {v.variant && <VariantBadge variant={v.variant} />}
+                {hasAccess === false && (
+                  <span className="flex shrink-0 items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <Sparkles className="h-2.5 w-2.5" /> FREE
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">Lückentext · Aufgaben 31–40</p>
+            </div>
+            {v.isNew && <NewBadge />}
+            <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+          </button>
+          );
+        })}
+        {!loading && !error && flaggedStartIndex !== null && flaggedStartIndex < list.length && (
+          <>
+            <NoticeGroupBanner />
+            {list.slice(flaggedStartIndex).map((ex, i) => (
+              <button key={ex.id} onClick={() => openExercise(flaggedStartIndex + i)}
+                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/5 group">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-sm font-black text-amber-600 dark:text-amber-400">{i + 1}</div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, flaggedStartIndex + i)}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">Lückentext · Aufgaben 31–40</p>
+                </div>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </button>
+            ))}
+          </>
+        )}
+      </div>
+
+      {lockedRemainder.length > 0 && (
+        <>
+          {hiddenCount > 0 && <NoticeGroupBanner hiddenCount={hiddenCount} />}
+          <LockedExerciseOverview heading="" items={lockedRemainder} compact restrictedOnly={hasAccess === true} />
+        </>
+      )}
+
+      <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
+    </div>
+  );
+}

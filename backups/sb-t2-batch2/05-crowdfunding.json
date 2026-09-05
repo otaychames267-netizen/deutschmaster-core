@@ -1,0 +1,22 @@
+{
+  "title": "Crowdfunding boomt, Print lebt",
+  "level": "B2",
+  "position": 42,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 5, red superscript numbers on word bank, all 10 verified vs text",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Das Journalismusfestival in Perugia hat sich zum wichtigsten offenen Forum der Medienbranche in Europa entwickelt\n\nPerugia – Ein Gewinn sind vor allem die starke Präsenz von US-Amerikanern und der Mix aus Teilnehmern von Branchengrößen wie Facebook oder „New York Times“ bis zu freien Journalisten, die in Perugia ihr Start-up oder ein Technik-Tool {{31}}. Ein starker Schwerpunkt lag auch beim diesjährigen Journalismusfestival, das zum neunten Mal stattfand, auf Datenjournalismus, die Einbindung von Video in Onlineauftritte war {{32}} ein Schwerpunktthema.\nIm Gegensatz zu den Jahren {{33}} wurde nicht mehr darüber diskutiert, ob Print- und Online-Redaktionen zusammengelegt werden sollten, {{34}} wurde das bei den vielen Diskussionen und Workshops, die zwischen Mittwoch und Sonntag in der umbrischen Stadt stattfanden, als gegeben angenommen. Generell herrschte viel Optimismus {{35}}, den auch der via Skype von einem unbekannten Ort in den Rathaussaal von Perugia zugeschaltete NSA-Aufdecker Edward Snowden am Freitagabend beflügelte. Er setze auf den Journalismus, um die Massenüberwachung aller Bürger durch Geheimdienste einzudämmen, sagte Snowden.\n\nRekord in Spanien\nBürger sind offenbar auch immer mehr {{36}}, in journalistische Projekte zu investieren. In Perugia wurden auch mehrere Online-Magazine vorgestellt, die durch Crowdfunding finanziert werden. „De Correspondent“, 2013 in den Niederlanden gestartet, ist das {{37}} bekannteste Modell in Europa, das rund 1,3 Millionen Euro durch Mitgliedschaften gesammelt hat. Am meisten Unterstützungen hat jedoch das spanische Projekt „El Espanol“ erfahren: 1,7 Millionen Euro. Die „Krautreporter“ sammelten zwischen Mai und Juni 2014 rund eine Million ein und zählten 17585 Mitglieder.\n\nNeue Online-Projekte am Start\nWeitere journalistische Projekte, die vor kurzem an den Start gegangen sind und {{38}} Crowdfunding finanziert werden. In Perugia wurden auch Printproduktionen vorgestellt, die erst seit kurzem am Markt sind und sich {{39}} behaupten: das opulent gestaltete Magazin „Flaneur“, das 2013 erstmals erschienen ist und im Halb-Jahres-Rhythmus erscheint; „Berlin Quarterly“, eine englischsprachige Vierteljahreszeitschrift, und „Outpost“, ein im Arabischen Frühling in Beirut gestartetes Magazin, das sich explizit an junge Leser wendet. „Wir haben es als Printprodukt gestartet, weil {{40}} ein Qualitätsanspruch verbunden ist. Wir wollen ein Sprachrohr für die Jungen sein“, erläuterte Gründer Ibrahim Nehme.",
+  "words": ["vorstellen", "vor", "vielmehr", "sogleich", "bereit", "zwar", "durch", "damit", "ergeben", "obwohl", "wohl", "eigentlich", "erfolgreich", "davor", "ebenfalls"],
+  "answers": {
+    "31": "vorstellen",
+    "32": "ebenfalls",
+    "33": "davor",
+    "34": "vielmehr",
+    "35": "vor",
+    "36": "bereit",
+    "37": "wohl",
+    "38": "durch",
+    "39": "erfolgreich",
+    "40": "damit"
+  }
+}

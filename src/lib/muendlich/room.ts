@@ -24,6 +24,16 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
   const userId = u?.user?.id;
   if (!userId) return { error: "Not authenticated" };
 
+  // Front-door plan check — the real enforcement boundary is RLS on
+  // muendlich_rooms/_participants/_materials (has_plan_access, see
+  // 20260716020000_plan_scoped_content_gating.sql) plus
+  // deduct_muendlich_minutes_dual's own check, but blocking here means a
+  // Schriftlich-only user gets a clear message before matchmaking/chat/
+  // topic-selection rather than deep into a live session that will only
+  // fail once minutes are actually deducted.
+  const { data: hasAccess } = await db.rpc("has_plan_access", { p_user_id: userId, p_module: "muendlich" });
+  if (!hasAccess) return { error: "Your subscription doesn't include Mündlich access. Upgrade to Mündlich or Komplett to use the exam room." };
+
   let room: Room | null = null;
   if (code) {
     const { data } = await db.from("muendlich_rooms").select("*").eq("code", code.toUpperCase()).maybeSingle();
@@ -39,6 +49,24 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
   // already a participant? (recovery)
   const { data: existing } = await db.from("muendlich_participants").select("*").eq("room_id", room!.id).eq("user_id", userId).maybeSingle();
   if (existing) { await db.from("muendlich_participants").update({ connected: true }).eq("id", existing.id); return { room: room!, slot: existing.slot }; }
+
+  // Friendly pre-check for the single-active-session guard — the DB trigger
+  // (check_single_active_muendlich_session) is the real enforcement backstop
+  // if this is ever raced by two tabs; this just avoids surfacing a raw
+  // constraint-violation error to the student in the common case. Fetches
+  // this user's other participant rows joined with room state, filters
+  // client-side rather than pushing the state exclusion into the query (max
+  // a couple of rows, and avoids relying on PostgREST's embedded-filter
+  // syntax for a check that only needs to be approximately fast, not exact).
+  const { data: otherRows } = await db
+    .from("muendlich_participants")
+    .select("room_id, muendlich_rooms!inner(state)")
+    .eq("user_id", userId)
+    .neq("room_id", room!.id);
+  const activeElsewhere = (otherRows ?? []).some((r: any) => !["finished", "abandoned"].includes(r.muendlich_rooms?.state));
+  if (activeElsewhere) {
+    return { error: "You already have an active exam session in another room. Finish or leave it first." };
+  }
 
   // assign a free slot — retry on the unique(room,slot) race (two joins interleaving)
   for (let attempt = 0; attempt < 3; attempt++) {

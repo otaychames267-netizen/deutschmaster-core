@@ -1,0 +1,27 @@
+-- ============================================================
+-- CRITICAL production audit finding: d17_orders_insert_own's WITH CHECK was
+-- only (user_id = auth.uid()) — nothing restricted amount_tnd, plan_code,
+-- destination_number/iban, or expires_at. Verified live with a real signed-
+-- in test account: an authenticated user can INSERT a d17_orders row
+-- directly (bypassing createD17OrderImpl entirely, which is the only
+-- legitimate creation path and always runs via the service-role client),
+-- claiming e.g. plan_code='komplett' (normally the most expensive plan)
+-- with amount_tnd=1. The verification pipeline trusts order.amount_tnd as
+-- ground truth for its amount_match check (rule-engine.ts) and
+-- activate_d17_order grants access purely from order.plan_code with zero
+-- cross-check against plans.price_tnd — so a forged order backed by a
+-- genuine tiny real D17 transfer (no OCR/AI trickery needed at all) could
+-- sail through auto-approval and grant full paid access for a fraction of
+-- the real price. This is a complete pricing/business-model bypass, the
+-- most severe finding of this audit round.
+--
+-- Fix: remove client-facing INSERT capability on d17_orders entirely.
+-- Grepped the whole src/ tree and confirmed there is no legitimate
+-- client-side `supabase.from("d17_orders").insert(...)` call anywhere —
+-- every order is created by createD17OrderImpl via supabaseAdmin
+-- (service_role, bypasses RLS/grants unconditionally), so no legitimate
+-- flow is affected. SELECT stays untouched (students still need to read
+-- their own order for the verify/status pages).
+-- ============================================================
+
+DROP POLICY IF EXISTS "d17_orders_insert_own" ON public.d17_orders;

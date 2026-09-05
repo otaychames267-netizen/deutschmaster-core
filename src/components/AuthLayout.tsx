@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useTheme } from "@/lib/theme";
-import { Moon, Sun, GraduationCap, CheckCircle2, Shield, Clock } from "lucide-react";
+import { Moon, Sun, CheckCircle2, Shield, Clock } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import type { ReactNode } from "react";
 
 interface AuthLayoutProps {
@@ -10,9 +11,9 @@ interface AuthLayoutProps {
 }
 
 const PANEL_FEATURES = [
-  "Full access during your 3-day trial",
-  "Every TELC B1 & B2 exam section",
+  "Every TELC B2 exam section",
   "Prüfungssimulation with instant scoring",
+  "AI-powered essay grading and Mündlich practice",
   "Available in 7 languages",
 ];
 
@@ -40,29 +41,18 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         {/* Logo */}
         <div className="relative z-10 flex items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 backdrop-blur-sm ring-1 ring-white/20">
-            <GraduationCap className="h-5 w-5 text-white" />
+            <BrandMark className="h-5 w-5 text-white" />
           </div>
           <span className="text-lg font-semibold text-white">AuraLingovia</span>
         </div>
 
         {/* Main content */}
         <div className="relative z-10 space-y-8">
-          {/* Quote */}
-          <blockquote>
-            <p className="text-xl font-medium leading-relaxed text-white/90">
-              "AuraLingovia is the only platform that covers every part of the
-              TELC exam with authentic content — and the analytics are incredible."
-            </p>
-            <footer className="mt-3 flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-xs font-bold text-white ring-1 ring-white/20">
-                AR
-              </div>
-              <div>
-                <p className="text-sm font-medium text-white">Amina R.</p>
-                <p className="text-xs text-white/50">Passed TELC B2 · March 2026</p>
-              </div>
-            </footer>
-          </blockquote>
+          {/* Tagline */}
+          <p className="text-xl font-medium leading-relaxed text-white/90">
+            Structured, exam-aligned practice for every part of the TELC B2
+            exam — built around the real exam structure, not shortcuts.
+          </p>
 
           {/* Feature checklist */}
           <ul className="space-y-2.5">
@@ -89,7 +79,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
           {/* Mobile logo */}
           <Link to="/" className="flex items-center gap-2 lg:hidden">
             <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-primary">
-              <GraduationCap className="h-4 w-4 text-primary-foreground" />
+              <BrandMark className="h-4 w-4 text-primary-foreground" />
             </div>
             <span className="text-sm font-semibold text-foreground">AuraLingovia</span>
           </Link>
@@ -119,7 +109,7 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
         {/* Bottom bar */}
         <div className="p-6 text-center">
           <p className="text-xs text-muted-foreground">
-            Protected by Supabase Auth · Payments by Stripe
+            Protected by Supabase Auth · Payments via D17 Mobile Transfer
           </p>
         </div>
       </div>
