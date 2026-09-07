@@ -16,20 +16,24 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  */
 
 export type ManualPlanCode = "schriftlich" | "muendlich" | "komplett";
-export type ManualDurationKey = "trial_3d" | "1m" | "3m" | "6m" | "12m";
+export type ManualDurationKey = "1d" | "trial_3d" | "1m" | "2m" | "3m" | "6m" | "12m";
 export type ManualPaymentMethod = "virement" | "cash" | "d17" | "other";
 
-const DURATION_DAYS: Record<ManualDurationKey, number> = {
+export const DURATION_DAYS: Record<ManualDurationKey, number> = {
+  "1d": 1,
   trial_3d: 3,
   "1m": 30,
+  "2m": 60,
   "3m": 90,
   "6m": 180,
   "12m": 365,
 };
 
 export const DURATION_LABELS: Record<ManualDurationKey, string> = {
+  "1d": "1 day",
   trial_3d: "3-day trial",
   "1m": "1 month",
+  "2m": "2 months",
   "3m": "3 months",
   "6m": "6 months",
   "12m": "12 months",

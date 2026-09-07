@@ -10,6 +10,7 @@ import {
   getManualSubscriptionHistory,
   applyManualSubscriptionAction,
   DURATION_LABELS,
+  DURATION_DAYS,
   type ManualSubSearchResult,
   type ManualSubActionLogRow,
   type ManualPlanCode,
@@ -31,7 +32,7 @@ const PLAN_LABELS: Record<ManualPlanCode, string> = {
   komplett: "Komplett (everything)",
 };
 
-const DURATION_ORDER: ManualDurationKey[] = ["trial_3d", "1m", "3m", "6m", "12m"];
+const DURATION_ORDER: ManualDurationKey[] = ["1d", "trial_3d", "1m", "2m", "3m", "6m", "12m"];
 
 const PAYMENT_METHOD_LABELS: Record<ManualPaymentMethod, string> = {
   virement: "Virement (bank transfer)",
@@ -148,12 +149,12 @@ function ManualSubscriptionPage() {
       const d = new Date(`${customDate}T23:59:59.000Z`);
       return Number.isNaN(d.getTime()) ? null : d;
     }
-    return new Date(Date.now() + { trial_3d: 3, "1m": 30, "3m": 90, "6m": 180, "12m": 365 }[duration] * 86_400_000);
+    return new Date(Date.now() + DURATION_DAYS[duration] * 86_400_000);
   }, [duration, customDate]);
 
   const computedExtendExpiry = useMemo(() => {
     if (duration === "custom" || !selected) return null;
-    const days = { trial_3d: 3, "1m": 30, "3m": 90, "6m": 180, "12m": 365 }[duration];
+    const days = DURATION_DAYS[duration];
     const base = selected.subscription && new Date(selected.subscription.expires_at).getTime() > Date.now()
       ? new Date(selected.subscription.expires_at)
       : new Date();
