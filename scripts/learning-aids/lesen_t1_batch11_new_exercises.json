@@ -1,0 +1,236 @@
+{
+  "6477aa1c-966e-4c05-be00-6fb21af00a97": {
+    "items": {
+      "1": {
+        "keyword": "Immer mehr Kinder und Teenager greifen zu kosmetischen Produkten",
+        "keywords": ["Kosmetik", "Kinder", "Jugendliche"],
+        "paraphrase": [{ "text": "Dennoch greifen immer mehr Kinder und Teenager zu kosmetischen Produkten.", "question": "Immer mehr Minderjährige greifen zu Kosmetik." }],
+        "evidence_text": "Dennoch greifen immer mehr Kinder und Teenager zu kosmetischen Produkten.",
+        "evidence_translation": "ومع ذلك، يلجأ عدد متزايد من الأطفال والمراهقين إلى المنتجات التجميلية.",
+        "explanation_correct": "يحذر النص من استخدام الأطفال والمراهقين المتزايد لمستحضرات التجميل رغم تحذيرات منظمة الصحة العالمية من مخاطرها على بشرتهم الحساسة - يطابق العنوان F \"يلجأ عدد متزايد من القاصرين إلى مستحضرات التجميل\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان D \"العناية بالبشرة في المنزل\" يبدو قريباً لأن الموضوع عن التجميل، لكن النص لا يتحدث عن نصائح للعناية المنزلية بالبشرة، بل عن خطورة استخدام الأطفال لمنتجات تجميل جاهزة.",
+        "options_reasoning": [
+          { "key": "F", "label": "Immer mehr Minderjährige greifen zu Kosmetik.", "correct": true, "reason": "يحذر النص من استخدام الأطفال والمراهقين المتزايد لمستحضرات التجميل رغم تحذيرات منظمة الصحة العالمية من مخاطرها على بشرتهم الحساسة - يطابق العنوان F مباشرة." },
+          { "key": "D", "label": "Gesichtspflege für zu Hause - So schützen Sie Ihre Haut richtig!", "correct": false, "reason": "يبدو قريباً لأن الموضوع عن التجميل، لكن النص لا يتحدث عن نصائح للعناية المنزلية بالبشرة، بل عن خطورة استخدام الأطفال لمنتجات تجميل جاهزة." }
+        ]
+      },
+      "2": {
+        "keyword": "Aktivierung der körpereigenen Selbstheilungskräfte",
+        "keywords": ["Ayurveda", "Ernährung", "Heilmethode"],
+        "paraphrase": [{ "text": "Das Erfolgsrezept: keine strenge Diät, sondern Aktivierung der körpereigenen Selbstheilungskräfte.", "question": "Gesünder leben dank alternativer Heilmethode." }],
+        "evidence_text": "Das Erfolgsrezept: keine strenge Diät, sondern Aktivierung der körpereigenen Selbstheilungskräfte.",
+        "evidence_translation": "سر النجاح: ليس نظاماً غذائياً صارماً، بل تنشيط قدرات الجسم الذاتية على الشفاء.",
+        "explanation_correct": "يقدّم النص طريقة الأيورفيدا كأسلوب حياة صحي بديل يعتمد على تفعيل قدرة الجسم على الشفاء الذاتي بدل الحمية الصارمة - يطابق العنوان E \"حياة أكثر صحة بفضل طريقة علاج بديلة\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان H \"برنامج جديد لإنقاص الوزن يعد بنجاحات طويلة الأمد\" قد يبدو قريباً لأن الموضوع تغذية، لكن النص ينص صراحة على أن الأمر \"ليس حمية صارمة\"، فالهدف الشفاء الذاتي وليس إنقاص الوزن.",
+        "options_reasoning": [
+          { "key": "E", "label": "Gesünder leben dank alternativer Heilmethode.", "correct": true, "reason": "يقدّم النص طريقة الأيورفيدا كأسلوب حياة صحي بديل يعتمد على تفعيل قدرة الجسم على الشفاء الذاتي بدل الحمية الصارمة - يطابق العنوان E مباشرة." },
+          { "key": "H", "label": "Neues Programm zum Abnehmen verspricht langfristige Erfolge.", "correct": false, "reason": "يبدو قريباً لأن الموضوع تغذية، لكن النص ينص صراحة على أن الأمر ليس حمية صارمة، فالهدف الشفاء الذاتي وليس إنقاص الوزن." }
+        ]
+      },
+      "3": {
+        "keyword": "Wiederholte Handlungen lassen wenig Neues geschehen",
+        "keywords": ["Routinen", "Zeitgefühl", "Monotonie"],
+        "paraphrase": [{ "text": "Die Biologin Dr. Juliane Simmermann erklärt dies mit Alltagsroutinen: Wiederholte Handlungen lassen wenig Neues geschehen und die Tage gefühlt schneller vorbeigehen.", "question": "Monotonie hat Einfluss auf unser Zeitgefühl." }],
+        "evidence_text": "Die Biologin Dr. Juliane Simmermann erklärt dies mit Alltagsroutinen: Wiederholte Handlungen lassen wenig Neues geschehen und die Tage gefühlt schneller vorbeigehen.",
+        "evidence_translation": "تفسر عالمة الأحياء الدكتورة يوليانه زيمرمان ذلك بالروتين اليومي: الأفعال المتكررة لا تترك مجالاً كبيراً لحدوث أشياء جديدة، فتمر الأيام بشعور أسرع.",
+        "explanation_correct": "يوضح النص أن تكرار الروتين اليومي يجعلنا نشعر بأن الوقت يمر بسرعة أكبر لأن الدماغ لا يسجل أحداثاً جديدة - يطابق العنوان G \"الرتابة تؤثر على إحساسنا بالوقت\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان I \"نصائح خبراء مفيدة ضد الملل اليومي\" يبدو قريباً لأن الموضوع الروتين، لكن النص لا يتحدث عن علاج الملل بل عن تأثير الروتين على الإحساس بمرور الوقت تحديداً.",
+        "options_reasoning": [
+          { "key": "G", "label": "Monotonie hat Einfluss auf unser Zeitgefühl.", "correct": true, "reason": "يوضح النص أن تكرار الروتين اليومي يجعلنا نشعر بأن الوقت يمر بسرعة أكبر لأن الدماغ لا يسجل أحداثاً جديدة - يطابق العنوان G مباشرة." },
+          { "key": "I", "label": "Nützliche Expertentipps gegen die tägliche Langeweile.", "correct": false, "reason": "يبدو قريباً لأن الموضوع الروتين، لكن النص لا يتحدث عن علاج الملل بل عن تأثير الروتين على الإحساس بمرور الوقت تحديداً." }
+        ]
+      },
+      "4": {
+        "keyword": "Vor vier Jahren wanderte die Familie aus und bereut keinen Tag",
+        "keywords": ["Neuanfang", "Bali", "auswandern"],
+        "paraphrase": [{ "text": "Vor vier Jahren wanderte die Familie aus und bereut keinen Tag.", "question": "Das alte Leben hinter sich lassen - Ein Erfahrungsbericht." }],
+        "evidence_text": "Vor vier Jahren wanderte die Familie aus und bereut keinen Tag.",
+        "evidence_translation": "هاجرت العائلة قبل أربع سنوات ولم تندم على ذلك يوماً.",
+        "explanation_correct": "يروي النص تجربة شخصية حقيقية لعائلة تركت حياتها القديمة في ألمانيا وهاجرت إلى بالي دون ندم - يطابق العنوان A \"ترك الحياة القديمة وراءه - تقرير تجربة\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان B \"إجازة عائلية بدون توتر\" يبدو قريباً لوجود عائلة وانتقال، لكن النص لا يصف إجازة مؤقتة بل هجرة دائمة وتغييراً جذرياً لأسلوب الحياة.",
+        "options_reasoning": [
+          { "key": "A", "label": "Das alte Leben hinter sich lassen - Ein Erfahrungsbericht.", "correct": true, "reason": "يروي النص تجربة شخصية حقيقية لعائلة تركت حياتها القديمة في ألمانيا وهاجرت إلى بالي دون ندم - يطابق العنوان A مباشرة." },
+          { "key": "B", "label": "Familienurlaub ohne Stress - so kann es funktionieren!", "correct": false, "reason": "يبدو قريباً لوجود عائلة وانتقال، لكن النص لا يصف إجازة مؤقتة بل هجرة دائمة وتغييراً جذرياً لأسلوب الحياة." }
+        ]
+      },
+      "5": {
+        "keyword": "Der Wunsch, jünger auszusehen, nimmt immer bizarrere Züge an",
+        "keywords": ["Schönheitsbehandlungen", "Botox", "jugendliches Aussehen"],
+        "paraphrase": [{ "text": "Der Wunsch, jünger auszusehen, nimmt immer bizarrere Züge an.", "question": "Gefährlicher Trend: Ein jugendliches Aussehen um jeden Preis." }],
+        "evidence_text": "Der Wunsch, jünger auszusehen, nimmt immer bizarrere Züge an.",
+        "evidence_translation": "الرغبة في الظهور بمظهر أصغر سناً تأخذ أشكالاً غريبة بشكل متزايد.",
+        "explanation_correct": "يحذر النص من انتشار حقن البوتوكس في لقاءات خاصة غير آمنة سعياً وراء مظهر شبابي رغم مخاطرها الصحية - يطابق العنوان C \"اتجاه خطير: مظهر شبابي بأي ثمن\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان D \"العناية بالبشرة في المنزل\" يبدو قريباً لأن الموضوع تجميلي أيضاً، لكن النص يتحدث عن حقن طبية خطيرة (بوتوكس) لدى أشخاص غير مؤهلين، وليس عن روتين عناية منزلي آمن.",
+        "options_reasoning": [
+          { "key": "C", "label": "Gefährlicher Trend: Ein jugendliches Aussehen um jeden Preis.", "correct": true, "reason": "يحذر النص من انتشار حقن البوتوكس في لقاءات خاصة غير آمنة سعياً وراء مظهر شبابي رغم مخاطرها الصحية - يطابق العنوان C مباشرة." },
+          { "key": "D", "label": "Gesichtspflege für zu Hause - So schützen Sie Ihre Haut richtig!", "correct": false, "reason": "يبدو قريباً لأن الموضوع تجميلي أيضاً، لكن النص يتحدث عن حقن طبية خطيرة لدى أشخاص غير مؤهلين، وليس عن روتين عناية منزلي آمن." }
+        ]
+      }
+    },
+    "translation": {
+      "questions": {
+        "1": "مستحضرات التجميل عند الأطفال والمراهقين: منذ عدة سنوات، تحذر منظمة الصحة العالمية من مخاطر منتجات مثل المكياج وظلال العيون وأحمر الشفاه على الأطفال والمراهقين. فكثير من المكونات غير مناسبة لبشرة الأطفال الحساسة، وقد تسبب حساسية أو أضراراً صحية. ومع ذلك، يلجأ عدد متزايد من الأطفال والمراهقين إلى المنتجات التجميلية. وترى الطبيبة أنيا كاوكهولتس أن وسائل التواصل الاجتماعي هي السبب الرئيسي، إذ يوحي المؤثرون بأن المظهر الطبيعي وحده لا يكفي. وينبغي على الآباء ألا يمنعوا اهتمام أبنائهم، بل أن يوضحوا لهم أن قيمة الطفل لا تعتمد على مظهره، وأن يختاروا منتجات طبيعية مناسبة.",
+        "2": "الأيورفيدا والتغذية: الطعام يجعلك بصحة جيدة! هذا ما تعد به علوم التغذية الأيورفيدية، التي تحظى بشعبية متزايدة لدى الشباب. سر النجاح: ليس حمية صارمة، بل تنشيط قدرات الجسم الذاتية على الشفاء. تُعدّ الطبيبة أبارنا كومار خططاً غذائية شاملة بناءً على الحالة الصحية والعمر والاحتياجات الفردية لكل شخص. وتلعب الأطعمة عالية الجودة والكميات المناسبة والتوابل والأعشاب دوراً محورياً. ومن المفترض أن يساعد هذا النمط الغذائي أيضاً في حالات الاكتئاب والمشاكل المزمنة أو الصداع النصفي.",
+        "3": "الروتين والإحساس بالوقت: هل تتذكر كيف كانت عطلة الصيف التي تمتد ستة أسابيع تبدو وكأنها أبدية؟ في مرحلة البلوغ، كثيراً ما نتساءل كيف مرت سنة كاملة بهذه السرعة. تفسر عالمة الأحياء الدكتورة يوليانه زيمرمان ذلك بالروتين اليومي: الأفعال المتكررة لا تترك مجالاً كبيراً لحدوث أشياء جديدة، فتمر الأيام بشعور أسرع. صحيح أن الروتين يمنح استقراراً وأماناً، لكن من يشعر بأن حياته تمر بسرعة كبيرة عليه كسر هذا الروتين أحياناً: كأن يسلك طريقاً مختلفاً إلى العمل أو يخرج للمشي قبل النوم.",
+        "4": "بداية جديدة في بالي: حقق أرنو شنايدر ما يحلم به كثيرون. يعيش هذا الرجل البالغ من العمر 47 عاماً مع زوجته كاتارينا وطفليهما ماكس وتيم في جزيرة بالي. هاجرت العائلة قبل أربع سنوات ولم تندم على ذلك يوماً. صحيح أن دخلها أقل الآن، لكنها تنعم بحياة يومية أفضل وتسترخي قرب البحر بعيداً عن التوتر. وكان الدافع وراء ذلك هو تزايد عدم رضا أرنو عن مهنته السابقة كخباز. واليوم يدير الزوجان مقهى في بالي يقدم كعكاً مخبوزاً منزلياً.",
+        "5": "علاجات تجميلية خطيرة: الرغبة في الظهور بمظهر أصغر سناً تأخذ أشكالاً غريبة بشكل متزايد. ففي لقاءات خاصة، تُقدَّم علاجات تجميلية تصل إلى حقن البوتوكس. ومن المفترض أن يقلل هذا السم العصبي من التجاعيد، لكنه قد يسبب أضراراً لا يمكن إصلاحها وردود فعل تحسسية إذا استُخدم بطريقة خاطئة. وغالباً ما يفتقر القائمون على هذه الحقن إلى المعرفة الطبية اللازمة. ويحذر طبيب الجلدية الدكتور أولريش بريششلايد قائلاً: من أجل الجمال، لا ينبغي أبداً المخاطرة بصحتك."
+      }
+    }
+  },
+  "fc28b084-8ee4-4a8a-b285-d5908b9588e4": {
+    "items": {
+      "1": {
+        "keyword": "Die effektivste Methode ist ein kurzes Nickerchen",
+        "keywords": ["Müdigkeit", "wach", "Tipps"],
+        "paraphrase": [{ "text": "Zum Glück hat die Schlafmedizinerin Charlotte Bruckner ein paar einfache Tipps, die helfen, wieder fitter zu werden.", "question": "Powernap, joggen oder frische Luft? Was wirklich wach macht" }],
+        "evidence_text": "Zum Glück hat die Schlafmedizinerin Charlotte Bruckner ein paar einfache Tipps, die helfen, wieder fitter zu werden.",
+        "evidence_translation": "لحسن الحظ، تقدم طبيبة النوم شارلوته بروكنر بعض النصائح البسيطة التي تساعد على استعادة النشاط.",
+        "explanation_correct": "يقدم النص خمس نصائح عملية سريعة (الحركة، الدش البارد، التهوية، القهوة، القيلولة) لمقاومة النعاس المفاجئ - يطابق العنوان F \"قيلولة قصيرة، جري أو هواء نقي؟ ما الذي يوقظ حقاً\" مباشرة، حيث تُذكر هذه الوسائل تحديداً.",
+        "explanation_wrong": "احذر: العنوان H \"أسباب واستراتيجيات لمواجهة التعب اليومي\" يبدو قريباً لأن الموضوع التعب، لكن النص لا يشرح أسباب التعب بل يقدّم حلولاً عملية فورية فقط لمقاومته.",
+        "options_reasoning": [
+          { "key": "F", "label": "Powernap, joggen oder frische Luft? Was wirklich wach macht", "correct": true, "reason": "يقدم النص خمس نصائح عملية سريعة لمقاومة النعاس المفاجئ - يطابق العنوان F مباشرة." },
+          { "key": "H", "label": "Ursachen und Strategien gegen Tagesmüdigkeit", "correct": false, "reason": "يبدو قريباً لأن الموضوع التعب، لكن النص لا يشرح أسباب التعب بل يقدّم حلولاً عملية فورية فقط لمقاومته." }
+        ]
+      },
+      "2": {
+        "keyword": "die ihre Schlafdauer verlängerten, weniger Kalorien zu sich nahmen und Gewicht verloren",
+        "keywords": ["Schlafmangel", "Gewicht", "Heißhunger"],
+        "paraphrase": [{ "text": "Eine Studie aus den USA zeigte, dass Menschen, die ihre Schlafdauer verlängerten, weniger Kalorien zu sich nahmen und Gewicht verloren.", "question": "Mehr Schlaf, weniger Kilos" }],
+        "evidence_text": "Eine Studie aus den USA zeigte, dass Menschen, die ihre Schlafdauer verlängerten, weniger Kalorien zu sich nahmen und Gewicht verloren.",
+        "evidence_translation": "أظهرت دراسة أمريكية أن الأشخاص الذين أطالوا مدة نومهم تناولوا سعرات حرارية أقل وفقدوا وزناً.",
+        "explanation_correct": "يربط النص علمياً بين قلة النوم وزيادة الشهية والوزن، ويؤكد أن إطالة مدة النوم تساعد على إنقاص الوزن - يطابق العنوان D \"مزيد من النوم، أقل من الكيلوغرامات\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان G \"تناول الوجبات الخفيفة بدلاً من النوم؟ لماذا نتناول وجبات خفيفة في وقت متأخر\" يبدو قريباً لذكر الرغبة الشديدة في الطعام، لكن النص لا يشرح سبب تناول الوجبات الليلية بل يركز على العلاقة بين مدة النوم والوزن.",
+        "options_reasoning": [
+          { "key": "D", "label": "Mehr Schlaf, weniger Kilos", "correct": true, "reason": "يربط النص علمياً بين قلة النوم وزيادة الشهية والوزن، ويؤكد أن إطالة مدة النوم تساعد على إنقاص الوزن - يطابق العنوان D مباشرة." },
+          { "key": "G", "label": "Naschen statt schlafen? Warum wir spätabends oft snacken", "correct": false, "reason": "يبدو قريباً لذكر الرغبة الشديدة في الطعام، لكن النص لا يشرح سبب تناول الوجبات الليلية بل يركز على العلاقة بين مدة النوم والوزن." }
+        ]
+      },
+      "3": {
+        "keyword": "Bei Wetterempfindlichen können Müdigkeit, Kopfschmerzen, Reizbarkeit oder Kreislaufprobleme auftreten",
+        "keywords": ["Wetter", "Körper", "Wetterempfindliche"],
+        "paraphrase": [{ "text": "Bei Wetterempfindlichen können Müdigkeit, Kopfschmerzen, Reizbarkeit oder Kreislaufprobleme auftreten.", "question": "Wenn das Wetter den Körper stresst" }],
+        "evidence_text": "Bei Wetterempfindlichen können Müdigkeit, Kopfschmerzen, Reizbarkeit oder Kreislaufprobleme auftreten.",
+        "evidence_translation": "قد يعاني الأشخاص الحساسون للطقس من التعب أو الصداع أو التهيج أو مشاكل في الدورة الدموية.",
+        "explanation_correct": "يشرح النص كيف يجهد التغير المفاجئ في درجات الحرارة جسم الإنسان ويسبب أعراضاً لدى الحساسين للطقس - يطابق العنوان I \"عندما يسبب الطقس ضغطاً على الجسم\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان A \"شكاوى الطقس: كيف تتعامل مع الأعراض\" يبدو قريباً جداً، لكن النص يكتفي بشرح سبب حدوث هذه الأعراض دون تقديم أي نصائح للتعامل معها، بينما العنوان A يعد بحلول عملية غير موجودة في النص.",
+        "options_reasoning": [
+          { "key": "I", "label": "Wenn das Wetter den Körper stresst", "correct": true, "reason": "يشرح النص كيف يجهد التغير المفاجئ في درجات الحرارة جسم الإنسان ويسبب أعراضاً لدى الحساسين للطقس - يطابق العنوان I مباشرة." },
+          { "key": "A", "label": "Wetterbeschwerden: So gehen Sie mit Symptomen um", "correct": false, "reason": "يبدو قريباً جداً، لكن النص يكتفي بشرح سبب حدوث هذه الأعراض دون تقديم أي نصائح للتعامل معها، بينما هذا العنوان يعد بحلول عملية غير موجودة في النص." }
+        ]
+      },
+      "4": {
+        "keyword": "häufiger an Erkrankungen von Leber oder Nieren litten",
+        "keywords": ["Mikroplastik", "Gesundheitsrisiken", "Organe"],
+        "paraphrase": [{ "text": "Besonders alarmierend war, dass ältere Menschen mit einem hohen Anteil an Mikroplastik häufiger an Erkrankungen von Leber oder Nieren litten.", "question": "Mögliche Gesundheitsrisiken durch Mikroplastik im Körper" }],
+        "evidence_text": "Besonders alarmierend war, dass ältere Menschen mit einem hohen Anteil an Mikroplastik häufiger an Erkrankungen von Leber oder Nieren litten.",
+        "evidence_translation": "والمثير للقلق بشكل خاص أن كبار السن الذين لديهم نسبة عالية من الميكروبلاستيك كانوا أكثر عرضة للإصابة بأمراض الكبد أو الكلى.",
+        "explanation_correct": "تركز نتيجة الدراسة تحديداً على الأضرار الصحية المحتملة (أمراض الكبد والكلى) الناتجة عن تراكم الميكروبلاستيك في الجسم - يطابق العنوان C \"المخاطر الصحية المحتملة بسبب الميكروبلاستيك في الجسم\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان J \"الميكروبلاستيك: الخطر غير المرئي في الحياة اليومية\" يبدو قريباً لأنه يتحدث أيضاً عن الميكروبلاستيك، لكنه يركز على انتشاره الخفي في كل مكان، بينما جوهر النص هو نتيجة دراسة عن مخاطره الصحية المحددة على الأعضاء.",
+        "options_reasoning": [
+          { "key": "C", "label": "Mögliche Gesundheitsrisiken durch Mikroplastik im Körper", "correct": true, "reason": "تركز نتيجة الدراسة تحديداً على الأضرار الصحية المحتملة الناتجة عن تراكم الميكروبلاستيك في الجسم - يطابق العنوان C مباشرة." },
+          { "key": "J", "label": "Mikroplastik: Die unsichtbare Gefahr im Alltag", "correct": false, "reason": "يبدو قريباً لأنه يتحدث أيضاً عن الميكروبلاستيك، لكنه يركز على انتشاره الخفي في كل مكان، بينما جوهر النص هو نتيجة دراسة عن مخاطره الصحية المحددة على الأعضاء." }
+        ]
+      },
+      "5": {
+        "keyword": "sollte anhaltende Insomnie ärztlich abgeklärt werden",
+        "keywords": ["Schlafstörungen", "Insomnie", "ärztlich"],
+        "paraphrase": [{ "text": "Im Gegensatz zu kurzfristigem schlechten Schlaf sollte anhaltende Insomnie ärztlich abgeklärt werden.", "question": "Schlaflos? Wann Sie sich besser ärztlichen Rat holen sollten" }],
+        "evidence_text": "Im Gegensatz zu kurzfristigem schlechten Schlaf sollte anhaltende Insomnie ärztlich abgeklärt werden.",
+        "evidence_translation": "على عكس قلة النوم قصيرة المدى، ينبغي أن يُفحص الأرق المزمن طبياً.",
+        "explanation_correct": "ينصح النص بضرورة استشارة الطبيب عند استمرار مشاكل النوم لفترة طويلة وتكرارها أسبوعياً - يطابق العنوان B \"هل تعاني من الأرق؟ متى يجب عليك استشارة الطبيب؟\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان E \"كم مقدار النوم الصحي؟\" يبدو قريباً لأن الموضوع نوم، لكن النص لا يتحدث عن الكمية المثالية للنوم، بل عن أعراض اضطرابات النوم ومتى تستدعي استشارة طبية.",
+        "options_reasoning": [
+          { "key": "B", "label": "Schlaflos? Wann Sie sich besser ärztlichen Rat holen sollten", "correct": true, "reason": "ينصح النص بضرورة استشارة الطبيب عند استمرار مشاكل النوم لفترة طويلة وتكرارها أسبوعياً - يطابق العنوان B مباشرة." },
+          { "key": "E", "label": "Wie viel Schlaf ist gesund?", "correct": false, "reason": "يبدو قريباً لأن الموضوع نوم، لكن النص لا يتحدث عن الكمية المثالية للنوم، بل عن أعراض اضطرابات النوم ومتى تستدعي استشارة طبية." }
+        ]
+      }
+    },
+    "translation": {
+      "questions": {
+        "1": "يعرف كثيرون هذا الشعور: حوالي وقت الظهيرة يهاجم تعب شديد فجأة ويصعب التركيز في العمل. لحسن الحظ، تقدم طبيبة النوم شارلوته بروكنر بعض النصائح البسيطة التي تساعد على استعادة النشاط: 1. انهض وامشِ بضع خطوات أو مارس تمارين رياضية خفيفة. والأفضل من ذلك نزهة قصيرة في الهواء الطلق. 2. دش بارد في الصباح ورش بعض الماء على الوجه ينشط الدورة الدموية. 3. هوّي الغرفة بانتظام، ويفضل التهوية الكاملة السريعة. فتيار الهواء البارد يمنح شعوراً بالانتعاش. 4. يمكن أن تساعد القهوة؛ إذ يظهر مفعولها بعد 15 إلى 30 دقيقة. 5. أفضل وسيلة هي قيلولة قصيرة. لا تنم أكثر من 30 دقيقة.",
+        "2": "هل تشعر غالباً في الصباح وكأنك مُنهك وتلجأ إلى الحلويات أو الأطعمة الدسمة؟ أنت لست وحدك في ذلك. تُظهر دراسات عديدة أن قلة النوم ترتبط بالرغبة الشديدة في الطعام وزيادة الوزن. وقد أظهرت دراسة شملت نحو 70 طالباً أن من ينام من أربع إلى خمس ساعات ليلاً تزداد شهيته بشكل واضح - خصوصاً تجاه الأطعمة غير الصحية. فقلة النوم تؤثر على هرموني الجوع غريلين ولبتين. وأظهرت دراسة أمريكية أن الأشخاص الذين أطالوا مدة نومهم تناولوا سعرات حرارية أقل وفقدوا وزناً.",
+        "3": "عندما تتقلب درجات الحرارة فجأة بشكل كبير، يلاحظ كثير من الناس أن جسدهم يتكيف بصعوبة. فالجسم يعمل باستمرار للحفاظ على درجة حرارته عند حوالي 37 درجة. الأشخاص الأصحاء غالباً لا يشعرون بهذا التكيف إطلاقاً. أما الحساسون للطقس فقد يعانون من التعب أو الصداع أو التهيج أو مشاكل في الدورة الدموية، خصوصاً من يعانون من الروماتيزم أو مشاكل القلب والأوعية الدموية. كما يُعد فصل الربيع مرهقاً أيضاً: إذ تصبح الأيام أكثر إضاءة، وينخفض إفراز هرمون الميلاتونين، ويضطر الجسم لإعادة ضبط التوازن بين الميلاتونين والسيروتونين.",
+        "4": "أصبح الميكروبلاستيك موجوداً في كل مكان اليوم؛ فهو يوجد في الأطعمة ومياه الشرب وحتى في الهواء. ويحذر الباحثون من مخاطر صحية محتملة. وفي دراسة جديدة، فُحصت عينات من نحو 800 شخص تتراوح أعمارهم بين 20 و80 عاماً، ووُجد الميكروبلاستيك في أعضاء مختلفة من الجسم. والمثير للقلق بشكل خاص أن كبار السن الذين لديهم نسبة عالية من الميكروبلاستيك كانوا أكثر عرضة للإصابة بأمراض الكبد أو الكلى. ويرى العلماء أن هذا الارتفاع الكبير مقلق جداً، وينصحون باتخاذ إجراءات مختلفة لتقليل امتصاصه: شرب الماء من زجاجات زجاجية، واستخدام ماء الصنبور، وتجنب تسخين الطعام في أوعية بلاستيكية.",
+        "5": "هل تستلقي ليلاً مستيقظاً لفترة طويلة وتتقلب في السرير؟ إذا كان هذا يحدث كثيراً، فينبغي الانتباه أكثر. اضطرابات النوم منتشرة على نطاق واسع وقد تشير إلى مشاكل صحية. من العلامات النموذجية أن يستغرق الشخص وقتاً طويلاً جداً للنوم، أو يستيقظ كثيراً ليلاً، أو يستيقظ مبكراً ولا يستطيع النوم من جديد. ويمكن أن يؤثر الأرق الليلي بسرعة على الحياة اليومية ويؤدي إلى تعب نهاري وضعف في التركيز وسرعة انفعال. وإذا استمرت مشاكل النوم لثلاث ليالٍ على الأقل أسبوعياً ولأكثر من ثلاثة أشهر، يُطلق عليها الأرق المزمن. ومن الأسباب الشائعة له الأمراض النفسية أو اضطرابات القلق أو الإدمان. وعلى عكس قلة النوم قصيرة المدى، ينبغي أن يُفحص الأرق المزمن طبياً."
+      }
+    }
+  },
+  "eb46f2e8-c160-4c07-bad6-f846da226761": {
+    "items": {
+      "1": {
+        "keyword": "Erdbeeren... für Tomaten gehalten",
+        "keywords": ["Erdbeeren", "Tomaten"],
+        "paraphrase": [{ "text": "So standen im Kochstudio beispielsweise Erdbeeren auf dem Tisch, die dann für Tomaten gehalten wurden.", "question": "Wenn aus Erdbeeren Tomaten werden" }],
+        "evidence_text": "So standen im Kochstudio beispielsweise Erdbeeren auf dem Tisch, die dann für Tomaten gehalten wurden.",
+        "evidence_translation": "على سبيل المثال، وُضع فراولة على الطاولة في استوديو الطبخ فظنها البعض طماطم.",
+        "explanation_correct": "يصف النص أطفالاً لا يميزون بين الأطعمة الأساسية بسبب قلة الخبرة العملية في المطبخ، حتى أنهم خلطوا بين الفراولة والطماطم - يطابق العنوان J \"عندما تتحول الفراولة إلى طماطم\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان C \"الطبخ للآباء والأطفال\" يبدو قريباً لأن الموضوع استوديو طبخ للأطفال، لكن النص يركز تحديداً على جهل الأطفال بالأطعمة نتيجة نقص الممارسة، وليس على دروس طبخ مشتركة مع الآباء.",
+        "options_reasoning": [
+          { "key": "J", "label": "Wenn aus Erdbeeren Tomaten werden", "correct": true, "reason": "يصف النص أطفالاً لا يميزون بين الأطعمة الأساسية بسبب قلة الخبرة العملية في المطبخ - يطابق العنوان J مباشرة." },
+          { "key": "C", "label": "Kochen für Eltern und Kinder", "correct": false, "reason": "يبدو قريباً لأن الموضوع استوديو طبخ للأطفال، لكن النص يركز تحديداً على جهل الأطفال بالأطعمة، وليس على دروس طبخ مشتركة مع الآباء." }
+        ]
+      },
+      "2": {
+        "keyword": "Mit einer harmlosen Diät fängt es meist an",
+        "keywords": ["Diät", "Krankheit"],
+        "paraphrase": [{ "text": "Mit einer harmlosen Diät fängt es meist an, mit einer schweren Krankheit kann es enden.", "question": "Madchen abnehmen krankenhelten." }],
+        "evidence_text": "Mit einer harmlosen Diät fängt es meist an, mit einer schweren Krankheit kann es enden.",
+        "evidence_translation": "غالباً ما يبدأ الأمر بحمية غير ضارة، وقد ينتهي بمرض خطير.",
+        "explanation_correct": "يوضح الطبيب أن حمية غذائية بسيطة قد تتطور إلى اضطراب أكل خطير لدى الفتيات - يطابق العنوان H (فتيات يتخلصن من الوزن ويصبن بالمرض) مباشرة.",
+        "explanation_wrong": "احذر: العنوان I \"عندما يسبب التعلم المرض\" غير مرتبط بالنص - فالنص عن اضطرابات الأكل الناتجة عن ضغط اجتماعي بشأن النحافة، وليس عن ضغط الدراسة.",
+        "options_reasoning": [
+          { "key": "H", "label": "Madchen abnehmen krankenhelten.", "correct": true, "reason": "يوضح الطبيب أن حمية غذائية بسيطة قد تتطور إلى اضطراب أكل خطير لدى الفتيات - يطابق هذا العنوان مباشرة." },
+          { "key": "I", "label": "Wenn Lernen krank macht", "correct": false, "reason": "غير مرتبط بالنص - فالنص عن اضطرابات الأكل الناتجة عن ضغط اجتماعي بشأن النحافة، وليس عن ضغط الدراسة." }
+        ]
+      },
+      "3": {
+        "keyword": "Das ökologische Bewusstsein hat die Klassenzimmer erreicht",
+        "keywords": ["Jugend", "Umweltschutz", "Wettbewerb"],
+        "paraphrase": [{ "text": "Das ökologische Bewusstsein hat die Klassenzimmer erreicht.", "question": "Schülerwettbewerb Umweltschutz." }],
+        "evidence_text": "Das ökologische Bewusstsein hat die Klassenzimmer erreicht.",
+        "evidence_translation": "وصل الوعي البيئي إلى الفصول الدراسية.",
+        "explanation_correct": "يصف النص مشاريع طلابية في مسابقة \"الشباب يبحث\" تتمحور حول مواضيع بيئية كالعضلات الاصطناعية وميزان الكربون للأدوات الحديقية - يطابق العنوان B (مسابقة طلابية للبيئة) مباشرة.",
+        "explanation_wrong": "احذر: العنوان G \"منافسة قوية على الطلاب\" يبدو قريباً لأن الموضوع مسابقة مدرسية، لكن \"Wettbewerb um Schüler\" يعني تنافساً لاستقطاب الطلاب أنفسهم، وهذا ليس موضوع النص.",
+        "options_reasoning": [
+          { "key": "B", "label": "Schülerwettbewerb Umweltschutz.", "correct": true, "reason": "يصف النص مشاريع طلابية بيئية في مسابقة \"الشباب يبحث\" - يطابق هذا العنوان مباشرة." },
+          { "key": "G", "label": "Starker Wettbewerb um Schüler", "correct": false, "reason": "يبدو قريباً لأن الموضوع مسابقة مدرسية، لكن هذا يعني تنافساً لاستقطاب الطلاب أنفسهم، وهذا ليس موضوع النص." }
+        ]
+      },
+      "4": {
+        "keyword": "Meereswettbewerb „Forschen auf See“",
+        "keywords": ["Jugend", "forscht", "Meer"],
+        "paraphrase": [{ "text": "Sie nehmen am Meereswettbewerb „Forschen auf See“ teil.", "question": "Jugend forscht – auch auf dem Meer" }],
+        "evidence_text": "Sie nehmen am Meereswettbewerb „Forschen auf See“ teil.",
+        "evidence_translation": "يشاركون في مسابقة \"البحث في البحر\" البحرية.",
+        "explanation_correct": "يشارك ثلاثة تلاميذ في مسابقة بحثية بحرية لدراسة تلوث بحر الشمال بجزيئات البلاستيك - يطابق العنوان A \"الشباب يبحث - حتى في البحر\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان F \"رحلة بحرية للشباب\" يبدو قريباً لأن الموضوع سفينة وبحر، لكن الهدف هنا بحث علمي جاد عن تلوث البلاستيك، وليس رحلة ترفيهية.",
+        "options_reasoning": [
+          { "key": "A", "label": "Jugend forscht – auch auf dem Meer", "correct": true, "reason": "يشارك ثلاثة تلاميذ في مسابقة بحثية بحرية لدراسة تلوث بحر الشمال بجزيئات البلاستيك - يطابق العنوان A مباشرة." },
+          { "key": "F", "label": "Schiffsreise für Jugendliche", "correct": false, "reason": "يبدو قريباً لأن الموضوع سفينة وبحر، لكن الهدف هنا بحث علمي جاد عن تلوث البلاستيك، وليس رحلة ترفيهية." }
+        ]
+      },
+      "5": {
+        "keyword": "Mobbing... weitverbreitet",
+        "keywords": ["Psychoterror", "Schule"],
+        "paraphrase": [{ "text": "Häufig sind die Erwachsenen ratlos oder schauen weg, während die Opfer die Schuld bei sich selbst suchen und zunehmend in eine soziale Isolation geraten.", "question": "Psychoterror an der Schule" }],
+        "evidence_text": "Häufig sind die Erwachsenen ratlos oder schauen weg, während die Opfer die Schuld bei sich selbst suchen und zunehmend in eine soziale Isolation geraten.",
+        "evidence_translation": "غالباً ما يكون الكبار حائرين أو يتجاهلون الأمر، بينما يلوم الضحايا أنفسهم ويقعون تدريجياً في عزلة اجتماعية متزايدة.",
+        "explanation_correct": "يصف النص أشكالاً مختلفة من التنمر (Mobbing) في المدارس من معلمين وزملاء دراسة - يطابق العنوان E \"إرهاب نفسي في المدرسة\" مباشرة.",
+        "explanation_wrong": "احذر: العنوان D \"مزيد من العنف في ساحات المدارس\" يبدو قريباً لأن الموضوع مدارس ومضايقات، لكن النص يركز على التنمر النفسي والاجتماعي الخفي، وليس على عنف جسدي مباشر في الساحات.",
+        "options_reasoning": [
+          { "key": "E", "label": "Psychoterror an der Schule", "correct": true, "reason": "يصف النص أشكالاً مختلفة من التنمر في المدارس من معلمين وزملاء دراسة - يطابق العنوان E مباشرة." },
+          { "key": "D", "label": "Mehr Gewalt auf Schulhöfen", "correct": false, "reason": "يبدو قريباً لأن الموضوع مدارس ومضايقات، لكن النص يركز على التنمر النفسي والاجتماعي الخفي، وليس على عنف جسدي مباشر في الساحات." }
+        ]
+      }
+    },
+    "translation": {
+      "questions": {
+        "1": "تبدو الأرقام صادمة للوهلة الأولى: 15% من الأطفال يعانون من زيادة الوزن، ومنهم 6% يعانون من السمنة المفرطة. يدير أخصائي التغذية تيمو شميت استوديو طبخ للأطفال والمراهقين في برلين. يرى تيمو شميت أن السبب الرئيسي هو نقص الخبرة العملية في المطبخ. فالأطفال والمراهقون اليوم غالباً لا يعرفون الطبخ، بحسب تجربته. الاهتمام موجود غالباً، ويرغب الأطفال في الطبخ، لكن المشكلة تكمن في الآباء؛ فغالباً لا يملكون الوقت لشرح كل شيء للأطفال، ومن ناحية أخرى يخافون من السكاكين الحادة. مع أن نسبة إصابات الجروح في استوديو الطبخ للأطفال ضئيلة جداً. ويجد شميت أن الأمر الأكثر إثارة للقلق هو أن كثيراً من الأطفال لم يعودوا يتعرفون على الأطعمة إطلاقاً؛ فقد وُضعت في الاستوديو مثلاً حبات فراولة على الطاولة فظنها الأطفال طماطم، كما تُسمى الكوسا الصفراء أحياناً موزاً. يقول شميت: \"ما ينقص هو الممارسة، لذلك يقطّع الأطفال بالجانب غير الحاد من السكين أو لا يعرفون مدى سخونة المقلاة أثناء الطبخ\".",
+        "2": "تعاني أعداد متزايدة من الفتيات من اضطرابات أكل خطيرة - رغم أن الأطباء والمختصين يحذرون منذ سنوات من العواقب السلبية لهوس النحافة. يدق قسم الطب النفسي للأطفال والمراهقين في مستشفى الأطفال بمدينة هانوفر ناقوس الخطر. يقول عالم النفس المسؤول غيرد كوزنيك: \"في العامين الأخيرين وحدهما ازداد الطلب على مواعيد العلاج بنسبة 50% تقريباً\". من أصل 33 مكاناً متاحاً في قسم الطب النفسي للمراهقين، يشغل حالياً 25 منها فتيات يعانين من اضطرابات أكل. يقول كوزنيك: \"نعرف منذ زمن طويل أن النحافة ليست صحية ولا تطيل العمر، لكن مجتمعنا لا يزال يواجه الفتيات الصغيرات بتصورات مبالغ فيها عن النحافة\". هذا وحده لا يسبب اضطراب الأكل، لكن \"عندما تُضاف مشكلة عائلية أساسية، تولي كثير من الفتيات أهمية مبالغاً فيها لمظهرهن\". تروي فتاة عمرها 17 عاماً أنها بدأت حمية غذائية بدافع شعورها بأنها \"لا تحقق شيئاً\"، وكانت الحمية أخيراً شيئاً نجح معها. ونتيجة لذلك لم تفقد كيلوغرامين كما خططت، بل ثلاثة عشر كيلوغراماً. لذلك يستخلص كوزنيك، ليس فقط في هذه الحالة: غالباً ما تبدأ الأمور بحمية غذائية بسيطة، وقد تنتهي بمرض خطير.",
+        "3": "مصابيح موفرة للطاقة، أجهزة كهربائية صديقة للبيئة، طلاء أظافر عضوي - عند النظر إلى المواضيع التي تناولها المشاركون في مسابقة \"الشباب يبحث\" الإقليمية السادسة والأربعين، يتضح أمر واحد بشكل خاص: الوعي البيئي وصل إلى الفصول الدراسية. شارك في المسابقة قرابة 100 تلميذ، ولم يتردد المشاركون في تناول مواضيع معقدة. تناول تلاميذ الصف الثاني عشر أدريان وتان وسون صناعة عضلات اصطناعية. يقول أدريان: \"كان التحدي هو التعامل مع ثلاثة مجالات - التشريح والتقنية والكيمياء\". وقد كان الأمر يستحق العناء، إذ حصلت المجموعة على المركز الأول في فئة التقنية. وفي فئة عالم العمل، قامت الطالبتان يارا-أليساندرا وبهير بحساب الميزان البيئي لأدوات الحديقة. تقول يارا-أليساندرا: \"اكتشفنا أن آلات نفخ الأوراق التي تعمل بمحرك بنزين لا تنتج كميات كبيرة من ثاني أكسيد الكربون فحسب، بل تقتل أيضاً الديدان والحشرات المهمة لتوازن البيئة\". كرّمت لجنة التحكيم المشروع بالمركز الثاني. يستعد الفائزون الآن للمسابقة على مستوى الولاية.",
+        "4": "13.5 متراً طولاً ولون أصفر ساطع - سفينة \"ألديبران\" تلفت الأنظار في مرفأ اليخوت. بالنسبة لثلاثة تلاميذ من ديبهولتس، تحقق حلم؛ إذ يعملون كباحثين بحريين على متن السفينة ضمن مشروعهم البحثي الخاص، مشاركين في مسابقة \"البحث في البحر\". هدف المشروع هو تعريف الشباب بالعمل العلمي. أعمار التلاميذ الثلاثة يوناس وأنيكا وكاتارينا 17 عاماً، وموضوعهم هو تلوث بحر الشمال بجزيئات بلاستيكية دقيقة. يريد التلاميذ من خلال أبحاثهم لفت الانتباه إلى تلوث بحر الشمال. في مدينتهم ديبهولتس، ينشط الثلاثة في المجموعة البيئية بمدرستهم، ويعرفون بالفعل الكثير عن تلوث البحار بالجزيئات البلاستيكية الدقيقة ومخاطرها على الأسماك والثدييات البحرية. لم تُحلل العينات بعد، لكن التلاميذ عثروا بالفعل على أولى قطع البلاستيك. يقولون: \"يبدو أننا سنحصل على نتائج جيدة لمشروعنا - لكنها ليست جيدة للبيئة\".",
+        "5": "التنمر ليس ظاهرة جديدة، وهو منتشر أيضاً في المدارس؛ فمثلاً تتحدث معلمة أمام الصف بشكل سلبي عن تلميذة لأنها لا تفهم شيئاً أو تمرض باستمرار، أو يضحك زملاء الصف أو يطلقون ملاحظات مهينة عندما يتحدث تلميذ معين. وفي إحدى حالات الصف الرابع، يترصد بعض الأولاد لزميل خجول في طريقه إلى المدرسة ويبتزونه للحصول على مال أو ملابس. غالباً ما يقف الكبار حائرين أو يتجاهلون الأمر، بينما يبحث الضحايا عن اللوم في أنفسهم ويزداد عزلتهم الاجتماعية. يُفاجأ المعلمون عادة عند سؤالهم عن التنمر في صفوفهم، لأن هذه المضايقات تحدث غالباً بشكل خفي وخارج وقت الحصص، أثناء الاستراحات أو في طريق المدرسة."
+      }
+    }
+  }
+}
