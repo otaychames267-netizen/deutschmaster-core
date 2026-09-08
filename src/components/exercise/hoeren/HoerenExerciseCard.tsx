@@ -67,15 +67,23 @@ interface Props {
 
 type AnswerState = boolean | null;
 
+/**
+ * Shape persisted to localStorage for resume-after-refresh. Deliberately
+ * holds ONLY the student's own answer choices + the numeric score — never
+ * `scoreResults`/`revealed` (which carry the real correct_answer). A student
+ * who solved this exercise while subscribed must not keep seeing the cached
+ * answer key from localStorage after their subscription expires (refresh,
+ * logout/login, or a new device would otherwise all replay it, since nothing
+ * server-side is consulted again once it's sitting in the browser's own
+ * storage) — see the matching Security note in Teil2Exercise.tsx, which this
+ * mirrors exactly.
+ */
 interface PersistedAttempt {
   exerciseId: string;
   answers: Record<number, AnswerState>;
   submitted: boolean;
-  scoreResults: ScoreResult[] | null;
   scoreCount: number;
   scoreTotal: number;
-  revealed: Record<number, boolean>;
-  showScore: boolean;
   updatedAt: number;
 }
 
@@ -141,25 +149,64 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
     if (saved && saved.exerciseId === exercise.id) {
       setAnswers(saved.answers ?? {});
       setSubmitted(!!saved.submitted);
-      setScoreResults(saved.scoreResults ?? null);
       setScoreCount(saved.scoreCount ?? 0);
       setScoreTotal(saved.scoreTotal ?? 0);
-      setRevealed(saved.revealed ?? {});
-      setShowScore(!!saved.showScore);
+      // scoreResults/revealed/showScore are intentionally NOT restored here —
+      // see the Security note on PersistedAttempt. If this was a submitted
+      // attempt, the effect below re-derives the real solution from the
+      // server (re-checking access) instead of trusting anything cached.
       if (saved.submitted || Object.keys(saved.answers ?? {}).length > 0) setRestored(true);
     }
     hydratedRef.current = true;
   }, [authLoading, storageKey, exercise.id]);
+
+  // Re-derive the solution for a restored, already-submitted attempt via the
+  // non-saving `reveal_hoeren` RPC (the same one "Lösung anzeigen" uses) —
+  // a real server round-trip that re-enforces the subscription check after a
+  // refresh, a logout/login, or a subscription that expired since the
+  // student last submitted. Mirrors Teil2Exercise.tsx's matching effect.
+  useEffect(() => {
+    if (!hydratedRef.current || !submitted || scoreResults) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data, error } = await (supabase as any).rpc("reveal_hoeren", { p_exercise_id: exercise.id });
+        if (error) throw error;
+        if (cancelled) return;
+        const res = data as unknown as { results: { statement_number: number; correct_answer: boolean }[] };
+        const asResults: ScoreResult[] = res.results.map((r) => {
+          const your = answers[r.statement_number] ?? null;
+          return { statement_number: r.statement_number, correct: your !== null && your === r.correct_answer, your_answer: your, correct_answer: r.correct_answer };
+        });
+        setScoreResults(asResults);
+        setScoreCount(asResults.filter((r) => r.correct).length);
+        setScoreTotal(asResults.length);
+        setShowScore(true);
+        const allRevealed: Record<number, boolean> = {};
+        for (const r of asResults) allRevealed[r.statement_number] = true;
+        setRevealed(allRevealed);
+      } catch (e) {
+        // The subscription likely lapsed since this was submitted (or the
+        // exercise was unpublished) — fall back to a plain "start over"
+        // state rather than leaving a permanently-blank "submitted" screen.
+        if (!cancelled) {
+          console.error("Could not re-derive the stored solution:", e);
+          setSubmitted(false);
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [submitted, scoreResults, exercise.id, answers]);
 
   useEffect(() => {
     if (!hydratedRef.current) return;
     const hasProgress = submitted || Object.keys(answers).length > 0;
     if (!hasProgress) { clearAttempt(storageKey); return; }
     saveAttempt<PersistedAttempt>(storageKey, {
-      exerciseId: exercise.id, answers, submitted, scoreResults, scoreCount, scoreTotal, revealed, showScore,
+      exerciseId: exercise.id, answers, submitted, scoreCount, scoreTotal,
       updatedAt: Date.now(),
     });
-  }, [answers, submitted, scoreResults, scoreCount, scoreTotal, revealed, showScore, storageKey, exercise.id]);
+  }, [answers, submitted, scoreCount, scoreTotal, storageKey, exercise.id]);
 
   function select(num: number, value: boolean) {
     if (submitted) return;

@@ -24,10 +24,15 @@ interface ExamListProps {
   emptyTitle?: string;
   emptyDescription?: string;
   onSelect: (exam: Exam) => void;
-  /** Non-subscriber view: badges free-sample cards. RLS already scopes the
-   *  fetched list to only free-sample rows for a non-subscriber, so this is
-   *  purely a display flag, never an access decision. */
+  /** Access decision AND display flag: badges free-sample cards, and gates
+   *  the click handler below — a non-subscriber can never open a non-free
+   *  card from here, even if `exams` is briefly stale (see the fetch effect's
+   *  `hasAccess` dependency). The real backstop is still RLS server-side. */
   hasAccess?: boolean | null;
+  /** Called instead of `onSelect` when a card is locked for the current
+   *  viewer (hasAccess === false and the exam isn't a free sample) — the
+   *  caller should show the subscription paywall, never open the exercise. */
+  onLockedAction?: () => void;
   /** Reports the fetched (RLS-scoped) exam list back to the parent, so it can
    *  compute the locked remainder from its own titles-only catalog. */
   onLoaded?: (exams: Exam[]) => void;
@@ -50,6 +55,7 @@ export function ExamList({
   emptyDescription = "Exercises for this section will appear here once the admin imports the content via the PDF Import system.",
   onSelect,
   hasAccess,
+  onLockedAction,
   onLoaded,
 }: ExamListProps) {
   const level = useActiveLevel();
@@ -101,7 +107,15 @@ export function ExamList({
     }
 
     load();
-  }, [level, section, teil, examType]);
+    // `hasAccess` is intentionally a dependency, even though it's not read
+    // inside `load()`: the query above is RLS-scoped server-side, so its
+    // actual result set changes the instant the viewer's subscription state
+    // changes (e.g. useHasPlanAccess's 20s poll detects a mid-session
+    // expiry). Without re-running this effect, `exams` would keep showing
+    // the stale, pre-expiry full list — the same class of bug already fixed
+    // for the Lesen/Hören/Sprachbausteine catalog pages (see
+    // feedback-verify-extraction-at-scale / entitlement-hardening memory).
+  }, [level, section, teil, examType, hasAccess]);
 
   if (loading) {
     return (
@@ -129,11 +143,21 @@ export function ExamList({
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {exams.map((exam) => {
         const done = attempted.has(exam.id);
+        // Defense in depth: RLS already scopes `exams` to only rows this
+        // viewer may read, but a card can still be briefly stale between a
+        // mid-session expiry and this effect's re-fetch (network latency,
+        // the 20s access-poll interval). Never open the player for a locked
+        // card on the client either — show the paywall instead.
+        const locked = hasAccess === false && !exam.is_free_sample;
         return (
           <button
             key={exam.id}
-            onClick={() => onSelect(exam)}
-            className="group relative flex flex-col gap-4 rounded-2xl border border-border bg-card p-5 text-left shadow-sm transition-all hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+            onClick={() => (locked ? onLockedAction?.() : onSelect(exam))}
+            className={`group relative flex flex-col gap-4 rounded-2xl border p-5 text-left shadow-sm transition-all ${
+              locked
+                ? "border-border/60 bg-card/60 opacity-75 hover:border-amber-500/40"
+                : "border-border bg-card hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-md"
+            }`}
           >
             {done && (
               <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
@@ -143,6 +167,11 @@ export function ExamList({
             {!done && hasAccess === false && exam.is_free_sample && (
               <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
                 <Sparkles className="h-3 w-3" /> FREE SAMPLE
+              </span>
+            )}
+            {locked && (
+              <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-600 dark:text-amber-400">
+                <Lock className="h-3 w-3" /> Locked
               </span>
             )}
 
@@ -160,8 +189,8 @@ export function ExamList({
                 <Clock className="h-3.5 w-3.5" />
                 ~{estimateMinutes(exam.metadata)} min
               </span>
-              <span className="flex items-center gap-1 text-primary opacity-0 transition-opacity group-hover:opacity-100">
-                <Play className="h-3.5 w-3.5" /> Start
+              <span className={`flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100 ${locked ? "text-amber-600 dark:text-amber-400" : "text-primary"}`}>
+                {locked ? <><Lock className="h-3.5 w-3.5" /> Unlock</> : <><Play className="h-3.5 w-3.5" /> Start</>}
               </span>
             </div>
           </button>

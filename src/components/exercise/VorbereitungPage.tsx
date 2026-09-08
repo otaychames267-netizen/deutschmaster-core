@@ -182,6 +182,7 @@ export function VorbereitungPage({
           hasAccess={hasAccess}
           onLoaded={(exams) => setLoadedExams(exams)}
           onSelect={(exam) => setActive({ id: exam.id, title: exam.title, isFreeSample: exam.is_free_sample === true })}
+          onLockedAction={() => { setPaywallReason("locked"); setPaywallOpen(true); }}
         />
       </div>
 

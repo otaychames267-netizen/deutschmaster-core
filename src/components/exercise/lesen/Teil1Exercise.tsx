@@ -35,7 +35,15 @@ export interface T1ExerciseData { id: string; title: string; headlines: T1Headli
 
 interface ScoreResult { position: number; correct: boolean; your_answer: string; correct_answer: string; learning_aids?: LearningAidsItem | null; }
 interface Props { exercise: T1ExerciseData; onComplete?: (score: number, total: number) => void; }
-interface Persisted { exerciseId: string; answers: Record<number, string>; submitted: boolean; results: ScoreResult[] | null; score: number; total: number; }
+/**
+ * Persisted shape deliberately holds ONLY the student's own answer choices +
+ * the numeric score — never `results` (which carries the real
+ * correct_answer + learning_aids). A student who solved this exercise while
+ * subscribed must not keep seeing the cached answer key from localStorage
+ * after their subscription expires. See the matching Security note in
+ * Teil2Exercise.tsx, which this mirrors exactly.
+ */
+interface Persisted { exerciseId: string; answers: Record<number, string>; submitted: boolean; score: number; total: number; }
 
 const FOCUS = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40";
 
@@ -101,17 +109,51 @@ export function Teil1Exercise({ exercise, onComplete }: Props) {
     if (hydrated.current || authLoading) return;
     const s = loadAttempt<Persisted>(storageKey);
     if (s && s.exerciseId === exercise.id) {
-      setAnswers(s.answers ?? {}); setSubmitted(!!s.submitted); setResults(s.results ?? null);
+      setAnswers(s.answers ?? {}); setSubmitted(!!s.submitted);
       setScore(s.score ?? 0); setTotal(s.total ?? 0);
+      // `results` (the real solution) is intentionally NOT restored here —
+      // see the Security note on `Persisted`. The effect below re-derives it
+      // from the server instead of trusting anything cached.
       if (s.submitted || Object.keys(s.answers ?? {}).length) setRestored(true);
     }
     hydrated.current = true;
   }, [authLoading, storageKey, exercise.id]);
+
+  // Re-derive the solution for a restored, already-submitted attempt via the
+  // non-saving score_lesen_t1 RPC (the same one "Lösung anzeigen" uses) — a
+  // real server round-trip that re-enforces the subscription check after a
+  // refresh, a logout/login, or a subscription that expired since the
+  // student last submitted. Mirrors Teil2Exercise.tsx's matching effect.
+  useEffect(() => {
+    if (!hydrated.current || !submitted || results) return;
+    let cancelled = false;
+    (async () => {
+      const payload: Record<string, string> = {};
+      for (const t of texts) if (answers[t.position]) payload[String(t.position)] = answers[t.position];
+      try {
+        const { data, error } = await (supabase as any).rpc("score_lesen_t1", { p_exercise_id: exercise.id, p_answers: payload });
+        if (error) throw error;
+        if (cancelled) return;
+        const r = data as { score: number; total: number; results: ScoreResult[] };
+        setResults(r.results); setScore(r.score); setTotal(r.total);
+      } catch (e) {
+        // The subscription likely lapsed since this was submitted (or the
+        // exercise was unpublished) — fall back to a plain "start over"
+        // state rather than leaving a permanently-blank "submitted" screen.
+        if (!cancelled) {
+          console.error("Could not re-derive the stored solution:", e);
+          setSubmitted(false);
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [submitted, results, exercise.id, texts, answers]);
+
   useEffect(() => {
     if (!hydrated.current) return;
     if (!submitted && Object.keys(answers).length === 0) { clearAttempt(storageKey); return; }
-    saveAttempt<Persisted>(storageKey, { exerciseId: exercise.id, answers, submitted, results, score, total });
-  }, [answers, submitted, results, score, total, storageKey, exercise.id]);
+    saveAttempt<Persisted>(storageKey, { exerciseId: exercise.id, answers, submitted, score, total });
+  }, [answers, submitted, score, total, storageKey, exercise.id]);
 
   function select(pos: number, letter: string) { if (!submitted) setAnswers((p) => ({ ...p, [pos]: letter })); }
   function reset() { setAnswers({}); setSubmitted(false); setResults(null); setScore(0); setTotal(0); setRestored(false); setOpen(null); clearAttempt(storageKey); }
