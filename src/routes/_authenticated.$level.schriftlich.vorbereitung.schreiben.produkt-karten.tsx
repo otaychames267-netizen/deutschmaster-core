@@ -27,7 +27,7 @@ function ProduktKartenPage() {
       const { data } = await (supabase as any).rpc("get_produkt_cards_catalog", { p_level: level });
       const items: CatalogItem[] = (data ?? []).map((r: any) => ({
         id: r.id,
-        title: `${r.theme_title} — ${r.strategy_label}`,
+        title: r.card_title,
       }));
       setCatalog(items);
       setCatalogLoading(false);
@@ -46,7 +46,7 @@ function ProduktKartenPage() {
     return (
       <LockedExerciseOverview
         heading="Schreiben — Produkt-Karten"
-        subheading="70 professionelle Karten für Produkt-Beschwerden — je Thema mehrere Formulierungsstrategien, damit kein Brief wie auswendig gelernt wirkt."
+        subheading="70 professionelle Karten für Produkt-Beschwerden, gegründet auf 17 echten Prüfungsthemen — jede Karte mit vollständiger Struktur und einem ausformulierten Beispiel."
         items={catalog}
       />
     );
@@ -57,7 +57,7 @@ function ProduktKartenPage() {
       <div>
         <h1 className="text-2xl font-black tracking-tight text-foreground">Schreiben — Produkt-Karten</h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
-          Echte Produkt-Beschwerde-Themen, je Thema mehrere professionelle Vorlagen mit unterschiedlicher Strategie — Vorlage und vollständiges Beispiel auf einen Blick.
+          Echte Produkt-Beschwerde-Themen — jede Karte zeigt eine vollständige Struktur und ein ausformuliertes Beispiel auf einen Blick.
         </p>
       </div>
       <ProduktKartenBrowser level={level} />
