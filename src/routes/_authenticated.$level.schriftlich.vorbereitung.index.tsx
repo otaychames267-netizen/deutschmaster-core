@@ -26,7 +26,8 @@ function schreibenParts(seg: "b1" | "b2" | undefined) {
     { label: "Beschwerde — Formal complaint", to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
     { label: "Bitte um Informationen",         to: "/schriftlich/vorbereitung/schreiben/bitte" },
     { label: "Vorlagen — Premium writing templates", to: "/schriftlich/vorbereitung/schreiben/vorlagen" },
-    { label: "Produkt-Karten — 70 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/produkt-karten" },
+    { label: "Produkt-Karten — 150 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/produkt-karten" },
+    { label: "Dienstleistungs-Karten — 150 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/service-karten" },
   ];
 }
 
@@ -106,7 +107,8 @@ const SKILLS_BASE = [
       { label: "Beschwerde — Formal complaint",    to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
       { label: "Bitte um Informationen",           to: "/schriftlich/vorbereitung/schreiben/bitte" },
       { label: "Vorlagen — Premium writing templates", to: "/schriftlich/vorbereitung/schreiben/vorlagen" },
-      { label: "Produkt-Karten — 70 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/produkt-karten" },
+      { label: "Produkt-Karten — 150 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/produkt-karten" },
+      { label: "Dienstleistungs-Karten — 150 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/service-karten" },
     ],
   },
 ];

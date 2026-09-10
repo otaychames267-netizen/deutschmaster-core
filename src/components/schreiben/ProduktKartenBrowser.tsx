@@ -19,6 +19,7 @@ import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight, BookOpen, Bike, Headphones, Watch, Laptop, Sparkles, Milk,
   Flower2, Apple, Pill, Gift, Home, Loader2, FileText, ClipboardList,
+  Plane, Hotel, Truck, Wrench, GraduationCap, Waves, Ticket, ShieldCheck, KeyRound, Newspaper,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
@@ -34,10 +35,11 @@ interface ProduktCard {
 }
 
 /** Small keyword-based icon/gradient pick so the grid doesn't feel monotone —
- * purely decorative, keyed off the real theme's product category. */
+ * purely decorative, keyed off the real theme's product/service category. */
 function getCardArt(themeTitle: string) {
   const t = themeTitle.toLowerCase();
   const base = { from: "#b45309", to: "#78350f" }; // amber, Schreiben's established accent
+  // Produkt themes
   if (t.includes("fahrrad") || t.includes("bike")) return { icon: Bike, ...base };
   if (t.includes("kopfhörer") || t.includes("freebeat")) return { icon: Headphones, ...base };
   if (t.includes("watch") || t.includes("uhr")) return { icon: Watch, ...base };
@@ -47,8 +49,20 @@ function getCardArt(themeTitle: string) {
   if (t.includes("blumen")) return { icon: Flower2, ...base };
   if (t.includes("apotheke")) return { icon: Pill, ...base };
   if (t.includes("geschenke")) return { icon: Gift, ...base };
-  if (t.includes("appartement") || t.includes("haus")) return { icon: Home, ...base };
   if (t.includes("staubsaug") || t.includes("bett") || t.includes("schlaflos")) return { icon: Milk, ...base };
+  // Dienstleistung themes
+  if (t.includes("reise") || t.includes("pauschal") || t.includes("bahnreise") || t.includes("flug")) return { icon: Plane, ...base };
+  if (t.includes("hotel") || t.includes("wohnen auf zeit") || t.includes("appartement") || t.includes("apartment")) return { icon: Hotel, ...base };
+  if (t.includes("umzug")) return { icon: Truck, ...base };
+  if (t.includes("renovier") || t.includes("bad") || t.includes("sanitär") || t.includes("handwerk")) return { icon: Wrench, ...base };
+  if (t.includes("kurs") || t.includes("seminar") || t.includes("training") || t.includes("schule") || t.includes("akademie") || t.includes("deutsch")) return { icon: GraduationCap, ...base };
+  if (t.includes("freizeitbad") || t.includes("schwimmbad") || t.includes("therme") || t.includes("wasser")) return { icon: Waves, ...base };
+  if (t.includes("freizeitpark") || t.includes("märchenland") || t.includes("camp") || t.includes("musical") || t.includes("schatzsuche") || t.includes("tikki")) return { icon: Ticket, ...base };
+  if (t.includes("versicherung") || t.includes("securvia")) return { icon: ShieldCheck, ...base };
+  if (t.includes("schlüsseldienst") || t.includes("notservice")) return { icon: KeyRound, ...base };
+  if (t.includes("zeitschrift") || t.includes("abonnenten") || t.includes("flatrate") || t.includes("vertrag") || t.includes("tele")) return { icon: Newspaper, ...base };
+  if (t.includes("catering") || t.includes("partyservice") || t.includes("essen")) return { icon: Gift, ...base };
+  if (t.includes("haus")) return { icon: Home, ...base };
   return { icon: FileText, ...base };
 }
 
@@ -152,7 +166,14 @@ function CardModal({ card, onClose }: { card: ProduktCard; onClose: () => void }
   );
 }
 
-export function ProduktKartenBrowser({ level }: { level: string }) {
+export function ProduktKartenBrowser({
+  level,
+  category = "produkt",
+}: {
+  level: string;
+  /** which exam family to show — 'produkt' (default) or 'dienstleistung' */
+  category?: "produkt" | "dienstleistung";
+}) {
   const [cards, setCards] = useState<ProduktCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [openCard, setOpenCard] = useState<ProduktCard | null>(null);
@@ -164,11 +185,12 @@ export function ProduktKartenBrowser({ level }: { level: string }) {
         .from("schreiben_produkt_cards" as any)
         .select("id, card_title, theme_title, template_text, example_text, sort_order")
         .eq("level", level)
+        .eq("category", category)
         .order("sort_order");
       setCards((data ?? []) as unknown as ProduktCard[]);
       setLoading(false);
     })();
-  }, [level]);
+  }, [level, category]);
 
   const themes = useMemo(() => {
     const seen = new Map<string, number>();
@@ -192,7 +214,9 @@ export function ProduktKartenBrowser({ level }: { level: string }) {
   if (cards.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-border bg-muted/20 py-14 text-center text-sm text-muted-foreground">
-        Noch keine Produkt-Karten veröffentlicht.
+        {category === "dienstleistung"
+          ? "Noch keine Dienstleistungs-Karten veröffentlicht."
+          : "Noch keine Produkt-Karten veröffentlicht."}
       </div>
     );
   }
