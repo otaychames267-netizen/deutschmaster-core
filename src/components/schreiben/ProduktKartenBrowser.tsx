@@ -15,7 +15,7 @@
  * policy) -- only ever mounted for an already entitled viewer (the route
  * shows LockedExerciseOverview otherwise), matching VorlagenBrowser.
  */
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ArrowRight, BookOpen, Bike, Headphones, Watch, Laptop, Sparkles, Milk,
   Flower2, Apple, Pill, Gift, Home, Loader2, FileText, ClipboardList,
@@ -156,6 +156,7 @@ export function ProduktKartenBrowser({ level }: { level: string }) {
   const [cards, setCards] = useState<ProduktCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [openCard, setOpenCard] = useState<ProduktCard | null>(null);
+  const [theme, setTheme] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -168,6 +169,17 @@ export function ProduktKartenBrowser({ level }: { level: string }) {
       setLoading(false);
     })();
   }, [level]);
+
+  const themes = useMemo(() => {
+    const seen = new Map<string, number>();
+    for (const c of cards) seen.set(c.theme_title, (seen.get(c.theme_title) ?? 0) + 1);
+    return Array.from(seen.entries());
+  }, [cards]);
+
+  const shown = useMemo(
+    () => (theme ? cards.filter((c) => c.theme_title === theme) : cards),
+    [cards, theme],
+  );
 
   if (loading) {
     return (
@@ -186,9 +198,37 @@ export function ProduktKartenBrowser({ level }: { level: string }) {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {themes.length > 1 && (
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={() => setTheme(null)}
+            className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+              theme === null
+                ? "border-amber-600 bg-amber-600 text-white"
+                : "border-border bg-card text-muted-foreground hover:border-amber-600/40 hover:text-foreground"
+            }`}
+          >
+            Alle ({cards.length})
+          </button>
+          {themes.map(([t, n]) => (
+            <button
+              key={t}
+              onClick={() => setTheme(t)}
+              className={`rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                theme === t
+                  ? "border-amber-600 bg-amber-600 text-white"
+                  : "border-border bg-card text-muted-foreground hover:border-amber-600/40 hover:text-foreground"
+              }`}
+            >
+              {t} ({n})
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((c, i) => (
+        {shown.map((c, i) => (
           <CardTile key={c.id} card={c} index={i} onOpen={() => setOpenCard(c)} />
         ))}
       </div>
