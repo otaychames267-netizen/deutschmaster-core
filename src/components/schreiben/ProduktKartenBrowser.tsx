@@ -20,10 +20,12 @@ import {
   ArrowRight, BookOpen, Bike, Headphones, Watch, Laptop, Sparkles, Milk,
   Flower2, Apple, Pill, Gift, Home, Loader2, FileText, ClipboardList,
   Plane, Hotel, Truck, Wrench, GraduationCap, Waves, Ticket, ShieldCheck, KeyRound, Newspaper,
+  ChevronDown, Lightbulb,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { TopicModalShell, type ModalTab } from "@/components/muendlich/MuendlichTopicModalShell";
+import { REDEMITTEL } from "@/components/schreiben/redemittel";
 
 interface ProduktCard {
   id: string;
@@ -144,6 +146,47 @@ function LetterView({ text, withPills }: { text: string; withPills: boolean }) {
   );
 }
 
+/** Collapsed by default -- a reference of phrase alternatives for each beat
+ * of the letter, kept strictly OUTSIDE the letter text itself (owner spec
+ * 2026-09-11: don't overload the letter with bracketed alternatives; offer
+ * synonyms as a separate learning aid instead). Shown only on the Struktur
+ * tab, directly below the connected-letter card. */
+function RedemittelPanel() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="mx-auto mt-5 max-w-2xl rounded-xl border border-border bg-muted/20">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between gap-2 px-5 py-3.5 text-left"
+      >
+        <span className="flex items-center gap-2 text-sm font-bold text-foreground">
+          <Lightbulb className="h-4 w-4 text-amber-600" />
+          Nützliche Redemittel &amp; Synonyme
+        </span>
+        <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="grid gap-4 border-t border-border px-5 py-4 sm:grid-cols-2">
+          {REDEMITTEL.map((group) => (
+            <div key={group.title}>
+              <h4 className="mb-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400">
+                {group.title}
+              </h4>
+              <ul className="space-y-1">
+                {group.phrases.map((p) => (
+                  <li key={p} className="text-[13px] leading-snug text-muted-foreground">
+                    {p}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const TABS: ModalTab<"struktur" | "beispiel">[] = [
   { key: "struktur", label: "Struktur", icon: ClipboardList },
   { key: "beispiel", label: "Beispiel", icon: BookOpen },
@@ -160,7 +203,12 @@ function CardModal({ card, onClose }: { card: ProduktCard; onClose: () => void }
       onTabChange={setPage}
       onClose={onClose}
     >
-      {page === "struktur" && <LetterView text={card.template_text} withPills />}
+      {page === "struktur" && (
+        <>
+          <LetterView text={card.template_text} withPills />
+          <RedemittelPanel />
+        </>
+      )}
       {page === "beispiel" && <LetterView text={card.example_text} withPills={false} />}
     </TopicModalShell>
   );
