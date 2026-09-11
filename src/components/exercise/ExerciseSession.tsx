@@ -64,7 +64,7 @@ export function ExerciseSession({
         setExamResults(null);
         setDone(new Set());
       })
-      .catch((e) => toast.error(e.message ?? "Konnte Übungen nicht laden"))
+      .catch((e) => { console.error("[ExerciseSession] load", e); toast.error("Konnte Übungen nicht laden. Bitte versuchen Sie es erneut."); })
       .finally(() => !cancel && setLoading(false));
     return () => { cancel = true; };
   }, [level, module, teil, mode, retryIds, passageIndex]);

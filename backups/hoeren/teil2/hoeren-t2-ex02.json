@@ -1,0 +1,63 @@
+{
+  "title": "Mallorca 2",
+  "teil": 2,
+  "level": "B2",
+  "position": 2,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Mallorca",
+  "notes": "PDF page 3 (code 347) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Die Zahl der deutschen Mallorca-Urlaub hat nur leicht abgenommen.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Nach Professor Kirsch achten die Deutschen bei der Wahl ihrer Urlaubsreisen nicht besonders auf die kosten.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Einige Einheimisch in Mallorca haben begonnen, sich gegen das Vordringen der deutschen Sprache zu wehren.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Für den Einbruch des Tourismus auf Mallorca sind verschiedene Faktoren verantwortlich.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Viele Deutsche haben jetzt Rumänien und Ungarn als Reiseziel entdeckt.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Pfessor Kirsch weist auf günstige Angebote für Golfspieler am Plattensee hin.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Bulgarien hat sich als Urlaubsland sehr positiv entwickelt.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Viele Westdeutsche meiden Bulgarien, weil die Einreisemodalitäten abschreckend sind.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Seit Ende der neunziger Jahre geben die Deutsch eh mehr Geld für den Urlaub aus.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Durch die Vielzahl aktiver Senioren entsteht eine höhere Nachfrage nach Abenteuerreisen in ferne Länder.",
+      "correct": false
+    }
+  ]
+}

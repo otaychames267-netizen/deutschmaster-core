@@ -1,0 +1,629 @@
+[
+  {
+    "id": "421af0a3-6f8b-4a27-9f84-add6aae706e0",
+    "teil": 2,
+    "title": "Beim Wettkampf",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Beim Wettkampf auf Sylt gibt es mehr Zuschauer als bei anderen Surf-Wettkämpfen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Wind-Bedingungen sind auf Sylt sehr unberechenbar.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Dunderbeck ist noch immer so fit wie früher.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Im Freestyle hat er schon starke Gegner, die viel jünger sind als er.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Beim Slalom muss er auch mit starken Gegnern rechnen.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sein Hobby ist, solche Strände zu suchen, wo sich im Windsurfen noch niemand ausprobiert hat.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Er hat ständig Angst vor den Haien.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Seine Kinder haben noch ein bisschen Angst vor dem Wasser, obwohl er sie schon aufs Brett gesetzt hatte.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Falls er auf Sylt siegen würde, würde er dies zuerst gerne mit seinen Freunden feiern.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Er hat zwei Kinder und sie gehen mit ihm auf Reisen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "a7d082a4-6900-4948-8e56-5de9b3f736c1",
+    "teil": 2,
+    "title": "Bibliothek",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Astrid Nowak hat ihr ganzes Berufsleben in der Stadtbibliothek verbracht.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die meisten Besucher/innen der Stadtbibliothek wollen Medien ausleihen.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Viele halten sich gern in den attraktiven Räumen der Bibliothek auf.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Bibliothek bietet ihre Dienstleistungen seit Jahren auch sonntags an.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die vielfältigen Angebote der Bibliothek sind gratis nutzbar.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Angebotsschwerpunkt sind Informationsmedien für jüngere Leute.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man kann in der Bibliothek auch elektronische Geräte mieten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Heute finden nur Kurse aus dem Bereich Medien und Technik statt.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es gibt einen Raum, in dem man mit anderen zusammen moderne technische Werkzeuge ausprobieren kann.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Bibliotheken in Deutschland werden genauso häufig genutzt wie Kinos oder Museen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "3e406920-1d1e-4edc-9779-73dfbf4ee288",
+    "teil": 2,
+    "title": "Bicycle",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Das ist ein Interview mit dem Restaurant \"Bicycle\".",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Gert Kronheim ist der alleinige Gründer von Bicycle.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bicycle bietet Arbeitsplätze für junge Leute, die schon länger arbeitslos sind.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bicycle gibt es schon seit 1926.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Anlass für die Gründung von Bicycle war die steigende Arbeitslosigkeit Anfang der 80er Jahre.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Gert Kronheimer findet, dass das Fahrrad für junge Leute interessant ist.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Fahrrad ist heute leider sehr unpopulär geworden.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei Bicycle kann man nur Vollzeit arbeiten.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei Bicycle werden im Jahr ungefähr 10000 Fahrräder repariert.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sibylle Hartung ist nur eine Assistentin und keine Expertin für technische Fragen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "cf6266b0-5b98-4690-afb9-76c1986f6baa",
+    "teil": 2,
+    "title": "Bio-Obst",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Die Nachfrage nach regionalem Bio-Obst und Bio-Gemüse hat sich in den letzten Jahren spürbar verändert.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Kundinnen und Kunden legen bei Bio-Produkten inzwischen mehr Wert auf Herkunft und Frische als auf einen möglichst niedrigen Preis.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Lieferung frischer Lebensmittel verursacht für kleinere Betriebe zusätzliche organisatorische und finanzielle Belastungen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Nicht alle angebotenen Bio-Produkte stammen direkt aus der eigenen Produktion.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Digitale Bestellsysteme spielen beim Verkauf von Obst und Gemüse mittlerweile eine wichtige Rolle.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Qualität der Produkte hängt nach Ansicht des Sprechers vor allem von einer schnellen Lieferung ab.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der persönliche Kontakt zu den Kundinnen und Kunden bleibt trotz Online-Bestellungen ein wichtiger Bestandteil des Geschäfts.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch den Lieferdienst können auch Menschen erreicht werden, die nicht regelmäßig auf den Wochenmarkt gehen können.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für kleinere Bio-Betriebe ist es schwierig, gleichzeitig nachhaltig und preislich konkurrenzfähig zu bleiben.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Sprecher geht davon aus, dass regionale Lieferangebote für Bio-Lebensmittel in Zukunft weiter an Bedeutung gewinnen werden.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "08297a0d-9473-4bcc-9541-22d11f40c860",
+    "teil": 2,
+    "title": "Carina  ( Original )",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Berufseinstieg ist in anderen Ländern nicht leicht.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina ist ihr Beruf wichtiger als ihr Privatleben.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina hat sich der Agentur mit einem Film präsentiert.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina musste für einen Film ihr Gewicht stark verändern.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina macht lieber gefühlvolle Filme als Action-Filme.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen der vielen Fehlstunden hatte Carina Probleme mit dem Direktor der Schule.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carinas Eltern haben ihre Tochter von Anfang an unterstützt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina findet den Wechsel zwischen Schule und Drehterminen nicht leicht.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei Dialogen darf man auch selbst etwas erfinden.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina empfiehlt, sich andere Schauspieler im Theater und in Filmen anzusehen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "8dbfedd5-d7a1-4e7f-8c94-bad21f669216",
+    "teil": 2,
+    "title": "Carina (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Berufseinstieg ist in anderen Ländern nicht leicht.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina ist ihr Beruf wichtiger als ihr Privatleben.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina hat den Agentur mit einem Videofilm Interesse gewerkt.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina hat für einen Film ein Dait gemacht.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina macht lieber gefühlvolle Filme als Action-Filme.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen der vielen Fehlstunden hatte Carina Probleme mit dem Direktor der Schule.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carinas Eltern haben ihre Tochter von Anfang an unterstützt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina finde den Wechsel zwischen Schule und Drehterminen Nicht leicht.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei Dialogen darf man auch selbst etwas erfinden.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina empfiehlt, sich andere Schauspieler im Theater und in Filmen anzusehen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "1e4f5b99-dfa4-415d-a26e-0498ce9faab0",
+    "teil": 2,
+    "title": "Carina (معدل) (Neu session Mai)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Carina Traumt Davon Filmspiel in Holandy.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina steht ihr Beruf an erste Stelle.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina hat sich der Agentur mit einem Film präsentiert.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina musste für einen Film ihr Gewicht stark verändern.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carina macht lieber gefühlvolle Filme als Action-Filme.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen der vielen Fehlstunden hatte Carina Probleme mit dem Direktor der Schule.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Carinas Eltern haben ihre Tochter von Anfang an unterstützt.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Carina findet den Wechsel zwischen Schule und Drehterminen nicht immer Problemlos.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei Dialogen darf man auch selbst etwas erfinden.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Corina würde keine Filmspiel spielen.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "f0a52061-e248-4e03-b5bc-04adc482a6d3",
+    "teil": 2,
+    "title": "Der Baumpfleger Matthias ( Neu )",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Matthias arbeitet inzwischen ungefähr zu gleichen Teilen als Lehrer und als Baumpfleger.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei seiner Arbeit ist Matthias hauptsächlich im städtischen Raum tätig.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Matthias wusste bereits als Kind genau, welchen Beruf er später ausüben wollte.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für Arbeiten in Städten verwendet Matthias normalerweise eine Hebebühne.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein großer Teil seiner Arbeit dient dazu, die Verkehrssicherheit der Bäume zu gewährleisten.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für die professionelle Baumpflege benötigt Matthias nur wenige und preiswerte Arbeitsmittel.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei Pando handelt es sich um einen einzigen, ungefähr 80.000 Jahre alten Baumstamm.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Aus Sicherheitsgründen darf Matthias bei Kletterarbeiten grundsätzlich nicht allein arbeiten.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Matthias hat bei seiner Arbeit bereits einen schweren Unfall erlitten.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die körperliche Arbeit in der Natur bildet für Matthias einen Ausgleich zu seiner Tätigkeit als Lehrer.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "181ece6d-589b-4a5f-b0bc-0476efc5a196",
+    "teil": 2,
+    "title": "Der JP-Morgan-Firmenlauf",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Beim JP-Morgan-Firmenlauf trifft man viele Kollegen zum ersten Mal.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Läufer und Läuferinnen kommen aus dem In- und Ausland.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nur wer aktiv Sport treibt, kann beim JP-Morgan-Firmenlauf mitmachen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Jasmins Tochter war bei dem Lauf auch schon dabei.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Jasmin hat vor zwei Jahren zum ersten Mal am JP-Morgan-Firmenlauf teilgenommen.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der JP-Morgan-Firmenlauf findet nur in Deutschland statt.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Jasmin hat sich nach ihrem ersten Lauf nicht mehr so allein gefühlt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Chefs müssen bei dem Lauf auch dabei sein.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die T-Shirts sind ein Erkennungszeichen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Firmen müssen das Startgeld bezahlen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "5a2493a9-d614-4c06-bf82-eacd81c2ab49",
+    "teil": 2,
+    "title": "Die Ausbildung",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Viele befürchten, dass es durch das neue Gesetz zu weiteren Mittelkürzungen kommt.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Zukunft werden weniger Erzieherinnen gebraucht als heute.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Künftig soll es mehr Krippenplätze für Kinder unter drei Jahren geben.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Besuch von Kindergärten soll kostenlos werden.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Mehrheit der Kleinkinder wird auch weiterhin zu Hause betreut werden.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei Bedarf setzt die Sprachförderung im vierten Lebensjahr ein.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Deutsche Kinder haben keinen Anspruch auf staatliche Sprachförderung.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Im Elternhaus wird die Sprachförderung der Kinder immer häufiger vernachlässigt.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Teichmann sieht in Bezug auf Sprachförderung auch auf Seiten der Politik Handlungsbedarf.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Ausbildung der Erzieherinnen soll künftig an Hochschulen angesiedelt sein.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "924b0956-fd20-481e-a711-188335aef194",
+    "teil": 2,
+    "title": "Die Deutschen machen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Deutschen machen zurzeit gerne bis zu drei Wochen oder mehr Urlaub.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Wellness-Hotels befinden sich in Großstädten.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wellness-Angebote gibt es vor allem in Hotels der gehobenen Kategorie.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die von den Hotels angebotenen „Pakete“ enthalten in der Regel Vollpension.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In den Hotels kann man auch schwimmen und in die Sauna gehen.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Gäste nehmen die Sportangebote kaum wahr.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Oft bieten die Hotels auch kulturelle Rahmenprogramme wie Stadtführungen und Opernbesuche an.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frauen kommen fast immer in Begleitung ihrer Ehemänner.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Hotels haben besondere Angebote für Männer.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Mitglieder von Krankenkassen können die Hotels kostenlos besuchen.",
+        "statement_number": 55
+      }
+    ]
+  }
+]

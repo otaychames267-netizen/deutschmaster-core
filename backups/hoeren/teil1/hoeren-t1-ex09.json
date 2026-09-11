@@ -1,0 +1,38 @@
+{
+  "title": "In der Europäischen",
+  "teil": 1,
+  "level": "B2",
+  "position": 9,
+  "source_pdf": "DOC-20260516-WA0005..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 10 (code 12). Extracted 2026-07-07 using poppler's pdftotext -bbox for text (word segmentation and German spelling verified reliable — pdf.js's own text layer was found to split/misspell words on this PDF's font, e.g. \"Bundesfamilienministerium\" was corrupted to \"Bundesfamilienministirium\"/\"D eutsch lands\") combined with pixel-sampled color classification (renders each page at 300dpi and samples actual ink RGB at each word's exact position) rather than the PDF's internal fill-color operator sequence, which was found to desync on pages with a corrupted/remapped font and silently misattribute colors between statements — the root cause of widespread wrong answers in earlier import passes. GREEN ink = Richtig, everything else = Falsch, per user's explicit manual-answer-key convention. Pale highlight washes and red Arabic annotation text are excluded from color classification and from the statement text entirely (personal notes, not exam content). Verified letter-by-letter against source images on 6+ pages spanning the full range (2, 7, 16, 22, 29, 30, 38, 40, 42) with zero spelling or answer discrepancies remaining.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 41,
+      "text": "In der Europäischen Union verzeichnet man weniger jugendliche Arbeitslose.",
+      "correct": true
+    },
+    {
+      "number": 42,
+      "text": "Das Bundesarbeitsministerium bemüht sich um ausländische Arbeitnehmer bestimmter Berufsgruppen.",
+      "correct": true
+    },
+    {
+      "number": 43,
+      "text": "Die „Lange Nacht der Musik“ findet am Odeonsplatz in München statt.",
+      "correct": false
+    },
+    {
+      "number": 44,
+      "text": "Im „Tal der goldenen Mumien“ würden bisher fast 10,000 Tote gefunden.",
+      "correct": false
+    },
+    {
+      "number": 45,
+      "text": "Die Gefahr schwerer Uaweiter ist nun vorbei.",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "title": "Deutschprüfung geschafft – Abschlussfest planen",
+  "section": "schreiben",
+  "category": "informell",
+  "level": "TELC_B1",
+  "position": 8,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 8/16 (Petra/Language Tests, page 105). No title printed in source for this letter task; content-derived title generated per this platform's established convention for untitled reading/writing prompts. Source's four bullet points were printed as plain lines (\"Reaktion auf die Prüfung\", \". Wo feiern? Restaurant- Ihre Meinung\", \". Welche Musik\", \". Urlaubpläne\") rather than with a bullet glyph; normalized to \"•\" bullets per this platform's task-text convention, wording kept verbatim (including 'Urlaubpläne' as printed, an apparent source typo for 'Urlaubspläne', not corrected). No minimum word count printed in source; min_words=100/max_words=150 added as this platform's standard TELC B1 Schreiben default, not itself printed in the source.",
+  "task": "Eine Bekannte hat Ihnen folgende E-Mail geschrieben:\n\nLiebe(r)........\n\nendlich habe ich die Deutscheprüfung hinter mir. Ich glaube, es ist gut gelaufen. Jetzt soll für unseren Kurs eine Party organisieren. Du hast doch kürzlich erzählt, dass Du für Euren Kurs auch ein Abschlussfest organsiert hast. Sicher kannst du mir ein paar Tipps geben. Ich habe mir gedacht, wir könnten vielleicht in einem Restaurant feiern. Da kann jeder essen und trinken, was er will. Was meinst Du? Essen zu kochen ist doch ziemlich viel Arbeit. Und natürlich brauchen wir Musik. Welche Musik ist am besten geeignet? Was schlägst Du vor?\n\nMelde Dich bald.\nIch freue mich schon auf deine Antwort.\n\nLiebe Grüße\n\nIris\n\nAufgabe\n\nAntworten Sie Ihrer Bekannten. Schreiben Sie etwas zu allen vier Punkten:\n• Reaktion auf die Prüfung\n• Wo feiern? Restaurant – Ihre Meinung\n• Welche Musik\n• Urlaubpläne\n\nÜberlegen Sie sich vor dem Schreiben eine passende Reihenfolge der Punkte, eine passende Betreff, eine passende Anrede, Einleitung und einen passenden Schluss.",
+  "min_words": 100,
+  "max_words": 150
+}

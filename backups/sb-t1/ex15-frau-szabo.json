@@ -1,0 +1,21 @@
+{
+  "title": "Frau Szabo",
+  "level": "B2",
+  "position": 15,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 17, اساسي/basic version).",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Sehr geehrte Frau Szabo,\n\nvielen Dank für Ihr Interesse {{21}} unseren Deutschkursen. Anbei erhalten Sie das angeforderte Anmeldeformular, das Sie bitte ausgefüllt an uns zurückschicken. Mit der Anmeldung überweisen Sie bitte eine Anzahlung {{22}} von € 200,- auf unser Konto. Die Kontoverbindung finden Sie unten auf dem Anmeldeformular. {{23}} besserer Einschätzung Ihrer Vorkenntnisse haben wir einen Einstufungstest beigelegt. Wenn Sie die Testbögen ausfüllen und mit der Anmeldung an uns zurücksenden, helfen Sie uns bei der Kursplanung. Ein mündlicher Test wird sich am ersten Unterrichtstag in unserer Schule {{24}}. Damit sind wir in der Lage, den für Sie angemessenen Kurs auszuwählen. Außerdem finden Sie in den Unterlagen einen Fragebogen {{25}} Ihrer Freizeitinteressen. Wir werden uns bemühen, Ihnen den Aufenthalt in Leipzig so angenehm {{26}} möglich zu gestalten. Schließlich füllen Sie bitte das grüne Unterkunftblatt aus. Sie können wählen zwischen einem 3-Sterne-Hotel, {{27}} Privatunterkunft in einer deutschen Gastfamilie oder der Unterkunft in einem Studentenwohnheim. Letzteres ist nur in den Semesterferien der Universität - in der Regel vom 15.2. bis 15.4. und vom 15.7. bis 15.10. - möglich. Geben Sie bitte auch Ihre Verpflegungswünsche - Frühstück oder Halbpension - an. Beachten Sie aber, dass im Studentenwohnheim nur Selbstverpflegung möglich ist. {{28}} Ihre Anmeldung bei uns eingegangen ist, erhalten Sie eine Anmeldebestätigung und einen Stadtplan mit Wegbeschreibung, {{29}} Sie den Weg zu uns ohne Umstände finden. Die Adresse Ihrer Unterkunft erhalten Sie ca. 2 Wochen vor Kursbeginn. {{30}} weitere Fragen steht Ihnen unser Sekretariat gerne montags bis freitags von 8 bis 18 Uhr zur Verfügung.\n\nMit freundlichen Grüßen\nGerhard Dietz\nDirektor",
+  "gaps": [
+    { "n": 21, "a": "an", "b": "bei", "c": "in", "correct": "a" },
+    { "n": 22, "a": "in Betrag", "b": "in Höhe", "c": "in Summe", "correct": "b" },
+    { "n": 23, "a": "für", "b": "zur", "c": "Zwecks", "correct": "c" },
+    { "n": 24, "a": "angeschlossen", "b": "anschließen", "c": "anschließen an", "correct": "b" },
+    { "n": 25, "a": "anlässlich", "b": "bezüglich", "c": "mittels", "correct": "b" },
+    { "n": 26, "a": "als", "b": "wenn", "c": "wie", "correct": "c" },
+    { "n": 27, "a": "ein", "b": "einem", "c": "einer", "correct": "c" },
+    { "n": 28, "a": "Sobald", "b": "Sofort", "c": "Sooft", "correct": "a" },
+    { "n": 29, "a": "dafür", "b": "damit", "c": "dazu", "correct": "b" },
+    { "n": 30, "a": "bei", "b": "Für", "c": "Zu", "correct": "b" }
+  ]
+}

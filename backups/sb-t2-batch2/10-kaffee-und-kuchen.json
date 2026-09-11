@@ -1,0 +1,22 @@
+{
+  "title": "Kaffee und Kuchen – ein Stück Tradition",
+  "level": "B2",
+  "position": 47,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 10, red numbers beside word-bank letters, all 10 verified vs text. Source's gap-40 sentence reads awkwardly ('starke häufiger Konkurrenz') but the mark 10→starke is unambiguous; ingested exactly as marked.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–n) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "In England zelebriert man um 17 Uhr die Teatime, in Deutschland trifft man sich am Sonntagnachmittag {{31}} Kaffee und Kuchen. Schon unsere Großeltern haben diese Tradition zu schätzen gewusst. {{32}} lange es den Brauch in der uns bekannten Form gibt, ist jedoch nicht bekannt. {{33}} ist nur, dass sich dieses Getränk im 17. Jahrhundert in Europa als Genussmittel verbreitete. {{34}} entstanden zahlreiche Kaffeehäuser – erst in Italien, dann in anderen Ländern. Das erste Café in Deutschland wurde im Jahr 1673 in Bremen eröffnet.\n\nDie Kaffeehäuser begannen schnell, zu dem bitteren Kaffee süße Speisen zu servieren. Dort wurde jedoch nicht nur gespeist und getrunken, {{35}} man konnte in Gesellschaft sein, und es fanden sogar kleine Konzerte statt. So wurde 1732 die berühmte Kaffeekantate {{36}} Johann Sebastian Bach in dem Leipziger Kaffeehaus „Zimmermann“ uraufgeführt.\n\nDas schwarze Getränk war zu dieser Zeit aber noch ein Luxusgut, das sich nur Adelige und wohlhabende Bürger leisten {{37}}. Erst mit der Industrialisierung wurde es für den Großteil der Bevölkerung erschwinglich. 1965 wurde Kaffee zum ersten Mal vor Bier zum Lieblingsgetränk der Deutschen gekürt – und ist es {{38}} heute geblieben.\n\nGegen Ende des 20. Jahrhunderts kam noch einmal Bewegung in die deutsche Kaffeewelt: Spezialitäten {{39}} alle Welt wie Café au Lait oder Latte Macchiato wurden beliebter, die Zubereitungsarten vielfältiger. Der klassische Filterkaffeemaschine setzten seitdem Espressokocher oder Kaffeevollautomaten {{40}} häufiger Konkurrenz. Die Auswahl ist also größer geworden, doch die Liebe der Deutschen zu Kaffee und Kuchen bleibt nach wie vor unverändert.",
+  "words": ["bei", "an", "wie", "sondern", "dann", "klar", "zur", "damals", "von", "vielen", "konnten", "bis", "aus", "bewundere", "starke"],
+  "answers": {
+    "31": "bei",
+    "32": "wie",
+    "33": "klar",
+    "34": "damals",
+    "35": "sondern",
+    "36": "von",
+    "37": "konnten",
+    "38": "bis",
+    "39": "aus",
+    "40": "starke"
+  }
+}

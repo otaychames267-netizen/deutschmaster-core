@@ -1,0 +1,310 @@
+{
+  "72edec4e-4cc9-4858-b388-46fabdbd6585": {
+    "translation": {
+      "questions": {
+        "46": "هي قادمة من دوسلدورف.",
+        "47": "هي تعيش الآن في مالطا.",
+        "48": "هي نشطة وملتزمة في مالطا.",
+        "49": "هي تستمتع بالسباحة في البحر الأبيض المتوسط طوال العام.",
+        "50": "لا يعرف مقدم البرنامج درجة حرارة البحر الأبيض المتوسط في الشتاء.",
+        "51": "يعتقد مقدم البرنامج أن في مالطا ثلاث لغات رسمية.",
+        "52": "كان المالطيون محافظين ومتحفظين.",
+        "53": "يأتي المالطيون من ديانات مختلفة.",
+        "54": "كانت تخطط لتعلم اللغة المالطية.",
+        "55": "تريد الانتقال إلى فانكوفر."
+      }
+    },
+    "items": {
+      "46": { "keyword": "aus Düsseldorf", "explanation_correct": "Herkunftsorte sind ein typisches Hördetail – achte genau auf Städtenamen. Diese Aussage ist Falsch.", "explanation_wrong": "Herkunftsorte sind ein typisches Hördetail – achte genau auf Städtenamen. Diese Aussage ist Falsch." },
+      "47": { "keyword": "lebt jetzt in Malta", "explanation_correct": "Der aktuelle Wohnort ist ein zentraler Fakt im Interview. Diese Aussage ist Richtig.", "explanation_wrong": "Der aktuelle Wohnort ist ein zentraler Fakt im Interview. Diese Aussage ist Richtig." },
+      "48": { "keyword": "aktiv und engagiert", "explanation_correct": "Bewertende Adjektive wie „aktiv“ und „engagiert“ solltest du kritisch prüfen, da sie oft nicht exakt dem Gesagten entsprechen. Diese Aussage ist Falsch.", "explanation_wrong": "Bewertende Adjektive wie „aktiv“ und „engagiert“ solltest du kritisch prüfen, da sie oft nicht exakt dem Gesagten entsprechen. Diese Aussage ist Falsch." },
+      "49": { "keyword": "das ganze Jahr", "explanation_correct": "Zeitangaben wie „das ganze Jahr“ sind entscheidend – achte darauf, ob sie im Hörtext genauso uneingeschränkt gelten. Diese Aussage ist Richtig.", "explanation_wrong": "Zeitangaben wie „das ganze Jahr“ sind entscheidend – achte darauf, ob sie im Hörtext genauso uneingeschränkt gelten. Diese Aussage ist Richtig." },
+      "50": { "keyword": "kennt ... nicht", "explanation_correct": "Verneinungen wie „kennt nicht“ drehen den Sinn einer Aussage komplett um – prüfe sie besonders sorgfältig. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinungen wie „kennt nicht“ drehen den Sinn einer Aussage komplett um – prüfe sie besonders sorgfältig. Diese Aussage ist Richtig." },
+      "51": { "keyword": "drei Amtssprachen", "explanation_correct": "Genaue Zahlenangaben wie „drei“ werden im Hörtext oft anders genannt – ein klassischer TELC-Fallstrick. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Zahlenangaben wie „drei“ werden im Hörtext oft anders genannt – ein klassischer TELC-Fallstrick. Diese Aussage ist Falsch." },
+      "52": { "keyword": "konservativ und zurückhaltend", "explanation_correct": "Charaktereigenschaften einer Personengruppe sind oft leicht verändert – achte auf die genaue Wortwahl. Diese Aussage ist Falsch.", "explanation_wrong": "Charaktereigenschaften einer Personengruppe sind oft leicht verändert – achte auf die genaue Wortwahl. Diese Aussage ist Falsch." },
+      "53": { "keyword": "verschiedenen Religionen", "explanation_correct": "Allgemeine Aussagen über Herkunft/Vielfalt ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Allgemeine Aussagen über Herkunft/Vielfalt ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "54": { "keyword": "plante ... zu lernen", "explanation_correct": "Pläne und Absichten (Modalverben, „plante zu“) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Pläne und Absichten (Modalverben, „plante zu“) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "55": { "keyword": "nach Vancouver umziehen", "explanation_correct": "Ortsnamen wie „Vancouver“ werden gern ausgetauscht – prüfe sie genau gegen das, was im Hörtext wirklich genannt wird. Diese Aussage ist Falsch.", "explanation_wrong": "Ortsnamen wie „Vancouver“ werden gern ausgetauscht – prüfe sie genau gegen das, was im Hörtext wirklich genannt wird. Diese Aussage ist Falsch." }
+    }
+  },
+  "df28c4af-92f0-40b1-9b8f-d08461257c3a": {
+    "translation": {
+      "questions": {
+        "46": "السيدة كيدار قادمة أصلاً من دوسلدورف.",
+        "47": "هي تعيش اليوم في مالطا.",
+        "48": "هي تعمل في مالطا مهنياً.",
+        "49": "السيدة كيدار تريد الانتقال قريباً إلى فاليتا.",
+        "50": "هي تستمتع بالسباحة في البحر الأبيض المتوسط طوال العام.",
+        "51": "لا يعرف مقدم البرنامج كم درجة حرارة البحر الأبيض المتوسط في الشتاء.",
+        "52": "تشير السيدة كيدار إلى أن سكان مالطا ينحدرون أصلاً من مناطق مختلفة.",
+        "53": "تصرف المالطيون تجاهها بتحفظ، بل حتى بارتياب.",
+        "54": "يعتقد مقدم البرنامج أن في مالطا ثلاث لغات رسمية.",
+        "55": "تخطط السيدة كيدار لتعلم اللغة المالطية قريباً."
+      }
+    },
+    "items": {
+      "46": { "keyword": "stammt aus Düsseldorf", "explanation_correct": "Herkunftsorte sind ein typisches Hördetail – achte genau auf Städtenamen. Diese Aussage ist Falsch.", "explanation_wrong": "Herkunftsorte sind ein typisches Hördetail – achte genau auf Städtenamen. Diese Aussage ist Falsch." },
+      "47": { "keyword": "lebt heute auf Malta", "explanation_correct": "Der aktuelle Wohnort ist ein zentraler Fakt im Interview. Diese Aussage ist Richtig.", "explanation_wrong": "Der aktuelle Wohnort ist ein zentraler Fakt im Interview. Diese Aussage ist Richtig." },
+      "48": { "keyword": "beruflich tätig", "explanation_correct": "Der Grund für den Aufenthalt (beruflich vs. privat) ist eine feine, aber wichtige Unterscheidung. Diese Aussage ist Richtig.", "explanation_wrong": "Der Grund für den Aufenthalt (beruflich vs. privat) ist eine feine, aber wichtige Unterscheidung. Diese Aussage ist Richtig." },
+      "49": { "keyword": "nach Valletta ziehen", "explanation_correct": "Konkrete Ortsnamen wie „Valletta“ werden gern durch einen anderen Ort ersetzt – vergleiche genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Ortsnamen wie „Valletta“ werden gern durch einen anderen Ort ersetzt – vergleiche genau. Diese Aussage ist Falsch." },
+      "50": { "keyword": "das ganze Jahr über", "explanation_correct": "Zeitangaben wie „das ganze Jahr über“ sind entscheidend – achte darauf, ob sie im Hörtext so uneingeschränkt gelten. Diese Aussage ist Falsch.", "explanation_wrong": "Zeitangaben wie „das ganze Jahr über“ sind entscheidend – achte darauf, ob sie im Hörtext so uneingeschränkt gelten. Diese Aussage ist Falsch." },
+      "51": { "keyword": "weiß nicht", "explanation_correct": "Verneinungen wie „weiß nicht“ drehen den Sinn einer Aussage komplett um – prüfe sie besonders sorgfältig. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinungen wie „weiß nicht“ drehen den Sinn einer Aussage komplett um – prüfe sie besonders sorgfältig. Diese Aussage ist Richtig." },
+      "52": { "keyword": "ursprünglich aus verschiedenen Regionen", "explanation_correct": "Allgemeine Herkunftsangaben ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig.", "explanation_wrong": "Allgemeine Herkunftsangaben ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig." },
+      "53": { "keyword": "zurückhaltend, ja misstrauisch", "explanation_correct": "Starke Bewertungen von Verhalten (hier sogar gesteigert mit „ja misstrauisch“) sind oft übertrieben dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Starke Bewertungen von Verhalten (hier sogar gesteigert mit „ja misstrauisch“) sind oft übertrieben dargestellt. Diese Aussage ist Falsch." },
+      "54": { "keyword": "drei Amtssprachen", "explanation_correct": "Genaue Zahlenangaben wie „drei“ sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zahlenangaben wie „drei“ sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "55": { "keyword": "plant, bald ... zu lernen", "explanation_correct": "Pläne und Zeitangaben wie „bald“ werden im Hörtext oft anders formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Pläne und Zeitangaben wie „bald“ werden im Hörtext oft anders formuliert. Diese Aussage ist Falsch." }
+    }
+  },
+  "fc06d9e6-75fa-45c3-b604-5360e2c0d5d5": {
+    "translation": {
+      "questions": {
+        "46": "البروفيسور شتاينر لم يعد يشعر بالتوتر إطلاقاً اليوم عندما يقدم برنامجاً.",
+        "47": "يريد شتاينر أن يتمكن الطلاب من تطبيق ما تعلموه في الممارسة أيضاً.",
+        "48": "هواية شتاينر هي صنع أفلام تجريبية.",
+        "49": "يجب على الصحفيين اليوم أن يتخصصوا في وسيلة إعلامية واحدة.",
+        "50": "برأي شتاينر، أصبح حلم أن يصبح المرء صحفياً رياضياً أمراً غير واقعي اليوم.",
+        "51": "يجب أن يكون لدى الصحفيين رغبة في اكتشاف أشياء جديدة.",
+        "52": "اضطر شتاينر إلى التوقف عن لعب كرة القدم بسبب إصابة.",
+        "53": "علّق شتاينر على مباريات كرة القدم لصالح القناة الثانية الألمانية خلال دراسته للصحافة.",
+        "54": "يرى شتاينر أنه من المهم أن يبقى مقدم البرنامج محايداً تجاه الرياضيين.",
+        "55": "ينصح شتاينر خريجي الثانوية بإجراء اختبارات مختلفة لمعرفة الإمكانيات المهنية."
+      }
+    },
+    "items": {
+      "46": { "keyword": "gar nicht mehr nervös", "explanation_correct": "Absolute Formulierungen wie „gar nicht mehr“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „gar nicht mehr“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." },
+      "47": { "keyword": "in der Praxis anwenden", "explanation_correct": "Aussagen zu pädagogischen Zielen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zu pädagogischen Zielen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig." },
+      "48": { "keyword": "experimentelle Filme", "explanation_correct": "Konkrete Hobby-Angaben werden gern durch ein anderes Detail ersetzt – vergleiche genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Hobby-Angaben werden gern durch ein anderes Detail ersetzt – vergleiche genau. Diese Aussage ist Falsch." },
+      "49": { "keyword": "auf einzelne Medien spezialisiert", "explanation_correct": "Berufsanforderungen mit einschränkendem „sollten ... spezialisiert“ widersprechen oft der eigentlich geforderten Vielseitigkeit. Diese Aussage ist Falsch.", "explanation_wrong": "Berufsanforderungen mit einschränkendem „sollten ... spezialisiert“ widersprechen oft der eigentlich geforderten Vielseitigkeit. Diese Aussage ist Falsch." },
+      "50": { "keyword": "unrealistisch", "explanation_correct": "Starke Wertungen wie „unrealistisch“ sind oft übertrieben dargestellt – prüfe die genaue Einschätzung im Hörtext. Diese Aussage ist Falsch.", "explanation_wrong": "Starke Wertungen wie „unrealistisch“ sind oft übertrieben dargestellt – prüfe die genaue Einschätzung im Hörtext. Diese Aussage ist Falsch." },
+      "51": { "keyword": "etwas zu entdecken", "explanation_correct": "Allgemeine Charaktereigenschaften ohne enge Einschränkung wirken hier plausibel, aber prüfe genau die Formulierung im Hörtext. Diese Aussage ist Falsch.", "explanation_wrong": "Allgemeine Charaktereigenschaften ohne enge Einschränkung wirken hier plausibel, aber prüfe genau die Formulierung im Hörtext. Diese Aussage ist Falsch." },
+      "52": { "keyword": "wegen einer Verletzung aufhören", "explanation_correct": "Konkrete Gründe (hier: Verletzung) für eine Entscheidung sind ein beliebtes Detail zum Austauschen. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Gründe (hier: Verletzung) für eine Entscheidung sind ein beliebtes Detail zum Austauschen. Diese Aussage ist Falsch." },
+      "53": { "keyword": "während seines Journalistik-Studiums", "explanation_correct": "Zeitliche Zuordnungen (z. B. „während des Studiums“) werden oft verändert – prüfe genau, wann etwas geschah. Diese Aussage ist Falsch.", "explanation_wrong": "Zeitliche Zuordnungen (z. B. „während des Studiums“) werden oft verändert – prüfe genau, wann etwas geschah. Diese Aussage ist Falsch." },
+      "54": { "keyword": "neutral zu bleiben", "explanation_correct": "Berufsethische Grundsätze ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig.", "explanation_wrong": "Berufsethische Grundsätze ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig." },
+      "55": { "keyword": "verschiedene Tests", "explanation_correct": "Konkrete Empfehlungen an eine Zielgruppe (hier: Abiturienten) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Empfehlungen an eine Zielgruppe (hier: Abiturienten) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." }
+    }
+  },
+  "d0ab91ca-d1cf-4a17-b30e-818f73619261": {
+    "translation": {
+      "questions": {
+        "46": "عملت السيدة إدلر سابقاً لدى شركة النقل العام في لايبزيغ.",
+        "47": "واجهت مشكلة أطفال الشوارع لأول مرة في فرانكفورت.",
+        "48": "في البداية كانت تهتم بالبالغين المشردين.",
+        "49": "كانت دائماً تعطي المال لأطفال الشوارع.",
+        "50": "برأي السيدة إدلر، أراد الأطفال (Kids) شراء السجائر.",
+        "51": "قضت الليل مع الأطفال في منازل خالية.",
+        "52": "لم يكن لدى الزميلات في البداية تفهم لالتزامها.",
+        "53": "انخفض عدد الأطفال المشاركين في احتفالات عيد الميلاد بشكل كبير منذ عام 1990.",
+        "54": "لا تزال تجمع المال لأطفال الشوارع من زملائها السابقين حتى اليوم.",
+        "55": "التجول بعلبة تبرعات يحرجها أحياناً."
+      }
+    },
+    "items": {
+      "46": { "keyword": "Verkehrsbetriebe Leipzig", "explanation_correct": "Frühere Arbeitgeber sind ein häufig abgefragtes biografisches Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Frühere Arbeitgeber sind ein häufig abgefragtes biografisches Detail. Diese Aussage ist Richtig." },
+      "47": { "keyword": "zum ersten Mal ... in Frankfurt", "explanation_correct": "Ortsangaben zu einem ersten Ereignis werden gern ausgetauscht – prüfe den Städtenamen genau. Diese Aussage ist Richtig.", "explanation_wrong": "Ortsangaben zu einem ersten Ereignis werden gern ausgetauscht – prüfe den Städtenamen genau. Diese Aussage ist Richtig." },
+      "48": { "keyword": "obdachlose Erwachsene", "explanation_correct": "Die ursprüngliche Zielgruppe einer Tätigkeit (Erwachsene vs. Kinder) ist ein wichtiges Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Die ursprüngliche Zielgruppe einer Tätigkeit (Erwachsene vs. Kinder) ist ein wichtiges Detail. Diese Aussage ist Richtig." },
+      "49": { "keyword": "immer Geld gegeben", "explanation_correct": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext wird oft eine andere, differenziertere Haltung beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext wird oft eine andere, differenziertere Haltung beschrieben. Diese Aussage ist Falsch." },
+      "50": { "keyword": "Zigaretten kaufen", "explanation_correct": "Konkrete Wünsche/Bedürfnisse einer Gruppe sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Wünsche/Bedürfnisse einer Gruppe sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "51": { "keyword": "leer stehenden Häusern", "explanation_correct": "Konkrete Orte für ein Ereignis (hier: Übernachtungsort) werden gern verändert – prüfe sie genau. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Orte für ein Ereignis (hier: Übernachtungsort) werden gern verändert – prüfe sie genau. Diese Aussage ist Richtig." },
+      "52": { "keyword": "kein Verständnis", "explanation_correct": "Reaktionen von Kollegen auf ein Engagement sind ein beliebtes Detail zum Prüfen. Diese Aussage ist Richtig.", "explanation_wrong": "Reaktionen von Kollegen auf ein Engagement sind ein beliebtes Detail zum Prüfen. Diese Aussage ist Richtig." },
+      "53": { "keyword": "seit 1990 stark gesunken", "explanation_correct": "Jahreszahlen und Entwicklungstrends (steigend/sinkend) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Jahreszahlen und Entwicklungstrends (steigend/sinkend) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "54": { "keyword": "noch heute ... Geld", "explanation_correct": "Aussagen zu andauernden Handlungen bis in die Gegenwart sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zu andauernden Handlungen bis in die Gegenwart sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "55": { "keyword": "manchmal peinlich", "explanation_correct": "Persönliche Gefühlsangaben (hier: „peinlich“) werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Persönliche Gefühlsangaben (hier: „peinlich“) werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch." }
+    }
+  },
+  "183e5d6a-d37f-4ed8-8818-ead3bd80f510": {
+    "translation": {
+      "questions": {
+        "46": "بالنسبة للكاتبة سوزا هوتوب، الكتابة متعة ومجهود في آن واحد.",
+        "47": "بدأت سوزا في سن الثانية عشرة بكتابة روايتها 'وراء زارام'.",
+        "48": "في البداية لم تفكر سوزا في نشر قصتها.",
+        "49": "في البداية نشرت سوزا مقتطفات من قصتها على الإنترنت.",
+        "50": "قام قراء متحمسون بإقامة الاتصال مع دار نشر.",
+        "51": "تصف سوزا عمداً أشخاصاً من محيطها الخاص.",
+        "52": "تخطط الكاتبة مسبقاً وبدقة لما سيحدث في القصة.",
+        "53": "لا تتبع سوزا أي قدوة معينة في الكتابة.",
+        "54": "قدمت الشابة قراءة تجريبية خلال المقابلة الإذاعية.",
+        "55": "تحتاج سوزا دائماً إلى الهدوء لكي تتمكن من الكتابة."
+      }
+    },
+    "items": {
+      "46": { "keyword": "Freude und Anstrengung zugleich", "explanation_correct": "Doppelte, gegensätzliche Beschreibungen (hier: Freude UND Anstrengung) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig.", "explanation_wrong": "Doppelte, gegensätzliche Beschreibungen (hier: Freude UND Anstrengung) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig." },
+      "47": { "keyword": "im Alter von zwölf Jahren", "explanation_correct": "Genaue Altersangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Altersangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "48": { "keyword": "nicht daran, zu veröffentlichen", "explanation_correct": "Verneinte Absichten am Anfang einer Geschichte sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Absichten am Anfang einer Geschichte sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "49": { "keyword": "Auszüge ... ins Internet", "explanation_correct": "Der erste Schritt einer Veröffentlichung (hier: Internet) ist ein wichtiges chronologisches Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Der erste Schritt einer Veröffentlichung (hier: Internet) ist ein wichtiges chronologisches Detail. Diese Aussage ist Richtig." },
+      "50": { "keyword": "Kontakt zu einem Verlag", "explanation_correct": "Wer genau den Kontakt zum Verlag herstellte, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wer genau den Kontakt zum Verlag herstellte, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "51": { "keyword": "eigenen Umfeld", "explanation_correct": "Aussagen darüber, woher literarische Figuren stammen, werden oft verneint oder anders dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen darüber, woher literarische Figuren stammen, werden oft verneint oder anders dargestellt. Diese Aussage ist Falsch." },
+      "52": { "keyword": "im Vorfeld genau", "explanation_correct": "Absolute Formulierungen wie „genau“ zum Planungsstil widersprechen oft der eigentlich spontaneren Arbeitsweise. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „genau“ zum Planungsstil widersprechen oft der eigentlich spontaneren Arbeitsweise. Diese Aussage ist Falsch." },
+      "53": { "keyword": "keinen besonderen Vorbildern", "explanation_correct": "Verneinte Aussagen zu Vorbildern/Einflüssen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Aussagen zu Vorbildern/Einflüssen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "54": { "keyword": "Lese probe", "explanation_correct": "Konkrete Handlungen während eines Interviews (hier: Leseprobe) sind ein beliebtes Detail zum Austauschen. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Handlungen während eines Interviews (hier: Leseprobe) sind ein beliebtes Detail zum Austauschen. Diese Aussage ist Falsch." },
+      "55": { "keyword": "immer Ruhe", "explanation_correct": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." }
+    }
+  },
+  "6f5096fa-4fdb-4d4b-afb8-7e8927a5eede": {
+    "translation": {
+      "questions": {
+        "46": "بالنسبة للكاتبة سوزا هوتوب، الكتابة متعة ومجهود في آن واحد.",
+        "47": "بدأت سوزا في سن الثانية عشرة بكتابة روايتها 'وراء زارام'.",
+        "48": "في البداية لم تفكر سوزا في نشر قصتها.",
+        "49": "في البداية نشرت سوزا مقتطفات من قصتها على الإنترنت.",
+        "50": "قام قراء متحمسون بإقامة الاتصال مع دار نشر.",
+        "51": "تصف سوزا عمداً أشخاصاً من محيطها الخاص.",
+        "52": "لا تخطط الكاتبة أبداً بدقة كاملة لما سيحدث في القصة.",
+        "53": "لا تتبع سوزا أي قدوة معينة في الكتابة.",
+        "54": "قدمت الشابة قراءة تجريبية خلال المقابلة الإذاعية.",
+        "55": "تحتاج سوزا دائماً إلى الهدوء لكي تتمكن من الكتابة."
+      }
+    },
+    "items": {
+      "46": { "keyword": "Freude und Anstrengung zugleich", "explanation_correct": "Doppelte, gegensätzliche Beschreibungen (hier: Freude UND Anstrengung) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig.", "explanation_wrong": "Doppelte, gegensätzliche Beschreibungen (hier: Freude UND Anstrengung) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig." },
+      "47": { "keyword": "im Alter von zwölf jahren", "explanation_correct": "Genaue Altersangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Altersangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "48": { "keyword": "nicht daran, zu veröffentlichen", "explanation_correct": "Verneinte Absichten am Anfang einer Geschichte sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Absichten am Anfang einer Geschichte sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "49": { "keyword": "Auszüge ... ins Internet", "explanation_correct": "Der erste Schritt einer Veröffentlichung (hier: Internet) ist ein wichtiges chronologisches Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Der erste Schritt einer Veröffentlichung (hier: Internet) ist ein wichtiges chronologisches Detail. Diese Aussage ist Richtig." },
+      "50": { "keyword": "Kontakt zu einem Verlag", "explanation_correct": "Wer genau den Kontakt zum Verlag herstellte, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wer genau den Kontakt zum Verlag herstellte, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "51": { "keyword": "eigenen Umfeld", "explanation_correct": "Aussagen darüber, woher literarische Figuren stammen, sind ein häufig abgefragtes Detail. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen darüber, woher literarische Figuren stammen, sind ein häufig abgefragtes Detail. Diese Aussage ist Falsch." },
+      "52": { "keyword": "nie ganz genau", "explanation_correct": "Doppelte Verneinung/Einschränkung („nie ganz genau“) beschreibt oft treffend eine eher spontane statt starre Arbeitsweise. Diese Aussage ist Richtig.", "explanation_wrong": "Doppelte Verneinung/Einschränkung („nie ganz genau“) beschreibt oft treffend eine eher spontane statt starre Arbeitsweise. Diese Aussage ist Richtig." },
+      "53": { "keyword": "keinen besonderen Vorbildern", "explanation_correct": "Verneinte Aussagen zu Vorbildern/Einflüssen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Aussagen zu Vorbildern/Einflüssen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "54": { "keyword": "Leseprobe", "explanation_correct": "Konkrete Handlungen während eines Interviews (hier: Leseprobe) sind ein beliebtes Detail zum Austauschen. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Handlungen während eines Interviews (hier: Leseprobe) sind ein beliebtes Detail zum Austauschen. Diese Aussage ist Falsch." },
+      "55": { "keyword": "immer Ruhe", "explanation_correct": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." }
+    }
+  },
+  "6a360f62-ac21-431f-b461-d3d9b5db9eab": {
+    "translation": {
+      "questions": {
+        "46": "بعد دراسته، عمل توماس هيرشباوم أولاً في مجال تقنية المعلومات.",
+        "47": "أسس قسم الإدارة في شركته.",
+        "48": "أعجبه تحمل المسؤولية عن فريقه المكون من 50 شخصاً.",
+        "49": "توقع والداه أن يكسب يوماً ما مالاً أكثر منهما.",
+        "50": "منذ بداية حياته المهنية لم يعد لديه وقت فراغ.",
+        "51": "غالباً ما شعر بالسوء عندما كان يفكر في عائلته.",
+        "52": "بعد عيد ميلاده الأربعين رغب في أخذ إجازة لمدة شهر.",
+        "53": "وافق رئيسه فوراً على اقتراح إعادة تنظيم العمل.",
+        "54": "مثل زميله، يعمل توماس هيرشباوم الآن بدوام جزئي.",
+        "55": "رغم ذلك، يأتي العمل بالنسبة له في المقام الأول."
+      }
+    },
+    "items": {
+      "46": { "keyword": "zuerst im IT-Bereich", "explanation_correct": "Der erste Karriereschritt nach dem Studium ist ein wichtiges chronologisches Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Der erste Karriereschritt nach dem Studium ist ein wichtiges chronologisches Detail. Diese Aussage ist Richtig." },
+      "47": { "keyword": "Managementbereich gegründet", "explanation_correct": "Wer eine Abteilung gegründet hat, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wer eine Abteilung gegründet hat, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "48": { "keyword": "50-köpfiges Team", "explanation_correct": "Genaue Zahlenangaben wie die Teamgröße werden im Hörtext oft anders genannt – prüfe sie immer besonders genau. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zahlenangaben wie die Teamgröße werden im Hörtext oft anders genannt – prüfe sie immer besonders genau. Diese Aussage ist Richtig." },
+      "49": { "keyword": "Eltern haben erwartet", "explanation_correct": "Erwartungen der Eltern sind ein häufig abgefragtes Detail, das oft anders oder gar nicht formuliert ist. Diese Aussage ist Falsch.", "explanation_wrong": "Erwartungen der Eltern sind ein häufig abgefragtes Detail, das oft anders oder gar nicht formuliert ist. Diese Aussage ist Falsch." },
+      "50": { "keyword": "keine Freizeit mehr", "explanation_correct": "Absolute Formulierungen wie „keine ... mehr“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „keine ... mehr“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." },
+      "51": { "keyword": "nicht gut gefühlt", "explanation_correct": "Persönliche Gefühlsangaben werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Persönliche Gefühlsangaben werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch." },
+      "52": { "keyword": "nach seinem 40. Geburtstag", "explanation_correct": "Genaue Zeitpunkte (hier: ein bestimmtes Alter) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Zeitpunkte (hier: ein bestimmtes Alter) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "53": { "keyword": "sofort ... einverstanden", "explanation_correct": "Zeitangaben wie „sofort“ zur Reaktion des Chefs werden im Hörtext oft anders geschildert. Diese Aussage ist Falsch.", "explanation_wrong": "Zeitangaben wie „sofort“ zur Reaktion des Chefs werden im Hörtext oft anders geschildert. Diese Aussage ist Falsch." },
+      "54": { "keyword": "arbeitet jetzt halbtags", "explanation_correct": "Der Vergleich mit dem Kollegen und die aktuelle Arbeitszeit sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Der Vergleich mit dem Kollegen und die aktuelle Arbeitszeit sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "55": { "keyword": "an oberster Stelle", "explanation_correct": "Superlative wie „oberster“ zur Priorität widersprechen oft der eigentlich beschriebenen neuen Balance. Diese Aussage ist Falsch.", "explanation_wrong": "Superlative wie „oberster“ zur Priorität widersprechen oft der eigentlich beschriebenen neuen Balance. Diese Aussage ist Falsch." }
+    }
+  },
+  "cba591d3-0072-4b47-bf57-ef77f3adecac": {
+    "translation": {
+      "questions": {
+        "46": "تحاول فانيسا زيارة أكبر عدد ممكن من الأماكن.",
+        "47": "كانت فانيسا غير راضية عن ظروف العمل في وكالة الإعلانات.",
+        "48": "عندما تكون فانيسا بين الناس، يضر ذلك أحياناً بتركيزها.",
+        "49": "الأمان الذي توفره وظيفة ثابتة لا يعني لفانيسا الكثير.",
+        "50": "فانيسا متأكدة من أنها لن تعمل موظفة بعد الآن أبداً.",
+        "51": "حقيقة أنها تضطر دائماً للبحث عن عملاء جدد لها أيضاً مزايا بالنسبة لفانيسا.",
+        "52": "يرغب والدا فانيسا أيضاً في السفر أكثر.",
+        "53": "كان من السهل على فانيسا التخلي عن أغراضها الشخصية.",
+        "54": "تعتقد فانيسا أنه في المستقبل سيتمكن المرء من العمل في مهن أكثر بشكل مستقل عن المكان.",
+        "55": "حتى من يعمل بشكل مستقل عن المكان، لا ينبغي أن يغير مكانه كثيراً."
+      }
+    },
+    "items": {
+      "46": { "keyword": "so viele Orte wie möglich", "explanation_correct": "Superlative Formulierungen wie „so viele wie möglich“ werden im Hörtext oft anders oder eingeschränkter dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Superlative Formulierungen wie „so viele wie möglich“ werden im Hörtext oft anders oder eingeschränkter dargestellt. Diese Aussage ist Falsch." },
+      "47": { "keyword": "unzufrieden", "explanation_correct": "Bewertungen zur früheren Arbeitssituation sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Bewertungen zur früheren Arbeitssituation sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "48": { "keyword": "schadet ... Konzentration", "explanation_correct": "Aussagen zu persönlichen Auswirkungen (hier: Konzentration) ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zu persönlichen Auswirkungen (hier: Konzentration) ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "49": { "keyword": "bedeutet ... nicht viel", "explanation_correct": "Verneinte/relativierte Aussagen zur Bedeutung von Sicherheit sind ein wichtiges Detail zur Haltung der Person. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte/relativierte Aussagen zur Bedeutung von Sicherheit sind ein wichtiges Detail zur Haltung der Person. Diese Aussage ist Richtig." },
+      "50": { "keyword": "nie mehr als Angestellte", "explanation_correct": "Absolute Formulierungen wie „nie mehr“ sind eine typische Falle – im Hörtext klingt es meist differenzierter oder offener. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „nie mehr“ sind eine typische Falle – im Hörtext klingt es meist differenzierter oder offener. Diese Aussage ist Falsch." },
+      "51": { "keyword": "auch Vorteile", "explanation_correct": "Ausgewogene Aussagen (Nachteil UND Vorteil) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig.", "explanation_wrong": "Ausgewogene Aussagen (Nachteil UND Vorteil) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig." },
+      "52": { "keyword": "Eltern würden ... verreisen", "explanation_correct": "Wünsche der Eltern sind ein Detail, das im Hörtext oft nicht oder anders erwähnt wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wünsche der Eltern sind ein Detail, das im Hörtext oft nicht oder anders erwähnt wird. Diese Aussage ist Falsch." },
+      "53": { "keyword": "leicht ... zu trennen", "explanation_correct": "Aussagen zur Leichtigkeit einer Entscheidung sind ein häufig abgefragtes Detail zur Persönlichkeit. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zur Leichtigkeit einer Entscheidung sind ein häufig abgefragtes Detail zur Persönlichkeit. Diese Aussage ist Richtig." },
+      "54": { "keyword": "glaubt, dass", "explanation_correct": "Zukunftsprognosen zur Arbeitswelt sind ein Detail, das im Hörtext oft anders oder gar nicht geäußert wird. Diese Aussage ist Falsch.", "explanation_wrong": "Zukunftsprognosen zur Arbeitswelt sind ein Detail, das im Hörtext oft anders oder gar nicht geäußert wird. Diese Aussage ist Falsch." },
+      "55": { "keyword": "nicht zu oft ... wechseln", "explanation_correct": "Einschränkende Empfehlungen wie „nicht zu oft“ sind ein häufig abgefragtes Detail zur persönlichen Einschätzung. Diese Aussage ist Richtig.", "explanation_wrong": "Einschränkende Empfehlungen wie „nicht zu oft“ sind ein häufig abgefragtes Detail zur persönlichen Einschätzung. Diese Aussage ist Richtig." }
+    }
+  },
+  "756bc75b-7d71-48ba-9e73-c6a3888e1494": {
+    "translation": {
+      "questions": {
+        "46": "الجائزة الكبرى للمسابقة هي إجازة تستمر نحو أربعة أسابيع في إسبانيا.",
+        "47": "يمكنكم في البرنامج أيضاً الفوز بكتب صور جميلة عن دول مختلفة.",
+        "48": "توماس شيلب يمثل تاجر بيوت متنقلة كبيراً.",
+        "49": "للبيت المتنقل Camper 500F يحتاج المرء إلى رخصة قيادة إضافية.",
+        "50": "يجب استئجار البيوت المتنقلة للرحلات في أوروبا في وجهة الإجازة فقط.",
+        "51": "يقدّر المسافرون بالبيوت المتنقلة استقلاليتهم.",
+        "52": "لا يزال يتعين التخلي عن الرفاهية في البيت المتنقل حتى اليوم.",
+        "53": "من يريد تجربة الإجازة بالبيت المتنقل لأول مرة، عليه شراء مركبة مستعملة.",
+        "54": "يدفع الألمان في المتوسط 200,000 يورو مقابل بيت متنقل.",
+        "55": "يعتمد سعر إيجار البيت المتنقل على الموسم."
+      }
+    },
+    "items": {
+      "46": { "keyword": "rund vierwöchiger Urlaub", "explanation_correct": "Genaue Zeitangaben zum Hauptpreis (hier: vier Wochen) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zeitangaben zum Hauptpreis (hier: vier Wochen) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Richtig." },
+      "47": { "keyword": "schöne Bildbände", "explanation_correct": "Zusätzliche Gewinne (hier: Bildbände) werden gern hinzugefügt oder verändert – prüfe genau, was wirklich genannt wird. Diese Aussage ist Falsch.", "explanation_wrong": "Zusätzliche Gewinne (hier: Bildbände) werden gern hinzugefügt oder verändert – prüfe genau, was wirklich genannt wird. Diese Aussage ist Falsch." },
+      "48": { "keyword": "großen Wohnmobilhändler", "explanation_correct": "Wen eine Person genau vertritt, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wen eine Person genau vertritt, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "49": { "keyword": "Zusatzführerschein", "explanation_correct": "Konkrete Anforderungen (hier: ein Führerschein) an ein Fahrzeugmodell sind ein häufig abgefragtes technisches Detail. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Anforderungen (hier: ein Führerschein) an ein Fahrzeugmodell sind ein häufig abgefragtes technisches Detail. Diese Aussage ist Falsch." },
+      "50": { "keyword": "erst am Urlaubsort mieten", "explanation_correct": "Empfehlungen zum Mietort werden im Hörtext oft anders oder gar nicht ausgesprochen. Diese Aussage ist Falsch.", "explanation_wrong": "Empfehlungen zum Mietort werden im Hörtext oft anders oder gar nicht ausgesprochen. Diese Aussage ist Falsch." },
+      "51": { "keyword": "schätzen ihre Unabhängigkeit", "explanation_correct": "Allgemeine Aussagen zur Motivation von Reisenden ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Allgemeine Aussagen zur Motivation von Reisenden ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "52": { "keyword": "auch heute nicht verzichten", "explanation_correct": "Doppelte Verneinung mit Zeitbezug („heute nicht verzichten“) beschreibt oft treffend eine positive Entwicklung. Diese Aussage ist Richtig.", "explanation_wrong": "Doppelte Verneinung mit Zeitbezug („heute nicht verzichten“) beschreibt oft treffend eine positive Entwicklung. Diese Aussage ist Richtig." },
+      "53": { "keyword": "gebrauchtes Fahrzeug kaufen", "explanation_correct": "Konkrete Kaufempfehlungen für Einsteiger sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Kaufempfehlungen für Einsteiger sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "54": { "keyword": "durchschnittlich 200.000 Euro", "explanation_correct": "Genaue Geldbeträge sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Geldbeträge sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "55": { "keyword": "hängt von der Jahreszeit ab", "explanation_correct": "Aussagen zu preisbeeinflussenden Faktoren werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zu preisbeeinflussenden Faktoren werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch." }
+    }
+  },
+  "366ca561-b739-47d7-b497-f7626c723d1b": {
+    "translation": {
+      "questions": {
+        "46": "في برنامج بايرن 3 يمكنكم من بين أمور أخرى الفوز بخيمة.",
+        "47": "للبيت المتنقل Camper 500F يحتاج المرء إلى رخصة قيادة إضافية.",
+        "48": "الجائزة الكبرى للمسابقة هي إجازة تستمر أربعة أسابيع في إسبانيا.",
+        "49": "يمكنكم في البرنامج أيضاً الفوز بكتب صور عن دول مختلفة.",
+        "50": "يجب استئجار البيوت المتنقلة للرحلات في أوروبا في وجهة الإجازة فقط.",
+        "51": "يقدّر المسافرون بالبيوت المتنقلة استقلاليتهم.",
+        "52": "لا يزال يتعين التخلي عن الرفاهية في البيت المتنقل اليوم أيضاً.",
+        "53": "من يريد تجربة الإجازة بالبيت المتنقل لأول مرة، عليه شراء مركبة مستعملة.",
+        "54": "يدفع الألمان في المتوسط 200,000 يورو مقابل بيت متنقل.",
+        "55": "يعتمد سعر إيجار البيت المتنقل على الموسم."
+      }
+    },
+    "items": {
+      "46": { "keyword": "ein Zelt gewinnen", "explanation_correct": "Konkrete Gewinne (hier: ein Zelt) werden gern ausgetauscht – prüfe genau, was im Hörtext wirklich genannt wird. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Gewinne (hier: ein Zelt) werden gern ausgetauscht – prüfe genau, was im Hörtext wirklich genannt wird. Diese Aussage ist Falsch." },
+      "47": { "keyword": "Zusatzführerschein", "explanation_correct": "Konkrete Anforderungen (hier: ein Führerschein) an ein Fahrzeugmodell sind ein häufig abgefragtes technisches Detail. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Anforderungen (hier: ein Führerschein) an ein Fahrzeugmodell sind ein häufig abgefragtes technisches Detail. Diese Aussage ist Falsch." },
+      "48": { "keyword": "vierwöchiger Urlaub", "explanation_correct": "Genaue Zeitangaben zum Hauptpreis (hier: vier Wochen) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zeitangaben zum Hauptpreis (hier: vier Wochen) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Richtig." },
+      "49": { "keyword": "Bildbände", "explanation_correct": "Zusätzliche Gewinne (hier: Bildbände) werden gern hinzugefügt oder verändert – prüfe genau, was wirklich genannt wird. Diese Aussage ist Falsch.", "explanation_wrong": "Zusätzliche Gewinne (hier: Bildbände) werden gern hinzugefügt oder verändert – prüfe genau, was wirklich genannt wird. Diese Aussage ist Falsch." },
+      "50": { "keyword": "erst am Urlaubsort mieten", "explanation_correct": "Empfehlungen zum Mietort werden im Hörtext oft anders oder gar nicht ausgesprochen. Diese Aussage ist Falsch.", "explanation_wrong": "Empfehlungen zum Mietort werden im Hörtext oft anders oder gar nicht ausgesprochen. Diese Aussage ist Falsch." },
+      "51": { "keyword": "schätzen ihre Unabhängigkeit", "explanation_correct": "Allgemeine Aussagen zur Motivation von Reisenden ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Allgemeine Aussagen zur Motivation von Reisenden ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "52": { "keyword": "auch heute noch verzichten", "explanation_correct": "Aussagen zu weiterhin bestehendem Verzicht widersprechen oft der eigentlich beschriebenen positiven Entwicklung. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zu weiterhin bestehendem Verzicht widersprechen oft der eigentlich beschriebenen positiven Entwicklung. Diese Aussage ist Falsch." },
+      "53": { "keyword": "gebrauchtes Fahrzeug kaufen", "explanation_correct": "Konkrete Kaufempfehlungen für Einsteiger sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Kaufempfehlungen für Einsteiger sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "54": { "keyword": "durchschnittlich 200.000 Euro", "explanation_correct": "Genaue Geldbeträge sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Geldbeträge sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "55": { "keyword": "hängt von der Jahreszeit ab", "explanation_correct": "Aussagen zu preisbeeinflussenden Faktoren werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zu preisbeeinflussenden Faktoren werden im Hörtext oft anders oder gar nicht dargestellt. Diese Aussage ist Falsch." }
+    }
+  },
+  "db6ca08c-9a24-48aa-b57c-e3d8cd8ed360": {
+    "translation": {
+      "questions": {
+        "46": "في بداية البرنامج، توقع المراسل وصفة إفطار حصرية.",
+        "47": "أصبح أوله مستقلاً بعمله الخاص منذ 17 عاماً.",
+        "48": "قبل ذلك كان قد أتم تدريباً مهنياً كطاهٍ.",
+        "49": "يفضل أطباقاً بدون لحم.",
+        "50": "يبدو أوله وكأنه من أتباع حركة البانك.",
+        "51": "يطبخ للموسيقيين الذين هم في جولة فنية.",
+        "52": "طبخ مؤخراً لفرقة 'دي برينتسن'.",
+        "53": "يأخذ أوله معه تجهيزات مطبخ كاملة في الجولات الفنية.",
+        "54": "يسخر من الإذاعة لأن المراسل يسأل عن الكلمات الإنجليزية.",
+        "55": "يجب على الموسيقيين دائماً أن يأكلوا ما يقدَّم لهم."
+      }
+    },
+    "items": {
+      "46": { "keyword": "exklusives Frühstücksrezept erwartet", "explanation_correct": "Erwartungen zu Beginn eines Interviews sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Erwartungen zu Beginn eines Interviews sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "47": { "keyword": "vor 17 Jahren selbstständig", "explanation_correct": "Genaue Zeitangaben (hier: 17 Jahre) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zeitangaben (hier: 17 Jahre) sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Richtig." },
+      "48": { "keyword": "Lehre als Koch", "explanation_correct": "Berufliche Ausbildung vor der jetzigen Tätigkeit ist ein häufig abgefragtes biografisches Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Berufliche Ausbildung vor der jetzigen Tätigkeit ist ein häufig abgefragtes biografisches Detail. Diese Aussage ist Richtig." },
+      "49": { "keyword": "Gerichte ohne Fleisch", "explanation_correct": "Persönliche Vorlieben (hier: vegetarisch) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Persönliche Vorlieben (hier: vegetarisch) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "50": { "keyword": "wie ein Punker", "explanation_correct": "Äußere Beschreibungen (hier: Punker) werden gern erfunden oder verändert – prüfe genau, was wirklich beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Äußere Beschreibungen (hier: Punker) werden gern erfunden oder verändert – prüfe genau, was wirklich beschrieben wird. Diese Aussage ist Falsch." },
+      "51": { "keyword": "Musiker, die auf Tournee", "explanation_correct": "Die Zielgruppe seiner Kochtätigkeit ist ein zentrales Detail des Interviews. Diese Aussage ist Richtig.", "explanation_wrong": "Die Zielgruppe seiner Kochtätigkeit ist ein zentrales Detail des Interviews. Diese Aussage ist Richtig." },
+      "52": { "keyword": "„Die Prinzen“ gekocht", "explanation_correct": "Konkrete Namen (hier: eine Band) werden gern ausgetauscht – prüfe sie genau gegen das, was im Hörtext wirklich genannt wird. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Namen (hier: eine Band) werden gern ausgetauscht – prüfe sie genau gegen das, was im Hörtext wirklich genannt wird. Diese Aussage ist Falsch." },
+      "53": { "keyword": "komplette Kücheneinrichtung", "explanation_correct": "Absolute Formulierungen wie „komplette“ zum Reisegepäck sind ein häufig abgefragtes, aber oft übertrieben klingendes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Absolute Formulierungen wie „komplette“ zum Reisegepäck sind ein häufig abgefragtes, aber oft übertrieben klingendes Detail. Diese Aussage ist Richtig." },
+      "54": { "keyword": "macht sich ... lustig", "explanation_correct": "Reaktionen auf Nachfragen des Reporters sind ein feines, aber wichtiges Detail zur Gesprächsatmosphäre. Diese Aussage ist Richtig.", "explanation_wrong": "Reaktionen auf Nachfragen des Reporters sind ein feines, aber wichtiges Detail zur Gesprächsatmosphäre. Diese Aussage ist Richtig." },
+      "55": { "keyword": "immer essen, was", "explanation_correct": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „immer“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." }
+    }
+  }
+}

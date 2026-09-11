@@ -1,0 +1,63 @@
+{
+  "title": "Die Ausbildung",
+  "teil": 2,
+  "level": "B2",
+  "position": 50,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 51 (code 124680) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Viele befürchten, dass es durch das neue Gesetz zu weiteren Mittelkürzungen kommt.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "In Zukunft werden weniger Erzieherinnen gebraucht als heute.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Künftig soll es mehr Krippenplätze für Kinder unter drei Jahren geben.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Der Besuch von Kindergärten soll kostenlos werden.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Die Mehrheit der Kleinkinder wird auch weiterhin zu Hause betreut werden.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Bei Bedarf setzt die Sprachförderung im vierten Lebensjahr ein.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Deutsche Kinder haben keinen Anspruch auf staatliche Sprachförderung.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Im Elternhaus wird die Sprachförderung der Kinder immer häufiger vernachlässigt.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Herr Teichmann sieht in Bezug auf Sprachförderung auch auf Seiten der Politik Handlungsbedarf.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Die Ausbildung der Erzieherinnen soll künftig an Hochschulen angesiedelt sein.",
+      "correct": true
+    }
+  ]
+}

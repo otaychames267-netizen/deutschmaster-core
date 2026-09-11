@@ -1,0 +1,21 @@
+{
+  "title": "Julian",
+  "level": "B2",
+  "position": 22,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 27, full A/B/C options; page 26 was the same letter without options and is superseded/not used).",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebes Julian,\n\nWie geht es dir? Ich hoffe, du hattest eine schöne Reise und {{21}} dich gut erholen. Ich {{22}} ja auch gerne mal wieder ans Meer fahren, aber im Moment habe ich leider keine Zeit {{23}} Urlaub. Wie du dir bestimmt vorstellen kannst, war ich in den letzten Wochen vor allem mit meinem Umzug beschäftigt. Du weißt ja, dass ich zuerst ziemlich skeptisch war, Nach so {{24}} Jahren in Berlin konnte ich mir gar nicht mehr vorstellen, mich in einer kleinen Stadt wie Bamberg niederzulassen.\nBamberg hat nur rund 77.000 Einwohner, aber langweilig ist es hier trotzdem nicht, wie ich inzwischen festgestellt habe. Mittlerweile fühle ich mich hier sogar richtig wohl. Die Stadt hat wirklich viel zu bieten. Es gibt jahrhundertealte Sehenswürdigkeiten in Hülle und Fülle, und in der Altstadt {{25}} mir besonders die schönen Fachwerkhäuser, die überwiegend aus dem Mittelalter stammen. Ich gehe oft durch die Fußgängerzone, {{26}} dort gibt es viele kleine Läden, Cafés und Restaurants mit typisch fränkischen Spezialitäten. Ich glaube, dir würde es hier auch gefallen. {{27}} du willst, zeige ich dir gerne mal die Stadt. Hättest du vielleicht Lust, mich im nächsten Monat zu besuchen? {{28}} ist bei mir wach der Umzugsstress vorbei. Im Moment steht noch eine große Anzahl nicht {{29}} Kisten in meinem Wohnzimmer, die ausgepackt werden müssen. Mit meiner neuen Wohnung habe ich übrigens auch Glück gehabt, {{30}} sie geräumig und zentral gelegen ist. Wir können ja mal telefonieren, dann erzähle ich dir mehr.\nLiebe Grüße, Anna",
+  "gaps": [
+    { "n": 21, "a": "Konntest", "b": "Könntest", "c": "Dürfen", "correct": "a" },
+    { "n": 22, "a": "Würde", "b": "Werden", "c": "Wäre", "correct": "a" },
+    { "n": 23, "a": "Für", "b": "Als", "c": "Von", "correct": "a" },
+    { "n": 24, "a": "Vielen", "b": "Mehr", "c": "Viel", "correct": "a" },
+    { "n": 25, "a": "Gefällt", "b": "Mögen", "c": "Gefallen", "correct": "c" },
+    { "n": 26, "a": "Als", "b": "Denn", "c": "wenn", "correct": "b" },
+    { "n": 27, "a": "Wenn", "b": "Außerdem", "c": "Da", "correct": "a" },
+    { "n": 28, "a": "Dann", "b": "wenn", "c": "Denn", "correct": "a" },
+    { "n": 29, "a": "ausgeräumte", "b": "ausgeräumten", "c": "ausgeräumter", "correct": "a" },
+    { "n": 30, "a": "Weil", "b": "So dass", "c": "Zu", "correct": "a" }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Maria",
+  "level": "B1",
+  "position": 8,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 8/16 (Petra/Language Tests, page 100). Answer key from Lösungen page (p.106): 21a bei, 22a darauf, 23c halbes, 24a Aber, 25b wäre, 26c mehr, 27b noch, 28b wann, 29c will, 30b die. Source scan shows gaps 24-26's line overlapping the following line (two paragraphs printed on top of each other); resolved unambiguously via the PDF's embedded text layer (pdftotext -layout). Word 'Nascht' (for 'Nacht') is transcribed verbatim exactly as printed in the source — an apparent source typo, not corrected, per instruction to ingest source content exactly.",
+  "instructions": "Lesen Sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Schwarzenbek, den ........\n\nLiebe Maria,\n\ndanke vielmals für die Einladung. Nächste Woche werde ich also {{21}} dir in Berlin sein. Ich freue mich schon sehr {{22}}, denn schließlich haben wir uns fast ein {{23}} Jahr nicht gesehen. Wie du ja weißt, wohne ich jetzt auf dem Land hier in der Nähe von Hamburg und das finde ich ganz toll. {{24}} ich würde gern auch mal wieder in eine richtige Disko gehen. Mal wieder eine ganze Nascht tanzen, das {{25}} mein Traum! Und zu zweit macht es viel {{26}} Spaß!\n\nWeißt du eigentlich, ob die Disko am Wittenberger Platz {{27}} existiert?\n\nLeider habe ich noch keine Ahnung, {{28}} ich in Berlin ankommen werde. Jedenfalls {{29}} ich versuchen, eine Mitfahrgelegenheit zu finden. Es gibt ja im Internet die Mitfahrzentrale, {{30}} so etwas organisiert. Also mache dir keine Sorgen, wenn ich etwas später komme!\n\nIch freue mich sehr auf dich!\n\nAlexandra",
+  "gaps": [
+    { "n": 21, "a": "bei", "b": "nach", "c": "zu", "correct": "a" },
+    { "n": 22, "a": "darauf", "b": "darum", "c": "dazu", "correct": "a" },
+    { "n": 23, "a": "halbe", "b": "halben", "c": "halbes", "correct": "c" },
+    { "n": 24, "a": "Aber", "b": "Sondern", "c": "Trotzdem", "correct": "a" },
+    { "n": 25, "a": "hätte", "b": "wäre", "c": "würde", "correct": "b" },
+    { "n": 26, "a": "am meisten", "b": "ganz", "c": "mehr", "correct": "c" },
+    { "n": 27, "a": "auch", "b": "noch", "c": "nur", "correct": "b" },
+    { "n": 28, "a": "als", "b": "wann", "c": "wenn", "correct": "b" },
+    { "n": 29, "a": "darf", "b": "soll", "c": "will", "correct": "c" },
+    { "n": 30, "a": "das", "b": "die", "c": "der", "correct": "b" }
+  ]
+}

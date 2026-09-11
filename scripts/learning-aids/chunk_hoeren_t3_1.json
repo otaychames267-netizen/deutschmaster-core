@@ -1,0 +1,578 @@
+[
+  {
+    "id": "47dabe45-c0d0-439e-ace3-c7e289926676",
+    "teil": 3,
+    "title": "Akrobatik-Show Im Park",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Interessierte können am Aktionstag die ehrenamtliche Arbeit direkt austesten.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die geplante Akrobatik-Show im Park muss dieses Jahr entfallen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Nutzer werden vor einer neuen Methode zum Datendiebstahl gewarnt.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Besucher sollten für die Anreise zum Festival das Rad nutzen.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für die Teilnahme am Schnuppertraining ist eine Voranmeldung nötig.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "638c9b47-68a0-40b1-8dd9-8824c0874d61",
+    "teil": 3,
+    "title": "Aktionstag",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Interessierte können beim Aktionstag Aufgaben unverbindlich ausprobieren.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Akrobatik-Vorführung fällt wegen des starken Windes komplett aus.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In dem Beitrag wird vor der Nutzung von Passwort-Managern gewarnt.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Besuchern wird empfohlen, ihr Auto am Nordeingang des Parks abzustellen.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für das Probetraining im Box-Club muss man sich vorher anmelden.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "6705681e-4df5-4c53-a188-3d50eed32bda",
+    "teil": 3,
+    "title": "Alle Flüge der Fluglinie",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Das Restaurant hat bis 23 Uhr geöffnet.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Alle Flüge der Fluglinie AirMer sind für heute und morgen gestrichen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf alle Möbel gibt es heute und morgen einen Preisnachlass von bis zu 70%.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Schickmarkt hat ab Freitagvormittag geöffnet.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Intercity nach Bregenz fällt aufgrund eines technischen Gebrechens aus.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "56193042-44fa-4c77-9f76-b555362b3b61",
+    "teil": 3,
+    "title": "Am Wochenanfang",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Am Wochenanfang soll man einen Aufenthalt im Freien vermeiden.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Abends ist das Risiko, einen Wildunfall zu haben, am größten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Man kann bei dem Fest an verschiedenen Orten Musik hören.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In dringenden Fällen können Sie die Firma ab Montag erreichen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Abend werden Verkehrsbehinderungen erwartet.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "0efaa3a5-8522-4dc4-bec6-a9dddbd3a038",
+    "teil": 3,
+    "title": "Auf der Viktoriabrücke",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die nächtlichen Temperaturen gehen in der ganzen Region auf null Grad zurück.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "An der Abendkasse sind die Karten für das Konzert der Gruppe Sing Slow günstiger als im Vorverkauf.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auf der Viktoriabrücke kann wegen Bauarbeiten stadteinwärts nur eine Fahrbahn genutzt werden.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn man den Eindruck hat, man hat zu viel für den Strom bezahlt, wählt man die 2.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Beim Fest in Bergheim finden Darbietungen von internationalen Theatergruppen statt.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "6832357b-ea56-422d-b58f-7719b515549c",
+    "teil": 3,
+    "title": "Ausgang (Original)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Sie sollen zum Ausgang 26 kommen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Um die zuständige Abteilung zu erreichen, müssen Sie die 3 wählen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei der Service-Nummer bekommen Sie Karten für eine Führung.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie können sich am Sonntag um ein Uhr bewerben.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In der Bäckerstraße dürfen Sie nicht fahren.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "af5c1820-0a93-42f1-92fa-57e07bb2ec42",
+    "teil": 3,
+    "title": "Ausgang (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Sie sollen zum Ausgang 26 kommen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Um die zuständige Abteilung zu erreichen, müssen Sie die 3 wählen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei der Service-Nummer bekommen Sie Karten für eine Führung.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie können sich am Sonntag um ein Uhr bewerben.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In der Bäckerstraße dürfen Sie nicht fahren.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "894f0e2c-b445-4903-990b-1c60932c0677",
+    "teil": 3,
+    "title": "Auto gewinnen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Regionalzug nach Bruck an der Mur um 7:15 Uhr wird nicht fahren.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Man kann ein Auto gewinnen, wenn man alle 9 Gewinnzahlen sammelt.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nächste Woche gibt es Äpfel zum Preis von unter 1€.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Intercity nach München fährt immer von Bahnsteig 2.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Eintritt ins Kunterbunt-Kindermuseum ist am Eröffnungstag gratis.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "f9e0bdbc-101f-4522-9da8-d2c3dbbc749e",
+    "teil": 3,
+    "title": "Bayern Radio",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Beim Informationsdienst der Telekom können Sie sich auch über Aktienkurse informieren.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Hanau findet am Nachmittag ein Kindermaskenball statt.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie erfahren ausschließlich im Internet, ob Sie gewonnen haben.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Freitag müssen Sie in den Mittelgebirgen mit vielen Pollen rechnen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bayern Radio hat computergestützte Fahrschulprogramme getestet.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "ab73505d-8f7d-4998-abd3-5de73aafa34c",
+    "teil": 3,
+    "title": "Beim Klassik-Radio",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Beim Klassik-Radio kann man Karten für ein Konzert in Frankfurt gewinnen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für den Engelberg-Lauf in Miltenberg ist eine frühzeitige Anmeldung erforderlich.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Radiosender Bayern 1 informiert auf seiner Website über das Sommernachtsfest.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der A3 hat es in der Nähe von Erlangen einen Unfall gegeben.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Funk-Mobil bietet Dienstleistungen für Autofahrer an.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "b044ad81-1cbb-4bbc-a0c8-da37815ad88c",
+    "teil": 3,
+    "title": "Blutspenden",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Ihre Tochter kann am Freitag verschiedene Sportarten testen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können sich im Internet zum Blutspenden anmelden.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Heute müssen Sie auf den Bus ausweichen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie müssen das Bad früher verlassen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für einen Termin müssen Sie anrufen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "3b392e61-14bd-46a3-9f76-649f99f0e22c",
+    "teil": 3,
+    "title": "Buchhandlung",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Sie hören den Anrufbeantworter einer Buchhandlung.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Beim Jubiläumsfest im Schloss kann man selbst Musik machen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wer gerne und lange tanzt, sollte in Kulmbach Vorbei schauen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können sich für alle kurse auch über das Internet registrieren",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Internationale Künstler treten an verschiedenen Plätzen in Esens auf",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "47efc96c-eb5f-4865-8894-3257b2e3cd9d",
+    "teil": 3,
+    "title": "Das Geschäft für österreichische",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Das Geschäft für österreichische Spezialitäten befindet sich in Check-in-2.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Fortgeschrittene Schüler, Studenten, Profis und Lehrkräfte haben die Möglichkeit zu unterrichten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Interessenten können auf der Messe nur Bestellungen aufgeben.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Alle Studierenden müssen ab dem Wintersemester Studiengebühren bezahlen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Bürgermeister eröffnet das Fest.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "183afa7d-1883-40f8-aa8b-443b4461bb82",
+    "teil": 3,
+    "title": "Das Treffen",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Das Treffen ist am Donnerstag.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Wetter bleibt schlecht und regnerisch; am Sonntagnachmittag leichte Wetterbesserung.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Firma ist direkt an der S-Bahn-Station.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Restaurant bietet Kaffee für 2 Euro 50 und Kuchen für 2 Euro.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sprachprogramme für Deutsch gibt es in derselben Abteilung wie Computerspiele.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "66548686-f8de-4fad-857f-510fbc777d40",
+    "teil": 3,
+    "title": "Delikatessen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Bis 14 Uhr können Sie Delikatessen aus verschiedenen Ländern kaufen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bis zum Start können Sie mit Ihrem Handy telefonieren.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Vorführungen mit Tieren werden nicht geboten.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Wochenende können Sie Musik im Schloss Mirabell hören.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können Frau Dr. Schneider am Samstagabend anrufen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "0ac05317-eb29-4236-ac85-3c9be80219ef",
+    "teil": 3,
+    "title": "Demonstration",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Demonstration findet in Frankfurt vor der Alten Oper statt.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In der kommenden Saison wird eine Symphonie von Mahler aufgeführt.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Weltmeisterschaften im Eiskunstlauf finden in der Dortmunder Helmut-Körnig-Halle statt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Autobahn A980 ist mit Schneeketten befahren.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für die Vermittlung einer Mitfahrgelegenheit erhebt \"Fahre mit\" keine Gebühren.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "bfc5f6c2-0643-46e6-828c-c2369d81e715",
+    "teil": 3,
+    "title": "den Opel-Zoo",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Am Donnerstag ist in der Uckermark mit Birkenpollen zu rechnen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Führung durch Frankfurts Hochhäuser beginnt am Messeturm.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am 9. Juli kann man den Opel-Zoo nachts besuchen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für die Wanderung zur Ronneburg sollte man unbedingt genügend Verpflegung mitnehmen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der A7 Ulm - Füssen ist der linke Fahrstreifen gesperrt.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "bc736314-e2df-47b7-a468-e1e05a3d99bd",
+    "teil": 3,
+    "title": "Die Buchpräsentation",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Die Buchpräsentation beginnt laut Programm in 30 Minuten.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Patienten, die zu einer Nachbehandlung kommen, werden zu Schalter 3 gebeten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Dienstags gibt es für einen Friseurbesuch zu Hause ein Sonderangebot.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Führungen im Tierpark beginnen in der Kassazone.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Besucher werden zum Mitmachen eingeladen.",
+        "statement_number": 60
+      }
+    ]
+  }
+]

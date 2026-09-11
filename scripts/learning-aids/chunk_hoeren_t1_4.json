@@ -1,0 +1,482 @@
+[
+  {
+    "id": "8530934a-e867-48f6-bc4d-c43afd25df34",
+    "teil": 1,
+    "title": "Lorenzo",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Lorenzo Bianchi sagte sein Konzert wegen Krankheit ab.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Verkehrswacht fordert neue Maßnahmen im Radverkehr.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Lehrermangel betrifft vor allem Großstädte.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Eröffnung des Museums ist für den Herbst geplant.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Privatpersonen profitieren vom neuen Steuermodell.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "5dadfcfb-055f-4dd1-ab07-a4c3d6cc717a",
+    "teil": 1,
+    "title": "Lufthansa (Original)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Deutsche Lufthansa hat ihre Führungsposition verloren.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein Bonner Sportverein zeigt der Öffentlichkeit sein Angebot.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Rahmenbedingungen in deutschen Pflegeheimen bedürfen dringend einer Änderung.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch moderne Wärmedämmung könnten die Heizkosten deutlich reduziert werden.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Nationale Olympische Komitee hat die Dopingsperre für Tom Sanders aufgehoben.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "fbd16763-27c4-4d5c-8592-639adb2ed23a",
+    "teil": 1,
+    "title": "Lufthansa (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Deutsche Lufthansa hat ihre Führungsposition verloren.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein Bonner Sportverein zeigt der Öffentlichkeit sein Angebot.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Situation im Pflegesektor ist es noch nicht verbessert.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch moderne Wärmedämmung könnten die Heizkosten deutlich reduziert werden.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Nationale Olympische Komitee hat die Dopingsperre für Tom Sanders aufgehoben.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "9dcd45db-b72c-4c32-846b-76a09dc16ad0",
+    "teil": 1,
+    "title": "Meeresküsten",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Laut einer Studie wurden seit Jahresbeginn in Deutschland und China deutlich mehr Autos verkauft.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "An den deutschen Meeresküsten soll in Zukunft mehr Windkraft produziert werden.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Jede Polizeidienststelle kann ab sofort selbst entscheiden, welche Tätowierungen ihre Bewerberinnen und Bewerber haben dürfen.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch Luftverschmutzung und Ascheregen sind im Osten Australiens zahlreiche Tiere ums Leben gekommen.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein aufmerksamer Nachbar verhindert den geplanten Einbruch in ein Wohnhaus.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "5646a7d6-cbed-4e14-a426-3b0821d08f65",
+    "teil": 1,
+    "title": "Nach Ansicht mancher",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Waldbrände in Südkalifornien sind noch nicht unter Kontrolle.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Nach Ansicht mancher Politiker führt eine Reduzierung der Arbeitszeit unweigerlich zu einem Verlust an Wohlstand.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Deutschland und Frankreich wollen ihre wirtschaftliche Zusammenarbeit verbessern.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In verschiedenen Berufszweigen sind noch Lehrstellen frei.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die DDR-Sportlerin Katja Kaiser erhielt vom Nationalen Olympischen Komitee Schmerzensgeld.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "5416f392-e470-417e-b4cb-65506976cb83",
+    "teil": 1,
+    "title": "Nicht sicher (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Es ist nicht sicher, ob es erneut zu diesem Problem kommen kann.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Hamburgs Politiker befürworteten den Bau des Einkaufszentrums nicht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zwischen Frankreich und Deutschland wurde ein neuer Hochgeschwindigkeitszug in Betrieb genommen.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Produkte von TipTop sind in Deutschland nicht mehr so gefragt.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ingrid Thieme wird sich an der kommenden WM beteiligen.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "9e7ee496-1c54-48d6-9da9-34333e16151a",
+    "teil": 1,
+    "title": "Nord-Ostsee",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Stadt stoppt den Bau neuer E-Ladestationen.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Besucher können das Elefantenbaby ab jetzt sehen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Arbeitslosigkeit im Handwerk wird bald abnehmen.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das neue Hochhaus wird aus Denkmalschutzgründen niedriger.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Schiff blockiert noch immer den Nord-Ostsee-Kanal.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "45222cda-4cdd-4783-b19c-68ccc2553c6e",
+    "teil": 1,
+    "title": "Paris",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Paris erlaubt weiterhin Leihscooter ohne Einschränkungen.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Durch KI werden Krankheiten zuverlässiger erkannt.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Australien will den Zugang zum Great Barrier Reef touristisch ausweiten.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Laut Studien entsteht durch Smartphones im Unterricht kein Lernnachteil.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die neue Steuer würde tief in den Energiemarkt der USA eingreifen.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "0e3a2c7d-967d-490a-9a63-eaa78766337e",
+    "teil": 1,
+    "title": "Softdrinks",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Konsum von zuckerhaltigen Softdrinks steigt um 10 %.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei den Lebenshaltungskosten liegt Deutschland im EU-Vergleich nur im Mittelfeld.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Ende des Pilotenstreiks ist absehbar.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Experten befürchten Gewalt bei Sportevents.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Leopoldina strebt eine stärkere internationale Ausrichtung an.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "7cec99d9-4d45-48b0-8939-90a48f3e100f",
+    "teil": 1,
+    "title": "Studentenparty in Frankreich",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Bayern und Nordrhein-Westfalen erhalten zukünftig jedes Jahr 2,3 Milliarden Euro für den Bau neuer Autobahnen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen hoher Minustemperaturen findet in ganz Russland kein Unterricht statt.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei einer Studentenparty in Frankreich gibt es Tote und Verletzte.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Bundesfinanzministerium hat im letzten Jahr die Steuern gesenkt.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Regierung plant eine Änderung bei der Führerschein-Probezeit.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "ef3ae7c2-1b95-4a8f-95a0-0d87bd61b179",
+    "teil": 1,
+    "title": "Theaterpremiere",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Theaterpremiere fällt wegen Krankheit der Schauspielerin aus.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Deutsche Bahn plant klimaneutralen Fernverkehr bis 2030.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Pflegemangel herrscht sowohl in ländlichen Regionen als auch in Metropolen.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Stadtparkbau verzögert sich wegen fehlender Genehmigungen.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Wohnpauschale gilt unabhängig vom Einkommen der Eltern.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "897f4edb-22d3-4150-b381-301093605d65",
+    "teil": 1,
+    "title": "Um Tickets zu gewinnen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Um Tickets zu gewinnen, muss man wissen, wann die Veranstaltung ist.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In nur 11 Tagen spielte der Film \"Jurassic World\" außerhalb der USA mehr als 700 Millionen Dollar ein.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Kärnten kann es aufgrund von starkem Gegenverkehr zu Verzögerungen kommen.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Aufgrund einer Kaltfront sinkt die Schneefallgrenze entlang der Alpennordseite knapp unter 2000 m herab.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Mit Frankreich gegen Kanada steht das erste Viertelfinale der Frauenfußball-WM fest.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "3ddcfa62-e0d6-46d0-ae5a-b5ce51ba02e7",
+    "teil": 1,
+    "title": "Vier Tage pro Woche",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Viele Angestellte würden gern nur vier Tage pro Woche arbeiten.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In handwerklichen Berufen gibt es zurzeit viele freie Stellen.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Online-Kauf von Fahrzeugen gewinnt an Beliebtheit.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Tourismus-Geschäft in Deutschland kämpft dieses Jahr mit Verlusten.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Düsseldorf wurden neue Bürogebäude errichtet.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "98e938c3-fd7d-4f78-ae38-ce899e9cf1e0",
+    "teil": 1,
+    "title": "Vögel",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Kunden würden für bessere Serviceleistungen der Paketdienst höhere Gebühren zahlen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach dem Unfall konnten beide Schiffe ihre Fahrt nicht fortsetzen.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Europaweit gibt es immer weniger Vögel.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Polizei hat auf der Autobahn ein dort verbotenes Fahrzeug entdeckt.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei dem Festival konnte man Konzerte an verschiedenen Orten besuchen.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "7a0de66e-6e6e-4cbb-8a93-cda7234c1ccc",
+    "teil": 1,
+    "title": "Wetter",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Wegen Unwetterschäden wurden Urlauber in einer Notunterkunft untergebracht.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sämtliche Waren der Firma Mirella wurden aus den Läden entfernt.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Arbeitsplatzangebot in der Bundesrepublik hat einen Tiefstand erreicht.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am 21. Mai ist der Besuch der Sonderausstellung kostenlos.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Entlaufene Tiere verursachten einen Unfall auf der Autobahn.",
+        "statement_number": 45
+      }
+    ]
+  }
+]

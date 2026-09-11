@@ -1,0 +1,22 @@
+{
+  "title": "Frau Bauer",
+  "level": "B1",
+  "position": 13,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 13/16 (Andreas2/Language Tests, page 163 printed / PDF page 164). Letter addressed to 'Sehr geehrte Frau Bauer', signed Karoline Pointner, replying to a film-project newspaper ad about time spent working abroad in Portugal. Answer key from Lösungen page (printed p.167 / PDF p.168): 31G INTERESSIERT, 32K ÖFTER, 33J NUR, 34M VOR, 35C ARBEITEN, 36L UNBEKANNT, 37I MÖGLICH, 38D ERZÄHLT, 39N WÜRDE, 40E FALLS.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Neuendorf, den….\n\nSehr geehrte Frau Bauer,\n\nich habe Ihre Anzeige in der Neuen Presse gelesen und bin an dem Filmprojekt sehr {{31}}.\n\nIch war schon {{32}} für einige Wochen im Ausland. Vor allem im Sommer habe ich während meines Studiums viele Sprachkurse besucht. Länger als ein halbes Jahr habe ich {{33}} einmal im Ausland gelebt, und zwar {{34}} zwei Jahren. Mein Chef machte mir damals das Angebot, acht Monate im Tochterunternehmen der Firma in Portugal zu {{35}}, was ich dann auch getan habe.\n\nAm Anfang war es sehr schwer, weil ich niemanden kannte und alles sehr neu und {{36}} für mich war. Eigentlich wollte ich so schnell wie {{37}} wieder zurück. Aber dann habe ich nette Kollegen kennengelernt, die mir auch über die Kultur und das Leben in Portugal {{38}} haben.\n\nIch glaube, dass meine Erfahrungen für viele andere Menschen, die auch im Ausland leben wollen, sehr interessant sein könnten, und ich {{39}} gerne auch vor der Kamera darüber erzählen. {{40}} Sie noch weitere Fragen an mich haben, können Sie mich gerne anrufen, meine Telefonnummer ist 07612/64788980.\n\nIch würde mich freuen, bald von Ihnen zu hören.\n\nMit freundlichen Grüßen\nKAROLINE POINTNER",
+  "words": ["ALS", "ANFANGEN", "ARBEITEN", "ERZÄHLT", "FALLS", "INFORMIERT", "INTERESSIERT", "MÖCHTEN", "MÖGLICH", "NUR", "ÖFTER", "UNBEKANNT", "VOR", "WÜRDE", "ZWISCHEN"],
+  "answers": {
+    "31": "INTERESSIERT",
+    "32": "ÖFTER",
+    "33": "NUR",
+    "34": "VOR",
+    "35": "ARBEITEN",
+    "36": "UNBEKANNT",
+    "37": "MÖGLICH",
+    "38": "ERZÄHLT",
+    "39": "WÜRDE",
+    "40": "FALLS"
+  }
+}

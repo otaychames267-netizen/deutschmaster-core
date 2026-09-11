@@ -1,0 +1,22 @@
+{
+  "title": "Silvia Schönenberger",
+  "level": "B1",
+  "position": 14,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 14/16 (Petra/Language Tests, page 188 printed / PDF page 189). Letter addressed to 'Frau Borner', signed 'Silvia Schönenberger'; Lösungen page's short label is the generic word 'essen' rather than a name, so the signatory's name is used as the title instead, per this platform's title convention. Answer key from Lösungen page (p.193): 31H SONDERN, 32F SAGT, 33B BEIM, 34M WELCHEN, 35G SOLLTE, 36K WEGEN, 37I VON, 38A AUF, 39N WÜRDE, 40L WEIL.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Frau Borner,\n\nes gibt ganz viele Ratschläge, wie man sich ernähren soll, was man essen soll und was nicht. Die meisten Empfehlungen sind aber nicht für etwas, {{31}} gegen etwas, und zwar immer wieder gegen etwas anderes: gegen Fleisch zum Beispiel oder gegen Zucker, aber auch gegen Milch. So {{32}} man etwa, wer kein Fleisch isst, lebt nicht nur gesünder, sondern fühlt sich auch besser.\n\n{{33}} Durchsehen einer Zeitschrift ist mir Ihre Anzeige aufgefallen, und nun habe ich folgende Fragen an Sie: Von {{34}} Nahrungsmitteln darf man eigentlich so viel essen, wie man will? Was {{35}} jeden Tag gegessen werden? Und wie ist das mit der Milch? Die einen sagen, Milch ist sehr gesund {{36}} der vielen wichtigen Nährstoffe. Andere meinen, wer viel Milch trinkt, kann Probleme mit dem Magen bekommen. Außerdem kann man anstelle {{37}} Milch auch Mineralwasser trinken. Was soll ich jetzt glauben?\n\nFür eine Antwort {{38}} meine Fragen danke ich Ihnen im Voraus. Könnten Sie mir auch noch eine Broschüre schicken? Das Thema Essen und Sport {{39}} mich besonders interessieren, {{40}} ich selber viel Sport treibe.\n\nMit freundlichen Grüßen\nSilvia Schönenberger",
+  "words": ["AUF", "BEIM", "DESWEGEN", "MÖCHTE", "NENNT", "SAGT", "SOLLTE", "SONDERN", "VON", "WAS", "WEGEN", "WEIL", "WELCHEN", "WÜRDE", "ZUM"],
+  "answers": {
+    "31": "SONDERN",
+    "32": "SAGT",
+    "33": "BEIM",
+    "34": "WELCHEN",
+    "35": "SOLLTE",
+    "36": "WEGEN",
+    "37": "VON",
+    "38": "AUF",
+    "39": "WÜRDE",
+    "40": "WEIL"
+  }
+}

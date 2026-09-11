@@ -1,0 +1,22 @@
+{
+  "title": "Schütz",
+  "teil": 2,
+  "level": "B1",
+  "position": 13,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 13/16 (Andreas2/Language Tests, page 164 printed / PDF page 165). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Interview with a taxi driver, Herr Schütz. Statement 55 is printed with a truncated/incomplete final clause in the source itself ('...nachts zu an.') — transcribed verbatim per this project's never-silently-correct policy rather than guess-completing it. Answer key from Lösungen page (printed p.167 / PDF p.168): 46- 47+ 48- 49+ 50- 51- 52+ 53- 54+ 55-. NOT INSERTED: confirmed byte-identical duplicate of an already-existing 'Schütz' Hören Teil 2 exercise (id 9e515ee5-ab62-4535-98ec-dbdd124ab42e, position 14) — all 10 statements including the truncated statement 55 match verbatim. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted).",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Herr Schütz arbeitet erst seit kurzer Zeit als Taxifahrer.", "correct": false },
+    { "number": 47, "text": "In der Kleinstadt hatte Herr Schütz keine Geschäftsleute als Kunden.", "correct": true },
+    { "number": 48, "text": "Herr Schütz hat sich schon einmal in einen Fahrgast verliebt.", "correct": false },
+    { "number": 49, "text": "Die Fahrgäste erzählen viel, weil sie den Taxifahrer nicht kennen.", "correct": true },
+    { "number": 50, "text": "Männer sprechen oft über unpersönliche Dinge.", "correct": false },
+    { "number": 51, "text": "Herr Schütz bekommt von den Fahrgästen manchmal auch einen Tipp.", "correct": false },
+    { "number": 52, "text": "In der Freizeit steht Sport für Herrn Schütz an erster Stelle.", "correct": true },
+    { "number": 53, "text": "Beim Schwimmen kann sich Herr Schütz von einem anstrengenden Tag erholen.", "correct": false },
+    { "number": 54, "text": "Herr Schütz hat sich entschieden, nur am Tag Taxi zu fahren.", "correct": true },
+    { "number": 55, "text": "Nach Meinung von Herrn Schütz haben jüngere Taxifahrer weniger Angst, nachts zu arbeiten.", "correct": false }
+  ]
+}

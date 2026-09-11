@@ -1,0 +1,21 @@
+{
+  "title": "Corinna 2",
+  "level": "B2",
+  "position": 33,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "variant of 'Corinna' (p39/position 32); gap 26 blanks a different word (adverb after 'muss ich' vs. modal verb before 'ich') — kept per dedup rule as distinct exercise.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Corinna,\n\nes tut mir wirklich Leid, {{21}} ich dir seit Ewigkeiten nicht mehr geschrieben habe. Aber du weißt ja: Ich habe seit drei Monaten eine neue Arbeit. Und da hatte ich gar keine Zeit, mich mit etwas Anderem zu {{22}} als mit der neuen Arbeit. Es hat mich wirklich überrascht, wie schnell ich nach dem Abschluss meiner Ausbildung etwas gefunden habe. Dabei haben alle immer nur gesagt: \"Gärtner? Die gibt es {{23}} wie Sand am Meer, wie willst du da so schnell einen Job finden?\".\nIch arbeite jetzt in einer Baumschule. Wir kultivieren und verkaufen Obstbäume {{24}}, an die Obstbauern der näheren Umgebung. Die Arbeit macht mir großen Spaß, es ist andererseits aber ein bisschen anstrengend, acht Stunden am Tag körperlich - {{25}} im Freien - zu arbeiten. Und leider muss ich {{26}} eine dreiviertel Stunde mit dem Zug fahren, um an meinen Arbeitsplatz zu kommen.\nWenn ich dann am Abend nach Hause komme, bin ich so müde, dass ich eigentlich nur noch fernsehen oder Musik hören kann. Ich habe im Moment nur {{27}} Lust, etwas zu unternehmen, aber ich bin mir sicher: Sie {{28}} wieder. Wie geht es dir denn? Du müsstest doch jetzt auch bald mit deiner Ausbildung fertig sein, oder? Hast du schon damit angefangen, dich bei verschiedenen Arbeitgebern zu bewerben? Oder {{29}} du dir noch ein bisschen Zeit damit? Ich würde dir in jedem Fall raten: Fang so früh wie {{30}} mit den Bewerbungen an, je früher, desto besser. Du weißt ja, was unser Klassenlehrer in der Realschule immer gesagt hat: Gut Ding will Weile haben. So, jetzt muss ich aufhören und ins Bett gehen, damit ich morgen wieder fit bin.\nMach's gut, bis bald,\n\ndein\nRichard",
+  "gaps": [
+    { "n": 21, "a": "dass", "b": "ob", "c": "weil", "correct": "a" },
+    { "n": 22, "a": "bedienen", "b": "beeilen", "c": "beschäftigen", "correct": "c" },
+    { "n": 23, "a": "bloß", "b": "doch", "c": "nur", "correct": "b" },
+    { "n": 24, "a": "außerdem", "b": "insbesondere", "c": "jedoch", "correct": "b" },
+    { "n": 25, "a": "übermächtig", "b": "übermäßig", "c": "überwiegend", "correct": "c" },
+    { "n": 26, "a": "fast", "b": "nahe", "c": "ziemlich", "correct": "a" },
+    { "n": 27, "a": "gering", "b": "knapp", "c": "wenig", "correct": "c" },
+    { "n": 28, "a": "kommt", "b": "läuft", "c": "steht", "correct": "a" },
+    { "n": 29, "a": "brauchst", "b": "hast", "c": "lässt", "correct": "c" },
+    { "n": 30, "a": "kürzlich", "b": "möglich", "c": "üblich", "correct": "b" }
+  ]
+}

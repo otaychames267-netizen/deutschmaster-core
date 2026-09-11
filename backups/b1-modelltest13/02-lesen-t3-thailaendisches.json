@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "thailändisches",
+  "level": "TELC_B1",
+  "position": 13,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 13/16 (Andreas2/Language Tests, page 161 printed / PDF page 162 for situations, page 162 printed / PDF page 163 for the ad block). Title taken verbatim from the Lösungen page's own short label ('thailändisches', lowercase as printed). Answer key from Lösungen page (printed p.167 / PDF p.168): 11F 12K 13B 14I 15E 16L 17X 18X 19D 20J, cross-verified content-to-ad by direct reading.",
+  "key": "FKBIELXXDJ",
+  "situations": {
+    "11": "Sie mögen thailändisches Essen und möchten lernen, einige Speisen selbst zu kochen.",
+    "12": "Sie müssen umziehen und brauchen jemand, der Ihnen hilft.",
+    "13": "Ihr Kind hat in Mathematik schlechte Noten bekommen und braucht Nachhilfe.",
+    "14": "Ihre Freundin hat Geburtstag. Sie möchten ihr einen Blumenstrauß schicken lassen.",
+    "15": "Am Samstag wollen sie mit Ihrer Tante eine Blumenausstellung besuchen.",
+    "16": "Ihr Kollege heiratet. Sie möchten ihm etwas für die Küche schenken.",
+    "17": "Sie wollen für eine Hochzeit einen Luxuswagen mieten.",
+    "18": "Am nächsten Montag möchten Sie mit Ihren Freunden thailändisch essen gehen.",
+    "19": "Für Ihre Geburtstagfeier suchen Sie jemanden, der bei Ihnen zu Hause kocht.",
+    "20": "Sie wollen sich über Wohnwagen informieren."
+  },
+  "texts": {
+    "A": { "title": "PLANA Badeland", "content": "Mehr Bad für weniger Geld! Bei PLANA Badeland bekommen Sie immer mehr als Sie erwarten: mehr Beratung, mehr Service und mehr Bad fürs Geld. So werden aus Bädern echte Traumbäder, die nicht gleich die Welt kosten. Über 100 Badideen auf 1000 qm Ausstellungsfläche. Mo–Sa 10.00–19.00 Uhr, So. 10.00–14.00 Uhr. Harzer Straße 56, 69720 Frankfurt, Tel. 069/14 31 49-0, www.plana.de. Achtung: Unser PLANA Küchenland ist derzeit wegen Umbau geschlossen!" },
+    "B": { "title": "Lernstudio Barbarossa", "content": "NACHHILFE & HAUSAUFGABENBETREUUNG - von der Grundschule bis zum Abitur - alle Fächer, alle Klassen - kostenloser Probeunterricht. Wolfsschlucht 13 (Eingang Theaterstraße), Tel. 0561/79 66 33 34. Beratung: Mo.-Do. 9-12 und 14-19 Uhr, Freitag 14-19 Uhr." },
+    "C": { "title": "NAKORN Thai Restaurant", "content": "Sieben Jahre Original thailändische Küche sind für uns ein Grund zu feiern, auf alle Gerichte 20% Rabatt* (*nur bei Barzahlung – keine Kreditkarten). Neu! Jeden Sonntag Brunch pro Person nur Euro 9,-. Wilhelmshöher Allee 42 - Kassel. Telefon (0561) 10 49 26, dienstags-sonntags, 12.00-22.00 Uhr geöffnet." },
+    "D": { "title": "Sopha's Thai-Gourmet", "content": "Kassels exotischer Partyservice. Ab 10 Menüs Lieferung in beheizten Silber-Woks, Catering und Fingerfood. Wir kochen auch bei Ihnen unsere original Thai-Gerichte! Wir faxen unsere Menü- und Speisekarten. Tel.: 0561/802971, Fax: 0564/4612091, www.thai-partyservice.de" },
+    "E": { "title": "BUGA", "content": "Vom 28.4. bis 9.10. sind die Pforten der Bundesgartenschau für Besucher geöffnet. 200 Hektar Landschaftspark und ca. 2 Millionen Blumen - das und noch mehr hat die BUGA zu bieten. Besuchen Sie auch unsere Ausstellungshallen, z.B. das Orchideen-Haus. Geöffnet tägl. 9.00-20.00 Uhr. Tageskarten: Erw. 14,- Euro, Kinder bis 12 J. 2,- Euro, spezielles Abendticket ab 17.00 Uhr 7,- Euro. www.buga.de" },
+    "F": { "title": "Exotische Pfannengerichte", "content": "Mit feurigen Gewürzen und erntefrischem Gemüse kochen wir Gerichte, die schnell zubereitet und preiswert sind. Thai-Gemüsepfanne, Weihnachts-Curry mit Bananen, Blumenkohl und Pilzpfanne auf thailändische Art. Das Essen genießen Sie an einem lauen Abend mit uns in der Gruppe. Freitagsseminar mit Andrea Patzenberg. Freitag 12.11., 17.00 bis 21.00 Uhr, 18,50 Euro. Volkshochschule Wuppertal. Bäckerstr. 14. Tel. 06715-212 64 90." },
+    "G": { "title": "Kindervortrag", "content": "Für 8 bis 12-jährige Kinder bietet das Mathematikum etwas Besonderes: An einem Samstag im Monat hält Prof. Bruttschlacher einen speziellen Vortrag für Kinder. In spielerischer Weise stellt er Themen wie Geheimcodes, Zauber der Zahlen, Licht und Schatten sowie optische Täuschungen vor. Karten im Vorverkauf. Mathematikum Gießen, Liebigstr. 8, 35390 Gießen. www.mathematikum.de" },
+    "H": { "title": "Volkshochschule Wuppertal-Süd", "content": "Blumenzauber. Samstagswerkstatt mit Waltraud Meisch. Sa 16.10., 10.00-18.00 Uhr. Mit Blumen, Blättern, Früchten und allem, was die Natur zu bieten hat, lernen Sie Ihren persönlichen Blumenschmuck herzustellen, verschiedene Kompositionstechniken, kreatives Arbeiten - das richtige Geschenk für jede Gelegenheit. VHS Wuppertal-Süd. Mar.-Reinhardt-Weg 29, 42278 Wuppertal." },
+    "I": { "title": "Viehmann", "content": "Ihr Partner für moderne Floristik. Blumen, Pflanzen, Sträucher, Rosen in allen Farben. Hochzeitsschmuck, Büro-, Möbel- und Ausstellungsdekoration, Lieferservice. Viehmann - Floristikfachgeschäft. Wartekuppe 3, 60036 Frankfurt, Telefon 069-41 24 04." },
+    "J": { "title": "KUNO'S Mobile Freizeit", "content": "Reisemobile vom Kleinwohnwagen bis zur Luxusausführung, Zubehör, alles auf über 3000 qm Ausstellungsgelände, fachmännische Beratung. Wir laden Sie ein zum FRÜHLINGSFEST mit verkaufsoffenem Sonntag am 22./23.3. 34795 Edermünde/Holzhausen, Tel. 0 56 65 / 68 46. Direkt an der A 49." },
+    "K": { "title": "HARTMANN & SCHRÖDER", "content": "Zuverlässig und kompetent. Transporter-/Minibus-Verleih für Ihren Umzug. Tagestarife, Wochentarife, Wochenendpauschale. Zusätzliches Angebot: 2 starke Männer plus Lkw 40,- Euro/Stunde, jeder weitere Mann 29,- Euro/Stunde. Bad Vilbeler Str. 83-85, 37155 Kassel. Tel. 0561/8 40 73." },
+    "L": { "title": "Wir ziehen um", "content": "Profitieren Sie jetzt von unseren Angeboten! Traumhafte Möbel und Accessoires: Porzellan, Lampen, Geschirr, Keramik, handgewebte Teppiche, Tisch- und Bettwäsche. MÖBELZENTRUM OBERWESER, 34359 Reinhardshagen, 6000 m² Ausstellung. Telefon 0 55 44/3 07." }
+  }
+}

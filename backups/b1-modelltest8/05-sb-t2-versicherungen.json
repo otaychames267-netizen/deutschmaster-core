@@ -1,0 +1,22 @@
+{
+  "title": "Versicherungen",
+  "level": "B1",
+  "position": 8,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 8/16 (Petra/Language Tests, page 101). Answer key from Lösungen page (p.106): 31c DASS, 32j IHRE, 33n WERDEN, 34e FRAGEN, 35k INFORMIERT, 36h HILFT, 37f FÜR, 38d DORT, 39m RICHTIGE, 40i IHNEN.",
+  "instructions": "Lesen Sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Frankfurter Allianz\nBahnstr. 99\nMax Kuhne\n60322 Frankfurt\nTel.: 069-951670                                                                    Frankfurt, den .......\n\nNeuer Berater für Ihre Versicherungen\n\nSehr geehrter Herr Frankel,\n\nwir möchten Sie darüber informieren, {{31}} Ihre Versicherungen künftig von Herrn Max Kuhne bearbeitet werden. Ihm wurden {{32}} Unterlagen übergeben.\n\nAlle Kundendaten {{33}} selbstverständlich streng vertraulich behandelt. Wenn Sie also {{34}} zu Ihren Versicherungen haben, wenden Sie sich in Zukunft bitte an Herrn Kuhne. Er berät und {{35}} Sie gern. Auch im Schadensfall {{36}} er Ihnen schnell und zuverlässig weiter. Im Übrigen möchten wir uns {{37}} einen Fehler in unserer letzten Beitragsrechnung entschuldigen. Leider ist {{38}} die Adresse von Herrn Kuhne nicht korrekt. Seine {{39}} Anschrift und Telefonnummer finden Sie auf diesem Brief oben rechts.\n\nWir danken {{40}} für Ihr Vertrauen.\n\nMit freundlichen Grüßen\nIhre Frankfurter Allianz",
+  "words": ["ANTWORTEN", "AUF", "DASS", "DORT", "FRAGEN", "FÜR", "HABEN", "HILFT", "IHNEN", "IHRE", "INFORMIERT", "OB", "RICHTIGE", "WERDEN", "ZU"],
+  "answers": {
+    "31": "DASS",
+    "32": "IHRE",
+    "33": "WERDEN",
+    "34": "FRAGEN",
+    "35": "INFORMIERT",
+    "36": "HILFT",
+    "37": "FÜR",
+    "38": "DORT",
+    "39": "RICHTIGE",
+    "40": "IHNEN"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Herr Dr. Dobromil",
+  "level": "B2",
+  "position": 13,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 15, اساسي/basic version). Gap 29 = two-part correlative 'sowohl---als auch' across two blanks.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Sehr geehrter Herr Dr. Dobromil,\n\nmit {{21}} Interesse habe ich Ihr Stellenangebot in der Essener Zeitung gelesen, {{22}} Sie eine Teilzeit-Mitarbeiterin in Ihrem Antiquitätengeschäft suchen. Es reizt mich eine verantwortungsvolle Aufgabe in einem so renommierten Geschäft wie dem {{23}} übernehmen {{24}}. Nach dem Abitur am Kreisgymnasium in Velbert begann ich eine dreijährige Schreinerlehre {{25}} der Firma Eichelbohrer & Co und besuchte die Kreisberufsschule in Velbert. Nach erfolgreichem Abschluss meiner Berufsausbildung arbeitete ich {{26}} bei Stutz & Partner - Möbeldesign in Düsseldorf. Danach schrieb ich mich an der Fachhochschule Köln im Fachbereich Möbeldesign ein und {{27}} meine Liebe zu antiquarischen Möbelstücken. Meine Spezialität ist das stilgenaue Restaurieren und Aufarbeiten antiquarischer Möbel insbesondere aus dem Biedermeier und dem Jugendstil. Aufgrund meiner Berufserfahrung und meines Studiums konnte ich umfangreiche Kenntnisse erwerben, {{28}} Möbelstile und die Herstellungskunst in den verschiedensten Epochen {{29}} in Nord- {{29}} in Südeuropa angeht. Mein Studium lässt mir genügend Zeit, eine Teilzeitstelle zu übernehmen, die darüber hinaus meinen beruflichen Fähigkeiten und Neigungen entspricht. Aus diesem Grund habe ich mich entschlossen, {{30}}, und bewerbe mich um die von Ihnen angebotene Teilzeitstelle. Ich freue mich auf ein persönliches Gespräch.\n\nMit freundlichen Grüßen,\nSabina Holzinger",
+  "gaps": [
+    { "n": 21, "a": "allergrößte", "b": "allergrößtem", "c": "allergrößten", "correct": "b" },
+    { "n": 22, "a": "an dem", "b": "auf dem", "c": "in dem", "correct": "c" },
+    { "n": 23, "a": "Ihrem", "b": "Ihren", "c": "Ihres", "correct": "b" },
+    { "n": 24, "a": "können", "b": "könnte", "c": "zu können", "correct": "c" },
+    { "n": 25, "a": "an", "b": "bei", "c": "mit", "correct": "b" },
+    { "n": 26, "a": "ein Jahr lang", "b": "durch ein Jahr", "c": "seit einem Jahr", "correct": "a" },
+    { "n": 27, "a": "entdeckte", "b": "erfand", "c": "merkte", "correct": "a" },
+    { "n": 28, "a": "das", "b": "was", "c": "welches", "correct": "b" },
+    { "n": 29, "a": "sowohl---als auch", "b": "teils---teils", "c": "weder---noch", "correct": "a" },
+    { "n": 30, "a": "auf Ihre Anzeige antworten", "b": "auf Ihre Anzeige zu antworten", "c": "um auf Ihre Anzeige zu antworten", "correct": "b" }
+  ]
+}

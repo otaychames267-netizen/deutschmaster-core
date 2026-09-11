@@ -1,0 +1,192 @@
+{
+  "47dabe45-c0d0-439e-ace3-c7e289926676": {
+    "translation": {
+      "questions": {
+        "1": "يمكن للمهتمين تجربة العمل التطوعي مباشرة في يوم الفعالية.",
+        "2": "يجب إلغاء عرض الأكروبات المخطط له في الحديقة هذا العام.",
+        "3": "يُحذَّر المستخدمون من طريقة جديدة لسرقة البيانات.",
+        "4": "يجب على الزوار استخدام الدراجة للوصول إلى المهرجان.",
+        "5": "المشاركة في التدريب التجريبي تتطلب التسجيل المسبق."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "direkt austesten",
+        "explanation_correct": "Achten Sie bei Wörtern wie „direkt austesten“ darauf, ob eine Aussage nur eine allgemeine Möglichkeit oder ein tatsächliches Angebot beschreibt – diese Aussage ist richtig, denn sie gibt eine Möglichkeit wieder, wie sie in solchen Ankündigungen oft angeboten wird. Beim TELC-Hörverstehen prüfen Aussagen wie diese oft, ob Sie ein angebotenes Mitmachangebot richtig verstanden haben.",
+        "explanation_wrong": "Achten Sie bei Wörtern wie „direkt austesten“ darauf, ob eine Aussage nur eine allgemeine Möglichkeit oder ein tatsächliches Angebot beschreibt – diese Aussage ist richtig, denn sie gibt eine Möglichkeit wieder, wie sie in solchen Ankündigungen oft angeboten wird. Beim TELC-Hörverstehen prüfen Aussagen wie diese oft, ob Sie ein angebotenes Mitmachangebot richtig verstanden haben."
+      },
+      "2": {
+        "keyword": "entfallen",
+        "explanation_correct": "Wörter wie „entfallen“ (also: ausfallen, nicht stattfinden) sind typische Falle-Wörter, denn oft wird in Ankündigungen genau das Gegenteil gesagt, nämlich dass eine Veranstaltung stattfindet. Diese Aussage ist falsch – achten Sie beim Hören immer genau darauf, ob etwas stattfindet oder ausfällt, da TELC-Aufgaben solche Verneinungen gern vertauschen.",
+        "explanation_wrong": "Wörter wie „entfallen“ (also: ausfallen, nicht stattfinden) sind typische Falle-Wörter, denn oft wird in Ankündigungen genau das Gegenteil gesagt, nämlich dass eine Veranstaltung stattfindet. Diese Aussage ist falsch – achten Sie beim Hören immer genau darauf, ob etwas stattfindet oder ausfällt, da TELC-Aufgaben solche Verneinungen gern vertauschen."
+      },
+      "3": {
+        "keyword": "gewarnt",
+        "explanation_correct": "Bei Sicherheitswarnungen ist das Verb „warnen“ entscheidend – es zeigt an, dass eine Gefahr angesprochen wird. Diese Aussage ist richtig; TELC-Texte enthalten oft kurze Warnhinweise, bei denen Sie erkennen müssen, wer gewarnt wird und wovor.",
+        "explanation_wrong": "Bei Sicherheitswarnungen ist das Verb „warnen“ entscheidend – es zeigt an, dass eine Gefahr angesprochen wird. Diese Aussage ist richtig; TELC-Texte enthalten oft kurze Warnhinweise, bei denen Sie erkennen müssen, wer gewarnt wird und wovor."
+      },
+      "4": {
+        "keyword": "das Rad nutzen",
+        "explanation_correct": "Bei Empfehlungen zum Verkehrsmittel („das Rad nutzen“) sollten Sie genau auf das genannte Fortbewegungsmittel achten, da TELC-Aufgaben gern ein Verkehrsmittel gegen ein anderes austauschen. Diese Aussage ist richtig, da sie eine plausible Anreiseempfehlung wiedergibt.",
+        "explanation_wrong": "Bei Empfehlungen zum Verkehrsmittel („das Rad nutzen“) sollten Sie genau auf das genannte Fortbewegungsmittel achten, da TELC-Aufgaben gern ein Verkehrsmittel gegen ein anderes austauschen. Diese Aussage ist richtig, da sie eine plausible Anreiseempfehlung wiedergibt."
+      },
+      "5": {
+        "keyword": "Voranmeldung nötig",
+        "explanation_correct": "Ausdrücke wie „Voranmeldung nötig“ sind klassische Fallen, da TELC-Aussagen oft eine Bedingung (nötig/nicht nötig) vertauschen. Diese Aussage ist falsch – seien Sie beim Hören besonders aufmerksam, wenn es um Pflichtangaben wie eine Anmeldung geht.",
+        "explanation_wrong": "Ausdrücke wie „Voranmeldung nötig“ sind klassische Fallen, da TELC-Aussagen oft eine Bedingung (nötig/nicht nötig) vertauschen. Diese Aussage ist falsch – seien Sie beim Hören besonders aufmerksam, wenn es um Pflichtangaben wie eine Anmeldung geht."
+      }
+    }
+  },
+  "638c9b47-68a0-40b1-8dd9-8824c0874d61": {
+    "translation": {
+      "questions": {
+        "1": "يمكن للمهتمين تجربة المهام دون التزام في يوم الفعالية.",
+        "2": "يُلغى عرض الأكروبات بالكامل بسبب الرياح القوية.",
+        "3": "يُحذَّر في التقرير من استخدام برامج إدارة كلمات المرور.",
+        "4": "يُنصح الزوار بركن سياراتهم عند المدخل الشمالي للحديقة.",
+        "5": "يجب التسجيل مسبقًا للمشاركة في التدريب التجريبي في نادي الملاكمة."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "unverbindlich ausprobieren",
+        "explanation_correct": "Das Wort „unverbindlich“ zeigt an, dass keine Verpflichtung entsteht – solche Zusatzangaben sind oft entscheidend für richtig/falsch. Diese Aussage ist richtig, da sie ein freibleibendes Angebot beschreibt, wie es in Ankündigungen üblich ist.",
+        "explanation_wrong": "Das Wort „unverbindlich“ zeigt an, dass keine Verpflichtung entsteht – solche Zusatzangaben sind oft entscheidend für richtig/falsch. Diese Aussage ist richtig, da sie ein freibleibendes Angebot beschreibt, wie es in Ankündigungen üblich ist."
+      },
+      "2": {
+        "keyword": "starken Windes",
+        "explanation_correct": "Achten Sie auf genannte Gründe wie „starker Wind“ – TELC-Aufgaben erfinden gern einen falschen Grund für ein Ereignis. Diese Aussage ist falsch; überprüfen Sie stets, ob der angegebene Grund tatsächlich in der gehörten Information vorkommt oder frei erfunden klingt.",
+        "explanation_wrong": "Achten Sie auf genannte Gründe wie „starker Wind“ – TELC-Aufgaben erfinden gern einen falschen Grund für ein Ereignis. Diese Aussage ist falsch; überprüfen Sie stets, ob der angegebene Grund tatsächlich in der gehörten Information vorkommt oder frei erfunden klingt."
+      },
+      "3": {
+        "keyword": "Passwort-Managern",
+        "explanation_correct": "Wenn ein bestimmtes Produkt oder eine bestimmte Methode wie „Passwort-Manager“ genannt wird, prüfen Sie genau, ob wirklich davor gewarnt wird oder ob es eher um Datendiebstahl allgemein geht. Diese Aussage ist falsch – TELC-Aufgaben tauschen gern das eigentliche Thema gegen ein ähnlich klingendes aus.",
+        "explanation_wrong": "Wenn ein bestimmtes Produkt oder eine bestimmte Methode wie „Passwort-Manager“ genannt wird, prüfen Sie genau, ob wirklich davor gewarnt wird oder ob es eher um Datendiebstahl allgemein geht. Diese Aussage ist falsch – TELC-Aufgaben tauschen gern das eigentliche Thema gegen ein ähnlich klingendes aus."
+      },
+      "4": {
+        "keyword": "Nordeingang",
+        "explanation_correct": "Ortsangaben wie „Nordeingang“ sind ein typisches Fallenelement – TELC vertauscht gern Himmelsrichtungen oder konkrete Orte. Diese Aussage ist falsch; achten Sie beim Hören immer genau auf den genannten Ort oder Eingang.",
+        "explanation_wrong": "Ortsangaben wie „Nordeingang“ sind ein typisches Fallenelement – TELC vertauscht gern Himmelsrichtungen oder konkrete Orte. Diese Aussage ist falsch; achten Sie beim Hören immer genau auf den genannten Ort oder Eingang."
+      },
+      "5": {
+        "keyword": "vorher anmelden",
+        "explanation_correct": "Die Formulierung „sich vorher anmelden“ beschreibt eine Bedingung, die TELC-Aufgaben gern ins Gegenteil verkehren. Diese Aussage ist falsch – prüfen Sie immer, ob eine Anmeldung wirklich verlangt wird oder das Angebot frei zugänglich ist.",
+        "explanation_wrong": "Die Formulierung „sich vorher anmelden“ beschreibt eine Bedingung, die TELC-Aufgaben gern ins Gegenteil verkehren. Diese Aussage ist falsch – prüfen Sie immer, ob eine Anmeldung wirklich verlangt wird oder das Angebot frei zugänglich ist."
+      }
+    }
+  },
+  "6705681e-4df5-4c53-a188-3d50eed32bda": {
+    "translation": {
+      "questions": {
+        "56": "المطعم مفتوح حتى الساعة 23:00.",
+        "57": "جميع رحلات شركة الطيران AirMer ملغاة اليوم وغدًا.",
+        "58": "يوجد اليوم وغدًا خصم يصل إلى 70% على جميع الأثاث.",
+        "59": "يفتح سوق شيك ماركت أبوابه اعتبارًا من صباح يوم الجمعة.",
+        "60": "يُلغى قطار الإنترسيتي المتجه إلى بريغنتس بسبب عطل فني."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "bis 23 Uhr",
+        "explanation_correct": "Uhrzeiten wie „bis 23 Uhr“ gehören zu den häufigsten Fallen im TELC-Hörverstehen, da eine falsche Zeit leicht eingesetzt wird. Diese Aussage ist falsch – achten Sie beim Hören stets genau auf die genannte Öffnungszeit.",
+        "explanation_wrong": "Uhrzeiten wie „bis 23 Uhr“ gehören zu den häufigsten Fallen im TELC-Hörverstehen, da eine falsche Zeit leicht eingesetzt wird. Diese Aussage ist falsch – achten Sie beim Hören stets genau auf die genannte Öffnungszeit."
+      },
+      "57": {
+        "keyword": "gestrichen",
+        "explanation_correct": "Das Wort „gestrichen“ (also: annulliert) ist hier entscheidend, ebenso wie der Zeitraum „heute und morgen“. Diese Aussage ist richtig; bei Durchsagen zu Flugausfällen sollten Sie immer auf Fluglinie, Zeitraum und Umfang (alle/einige Flüge) achten.",
+        "explanation_wrong": "Das Wort „gestrichen“ (also: annulliert) ist hier entscheidend, ebenso wie der Zeitraum „heute und morgen“. Diese Aussage ist richtig; bei Durchsagen zu Flugausfällen sollten Sie immer auf Fluglinie, Zeitraum und Umfang (alle/einige Flüge) achten."
+      },
+      "58": {
+        "keyword": "bis zu 70%",
+        "explanation_correct": "Prozentangaben wie „bis zu 70%“ werden in TELC-Aussagen häufig verändert, um eine falsche Aussage zu erzeugen. Diese Aussage ist falsch – prüfen Sie bei Rabattangaben immer genau die genannte Zahl und ob sie wirklich für alle Waren gilt.",
+        "explanation_wrong": "Prozentangaben wie „bis zu 70%“ werden in TELC-Aussagen häufig verändert, um eine falsche Aussage zu erzeugen. Diese Aussage ist falsch – prüfen Sie bei Rabattangaben immer genau die genannte Zahl und ob sie wirklich für alle Waren gilt."
+      },
+      "59": {
+        "keyword": "Freitagvormittag",
+        "explanation_correct": "Wochentag und Tageszeit („Freitagvormittag“) werden in TELC-Aufgaben gern vertauscht. Diese Aussage ist falsch – achten Sie beim Hören genau darauf, an welchem Tag und zu welcher Uhrzeit etwas beginnt.",
+        "explanation_wrong": "Wochentag und Tageszeit („Freitagvormittag“) werden in TELC-Aufgaben gern vertauscht. Diese Aussage ist falsch – achten Sie beim Hören genau darauf, an welchem Tag und zu welcher Uhrzeit etwas beginnt."
+      },
+      "60": {
+        "keyword": "technischen Gebrechens",
+        "explanation_correct": "Der genannte Grund „technisches Gebrechen“ (also: technischer Defekt) ist ein klassisches Fallenelement, da TELC-Aufgaben gern einen anderen Grund für einen Zugausfall angeben. Diese Aussage ist falsch – hören Sie beim Grund für eine Störung immer besonders genau hin.",
+        "explanation_wrong": "Der genannte Grund „technisches Gebrechen“ (also: technischer Defekt) ist ein klassisches Fallenelement, da TELC-Aufgaben gern einen anderen Grund für einen Zugausfall angeben. Diese Aussage ist falsch – hören Sie beim Grund für eine Störung immer besonders genau hin."
+      }
+    }
+  },
+  "56193042-44fa-4c77-9f76-b555362b3b61": {
+    "translation": {
+      "questions": {
+        "56": "في بداية الأسبوع، يُنصح بتجنب البقاء في الهواء الطلق.",
+        "57": "يكون خطر التعرض لحادث اصطدام بحيوان بري في المساء هو الأكبر.",
+        "58": "يمكن الاستماع إلى الموسيقى في أماكن مختلفة خلال المهرجان.",
+        "59": "في الحالات العاجلة، يمكنكم الاتصال بالشركة ابتداءً من يوم الاثنين.",
+        "60": "يُتوقع حدوث اضطرابات في حركة المرور في المساء."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "Aufenthalt im Freien vermeiden",
+        "explanation_correct": "Empfehlungen mit „vermeiden“ sind oft entscheidend, da TELC-Aufgaben eine Empfehlung leicht ins Gegenteil verkehren. Diese Aussage ist richtig; achten Sie beim Hören genau darauf, ob zu etwas geraten oder davon abgeraten wird.",
+        "explanation_wrong": "Empfehlungen mit „vermeiden“ sind oft entscheidend, da TELC-Aufgaben eine Empfehlung leicht ins Gegenteil verkehren. Diese Aussage ist richtig; achten Sie beim Hören genau darauf, ob zu etwas geraten oder davon abgeraten wird."
+      },
+      "57": {
+        "keyword": "am größten",
+        "explanation_correct": "Superlative wie „am größten“ markieren oft die entscheidende Information in Verkehrs- oder Wetterhinweisen. Diese Aussage ist richtig – prüfen Sie bei Superlativen immer, ob die genannte Tageszeit tatsächlich zum höchsten Risiko passt.",
+        "explanation_wrong": "Superlative wie „am größten“ markieren oft die entscheidende Information in Verkehrs- oder Wetterhinweisen. Diese Aussage ist richtig – prüfen Sie bei Superlativen immer, ob die genannte Tageszeit tatsächlich zum höchsten Risiko passt."
+      },
+      "58": {
+        "keyword": "verschiedenen Orten",
+        "explanation_correct": "Die Angabe „verschiedene Orte“ beschreibt den Umfang einer Veranstaltung – TELC-Aufgaben schränken solche Angaben gern fälschlich auf einen einzigen Ort ein. Diese Aussage ist richtig, da mehrere Orte für Musik beschrieben werden.",
+        "explanation_wrong": "Die Angabe „verschiedene Orte“ beschreibt den Umfang einer Veranstaltung – TELC-Aufgaben schränken solche Angaben gern fälschlich auf einen einzigen Ort ein. Diese Aussage ist richtig, da mehrere Orte für Musik beschrieben werden."
+      },
+      "59": {
+        "keyword": "ab Montag",
+        "explanation_correct": "Zeitangaben wie „ab Montag“ sind ein häufiges Fallenelement, da eine Erreichbarkeit oft für einen anderen Zeitraum gilt. Diese Aussage ist falsch – achten Sie genau darauf, ab wann bzw. bis wann etwas gilt.",
+        "explanation_wrong": "Zeitangaben wie „ab Montag“ sind ein häufiges Fallenelement, da eine Erreichbarkeit oft für einen anderen Zeitraum gilt. Diese Aussage ist falsch – achten Sie genau darauf, ab wann bzw. bis wann etwas gilt."
+      },
+      "60": {
+        "keyword": "Verkehrsbehinderungen",
+        "explanation_correct": "Das Wort „Verkehrsbehinderungen“ ist hier zentral – TELC-Aufgaben verwechseln gern die Art der Meldung (z. B. Wetter statt Verkehr). Diese Aussage ist falsch; hören Sie genau, worauf sich eine Warnung tatsächlich bezieht.",
+        "explanation_wrong": "Das Wort „Verkehrsbehinderungen“ ist hier zentral – TELC-Aufgaben verwechseln gern die Art der Meldung (z. B. Wetter statt Verkehr). Diese Aussage ist falsch; hören Sie genau, worauf sich eine Warnung tatsächlich bezieht."
+      }
+    }
+  },
+  "0efaa3a5-8522-4dc4-bec6-a9dddbd3a038": {
+    "translation": {
+      "questions": {
+        "56": "تنخفض درجات الحرارة الليلية إلى صفر درجة في المنطقة بأكملها.",
+        "57": "تذاكر حفلة فرقة Sing Slow عند شباك التذاكر مساءً أرخص من الحجز المسبق.",
+        "58": "بسبب أعمال البناء، لا يمكن استخدام سوى مسرب واحد باتجاه المدينة على جسر فيكتوريا.",
+        "59": "إذا شعر المرء بأنه دفع مبلغًا زائدًا مقابل الكهرباء، فعليه اختيار الرقم 2.",
+        "60": "تُقام في مهرجان بيرغهايم عروض لفرق مسرحية عالمية."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "null Grad",
+        "explanation_correct": "Temperaturangaben wie „null Grad“ werden in TELC-Aussagen häufig verändert. Diese Aussage ist falsch – achten Sie beim Hören von Wetterberichten immer genau auf die genannte Gradzahl und das betroffene Gebiet.",
+        "explanation_wrong": "Temperaturangaben wie „null Grad“ werden in TELC-Aussagen häufig verändert. Diese Aussage ist falsch – achten Sie beim Hören von Wetterberichten immer genau auf die genannte Gradzahl und das betroffene Gebiet."
+      },
+      "57": {
+        "keyword": "günstiger als im Vorverkauf",
+        "explanation_correct": "Preisvergleiche wie „günstiger als“ werden in TELC-Aufgaben gern umgedreht. Diese Aussage ist falsch – prüfen Sie bei Preisangaben immer, welche Variante (Abendkasse oder Vorverkauf) tatsächlich günstiger ist.",
+        "explanation_wrong": "Preisvergleiche wie „günstiger als“ werden in TELC-Aufgaben gern umgedreht. Diese Aussage ist falsch – prüfen Sie bei Preisangaben immer, welche Variante (Abendkasse oder Vorverkauf) tatsächlich günstiger ist."
+      },
+      "58": {
+        "keyword": "nur eine Fahrbahn",
+        "explanation_correct": "Die Einschränkung „nur eine Fahrbahn“ ist ein zentrales Detail bei Verkehrsmeldungen. Diese Aussage ist richtig; achten Sie bei solchen Meldungen immer auf Ort, Richtung und Umfang der Einschränkung.",
+        "explanation_wrong": "Die Einschränkung „nur eine Fahrbahn“ ist ein zentrales Detail bei Verkehrsmeldungen. Diese Aussage ist richtig; achten Sie bei solchen Meldungen immer auf Ort, Richtung und Umfang der Einschränkung."
+      },
+      "59": {
+        "keyword": "wählt man die 2",
+        "explanation_correct": "Bei automatischen Ansagen mit Zifferauswahl ist die genannte Zahl das entscheidende Detail. Diese Aussage ist richtig, da eine plausible Zuordnung von Anliegen zu Auswahlziffer beschrieben wird; TELC-Aufgaben vertauschen solche Ziffern jedoch gern.",
+        "explanation_wrong": "Bei automatischen Ansagen mit Zifferauswahl ist die genannte Zahl das entscheidende Detail. Diese Aussage ist richtig, da eine plausible Zuordnung von Anliegen zu Auswahlziffer beschrieben wird; TELC-Aufgaben vertauschen solche Ziffern jedoch gern."
+      },
+      "60": {
+        "keyword": "internationalen Theatergruppen",
+        "explanation_correct": "Angaben zur Herkunft von Akteuren wie „international“ werden in TELC-Aufgaben oft gegen eine andere Angabe (z. B. lokal/regional) ausgetauscht. Diese Aussage ist falsch – achten Sie genau darauf, wer bei einer Veranstaltung tatsächlich auftritt.",
+        "explanation_wrong": "Angaben zur Herkunft von Akteuren wie „international“ werden in TELC-Aufgaben oft gegen eine andere Angabe (z. B. lokal/regional) ausgetauscht. Diese Aussage ist falsch – achten Sie genau darauf, wer bei einer Veranstaltung tatsächlich auftritt."
+      }
+    }
+  }
+}

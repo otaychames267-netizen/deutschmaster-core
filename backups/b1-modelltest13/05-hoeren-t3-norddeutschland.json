@@ -1,0 +1,17 @@
+{
+  "title": "Norddeutschland",
+  "teil": 3,
+  "level": "B1",
+  "position": 13,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 13/16 (Andreas2/Language Tests, page 165 printed / PDF page 166). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Five short unrelated texts (weather, football results, magazine subscription, speed control, a birthday party venue). Answer key from Lösungen page (printed p.167 / PDF p.168): 56- 57+ 58+ 59- 60-. NOT INSERTED: confirmed byte-identical duplicate of an already-existing 'Norddeutschland' Hören Teil 3 exercise (id 1f353997-d97e-4614-9b28-41a22153d307, position 11) — all 5 statements match verbatim. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted).",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "In Norddeutschland steigen die Temperaturen morgen auf 5 bis 7 Grad.", "correct": false },
+    { "number": 57, "text": "Hamburg hat öfter gewonnen als Stuttgart.", "correct": true },
+    { "number": 58, "text": "Nach zwei Monaten müssen Sie für die Zeitschrift bezahlen.", "correct": true },
+    { "number": 59, "text": "Auf dem Mittleren Ring in München wird die Geschwindigkeit kontrolliert.", "correct": false },
+    { "number": 60, "text": "Janas Geburtstagsfest findet nicht im LEO statt.", "correct": false }
+  ]
+}

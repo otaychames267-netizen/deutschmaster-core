@@ -1,0 +1,63 @@
+{
+  "title": "Mirjam Pressier",
+  "teil": 2,
+  "level": "B2",
+  "position": 22,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "اساسي",
+  "variant_group": "Mirjam Pressier",
+  "notes": "PDF page 23 (code 12570) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Mirjam Pressier freut sich, in Kürze die Doktorwürde der Universität Groningen zu erhalten.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Sie arbeitet auch als Übersetzerin.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Sie hat als Erste Anne Frank ins Deutsche übersetzt.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Sie macht jedes Jahr Urlaub in einem Ferienhaus bei Venedig.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Wenn sie an ihre Kindheit denkt, denkt sie an den Krieg.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Der Kontakt zu ihren Pflegeeltern war sehr gut.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Ihre Werke haben oft biographische Züge.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Ihre erste Lektüre war ein Roman, der in Petersburg spielt.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Als Kind las sie immer im Keller des Hauses.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Ihre Pflegemutter wollte nicht, dass sie Tagebuch schreibt.",
+      "correct": true
+    }
+  ]
+}

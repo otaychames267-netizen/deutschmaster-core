@@ -1,0 +1,629 @@
+[
+  {
+    "id": "24aa044a-427c-4212-bf56-64a2ce739715",
+    "teil": 2,
+    "title": "Frau Schenk (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Schenk hat kurze blondierte Haar.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Angie ist der Künstlername von Frau Schenk.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Schenk lebt seit etwas mehr als zwei Jahren in Bayer.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Interview hat keine guten Erinnerungen an seine Aufenthalte in Jugendherberge.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auch in der modernen Jugendherberge von Frau Schenk gibt es Schlafraum mit mehr als zehn Bette.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Mädchen und jungen müssen in verschiedenen Schlafräumen schlafen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In der Jugendherberge wird das Essen den Wünschen der Gästegruppen angepasst.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Schulter aus ländlichen Regionen verhalten sich in der Regel anständig.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Reiten ist Teil des Sportangebots der Jugendherberge.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Schenk muss für ihre Dienstwohnung 800€ bezahle.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "7e60e10d-6cb2-4aa2-be1e-9cfc4a5196f2",
+    "teil": 2,
+    "title": "Frau Seidel",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Seidel erledigt ihre Arbeit überwiegend am Schreibtisch.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Bauarbeiten fallen in eine stark frequentierte Zeit.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die aktuellen Probleme betreffen ausschließlich den Regionalverkehr.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Ersatzverkehr erfolgt ausschließlich mit Bussen.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Geschäftsreisende bleiben von den Störungen weitgehend unbeeinträchtigt.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Einschränkungen wirken sich nicht auf alle Freizeitangebote gleichermaßen aus.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man erwartet eine vollständige Rückkehr zum Normalbetrieb.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Situation ist im Vergleich zum letzten Wochenende deutlich entspannter.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vergleichbare Situationen traten früher nie während der Ferien auf.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Trotz der Belastung ist Frau Seidel mit ihrer Arbeit zufrieden.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "704f26e1-3b16-41d2-8728-28257b34ccc2",
+    "teil": 2,
+    "title": "Herr Böhm",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Amerikanische Politiker haben die Entscheidung für das Projekt getroffen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Böhm wollte schon als Kind Bauingenieur werden.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das älteste Bauwerk ist 80.000 Jahre alt.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Böhm arbeitet häufig an ähnlichen Projekten.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Moderne Maschinen erhöhen die Sicherheit auf Baustellen.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Früher mussten Bauarbeiter viele gefährliche Aufgaben selbst übernehmen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Böhm arbeitete früher im Bereich Maschinenentwicklung.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Anfang gab es finanzielle Probleme bei dem Projekt.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Automatische Kontrollsysteme helfen dabei, Gefahren früher zu erkennen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Projekt wird heute durch europäische Fördermittel unterstützt.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "f7c54fd3-8c71-462b-b999-83facb78d9fa",
+    "teil": 2,
+    "title": "Herr Gasser",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Gasser und Frau Janke haben zusammen Urlaub im Gebirge gemacht.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Josef Gasser ist ein gebürtiger Tiroler.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Bergbauern können kaum vom Verkauf ihrer Produkte leben.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auch heute werden die steilen Hänge noch manuell bearbeitet.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Josef Gasser findet, dass man die Berglandschaft sich selbst überlassen sollte.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Eva janke begeistert sich immer noch für Flugreisen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ihren ersten Einsatz auf der Alm hat Frau Janke abgebrochen.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "für frau Janke ist der Erholungswert trotz der Anstrengung sehr hoch.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Alm helferinnen und helfer können viel Fältige Aufgabeen übernehmen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Über die Dauer des Aufenthalts kann man frei entscheiden.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "dc395130-8796-44ea-8720-bfdd2c45d101",
+    "teil": 2,
+    "title": "Herr Karimov",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Karimov hat vor sechs Jahren die InternetPlattform ZEITPLAN gegründet.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Mitglieder bekommen für ihre Hilfe ein Stunden Guthaben.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Karimov hatte ein eigenes Handwerksunternehmen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach dem Umzug aufs Land, war er auf die Hilfe der Nachbarn angewiesen.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Manchmal erwarten Mitglieder keine Gegenleistung für ihre Arbeit.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Meistens brauchen alleinstehende frauen Herrn Karimovs Hilfe.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Menschen sehen im ZEITPLAN eine Konkurrenz zu Handwerksbetrieben .",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Karimov erledigt nicht so gerne Büroarbeit.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wer sich bei der Nachbarschaftshilfe einbringen möchte, muss sich persönlich vorstellen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Karimov brauchte vorübergehend einen Chauffeur.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "626bc5a1-7e06-4cf2-af85-2e346b975f70",
+    "teil": 2,
+    "title": "Herr Kemper  ( Original )",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Kemper arbeitet aus Dankbarkeit für die Hilfe, die er früher bekommen hat, ehrenamtlich.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Tierschutz hat für Herrn Kemper oberste Priorität.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Kemper hat zuerst handwerkliche Arbeiten im Tierheim gemacht.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Kemper hat es abgelehnt, Reinigungsarbeiten zu übernehmen.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Alle Helferinnen und Helfer arbeiten mehrmals in der Woche im Tierheim.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Greta hat angefangen, ehrenamtlich zu arbeiten, weil sie zu Hause Langeweile hatte.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Kemper hat einer jungen Frau geholfen, ihren beruflichen Weg zu finden.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Kemper findet. dass sich jeder Mensch ehrenamtlich engagieren sollte.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Kemper hat auch Verständnis für Menschen, die sich nicht ehrenamtlich engagieren.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Kemper wohnt in einem Haus, in dem Tierhaltung verboten ist.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "1475ca7c-87cc-4a24-9f22-eba25d318fd2",
+    "teil": 2,
+    "title": "Herr Kemper (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Lisa Eisenberg war aus beruflichen Gründen in den USA.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Während einer Reise entschied sich Lisa Eisenberg für einen beruflichen Neuanfang.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lisa Eisenbergs Geschäftsidee stieß in ihrem Bekanntenkreis auf Skepsis.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lisa Eisenberg hat sich auf regionale Speisen spezialisiert.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In der Mittagszeit erzielt Lisa Eisenberg den Großteil ihres Umsatzes.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lisa Eisenberg muss nicht mehr aktiv nach Kunden suchen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lisa Eisenberg bietet für Firmen täglich auch abends Gerichte an.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es ist für Lisa Eisenberg leicht, ein geeignetes Fahrzeug zu finden.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lisa Eisenberg hat als Studentin nebenbei in der Gastronomie gearbeitet.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In den nächsten Monaten wird Lisa Eisenberg einen zweiten Wagen kaufen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "1b028d01-0e45-4cad-ad4a-88b6b864a526",
+    "teil": 2,
+    "title": "Herr Scherer",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Scherer wird an seinem Arbeitsplatz interviewt.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Scherer probt jede Woche zweimal mit dem Kirchenchor.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Scherer hat wechselnde Arbeitszeiten.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Verspätungen gehen häufig auf das Konto undisziplinierter Fahrgäste.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Scherer und seine Kollegen verkaufen keine Fahrscheine mehr.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Alkoholisierte Fahrgäste verursachen zunehmend Probleme.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Verkehrsbetriebe haben ein eigenes Schwimmbad.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Klimatisierung der Busse ist bei hohen Temperaturen nicht ausreichend.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Scherer hat bei der Bundeswehr eine Ausbildung zum Automechaniker gemacht.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Scherer hat bei der Post 15 Jahre in Nachtschicht gearbeitet.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "da9f5076-05be-43d4-9d71-fe63d4fe9a8d",
+    "teil": 2,
+    "title": "Herr Werner",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Auf dem Gipfel der Zugspitze liegt ungefähr ein Meter Schnee.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man kann derzeit auf der Zugspitze Ski fahren.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auch in Garmisch-Partenkirchen selbst hat es geschnelt.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In der kommenden Woche erwartet man für die Zugspitzregion freundliches Wetter.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Sonntag wird ein Gottesdienst auf einer Bergstation abgehalten.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Zugspitze kann man momentan wegen des Nebels nicht erkennen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Urlauber in Garmisch-Partenkirchen haben bei jedem Wetter genügend Möglichkeiten zur Freizeitgestaltung.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Herr Werner erwartet keine Wetterbesserung.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auch in früheren Jahren hat es im Juni und August geschnelt.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Herr Werner ist mit seinem Arbeitsplatz zufrieden.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "bc6cae0f-0f88-43f8-a8da-9ebed7b25ef1",
+    "teil": 2,
+    "title": "In dem Restaurant in den Alpen",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "In dem Restaurant gab es einen Wasserschaden.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Anton Laurito ist bei seinen Großeltern aufgewachsen.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Im Haus der Großeltern lebten auch andere Kinder.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Stress störte den Studiogast während der Ausbildung nicht.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei neuen Mitarbeitern legt Anton Laurito am meisten Wert auf viel Erfahrung.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ausschen und Geschmack der Speisen haben für den Koch den gleichen Stellenwert.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In der Essschule können Kinder kochen lernen.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Anton Laurito lehnt Fastfood nicht grundsätzlich ab.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Koch hat eine gesunde Einstellung zum Thema Wettbewerb.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zuhause probiert er gerne komplizierte Gerichte aus.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "8e8bad0c-1b5b-4020-9220-089fc9333bbb",
+    "teil": 2,
+    "title": "Janis",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Janis findet, dass Autoren heute von Kritikern ignoriert werden.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Setting seines Romans basiert auf einer Weltreise.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sein Biologie-Studium hilft ihm beim Entwurf der Monster.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Janis schreibt seine ersten Entwürfe handschriftlich.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Autor korrigiert niemals während des ersten Schreibens.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Janis findet den Plot wichtiger als die Charaktere.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Früher versuchte Janis, Erfolg durch Trends zu kopieren.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Verlag hat das Buchende gegen seinen Willen geändert.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Janis braucht Stille und Einsamkeit zum Schreiben.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Er rät jungen Autoren, soziale Medien nicht zu wichtig zu nehmen.",
+        "statement_number": 10
+      }
+    ]
+  }
+]

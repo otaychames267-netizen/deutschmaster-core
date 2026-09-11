@@ -1,0 +1,38 @@
+{
+  "title": "Musikfestivals 2",
+  "teil": 3,
+  "level": "B2",
+  "position": 3,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Musikfestivals",
+  "notes": "PDF page 4 (code 13) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Geschäftsreisende werden gebeten, Mietwagen unter der Nummer 3223 zu buchen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Sie gehen am 3. Juli ins Konzert, weil Sie die beiden Leipziger Klaviervirtuosen hören möchten.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Am Wochenende können Sie sich in Naumburg über die Bekämpfung von Krankheiten bei Apfelbäumen informieren.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Im Handwerksmuseum werden Kleidungsstücke ausgestellt.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Die Autobahn A5 ist zwischen Baden-Baden und Rastatt in beiden Richtungen gesperrt.",
+      "correct": false
+    }
+  ]
+}

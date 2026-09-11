@@ -1,0 +1,562 @@
+{
+  "6832357b-ea56-422d-b58f-7719b515549c": {
+    "translation": { "questions": {
+      "56": "يجب عليكم التوجه إلى المخرج رقم 26.",
+      "57": "للوصول إلى القسم المختص، يجب عليكم الاتصال بالرقم 3.",
+      "58": "عبر رقم الخدمة يمكنكم الحصول على بطاقات لجولة إرشادية.",
+      "59": "يمكنكم التقدم بطلب يوم الأحد الساعة الواحدة.",
+      "60": "لا يُسمح لكم بالقيادة في شارع بيكرشتراسه."
+    }},
+    "items": {
+      "56": { "keyword": "zum Ausgang 26", "explanation_correct": "Konkrete Nummern (hier: Ausgang 26) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Nummern (hier: Ausgang 26) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "57": { "keyword": "die 3 wählen", "explanation_correct": "Konkrete Rufnummern-Ziffern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Rufnummern-Ziffern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "Karten für eine Führung", "explanation_correct": "Was genau man über eine Service-Nummer erhält, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Was genau man über eine Service-Nummer erhält, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "59": { "keyword": "Sonntag um ein Uhr", "explanation_correct": "Wochentag UND Uhrzeit zusammen sind ein doppeltes Detail – hier stimmen beide Angaben. Diese Aussage ist Richtig.", "explanation_wrong": "Wochentag UND Uhrzeit zusammen sind ein doppeltes Detail – hier stimmen beide Angaben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "dürfen Sie nicht fahren", "explanation_correct": "Verbote (Straßennamen + Verneinung) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verbote (Straßennamen + Verneinung) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "af5c1820-0a93-42f1-92fa-57e07bb2ec42": {
+    "translation": { "questions": {
+      "56": "يجب عليكم التوجه إلى المخرج رقم 26.",
+      "57": "للوصول إلى القسم المختص، يجب عليكم الاتصال بالرقم 3.",
+      "58": "عبر رقم الخدمة يمكنكم الحصول على بطاقات لجولة إرشادية.",
+      "59": "يمكنكم التقدم بطلب يوم الأحد الساعة الواحدة.",
+      "60": "لا يُسمح لكم بالقيادة في شارع بيكرشتراسه."
+    }},
+    "items": {
+      "56": { "keyword": "zum Ausgang 26", "explanation_correct": "Konkrete Nummern (hier: Ausgang 26) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Nummern (hier: Ausgang 26) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "57": { "keyword": "die 3 wählen", "explanation_correct": "Konkrete Rufnummern-Ziffern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Rufnummern-Ziffern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "Karten für eine Führung", "explanation_correct": "Was genau man über eine Service-Nummer erhält, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Was genau man über eine Service-Nummer erhält, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "59": { "keyword": "Sonntag um ein Uhr", "explanation_correct": "Wochentag UND Uhrzeit zusammen sind ein doppeltes Detail – hier stimmen beide Angaben. Diese Aussage ist Richtig.", "explanation_wrong": "Wochentag UND Uhrzeit zusammen sind ein doppeltes Detail – hier stimmen beide Angaben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "dürfen Sie nicht fahren", "explanation_correct": "Verbote (Straßennamen + Verneinung) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verbote (Straßennamen + Verneinung) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "894f0e2c-b445-4903-990b-1c60932c0677": {
+    "translation": { "questions": {
+      "56": "لن يسير القطار الإقليمي إلى بروك آن دير مور الساعة 7:15.",
+      "57": "يمكن للمرء الفوز بسيارة إذا جمع كل الأرقام الرابحة التسعة.",
+      "58": "الأسبوع القادم سيكون هناك تفاح بسعر أقل من يورو واحد.",
+      "59": "قطار الإنترسيتي إلى ميونخ يغادر دائماً من الرصيف رقم 2.",
+      "60": "الدخول إلى متحف كونتربونت للأطفال مجاني يوم الافتتاح."
+    }},
+    "items": {
+      "56": { "keyword": "wird nicht fahren", "explanation_correct": "Zugausfälle mit genauer Uhrzeit sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Zugausfälle mit genauer Uhrzeit sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "57": { "keyword": "alle 9 Gewinnzahlen", "explanation_correct": "Genaue Zahlenangaben zu einer Gewinnbedingung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zahlenangaben zu einer Gewinnbedingung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "unter 1€", "explanation_correct": "Genaue Preisangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Preisangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "59": { "keyword": "immer von Bahnsteig 2", "explanation_correct": "Absolute Formulierungen wie „immer“ bei Gleisangaben sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „immer“ bei Gleisangaben sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." },
+      "60": { "keyword": "am Eröffnungstag gratis", "explanation_correct": "Aussagen zu kostenlosem Eintritt an einem bestimmten Tag sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zu kostenlosem Eintritt an einem bestimmten Tag sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "f9e0bdbc-101f-4522-9da8-d2c3dbbc749e": {
+    "translation": { "questions": {
+      "56": "من خلال خدمة المعلومات التابعة لشركة تيليكوم، يمكنكم أيضاً الاستعلام عن أسعار الأسهم.",
+      "57": "في هاناو يُقام بعد الظهر حفل تنكري للأطفال.",
+      "58": "تعرفون حصرياً عبر الإنترنت إن كنتم قد فزتم.",
+      "59": "يوم الجمعة يجب أن تتوقعوا كمية كبيرة من حبوب اللقاح في الجبال المتوسطة.",
+      "60": "قامت إذاعة بايرن راديو باختبار برامج تعليم قيادة مدعومة بالحاسوب."
+    }},
+    "items": {
+      "56": { "keyword": "auch über Aktienkurse", "explanation_correct": "Zusätzliche Angebote eines Informationsdienstes (hier: Aktienkurse) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Zusätzliche Angebote eines Informationsdienstes (hier: Aktienkurse) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "57": { "keyword": "in Hanau ... Nachmittag", "explanation_correct": "Ortsname UND Tageszeit zusammen sind ein doppeltes Detail – prüfe beide Angaben genau. Diese Aussage ist Falsch.", "explanation_wrong": "Ortsname UND Tageszeit zusammen sind ein doppeltes Detail – prüfe beide Angaben genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "ausschließlich im Internet", "explanation_correct": "Das einschränkende Wort „ausschließlich“ ist eine klassische Falle – im Hörtext werden oft mehrere Wege genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „ausschließlich“ ist eine klassische Falle – im Hörtext werden oft mehrere Wege genannt. Diese Aussage ist Falsch." },
+      "59": { "keyword": "am Freitag ... viele Pollen", "explanation_correct": "Wochentag UND Wettervorhersage-Detail zusammen sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Wochentag UND Wettervorhersage-Detail zusammen sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "60": { "keyword": "computergestützte Fahrschulprogramme", "explanation_correct": "Konkrete Testthemen eines Senders sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Testthemen eines Senders sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "ab73505d-8f7d-4998-abd3-5de73aafa34c": {
+    "translation": { "questions": {
+      "56": "في إذاعة كلاسيك ريديو يمكن الفوز ببطاقات لحفلة موسيقية في فرانكفورت.",
+      "57": "للمشاركة في سباق إنغلبرغ في ميلتنبرغ يلزم التسجيل المبكر.",
+      "58": "تُعلم محطة بايرن 1 الإذاعية على موقعها الإلكتروني عن حفل الصيف الليلي.",
+      "59": "وقع حادث على الطريق السريع A3 بالقرب من إرلانغن.",
+      "60": "تقدم شركة فونك-موبيل خدمات لسائقي السيارات."
+    }},
+    "items": {
+      "56": { "keyword": "Karten für ein Konzert", "explanation_correct": "Konkrete Gewinne (hier: Konzertkarten) UND der Ort sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Gewinne (hier: Konzertkarten) UND der Ort sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "57": { "keyword": "frühzeitige Anmeldung erforderlich", "explanation_correct": "Anmeldebedingungen für eine Veranstaltung werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Anmeldebedingungen für eine Veranstaltung werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch." },
+      "58": { "keyword": "informiert auf seiner Website", "explanation_correct": "Wo genau man Informationen findet, ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wo genau man Informationen findet, ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "in der Nähe von Erlangen", "explanation_correct": "Ortsangaben zu Verkehrsmeldungen werden im Hörtext oft gegen einen anderen Ort ausgetauscht. Diese Aussage ist Falsch.", "explanation_wrong": "Ortsangaben zu Verkehrsmeldungen werden im Hörtext oft gegen einen anderen Ort ausgetauscht. Diese Aussage ist Falsch." },
+      "60": { "keyword": "Dienstleistungen für Autofahrer", "explanation_correct": "Wer genau eine Dienstleistung anbietet (Firmenname), ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wer genau eine Dienstleistung anbietet (Firmenname), ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." }
+    }
+  },
+  "b044ad81-1cbb-4bbc-a0c8-da37815ad88c": {
+    "translation": { "questions": {
+      "56": "يمكن لابنتكم تجربة رياضات مختلفة يوم الجمعة.",
+      "57": "يمكنكم التسجيل عبر الإنترنت للتبرع بالدم.",
+      "58": "اليوم يجب عليكم الانتظار للحافلة.",
+      "59": "يجب عليكم مغادرة حمام السباحة مبكراً.",
+      "60": "للحصول على موعد يجب عليكم الاتصال."
+    }},
+    "items": {
+      "56": { "keyword": "am Freitag ... testen", "explanation_correct": "Wochentag UND Aktivität zusammen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wochentag UND Aktivität zusammen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "im Internet anmelden", "explanation_correct": "Der Anmeldeweg (hier: Internet) ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Der Anmeldeweg (hier: Internet) ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "58": { "keyword": "auf den Bus ausweichen", "explanation_correct": "Alternative Verkehrsmittel bei Störungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Alternative Verkehrsmittel bei Störungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "früher verlassen", "explanation_correct": "Zeitliche Änderungen (hier: früher) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Zeitliche Änderungen (hier: früher) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "für einen Termin ... anrufen", "explanation_correct": "Der genaue Weg zur Terminvereinbarung (hier: Anruf) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Der genaue Weg zur Terminvereinbarung (hier: Anruf) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "3b392e61-14bd-46a3-9f76-649f99f0e22c": {
+    "translation": { "questions": {
+      "56": "تسمعون رسالة البريد الصوتي لمكتبة.",
+      "57": "خلال حفل اليوبيل في القلعة يمكن للمرء العزف بنفسه.",
+      "58": "من يحب الرقص لفترة طويلة، عليه بزيارة كولمباخ.",
+      "59": "يمكنكم التسجيل لجميع الدورات أيضاً عبر الإنترنت.",
+      "60": "يقدم فنانون دوليون عروضاً في أماكن مختلفة في إيزنس."
+    }},
+    "items": {
+      "56": { "keyword": "Anrufbeantworter einer Buchhandlung", "explanation_correct": "Die Art der Aufnahme (hier: Anrufbeantworter) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Die Art der Aufnahme (hier: Anrufbeantworter) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "selbst Musik machen", "explanation_correct": "Was genau man bei einer Veranstaltung tun kann, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Was genau man bei einer Veranstaltung tun kann, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "58": { "keyword": "in Kulmbach", "explanation_correct": "Ortsnamen werden im Hörtext oft gegen einen anderen Ort ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Ortsnamen werden im Hörtext oft gegen einen anderen Ort ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "59": { "keyword": "für alle kurse", "explanation_correct": "Absolute Formulierungen wie „alle“ bei Anmeldemöglichkeiten sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „alle“ bei Anmeldemöglichkeiten sind eine typische Falle. Diese Aussage ist Falsch." },
+      "60": { "keyword": "an verschiedenen Plätzen", "explanation_correct": "Aussagen zu Auftrittsorten ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zu Auftrittsorten ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." }
+    }
+  },
+  "47efc96c-eb5f-4865-8894-3257b2e3cd9d": {
+    "translation": { "questions": {
+      "56": "يقع متجر المنتجات النمساوية في صالة الوصول Check-in-2.",
+      "57": "لدى الطلاب المتقدمين والجامعيين والمحترفين والمعلمين إمكانية التدريس.",
+      "58": "يمكن للمهتمين في المعرض تقديم الطلبات فقط.",
+      "59": "يجب على جميع الطلاب دفع رسوم دراسية ابتداءً من الفصل الشتوي.",
+      "60": "يفتتح رئيس البلدية الاحتفال."
+    }},
+    "items": {
+      "56": { "keyword": "in Check-in-2", "explanation_correct": "Genaue Standortangaben (hier: Check-in-2) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Standortangaben (hier: Check-in-2) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "die Möglichkeit zu unterrichten", "explanation_correct": "Wer genau eine Möglichkeit hat, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wer genau eine Möglichkeit hat, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "58": { "keyword": "nur Bestellungen aufgeben", "explanation_correct": "Das einschränkende Wort „nur“ ist eine klassische Falle – im Hörtext ist oft mehr möglich. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „nur“ ist eine klassische Falle – im Hörtext ist oft mehr möglich. Diese Aussage ist Falsch." },
+      "59": { "keyword": "Alle Studierenden", "explanation_correct": "Absolute Formulierungen wie „alle“ bei Gebühren sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „alle“ bei Gebühren sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." },
+      "60": { "keyword": "Bürgermeister eröffnet", "explanation_correct": "Wer eine Veranstaltung eröffnet, ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wer eine Veranstaltung eröffnet, ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "183afa7d-1883-40f8-aa8b-443b4461bb82": {
+    "translation": { "questions": {
+      "56": "الاجتماع يوم الخميس.",
+      "57": "يبقى الطقس سيئاً وممطراً؛ تحسن طفيف بعد ظهر الأحد.",
+      "58": "تقع الشركة مباشرة عند محطة القطار السريع.",
+      "59": "يقدم المطعم قهوة بسعر 2.50 يورو وكعكة بسعر 2 يورو.",
+      "60": "توجد برامج تعليم اللغة الألمانية في نفس القسم مثل ألعاب الكمبيوتر."
+    }},
+    "items": {
+      "56": { "keyword": "am Donnerstag", "explanation_correct": "Wochentagsangaben sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wochentagsangaben sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "leichte Wetterbesserung", "explanation_correct": "Detaillierte Wettervorhersagen mit zeitlicher Einschränkung sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Detaillierte Wettervorhersagen mit zeitlicher Einschränkung sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "58": { "keyword": "direkt an der S-Bahn-Station", "explanation_correct": "Standortangaben (hier: direkt an) werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Standortangaben (hier: direkt an) werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." },
+      "59": { "keyword": "2 Euro 50 ... 2 Euro", "explanation_correct": "Genaue Preisangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Preisangaben sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "60": { "keyword": "in derselben Abteilung", "explanation_correct": "Aussagen zur räumlichen Anordnung von Produkten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zur räumlichen Anordnung von Produkten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "66548686-f8de-4fad-857f-510fbc777d40": {
+    "translation": { "questions": {
+      "56": "حتى الساعة 14:00 يمكنكم شراء أطعمة فاخرة من دول مختلفة.",
+      "57": "حتى بداية الحدث يمكنكم استخدام هاتفكم الجوال.",
+      "58": "لن تُقدَّم عروض مع حيوانات.",
+      "59": "في نهاية الأسبوع يمكنكم سماع موسيقى في قصر ميرابيل.",
+      "60": "يمكنكم الاتصال بالدكتورة شنايدر مساء السبت."
+    }},
+    "items": {
+      "56": { "keyword": "Bis 14 Uhr", "explanation_correct": "Genaue Uhrzeiten für ein Angebot sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Uhrzeiten für ein Angebot sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "57": { "keyword": "bis zum Start", "explanation_correct": "Zeitliche Erlaubnisse bis zu einem Ereignis sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Zeitliche Erlaubnisse bis zu einem Ereignis sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "nicht geboten", "explanation_correct": "Verneinte Angebote (hier: keine Tiervorführungen) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Angebote (hier: keine Tiervorführungen) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "Schloss Mirabell", "explanation_correct": "Konkrete Veranstaltungsorte sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Veranstaltungsorte sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "Samstagabend anrufen", "explanation_correct": "Genaue Zeitangaben für Erreichbarkeit werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Zeitangaben für Erreichbarkeit werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch." }
+    }
+  },
+  "0ac05317-eb29-4236-ac85-3c9be80219ef": {
+    "translation": { "questions": {
+      "56": "تُقام المظاهرة في فرانكفورت أمام دار الأوبرا القديمة.",
+      "57": "في الموسم القادم سيتم عزف سيمفونية لمالر.",
+      "58": "تُقام بطولات العالم للتزلج الفني في قاعة هيلموت-كورنيغ في دورتموند.",
+      "59": "الطريق السريع A980 يُستخدم بسلاسل الثلج.",
+      "60": "لا تفرض 'Fahre mit' أي رسوم مقابل ترتيب المشاركة في السيارة."
+    }},
+    "items": {
+      "56": { "keyword": "vor der Alten Oper", "explanation_correct": "Genaue Standortangaben werden im Hörtext oft anders beschrieben – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Standortangaben werden im Hörtext oft anders beschrieben – prüfe sie genau. Diese Aussage ist Falsch." },
+      "57": { "keyword": "Symphonie von Mahler", "explanation_correct": "Konkrete Programmangaben (Komponist) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Programmangaben (Komponist) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "Dortmunder Helmut-Körnig-Halle", "explanation_correct": "Veranstaltungsorte werden im Hörtext oft gegen einen anderen Ort ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Veranstaltungsorte werden im Hörtext oft gegen einen anderen Ort ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "59": { "keyword": "mit Schneeketten befahren", "explanation_correct": "Konkrete Verkehrshinweise (hier: Schneeketten) werden im Hörtext oft anders formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Verkehrshinweise (hier: Schneeketten) werden im Hörtext oft anders formuliert. Diese Aussage ist Falsch." },
+      "60": { "keyword": "keine Gebühren", "explanation_correct": "Verneinte Kostenaussagen (kostenlos) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Kostenaussagen (kostenlos) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "bfc5f6c2-0643-46e6-828c-c2369d81e715": {
+    "translation": { "questions": {
+      "56": "يوم الخميس يُتوقع وجود حبوب لقاح البتولا في أوكرمارك.",
+      "57": "تبدأ جولة ناطحات السحاب في فرانكفورت عند برج المعرض.",
+      "58": "في 9 يوليو يمكن زيارة حديقة حيوانات أوبل ليلاً.",
+      "59": "يجب اصطحاب مؤن كافية للمشي إلى قلعة رونيبورغ.",
+      "60": "على الطريق السريع A7 بين أولم وفوسن، المسار الأيسر مغلق."
+    }},
+    "items": {
+      "56": { "keyword": "am Donnerstag ... Birkenpollen", "explanation_correct": "Wochentag UND Pollenart zusammen sind ein doppeltes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wochentag UND Pollenart zusammen sind ein doppeltes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "am Messeturm", "explanation_correct": "Startpunkte einer Führung werden im Hörtext oft gegen einen anderen Ort ausgetauscht. Diese Aussage ist Falsch.", "explanation_wrong": "Startpunkte einer Führung werden im Hörtext oft gegen einen anderen Ort ausgetauscht. Diese Aussage ist Falsch." },
+      "58": { "keyword": "9. Juli ... nachts", "explanation_correct": "Genaue Datumsangaben in Kombination mit einer besonderen Öffnungszeit sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Datumsangaben in Kombination mit einer besonderen Öffnungszeit sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "59": { "keyword": "unbedingt genügend Verpflegung", "explanation_correct": "Absolute Empfehlungen wie „unbedingt“ werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Empfehlungen wie „unbedingt“ werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch." },
+      "60": { "keyword": "linke Fahrstreifen gesperrt", "explanation_correct": "Welche Spur genau gesperrt ist, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Welche Spur genau gesperrt ist, ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." }
+    }
+  },
+  "bc736314-e2df-47b7-a468-e1e05a3d99bd": {
+    "translation": { "questions": {
+      "56": "يبدأ تقديم الكتاب حسب البرنامج خلال 30 دقيقة.",
+      "57": "يُطلب من المرضى القادمين لمراجعة العلاج التوجه إلى الشباك رقم 3.",
+      "58": "يوم الثلاثاء يوجد عرض خاص لزيارة الحلاق في المنزل.",
+      "59": "تبدأ الجولات في حديقة الحيوان عند منطقة الصناديق.",
+      "60": "يُدعى الزوار للمشاركة."
+    }},
+    "items": {
+      "56": { "keyword": "in 30 Minuten", "explanation_correct": "Genaue Zeitangaben laut Programm sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Zeitangaben laut Programm sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "zu Schalter 3", "explanation_correct": "Konkrete Schalternummern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Schalternummern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "Dienstags ... Sonderangebot", "explanation_correct": "Wochentag UND Sonderangebot zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wochentag UND Sonderangebot zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "59": { "keyword": "in der Kassazone", "explanation_correct": "Startorte für Führungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Startorte für Führungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "zum Mitmachen eingeladen", "explanation_correct": "Aussagen zur Einbindung der Besucher ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zur Einbindung der Besucher ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." }
+    }
+  },
+  "6a1948a3-7153-4ef4-901f-23d7770ded2b": {
+    "translation": { "questions": {
+      "56": "قطار الإنترسيتي 865 لا يسير اليوم إلى هامبورغ، بل فقط حتى بون.",
+      "57": "جزء من الفعاليات المجانية في مهرجان الأدب يُقام في أماكن مثيرة في المدينة.",
+      "58": "شركة فريدر آند هانسن للتجهيزات الصحية متاحة للاستفسارات ستة أيام في الأسبوع.",
+      "59": "على سكان حي الموسيقيين البقاء في المنزل لمدة ساعتين بعد ظهر الخميس.",
+      "60": "بمناسبة عيد الحب يوجد اليوم استشارة خاصة للمجوهرات ومستحضرات التجميل."
+    }},
+    "items": {
+      "56": { "keyword": "nur bis Bonn", "explanation_correct": "Das einschränkende Wort „nur“ bei Zugstrecken ist entscheidend – prüfe genau, wie weit der Zug wirklich fährt. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „nur“ bei Zugstrecken ist entscheidend – prüfe genau, wie weit der Zug wirklich fährt. Diese Aussage ist Falsch." },
+      "57": { "keyword": "spannenden Orten in der Stadt", "explanation_correct": "Aussagen zum Veranstaltungsort eines Festivals ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zum Veranstaltungsort eines Festivals ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." },
+      "58": { "keyword": "sechs Tage die Woche", "explanation_correct": "Genaue Erreichbarkeitsangaben (hier: sechs Tage) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Erreichbarkeitsangaben (hier: sechs Tage) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "für zwei Stunden zu Hause", "explanation_correct": "Genaue Zeitdauer-Angaben werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Zeitdauer-Angaben werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch." },
+      "60": { "keyword": "Schmuck und Kosmetikartikel", "explanation_correct": "Konkrete Anlässe (hier: Valentinstag) für ein Sonderangebot werden im Hörtext oft anders oder gar nicht genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Anlässe (hier: Valentinstag) für ein Sonderangebot werden im Hörtext oft anders oder gar nicht genannt. Diese Aussage ist Falsch." }
+    }
+  },
+  "bc942091-db45-4c1a-9869-76846d0d0180": {
+    "translation": { "questions": {
+      "56": "يمكن التسجيل في مدرسة تعليم القيادة عبر الإنترنت.",
+      "57": "المتصلة مرنة فيما يتعلق بوقت المغادرة.",
+      "58": "يمكن التسجيل لنصف الماراثون حتى يوم الأحد.",
+      "59": "بالنسبة لرحلة الطيران إلى مايوركا، سيتغير وقت الإقلاع.",
+      "60": "في القاعة D سيُقرأ من كتب إلكترونية."
+    }},
+    "items": {
+      "56": { "keyword": "über das Internet anmelden", "explanation_correct": "Der Anmeldeweg (hier: Internet) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Der Anmeldeweg (hier: Internet) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "flexibel", "explanation_correct": "Aussagen zur Flexibilität einer Person werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zur Flexibilität einer Person werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch." },
+      "58": { "keyword": "noch am Sonntag", "explanation_correct": "Genaue Anmeldefristen werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Anmeldefristen werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch." },
+      "59": { "keyword": "Abflugzeit ändert sich", "explanation_correct": "Konkrete Flugänderungen mit Ortsangabe (hier: Mallorca) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Flugänderungen mit Ortsangabe (hier: Mallorca) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "in Halle D", "explanation_correct": "Konkrete Hallennummern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Hallennummern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." }
+    }
+  },
+  "f5eb84d0-d11d-42b1-b800-3b14033cd42a": {
+    "translation": { "questions": {
+      "56": "اليوم يمكن زيارة المهرجان صباحاً.",
+      "57": "تبدأ المزرعة الساعة 8.",
+      "58": "بطاقات الدخول للشباب تكلف 13.50 يورو.",
+      "59": "بطاقة السفر صالحة في قطارات معينة.",
+      "60": "يوم الأحد يمكن للأطفال مشاهدة مسرحية."
+    }},
+    "items": {
+      "56": { "keyword": "vormittags ... besuchen", "explanation_correct": "Tageszeitangaben zu Öffnungszeiten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Tageszeitangaben zu Öffnungszeiten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "um 8 Uhr", "explanation_correct": "Genaue Uhrzeiten werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Uhrzeiten werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "13,50 €", "explanation_correct": "Genaue Preisangaben sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Preisangaben sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "in bestimmten Zügen", "explanation_correct": "Einschränkende Angaben zur Gültigkeit einer Fahrkarte werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Einschränkende Angaben zur Gültigkeit einer Fahrkarte werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch." },
+      "60": { "keyword": "Kinder ... Theaterstück", "explanation_correct": "Konkrete Programmpunkte für Kinder an einem bestimmten Tag werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Programmpunkte für Kinder an einem bestimmten Tag werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." }
+    }
+  },
+  "c7188663-5d30-43b4-9620-ffee3f4048d7": {
+    "translation": { "questions": {
+      "56": "اليوم يمكن زيارة المهرجان صباحاً.",
+      "57": "يبدأ البيع الساعة 9 صباحاً.",
+      "58": "بطاقات الدخول للشباب تكلف 13.50 يورو.",
+      "59": "بطاقة السفر صالحة في قطارات معينة.",
+      "60": "يوم الأحد يمكن للأطفال مشاهدة مسرحية."
+    }},
+    "items": {
+      "56": { "keyword": "vormittags ... besuchen", "explanation_correct": "Tageszeitangaben zu Öffnungszeiten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Tageszeitangaben zu Öffnungszeiten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "9 Uhr morgens", "explanation_correct": "Genaue Uhrzeiten für den Verkaufsbeginn werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Uhrzeiten für den Verkaufsbeginn werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "13,50 €", "explanation_correct": "Genaue Preisangaben sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Preisangaben sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "in bestimmten Zügen", "explanation_correct": "Einschränkende Angaben zur Gültigkeit einer Fahrkarte werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Einschränkende Angaben zur Gültigkeit einer Fahrkarte werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch." },
+      "60": { "keyword": "Kinder ... Theaterstück", "explanation_correct": "Konkrete Programmpunkte für Kinder an einem bestimmten Tag werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Programmpunkte für Kinder an einem bestimmten Tag werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." }
+    }
+  },
+  "6ee79c3e-f55e-42d2-9b59-5dd9278bfd55": {
+    "translation": { "questions": {
+      "56": "لا يجب عليكم السؤال شخصياً في مكتب المفقودات.",
+      "57": "يمكنكم سماع نشرة الطقس بعد نشرة أخبار الظهيرة.",
+      "58": "يُسمح لكم باصطحاب دراجتكم بشكل عفوي في القطار.",
+      "59": "يوم الخميس سترون الفريق الألماني في نصف النهائي.",
+      "60": "خلال الإغلاق يمكن استخدام مواقف الحافلات المعتادة."
+    }},
+    "items": {
+      "56": { "keyword": "nicht persönlich", "explanation_correct": "Verneinte Notwendigkeiten (hier: nicht persönlich) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verneinte Notwendigkeiten (hier: nicht persönlich) sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "nach den Mittagsnachrichten", "explanation_correct": "Zeitliche Reihenfolge von Sendungen ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Zeitliche Reihenfolge von Sendungen ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "spontan ... mitnehmen", "explanation_correct": "Das Wort „spontan“ bei Mitnahmeregeln ist eine typische Falle – im Hörtext gilt oft eine Voranmeldung. Diese Aussage ist Falsch.", "explanation_wrong": "Das Wort „spontan“ bei Mitnahmeregeln ist eine typische Falle – im Hörtext gilt oft eine Voranmeldung. Diese Aussage ist Falsch." },
+      "59": { "keyword": "am Donnerstag ... Halbfinale", "explanation_correct": "Wochentag UND Turnierphase zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Wochentag UND Turnierphase zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "60": { "keyword": "üblichen Bushaltestellen", "explanation_correct": "Aussagen zur Nutzbarkeit gewohnter Haltestellen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zur Nutzbarkeit gewohnter Haltestellen ohne enge Einschränkung stimmen im TELC-Hörtest häufiger. Diese Aussage ist Richtig." }
+    }
+  },
+  "8cfbbace-e78f-4e9f-afbc-8eec3d3c6167": {
+    "translation": { "questions": {
+      "56": "خدمة البرمجيات لشركة ماكروهارد متاحة على مدار الساعة.",
+      "57": "بالنسبة لحفل رومانو كاستيلي، لا تزال هناك بطاقات بسعر يبدأ من 200 يورو.",
+      "58": "يمكنكم الاستعلام عبر الإنترنت عن التعرفة الجديدة لشركة تي-أبلاين.",
+      "59": "بما أن الموضوع الرئيسي هو 'اليابان'، سيقتصر العزف في حديقة متحف الإثنولوجيا هذا العام على الموسيقيين اليابانيين فقط.",
+      "60": "في المهرجان لا يوجد فقط ترفيه فولكلوري، بل أيضاً أطعمة من داخل وخارج البلاد."
+    }},
+    "items": {
+      "56": { "keyword": "rund um die Uhr", "explanation_correct": "Absolute Formulierungen wie „rund um die Uhr“ bei Serviceangeboten sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „rund um die Uhr“ bei Serviceangeboten sind eine typische Falle. Diese Aussage ist Falsch." },
+      "57": { "keyword": "ab 200 Euro", "explanation_correct": "Genaue Preisangaben zu Tickets sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Preisangaben zu Tickets sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "im Internet informieren", "explanation_correct": "Der Informationsweg (hier: Internet) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Der Informationsweg (hier: Internet) ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "nur japanische Musiker", "explanation_correct": "Das einschränkende Wort „nur“ bei Künstlerauswahl ist eine klassische Falle – im Hörtext treten oft auch andere auf. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „nur“ bei Künstlerauswahl ist eine klassische Falle – im Hörtext treten oft auch andere auf. Diese Aussage ist Falsch." },
+      "60": { "keyword": "nicht nur ... sondern auch", "explanation_correct": "Doppelte, gegensätzliche Beschreibungen (Musik UND Kulinarik) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig.", "explanation_wrong": "Doppelte, gegensätzliche Beschreibungen (Musik UND Kulinarik) sind oft ein Zeichen für eine korrekte, differenzierte Wiedergabe. Diese Aussage ist Richtig." }
+    }
+  },
+  "40889546-f779-42e4-a40f-ffb62255416f": {
+    "translation": { "questions": {
+      "56": "بالنسبة لحفل موسيقي غداً مساءً، لا يزال بإمكان المرء شراء بطاقات عبر الإنترنت.",
+      "57": "اليوم ركوب الحافلات مجاني في كل المدينة.",
+      "58": "في مهرجان الأفلام تُعرض أفلام أطفال دولية.",
+      "59": "تُعلن شركة الحافلات شنايدر عن خطوط جديدة للحافلات بين المدن.",
+      "60": "يمكن حجز حصة تجريبية مجانية."
+    }},
+    "items": {
+      "56": { "keyword": "morgen Abend ... im Internet", "explanation_correct": "Zeitangabe UND Kaufweg zusammen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Zeitangabe UND Kaufweg zusammen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "in der ganzen Stadt umsonst", "explanation_correct": "Absolute Formulierungen wie „ganze Stadt“ bei kostenlosen Angeboten sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „ganze Stadt“ bei kostenlosen Angeboten sind eine typische Falle. Diese Aussage ist Falsch." },
+      "58": { "keyword": "internationale Kinderfilme", "explanation_correct": "Konkrete Programminhalte eines Festivals sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Programminhalte eines Festivals sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "Schneider ... neue Fernbusverbindungen", "explanation_correct": "Firmenname UND Ankündigung zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Firmenname UND Ankündigung zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "60": { "keyword": "kostenlose Probestunde", "explanation_correct": "Kostenlose Angebote sind ein häufig abgefragtes Detail, das im Hörtext oft anders formuliert ist. Diese Aussage ist Falsch.", "explanation_wrong": "Kostenlose Angebote sind ein häufig abgefragtes Detail, das im Hörtext oft anders formuliert ist. Diese Aussage ist Falsch." }
+    }
+  },
+  "0bac7e86-4c6f-44c4-8a10-3a62aa9925b3": {
+    "translation": { "questions": {
+      "56": "بالنسبة لحفل موسيقي غداً مساءً، لا يزال بإمكان المرء شراء بطاقات عبر الإنترنت.",
+      "57": "يمكن الذهاب بالحافلة مجاناً إلى المهرجان.",
+      "58": "في مهرجان الأفلام تُعرض أفلام أطفال دولية.",
+      "59": "تُعلن شركة الحافلات شنايدر عن خطوط جديدة للحافلات بين المدن.",
+      "60": "يمكن التسجيل لحصة تجريبية مجانية."
+    }},
+    "items": {
+      "56": { "keyword": "morgen Abend ... im Internet", "explanation_correct": "Zeitangabe UND Kaufweg zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Zeitangabe UND Kaufweg zusammen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "57": { "keyword": "gratis zum Fest", "explanation_correct": "Kostenlose Angebote zu einem Fest sind ein häufig abgefragtes Detail, das im Hörtext oft anders formuliert ist. Diese Aussage ist Falsch.", "explanation_wrong": "Kostenlose Angebote zu einem Fest sind ein häufig abgefragtes Detail, das im Hörtext oft anders formuliert ist. Diese Aussage ist Falsch." },
+      "58": { "keyword": "internationale Kinderfilme", "explanation_correct": "Konkrete Programminhalte eines Festivals werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Programminhalte eines Festivals werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." },
+      "59": { "keyword": "Schneider ... neue Fernbusverbindungen", "explanation_correct": "Firmenname UND Ankündigung zusammen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Firmenname UND Ankündigung zusammen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "kostenlose Probestunde", "explanation_correct": "Kostenlose Angebote sind ein häufig abgefragtes Detail, das im Hörtext oft anders formuliert ist. Diese Aussage ist Falsch.", "explanation_wrong": "Kostenlose Angebote sind ein häufig abgefragtes Detail, das im Hörtext oft anders formuliert ist. Diese Aussage ist Falsch." }
+    }
+  },
+  "041fabfc-3053-4903-9fd4-98a1c1166a35": {
+    "translation": { "questions": {
+      "56": "تُبث مباراة كرة القدم في أوستبارك بغض النظر عن الطقس.",
+      "57": "من يسجل للنشرة الإخبارية يمكنه الفوز بشيء كل شهر.",
+      "58": "يمكن لجميع زوار حمام السباحة اليوم شرب شيء مجاناً في المطعم.",
+      "59": "بسبب عطل تقني، لا يمكن الوصول إلى المتجر الإلكتروني هاتفياً أو عبر البريد الإلكتروني.",
+      "60": "في يوم الأحد العائلي يدخل الأطفال المتحف مجاناً."
+    }},
+    "items": {
+      "56": { "keyword": "bei jedem Wetter", "explanation_correct": "Absolute Formulierungen wie „bei jedem Wetter“ sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Absolute Formulierungen wie „bei jedem Wetter“ sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "jeden Monat etwas gewinnen", "explanation_correct": "Regelmäßige Gewinnmöglichkeiten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Regelmäßige Gewinnmöglichkeiten sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "Alle Besucher ... kostenlos", "explanation_correct": "Absolute Formulierungen wie „alle“ bei kostenlosen Angeboten sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „alle“ bei kostenlosen Angeboten sind eine typische Falle. Diese Aussage ist Falsch." },
+      "59": { "keyword": "weder telefonisch noch per E-Mail", "explanation_correct": "Doppelte Verneinung bei Erreichbarkeit ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Doppelte Verneinung bei Erreichbarkeit ist ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "60": { "keyword": "kostenlos ins Museum", "explanation_correct": "Kostenlose Angebote an einem bestimmten Tag werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Kostenlose Angebote an einem bestimmten Tag werden im Hörtext oft anders oder gar nicht formuliert. Diese Aussage ist Falsch." }
+    }
+  },
+  "6e7048ec-4aea-4019-89ea-b11b6142876d": {
+    "translation": { "questions": {
+      "56": "يجب عليكم على أبعد تقدير في هانوفر تغيير المقصورة إلى الجزء الخلفي من القطار.",
+      "57": "إذا كتبتم للإذاعة قصة عن عيد ميلادكم الثامن عشر، فلن تدفعوا رسوم دخول للحفلة.",
+      "58": "صديقتكم ليست بخير.",
+      "59": "في المهرجان تُعزف أيضاً موسيقى لبيتهوفن.",
+      "60": "يمكنكم مشاهدة صغير الدب القطبي في الهواء الطلق في أي وقت."
+    }},
+    "items": {
+      "56": { "keyword": "spätestens in Hannover", "explanation_correct": "Genaue Ortsangaben für einen Umstieg werden im Hörtext oft anders genannt – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Ortsangaben für einen Umstieg werden im Hörtext oft anders genannt – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "keinen Eintritt bezahlen", "explanation_correct": "Bedingungen für kostenlosen Eintritt (hier: eigene Geschichte schreiben) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig.", "explanation_wrong": "Bedingungen für kostenlosen Eintritt (hier: eigene Geschichte schreiben) sind ein häufig abgefragtes Detail. Diese Aussage ist Richtig." },
+      "58": { "keyword": "geht es nicht gut", "explanation_correct": "Aussagen zum Befinden einer Person ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zum Befinden einer Person ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig." },
+      "59": { "keyword": "Musik von Beethoven", "explanation_correct": "Konkrete Komponistennamen im Programm werden im Hörtext oft gegen einen anderen Namen ausgetauscht. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Komponistennamen im Programm werden im Hörtext oft gegen einen anderen Namen ausgetauscht. Diese Aussage ist Falsch." },
+      "60": { "keyword": "jederzeit im Freien", "explanation_correct": "Absolute Formulierungen wie „jederzeit“ bei Besuchszeiten sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „jederzeit“ bei Besuchszeiten sind eine typische Falle. Diese Aussage ist Falsch." }
+    }
+  },
+  "f81b4bbf-29fd-4829-8790-1db89aa8a8fe": {
+    "translation": { "questions": {
+      "56": "في أغسطس يوجد عرض كل يوم.",
+      "57": "للوصول إلى محطة غرونبيرغ تركبون خط المترو 68.",
+      "58": "في الحالات الأقل إلحاحاً يجب ترك رسالة.",
+      "59": "يوم الأربعاء والخميس يمكن إحضار التبرعات العينية.",
+      "60": "فقط في أيام العمل يُتوقع ازدحام مروري كبير."
+    }},
+    "items": {
+      "56": { "keyword": "jeden Tag", "explanation_correct": "Absolute Formulierungen wie „jeden Tag“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „jeden Tag“ sind eine typische Falle – im Hörtext klingt es meist differenzierter. Diese Aussage ist Falsch." },
+      "57": { "keyword": "U-Bahn-Linie 68", "explanation_correct": "Konkrete Linien-Nummern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Linien-Nummern werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "eine Nachricht hinterlassen", "explanation_correct": "Verhaltensanweisungen für weniger dringliche Fälle sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verhaltensanweisungen für weniger dringliche Fälle sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "Mittwoch und Donnerstag", "explanation_correct": "Genaue Wochentage für eine Abgabe sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Wochentage für eine Abgabe sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "Nur an den Werktagen", "explanation_correct": "Das einschränkende Wort „nur“ bei Verkehrsprognosen ist entscheidend – im Hörtext gilt es oft auch am Wochenende. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „nur“ bei Verkehrsprognosen ist entscheidend – im Hörtext gilt es oft auch am Wochenende. Diese Aussage ist Falsch." }
+    }
+  },
+  "4dd0fb08-834f-4166-a47f-f9a1d9cc5b2f": {
+    "translation": { "questions": {
+      "56": "في حديقة حيوان فرانكفورت يمكن رؤية القطط الكبيرة في بيئة طبيعية.",
+      "57": "في المهرجان الألماني-الفرنسي تُقدَّم أطعمة شهية من ألمانيا وفرنسا.",
+      "58": "على الطريق السريع A7 بين هامبورغ وفلنسبورغ هناك ازدحام بسبب عدة حوادث.",
+      "59": "من يتصل يمكنه المشاركة في قرار منح الجائزة.",
+      "60": "تُقدَّم الاستشارات الهاتفية في جميع أيام العمل حتى بعد الظهر."
+    }},
+    "items": {
+      "56": { "keyword": "naturnahen Umgebung", "explanation_correct": "Beschreibungen der Lebensraumgestaltung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Beschreibungen der Lebensraumgestaltung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "Deutschland und Frankreich", "explanation_correct": "Konkrete Länderangaben bei einem Fest werden im Hörtext oft anders oder eingeschränkter genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Länderangaben bei einem Fest werden im Hörtext oft anders oder eingeschränkter genannt. Diese Aussage ist Falsch." },
+      "58": { "keyword": "mehrerer Unfälle", "explanation_correct": "Genaue Ursachen für einen Stau werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Ursachen für einen Stau werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch." },
+      "59": { "keyword": "über die Vergabe ... mitentscheiden", "explanation_correct": "Mitbestimmungsrechte bei Anrufen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Mitbestimmungsrechte bei Anrufen sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "60": { "keyword": "an allen Werktagen ... nachmittags", "explanation_correct": "Aussagen zu Beratungszeiten ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig.", "explanation_wrong": "Aussagen zu Beratungszeiten ohne enge Einschränkung stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist Richtig." }
+    }
+  },
+  "af9540fa-bb61-4bc8-be35-2889aa9714bf": {
+    "translation": { "questions": {
+      "56": "في جنوب ألمانيا سيمطر بعد الظهر.",
+      "57": "تسير الحافلات في أوقات مختلفة عن القطارات الإقليمية.",
+      "58": "على الطريق السريع A3 من فورتسبورغ إلى فرانكفورت يوجد إغلاق كامل بسبب حادث.",
+      "59": "إذا أردتم التحدث عن تأمين سيارتكم، يجب الاتصال بالرقم 1.",
+      "60": "معارفكم متاحون هاتفياً في أي وقت."
+    }},
+    "items": {
+      "56": { "keyword": "nachmittags regnen", "explanation_correct": "Tageszeitangaben zu Wettervorhersagen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Tageszeitangaben zu Wettervorhersagen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "zu anderen Zeiten", "explanation_correct": "Aussagen zu abweichenden Fahrplänen werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zu abweichenden Fahrplänen werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch." },
+      "58": { "keyword": "Vollsperrung", "explanation_correct": "Der genaue Umfang einer Sperrung (voll vs. teilweise) ist eine klassische Stolperfalle. Diese Aussage ist Falsch.", "explanation_wrong": "Der genaue Umfang einer Sperrung (voll vs. teilweise) ist eine klassische Stolperfalle. Diese Aussage ist Falsch." },
+      "59": { "keyword": "die 1 wählen", "explanation_correct": "Konkrete Rufnummern-Ziffern für ein Thema sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Rufnummern-Ziffern für ein Thema sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "jederzeit ... erreichbar", "explanation_correct": "Absolute Formulierungen wie „jederzeit“ bei Erreichbarkeit sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „jederzeit“ bei Erreichbarkeit sind eine typische Falle. Diese Aussage ist Falsch." }
+    }
+  },
+  "d5f5920e-8971-42d5-9966-18c6d52de018": {
+    "translation": { "questions": {
+      "56": "يُطلب من المسافرين لأغراض العمل حجز سيارات الإيجار عبر الرقم 3223.",
+      "57": "تذهبون إلى الحفل في 3 يوليو لأنكم تريدون سماع عازفي البيانو من لايبزيغ.",
+      "58": "في نهاية الأسبوع يمكنكم في ناومبورغ الاستعلام عن مكافحة أمراض أشجار التفاح.",
+      "59": "في متحف الحرف اليدوية تُعرض قطع ملابس.",
+      "60": "الطريق السريع A5 مغلق في كلا الاتجاهين بين بادن-بادن وراشتات."
+    }},
+    "items": {
+      "56": { "keyword": "unter der Nummer 3223", "explanation_correct": "Konkrete Rufnummern sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Rufnummern sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "am 3. Juli", "explanation_correct": "Genaue Datumsangaben werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Genaue Datumsangaben werden im Hörtext oft ausgetauscht – prüfe sie genau. Diese Aussage ist Falsch." },
+      "58": { "keyword": "Bekämpfung von Krankheiten", "explanation_correct": "Konkrete Themen einer Informationsveranstaltung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Themen einer Informationsveranstaltung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "Kleidungsstücke ausgestellt", "explanation_correct": "Konkrete Ausstellungsinhalte werden im Hörtext oft gegen ein anderes Thema ausgetauscht. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Ausstellungsinhalte werden im Hörtext oft gegen ein anderes Thema ausgetauscht. Diese Aussage ist Falsch." },
+      "60": { "keyword": "in beiden Richtungen gesperrt", "explanation_correct": "Der genaue Umfang einer Autobahnsperrung (beide Richtungen) ist eine klassische Stolperfalle. Diese Aussage ist Falsch.", "explanation_wrong": "Der genaue Umfang einer Autobahnsperrung (beide Richtungen) ist eine klassische Stolperfalle. Diese Aussage ist Falsch." }
+    }
+  },
+  "5ea12aa0-3bea-4b80-86b5-732950e7806c": {
+    "translation": { "questions": {
+      "56": "يقدم سوق عيد الميلاد في نورمبرغ خدمة هدايا خاصة للأطفال.",
+      "57": "في السوق الزراعي الألماني-الفرنسي في هوخشباير تُعرض مشاريع بيئية.",
+      "58": "في هيلسهايم يُقام مساء اليوم درس في اليودل.",
+      "59": "على الطريق السريع A5 توجد عدة معوقات مرورية خلف كارلسروه.",
+      "60": "إذا لم يعد حاسوبكم يعمل، يمكنكم الاتصال بالرقم 70 17 17 للحصول على مساعدة من كمبيوتر وورلد."
+    }},
+    "items": {
+      "56": { "keyword": "speziellen Geschenk-Dienst", "explanation_correct": "Zusätzliche Serviceangebote für Kinder sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Zusätzliche Serviceangebote für Kinder sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "ökologische Projekte", "explanation_correct": "Konkrete Themen eines Bauernmarkts sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Themen eines Bauernmarkts sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "in Heilsheim ... Jodelkurs", "explanation_correct": "Ortsname UND Veranstaltungsart werden im Hörtext oft gegen einen anderen Ort ausgetauscht. Diese Aussage ist Falsch.", "explanation_wrong": "Ortsname UND Veranstaltungsart werden im Hörtext oft gegen einen anderen Ort ausgetauscht. Diese Aussage ist Falsch." },
+      "59": { "keyword": "hinter Karlsruhe", "explanation_correct": "Genaue Ortsangaben zu Verkehrsbehinderungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Ortsangaben zu Verkehrsbehinderungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "60": { "keyword": "70 17 17", "explanation_correct": "Konkrete Servicenummern sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Konkrete Servicenummern sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  },
+  "fe0a8cce-d674-44c2-9274-3b45324abde0": {
+    "translation": { "questions": {
+      "1": "يعرض السينما في الهواء الطلق فيلماً كل يوم في يوليو.",
+      "2": "للوصول إلى المطار يجب تغيير الحافلة عند فيستكروويتس.",
+      "3": "في الحالات العاجلة يجب التوجه إلى العيادة البديلة.",
+      "4": "تسليم التبرعات الكتابية ممكن فقط من الاثنين إلى الجمعة.",
+      "5": "على الطريق السريع A8 يُتوقع ازدحام خاصة مساءً."
+    }},
+    "items": {
+      "1": { "keyword": "an jedem Wochentag", "explanation_correct": "Absolute Formulierungen wie „an jedem Wochentag“ sind eine typische Falle – im Hörtext klingt es meist eingeschränkter. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „an jedem Wochentag“ sind eine typische Falle – im Hörtext klingt es meist eingeschränkter. Diese Aussage ist Falsch." },
+      "2": { "keyword": "am Westkreuz umsteigen", "explanation_correct": "Genaue Umsteigeorte sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Genaue Umsteigeorte sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "3": { "keyword": "zur Vertretungspraxis", "explanation_correct": "Verhaltensanweisungen für Notfälle werden im Hörtext oft anders formuliert. Diese Aussage ist Falsch.", "explanation_wrong": "Verhaltensanweisungen für Notfälle werden im Hörtext oft anders formuliert. Diese Aussage ist Falsch." },
+      "4": { "keyword": "nur von Montag bis Freitag", "explanation_correct": "Das einschränkende Wort „nur“ bei Öffnungszeiten ist eine klassische Falle – im Hörtext gilt es oft auch am Wochenende. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „nur“ bei Öffnungszeiten ist eine klassische Falle – im Hörtext gilt es oft auch am Wochenende. Diese Aussage ist Falsch." },
+      "5": { "keyword": "vor allem abends", "explanation_correct": "Tageszeitangaben zu Stauprognosen werden im Hörtext oft anders genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Tageszeitangaben zu Stauprognosen werden im Hörtext oft anders genannt. Diese Aussage ist Falsch." }
+    }
+  },
+  "4426b04e-320a-418c-a937-3a649cfc9cf3": {
+    "translation": { "questions": {
+      "56": "يُنصح زوار مسابقة الفروسية باستخدام مواقف السيارات خارج أرض المسابقة قدر الإمكان.",
+      "57": "يُبث حفل الغوسبل في الهواء الطلق مباشرة على الراديو.",
+      "58": "في ليلة المتاحف في برلين يمكنكم الوصول بسهولة إلى كل متحف عبر خط حافلات خاص.",
+      "59": "بسبب الجليد، الطريق السريع A5 بين مانهايم وفرانكفورت مغلق بالكامل في كلا الاتجاهين.",
+      "60": "حجوزات الفنادق في درسدن ممكنة حصرياً عبر الهاتف."
+    }},
+    "items": {
+      "56": { "keyword": "außerhalb des Turniergeländes", "explanation_correct": "Empfehlungen zu Parkplätzen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Empfehlungen zu Parkplätzen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "live im Radio", "explanation_correct": "Übertragungsangaben werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Übertragungsangaben werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch." },
+      "58": { "keyword": "jedes Museum erreichen", "explanation_correct": "Absolute Formulierungen wie „jedes“ bei einer Sonderbuslinie werden hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Absolute Formulierungen wie „jedes“ bei einer Sonderbuslinie werden hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "59": { "keyword": "voll gesperrt", "explanation_correct": "Der genaue Umfang einer Sperrung (voll vs. teilweise) ist eine klassische Stolperfalle. Diese Aussage ist Falsch.", "explanation_wrong": "Der genaue Umfang einer Sperrung (voll vs. teilweise) ist eine klassische Stolperfalle. Diese Aussage ist Falsch." },
+      "60": { "keyword": "ausschließlich telefonisch", "explanation_correct": "Das einschränkende Wort „ausschließlich“ bei Reservierungswegen ist eine klassische Falle – im Hörtext gibt es oft mehrere Wege. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „ausschließlich“ bei Reservierungswegen ist eine klassische Falle – im Hörtext gibt es oft mehrere Wege. Diese Aussage ist Falsch." }
+    }
+  },
+  "1ad8c60e-d09f-4d9e-8af5-ee767f840c9d": {
+    "translation": { "questions": {
+      "1": "غداً يُتوقع تساقط ثلوج جديدة في جنوب ألمانيا.",
+      "2": "تبحث الشرطة عن أطفال هربوا من المنزل.",
+      "3": "أيام السبت توجد استشارة هاتفية لدى الشركة.",
+      "4": "يمكن للزوار القيادة بسهولة بالسيارة إلى البلدة القديمة.",
+      "5": "القطار التاريخي يسير حسب الجدول في ديسمبر."
+    }},
+    "items": {
+      "1": { "keyword": "mit Neuschnee gerechnet", "explanation_correct": "Wettervorhersagen mit genauem Zeitbezug sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wettervorhersagen mit genauem Zeitbezug sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "2": { "keyword": "von zu Hause geflohen", "explanation_correct": "Der genaue Grund einer Polizeisuche wird im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Der genaue Grund einer Polizeisuche wird im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." },
+      "3": { "keyword": "Samstags ... Beratung", "explanation_correct": "Wochentagsangaben zu Servicezeiten werden im Hörtext oft anders genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Wochentagsangaben zu Servicezeiten werden im Hörtext oft anders genannt. Diese Aussage ist Falsch." },
+      "4": { "keyword": "problemlos ... in die Altstadt", "explanation_correct": "Das Wort „problemlos“ bei Verkehrsregeln ist eine typische Falle – im Hörtext gibt es oft Einschränkungen. Diese Aussage ist Falsch.", "explanation_wrong": "Das Wort „problemlos“ bei Verkehrsregeln ist eine typische Falle – im Hörtext gibt es oft Einschränkungen. Diese Aussage ist Falsch." },
+      "5": { "keyword": "im Dezember nach Plan", "explanation_correct": "Aussagen zu planmäßigem Betrieb werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zu planmäßigem Betrieb werden im Hörtext oft verneint oder anders dargestellt. Diese Aussage ist Falsch." }
+    }
+  },
+  "3c452a66-d0c6-4712-9882-48750b4354bf": {
+    "translation": { "questions": {
+      "56": "لدى شركة دويتشه تليفون KG تحصلون على معلومات فقط حول أجهزة الهاتف الخاصة بهذه الشركة.",
+      "57": "خلال عطلة نهاية أسبوع أكوارينا BR3 في شتارنبرغ يمكنكم مشاهدة الألعاب النارية كل مساء.",
+      "58": "يعزف عازفو الأرغن من مدينة ترير في 6 يوليو في ميشيلشتات.",
+      "59": "خلال مهرجان الموسيقى 'صوت فرانكفورت' يكون استخدام مترو الأنفاق والقطار السريع مجانياً.",
+      "60": "لقد اخترتم رقم خدمة غير صالح وسيتم تحويلكم تلقائياً."
+    }},
+    "items": {
+      "56": { "keyword": "nur Auskunft zu ... dieses Unternehmens", "explanation_correct": "Das einschränkende Wort „nur“ bei Auskünften ist entscheidend – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Das einschränkende Wort „nur“ bei Auskünften ist entscheidend – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "57": { "keyword": "jeden Abend ein Feuerwerk", "explanation_correct": "Absolute Formulierungen wie „jeden Abend“ bei besonderen Programmpunkten sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „jeden Abend“ bei besonderen Programmpunkten sind eine typische Falle. Diese Aussage ist Falsch." },
+      "58": { "keyword": "am 6. Juli in Michelstadt", "explanation_correct": "Datum UND Ortsname zusammen werden im Hörtext oft anders genannt – prüfe beide Angaben genau. Diese Aussage ist Falsch.", "explanation_wrong": "Datum UND Ortsname zusammen werden im Hörtext oft anders genannt – prüfe beide Angaben genau. Diese Aussage ist Falsch." },
+      "59": { "keyword": "gebührenfrei", "explanation_correct": "Kostenlose Nutzungsangaben während eines Festivals sind ein Detail, das im Hörtext oft anders oder gar nicht formuliert ist. Diese Aussage ist Falsch.", "explanation_wrong": "Kostenlose Nutzungsangaben während eines Festivals sind ein Detail, das im Hörtext oft anders oder gar nicht formuliert ist. Diese Aussage ist Falsch." },
+      "60": { "keyword": "ungültige Servicenummer", "explanation_correct": "Aussagen zu Fehleingaben und automatischer Weiterleitung werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Aussagen zu Fehleingaben und automatischer Weiterleitung werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." }
+    }
+  },
+  "3e268296-ef17-4471-b912-7ec96e8108fc": {
+    "translation": { "questions": {
+      "1": "رحلات التدريب بدراجة السباق أيام السبت تُنصح بها فقط لراكبي الدراجات ذوي الخبرة العالية.",
+      "2": "في سوق الزهور في غرونينغن يمكن أيضاً شراء أدوات الحديقة.",
+      "3": "في مدرسة حديقة الحيوان لا يُقدَّم الدرس فقط للطلاب، بل أيضاً للمتقاعدين.",
+      "4": "يُقام سوق في نهاية يوليو للأطفال حتى سن 16 عاماً في شتوتغارت، حيث يمكنهم بيع كتبهم وألعابهم القديمة.",
+      "5": "على الطريق السريع A94 بين ميونخ وبورغهاوزن يجب القيادة ببطء بسبب وجود أشياء على الطريق."
+    }},
+    "items": {
+      "1": { "keyword": "nur für ... geübte Radfahrer", "explanation_correct": "Das einschränkende Wort „nur“ bei Empfehlungen ist eine klassische Falle – im Hörtext richten sich Angebote oft an alle. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „nur“ bei Empfehlungen ist eine klassische Falle – im Hörtext richten sich Angebote oft an alle. Diese Aussage ist Falsch." },
+      "2": { "keyword": "auch Gartenzubehör", "explanation_correct": "Zusätzliche Angebote auf einem Markt sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Zusätzliche Angebote auf einem Markt sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "3": { "keyword": "nicht nur ... sondern auch", "explanation_correct": "Doppelte Zielgruppenangaben (Schüler UND Rentner) sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch.", "explanation_wrong": "Doppelte Zielgruppenangaben (Schüler UND Rentner) sind ein Detail, das im Hörtext oft anders beschrieben wird. Diese Aussage ist Falsch." },
+      "4": { "keyword": "bis 16 Jahre", "explanation_correct": "Altersgrenzen bei Veranstaltungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Altersgrenzen bei Veranstaltungen sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "5": { "keyword": "Gegenstände ... auf der Straße", "explanation_correct": "Konkrete Gründe für langsames Fahren werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Gründe für langsames Fahren werden im Hörtext oft anders genannt – prüfe sie genau. Diese Aussage ist Falsch." }
+    }
+  },
+  "7aef67e1-f3fd-49c9-bd56-fcdc826d4aa1": {
+    "translation": { "questions": {
+      "56": "بعد مظاهرة كبيرة، توجد أشياء ملقاة على الطرقات في فرانكفورت.",
+      "57": "من لا يريد اصطحاب حقيبة ظهر في رحلة المشي، يمكنه الحصول على طعام وشراب في الطريق.",
+      "58": "لدى الجامعة الشعبية في توبنغن يمكن التسجيل لجميع الدورات بسهولة عبر البريد الإلكتروني.",
+      "59": "في راديو الكلاسيك يمكن طلب أقراص موسيقى فيردي ابتداءً من الساعة 20:15.",
+      "60": "يمكن للأطفال المبيت في قلعة رومركاستل زالبورغ خلال العطلة الصيفية."
+    }},
+    "items": {
+      "56": { "keyword": "nach einer Großdemonstration", "explanation_correct": "Konkrete Ursachen für Straßenzustände (hier: Demonstration) werden im Hörtext oft anders genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Ursachen für Straßenzustände (hier: Demonstration) werden im Hörtext oft anders genannt. Diese Aussage ist Falsch." },
+      "57": { "keyword": "unterwegs ... bekommen", "explanation_correct": "Verpflegungsmöglichkeiten während einer Wanderung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Verpflegungsmöglichkeiten während einer Wanderung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "58": { "keyword": "problemlos per E-Mail", "explanation_correct": "Das Wort „problemlos“ bei Anmeldewegen ist eine typische Falle – im Hörtext gibt es oft Einschränkungen. Diese Aussage ist Falsch.", "explanation_wrong": "Das Wort „problemlos“ bei Anmeldewegen ist eine typische Falle – im Hörtext gibt es oft Einschränkungen. Diese Aussage ist Falsch." },
+      "59": { "keyword": "CDs ... bestellen", "explanation_correct": "Konkrete Angebote eines Radiosenders (hier: CD-Bestellung) werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Angebote eines Radiosenders (hier: CD-Bestellung) werden im Hörtext oft anders beschrieben. Diese Aussage ist Falsch." },
+      "60": { "keyword": "übernachten", "explanation_correct": "Übernachtungsmöglichkeiten für Kinder in den Ferien werden im Hörtext oft verneint oder anders beschrieben. Diese Aussage ist Falsch.", "explanation_wrong": "Übernachtungsmöglichkeiten für Kinder in den Ferien werden im Hörtext oft verneint oder anders beschrieben. Diese Aussage ist Falsch." }
+    }
+  },
+  "9b51b73d-631a-495c-b488-8a155e2eb997": {
+    "translation": { "questions": {
+      "1": "خدمة القطارات إلى ويستيند متوقفة بسبب نقص الموظفين.",
+      "2": "التسجيل للدورات ممكن عبر الإنترنت رغم إغلاق مركز التسجيل.",
+      "3": "تصاريح وقوف السيارات الجديدة متاحة الآن حصرياً رقمياً.",
+      "4": "يقدم المتحف دخولاً مجانياً لجميع الفئات العمرية في عطلة نهاية الأسبوع.",
+      "5": "تتكفل الجهة المنظمة بتغذية المتطوعين."
+    }},
+    "items": {
+      "1": { "keyword": "wegen Personalmangel", "explanation_correct": "Konkrete Gründe für Verkehrsunterbrechungen werden im Hörtext oft anders genannt. Diese Aussage ist Falsch.", "explanation_wrong": "Konkrete Gründe für Verkehrsunterbrechungen werden im Hörtext oft anders genannt. Diese Aussage ist Falsch." },
+      "2": { "keyword": "trotz geschlossener Anmeldezentrale", "explanation_correct": "Alternative Wege trotz einer Schließung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Alternative Wege trotz einer Schließung sind ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." },
+      "3": { "keyword": "ausschließlich digital", "explanation_correct": "Das einschränkende Wort „ausschließlich“ bei neuen Ausweisen ist eine klassische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Das einschränkende Wort „ausschließlich“ bei neuen Ausweisen ist eine klassische Falle. Diese Aussage ist Falsch." },
+      "4": { "keyword": "freien Eintritt für alle", "explanation_correct": "Absolute Formulierungen wie „für alle Altersgruppen“ bei kostenlosem Eintritt sind eine typische Falle. Diese Aussage ist Falsch.", "explanation_wrong": "Absolute Formulierungen wie „für alle Altersgruppen“ bei kostenlosem Eintritt sind eine typische Falle. Diese Aussage ist Falsch." },
+      "5": { "keyword": "vom Veranstalter übernommen", "explanation_correct": "Wer die Verpflegungskosten trägt, ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig.", "explanation_wrong": "Wer die Verpflegungskosten trägt, ist ein häufig abgefragtes Detail – hier korrekt wiedergegeben. Diese Aussage ist Richtig." }
+    }
+  }
+}

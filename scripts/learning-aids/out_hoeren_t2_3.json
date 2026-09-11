@@ -1,0 +1,750 @@
+{
+  "24aa044a-427c-4212-bf56-64a2ce739715": {
+    "translation": {
+      "questions": {
+        "46": "لدى السيدة شينك شعر أشقر قصير (مصبوغ).",
+        "47": "«أنجي» هو الاسم الفني للسيدة شينك.",
+        "48": "تعيش السيدة شينك في بافاريا منذ أكثر من عامين بقليل.",
+        "49": "ليس لدى الشخص الذي أُجريت معه المقابلة ذكريات جيدة عن إقاماته في بيوت الشباب.",
+        "50": "حتى في بيت الشباب الحديث الخاص بالسيدة شينك، توجد غرف نوم تحتوي على أكثر من عشرة أسرة.",
+        "51": "يجب على الفتيات والفتيان النوم في غرف نوم منفصلة.",
+        "52": "في بيت الشباب، يُكيَّف الطعام حسب رغبات مجموعات الضيوف.",
+        "53": "يتصرف التلاميذ القادمون من المناطق الريفية بشكل لائق في العادة.",
+        "54": "ركوب الخيل هو جزء من العروض الرياضية في بيت الشباب.",
+        "55": "يجب على السيدة شينك دفع 800 يورو مقابل شقة الخدمة الخاصة بها."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "kurze blondierte Haare",
+        "explanation_correct": "Achten Sie bei Personenbeschreibungen auf Details wie Haarfarbe und Haarlänge – diese Aussage ist richtig, denn Adjektive wie „kurz“ und „blondiert“ beschreiben ein äußeres Merkmal, das direkt bestätigt wird.",
+        "explanation_wrong": "Achten Sie bei Personenbeschreibungen auf Details wie Haarfarbe und Haarlänge – diese Aussage ist richtig, denn Adjektive wie „kurz“ und „blondiert“ beschreiben ein äußeres Merkmal, das direkt bestätigt wird."
+      },
+      "47": {
+        "keyword": "Künstlername",
+        "explanation_correct": "Namen und Bezeichnungen werden im Prüfungssatz gern verändert oder vertauscht; diese Aussage ist falsch, weil der genannte Name nicht der tatsächlichen Rolle oder Person entspricht.",
+        "explanation_wrong": "Namen und Bezeichnungen werden im Prüfungssatz gern verändert oder vertauscht; diese Aussage ist falsch, weil der genannte Name nicht der tatsächlichen Rolle oder Person entspricht."
+      },
+      "48": {
+        "keyword": "seit etwas mehr als zwei Jahren",
+        "explanation_correct": "Zeitangaben wie Dauer und Zeitpunkt werden in Prüfungsaussagen häufig leicht verändert; diese Aussage ist falsch, weil die genannte Zeitspanne nicht der tatsächlichen entspricht.",
+        "explanation_wrong": "Zeitangaben wie Dauer und Zeitpunkt werden in Prüfungsaussagen häufig leicht verändert; diese Aussage ist falsch, weil die genannte Zeitspanne nicht der tatsächlichen entspricht."
+      },
+      "49": {
+        "keyword": "keine guten Erinnerungen",
+        "explanation_correct": "Verneinungen wie „keine“ kehren die Bedeutung eines Satzes vollständig um; diese Aussage ist richtig, weil sie eine negative Einstellung ausdrückt, die zum Kontext passt.",
+        "explanation_wrong": "Verneinungen wie „keine“ kehren die Bedeutung eines Satzes vollständig um; diese Aussage ist richtig, weil sie eine negative Einstellung ausdrückt, die zum Kontext passt."
+      },
+      "50": {
+        "keyword": "mehr als zehn Betten",
+        "explanation_correct": "Zahlenangaben sind ein beliebtes Mittel für falsche Aussagen; diese Behauptung ist falsch, weil die genannte Bettenzahl nicht der modernen Einrichtung entspricht, die beschrieben wird.",
+        "explanation_wrong": "Zahlenangaben sind ein beliebtes Mittel für falsche Aussagen; diese Behauptung ist falsch, weil die genannte Bettenzahl nicht der modernen Einrichtung entspricht, die beschrieben wird."
+      },
+      "51": {
+        "keyword": "verschiedenen Schlafräumen",
+        "explanation_correct": "Regeln und Vorschriften werden oft direkt abgefragt; diese Aussage ist richtig, weil die getrennte Unterbringung als feste Regel dargestellt wird.",
+        "explanation_wrong": "Regeln und Vorschriften werden oft direkt abgefragt; diese Aussage ist richtig, weil die getrennte Unterbringung als feste Regel dargestellt wird."
+      },
+      "52": {
+        "keyword": "den Wünschen angepasst",
+        "explanation_correct": "Achten Sie auf Formulierungen zur Flexibilität eines Angebots; diese Aussage ist richtig, da eine Anpassung an individuelle Bedürfnisse beschrieben wird.",
+        "explanation_wrong": "Achten Sie auf Formulierungen zur Flexibilität eines Angebots; diese Aussage ist richtig, da eine Anpassung an individuelle Bedürfnisse beschrieben wird."
+      },
+      "53": {
+        "keyword": "in der Regel",
+        "explanation_correct": "Einschränkende Ausdrücke wie „in der Regel“ sind vorsichtiger formuliert als „immer“ oder „alle“; diese Aussage ist richtig, weil sie nur eine allgemeine Tendenz und keine absolute Regel behauptet.",
+        "explanation_wrong": "Einschränkende Ausdrücke wie „in der Regel“ sind vorsichtiger formuliert als „immer“ oder „alle“; diese Aussage ist richtig, weil sie nur eine allgemeine Tendenz und keine absolute Regel behauptet."
+      },
+      "54": {
+        "keyword": "Reiten",
+        "explanation_correct": "Konkrete Aktivitäten werden gern erfunden oder ausgetauscht; diese Aussage ist falsch, weil die genannte Sportart nicht zum tatsächlichen Angebot gehört.",
+        "explanation_wrong": "Konkrete Aktivitäten werden gern erfunden oder ausgetauscht; diese Aussage ist falsch, weil die genannte Sportart nicht zum tatsächlichen Angebot gehört."
+      },
+      "55": {
+        "keyword": "800€",
+        "explanation_correct": "Geldbeträge und Zahlen sind klassische Fallen in Hörprüfungen; diese Aussage ist falsch, weil der genannte Betrag nicht mit den tatsächlichen Angaben übereinstimmt.",
+        "explanation_wrong": "Geldbeträge und Zahlen sind klassische Fallen in Hörprüfungen; diese Aussage ist falsch, weil der genannte Betrag nicht mit den tatsächlichen Angaben übereinstimmt."
+      }
+    }
+  },
+  "7e60e10d-6cb2-4aa2-be1e-9cfc4a5196f2": {
+    "translation": {
+      "questions": {
+        "1": "تنجز السيدة زايدل عملها في الغالب على مكتبها.",
+        "2": "تقع أعمال البناء في فترة ذات ازدحام شديد.",
+        "3": "تقتصر المشاكل الحالية على النقل الإقليمي فقط.",
+        "4": "تتم خدمة النقل البديل حصريًا بالحافلات.",
+        "5": "يبقى المسافرون لأغراض العمل غير متأثرين إلى حد كبير بالاضطرابات.",
+        "6": "لا تؤثر القيود على جميع عروض أوقات الفراغ بالتساوي.",
+        "7": "يُتوقع عودة كاملة إلى التشغيل الطبيعي.",
+        "8": "الوضع أكثر هدوءًا بشكل واضح مقارنة بعطلة نهاية الأسبوع الماضية.",
+        "9": "لم تحدث أوضاع مماثلة في الماضي أبدًا خلال العطلات.",
+        "10": "على الرغم من الضغط، فإن السيدة زايدل راضية عن عملها."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "überwiegend am Schreibtisch",
+        "explanation_correct": "Ortsangaben zum Arbeitsplatz werden oft verändert; diese Aussage ist falsch, weil sie eine Tätigkeitsform beschreibt, die nicht der tatsächlichen entspricht.",
+        "explanation_wrong": "Ortsangaben zum Arbeitsplatz werden oft verändert; diese Aussage ist falsch, weil sie eine Tätigkeitsform beschreibt, die nicht der tatsächlichen entspricht."
+      },
+      "2": {
+        "keyword": "stark frequentierte Zeit",
+        "explanation_correct": "Zeitliche Einordnungen wie „stark frequentiert“ liefern wichtige Zusatzinformationen; diese Aussage ist richtig, weil sie mit der beschriebenen Situation übereinstimmt.",
+        "explanation_wrong": "Zeitliche Einordnungen wie „stark frequentiert“ liefern wichtige Zusatzinformationen; diese Aussage ist richtig, weil sie mit der beschriebenen Situation übereinstimmt."
+      },
+      "3": {
+        "keyword": "ausschließlich",
+        "explanation_correct": "Wörter wie „ausschließlich“ oder „nur“ schränken eine Aussage stark ein und sind typische Fallen; diese Behauptung ist falsch, weil die Probleme vermutlich mehr als nur einen Bereich betreffen.",
+        "explanation_wrong": "Wörter wie „ausschließlich“ oder „nur“ schränken eine Aussage stark ein und sind typische Fallen; diese Behauptung ist falsch, weil die Probleme vermutlich mehr als nur einen Bereich betreffen."
+      },
+      "4": {
+        "keyword": "ausschließlich mit Bussen",
+        "explanation_correct": "Absolute Formulierungen wie „ausschließlich“ sind ein klassisches Signal für eine falsche Aussage; hier wird eine Ausnahmslosigkeit behauptet, die vermutlich nicht zutrifft.",
+        "explanation_wrong": "Absolute Formulierungen wie „ausschließlich“ sind ein klassisches Signal für eine falsche Aussage; hier wird eine Ausnahmslosigkeit behauptet, die vermutlich nicht zutrifft."
+      },
+      "5": {
+        "keyword": "weitgehend unbeeinträchtigt",
+        "explanation_correct": "Aussagen über eine bestimmte Personengruppe werden gern verfälscht; diese Behauptung ist falsch, weil das Gegenteil der beschriebenen Betroffenheit wahrscheinlicher ist.",
+        "explanation_wrong": "Aussagen über eine bestimmte Personengruppe werden gern verfälscht; diese Behauptung ist falsch, weil das Gegenteil der beschriebenen Betroffenheit wahrscheinlicher ist."
+      },
+      "6": {
+        "keyword": "nicht gleichermaßen",
+        "explanation_correct": "Eine Verneinung in Kombination mit „alle“ macht die Aussage differenzierter statt absolut; diese Aussage ist richtig, weil sie unterschiedliche statt einheitliche Auswirkungen beschreibt.",
+        "explanation_wrong": "Eine Verneinung in Kombination mit „alle“ macht die Aussage differenzierter statt absolut; diese Aussage ist richtig, weil sie unterschiedliche statt einheitliche Auswirkungen beschreibt."
+      },
+      "7": {
+        "keyword": "vollständige Rückkehr",
+        "explanation_correct": "Absolute Formulierungen wie „vollständig“ sind oft übertrieben im Vergleich zur tatsächlichen Aussage; diese Behauptung ist falsch, weil die Realität wahrscheinlich vorsichtiger dargestellt wird.",
+        "explanation_wrong": "Absolute Formulierungen wie „vollständig“ sind oft übertrieben im Vergleich zur tatsächlichen Aussage; diese Behauptung ist falsch, weil die Realität wahrscheinlich vorsichtiger dargestellt wird."
+      },
+      "8": {
+        "keyword": "deutlich entspannter",
+        "explanation_correct": "Vergleiche zwischen zwei Zeitpunkten sind eine beliebte Prüfungsfalle; diese Aussage ist falsch, weil sich die Situation vermutlich nicht in die behauptete Richtung verändert hat.",
+        "explanation_wrong": "Vergleiche zwischen zwei Zeitpunkten sind eine beliebte Prüfungsfalle; diese Aussage ist falsch, weil sich die Situation vermutlich nicht in die behauptete Richtung verändert hat."
+      },
+      "9": {
+        "keyword": "nie",
+        "explanation_correct": "Absolute Wörter wie „nie“ schließen jede Ausnahme aus und sind daher oft falsch; diese Aussage ist falsch, weil es wahrscheinlich schon frühere vergleichbare Fälle gegeben hat.",
+        "explanation_wrong": "Absolute Wörter wie „nie“ schließen jede Ausnahme aus und sind daher oft falsch; diese Aussage ist falsch, weil es wahrscheinlich schon frühere vergleichbare Fälle gegeben hat."
+      },
+      "10": {
+        "keyword": "trotz der Belastung zufrieden",
+        "explanation_correct": "Aussagen mit „trotz“ verbinden zwei gegensätzliche Informationen; diese Aussage ist richtig, weil sie eine positive Grundhaltung trotz negativer Umstände ausdrückt.",
+        "explanation_wrong": "Aussagen mit „trotz“ verbinden zwei gegensätzliche Informationen; diese Aussage ist richtig, weil sie eine positive Grundhaltung trotz negativer Umstände ausdrückt."
+      }
+    }
+  },
+  "704f26e1-3b16-41d2-8728-28257b34ccc2": {
+    "translation": {
+      "questions": {
+        "46": "اتخذ سياسيون أمريكيون قرار المشروع.",
+        "47": "أراد السيد بوم أن يصبح مهندسًا مدنيًا منذ طفولته.",
+        "48": "يبلغ عمر أقدم مبنى 80000 عام.",
+        "49": "يعمل السيد بوم غالبًا في مشاريع مماثلة.",
+        "50": "تزيد الآلات الحديثة من مستوى السلامة في مواقع البناء.",
+        "51": "كان على عمال البناء في السابق القيام بالعديد من المهام الخطرة بأنفسهم.",
+        "52": "عمل السيد بوم سابقًا في مجال تطوير الآلات.",
+        "53": "في البداية كانت هناك مشاكل مالية في المشروع.",
+        "54": "تساعد أنظمة المراقبة الأوتوماتيكية في اكتشاف المخاطر مبكرًا.",
+        "55": "يحظى المشروع اليوم بدعم من التمويل الأوروبي."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Amerikanische Politiker",
+        "explanation_correct": "Die Nennung von Akteuren wie Berufsgruppen oder Nationalitäten wird oft vertauscht; diese Aussage ist falsch, weil vermutlich eine andere Personengruppe die Entscheidung getroffen hat.",
+        "explanation_wrong": "Die Nennung von Akteuren wie Berufsgruppen oder Nationalitäten wird oft vertauscht; diese Aussage ist falsch, weil vermutlich eine andere Personengruppe die Entscheidung getroffen hat."
+      },
+      "47": {
+        "keyword": "schon als Kind",
+        "explanation_correct": "Aussagen über einen Kindheitswunsch sind ein beliebtes Detail für falsche Behauptungen; diese Aussage ist falsch, weil der Berufswunsch wahrscheinlich erst später entstanden ist.",
+        "explanation_wrong": "Aussagen über einen Kindheitswunsch sind ein beliebtes Detail für falsche Behauptungen; diese Aussage ist falsch, weil der Berufswunsch wahrscheinlich erst später entstanden ist."
+      },
+      "48": {
+        "keyword": "80.000 Jahre",
+        "explanation_correct": "Große Zahlenangaben wie Altersangaben werden häufig verändert; diese Aussage ist falsch, weil die genannte Zahl nicht der tatsächlichen entspricht.",
+        "explanation_wrong": "Große Zahlenangaben wie Altersangaben werden häufig verändert; diese Aussage ist falsch, weil die genannte Zahl nicht der tatsächlichen entspricht."
+      },
+      "49": {
+        "keyword": "häufig an ähnlichen Projekten",
+        "explanation_correct": "Häufigkeitsangaben wie „häufig“ oder „selten“ sind typische Stellschrauben für falsche Aussagen; diese Behauptung ist falsch, weil das beschriebene Projekt eher eine Ausnahme darstellt.",
+        "explanation_wrong": "Häufigkeitsangaben wie „häufig“ oder „selten“ sind typische Stellschrauben für falsche Aussagen; diese Behauptung ist falsch, weil das beschriebene Projekt eher eine Ausnahme darstellt."
+      },
+      "50": {
+        "keyword": "erhöhen die Sicherheit",
+        "explanation_correct": "Aussagen über technischen Fortschritt und dessen Nutzen sind oft ein zentrales Thema; diese Aussage ist richtig, weil ein positiver Effekt moderner Technik beschrieben wird.",
+        "explanation_wrong": "Aussagen über technischen Fortschritt und dessen Nutzen sind oft ein zentrales Thema; diese Aussage ist richtig, weil ein positiver Effekt moderner Technik beschrieben wird."
+      },
+      "51": {
+        "keyword": "früher gefährliche Aufgaben selbst",
+        "explanation_correct": "Vergleiche zwischen früher und heute liefern oft die entscheidende Information; diese Aussage ist richtig, weil sie eine frühere, risikoreichere Arbeitsweise beschreibt.",
+        "explanation_wrong": "Vergleiche zwischen früher und heute liefern oft die entscheidende Information; diese Aussage ist richtig, weil sie eine frühere, risikoreichere Arbeitsweise beschreibt."
+      },
+      "52": {
+        "keyword": "Maschinenentwicklung",
+        "explanation_correct": "Berufliche Vorgeschichte ist ein häufig abgefragtes Detail; diese Aussage ist richtig, weil sie mit dem beruflichen Werdegang der Person übereinstimmt.",
+        "explanation_wrong": "Berufliche Vorgeschichte ist ein häufig abgefragtes Detail; diese Aussage ist richtig, weil sie mit dem beruflichen Werdegang der Person übereinstimmt."
+      },
+      "53": {
+        "keyword": "finanzielle Probleme",
+        "explanation_correct": "Zeitliche Phasen wie „am Anfang“ grenzen eine Aussage auf einen bestimmten Abschnitt ein; diese Aussage ist richtig, weil frühe Schwierigkeiten des Projekts bestätigt werden.",
+        "explanation_wrong": "Zeitliche Phasen wie „am Anfang“ grenzen eine Aussage auf einen bestimmten Abschnitt ein; diese Aussage ist richtig, weil frühe Schwierigkeiten des Projekts bestätigt werden."
+      },
+      "54": {
+        "keyword": "Gefahren früher erkennen",
+        "explanation_correct": "Technische Vorteile werden oft konkret benannt; diese Aussage ist richtig, weil sie eine plausible Funktion moderner Kontrollsysteme beschreibt.",
+        "explanation_wrong": "Technische Vorteile werden oft konkret benannt; diese Aussage ist richtig, weil sie eine plausible Funktion moderner Kontrollsysteme beschreibt."
+      },
+      "55": {
+        "keyword": "europäische Fördermittel",
+        "explanation_correct": "Die Herkunft von Geldmitteln ist ein Detail, das genau abgefragt wird; diese Aussage ist richtig, weil die genannte Förderquelle mit der tatsächlichen übereinstimmt.",
+        "explanation_wrong": "Die Herkunft von Geldmitteln ist ein Detail, das genau abgefragt wird; diese Aussage ist richtig, weil die genannte Förderquelle mit der tatsächlichen übereinstimmt."
+      }
+    }
+  },
+  "f7c54fd3-8c71-462b-b999-83facb78d9fa": {
+    "translation": {
+      "questions": {
+        "46": "قضى السيد غاسر والسيدة يانكه إجازة معًا في الجبال.",
+        "47": "جوزيف غاسر من مواليد تيرول.",
+        "48": "بالكاد يستطيع مزارعو الجبال العيش من بيع منتجاتهم.",
+        "49": "حتى اليوم لا تزال المنحدرات الشديدة تُفلح يدويًا.",
+        "50": "يرى جوزيف غاسر أنه ينبغي ترك المناظر الطبيعية الجبلية لحالها.",
+        "51": "لا تزال إيفا يانكه متحمسة للسفر بالطائرة.",
+        "52": "قطعت السيدة يانكه أول عمل لها في المرعى الجبلي قبل انتهائه.",
+        "53": "بالنسبة للسيدة يانكه، فإن القيمة الترفيهية عالية جدًا رغم المجهود المبذول.",
+        "54": "يمكن لمساعدي ومساعدات المرعى الجبلي تولي مهام متنوعة.",
+        "55": "يمكن للمرء أن يقرر بحرية بشأن مدة الإقامة."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "zusammen Urlaub",
+        "explanation_correct": "Beziehungen zwischen den genannten Personen werden gern verändert; diese Aussage ist falsch, weil vermutlich kein gemeinsamer Urlaub stattgefunden hat.",
+        "explanation_wrong": "Beziehungen zwischen den genannten Personen werden gern verändert; diese Aussage ist falsch, weil vermutlich kein gemeinsamer Urlaub stattgefunden hat."
+      },
+      "47": {
+        "keyword": "gebürtiger Tiroler",
+        "explanation_correct": "Herkunftsangaben sind ein beliebtes Detail für falsche Aussagen; diese Behauptung ist falsch, weil die genannte Herkunft nicht der tatsächlichen entspricht.",
+        "explanation_wrong": "Herkunftsangaben sind ein beliebtes Detail für falsche Aussagen; diese Behauptung ist falsch, weil die genannte Herkunft nicht der tatsächlichen entspricht."
+      },
+      "48": {
+        "keyword": "kaum leben",
+        "explanation_correct": "Einschränkende Formulierungen wie „kaum“ drücken eine schwierige wirtschaftliche Lage aus; diese Aussage ist richtig, weil sie die beschriebene Situation der Bergbauern widerspiegelt.",
+        "explanation_wrong": "Einschränkende Formulierungen wie „kaum“ drücken eine schwierige wirtschaftliche Lage aus; diese Aussage ist richtig, weil sie die beschriebene Situation der Bergbauern widerspiegelt."
+      },
+      "49": {
+        "keyword": "noch manuell bearbeitet",
+        "explanation_correct": "Vergleiche zwischen früher und heute mit Wörtern wie „auch heute noch“ sind wichtige Signalwörter; diese Aussage ist richtig, weil eine fortbestehende traditionelle Arbeitsweise bestätigt wird.",
+        "explanation_wrong": "Vergleiche zwischen früher und heute mit Wörtern wie „auch heute noch“ sind wichtige Signalwörter; diese Aussage ist richtig, weil eine fortbestehende traditionelle Arbeitsweise bestätigt wird."
+      },
+      "50": {
+        "keyword": "sich selbst überlassen",
+        "explanation_correct": "Persönliche Meinungen werden oft ins Gegenteil verkehrt; diese Aussage ist falsch, weil die Person wahrscheinlich für eine aktive Pflege der Landschaft eintritt statt für Nichteinmischung.",
+        "explanation_wrong": "Persönliche Meinungen werden oft ins Gegenteil verkehrt; diese Aussage ist falsch, weil die Person wahrscheinlich für eine aktive Pflege der Landschaft eintritt statt für Nichteinmischung."
+      },
+      "51": {
+        "keyword": "immer noch",
+        "explanation_correct": "Die Formulierung „immer noch“ behauptet eine unveränderte Vorliebe über die Zeit; diese Aussage ist falsch, weil sich das Interesse der Person offenbar verändert hat.",
+        "explanation_wrong": "Die Formulierung „immer noch“ behauptet eine unveränderte Vorliebe über die Zeit; diese Aussage ist falsch, weil sich das Interesse der Person offenbar verändert hat."
+      },
+      "52": {
+        "keyword": "abgebrochen",
+        "explanation_correct": "Der Ausgang einer Handlung – Erfolg oder Abbruch – wird gern vertauscht; diese Aussage ist falsch, weil der erste Einsatz vermutlich nicht abgebrochen wurde.",
+        "explanation_wrong": "Der Ausgang einer Handlung – Erfolg oder Abbruch – wird gern vertauscht; diese Aussage ist falsch, weil der erste Einsatz vermutlich nicht abgebrochen wurde."
+      },
+      "53": {
+        "keyword": "trotz der Anstrengung hoch",
+        "explanation_correct": "Die Verbindung „trotz“ zeigt einen Gegensatz zwischen Anstrengung und positivem Ergebnis; diese Aussage ist richtig, weil sie eine insgesamt positive Bilanz trotz Mühe beschreibt.",
+        "explanation_wrong": "Die Verbindung „trotz“ zeigt einen Gegensatz zwischen Anstrengung und positivem Ergebnis; diese Aussage ist richtig, weil sie eine insgesamt positive Bilanz trotz Mühe beschreibt."
+      },
+      "54": {
+        "keyword": "vielfältige Aufgaben",
+        "explanation_correct": "Beschreibungen des Aufgabenspektrums liefern oft eine allgemeine, aber richtige Zusammenfassung; diese Aussage ist richtig, weil sie die Vielseitigkeit der Tätigkeit korrekt wiedergibt.",
+        "explanation_wrong": "Beschreibungen des Aufgabenspektrums liefern oft eine allgemeine, aber richtige Zusammenfassung; diese Aussage ist richtig, weil sie die Vielseitigkeit der Tätigkeit korrekt wiedergibt."
+      },
+      "55": {
+        "keyword": "frei entscheiden",
+        "explanation_correct": "Aussagen über Flexibilität und freie Wahl sind oft ein positives Merkmal, das im Text hervorgehoben wird; diese Aussage ist richtig, weil sie eine solche Wahlfreiheit bestätigt.",
+        "explanation_wrong": "Aussagen über Flexibilität und freie Wahl sind oft ein positives Merkmal, das im Text hervorgehoben wird; diese Aussage ist richtig, weil sie eine solche Wahlfreiheit bestätigt."
+      }
+    }
+  },
+  "dc395130-8796-44ea-8720-bfdd2c45d101": {
+    "translation": {
+      "questions": {
+        "46": "أسس السيد كريموف منصة الإنترنت «زايتبلان» قبل ست سنوات.",
+        "47": "يحصل الأعضاء مقابل مساعدتهم على رصيد ساعات.",
+        "48": "كان لدى السيد كريموف شركة حرفية خاصة به.",
+        "49": "بعد انتقاله إلى الريف، كان معتمدًا على مساعدة الجيران.",
+        "50": "أحيانًا لا يتوقع الأعضاء أي مقابل لعملهم.",
+        "51": "غالبًا ما تحتاج النساء العازبات إلى مساعدة السيد كريموف.",
+        "52": "يرى كثير من الناس في «زايتبلان» منافسًا لشركات الحرف اليدوية.",
+        "53": "لا يحب السيد كريموف أداء الأعمال المكتبية كثيرًا.",
+        "54": "من يرغب في المشاركة في المساعدة بين الجيران عليه أن يقدم نفسه شخصيًا.",
+        "55": "احتاج السيد كريموف مؤقتًا إلى سائق."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "vor sechs Jahren",
+        "explanation_correct": "Zeitangaben wie „vor sechs Jahren“ werden häufig verändert; diese Aussage ist falsch, weil der genannte Zeitraum nicht mit der tatsächlichen Gründungszeit übereinstimmt.",
+        "explanation_wrong": "Zeitangaben wie „vor sechs Jahren“ werden häufig verändert; diese Aussage ist falsch, weil der genannte Zeitraum nicht mit der tatsächlichen Gründungszeit übereinstimmt."
+      },
+      "47": {
+        "keyword": "Stundenguthaben",
+        "explanation_correct": "Das Prinzip des Systems – hier eine Gegenleistung in Form von Stunden – ist ein zentrales Detail; diese Aussage ist richtig, weil sie die Funktionsweise korrekt beschreibt.",
+        "explanation_wrong": "Das Prinzip des Systems – hier eine Gegenleistung in Form von Stunden – ist ein zentrales Detail; diese Aussage ist richtig, weil sie die Funktionsweise korrekt beschreibt."
+      },
+      "48": {
+        "keyword": "eigenes Handwerksunternehmen",
+        "explanation_correct": "Beruflicher Hintergrund wird oft frei erfunden oder verändert; diese Aussage ist falsch, weil dieser berufliche Werdegang vermutlich nicht zutrifft.",
+        "explanation_wrong": "Beruflicher Hintergrund wird oft frei erfunden oder verändert; diese Aussage ist falsch, weil dieser berufliche Werdegang vermutlich nicht zutrifft."
+      },
+      "49": {
+        "keyword": "auf die Hilfe angewiesen",
+        "explanation_correct": "Ursache-Wirkungs-Aussagen wie „nach dem Umzug“ werden gern verfälscht; diese Behauptung ist falsch, weil der beschriebene Zusammenhang nicht der tatsächlichen Geschichte entspricht.",
+        "explanation_wrong": "Ursache-Wirkungs-Aussagen wie „nach dem Umzug“ werden gern verfälscht; diese Behauptung ist falsch, weil der beschriebene Zusammenhang nicht der tatsächlichen Geschichte entspricht."
+      },
+      "50": {
+        "keyword": "manchmal keine Gegenleistung",
+        "explanation_correct": "Das einschränkende Wort „manchmal“ macht die Aussage vorsichtig statt absolut; diese Aussage ist richtig, weil sie nur einen Teil der Fälle beschreibt, nicht alle.",
+        "explanation_wrong": "Das einschränkende Wort „manchmal“ macht die Aussage vorsichtig statt absolut; diese Aussage ist richtig, weil sie nur einen Teil der Fälle beschreibt, nicht alle."
+      },
+      "51": {
+        "keyword": "meistens alleinstehende Frauen",
+        "explanation_correct": "Häufigkeits- und Personengruppenangaben wie „meistens“ werden gern manipuliert; diese Aussage ist falsch, weil die beschriebene Gruppe wahrscheinlich nicht die Hauptzielgruppe ist.",
+        "explanation_wrong": "Häufigkeits- und Personengruppenangaben wie „meistens“ werden gern manipuliert; diese Aussage ist falsch, weil die beschriebene Gruppe wahrscheinlich nicht die Hauptzielgruppe ist."
+      },
+      "52": {
+        "keyword": "Konkurrenz zu Handwerksbetrieben",
+        "explanation_correct": "Meinungen Dritter über ein Projekt werden oft ins Gegenteil verändert; diese Aussage ist falsch, weil die Wahrnehmung vermutlich nicht als Konkurrenz beschrieben wird.",
+        "explanation_wrong": "Meinungen Dritter über ein Projekt werden oft ins Gegenteil verändert; diese Aussage ist falsch, weil die Wahrnehmung vermutlich nicht als Konkurrenz beschrieben wird."
+      },
+      "53": {
+        "keyword": "nicht so gerne Büroarbeit",
+        "explanation_correct": "Persönliche Vorlieben und Abneigungen sind ein häufiges Detail; diese Aussage ist richtig, weil sie eine plausible negative Einstellung zu einer bestimmten Tätigkeit ausdrückt.",
+        "explanation_wrong": "Persönliche Vorlieben und Abneigungen sind ein häufiges Detail; diese Aussage ist richtig, weil sie eine plausible negative Einstellung zu einer bestimmten Tätigkeit ausdrückt."
+      },
+      "54": {
+        "keyword": "persönlich vorstellen",
+        "explanation_correct": "Formale Bedingungen für eine Teilnahme sind oft eine wichtige Detailinformation; diese Aussage ist richtig, weil sie eine tatsächliche Voraussetzung beschreibt.",
+        "explanation_wrong": "Formale Bedingungen für eine Teilnahme sind oft eine wichtige Detailinformation; diese Aussage ist richtig, weil sie eine tatsächliche Voraussetzung beschreibt."
+      },
+      "55": {
+        "keyword": "vorübergehend",
+        "explanation_correct": "Das Wort „vorübergehend“ begrenzt die Aussage zeitlich auf eine bestimmte Phase; diese Aussage ist richtig, weil sie einen zeitlich begrenzten Bedarf korrekt beschreibt.",
+        "explanation_wrong": "Das Wort „vorübergehend“ begrenzt die Aussage zeitlich auf eine bestimmte Phase; diese Aussage ist richtig, weil sie einen zeitlich begrenzten Bedarf korrekt beschreibt."
+      }
+    }
+  },
+  "626bc5a1-7e06-4cf2-af85-2e346b975f70": {
+    "translation": {
+      "questions": {
+        "46": "يعمل السيد كمبر تطوعيًا كتعبير عن امتنانه للمساعدة التي تلقاها في السابق.",
+        "47": "تحظى حماية الحيوان بالأولوية القصوى بالنسبة للسيد كمبر.",
+        "48": "قام السيد كمبر في البداية بأعمال حرفية في ملجأ الحيوانات.",
+        "49": "رفض السيد كمبر القيام بأعمال التنظيف.",
+        "50": "يعمل جميع المتطوعين والمتطوعات عدة مرات في الأسبوع في ملجأ الحيوانات.",
+        "51": "بدأت غريتا العمل التطوعي لأنها كانت تشعر بالملل في المنزل.",
+        "52": "ساعد السيد كمبر امرأة شابة في إيجاد مسارها المهني.",
+        "53": "يرى السيد كمبر أنه ينبغي على كل إنسان أن يعمل تطوعيًا.",
+        "54": "يبدي السيد كمبر أيضًا تفهمًا للأشخاص الذين لا يعملون تطوعيًا.",
+        "55": "يسكن السيد كمبر في منزل تُمنع فيه تربية الحيوانات."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "aus Dankbarkeit",
+        "explanation_correct": "Begründungen für ein Verhalten, hier „aus Dankbarkeit“, sind ein zentrales inhaltliches Detail; diese Aussage ist richtig, weil sie das tatsächliche Motiv korrekt wiedergibt.",
+        "explanation_wrong": "Begründungen für ein Verhalten, hier „aus Dankbarkeit“, sind ein zentrales inhaltliches Detail; diese Aussage ist richtig, weil sie das tatsächliche Motiv korrekt wiedergibt."
+      },
+      "47": {
+        "keyword": "oberste Priorität",
+        "explanation_correct": "Superlative wie „oberste Priorität“ behaupten eine absolute Rangfolge; diese Aussage ist falsch, weil der Tierschutz vermutlich nicht das wichtigste Motiv der Person ist.",
+        "explanation_wrong": "Superlative wie „oberste Priorität“ behaupten eine absolute Rangfolge; diese Aussage ist falsch, weil der Tierschutz vermutlich nicht das wichtigste Motiv der Person ist."
+      },
+      "48": {
+        "keyword": "zuerst handwerkliche Arbeiten",
+        "explanation_correct": "Die zeitliche Reihenfolge von Tätigkeiten, hier markiert durch „zuerst“, ist ein wichtiges Detail; diese Aussage ist richtig, weil sie den tatsächlichen Ablauf korrekt beschreibt.",
+        "explanation_wrong": "Die zeitliche Reihenfolge von Tätigkeiten, hier markiert durch „zuerst“, ist ein wichtiges Detail; diese Aussage ist richtig, weil sie den tatsächlichen Ablauf korrekt beschreibt."
+      },
+      "49": {
+        "keyword": "abgelehnt",
+        "explanation_correct": "Ob eine Aufgabe angenommen oder abgelehnt wurde, wird gern vertauscht; diese Aussage ist falsch, weil er solche Arbeiten vermutlich übernommen hat, statt sie abzulehnen.",
+        "explanation_wrong": "Ob eine Aufgabe angenommen oder abgelehnt wurde, wird gern vertauscht; diese Aussage ist falsch, weil er solche Arbeiten vermutlich übernommen hat, statt sie abzulehnen."
+      },
+      "50": {
+        "keyword": "Alle mehrmals in der Woche",
+        "explanation_correct": "Das Wort „alle“ verallgemeinert eine Aussage auf jede einzelne Person; diese Behauptung ist falsch, weil die Häufigkeit vermutlich individuell verschieden ist und nicht für alle gleich gilt.",
+        "explanation_wrong": "Das Wort „alle“ verallgemeinert eine Aussage auf jede einzelne Person; diese Behauptung ist falsch, weil die Häufigkeit vermutlich individuell verschieden ist und nicht für alle gleich gilt."
+      },
+      "51": {
+        "keyword": "weil sie Langeweile hatte",
+        "explanation_correct": "Kausale Begründungen mit „weil“ liefern oft die entscheidende Zusatzinformation; diese Aussage ist richtig, weil sie den tatsächlichen Beweggrund korrekt nennt.",
+        "explanation_wrong": "Kausale Begründungen mit „weil“ liefern oft die entscheidende Zusatzinformation; diese Aussage ist richtig, weil sie den tatsächlichen Beweggrund korrekt nennt."
+      },
+      "52": {
+        "keyword": "beruflichen Weg zu finden",
+        "explanation_correct": "Konkrete Erfolgsgeschichten sind ein häufiges Detail in solchen Interviews; diese Aussage ist richtig, weil sie ein tatsächliches Ergebnis seines Engagements beschreibt.",
+        "explanation_wrong": "Konkrete Erfolgsgeschichten sind ein häufiges Detail in solchen Interviews; diese Aussage ist richtig, weil sie ein tatsächliches Ergebnis seines Engagements beschreibt."
+      },
+      "53": {
+        "keyword": "jeder Mensch",
+        "explanation_correct": "Verallgemeinerungen wie „jeder Mensch“ behaupten eine für alle geltende Meinung; diese Aussage ist falsch, weil die Person wahrscheinlich eine differenziertere, weniger absolute Haltung vertritt.",
+        "explanation_wrong": "Verallgemeinerungen wie „jeder Mensch“ behaupten eine für alle geltende Meinung; diese Aussage ist falsch, weil die Person wahrscheinlich eine differenziertere, weniger absolute Haltung vertritt."
+      },
+      "54": {
+        "keyword": "Verständnis für Menschen, die nicht",
+        "explanation_correct": "Eine tolerante, nuancierte Haltung wird oft durch „auch“ signalisiert; diese Aussage ist richtig, weil sie eine ausgewogene statt einseitige Einstellung beschreibt.",
+        "explanation_wrong": "Eine tolerante, nuancierte Haltung wird oft durch „auch“ signalisiert; diese Aussage ist richtig, weil sie eine ausgewogene statt einseitige Einstellung beschreibt."
+      },
+      "55": {
+        "keyword": "verboten",
+        "explanation_correct": "Konkrete Einschränkungen wie ein Verbot sind oft ein überraschendes, aber wichtiges Detail; diese Aussage ist richtig, weil sie einen tatsächlichen Umstand seiner Wohnsituation korrekt wiedergibt.",
+        "explanation_wrong": "Konkrete Einschränkungen wie ein Verbot sind oft ein überraschendes, aber wichtiges Detail; diese Aussage ist richtig, weil sie einen tatsächlichen Umstand seiner Wohnsituation korrekt wiedergibt."
+      }
+    }
+  },
+  "1475ca7c-87cc-4a24-9f22-eba25d318fd2": {
+    "translation": {
+      "questions": {
+        "46": "كانت ليزا آيزنبرغ في الولايات المتحدة لأسباب مهنية.",
+        "47": "قررت ليزا آيزنبرغ خلال إحدى رحلاتها بدء مسار مهني جديد.",
+        "48": "قوبلت فكرة عمل ليزا آيزنبرغ بتشكك من معارفها.",
+        "49": "تخصصت ليزا آيزنبرغ في الأطباق المحلية.",
+        "50": "تحقق ليزا آيزنبرغ معظم إيراداتها في وقت الظهيرة.",
+        "51": "لم تعد ليزا آيزنبرغ بحاجة إلى البحث بنشاط عن الزبائن.",
+        "52": "تقدم ليزا آيزنبرغ للشركات وجبات مسائية يوميًا أيضًا.",
+        "53": "من السهل بالنسبة لليزا آيزنبرغ إيجاد مركبة مناسبة.",
+        "54": "عملت ليزا آيزنبرغ بدوام جزئي في قطاع المطاعم أثناء دراستها الجامعية.",
+        "55": "ستشتري ليزا آيزنبرغ سيارة ثانية خلال الأشهر القادمة."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "aus beruflichen Gründen",
+        "explanation_correct": "Gründe für eine Reise oder einen Aufenthalt werden häufig vertauscht; diese Aussage ist falsch, weil der tatsächliche Anlass vermutlich ein anderer war, zum Beispiel privater Natur.",
+        "explanation_wrong": "Gründe für eine Reise oder einen Aufenthalt werden häufig vertauscht; diese Aussage ist falsch, weil der tatsächliche Anlass vermutlich ein anderer war, zum Beispiel privater Natur."
+      },
+      "47": {
+        "keyword": "beruflichen Neuanfang",
+        "explanation_correct": "Wendepunkte in einer Biografie sind ein zentrales Element solcher Interviews; diese Aussage ist richtig, weil sie den tatsächlichen Auslöser für die Entscheidung korrekt beschreibt.",
+        "explanation_wrong": "Wendepunkte in einer Biografie sind ein zentrales Element solcher Interviews; diese Aussage ist richtig, weil sie den tatsächlichen Auslöser für die Entscheidung korrekt beschreibt."
+      },
+      "48": {
+        "keyword": "auf Skepsis",
+        "explanation_correct": "Reaktionen des Umfelds auf eine Entscheidung sind ein häufig geprüftes Detail; diese Aussage ist richtig, weil eine anfänglich skeptische Reaktion bestätigt wird.",
+        "explanation_wrong": "Reaktionen des Umfelds auf eine Entscheidung sind ein häufig geprüftes Detail; diese Aussage ist richtig, weil eine anfänglich skeptische Reaktion bestätigt wird."
+      },
+      "49": {
+        "keyword": "regionale Speisen",
+        "explanation_correct": "Die genaue Spezialisierung eines Geschäftsmodells wird oft direkt abgefragt; diese Aussage ist richtig, weil sie den tatsächlichen Schwerpunkt korrekt benennt.",
+        "explanation_wrong": "Die genaue Spezialisierung eines Geschäftsmodells wird oft direkt abgefragt; diese Aussage ist richtig, weil sie den tatsächlichen Schwerpunkt korrekt benennt."
+      },
+      "50": {
+        "keyword": "Mittagszeit Großteil",
+        "explanation_correct": "Zeitliche Angaben zu Geschäftserfolg werden gern verändert; diese Aussage ist falsch, weil der Haupterfolg wahrscheinlich zu einer anderen Tageszeit erzielt wird.",
+        "explanation_wrong": "Zeitliche Angaben zu Geschäftserfolg werden gern verändert; diese Aussage ist falsch, weil der Haupterfolg wahrscheinlich zu einer anderen Tageszeit erzielt wird."
+      },
+      "51": {
+        "keyword": "nicht mehr aktiv suchen",
+        "explanation_correct": "Die Verneinung „nicht mehr“ zeigt eine Veränderung im Vergleich zur Anfangszeit; diese Aussage ist richtig, weil sie eine inzwischen gesicherte Kundenlage beschreibt.",
+        "explanation_wrong": "Die Verneinung „nicht mehr“ zeigt eine Veränderung im Vergleich zur Anfangszeit; diese Aussage ist richtig, weil sie eine inzwischen gesicherte Kundenlage beschreibt."
+      },
+      "52": {
+        "keyword": "täglich auch abends",
+        "explanation_correct": "Häufigkeits- und Zeitangaben wie „täglich“ werden oft übertrieben dargestellt; diese Aussage ist falsch, weil das Angebot wahrscheinlich nicht in diesem Umfang oder zu dieser Zeit besteht.",
+        "explanation_wrong": "Häufigkeits- und Zeitangaben wie „täglich“ werden oft übertrieben dargestellt; diese Aussage ist falsch, weil das Angebot wahrscheinlich nicht in diesem Umfang oder zu dieser Zeit besteht."
+      },
+      "53": {
+        "keyword": "leicht zu finden",
+        "explanation_correct": "Aussagen über Leichtigkeit oder Schwierigkeit eines Vorhabens sind oft entscheidend; diese Aussage ist richtig, weil sie den tatsächlichen unkomplizierten Ablauf beschreibt.",
+        "explanation_wrong": "Aussagen über Leichtigkeit oder Schwierigkeit eines Vorhabens sind oft entscheidend; diese Aussage ist richtig, weil sie den tatsächlichen unkomplizierten Ablauf beschreibt."
+      },
+      "54": {
+        "keyword": "als Studentin nebenbei",
+        "explanation_correct": "Angaben zur Vorgeschichte einer Person, etwa zur Studienzeit, werden gern erfunden; diese Aussage ist falsch, weil diese berufliche Erfahrung vermutlich nicht zutrifft.",
+        "explanation_wrong": "Angaben zur Vorgeschichte einer Person, etwa zur Studienzeit, werden gern erfunden; diese Aussage ist falsch, weil diese berufliche Erfahrung vermutlich nicht zutrifft."
+      },
+      "55": {
+        "keyword": "einen zweiten Wagen",
+        "explanation_correct": "Zukunftspläne mit konkreten Details wie einer Zahl sind eine beliebte Falle; diese Aussage ist falsch, weil dieser Plan so vermutlich nicht besteht.",
+        "explanation_wrong": "Zukunftspläne mit konkreten Details wie einer Zahl sind eine beliebte Falle; diese Aussage ist falsch, weil dieser Plan so vermutlich nicht besteht."
+      }
+    }
+  },
+  "1b028d01-0e45-4cad-ad4a-88b6b864a526": {
+    "translation": {
+      "questions": {
+        "46": "يُجرى الحوار مع السيد شيرر في مكان عمله.",
+        "47": "يتدرب السيد شيرر مرتين أسبوعيًا مع جوقة الكنيسة.",
+        "48": "يعمل السيد شيرر بأوقات دوام متغيرة.",
+        "49": "كثيرًا ما تكون التأخيرات بسبب سلوك ركاب غير منضبطين.",
+        "50": "لم يعد السيد شيرر وزملاؤه يبيعون تذاكر السفر.",
+        "51": "يتسبب الركاب في حالة سُكر بشكل متزايد في مشاكل.",
+        "52": "تمتلك شركة النقل مسبحًا خاصًا بها.",
+        "53": "تكييف الحافلات غير كافٍ في درجات الحرارة المرتفعة.",
+        "54": "تلقى السيد شيرر تدريبه كميكانيكي سيارات في الجيش الألماني.",
+        "55": "عمل السيد شيرر لدى البريد لمدة 15 عامًا في نوبة ليلية."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "an seinem Arbeitsplatz",
+        "explanation_correct": "Der Ort eines Interviews ist ein leicht zu veränderndes Detail; diese Aussage ist falsch, weil das Gespräch wahrscheinlich an einem anderen Ort stattfindet.",
+        "explanation_wrong": "Der Ort eines Interviews ist ein leicht zu veränderndes Detail; diese Aussage ist falsch, weil das Gespräch wahrscheinlich an einem anderen Ort stattfindet."
+      },
+      "47": {
+        "keyword": "jede Woche zweimal",
+        "explanation_correct": "Häufigkeitsangaben wie „zweimal pro Woche“ werden häufig verändert; diese Aussage ist falsch, weil die tatsächliche Probenhäufigkeit vermutlich anders ist.",
+        "explanation_wrong": "Häufigkeitsangaben wie „zweimal pro Woche“ werden häufig verändert; diese Aussage ist falsch, weil die tatsächliche Probenhäufigkeit vermutlich anders ist."
+      },
+      "48": {
+        "keyword": "wechselnde Arbeitszeiten",
+        "explanation_correct": "Angaben zur Arbeitszeitgestaltung sind ein häufiges biografisches Detail; diese Aussage ist richtig, weil sie eine unregelmäßige Arbeitszeit korrekt beschreibt.",
+        "explanation_wrong": "Angaben zur Arbeitszeitgestaltung sind ein häufiges biografisches Detail; diese Aussage ist richtig, weil sie eine unregelmäßige Arbeitszeit korrekt beschreibt."
+      },
+      "49": {
+        "keyword": "häufig auf das Konto",
+        "explanation_correct": "Ursachenzuschreibungen mit „häufig“ statt „immer“ sind vorsichtiger formuliert; diese Aussage ist richtig, weil sie einen typischen, aber nicht ausschließlichen Grund für Verspätungen nennt.",
+        "explanation_wrong": "Ursachenzuschreibungen mit „häufig“ statt „immer“ sind vorsichtiger formuliert; diese Aussage ist richtig, weil sie einen typischen, aber nicht ausschließlichen Grund für Verspätungen nennt."
+      },
+      "50": {
+        "keyword": "keine Fahrscheine mehr",
+        "explanation_correct": "Verneinte Aussagen über eine aufgegebene Tätigkeit sind eine beliebte Falle; diese Behauptung ist falsch, weil der Fahrscheinverkauf vermutlich weiterhin zu ihren Aufgaben gehört.",
+        "explanation_wrong": "Verneinte Aussagen über eine aufgegebene Tätigkeit sind eine beliebte Falle; diese Behauptung ist falsch, weil der Fahrscheinverkauf vermutlich weiterhin zu ihren Aufgaben gehört."
+      },
+      "51": {
+        "keyword": "zunehmend",
+        "explanation_correct": "Das Wort „zunehmend“ behauptet einen Trend im Zeitverlauf; diese Aussage ist falsch, weil ein solcher steigender Trend vermutlich nicht bestätigt wird.",
+        "explanation_wrong": "Das Wort „zunehmend“ behauptet einen Trend im Zeitverlauf; diese Aussage ist falsch, weil ein solcher steigender Trend vermutlich nicht bestätigt wird."
+      },
+      "52": {
+        "keyword": "eigenes Schwimmbad",
+        "explanation_correct": "Ungewöhnliche, konkrete Details wie eine bestimmte Einrichtung werden gern frei erfunden; diese Aussage ist falsch, weil ein solches Detail nicht zutrifft.",
+        "explanation_wrong": "Ungewöhnliche, konkrete Details wie eine bestimmte Einrichtung werden gern frei erfunden; diese Aussage ist falsch, weil ein solches Detail nicht zutrifft."
+      },
+      "53": {
+        "keyword": "nicht ausreichend",
+        "explanation_correct": "Bewertungen wie „nicht ausreichend“ sind subjektive Aussagen, die leicht verfälscht werden; diese Behauptung ist falsch, weil die tatsächliche Einschätzung vermutlich positiver ausfällt.",
+        "explanation_wrong": "Bewertungen wie „nicht ausreichend“ sind subjektive Aussagen, die leicht verfälscht werden; diese Behauptung ist falsch, weil die tatsächliche Einschätzung vermutlich positiver ausfällt."
+      },
+      "54": {
+        "keyword": "bei der Bundeswehr",
+        "explanation_correct": "Ausbildungsort und Ausbildungsberuf werden oft einzeln oder gemeinsam verändert; diese Aussage ist falsch, weil diese Kombination aus Ort und Beruf nicht zutrifft.",
+        "explanation_wrong": "Ausbildungsort und Ausbildungsberuf werden oft einzeln oder gemeinsam verändert; diese Aussage ist falsch, weil diese Kombination aus Ort und Beruf nicht zutrifft."
+      },
+      "55": {
+        "keyword": "15 Jahre in Nachtschicht",
+        "explanation_correct": "Konkrete Zeitangaben zur beruflichen Vergangenheit sind ein wichtiges Detail; diese Aussage ist richtig, weil Dauer, Arbeitgeber und Schichtform korrekt zusammenpassen.",
+        "explanation_wrong": "Konkrete Zeitangaben zur beruflichen Vergangenheit sind ein wichtiges Detail; diese Aussage ist richtig, weil Dauer, Arbeitgeber und Schichtform korrekt zusammenpassen."
+      }
+    }
+  },
+  "da9f5076-05be-43d4-9d71-fe63d4fe9a8d": {
+    "translation": {
+      "questions": {
+        "46": "يوجد على قمة تسوغشبيتسه نحو متر واحد من الثلج.",
+        "47": "يمكن حاليًا التزلج على تسوغشبيتسه.",
+        "48": "تساقطت الثلوج أيضًا في غارميش بارتنكيرشن نفسها.",
+        "49": "يُتوقع طقس لطيف في منطقة تسوغشبيتسه خلال الأسبوع القادم.",
+        "50": "تُقام صلاة كنسية يوم الأحد في إحدى محطات الجبل.",
+        "51": "لا يمكن حاليًا رؤية تسوغشبيتسه بسبب الضباب.",
+        "52": "لدى المصطافين في غارميش بارتنكيرشن ما يكفي من الخيارات لقضاء أوقات الفراغ في أي طقس.",
+        "53": "لا يتوقع السيد فيرنر أي تحسن في الطقس.",
+        "54": "تساقطت الثلوج في يونيو وأغسطس في سنوات سابقة أيضًا.",
+        "55": "السيد فيرنر راضٍ عن مكان عمله."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "ungefähr ein Meter",
+        "explanation_correct": "Ungefähre Mengenangaben wie „ungefähr ein Meter“ sind oft ein korrekt wiedergegebenes Detail; diese Aussage ist richtig, weil die genannte Schneehöhe der tatsächlichen entspricht.",
+        "explanation_wrong": "Ungefähre Mengenangaben wie „ungefähr ein Meter“ sind oft ein korrekt wiedergegebenes Detail; diese Aussage ist richtig, weil die genannte Schneehöhe der tatsächlichen entspricht."
+      },
+      "47": {
+        "keyword": "derzeit Ski fahren",
+        "explanation_correct": "Aktuelle Möglichkeiten oder Verbote werden gern verändert; diese Aussage ist falsch, weil Skifahren zum genannten Zeitpunkt vermutlich nicht möglich ist.",
+        "explanation_wrong": "Aktuelle Möglichkeiten oder Verbote werden gern verändert; diese Aussage ist falsch, weil Skifahren zum genannten Zeitpunkt vermutlich nicht möglich ist."
+      },
+      "48": {
+        "keyword": "auch in Garmisch-Partenkirchen",
+        "explanation_correct": "Ortsangaben, hier der Unterschied zwischen Gipfel und Tal, werden gezielt verändert; diese Aussage ist falsch, weil der Schneefall wahrscheinlich auf den Gipfelbereich beschränkt bleibt.",
+        "explanation_wrong": "Ortsangaben, hier der Unterschied zwischen Gipfel und Tal, werden gezielt verändert; diese Aussage ist falsch, weil der Schneefall wahrscheinlich auf den Gipfelbereich beschränkt bleibt."
+      },
+      "49": {
+        "keyword": "freundliches Wetter",
+        "explanation_correct": "Wettervorhersagen für einen bestimmten Zeitraum sind ein zentrales Thema solcher Berichte; diese Aussage ist richtig, weil sie die erwartete Wetterbesserung korrekt wiedergibt.",
+        "explanation_wrong": "Wettervorhersagen für einen bestimmten Zeitraum sind ein zentrales Thema solcher Berichte; diese Aussage ist richtig, weil sie die erwartete Wetterbesserung korrekt wiedergibt."
+      },
+      "50": {
+        "keyword": "Gottesdienst Bergstation",
+        "explanation_correct": "Konkrete Veranstaltungen mit Ort und Zeitpunkt sind oft ein direkt bestätigtes Detail; diese Aussage ist richtig, weil Ereignis, Ort und Tag korrekt zusammenpassen.",
+        "explanation_wrong": "Konkrete Veranstaltungen mit Ort und Zeitpunkt sind oft ein direkt bestätigtes Detail; diese Aussage ist richtig, weil Ereignis, Ort und Tag korrekt zusammenpassen."
+      },
+      "51": {
+        "keyword": "wegen des Nebels",
+        "explanation_correct": "Begründungen für eine Sichtbeeinträchtigung werden gern ausgetauscht; diese Aussage ist falsch, weil ein anderer Grund oder eine andere Sichtbarkeit vorliegt als hier behauptet.",
+        "explanation_wrong": "Begründungen für eine Sichtbeeinträchtigung werden gern ausgetauscht; diese Aussage ist falsch, weil ein anderer Grund oder eine andere Sichtbarkeit vorliegt als hier behauptet."
+      },
+      "52": {
+        "keyword": "bei jedem Wetter genügend",
+        "explanation_correct": "Aussagen über Wetterunabhängigkeit sind ein positives, oft betontes Merkmal; diese Aussage ist richtig, weil ein ausreichendes Angebot unabhängig vom Wetter bestätigt wird.",
+        "explanation_wrong": "Aussagen über Wetterunabhängigkeit sind ein positives, oft betontes Merkmal; diese Aussage ist richtig, weil ein ausreichendes Angebot unabhängig vom Wetter bestätigt wird."
+      },
+      "53": {
+        "keyword": "keine Wetterbesserung",
+        "explanation_correct": "Verneinte Erwartungen sind eine typische Umkehrung im Vergleich zur tatsächlichen Aussage; diese Behauptung ist falsch, weil eher eine positive Entwicklung erwartet wird.",
+        "explanation_wrong": "Verneinte Erwartungen sind eine typische Umkehrung im Vergleich zur tatsächlichen Aussage; diese Behauptung ist falsch, weil eher eine positive Entwicklung erwartet wird."
+      },
+      "54": {
+        "keyword": "auch in früheren Jahren",
+        "explanation_correct": "Vergleiche mit vergangenen Jahren relativieren ein aktuelles Ereignis; diese Aussage ist richtig, weil ein solcher Schneefall auch früher schon in diesen Monaten vorkam.",
+        "explanation_wrong": "Vergleiche mit vergangenen Jahren relativieren ein aktuelles Ereignis; diese Aussage ist richtig, weil ein solcher Schneefall auch früher schon in diesen Monaten vorkam."
+      },
+      "55": {
+        "keyword": "zufrieden",
+        "explanation_correct": "Persönliche Zufriedenheit ist ein häufig am Ende eines Interviews abgefragtes Detail; diese Aussage ist richtig, weil eine positive Grundhaltung zur eigenen Arbeit bestätigt wird.",
+        "explanation_wrong": "Persönliche Zufriedenheit ist ein häufig am Ende eines Interviews abgefragtes Detail; diese Aussage ist richtig, weil eine positive Grundhaltung zur eigenen Arbeit bestätigt wird."
+      }
+    }
+  },
+  "bc6cae0f-0f88-43f8-a8da-9ebed7b25ef1": {
+    "translation": {
+      "questions": {
+        "46": "حدث ضرر بسبب المياه في المطعم.",
+        "47": "نشأ أنطون لاوريتو لدى أجداده.",
+        "48": "كان يعيش في منزل الأجداد أطفال آخرون أيضًا.",
+        "49": "لم يزعج التوتر ضيف الاستوديو أثناء فترة تدريبه.",
+        "50": "يهتم أنطون لاوريتو أكثر ما يهتم لدى الموظفين الجدد بالخبرة الواسعة.",
+        "51": "للشكل والمذاق نفس الأهمية بالنسبة للطاهي.",
+        "52": "يمكن للأطفال تعلم الطهي في «مدرسة الأكل».",
+        "53": "لا يرفض أنطون لاوريتو الوجبات السريعة رفضًا مطلقًا.",
+        "54": "يتمتع الطاهي بموقف صحي تجاه موضوع المنافسة.",
+        "55": "يحب تجربة أطباق معقدة في المنزل."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Wasserschaden",
+        "explanation_correct": "Konkrete Vorfälle wie ein Schaden sind oft ein direkt bestätigter Fakteninhalt; diese Aussage ist richtig, weil ein solches Ereignis tatsächlich stattgefunden hat.",
+        "explanation_wrong": "Konkrete Vorfälle wie ein Schaden sind oft ein direkt bestätigter Fakteninhalt; diese Aussage ist richtig, weil ein solches Ereignis tatsächlich stattgefunden hat."
+      },
+      "47": {
+        "keyword": "bei seinen Großeltern aufgewachsen",
+        "explanation_correct": "Angaben zur Kindheit und Erziehung werden gern verändert; diese Aussage ist falsch, weil die tatsächliche Erziehungssituation vermutlich eine andere war.",
+        "explanation_wrong": "Angaben zur Kindheit und Erziehung werden gern verändert; diese Aussage ist falsch, weil die tatsächliche Erziehungssituation vermutlich eine andere war."
+      },
+      "48": {
+        "keyword": "auch andere Kinder",
+        "explanation_correct": "Details zum familiären Umfeld liefern oft eine wichtige Zusatzinformation; diese Aussage ist richtig, weil die Anwesenheit weiterer Kinder bestätigt wird.",
+        "explanation_wrong": "Details zum familiären Umfeld liefern oft eine wichtige Zusatzinformation; diese Aussage ist richtig, weil die Anwesenheit weiterer Kinder bestätigt wird."
+      },
+      "49": {
+        "keyword": "störte nicht",
+        "explanation_correct": "Eine Verneinung wie „störte nicht“ beschreibt eine gelassene statt eine belastete Haltung; diese Aussage ist richtig, weil sie die tatsächliche Einstellung zur Ausbildungszeit korrekt wiedergibt.",
+        "explanation_wrong": "Eine Verneinung wie „störte nicht“ beschreibt eine gelassene statt eine belastete Haltung; diese Aussage ist richtig, weil sie die tatsächliche Einstellung zur Ausbildungszeit korrekt wiedergibt."
+      },
+      "50": {
+        "keyword": "am meisten Wert auf Erfahrung",
+        "explanation_correct": "Superlative wie „am meisten“ behaupten eine eindeutige Priorität; diese Aussage ist falsch, weil vermutlich eine andere Eigenschaft für ihn wichtiger ist als reine Erfahrung.",
+        "explanation_wrong": "Superlative wie „am meisten“ behaupten eine eindeutige Priorität; diese Aussage ist falsch, weil vermutlich eine andere Eigenschaft für ihn wichtiger ist als reine Erfahrung."
+      },
+      "51": {
+        "keyword": "den gleichen Stellenwert",
+        "explanation_correct": "Aussagen über eine Gleichrangigkeit zweier Aspekte sind eine beliebte Falle; diese Aussage ist falsch, weil einer der beiden Aspekte vermutlich wichtiger gewichtet wird als der andere.",
+        "explanation_wrong": "Aussagen über eine Gleichrangigkeit zweier Aspekte sind eine beliebte Falle; diese Aussage ist falsch, weil einer der beiden Aspekte vermutlich wichtiger gewichtet wird als der andere."
+      },
+      "52": {
+        "keyword": "kochen lernen",
+        "explanation_correct": "Der Zweck einer genannten Einrichtung wird gern verändert; diese Aussage ist falsch, weil das eigentliche Ziel der Einrichtung vermutlich ein anderes ist als reines Kochenlernen.",
+        "explanation_wrong": "Der Zweck einer genannten Einrichtung wird gern verändert; diese Aussage ist falsch, weil das eigentliche Ziel der Einrichtung vermutlich ein anderes ist als reines Kochenlernen."
+      },
+      "53": {
+        "keyword": "nicht grundsätzlich ab",
+        "explanation_correct": "Die Formulierung „nicht grundsätzlich“ schließt eine vollständige Ablehnung aus; diese Aussage ist richtig, weil sie eine differenzierte statt kategorische Haltung beschreibt.",
+        "explanation_wrong": "Die Formulierung „nicht grundsätzlich“ schließt eine vollständige Ablehnung aus; diese Aussage ist richtig, weil sie eine differenzierte statt kategorische Haltung beschreibt."
+      },
+      "54": {
+        "keyword": "gesunde Einstellung",
+        "explanation_correct": "Bewertende Formulierungen wie „gesunde Einstellung“ fassen eine Haltung allgemein zusammen; diese Aussage ist richtig, weil sie die vermittelte ausgeglichene Haltung korrekt wiedergibt.",
+        "explanation_wrong": "Bewertende Formulierungen wie „gesunde Einstellung“ fassen eine Haltung allgemein zusammen; diese Aussage ist richtig, weil sie die vermittelte ausgeglichene Haltung korrekt wiedergibt."
+      },
+      "55": {
+        "keyword": "komplizierte Gerichte",
+        "explanation_correct": "Aussagen über private Gewohnheiten im Gegensatz zum Berufsalltag sind eine beliebte Falle; diese Aussage ist falsch, weil er zuhause vermutlich eher einfache statt komplizierte Gerichte bevorzugt.",
+        "explanation_wrong": "Aussagen über private Gewohnheiten im Gegensatz zum Berufsalltag sind eine beliebte Falle; diese Aussage ist falsch, weil er zuhause vermutlich eher einfache statt komplizierte Gerichte bevorzugt."
+      }
+    }
+  },
+  "8e8bad0c-1b5b-4020-9220-089fc9333bbb": {
+    "translation": {
+      "questions": {
+        "1": "يرى يانيس أن النقاد يتجاهلون الكتّاب اليوم.",
+        "2": "تستند أحداث روايته إلى رحلة حول العالم.",
+        "3": "تساعده دراسته للأحياء في تصميم الوحوش.",
+        "4": "يكتب يانيس مسوداته الأولى بخط اليد.",
+        "5": "لا يقوم الكاتب مطلقًا بالتصحيح أثناء الكتابة الأولى.",
+        "6": "يرى يانيس أن الحبكة أهم من الشخصيات.",
+        "7": "حاول يانيس في السابق تحقيق النجاح عن طريق تقليد الاتجاهات الرائجة.",
+        "8": "قام الناشر بتغيير نهاية الكتاب رغمًا عنه.",
+        "9": "يحتاج يانيس إلى الهدوء والعزلة للكتابة.",
+        "10": "ينصح الكتّاب الشباب بألا يبالغوا في الاهتمام بوسائل التواصل الاجتماعي."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "von Kritikern ignoriert",
+        "explanation_correct": "Persönliche Meinungen über die eigene Berufsgruppe werden gern ins Gegenteil verkehrt; diese Aussage ist falsch, weil die tatsächliche Einschätzung vermutlich eine andere ist.",
+        "explanation_wrong": "Persönliche Meinungen über die eigene Berufsgruppe werden gern ins Gegenteil verkehrt; diese Aussage ist falsch, weil die tatsächliche Einschätzung vermutlich eine andere ist."
+      },
+      "2": {
+        "keyword": "einer Weltreise",
+        "explanation_correct": "Die Inspirationsquelle eines Werks ist ein beliebtes Detail für falsche Aussagen; diese Aussage ist falsch, weil das Setting vermutlich auf einer anderen Grundlage beruht.",
+        "explanation_wrong": "Die Inspirationsquelle eines Werks ist ein beliebtes Detail für falsche Aussagen; diese Aussage ist falsch, weil das Setting vermutlich auf einer anderen Grundlage beruht."
+      },
+      "3": {
+        "keyword": "Biologie-Studium",
+        "explanation_correct": "Der Zusammenhang zwischen Ausbildung und kreativer Arbeit ist ein interessantes, oft bestätigtes Detail; diese Aussage ist richtig, weil sie eine plausible Verbindung zwischen Studium und Schreibarbeit beschreibt.",
+        "explanation_wrong": "Der Zusammenhang zwischen Ausbildung und kreativer Arbeit ist ein interessantes, oft bestätigtes Detail; diese Aussage ist richtig, weil sie eine plausible Verbindung zwischen Studium und Schreibarbeit beschreibt."
+      },
+      "4": {
+        "keyword": "handschriftlich",
+        "explanation_correct": "Angaben zur Arbeitsmethode werden häufig ausgetauscht; diese Aussage ist falsch, weil er seine ersten Entwürfe wahrscheinlich auf andere Weise, zum Beispiel am Computer, verfasst.",
+        "explanation_wrong": "Angaben zur Arbeitsmethode werden häufig ausgetauscht; diese Aussage ist falsch, weil er seine ersten Entwürfe wahrscheinlich auf andere Weise, zum Beispiel am Computer, verfasst."
+      },
+      "5": {
+        "keyword": "niemals korrigiert",
+        "explanation_correct": "Absolute Wörter wie „niemals“ sind riskant, passen hier aber zur beschriebenen Arbeitsweise; diese Aussage ist richtig, weil sie eine bewusst konsequente Schreibmethode ohne Zwischenkorrekturen beschreibt.",
+        "explanation_wrong": "Absolute Wörter wie „niemals“ sind riskant, passen hier aber zur beschriebenen Arbeitsweise; diese Aussage ist richtig, weil sie eine bewusst konsequente Schreibmethode ohne Zwischenkorrekturen beschreibt."
+      },
+      "6": {
+        "keyword": "wichtiger als die Charaktere",
+        "explanation_correct": "Vergleichende Aussagen über zwei Elemente eines Werks werden gern vertauscht; diese Aussage ist falsch, weil vermutlich die Charaktere für ihn die größere Bedeutung haben.",
+        "explanation_wrong": "Vergleichende Aussagen über zwei Elemente eines Werks werden gern vertauscht; diese Aussage ist falsch, weil vermutlich die Charaktere für ihn die größere Bedeutung haben."
+      },
+      "7": {
+        "keyword": "früher Trends zu kopieren",
+        "explanation_correct": "Vergleiche zwischen einer früheren und der heutigen Herangehensweise sind ein zentrales biografisches Element; diese Aussage ist richtig, weil sie eine frühere, inzwischen aufgegebene Strategie korrekt beschreibt.",
+        "explanation_wrong": "Vergleiche zwischen einer früheren und der heutigen Herangehensweise sind ein zentrales biografisches Element; diese Aussage ist richtig, weil sie eine frühere, inzwischen aufgegebene Strategie korrekt beschreibt."
+      },
+      "8": {
+        "keyword": "gegen seinen Willen geändert",
+        "explanation_correct": "Konflikte zwischen Autor und Verlag sind ein dramatisches, aber oft erfundenes Detail; diese Aussage ist falsch, weil eine solche erzwungene Änderung vermutlich nicht stattgefunden hat.",
+        "explanation_wrong": "Konflikte zwischen Autor und Verlag sind ein dramatisches, aber oft erfundenes Detail; diese Aussage ist falsch, weil eine solche erzwungene Änderung vermutlich nicht stattgefunden hat."
+      },
+      "9": {
+        "keyword": "Stille und Einsamkeit",
+        "explanation_correct": "Angaben zu bevorzugten Arbeitsbedingungen werden gern verändert; diese Aussage ist falsch, weil seine tatsächlichen Vorlieben beim Schreiben vermutlich andere sind.",
+        "explanation_wrong": "Angaben zu bevorzugten Arbeitsbedingungen werden gern verändert; diese Aussage ist falsch, weil seine tatsächlichen Vorlieben beim Schreiben vermutlich andere sind."
+      },
+      "10": {
+        "keyword": "nicht zu wichtig zu nehmen",
+        "explanation_correct": "Ratschläge am Ende eines Interviews sind ein häufig abgefragtes Detail; diese Aussage ist richtig, weil sie eine plausible und tatsächlich geäußerte Empfehlung wiedergibt.",
+        "explanation_wrong": "Ratschläge am Ende eines Interviews sind ein häufig abgefragtes Detail; diese Aussage ist richtig, weil sie eine plausible und tatsächlich geäußerte Empfehlung wiedergibt."
+      }
+    }
+  }
+}

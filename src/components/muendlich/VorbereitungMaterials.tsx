@@ -6,9 +6,10 @@
 import { useEffect, useState } from "react";
 import { FileText, Loader2, BookOpen, Lightbulb, MessageSquare, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useActiveLevel, enforceLevel } from "@/lib/useActiveLevel";
 import { PdfViewer } from "./PdfViewer";
 
-interface Material { id: string; teil: number; category: string; title: string; storage_path: string; sort_order: number; }
+interface Material { id: string; teil: number; category: string; title: string; storage_path: string | null; sort_order: number; level?: string | null; }
 
 const CATS: Record<string, { label: string; icon: any; color: string }> = {
   themen: { label: "Themen", icon: BookOpen, color: "text-rose-500" },
@@ -18,17 +19,19 @@ const CATS: Record<string, { label: string; icon: any; color: string }> = {
 };
 
 export function VorbereitungMaterials({ teil, categories }: { teil: number; categories: string[] }) {
+  const level = useActiveLevel();
   const [materials, setMaterials] = useState<Material[]>([]);
   const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState<Material | null>(null);
 
   useEffect(() => {
+    if (!level) return;
     (async () => {
-      const { data } = await (supabase as any).from("muendlich_materials").select("*").eq("teil", teil).order("category").order("sort_order");
-      setMaterials(data ?? []);
+      const { data } = await supabase.from("muendlich_materials").select("*").eq("teil", teil).eq("level", level).order("category").order("sort_order");
+      setMaterials(enforceLevel((data ?? []) as Material[], level));
       setLoading(false);
     })();
-  }, [teil]);
+  }, [teil, level]);
 
   if (loading) return <div className="flex justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>;
 
@@ -50,10 +53,10 @@ export function VorbereitungMaterials({ teil, categories }: { teil: number; cate
             ) : (
               <div className="grid gap-2 sm:grid-cols-2">
                 {items.map((m) => (
-                  <button key={m.id} onClick={() => setOpen(m)}
-                    className="flex items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 text-left transition-all hover:border-rose-500/40 hover:bg-rose-500/5">
+                  <button key={m.id} onClick={() => m.storage_path && setOpen(m)} disabled={!m.storage_path}
+                    className="flex min-w-0 items-center gap-3 rounded-xl border border-border bg-background px-3 py-2.5 text-left transition-all hover:border-rose-500/40 hover:bg-rose-500/5 disabled:cursor-default disabled:opacity-60 disabled:hover:border-border disabled:hover:bg-background">
                     <FileText className="h-4 w-4 shrink-0 text-rose-500" />
-                    <span className="flex-1 truncate text-sm font-medium text-foreground">{m.title}</span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-medium text-foreground">{m.title}</span>
                   </button>
                 ))}
               </div>
@@ -61,7 +64,7 @@ export function VorbereitungMaterials({ teil, categories }: { teil: number; cate
           </section>
         );
       })}
-      {open && <PdfViewer storagePath={open.storage_path} title={open.title} onClose={() => setOpen(null)} />}
+      {open && open.storage_path && <PdfViewer storagePath={open.storage_path} title={open.title} onClose={() => setOpen(null)} />}
     </div>
   );
 }

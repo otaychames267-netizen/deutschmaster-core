@@ -1,0 +1,22 @@
+{
+  "title": "Sahara-Länder",
+  "level": "B1",
+  "position": 7,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 7/16 (Annika3/Language Tests, page 88 printed / PDF page 89). Letter to a travel agency (Geo-Tours), signed Annette Luchsinger. Answer key from Lösungen page (printed p.93 / PDF p.94): 31F DARIN, 32K NÄMLICH, 33E DANACH, 34O WENN, 35H HÄTTE, 36L UNTER, 37J MÖCHTE, 38N WELCHE, 39C DABEI, 40B ANGEBOT.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Damen und Herren,\n\nseit längerem plane ich eine Wanderreise in die Sahara-Länder. Nun ist mir beim Lesen der Zeitschrift Berge die Anzeige von Geo-Tours aufgefallen, denn {{31}} steht, dass Sie auf Erlebnisreisen in Wüstenregionen spezialisiert sind. Vielleicht haben Sie das richtige Angebot für uns – {{32}} für mich und meine 17-jährige Tochter. Unsere Vorstellungen sind im Einzelnen diese:\n\nZuerst eine Wanderreise, etwa 10 Tage, möglichst leichte Tageswanderungen (ca. 4-5 Stunden), und {{33}} ein Erholungsurlaub am Meer. Bieten Sie solche Kombinationen an? Und {{34}} ja, zu welchem Preis? Zur Wanderreise {{35}} ich noch folgende Fragen: Wird das Gepäck von einem Übernachtungsort zum nächsten transportiert? Schläft man immer {{36}} freiem Himmel? Ich {{37}} auch wissen, wie die Reisegruppen zusammengesetzt sind, {{38}} Sprache die Reiseleiterin/der Reiseleiter spricht und ob ein Arzt {{39}} ist.\n\nIch freue mich auf Ihr {{40}}.\n\nMit freundlichen Grüßen\nANNETTE LUCHSINGER",
+  "words": ["ANFRAGE", "ANGEBOT", "DABEI", "DAFÜR", "DANACH", "DARIN", "DESHALB", "HÄTTE", "MIT", "MÖCHTE", "NÄMLICH", "UNTER", "WÄRE", "WELCHE", "WENN"],
+  "answers": {
+    "31": "DARIN",
+    "32": "NÄMLICH",
+    "33": "DANACH",
+    "34": "WENN",
+    "35": "HÄTTE",
+    "36": "UNTER",
+    "37": "MÖCHTE",
+    "38": "WELCHE",
+    "39": "DABEI",
+    "40": "ANGEBOT"
+  }
+}

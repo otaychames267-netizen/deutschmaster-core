@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <defs>
+    <radialGradient id="badgeBg" cx="0.35" cy="0.3" r="0.9">
+      <stop offset="0" stop-color="#1c1c1f"/><stop offset="1" stop-color="#050506"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a9782c"/><stop offset="0.28" stop-color="#e7bb54"/>
+      <stop offset="0.48" stop-color="#fbedbe"/><stop offset="0.65" stop-color="#f0cd76"/>
+      <stop offset="1" stop-color="#b8842f"/>
+    </linearGradient>
+  </defs>
+  <circle cx="200" cy="200" r="196" fill="url(#badgeBg)"/>
+  <circle cx="200" cy="200" r="192" fill="none" stroke="url(#gold)" stroke-width="4"/>
+  <g transform="translate(0,14)">
+    <path fill-rule="evenodd" fill="url(#gold)" d="
+      M 176 70 L 224 70 L 336 348 Q 342 364 326 364 L 280 364 Q 268 364 264 352 L 246 302 L 154 302 L 136 352 Q 132 364 120 364 L 74 364 Q 58 364 64 348 Z
+      M 200 138 L 164 270 L 236 270 Z
+    "/>
+    <g>
+      <path fill="url(#gold)" d="M 176 70 L 224 70 L 219 50 L 181 50 Z"/>
+      <g transform="translate(200,42) rotate(-3)">
+        <path fill="url(#gold)" d="M0,-15 L84,-1 L0,13 L-84,-1 Z"/>
+        <circle cx="0" cy="-1" r="5.6" fill="#050506"/>
+        <path d="M0,-1 C 13,10 29,14 39,29" stroke="url(#gold)" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+        <path d="M33,27 L45,27 L43,48 Q39,54 35,48 Z" fill="url(#gold)"/>
+      </g>
+    </g>
+  </g>
+</svg>

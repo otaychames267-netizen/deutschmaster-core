@@ -1,0 +1,38 @@
+{
+  "title": "Auto gewinnen",
+  "teil": 3,
+  "level": "B2",
+  "position": 32,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 33 (code 25) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Der Regionalzug nach Bruck an der Mur um 7:15 Uhr wird nicht fahren.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Man kann ein Auto gewinnen, wenn man alle 9 Gewinnzahlen sammelt.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Nächste Woche gibt es Äpfel zum Preis von unter 1€.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Der Intercity nach München fährt immer von Bahnsteig 2.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Der Eintritt ins Kunterbunt-Kindermuseum ist am Eröffnungstag gratis.",
+      "correct": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Catherine",
+  "level": "B1",
+  "position": 10,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 10/16 (Carolina/Language Tests, page 126 printed / PDF page 127). Letter addressed to 'Liebe Catherine', signed Jack, about a language stay in Switzerland (contrasting with life in Australia). Answer key from Lösungen page (printed p.132 / PDF p.133): 21c erzählt, 22c dieses, 23a aber, 24b für, 25c wenn, 26c schon, 27b jetzt, 28b unterschiede, 29c müssen, 30a dem.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Liebe Catherine,\n\nseit ich dir letzte Mal von meinem Sprachaufenthalt in der Schweiz {{21}} habe, ist viel passiert. Ich kenne {{22}} Land jetzt schon recht gut.\n\nDie Schweiz ist ja wirklich nicht groß. {{23}} in jeder Gegend wird ein anderer Dialekt oder gar eine andere Sprache gesprochen. Das ist {{24}} mich fast unglaublich! Bei uns in Australien fährt man mit dem Auto 24 Stunden lang geradeaus, und {{25}} man ankommt, dann sprechen die Leute dort immer noch dieselbe Sprache.\n\nAm Anfang hat mich das Sprachgemisch {{26}} sehr verwirrt, aber {{27}} verstehe ich fast alles, wenn jemand auf Schweizerdeutsch zu mir spricht. Ich kann aber nur auf Hochdeutsch antworten.\n\nZwischen der Schule hier und unserem Schulsystem in Australien gibt es einige {{28}}: In der Schweiz sprechen die Lehrer viel und die Schüler {{29}} Vieles im Kopf behalten oder aufschreiben. In Australien arbeiten wir meistens im Rahmen von Projekten und machen eigentlich alle Aufgaben auf {{30}} Computer.\n\nViele Grüße\nJack",
+  "gaps": [
+    { "n": 21, "a": "erzähle", "b": "erzählen", "c": "erzählt", "correct": "c" },
+    { "n": 22, "a": "diese", "b": "diesen", "c": "dieses", "correct": "c" },
+    { "n": 23, "a": "aber", "b": "obwohl", "c": "sondern", "correct": "a" },
+    { "n": 24, "a": "an", "b": "für", "c": "vor", "correct": "b" },
+    { "n": 25, "a": "als", "b": "wann", "c": "wenn", "correct": "c" },
+    { "n": 26, "a": "denn", "b": "ganz", "c": "schon", "correct": "c" },
+    { "n": 27, "a": "früher", "b": "jetzt", "c": "seit", "correct": "b" },
+    { "n": 28, "a": "unterschied", "b": "unterschiede", "c": "unterschieden", "correct": "b" },
+    { "n": 29, "a": "brauchen", "b": "haben", "c": "müssen", "correct": "c" },
+    { "n": 30, "a": "dem", "b": "den", "c": "der", "correct": "a" }
+  ]
+}

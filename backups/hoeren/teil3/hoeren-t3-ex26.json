@@ -1,0 +1,38 @@
+{
+  "title": "Bayern Radio",
+  "teil": 3,
+  "level": "B2",
+  "position": 26,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 27 (code 145) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Beim Informationsdienst der Telekom können Sie sich auch über Aktienkurse informieren.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "In Hanau findet am Nachmittag ein Kindermaskenball statt.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Sie erfahren ausschließlich im Internet, ob Sie gewonnen haben.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Am Freitag müssen Sie in den Mittelgebirgen mit vielen Pollen rechnen.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "Bayern Radio hat computergestützte Fahrschulprogramme getestet.",
+      "correct": true
+    }
+  ]
+}

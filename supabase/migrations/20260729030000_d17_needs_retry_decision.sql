@@ -1,0 +1,19 @@
+-- Adds a fourth d17_attempt_decision value: "needs_retry".
+--
+-- Fraud-decision redesign (see rule-engine.ts / verify.functions.ts):
+-- a genuinely UNCERTAIN attempt (no hard-gate fraud signal, just below the
+-- auto-approve confidence threshold) previously went straight to
+-- manual_review on its very first occurrence, which locks the order and
+-- forces the student to wait for a human — even for something as fixable
+-- as a blurry photo. needs_retry lets the FIRST such uncertain attempt on
+-- an order self-serve a re-upload immediately (order status untouched); a
+-- SECOND uncertain attempt on the same order still escalates to
+-- manual_review as before. Hard-gate rejections (wrong recipient,
+-- confidently-wrong amount/currency/authorization number, screenshot-type
+-- mismatch, fraud flags) and confirmed duplicates are unaffected — those
+-- remain immediate, unambiguous rejections.
+--
+-- ALTER TYPE ... ADD VALUE is run alone in this migration (nothing else),
+-- since Postgres cannot use a freshly-added enum value inside the same
+-- transaction that added it.
+alter type public.d17_attempt_decision add value if not exists 'needs_retry';

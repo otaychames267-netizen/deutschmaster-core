@@ -1,0 +1,22 @@
+{
+  "title": "Praktikum",
+  "teil": 2,
+  "level": "B1",
+  "position": 11,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 11/16 (Petra/Language Tests, page 155). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.158): 46- 47+ 48- 49- 50+ 51- 52+ 53+ 54+ 55+.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Mit einem Praktikum können sich Jugendliche auf das Studium vorbereiten.", "correct": false },
+    { "number": 47, "text": "Herrn Mahlers Firma bietet jungen Leuten in verschiedenen Abteilungen ein Praktikum an.", "correct": true },
+    { "number": 48, "text": "Herrn Mahlers Firma stellt alle Praktikanten nach der Ausbildung ein.", "correct": false },
+    { "number": 49, "text": "Bei einer Bewerbung ist das Schulzeugnis für Herrn Mahler das Wichtigste.", "correct": false },
+    { "number": 50, "text": "Praktikanten sollten selbst erkennen, wo man sie brauchen könnte.", "correct": true },
+    { "number": 51, "text": "Herr Mahler meint, dass die Ideen der Praktikanten bei der Arbeit stören.", "correct": false },
+    { "number": 52, "text": "Herr Mahler legt großen Wert auf Teamarbeit.", "correct": true },
+    { "number": 53, "text": "Nach Frau Bachs Meinung verhalten sich Praktikanten im Betrieb oft wie in der Schule oder an der Universität.", "correct": true },
+    { "number": 54, "text": "Für den Praktikanten ist es gut, wenn er Interesse an der Arbeit zeigt.", "correct": true },
+    { "number": 55, "text": "Herr Mahler empfiehlt den Praktikanten, das Team mit Fleiß und guter Laune zu unterstützen.", "correct": true }
+  ]
+}

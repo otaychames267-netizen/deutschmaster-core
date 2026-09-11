@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Schweiz",
+  "level": "TELC_B1",
+  "position": 14,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 14/16 (Petra/Language Tests, pages 182-183). Answer key from Lösungen page (p.193): 1J 2C 3B 4I 5E, cross-verified content-to-headline by direct reading.",
+  "headlines": [
+    { "letter": "A", "text": "Neue Untersuchung über Familien in der Schweiz", "is_distractor": true },
+    { "letter": "B", "text": "Ein Jahr preiswert reisen", "is_distractor": false },
+    { "letter": "C", "text": "Buchtipp: Ausflüge für Familien", "is_distractor": false },
+    { "letter": "D", "text": "Bahnfahren im nächsten Jahr um 25% teurer!", "is_distractor": true },
+    { "letter": "E", "text": "Ein Unternehmen mit vielen beruflichen Möglichkeiten", "is_distractor": false },
+    { "letter": "F", "text": "Neue Kindersendung im Fernsehen", "is_distractor": true },
+    { "letter": "G", "text": "Der Film soll echt sein: Schweizer Filmteam in Indien", "is_distractor": true },
+    { "letter": "H", "text": "Wie man im Zug Leute kennen lernt", "is_distractor": true },
+    { "letter": "I", "text": "Jeden Tag ein Stück Wirklichkeit im Fernsehen", "is_distractor": false },
+    { "letter": "J", "text": "Filmaufnahmen im Berner Oberland", "is_distractor": false }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "Immer wieder drehen indische Regisseure Szenen ihrer Kinofilme in den Schweizer Bergen. Warum nehmen sie die Strapazen und hohen Kosten einer solch langen Reise auf sich? Das Hamburger Abendblatt eines dieser Filmteams auf dem Drehplatz im idyllischen Berner Oberland erhielt spannende und heitere Antworten.", "correct_headline": "J" },
+    { "position": 2, "title": "", "content": "KIDTOURS – Ferien mit Kindern ist ein praktischer Ausflugsführer für Familien: mit 1000 Tipps, Tricks und Ideen für jeden Geschmack, jedes Alter und jedes Budget. Das übersichtliche, hübsch illustrierte Nachschlagewerk erhalten Sie für € 19,50 im Buchhandel oder direkt bei Werd Verlag, www.werd.net.", "correct_headline": "C" },
+    { "position": 3, "title": "", "content": "Das Halbtax-Abo ist Ihr Schlüssel zu günstigen Reisen mit Bahn, Bus und Schiff und präsentiert sich im praktischen Kreditkartenformat. Schon beim Abo selbst können Sie kräftig sparen: Für ein Jahr halbtaxeln bezahlen Sie 150 Schweizer Franken. Und das ist noch nicht alles: Mit dem Halbtax-Abo sind Sie gut informiert: Zweimal jährlich erhalten Sie das Kundenmagazin mit vielen Reise-Ideen und exklusiven Reiseangeboten. Mit Ihrem Halbtax-Abo erhalten Sie 25% Preisnachlass auf Zugfahrten von der Schweiz nach Deutschland und Österreich, wenn Sie Ihre Fahrkarte in der Schweiz kaufen.\nSBB CFF FF\nSBB – Schweizerische Bundesbahnen", "correct_headline": "B" },
+    { "position": 4, "title": "", "content": "Dokumentarfilm und Seifenoper zusammen heißt Doku-Soap, stammt aus England und macht sich seit Jahren auch auf deutschen TV-Kanälen breit. Vor allem Privatsender haben sich als erfolgreiche Doku-Soap-Sender etabliert. In vielen TV-Serien kann man das wirkliche Leben von Menschen verfolgen und mit ihnen mitleben. Zurzeit besonders erfolgreich: die Sendung Tausche Familie, die täglich um 18 Uhr viele Zuschauer vor den Fernseher lockt.", "correct_headline": "I" },
+    { "position": 5, "title": "", "content": "Wir wollen dir bei der Berufswahl helfen: Die deutsche Bahn, ein Unternehmen mit Zukunft. Viele Berufe ändern sich im Laufe der Zeit. Genauso wie die Interessen im Leben. Und trotzdem gibt es Neigungen und Fähigkeiten, die du lange Zeit in deinem Leben behalten wirst. So zum Beispiel die Freude am Kontakt mit Menschen. Oder die Begeisterung für fremde Sprachen. Oder das Arbeiten in der freien Natur und im Team. Oder das Interesse an Technik und die Freude am Handwerk. Je nachdem, wofür du dich interessierst, kannst du bei der Deutschen Bahn aus insgesamt 15 Lehrberufen wählen. Um die richtige Entscheidung zu treffen, lohnt es sich, sich gründlich zu informieren, zum Beispiel aus unserer Website www.Bahn.de", "correct_headline": "E" }
+  ]
+}

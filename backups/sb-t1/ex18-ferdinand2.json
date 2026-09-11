@@ -1,0 +1,81 @@
+{
+  "title": "Ferdinand 2",
+  "level": "B2",
+  "position": 18,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "Page 21 (معدل/modified). Paired variant of Ferdinand (page 20, اساسي/basic); identical body. Genuine modifications kept from page 21: gap 22 (wenn/wie/wo → wie) and gap 23 (damit/denn/doch → doch), plus page-21 distractor sets at 21/26/27. Gaps 29 and 30 are printed defectively on page 21 (their option sets contain NO valid answer for the unchanged text — 29 needs \"sondern\" for \"nicht nur … sondern auch\", 30 needs \"für\" for \"Wäre das was für dich\"); these two groups (options AND answers) are RECONSTRUCTED from the official paired base page 20 (Ferdinand). Not invented data.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Hallo Ferdinand,\n\nnun habe ich mich schon so lange nicht bei dir gemeldet - das tut mir wirklich leid! Ich hatte in den vergangenen Monaten viel Stress, weil ich ja nun studiere und nebenbei noch arbeiten muss, {{21}} meine Miete und alles andere bezahlen zu können. Zum Glück macht mir mein Nebenjob wenigstens Spaß. Ich weiß nicht, {{22}} ich das sonst durchhalten würde. Vielleicht habe ich dir schon erzählt, dass ich abends und am Wochenende in einer Kneipe in der Küche helfe. Das ist zwar oft sehr anstrengend, {{23}} anderseits ist dauernd was los, es wird nicht langweilig, und meine Kollegen sind total nett. Erinnerst du dich noch an unsere Zeit in der Grundschule? Mit acht Jahren wollte ich ja {{24}} Kellnerin werden, weil man da Trinkgeld bekommt. Naja, jetzt bin ich in der Küche gelandet, knapp daneben ist auch vorbei ;) Was macht denn deine Ausbildung? Wenn ich {{25}} nicht täusche, bist du ja in einem halben Jahr schon fertig, oder? Das ist ja nicht mehr lang! Neulich habe ich übrigens Tina und Kevin hier in der Nähe der Uni getroffen - die waren ja schon ein Paar, {{26}} wir noch in der Schule gegangen sind, und jetzt will sie tatsächlich verheiratet! Wie sehen denn deine Pläne für die {{27}} Wochenenden aus? Wir könnten uns ja vielleicht mal wieder treffen und in Ruhe quatschen - hättest du Lust {{28}}? In meiner Straße hat vor einem Monat ein nettes kleines Café aufgemacht, die haben nicht nur sehr leckere Kuchen, {{29}} auch einige kleine Gerichte zu wirklich günstigen Preisen. Wäre das was {{30}} dich? Mail wir doch einfach, wenn du magst, ich würde mich freuen.\n\nViele Grüße,\nNadine",
+  "gaps": [
+    {
+      "n": 21,
+      "a": "damit",
+      "b": "für",
+      "c": "um",
+      "correct": "c"
+    },
+    {
+      "n": 22,
+      "a": "wenn",
+      "b": "wie",
+      "c": "wo",
+      "correct": "b"
+    },
+    {
+      "n": 23,
+      "a": "damit",
+      "b": "denn",
+      "c": "doch",
+      "correct": "c"
+    },
+    {
+      "n": 24,
+      "a": "bestimmt",
+      "b": "unbedingt",
+      "c": "völlig",
+      "correct": "b"
+    },
+    {
+      "n": 25,
+      "a": "dich",
+      "b": "mich",
+      "c": "sich",
+      "correct": "b"
+    },
+    {
+      "n": 26,
+      "a": "als",
+      "b": "da",
+      "c": "wenn",
+      "correct": "a"
+    },
+    {
+      "n": 27,
+      "a": "jetzigen",
+      "b": "kommenden",
+      "c": "letzten",
+      "correct": "b"
+    },
+    {
+      "n": 28,
+      "a": "danach",
+      "b": "darüber",
+      "c": "dazu",
+      "correct": "c"
+    },
+    {
+      "n": 29,
+      "a": "aber",
+      "b": "oder",
+      "c": "sondern",
+      "correct": "c"
+    },
+    {
+      "n": 30,
+      "a": "für",
+      "b": "gegen",
+      "c": "ohne",
+      "correct": "a"
+    }
+  ]
+}

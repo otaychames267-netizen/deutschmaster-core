@@ -1,0 +1,750 @@
+{
+  "15c08c40-729e-4183-87b9-000a5f0e9da0": {
+    "translation": {
+      "questions": {
+        "1": "أُغلق أول مطعم لماتيو بسبب حريق في المطبخ.",
+        "2": "نشأ ماتيو بشكل رئيسي عند عمه في الريف.",
+        "3": "لم يكن هناك أطفال آخرون غير ماتيو في المزرعة.",
+        "4": "كان التدريب المهني مرهقًا نفسيًا جدًا بالنسبة لماتيو.",
+        "5": "عند اختيار المتقدمين، ينتبه ماتيو أولاً إلى الدرجات الجيدة والشهادات.",
+        "6": "طعم الطعام أهم بالنسبة لماتيو من مظهره.",
+        "7": "مدرسته للطبخ مخصصة في المقام الأول للبالغين.",
+        "8": "يرفض ماتيو الأطعمة الجاهزة والوجبات السريعة رفضًا تامًا.",
+        "9": "يرى ماتيو أن برامج الطبخ التلفزيونية مضيعة مطلقة للوقت.",
+        "10": "في حياته الخاصة، يفضل ماتيو طبخ وجبات بسيطة جدًا."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "wegen eines Küchenbrands",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkrete Ursachen, die für ein Ereignis genannt werden (hier: ein Brand) — solche spezifischen Gründe werden in Prüfungsaufgaben oft frei erfunden oder verändert.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkrete Ursachen, die für ein Ereignis genannt werden (hier: ein Brand) — solche spezifischen Gründe werden in Prüfungsaufgaben oft frei erfunden oder verändert."
+      },
+      "2": {
+        "keyword": "hauptsächlich bei seinem Onkel",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte bei Personenbeschreibungen auf Angaben zu Familienmitgliedern und Wohnort, denn genau solche Details werden häufig geprüft.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte bei Personenbeschreibungen auf Angaben zu Familienmitgliedern und Wohnort, denn genau solche Details werden häufig geprüft."
+      },
+      "3": {
+        "keyword": "keine anderen Kinder",
+        "explanation_correct": "Diese Aussage ist Falsch. Absolute Ausdrücke wie „keine“ oder „außer“ sind typische Signalwörter für Fallen, da sie eine vollständige Ausnahmslosigkeit behaupten, die selten zutrifft.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Absolute Ausdrücke wie „keine“ oder „außer“ sind typische Signalwörter für Fallen, da sie eine vollständige Ausnahmslosigkeit behaupten, die selten zutrifft."
+      },
+      "4": {
+        "keyword": "psychisch sehr belastend",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf emotionale und psychische Bewertungen von Lebensabschnitten, da diese oft zentrale Prüfungsinhalte sind.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf emotionale und psychische Bewertungen von Lebensabschnitten, da diese oft zentrale Prüfungsinhalte sind."
+      },
+      "5": {
+        "keyword": "zuerst auf gute Noten und Diplome",
+        "explanation_correct": "Diese Aussage ist Falsch. Wenn eine Reihenfolge oder Priorität wie „zuerst“ genannt wird, prüfe genau, ob diese Priorität tatsächlich so beschrieben wurde oder vertauscht ist.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Wenn eine Reihenfolge oder Priorität wie „zuerst“ genannt wird, prüfe genau, ob diese Priorität tatsächlich so beschrieben wurde oder vertauscht ist."
+      },
+      "6": {
+        "keyword": "wichtiger als das Aussehen",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Vergleichsformen wie „wichtiger als“, denn sie stellen zwei Dinge einander gegenüber und legen fest, was Vorrang hat.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Vergleichsformen wie „wichtiger als“, denn sie stellen zwei Dinge einander gegenüber und legen fest, was Vorrang hat."
+      },
+      "7": {
+        "keyword": "in erster Linie für Erwachsene",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Angaben zur Zielgruppe, hier eingeleitet mit „in erster Linie“, die eine Hauptausrichtung markieren.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Angaben zur Zielgruppe, hier eingeleitet mit „in erster Linie“, die eine Hauptausrichtung markieren."
+      },
+      "8": {
+        "keyword": "komplett ab",
+        "explanation_correct": "Diese Aussage ist Falsch. Das Wort „komplett“ drückt eine absolute Ablehnung aus — solche Extremformulierungen sind ein klassisches Merkmal falscher Aussagen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das Wort „komplett“ drückt eine absolute Ablehnung aus — solche Extremformulierungen sind ein klassisches Merkmal falscher Aussagen."
+      },
+      "9": {
+        "keyword": "absolute Zeitverschwendung",
+        "explanation_correct": "Diese Aussage ist Falsch. Extreme Werturteile wie „absolute Zeitverschwendung“ solltest du kritisch hinterfragen, da sie oft übertrieben oder verfälscht dargestellt werden.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Extreme Werturteile wie „absolute Zeitverschwendung“ solltest du kritisch hinterfragen, da sie oft übertrieben oder verfälscht dargestellt werden."
+      },
+      "10": {
+        "keyword": "am liebsten ganz einfache",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Superlative wie „am liebsten“, die eine persönliche Vorliebe klar hervorheben.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Superlative wie „am liebsten“, die eine persönliche Vorliebe klar hervorheben."
+      }
+    }
+  },
+  "3ba61686-498e-42c0-95cb-08f6f47b0fbf": {
+    "translation": {
+      "questions": {
+        "46": "تسعد ميريام برسلر بحصولها قريبًا على درجة الدكتوراه الفخرية من جامعة غرونينغن.",
+        "47": "تعمل أيضًا كمترجمة.",
+        "48": "كانت أول من ترجم آن فرانك إلى الألمانية.",
+        "49": "تقضي إجازتها كل عام في منزل عطلات قرب البندقية.",
+        "50": "عندما تفكر في طفولتها، تفكر في الحرب.",
+        "51": "كانت علاقتها بوالدَي الحضانة جيدة جدًا.",
+        "52": "غالبًا ما تحمل أعمالها سمات سيرة ذاتية.",
+        "53": "كانت أول قراءة لها رواية تدور أحداثها في بطرسبورغ.",
+        "54": "عندما كانت طفلة، كانت تقرأ دائمًا في قبو المنزل.",
+        "55": "لم ترغب والدة الحضانة في أن تكتب مذكرات يومية."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "in Kürze die Doktorwürde",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf zeitliche Angaben wie „in Kürze“ zusammen mit Fakten zu Auszeichnungen oder Ehrungen.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf zeitliche Angaben wie „in Kürze“ zusammen mit Fakten zu Auszeichnungen oder Ehrungen."
+      },
+      "47": {
+        "keyword": "auch als Übersetzerin",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf zusätzliche Tätigkeitsangaben, die mit „auch“ eingeleitet werden — sie ergänzen den Hauptberuf um eine weitere Rolle.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf zusätzliche Tätigkeitsangaben, die mit „auch“ eingeleitet werden — sie ergänzen den Hauptberuf um eine weitere Rolle."
+      },
+      "48": {
+        "keyword": "als Erste",
+        "explanation_correct": "Diese Aussage ist Falsch. Formulierungen wie „als Erste“ behaupten einen Superlativ bzw. eine Pionierrolle — solche Anspruchsformulierungen werden häufig verfälscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Formulierungen wie „als Erste“ behaupten einen Superlativ bzw. eine Pionierrolle — solche Anspruchsformulierungen werden häufig verfälscht."
+      },
+      "49": {
+        "keyword": "jedes Jahr",
+        "explanation_correct": "Diese Aussage ist Falsch. Absolute Häufigkeitsangaben wie „jedes Jahr“ in Kombination mit einem genauen Ort sind eine typische Prüfungsfalle.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Absolute Häufigkeitsangaben wie „jedes Jahr“ in Kombination mit einem genauen Ort sind eine typische Prüfungsfalle."
+      },
+      "50": {
+        "keyword": "denkt sie an den Krieg",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf gedankliche Verknüpfungen zwischen zwei Themen, hier zwischen Kindheit und Krieg.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf gedankliche Verknüpfungen zwischen zwei Themen, hier zwischen Kindheit und Krieg."
+      },
+      "51": {
+        "keyword": "sehr gut",
+        "explanation_correct": "Diese Aussage ist Falsch. Ein positives Werturteil wie „sehr gut“ über eine Beziehung sollte kritisch geprüft werden, da es oft in sein Gegenteil verkehrt wird.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Ein positives Werturteil wie „sehr gut“ über eine Beziehung sollte kritisch geprüft werden, da es oft in sein Gegenteil verkehrt wird."
+      },
+      "52": {
+        "keyword": "oft biographische Züge",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Häufigkeitswörter wie „oft“ bei Beschreibungen literarischer Werke — sie sind vorsichtiger als „immer“ und daher oft korrekt.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Häufigkeitswörter wie „oft“ bei Beschreibungen literarischer Werke — sie sind vorsichtiger als „immer“ und daher oft korrekt."
+      },
+      "53": {
+        "keyword": "erste Lektüre",
+        "explanation_correct": "Diese Aussage ist Falsch. Bei Angaben zu einem „ersten“ Ereignis wie der ersten Lektüre, achte genau auf Titel und Ort — solche Details werden oft ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Bei Angaben zu einem „ersten“ Ereignis wie der ersten Lektüre, achte genau auf Titel und Ort — solche Details werden oft ausgetauscht."
+      },
+      "54": {
+        "keyword": "immer im Keller",
+        "explanation_correct": "Diese Aussage ist Falsch. Das absolute Wort „immer“ zusammen mit einem genauen Ort ist ein klassisches Signal für eine falsche Aussage.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das absolute Wort „immer“ zusammen mit einem genauen Ort ist ein klassisches Signal für eine falsche Aussage."
+      },
+      "55": {
+        "keyword": "wollte nicht",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte besonders auf Verneinungen wie „wollte nicht“, denn sie können die Bedeutung eines Satzes komplett umkehren.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte besonders auf Verneinungen wie „wollte nicht“, denn sie können die Bedeutung eines Satzes komplett umkehren."
+      }
+    }
+  },
+  "df3bd487-725a-46c3-9e28-9f37ff215927": {
+    "translation": {
+      "questions": {
+        "46": "تسعد ميريام برسلر بحصولها قريبًا على درجة الدكتوراه الفخرية من جامعة غرونينغن.",
+        "47": "تعمل أيضًا كمترجمة.",
+        "48": "لقد عملت على موضوع آن فرانك.",
+        "49": "تقضي إجازتها كل عام في منزل عطلات قرب البندقية.",
+        "50": "عندما تفكر في طفولتها، تفكر في الحرب.",
+        "51": "كانت علاقتها بوالدَي الحضانة جيدة جدًا.",
+        "52": "غالبًا ما تحمل أعمالها سمات سيرة ذاتية.",
+        "53": "كانت أول قراءة لها رواية تدور أحداثها في بطرسبورغ.",
+        "54": "عندما كانت طفلة، كانت تقرأ دائمًا في قبو المنزل.",
+        "55": "لم ترغب والدة الحضانة في أن تكتب مذكرات يومية."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "in Kürze die Doktorwürde",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf zeitliche Angaben wie „in Kürze“ zusammen mit Fakten zu Auszeichnungen oder Ehrungen.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf zeitliche Angaben wie „in Kürze“ zusammen mit Fakten zu Auszeichnungen oder Ehrungen."
+      },
+      "47": {
+        "keyword": "auch als Übersetzerin",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf zusätzliche Tätigkeitsangaben, die mit „auch“ eingeleitet werden.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf zusätzliche Tätigkeitsangaben, die mit „auch“ eingeleitet werden."
+      },
+      "48": {
+        "keyword": "über Anne Frank gearbeitet",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte darauf, ob eine Aussage vorsichtig und allgemein formuliert ist (hier: „gearbeitet über“) statt einen genauen, überprüfbaren Fakt zu behaupten.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte darauf, ob eine Aussage vorsichtig und allgemein formuliert ist (hier: „gearbeitet über“) statt einen genauen, überprüfbaren Fakt zu behaupten."
+      },
+      "49": {
+        "keyword": "jedes Jahr",
+        "explanation_correct": "Diese Aussage ist Falsch. Absolute Häufigkeitsangaben wie „jedes Jahr“ in Kombination mit einem genauen Ort sind eine typische Prüfungsfalle.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Absolute Häufigkeitsangaben wie „jedes Jahr“ in Kombination mit einem genauen Ort sind eine typische Prüfungsfalle."
+      },
+      "50": {
+        "keyword": "denkt sie an den Krieg",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf gedankliche Verknüpfungen zwischen zwei Themen, hier zwischen Kindheit und Krieg.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf gedankliche Verknüpfungen zwischen zwei Themen, hier zwischen Kindheit und Krieg."
+      },
+      "51": {
+        "keyword": "sehr gut",
+        "explanation_correct": "Diese Aussage ist Falsch. Ein positives Werturteil wie „sehr gut“ über eine Beziehung sollte kritisch geprüft werden, da es oft in sein Gegenteil verkehrt wird.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Ein positives Werturteil wie „sehr gut“ über eine Beziehung sollte kritisch geprüft werden, da es oft in sein Gegenteil verkehrt wird."
+      },
+      "52": {
+        "keyword": "oft biografische Züge",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Häufigkeitswörter wie „oft“ bei Beschreibungen literarischer Werke.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Häufigkeitswörter wie „oft“ bei Beschreibungen literarischer Werke."
+      },
+      "53": {
+        "keyword": "erste Lektüre",
+        "explanation_correct": "Diese Aussage ist Falsch. Bei Angaben zu einem „ersten“ Ereignis wie der ersten Lektüre, achte genau auf Titel und Ort — solche Details werden oft ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Bei Angaben zu einem „ersten“ Ereignis wie der ersten Lektüre, achte genau auf Titel und Ort — solche Details werden oft ausgetauscht."
+      },
+      "54": {
+        "keyword": "immer im Keller",
+        "explanation_correct": "Diese Aussage ist Falsch. Das absolute Wort „immer“ zusammen mit einem genauen Ort ist ein klassisches Signal für eine falsche Aussage.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das absolute Wort „immer“ zusammen mit einem genauen Ort ist ein klassisches Signal für eine falsche Aussage."
+      },
+      "55": {
+        "keyword": "wollte nicht",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte besonders auf Verneinungen wie „wollte nicht“, denn sie können die Bedeutung eines Satzes komplett umkehren.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte besonders auf Verneinungen wie „wollte nicht“, denn sie können die Bedeutung eines Satzes komplett umkehren."
+      }
+    }
+  },
+  "64c87ece-327e-4042-8833-1f10b62e6872": {
+    "translation": {
+      "questions": {
+        "46": "عادت نادين فاغنر للتو من رحلتها حول العالم.",
+        "47": "كانت لديها بعض الشكوك والمخاوف قبل رحلتها حول العالم.",
+        "48": "طارت الصحفية أيضًا خلال رحلتها.",
+        "49": "استقالت من وظيفتها من أجل هذه المغامرة.",
+        "50": "كان لأصدقائها آراء مختلفة حول مشروعها.",
+        "51": "في طاجيكستان رافقت لفترة من الوقت راكبي دراجات نارية آخرين.",
+        "52": "أنفقت كل مدخراتها خلال الرحلة.",
+        "53": "عملت نادين فاغنر أحيانًا خلال الرحلة.",
+        "54": "اشتاقت أكثر من أي شيء آخر إلى شقتها الخاصة.",
+        "55": "بعد عودتها لم تضطر للبحث طويلاً عن عمل جديد."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "gerade erst",
+        "explanation_correct": "Diese Aussage ist Falsch. Ausdrücke wie „gerade erst“ machen eine sehr präzise Zeitangabe — genau solche genauen Zeitpunkte werden in Prüfungsaufgaben gern verändert.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Ausdrücke wie „gerade erst“ machen eine sehr präzise Zeitangabe — genau solche genauen Zeitpunkte werden in Prüfungsaufgaben gern verändert."
+      },
+      "47": {
+        "keyword": "Zweifel und Bedenken",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf emotionale Zustände vor einem wichtigen Ereignis, hier Zweifel vor der Reise.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf emotionale Zustände vor einem wichtigen Ereignis, hier Zweifel vor der Reise."
+      },
+      "48": {
+        "keyword": "auch geflogen",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf zusätzliche Angaben mit „auch“, hier zu einem weiteren genutzten Transportmittel.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf zusätzliche Angaben mit „auch“, hier zu einem weiteren genutzten Transportmittel."
+      },
+      "49": {
+        "keyword": "Stelle gekündigt",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkrete berufliche Entscheidungen wie „kündigen“ — sie werden oft durch ähnliche, aber nicht identische Handlungen ersetzt, etwa eine Auszeit statt einer Kündigung.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkrete berufliche Entscheidungen wie „kündigen“ — sie werden oft durch ähnliche, aber nicht identische Handlungen ersetzt, etwa eine Auszeit statt einer Kündigung."
+      },
+      "50": {
+        "keyword": "unterschiedlicher Meinung",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Meinungsverschiedenheiten bei anderen genannten Personen, hier den Freunden.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Meinungsverschiedenheiten bei anderen genannten Personen, hier den Freunden."
+      },
+      "51": {
+        "keyword": "eine Zeit lang begleitet",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Länder- und Ortsangaben zusammen mit Begleitpersonen, die während der Reise erwähnt werden.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Länder- und Ortsangaben zusammen mit Begleitpersonen, die während der Reise erwähnt werden."
+      },
+      "52": {
+        "keyword": "ganzes Erspartes",
+        "explanation_correct": "Diese Aussage ist Falsch. Das absolute Wort „ganzes“ bei Geldangaben ist eine typische Übertreibung, die eine falsche Aussage kennzeichnet.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das absolute Wort „ganzes“ bei Geldangaben ist eine typische Übertreibung, die eine falsche Aussage kennzeichnet."
+      },
+      "53": {
+        "keyword": "gelegentlich gearbeitet",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf gemäßigte Häufigkeitswörter wie „gelegentlich“ im Unterschied zu „nie“ oder „ständig“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf gemäßigte Häufigkeitswörter wie „gelegentlich“ im Unterschied zu „nie“ oder „ständig“."
+      },
+      "54": {
+        "keyword": "am meisten",
+        "explanation_correct": "Diese Aussage ist Falsch. Der Superlativ „am meisten“ behauptet, dass genau dieses eine Ding am stärksten vermisst wurde — ein häufiger Trick, bei dem in Wahrheit etwas anderes gemeint ist.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Der Superlativ „am meisten“ behauptet, dass genau dieses eine Ding am stärksten vermisst wurde — ein häufiger Trick, bei dem in Wahrheit etwas anderes gemeint ist."
+      },
+      "55": {
+        "keyword": "nicht lange",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Verneinungen, die mit Zeitangaben kombiniert sind, wie hier „nicht lange suchen“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Verneinungen, die mit Zeitangaben kombiniert sind, wie hier „nicht lange suchen“."
+      }
+    }
+  },
+  "f760700a-1d89-427d-9f72-d78925c33240": {
+    "translation": {
+      "questions": {
+        "46": "لم يعد البروفيسور شتاينر يشعر بالتوتر إطلاقًا عندما يتعين عليه تقديم برنامج.",
+        "47": "لا يقتصر شتاينر على نقل المعرفة النظرية للطلاب، بل يطالب أيضًا بتطبيقها عمليًا.",
+        "48": "هواية شتاينر هي صنع أفلام تجريبية.",
+        "49": "ينبغي على الصحفيين اليوم أن يتخصصوا في وسيلة إعلامية واحدة.",
+        "50": "أن يصبح المرء صحفيًا رياضيًا يكاد يكون مستحيلاً اليوم برأي شتاينر.",
+        "51": "ينبغي أن يكون لدى الصحفيين رغبة في اكتشاف شيء ما.",
+        "52": "اضطر شتاينر للتوقف عن لعب كرة القدم بسبب إصابة.",
+        "53": "قدّم شتاينر مباريات كرة قدم لصالح القناة الثانية الألمانية ZDF أثناء دراسته للصحافة.",
+        "54": "من المهم لشتاينر أن يبقى محايدًا تجاه الرياضيين بصفته مقدم برنامج.",
+        "55": "ينصح شتاينر خريجي الثانوية العامة بتجربة إمكانيات مهنية مختلفة."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "gar nicht mehr nervös",
+        "explanation_correct": "Diese Aussage ist Falsch. Die absolute Formulierung „gar nicht mehr“ schließt jede Ausnahme aus — solche Extremformulierungen sind ein typisches Falschsignal.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Die absolute Formulierung „gar nicht mehr“ schließt jede Ausnahme aus — solche Extremformulierungen sind ein typisches Falschsignal."
+      },
+      "47": {
+        "keyword": "nicht nur ... sondern auch",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf die Struktur „nicht nur..., sondern auch...“, die zwei miteinander verbundene Aussagen kennzeichnet.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf die Struktur „nicht nur..., sondern auch...“, die zwei miteinander verbundene Aussagen kennzeichnet."
+      },
+      "48": {
+        "keyword": "experimentelle Filme",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkrete Angaben zu Hobbys oder Freizeitaktivitäten — solche Details werden gern gegen eine ähnliche, aber falsche Tätigkeit ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkrete Angaben zu Hobbys oder Freizeitaktivitäten — solche Details werden gern gegen eine ähnliche, aber falsche Tätigkeit ausgetauscht."
+      },
+      "49": {
+        "keyword": "auf einzelne Medien spezialisiert",
+        "explanation_correct": "Diese Aussage ist Falsch. Wenn eine Empfehlung wie Spezialisierung genannt wird, prüfe, ob nicht eigentlich das Gegenteil (Vielseitigkeit) empfohlen wird.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Wenn eine Empfehlung wie Spezialisierung genannt wird, prüfe, ob nicht eigentlich das Gegenteil (Vielseitigkeit) empfohlen wird."
+      },
+      "50": {
+        "keyword": "fast ausgeschlossen",
+        "explanation_correct": "Diese Aussage ist Falsch. Starke Formulierungen wie „fast ausgeschlossen“ übertreiben eine Schwierigkeit und sind ein typisches Merkmal falscher Aussagen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Starke Formulierungen wie „fast ausgeschlossen“ übertreiben eine Schwierigkeit und sind ein typisches Merkmal falscher Aussagen."
+      },
+      "51": {
+        "keyword": "Lust haben, etwas zu entdecken",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf genannte Charaktereigenschaften oder Motivationen, die als wichtige Voraussetzung beschrieben werden.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf genannte Charaktereigenschaften oder Motivationen, die als wichtige Voraussetzung beschrieben werden."
+      },
+      "52": {
+        "keyword": "wegen einer Verletzung",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkret genannte Gründe wie eine Verletzung — solche spezifischen Ursachen werden häufig frei erfunden.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkret genannte Gründe wie eine Verletzung — solche spezifischen Ursachen werden häufig frei erfunden."
+      },
+      "53": {
+        "keyword": "während seines Journalistik-Studiums",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf die zeitliche Einordnung von Tätigkeiten, hier „während des Studiums“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf die zeitliche Einordnung von Tätigkeiten, hier „während des Studiums“."
+      },
+      "54": {
+        "keyword": "neutral zu bleiben",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Werte und Prinzipien, die als persönlich wichtig hervorgehoben werden, hier Neutralität.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Werte und Prinzipien, die als persönlich wichtig hervorgehoben werden, hier Neutralität."
+      },
+      "55": {
+        "keyword": "verschiedene berufliche Möglichkeiten",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Ratschläge, die mit „rät dazu“ eingeleitet werden, und auf Wörter wie „verschiedene“, die auf Vielfalt statt auf eine einzige Option hinweisen.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Ratschläge, die mit „rät dazu“ eingeleitet werden, und auf Wörter wie „verschiedene“, die auf Vielfalt statt auf eine einzige Option hinweisen."
+      }
+    }
+  },
+  "b0718999-b888-4141-9556-ca5f3e3ac264": {
+    "translation": {
+      "questions": {
+        "46": "أقل من عشرة بالمئة من أيام الغياب عن العمل تُعزى إلى أمراض نفسية.",
+        "47": "يتحدث الموظفون المتأثرون بصراحة نسبية عن مشاكلهم النفسية.",
+        "48": "البطالة أيضًا عامل خطر للمشاكل النفسية.",
+        "49": "المزاج السيئ في مكان العمل هو السبب الرئيسي للأمراض النفسية.",
+        "50": "الأشخاص الذين لديهم القليل جدًا من العمل يحاولون عدم إظهار ذلك.",
+        "51": "الأشخاص الذين لديهم القليل من العمل في مكان العمل راضون بشكل خاص.",
+        "52": "يمكن أن يكون للإنترنت والهاتف الذكي تأثير على النفسية.",
+        "53": "من يستمتع بعمله يمكنه أن يُنجز أكثر.",
+        "54": "لدى المديرين أعلى خطر للإصابة بأمراض نفسية من بين جميع الفئات المهنية.",
+        "55": "من الأفضل للصحة النفسية أن يكون المرء عاطلاً عن العمل بدلاً من إيجاد عمل ذي أهمية متوسطة فقط."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Weniger als zehn Prozent",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte besonders auf genaue Prozent- und Zahlenangaben — sie werden in solchen Aufgaben oft leicht verändert oder vertauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte besonders auf genaue Prozent- und Zahlenangaben — sie werden in solchen Aufgaben oft leicht verändert oder vertauscht."
+      },
+      "47": {
+        "keyword": "relativ offen",
+        "explanation_correct": "Diese Aussage ist Falsch. Wenn Offenheit oder Zurückhaltung im Umgang mit einem Thema beschrieben wird, prüfe, ob nicht das Gegenteil zutrifft.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Wenn Offenheit oder Zurückhaltung im Umgang mit einem Thema beschrieben wird, prüfe, ob nicht das Gegenteil zutrifft."
+      },
+      "48": {
+        "keyword": "Auch ... Risikofaktor",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf zusätzliche Risikofaktoren, die mit „auch“ eingeführt werden.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf zusätzliche Risikofaktoren, die mit „auch“ eingeführt werden."
+      },
+      "49": {
+        "keyword": "die Hauptursache",
+        "explanation_correct": "Diese Aussage ist Richtig. Formulierungen wie „Hauptursache“ markieren eine zentrale, besonders wichtige Aussage im Text.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Formulierungen wie „Hauptursache“ markieren eine zentrale, besonders wichtige Aussage im Text."
+      },
+      "50": {
+        "keyword": "versuchen, das nicht zu zeigen",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Verneinungen im Zusammenhang mit Verhalten, hier „versuchen, etwas nicht zu zeigen“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Verneinungen im Zusammenhang mit Verhalten, hier „versuchen, etwas nicht zu zeigen“."
+      },
+      "51": {
+        "keyword": "besonders zufrieden",
+        "explanation_correct": "Diese Aussage ist Falsch. Ein positives Werturteil wie „besonders zufrieden“ wird hier vermutlich ins Gegenteil verkehrt — solche Bewertungen immer kritisch prüfen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Ein positives Werturteil wie „besonders zufrieden“ wird hier vermutlich ins Gegenteil verkehrt — solche Bewertungen immer kritisch prüfen."
+      },
+      "52": {
+        "keyword": "einen Einfluss haben",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf vorsichtige Formulierungen wie „können ... haben“, die einen möglichen, nicht zwingenden Zusammenhang ausdrücken.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf vorsichtige Formulierungen wie „können ... haben“, die einen möglichen, nicht zwingenden Zusammenhang ausdrücken."
+      },
+      "53": {
+        "keyword": "eher mehr leisten",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Vergleichsformen wie „mehr leisten“ im Zusammenhang mit Arbeitszufriedenheit.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Vergleichsformen wie „mehr leisten“ im Zusammenhang mit Arbeitszufriedenheit."
+      },
+      "54": {
+        "keyword": "unter allen Berufsgruppen am höchsten",
+        "explanation_correct": "Diese Aussage ist Falsch. Die Kombination aus Superlativ „am höchsten“ und dem absoluten Wort „allen“ ist eine typische Übertreibung, auf die du achten solltest.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Die Kombination aus Superlativ „am höchsten“ und dem absoluten Wort „allen“ ist eine typische Übertreibung, auf die du achten solltest."
+      },
+      "55": {
+        "keyword": "besser ... als",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf Vergleichsstrukturen wie „besser als“, die zwei Optionen gegenüberstellen — hier ist die Gegenüberstellung falsch dargestellt.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf Vergleichsstrukturen wie „besser als“, die zwei Optionen gegenüberstellen — hier ist die Gegenüberstellung falsch dargestellt."
+      }
+    }
+  },
+  "5d8bfb28-34e4-4115-a1bb-59d31af40f7d": {
+    "translation": {
+      "questions": {
+        "46": "يوم 24 أبريل هو يوم ثورة الموضة (Fashion Revolution Day).",
+        "47": "مناسبة يوم ثورة الموضة هي انهيار مبنى المصنع في بنغلاديش.",
+        "48": "أُصيب عدد قليل فقط من الأشخاص بجروح خطيرة أثناء الانهيار.",
+        "49": "في هذا اليوم تُرتدى ملابس سوداء فقط.",
+        "50": "تكسب الخياطة هناك حوالي 20 سنتًا.",
+        "51": "تطالب حملة كلين كلوذز (Clean Clothes) منذ سنوات بأجر يضمن الحد الأدنى للمعيشة.",
+        "52": "الموضة العادلة أغلى في المتاجر لأنه يتم إنتاج دفعات أكبر.",
+        "53": "من الفعاليات الأخرى عرض فيلم “Traceable”.",
+        "54": "تنتهي الفعالية بعد الفيلم.",
+        "55": "يمكن الحصول على مزيد من المعلومات على موقع traceable.org."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "24. April",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte immer auf genaue Datumsangaben, da Zahlen und Daten ein beliebtes Prüfungsdetail sind.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte immer auf genaue Datumsangaben, da Zahlen und Daten ein beliebtes Prüfungsdetail sind."
+      },
+      "47": {
+        "keyword": "Einsturz des Fabrikgebäudes",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Ursache-Wirkungs-Angaben wie „Anlass für“, die den Auslöser eines Ereignisses benennen.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Ursache-Wirkungs-Angaben wie „Anlass für“, die den Auslöser eines Ereignisses benennen."
+      },
+      "48": {
+        "keyword": "Nur wenige",
+        "explanation_correct": "Diese Aussage ist Falsch. Das einschränkende Wort „nur wenige“ verharmlost das Ausmaß eines Ereignisses — ein typischer Trick, um Zahlen kleiner erscheinen zu lassen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das einschränkende Wort „nur wenige“ verharmlost das Ausmaß eines Ereignisses — ein typischer Trick, um Zahlen kleiner erscheinen zu lassen."
+      },
+      "49": {
+        "keyword": "nur schwarze Kleidung",
+        "explanation_correct": "Diese Aussage ist Falsch. Das einschränkende Wort „nur“ behauptet eine ausschließliche Regel, die hier so nicht zutrifft.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das einschränkende Wort „nur“ behauptet eine ausschließliche Regel, die hier so nicht zutrifft."
+      },
+      "50": {
+        "keyword": "ca. 20 Cent",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf genaue Geldbeträge, besonders wenn sie mit „ca.“ als ungefährer Wert markiert sind.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf genaue Geldbeträge, besonders wenn sie mit „ca.“ als ungefährer Wert markiert sind."
+      },
+      "51": {
+        "keyword": "seit Jahren",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Zeitangaben zur Dauer einer Forderung oder Kampagne, hier „seit Jahren“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Zeitangaben zur Dauer einer Forderung oder Kampagne, hier „seit Jahren“."
+      },
+      "52": {
+        "keyword": "weil größere Serien",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkret genannte Gründe wie „weil größere Serien produziert werden“ — solche Begründungen sind oft frei erfunden oder vertauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkret genannte Gründe wie „weil größere Serien produziert werden“ — solche Begründungen sind oft frei erfunden oder vertauscht."
+      },
+      "53": {
+        "keyword": "Filmscreening Traceable",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf genau genannte Programmpunkte und Titel von Veranstaltungen.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf genau genannte Programmpunkte und Titel von Veranstaltungen."
+      },
+      "54": {
+        "keyword": "zu Ende",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf Aussagen zum Ablauf und Ende einer Veranstaltung — hier wird ein falscher Schlusspunkt behauptet.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf Aussagen zum Ablauf und Ende einer Veranstaltung — hier wird ein falscher Schlusspunkt behauptet."
+      },
+      "55": {
+        "keyword": "traceable.org",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf genaue Namen und Internetadressen — ein einzelner falscher Buchstabe oder eine falsche Domain reicht, um eine Aussage falsch zu machen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf genaue Namen und Internetadressen — ein einzelner falscher Buchstabe oder eine falsche Domain reicht, um eine Aussage falsch zu machen."
+      }
+    }
+  },
+  "f4d7cdb1-fcf4-4c3a-8bc7-832d446d4a3a": {
+    "translation": {
+      "questions": {
+        "46": "يعمل رولاند فونشمان بدوام كامل كمدرب كرة قدم في فيكتوريا كولن.",
+        "47": "لا تريد فيكتوريا كولن أن تلعب فقط ضد فرق من دوري الاتحاد (Verbandsliga).",
+        "48": "في بداية هذا الموسم غادر لاعب واحد فيكتوريا كولن.",
+        "49": "اللاعبون الجدد في فيكتوريا كولن يأتون دائمًا من فريق الشباب الخاص بالنادي.",
+        "50": "يعاني فريق فيكتوريا كولن من نقاط ضعف في الدفاع.",
+        "51": "يجرؤ رولاند فونشمان على التكهن بأن نادي 1. إف سي مونشنغلادباخ سيصبح بطلاً هذا الموسم.",
+        "52": "يستطيع رولاند فونشمان التوفيق بسهولة بين عمله ومهمته التطوعية كمدرب كرة قدم.",
+        "53": "تشارك زوجة رولاند فونشمان أيضًا في كرة القدم.",
+        "54": "يُقدّر مجلس إدارة النادي عمل السيد فونشمان.",
+        "55": "رولاند فونشمان راضٍ عن رعاية النادي للناشئين حتى الآن."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Vollzeit",
+        "explanation_correct": "Diese Aussage ist Falsch. Das Wort „Vollzeit“ widerspricht der Vorstellung eines Ehrenamts — achte darauf, ob eine Tätigkeit als Beruf oder als nebenberufliches Engagement beschrieben wird.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das Wort „Vollzeit“ widerspricht der Vorstellung eines Ehrenamts — achte darauf, ob eine Tätigkeit als Beruf oder als nebenberufliches Engagement beschrieben wird."
+      },
+      "47": {
+        "keyword": "nicht nur",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf die Struktur „nicht nur“, die auf ein zusätzliches Ziel neben dem Naheliegenden hinweist.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf die Struktur „nicht nur“, die auf ein zusätzliches Ziel neben dem Naheliegenden hinweist."
+      },
+      "48": {
+        "keyword": "zu Beginn dieser Saison",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf die zeitliche Einordnung von Ereignissen, hier „zu Beginn der Saison“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf die zeitliche Einordnung von Ereignissen, hier „zu Beginn der Saison“."
+      },
+      "49": {
+        "keyword": "immer aus der eigenen Jugendmannschaft",
+        "explanation_correct": "Diese Aussage ist Richtig. Absolute Wörter wie „immer“ sind meist ein Warnsignal, hier stimmt die Aussage aber ausnahmsweise — prüfe solche Wörter trotzdem immer genau.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Absolute Wörter wie „immer“ sind meist ein Warnsignal, hier stimmt die Aussage aber ausnahmsweise — prüfe solche Wörter trotzdem immer genau."
+      },
+      "50": {
+        "keyword": "Schwächen in der Abwehr",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkret benannte Schwächen oder Stärken einer Mannschaft — solche Bewertungen werden gern verändert.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkret benannte Schwächen oder Stärken einer Mannschaft — solche Bewertungen werden gern verändert."
+      },
+      "51": {
+        "keyword": "wagt die Prognose",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf genau genannte Namen bei Prognosen — der vorhergesagte Sieger wird in solchen Aufgaben oft gegen einen anderen Verein ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf genau genannte Namen bei Prognosen — der vorhergesagte Sieger wird in solchen Aufgaben oft gegen einen anderen Verein ausgetauscht."
+      },
+      "52": {
+        "keyword": "problemlos miteinander vereinbaren",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Aussagen zur Vereinbarkeit von Beruf und Ehrenamt, hier positiv als „problemlos“ beschrieben.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Aussagen zur Vereinbarkeit von Beruf und Ehrenamt, hier positiv als „problemlos“ beschrieben."
+      },
+      "53": {
+        "keyword": "Auch die Frau",
+        "explanation_correct": "Diese Aussage ist Falsch. Das Wort „auch“ behauptet die Beteiligung einer weiteren Person — prüfe genau, ob diese zusätzliche Beteiligung tatsächlich belegt ist.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das Wort „auch“ behauptet die Beteiligung einer weiteren Person — prüfe genau, ob diese zusätzliche Beteiligung tatsächlich belegt ist."
+      },
+      "54": {
+        "keyword": "schätzt die Arbeit",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Bewertungen einer Person durch andere Personen oder Institutionen, hier durch den Vereinsvorstand.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Bewertungen einer Person durch andere Personen oder Institutionen, hier durch den Vereinsvorstand."
+      },
+      "55": {
+        "keyword": "zufrieden",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Zufriedenheitsangaben wie „zufrieden“ oder „unzufrieden“, die eine klare persönliche Bewertung ausdrücken.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Zufriedenheitsangaben wie „zufrieden“ oder „unzufrieden“, die eine klare persönliche Bewertung ausdrücken."
+      }
+    }
+  },
+  "da1aa865-ec47-4e07-b204-e7104be8e39c": {
+    "translation": {
+      "questions": {
+        "46": "يلعب رولاند فونشمان بنفسه كرة القدم في فيكتوريا كولن.",
+        "47": "تلعب فيكتوريا كولن منذ بداية الموسم في دوري أعلى.",
+        "48": "معظم لاعبي الفريق كانوا يلعبون بالفعل في الموسم الماضي مع فيكتوريا كولن.",
+        "49": "القادمون الجدد إلى فيكتوريا كولن يأتون في الغالب من فرق مختلفة تمامًا.",
+        "50": "يريد فريق فيكتوريا كولن تجربة تكتيكات لعب جديدة هذا الموسم.",
+        "51": "يجرؤ رولاند فونشمان على التكهن بأن نادي 1. إف سي مونشنغلادباخ سيصبح بطلاً هذا الموسم.",
+        "52": "يشعر رولاند فونشمان غالبًا بأن مهمته التطوعية عبء عليه.",
+        "53": "تشارك زوجة رولاند فونشمان في نفس النادي.",
+        "54": "السيد فونشمان ومجلس إدارة النادي متفقان في الرأي غالبًا.",
+        "55": "يأمل رولاند فونشمان في تحسينات في رعاية الناشئين."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "spielt selbst",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte darauf, welche Rolle eine Person tatsächlich hat — hier wird eine aktive Spielerrolle behauptet statt der eigentlichen Funktion.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte darauf, welche Rolle eine Person tatsächlich hat — hier wird eine aktive Spielerrolle behauptet statt der eigentlichen Funktion."
+      },
+      "47": {
+        "keyword": "in einer höheren Liga",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Vergleichsformen wie „höhere Liga“ bei Angaben zur sportlichen Einstufung einer Mannschaft.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Vergleichsformen wie „höhere Liga“ bei Angaben zur sportlichen Einstufung einer Mannschaft."
+      },
+      "48": {
+        "keyword": "Die meisten Spieler",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Mengenangaben wie „die meisten“ im Unterschied zu „alle“ oder „wenige“ — sie beschreiben oft die realistischere Situation.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Mengenangaben wie „die meisten“ im Unterschied zu „alle“ oder „wenige“ — sie beschreiben oft die realistischere Situation."
+      },
+      "49": {
+        "keyword": "ganz unterschiedlichen Mannschaften",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf Angaben zur Herkunft neuer Spieler — hier widerspricht die Aussage vermutlich der Tatsache, dass Neuzugänge meist aus der eigenen Jugend kommen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf Angaben zur Herkunft neuer Spieler — hier widerspricht die Aussage vermutlich der Tatsache, dass Neuzugänge meist aus der eigenen Jugend kommen."
+      },
+      "50": {
+        "keyword": "neue Spieltaktiken ausprobieren",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Zukunftspläne und Vorhaben, die mit „möchte“ eingeleitet werden.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Zukunftspläne und Vorhaben, die mit „möchte“ eingeleitet werden."
+      },
+      "51": {
+        "keyword": "wagt die Prognose",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf genau genannte Namen bei Prognosen — der vorhergesagte Sieger wird in solchen Aufgaben oft gegen einen anderen Verein ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf genau genannte Namen bei Prognosen — der vorhergesagte Sieger wird in solchen Aufgaben oft gegen einen anderen Verein ausgetauscht."
+      },
+      "52": {
+        "keyword": "oft als Belastung",
+        "explanation_correct": "Diese Aussage ist Falsch. Eine negative Bewertung wie „Belastung“ steht oft im Gegensatz zu einer eigentlich positiven Beschreibung derselben Tätigkeit — genau darauf solltest du achten.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Eine negative Bewertung wie „Belastung“ steht oft im Gegensatz zu einer eigentlich positiven Beschreibung derselben Tätigkeit — genau darauf solltest du achten."
+      },
+      "53": {
+        "keyword": "denselben Verein",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte darauf, ob von derselben oder einer anderen Institution die Rede ist — das Wort „denselben“ ist hier entscheidend.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte darauf, ob von derselben oder einer anderen Institution die Rede ist — das Wort „denselben“ ist hier entscheidend."
+      },
+      "54": {
+        "keyword": "meistens einer Meinung",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Häufigkeitswörter wie „meistens“, die eine überwiegende, aber nicht absolute Übereinstimmung beschreiben.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Häufigkeitswörter wie „meistens“, die eine überwiegende, aber nicht absolute Übereinstimmung beschreiben."
+      },
+      "55": {
+        "keyword": "hofft auf Verbesserungen",
+        "explanation_correct": "Diese Aussage ist Falsch. Ein geäußerter Wunsch nach Verbesserung widerspricht vermutlich der Tatsache, dass bereits Zufriedenheit besteht — achte auf solche gegensätzlichen Bewertungen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Ein geäußerter Wunsch nach Verbesserung widerspricht vermutlich der Tatsache, dass bereits Zufriedenheit besteht — achte auf solche gegensätzlichen Bewertungen."
+      }
+    }
+  },
+  "80287ea7-5497-41a4-aa46-2b127ea5dc03": {
+    "translation": {
+      "questions": {
+        "46": "يلعب رولاند فونشمان بنفسه كرة القدم في فيكتوريا كولن.",
+        "47": "تريد فيكتوريا كولن الصعود في نهاية موسم اللعب.",
+        "48": "في بداية هذا الموسم غادر لاعب واحد فيكتوريا كولن.",
+        "49": "اللاعبون الجدد في فيكتوريا كولن يأتون دائمًا من فريق الشباب الخاص بالنادي.",
+        "50": "يعاني فريق فيكتوريا كولن من نقاط ضعف في الدفاع.",
+        "51": "يجرؤ رولاند فونشمان على التكهن بأن نادي 1. إف سي مونشنغلادباخ سيصبح بطلاً هذا الموسم.",
+        "52": "يستطيع رولاند فونشمان التوفيق بين عمله ومهمته التطوعية كمدرب كرة قدم.",
+        "53": "تشارك زوجة رولاند فونشمان أيضًا في كرة القدم.",
+        "54": "يُقدّر مجلس إدارة النادي عمل السيد فونشمان.",
+        "55": "رولاند فونشمان ليس راضيًا تمامًا بعد عن رعاية النادي للناشئين حتى الآن."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "spielt selbst",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte darauf, welche Rolle eine Person tatsächlich hat — hier wird eine aktive Spielerrolle behauptet statt der eigentlichen Funktion.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte darauf, welche Rolle eine Person tatsächlich hat — hier wird eine aktive Spielerrolle behauptet statt der eigentlichen Funktion."
+      },
+      "47": {
+        "keyword": "am Ende der Spielsaison aufsteigen",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf genaue Zeitpunkte und Ziele bei Zukunftsplänen — hier ist der genannte Zeitpunkt oder das Ziel vermutlich verändert.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf genaue Zeitpunkte und Ziele bei Zukunftsplänen — hier ist der genannte Zeitpunkt oder das Ziel vermutlich verändert."
+      },
+      "48": {
+        "keyword": "zu Beginn dieser Saison",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf die zeitliche Einordnung von Ereignissen, hier „zu Beginn der Saison“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf die zeitliche Einordnung von Ereignissen, hier „zu Beginn der Saison“."
+      },
+      "49": {
+        "keyword": "immer aus der eigenen Jugendmannschaft",
+        "explanation_correct": "Diese Aussage ist Richtig. Absolute Wörter wie „immer“ sind meist ein Warnsignal, hier stimmt die Aussage aber ausnahmsweise — prüfe solche Wörter trotzdem immer genau.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Absolute Wörter wie „immer“ sind meist ein Warnsignal, hier stimmt die Aussage aber ausnahmsweise — prüfe solche Wörter trotzdem immer genau."
+      },
+      "50": {
+        "keyword": "Schwächen in der Abwehr",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkret benannte Schwächen oder Stärken einer Mannschaft — solche Bewertungen werden gern verändert.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkret benannte Schwächen oder Stärken einer Mannschaft — solche Bewertungen werden gern verändert."
+      },
+      "51": {
+        "keyword": "wagt die Prognose",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf genau genannte Namen bei Prognosen — der vorhergesagte Sieger wird in solchen Aufgaben oft gegen einen anderen Verein ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf genau genannte Namen bei Prognosen — der vorhergesagte Sieger wird in solchen Aufgaben oft gegen einen anderen Verein ausgetauscht."
+      },
+      "52": {
+        "keyword": "miteinander vereinbaren",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Aussagen zur Vereinbarkeit zweier Tätigkeiten, hier Beruf und Ehrenamt.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Aussagen zur Vereinbarkeit zweier Tätigkeiten, hier Beruf und Ehrenamt."
+      },
+      "53": {
+        "keyword": "Auch die Frau",
+        "explanation_correct": "Diese Aussage ist Falsch. Das Wort „auch“ behauptet die Beteiligung einer weiteren Person — prüfe genau, ob diese zusätzliche Beteiligung tatsächlich belegt ist.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Das Wort „auch“ behauptet die Beteiligung einer weiteren Person — prüfe genau, ob diese zusätzliche Beteiligung tatsächlich belegt ist."
+      },
+      "54": {
+        "keyword": "schätzt die Arbeit",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Bewertungen einer Person durch andere Personen oder Institutionen, hier durch den Vereinsvorstand.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Bewertungen einer Person durch andere Personen oder Institutionen, hier durch den Vereinsvorstand."
+      },
+      "55": {
+        "keyword": "noch nicht voll zufrieden",
+        "explanation_correct": "Diese Aussage ist Falsch. Die Verneinung „noch nicht voll zufrieden“ widerspricht einer eigentlich bestehenden Zufriedenheit — achte genau auf solche verneinten Bewertungen.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Die Verneinung „noch nicht voll zufrieden“ widerspricht einer eigentlich bestehenden Zufriedenheit — achte genau auf solche verneinten Bewertungen."
+      }
+    }
+  },
+  "74f8a295-2012-4d19-baeb-5a1ca5b11463": {
+    "translation": {
+      "questions": {
+        "46": "هي من دوسلدورف.",
+        "47": "تعيش الآن في مالطا.",
+        "48": "هي نشيطة وملتزمة في مالطا.",
+        "49": "تريد الانتقال إلى فانكوفر.",
+        "50": "تستمتع بالسباحة في البحر الأبيض المتوسط طوال العام.",
+        "51": "لا يعرف المذيع درجة حرارة البحر الأبيض المتوسط في الشتاء.",
+        "52": "يعتقد المذيع أن هناك ثلاث لغات رسمية في مالطا.",
+        "53": "كان المالطيون محافظين ومتحفظين.",
+        "54": "كانت تخطط لتعلم اللغة المالطية.",
+        "55": "يأتي المالطيون من ديانات مختلفة."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Düsseldorf",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte genau auf Städte- und Ortsnamen — sie werden in solchen Aufgaben oft gegen einen ähnlich klingenden, aber falschen Namen ausgetauscht.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte genau auf Städte- und Ortsnamen — sie werden in solchen Aufgaben oft gegen einen ähnlich klingenden, aber falschen Namen ausgetauscht."
+      },
+      "47": {
+        "keyword": "lebt jetzt in Malta",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf aktuelle Wohnortangaben, besonders wenn sie mit „jetzt“ markiert sind.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf aktuelle Wohnortangaben, besonders wenn sie mit „jetzt“ markiert sind."
+      },
+      "48": {
+        "keyword": "aktiv und engagiert",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf positiv beschriebene Charaktereigenschaften und Aktivitäten einer Person.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf positiv beschriebene Charaktereigenschaften und Aktivitäten einer Person."
+      },
+      "49": {
+        "keyword": "Vancouver",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte genau auf Ortsnamen bei geplanten Umzügen — ein falscher, aber plausibel klingender Ort ist eine häufige Falle.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte genau auf Ortsnamen bei geplanten Umzügen — ein falscher, aber plausibel klingender Ort ist eine häufige Falle."
+      },
+      "50": {
+        "keyword": "das ganze Jahr",
+        "explanation_correct": "Diese Aussage ist Falsch. Der absolute Ausdruck „das ganze Jahr“ behauptet eine ununterbrochene Regelmäßigkeit, die hier vermutlich nicht zutrifft.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Der absolute Ausdruck „das ganze Jahr“ behauptet eine ununterbrochene Regelmäßigkeit, die hier vermutlich nicht zutrifft."
+      },
+      "51": {
+        "keyword": "kennt ... nicht",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Verneinungen bei Aussagen über Wissen oder Kenntnisse, hier „kennt nicht“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Verneinungen bei Aussagen über Wissen oder Kenntnisse, hier „kennt nicht“."
+      },
+      "52": {
+        "keyword": "drei Amtssprachen",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf genaue Zahlenangaben — hier wird korrekt wiedergegeben, was eine bestimmte Person (der Moderator) annimmt.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf genaue Zahlenangaben — hier wird korrekt wiedergegeben, was eine bestimmte Person (der Moderator) annimmt."
+      },
+      "53": {
+        "keyword": "konservativ und zurückhaltend",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf Charakterbeschreibungen einer Personengruppe — sie werden hier vermutlich ins Gegenteil (z. B. offen und herzlich) verkehrt.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf Charakterbeschreibungen einer Personengruppe — sie werden hier vermutlich ins Gegenteil (z. B. offen und herzlich) verkehrt."
+      },
+      "54": {
+        "keyword": "plante ... zu lernen",
+        "explanation_correct": "Diese Aussage ist Falsch. Achte auf konkret genannte Absichten oder Pläne einer Person — solche Details werden häufig frei hinzugefügt.",
+        "explanation_wrong": "Diese Aussage ist Falsch. Achte auf konkret genannte Absichten oder Pläne einer Person — solche Details werden häufig frei hinzugefügt."
+      },
+      "55": {
+        "keyword": "verschiedenen Religionen",
+        "explanation_correct": "Diese Aussage ist Richtig. Achte auf Angaben zur Vielfalt einer Bevölkerungsgruppe, hier eingeleitet mit „verschiedenen“.",
+        "explanation_wrong": "Diese Aussage ist Richtig. Achte auf Angaben zur Vielfalt einer Bevölkerungsgruppe, hier eingeleitet mit „verschiedenen“."
+      }
+    }
+  }
+}

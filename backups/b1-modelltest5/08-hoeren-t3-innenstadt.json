@@ -1,0 +1,17 @@
+{
+  "title": "Innenstadt",
+  "teil": 3,
+  "level": "B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 5/16 (Petra/Language Tests, page 64 printed / PDF page 65). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.66 / PDF p.67): 56+ 57- 58+ 59- 60-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 56 – 60. Markieren Sie PLUS (+) gleich richtig und MINUS (-) gleich falsch auf dem Antwortbogen.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Sie können mit dem Bus in die Innenstadt fahren.", "correct": true },
+    { "number": 57, "text": "Sie können noch eine Stunde durch alle Geschäfte laufen.", "correct": false },
+    { "number": 58, "text": "Dr. Krausch ist ab dem 18. Oktober wieder in der Praxis.", "correct": true },
+    { "number": 59, "text": "Alle Kunden müssen an der Kasse nebenan bezahlen.", "correct": false },
+    { "number": 60, "text": "Die Polizei informiert, dass alle Parkhäuser bei der Ausstellung besetzt sind.", "correct": false }
+  ]
+}

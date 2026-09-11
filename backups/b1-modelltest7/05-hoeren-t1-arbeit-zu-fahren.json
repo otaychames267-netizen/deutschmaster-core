@@ -1,0 +1,17 @@
+{
+  "title": "Arbeit zu fahren",
+  "teil": 1,
+  "level": "B1",
+  "position": 7,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 7/16 (Annika3/Language Tests, page 89 printed / PDF page 90). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.93 / PDF p.94): 41- 42- 43+ 44+ 45-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Der Sprecher könnte sich vorstellen, mit dem Bus zur Arbeit zu fahren.", "correct": false },
+    { "number": 42, "text": "Die Sprecherin geht gern zu Fuß.", "correct": false },
+    { "number": 43, "text": "Der Sprecher findet es in Ordnung, dass seine Frau immer das Auto hat.", "correct": true },
+    { "number": 44, "text": "Die Sprecherin fährt jeden Tag mit ihrem Motorrad zur Arbeit.", "correct": true },
+    { "number": 45, "text": "Die Sprecherin fährt immer mit dem Fahrrad zur Arbeit.", "correct": false }
+  ]
+}

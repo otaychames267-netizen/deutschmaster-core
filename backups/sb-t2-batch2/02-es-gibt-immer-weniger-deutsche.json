@@ -1,0 +1,22 @@
+{
+  "title": "Es gibt immer weniger Deutsche",
+  "level": "B2",
+  "position": 52,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 2. All 10 gaps explicitly and unambiguously marked in the source word bank (verified via per-row zoomed crops); 9 of 10 match straightforward grammar, gap 39=IM is the explicit source mark even though a different word reads more naturally there — ingested exactly as marked, per instruction not to modify the source's answer key.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "{{31}} Angaben des Statistischen Bundesamtes in Wiesbaden wird die Bevölkerungszahl in Deutschland in den nächsten Jahrzehnten {{32}} sinken.\nDie Statistiker {{33}} damit, dass die Zahl der Deutschen bis zum Jahr 2050 von jetzt 82 Millionen auf nur noch 65 Millionen zurückgehen wird. Diese Entwicklung sei, so kommentieren die Statistiker, deswegen so dramatisch, weil sich gleichzeitig mit dem Rückgang der Einwohnerzahl die Altersstruktur Deutschlands sehr stark verändern wird: Fast die Hälfte der Bevölkerung wird dann im Rentenalter sein. Das Gesundheitssystem und die Altersversorgung werden {{34}} dieser Entwicklung vor großen Problemen stehen und möglicherweise nicht mehr bezahlbar sein.\nDiese ungünstige Bevölkerungsentwicklung in Deutschland hat nach Auskunft der Statistiker mehrere Aspekte. Zum einen werden die Deutschen immer älter: Das durchschnittliche Lebensalter für Frauen wird bis 2050 auf 84, das der Männer auf 78 Jahre {{35}}. Gleichzeitig werde zum anderen die Zahl der Geburten zurückgehen: Im Jahr 2050 werden voraussichtlich nur noch 1400 Kinder pro 1000 Frauen geboren. Die Zahl der Erwerbstätigen werde um fast 10 Millionen auf nur noch 30 Millionen sinken.\nDie Auswirkungen auf das politische und gesellschaftliche Leben in Deutschland im Jahr 2050 lassen sich {{36}} erahnen. Wenn nahezu fünfzig Prozent der Bevölkerung Senioren sind, werden sich Politik und Geschäftswelt {{37}} diesen Personenkreis einstellen. Für junge Leute wird sich dann das Problem ergeben, dass sich Politiker mehr {{38}} die alten Wähler interessieren werden. Die Produktivität der Wirtschaft wird abnehmen, da Arbeitnehmer den größten Teil ihres Einkommens in die Kranken- und Rentenversicherungen {{39}} in den Konsum stecken müssen. Diese Probleme könne man nur {{40}}, so das Statistische Bundesamt, wenn ab sofort eine hohe Zahl von jungen Arbeitskräften aus dem Ausland zuwandere. Diese würden dann für eine ausgeglichenere Bevölkerungsentwicklung in Deutschland sorgen.",
+  "words": ["AN", "AUF", "AUFGRUND", "BEHEBEN", "BESCHEIDEN", "DRASTISCH", "ERHÖHEN", "FÜR", "IM", "NACH", "RECHNEN", "STATT", "STEIGEN", "ÜBERHEBLICH", "UNSCHWER"],
+  "answers": {
+    "31": "NACH",
+    "32": "DRASTISCH",
+    "33": "RECHNEN",
+    "34": "AUFGRUND",
+    "35": "STEIGEN",
+    "36": "UNSCHWER",
+    "37": "AUF",
+    "38": "FÜR",
+    "39": "IM",
+    "40": "BEHEBEN"
+  }
+}

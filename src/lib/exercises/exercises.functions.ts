@@ -20,7 +20,7 @@ export const listPublishedExercises = createServerFn({ method: "POST" })
       .eq("status", "published")
       .order("created_at", { ascending: true })
       .order("position", { ascending: true });
-    if (error) throw new Error(error.message);
+    if (error) { console.error("[listPublishedExercises]", error); throw new Error("Unable to load exercises. Please try again."); }
 
     // Look up collection titles for grouping. Missing collection => "Ungrouped".
     const collectionIds = Array.from(new Set((rows ?? []).map((r: any) => r.collection_id).filter(Boolean))) as string[];

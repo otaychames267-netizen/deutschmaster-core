@@ -1,0 +1,20 @@
+{
+  "title": "Kolleginnen und Kollegen",
+  "level": "B2",
+  "position": 46,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Liebe Kolleginnen und Kollegen!\n\nVom 1. April bis zum 30. Oktober findet auch heuer wieder unsere beliebte Aktion „Mit dem Rad zur Arbeit“ statt. Wie jedes Jahr möchten wir Euch gerne {{21}} einladen, etwas für Eure Gesundheit zu tun.\nWie Ihr wisst, steigert schon eine halbe Stunde tägliches Fahrradfahren die Fitness. Damit wird auch das Krankheitsrisiko reduziert. Darum heißt es: Aufs Rad steigen und mitmachen! {{22}} Ihr den Arbeitsweg mit Bewegung verbindet, nützt das nicht nur Eurer Gesundheit. Ihr helft damit auch, den Verkehr und die Luftverschmutzung in unserem Stadtgebiet zu verringern. Als angenehme Nebenerscheinung hilft das Radfahren auch noch {{23}} Sparen.\nDieses Jahr gibt es zusätzlich noch die Möglichkeit, {{24}} zu gewinnen. Wir stellen Preise im Gesamtwert von 2500 Euro zur Verfügung. Was Ihr dafür tun sollt? Ganz einfach: Teams zu dritt bilden, gefahrene Kilometer in einen Pass eintragen und bis {{25}} 5. November im Sekretariat abgeben. Die drei Teams, die {{26}} Arbeit und Wohnung die meisten Kilometer zurückgelegt haben, bekommen am Ende einen Preis. Wer noch kein Team hat, kann {{27}} bei Frau Maier (Durchwahl 1245) melden. Wir bringen Euch gerne zusammen!\nIhr dürft uns auch Fotos und Berichte von Eurem Team schicken; diese veröffentlichen wir dann in der Betriebszeitung. Natürlich könnt Ihr auch heuer wieder Euer Rad kostenlos von unserem technischen Dienst {{28}} lassen. Eure Sicherheit liegt uns ganz besonders {{29}} Herzen!\nWir hoffen {{30}} eine rege Teilnahme und wünschen Euch jetzt schon alles Gute und viel Vergnügen beim Radeln!",
+  "gaps": [
+    {"n":21,"a":"dafür","b":"daran","c":"dazu","correct":"c"},
+    {"n":22,"a":"Als","b":"Ob","c":"Wenn","correct":"c"},
+    {"n":23,"a":"an das","b":"beim","c":"zur","correct":"b"},
+    {"n":24,"a":"einige","b":"etwas","c":"keine","correct":"b"},
+    {"n":25,"a":"alsbald","b":"beizeiten","c":"spätestens","correct":"c"},
+    {"n":26,"a":"entlang","b":"von","c":"zwischen","correct":"c"},
+    {"n":27,"a":"euch","b":"ihn","c":"sich","correct":"b"},
+    {"n":28,"a":"übergeben","b":"übernehmen","c":"überprüfen","correct":"c"},
+    {"n":29,"a":"am","b":"beim","c":"zum","correct":"a"},
+    {"n":30,"a":"an","b":"auf","c":"mit","correct":"b"}
+  ]
+}

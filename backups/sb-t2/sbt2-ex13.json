@@ -1,0 +1,11 @@
+{
+  "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+  "level": "B2",
+  "position": 13,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "notes": "Clean scan, verbatim transcription.",
+  "passage": "Kleine Kinder, die in der Gesellschaft von Haustieren wie Hund und Katze leben, sind einer Studie aus Finnland zufolge seltener krank {{31}} Kinder in Haushalten ohne Tiere.\n\nDie Studie wurde in der {{32}} Woche in einem amerikanischen Fachmagazin veröffentlicht. Es wurden {{33}} keine Erklärungen für diese Tatsache geliefert, aber die Vermutung wurde geäußert, dass der Kontakt zu Hunden das Immunsystem der Kleinkinder stärke. Hunde haben nämlich {{34}} die täglichen Spaziergänge draußen viel Kontakt zu möglichen Krankheitserregern und trainieren vielleicht so das Immunsystem der Kinder. Auch Katzen, die die Möglichkeit haben, nach draußen zu gehen, haben demnach {{35}} Wirkung auf die Gesundheit der Kinder, wenngleich in geringerem Maße.\n\nFür die Studie {{36}} in Finnland 397 Babys über den Zeitraum von der neunten Lebenswoche bis zu ihrem ersten Geburtstag beobachtet. Dabei hatten die mit Hund oder Katze aufwachsenden Kinder ein um 30 % {{37}} Risiko für Erkrankungen der Atemwege. Es fiel auf, dass bei diesen Kindern Ohrenentzündungen {{38}} auftraten.\n\nDie Studie kommt daher zu dem Schluss, dass die Gesundheit von Kindern in Gesellschaft von Tieren {{39}} besser sei. Frühere Untersuchungen aus den USA hatten das genaue {{40}} der jetzigen Ergebnisse ergeben. Ob diese Unterschiede mit den unterschiedlichen Lebens- und Umweltbedingungen der beiden Länder zusammenhängen, ist noch unklar.",
+  "words": ["ALS","DEUTLICH","DIESELBE","DURCH","GEGENSATZ","GEGENTEIL","GERINGERES","FRÜHEREN","UM","VERGANGENEN","WAREN","WENIGER","WIE","WURDEN","ZWAR"],
+  "answers": {"31":"ALS","32":"VERGANGENEN","33":"ZWAR","34":"DURCH","35":"DIESELBE","36":"WURDEN","37":"GERINGERES","38":"WENIGER","39":"DEUTLICH","40":"GEGENTEIL"}
+}

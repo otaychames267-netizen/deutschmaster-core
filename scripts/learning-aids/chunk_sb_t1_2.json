@@ -1,0 +1,772 @@
+[
+  {
+    "id": "963db4db-8d1b-4e80-8c5c-f49315b93852",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "wegen",
+        "option_b": "von",
+        "option_c": "auf",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "zu",
+        "option_b": "aus",
+        "option_c": "ab",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "kaum",
+        "option_b": "fast",
+        "option_c": "ein bisschen",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "unterrichten",
+        "option_b": "machen",
+        "option_c": "lernen",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "über",
+        "option_b": "für",
+        "option_c": "an",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "irgendwo",
+        "option_b": "irgendjemandem",
+        "option_c": "irgendetwas",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "falls",
+        "option_b": "dass",
+        "option_c": "dafür",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "schon",
+        "option_b": "noch",
+        "option_c": "bevor",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "zu",
+        "option_b": "vor",
+        "option_c": "nach",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "weniger",
+        "option_b": "viel",
+        "option_c": "mehr",
+        "gap_number": 30
+      }
+    ],
+    "title": "Familie Geissler oder Dippold",
+    "passage": "Liebe Familie Geissler oder Dippold,\n\nvielen Dank für Ihre Antwort {{21}} meine Bewerbung als Au-pair-Mädchen. Danke schön auch für die Fotos von den Kindern. Ich bin schon sehr gespannt und freue mich sehr, Ihre Familie im September kennenzulernen!\n\nIm Juni schließe ich meine Schulausbildung {{22}} und möchte auch noch mein Deutsch {{23}} verbessern. Dafür werde ich im Sommer noch einen Sprachkurs an einer Sommerschule in meiner Heimat {{24}}. Anschließend fahre ich mit meiner Familie für drei Wochen in Urlaub ans Meer. Ich habe noch eine Frage {{25}} Sie. Sie schreiben, dass Sie für die Weihnachtsferien einen Skiurlaub planen, bei dem ich mitfahren kann, wenn ich möchte. Ich habe aber keine Ski und Skibekleidung. Kann ich mir diese Sachen bei {{26}} ausleihen? In meiner Heimat werde ich sie kaum jemals wieder brauchen. Aber ich bin immer offen für Neues und möchte das Skilaufen gern einmal ausprobieren.\n\nDanke schön, {{27}} Sie mich am Flughafen abholen kommen. Ich habe meinen Flug nach Frankfurt {{28}} gebucht. Am 2.9. werde ich sehr früh in Frankfurt landen, nämlich um 5:15 Uhr. Ich schlage {{29}}, dass wir uns erst gegen 7:30 Uhr in einem Café treffen. Vielleicht komme ich ja mit Verspätung oder muss länger auf mein Gepäck warten. Dann müssen Sie nicht so früh da sein.\n\nBitte schreiben Sie mir, wenn Sie noch etwas über mich wissen möchten! Ich schicke einige Fotos mit der Mail, damit die Kinder schon ein bisschen {{30}} von mir sehen.\n\nViele Grüße\nIhre Asja"
+  },
+  {
+    "id": "6ccc22ad-36c9-426c-8c47-e9c0b8231635",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "anstatt",
+        "option_b": "ohne",
+        "option_c": "um",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "dass",
+        "option_b": "wie",
+        "option_c": "während",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "aber",
+        "option_b": "denn",
+        "option_c": "und",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "bestimmt",
+        "option_b": "unbedingt",
+        "option_c": "völlig",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "dich",
+        "option_b": "mich",
+        "option_c": "sich",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "wenn",
+        "option_c": "wie",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "baldigen",
+        "option_b": "kommenden",
+        "option_c": "vergangenen",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "danach",
+        "option_b": "darüber",
+        "option_c": "dazu",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "aber",
+        "option_b": "oder",
+        "option_c": "sondern",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "für",
+        "option_b": "gegen",
+        "option_c": "ohne",
+        "gap_number": 30
+      }
+    ],
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "passage": "Hallo Ferdinand,\n\nnun habe ich mich schon so lange nicht bei dir gemeldet - das tut mir wirklich leid! Ich hatte in den vergangenen Monaten viel Stress, weil ich ja nun studiere und nebenbei noch arbeiten muss, {{21}} meine Miete und alles andere bezahlen zu können. Zum Glück macht mir mein Nebenjob wenigstens Spaß. Ich weiß nicht, {{22}} ich das sonst durchhalten würde. Vielleicht habe ich dir schon erzählt, dass ich abends und am Wochenende in einer Kneipe in der Küche helfe. Das ist zwar oft sehr anstrengend, {{23}} anderseits ist dauernd was los, es wird nicht langweilig, und meine Kollegen sind total nett. Erinnerst du dich noch an unsere Zeit in der Grundschule? Mit acht Jahren wollte ich ja {{24}} Kellnerin werden, weil man da Trinkgeld bekommt. Naja, jetzt bin ich in der Küche gelandet, knapp daneben ist auch vorbei ;) Was macht denn deine Ausbildung? Wenn ich {{25}} nicht täusche, bist du ja in einem halben Jahr schon fertig, oder? Das ist ja nicht mehr lang! Neulich habe ich übrigens Tina und Kevin hier in der Nähe der Uni getroffen - die waren ja schon ein Paar, {{26}} wir noch in der Schule gegangen sind, und jetzt will sie tatsächlich verheiratet! Wie sehen denn deine Pläne für die {{27}} Wochenenden aus? Wir könnten uns ja vielleicht mal wieder treffen und in Ruhe quatschen - hättest du Lust {{28}}? In meiner Straße hat vor einem Monat ein nettes kleines Café aufgemacht, die haben nicht nur sehr leckere Kuchen, {{29}} auch einige kleine Gerichte zu wirklich günstigen Preisen. Wäre das was {{30}} dich? Mail wir doch einfach, wenn du magst, ich würde mich freuen.\n\nViele Grüße,\nNadine"
+  },
+  {
+    "id": "df4ef1c3-270a-4e89-8f58-90b11284cc78",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "damit",
+        "option_b": "für",
+        "option_c": "um",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "wann",
+        "option_b": "wie",
+        "option_c": "wo",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "damit",
+        "option_b": "denn",
+        "option_c": "doch",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "bestimmt",
+        "option_b": "unbedingt",
+        "option_c": "völlig",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "dich",
+        "option_b": "mich",
+        "option_c": "sich",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "da",
+        "option_c": "wenn",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "jetzigen",
+        "option_b": "kommenden",
+        "option_c": "letzten",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "danach",
+        "option_b": "darüber",
+        "option_c": "dazu",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "ebenso",
+        "option_c": "oder",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "einen",
+        "option_b": "einfach",
+        "option_c": "einzig",
+        "gap_number": 30
+      }
+    ],
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "passage": "Hallo Ferdinand,\n\nnun habe ich mich schon so lange nicht bei dir gemeldet - das tut mir wirklich leid! Ich hatte in den vergangenen Monaten viel Stress, weil ich ja nun studiere und nebenbei noch arbeiten muss, {{21}} meine Miete und alles andere bezahlen zu können. Zum Glück macht mir mein Nebenjob wenigstens Spaß. Ich weiß nicht, {{22}} ich das sonst durchhalten würde. Vielleicht habe ich dir schon erzählt, dass ich abends und am Wochenende in einer Kneipe in der Küche helfe. Das ist zwar oft sehr anstrengend, {{23}} anderseits ist dauernd was los, es wird nicht langweilig, und meine Kollegen sind total nett. Erinnerst du dich noch an unsere Zeit in der Grundschule? Mit acht Jahren wollte ich ja {{24}} Kellnerin werden, weil man da Trinkgeld bekommt. Naja, jetzt bin ich in der Küche gelandet, knapp daneben ist auch vorbei ;) Was macht denn deine Ausbildung? Wenn ich {{25}} nicht täusche, bist du ja in einem halben Jahr schon fertig, oder? Das ist ja nicht mehr lang! Neulich habe ich übrigens Tina und Kevin hier in der Nähe der Uni getroffen - die waren ja schon ein Paar, {{26}} wir noch in der Schule gegangen sind, und jetzt will sie tatsächlich verheiratet! Wie sehen denn deine Pläne für die {{27}} Wochenenden aus? Wir könnten uns ja vielleicht mal wieder treffen und in Ruhe quatschen - hättest du Lust {{28}}? In meiner Straße hat vor einem Monat ein nettes kleines Café aufgemacht, die haben nicht nur sehr leckere Kuchen, {{29}} auch einige kleine Gerichte zu wirklich günstigen Preisen. Wäre das was {{30}} dich? Mail wir doch einfach, wenn du magst, ich würde mich freuen.\n\nViele Grüße,\nNadine"
+  },
+  {
+    "id": "b7bf1a84-aeac-4c6a-bcc5-87dc21565498",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "dabei",
+        "option_b": "daraus",
+        "option_c": "davon",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "denen",
+        "option_b": "die",
+        "option_c": "den",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "an",
+        "option_b": "durch",
+        "option_c": "in",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "Jeder Mittwoch",
+        "option_b": "Mittwochs",
+        "option_c": "Zum Mittwoch",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "jedem Kurs",
+        "option_b": "jeden Kurs",
+        "option_c": "jedes Kurses",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "der",
+        "option_b": "deren",
+        "option_c": "dessen",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "obwohl",
+        "option_b": "wenn",
+        "option_c": "wobei",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "Ihnen",
+        "option_b": "Sie",
+        "option_c": "Euch",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "hat",
+        "option_b": "ist",
+        "option_c": "wird",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "eine Diät halten müssen",
+        "option_b": "müssen eine Diät halten",
+        "option_c": "müssen halten eine Diät",
+        "gap_number": 30
+      }
+    ],
+    "title": "Frau Goronsksa",
+    "passage": "Sehr geehrte Frau Goronsksa,\n\nvielen Dank für Ihre Anfrage vom 12. September bezüglich unserer Sprachurlaube in Deutschland und Österreich. Unsere Organisation unterhält insgesamt zehn Schulen, acht {{21}} in Deutschland und zwei in Österreich, an {{22}} Sie ausnhamlos sowohl Ihr Deutsch verbessern als auch an einem anspruchsvollen Kultur- und Freizeitprogramm teilnehmen können.\n\nDer Sprachunterricht findet in der Regel {{23}} fünf Tagen pro Woche statt, jeweils in der Zeit von 9 bis 13 und von 15 bis 17 Uhr. {{24}} ist kein Nachmittagsunterricht. Das Kursangebot umfasst alle Niveaustufen. Die Mindestdauer für einen Kurs beträgt zwei Wochen, Sie können jedoch auch vier, sechs oder acht Wochen bleiben. Zu Beginn {{25}} wird ein Einstufungstest durchgeführt, mit {{26}} Hilfe wir herausfinden, welcher Kurs für Sie der geeignete ist. Nach Abschluss Ihres Aufenthaltes erhalten Sie eine Teilnahmebescheinigung.\n\nSelbstverständlich können Sie bei uns Tests auf allen Niveaustufen von A1 bis C1 ablegen und erhalten, {{27}} Sie den Test bestehen, ein international anerkanntes Zertifikat. Hinsichtlich unseres Kultur- und Freizeitprogramms gibt es verschiedene Wahlmöglichkeiten, die {{28}} vor Ort angeboten werden. Dazu zählen Ausflüge in die nähere Umgebung, Museums- und Theaterbesuche und vieles mehr.\n\nWas die Übernachtung am Kursort angeht, können Sie zwischen einer Unterbringung in einer Gastfamilie und der Unterkunft in einfachen Hotels wählen. Im Unterkunftspreis {{29}} jeweils Halbpension eingeschlossen, das heißt Frühstück und Mittagessen. Bitte teilen Sie uns mit, wenn Sie bestimmte Lebensmittel ausschließen, z. B. vegetarisch essen oder {{30}}. Alles Weitere entnehmen Sie bitte dem beiliegenden Katalog. Bei weiteren Fragen sind wir gerne für Sie da.\n\nMit freundlichen Grüßen\nNatalie Spengler"
+  },
+  {
+    "id": "fa624515-751b-40d3-942f-367ea43c6d15",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "für das",
+        "option_b": "in dem",
+        "option_c": "von dem",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "Da",
+        "option_b": "Wann",
+        "option_c": "Wenn",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "Untergebracht",
+        "option_b": "Verbracht",
+        "option_c": "Zugebracht",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "man",
+        "option_b": "sich",
+        "option_c": "Sie",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "geschaut",
+        "option_b": "gesehen",
+        "option_c": "gezeigt",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "der",
+        "option_b": "die",
+        "option_c": "von",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "für",
+        "option_b": "mit",
+        "option_c": "wegen",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "fällt",
+        "option_b": "liegt",
+        "option_c": "steht",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "beteiligen",
+        "option_b": "fahren",
+        "option_c": "teilnehmen",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "verschaffen",
+        "option_b": "vermachen",
+        "option_c": "schaffen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Frau Melchior – Dresden-Reise",
+    "passage": "Sehr geehrte Frau Melchior,\n\nvielen Dank für Ihr Schreiben von letztem Dienstag, {{21}} Sie um nähere Informationen zu der geplanten Dresden-Reise im kommenden Juni gebeten haben. {{22}} unser Programmheft erst in zwei Wochen fertig ist, gebe ich Ihnen schon einmal ein paar Vorabinformationen.\n\nDie Reise findet in der Zeit vom 3. bis 8. Juni statt. Die Anreise erfolgt mit der Bahn. {{23}} sind Sie im Hotel Corona, das {{24}} in der Stadtmitte befindet. Ihnen stehen Einzel- oder Doppelzimmer mit Bad zur Verfügung. Der Reisepreis beträgt 650 € im Doppelzimmer sowie 950 € im Einzelzimmer, jeweils mit Frühstück.\n\nDas eigentliche Programm der Reise startet am 4. Juni mit einer Stadtrundfahrt, in deren Verlauf Ihnen alle wichtigen Sehenswürdigkeiten {{25}} werden. Am Nachmittag werden Sie den Zwinger mit seiner umfangreichen Sammlung an Bildern, Porzellan und Skulpturen besuchen. Für den Abend ist ein Besuch {{26}} Semper-Oper geplant, wo am Abend Mozarts Zauberflöte aufgeführt wird.\n\nAm 5. Juni machen Sie einen Ausflug zu dem vor den Toren der Stadt liegenden barocken Schloss Pillnitz, dessen Park {{27}} seine exotischen Pflanzen berühmt ist. Während der halbstündigen Busfahrt fahren Sie über die berühmte Elbbrücke Blaues Wunder. Am 6. Juni geht es in das Residenzschloss mit dem Grünen Gewölbe. Darin befinden sich über 3000 Werke des Goldschmiede- und Juwelierkunst. Am Abend geht es ins wiederaufgebaute Frauenkirche. Hier erwartet Sie ein Konzert mit Musik von Johann Sebastian Bach. Der 7. Juni {{28}} zu Ihrer freien Verfügung. Vielleicht möchten Sie einen Einkaufsbummel machen oder an einer Fahrt in die nahe gelegene Sächsische Schweiz {{29}}.\n\nIch hoffe, dass Ihnen diese Vorabinformationen einen Überblick über die geplante Reise {{30}}.\n\nNähere Informationen enthält dann unser Programmheft, in dem Sie auch die genauen Abfahrts- und Ankunftszeiten finden.\n\nMit freundlichen Grüßen\nJasmin Krämer\nReisedienst Krämer"
+  },
+  {
+    "id": "cec6ec5c-83ec-461a-b5b2-bb249a1bed74",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "Ihres Vortrags",
+        "option_b": "Ihrem Vortrag",
+        "option_c": "Ihren Vortrag",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "wenn",
+        "option_b": "ob",
+        "option_c": "dass",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "und...und",
+        "option_b": "sowohl...als auch",
+        "option_c": "zwar...aber",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "bis zu",
+        "option_b": "bis vor",
+        "option_c": "bis",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "denen",
+        "option_b": "deren",
+        "option_c": "die",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "Vortragende",
+        "option_b": "Vorgetragene",
+        "option_c": "Vortrag",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "geredet haben",
+        "option_b": "zu sprechen",
+        "option_c": "sprechen",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "zur Verfügung",
+        "option_b": "zu Hilfe",
+        "option_c": "zum Benutzen",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "eines Tages",
+        "option_b": "für einen Tag",
+        "option_c": "ein paar Tage",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "dabei",
+        "option_b": "damit",
+        "option_c": "dafür",
+        "gap_number": 30
+      }
+    ],
+    "title": "Frau Stein ( Neu )",
+    "passage": "Sehr geehrte Frau Stein,\n\nanlässlich {{21}} über die gesundheitlichen Folgen des Rauchens bei Jugendlichen vergangene Woche im Rahmen der Jugend-Gesundheitswoche in Kassel habe ich ja schon kurz mit Ihnen gesprochen. Heute möchte ich anfragen, {{22}} Sie bereit wären, auch hier bei uns in Marburg zu sprechen.\nIm Rahmen eines groß angelegten Projekts an den Schulen findet im Juli ein Anti-Raucher-Tag in der Stadthalle statt. Die Veranstaltung beinhaltet {{23}} Vorträge {{23}} Workshops und Diskussionsforen und dauert von 9 Uhr {{24}} 18 Uhr. Da Sie eine anerkannte Gesundheitsexpertin sind, {{25}} Themen gerade junge Leute ansprechen und Ihre Vorträge sehr anschaulich sind, würden wir Sie gerne als {{26}} in unser Programm aufnehmen.\nDie Länge Ihres Vortrags sollte 30 Minuten nicht überschreiten. Im Anschluss an Ihren Vortrag möchten wir interessierten Jugendlichen die Möglichkeit geben, mit Ihnen über das Thema der gesundheitlichen Folgen des Rauchens {{27}}.\nSelbstverständlich stehen Ihnen alle modernen Techniken wie Computer oder ein Laptop mit Beamer {{28}}. Bitte teilen Sie uns mit, ob Sie noch andere Hilfsmittel benötigen. Wenn Sie Arbeitsblätter kopieren wollen, schicken Sie uns bitte diese {{29}} vorher zu, damit wir die Kopien für Sie anfertigen können.\nWir rechnen {{30}}, dass unsere Veranstaltung von etwa 1000 Jugendlichen aus der gesamten Region besucht werden wird. Ihre Teilnahme an der Veranstaltung wäre eine Bereicherung unseres Programms. Über Ihre Zusage würden wir uns daher sehr freuen.\n\nMit freundlichen Grüßen\nKarl-Heinz Hartung"
+  },
+  {
+    "id": "4d84966a-dc16-477d-898e-803226e91756",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "an",
+        "option_b": "bei",
+        "option_c": "in",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "in Betrag",
+        "option_b": "in Höhe",
+        "option_c": "in Summe",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "Für",
+        "option_b": "Zur",
+        "option_c": "Zwecks",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "angeschlossen",
+        "option_b": "anschließen",
+        "option_c": "schließen an",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "anlässlich",
+        "option_b": "bezüglich",
+        "option_c": "mittels",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "als",
+        "option_b": "wenn",
+        "option_c": "wie",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "ein",
+        "option_b": "einem",
+        "option_c": "einer",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "Sobald",
+        "option_b": "Sofort",
+        "option_c": "Sooft",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "dafür",
+        "option_b": "damit",
+        "option_c": "dazu",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "Bei",
+        "option_b": "Für",
+        "option_c": "Zu",
+        "gap_number": 30
+      }
+    ],
+    "title": "Frau Szabo ( Original )",
+    "passage": "Sehr geehrte Frau Szabo,\n\nvielen Dank für Ihr Interesse {{21}} unseren Deutschkursen. Anbei erhalten Sie das angeforderte Anmeldeformular, das Sie bitte ausgefüllt an uns zurückschicken. Mit der Anmeldung überweisen Sie bitte eine Anzahlung {{22}} von € 200,- auf unser Konto. Die Kontoverbindung finden Sie unten auf dem Anmeldeformular. {{23}} besserer Einschätzung Ihrer Vorkenntnisse haben wir einen Einstufungstest beigelegt. Wenn Sie die Testbögen ausfüllen und mit der Anmeldung an uns zurücksenden, helfen Sie uns bei der Kursplanung. Ein mündlicher Test wird sich am ersten Unterrichtstag in unserer Schule {{24}}. Damit sind wir in der Lage, den für Sie angemessenen Kurs auszuwählen. Außerdem finden Sie in den Unterlagen einen Fragebogen {{25}} Ihrer Freizeitinteressen. Wir werden uns bemühen, Ihnen den Aufenthalt in Leipzig so angenehm {{26}} möglich zu gestalten. Schließlich füllen Sie bitte das grüne Unterkunftblatt aus. Sie können wählen zwischen einem 3-Sterne-Hotel, {{27}} Privatunterkunft in einer deutschen Gastfamilie oder der Unterkunft in einem Studentenwohnheim. Letzteres ist nur in den Semesterferien der Universität - in der Regel vom 15.2. bis 15.4. und vom 15.7. bis 15.10. - möglich. Geben Sie bitte auch Ihre Verpflegungswünsche - Frühstück oder Halbpension - an. Beachten Sie aber, dass im Studentenwohnheim nur Selbstverpflegung möglich ist. {{28}} Ihre Anmeldung bei uns eingegangen ist, erhalten Sie eine Anmeldebestätigung und einen Stadtplan mit Wegbeschreibung, {{29}} Sie den Weg zu uns ohne Umstände finden. Die Adresse Ihrer Unterkunft erhalten Sie ca. 2 Wochen vor Kursbeginn. {{30}} weitere Fragen steht Ihnen unser Sekretariat gerne montags bis freitags von 8 bis 18 Uhr zur Verfügung.\n\nMit freundlichen Grüßen\nGerhard Dietz\nDirektor"
+  },
+  {
+    "id": "1edcc63d-f03f-4a20-af93-23712b949f35",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "anbei",
+        "option_b": "dabei",
+        "option_c": "vorbei",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "in Betrag",
+        "option_b": "in Höhe",
+        "option_c": "in Summe",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "für",
+        "option_b": "zur",
+        "option_c": "zweck",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "durchführen",
+        "option_b": "stattfinden",
+        "option_c": "veranstalten",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "anlässlich",
+        "option_b": "bezüglich",
+        "option_c": "mittels",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "möglich",
+        "option_b": "möglicherweise",
+        "option_c": "möglichst",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "ein",
+        "option_b": "einem",
+        "option_c": "einer",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "Sobald",
+        "option_b": "Sofort",
+        "option_c": "Sooft",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "dafür",
+        "option_b": "damit",
+        "option_c": "dazu",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "Bei",
+        "option_b": "Für",
+        "option_c": "Als",
+        "gap_number": 30
+      }
+    ],
+    "title": "Frau Szabo (معدل)",
+    "passage": "Sehr geehrte Frau Szabo,\n\nvielen Dank für Ihr Interesse an unseren Deutschkursen. {{21}} erhalten Sie das angeforderte Anmeldeformular, das Sie bitte ausgefüllt an uns zurückschicken.\n\nMit der Anmeldung überweisen Sie bitte eine Anzahlung {{22}} von € 200,- auf unser Konto. Die Kontoverbindung finden Sie unten auf dem Anmeldeformular. {{23}} genaueren Einschätzung Ihrer Vorkenntnisse haben wir einen Einstufungstest beigelegt.\n\nWenn Sie die Testbögen ausfüllen und mit der Anmeldung an uns zurücksenden, helfen Sie uns bei der Kursplanung. Ein mündlicher Test wird am ersten Unterrichtstag in unserer Schule {{24}}. Damit sind wir in der Lage, den für Sie angemessenen Kurs auszuwählen.\n\nAußerdem finden Sie in den Unterlagen einen Fragebogen {{25}} Ihrer Freizeitinteressen, denn wir werden uns bemühen, Ihnen den Aufenthalt in Leipzig {{26}} angenehm zu gestalten.\n\nSchließlich füllen Sie bitte das grüne Unterkunftsblatt aus. Sie können wählen zwischen einem 3-Sterne-Hotel, {{27}} Privatunterkunft in einer deutschen Gastfamilie oder der Unterkunft in einem Studentenwohnheim. Letzteres ist nur in den Semesterferien der Universität - in der Regel vom 15.2. bis 15.4. und vom 15.7. bis 15.10. - möglich. Geben Sie bitte auch Ihre Verpflegungswünsche - Frühstück oder Halbpension - an. Beachten Sie aber, dass im Studentenwohnheim nur Selbstverpflegung möglich ist.\n\n{{28}} Ihre Anmeldung bei uns eingegangen ist, erhalten Sie eine Anmeldebestätigung und einen Stadtplan mit Wegbeschreibung, {{29}} Sie den Weg zu uns ohne Umstände finden. Die Adresse Ihrer Unterkunft erhalten Sie ca. 2 Wochen vor Kursbeginn. {{30}} weitere Fragen steht Ihnen unser Sekretariat gerne montags bis freitags von 8 bis 18 Uhr zur Verfügung.\n\nMit freundlichen Grüßen\nGerhard Dietz"
+  },
+  {
+    "id": "a7fea463-902e-488e-8fee-2c5c391227dd",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "Dafür",
+        "option_b": "Damit",
+        "option_c": "So",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "sind",
+        "option_b": "werden",
+        "option_c": "können",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "bis",
+        "option_b": "bei",
+        "option_c": "vor",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "beheben",
+        "option_b": "behebt",
+        "option_c": "behoben",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "dass",
+        "option_b": "für",
+        "option_c": "um",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "ermöglichen",
+        "option_b": "verhindern",
+        "option_c": "vergessen",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "einiger",
+        "option_b": "letzte",
+        "option_c": "letzter",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "weswegen",
+        "option_b": "weil",
+        "option_c": "dass",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "Bällen",
+        "option_b": "Bälle",
+        "option_c": "Ballen",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "freundliche",
+        "option_b": "freundlichen",
+        "option_c": "freundlichem",
+        "gap_number": 30
+      }
+    ],
+    "title": "HausbewohnerInnen",
+    "passage": "Liebe HausbewohnerInnen,\n\nDer Winter ist nicht mehr weit, das Haus soll deshalb winterfest gemacht werden. {{21}} sind noch einige Vorbereitungen nötig.\nBevor die Heizsaison beginnt, stehen Wartungsarbeiten im Heizraum an. Diese {{22}} in der Zeit von 8.11 bis 10.11 durchgeführt. Um den reibungslosen Ablauf der Arbeiten zu ermöglichen, bitten wir alle BewohnerInnen {{23}} zu diesem Datum sämtliche abgestellte Gegenstände (wie z.B. Schlitten) aus dem Heizraum zu entfernen.\nDes Weiteren sind über den Sommer einige Schäden am Gebäude entstanden, die vor Winterbeginn noch {{24}} werden müssen. Drei Fensterscheiben sind zu Bruch gegangen; das betrifft die Kellerabteile 5 und 7. Die Mitarbeiter der Glaserfirma werden am 12.11. kommen, {{25}} neue Fensterscheiben einzusetzen.\nWir bitten Sie, an diesen Tagen, den Zugang zu Ihren Kellerabteilen zu {{26}} und den Bereich vor den Fenstern nicht durch Objekte zu verstellen.\nAn dieser Stelle erfolgt noch ein kurzer Aufruf an alle HausbewohnerInnen, aufeinander Rücksicht zu nehmen. Es ist in {{27}} Zeit vermehrt zu Beschwerden gekommen. Bitte rufen Sie sich unsere Hausordnung wieder in Erinnerung.\nLärm und laute Musik sind nach 22 Uhr untersagt, achten Sie aber zu jeder Tageszeit darauf, {{28}} sich Ihre Nachbarn nicht gestört fühlen. Fußballspielen u.Ä. ist nur im Bereich des Kinderspielplatzes hinter dem Haus gestattet. Auf den Parkplätzen und im Eingangsbereich darf nicht mit {{29}} gespielt werden.\nWir danken für die Zusammenarbeit und verbleiben mit {{30}} Grüßen,\n\ndie Hausverwaltung"
+  },
+  {
+    "id": "123009f3-6299-4036-a571-522132e85c02",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "allergrößte",
+        "option_b": "allergrößtem",
+        "option_c": "allergrößten",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "an dem",
+        "option_b": "auf dem",
+        "option_c": "in dem",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "Ihrem",
+        "option_b": "Ihren",
+        "option_c": "Ihres",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "können",
+        "option_b": "könnte",
+        "option_c": "zu können",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "bei",
+        "option_c": "mit",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "ein Jahr lang",
+        "option_b": "durch ein Jahr",
+        "option_c": "seit einem Jahr",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "entdeckte",
+        "option_b": "erfand",
+        "option_c": "merkte",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "was",
+        "option_c": "welches",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "sowohl ... als auch",
+        "option_b": "teils ... teils",
+        "option_c": "weder ... noch",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "auf Ihre Anzeige antworten",
+        "option_b": "auf Ihre Anzeige zu antworten",
+        "option_c": "um auf Ihre Anzeige zu antworten",
+        "gap_number": 30
+      }
+    ],
+    "title": "Herr Dr. Dobromil",
+    "passage": "Sehr geehrter Herr Dr. Dobromil,\n\nmit {{21}} Interesse habe ich Ihr Stellenangebot in der Essener Zeitung gelesen, {{22}} Sie eine Teilzeit-Mitarbeiterin in Ihrem Antiquitätengeschäft suchen. Es reizt mich eine verantwortungsvolle Aufgabe in einem so renommierten Geschäft wie dem {{23}} übernehmen {{24}}. Nach dem Abitur am Kreisgymnasium in Velbert begann ich eine dreijährige Schreinerlehre {{25}} der Firma Eichelbohrer & Co und besuchte die Kreisberufsschule in Velbert. Nach erfolgreichem Abschluss meiner Berufsausbildung arbeitete ich {{26}} bei Stutz & Partner - Möbeldesign in Düsseldorf. Danach schrieb ich mich an der Fachhochschule Köln im Fachbereich Möbeldesign ein und {{27}} meine Liebe zu antiquarischen Möbelstücken. Meine Spezialität ist das stilgenaue Restaurieren und Aufarbeiten antiquarischer Möbel insbesondere aus dem Biedermeier und dem Jugendstil. Aufgrund meiner Berufserfahrung und meines Studiums konnte ich umfangreiche Kenntnisse erwerben, {{28}} Möbelstile und die Herstellungskunst in den verschiedensten Epochen {{29}} in Nord- {{29}} in Südeuropa angeht. Mein Studium lässt mir genügend Zeit, eine Teilzeitstelle zu übernehmen, die darüber hinaus meinen beruflichen Fähigkeiten und Neigungen entspricht. Aus diesem Grund habe ich mich entschlossen, {{30}}, und bewerbe mich um die von Ihnen angebotene Teilzeitstelle. Ich freue mich auf ein persönliches Gespräch.\n\nMit freundlichen Grüßen,\nSabina Holzinger"
+  }
+]

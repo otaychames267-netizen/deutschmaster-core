@@ -1,0 +1,629 @@
+[
+  {
+    "id": "7060eeab-d90f-4693-b5fe-ea91dea463f0",
+    "teil": 2,
+    "title": "Jonas",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Zu Studienbeginn hatte Jonas keinerlei Gründungsabsichten.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Impuls für das Projekt entstand in einem obligatorischen Seminar.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Jonas startete ohne anfängliche finanzielle Hilfe.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Maschinennutzung war für Jonas nicht kostenpflichtig.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Lieferauflagen der Stadtwerke zwangen Jonas zur Studienpause.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Beide Elternteile begrüßten seine Studienpause gleichermaßen.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Anfangshalle bot äußerst schlechte Arbeitsbedingungen.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Jonas' aktuelles Einkommen liegt unter den verbreiteten Erwartungen.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sein Unternehmen recycelt inzwischen auch Textilabfälle.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Jonas möchte junge Initiativen durch Schulungen unterstützen.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "a52ba609-2667-48db-987c-21c1bd5870ea",
+    "teil": 2,
+    "title": "Journalisten - Weber",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Weber ist heute vor Auftritten gar nicht mehr nervös.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Im Studium ist Weber die Praxis besonders wichtig.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Weber dreht in seiner Freizeit gerne eigene Filme.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Journalisten müssen heute multimedial arbeiten können.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sportjournalist ist heute kein realistischer Berufswunsch.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein guter Journalist braucht Entdeckergeist.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein Unfall beendete Webers Karriere als Handballer.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Weber sammelte erst nach dem Studium Berufserfahrung.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Journalisten sollten gegenüber Stars neutral bleiben.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Weber rät nach dem Abitur zu Praktika in Redaktionen.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "8a0fd249-a278-4d4f-9e56-ae44ffa6e6dd",
+    "teil": 2,
+    "title": "Julia",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Julia hatte an einem Schüleraustausch kein Interesse.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Lehrer in Julias Schule weigerten sich, mit dem Austauschschüler Englisch Zu sprechen.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frankreich ist als Aufenthaltsland bei Au-pairs nicht sehr gefragt.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Julia hatte auch darüber nachgedacht, in die Schweiz zu fahren.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Julia empfiehlt, mit der Gastfamilie einen Vertrag zu schließen.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zu Beginn der Au-pair-Bewegung schickten Familien ihre Kinder zum Sprachunterricht in die Schweiz.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Julia ist der Meinung, dass die Vermittlungskosten zu hoch sind.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Julia verbrachte mit den Kindern auch Zeit in Paris.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Es gab am Anfang Momente, in denen sich Julia der Gastfamilie nicht zugehörig fühlte.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Julia lernt im Sprachkurs mehr Französisch als durch den Kontakt mit der Gastfamilie.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "54a9a8b2-fa6a-4786-8af1-9ccb0a39e90b",
+    "teil": 2,
+    "title": "Lisa Eisenberg",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Lisa Eisenberg war aus beruflichen Gründen in den USA.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Während einer Reise entschied sich Lisa Eisenberg für einen beruflichen Neuanfang.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lisa Eisenbergs Geschäftsidee stieß in ihrem Bekanntenkreis auf Skepsis.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lisa Eisenberg hat sich auf regionale Speisen spezialisiert.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In der Mittagszeit erzielt Lisa Eisenberg den Großteil ihres Umsatzes.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lisa Eisenberg muss nicht mehr aktiv nach Kunden suchen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lisa Eisenberg bietet für Firmen täglich auch abends Gerichte an.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es ist für Lisa Eisenberg leicht, ein geeignetes Fahrzeug zu finden.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lisa Eisenberg hat als Studentin nebenbei in der Gastronomie gearbeitet.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In den nächsten Monaten wird Lisa Eisenberg einen zweiten Wagen kaufen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "0923eb72-5b0e-44a9-b974-db0c602da293",
+    "teil": 2,
+    "title": "Lukas",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Lukas war nach dem Schulabschluss zunächst unentschlossen.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Lehrer halfen dem Gastschüler bei Sprachproblemen kaum.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Spanien ist als Au-Pair-Land aktuell wenig gefragt.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lukas dachte auch über einen Aufenthalt in Italien nach.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Früher schickte man Au-Pairs vor allem zur Arbeit nach England.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lukas rät dazu, unbedingt einen Vertrag abzuschließen.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lukas kritisiert die hohen Kosten der Vermittlungsagenturen.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Lukas fühlte sich anfangs nicht als Teil der Familie.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Reise nach Madrid stärkte den Zusammenhalt mit der Familie.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Lukas lernte Spanisch hauptsächlich im Sprachkurs.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "a090bf5e-9901-4116-83e7-8a15bf606217",
+    "teil": 2,
+    "title": "Mallorca ( Original )",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Zahl der deutschen Mallorca-Urlauber hat nur leicht abgenommen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach Professor Kirsch achten die Deutschen bei der Wahl ihrer Urlaubsreisen nicht besonders auf die kosten.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Einige Einheimische in Mallorca haben begonnen, sich gegen das Vordringen der deutschen Sprache zu wehren.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Mallorca wird der Staat wegen der Umweltbelastungen zur Kasse bitten.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Deutsche haben jetzt Rumänien und Ungarn als Reiseziel entdeckt.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Professor Kirsch weist auf günstige Angebote für Golfspieler am Plattensee hin.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bulgarien hat sich als Urlaubsland sehr positiv entwickelt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Westdeutsche meiden Bulgarien, weil die Einreisemodalitäten abschreckend sind.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Seit Ende der neunziger Jahre geben die Deutschen mehr Geld für den Urlaub aus.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch die Vielzahl aktiver Senioren entsteht eine höhere Nachfrage nach Abenteuerreisen in ferne Länder.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "b838c1d4-94ca-4372-ada3-092417faee6c",
+    "teil": 2,
+    "title": "Mallorca (Neu)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Mallorca ist als Reiseziel laut Dr. Weber am Ende.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "„Coolcationing” ist Urlaub in kühleren Gebieten.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nordeuropa-Reisenden ist ein günstiger Preis sehr wichtig.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Schweden wird das Jedermannsrecht oft missbraucht.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Albaniens Tourismus-Infrastruktur wurde schnell modernisiert.",
+        "statement_number": 5
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Baltikum zieht Touristen durch viele Golfplätze an.",
+        "statement_number": 6
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Laut Dr. Weber sind Visum-Regeln das Hauptproblem bei Ost-Reisen.",
+        "statement_number": 7
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Reisen in den Osten scheitern oft an schlechten Verbindungen.",
+        "statement_number": 8
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Senioren bevorzugen heute vor allem gemütliche Urlaube.",
+        "statement_number": 9
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "„Best-Ager” buchen immer öfter schwierige Fernwanderungen.",
+        "statement_number": 10
+      }
+    ]
+  },
+  {
+    "id": "49ee89e1-9baa-4b2f-aad4-6188c61f692a",
+    "teil": 2,
+    "title": "Mallorca (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Zahl der deutschen Mallorca-Urlaub hat nur leicht abgenommen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach Professor Kirsch achten die Deutschen bei der Wahl ihrer Urlaubsreisen nicht besonders auf die kosten .",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Einige Einheimisch in Mallorca haben begonnen, sich gegen das Vordringen der deutschen Sprache zu wehren.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für den Einbruch des Tourismus auf Mallorca sind verschiedene Faktoren verantwortlich.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Deutsche haben jetzt Rumänien und Ungarn als Reiseziel entdeckt.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Pfessor Kirsch weist auf günstige Angebote für Golfspieler am Plattensee hin.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bulgarien hat sich als Urlaubsland sehr positiv entwickelt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Westdeutsche meiden Bulgarien , weil die Einreisemodalitäten abschreckend sind.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Seit Ende der neunziger Jahre geben die Deutsch eh mehr Geld für den Urlaub aus.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Durch die Vielzahl aktiver Senioren entsteht eine höhere Nachfrage nach Abenteuerreisen in ferne Länder.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "b96eae8d-81b0-4c6d-989d-f686240e4614",
+    "teil": 2,
+    "title": "Maria",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Maria war am Anfang überrascht, wie schnell ihre Beiträge im Internet bekannt wurden.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ihre Familie stand ihrer Tätigkeit als Influencerin von Beginn an kritisch gegenüber.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Maria prüft Werbeangebote genau, bevor sie eine Zusammenarbeit akzeptiert.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für Maria ist es wichtiger, authentisch zu bleiben, als möglichst viele Produkte zu präsentieren.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Negative Kommentare belasten Maria nie, weil sie diese grundsätzlich ignoriert.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Maria sieht soziale Medien nicht nur als Unterhaltung, sondern auch als berufliche Möglichkeit.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Große Treffen mit Followern empfindet Maria immer als völlig entspannt.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Künstliche Intelligenz nutzt Maria bereits gezielt, um ihre Arbeit effizienter zu gestalten.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Maria möchte jungen Menschen zeigen, dass Erfolg im Internet auch mit harter Arbeit verbunden ist.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Zukunft plant Maria, ihre Tätigkeit in den sozialen Medien vollständig aufzugeben.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "d2f8d352-7631-44a8-a14d-3de4df84bb55",
+    "teil": 2,
+    "title": "Markus  ( Original )",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Markus ist schon während des Studiums an eine amerikanische Universität gegangen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Markus wollte in einem besonders erfolgreichen Team mitarbeiten.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Um eine Stelle in einer amerikanischen Forschergruppe zu bekommen, muss man viel Glück haben.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Markus befindet sich zwischen Ausbildung und Beruf.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Studium in Bonn hat Markus sehr gut auf den Auslandsaufenthalt vorbereitet.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Markus hatte nach der Ankunft in den USA sehr viele Schwierigkeiten.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Markus ist immer noch sehr nervös in der fremden Umgebung.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Markus ist mit den Arbeitsbedingungen zufrieden.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Markus befürwortet es nicht, dass sich Studenten in den USA früh auf ihren zukünftigen Beruf festlegen müssen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für Markus ist ein Vorteil, dass in Deutschland Referate und Vorträge halten muss",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "a34d7b63-af26-447a-a2b0-f76d6fa8be19",
+    "teil": 2,
+    "title": "Markus (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Markus ist schon während des Studiums an eine amerikanische Universität gegangen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Markus wollte in einem besonderserfolgreichen mitarbeiten Team.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Um eine Stelle in einer amerikanischen Forschergruppe zu bekommen, muss man viel Glück haben.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Markus befindet sich zwischen Ausbildung und Beruf.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Studium in Bonn hat Markus sehr gut auf den Auslandsaufenthalt vorbereitet.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Markus hatte nach der Ankunft in den USA sehr viele Schwierigkeiten.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Markus ist immer noch sehr nervös in der fremden Umgebung.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Markus ist mit den Arbeitsbedingungen zufrieden.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Markus befürwortet es nicht, dass sich Studenten in der USA früh auf ihre zukünftig Beruf festlegen müssen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "für Markus ist Vorteil, dass in Deutschland die Referat und vortrag halten müsse.",
+        "statement_number": 55
+      }
+    ]
+  }
+]

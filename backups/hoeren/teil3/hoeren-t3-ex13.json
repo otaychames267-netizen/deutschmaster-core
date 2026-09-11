@@ -1,0 +1,38 @@
+{
+  "title": "Fundbüro",
+  "teil": 3,
+  "level": "B2",
+  "position": 13,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 14 (code 125) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Sie müssen nicht persönlich beim Fundbüro nachfragen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Die Wettervorhersage können Sie nach den Mittagsnachrichten hören.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Sie dürfen Ihr Rad spontan im Zug mitnehmen.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Am Donnerstag sehen Sie das deutsche Team im Halbfinale.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Während der Sperrung kann man die üblichen Bushaltestellen benutzen.",
+      "correct": true
+    }
+  ]
+}

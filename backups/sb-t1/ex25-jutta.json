@@ -1,0 +1,20 @@
+{
+  "title": "Jutta",
+  "level": "B2",
+  "position": 26,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Jutta,\n\nschon so lange habe ich dir nicht geschrieben, ich hatte aber {{21}} einen triftigen Grund. Ich habe das Schreiben {{22}} meiner Krankheit vernachlässigt. Ich hatte fürchterliche Rücken- und Kreuzschmerzen, ich habe aber die richtige Untersuchung immer wieder {{23}}. Ich habe immer nur einige Medikamente eingenommen, die für kurze Zeit zwar geholfen haben, aber die Schmerzen kamen immer zurück. Schließlich konnte ich {{24}} richtig schlafen und mich so natürlich auch bei der Arbeit nicht konzentrieren. Mein Arzt hat mich ins Krankenhaus zu einigen Untersuchungen {{25}}. Die sind anstrengend gewesen und haben ziemlich lange gedauert. Die Lage ist aber nicht so schlimm. Da ich zu viel bei der Arbeit sitze und dazu noch ein paar Kilo {{26}} habe, ist meine Wirbelsäule belastet. Zum Glück muss ich aber nicht operiert werden. Ich gehe jetzt einige Monate lang {{27}} Behandlung. Einige Behandlungen sind schon {{28}} mir und sie scheinen wirksam zu sein. Ich hoffe, dass sich mein Zustand auch weiterhin verbessern wird. Dann werde ich bald wieder gesund. Früher war ich bei einem Naturheilpraktiker, der {{29}} auch geraten hat, mich mehr zu bewegen. Ich glaube, es ist höchste Zeit, damit anzufangen. So könnte ich wenigstens auch etwas abnehmen, was mir {{30}} schaden würde. So weit für heute, schreib mir bald.\n\nHerzliche Grüße\ndeine Anna",
+  "gaps": [
+    { "n": 21, "a": "darauf", "b": "dafür", "c": "dazu", "correct": "b" },
+    { "n": 22, "a": "statt", "b": "wegen", "c": "während", "correct": "b" },
+    { "n": 23, "a": "verschieben", "b": "verschiebten", "c": "verschoben", "correct": "c" },
+    { "n": 24, "a": "nicht mehr", "b": "sogar nicht", "c": "noch nicht", "correct": "a" },
+    { "n": 25, "a": "geschicken", "b": "eingewiesen", "c": "nachgewiesen", "correct": "b" },
+    { "n": 26, "a": "Übergewicht", "b": "Gleichgewicht", "c": "Gleichgültigkeit", "correct": "a" },
+    { "n": 27, "a": "zur", "b": "auf", "c": "für", "correct": "b" },
+    { "n": 28, "a": "über", "b": "vor", "c": "hinter", "correct": "c" },
+    { "n": 29, "a": "vor allem", "b": "unter anderem", "c": "auf alle Fälle", "correct": "b" },
+    { "n": 30, "a": "eigentlich", "b": "überhaupt", "c": "gar nicht", "correct": "c" }
+  ]
+}

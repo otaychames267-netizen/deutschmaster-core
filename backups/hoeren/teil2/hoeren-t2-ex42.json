@@ -1,0 +1,63 @@
+{
+  "title": "Frau Makeba",
+  "teil": 2,
+  "level": "B2",
+  "position": 42,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 43 (code 4590) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Meron Makeba hat schon in Ghana Leichtathletik gemacht.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Frau Makeba ist mit ihrem Ergebnis bei der WM sehr zufrieden.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Frau Makeba hat im vergangenen Jahr ihre Eltern in Ghana besucht.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Das Publikum hat bei der WM die Sportler aller Nationen unterstützt.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Frau Makeba trifft selten andere Sportler aus Ghana.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Für Frau Makeba ist Ghana noch immer ihre Heimat.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Wegen ihres Migrationshintergrundes hatte Frau Makeba keine Schwierigkeiten.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Anfangs war Frau Makeba in ihrem Verein die einzige Migrantin.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Frau Makeba glaubt nicht, dass man aufgrund der Herkunft in bestimmten Sportarten bevorzugt wird.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Frau Makebas Erfahrungen im privaten Bereich unterscheiden sich stark von denen im Sport.",
+      "correct": true
+    }
+  ]
+}

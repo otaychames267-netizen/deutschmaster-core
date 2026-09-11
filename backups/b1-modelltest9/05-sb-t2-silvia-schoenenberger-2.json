@@ -1,0 +1,22 @@
+{
+  "title": "Silvia Schönenberger 2",
+  "level": "B1",
+  "position": 9,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 9/16 (Sonja3/Language Tests, page 114 printed / PDF page 115). Genuine print-variant of Modelltest 14's own 'Silvia Schönenberger' SB Teil 2 letter (same addressee 'Frau Borner', same signatory, same general topic/word bank base) but with different specific words blanked at gaps 33/36/37 and a slightly different sentence structure around those gaps — confirmed NOT byte-identical (Test 14: 33 BEIM / 36 WEGEN / 37 VON; this version: 33 ALS / 36 WICHTIGEN / 37 STATT), so inserted as a distinct exercise per this project's print-variant convention (see also 'Disco'/'Disco 2' precedent), titled with a '2' suffix. Answer key from Lösungen page (printed p.119 / PDF p.120): 31H SONDERN, 32F SAGT, 33A ALS, 34L WELCHEN, 35G SOLLTE, 36M WICHTIGEN, 37I STATT, 38B AUF, 39N WÜRDE, 40K WEIL.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Frau Borner,\n\nes gibt ganz viele Ratschläge, wie man sich ernähren soll, was man essen soll und was nicht. Die meisten Empfehlungen sind aber nicht für etwas, {{31}} gegen etwas, und zwar immer wieder gegen etwas anderes: gegen Fleisch zum Beispiel oder gegen Milch. So {{32}} man etwa, wer kein Fleisch isst, lebt nicht nur gesünder, sondern fühlt sich auch besser.\n\n{{33}} ich eine Zeitschrift durchsah, ist mir Ihre Anzeige aufgefallen, und nun habe ich folgende Fragen an Sie: Von {{34}} Nahrungsmitteln darf man eigentlich so viel essen, wie man will? Was {{35}} jeden Tag gegessen werden? Und wie ist das mit der Milch? Die einen sagen, Milch ist sehr gesund wegen der vielen {{36}} Nährstoffe. Andere meinen, wer viel Milch trinkt, kann Probleme mit dem Magen bekommen. Außerdem kann man {{37}} Milch auch Mineralwasser trinken. Was soll ich jetzt glauben?\n\nFür eine Antwort {{38}} meine Fragen danke ich Ihnen im Voraus. Könnten Sie mir auch noch eine Broschüre schicken? Das Thema Essen und Sport {{39}} mich besonders interessieren, {{40}} ich selber viel Sport treibe.\n\nMit freundlichen Grüßen\nSilvia Schönenberger",
+  "words": ["ALS", "AUF", "DESWEGEN", "MÖCHTE", "NENNT", "SAGT", "SOLLTE", "SONDERN", "STATT", "WAS", "WEIL", "WELCHEN", "WICHTIGEN", "WÜRDE", "ZUM"],
+  "answers": {
+    "31": "SONDERN",
+    "32": "SAGT",
+    "33": "ALS",
+    "34": "WELCHEN",
+    "35": "SOLLTE",
+    "36": "WICHTIGEN",
+    "37": "STATT",
+    "38": "AUF",
+    "39": "WÜRDE",
+    "40": "WEIL"
+  }
+}

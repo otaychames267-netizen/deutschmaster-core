@@ -1,0 +1,750 @@
+{
+  "421af0a3-6f8b-4a27-9f84-add6aae706e0": {
+    "translation": {
+      "questions": {
+        "46": "في المسابقة على جزيرة زيلت يوجد جمهور أكبر مقارنة بمسابقات ركوب الأمواج الأخرى.",
+        "47": "ظروف الرياح على جزيرة زيلت غير قابلة للتنبؤ بشكل كبير.",
+        "48": "السيد دوندربيك لا يزال لائقًا بدنيًا كما كان في السابق.",
+        "49": "في فئة الفريستايل لديه بالفعل منافسون أقوياء أصغر منه سنًا بكثير.",
+        "50": "في مسابقة السلالوم عليه أيضًا أن يحسب حساب منافسين أقوياء.",
+        "51": "هوايته هي البحث عن شواطئ لم يجرب فيها أحد ركوب الأمواج الشراعي بعد.",
+        "52": "يشعر بالخوف الدائم من أسماك القرش.",
+        "53": "لا يزال لدى أطفاله بعض الخوف من الماء، رغم أنه سبق أن أجلسهم على اللوح.",
+        "54": "إذا فاز في زيلت، فسيفضل الاحتفال بذلك أولاً مع أصدقائه.",
+        "55": "لديه طفلان وهما يرافقانه في رحلاته."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "mehr Zuschauer",
+        "explanation_correct": "Achten Sie beim Hören auf Vergleiche wie 'mehr als' – solche Formulierungen sind oft entscheidend für die richtige Antwort. Diese Aussage ist laut Lösung richtig; solche Vergleichsaussagen sind typisch für Prüfungssätze, die genaue Zahlen- oder Mengenangaben abfragen.",
+        "explanation_wrong": "Achten Sie beim Hören auf Vergleiche wie 'mehr als' – solche Formulierungen sind oft entscheidend für die richtige Antwort. Diese Aussage ist laut Lösung richtig; solche Vergleichsaussagen sind typisch für Prüfungssätze, die genaue Zahlen- oder Mengenangaben abfragen."
+      },
+      "47": {
+        "keyword": "unberechenbar",
+        "explanation_correct": "Wörter wie 'unberechenbar' beschreiben eine Eigenschaft sehr genau, deshalb lohnt es sich, bei Adjektiven mit starker Bedeutung besonders aufmerksam zu sein. Diese Aussage ist richtig; solche eindeutigen Charakterisierungen sind im Hörtext meist klar wiederzuerkennen.",
+        "explanation_wrong": "Wörter wie 'unberechenbar' beschreiben eine Eigenschaft sehr genau, deshalb lohnt es sich, bei Adjektiven mit starker Bedeutung besonders aufmerksam zu sein. Diese Aussage ist richtig; solche eindeutigen Charakterisierungen sind im Hörtext meist klar wiederzuerkennen."
+      },
+      "48": {
+        "keyword": "noch immer so fit wie früher",
+        "explanation_correct": "Formulierungen wie 'noch immer so ... wie früher' behaupten eine unveränderte Situation und sind ein klassischer Fallstrick, wenn sich im Text tatsächlich etwas verändert hat. Diese Aussage ist falsch; solche Vergleiche mit der Vergangenheit sollten Sie immer kritisch prüfen.",
+        "explanation_wrong": "Formulierungen wie 'noch immer so ... wie früher' behaupten eine unveränderte Situation und sind ein klassischer Fallstrick, wenn sich im Text tatsächlich etwas verändert hat. Diese Aussage ist falsch; solche Vergleiche mit der Vergangenheit sollten Sie immer kritisch prüfen."
+      },
+      "49": {
+        "keyword": "viel jünger",
+        "explanation_correct": "Altersvergleiche wie 'viel jünger' sind wichtige Details, die im Hörtext oft explizit erwähnt werden. Diese Aussage ist richtig; achten Sie bei solchen Vergleichen stets darauf, ob der Unterschied im Text bestätigt oder relativiert wird.",
+        "explanation_wrong": "Altersvergleiche wie 'viel jünger' sind wichtige Details, die im Hörtext oft explizit erwähnt werden. Diese Aussage ist richtig; achten Sie bei solchen Vergleichen stets darauf, ob der Unterschied im Text bestätigt oder relativiert wird."
+      },
+      "50": {
+        "keyword": "auch",
+        "explanation_correct": "Das Wort 'auch' stellt hier eine Verbindung zur vorherigen Aussage her und behauptet eine Gleichartigkeit zweier Disziplinen, die genau geprüft werden muss. Diese Aussage ist falsch; solche verallgemeinernden Verknüpfungen zwischen zwei Situationen sind ein typisches Prüfungsmuster.",
+        "explanation_wrong": "Das Wort 'auch' stellt hier eine Verbindung zur vorherigen Aussage her und behauptet eine Gleichartigkeit zweier Disziplinen, die genau geprüft werden muss. Diese Aussage ist falsch; solche verallgemeinernden Verknüpfungen zwischen zwei Situationen sind ein typisches Prüfungsmuster."
+      },
+      "51": {
+        "keyword": "noch niemand",
+        "explanation_correct": "Ausdrücke wie 'noch niemand' sind absolute Aussagen, die im Hörtext oft wortwörtlich oder sinngemäß bestätigt werden müssen. Diese Aussage ist richtig; solche Formulierungen mit 'noch' plus Verneinung markieren häufig eine zentrale Information.",
+        "explanation_wrong": "Ausdrücke wie 'noch niemand' sind absolute Aussagen, die im Hörtext oft wortwörtlich oder sinngemäß bestätigt werden müssen. Diese Aussage ist richtig; solche Formulierungen mit 'noch' plus Verneinung markieren häufig eine zentrale Information."
+      },
+      "52": {
+        "keyword": "ständig",
+        "explanation_correct": "Wörter wie 'ständig' behaupten eine dauerhafte, uneingeschränkte Situation und sind ein beliebtes Mittel, um eine im Text nur teilweise oder anders dargestellte Sache zu verfälschen. Diese Aussage ist falsch; bei solchen absoluten Zeitangaben sollten Sie besonders vorsichtig sein.",
+        "explanation_wrong": "Wörter wie 'ständig' behaupten eine dauerhafte, uneingeschränkte Situation und sind ein beliebtes Mittel, um eine im Text nur teilweise oder anders dargestellte Sache zu verfälschen. Diese Aussage ist falsch; bei solchen absoluten Zeitangaben sollten Sie besonders vorsichtig sein."
+      },
+      "53": {
+        "keyword": "noch ein bisschen Angst",
+        "explanation_correct": "Einschränkende Ausdrücke wie 'noch ein bisschen' können eine im Hörtext anders beschriebene Situation verzerren. Diese Aussage ist falsch; achten Sie auf solche abgeschwächten Formulierungen, die oft im Gegensatz zum tatsächlichen Sachverhalt stehen.",
+        "explanation_wrong": "Einschränkende Ausdrücke wie 'noch ein bisschen' können eine im Hörtext anders beschriebene Situation verzerren. Diese Aussage ist falsch; achten Sie auf solche abgeschwächten Formulierungen, die oft im Gegensatz zum tatsächlichen Sachverhalt stehen."
+      },
+      "54": {
+        "keyword": "zuerst mit seinen Freunden",
+        "explanation_correct": "Die Reihenfolge und die Personenangabe 'zuerst mit seinen Freunden' sind entscheidende Details, die im Hörtext oft anders lauten. Diese Aussage ist falsch; solche Angaben zu Reihenfolge oder beteiligten Personen werden in Prüfungen häufig bewusst verändert.",
+        "explanation_wrong": "Die Reihenfolge und die Personenangabe 'zuerst mit seinen Freunden' sind entscheidende Details, die im Hörtext oft anders lauten. Diese Aussage ist falsch; solche Angaben zu Reihenfolge oder beteiligten Personen werden in Prüfungen häufig bewusst verändert."
+      },
+      "55": {
+        "keyword": "zwei Kinder",
+        "explanation_correct": "Genaue Zahlenangaben wie 'zwei Kinder' müssen Sie beim Hören besonders sorgfältig mit dem Gesagten abgleichen. Diese Aussage ist falsch; falsche oder veränderte Zahlen sind eine der häufigsten Fehlerquellen bei Richtig/Falsch-Aufgaben.",
+        "explanation_wrong": "Genaue Zahlenangaben wie 'zwei Kinder' müssen Sie beim Hören besonders sorgfältig mit dem Gesagten abgleichen. Diese Aussage ist falsch; falsche oder veränderte Zahlen sind eine der häufigsten Fehlerquellen bei Richtig/Falsch-Aufgaben."
+      }
+    }
+  },
+  "a7d082a4-6900-4948-8e56-5de9b3f736c1": {
+    "translation": {
+      "questions": {
+        "46": "قضت أستريد نواك حياتها المهنية بأكملها في مكتبة المدينة.",
+        "47": "معظم زوار مكتبة المدينة يريدون استعارة الوسائط.",
+        "48": "يحب كثيرون قضاء الوقت في القاعات الجذابة للمكتبة.",
+        "49": "تقدم المكتبة خدماتها منذ سنوات أيضًا أيام الأحد.",
+        "50": "العروض المتنوعة للمكتبة يمكن استخدامها مجانًا.",
+        "51": "يتمثل أحد محاور العروض في وسائل المعلومات الموجهة للشباب.",
+        "52": "يمكن للمرء أيضًا استئجار أجهزة إلكترونية في المكتبة.",
+        "53": "تُقام اليوم فقط دورات من مجال الوسائط والتقنية.",
+        "54": "توجد قاعة يمكن فيها للمرء تجربة أدوات تقنية حديثة مع آخرين.",
+        "55": "تُستخدم المكتبات في ألمانيا بنفس القدر من التكرار مثل دور السينما أو المتاحف."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "ihr ganzes Berufsleben",
+        "explanation_correct": "Angaben wie 'ihr ganzes Berufsleben' sind sehr weitreichende Aussagen über eine gesamte Zeitspanne, die im Hörtext oft nur teilweise zutreffen. Diese Aussage ist falsch; solche pauschalen Zeitangaben sind ein typischer Prüfungstrick.",
+        "explanation_wrong": "Angaben wie 'ihr ganzes Berufsleben' sind sehr weitreichende Aussagen über eine gesamte Zeitspanne, die im Hörtext oft nur teilweise zutreffen. Diese Aussage ist falsch; solche pauschalen Zeitangaben sind ein typischer Prüfungstrick."
+      },
+      "47": {
+        "keyword": "Die meisten",
+        "explanation_correct": "Formulierungen wie 'die meisten' machen eine Aussage über die Mehrheit, die Sie beim Hören mit der tatsächlich genannten Verteilung vergleichen sollten. Diese Aussage ist richtig; Mengenangaben dieser Art gehören zu den häufig geprüften Details.",
+        "explanation_wrong": "Formulierungen wie 'die meisten' machen eine Aussage über die Mehrheit, die Sie beim Hören mit der tatsächlich genannten Verteilung vergleichen sollten. Diese Aussage ist richtig; Mengenangaben dieser Art gehören zu den häufig geprüften Details."
+      },
+      "48": {
+        "keyword": "attraktiven Räumen",
+        "explanation_correct": "Beschreibende Wörter wie 'attraktiven Räumen' geben eine positive Bewertung wieder, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist richtig; achten Sie auf solche wertenden Adjektive als möglichen Prüfungsschwerpunkt.",
+        "explanation_wrong": "Beschreibende Wörter wie 'attraktiven Räumen' geben eine positive Bewertung wieder, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist richtig; achten Sie auf solche wertenden Adjektive als möglichen Prüfungsschwerpunkt."
+      },
+      "49": {
+        "keyword": "seit Jahren ... sonntags",
+        "explanation_correct": "Die Kombination aus Zeitangabe 'seit Jahren' und Detail 'sonntags' ist ein klassisches Beispiel für einen möglichen Widerspruch zum Hörtext. Diese Aussage ist falsch; prüfen Sie solche Kombinationen aus Dauer und konkretem Detail besonders genau.",
+        "explanation_wrong": "Die Kombination aus Zeitangabe 'seit Jahren' und Detail 'sonntags' ist ein klassisches Beispiel für einen möglichen Widerspruch zum Hörtext. Diese Aussage ist falsch; prüfen Sie solche Kombinationen aus Dauer und konkretem Detail besonders genau."
+      },
+      "50": {
+        "keyword": "gratis",
+        "explanation_correct": "Das Wort 'gratis' behauptet Kostenlosigkeit, was im Hörtext eindeutig bestätigt oder widerlegt werden kann. Diese Aussage ist richtig; bei Aussagen zu Kosten oder Preisen lohnt sich immer besondere Aufmerksamkeit.",
+        "explanation_wrong": "Das Wort 'gratis' behauptet Kostenlosigkeit, was im Hörtext eindeutig bestätigt oder widerlegt werden kann. Diese Aussage ist richtig; bei Aussagen zu Kosten oder Preisen lohnt sich immer besondere Aufmerksamkeit."
+      },
+      "51": {
+        "keyword": "für jüngere Leute",
+        "explanation_correct": "Zielgruppenangaben wie 'für jüngere Leute' engen die Aussage stark ein und weichen im Hörtext häufig von der tatsächlichen Zielgruppe ab. Diese Aussage ist falsch; solche Einschränkungen auf eine bestimmte Gruppe sind ein beliebtes Prüfungsmuster.",
+        "explanation_wrong": "Zielgruppenangaben wie 'für jüngere Leute' engen die Aussage stark ein und weichen im Hörtext häufig von der tatsächlichen Zielgruppe ab. Diese Aussage ist falsch; solche Einschränkungen auf eine bestimmte Gruppe sind ein beliebtes Prüfungsmuster."
+      },
+      "52": {
+        "keyword": "mieten",
+        "explanation_correct": "Das Verb 'mieten' beschreibt eine bestimmte Art der Nutzung, die im Hörtext oft durch ein anderes Angebot ersetzt wird. Diese Aussage ist falsch; achten Sie auf genaue Verben, die eine Handlung präzise festlegen.",
+        "explanation_wrong": "Das Verb 'mieten' beschreibt eine bestimmte Art der Nutzung, die im Hörtext oft durch ein anderes Angebot ersetzt wird. Diese Aussage ist falsch; achten Sie auf genaue Verben, die eine Handlung präzise festlegen."
+      },
+      "53": {
+        "keyword": "nur",
+        "explanation_correct": "Das einschränkende Wort 'nur' behauptet eine Ausschließlichkeit, die im Hörtext selten wortwörtlich zutrifft. Diese Aussage ist falsch; solche absoluten Einschränkungen sind ein typischer Hinweis auf eine falsche Aussage.",
+        "explanation_wrong": "Das einschränkende Wort 'nur' behauptet eine Ausschließlichkeit, die im Hörtext selten wortwörtlich zutrifft. Diese Aussage ist falsch; solche absoluten Einschränkungen sind ein typischer Hinweis auf eine falsche Aussage."
+      },
+      "54": {
+        "keyword": "moderne technische Werkzeuge",
+        "explanation_correct": "Der Ausdruck 'moderne technische Werkzeuge' beschreibt ein konkretes Angebot, das im Hörtext genau benannt werden sollte. Diese Aussage ist richtig; solche Detailbeschreibungen von Räumen oder Angeboten werden häufig geprüft.",
+        "explanation_wrong": "Der Ausdruck 'moderne technische Werkzeuge' beschreibt ein konkretes Angebot, das im Hörtext genau benannt werden sollte. Diese Aussage ist richtig; solche Detailbeschreibungen von Räumen oder Angeboten werden häufig geprüft."
+      },
+      "55": {
+        "keyword": "genauso häufig ... wie",
+        "explanation_correct": "Der Vergleich 'genauso häufig wie' setzt zwei unterschiedliche Dinge gleich, was im Hörtext oft nicht so eindeutig bestätigt wird. Diese Aussage ist falsch; solche Gleichsetzungen zwischen verschiedenen Institutionen sind ein klassischer Fallstrick.",
+        "explanation_wrong": "Der Vergleich 'genauso häufig wie' setzt zwei unterschiedliche Dinge gleich, was im Hörtext oft nicht so eindeutig bestätigt wird. Diese Aussage ist falsch; solche Gleichsetzungen zwischen verschiedenen Institutionen sind ein klassischer Fallstrick."
+      }
+    }
+  },
+  "3e406920-1d1e-4edc-9779-73dfbf4ee288": {
+    "translation": {
+      "questions": {
+        "46": "هذا حوار مع مطعم «بايسكل».",
+        "47": "غيرت كرونهايم هو المؤسس الوحيد لمشروع بايسكل.",
+        "48": "توفر بايسكل فرص عمل للشباب العاطلين عن العمل منذ فترة طويلة.",
+        "49": "توجد بايسكل منذ عام 1926.",
+        "50": "كان سبب تأسيس بايسكل هو تزايد البطالة في بداية الثمانينيات.",
+        "51": "يرى غيرت كرونهايمر أن الدراجة الهوائية مثيرة للاهتمام بالنسبة للشباب.",
+        "52": "أصبحت الدراجة الهوائية للأسف غير شائعة جدًا اليوم.",
+        "53": "لا يمكن العمل في بايسكل إلا بدوام كامل.",
+        "54": "يتم في بايسكل إصلاح حوالي 10000 دراجة هوائية سنويًا.",
+        "55": "سيبيله هارتونغ ليست سوى مساعدة وليست خبيرة في المسائل التقنية."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Restaurant",
+        "explanation_correct": "Achten Sie auf die genaue Bezeichnung einer Institution, hier 'Restaurant', denn eine falsche Kategorie ist ein häufiger Fehlertyp. Diese Aussage ist falsch; solche Verwechslungen der Art einer Organisation werden in der Prüfung gern eingebaut.",
+        "explanation_wrong": "Achten Sie auf die genaue Bezeichnung einer Institution, hier 'Restaurant', denn eine falsche Kategorie ist ein häufiger Fehlertyp. Diese Aussage ist falsch; solche Verwechslungen der Art einer Organisation werden in der Prüfung gern eingebaut."
+      },
+      "47": {
+        "keyword": "alleinige Gründer",
+        "explanation_correct": "Das Wort 'alleinige' behauptet, dass nur eine Person verantwortlich ist, was im Hörtext oft durch mehrere genannte Personen widerlegt wird. Diese Aussage ist falsch; solche Alleinstellungsbehauptungen sollten Sie kritisch hinterfragen.",
+        "explanation_wrong": "Das Wort 'alleinige' behauptet, dass nur eine Person verantwortlich ist, was im Hörtext oft durch mehrere genannte Personen widerlegt wird. Diese Aussage ist falsch; solche Alleinstellungsbehauptungen sollten Sie kritisch hinterfragen."
+      },
+      "48": {
+        "keyword": "schon länger arbeitslos",
+        "explanation_correct": "Die Angabe 'schon länger arbeitslos' beschreibt eine bestimmte Zielgruppe genauer; solche Details sind oft entscheidend für die richtige Lösung. Diese Aussage ist richtig; achten Sie auf präzise Zeit- und Personenangaben.",
+        "explanation_wrong": "Die Angabe 'schon länger arbeitslos' beschreibt eine bestimmte Zielgruppe genauer; solche Details sind oft entscheidend für die richtige Lösung. Diese Aussage ist richtig; achten Sie auf präzise Zeit- und Personenangaben."
+      },
+      "49": {
+        "keyword": "seit 1926",
+        "explanation_correct": "Jahreszahlen wie '1926' sind sehr konkrete Angaben, die beim Hören leicht überprüfbar, aber auch leicht verfälschbar sind. Diese Aussage ist falsch; bei genauen Zahlenangaben lohnt sich immer besondere Vorsicht.",
+        "explanation_wrong": "Jahreszahlen wie '1926' sind sehr konkrete Angaben, die beim Hören leicht überprüfbar, aber auch leicht verfälschbar sind. Diese Aussage ist falsch; bei genauen Zahlenangaben lohnt sich immer besondere Vorsicht."
+      },
+      "50": {
+        "keyword": "Anfang der 80er Jahre",
+        "explanation_correct": "Zeitangaben wie 'Anfang der 80er Jahre' sind präzise Details, die im Hörtext oft durch einen anderen Zeitraum ersetzt werden. Diese Aussage ist falsch; solche Jahrzehntangaben sind ein beliebter Ansatzpunkt für Falschaussagen.",
+        "explanation_wrong": "Zeitangaben wie 'Anfang der 80er Jahre' sind präzise Details, die im Hörtext oft durch einen anderen Zeitraum ersetzt werden. Diese Aussage ist falsch; solche Jahrzehntangaben sind ein beliebter Ansatzpunkt für Falschaussagen."
+      },
+      "51": {
+        "keyword": "interessant",
+        "explanation_correct": "Bewertende Wörter wie 'interessant' geben eine persönliche Einschätzung wieder, die im Hörtext meist klar erkennbar ist. Diese Aussage ist richtig; solche Meinungsäußerungen sind oft leichter zu bestätigen als reine Fakten.",
+        "explanation_wrong": "Bewertende Wörter wie 'interessant' geben eine persönliche Einschätzung wieder, die im Hörtext meist klar erkennbar ist. Diese Aussage ist richtig; solche Meinungsäußerungen sind oft leichter zu bestätigen als reine Fakten."
+      },
+      "52": {
+        "keyword": "unpopulär",
+        "explanation_correct": "Das Wort 'unpopulär' behauptet das Gegenteil einer positiven Entwicklung und ist damit ein klassischer Fallstrick. Diese Aussage ist falsch; achten Sie auf Adjektive, die eine Entwicklung ins Gegenteil verkehren.",
+        "explanation_wrong": "Das Wort 'unpopulär' behauptet das Gegenteil einer positiven Entwicklung und ist damit ein klassischer Fallstrick. Diese Aussage ist falsch; achten Sie auf Adjektive, die eine Entwicklung ins Gegenteil verkehren."
+      },
+      "53": {
+        "keyword": "nur Vollzeit",
+        "explanation_correct": "Das einschränkende Wort 'nur' in Verbindung mit 'Vollzeit' behauptet eine Ausschließlichkeit, die im Hörtext oft nicht zutrifft. Diese Aussage ist falsch; solche absoluten Einschränkungen sind ein typisches Prüfungsmuster.",
+        "explanation_wrong": "Das einschränkende Wort 'nur' in Verbindung mit 'Vollzeit' behauptet eine Ausschließlichkeit, die im Hörtext oft nicht zutrifft. Diese Aussage ist falsch; solche absoluten Einschränkungen sind ein typisches Prüfungsmuster."
+      },
+      "54": {
+        "keyword": "10000 Fahrräder",
+        "explanation_correct": "Genaue Zahlenangaben wie '10000 Fahrräder' müssen beim Hören sorgfältig mit dem Gesagten abgeglichen werden. Diese Aussage ist richtig; solche konkreten Mengenangaben sind ein häufiger Prüfungsschwerpunkt.",
+        "explanation_wrong": "Genaue Zahlenangaben wie '10000 Fahrräder' müssen beim Hören sorgfältig mit dem Gesagten abgeglichen werden. Diese Aussage ist richtig; solche konkreten Mengenangaben sind ein häufiger Prüfungsschwerpunkt."
+      },
+      "55": {
+        "keyword": "nur eine Assistentin",
+        "explanation_correct": "Die Einschränkung 'nur eine Assistentin' wertet die Rolle einer Person stark ab, was im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche abwertenden Formulierungen zur Rolle einer Person sind ein typischer Fallstrick.",
+        "explanation_wrong": "Die Einschränkung 'nur eine Assistentin' wertet die Rolle einer Person stark ab, was im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche abwertenden Formulierungen zur Rolle einer Person sind ein typischer Fallstrick."
+      }
+    }
+  },
+  "cf6266b0-5b98-4690-afb9-76c1986f6baa": {
+    "translation": {
+      "questions": {
+        "46": "تغير الطلب على الفواكه والخضروات العضوية المحلية بشكل ملحوظ في السنوات الأخيرة.",
+        "47": "أصبح كثير من الزبائن يهتمون بالمنتجات العضوية من حيث المنشأ والطزاجة أكثر من اهتمامهم بأدنى سعر ممكن.",
+        "48": "يسبب توصيل المواد الغذائية الطازجة أعباء تنظيمية ومالية إضافية للشركات الصغيرة.",
+        "49": "لا تأتي جميع المنتجات العضوية المعروضة مباشرة من الإنتاج الخاص.",
+        "50": "تلعب أنظمة الطلب الرقمية دورًا مهمًا في بيع الفواكه والخضروات في الوقت الحالي.",
+        "51": "يرى المتحدث أن جودة المنتجات تعتمد بشكل أساسي على سرعة التوصيل.",
+        "52": "يبقى التواصل الشخصي مع الزبائن جزءًا مهمًا من العمل رغم الطلبات عبر الإنترنت.",
+        "53": "بفضل خدمة التوصيل يمكن الوصول أيضًا إلى الأشخاص الذين لا يستطيعون الذهاب بانتظام إلى السوق الأسبوعي.",
+        "54": "من الصعب على الشركات العضوية الصغيرة أن تظل مستدامة وقادرة على المنافسة من حيث السعر في آن واحد.",
+        "55": "يفترض المتحدث أن عروض التوصيل الإقليمية للمواد الغذائية العضوية ستزداد أهمية في المستقبل."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "spürbar verändert",
+        "explanation_correct": "Formulierungen wie 'spürbar verändert' beschreiben eine deutliche Entwicklung, die im Hörtext meist ausdrücklich thematisiert wird. Diese Aussage ist richtig; solche Aussagen über Veränderungen im Zeitverlauf sind ein häufiger Prüfungsschwerpunkt.",
+        "explanation_wrong": "Formulierungen wie 'spürbar verändert' beschreiben eine deutliche Entwicklung, die im Hörtext meist ausdrücklich thematisiert wird. Diese Aussage ist richtig; solche Aussagen über Veränderungen im Zeitverlauf sind ein häufiger Prüfungsschwerpunkt."
+      },
+      "47": {
+        "keyword": "mehr Wert ... als",
+        "explanation_correct": "Der Vergleich 'mehr Wert ... als' setzt zwei Kriterien gegeneinander, deren Gewichtung im Hörtext genau geprüft werden muss. Diese Aussage ist falsch; solche Prioritätsvergleiche werden in der Prüfung gern verändert wiedergegeben.",
+        "explanation_wrong": "Der Vergleich 'mehr Wert ... als' setzt zwei Kriterien gegeneinander, deren Gewichtung im Hörtext genau geprüft werden muss. Diese Aussage ist falsch; solche Prioritätsvergleiche werden in der Prüfung gern verändert wiedergegeben."
+      },
+      "48": {
+        "keyword": "zusätzliche Belastungen",
+        "explanation_correct": "Der Ausdruck 'zusätzliche Belastungen' behauptet eine negative Folge, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; achten Sie auf Kausalaussagen, die eine bestimmte Ursache-Wirkung-Beziehung unterstellen.",
+        "explanation_wrong": "Der Ausdruck 'zusätzliche Belastungen' behauptet eine negative Folge, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; achten Sie auf Kausalaussagen, die eine bestimmte Ursache-Wirkung-Beziehung unterstellen."
+      },
+      "49": {
+        "keyword": "Nicht alle",
+        "explanation_correct": "Die Verneinung 'nicht alle' schränkt eine Aussage bewusst ein und unterscheidet sich deutlich von einer absoluten Aussage. Diese Aussage ist richtig; solche teilweisen Verneinungen sind oft ein Hinweis auf eine differenzierte, zutreffende Aussage.",
+        "explanation_wrong": "Die Verneinung 'nicht alle' schränkt eine Aussage bewusst ein und unterscheidet sich deutlich von einer absoluten Aussage. Diese Aussage ist richtig; solche teilweisen Verneinungen sind oft ein Hinweis auf eine differenzierte, zutreffende Aussage."
+      },
+      "50": {
+        "keyword": "wichtige Rolle",
+        "explanation_correct": "Der Ausdruck 'wichtige Rolle' bewertet die Bedeutung eines Aspekts, die im Hörtext meist konkret eingeordnet wird. Diese Aussage ist richtig; achten Sie auf solche Bedeutungszuschreibungen als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Der Ausdruck 'wichtige Rolle' bewertet die Bedeutung eines Aspekts, die im Hörtext meist konkret eingeordnet wird. Diese Aussage ist richtig; achten Sie auf solche Bedeutungszuschreibungen als möglichen Prüfungspunkt."
+      },
+      "51": {
+        "keyword": "vor allem von einer schnellen Lieferung",
+        "explanation_correct": "Die Einschränkung 'vor allem von' behauptet eine einzelne Hauptursache, die im Hörtext oft durch mehrere Faktoren relativiert wird. Diese Aussage ist falsch; solche Alleinursachen-Behauptungen sind ein klassischer Fallstrick.",
+        "explanation_wrong": "Die Einschränkung 'vor allem von' behauptet eine einzelne Hauptursache, die im Hörtext oft durch mehrere Faktoren relativiert wird. Diese Aussage ist falsch; solche Alleinursachen-Behauptungen sind ein klassischer Fallstrick."
+      },
+      "52": {
+        "keyword": "trotz Online-Bestellungen",
+        "explanation_correct": "Der Gegensatz 'trotz Online-Bestellungen' verbindet zwei scheinbar widersprüchliche Aspekte, die im Hörtext oft genau erläutert werden. Diese Aussage ist richtig; achten Sie auf solche Formulierungen mit 'trotz', die eine Ausnahme markieren.",
+        "explanation_wrong": "Der Gegensatz 'trotz Online-Bestellungen' verbindet zwei scheinbar widersprüchliche Aspekte, die im Hörtext oft genau erläutert werden. Diese Aussage ist richtig; achten Sie auf solche Formulierungen mit 'trotz', die eine Ausnahme markieren."
+      },
+      "53": {
+        "keyword": "Lieferdienst",
+        "explanation_correct": "Das Wort 'Lieferdienst' bezeichnet ein konkretes Angebot, dessen genannter Nutzen im Hörtext überprüft werden muss. Diese Aussage ist falsch; solche Aussagen über den Nutzen für eine bestimmte Personengruppe werden gern verändert.",
+        "explanation_wrong": "Das Wort 'Lieferdienst' bezeichnet ein konkretes Angebot, dessen genannter Nutzen im Hörtext überprüft werden muss. Diese Aussage ist falsch; solche Aussagen über den Nutzen für eine bestimmte Personengruppe werden gern verändert."
+      },
+      "54": {
+        "keyword": "gleichzeitig ... schwierig",
+        "explanation_correct": "Der Ausdruck 'gleichzeitig ... schwierig' beschreibt einen Zielkonflikt, der im Hörtext oft ausführlich behandelt wird. Diese Aussage ist richtig; solche Aussagen über gegensätzliche Anforderungen sind ein häufiges Prüfungsthema.",
+        "explanation_wrong": "Der Ausdruck 'gleichzeitig ... schwierig' beschreibt einen Zielkonflikt, der im Hörtext oft ausführlich behandelt wird. Diese Aussage ist richtig; solche Aussagen über gegensätzliche Anforderungen sind ein häufiges Prüfungsthema."
+      },
+      "55": {
+        "keyword": "in Zukunft weiter an Bedeutung gewinnen",
+        "explanation_correct": "Die Zukunftsaussage 'in Zukunft weiter an Bedeutung gewinnen' trifft eine Prognose, die im Hörtext oft anders oder gar nicht formuliert wird. Diese Aussage ist falsch; achten Sie besonders auf Aussagen über zukünftige Entwicklungen, da diese oft verändert wiedergegeben werden.",
+        "explanation_wrong": "Die Zukunftsaussage 'in Zukunft weiter an Bedeutung gewinnen' trifft eine Prognose, die im Hörtext oft anders oder gar nicht formuliert wird. Diese Aussage ist falsch; achten Sie besonders auf Aussagen über zukünftige Entwicklungen, da diese oft verändert wiedergegeben werden."
+      }
+    }
+  },
+  "08297a0d-9473-4bcc-9541-22d11f40c860": {
+    "translation": {
+      "questions": {
+        "46": "بدء الحياة المهنية ليس سهلاً في بلدان أخرى.",
+        "47": "مهنة كارينا أهم بالنسبة لها من حياتها الخاصة.",
+        "48": "قدّمت كارينا نفسها للوكالة من خلال فيلم.",
+        "49": "اضطرت كارينا إلى تغيير وزنها بشكل كبير من أجل فيلم.",
+        "50": "تفضل كارينا الأفلام العاطفية على أفلام الحركة.",
+        "51": "بسبب كثرة الغيابات، واجهت كارينا مشاكل مع مدير المدرسة.",
+        "52": "دعم والدا كارينا ابنتهما منذ البداية.",
+        "53": "تجد كارينا أن التنقل بين المدرسة ومواعيد التصوير ليس سهلاً.",
+        "54": "يمكن للمرء أيضًا أن يبتكر شيئًا بنفسه في الحوارات.",
+        "55": "توصي كارينا بمشاهدة ممثلين آخرين في المسرح والأفلام."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "nicht leicht",
+        "explanation_correct": "Formulierungen wie 'nicht leicht' bewerten eine Situation als schwierig; solche Einschätzungen werden im Hörtext meist klar begründet. Diese Aussage ist richtig; achten Sie auf solche allgemeinen Bewertungen als möglichen Ausgangspunkt der Aufgabe.",
+        "explanation_wrong": "Formulierungen wie 'nicht leicht' bewerten eine Situation als schwierig; solche Einschätzungen werden im Hörtext meist klar begründet. Diese Aussage ist richtig; achten Sie auf solche allgemeinen Bewertungen als möglichen Ausgangspunkt der Aufgabe."
+      },
+      "47": {
+        "keyword": "wichtiger als",
+        "explanation_correct": "Der Vergleich 'wichtiger als' stellt zwei Lebensbereiche gegeneinander, deren Rangfolge im Hörtext genau geprüft werden muss. Diese Aussage ist falsch; solche Prioritätsaussagen zwischen Beruf und Privatleben sind ein beliebter Prüfungsansatz.",
+        "explanation_wrong": "Der Vergleich 'wichtiger als' stellt zwei Lebensbereiche gegeneinander, deren Rangfolge im Hörtext genau geprüft werden muss. Diese Aussage ist falsch; solche Prioritätsaussagen zwischen Beruf und Privatleben sind ein beliebter Prüfungsansatz."
+      },
+      "48": {
+        "keyword": "mit einem Film",
+        "explanation_correct": "Das Detail 'mit einem Film' beschreibt die konkrete Art der Präsentation, die im Hörtext oft genau benannt wird. Diese Aussage ist richtig; achten Sie auf solche präzisen Angaben zu Mitteln oder Wegen einer Handlung.",
+        "explanation_wrong": "Das Detail 'mit einem Film' beschreibt die konkrete Art der Präsentation, die im Hörtext oft genau benannt wird. Diese Aussage ist richtig; achten Sie auf solche präzisen Angaben zu Mitteln oder Wegen einer Handlung."
+      },
+      "49": {
+        "keyword": "Gewicht stark verändern",
+        "explanation_correct": "Der Ausdruck 'Gewicht stark verändern' beschreibt eine deutliche körperliche Veränderung, die im Hörtext meist konkret erwähnt wird. Diese Aussage ist richtig; solche Details zu persönlichen Opfern für einen Beruf sind ein typisches Prüfungsthema.",
+        "explanation_wrong": "Der Ausdruck 'Gewicht stark verändern' beschreibt eine deutliche körperliche Veränderung, die im Hörtext meist konkret erwähnt wird. Diese Aussage ist richtig; solche Details zu persönlichen Opfern für einen Beruf sind ein typisches Prüfungsthema."
+      },
+      "50": {
+        "keyword": "lieber ... als",
+        "explanation_correct": "Der Vergleich 'lieber ... als' behauptet eine klare Vorliebe zwischen zwei Filmarten, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Präferenzaussagen sollten Sie stets kritisch mit dem Gehörten abgleichen.",
+        "explanation_wrong": "Der Vergleich 'lieber ... als' behauptet eine klare Vorliebe zwischen zwei Filmarten, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Präferenzaussagen sollten Sie stets kritisch mit dem Gehörten abgleichen."
+      },
+      "51": {
+        "keyword": "Fehlstunden",
+        "explanation_correct": "Das Wort 'Fehlstunden' als Ursache für ein Problem ist eine kausale Behauptung, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; achten Sie auf solche Ursache-Wirkung-Aussagen, die gern verändert werden.",
+        "explanation_wrong": "Das Wort 'Fehlstunden' als Ursache für ein Problem ist eine kausale Behauptung, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; achten Sie auf solche Ursache-Wirkung-Aussagen, die gern verändert werden."
+      },
+      "52": {
+        "keyword": "von Anfang an",
+        "explanation_correct": "Der Ausdruck 'von Anfang an' behauptet eine durchgehende Unterstützung ohne Ausnahme, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche absoluten Zeitangaben über einen gesamten Verlauf sollten Sie kritisch hinterfragen.",
+        "explanation_wrong": "Der Ausdruck 'von Anfang an' behauptet eine durchgehende Unterstützung ohne Ausnahme, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche absoluten Zeitangaben über einen gesamten Verlauf sollten Sie kritisch hinterfragen."
+      },
+      "53": {
+        "keyword": "nicht leicht",
+        "explanation_correct": "Formulierungen wie 'nicht leicht' bewerten eine Situation als schwierig; solche Aussagen sind oft ein zentraler Punkt im Hörtext. Diese Aussage ist richtig; achten Sie auf wiederkehrende Bewertungen zu Schwierigkeiten im Alltag der sprechenden Person.",
+        "explanation_wrong": "Formulierungen wie 'nicht leicht' bewerten eine Situation als schwierig; solche Aussagen sind oft ein zentraler Punkt im Hörtext. Diese Aussage ist richtig; achten Sie auf wiederkehrende Bewertungen zu Schwierigkeiten im Alltag der sprechenden Person."
+      },
+      "54": {
+        "keyword": "selbst etwas erfinden",
+        "explanation_correct": "Der Ausdruck 'selbst etwas erfinden' beschreibt eine bestimmte Freiheit bei einer Tätigkeit, die im Hörtext oft ausdrücklich erlaubt oder verboten wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu erlaubten oder nicht erlaubten Handlungen.",
+        "explanation_wrong": "Der Ausdruck 'selbst etwas erfinden' beschreibt eine bestimmte Freiheit bei einer Tätigkeit, die im Hörtext oft ausdrücklich erlaubt oder verboten wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu erlaubten oder nicht erlaubten Handlungen."
+      },
+      "55": {
+        "keyword": "empfiehlt",
+        "explanation_correct": "Das Verb 'empfiehlt' kennzeichnet einen Ratschlag, der im Hörtext meist deutlich als Empfehlung formuliert wird. Diese Aussage ist richtig; achten Sie auf solche Empfehlungen als möglichen Prüfungsschwerpunkt.",
+        "explanation_wrong": "Das Verb 'empfiehlt' kennzeichnet einen Ratschlag, der im Hörtext meist deutlich als Empfehlung formuliert wird. Diese Aussage ist richtig; achten Sie auf solche Empfehlungen als möglichen Prüfungsschwerpunkt."
+      }
+    }
+  },
+  "8dbfedd5-d7a1-4e7f-8c94-bad21f669216": {
+    "translation": {
+      "questions": {
+        "46": "بدء الحياة المهنية ليس سهلاً في بلدان أخرى.",
+        "47": "مهنة كارينا أهم بالنسبة لها من حياتها الخاصة.",
+        "48": "أثارت كارينا اهتمام الوكالة بواسطة فيلم فيديو.",
+        "49": "خضعت كارينا لحمية غذائية من أجل فيلم.",
+        "50": "تفضل كارينا الأفلام العاطفية على أفلام الحركة.",
+        "51": "بسبب كثرة الغيابات، واجهت كارينا مشاكل مع مدير المدرسة.",
+        "52": "دعم والدا كارينا ابنتهما منذ البداية.",
+        "53": "تجد كارينا أن التنقل بين المدرسة ومواعيد التصوير ليس سهلاً.",
+        "54": "يمكن للمرء أيضًا أن يبتكر شيئًا بنفسه في الحوارات.",
+        "55": "توصي كارينا بمشاهدة ممثلين آخرين في المسرح والأفلام."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "nicht leicht",
+        "explanation_correct": "Formulierungen wie 'nicht leicht' liefern eine wertende Einschätzung, auf die Sie beim Hören besonders achten sollten. Diese Aussage ist richtig; allgemeine Bewertungen zu Beginn eines Hörtextes sind oft ein guter Ausgangspunkt für die erste Aufgabe.",
+        "explanation_wrong": "Formulierungen wie 'nicht leicht' liefern eine wertende Einschätzung, auf die Sie beim Hören besonders achten sollten. Diese Aussage ist richtig; allgemeine Bewertungen zu Beginn eines Hörtextes sind oft ein guter Ausgangspunkt für die erste Aufgabe."
+      },
+      "47": {
+        "keyword": "wichtiger als",
+        "explanation_correct": "Der Vergleich 'wichtiger als' behauptet eine klare Rangfolge zwischen zwei Lebensbereichen, die im Hörtext oft nicht so eindeutig ist. Diese Aussage ist falsch; solche Prioritätsaussagen zwischen Beruf und Privatleben sind ein beliebter Prüfungsansatz.",
+        "explanation_wrong": "Der Vergleich 'wichtiger als' behauptet eine klare Rangfolge zwischen zwei Lebensbereichen, die im Hörtext oft nicht so eindeutig ist. Diese Aussage ist falsch; solche Prioritätsaussagen zwischen Beruf und Privatleben sind ein beliebter Prüfungsansatz."
+      },
+      "48": {
+        "keyword": "Videofilm",
+        "explanation_correct": "Das Detail 'Videofilm' benennt ein konkretes Mittel, mit dem laut Aussage Interesse geweckt wurde; solche Angaben zu Werkzeugen oder Wegen einer Handlung sind wichtig. Diese Aussage ist richtig; achten Sie auf präzise Details, mit welchem Mittel etwas erreicht wurde.",
+        "explanation_wrong": "Das Detail 'Videofilm' benennt ein konkretes Mittel, mit dem laut Aussage Interesse geweckt wurde; solche Angaben zu Werkzeugen oder Wegen einer Handlung sind wichtig. Diese Aussage ist richtig; achten Sie auf präzise Details, mit welchem Mittel etwas erreicht wurde."
+      },
+      "49": {
+        "keyword": "Dait",
+        "explanation_correct": "Das Wort 'Dait' bezieht sich auf eine Ernährungsumstellung für einen Film und ist ein konkretes persönliches Detail. Diese Aussage ist richtig; solche Details zu persönlichen Anstrengungen für einen Beruf werden häufig abgefragt.",
+        "explanation_wrong": "Das Wort 'Dait' bezieht sich auf eine Ernährungsumstellung für einen Film und ist ein konkretes persönliches Detail. Diese Aussage ist richtig; solche Details zu persönlichen Anstrengungen für einen Beruf werden häufig abgefragt."
+      },
+      "50": {
+        "keyword": "lieber ... als",
+        "explanation_correct": "Der Vergleich 'lieber ... als' behauptet eine eindeutige Vorliebe zwischen zwei Filmarten, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Präferenzaussagen sollten Sie stets kritisch mit dem Gehörten abgleichen.",
+        "explanation_wrong": "Der Vergleich 'lieber ... als' behauptet eine eindeutige Vorliebe zwischen zwei Filmarten, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Präferenzaussagen sollten Sie stets kritisch mit dem Gehörten abgleichen."
+      },
+      "51": {
+        "keyword": "Fehlstunden",
+        "explanation_correct": "Das Wort 'Fehlstunden' nennt eine mögliche Ursache für ein Problem, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche Ursache-Wirkung-Aussagen werden in der Prüfung gern verändert.",
+        "explanation_wrong": "Das Wort 'Fehlstunden' nennt eine mögliche Ursache für ein Problem, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche Ursache-Wirkung-Aussagen werden in der Prüfung gern verändert."
+      },
+      "52": {
+        "keyword": "von Anfang an",
+        "explanation_correct": "Der Ausdruck 'von Anfang an' behauptet eine lückenlose Unterstützung über die gesamte Zeit, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche absoluten Zeitangaben sollten Sie kritisch hinterfragen.",
+        "explanation_wrong": "Der Ausdruck 'von Anfang an' behauptet eine lückenlose Unterstützung über die gesamte Zeit, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche absoluten Zeitangaben sollten Sie kritisch hinterfragen."
+      },
+      "53": {
+        "keyword": "Nicht leicht",
+        "explanation_correct": "Formulierungen wie 'nicht leicht' bewerten eine Situation als schwierig; solche Einschätzungen sind oft ein zentraler Punkt im Hörtext. Diese Aussage ist richtig; achten Sie auf wiederkehrende Bewertungen zu Schwierigkeiten im Alltag der sprechenden Person.",
+        "explanation_wrong": "Formulierungen wie 'nicht leicht' bewerten eine Situation als schwierig; solche Einschätzungen sind oft ein zentraler Punkt im Hörtext. Diese Aussage ist richtig; achten Sie auf wiederkehrende Bewertungen zu Schwierigkeiten im Alltag der sprechenden Person."
+      },
+      "54": {
+        "keyword": "selbst etwas erfinden",
+        "explanation_correct": "Der Ausdruck 'selbst etwas erfinden' beschreibt eine bestimmte Freiheit bei einer Tätigkeit, die im Hörtext oft ausdrücklich erlaubt oder verboten wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu erlaubten oder nicht erlaubten Handlungen.",
+        "explanation_wrong": "Der Ausdruck 'selbst etwas erfinden' beschreibt eine bestimmte Freiheit bei einer Tätigkeit, die im Hörtext oft ausdrücklich erlaubt oder verboten wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu erlaubten oder nicht erlaubten Handlungen."
+      },
+      "55": {
+        "keyword": "empfiehlt",
+        "explanation_correct": "Das Verb 'empfiehlt' kennzeichnet einen konkreten Ratschlag, der im Hörtext meist deutlich als Empfehlung formuliert wird. Diese Aussage ist richtig; solche Empfehlungen sind ein häufiger Prüfungsschwerpunkt am Ende eines Hörtextes.",
+        "explanation_wrong": "Das Verb 'empfiehlt' kennzeichnet einen konkreten Ratschlag, der im Hörtext meist deutlich als Empfehlung formuliert wird. Diese Aussage ist richtig; solche Empfehlungen sind ein häufiger Prüfungsschwerpunkt am Ende eines Hörtextes."
+      }
+    }
+  },
+  "1e4f5b99-dfa4-415d-a26e-0498ce9faab0": {
+    "translation": {
+      "questions": {
+        "1": "تحلم كارينا باللعب في أفلام هوليوود.",
+        "2": "تضع كارينا مهنتها في المقام الأول.",
+        "3": "قدّمت كارينا نفسها للوكالة من خلال فيلم.",
+        "4": "اضطرت كارينا إلى تغيير وزنها بشكل كبير من أجل فيلم.",
+        "5": "تفضل كارينا الأفلام العاطفية على أفلام الحركة.",
+        "6": "بسبب كثرة الغيابات، واجهت كارينا مشاكل مع مدير المدرسة.",
+        "7": "دعم والدا كارينا ابنتهما منذ البداية.",
+        "8": "لا تجد كارينا أن التنقل بين المدرسة ومواعيد التصوير خالٍ من المشاكل دائمًا.",
+        "9": "يمكن للمرء أيضًا أن يبتكر شيئًا بنفسه في الحوارات.",
+        "10": "لن تمثل كورينا في أي فيلم بعد الآن."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "Holandy",
+        "explanation_correct": "Ortsangaben wie hier zu Hollywood sind konkrete geografische Details, die im Hörtext genau überprüft werden sollten. Diese Aussage ist falsch; Trauminhalte oder Zukunftswünsche einer Person werden in Prüfungsaufgaben oft bewusst verändert wiedergegeben.",
+        "explanation_wrong": "Ortsangaben wie hier zu Hollywood sind konkrete geografische Details, die im Hörtext genau überprüft werden sollten. Diese Aussage ist falsch; Trauminhalte oder Zukunftswünsche einer Person werden in Prüfungsaufgaben oft bewusst verändert wiedergegeben."
+      },
+      "2": {
+        "keyword": "an erste Stelle",
+        "explanation_correct": "Der Ausdruck 'an erste Stelle' behauptet eine klare Priorität, die im Hörtext oft nicht so eindeutig bestätigt wird. Diese Aussage ist falsch; solche Rangfolge-Aussagen zwischen Lebensbereichen sind ein beliebter Prüfungsansatz.",
+        "explanation_wrong": "Der Ausdruck 'an erste Stelle' behauptet eine klare Priorität, die im Hörtext oft nicht so eindeutig bestätigt wird. Diese Aussage ist falsch; solche Rangfolge-Aussagen zwischen Lebensbereichen sind ein beliebter Prüfungsansatz."
+      },
+      "3": {
+        "keyword": "mit einem Film",
+        "explanation_correct": "Das Detail 'mit einem Film' beschreibt eine konkrete Vorgehensweise, deren Richtigkeit im Hörtext überprüft werden muss. Diese Aussage ist falsch; achten Sie auf solche Angaben zu Mitteln oder Wegen einer Handlung, da sie oft verändert werden.",
+        "explanation_wrong": "Das Detail 'mit einem Film' beschreibt eine konkrete Vorgehensweise, deren Richtigkeit im Hörtext überprüft werden muss. Diese Aussage ist falsch; achten Sie auf solche Angaben zu Mitteln oder Wegen einer Handlung, da sie oft verändert werden."
+      },
+      "4": {
+        "keyword": "Gewicht stark verändern",
+        "explanation_correct": "Der Ausdruck 'Gewicht stark verändern' beschreibt eine deutliche körperliche Veränderung, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche konkreten körperlichen Details sind ein häufiger Prüfungspunkt.",
+        "explanation_wrong": "Der Ausdruck 'Gewicht stark verändern' beschreibt eine deutliche körperliche Veränderung, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche konkreten körperlichen Details sind ein häufiger Prüfungspunkt."
+      },
+      "5": {
+        "keyword": "lieber ... als",
+        "explanation_correct": "Der Vergleich 'lieber ... als' behauptet eine klare Vorliebe zwischen zwei Filmarten, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Präferenzaussagen sollten Sie stets kritisch mit dem Gehörten abgleichen.",
+        "explanation_wrong": "Der Vergleich 'lieber ... als' behauptet eine klare Vorliebe zwischen zwei Filmarten, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Präferenzaussagen sollten Sie stets kritisch mit dem Gehörten abgleichen."
+      },
+      "6": {
+        "keyword": "Fehlstunden",
+        "explanation_correct": "Das Wort 'Fehlstunden' nennt eine mögliche Ursache für ein Problem, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche Ursache-Wirkung-Aussagen werden in der Prüfung gern verändert.",
+        "explanation_wrong": "Das Wort 'Fehlstunden' nennt eine mögliche Ursache für ein Problem, die im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche Ursache-Wirkung-Aussagen werden in der Prüfung gern verändert."
+      },
+      "7": {
+        "keyword": "von Anfang an",
+        "explanation_correct": "Der Ausdruck 'von Anfang an' behauptet eine lückenlose Unterstützung über die gesamte Zeit, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche absoluten Zeitangaben über einen gesamten Verlauf sollten Sie kritisch hinterfragen.",
+        "explanation_wrong": "Der Ausdruck 'von Anfang an' behauptet eine lückenlose Unterstützung über die gesamte Zeit, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche absoluten Zeitangaben über einen gesamten Verlauf sollten Sie kritisch hinterfragen."
+      },
+      "8": {
+        "keyword": "nicht immer Problemlos",
+        "explanation_correct": "Die Einschränkung 'nicht immer problemlos' ist vorsichtiger formuliert als eine absolute Aussage und daher oft näher an einer differenzierten, zutreffenden Darstellung. Diese Aussage ist richtig; achten Sie auf solche abgeschwächten Formulierungen als möglichen Hinweis auf eine korrekte Aussage.",
+        "explanation_wrong": "Die Einschränkung 'nicht immer problemlos' ist vorsichtiger formuliert als eine absolute Aussage und daher oft näher an einer differenzierten, zutreffenden Darstellung. Diese Aussage ist richtig; achten Sie auf solche abgeschwächten Formulierungen als möglichen Hinweis auf eine korrekte Aussage."
+      },
+      "9": {
+        "keyword": "selbst etwas erfinden",
+        "explanation_correct": "Der Ausdruck 'selbst etwas erfinden' beschreibt eine bestimmte Freiheit bei einer Tätigkeit, die im Hörtext oft ausdrücklich erlaubt oder verboten wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu erlaubten oder nicht erlaubten Handlungen.",
+        "explanation_wrong": "Der Ausdruck 'selbst etwas erfinden' beschreibt eine bestimmte Freiheit bei einer Tätigkeit, die im Hörtext oft ausdrücklich erlaubt oder verboten wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu erlaubten oder nicht erlaubten Handlungen."
+      },
+      "10": {
+        "keyword": "keine Filmspiel",
+        "explanation_correct": "Die Verneinung 'keine ... spielen' behauptet das Gegenteil einer früheren Absicht und ist ein wichtiges Detail zur Zukunftsplanung der Person. Diese Aussage ist richtig; achten Sie besonders auf Verneinungen, die eine frühere Aussage klar umkehren.",
+        "explanation_wrong": "Die Verneinung 'keine ... spielen' behauptet das Gegenteil einer früheren Absicht und ist ein wichtiges Detail zur Zukunftsplanung der Person. Diese Aussage ist richtig; achten Sie besonders auf Verneinungen, die eine frühere Aussage klar umkehren."
+      }
+    }
+  },
+  "f0a52061-e248-4e03-b5bc-04adc482a6d3": {
+    "translation": {
+      "questions": {
+        "46": "يعمل ماتياس الآن تقريبًا بنسب متساوية كمعلم وكمختص في العناية بالأشجار.",
+        "47": "يعمل ماتياس في مهنته بشكل رئيسي في المناطق الحضرية.",
+        "48": "كان ماتياس يعرف بالضبط منذ طفولته أي مهنة سيمارسها لاحقًا.",
+        "49": "يستخدم ماتياس عادة رافعة منصة للعمل في المدن.",
+        "50": "جزء كبير من عمله يهدف إلى ضمان سلامة المرور المتعلقة بالأشجار.",
+        "51": "لا يحتاج ماتياس للعناية المهنية بالأشجار سوى إلى أدوات عمل قليلة ورخيصة.",
+        "52": "باندو عبارة عن جذع شجرة واحد يبلغ عمره حوالي 80 ألف سنة.",
+        "53": "لأسباب أمنية، لا يُسمح لماتياس بالعمل بمفرده أثناء أعمال التسلق مطلقًا.",
+        "54": "تعرض ماتياس بالفعل لحادث خطير أثناء عمله.",
+        "55": "يشكل العمل الجسدي في الطبيعة توازنًا لماتياس مقابل عمله كمعلم."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "zu gleichen Teilen",
+        "explanation_correct": "Angaben wie 'zu gleichen Teilen' beschreiben eine ausgewogene Verteilung zwischen zwei Tätigkeiten, die im Hörtext genau bestätigt werden sollte. Diese Aussage ist richtig; solche Verteilungsangaben zwischen zwei Berufen sind ein typischer Prüfungspunkt.",
+        "explanation_wrong": "Angaben wie 'zu gleichen Teilen' beschreiben eine ausgewogene Verteilung zwischen zwei Tätigkeiten, die im Hörtext genau bestätigt werden sollte. Diese Aussage ist richtig; solche Verteilungsangaben zwischen zwei Berufen sind ein typischer Prüfungspunkt."
+      },
+      "47": {
+        "keyword": "hauptsächlich im städtischen Raum",
+        "explanation_correct": "Der Ausdruck 'hauptsächlich im städtischen Raum' grenzt den Arbeitsort deutlich ein und sollte mit dem Hörtext genau abgeglichen werden. Diese Aussage ist richtig; achten Sie auf solche Ortsangaben als möglichen Prüfungsschwerpunkt.",
+        "explanation_wrong": "Der Ausdruck 'hauptsächlich im städtischen Raum' grenzt den Arbeitsort deutlich ein und sollte mit dem Hörtext genau abgeglichen werden. Diese Aussage ist richtig; achten Sie auf solche Ortsangaben als möglichen Prüfungsschwerpunkt."
+      },
+      "48": {
+        "keyword": "bereits als Kind genau",
+        "explanation_correct": "Die Formulierung 'bereits als Kind genau' behauptet eine sehr frühe und klare Berufsentscheidung, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche übertrieben eindeutigen Aussagen zur Kindheit sollten Sie kritisch hinterfragen.",
+        "explanation_wrong": "Die Formulierung 'bereits als Kind genau' behauptet eine sehr frühe und klare Berufsentscheidung, was ein typischer Fallstrick ist. Diese Aussage ist falsch; solche übertrieben eindeutigen Aussagen zur Kindheit sollten Sie kritisch hinterfragen."
+      },
+      "49": {
+        "keyword": "Hebebühne",
+        "explanation_correct": "Das Wort 'Hebebühne' benennt ein bestimmtes Arbeitsmittel, dessen Verwendung im Hörtext genau geprüft werden muss. Diese Aussage ist falsch; achten Sie auf präzise Angaben zu verwendeten Werkzeugen oder Geräten.",
+        "explanation_wrong": "Das Wort 'Hebebühne' benennt ein bestimmtes Arbeitsmittel, dessen Verwendung im Hörtext genau geprüft werden muss. Diese Aussage ist falsch; achten Sie auf präzise Angaben zu verwendeten Werkzeugen oder Geräten."
+      },
+      "50": {
+        "keyword": "Verkehrssicherheit",
+        "explanation_correct": "Der Begriff 'Verkehrssicherheit' beschreibt einen konkreten Zweck der Arbeit, der im Hörtext meist ausdrücklich genannt wird. Diese Aussage ist richtig; achten Sie auf solche Zweckangaben als möglichen zentralen Aussagepunkt.",
+        "explanation_wrong": "Der Begriff 'Verkehrssicherheit' beschreibt einen konkreten Zweck der Arbeit, der im Hörtext meist ausdrücklich genannt wird. Diese Aussage ist richtig; achten Sie auf solche Zweckangaben als möglichen zentralen Aussagepunkt."
+      },
+      "51": {
+        "keyword": "nur wenige und preiswerte",
+        "explanation_correct": "Die Einschränkung 'nur wenige und preiswerte' behauptet einen geringen Aufwand, der im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche verharmlosenden Mengen- und Preisangaben sind ein klassischer Fallstrick.",
+        "explanation_wrong": "Die Einschränkung 'nur wenige und preiswerte' behauptet einen geringen Aufwand, der im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche verharmlosenden Mengen- und Preisangaben sind ein klassischer Fallstrick."
+      },
+      "52": {
+        "keyword": "80.000 Jahre alten Baumstamm",
+        "explanation_correct": "Die Zahlenangabe '80.000 Jahre alten Baumstamm' ist ein sehr konkretes Detail, das beim Hören genau überprüft werden sollte. Diese Aussage ist falsch; achten Sie besonders auf Zahlenangaben in Kombination mit einer vereinfachenden Beschreibung wie 'ein einziger'.",
+        "explanation_wrong": "Die Zahlenangabe '80.000 Jahre alten Baumstamm' ist ein sehr konkretes Detail, das beim Hören genau überprüft werden sollte. Diese Aussage ist falsch; achten Sie besonders auf Zahlenangaben in Kombination mit einer vereinfachenden Beschreibung wie 'ein einziger'."
+      },
+      "53": {
+        "keyword": "grundsätzlich nicht allein",
+        "explanation_correct": "Der Ausdruck 'grundsätzlich nicht allein' beschreibt eine feste Sicherheitsregel, die im Hörtext meist klar begründet wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu Sicherheitsvorschriften bei gefährlichen Tätigkeiten.",
+        "explanation_wrong": "Der Ausdruck 'grundsätzlich nicht allein' beschreibt eine feste Sicherheitsregel, die im Hörtext meist klar begründet wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu Sicherheitsvorschriften bei gefährlichen Tätigkeiten."
+      },
+      "54": {
+        "keyword": "schweren Unfall",
+        "explanation_correct": "Der Ausdruck 'schweren Unfall' behauptet ein einschneidendes negatives Ereignis, das im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche dramatischen Detailbehauptungen sind ein beliebtes Mittel für falsche Aussagen.",
+        "explanation_wrong": "Der Ausdruck 'schweren Unfall' behauptet ein einschneidendes negatives Ereignis, das im Hörtext bestätigt oder widerlegt werden kann. Diese Aussage ist falsch; solche dramatischen Detailbehauptungen sind ein beliebtes Mittel für falsche Aussagen."
+      },
+      "55": {
+        "keyword": "einen Ausgleich",
+        "explanation_correct": "Der Begriff 'einen Ausgleich' beschreibt eine ausgleichende Funktion zwischen zwei Tätigkeiten, die im Hörtext oft explizit thematisiert wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zum persönlichen Nutzen einer Tätigkeit.",
+        "explanation_wrong": "Der Begriff 'einen Ausgleich' beschreibt eine ausgleichende Funktion zwischen zwei Tätigkeiten, die im Hörtext oft explizit thematisiert wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zum persönlichen Nutzen einer Tätigkeit."
+      }
+    }
+  },
+  "181ece6d-589b-4a5f-b0bc-0476efc5a196": {
+    "translation": {
+      "questions": {
+        "46": "في سباق شركة جي بي مورغان يلتقي المرء بالعديد من الزملاء لأول مرة.",
+        "47": "يأتي المتسابقون والمتسابقات من الداخل والخارج.",
+        "48": "لا يمكن المشاركة في سباق جي بي مورغان إلا لمن يمارس الرياضة بنشاط.",
+        "49": "شاركت ابنة ياسمين في هذا السباق من قبل أيضًا.",
+        "50": "شاركت ياسمين لأول مرة في سباق جي بي مورغان قبل عامين.",
+        "51": "يُقام سباق جي بي مورغان في ألمانيا فقط.",
+        "52": "لم تعد ياسمين تشعر بالوحدة كما كان الحال بعد سباقها الأول.",
+        "53": "يجب على المديرين أيضًا أن يكونوا حاضرين في السباق.",
+        "54": "القمصان علامة مميزة للتعرف على المشاركين.",
+        "55": "يجب على الشركات دفع رسوم الاشتراك."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "zum ersten Mal",
+        "explanation_correct": "Der Ausdruck 'zum ersten Mal' beschreibt ein konkretes einmaliges Erlebnis, das im Hörtext oft ausdrücklich hervorgehoben wird. Diese Aussage ist richtig; achten Sie auf solche Formulierungen, die eine neue Erfahrung markieren.",
+        "explanation_wrong": "Der Ausdruck 'zum ersten Mal' beschreibt ein konkretes einmaliges Erlebnis, das im Hörtext oft ausdrücklich hervorgehoben wird. Diese Aussage ist richtig; achten Sie auf solche Formulierungen, die eine neue Erfahrung markieren."
+      },
+      "47": {
+        "keyword": "In- und Ausland",
+        "explanation_correct": "Die Angabe 'In- und Ausland' beschreibt eine geografische Herkunft, die im Hörtext meist konkret erläutert wird. Diese Aussage ist richtig; achten Sie auf solche Herkunftsangaben als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Die Angabe 'In- und Ausland' beschreibt eine geografische Herkunft, die im Hörtext meist konkret erläutert wird. Diese Aussage ist richtig; achten Sie auf solche Herkunftsangaben als möglichen Prüfungspunkt."
+      },
+      "48": {
+        "keyword": "Nur wer aktiv Sport treibt",
+        "explanation_correct": "Die Einschränkung 'nur wer aktiv Sport treibt' behauptet eine Teilnahmebedingung, die im Hörtext oft nicht so eng gefasst ist. Diese Aussage ist falsch; solche einschränkenden Bedingungen sind ein klassischer Fallstrick.",
+        "explanation_wrong": "Die Einschränkung 'nur wer aktiv Sport treibt' behauptet eine Teilnahmebedingung, die im Hörtext oft nicht so eng gefasst ist. Diese Aussage ist falsch; solche einschränkenden Bedingungen sind ein klassischer Fallstrick."
+      },
+      "49": {
+        "keyword": "auch schon dabei",
+        "explanation_correct": "Der Ausdruck 'auch schon dabei' behauptet eine frühere Teilnahme einer weiteren Person, die im Hörtext bestätigt werden kann. Diese Aussage ist richtig; achten Sie auf solche Angaben zu beteiligten Personen und ihrer Vorgeschichte.",
+        "explanation_wrong": "Der Ausdruck 'auch schon dabei' behauptet eine frühere Teilnahme einer weiteren Person, die im Hörtext bestätigt werden kann. Diese Aussage ist richtig; achten Sie auf solche Angaben zu beteiligten Personen und ihrer Vorgeschichte."
+      },
+      "50": {
+        "keyword": "vor zwei Jahren",
+        "explanation_correct": "Zeitangaben wie 'vor zwei Jahren' sind konkrete Details, die im Hörtext oft durch einen anderen Zeitpunkt ersetzt werden. Diese Aussage ist falsch; bei genauen Zeitangaben lohnt sich immer besondere Vorsicht.",
+        "explanation_wrong": "Zeitangaben wie 'vor zwei Jahren' sind konkrete Details, die im Hörtext oft durch einen anderen Zeitpunkt ersetzt werden. Diese Aussage ist falsch; bei genauen Zeitangaben lohnt sich immer besondere Vorsicht."
+      },
+      "51": {
+        "keyword": "nur in Deutschland",
+        "explanation_correct": "Die Einschränkung 'nur in Deutschland' behauptet eine geografische Begrenzung, die im Hörtext oft widerlegt wird. Diese Aussage ist falsch; solche Alleinstellungsbehauptungen zu einem Ort sind ein beliebtes Prüfungsmuster.",
+        "explanation_wrong": "Die Einschränkung 'nur in Deutschland' behauptet eine geografische Begrenzung, die im Hörtext oft widerlegt wird. Diese Aussage ist falsch; solche Alleinstellungsbehauptungen zu einem Ort sind ein beliebtes Prüfungsmuster."
+      },
+      "52": {
+        "keyword": "nicht mehr so allein",
+        "explanation_correct": "Der Ausdruck 'nicht mehr so allein' beschreibt eine persönliche Gefühlsveränderung, die im Hörtext meist konkret begründet wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu persönlichen Empfindungen als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Der Ausdruck 'nicht mehr so allein' beschreibt eine persönliche Gefühlsveränderung, die im Hörtext meist konkret begründet wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu persönlichen Empfindungen als möglichen Prüfungspunkt."
+      },
+      "53": {
+        "keyword": "müssen ... dabei sein",
+        "explanation_correct": "Das Modalverb 'müssen' behauptet eine Verpflichtung, die im Hörtext oft nur als freiwillige Möglichkeit beschrieben wird. Diese Aussage ist falsch; achten Sie auf den Unterschied zwischen Pflicht und Möglichkeit bei Modalverben.",
+        "explanation_wrong": "Das Modalverb 'müssen' behauptet eine Verpflichtung, die im Hörtext oft nur als freiwillige Möglichkeit beschrieben wird. Diese Aussage ist falsch; achten Sie auf den Unterschied zwischen Pflicht und Möglichkeit bei Modalverben."
+      },
+      "54": {
+        "keyword": "Erkennungszeichen",
+        "explanation_correct": "Der Begriff 'Erkennungszeichen' beschreibt eine bestimmte Funktion eines Gegenstands, die im Hörtext meist klar erläutert wird. Diese Aussage ist richtig; achten Sie auf solche Funktionsbeschreibungen als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Der Begriff 'Erkennungszeichen' beschreibt eine bestimmte Funktion eines Gegenstands, die im Hörtext meist klar erläutert wird. Diese Aussage ist richtig; achten Sie auf solche Funktionsbeschreibungen als möglichen Prüfungspunkt."
+      },
+      "55": {
+        "keyword": "müssen ... bezahlen",
+        "explanation_correct": "Das Modalverb 'müssen' behauptet eine finanzielle Verpflichtung, die im Hörtext oft anders geregelt ist. Diese Aussage ist falsch; achten Sie bei Aussagen zu Kosten und Zahlungspflichten besonders genau auf Modalverben.",
+        "explanation_wrong": "Das Modalverb 'müssen' behauptet eine finanzielle Verpflichtung, die im Hörtext oft anders geregelt ist. Diese Aussage ist falsch; achten Sie bei Aussagen zu Kosten und Zahlungspflichten besonders genau auf Modalverben."
+      }
+    }
+  },
+  "5a2493a9-d614-4c06-bf82-eacd81c2ab49": {
+    "translation": {
+      "questions": {
+        "46": "يخشى كثيرون من حدوث تخفيضات إضافية في الميزانية بسبب القانون الجديد.",
+        "47": "سيُحتاج مستقبلاً إلى عدد أقل من المربيات مقارنة باليوم.",
+        "48": "من المفترض أن يزداد مستقبلاً عدد أماكن الحضانة للأطفال دون سن الثالثة.",
+        "49": "من المفترض أن يصبح الالتحاق برياض الأطفال مجانيًا.",
+        "50": "ستستمر غالبية الأطفال الصغار في الرعاية بالمنزل مستقبلاً أيضًا.",
+        "51": "عند الحاجة، يبدأ دعم اللغة في السنة الرابعة من العمر.",
+        "52": "لا يحق للأطفال الألمان الحصول على دعم لغوي حكومي.",
+        "53": "يتزايد إهمال دعم اللغة لدى الأطفال في المنزل بشكل مستمر.",
+        "54": "يرى السيد تايشمان أن هناك حاجة للعمل من جانب السياسة أيضًا فيما يتعلق بدعم اللغة.",
+        "55": "من المفترض أن يصبح تدريب المربيات مستقبلاً في الجامعات."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "weiteren Mittelkürzungen",
+        "explanation_correct": "Der Ausdruck 'weiteren Mittelkürzungen' beschreibt eine befürchtete finanzielle Entwicklung, die im Hörtext oft ausdrücklich thematisiert wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu Befürchtungen oder Erwartungen bestimmter Gruppen.",
+        "explanation_wrong": "Der Ausdruck 'weiteren Mittelkürzungen' beschreibt eine befürchtete finanzielle Entwicklung, die im Hörtext oft ausdrücklich thematisiert wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu Befürchtungen oder Erwartungen bestimmter Gruppen."
+      },
+      "47": {
+        "keyword": "weniger ... als heute",
+        "explanation_correct": "Der Vergleich 'weniger ... als heute' behauptet eine Abnahme im Vergleich zur Gegenwart, die im Hörtext meist begründet wird. Diese Aussage ist richtig; achten Sie auf solche Zukunftsvergleiche als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Der Vergleich 'weniger ... als heute' behauptet eine Abnahme im Vergleich zur Gegenwart, die im Hörtext meist begründet wird. Diese Aussage ist richtig; achten Sie auf solche Zukunftsvergleiche als möglichen Prüfungspunkt."
+      },
+      "48": {
+        "keyword": "mehr Krippenplätze",
+        "explanation_correct": "Die Angabe 'mehr Krippenplätze' behauptet eine bestimmte quantitative Entwicklung, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Mengenaussagen zu zukünftigen Plänen sind ein klassischer Fallstrick.",
+        "explanation_wrong": "Die Angabe 'mehr Krippenplätze' behauptet eine bestimmte quantitative Entwicklung, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche Mengenaussagen zu zukünftigen Plänen sind ein klassischer Fallstrick."
+      },
+      "49": {
+        "keyword": "kostenlos",
+        "explanation_correct": "Das Wort 'kostenlos' behauptet eine bestimmte finanzielle Regelung, die im Hörtext eindeutig bestätigt oder widerlegt werden kann. Diese Aussage ist richtig; bei Aussagen zu Kosten lohnt sich immer besondere Aufmerksamkeit.",
+        "explanation_wrong": "Das Wort 'kostenlos' behauptet eine bestimmte finanzielle Regelung, die im Hörtext eindeutig bestätigt oder widerlegt werden kann. Diese Aussage ist richtig; bei Aussagen zu Kosten lohnt sich immer besondere Aufmerksamkeit."
+      },
+      "50": {
+        "keyword": "Die Mehrheit",
+        "explanation_correct": "Formulierungen wie 'die Mehrheit' machen eine Aussage über den größten Teil einer Gruppe, die im Hörtext oft anders verteilt ist. Diese Aussage ist falsch; solche Mengenangaben sollten Sie stets kritisch mit dem Gehörten abgleichen.",
+        "explanation_wrong": "Formulierungen wie 'die Mehrheit' machen eine Aussage über den größten Teil einer Gruppe, die im Hörtext oft anders verteilt ist. Diese Aussage ist falsch; solche Mengenangaben sollten Sie stets kritisch mit dem Gehörten abgleichen."
+      },
+      "51": {
+        "keyword": "im vierten Lebensjahr",
+        "explanation_correct": "Die Altersangabe 'im vierten Lebensjahr' ist ein konkretes zeitliches Detail, das im Hörtext genau bestätigt werden sollte. Diese Aussage ist richtig; achten Sie auf präzise Alters- und Zeitangaben als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Die Altersangabe 'im vierten Lebensjahr' ist ein konkretes zeitliches Detail, das im Hörtext genau bestätigt werden sollte. Diese Aussage ist richtig; achten Sie auf präzise Alters- und Zeitangaben als möglichen Prüfungspunkt."
+      },
+      "52": {
+        "keyword": "keinen Anspruch",
+        "explanation_correct": "Die Verneinung 'keinen Anspruch' behauptet das vollständige Fehlen eines Rechts, was im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche absoluten Verneinungen von Ansprüchen sind ein beliebtes Prüfungsmuster.",
+        "explanation_wrong": "Die Verneinung 'keinen Anspruch' behauptet das vollständige Fehlen eines Rechts, was im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; solche absoluten Verneinungen von Ansprüchen sind ein beliebtes Prüfungsmuster."
+      },
+      "53": {
+        "keyword": "immer häufiger vernachlässigt",
+        "explanation_correct": "Der Ausdruck 'immer häufiger vernachlässigt' beschreibt eine zunehmende negative Entwicklung, die im Hörtext meist konkret erläutert wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu Entwicklungstendenzen.",
+        "explanation_wrong": "Der Ausdruck 'immer häufiger vernachlässigt' beschreibt eine zunehmende negative Entwicklung, die im Hörtext meist konkret erläutert wird. Diese Aussage ist richtig; achten Sie auf solche Aussagen zu Entwicklungstendenzen."
+      },
+      "54": {
+        "keyword": "auch auf Seiten der Politik",
+        "explanation_correct": "Der Ausdruck 'auch auf Seiten der Politik' behauptet eine zusätzliche Verantwortung eines bestimmten Akteurs, die im Hörtext oft nicht so genannt wird. Diese Aussage ist falsch; achten Sie darauf, welchen Akteuren im Hörtext tatsächlich Handlungsbedarf zugeschrieben wird.",
+        "explanation_wrong": "Der Ausdruck 'auch auf Seiten der Politik' behauptet eine zusätzliche Verantwortung eines bestimmten Akteurs, die im Hörtext oft nicht so genannt wird. Diese Aussage ist falsch; achten Sie darauf, welchen Akteuren im Hörtext tatsächlich Handlungsbedarf zugeschrieben wird."
+      },
+      "55": {
+        "keyword": "an Hochschulen",
+        "explanation_correct": "Die Ortsangabe 'an Hochschulen' beschreibt einen konkreten künftigen Ausbildungsort, der im Hörtext meist ausdrücklich genannt wird. Diese Aussage ist richtig; achten Sie auf solche Angaben zu institutionellen Veränderungen.",
+        "explanation_wrong": "Die Ortsangabe 'an Hochschulen' beschreibt einen konkreten künftigen Ausbildungsort, der im Hörtext meist ausdrücklich genannt wird. Diese Aussage ist richtig; achten Sie auf solche Angaben zu institutionellen Veränderungen."
+      }
+    }
+  },
+  "924b0956-fd20-481e-a711-188335aef194": {
+    "translation": {
+      "questions": {
+        "46": "يفضل الألمان حاليًا قضاء إجازة تصل إلى ثلاثة أسابيع أو أكثر.",
+        "47": "تقع العديد من فنادق العافية في المدن الكبرى.",
+        "48": "توجد عروض العافية بشكل خاص في الفنادق ذات الفئة الراقية.",
+        "49": "تشمل «الباقات» التي تقدمها الفنادق عادة إقامة كاملة مع جميع الوجبات.",
+        "50": "يمكن في الفنادق أيضًا السباحة والذهاب إلى الساونا.",
+        "51": "بالكاد يلاحظ الضيوف العروض الرياضية.",
+        "52": "غالبًا ما تقدم الفنادق أيضًا برامج ثقافية مصاحبة مثل جولات في المدينة وزيارات الأوبرا.",
+        "53": "تأتي النساء دائمًا تقريبًا برفقة أزواجهن.",
+        "54": "لدى الفنادق عروض خاصة للرجال.",
+        "55": "يمكن لأعضاء شركات التأمين الصحي زيارة الفنادق مجانًا."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "bis zu drei Wochen oder mehr",
+        "explanation_correct": "Zeitangaben wie 'bis zu drei Wochen oder mehr' beschreiben eine konkrete Urlaubsdauer, die im Hörtext oft anders angegeben wird. Diese Aussage ist falsch; achten Sie besonders auf genaue Dauerangaben bei Freizeitthemen.",
+        "explanation_wrong": "Zeitangaben wie 'bis zu drei Wochen oder mehr' beschreiben eine konkrete Urlaubsdauer, die im Hörtext oft anders angegeben wird. Diese Aussage ist falsch; achten Sie besonders auf genaue Dauerangaben bei Freizeitthemen."
+      },
+      "47": {
+        "keyword": "in Großstädten",
+        "explanation_correct": "Die Ortsangabe 'in Großstädten' behauptet einen bestimmten Standort, der im Hörtext oft durch einen anderen Ort ersetzt wird. Diese Aussage ist falsch; solche Standortangaben sind ein beliebter Ansatzpunkt für Falschaussagen.",
+        "explanation_wrong": "Die Ortsangabe 'in Großstädten' behauptet einen bestimmten Standort, der im Hörtext oft durch einen anderen Ort ersetzt wird. Diese Aussage ist falsch; solche Standortangaben sind ein beliebter Ansatzpunkt für Falschaussagen."
+      },
+      "48": {
+        "keyword": "gehobenen Kategorie",
+        "explanation_correct": "Der Ausdruck 'gehobenen Kategorie' beschreibt eine bestimmte Hotelklasse, die im Hörtext meist konkret genannt wird. Diese Aussage ist richtig; achten Sie auf solche Kategorisierungen als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Der Ausdruck 'gehobenen Kategorie' beschreibt eine bestimmte Hotelklasse, die im Hörtext meist konkret genannt wird. Diese Aussage ist richtig; achten Sie auf solche Kategorisierungen als möglichen Prüfungspunkt."
+      },
+      "49": {
+        "keyword": "Vollpension",
+        "explanation_correct": "Der Begriff 'Vollpension' bezeichnet eine bestimmte Verpflegungsart, die im Hörtext oft durch eine andere Regelung ersetzt wird. Diese Aussage ist falsch; achten Sie auf präzise Angaben zum Leistungsumfang eines Angebots.",
+        "explanation_wrong": "Der Begriff 'Vollpension' bezeichnet eine bestimmte Verpflegungsart, die im Hörtext oft durch eine andere Regelung ersetzt wird. Diese Aussage ist falsch; achten Sie auf präzise Angaben zum Leistungsumfang eines Angebots."
+      },
+      "50": {
+        "keyword": "schwimmen und in die Sauna",
+        "explanation_correct": "Die Aufzählung 'schwimmen und in die Sauna' benennt konkrete Angebote, die im Hörtext meist ausdrücklich erwähnt werden. Diese Aussage ist richtig; achten Sie auf solche Aufzählungen von Einrichtungen als möglichen Prüfungspunkt.",
+        "explanation_wrong": "Die Aufzählung 'schwimmen und in die Sauna' benennt konkrete Angebote, die im Hörtext meist ausdrücklich erwähnt werden. Diese Aussage ist richtig; achten Sie auf solche Aufzählungen von Einrichtungen als möglichen Prüfungspunkt."
+      },
+      "51": {
+        "keyword": "kaum wahr",
+        "explanation_correct": "Der Ausdruck 'kaum wahr' behauptet ein geringes Interesse, das im Hörtext oft anders beschrieben wird. Diese Aussage ist falsch; solche abwertenden Formulierungen zum Verhalten der Gäste sind ein klassischer Fallstrick.",
+        "explanation_wrong": "Der Ausdruck 'kaum wahr' behauptet ein geringes Interesse, das im Hörtext oft anders beschrieben wird. Diese Aussage ist falsch; solche abwertenden Formulierungen zum Verhalten der Gäste sind ein klassischer Fallstrick."
+      },
+      "52": {
+        "keyword": "Stadtführungen und Opernbesuche",
+        "explanation_correct": "Die konkreten Beispiele 'Stadtführungen und Opernbesuche' sind Details, die im Hörtext genau überprüft werden sollten. Diese Aussage ist falsch; achten Sie auf solche spezifischen Beispiele als möglichen Ansatzpunkt für eine Falschaussage.",
+        "explanation_wrong": "Die konkreten Beispiele 'Stadtführungen und Opernbesuche' sind Details, die im Hörtext genau überprüft werden sollten. Diese Aussage ist falsch; achten Sie auf solche spezifischen Beispiele als möglichen Ansatzpunkt für eine Falschaussage."
+      },
+      "53": {
+        "keyword": "fast immer in Begleitung",
+        "explanation_correct": "Der Ausdruck 'fast immer in Begleitung' behauptet eine fast durchgängige Regel, die im Hörtext oft nicht so eindeutig ist. Diese Aussage ist falsch; solche fast-absoluten Formulierungen sollten Sie kritisch hinterfragen.",
+        "explanation_wrong": "Der Ausdruck 'fast immer in Begleitung' behauptet eine fast durchgängige Regel, die im Hörtext oft nicht so eindeutig ist. Diese Aussage ist falsch; solche fast-absoluten Formulierungen sollten Sie kritisch hinterfragen."
+      },
+      "54": {
+        "keyword": "besondere Angebote für Männer",
+        "explanation_correct": "Der Ausdruck 'besondere Angebote für Männer' beschreibt eine zielgruppenspezifische Leistung, die im Hörtext meist konkret genannt wird. Diese Aussage ist richtig; achten Sie auf solche Angaben zu speziellen Zielgruppen.",
+        "explanation_wrong": "Der Ausdruck 'besondere Angebote für Männer' beschreibt eine zielgruppenspezifische Leistung, die im Hörtext meist konkret genannt wird. Diese Aussage ist richtig; achten Sie auf solche Angaben zu speziellen Zielgruppen."
+      },
+      "55": {
+        "keyword": "kostenlos besuchen",
+        "explanation_correct": "Der Ausdruck 'kostenlos besuchen' behauptet eine bestimmte finanzielle Regelung für eine Gruppe, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; bei Aussagen zu Kosten für bestimmte Personengruppen lohnt sich immer besondere Aufmerksamkeit.",
+        "explanation_wrong": "Der Ausdruck 'kostenlos besuchen' behauptet eine bestimmte finanzielle Regelung für eine Gruppe, die im Hörtext oft anders dargestellt wird. Diese Aussage ist falsch; bei Aussagen zu Kosten für bestimmte Personengruppen lohnt sich immer besondere Aufmerksamkeit."
+      }
+    }
+  }
+}

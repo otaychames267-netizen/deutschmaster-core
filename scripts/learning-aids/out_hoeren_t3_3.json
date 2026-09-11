@@ -1,0 +1,344 @@
+{
+  "1ed40dd2-9167-48f1-ac66-c71de36207c9": {
+    "translation": {
+      "questions": {
+        "56": "غدًا يجب على المرء أن يتوقع تساقط الثلوج في جنوب ألمانيا.",
+        "57": "الولدان الاثنان هربا من المنزل.",
+        "58": "يمكنكم يوم السبت الاتصال بأحد موظفي الشركة.",
+        "59": "بسبب مظاهرة، يُمنع الدخول بالسيارة إلى المدينة القديمة في نورمبرغ.",
+        "60": "ستسير السكة الحديدية الكهربائية التاريخية كالمعتاد في شهر ديسمبر."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "im Süden Deutschlands",
+        "explanation_correct": "Achten Sie bei Wettermeldungen immer genau auf die genannte Region und die Wetterart. Diese Aussage ist laut Lösung richtig, denn Ort und Wetterphänomen stimmen mit einer typischen Prüfungsaussage überein, während in falschen Varianten oft die Himmelsrichtung vertauscht wird.",
+        "explanation_wrong": "Achten Sie bei Wettermeldungen immer genau auf die genannte Region und die Wetterart. Diese Aussage ist laut Lösung richtig, denn Ort und Wetterphänomen stimmen mit einer typischen Prüfungsaussage überein, während in falschen Varianten oft die Himmelsrichtung vertauscht wird."
+      },
+      "57": {
+        "keyword": "weggelaufen",
+        "explanation_correct": "Achten Sie auf das Verb und den genauen Grund, der für eine Handlung angegeben wird. Diese Aussage ist laut Lösung falsch – in Prüfungen wird oft ein anderer Grund oder ein anderes Geschehen genannt, als die Aussage behauptet.",
+        "explanation_wrong": "Achten Sie auf das Verb und den genauen Grund, der für eine Handlung angegeben wird. Diese Aussage ist laut Lösung falsch – in Prüfungen wird oft ein anderer Grund oder ein anderes Geschehen genannt, als die Aussage behauptet."
+      },
+      "58": {
+        "keyword": "Am Samstag",
+        "explanation_correct": "Achten Sie besonders auf Wochentage und Uhrzeiten, wenn Kontaktmöglichkeiten genannt werden. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben vertauschen häufig den genannten Tag, um eine korrekte Angabe unwahr klingen zu lassen.",
+        "explanation_wrong": "Achten Sie besonders auf Wochentage und Uhrzeiten, wenn Kontaktmöglichkeiten genannt werden. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben vertauschen häufig den genannten Tag, um eine korrekte Angabe unwahr klingen zu lassen."
+      },
+      "59": {
+        "keyword": "verboten",
+        "explanation_correct": "Achten Sie auf absolute Wörter wie „verboten“ – solche strengen Formulierungen sind in Hörtexten oft zu stark. Diese Aussage ist laut Lösung falsch, da meist nur eingeschränkt oder abgeraten und nicht vollständig verboten wird.",
+        "explanation_wrong": "Achten Sie auf absolute Wörter wie „verboten“ – solche strengen Formulierungen sind in Hörtexten oft zu stark. Diese Aussage ist laut Lösung falsch, da meist nur eingeschränkt oder abgeraten und nicht vollständig verboten wird."
+      },
+      "60": {
+        "keyword": "wie gewohnt",
+        "explanation_correct": "Achten Sie auf Formulierungen wie „wie gewohnt“, die einen unveränderten Ablauf anzeigen. Diese Aussage ist laut Lösung richtig, während in falschen Aussagen oft ein Ausfall oder eine Planänderung behauptet würde.",
+        "explanation_wrong": "Achten Sie auf Formulierungen wie „wie gewohnt“, die einen unveränderten Ablauf anzeigen. Diese Aussage ist laut Lösung richtig, während in falschen Aussagen oft ein Ausfall oder eine Planänderung behauptet würde."
+      }
+    }
+  },
+  "437ce6b0-75f4-439c-9105-187cb434cc50": {
+    "translation": {
+      "questions": {
+        "56": "في القاعة C23 يقدّم كاتب معروف عرضًا.",
+        "57": "إذا لم يعمل برنامجكم، تحصلون على الدعم عبر الإنترنت.",
+        "58": "في مكتبة المدينة تقدّم اليوم إحدى الجامعات عرضها بشكل خاص للعاملين.",
+        "59": "تجدون على الإنترنت أيضًا عروضًا لفئات مستهدفة خاصة.",
+        "60": "إذا أراد المرء يوم الثلاثاء أو الخميس التحدث مع شخص ما شخصيًا، فهو بحاجة إلى موعد."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "bekannter Schriftsteller",
+        "explanation_correct": "Achten Sie genau darauf, wer laut Aussage etwas vorträgt und welchen Beruf diese Person hat. Diese Aussage ist laut Lösung falsch – häufig wird in Hörtexten eine andere Person oder ein anderer Status genannt als der in der Aussage behauptete.",
+        "explanation_wrong": "Achten Sie genau darauf, wer laut Aussage etwas vorträgt und welchen Beruf diese Person hat. Diese Aussage ist laut Lösung falsch – häufig wird in Hörtexten eine andere Person oder ein anderer Status genannt als der in der Aussage behauptete."
+      },
+      "57": {
+        "keyword": "über Internet",
+        "explanation_correct": "Achten Sie auf den genannten Weg bzw. Kanal, über den Hilfe angeboten wird. Diese Aussage ist laut Lösung richtig, während falsche Aussagen oft einen anderen Kontaktweg wie Telefon statt Internet behaupten.",
+        "explanation_wrong": "Achten Sie auf den genannten Weg bzw. Kanal, über den Hilfe angeboten wird. Diese Aussage ist laut Lösung richtig, während falsche Aussagen oft einen anderen Kontaktweg wie Telefon statt Internet behaupten."
+      },
+      "58": {
+        "keyword": "vor allem für Berufstätige",
+        "explanation_correct": "Achten Sie auf die genannte Zielgruppe einer Veranstaltung. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben tauschen oft die Zielgruppe aus, um eine plausible, aber falsche Aussage zu erzeugen.",
+        "explanation_wrong": "Achten Sie auf die genannte Zielgruppe einer Veranstaltung. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben tauschen oft die Zielgruppe aus, um eine plausible, aber falsche Aussage zu erzeugen."
+      },
+      "59": {
+        "keyword": "spezielle Zielgruppen",
+        "explanation_correct": "Achten Sie darauf, ob wirklich von besonderen bzw. bestimmten Gruppen die Rede ist oder von einem allgemeinen Angebot. Diese Aussage ist laut Lösung falsch, da solche Details in Prüfungen leicht verändert werden.",
+        "explanation_wrong": "Achten Sie darauf, ob wirklich von besonderen bzw. bestimmten Gruppen die Rede ist oder von einem allgemeinen Angebot. Diese Aussage ist laut Lösung falsch, da solche Details in Prüfungen leicht verändert werden."
+      },
+      "60": {
+        "keyword": "braucht man einen Termin",
+        "explanation_correct": "Achten Sie auf Verneinungen wie „braucht“ bzw. „braucht nicht“ bei Angaben zu Terminen. Diese Aussage ist laut Lösung falsch – oft wird in solchen Aufgaben eine Bedingung wie die Terminpflicht ins Gegenteil verkehrt.",
+        "explanation_wrong": "Achten Sie auf Verneinungen wie „braucht“ bzw. „braucht nicht“ bei Angaben zu Terminen. Diese Aussage ist laut Lösung falsch – oft wird in solchen Aufgaben eine Bedingung wie die Terminpflicht ins Gegenteil verkehrt."
+      }
+    }
+  },
+  "603c3536-7010-49e2-9174-c965fbc99b10": {
+    "translation": {
+      "questions": {
+        "1": "في القاعة C23 يقدّم كاتب معروف عرضًا.",
+        "2": "إذا لم يعمل برنامجكم، تحصلون على الدعم عبر الإنترنت.",
+        "3": "في مكتبة المدينة تقدّم اليوم إحدى الجامعات عرضها بشكل خاص للعاملين.",
+        "4": "تجدون على الإنترنت أيضًا عرضًا لفئات مستهدفة خاصة.",
+        "5": "إذا أراد المرء التحدث مع شخص ما شخصيًا، فهو لا يحتاج إلى موعد."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "bekannter Schriftlicher",
+        "explanation_correct": "Achten Sie genau darauf, wer laut Aussage etwas vorträgt und welchen Status diese Person hat. Diese Aussage ist laut Lösung falsch – häufig wird in Hörtexten eine andere Person genannt als die in der Aussage behauptete.",
+        "explanation_wrong": "Achten Sie genau darauf, wer laut Aussage etwas vorträgt und welchen Status diese Person hat. Diese Aussage ist laut Lösung falsch – häufig wird in Hörtexten eine andere Person genannt als die in der Aussage behauptete."
+      },
+      "2": {
+        "keyword": "über Internet",
+        "explanation_correct": "Achten Sie auf den genannten Weg, über den Unterstützung angeboten wird. Diese Aussage ist laut Lösung richtig, während falsche Aussagen oft einen anderen Kontaktweg behaupten.",
+        "explanation_wrong": "Achten Sie auf den genannten Weg, über den Unterstützung angeboten wird. Diese Aussage ist laut Lösung richtig, während falsche Aussagen oft einen anderen Kontaktweg behaupten."
+      },
+      "3": {
+        "keyword": "vor allem für Berufstätige",
+        "explanation_correct": "Achten Sie auf die genannte Zielgruppe einer Veranstaltung. Diese Aussage ist laut Lösung falsch – oft wird die Zielgruppe ausgetauscht, um eine plausible, aber unzutreffende Aussage zu erzeugen.",
+        "explanation_wrong": "Achten Sie auf die genannte Zielgruppe einer Veranstaltung. Diese Aussage ist laut Lösung falsch – oft wird die Zielgruppe ausgetauscht, um eine plausible, aber unzutreffende Aussage zu erzeugen."
+      },
+      "4": {
+        "keyword": "spezielle Zielgruppen",
+        "explanation_correct": "Achten Sie darauf, ob wirklich von besonderen Gruppen die Rede ist oder von einem allgemeinen Angebot. Diese Aussage ist laut Lösung falsch, da solche Details in Prüfungen leicht verändert werden.",
+        "explanation_wrong": "Achten Sie darauf, ob wirklich von besonderen Gruppen die Rede ist oder von einem allgemeinen Angebot. Diese Aussage ist laut Lösung falsch, da solche Details in Prüfungen leicht verändert werden."
+      },
+      "5": {
+        "keyword": "braucht man keinen Termin",
+        "explanation_correct": "Achten Sie auf Verneinungen wie „kein“ bzw. „keinen“ bei Aussagen zu Terminen. Diese Aussage ist laut Lösung richtig – gerade das Fehlen einer erwarteten Bedingung wird in Hörtexten gern geprüft.",
+        "explanation_wrong": "Achten Sie auf Verneinungen wie „kein“ bzw. „keinen“ bei Aussagen zu Terminen. Diese Aussage ist laut Lösung richtig – gerade das Fehlen einer erwarteten Bedingung wird in Hörtexten gern geprüft."
+      }
+    }
+  },
+  "a9385461-68eb-4aed-a61a-4f929368847c": {
+    "translation": {
+      "questions": {
+        "56": "يمكنكم التحقق عبر الإنترنت مما إذا كان طلبكم الحالي في الطريق بالفعل.",
+        "57": "لا يزال بالإمكان شراء تذاكر لهذه الفعالية الليلية عبر الإنترنت.",
+        "58": "المشاركة في الحفلة في ساحة القلعة مجانية.",
+        "59": "في بامبرغ يمكن للمرء في الأسبوع القادم أن يصبح عضوًا في نادٍ رياضي بسعر مخفض بشكل خاص.",
+        "60": "من لديه أمر مهم، عليه الاتصال برقم آخر."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "im Internet prüfen",
+        "explanation_correct": "Achten Sie auf den genannten Weg, wie man den Status einer Bestellung prüfen kann. Diese Aussage ist laut Lösung richtig, während in falschen Varianten oft ein anderer Kanal wie das Telefon behauptet wird.",
+        "explanation_wrong": "Achten Sie auf den genannten Weg, wie man den Status einer Bestellung prüfen kann. Diese Aussage ist laut Lösung richtig, während in falschen Varianten oft ein anderer Kanal wie das Telefon behauptet wird."
+      },
+      "57": {
+        "keyword": "noch Karten",
+        "explanation_correct": "Achten Sie auf Wörter wie „noch“, die auf Verfügbarkeit hinweisen, sowie auf den genannten Verkaufsweg. Diese Aussage ist laut Lösung falsch – ein klassischer Trick ist es, etwas als noch verfügbar darzustellen, obwohl das Gegenteil zutrifft.",
+        "explanation_wrong": "Achten Sie auf Wörter wie „noch“, die auf Verfügbarkeit hinweisen, sowie auf den genannten Verkaufsweg. Diese Aussage ist laut Lösung falsch – ein klassischer Trick ist es, etwas als noch verfügbar darzustellen, obwohl das Gegenteil zutrifft."
+      },
+      "58": {
+        "keyword": "kostet nichts",
+        "explanation_correct": "Achten Sie auf Preisangaben wie „kostenlos“ oder „kostet nichts“. Diese Aussage ist laut Lösung falsch – ein typischer TELC-Trick ist es, eine kostenpflichtige Veranstaltung fälschlich als kostenlos darzustellen oder umgekehrt.",
+        "explanation_wrong": "Achten Sie auf Preisangaben wie „kostenlos“ oder „kostet nichts“. Diese Aussage ist laut Lösung falsch – ein typischer TELC-Trick ist es, eine kostenpflichtige Veranstaltung fälschlich als kostenlos darzustellen oder umgekehrt."
+      },
+      "59": {
+        "keyword": "besonders günstig",
+        "explanation_correct": "Achten Sie auf Ortsnamen, Zeitangaben und Preisdetails gleichzeitig. Diese Aussage ist laut Lösung falsch – oft stimmt nur ein Teil der Angabe, während ein anderes Detail wie Zeitpunkt oder Preis verändert wurde.",
+        "explanation_wrong": "Achten Sie auf Ortsnamen, Zeitangaben und Preisdetails gleichzeitig. Diese Aussage ist laut Lösung falsch – oft stimmt nur ein Teil der Angabe, während ein anderes Detail wie Zeitpunkt oder Preis verändert wurde."
+      },
+      "60": {
+        "keyword": "eine andere Nummer",
+        "explanation_correct": "Achten Sie auf Hinweise zu alternativen Kontaktmöglichkeiten bei dringenden Anliegen. Diese Aussage ist laut Lösung richtig, während falsche Aussagen oft behaupten, es gebe keine solche Alternative.",
+        "explanation_wrong": "Achten Sie auf Hinweise zu alternativen Kontaktmöglichkeiten bei dringenden Anliegen. Diese Aussage ist laut Lösung richtig, während falsche Aussagen oft behaupten, es gebe keine solche Alternative."
+      }
+    }
+  },
+  "fa4e1676-1c0b-4c20-bbc0-8174ee8078fb": {
+    "translation": {
+      "questions": {
+        "1": "يحصل زوار المهرجان عند إبراز تذكرتهم على خصم على الحافلة والقطار.",
+        "2": "لن تُقام حفلة البيانو في 3 يوليو بسبب مرض الفنانين.",
+        "3": "توجد في الحديقة النباتية يوم الأحد نصائح حول العناية بأشجار الفاكهة.",
+        "4": "يعرض المعرض الخاص في المتحف ملابس عمل تاريخية من الجلد.",
+        "5": "الطريق السريع A6 مغلق في كلا الاتجاهين بين بادن-بادن وراشتات."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "Rabatt auf Bus und Bahn",
+        "explanation_correct": "Achten Sie auf den Unterschied zwischen einer kostenlosen Leistung und einem bloßen Rabatt. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben verwechseln gern „kostenlos“ mit „ermäßigt“, um eine falsche Aussage zu erzeugen.",
+        "explanation_wrong": "Achten Sie auf den Unterschied zwischen einer kostenlosen Leistung und einem bloßen Rabatt. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben verwechseln gern „kostenlos“ mit „ermäßigt“, um eine falsche Aussage zu erzeugen."
+      },
+      "2": {
+        "keyword": "wegen einer Erkrankung",
+        "explanation_correct": "Achten Sie auf den genannten Grund für eine Absage oder Änderung. Diese Aussage ist laut Lösung falsch – oft wird ein plausibler, aber falscher Grund wie eine Erkrankung angegeben, obwohl die tatsächliche Ursache eine andere ist.",
+        "explanation_wrong": "Achten Sie auf den genannten Grund für eine Absage oder Änderung. Diese Aussage ist laut Lösung falsch – oft wird ein plausibler, aber falscher Grund wie eine Erkrankung angegeben, obwohl die tatsächliche Ursache eine andere ist."
+      },
+      "3": {
+        "keyword": "am Sonntag",
+        "explanation_correct": "Achten Sie auf Ort, Wochentag und Thema einer Veranstaltung zusammen. Diese Aussage ist laut Lösung richtig, denn alle drei Angaben passen zusammen, während in falschen Aussagen meist eines dieser Details verändert wird.",
+        "explanation_wrong": "Achten Sie auf Ort, Wochentag und Thema einer Veranstaltung zusammen. Diese Aussage ist laut Lösung richtig, denn alle drei Angaben passen zusammen, während in falschen Aussagen meist eines dieser Details verändert wird."
+      },
+      "4": {
+        "keyword": "aus Leder",
+        "explanation_correct": "Achten Sie auf Materialangaben wie „aus Leder“ oder „aus Holz“. Diese Aussage ist laut Lösung falsch – solche Detailwörter werden in Prüfungen häufig gegen ein anderes Material ausgetauscht.",
+        "explanation_wrong": "Achten Sie auf Materialangaben wie „aus Leder“ oder „aus Holz“. Diese Aussage ist laut Lösung falsch – solche Detailwörter werden in Prüfungen häufig gegen ein anderes Material ausgetauscht."
+      },
+      "5": {
+        "keyword": "in beide Richtungen gesperrt",
+        "explanation_correct": "Achten Sie auf Autobahnnummern und darauf, ob nur eine Richtung oder beide Richtungen gesperrt sind. Diese Aussage ist laut Lösung falsch – Zahlen wie Autobahnnummern werden in solchen Aufgaben besonders oft vertauscht.",
+        "explanation_wrong": "Achten Sie auf Autobahnnummern und darauf, ob nur eine Richtung oder beide Richtungen gesperrt sind. Diese Aussage ist laut Lösung falsch – Zahlen wie Autobahnnummern werden in solchen Aufgaben besonders oft vertauscht."
+      }
+    }
+  },
+  "de09c43d-671e-4753-8b09-64d81ee700b8": {
+    "translation": {
+      "questions": {
+        "56": "يُفتتح موكب الثقافات بعرض للألعاب النارية.",
+        "57": "يُفترض بمن يحضر لقاء التزلج على الألواح في 31 أكتوبر أن يظهر متنكرًا.",
+        "58": "يمكن في معرض الحدائق KöGa شراء تماثيل أقزام الحدائق.",
+        "59": "الطريق السريع A2 باتجاه هانوفر مغلق بين رهيدا-فيدينبروك وأولده.",
+        "60": "للمكالمات الهاتفية الدولية عبر عامل الهاتف، يجب عليكم الاتصال بالرقم 613 30 30."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "mit einem Feuerwerk",
+        "explanation_correct": "Achten Sie darauf, womit bzw. wie eine Veranstaltung genau eröffnet wird. Diese Aussage ist laut Lösung falsch – oft wird ein einprägsames, aber falsches Detail wie ein Feuerwerk hinzugefügt.",
+        "explanation_wrong": "Achten Sie darauf, womit bzw. wie eine Veranstaltung genau eröffnet wird. Diese Aussage ist laut Lösung falsch – oft wird ein einprägsames, aber falsches Detail wie ein Feuerwerk hinzugefügt."
+      },
+      "57": {
+        "keyword": "verkleidet erscheinen",
+        "explanation_correct": "Achten Sie auf besondere Bedingungen wie eine Verkleidungspflicht sowie auf das genannte Datum. Diese Aussage ist laut Lösung richtig, während falsche Aussagen solche Bedingungen oft weglassen oder verändern.",
+        "explanation_wrong": "Achten Sie auf besondere Bedingungen wie eine Verkleidungspflicht sowie auf das genannte Datum. Diese Aussage ist laut Lösung richtig, während falsche Aussagen solche Bedingungen oft weglassen oder verändern."
+      },
+      "58": {
+        "keyword": "Gartenzwerge kaufen",
+        "explanation_correct": "Achten Sie auf konkrete Angebote, die bei einer Veranstaltung genannt werden. Diese Aussage ist laut Lösung richtig, denn das genannte Produkt passt zum Thema der Ausstellung.",
+        "explanation_wrong": "Achten Sie auf konkrete Angebote, die bei einer Veranstaltung genannt werden. Diese Aussage ist laut Lösung richtig, denn das genannte Produkt passt zum Thema der Ausstellung."
+      },
+      "59": {
+        "keyword": "zwischen Rheda-Wiedenbrück und Oelde",
+        "explanation_correct": "Achten Sie auf Autobahnnummer, Fahrtrichtung und die genannten Ortsnamen zugleich. Diese Aussage ist laut Lösung richtig, da alle Details übereinstimmen, während in falschen Aussagen meist eines davon verändert wird.",
+        "explanation_wrong": "Achten Sie auf Autobahnnummer, Fahrtrichtung und die genannten Ortsnamen zugleich. Diese Aussage ist laut Lösung richtig, da alle Details übereinstimmen, während in falschen Aussagen meist eines davon verändert wird."
+      },
+      "60": {
+        "keyword": "613 30 30",
+        "explanation_correct": "Achten Sie besonders genau auf Zahlen wie Telefonnummern – hier reicht oft schon eine einzige falsche Ziffer. Diese Aussage ist laut Lösung falsch, da TELC-Aufgaben Nummern gern minimal, aber entscheidend verändern.",
+        "explanation_wrong": "Achten Sie besonders genau auf Zahlen wie Telefonnummern – hier reicht oft schon eine einzige falsche Ziffer. Diese Aussage ist laut Lösung falsch, da TELC-Aufgaben Nummern gern minimal, aber entscheidend verändern."
+      }
+    }
+  },
+  "92b036e7-014a-41ce-a987-4a4cd97f97ec": {
+    "translation": {
+      "questions": {
+        "56": "لا يمكن استلام الكتاب من المكتبة إلا غدًا اعتبارًا من الساعة التاسعة صباحًا.",
+        "57": "تقع الشركة في شارع فيلهلم (Wilhelmstraße).",
+        "58": "يمكنكم مشاهدة فيلم راينر بولكوف هذا المساء في السينما.",
+        "59": "يمكنكم شراء جريدة في مطعم القطار.",
+        "60": "من محطة القطار إلى الجامعة، تستغرق الرحلة بالمترو والحافلة 5 دقائق فقط."
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "erst morgen ab 9 Uhr",
+        "explanation_correct": "Achten Sie auf Zeitangaben wie „erst“ und die genaue Uhrzeit. Diese Aussage ist laut Lösung falsch – solche Zeitpunkte werden in Prüfungen häufig verschoben oder verändert.",
+        "explanation_wrong": "Achten Sie auf Zeitangaben wie „erst“ und die genaue Uhrzeit. Diese Aussage ist laut Lösung falsch – solche Zeitpunkte werden in Prüfungen häufig verschoben oder verändert."
+      },
+      "57": {
+        "keyword": "Wilhelmstraße",
+        "explanation_correct": "Achten Sie auf Straßennamen und Adressangaben, da diese oft entscheidend sind. Diese Aussage ist laut Lösung richtig, während in falschen Aussagen meist ein anderer Straßenname genannt wird.",
+        "explanation_wrong": "Achten Sie auf Straßennamen und Adressangaben, da diese oft entscheidend sind. Diese Aussage ist laut Lösung richtig, während in falschen Aussagen meist ein anderer Straßenname genannt wird."
+      },
+      "58": {
+        "keyword": "heute Abend",
+        "explanation_correct": "Achten Sie auf den Namen der Person und die genannte Zeit gemeinsam. Diese Aussage ist laut Lösung richtig, da Name, Ort und Zeitpunkt zusammenpassen.",
+        "explanation_wrong": "Achten Sie auf den Namen der Person und die genannte Zeit gemeinsam. Diese Aussage ist laut Lösung richtig, da Name, Ort und Zeitpunkt zusammenpassen."
+      },
+      "59": {
+        "keyword": "im Zugrestaurant",
+        "explanation_correct": "Achten Sie genau auf den Ort, an dem etwas angeboten wird. Diese Aussage ist laut Lösung falsch – Orte werden in solchen Aufgaben oft gegen einen ähnlichen, aber falschen Ort ausgetauscht.",
+        "explanation_wrong": "Achten Sie genau auf den Ort, an dem etwas angeboten wird. Diese Aussage ist laut Lösung falsch – Orte werden in solchen Aufgaben oft gegen einen ähnlichen, aber falschen Ort ausgetauscht."
+      },
+      "60": {
+        "keyword": "nur 5 Minuten",
+        "explanation_correct": "Achten Sie besonders auf Zeitangaben wie Minutenzahlen, gerade in Verbindung mit „nur“. Diese Aussage ist laut Lösung falsch, da solche Zahlenangaben in Prüfungen gezielt verändert werden.",
+        "explanation_wrong": "Achten Sie besonders auf Zeitangaben wie Minutenzahlen, gerade in Verbindung mit „nur“. Diese Aussage ist laut Lösung falsch, da solche Zahlenangaben in Prüfungen gezielt verändert werden."
+      }
+    }
+  },
+  "b28a6c6a-f9d1-4363-99fd-434467f632bd": {
+    "translation": {
+      "questions": {
+        "56": "خلال مهرجان الموسيقى «Sound of Frankfurt» تتوفر تذاكر مخفضة لجميع وسائل النقل العام.",
+        "57": "تذهبون إلى الحفل الموسيقي في 3 يوليو لأنكم تريدون الاستماع إلى عازفَي البيانو البارعين من لايبزيغ.",
+        "58": "في نهاية الأسبوع يمكنكم في نامبورغ الحصول على معلومات حول مكافحة الأمراض التي تصيب أشجار التفاح.",
+        "59": "يُعرض في متحف الحرف اليدوية قطع ملابس.",
+        "60": "الطريق السريع «AS» بين بادن-…"
+      }
+    },
+    "items": {
+      "56": {
+        "keyword": "verbilligte Fahrkarten",
+        "explanation_correct": "Achten Sie darauf, ob eine Vergünstigung „alle“ Verkehrsmittel betrifft oder nur bestimmte. Diese Aussage ist laut Lösung richtig, da Umfang und Angebot übereinstimmen, während falsche Aussagen den Geltungsbereich oft einschränken oder erweitern.",
+        "explanation_wrong": "Achten Sie darauf, ob eine Vergünstigung „alle“ Verkehrsmittel betrifft oder nur bestimmte. Diese Aussage ist laut Lösung richtig, da Umfang und Angebot übereinstimmen, während falsche Aussagen den Geltungsbereich oft einschränken oder erweitern."
+      },
+      "57": {
+        "keyword": "Leipziger Klaviervirtuosen",
+        "explanation_correct": "Achten Sie auf die genannte Herkunft bzw. Bezeichnung der Künstler. Diese Aussage ist laut Lösung falsch – Städtenamen oder Berufsbezeichnungen werden in solchen Aufgaben oft gezielt vertauscht.",
+        "explanation_wrong": "Achten Sie auf die genannte Herkunft bzw. Bezeichnung der Künstler. Diese Aussage ist laut Lösung falsch – Städtenamen oder Berufsbezeichnungen werden in solchen Aufgaben oft gezielt vertauscht."
+      },
+      "58": {
+        "keyword": "Bekämpfung von Krankheiten bei Apfelbäumen",
+        "explanation_correct": "Achten Sie auf Ortsnamen und Fachthemen wie Pflanzenkrankheiten gemeinsam. Diese Aussage ist laut Lösung richtig, da Ort, Zeitpunkt und Thema zusammenpassen.",
+        "explanation_wrong": "Achten Sie auf Ortsnamen und Fachthemen wie Pflanzenkrankheiten gemeinsam. Diese Aussage ist laut Lösung richtig, da Ort, Zeitpunkt und Thema zusammenpassen."
+      },
+      "59": {
+        "keyword": "Kleidungsstücke",
+        "explanation_correct": "Achten Sie auf die Art der ausgestellten Objekte in einem Museum. Diese Aussage ist laut Lösung falsch – Ausstellungsthemen werden in Prüfungen häufig gegen ein anderes, plausibles Thema ausgetauscht.",
+        "explanation_wrong": "Achten Sie auf die Art der ausgestellten Objekte in einem Museum. Diese Aussage ist laut Lösung falsch – Ausstellungsthemen werden in Prüfungen häufig gegen ein anderes, plausibles Thema ausgetauscht."
+      },
+      "60": {
+        "keyword": "AS",
+        "explanation_correct": "Achten Sie sehr genau auf Autobahnnummern und Buchstaben-Zahlen-Kombinationen, da diese leicht verwechselt werden. Diese Aussage ist laut Lösung falsch – solche Kennungen werden in Prüfungen oft nur minimal, aber entscheidend verändert.",
+        "explanation_wrong": "Achten Sie sehr genau auf Autobahnnummern und Buchstaben-Zahlen-Kombinationen, da diese leicht verwechselt werden. Diese Aussage ist laut Lösung falsch – solche Kennungen werden in Prüfungen oft nur minimal, aber entscheidend verändert."
+      }
+    }
+  },
+  "4f392466-4560-4440-97d1-b27c35ea0f28": {
+    "translation": {
+      "questions": {
+        "1": "يتوجه مهرجان الموسيقى بشكل أساسي إلى الموسيقيين المحترفين.",
+        "2": "يدعم «MoveSmart» قرارات التنقل الصديقة للبيئة.",
+        "3": "يستخدم برنامج «Zeitzeugen erzählen» حصريًا مقابلات من ثمانينيات القرن الماضي.",
+        "4": "برنامج «Jobwechsel 40+» مصمم خصيصًا للمبتدئين في سوق العمل.",
+        "5": "يتيح المركز للزوار إجراء تجارب بشكل مستقل."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "vornehmlich an Berufsmusiker",
+        "explanation_correct": "Achten Sie auf die genannte Zielgruppe einer Veranstaltung. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben tauschen die Zielgruppe, etwa Laien statt Profis, gern gegen eine ähnliche, aber falsche aus.",
+        "explanation_wrong": "Achten Sie auf die genannte Zielgruppe einer Veranstaltung. Diese Aussage ist laut Lösung falsch – TELC-Aufgaben tauschen die Zielgruppe, etwa Laien statt Profis, gern gegen eine ähnliche, aber falsche aus."
+      },
+      "2": {
+        "keyword": "umweltschonende Verkehrsentscheidungen",
+        "explanation_correct": "Achten Sie auf Fachbegriffe wie „umweltschonend“ und worauf genau sie sich beziehen. Diese Aussage ist laut Lösung richtig, da Name und Zweck des genannten Angebots zusammenpassen.",
+        "explanation_wrong": "Achten Sie auf Fachbegriffe wie „umweltschonend“ und worauf genau sie sich beziehen. Diese Aussage ist laut Lösung richtig, da Name und Zweck des genannten Angebots zusammenpassen."
+      },
+      "3": {
+        "keyword": "ausschließlich",
+        "explanation_correct": "Achten Sie auf einschränkende Wörter wie „ausschließlich“ oder „nur“. Diese Aussage ist laut Lösung falsch – solche absoluten Formulierungen sind ein klassisches Signal für eine falsche Aussage.",
+        "explanation_wrong": "Achten Sie auf einschränkende Wörter wie „ausschließlich“ oder „nur“. Diese Aussage ist laut Lösung falsch – solche absoluten Formulierungen sind ein klassisches Signal für eine falsche Aussage."
+      },
+      "4": {
+        "keyword": "Berufseinsteiger",
+        "explanation_correct": "Achten Sie auf Widersprüche zwischen Eigennamen bzw. Zahlen und der behaupteten Zielgruppe. Diese Aussage ist laut Lösung falsch – der Name „40+“ passt inhaltlich nicht zu „Berufseinsteiger“, was ein typisches Warnsignal ist.",
+        "explanation_wrong": "Achten Sie auf Widersprüche zwischen Eigennamen bzw. Zahlen und der behaupteten Zielgruppe. Diese Aussage ist laut Lösung falsch – der Name „40+“ passt inhaltlich nicht zu „Berufseinsteiger“, was ein typisches Warnsignal ist."
+      },
+      "5": {
+        "keyword": "eigenständige Experimente",
+        "explanation_correct": "Achten Sie darauf, ob eine Tätigkeit selbstständig oder nur unter Anleitung möglich ist. Diese Aussage ist laut Lösung falsch – dieser Unterschied zwischen eigenständig und begleitet wird in Prüfungen häufig ausgenutzt.",
+        "explanation_wrong": "Achten Sie darauf, ob eine Tätigkeit selbstständig oder nur unter Anleitung möglich ist. Diese Aussage ist laut Lösung falsch – dieser Unterschied zwischen eigenständig und begleitet wird in Prüfungen häufig ausgenutzt."
+      }
+    }
+  }
+}

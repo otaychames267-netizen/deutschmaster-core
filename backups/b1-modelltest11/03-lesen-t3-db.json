@@ -1,0 +1,34 @@
+{
+  "teil": 3,
+  "title": "DB",
+  "level": "TELC_B1",
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 11/16 (Petra/Language Tests, pages 150-151). Answer key from Lösungen page (p.158): 11D 12G 13F 14A 15I 16K 17X 18J 19L 20B. Title 'DB' taken verbatim from the Lösungen page's short label for this section (referring to the Deutsche Bahn advertisement, text C).",
+  "key": "DGFAIKXJLB",
+  "situations": {
+    "11": "Sie haben von einer Schweizer Schauspielerin gehört und möchten gern einen Film sehen.",
+    "12": "Sie haben gerade Ihre Ausbildung beendet und suchen eine Stelle an der Rezeption.",
+    "13": "Sie interessieren sich für Umweltschutz und suchen eine passende Sendung.",
+    "14": "Ihr Freund, der am Institut für Film und Bild studiert, sucht einen geeigneten Praktikumsplatz.",
+    "15": "In einer Sendereihe wird im Fernsehen über die neue politische Entwicklung in Deutschland berichtet. Sie wollen sich informieren.",
+    "16": "Sie interessieren sich für Großstädte und ihre Entwicklung und suchen dazu eine Sendung im Rundfunk.",
+    "17": "Sie sind mit der Schule fertig und wollen bei der Deutschen Bahn eine Ausbildung machen.",
+    "18": "Sie interessieren sich für politisches Theater und möchten dazu am Wochenende etwas hören oder sehen.",
+    "19": "Sie arbeiten gern mit anderen zusammen und suchen eine Tätigkeit bei einer Werbefirma.",
+    "20": "Sie wollen mehr über das Thema Arbeiten in Europa erfahren."
+  },
+  "texts": {
+    "A": { "title": "", "content": "PRAKTIKANT/IN im Bereich Medien- und Veranstaltungstechnik gesucht. Unser Hauptaufgabengebiet ist die Durchführung von Pressekonferenzen und Themen-Events. Das Praktikum ist bezahlt und dauert 6 Monate. Sie arbeiten in einem namhaften Team und sammeln Ihre Erfahrungen da, wo sie entstehen, von der Konzeption bis zur Realisation. Bewerbung per E-Mail an: TAPE Media Film GmbH, info@mediafilm.project" },
+    "B": { "title": "", "content": "20:45 ARTE. THEMENABEND \"Unsere Zukunft\". Wie kommen Arbeitsuchende in der Europäischen Union mit der Wirtschafts- und Bildungskrise zurecht? Hat uns die EU mehr Jobs gebracht? TV-Abend mit Stefan Bröker und namhaften Gästen aus verschiedenen EU-Ländern. ARD 21:45 Uhr." },
+    "C": { "title": "", "content": "Wir suchen engagierte MitarbeiterInnen für Kundenbefragungen in unseren Zügen, 10-15 Std./Woche. Wichtig sind sicheres Auftreten, zeitliche Flexibilität und Fremdsprachenkenntnisse (Engl., Frz.). Mehrjährige Berufserfahrung erwünscht. Nähere Informationen unter: www.bahnreisenforschung.de. Bewerbungen an: Deutsche Bahn, info@brf.kundenservice.de" },
+    "D": { "title": "", "content": "20:15 Tatort (ARD). Nun kommen die Krimi-Fans wieder auf ihre Kosten: Horst Schliemann alias Gustav George ermittelt. Ihm zur Seite steht Denise Mercier. Die gebürtige Schweizerin spielt die Freundin des rüden Ermittlers – eine Frau mit Stil, die Verständnis für Schliemanns Lebenswandel zeigt, sich aber auch in Szene zu setzen weiß. Mit dieser Rolle hofft sie, sich im deutschen Fernsehen etablieren zu können. (bis 21:45 Uhr)" },
+    "E": { "title": "", "content": "Lukrative Halbtagstätigkeit: Expandierendes High-Tech-Unternehmen der Film- und Medienbranche sucht junge MitarbeiterInnen für Empfang und Kundenbindung. Erfahrung mit PC, gute Internet- und Fremdsprachenkenntnisse erforderlich! Interessenten wenden sich an: New Media GmbH, Tel. 089/45 79 00, www.newmedia.de" },
+    "F": { "title": "", "content": "20:15 3Sat LIVE. Diskussionsrunde: Drei Länder – ein Thema. TALK-SHOW. \"Kommt die Öko-Diktatur? – Zündstoff Benzinpreis\". Wie begegnet man in Deutschland, der Schweiz und Österreich dem Verkehrskollaps? Wie retten wir die Umwelt? (bis 21:30)" },
+    "G": { "title": "", "content": "Bei uns wird Erfolg belohnt! Wir suchen für unsere exklusiven Hotelbetriebe im gehobenen Bereich in München, Frankfurt und Berlin Mitarbeiter/innen am Empfang. Wenn Sie bereits Rezeptionserfahrung oder auch gerade ausgelernt haben, mind. 1 Fremdsprache (Englisch) sprechen und EDV-erfahren sind, senden Sie bitte Ihre Bewerbung an: Blatt's Hotels Zentralbüro, Geschäftsbereich Personal, Postfach 221144, 80501 München" },
+    "H": { "title": "", "content": "Die PSA kooperiert mit über 500 unabhängigen Personaldienstleistern und ist daher immer die erste Adresse, wenn es um Zeitarbeit geht. Unser Ziel ist es, den besten Mitarbeiter zur richtigen Zeit am richtigen Ort anbieten zu können. Wir suchen ständig: Studentische Unternehmensberater, Studenten für IT-Administration und Schüler-Nachhilfe (Englisch, Französisch, Mathe), Messehostessen. PSA-Zeitarbeit, Tel. 089/74 68 91 93, www.PSA-zeitarbeit.de" },
+    "I": { "title": "", "content": "22:55 Stern TV-Countdown (VOX). In zehn Reportagen zeigt \"Spiegel TV\"-Mann Jörg Hafkemeyer, wie sich die ersten Monate der neuen Regierung gestalten. Jetzt werden die Weichen für die Zukunft Deutschlands neu gestellt. (bis 23:50)" },
+    "J": { "title": "", "content": "Max Frisch: Biedermann und die Brandstifter. Samstag, 19. September, 20:10-21:17 Uhr, Hessischer Rundfunk. \"Ein Lehrstück ohne Lehre\" nannte Frisch sein ursprünglich als Hörspiel gedachtes und dann für das Theater bearbeitetes Stück, das 1958 in Zürich uraufgeführt wurde. Man sah darin sowohl eine Warnung vor dem Kommunismus als auch vor dem Faschismus. (chw.)" },
+    "K": { "title": "", "content": "Transparent – Das Kulturstudio (22:15, Radio Wien). Architekten sprechen über die Zukunft von Europas Metropolen. Weiteres: Rückschau und Vorschau auf das Programm der \"Wiener Schule für Dichtung\". Und ein Bericht über das Obdachlosen-Projekt \"Wochenklausur\"." },
+    "L": { "title": "", "content": "Sie lieben den Umgang mit Menschen? Sie sind außerdem auch dynamisch und ehrgeizig, dann sind Sie bei uns genau richtig. Münchens bekannte PRIMA-Werbung bietet Ihnen neben einem tollen Team hervorragende Verdienst- u. Aufstiegsmöglichkeiten. Wir brauchen Leute wie Sie! Rufen Sie an: Tel. 089/2 35 55 43" }
+  }
+}

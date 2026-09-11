@@ -1,0 +1,871 @@
+import { writeFileSync } from "node:fs";
+
+const exercises = [];
+
+// ── 1. Arbeitsplatz ──────────────────────────────────────────────────────
+exercises.push({
+  id: "ddaf2d1c-8219-4cfa-832a-0888cfa31f28",
+  items: {
+    "1": {
+      keyword: "flexiblen Arbeitszeiten... Kindergärten im oder in der Nähe des Betriebes",
+      evidence_text: "zeigt den dringenden Wunsch nach flexiblen Arbeitszeiten (60% der Eltern) und nach Kindergärten im oder in der Nähe des Betriebes (58%)",
+      explanation_correct: "يعرض النص نتائج استطلاع بين الآباء العاملين حول رغباتهم (ساعات عمل مرنة، حضانات قريبة من العمل، بديل عند مرض الطفل) - يطابق العنوان J \"رغبات الآباء العاملين\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"المزيد من وظائف الدوام الجزئي للرجال\" يعكس معنى النص - فالنص يذكر أن النساء يطلبن دواماً جزئياً أكثر من الرجال (50% مقابل 36%)، وليس زيادة في وظائف الدوام الجزئي للرجال تحديداً.",
+      evidence_translation: "يُظهر النص رغبة ملحّة في ساعات عمل مرنة (60% من الآباء) وحضانات داخل الشركة أو بالقرب منها (58%).",
+      keywords: ["Wünsche", "berufstätige Eltern"],
+      paraphrase: [{ question: "Wünsche von berufstätigen Eltern", text: "dringenden Wunsch... flexiblen Arbeitszeiten... 60% der Eltern" }],
+      options_reasoning: [
+        { key: "J", label: "Wünsche von berufstätigen Eltern", correct: true, reason: "يطابق مباشرة: النص استطلاع لرغبات آباء عاملين." },
+        { key: "E", label: "Immer mehr Teilzeitarbeitsplätze für Männer", correct: false, reason: "معكوس: النص يقول إن النساء يطلبن دواماً جزئياً أكثر من الرجال، وليس العكس." },
+      ],
+    },
+    "2": {
+      keyword: "Carl Friedrich von Martius Umwelt- und Technikpreis",
+      evidence_text: "können sich auch dieses Jahr wieder um den Carl Friedrich von Martius Umwelt- und Technikpreis bewerben",
+      explanation_correct: "يعلن النص عن مسابقة جائزة البيئة والتقنية لطلاب الثانويات البافارية - يطابق العنوان I \"جائزة البيئة والتقنية\" مباشرة.",
+      explanation_wrong: "احذر: العنوان B \"افتتاح معرض في مدرسة ثانوية بافارية\" يبدو قريباً لأنه يذكر أيضاً مدرسة ثانوية بافارية، لكن النص عن مسابقة علمية (Wettbewerb)، وليس افتتاح معرض (Ausstellungseröffnung).",
+      evidence_translation: "يمكن للطلاب هذا العام أيضاً التقدم لجائزة كارل فريدريش فون مارتيوس للبيئة والتقنية.",
+      keywords: ["Umwelt- und Technikpreis", "bewerben"],
+      paraphrase: [{ question: "Umwelt- und Technikpreis", text: "Carl Friedrich von Martius Umwelt- und Technikpreis... bewerben" }],
+      options_reasoning: [
+        { key: "I", label: "Umwelt- und Technikpreis", correct: true, reason: "يطابق مباشرة: مسابقة جائزة باسم Umwelt- und Technikpreis." },
+        { key: "B", label: "Ausstellungseröffnung an bayerischem Gymnasium", correct: false, reason: "مضلل: يشترك في ذكر مدرسة ثانوية بافارية، لكن الحدث الفعلي مسابقة وليس افتتاح معرض." },
+      ],
+    },
+    "3": {
+      keyword: "können die jüngsten Besucher Technik angreifen",
+      evidence_text: "können die jüngsten Besucher Technik angreifen",
+      explanation_correct: "يصف النص قسماً خاصاً بالأطفال الصغار في المتحف التقني حيث يمكنهم لمس التقنية والتفاعل معها - يطابق العنوان G \"تقنية لصغار الأطفال\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"المتحف التقني يمنح جائزة البيئة والتقنية\" يبدو قريباً لأنه يذكر أيضاً \"المتحف التقني\"، لكن النص عن قسم تفاعلي للأطفال داخل المتحف، وليس عن منح جائزة.",
+      evidence_translation: "يمكن لأصغر الزوار لمس التقنية والتفاعل معها مباشرة.",
+      keywords: ["Technik", "Kleinkinder"],
+      paraphrase: [{ question: "Technik für Kleinkinder", text: "drei- bis sechsjährige Kinder... Technik angreifen" }],
+      options_reasoning: [
+        { key: "G", label: "Technik für Kleinkinder", correct: true, reason: "يطابق مباشرة: قسم تقني تفاعلي مخصص للأطفال من 3-6 سنوات." },
+        { key: "H", label: "Technisches Museum vergibt Umwelt- und Technikpreis", correct: false, reason: "مضلل: يشترك في ذكر \"المتحف التقني\" حرفياً، لكن النص لا يذكر أي جائزة إطلاقاً." },
+      ],
+    },
+    "4": {
+      keyword: "geben 61% an, dass ihre Arbeit ihnen Spaß mache",
+      evidence_text: "geben 61% an, dass ihre Arbeit ihnen Spaß mache. Bei den Männern ist dieses Verhältnis 23 zu 57 Prozent.",
+      explanation_correct: "يُظهر الاستطلاع أن 61% من النساء يستمتعن بعملهن مقابل 57% من الرجال، رغم فرص ترقٍّ أقل للنساء - يطابق العنوان C \"النساء أكثر استمتاعاً بالعمل من الرجال\" مباشرة.",
+      explanation_wrong: "احذر: العنوان F \"المسيرة المهنية أقل أهمية للرجال من النساء\" يعكس معنى النص - فالنص يُظهر أن الرجال أكثر ثقة بفرص ترقيهم (23% مقابل 8%)، أي أن المسيرة المهنية تهمهم أكثر وليس أقل.",
+      evidence_translation: "61% من النساء أفدن بأن عملهن يمنحهن المتعة، بينما كانت هذه النسبة لدى الرجال 57%.",
+      keywords: ["Frauen", "mehr Spaß am Beruf"],
+      paraphrase: [{ question: "Frauen: mehr Spaß am Beruf als Männer", text: "61%... Spaß mache... Männern... 57 Prozent" }],
+      options_reasoning: [
+        { key: "C", label: "Frauen: mehr Spaß am Beruf als Männer", correct: true, reason: "يطابق مباشرة: 61% من النساء مقابل 57% من الرجال يستمتعون بعملهم." },
+        { key: "F", label: "Karriere ist Männern weniger wichtig als Frauen", correct: false, reason: "معكوس: النص يُظهر أن الرجال أكثر ثقة بفرص ترقيهم، وليس أن المسيرة المهنية أقل أهمية لهم." },
+      ],
+    },
+    "5": {
+      keyword: "Für Zufriedenheit am Arbeitsplatz kann Geld allein nicht entscheidend sein",
+      evidence_text: "Für Zufriedenheit am Arbeitsplatz kann Geld allein nicht entscheidend sein.",
+      explanation_correct: "يوضح النص عدة أسباب للرضا الوظيفي (الوقت للحياة الخاصة، متعة العمل، سمعة الشركة) غير الراتب وحده - يطابق العنوان D \"أسباب الرضا في العمل\" مباشرة.",
+      explanation_wrong: "احذر: العنوان A \"مكان العمل: الأجر أهم من الرضا\" يعكس معنى النص تماماً - فالنص يبدأ بالتحديد بنفي أن يكون المال وحده حاسماً للرضا الوظيفي.",
+      evidence_translation: "لا يمكن أن يكون المال وحده حاسماً للرضا في مكان العمل.",
+      keywords: ["Zufriedenheit am Arbeitsplatz", "Gründe"],
+      paraphrase: [{ question: "Gründe für Zufriedenheit am Arbeitsplatz", text: "Geld allein nicht entscheidend... Zeit für das Privatleben... Ruf des Unternehmens" }],
+      options_reasoning: [
+        { key: "D", label: "Gründe für Zufriedenheit am Arbeitsplatz", correct: true, reason: "يطابق مباشرة: يعدد النص أسباباً متعددة للرضا الوظيفي غير المال." },
+        { key: "A", label: "Arbeitsplatz: Bezahlung wichtiger als Zufriedenheit", correct: false, reason: "معكوس تماماً: النص ينفي صراحة أن يكون الأجر وحده حاسماً للرضا." },
+      ],
+    },
+  },
+  translations: {
+    "1": "يُظهر استطلاع حديث أجرته غرفة العمال بين الآباء العاملين رغبة ملحّة في ساعات عمل مرنة (60% من الآباء) وحضانات داخل الشركة أو بالقرب منها (58%). لكن النساء يطلبن وظائف دوام جزئي (50%) أكثر بكثير من الرجال (36%). كما يرغب 52% من جميع الآباء بوجود شخص بديل يحل محل الأب أو الأم في العمل عند مرض الطفل. وتطالب غرفة العمال بأن تتوجه الشركات نحو احتياجات الآباء.",
+    "2": "ميونيخ: يمكن لطلاب المدارس الثانوية البافارية المهتمين بالبيئة أو التقنية التقدم هذا العام أيضاً لجائزة كارل فريدريش فون مارتيوس للبيئة والتقنية. في هذه المسابقة تُقيَّم أبحاث علمية من العام الدراسي الماضي. لمزيد من المعلومات: مركز أبحاث GSF على الرقم 089/311 87 27 12.",
+    "3": "فيينا. افتُتح في المتحف التقني (15، شارع ماريا هيلفر 112) قسم فريد من نوعه للأطفال من عمر ثلاث إلى ست سنوات. في منطقة مخصصة للأطفال، يمكن لأصغر الزوار لمس التقنية والتفاعل معها؛ فهناك أقراص بلازما تولّد بروقاً، وعجلة جري، وبيانو للقفز يستطيع الأطفال من خلاله عزف الألحان بالقفز. ويستمتع الصغار أيضاً بقيادة سيارة كهربائية والتأمل في مرايا مشوِّهة مختلفة.",
+    "4": "هامبورغ. الرجال لديهم فرص ترقٍّ أكبر، أما النساء فلديهن متعة أكبر بالعمل: هذا ما كشفه استطلاع واسع في هامبورغ. رغم أن 8% فقط من الموظفات يثقن بفرص ترقيهن، تقول 61% منهن إن عملهن يمنحهن المتعة. أما لدى الرجال فكانت هذه النسبة 23 مقابل 57 بالمئة.",
+    "5": "لا يمكن أن يكون المال وحده حاسماً للرضا في مكان العمل. وينطبق هذا بشكل خاص على الكوادر الأوروبية عالية التأهيل، كما تُظهر دراسة إدارية دولية مقارنة. فسواء في أوروبا أو بين المديرين اليابانيين والأمريكيين، تحظى إمكانية الجمع بين العمل والحياة الخاصة بأهمية محورية. ويلعب استمتاع الموظفين الأوروبيين بعملهم دوراً أكبر بكثير مما هو الحال في اليابان. كما تُظهر التحليلات أن سمعة الشركة، إلى جانب الراتب، عامل مهم جداً في اختيار الأوروبيين لمكان عملهم.",
+  },
+});
+
+const discoTranslations = {
+  "1": "أريد أن يرى الناس الذين شاهدوا صوري العالم بعينين مختلفتين من الآن فصاعداً. هذا ما قد تحققه المصورة النيوزيلندية آن غيديس؛ فالصور التي التقطتها لكتاب \"في أسفل الحديقة\" عن الأطفال الصغار غير عادية وجميلة للغاية: أطفال على الزهور والأوراق والتوت، متنكرون كفطر أو بطيخ أو خنافس، وأطفال داخل زهور التوليب أو كفراشات. كتاب مصور مُغنى بنصوص شعرية ونصائح.",
+  "2": "تبدأ معظم دورات التزلج للأطفال في سن الرابعة. لكن الأمر مختلف في قرية الأطفال الكارينثية تريبيسينغ: هنا يتعلم الأطفال الصغار من عمر سنتين في مخيم \"فيندل-فيديل\". يومياً لمدة ساعتين، يمكن لهؤلاء \"أرانب التزلج\" الصغار تحت إشراف متخصص القيام بمحاولات مشي أو تزلج أولى على لوحين على تل منبسط. وبعد أيام من التدريب، تنتقل المجموعة بحافلة الأطفال إلى منطقة التزلج في إينركريمس. كما يقدم فندق جينا للأطفال والعائلات على بحيرة فياكر دورات تزلج لأصغر ضيوفه. وقد تعلّم قرابة 1000 طفل صغير التزلج بالفعل في هذه \"مدرسة الحفاضات\".",
+  "3": "أصغر كاتب في برلين ألّف نصوصاً أكثر بكثير من عدد سنوات عمره. فقد كتب دانيال ستوري، 12 عاماً، نحو 50 قصيدة وقصة على حاسوبه. يقول تلميذ الصف السادس: \"أكتب تقريباً منذ أن وُجدت\". بدأ بنظم الشعر في السابعة من عمره، والآن في الثانية عشرة يفخر بأول أمسية قراءة له. وبينما يلعب أصدقاؤه كرة القدم، يجول خيال دانيال في غرفته. ولماذا يفضل الكتابة؟ يقول دانيال: \"أكتب لأنني لا أستطيع أن أعيش كل ما أفكر فيه\".",
+  "4": "سواء كنت مسافراً لأغراض شخصية أو عمل، يمكنك مع بطاقة المدينة استخدام وسائل النقل العام برخص. الشرط: أن تكون قد وصلت بالطائرة أو بقطار الدويتشه بان (لأكثر من 100 كم). فمقابل رسم إضافي بسيط قدره 2.50 يورو، تتيح لك بطاقة المدينة بعد الوصول التنقل الحر بالمترو أو القطار السريع أو الترام والحافلات لمدة تصل إلى 48 ساعة. بالمناسبة: تصلح بطاقتك ليومين متتاليين تحددهما بنفسك عند شرائها.",
+  "5": "في ولاية مكلنبورغ-فوربومرن يمكن للشباب الآن الذهاب بالتاكسي إلى الديسكو مقابل نصف الأجرة. تتوفر التذاكر بنصف السعر في جميع مكاتب صندوق التأمين الصحي العام (AOK) وكذلك في محطات وقود إيسو. يمكن للشباب بين 16 و25 عاماً استخدامها في عطلات نهاية الأسبوع والأعياد من الساعة 8 مساءً حتى 6 صباحاً. ويحصل سائقو التاكسي على كامل الأجرة من مركزهم.",
+};
+
+// ── 2. Disco (original) ──────────────────────────────────────────────────
+exercises.push({
+  id: "eca17496-8b93-4b2e-bcb3-d580b61d987d",
+  items: {
+    "1": {
+      keyword: "Bilder, die sie für das Buch drunten im Garten... gemacht hat",
+      evidence_text: "Bilder, die sie für das Buch drunten im Garten von den kleinen Menschenkindern gemacht hat, sind ungewöhnlich und wunderschön",
+      explanation_correct: "يصف النص كتاباً مصوراً لصور أطفال فنية التقطتها مصورة نيوزيلندية - يطابق العنوان B \"كتاب مصور: أطفال في الحديقة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"دليل لهواة التصوير\" يبدو قريباً لأن النص عن مصورة، لكنه كتاب مصور بصور أطفال مع نصوص شعرية، وليس دليلاً تعليمياً لهواة التصوير.",
+      evidence_translation: "الصور التي التقطتها لكتاب \"في أسفل الحديقة\" عن الأطفال الصغار غير عادية وجميلة للغاية.",
+      keywords: ["Bildband", "Babys im Garten"],
+      paraphrase: [{ question: "Bildband: Babys im Garten", text: "Buch drunten im Garten von den kleinen Menschenkindern" }],
+      options_reasoning: [
+        { key: "B", label: "Bildband: Babys im Garten", correct: true, reason: "يطابق مباشرة: كتاب مصور بصور أطفال في الحديقة." },
+        { key: "E", label: "Handbuch für Hobby-Fotografen", correct: false, reason: "مضلل: النص عن مصورة وصورها، لكنه كتاب صور فني وليس دليلاً تعليمياً." },
+      ],
+    },
+    "2": {
+      keyword: "werden im Windel-Wedel-Camp bereits Kleinkinder ab zwei Jahren unterrichtet",
+      evidence_text: "werden im Windel-Wedel-Camp bereits Kleinkinder ab zwei Jahren unterrichtet",
+      explanation_correct: "يصف النص دورة تزلج للأطفال من عمر سنتين فقط، أبكر بكثير من الدورات المعتادة - يطابق العنوان D \"التمرين المبكر: فنادق تقدم دورات تزلج لأطفال بعمر سنتين\" مباشرة.",
+      explanation_wrong: "احذر: العنوان I \"دورة تزلج للآباء والأطفال\" يبدو قريباً لأنه عن دورة تزلج، لكن النص عن دورة مخصصة للأطفال الصغار وحدهم تحت إشراف مدربين، وليست دورة مشتركة مع الآباء.",
+      evidence_translation: "هنا يتعلم الأطفال الصغار من عمر سنتين في مخيم \"فيندل-فيديل\".",
+      keywords: ["Skikurse", "Zweijährige"],
+      paraphrase: [{ question: "Früh übt sich", text: "Kleinkinder ab zwei Jahren unterrichtet" }],
+      options_reasoning: [
+        { key: "D", label: "Früh übt sich: Hotels bieten Skikurse für Zweijährige an", correct: true, reason: "يطابق مباشرة: دورة تزلج لأطفال من عمر سنتين فقط." },
+        { key: "I", label: "Skikurs für Eltern und Kinder", correct: false, reason: "مضلل: الدورة موجهة للأطفال الصغار وحدهم بإشراف مدربين، وليست دورة مشتركة مع الآباء." },
+      ],
+    },
+    "3": {
+      keyword: "Rund 50 Gedichte und Erzählungen tippte Daniel Story, 12, schon in seinen Computer",
+      evidence_text: "Rund 50 Gedichte und Erzählungen tippte Daniel Story, 12, schon in seinen Computer.",
+      explanation_correct: "يروي النص قصة طفل واحد موهوب يكتب الشعر والقصص منذ سنوات - يطابق العنوان C \"تلميذ صاحب أفكار كثيرة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"تلاميذ مدارس يكتبون قصصاً مشوقة\" يبدو قريباً لأنه عن كتابة، لكن النص عن تلميذ واحد بالتحديد (دانيال) وليس مجموعة تلاميذ، ويذكر أشعاراً أيضاً وليس فقط قصصاً.",
+      evidence_translation: "كتب دانيال ستوري، 12 عاماً، نحو 50 قصيدة وقصة على حاسوبه.",
+      keywords: ["Ein Schüler", "viele Ideen"],
+      paraphrase: [{ question: "Ein Schüler mit vielen Ideen", text: "Daniel Story, 12... 50 Gedichte und Erzählungen" }],
+      options_reasoning: [
+        { key: "C", label: "Ein Schüler mit vielen Ideen", correct: true, reason: "يطابق مباشرة: تلميذ واحد ألّف حوالي 50 قصيدة وقصة." },
+        { key: "H", label: "Schulkinder schreiben spannende Geschichten", correct: false, reason: "مضلل: النص عن تلميذ واحد فقط، وليس عن مجموعة تلاميذ." },
+      ],
+    },
+    "4": {
+      keyword: "mit dem Stadt Ticket können Sie billig die öffentlichen Verkehrsmittel nutzen",
+      evidence_text: "mit dem Stadt Ticket können Sie billig die öffentlichen Verkehrsmittel nutzen",
+      explanation_correct: "يعرض النص بطاقة مدينة رخيصة لاستخدام وسائل النقل العام للمسافرين بالطائرة أو القطار - يطابق العنوان A \"عرض للمسافرين: استخدام وسائل النقل العام بسعر زهيد\" مباشرة.",
+      explanation_wrong: "احذر: العنوان J \"الترام والحافلة مشمولان في تذكرة الطيران\" يعكس معنى النص - فبطاقة المدينة تُشترى بشكل منفصل مقابل رسم إضافي 2.50 يورو، وليست مشمولة تلقائياً في تذكرة الطيران.",
+      evidence_translation: "يمكنك مع بطاقة المدينة استخدام وسائل النقل العام برخص.",
+      keywords: ["öffentliche Verkehrsmittel", "wenig Geld"],
+      paraphrase: [{ question: "Für wenig Geld öffentliche Verkehrsmittel benutzen", text: "billig die öffentlichen Verkehrsmittel nutzen" }],
+      options_reasoning: [
+        { key: "A", label: "Angebot für Reisende: Für wenig Geld öffentliche Verkehrsmittel benutzen", correct: true, reason: "يطابق مباشرة: بطاقة رخيصة لاستخدام وسائل النقل العام للمسافرين." },
+        { key: "J", label: "Straßenbahn und Bus im Flugticket enthalten", correct: false, reason: "معكوس: البطاقة تُشترى منفصلة برسم إضافي، وليست مشمولة تلقائياً في تذكرة الطيران." },
+      ],
+    },
+    "5": {
+      keyword: "können junge Leute jetzt für den halben Fahrpreis mit dem Taxi auf Discotour gehen",
+      evidence_text: "können junge Leute jetzt für den halben Fahrpreis mit dem Taxi auf Discotour gehen",
+      explanation_correct: "يعرض النص تذكرة تاكسي بنصف السعر للشباب المتوجهين إلى الديسكو - يطابق العنوان G \"جديد: تذكرة تاكسي لروّاد الديسكو\" مباشرة.",
+      explanation_wrong: "احذر: العنوان F \"جديد: بالتاكسي مجاناً إلى الديسكو\" يبدو قريباً جداً، لكن النص يذكر تحديداً \"نصف السعر\" (halber Fahrpreis)، وليس مجاناً.",
+      evidence_translation: "يمكن للشباب الآن الذهاب بالتاكسي إلى الديسكو مقابل نصف الأجرة.",
+      keywords: ["Taxi", "halber Fahrpreis"],
+      paraphrase: [{ question: "Taxi – Ticket für Discobesucher", text: "für den halben Fahrpreis mit dem Taxi auf Discotour" }],
+      options_reasoning: [
+        { key: "G", label: "Neu: Taxi – Ticket für Discobesucher", correct: true, reason: "يطابق مباشرة: تذكرة تاكسي بنصف السعر لروّاد الديسكو." },
+        { key: "F", label: "Neu: Mit dem Taxi gratis zur Disco", correct: false, reason: "مضلل: التفصيل الدقيق خاطئ - النص يذكر نصف السعر وليس مجاناً." },
+      ],
+    },
+  },
+  translations: discoTranslations,
+});
+
+// ── 3. Disco 2 (same texts, reshuffled headline letters, minor typography) ──
+exercises.push({
+  id: "834568c4-cb78-4967-a3a9-154cadadb863",
+  items: {
+    "1": {
+      keyword: "Bilder, die sie für das Buch Drunten im Garten... gemacht hat",
+      evidence_text: "Bilder, die sie für das Buch Drunten im Garten von den kleinen Menschenkindern gemacht hat, sind ungewöhnlich und wunderschön",
+      explanation_correct: "يصف النص كتاباً مصوراً لصور أطفال فنية التقطتها مصورة نيوزيلندية - يطابق العنوان G \"اقتراح كتاب: أطفال في الحديقة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان I \"نصائح لهواة التصوير\" يبدو قريباً لأن النص عن مصورة، لكنه كتاب مصور بصور أطفال مع نصوص شعرية، وليس دليلاً تعليمياً لهواة التصوير.",
+      evidence_translation: "الصور التي التقطتها لكتاب \"في أسفل الحديقة\" عن الأطفال الصغار غير عادية وجميلة للغاية.",
+      keywords: ["Buchtipp", "Babys im Garten"],
+      paraphrase: [{ question: "Buchtipp: Babys im Garten", text: "Buch Drunten im Garten von den kleinen Menschenkindern" }],
+      options_reasoning: [
+        { key: "G", label: "Buchtipp: Babys im Garten", correct: true, reason: "يطابق مباشرة: كتاب مصور بصور أطفال في الحديقة." },
+        { key: "I", label: "Ratschläge für Hobby-Fotografen", correct: false, reason: "مضلل: النص عن مصورة وصورها، لكنه كتاب صور فني وليس دليلاً تعليمياً." },
+      ],
+    },
+    "2": {
+      keyword: "werden im Windel Wedel Camp bereits Kleinkinder ab zwei Jahren unterrichtet",
+      evidence_text: "werden im Windel Wedel Camp bereits Kleinkinder ab zwei Jahren unterrichtet",
+      explanation_correct: "يصف النص دورة تزلج للأطفال من عمر سنتين فقط، أبكر بكثير من الدورات المعتادة - يطابق العنوان A \"التمرين المبكر: فنادق تقدم دورات تزلج لأطفال بعمر سنتين\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"دورة تزلج للآباء والأطفال\" يبدو قريباً لأنه عن دورة تزلج، لكن النص عن دورة مخصصة للأطفال الصغار وحدهم تحت إشراف مدربين، وليست دورة مشتركة مع الآباء.",
+      evidence_translation: "هنا يتعلم الأطفال الصغار من عمر سنتين في مخيم \"فيندل-فيديل\".",
+      keywords: ["Skikurse", "Zweijährige"],
+      paraphrase: [{ question: "Früh übt sich", text: "Kleinkinder ab zwei Jahren unterrichtet" }],
+      options_reasoning: [
+        { key: "A", label: "Früh übt sich: Hotels bieten Skikurse für Zweijährige an", correct: true, reason: "يطابق مباشرة: دورة تزلج لأطفال من عمر سنتين فقط." },
+        { key: "E", label: "Skikurs für Eltern und Kinder", correct: false, reason: "مضلل: الدورة موجهة للأطفال الصغار وحدهم بإشراف مدربين، وليست دورة مشتركة مع الآباء." },
+      ],
+    },
+    "3": {
+      keyword: "Rund 50 Gedichte und Erzählungen tippte Daniel Story, 12, schon in seinen Computer",
+      evidence_text: "Rund 50 Gedichte und Erzählungen tippte Daniel Story, 12, schon in seinen Computer.",
+      explanation_correct: "يروي النص قصة طفل واحد موهوب يكتب الشعر والقصص منذ سنوات - يطابق العنوان J \"تلميذ صاحب أفكار كثيرة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"تلاميذ مدارس يكتبون قصصاً مشوقة\" يبدو قريباً لأنه عن كتابة، لكن النص عن تلميذ واحد بالتحديد (دانيال) وليس مجموعة تلاميذ.",
+      evidence_translation: "كتب دانيال ستوري، 12 عاماً، نحو 50 قصيدة وقصة على حاسوبه.",
+      keywords: ["Ein Schüler", "viele Ideen"],
+      paraphrase: [{ question: "Ein Schüler mit vielen Ideen", text: "Daniel Story, 12... 50 Gedichte und Erzählungen" }],
+      options_reasoning: [
+        { key: "J", label: "Ein Schüler mit vielen Ideen", correct: true, reason: "يطابق مباشرة: تلميذ واحد ألّف حوالي 50 قصيدة وقصة." },
+        { key: "H", label: "Schulkinder schreiben spannende Geschichten", correct: false, reason: "مضلل: النص عن تلميذ واحد فقط، وليس عن مجموعة تلاميذ." },
+      ],
+    },
+    "4": {
+      keyword: "mit dem Stadt Ticket können Sie billig die öffentlichen Verkehrsmittel nutzen",
+      evidence_text: "mit dem Stadt Ticket können Sie billig die öffentlichen Verkehrsmittel nutzen",
+      explanation_correct: "يعرض النص بطاقة مدينة رخيصة لاستخدام وسائل النقل العام للمسافرين بالطائرة أو القطار - يطابق العنوان F \"عرض للمسافرين: استخدام وسائل النقل العام بسعر زهيد\" مباشرة.",
+      explanation_wrong: "احذر: العنوان C \"الترام والحافلة مشمولان في تذكرة الطيران\" يعكس معنى النص - فبطاقة المدينة تُشترى بشكل منفصل مقابل رسم إضافي، وليست مشمولة تلقائياً في تذكرة الطيران.",
+      evidence_translation: "يمكنك مع بطاقة المدينة استخدام وسائل النقل العام برخص.",
+      keywords: ["öffentliche Verkehrsmittel", "wenig Geld"],
+      paraphrase: [{ question: "Für wenig Geld öffentliche Verkehrsmittel benutzen", text: "billig die öffentlichen Verkehrsmittel nutzen" }],
+      options_reasoning: [
+        { key: "F", label: "Angebot für Reisende: Für wenig Geld öffentliche Verkehrsmittel benutzen", correct: true, reason: "يطابق مباشرة: بطاقة رخيصة لاستخدام وسائل النقل العام للمسافرين." },
+        { key: "C", label: "Straßenbahn und Bus im Flugticket enthalten", correct: false, reason: "معكوس: البطاقة تُشترى منفصلة برسم إضافي، وليست مشمولة تلقائياً في تذكرة الطيران." },
+      ],
+    },
+    "5": {
+      keyword: "können junge Leute jetzt für den halben Fahrpreis mit dem Taxi auf Discotour gehen",
+      evidence_text: "können junge Leute jetzt für den halben Fahrpreis mit dem Taxi auf Discotour gehen",
+      explanation_correct: "يعرض النص تذكرة تاكسي بنصف السعر للشباب المتوجهين إلى الديسكو - يطابق العنوان D \"جديد: تذكرة تاكسي لروّاد الديسكو\" مباشرة.",
+      explanation_wrong: "احذر: العنوان B \"جديد: بالتاكسي مجاناً إلى الديسكو\" يبدو قريباً جداً، لكن النص يذكر تحديداً \"نصف السعر\"، وليس مجاناً.",
+      evidence_translation: "يمكن للشباب الآن الذهاب بالتاكسي إلى الديسكو مقابل نصف الأجرة.",
+      keywords: ["Taxi", "halber Fahrpreis"],
+      paraphrase: [{ question: "Taxi – Ticket für Discobesucher", text: "für den halben Fahrpreis mit dem Taxi auf Discotour" }],
+      options_reasoning: [
+        { key: "D", label: "Neu: Taxi – Tickest für Discobesucher", correct: true, reason: "يطابق مباشرة: تذكرة تاكسي بنصف السعر لروّاد الديسكو." },
+        { key: "B", label: "Neu: Mit dem Taxi gratis zur Disco", correct: false, reason: "مضلل: التفصيل الدقيق خاطئ - النص يذكر نصف السعر وليس مجاناً." },
+      ],
+    },
+  },
+  translations: discoTranslations,
+});
+
+// ── 4. Eine Karte ─────────────────────────────────────────────────────────
+exercises.push({
+  id: "44d2ead2-c59e-40a2-9406-c7281cc3633a",
+  items: {
+    "1": {
+      keyword: "Fast immer wurden für die Söhne... mehr gekauft",
+      evidence_text: "Fast immer wurden für die Söhne – auch schon im Babyalter – mehr gekauft.",
+      explanation_correct: "تُظهر دراسة أن الأبناء الذكور يتلقون هدايا أكثر من البنات حتى في مرحلة الرضاعة - يطابق العنوان I \"الأبناء يُمنحون هدايا أسخى\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"الأبناء يُهدون أكثر من البنات\" يعكس اتجاه المعنى - فالنص يقول إن الأبناء يتلقون هدايا أكثر (مفعول به)، وليس أنهم هم من يقدّمون الهدايا (فاعل).",
+      evidence_translation: "في كل الحالات تقريباً، كان يُشترى للأبناء - حتى في عمر الرضاعة - أكثر.",
+      keywords: ["großzügiger beschenkt", "Söhne"],
+      paraphrase: [{ question: "Söhne werden großzügiger beschenkt", text: "für die Söhne... mehr gekauft" }],
+      options_reasoning: [
+        { key: "I", label: "Schöne werden großzügiger beschenkt", correct: true, reason: "يطابق مباشرة: الأبناء يتلقون هدايا أكثر من البنات." },
+        { key: "H", label: "Söhne schenken mehr als Töchter", correct: false, reason: "عكس الاتجاه: النص عن أبناء يتلقون هدايا، وليس عن أبناء يقدّمون هدايا." },
+      ],
+    },
+    "2": {
+      keyword: "kann man mit der ICYN-Karte weltweit... reservieren",
+      evidence_text: "kann man mit der ICYN-Karte weltweit nicht nur Übernachtungen in anderen Herbergen reservieren, sondern auch unbegrenzt im Internet surfen",
+      explanation_correct: "تشرح الفقرة مزايا بطاقة ICYN لبيوت الشباب: حجز، إنترنت، اتصال مجاني، تذاكر - يطابق العنوان A \"بطاقة واحدة - مزايا كثيرة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان F \"مكاتب سفر مترابطة عالمياً\" يبدو قريباً لأنه عن شبكة عالمية، لكن النص عن شبكة بيوت شباب (Jugendherbergen) وليس مكاتب سفر.",
+      evidence_translation: "يمكن ببطاقة ICYN حجز إقامات في بيوت شباب أخرى حول العالم، وأيضاً تصفح الإنترنت بلا حدود.",
+      keywords: ["Eine Karte", "viele Vorteile"],
+      paraphrase: [{ question: "Eine Karte – viele Vorteile", text: "mit der ICYN-Karte... reservieren... surfen... telefonieren... buchen" }],
+      options_reasoning: [
+        { key: "A", label: "Eine Karte – viele Vorteile", correct: true, reason: "يطابق مباشرة: بطاقة واحدة تمنح مزايا متعددة." },
+        { key: "F", label: "Reisebüros weltweit vernetzt", correct: false, reason: "مضلل: الشبكة هي شبكة بيوت شباب، وليست مكاتب سفر." },
+      ],
+    },
+    "3": {
+      keyword: "Wo gibt es denn Orte, wo Kinder noch Abenteuer erleben",
+      evidence_text: "Wo gibt es denn Orte, wo Kinder noch Abenteuer erleben, Hotels oder Wohnungen, in denen sie sich wohl fühlen",
+      explanation_correct: "تقدم الكاتبة نصائح وعناوين لأماكن عطلات مناسبة للأطفال والآباء معاً - يطابق العنوان J \"نصائح: أين يستمتع الأطفال أيضاً\" مباشرة.",
+      explanation_wrong: "احذر: العنوان B \"أخيراً عطلة بلا أطفال\" يعكس معنى النص تماماً - فالنص عن التخطيط لعطلة مع الأطفال، وليس التخلص منهم.",
+      evidence_translation: "أين توجد أماكن يعيش فيها الأطفال مغامرات، وفنادق أو شقق يشعرون فيها بالراحة؟",
+      keywords: ["Tipps", "Kinder ihren Spaß haben"],
+      paraphrase: [{ question: "Wo auch Kinder ihren Spaß haben", text: "wo Kinder noch Abenteuer erleben... sich wohl fühlen" }],
+      options_reasoning: [
+        { key: "J", label: "Tipps: Wo auch Kinder ihren Spaß haben", correct: true, reason: "يطابق مباشرة: نصائح لعطلات يستمتع فيها الأطفال." },
+        { key: "B", label: "Endlich Ferien ohne Kinder", correct: false, reason: "معكوس تماماً: النص عن عطلة مع الأطفال وليس بدونهم." },
+      ],
+    },
+    "4": {
+      keyword: "Ein Drittel der Schweizerinnen und Schweizer würde... die Hälfte der Berge hergeben",
+      evidence_text: "Ein Drittel der Schweizerinnen und Schweizer würde nach einer Umfrage im Tausch für eine Meeresküste die Hälfte der Berge hergeben.",
+      explanation_correct: "يُظهر استطلاع أن ثلث السويسريين يفضلون البحر على نصف جبالهم - يطابق العنوان D \"البحر بدلاً من الجبال\" مباشرة.",
+      explanation_wrong: "احذر: العنوان G \"البحيرات السويسرية لا تزال محبوبة جداً\" غير مرتبط بالنص - فالنص عن الرغبة في مبادلة الجبال بالبحر، ولا يذكر البحيرات إطلاقاً.",
+      evidence_translation: "ثلث السويسريين مستعدون، بحسب استطلاع، لمبادلة نصف جبالهم بساحل بحري.",
+      keywords: ["Meer statt Berge"],
+      paraphrase: [{ question: "Meer statt Berge", text: "im Tausch für eine Meeresküste die Hälfte der Berge hergeben" }],
+      options_reasoning: [
+        { key: "D", label: "Meer statt Berge", correct: true, reason: "يطابق مباشرة: رغبة بمبادلة الجبال بالبحر." },
+        { key: "G", label: "Schweizer Seen weiterhin sehr beliebt", correct: false, reason: "غير مرتبط: النص لا يذكر البحيرات إطلاقاً." },
+      ],
+    },
+    "5": {
+      keyword: "bietet schon seit Jahren preisgünstige Ferien",
+      evidence_text: "bietet schon seit Jahren preisgünstige Ferien",
+      explanation_correct: "يعلن النص عن عطلات مخفضة الأسعار لأعضاء جمعية عائلية، للأسر التقليدية والوحيدة الوالد - يطابق العنوان C \"عطلة رخيصة لأعضاء الجمعية\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"مشروع سكني جديد للوالد الوحيد\" غير مرتبط - فالنص عن كتالوج عطلات مخفضة الأسعار، وليس عن مشروع إسكان.",
+      evidence_translation: "يقدم منذ سنوات عطلات بأسعار مخفضة.",
+      keywords: ["Günstiger Urlaub", "Vereinsmitglieder"],
+      paraphrase: [{ question: "Günstiger Urlaub für Vereinsmitglieder", text: "preisgünstige Ferien... den Mitgliedern im neuen Katalog" }],
+      options_reasoning: [
+        { key: "C", label: "Günstiger Urlaub für Vereinsmitglieder", correct: true, reason: "يطابق مباشرة: عطلات مخفضة لأعضاء الجمعية." },
+        { key: "E", label: "Neues Wohnprojekt für Alleinerziehende", correct: false, reason: "غير مرتبط: النص عن عطلات وليس سكناً." },
+      ],
+    },
+  },
+  translations: {
+    "1": "بداية غير عادلة: يُفضَّل الأولاد الذكور منذ غرفة الطفل - إذ يحصلون على هدايا أكثر من البنات. هذه نتيجة دراسة أجراها الاتحاد الفدرالي لتجارة الألعاب بالتجزئة، شملت 6500 أسرة حول عادات تقديم الهدايا لديها. ففي كل الحالات تقريباً - حتى في عمر الرضاعة - كان يُشترى للأبناء أكثر. والمسؤولات عن الهدايا غالباً هن الأمهات.",
+    "2": "هذا الصيف سيتم ربط 200 بيت شباب إضافي في المدن الكبرى حول العالم ببعضها. الكلمة السحرية هي ICYN - شبكة الاتصال الدولية للشباب. طُوِّر هذا النظام خصيصاً لبيوت الشباب. مقابل رسم سنوي قدره 15 يورو فقط، يمكن ببطاقة ICYN حجز إقامات في بيوت شباب أخرى حول العالم، بل وأيضاً تصفح الإنترنت بلا حدود، والاتصال الهاتفي المجاني عبر الإنترنت، وحجز تذاكر القطار والطيران دون نقود، والحصول على تذاكر حفلات موسيقية بأسعار مخفضة.",
+    "3": "سواء في المنزل أو في مكان ما في سويسرا أو في الخارج: تحتاج العطلات مع الأطفال إلى تخطيط جيد. فأين توجد أماكن يعيش فيها الأطفال مغامرات، وفنادق أو شقق يشعرون فيها بالراحة، بينما يستفيد الآباء أيضاً في الوقت نفسه؟ تقدم روث ميكائيلا ريشتر نصائح وعناوين وأمثلة. وبذلك تصبح حتى رحلات المدن أو عطلات القلاع في إنجلترا مثيرة للاهتمام.",
+    "4": "الشوق إلى البحر كبير في سويسرا، خاصة لدى الجيل الأصغر سناً. فثلث السويسريين مستعدون، بحسب استطلاع، لمبادلة نصف جبالهم بساحل بحري. استطلعت مجلة \"ماري\" آراء أكثر من 1000 شخص في سويسرا حول علاقتهم بالبحر. وحوالي 42% من الفئة العمرية 15-34 عاماً مستعدون لهذه المبادلة - وفاءً لشعار حركة الشباب في الثمانينيات: \"لا للألب، رؤية حرة للمتوسط\". أما في سويسرا الألمانية فـ29% فقط مستعدون للتخلي عن الجبال، وفي الجزء الفرنسي 37%، وفي تيتشينو 43%.",
+    "5": "سواء للأسرة التقليدية أو للوالد الوحيد: تقدم جمعية بيوت العائلات في غيلسنكيرشن منذ سنوات عطلات بأسعار مناسبة. وتتوفر أكثر من 1100 غرفة وشقة - تناسب أيضاً الميزانيات الصغيرة - بين بحر الشمال وصقلية في الكتالوج الجديد المتاح للأعضاء. ويحصل غير الأعضاء على هذا الكتالوج مقابل رسم 5 يورو. للاستعلام: هاتف 061/981 25 25 أو www.ferienwohnung.ch",
+  },
+});
+
+// ── 5. Frankfurter Flughafen ─────────────────────────────────────────────
+exercises.push({
+  id: "41747d06-e134-41ed-9a91-8d3d63d7c3ad",
+  items: {
+    "1": {
+      keyword: "lädt für Donnerstag dieser Woche... zu einem Informationsabend über den Ausbau",
+      evidence_text: "lädt für Donnerstag dieser Woche um 19.30 Uhr zu einem Informationsabend über den Ausbau des Frankfurter Flughafens ein",
+      explanation_correct: "تدعو مجموعة مواطنين لأمسية معلوماتية حول توسعة المطار وتأثيره على البيئة والضوضاء - يطابق العنوان H \"البيئة والمطار: أمسية معلوماتية للمواطنين\" مباشرة.",
+      explanation_wrong: "احذر: العنوان B \"مظاهرة ضد ضوضاء الطيران\" يبدو قريباً لأن النص يذكر الضوضاء، لكنه دعوة لأمسية معلوماتية (Informationsabend) وليس دعوة لمظاهرة.",
+      evidence_translation: "تدعو لمساء الخميس من هذا الأسبوع الساعة 19:30 إلى أمسية معلوماتية حول توسعة مطار فرانكفورت.",
+      keywords: ["Umwelt und Flughafen", "Informationsabend"],
+      paraphrase: [{ question: "Umwelt und Flughafen: Informationsabend der Bürger", text: "Informationsabend über den Ausbau... Auswirkungen hat der Flugverkehr auf Umwelt" }],
+      options_reasoning: [
+        { key: "H", label: "Umwelt und Flughafen: Ein Informationsabend der Bürger", correct: true, reason: "يطابق مباشرة: أمسية معلوماتية لمواطنين حول المطار والبيئة." },
+        { key: "B", label: "Demonstration gegen Fluglärm", correct: false, reason: "مضلل: الحدث أمسية معلوماتية وليس مظاهرة." },
+      ],
+    },
+    "2": {
+      keyword: "erfreut sich bei vielen Firmen als beliebter Ort für Veranstaltungen und Tagungen",
+      evidence_text: "erfreut sich bei vielen Firmen als beliebter Ort für Veranstaltungen und Tagungen",
+      explanation_correct: "يوضح تقرير المطار زيادة عدد الفعاليات والمؤتمرات المقامة فيه سنوياً - يطابق العنوان D \"مطار فرانكفورت مكان شهير للفعاليات\" مباشرة.",
+      explanation_wrong: "احذر: العنوان C \"مطار فرانكفورت يبلغ 10 سنوات\" يبدو قريباً لأن النص يذكر الذكرى العاشرة، لكنها ذكرى مركز المؤتمرات وليس تأسيس المطار نفسه.",
+      evidence_translation: "يحظى المطار لدى شركات كثيرة بشعبية كمكان للفعاليات والمؤتمرات.",
+      keywords: ["beliebter Veranstaltungsort"],
+      paraphrase: [{ question: "Flughafen Frankfurt beliebter Veranstaltungsort", text: "beliebter Ort für Veranstaltungen und Tagungen" }],
+      options_reasoning: [
+        { key: "D", label: "Flughafen Frankfurt beliebter Veranstaltungsort", correct: true, reason: "يطابق مباشرة: مكان شهير لإقامة الفعاليات." },
+        { key: "C", label: "Flughafen Frankfurt wird 10 Jahre", correct: false, reason: "مضلل: الذكرى العاشرة لمركز المؤتمرات، وليست لتأسيس المطار." },
+      ],
+    },
+    "3": {
+      keyword: "lädt für Montag kommender Woche... zu einer öffentlichen Expertenbefragung",
+      evidence_text: "lädt für Montag kommender Woche, um 19.30 Uhr ins Pfarrhaus St. Mauritius, Mauritiusstraße 14, zu einer öffentlichen Expertenbefragung zum Thema Arbeitsplätze am Frankfurter Flughafen ein",
+      explanation_correct: "تدعو مجموعة مواطنين لنقاش مفتوح مع خبراء حول فرص العمل عند المطار - يطابق العنوان F \"نقاش حول المطار وفرص العمل\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"خبراء ضد توسعة المطار\" غير مرتبط - فالنص دعوة لنقاش مفتوح مع خبراء متنوعين، ولا يذكر أنهم ضد التوسعة.",
+      evidence_translation: "تدعو لمساء الاثنين من الأسبوع القادم الساعة 19:30 في دار الرعية سانت موريتيوس إلى استجواب علني للخبراء حول موضوع فرص العمل في مطار فرانكفورت.",
+      keywords: ["Diskussion", "Arbeitsplätze"],
+      paraphrase: [{ question: "Diskussion über Flughafen und Arbeitsplätze", text: "Expertenbefragung zum Thema Arbeitsplätze am Frankfurter Flughafen" }],
+      options_reasoning: [
+        { key: "F", label: "Diskussion über Flughafen und Arbeitsplätze", correct: true, reason: "يطابق مباشرة: نقاش خبراء حول فرص العمل عند المطار." },
+        { key: "E", label: "Experten gegen Vergrößerung des Flughafens", correct: false, reason: "غير مرتبط: النص لا يذكر موقف الخبراء من التوسعة." },
+      ],
+    },
+    "4": {
+      keyword: "steht diesmal das Thema Berufstätige Eltern im Mittelpunkt",
+      evidence_text: "steht diesmal das Thema Berufstätige Eltern im Mittelpunkt",
+      explanation_correct: "يقدم برنامج مركز تكوين الأسرة دورات حول التوفيق بين العمل والأسرة - يطابق العنوان A \"تكوين الأسرة: محور العمل والأسرة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان G \"دورات جديدة: ألعاب للأمهات والأطفال\" يبدو قريباً لأنه عن أمهات وأطفال، لكن البرنامج شامل (استرخاء، إدارة وقت، أجيال) وليس دورة ألعاب محددة.",
+      evidence_translation: "يتركز هذه المرة موضوع الآباء العاملين في محور الاهتمام.",
+      keywords: ["Beruf und Familie", "Familienbildung"],
+      paraphrase: [{ question: "Familienbildung Schwerpunkt Beruf und Familie", text: "Berufstätige Eltern im Mittelpunkt" }],
+      options_reasoning: [
+        { key: "A", label: "Familienbildung Schwerpunkt Beruf und Familie", correct: true, reason: "يطابق مباشرة: برنامج محوره العمل والأسرة." },
+        { key: "G", label: "Neue Kurse: Spiele für Mütter und Kinder", correct: false, reason: "مضلل: البرنامج شامل وليس دورة ألعاب محددة." },
+      ],
+    },
+    "5": {
+      keyword: "bietet in den kommenden Wochen neue Kurse an",
+      evidence_text: "bietet in den kommenden Wochen neue Kurse an. Am Mittwoch nächster Woche beginnen zwei Malkurse für Kinder.",
+      explanation_correct: "تعلن الجامعة الشعبية في دورنبيرن عن دورات جديدة للأطفال والآباء (رسم، مجموعات أب-طفل) - يطابق العنوان I \"دورات جديدة للأطفال\" مباشرة.",
+      explanation_wrong: "احذر: العنوان J \"دورات جديدة: جولة متحف للآباء الشباب\" يبدو قريباً لأن النص يذكر زيارة متحف، لكنها تحضير لورشة إبداعية عامة للمشاركين، وليست جولة مخصصة للآباء.",
+      evidence_translation: "تقدم في الأسابيع القادمة دورات جديدة. يبدأ يوم الأربعاء القادم دورتا رسم للأطفال.",
+      keywords: ["Neue Kurse für Kinder"],
+      paraphrase: [{ question: "Neue Kurse für Kinder", text: "neue Kurse an... Malkurse für Kinder" }],
+      options_reasoning: [
+        { key: "I", label: "Neue Kurse für Kinder", correct: true, reason: "يطابق مباشرة: دورات رسم وأنشطة جديدة للأطفال." },
+        { key: "J", label: "Neue Kurse: Museumsführung für junge Väter", correct: false, reason: "مضلل: زيارة المتحف تحضير عام، وليست جولة مخصصة للآباء." },
+      ],
+    },
+  },
+  translations: {
+    "1": "سيستمر توسيع مطار فرانكفورت. تدعو مجموعة من مواطني فرانكفورت من الأحياء الشرقية، ناشطة منذ سنوات في حماية البيئة والطبيعة، لمساء الخميس من هذا الأسبوع الساعة 19:30 إلى أمسية معلوماتية حول توسعة مطار فرانكفورت. سيتحدث متحدثون مختلفون في دار المواطنين أوستيند، شارع باركشتراسه 24، قاعة النادي 12. تريد المجموعة البحث عن إجابات للأسئلة التالية: كم مقداراً من ضوضاء الطائرات تتحمله المدينة؟ وما تأثيرات حركة الطيران على البيئة والطبيعة؟",
+    "2": "يحظى مطار فرانكفورت لدى كثير من الشركات بشعبية كمكان للفعاليات والمؤتمرات. يُظهر هذا تقرير من مطار فرانكفورت قُدِّم بمناسبة الذكرى العاشرة لمركز المؤتمرات. ففي عام الذكرى أُقيمت في مطار فرانكفورت 6800 فعالية بمشاركة إجمالية بلغت 72000 شخص. وفي العام السابق كانت هناك 6300 فعالية فقط بحضور 70000 ضيف. ويضم مركز المؤتمرات، الواقع مقابل المبنى الرئيسي للمطار مباشرة، 28 قاعة مؤتمرات تتسع لغاية 200 مشارك. وتتوفر تقنية حديثة كوصلات اللابتوب والإنترنت في جميع القاعات، بالإضافة إلى خدمة ترجمة فورية وخيارات طعام متنوعة. كما تتيح منظومة مؤتمرات فيديو متنقلة الاتصال بالعالم أجمع.",
+    "3": "تدعو مجموعة مواطنين تحت اسم \"جنوب فرانكفورت\" لمساء الاثنين من الأسبوع القادم الساعة 19:30 في دار الرعية سانت موريتيوس، شارع موريتيوس 14، إلى استجواب علني للخبراء حول موضوع فرص العمل في مطار فرانكفورت. تمتلك المجموعة تقارير وبيانات تصفها، بحسب المتحدثين، بأنها مبالغ فيها ومشكوك فيها. لذلك دعت مجموعة \"جنوب فرانكفورت\" مدير الموارد البشرية في مطار فرانكفورت، وخبيراً من وزارة الاقتصاد، ومخطط تنمية حضرية معروفاً، وعالم اجتماع مهتماً بتطور فرص العمل في منطقة فرانكفورت. وبعد محاضرات الخبراء سيكون للضيوف وقت لطرح الأسئلة.",
+    "4": "يقدم البرنامج النصف سنوي الجديد لمركز تكوين الأسرة الإنجيلي نظرة شاملة على فعاليات كثيرة. إلى جانب دورات كالتحضير للولادة والعناية بالرضع، يتركز هذه المرة موضوع الآباء العاملين في المحور. ففي مجموعات ودورات موجهة بشكل خاص للنساء، يدور الأمر حول كيفية التوفيق بين العمل والأسرة بعد ولادة الطفل. وتلعب العلاقة بين الرجل والمرأة دوراً كبيراً في عروض تكوين الأسرة؛ إذ توجد برامج خاصة للنساء فقط أو للرجال فقط. كما توجد عروض حول العلاقة بين الأجيال (الأجداد والأحفاد). وبالإضافة لذلك يقدم البرنامج دورات للاسترخاء وإدارة الوقت تساعد في مواجهة تحديات الحياة اليومية.",
+    "5": "تقدم الجامعة الشعبية في دورنبيرن دورات جديدة في الأسابيع القادمة. يبدأ يوم الأربعاء القادم دورتا رسم للأطفال. يلتقي الأطفال من عمر سنتين ونصف إلى أربع سنوات الساعة 15:30، والأطفال من خمس وست سنوات الساعة 17:00. وللأطفال من عمر سنة ونصف إلى ست سنوات وآبائهم، تبدأ يوم السبت الساعة 10:00 مجموعة ثابتة للآباء والأطفال. وفي السبت التالي هناك لقاء أيضاً للآباء والأطفال حتى عمر ثلاث سنوات ونصف. أما ورشة الثقافة والإبداع يوم الاثنين القادم فمختلفة: ستُصنع تماثيل من الطين والتراب على غرار نماذج أفريقية. وللتحضير، يلتقي المشاركون يوم الاثنين القادم أولاً في المتحف. التسجيل حتى الساعة 15:00 غداً على أبعد تقدير.",
+  },
+});
+
+// ── 6. Kirche ─────────────────────────────────────────────────────────────
+exercises.push({
+  id: "85bf17be-f603-4a84-8e2f-882d3d43a545",
+  items: {
+    "1": {
+      keyword: "steht für zehn Samstage Fotografie, nach der Fotografie also die digitale Bearbeitung von Bildern",
+      evidence_text: "steht für zehn Samstage Fotografie, nach der Fotografie also die digitale Bearbeitung von Bildern, im Mittelpunkt",
+      explanation_correct: "تصف الفقرة دورة معالجة الصور رقمياً في زيورخ عبر عشرة أيام سبت - يطابق العنوان A \"معالجة الصور بالحاسوب\" مباشرة.",
+      explanation_wrong: "احذر: العنوان J \"مصورون من زيورخ يقيمون معرضاً\" يبدو قريباً لأنه يذكر زيورخ والتصوير، لكن النص عن دورة تعليمية لمعالجة الصور، وليس عن معرض لأعمال مصورين.",
+      evidence_translation: "يتركز محور عشرة أيام سبت على التصوير، ثم بعد ذلك على المعالجة الرقمية للصور.",
+      keywords: ["Bilder mit dem Computer bearbeiten"],
+      paraphrase: [{ question: "Bilder mit dem Computer bearbeiten", text: "die digitale Bearbeitung von Bildern" }],
+      options_reasoning: [
+        { key: "A", label: "Bilder mit dem Computer bearbeiten", correct: true, reason: "يطابق مباشرة: دورة معالجة صور رقمية بالحاسوب." },
+        { key: "J", label: "Zürcher Fotografen stellen aus", correct: false, reason: "مضلل: النص دورة تعليمية وليس معرضاً." },
+      ],
+    },
+    "2": {
+      keyword: "möchten damit einen Ort der Begegnung für Jung und Alt anbieten",
+      evidence_text: "möchten damit einen Ort der Begegnung für Jung und Alt anbieten",
+      explanation_correct: "تعلن الكنيسة عن افتتاح مقهى جديد كمكان لقاء اجتماعي للجميع - يطابق العنوان C \"الكنيسة تفتتح ملتقى جديداً\" مباشرة.",
+      explanation_wrong: "احذر: العنوان B \"الكنيسة تقدم دورة خبز للأطفال\" يبدو قريباً لأن النص يذكر الكعك، لكنه مجرد مرطب يُقدَّم في المقهى، وليس دورة خبز.",
+      evidence_translation: "نريد بذلك تقديم مكان لقاء للصغار والكبار.",
+      keywords: ["neuen Treffpunkt", "Kirche"],
+      paraphrase: [{ question: "Kirche eröffnet neuen Treffpunkt", text: "Ort der Begegnung für Jung und Alt" }],
+      options_reasoning: [
+        { key: "C", label: "Kirche eröffnet neuen Treffpunkt", correct: true, reason: "يطابق مباشرة: افتتاح مقهى كمكان لقاء اجتماعي." },
+        { key: "B", label: "Kirche bietet Backkurs für Kinder an", correct: false, reason: "مضلل: الكعك مجرد مرطب يُقدَّم، وليس دورة خبز." },
+      ],
+    },
+    "3": {
+      keyword: "sammelte... Mehlspeisenrezepte. Von der Birnentorte über den Apfelstrudel bis hin zum Heidelbeerstollen",
+      evidence_text: "Von der Birnentorte über den Apfelstrudel bis hin zum Heidelbeerstollen.",
+      explanation_correct: "يقدم النص كتاباً لوصفات حلويات نمساوية جمعها خباز مشهور - يطابق العنوان G \"وصفات كعك وتورتات\" مباشرة.",
+      explanation_wrong: "احذر: العنوان D \"كتاب طبخ جديد عن أطباق لحوم فيينية\" يبدو قريباً لأنه كتاب طبخ نمساوي، لكن الوصفات كلها حلويات (تورتة، شتروديل)، وليست أطباق لحوم.",
+      evidence_translation: "جمع على مر السنين وصفات حلويات. من تورتة الكمثرى إلى شتروديل التفاح وصولاً إلى ستولن التوت الأزرق.",
+      keywords: ["Rezepte für Kuchen und Torten"],
+      paraphrase: [{ question: "Rezepte für Kuchen und Torten", text: "Mehlspeisenrezepte... Birnentorte... Apfelstrudel" }],
+      options_reasoning: [
+        { key: "G", label: "Rezepte für Kuchen und Torten", correct: true, reason: "يطابق مباشرة: كتاب وصفات حلويات وتورتات." },
+        { key: "D", label: "Neu: Kochbuch über Wiener Fleischgerichte", correct: false, reason: "مضلل: الوصفات كلها حلويات، وليست أطباق لحوم." },
+      ],
+    },
+    "4": {
+      keyword: "wird auf der Messe der Bildungssoftwarepreis digita vergeben",
+      evidence_text: "der Bildungssoftwarepreis digita vergeben",
+      explanation_correct: "يُمنح في معرض التعليم ديداكتا جائزة أفضل برنامج تعليمي - يطابق العنوان F \"جائزة لأفضل برنامج تعليمي\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"تُختبر برامج حاسوب جديدة\" يبدو قريباً لأن النص عن برامج تعليمية، لكن الحدث حفل توزيع جائزة، وليس اختباراً لبرامج.",
+      evidence_translation: "تُمنح جائزة البرمجيات التعليمية ديجيتا.",
+      keywords: ["Preis für bestes Lernprogramm"],
+      paraphrase: [{ question: "Preis für bestes Lernprogramm", text: "Bildungssoftwarepreis digita vergeben" }],
+      options_reasoning: [
+        { key: "F", label: "Preis für bestes Lernprogramm", correct: true, reason: "يطابق مباشرة: حفل توزيع جائزة أفضل برنامج تعليمي." },
+        { key: "E", label: "Neue Computerprogramme werden getestet", correct: false, reason: "مضلل: الحدث توزيع جائزة، وليس اختبار برامج." },
+      ],
+    },
+    "5": {
+      keyword: "Der Grund, warum ein Kaffeehaus wichtig ist: das Plaudern mit Freunden",
+      evidence_text: "ein Kaffeehaus wichtig ist: das Plaudern",
+      explanation_correct: "توضح دراسة أن سبب ارتياد الفيينيين للمقاهي هو الدردشة مع الأصدقاء بالدرجة الأولى - يطابق العنوان I \"لماذا يرتاد الفيينيون المقهى\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"دراسة: رواد المقاهي أكثر سعادة\" غير مرتبط - فالدراسة عن أسباب ارتياد المقاهي، ولا تقيس مستوى السعادة إطلاقاً.",
+      evidence_translation: "السبب في أهمية المقهى: الدردشة.",
+      keywords: ["Warum die Wiener ins Café gehen"],
+      paraphrase: [{ question: "Warum die Wiener ins Café gehen", text: "das Plaudern mit Freunden... Grund für den Besuch im Kaffeehaus" }],
+      options_reasoning: [
+        { key: "I", label: "Warum die Wiener ins Café gehen", correct: true, reason: "يطابق مباشرة: سبب ارتياد المقاهي هو الدردشة مع الأصدقاء." },
+        { key: "H", label: "Studie zeigt: Kaffeetrinker sind glücklicher", correct: false, reason: "غير مرتبط: الدراسة لا تتناول السعادة." },
+      ],
+    },
+  },
+  translations: {
+    "1": "تقدم مدرسة الفنون والإعلام F+F في زيورخ للمرة الثالثة دورة \"معالجة الصور الرقمية\". في الفصل الجديد، يتركز المحور لمدة عشرة أيام سبت على التصوير الفوتوغرافي، ثم بعد ذلك على المعالجة الرقمية للصور. وتُستخدم في ذلك برامج مختلفة. لا تقتصر الدورة على التدريب فقط، بل تتناول أيضاً مواضيع وإشكاليات تتعلق بالتصوير والمعالجة الرقمية للصور. تكلفة الدورة: 800 فرنك. لمزيد من المعلومات والتسجيل في هذه الدورة: www.f-f.ch",
+    "2": "نويبيرلاخ-زود - بعد التسوق، تناول قهوة، أو التحدث مع الآخرين، أو اللقاء بمعارف، أو ببساطة الاسترخاء - كل هذا ممكن ابتداءً من 11 يوليو كل يوم ثلاثاء بين الساعة 14 و18 في مقهى الآيس كريم الجديد التابع لكنيسة ديتريش بونهوفر. يقول القس سيباستيان كونين: \"نريد بذلك تقديم مكان لقاء للصغار والكبار، والمساهمة في إحياء الحي\". وإلى جانب المشروبات الباردة والساخنة والكعك، تتوفر أيضاً موظفة للأحاديث خلال أوقات الدوام.",
+    "3": "أسرار فن الحلويات الحديث. جمع هيرفيغ غاسر، سيد الحلويات، على مر السنين - بصفته خباز مقهى لاندمان الفييني الشهير - وصفات حلويات. من تورتة الكمثرى إلى شتروديل التفاح وصولاً إلى ستولن التوت الأزرق. دار نشر كيتل، 110 صورة، 300 صفحة. ISBN 3-85134-014-0",
+    "4": "يُفتتح يوم الاثنين في شتوتغارت معرض التعليم ديداكتا. تُعرض فيه بشكل خاص مواد تعليمية، كثير منها برمجيات تعليمية. ويُمنح في المعرض جائزة البرمجيات التعليمية ديجيتا لمشروع برمجي ناجح. وهي جائزة مهمة للبرامج التعليمية والتعلمية في المنطقة الناطقة بالألمانية. وتتميز البرامج الحاصلة على جائزة ديجيتا بأنها عروض متعددة الوسائط بارزة من حيث المحتوى والشكل ونموذجية.",
+    "5": "درس معهد غالوب سلوك الفييينيين تجاه المقاهي. وتأكدت صورة نمطية: المقهى والفييني، وقهوته المفضلة الدائمة. نتائج الدراسة: 27% من المستطلَعين يذكرون أنهم يذهبون إلى المقهى القريب من منزلهم مرة واحدة على الأقل شهرياً. ويقضي المستطلَعون في المتوسط 54 دقيقة في مقهاهم المعتاد. وكلما طالت مدة بقاء الزبائن، زاد ما يأكلونه. والسبب في أهمية المقهى: الدردشة مع الأصدقاء. 77% من المستطلَعين ذكروا هذا كسبب لزيارة المقهى.",
+  },
+});
+
+// ── 7. lachen ─────────────────────────────────────────────────────────────
+exercises.push({
+  id: "a95c3632-d560-4b05-ae2c-78232c3ae9b3",
+  items: {
+    "1": {
+      keyword: "gemeinsam ist Männern und Frauen, dass sie in Vokalen lachen, die im Mundzentrum gebildet werden",
+      evidence_text: "gemeinsam ist Männern und Frauen, dass sie in Vokalen lachen, die im Mundzentrum gebildet werden",
+      explanation_correct: "يشرح النص الفرق بين طرق ضحك الرجال والنساء وما يشتركون فيه من حيث مكان تشكّل الصوت في الفم - يطابق العنوان D \"كيف يضحك الرجال والنساء\" مباشرة.",
+      explanation_wrong: "احذر: العنوان C \"لا أحد يضحك بمرح كبابا نويل\" يعكس معنى النص - فالنص يقول إن ضحكة \"هو هو هو\" الشبيهة بضحكة بابا نويل بالكاد تُعتبر مرحة، لأنها تصدر من الجزء الخلفي للفم.",
+      evidence_translation: "المشترك بين الرجال والنساء أنهم يضحكون بأصوات علة تتشكل في وسط الفم.",
+      keywords: ["Wie Männer und Frauen lachen"],
+      paraphrase: [{ question: "Wie Männer und Frauen lachen", text: "Männern und Frauen, dass sie in Vokalen lachen" }],
+      options_reasoning: [
+        { key: "D", label: "Wie Männer und Frauen lachen", correct: true, reason: "يطابق مباشرة: مقارنة طرق ضحك الجنسين." },
+        { key: "C", label: "Keiner lacht so fröhlich wie der Weihnachtsmann", correct: false, reason: "عكس تماماً: ضحكة بابا نويل بالكاد تُعتبر مرحة بحسب النص." },
+      ],
+    },
+    "2": {
+      keyword: "Wer viel arbeitet muss nicht unbedingt gestresst sein",
+      evidence_text: "Wer viel arbeitet muss nicht unbedingt gestresst sein.",
+      explanation_correct: "توضح دراسة أن العمل الكثير لا يعني بالضرورة توتراً أكبر، والعامل الحاسم هو جو العمل - يطابق العنوان A \"الرضا الوظيفي يحمي من التوتر\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"عمل أقل - توتر أقل\" يعكس منطق النص - فالنص يوضح أن كثرة العمل لا تعني بالضرورة توتراً أكبر، وليس أن العمل الأقل يقلل التوتر بالضرورة.",
+      evidence_translation: "من يعمل كثيراً لا يعني بالضرورة أنه متوتر.",
+      keywords: ["Zufriedenheit im Job schützt vor Stress"],
+      paraphrase: [{ question: "Zufriedenheit im Job schützt vor Stress", text: "Wer viel arbeitet muss nicht unbedingt gestresst sein... angenehmes Betriebsklima" }],
+      options_reasoning: [
+        { key: "A", label: "Zufriedenheit im Job schützt vor Stress", correct: true, reason: "يطابق مباشرة: جو العمل الجيد يحمي من التوتر، وليس كمية العمل." },
+        { key: "E", label: "Weniger Arbeit – weniger Stress", correct: false, reason: "معكوس المنطق: النص يفصل بين كمية العمل ومستوى التوتر." },
+      ],
+    },
+    "3": {
+      keyword: "zeigt, wie Männer Fähigkeiten aus dem Arbeitsleben auf die Erziehung übertragen können",
+      evidence_text: "zeigt, wie Männer Fähigkeiten aus dem Arbeitsleben auf die Erziehung übertragen können und so zu erfolgreichen Vätern werden",
+      explanation_correct: "يعرض كتاب جديد كيف ينقل الرجال مهارات العمل إلى الأبوة بنجاح - يطابق العنوان B \"رجال ناجحون يمكن أن يكونوا آباء صالحين أيضاً\" مباشرة.",
+      explanation_wrong: "احذر: العنوان G \"العمل أهم للرجال من الأسرة\" غير مرتبط - فالنص عن نقل مهارات العمل إلى الأبوة بنجاح، وليس عن مقارنة أهمية العمل بالأسرة.",
+      evidence_translation: "يُظهر كيف يمكن للرجال نقل مهارات من حياتهم العملية إلى التربية.",
+      keywords: ["erfolgreiche Väter"],
+      paraphrase: [{ question: "Erfolgreiche Männer können auch gute Väter sein", text: "zu erfolgreichen Vätern werden" }],
+      options_reasoning: [
+        { key: "B", label: "Erfolgreiche Männer können auch gute Väter sein", correct: true, reason: "يطابق مباشرة: نقل مهارات العمل إلى الأبوة الناجحة." },
+        { key: "G", label: "Der Beruf ist für Männer wichtiger als die Familie", correct: false, reason: "غير مرتبط: النص لا يقارن أهمية العمل بالأسرة." },
+      ],
+    },
+    "4": {
+      keyword: "dass wir mit siebzig Jahren am glücklichsten sind",
+      evidence_text: "dass wir mit siebzig Jahren am glücklichsten sind",
+      explanation_correct: "تُظهر دراسة أن كبار السن (70 عاماً) هم الأكثر سعادة بسبب قلة المسؤوليات ووقت الفراغ - يطابق العنوان J \"في السبعين تكون الحياة أكثر متعة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"كبار السن أيضاً يعانون من التوتر\" يعكس معنى النص تماماً - فالدراسة تُظهر أنهم الأكثر سعادة والأقل توتراً، وليس العكس.",
+      evidence_translation: "أننا في سن السبعين نكون في أسعد حالاتنا.",
+      keywords: ["Mit 70 Jahren macht das Leben am meisten Spaß"],
+      paraphrase: [{ question: "Mit 70 Jahren macht das Leben am meisten Spaß", text: "mit siebzig Jahren am glücklichsten" }],
+      options_reasoning: [
+        { key: "J", label: "Mit 70 Jahren macht das Leben am meistens Spaß", correct: true, reason: "يطابق مباشرة: كبار السن هم الأسعد بحسب الدراسة." },
+        { key: "H", label: "Auch ältere Menschen leiden unter Stress", correct: false, reason: "عكس تماماً: الدراسة تُظهر أنهم الأقل توتراً." },
+      ],
+    },
+    "5": {
+      keyword: "Sie verkaufen die schlechte Nachricht mit Humor",
+      evidence_text: "Sie verkaufen die schlechte Nachricht mit Humor.",
+      explanation_correct: "يشرح النص كيف تنقل مديرات الأخبار السيئة بروح الفكاهة للحفاظ على نجاحهن - يطابق العنوان F \"أخبار سيئة؟ قلها بابتسامة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان I \"النساء يتفاعلن بشكل أفضل مع الأخبار السيئة من الرجال\" غير مرتبط - فالنص عن كيفية تقديم مديرات للأخبار السيئة بفكاهة، وليس عن كيفية تلقي النساء والرجال لها.",
+      evidence_translation: "إنهن يقدّمن الخبر السيئ بروح الفكاهة.",
+      keywords: ["Schlechte Nachrichten", "Lächeln"],
+      paraphrase: [{ question: "Sagen Sie es mit einem Lächeln", text: "verkaufen die schlechte Nachricht mit Humor" }],
+      options_reasoning: [
+        { key: "F", label: "Schlechte Nachrichten? Sagen Sie es mit einem Lächeln", correct: true, reason: "يطابق مباشرة: تقديم الأخبار السيئة بفكاهة." },
+        { key: "I", label: "Frauen reagieren besser auf schlechte Nachrichten als Männer", correct: false, reason: "غير مرتبط: النص عن تقديم الأخبار وليس تلقيها." },
+      ],
+    },
+  },
+  translations: {
+    "1": "تضحك النساء بطرق كثيرة. فهن يقهقهن ويصدرن أصواتاً خافتة وأحياناً يكدن يغنين. أما عند الرجال فهذا نادر الحدوث. لكن المشترك بين الرجال والنساء أنهم يضحكون بأصوات علة تتشكل في وسط الفم. وهذا هو الحاسم: فقط عندما تتشكل الأصوات في وسط الفم، تكون الضحكة بالنسبة لنا مرحة وإيجابية. وبهذا يثبت أن ضحكة بابا نويل، الشبيهة بـ\"هو هو هو\" عميقة، بالكاد تُعتبر مرحة. لأن هذا الصوت يتشكل في الجزء الخلفي من الفم. (من صحيفة ألمانية)",
+    "2": "عمل كثير، توتر كثير. من يعمل كثيراً لا يعني بالضرورة أنه متوتر. فالنساء في المهن الطبية مثلاً يشتكين رغم العبء الكبير أحياناً من أمراض مرتبطة بالتوتر أقل بكثير من عاملات النظافة أو معلمات رياض الأطفال أو معلمات المدارس المهنية. هذا ما تُظهره دراسة أجراها معهد IPO في هامبورغ، استطلع فيها آراء 1000 امرأة ورجل. ويحمي من التوتر بحسب الدراسة: جو عمل جيد، وعلاقة جيدة بالمدير أو المديرة، وإمكانية تخطيط العمل الخاص باستقلالية. (من صحيفة ألمانية)",
+    "3": "يُظهر كتاب جديد كيف يمكن للرجال نقل مهارات من حياتهم العملية إلى التربية، فيصبحون بذلك آباء ناجحين. فتصبح التربية المشتركة للأطفال بمثابة عمل شراكة (أو حتى مشروع مشترك)، والتفاوض الماهر يعني إقناع الطفل بضرورة تنظيف أسنانه، وتحمل عطلة الأسرة كل خصائص مؤتمر أو ندوة: فرصة لدراسة الأطفال بعمق. (من صحيفة ألمانية)",
+    "4": "أظهرت دراسة لجامعة إسكس أننا في سن السبعين نكون في أسعد حالاتنا. صحيح أن معظم الناس في هذا العمر يعانون من مشاكل صحية، لكنهم بالمقابل يتمتعون بوقت فراغ كبير ولا توتر لديهم بعد الآن. لذلك تمنحهم الحياة متعة أكبر من أي وقت مضى. وتقول الدراسة أيضاً إننا نصل إلى ذروة أولى من متعة الحياة في سن الخامسة عشرة. ثم يبدأ الانحدار، وبين الثلاثين والخمسين نتحمل أكبر قدر من المسؤولية، وتتسم الحياة بضغوط الواقع. (من صحيفة ألمانية)",
+    "5": "لماذا تبقى بعض المديرات ناجحات رغم أنهن ينقلن أخباراً لا يرغب جمهورهن في سماعها؟ ببساطة: إنهن يقدّمن الخبر السيئ بروح الفكاهة. لاحظ عالم اجتماع لندني خلال دراسة أن الضحك المرح يحدث غالباً بالتحديد أثناء الخطابات ذات المحتوى غير السار. يُستفَز الضحك عمداً، مثلاً عبر كلمات معينة أو ابتسامة عريضة من المتحدث نفسه. والغرض من الأجواء المرحة أن يشعر المستمعون بأنهم يعرفون أكثر من الآخرين. (من صحيفة ألمانية)",
+  },
+});
+
+// ── 8. Märchenfestspiele ──────────────────────────────────────────────────
+exercises.push({
+  id: "76c3c6b9-9f11-437e-a7bf-92d0bde8d5ec",
+  items: {
+    "1": {
+      keyword: "In Deutschland lernen nur ganz wenige Schüler Griechisch",
+      evidence_text: "In Deutschland lernen nur ganz wenige Schüler Griechisch. Es sind insgesamt nur 0,14% aller Schüler.",
+      explanation_correct: "يذكر تقرير السفارة اليونانية أن نسبة قليلة جداً من التلاميذ الألمان يتعلمون اليونانية - يطابق العنوان J \"اليونانية بالكاد تُدرَّس في المدارس الألمانية\" مباشرة.",
+      explanation_wrong: "احذر: العنوان B \"السفارة اليونانية تقدم دورات لغة للتلاميذ\" غير مرتبط - فالنص تقرير إحصائي حول ندرة تعلم اليونانية، وليس إعلاناً عن دورات تقدمها السفارة.",
+      evidence_translation: "في ألمانيا يتعلم عدد قليل جداً من التلاميذ اليونانية. إنهم فقط 0.14% من مجموع التلاميذ.",
+      keywords: ["Griechisch", "kaum unterrichtet"],
+      paraphrase: [{ question: "Griechisch wird kaum unterrichtet", text: "nur ganz wenige Schüler Griechisch... nur 0,14%" }],
+      options_reasoning: [
+        { key: "J", label: "Griechisch wird in deutschen Schulen kaum unterrichtet", correct: true, reason: "يطابق مباشرة: نسبة ضئيلة جداً من التلاميذ تتعلم اليونانية." },
+        { key: "B", label: "Griechische Botschaft bietet Sprachkurse für Schüler", correct: false, reason: "غير مرتبط: النص تقرير إحصائي وليس إعلان دورات." },
+      ],
+    },
+    "2": {
+      keyword: "Bremer Kaufleute und Seefahrer nutzten die günstige geografische Lage, um in aller Welt heimisch zu werden",
+      evidence_text: "Bremer Kaufleute und Seefahrer nutzten die günstige geografische Lage, um in aller Welt heimisch zu werden. Seit Generationen haben sie Handel getrieben, so dass Geld in die Stadt kam.",
+      explanation_correct: "يشرح النص كيف أصبحت بريمن ثرية بفضل تجارها وبحّاريها عبر أجيال - يطابق العنوان E \"أصبحت ثرية عبر التجارة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان A \"مهرجان حكايات في بريمن\" غير مرتبط - فالنص عن تاريخ بريمن التجاري، ويذكر حكاية موسيقيي بريمن فقط كملاحظة عابرة وليس عن مهرجان فعلي.",
+      evidence_translation: "استغل تجار وبحّارة بريمن الموقع الجغرافي المناسب ليصبحوا معروفين في أنحاء العالم. منذ أجيال مارسوا التجارة، ما جلب المال إلى المدينة.",
+      keywords: ["Durch Handel reich geworden"],
+      paraphrase: [{ question: "Durch Handel reich geworden", text: "Handel getrieben, so dass Geld in die Stadt kam" }],
+      options_reasoning: [
+        { key: "E", label: "Durch Handel reich geworden", correct: true, reason: "يطابق مباشرة: ثراء بريمن جاء عبر التجارة." },
+        { key: "A", label: "Märchen-Festspiele in Bremen", correct: false, reason: "غير مرتبط: الحكاية مذكورة عرضياً فقط، لا يوجد مهرجان." },
+      ],
+    },
+    "3": {
+      keyword: "Zum einmaligen Flair der gemütlichen Universitätsstadt trägt auch ihre Lage bei",
+      evidence_text: "Zum einmaligen Flair der gemütlichen Universitätsstadt trägt auch ihre Lage bei.",
+      explanation_correct: "يصف النص فرايبورغ كمدينة جامعية ذات طابع خاص وجودة حياة عالية بفضل الشمس والموقع - يطابق العنوان F \"مدينة جامعية مثيرة للاهتمام بجودة حياة عالية\" مباشرة.",
+      explanation_wrong: "احذر: العنوان C \"مدينة جامعية تبلغ 300 عام\" يبدو قريباً لأن النص يذكر رقم 300، لكنه عمر بناء الكنيسة (300 سنة بناء) وليس عمر المدينة الجامعية.",
+      evidence_translation: "يساهم موقعها أيضاً في الطابع الفريد لهذه المدينة الجامعية المريحة.",
+      keywords: ["Universitätsstadt", "hohe Lebensqualität"],
+      paraphrase: [{ question: "Interessante Universitätsstadt mit hoher Lebensqualität", text: "einmaligen Flair der gemütlichen Universitätsstadt" }],
+      options_reasoning: [
+        { key: "F", label: "Interessante Universitätsstadt mit hoher Lebensqualität", correct: true, reason: "يطابق مباشرة: مدينة جامعية بطابع فريد وجودة حياة." },
+        { key: "C", label: "Universitätsstadt wird 300 Jahre", correct: false, reason: "مضلل: رقم 300 يخص مدة بناء الكنيسة، وليس عمر المدينة." },
+      ],
+    },
+    "4": {
+      keyword: "Britische Wissenschaftler behaupten, größeren Menschen zahlt der Chef mehr",
+      evidence_text: "Britische Wissenschaftler behaupten, größeren Menschen zahlt der Chef mehr.",
+      explanation_correct: "يذكر النص كنتيجة رئيسية أن الأشخاص الأطول قامة يحصلون على أجر أعلى - يطابق العنوان D \"العلم: الراتب يعتمد على الطول\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"من يضحك قليلاً يكسب أقل أيضاً\" قريب جداً - فهذه نتيجة حقيقية مذكورة في النص أيضاً، لكنها جاءت كنتيجة إضافية من دراستين لاحقتين، بينما نتيجة الطول هي الادعاء الرئيسي المنسوب مباشرة للعلماء في بداية النص.",
+      evidence_translation: "يزعم علماء بريطانيون أن صاحب العمل يدفع للأشخاص الأطول قامة أكثر.",
+      keywords: ["Körpergröße", "Gehalt"],
+      paraphrase: [{ question: "Von der Körpergröße hängt das Gehalt ab", text: "größeren Menschen zahlt der Chef mehr" }],
+      options_reasoning: [
+        { key: "D", label: "Wissenschaft: Von der Körpergröße hängt das Gehalt ab", correct: true, reason: "يطابق مباشرة: الادعاء الرئيسي في بداية النص عن الطول والراتب." },
+        { key: "H", label: "Wer wenig lacht, verdient auch weniger", correct: false, reason: "قريب لكن أقل مركزية: نتيجة إضافية من دراسات لاحقة، وليست الادعاء الرئيسي." },
+      ],
+    },
+    "5": {
+      keyword: "wählen zurzeit wieder mehr Schüler Latein als erste Fremdsprache",
+      evidence_text: "wählen zurzeit wieder mehr Schüler Latein als erste Fremdsprache",
+      explanation_correct: "يذكر التقرير أن عدد التلاميذ الذين يختارون اللاتينية كلغة أولى يتزايد مجدداً - يطابق العنوان G \"اللاتينية تصبح أكثر شعبية مجدداً في المدارس الألمانية\" مباشرة.",
+      explanation_wrong: "احذر: العنوان I \"لغات أجنبية: التلاميذ يتعلمون الإنجليزية والفرنسية فقط\" يعكس معنى النص - فالنص عن عودة شعبية اللاتينية، وليس عن اقتصار التعلم على لغتين أخريين.",
+      evidence_translation: "يختار حالياً مجدداً تلاميذ أكثر اللاتينية كلغة أجنبية أولى.",
+      keywords: ["Latein", "wieder beliebter"],
+      paraphrase: [{ question: "Latein wieder beliebter", text: "wieder mehr Schüler Latein als erste Fremdsprache" }],
+      options_reasoning: [
+        { key: "G", label: "Latein in deutschen Schulen wieder beliebter", correct: true, reason: "يطابق مباشرة: عودة شعبية اللاتينية كلغة أولى." },
+        { key: "I", label: "Fremdsprachen: Schüler lernen nur Englisch und Französisch", correct: false, reason: "معكوس: النص عن عودة اللاتينية، وليس اقتصاراً على لغتين أخريين." },
+      ],
+    },
+  },
+  translations: {
+    "1": "في ألمانيا يتعلم عدد قليل جداً من التلاميذ اليونانية. إنهم فقط 0.14% من مجموع التلاميذ. قبل 30 عاماً كانت النسبة 0.48%. هذا ما ذكرته السفارة اليونانية في برلين في تقريرها الأوروبي. وغالباً ما يختار طلاب الصف الثاني عشر اليونانية كلغة أجنبية ثالثة إلى جانب الفرنسية والإنجليزية. والتلاميذ القلائل الذين يختارون اليونانية لديهم أقارب في اليونان.",
+    "2": "تدين مدينة بريمن الهانزية بأهميتها للبحر. استغل تجار وبحّارة بريمن الموقع الجغرافي المناسب ليصبحوا معروفين في أنحاء العالم. منذ أجيال مارسوا التجارة، ما جلب المال إلى المدينة. ويظهر هذا في المدينة حتى اليوم: دار البلدية القديمة، دار التجار، وسط المدينة التاريخي. وكانت بريمن أيضاً دائماً موطناً بالطبع لحكاية موسيقيي بريمن.",
+    "3": "فرايبورغ، عاصمة الغابة السوداء، تقع في إحدى أكثر المناطق إشراقاً بالشمس في ألمانيا. وحيث توجد شمس كثيرة، توجد فرحة حياة كبيرة أيضاً، وليس آخراً، فالمأكولات والنبيذ في بادن من أفضل ما تقدمه ألمانيا. ويساهم موقعها أيضاً في الطابع الفريد لهذه المدينة الجامعية المريحة؛ فرنسا وسويسرا ليستا بعيدتين. وتجذب المدينة نفسها بشوارعها القديمة الكثيرة ومتاحفها ومبانيها التاريخية العديدة. وتعلو كل ذلك الكنيسة الكبيرة التي اكتملت عام 1513 بعد 300 عام من البناء.",
+    "4": "في دراسة علمية، بحث الباحثون في سبب حصول بعض الأشخاص على أجر أعلى من غيرهم. يزعم علماء بريطانيون أن صاحب العمل يدفع للأشخاص الأطول قامة أكثر. وفي العام الماضي، توصلت دراستان أخريان إلى: من يضحك قليلاً أو يذهب كثيراً للشرب مع الزملاء يكسب أكثر. عدم الضحك والذهاب للشرب مع الزملاء أمر يمكن تعلّمه. لكن النمو؟",
+    "5": "يُفيد المكتب الإحصائي الاتحادي بأن اللاتينية أصبحت تُدرَّس مجدداً بشكل عام أكثر في المدارس الألمانية. ففي ولاية تورينغن وحدها تضاعف العدد خلال العامين الماضيين. وبينما بلغت اللاتينية أدنى نقطة لها قبل عامين، يختار حالياً مجدداً تلاميذ أكثر اللاتينية كلغة أجنبية أولى. وقد أثبت النموذج الفيتنبرغي جدواه بشكل خاص، إذ يجمع بين اللاتينية ولغة أجنبية حديثة (فرنسية، إنجليزية، إلخ) في الصف الخامس. لكن غالباً ما تُخصَّص فقط ثلاث حصص أسبوعياً للغتين معاً. وينتقد معلمو اللاتينية أن هذا قليل جداً.",
+  },
+});
+
+// ── 9. Schweiz ────────────────────────────────────────────────────────────
+exercises.push({
+  id: "44a5c0cd-4f69-43aa-833a-6243c13002db",
+  items: {
+    "1": {
+      keyword: "drehen indische Regisseure Szenen ihrer Kinofilme in den Schweizer Bergen",
+      evidence_text: "drehen indische Regisseure Szenen ihrer Kinofilme in den Schweizer Bergen",
+      explanation_correct: "تسأل الفقرة عن سبب تصوير مخرجين هنود لمشاهد أفلامهم في جبال سويسرا، وتوثق زيارة صحفية لموقع تصوير في برنر أوبرلاند - يطابق العنوان J \"تصوير في برنر أوبرلاند\" مباشرة.",
+      explanation_wrong: "احذر: العنوان G \"يجب أن يكون الفيلم حقيقياً: فريق تصوير سويسري في الهند\" يعكس الاتجاه تماماً - فالفرق السينمائية هندية تُصوّر في سويسرا، وليس فرقاً سويسرية تُصوّر في الهند.",
+      evidence_translation: "يُصوّر مخرجون هنود مشاهد من أفلامهم السينمائية في جبال سويسرا.",
+      keywords: ["Filmaufnahmen", "Berner Oberland"],
+      paraphrase: [{ question: "Filmaufnahmen im Berner Oberland", text: "Szenen ihrer Kinofilme in den Schweizer Bergen... Drehplatz im idyllischen Berner Oberland" }],
+      options_reasoning: [
+        { key: "J", label: "Filmaufnahmen im Berner Oberland", correct: true, reason: "يطابق مباشرة: تصوير أفلام هندية في جبال سويسرا (برنر أوبرلاند)." },
+        { key: "G", label: "Der Film soll echt sein: Schweizer Filmteam in Indien", correct: false, reason: "معكوس الاتجاه: الفرق هندية تُصوّر في سويسرا وليس العكس." },
+      ],
+    },
+    "2": {
+      keyword: "KIDTOURS – Ferien mit Kindern ist ein praktischer Ausflugsführer für Familien",
+      evidence_text: "KIDTOURS – Ferien mit Kindern ist ein praktischer Ausflugsführer für Familien",
+      explanation_correct: "يعلن النص عن كتاب دليل عملي للرحلات العائلية مع الأطفال - يطابق العنوان C \"اقتراح كتاب: رحلات للعائلات\" مباشرة.",
+      explanation_wrong: "احذر: العنوان A \"دراسة جديدة عن الأسر في سويسرا\" غير مرتبط - فالنص إعلان عن كتاب إرشادي عملي للرحلات، وليس عن دراسة بحثية.",
+      evidence_translation: "\"كيدتورز - عطلة مع الأطفال\" دليل رحلات عملي للعائلات.",
+      keywords: ["Buchtipp", "Ausflüge für Familien"],
+      paraphrase: [{ question: "Buchtipp: Ausflüge für Familien", text: "Ausflugsführer für Familien" }],
+      options_reasoning: [
+        { key: "C", label: "Buchtipp: Ausflüge für Familien", correct: true, reason: "يطابق مباشرة: كتاب إرشادي عملي لرحلات عائلية." },
+        { key: "A", label: "Neue Untersuchung über Familien in der Schweiz", correct: false, reason: "غير مرتبط: النص إعلان كتاب، وليس دراسة." },
+      ],
+    },
+    "3": {
+      keyword: "Für ein Jahr halbtaxeln bezahlen Sie 150 Schweizer Franken",
+      evidence_text: "Für ein Jahr halbtaxeln bezahlen Sie 150 Schweizer Franken.",
+      explanation_correct: "يقدم النص بطاقة اشتراك لسنة كاملة للسفر الرخيص بالقطار والحافلة والسفينة مقابل 150 فرنكاً - يطابق العنوان B \"سفر رخيص لمدة عام\" مباشرة.",
+      explanation_wrong: "احذر: العنوان D \"السفر بالقطار العام القادم أغلى بـ25%!\" يعكس معنى النص - فالنص عن بطاقة خصم توفر السفر الرخيص، وليس عن ارتفاع أسعار التذاكر.",
+      evidence_translation: "مقابل عام كامل من التخفيض تدفعون 150 فرنكاً سويسرياً.",
+      keywords: ["Ein Jahr preiswert reisen"],
+      paraphrase: [{ question: "Ein Jahr preiswert reisen", text: "Für ein Jahr halbtaxeln bezahlen Sie 150 Schweizer Franken" }],
+      options_reasoning: [
+        { key: "B", label: "Ein Jahr preiswert reisen", correct: true, reason: "يطابق مباشرة: اشتراك سنوي للسفر الرخيص." },
+        { key: "D", label: "Bahnfahren im nächsten Jahr um 25% teurer!", correct: false, reason: "معكوس: النص عن خصم على السفر وليس ارتفاع أسعار." },
+      ],
+    },
+    "4": {
+      keyword: "kann man das wirkliche Leben von Menschen verfolgen und mit ihnen mitleben",
+      evidence_text: "kann man das wirkliche Leben von Menschen verfolgen und mit ihnen mitleben",
+      explanation_correct: "يشرح النص نوع برامج \"دوكو-سوب\" الواقعية التي تعرض حياة أشخاص حقيقيين للمشاهدين عامة - يطابق العنوان I \"جزء من الواقع كل يوم في التلفاز\" مباشرة.",
+      explanation_wrong: "احذر: العنوان F \"برنامج أطفال جديد في التلفاز\" غير مرتبط - فالنص عن نوع برامج موجه لعامة المشاهدين، وليس مخصصاً للأطفال.",
+      evidence_translation: "يمكن للمرء متابعة الحياة الحقيقية للناس والعيش معهم.",
+      keywords: ["Wirklichkeit im Fernsehen"],
+      paraphrase: [{ question: "Jeden Tag ein Stück Wirklichkeit im Fernsehen", text: "das wirkliche Leben von Menschen verfolgen" }],
+      options_reasoning: [
+        { key: "I", label: "Jeden Tag ein Stück Wirklichkeit im Fernsehen", correct: true, reason: "يطابق مباشرة: متابعة حياة حقيقية يومياً عبر التلفاز." },
+        { key: "F", label: "Neue Kindersendung im Fernsehen", correct: false, reason: "غير مرتبط: البرنامج موجه لعامة المشاهدين وليس للأطفال." },
+      ],
+    },
+    "5": {
+      keyword: "kannst du bei der Deutschen Bahn aus insgesamt 15 Lehrberufen wählen",
+      evidence_text: "kannst du bei der Deutschen Bahn aus insgesamt 15 Lehrberufen wählen",
+      explanation_correct: "يقدم إعلان توظيف من شركة السكك الحديدية الألمانية 15 مهنة تدريب مختلفة للشباب - يطابق العنوان E \"شركة بفرص مهنية كثيرة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"كيف تتعرف على أشخاص في القطار\" غير مرتبط - فالنص إعلان توظيف عن فرص تدريب مهني، وليس نصائح للتعارف أثناء السفر.",
+      evidence_translation: "يمكنك الاختيار لدى السكك الحديدية الألمانية من بين 15 مهنة تدريب إجمالاً.",
+      keywords: ["Unternehmen", "berufliche Möglichkeiten"],
+      paraphrase: [{ question: "Ein Unternehmen mit vielen beruflichen Möglichkeiten", text: "aus insgesamt 15 Lehrberufen wählen" }],
+      options_reasoning: [
+        { key: "E", label: "Ein Unternehmen mit vielen beruflichen Möglichkeiten", correct: true, reason: "يطابق مباشرة: 15 مهنة تدريب متاحة." },
+        { key: "H", label: "Wie man im Zug Leute kennen lernt", correct: false, reason: "غير مرتبط: النص إعلان توظيف وليس نصائح تعارف." },
+      ],
+    },
+  },
+  translations: {
+    "1": "يُصوّر مخرجون هنود مراراً وتكراراً مشاهد من أفلامهم السينمائية في جبال سويسرا. لماذا يتحملون مشقة وتكاليف رحلة طويلة كهذه؟ حصلت صحيفة هامبورغر آبندبلات على إجابات مثيرة ومرحة من أحد فرق التصوير هذه في موقع التصوير في برنر أوبرلاند الخلاب.",
+    "2": "\"كيدتورز - عطلة مع الأطفال\" دليل رحلات عملي للعائلات: بألف نصيحة وحيلة وفكرة لكل ذوق وعمر وميزانية. يمكنكم الحصول على هذا الدليل الواضح والمصوَّر بشكل جميل مقابل 19.50 يورو من المكتبات أو مباشرة من دار نشر فيرد، www.werd.net",
+    "3": "بطاقة نصف السعر هي مفتاحك لرحلات رخيصة بالقطار والحافلة والسفينة، وتأتي بحجم بطاقة ائتمان عملي. حتى في الاشتراك نفسه يمكنك التوفير الكبير: مقابل عام كامل من التخفيض تدفعون 150 فرنكاً سويسرياً. وهذا ليس كل شيء: مع بطاقة نصف السعر تكونون على اطلاع جيد؛ فمرتين سنوياً تحصلون على مجلة العملاء بأفكار سفر كثيرة وعروض حصرية. وببطاقتكم تحصلون على خصم 25% على رحلات القطار من سويسرا إلى ألمانيا والنمسا، إذا اشتريتم تذكرتكم في سويسرا. SBB CFF FFS - السكك الحديدية الفدرالية السويسرية",
+    "4": "الفيلم الوثائقي والمسلسل الدرامي معاً يُسمى دوكو-سوب، نشأ في إنجلترا وانتشر منذ سنوات على القنوات التلفزيونية الألمانية أيضاً. وقد ترسخت القنوات الخاصة بشكل خاص كقنوات ناجحة لبرامج الدوكو-سوب. ويمكن في مسلسلات تلفزيونية كثيرة متابعة الحياة الحقيقية للناس والعيش معهم. والناجح حالياً بشكل خاص: برنامج \"تبديل الأسرة\" الذي يجذب يومياً الساعة 18:00 مشاهدين كثيرين أمام التلفاز.",
+    "5": "نريد مساعدتك في اختيار مهنتك: السكك الحديدية الألمانية، شركة ذات مستقبل. تتغير مهن كثيرة مع مرور الوقت. تماماً كالاهتمامات في الحياة. ورغم ذلك توجد ميول وقدرات ستحتفظ بها لفترة طويلة في حياتك. مثل متعة التواصل مع الناس. أو الشغف باللغات الأجنبية. أو العمل في الطبيعة وضمن فريق. أو الاهتمام بالتقنية ومتعة الحرفة. وحسب ما يهمك، يمكنك الاختيار لدى السكك الحديدية الألمانية من بين 15 مهنة تدريب إجمالاً. لاتخاذ القرار الصحيح، يستحق الأمر التعرف الجيد على التفاصيل، مثلاً من موقعنا www.Bahn.de",
+  },
+});
+
+// ── 10. Unterstützung ─────────────────────────────────────────────────────
+exercises.push({
+  id: "edaf8fab-cc83-45cf-8cf0-398252797bb4",
+  items: {
+    "1": {
+      keyword: "Im Marktplatz geht es diesmal um Kriterien für das Lernen mit Erfolg",
+      evidence_text: "Im Marktplatz geht es diesmal um Kriterien für das Lernen mit Erfolg. Welche Methoden sind zu empfehlen, welche Anbieter kosten?",
+      explanation_correct: "يعرض النص برنامجاً استشارياً حول معايير اختيار رحلات لغوية ناجحة والأسئلة المتعلقة بها - يطابق العنوان J \"كيف تختار رحلات اللغة؟\" مباشرة.",
+      explanation_wrong: "احذر: العنوان E \"تعلّم الألمانية بطريقتكم عبر الراديو\" غير مرتبط - فالنص برنامج استشاري حول معايير اختيار رحلات لغوية، وليس عن طريقة محددة لتعلم الألمانية.",
+      evidence_translation: "يدور الأمر هذه المرة في السوق حول معايير التعلم الناجح. ما الطرق الموصى بها، وما تكلفة مقدمي الخدمة؟",
+      keywords: ["Sprachaufenthalte auswählen"],
+      paraphrase: [{ question: "Wie Sprachaufenthalte auswählen?", text: "Kriterien für das Lernen mit Erfolg... welche Anbieter" }],
+      options_reasoning: [
+        { key: "J", label: "Wie Sprachaufenthalte auswählen?", correct: true, reason: "يطابق مباشرة: معايير اختيار رحلة لغوية ناجحة." },
+        { key: "E", label: "Deutschlernen mit euer Methode im Radio", correct: false, reason: "غير مرتبط: البرنامج استشاري عام وليس طريقة تعلم محددة." },
+      ],
+    },
+    "2": {
+      keyword: "kann man auf 1800 Quadratmetern übers Eis fahren",
+      evidence_text: "kann man auf 1800 Quadratmetern übers Eis fahren",
+      explanation_correct: "تدعو فيينا لفعالية تزلج شتوية مع موسيقى أمام دار البلدية - يطابق العنوان B \"فعالية شتوية على الجليد مع موسيقى\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"بالقطار إلى فيينا الشتوية\" يبدو قريباً لأن الحدث في فيينا، لكن النص عن حلبة تزلج على الجليد، وليس عن السفر بالقطار إلى المدينة.",
+      evidence_translation: "يمكن التزلج على مساحة 1800 متر مربع من الجليد.",
+      keywords: ["Winterveranstaltung", "Eis", "Musik"],
+      paraphrase: [{ question: "Winterveranstaltung auf dem Eis mit Musik", text: "übers Eis fahren... Musik dazu bestimmt den Fahrstil" }],
+      options_reasoning: [
+        { key: "B", label: "Winterveranstaltung auf dem Eis mit Musik", correct: true, reason: "يطابق مباشرة: حلبة تزلج مع موسيقى في فيينا." },
+        { key: "H", label: "Mit der Eisenbahn ins winterliche Wien", correct: false, reason: "مضلل: الحدث حلبة تزلج، وليس رحلة قطار." },
+      ],
+    },
+    "3": {
+      keyword: "Ziel des Programms ist es, europäische Projekte zur beruflichen Weiterbildung zu unterstützen",
+      evidence_text: "Ziel des Programms ist es, europäische Projekte zur beruflichen Weiterbildung zu unterstützen.",
+      explanation_correct: "يوضح النص أن هدف برنامج ليوناردو دافنشي الأوروبي دعم مشاريع التدريب المهني المشتركة - يطابق العنوان F \"مال لمشاريع أوروبية مشتركة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان C \"برنامج عمل الاتحاد الأوروبي: دعم مالي لفنانين إيطاليين\" يبدو قريباً لأنه برنامج EU للدعم المالي، لكن البرنامج عام لمشاريع التدريب المهني الأوروبية، وليس مخصصاً لفنانين إيطاليين.",
+      evidence_translation: "هدف البرنامج هو دعم مشاريع أوروبية للتدريب المهني.",
+      keywords: ["Geld", "europäische Projekte"],
+      paraphrase: [{ question: "Geld für gemeinsame europäische Projekte", text: "europäische Projekte zur beruflichen Weiterbildung zu unterstützen" }],
+      options_reasoning: [
+        { key: "F", label: "Geld für gemeinsame europäische Projekte", correct: true, reason: "يطابق مباشرة: دعم مالي لمشاريع تدريب مهني أوروبية مشتركة." },
+        { key: "C", label: "Aktionsprogramm der EU: Finanzielle Unterstützung für italienische Künstler", correct: false, reason: "مضلل: البرنامج عام وليس مخصصاً لفنانين إيطاليين." },
+      ],
+    },
+    "4": {
+      keyword: "sollen im kommenden Jahr monatlich 70.000 Euro für Kulturprojekte an Schulen zur Verfügung gestellt werden",
+      evidence_text: "sollen im kommenden Jahr monatlich 70.000 Euro für Kulturprojekte an Schulen zur Verfügung gestellt werden",
+      explanation_correct: "تعلن وزارة التعليم عن تمويل شهري لمشاريع فنية وثقافية في المدارس - يطابق العنوان A \"دعم مالي لمشاريع فنية مع تلاميذ\" مباشرة.",
+      explanation_wrong: "احذر: العنوان I \"مزيد من المال لمدارس الموسيقى النمساوية\" يبدو قريباً لأنه عن تمويل ثقافي، لكن التمويل عام للمشاريع الثقافية/الفنية في المدارس، وليس مخصصاً لمدارس الموسيقى تحديداً.",
+      evidence_translation: "سيُتاح في العام القادم شهرياً 70000 يورو لمشاريع ثقافية في المدارس.",
+      keywords: ["Finanzielle Unterstützung", "Kunstprojekte"],
+      paraphrase: [{ question: "Finanzielle Unterstützung für Kunstprojekte mit Schülern", text: "Kulturprojekte an Schulen... 70.000 Euro" }],
+      options_reasoning: [
+        { key: "A", label: "Finanzielle Unterstützung für Kunstprojekte mit Schülern", correct: true, reason: "يطابق مباشرة: تمويل شهري لمشاريع ثقافية في المدارس." },
+        { key: "I", label: "Mehr Geld für österreichische Musikschulen", correct: false, reason: "مضلل: التمويل عام للمشاريع الثقافية، وليس مخصصاً لمدارس الموسيقى." },
+      ],
+    },
+    "5": {
+      keyword: "handelt es sich um einen Elternverein, der damals italienischsprachigen Kindern... hilfreich zur Seite stand",
+      evidence_text: "handelt es sich um einen Elternverein, der damals italienischsprachigen Kindern bei ihren Schulproblemen hilfreich zur Seite stand",
+      explanation_correct: "يشرح النص أن جمعية آباء تنظم معرضاً فنياً سنوياً متعدد الثقافات بعد أن تغيرت مهمتها الأصلية - يطابق العنوان G \"جمعية آباء تنظم معرضاً فنياً\" مباشرة.",
+      explanation_wrong: "احذر: العنوان D \"معرض فني لتلاميذ إيطاليين\" يبدو قريباً لأن الجمعية تأسست أصلاً لمساعدة أطفال ناطقين بالإيطالية، لكن المعرض الحالي متعدد الثقافات يضم فنانين من مناطق وبلدان عدة، وليس معرضاً لأعمال تلاميذ إيطاليين تحديداً.",
+      evidence_translation: "الأمر يتعلق بجمعية آباء كانت آنذاك تساعد الأطفال الناطقين بالإيطالية في مشاكلهم المدرسية.",
+      keywords: ["Elternverein", "Kunstausstellung"],
+      paraphrase: [{ question: "Elternverein organisiert Kunstausstellung", text: "Comitato Genitori... Organisation der alljährlichen Kunstausstellung" }],
+      options_reasoning: [
+        { key: "G", label: "Elternverein organisiert Kunstausstellung", correct: true, reason: "يطابق مباشرة: جمعية آباء تنظم معرضاً فنياً سنوياً." },
+        { key: "D", label: "Kunstausstellung von italienischen Schülern", correct: false, reason: "مضلل: المعرض متعدد الثقافات وليس مخصصاً لتلاميذ إيطاليين فقط." },
+      ],
+    },
+  },
+  translations: {
+    "1": "يقوم حوالي 150 ألف ألماني برحلات لغوية سنوياً. والرغبة في تعلم لغة أخرى قد يكون لها أسباب شخصية أو مدرسية أو مهنية. وعرض الرحلات اللغوية يتزايد باستمرار، لكن القليل معروف عن جودتها. يدور الأمر هذه المرة في برنامج \"ماركت بلاتس\" حول معايير التعلم الناجح. ما الطرق الموصى بها، وما تكلفة مقدمي الخدمة؟ يجيب خبراء على أسئلتكم عبر هاتف المستمعين على الرقم 0800-839601.",
+    "2": "تدعو مدينة فيينا الكبرى لمتعة شتوية على الجليد أمام دار بلدية فيينا: من 22 يناير حتى 7 مارس يمكن التزلج على مساحة 1800 متر مربع. وتحدد الموسيقى المصاحبة أسلوب التزلج، وتتراوح من الفالس الكلاسيكي إلى موسيقى الديسكو. وتُقام حفلات ليلية على حلبة الجليد، من حفلة السامبا إلى فعالية الهيب هوب. تتوفر المأكولات والمشروبات في أكشاك مختلفة، ويمكن استئجار الأحذية الجليدية. للاستعلام: جمعية سياحة فيينا.",
+    "3": "لا يزال بالإمكان تقديم طلبات لبرنامج عمل الاتحاد الأوروبي للتدريب المهني \"ليوناردو دافنشي\" حتى 31 مارس. هدف البرنامج هو دعم مشاريع أوروبية للتدريب المهني المستمر. يمكن للمؤسسات التي ترغب في العمل مع شريكين أوروبيين آخرين على الأقل في مشروع تقديم طلبات للدعم المالي. للاستعلام: مكتب التنسيق الوطني لبرنامج ليوناردو دافنشي، فيربيلينر بلاتس 3، برلين D-10707، هاتف 030/8643-0، فاكس -2637.",
+    "4": "فيينا (SN.APA). كما أفادت وزارة التعليم، سيُتاح في العام القادم شهرياً 70000 يورو لمشاريع ثقافية في المدارس. وستُدعم بذلك فعاليات ومشاريع تُنمّي فهم الأطفال والشباب للفنون، وتعزز اهتمامهم بالجانب الفني الإبداعي، وتؤدي إلى تواصل ونقاش مع الفنانين. وبذلك يُراد دعم التطور الشامل لشخصية الأطفال والشباب بشكل يناسب أعمارهم.",
+    "5": "للمرة السادسة تنظم لجنة أولياء الأمور في بينينغن/بوتمينغن معرضها الفني الواسع متعدد الثقافات \"آرتي\". يشارك في الفعالية 70 فناناً وفنانة من المنطقة، بالإضافة إلى ضيوف من إيطاليا وفرنسا وألمانيا وبلدان أخرى. وتأسست هذه اللجنة قبل 18 عاماً كجمعية آباء كانت آنذاك تساعد الأطفال الناطقين بالإيطالية في مشاكلهم المدرسية. وبما أن جيل الأطفال الثالث الحالي لم يعد يواجه هذه المشاكل، بحثت اللجنة عن مهام جديدة ووجدت في تنظيم المعرض الفني السنوي مجالاً جديداً ومثيراً للاهتمام.",
+  },
+});
+
+// ── 11. Zeitung ───────────────────────────────────────────────────────────
+exercises.push({
+  id: "1d9f348a-fcc7-4df1-96a2-3ca29bc26f48",
+  items: {
+    "1": {
+      keyword: "Bitte denken Sie daran, sich Ihre Zeitung in den Urlaubsort nachsenden zu lassen",
+      evidence_text: "Bitte denken Sie daran, sich Ihre Zeitung in den Urlaubsort nachsenden zu lassen.",
+      explanation_correct: "تدعو الجريدة قراءها لإعادة توجيهها إلى عنوان العطلة أثناء السفر - يطابق العنوان D \"جريدتك ترافقك في العطلة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان G \"جريدة جديدة للتخطيط لعطلتك\" غير مرتبط - فالنص عرض من الجريدة الحالية نفسها لإعادة إرسالها، وليس إعلاناً عن جريدة جديدة.",
+      evidence_translation: "يرجى تذكر إعادة إرسال جريدتكم إلى مكان العطلة.",
+      keywords: ["Zeitung", "Urlaub folgen"],
+      paraphrase: [{ question: "Ihre Zeitung folgt Ihnen in den Urlaub", text: "Zeitung in den Urlaubsort nachsenden zu lassen" }],
+      options_reasoning: [
+        { key: "D", label: "Ihre Zeitung folgt Ihnen in den Urlaub", correct: true, reason: "يطابق مباشرة: إعادة إرسال الجريدة لمكان العطلة." },
+        { key: "G", label: "Neue Zeitung für Ihre Urlaubsplanung", correct: false, reason: "غير مرتبط: عرض من الجريدة الحالية وليس جريدة جديدة." },
+      ],
+    },
+    "2": {
+      keyword: "werden dreitägige Wanderungen ohne Gepäck veranstaltet",
+      evidence_text: "werden dreitägige Wanderungen ohne Gepäck veranstaltet.",
+      explanation_correct: "يعلن النص عن جولات مشي لثلاثة أيام مع نقل الأمتعة نيابة عن المسافرين - يطابق العنوان J \"المشي دون أمتعة\" مباشرة.",
+      explanation_wrong: "احذر: العنوان A \"جولات مسائية بسعر 89 يورو\" يبدو قريباً لأن السعر (89 يورو) مذكور فعلاً، لكن الجولة تستغرق ثلاثة أيام وليست جولات مسائية قصيرة.",
+      evidence_translation: "تُنظَّم جولات مشي لثلاثة أيام دون أمتعة.",
+      keywords: ["Wandern ohne Gepäck"],
+      paraphrase: [{ question: "Wandern ohne Gepäck", text: "dreitägige Wanderungen ohne Gepäck... Gepäcktransport" }],
+      options_reasoning: [
+        { key: "J", label: "Wandern ohne Gepäck", correct: true, reason: "يطابق مباشرة: جولات مشي مع نقل الأمتعة نيابة عن المسافر." },
+        { key: "A", label: "Abendwanderungen ab 89 Euro", correct: false, reason: "مضلل: السعر صحيح لكن الجولة ثلاثة أيام وليست مسائية." },
+      ],
+    },
+    "3": {
+      keyword: "weist darauf hin, dass in der Mittagsruhe von 13 bis 15 Uhr und nachts von 22 bis 7 Uhr keine musikalische Ruhestörung erfolgen darf",
+      evidence_text: "weist darauf hin, dass in der Mittagsruhe von 13 bis 15 Uhr und nachts von 22 bis 7 Uhr keine musikalische Ruhestörung erfolgen darf",
+      explanation_correct: "تشير البلدية إلى قواعد منع إزعاج الجيران بالموسيقى العالية في أوقات محددة - يطابق العنوان E \"الموسيقى العالية تزعج الجار\" مباشرة.",
+      explanation_wrong: "احذر: العنوان F \"فعاليات موسيقية بعد الظهر\" يبدو قريباً لأنه عن موسيقى، لكن النص قواعد لمنع الضوضاء في أوقات محددة، وليس إعلاناً عن فعاليات موسيقية.",
+      evidence_translation: "تشير إلى أنه خلال راحة الظهيرة من 13 إلى 15 وليلاً من 22 إلى 7 لا يجوز إحداث إزعاج موسيقي.",
+      keywords: ["Laute Musik", "stört den Nachbarn"],
+      paraphrase: [{ question: "Laute Musik stört den Nachbarn", text: "keine musikalische Ruhestörung erfolgen darf" }],
+      options_reasoning: [
+        { key: "E", label: "Laute Musik stört den Nachbarn", correct: true, reason: "يطابق مباشرة: قواعد لمنع إزعاج الجيران بالموسيقى." },
+        { key: "F", label: "Musikveranstaltungen am Nachmittag", correct: false, reason: "مضلل: النص عن قواعد منع ضوضاء، وليس فعاليات موسيقية." },
+      ],
+    },
+    "4": {
+      keyword: "warten in acht Antiquariaten über 70.000 Bücher aus allen Bereichen der Literatur auf Interessenten",
+      evidence_text: "warten in acht Antiquariaten über 70.000 Bücher aus allen Bereichen der Literatur auf Interessenten",
+      explanation_correct: "يصف النص قرية كتب فيها أكثر من 70 ألف كتاب في ثمانية محلات - يطابق العنوان B \"وجهات رحلات لمحبي الأدب\" مباشرة.",
+      explanation_wrong: "احذر: العنوان H \"رقم قياسي: 70 ألف زائر في قرية الكتب\" يبدو قريباً لأنه يذكر الرقم 70 ألف، لكنه عدد الكتب المتوفرة وليس عدد الزوار.",
+      evidence_translation: "في ثمانية محلات كتب قديمة، ينتظر أكثر من 70 ألف كتاب من جميع مجالات الأدب من يهتم بها.",
+      keywords: ["Ausflugsziele", "Literaturinteressierte"],
+      paraphrase: [{ question: "Ausflugsziele für Literaturinteressierte", text: "über 70.000 Bücher aus allen Bereichen der Literatur" }],
+      options_reasoning: [
+        { key: "B", label: "Ausflugsziele für Literaturinteressierte", correct: true, reason: "يطابق مباشرة: قرية كتب بها 70 ألف كتاب لمحبي الأدب." },
+        { key: "H", label: "Rekord: 70.000 Besucher im Bücherdorf", correct: false, reason: "مضلل: الرقم يخص الكتب وليس الزوار." },
+      ],
+    },
+    "5": {
+      keyword: "Sollte die Seeaufführung nicht stattfinden können, wird eine halbszenische Version... im Festspielhaus gegeben",
+      evidence_text: "Sollte die Seeaufführung nicht stattfinden können, wird eine halbszenische Version von Porgy and Bess im Festspielhaus gegeben.",
+      explanation_correct: "يشرح النص خطة بديلة لإقامة عرض داخل المسرح إذا تعذر العرض على البحيرة بسبب الطقس - يطابق العنوان C \"إرشاد لزوار مهرجان بريغنتس\" مباشرة.",
+      explanation_wrong: "احذر: العنوان I \"طقس سيئ: إلغاء المهرجان\" يعكس معنى النص - فالنص يوضح وجود خطة بديلة لإقامة العرض داخل المسرح، أي أن المهرجان لا يُلغى بسبب الطقس.",
+      evidence_translation: "إذا تعذر إقامة العرض على البحيرة، تُقدَّم نسخة نصف مسرحية من \"بورجي أند بيس\" داخل دار المهرجان.",
+      keywords: ["Hinweis für Besucher", "Bregenzer Festspiele"],
+      paraphrase: [{ question: "Hinweis für Besucher der Bregenzer Festspiele", text: "Sollte die Seeaufführung nicht stattfinden können, wird eine halbszenische Version... gegeben" }],
+      options_reasoning: [
+        { key: "C", label: "Hinweis für Besucher der Bregenzer Festspiele", correct: true, reason: "يطابق مباشرة: إرشاد للزوار حول خطة بديلة عند سوء الطقس." },
+        { key: "I", label: "Schlechtes Wetter: Festspiele abgesagt", correct: false, reason: "عكس تماماً: يوجد بديل داخلي، والمهرجان لا يُلغى." },
+      ],
+    },
+  },
+  translations: {
+    "1": "عند سفركم، نتمنى لكم أياماً هادئة وممتعة في العطلة. يرجى تذكر إعادة إرسال جريدتكم إلى مكان العطلة. فمع أخبار الوطن والعالم يمكن الاستمتاع بأجمل أوقات السنة بشكل حقيقي. مجاناً في كل أوروبا. تبقى قيمة الاشتراك دون تغيير. تجدون معلومات تفصيلية والقسائم المناسبة في قسم إعلانات خدمة السفر الكبير لدينا، أو اتصلوا بنا مباشرة: هاتف 01 30-18 58 50 مجاناً. هانوفرشه ألغماينه - نويه پرسه",
+    "2": "في المنتجع الجبلي شتاتكيل بمنطقة أوبِرِس كيلتال الجبلية، تُنظَّم جولات مشي دائرية لثلاثة أيام دون أمتعة. تؤدي الجولة في المنتزه الطبيعي الألماني-البلجيكي مساءً إلى غرف محجوزة. تتولى المنشآت نقل الأمتعة إلى الوجهة التالية. تُقدَّم الجولات على مدار العام. يتضمن برنامج المشي ثلاث ليالٍ مع الإفطار، ونقل الأمتعة ثلاث مرات، وخريطة مشي، ووصف طريق، وجواز مشي. تبلغ التكلفة الإجمالية للشخص 89 يورو. للاستعلام: جمعية سياحة منطقة أوبِرِس كيلتال الترفيهية، كورالييه، 54589 شتاتكيل، هاتف (06597) 28 78.",
+    "3": "بالنسبة للبعض هي متعة موسيقية، وللآخر مجرد ضوضاء. المقصود هو الموسيقى الصادرة من مكبرات الصوت أو الراديو أو الآلات الموسيقية عبر الأبواب والنوافذ المفتوحة في درجات الحرارة الصيفية. تشير البلدية إلى أنه خلال راحة الظهيرة من 13 إلى 15 وليلاً من 22 إلى 7 لا يجوز إحداث إزعاج موسيقي. ولا يجوز استخدام أدوات الحديقة ذات المحركات إلا من الاثنين إلى الجمعة من 8 إلى 13 ومن 15 إلى 19، وأيام السبت من 9 إلى 13. أما في الآحاد والأعياد فلا يجوز استخدام هذه الأدوات إطلاقاً.",
+    "4": "في قرية الكتب في مولبيك/فريدرسدورف (زاكسن-أنهالت)، ينتظر في ثمانية محلات كتب قديمة أكثر من 70 ألف كتاب من جميع مجالات الأدب من يهتم بها. وتقع قرية الكتب هذه في محيط طبيعي جذاب بالقرب من بيترفلد، على مقربة من الطريق السريع A9 ومطار لايبزيغ، ويسهل الوصول إليها من جميع أنحاء ألمانيا. وتفتح محلات الكتب أبوابها أيضاً أيام السبت والأحد. وتوجد في أوروبا بالفعل قرى كتب كثيرة، منها في بلجيكا وفرنسا وبريطانيا. ومؤسسة قرية الكتب الألمانية هي هايدي ديينه (هاتف 03493/4 30 43).",
+    "5": "يحرص مهرجان بريغنتس على إقامة العروض حتى في حالة الطقس المشكوك فيه أو المطر الخفيف على مسرح البحيرة، لذا قد يحدث تأخير في البدء أو انقطاعات. وإذا تعذر إقامة العرض على البحيرة، تُقدَّم نسخة نصف مسرحية من \"بورجي أند بيس\" داخل دار المهرجان. ننصح ضيوفنا في حالة الطقس غير المستقر بارتداء ملابس مقاومة للمطر وتجنب المظلات، لأنها تعيق الرؤية. يُقام العرض على البحيرة دون استراحة. مدة العرض حوالي ساعتين و45 دقيقة.",
+  },
+});
+
+writeFileSync(new URL("./_missing11_part1.json", import.meta.url), JSON.stringify(exercises), "utf8");
+console.log(`part1: ${exercises.length} exercises written to _missing11_part1.json`);

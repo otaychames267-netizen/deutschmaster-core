@@ -1,0 +1,21 @@
+{
+  "title": "David 2",
+  "level": "B2",
+  "position": 36,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "variant of 'David' (p42/position 35); gap 30 blanks a different word/position (\"Kaum\" at sentence start vs. \"lass\" mid-sentence) with entirely different options — kept per dedup rule as distinct exercise.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Lieber David,\n\nwas für eine schöne Überraschung, dass Du nach Deutschland kommst. Und {{21}} schöner ist es, dass Du uns besuchen willst, {{22}} Du in München zu tun hast und wir in Köln wohnen, was ja nicht so nah ist.\nDu bist jederzeit herzlich willkommen. Wir können für Dich ein interessantes Wochenende organisieren. Du kannst Dir den Kölner Dom {{23}} und noch ein paar andere Sehenswürdigkeiten. Und natürlich {{24}} wir genug Zeit für Gespräche haben. Die Briefe, die wir sonst schreiben, können persönliche Gespräche ja nicht ersetzen.\nMach dir keine Sorgen über Deinen Ausflug nach Köln. Schreib uns kurz, an welchem Tag und um welche Uhrzeit Du am Hauptbahnhof {{25}}. Wir holen Dich dort mit dem Auto ab, so dass Du Dir keine Gedanken über Bus und Straßenbahn machen musst. Warte einfach am Bahnsteig auf uns, {{26}} wir uns verspäten sollten. Zu Hause erwartet Dich ein Gästezimmer. Es ist das Zimmer unseres Sohnes, der schon seit Jahren eine eigene Wohnung hat. Wir benutzen es {{27}} für ihn, wenn er zu Besuch kommt, aber auch für andere Gäste. Es wird Dir bestimmt gefallen. Wir können dann alte Erinnerungen {{28}}. Wir haben sehr viele Fotos gemacht, {{29}} wir bei Dir zu Besuch waren. {{30}} zu glauben, dass inzwischen schon drei Jahre vergangen sind. Es ist in dieser Zeit viel geschehen; aber lass Dich überraschen...\nWir wünschen Dir eine gute Reise und freuen uns auf Deinen Besuch.\n\nViele Grüße\nKarl und Monika",
+  "gaps": [
+    { "n": 21, "a": "ganz", "b": "noch", "c": "zwar", "correct": "b" },
+    { "n": 22, "a": "jedoch", "b": "obwohl", "c": "trotzdem", "correct": "b" },
+    { "n": 23, "a": "anschauen", "b": "überschauen", "c": "vorschauen", "correct": "a" },
+    { "n": 24, "a": "konnten", "b": "sollten", "c": "wollten", "correct": "b" },
+    { "n": 25, "a": "ankommen wirst", "b": "anzukommen wirst", "c": "wirst ankommen", "correct": "a" },
+    { "n": 26, "a": "falls", "b": "für den fall", "c": "im fall", "correct": "a" },
+    { "n": 27, "a": "neulich", "b": "seitdem", "c": "vormals", "correct": "b" },
+    { "n": 28, "a": "auffrischen", "b": "aufholen", "c": "aufsparen", "correct": "a" },
+    { "n": 29, "a": "als", "b": "wann", "c": "wo", "correct": "a" },
+    { "n": 30, "a": "fast", "b": "kaum", "c": "wohl", "correct": "b" }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Wanderung",
+  "teil": 3,
+  "level": "B2",
+  "position": 20,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 21 (code 2) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Nach einer Großdemonstration liegen in Frankfurt Gegenstände auf den Straßen.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Wer bei der Wanderung keinen Rucksack mitnehmen will, kann unterwegs etwas zu essen und zu trinken bekommen.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Bei der Volkshochschule Tübingen kann man sich für alle Kurse problemlos per E-Mail anmelden.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Im Klassikfunk kann man ab 20.15 Uhr CDs mit Musik von Verdi bestellen.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Kinder können während der Sommerferien im Römerkastell Saalburg übernachten.",
+      "correct": false
+    }
+  ]
+}

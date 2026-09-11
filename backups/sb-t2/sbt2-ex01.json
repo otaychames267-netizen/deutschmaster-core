@@ -1,0 +1,21 @@
+{
+  "title": "Theater für Kinder und Jugendliche",
+  "level": "B2",
+  "position": 1,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "Theater fördert nicht nur die Kreativität, {{31}} auch die Körpererfahrung von Kindern. Der Verein \"Jugendhilfe Düsseldorf e. V.\" arbeitet {{32}} vielen Jahren in der Jugendförderung, und deshalb unterstützt er auch ein neues Theaterprojekt für Kinder. Üben und spielen werden die Teilnehmer im Jugendzentrum. Das Jugendzentrum ist eine Einrichtung des städtischen Jugendamtes und kümmert sich um Kinder, Jugendliche und junge Volljährige, die {{33}} familiärer und anderer Probleme Hilfe benötigen.\n\nBis zu zwanzig Mädchen und Jungen werden {{34}} dem kommenden Jahr die Welt des Theaters kennenlernen. {{35}} Ende des Projekts werden die Nachwuchsschauspieler bei einem Theaterfestival auftreten, was sicher ein Höhepunkt für alle Teilnehmer sein wird.\n\nGeleitet wird die Gruppe vom Schauspieler Wolfgang Neuhausen. Er arbeitet mit dem Jugendzentrum zusammen und wird von zwei Theaterpädagogen unterstützt. Allen Mitarbeitern ist {{36}} wichtig, dass die Kinder auf der Bühne Anerkennung für ihre Leistung bekommen. Ohne die finanzielle Unterstützung wäre das Vorhaben unmöglich, {{37}} bei der Stadt keine Gelder vorhanden wären.\n\nDieses Theaterprojekt ist nicht das erste, das gefördert wird. Im vergangenen Jahr erhielt das Theaterprojekt \"Schiller – das wilde, freie Leben\" finanzielle Unterstützung. Allerdings ist nicht nur Geld wichtig: Der Verein kümmert sich auch {{38}}, die Projekte bekannt zu machen. In verschiedenen Theaterhäusern der Stadt werden Plakate aufgehängt, mit denen der Verein für das Jugendtheater wirbt. Man hofft, {{39}} diese Weise noch mehr Unterstützer zu finden.\n\nAuch unsere Leser können die Jugendlichen unterstützen: Aktuell sammelt das Jugendzentrum Spenden, {{40}} weitere Projekte finanzieren zu können. Außerdem werden für die Theaterproben und die Aufführungen noch ehrenamtliche Helfer gesucht.",
+  "words": ["AB", "ABER", "AM", "AUF", "DA", "DARUM", "DAZU", "ES", "OHNE", "SEIT", "SONDERN", "TROTZ", "UM", "VOR", "WEGEN"],
+  "answers": {
+    "31": "SONDERN",
+    "32": "SEIT",
+    "33": "WEGEN",
+    "34": "AB",
+    "35": "AM",
+    "36": "ES",
+    "37": "DA",
+    "38": "DARUM",
+    "39": "AUF",
+    "40": "UM"
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Telefon",
+  "teil": 3,
+  "level": "B2",
+  "position": 1,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 2 (code 1) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Bei der Deutschen Telefon KG bekommen Sie nur Auskunft zu Telefonapparaten dieses Unternehmens.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Im Rahmen des „BR3 Aquarena Weekends“ in Starnberg können Sie jeden Abend ein Feuerwerk betrachten.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Die Trierer Domorganisten spielen am 6. Juli in Michelstadt.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Während des Musikfestivals „Sound of Frankfurt“ ist die Benutzung der U- und S-Bahnen gebührenfrei.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Sie haben eine ungültige Servicenummer gewählt und werden daher automatisch weiterverbunden.",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Für ein Konzert morgen 2",
+  "teil": 3,
+  "level": "B2",
+  "position": 25,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Für ein Konzert morgen",
+  "notes": "PDF page 26 (code 24) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Für ein Konzert Morgen Abend kann man noch im Internet Karten kaufen.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Man kann mit dem Bus gratis zum Fest fahren.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Bei dem Filmfestival werden internationale Kinderfilme gezeigt.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Das Busunternehmen Schneider kündigt neue Fernbusverbindungen an.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "Man kann sich für eine kostenlose Probestunde anmelden.",
+      "correct": false
+    }
+  ]
+}

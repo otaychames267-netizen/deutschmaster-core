@@ -1,0 +1,22 @@
+{
+  "title": "Frau Reiter",
+  "teil": 2,
+  "level": "B1",
+  "position": 6,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 6/16 (Petra/Language Tests, page 76 printed / PDF page 77). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.80 / PDF p.81): 46- 47- 48+ 49- 50+ 51+ 52- 53+ 54- 55+.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 – 55. Markieren Sie PLUS (+) gleich richtig und MINUS (-) gleich falsch auf dem Antwortbogen.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Frau Reiter ist die einzige Lokführerin in Deutschland.", "correct": false },
+    { "number": 47, "text": "Sie wollte schon mit 10 Jahren Lokführerin werden.", "correct": false },
+    { "number": 48, "text": "Frau Reiter hat nach der Schule eine Lehrstelle als Elektronikerin gefunden.", "correct": true },
+    { "number": 49, "text": "Nach der Lehre hat Frau Reiter als Automechanikerin gearbeitet.", "correct": false },
+    { "number": 50, "text": "Frau Reiters Eltern waren mit der Berufswahl ihrer Tochter einverstanden.", "correct": true },
+    { "number": 51, "text": "Frau Reiter muss manchmal Reparaturen machen.", "correct": true },
+    { "number": 52, "text": "Frau Reiter macht gerne Nachtdienst.", "correct": false },
+    { "number": 53, "text": "Von der Arbeit ist Frau Reiter oft müde.", "correct": true },
+    { "number": 54, "text": "Der Mann von Frau Reiter hat regelmäßige Arbeitszeiten.", "correct": false },
+    { "number": 55, "text": "Frau Reiter möchte später Lokführer und Lokführerinnen ausbilden.", "correct": true }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Schnell und schneller",
+  "level": "B2",
+  "position": 43,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 6, red superscript numbers on word bank, all 10 verified vs text",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Von der Schnelligkeit des Lebens\n\nSo schnell wie Michael Schumacher fahren, das würde manch deutscher Autofahrer gern. Eine Geschwindigkeitsbegrenzung auf den Autobahnen {{31}} in Deutschland aber eine fast undenkbare Idee. Schnell ist modern, schnell ist ein Muss: Man geht ins Schnell-Restaurant, um Fastfood zu essen, man geht auf einen schnellen Kaffee ins Bistro und besucht am Abend einen Schnellkurs in Spanisch. Schnell, schneller, am schnellsten.\nEin Grund {{32}}, dass das Leben hierzulande so schnell geworden ist, {{33}} die moderne Technik sein. Kommunikationsmittel wie E-Mail oder das Handy machen fast jeden sofort erreichbar. Autos und Züge werden immer schneller und sogar die Nahrungsmittelindustrie preist die Vorteile der fixen „5-Minuten-Produkte“.\nDabei stellt sich die Frage, ob denn tatsächlich alles schneller geworden ist. E-Mails erreichen den Empfänger {{34}} schneller als ein Brief, {{35}} die Informationsflut im Internet bewirkt auch, dass es länger dauert, bis man die wirklich benötigte Information überhaupt findet. Das Mobiltelefon macht natürlich sofort erreichbar, das andauernde Klingeln stört jedoch immer öfter bei anderen Tätigkeiten, die man dann unterbricht. Und obwohl moderne Autos oft schneller als 200 km/h fahren können, kostet die steigende Anzahl der Staus auf den Autobahnen mehr Zeit {{36}} man möchte. Viele zweifeln inzwischen {{37}}, ob die theoretisch mögliche Schnelligkeit und die reale Geschwindigkeit noch übereinstimmen.\nForscher haben nun herausgefunden, warum alles immer schneller zu werden scheint: Die Gleichförmigkeit unseres Lebens hat einen starken Einfluss {{38}}, wie das Lebenstempo empfunden wird. Bei immer mehr Routine bei der Arbeit und in der Freizeit und wenig Abwechslung im Leben {{39}}, so die Forscher, der Eindruck von Schnelligkeit entstehen. Das Gedächtnis blendet Lebenszeiten, in denen nichts Ungewöhnliches passiert ist, einfach aus und bringt so das Zeitempfinden des Menschen durcheinander.\nDen Gegenbeweis erbringt das Zeitempfinden im Urlaub. Hier wird die Routine durchbrochen und man tut Dinge, die sonst keinen Platz im Leben haben. Und siehe da: {{40}} befragt, wie sie die Urlaubszeit empfunden haben, antworten die meisten Urlauber „Die Zeit verging so langsam – es war so richtig entspannend!“ Vielleicht sollten wir deshalb einfach öfters raus aus der Routine und schnell mal was Anderes machen.",
+  "words": ["ABER", "ALS", "DAFÜR", "DANACH", "DARAN", "DARAUF", "ENTWEDER", "MAG", "MÖCHTE", "ODER", "SEI", "WÄRE", "WIE", "WÜRDE", "ZWAR"],
+  "answers": {
+    "31": "WÄRE",
+    "32": "DAFÜR",
+    "33": "MAG",
+    "34": "ZWAR",
+    "35": "ABER",
+    "36": "ALS",
+    "37": "DARAN",
+    "38": "DARAUF",
+    "39": "WÜRDE",
+    "40": "DANACH"
+  }
+}

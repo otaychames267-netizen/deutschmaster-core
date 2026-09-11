@@ -1,0 +1,22 @@
+{
+  "title": "Lange schlafen ist gesund, oder etwa nicht?",
+  "level": "B2",
+  "position": 44,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 7, red superscript numbers on word bank, all 10 verified vs text. Source prints letters i/l unconventionally (I) SONDERN, L) NIMMT); word order preserved as printed.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Drei Mythen über den Schlaf\n\nWarum träumen wir? Was passiert im Gehirn, wenn wir schlafen? Und warum müssen wir {{31}} schlafen? Während Wissenschaftler nach Antworten auf diese Fragen suchen, werden im Volksmund etliche Geschichten über den Schlaf erzählt. Viele davon sind unwahr.\n\nMythos 1: Lange schlafen ist gesund.\nImmer wieder werden wir {{32}} gewarnt, dass sich zu wenig Schlaf früher oder später negativ auf unser Wohlbefinden auswirkt. Aber kann man auch zu viel schlafen? Schlafmediziner sagen: ja. Ein internationales Forschungsteam ist zu dem Ergebnis gekommen, dass zu viel Schlaf {{33}} ungesund ist wie zu wenig. Notorische Langschläfer leiden zum Beispiel häufiger {{34}} Depressionen und haben ein erhöhtes Risiko, an Diabetes zu erkranken.\n\nMythos 2: Der Schlaf vor Mitternacht ist der beste.\nViele Menschen behaupten, dass der Schlaf vor Mitternacht besonders erholsam sei. Das {{35}} so aber nicht. Wissenschaftler haben herausgefunden, dass nicht die Uhrzeit entscheidend ist, {{36}} vielmehr die ersten Stunden nach dem Einschlafen. In dieser Zeit {{37}} ein Großteil des wertvollen Tiefschlafs statt. In den Tiefschlafphasen erholt sich unser Körper am intensivsten. Der Zeitpunkt des Einschlafens spielt dabei keine {{38}}.\n\nMythos 3: Im Schlaf passiert nicht viel.\nWer glaubt, dass im Schlaf nicht {{39}} viel passiert, der täuscht sich gewaltig. Nachts, wenn der Körper zur {{40}} kommt, laufen in unserem Organismus äußerst komplexe Prozesse ab. Unser Immunsystem wird aktiviert, Wachstumshormone bauen unsere Muskeln auf, die Haut regeneriert sich und unser Gehirn läuft auf Hochtouren, um die Ereignisse des Tages zu verarbeiten.",
+  "words": ["ALLZU", "BEDEUTUNG", "DARAUF", "DAVOR", "FINDET", "GENAUSO", "HIERMIT", "MIT", "SONDERN", "ROLLE", "RUHE", "STIMMT", "ÜBERHAUPT", "NIMMT", "UNTER"],
+  "answers": {
+    "31": "ÜBERHAUPT",
+    "32": "DAVOR",
+    "33": "GENAUSO",
+    "34": "UNTER",
+    "35": "STIMMT",
+    "36": "SONDERN",
+    "37": "FINDET",
+    "38": "ROLLE",
+    "39": "ALLZU",
+    "40": "RUHE"
+  }
+}
