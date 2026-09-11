@@ -25,9 +25,8 @@ function schreibenParts(seg: "b1" | "b2" | undefined) {
   return [
     { label: "Beschwerde — Formal complaint", to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
     { label: "Bitte um Informationen",         to: "/schriftlich/vorbereitung/schreiben/bitte" },
-    { label: "Vorlagen — Premium writing templates", to: "/schriftlich/vorbereitung/schreiben/vorlagen" },
-    { label: "Produkt-Karten — 150 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/produkt-karten" },
-    { label: "Dienstleistungs-Karten — 150 Beschwerde-Vorlagen", to: "/schriftlich/vorbereitung/schreiben/service-karten" },
+    { label: "Meine Struktur — Produkt-Beschwerde", to: "/schriftlich/vorbereitung/schreiben/produkt-karten" },
+    { label: "Meine Struktur — Service-Beschwerde", to: "/schriftlich/vorbereitung/schreiben/service-karten" },
   ];
 }
 

@@ -18,7 +18,11 @@ interface Stats {
   expiredSubscriptions: number;
   publishedExams: number;
   pendingImports: number;
+  strukturAssigned: number;
 }
+
+const STRUKTUR_POOL_SIZE = 150;
+const STRUKTUR_WARNING_THRESHOLD = 20;
 
 interface RecentUser {
   id: string;
@@ -33,7 +37,7 @@ function Skeleton({ className = "" }: { className?: string }) {
 }
 
 function AdminIndexPage() {
-  const [stats, setStats]             = useState<Stats>({ users: 0, activeSubscriptions: 0, expiredSubscriptions: 0, publishedExams: 0, pendingImports: 0 });
+  const [stats, setStats]             = useState<Stats>({ users: 0, activeSubscriptions: 0, expiredSubscriptions: 0, publishedExams: 0, pendingImports: 0, strukturAssigned: 0 });
   const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
   const [loading, setLoading]         = useState(true);
 
@@ -45,18 +49,22 @@ function AdminIndexPage() {
       supabase.from("exams").select("id", { count: "exact", head: true }).eq("status", "published"),
       supabase.from("pdf_imports").select("id", { count: "exact", head: true }).eq("status", "needs_review"),
       supabase.from("profiles").select("id, full_name, level, created_at").order("created_at", { ascending: false }).limit(6),
-    ]).then(([users, active, expired, exams, imports, recent]) => {
+      (supabase as any).from("user_schreiben_struktur").select("user_id", { count: "exact", head: true }),
+    ]).then(([users, active, expired, exams, imports, recent, struktur]) => {
       setStats({
         users:                users.count   ?? 0,
         activeSubscriptions:  active.count  ?? 0,
         expiredSubscriptions: expired.count ?? 0,
         publishedExams:       exams.count   ?? 0,
         pendingImports:       imports.count ?? 0,
+        strukturAssigned:     struktur.count ?? 0,
       });
       setRecentUsers((recent.data ?? []) as RecentUser[]);
       setLoading(false);
     });
   }, []);
+
+  const strukturRemaining = STRUKTUR_POOL_SIZE - stats.strukturAssigned;
 
   const METRIC_CARDS = [
     { label: "Total users",     value: stats.users,               icon: Users,      to: "/admin/users",         color: "text-blue-500",    bg: "bg-blue-500/10",    ring: "ring-blue-500/15",    glow: "shadow-blue-500/10" },
@@ -125,6 +133,17 @@ function AdminIndexPage() {
           <Link to="/admin/pdf-import" className="flex items-center gap-0.5 text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline">
             Review <ChevronRight className="h-3 w-3" />
           </Link>
+        </div>
+      )}
+
+      {/* ── Schreiben Struktur capacity alert ─────────────────── */}
+      {!loading && strukturRemaining <= STRUKTUR_WARNING_THRESHOLD && (
+        <div className="flex items-center gap-3 rounded-2xl border border-amber-500/25 bg-amber-500/5 px-5 py-3.5">
+          <AlertCircle className="h-4 w-4 shrink-0 text-amber-500" />
+          <p className="flex-1 text-sm text-foreground">
+            Nur noch <strong>{strukturRemaining}</strong> von {STRUKTUR_POOL_SIZE} Produkt-/Service-Strukturen
+            verfügbar — bald aufgebraucht. Neue Karten hinzufügen, bevor der Vorrat aufgebraucht ist.
+          </p>
         </div>
       )}
 
