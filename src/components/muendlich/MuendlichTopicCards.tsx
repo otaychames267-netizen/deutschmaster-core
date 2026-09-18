@@ -29,7 +29,7 @@ export interface HeroCardTopic {
  * bottom. Grid layout (2-3 per row) is the caller's job — this component
  * only renders one card.
  */
-export function HeroCard({ topic, index, onOpen, loading }: { topic: HeroCardTopic; index: number; onOpen: () => void; loading?: boolean }) {
+export function HeroCard({ topic, index, onOpen, loading, levelLabel }: { topic: HeroCardTopic; index: number; onOpen: () => void; loading?: boolean; levelLabel: "B1" | "B2" }) {
   const art = getThemeArt(topic.theme_category);
   const Icon = art.icon;
   return (
@@ -56,7 +56,7 @@ export function HeroCard({ topic, index, onOpen, loading }: { topic: HeroCardTop
           {topic.theme_category && (
             <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{topic.theme_category}</span>
           )}
-          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-primary">B2</span>
+          <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-primary">{levelLabel}</span>
         </div>
         <h3 className="mb-1.5 text-base font-black leading-snug text-foreground">{topic.title}</h3>
         {topic.body_text && (

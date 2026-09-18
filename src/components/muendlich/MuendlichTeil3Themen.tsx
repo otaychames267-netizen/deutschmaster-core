@@ -22,6 +22,7 @@ import { Teil3TopicModal, type Teil3TopicRow } from "./MuendlichTeil3TopicModal"
 
 export function MuendlichTeil3Themen() {
   const level = useActiveLevel();
+  const levelLabel = level === "TELC_B1" ? "B1" : "B2";
   const catalog = useMuendlichCatalog(3, level);
   const [openTopic, setOpenTopic] = useState<Teil3TopicRow | null>(null);
   const [paywallOpen, setPaywallOpen] = useState(false);
@@ -49,7 +50,7 @@ export function MuendlichTeil3Themen() {
     <div className="space-y-8">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {mainTopics.map((t, i) => (
-          <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} />
+          <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} levelLabel={levelLabel} />
         ))}
       </div>
 
@@ -58,7 +59,7 @@ export function MuendlichTeil3Themen() {
           <UnassignedTopicsNotice />
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {unassignedTopics.map((t, i) => (
-              <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} />
+              <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} levelLabel={levelLabel} />
             ))}
           </div>
         </div>

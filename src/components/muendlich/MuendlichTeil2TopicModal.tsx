@@ -8,7 +8,7 @@
 import { useState } from "react";
 import {
   BookOpen, Lightbulb, MessageCircle, MessageCircleHeart, Scale, HelpCircle,
-  GraduationCap, Sparkles, ThumbsUp, ThumbsDown, ChevronRight,
+  GraduationCap, Sparkles, ThumbsUp, ThumbsDown, ChevronRight, Users, Info,
 } from "lucide-react";
 import { TopicModalShell, type ModalTab } from "./MuendlichTopicModalShell";
 
@@ -43,14 +43,34 @@ export interface SpeakingToolboxV2 {
   page7_wortschatz: { verben: VocabItem[]; nomen: VocabItem[]; adjektive: VocabItem[]; expressions: VocabItem[] };
 }
 
+/** B1 Sprechen Teil 2 — "Gespräch über ein Thema": two short texts (Person A /
+ * Person B), each summarized, a modeled A/B dialogue built from them, topic
+ * vocabulary, and exam tips. Structurally distinct from B2's opinion/pro-contra
+ * format (SpeakingToolboxV2), so it gets its own schema_version and tab set
+ * rather than being forced into the V2 shape. */
+export interface SpeakingToolboxV3 {
+  schema_version: 3;
+  person_a: Bilingual;
+  person_b: Bilingual;
+  summary_a: { de: string[]; ar: string[] };
+  summary_b: { de: string[]; ar: string[] };
+  dialogue: { speaker: "A" | "B"; de: string; ar: string }[];
+  vocabulary: Bilingual[];
+  tips: { de: string[]; ar: string[] };
+}
+
 export interface Teil2TopicRow {
   id: string; title: string; body_text: string | null;
   theme_category: string | null; difficulty_level: string | null;
-  speaking_toolbox: SpeakingToolboxV2 | { schema_version?: number } | null;
+  speaking_toolbox: SpeakingToolboxV2 | SpeakingToolboxV3 | { schema_version?: number } | null;
 }
 
 function isV2(tb: Teil2TopicRow["speaking_toolbox"]): tb is SpeakingToolboxV2 {
   return !!tb && (tb as any).schema_version === 2;
+}
+
+function isV3(tb: Teil2TopicRow["speaking_toolbox"]): tb is SpeakingToolboxV3 {
+  return !!tb && (tb as any).schema_version === 3;
 }
 
 function renderMarked(text: string) {
@@ -113,7 +133,11 @@ function ExampleCallout({ example }: { example: ExampleBlock }) {
   );
 }
 
-const TABS: ModalTab<"text" | "inhalt" | "meinung" | "erfahrung" | "procontra" | "fragen" | "wortschatz">[] = [
+type TabKey =
+  | "text" | "inhalt" | "meinung" | "erfahrung" | "procontra" | "fragen" | "wortschatz"
+  | "personen" | "dialog" | "tipp";
+
+const TABS_V2: ModalTab<TabKey>[] = [
   { key: "text", label: "Text", icon: BookOpen },
   { key: "inhalt", label: "Inhalt", icon: Lightbulb },
   { key: "meinung", label: "Meinung", icon: MessageCircle },
@@ -123,9 +147,20 @@ const TABS: ModalTab<"text" | "inhalt" | "meinung" | "erfahrung" | "procontra" |
   { key: "wortschatz", label: "Wortschatz", icon: GraduationCap },
 ];
 
+const TABS_V3: ModalTab<TabKey>[] = [
+  { key: "text", label: "Text", icon: BookOpen },
+  { key: "personen", label: "Person A/B", icon: Users },
+  { key: "dialog", label: "Modelldialog", icon: MessageCircle },
+  { key: "wortschatz", label: "Wortschatz", icon: GraduationCap },
+  { key: "tipp", label: "TELC-Tipp", icon: Info },
+];
+
 export function Teil2TopicModal({ topic, onClose }: { topic: Teil2TopicRow; onClose: () => void }) {
-  const [page, setPage] = useState<typeof TABS[number]["key"]>("text");
-  const tb = isV2(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
+  const tb2 = isV2(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
+  const tb3 = isV3(topic.speaking_toolbox) ? topic.speaking_toolbox : null;
+  const TABS = tb3 ? TABS_V3 : TABS_V2;
+  const [page, setPage] = useState<TabKey>("text");
+  const tb = tb2;
 
   return (
     <TopicModalShell
@@ -260,7 +295,96 @@ export function Teil2TopicModal({ topic, onClose }: { topic: Teil2TopicRow; onCl
         </div>
       )}
 
-      {page !== "text" && !tb && (
+      {page === "personen" && tb3 && (
+        <div className="space-y-6">
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div className="rounded-xl border border-border bg-muted/30 p-4">
+              <h3 className="mb-2 text-sm font-black text-foreground">Person A</h3>
+              <p className="text-sm leading-relaxed text-foreground">{tb3.person_a.de}</p>
+              <ArBlock text={tb3.person_a.ar} className="mt-2 border-t border-border pt-2" />
+              <h4 className="mb-1.5 mt-4 text-xs font-black uppercase tracking-wide text-muted-foreground">Kurz zusammengefasst</h4>
+              <ul className="space-y-1.5">
+                {tb3.summary_a.de.map((line, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" />
+                    <div className="flex-1">
+                      <span className="text-foreground">{line}</span>
+                      <ArBlock text={tb3.summary_a.ar[i]} className="mt-0.5" />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-xl border border-border bg-muted/30 p-4">
+              <h3 className="mb-2 text-sm font-black text-foreground">Person B</h3>
+              <p className="text-sm leading-relaxed text-foreground">{tb3.person_b.de}</p>
+              <ArBlock text={tb3.person_b.ar} className="mt-2 border-t border-border pt-2" />
+              <h4 className="mb-1.5 mt-4 text-xs font-black uppercase tracking-wide text-muted-foreground">Kurz zusammengefasst</h4>
+              <ul className="space-y-1.5">
+                {tb3.summary_b.de.map((line, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" />
+                    <div className="flex-1">
+                      <span className="text-foreground">{line}</span>
+                      <ArBlock text={tb3.summary_b.ar[i]} className="mt-0.5" />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {page === "dialog" && tb3 && (
+        <div className="space-y-3">
+          {tb3.dialogue.map((line, i) => (
+            <div
+              key={i}
+              className={`rounded-xl border p-3 ${
+                line.speaker === "A" ? "border-indigo-500/30 bg-indigo-500/5" : "border-rose-500/30 bg-rose-500/5"
+              }`}
+            >
+              <span
+                className={`mb-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-black uppercase tracking-wide ${
+                  line.speaker === "A" ? "bg-indigo-500/15 text-indigo-600 dark:text-indigo-400" : "bg-rose-500/15 text-rose-600 dark:text-rose-400"
+                }`}
+              >
+                Person {line.speaker}
+              </span>
+              <p className="text-sm leading-relaxed text-foreground">{line.de}</p>
+              <ArBlock text={line.ar} className="mt-1.5" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {page === "wortschatz" && tb3 && (
+        <ul className="space-y-1.5">
+          {tb3.vocabulary.map((it, i) => (
+            <li key={i} className="flex flex-wrap items-baseline gap-x-2 text-sm">
+              <span className="font-medium text-foreground">{it.de}</span>
+              <span dir="rtl" className="text-muted-foreground">({it.ar})</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {page === "tipp" && tb3 && (
+        <ul className="space-y-2.5">
+          {tb3.tips.de.map((line, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm">
+              <ChevronRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-rose-500" />
+              <div className="flex-1">
+                <span className="text-foreground">{line}</span>
+                <ArBlock text={tb3.tips.ar[i]} className="mt-0.5" />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {page !== "text" && !tb && !tb3 && (
         <p className="text-sm text-muted-foreground">Weitere Seiten für dieses Thema folgen in Kürze.</p>
       )}
     </TopicModalShell>
