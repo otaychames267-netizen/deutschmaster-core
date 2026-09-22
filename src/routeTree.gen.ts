@@ -47,6 +47,7 @@ import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authentic
 import { Route as ApiSchreibenSubmitSimulationRouteImport } from './routes/api.schreiben.submit-simulation'
 import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api.public.lemonsqueezy-webhook'
+import { Route as ApiMuendlichTutorCorrectionRouteImport } from './routes/api.muendlich.tutor-correction'
 import { Route as ApiAuthRegisterRouteImport } from './routes/api.auth.register'
 import { Route as ApiAuthLoginRouteImport } from './routes/api.auth.login'
 import { Route as ApiAuthForgotPasswordRouteImport } from './routes/api.auth.forgot-password'
@@ -108,10 +109,12 @@ import { Route as AuthenticatedLevelMuendlichVorbereitungRouteImport } from './r
 import { Route as AuthenticatedLevelMuendlichPruefungRouteImport } from './routes/_authenticated.$level.muendlich.pruefung'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungIndexRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.index'
 import { Route as AuthenticatedLevelMuendlichVorbereitungIndexRouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.index'
+import { Route as AuthenticatedLevelMuendlichVoiceTutorIndexRouteImport } from './routes/_authenticated.$level.muendlich.voice-tutor.index'
 import { Route as AuthenticatedPracticeLevelModuleTeilRouteImport } from './routes/_authenticated.practice.$level.$module.$teil'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil3RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-3'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil2RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-2'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-1'
+import { Route as AuthenticatedLevelMuendlichVoiceTutorScenarioIdRouteImport } from './routes/_authenticated.$level.muendlich.voice-tutor.$scenarioId'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-2'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-1'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.service-karten'
@@ -319,6 +322,12 @@ const ApiPublicLemonsqueezyWebhookRoute =
   ApiPublicLemonsqueezyWebhookRouteImport.update({
     id: '/api/public/lemonsqueezy-webhook',
     path: '/api/public/lemonsqueezy-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiMuendlichTutorCorrectionRoute =
+  ApiMuendlichTutorCorrectionRouteImport.update({
+    id: '/api/muendlich/tutor-correction',
+    path: '/api/muendlich/tutor-correction',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiAuthRegisterRoute = ApiAuthRegisterRouteImport.update({
@@ -676,6 +685,12 @@ const AuthenticatedLevelMuendlichVorbereitungIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
   } as any)
+const AuthenticatedLevelMuendlichVoiceTutorIndexRoute =
+  AuthenticatedLevelMuendlichVoiceTutorIndexRouteImport.update({
+    id: '/voice-tutor/',
+    path: '/voice-tutor/',
+    getParentRoute: () => AuthenticatedLevelMuendlichRoute,
+  } as any)
 const AuthenticatedPracticeLevelModuleTeilRoute =
   AuthenticatedPracticeLevelModuleTeilRouteImport.update({
     id: '/practice/$level/$module/$teil',
@@ -699,6 +714,12 @@ const AuthenticatedLevelMuendlichVorbereitungTeil1Route =
     id: '/teil-1',
     path: '/teil-1',
     getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
+  } as any)
+const AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute =
+  AuthenticatedLevelMuendlichVoiceTutorScenarioIdRouteImport.update({
+    id: '/voice-tutor/$scenarioId',
+    path: '/voice-tutor/$scenarioId',
+    getParentRoute: () => AuthenticatedLevelMuendlichRoute,
   } as any)
 const AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route =
   AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport.update(
@@ -863,6 +884,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/api/schreiben/submit-simulation': typeof ApiSchreibenSubmitSimulationRoute
@@ -888,10 +910,12 @@ export interface FileRoutesByFullPath {
   '/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/d17/$orderId/': typeof AuthenticatedD17OrderIdIndexRoute
+  '/$level/muendlich/voice-tutor/$scenarioId': typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/$level/muendlich/voice-tutor/': typeof AuthenticatedLevelMuendlichVoiceTutorIndexRoute
   '/$level/muendlich/vorbereitung/': typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung/': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
@@ -976,6 +1000,7 @@ export interface FileRoutesByTo {
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/api/schreiben/submit-simulation': typeof ApiSchreibenSubmitSimulationRoute
@@ -999,10 +1024,12 @@ export interface FileRoutesByTo {
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/d17/$orderId': typeof AuthenticatedD17OrderIdIndexRoute
+  '/$level/muendlich/voice-tutor/$scenarioId': typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/$level/muendlich/voice-tutor': typeof AuthenticatedLevelMuendlichVoiceTutorIndexRoute
   '/$level/muendlich/vorbereitung': typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
   '/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
@@ -1093,6 +1120,7 @@ export interface FileRoutesById {
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
   '/api/schreiben/submit-simulation': typeof ApiSchreibenSubmitSimulationRoute
@@ -1118,10 +1146,12 @@ export interface FileRoutesById {
   '/_authenticated/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/_authenticated/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/_authenticated/d17/$orderId/': typeof AuthenticatedD17OrderIdIndexRoute
+  '/_authenticated/$level/muendlich/voice-tutor/$scenarioId': typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
   '/_authenticated/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
   '/_authenticated/practice/$level/$module/$teil': typeof AuthenticatedPracticeLevelModuleTeilRoute
+  '/_authenticated/$level/muendlich/voice-tutor/': typeof AuthenticatedLevelMuendlichVoiceTutorIndexRoute
   '/_authenticated/$level/muendlich/vorbereitung/': typeof AuthenticatedLevelMuendlichVorbereitungIndexRoute
   '/_authenticated/$level/schriftlich/vorbereitung/': typeof AuthenticatedLevelSchriftlichVorbereitungIndexRoute
   '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungHoerenTeil1Route
@@ -1212,6 +1242,7 @@ export interface FileRouteTypes {
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
+    | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
     | '/api/schreiben/submit-simulation'
@@ -1237,10 +1268,12 @@ export interface FileRouteTypes {
     | '/$level/muendlich/'
     | '/$level/schriftlich/'
     | '/d17/$orderId/'
+    | '/$level/muendlich/voice-tutor/$scenarioId'
     | '/$level/muendlich/vorbereitung/teil-1'
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
+    | '/$level/muendlich/voice-tutor/'
     | '/$level/muendlich/vorbereitung/'
     | '/$level/schriftlich/vorbereitung/'
     | '/$level/schriftlich/vorbereitung/hoeren/teil-1'
@@ -1325,6 +1358,7 @@ export interface FileRouteTypes {
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
+    | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
     | '/api/schreiben/submit-simulation'
@@ -1348,10 +1382,12 @@ export interface FileRouteTypes {
     | '/$level/muendlich'
     | '/$level/schriftlich'
     | '/d17/$orderId'
+    | '/$level/muendlich/voice-tutor/$scenarioId'
     | '/$level/muendlich/vorbereitung/teil-1'
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
     | '/practice/$level/$module/$teil'
+    | '/$level/muendlich/voice-tutor'
     | '/$level/muendlich/vorbereitung'
     | '/$level/schriftlich/vorbereitung'
     | '/$level/schriftlich/vorbereitung/hoeren/teil-1'
@@ -1441,6 +1477,7 @@ export interface FileRouteTypes {
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
+    | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
     | '/api/schreiben/submit-simulation'
@@ -1466,10 +1503,12 @@ export interface FileRouteTypes {
     | '/_authenticated/$level/muendlich/'
     | '/_authenticated/$level/schriftlich/'
     | '/_authenticated/d17/$orderId/'
+    | '/_authenticated/$level/muendlich/voice-tutor/$scenarioId'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-1'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-2'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-3'
     | '/_authenticated/practice/$level/$module/$teil'
+    | '/_authenticated/$level/muendlich/voice-tutor/'
     | '/_authenticated/$level/muendlich/vorbereitung/'
     | '/_authenticated/$level/schriftlich/vorbereitung/'
     | '/_authenticated/$level/schriftlich/vorbereitung/hoeren/teil-1'
@@ -1504,6 +1543,7 @@ export interface RootRouteChildren {
   ApiAuthForgotPasswordRoute: typeof ApiAuthForgotPasswordRoute
   ApiAuthLoginRoute: typeof ApiAuthLoginRoute
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
+  ApiMuendlichTutorCorrectionRoute: typeof ApiMuendlichTutorCorrectionRoute
   ApiPublicLemonsqueezyWebhookRoute: typeof ApiPublicLemonsqueezyWebhookRoute
   ApiSchreibenGradeEssayRoute: typeof ApiSchreibenGradeEssayRoute
   ApiSchreibenSubmitSimulationRoute: typeof ApiSchreibenSubmitSimulationRoute
@@ -1775,6 +1815,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/lemonsqueezy-webhook'
       fullPath: '/api/public/lemonsqueezy-webhook'
       preLoaderRoute: typeof ApiPublicLemonsqueezyWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/muendlich/tutor-correction': {
+      id: '/api/muendlich/tutor-correction'
+      path: '/api/muendlich/tutor-correction'
+      fullPath: '/api/muendlich/tutor-correction'
+      preLoaderRoute: typeof ApiMuendlichTutorCorrectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/register': {
@@ -2204,6 +2251,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungIndexRouteImport
       parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
     }
+    '/_authenticated/$level/muendlich/voice-tutor/': {
+      id: '/_authenticated/$level/muendlich/voice-tutor/'
+      path: '/voice-tutor'
+      fullPath: '/$level/muendlich/voice-tutor/'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVoiceTutorIndexRouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichRoute
+    }
     '/_authenticated/practice/$level/$module/$teil': {
       id: '/_authenticated/practice/$level/$module/$teil'
       path: '/practice/$level/$module/$teil'
@@ -2231,6 +2285,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$level/muendlich/vorbereitung/teil-1'
       preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport
       parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
+    }
+    '/_authenticated/$level/muendlich/voice-tutor/$scenarioId': {
+      id: '/_authenticated/$level/muendlich/voice-tutor/$scenarioId'
+      path: '/voice-tutor/$scenarioId'
+      fullPath: '/$level/muendlich/voice-tutor/$scenarioId'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRouteImport
+      parentRoute: typeof AuthenticatedLevelMuendlichRoute
     }
     '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': {
       id: '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2'
@@ -2354,6 +2415,8 @@ interface AuthenticatedLevelMuendlichRouteChildren {
   AuthenticatedLevelMuendlichPruefungRoute: typeof AuthenticatedLevelMuendlichPruefungRoute
   AuthenticatedLevelMuendlichVorbereitungRoute: typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
   AuthenticatedLevelMuendlichIndexRoute: typeof AuthenticatedLevelMuendlichIndexRoute
+  AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute: typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
+  AuthenticatedLevelMuendlichVoiceTutorIndexRoute: typeof AuthenticatedLevelMuendlichVoiceTutorIndexRoute
 }
 
 const AuthenticatedLevelMuendlichRouteChildren: AuthenticatedLevelMuendlichRouteChildren =
@@ -2364,6 +2427,10 @@ const AuthenticatedLevelMuendlichRouteChildren: AuthenticatedLevelMuendlichRoute
       AuthenticatedLevelMuendlichVorbereitungRouteWithChildren,
     AuthenticatedLevelMuendlichIndexRoute:
       AuthenticatedLevelMuendlichIndexRoute,
+    AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute:
+      AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute,
+    AuthenticatedLevelMuendlichVoiceTutorIndexRoute:
+      AuthenticatedLevelMuendlichVoiceTutorIndexRoute,
   }
 
 const AuthenticatedLevelMuendlichRouteWithChildren =
@@ -2667,6 +2734,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthForgotPasswordRoute: ApiAuthForgotPasswordRoute,
   ApiAuthLoginRoute: ApiAuthLoginRoute,
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,
+  ApiMuendlichTutorCorrectionRoute: ApiMuendlichTutorCorrectionRoute,
   ApiPublicLemonsqueezyWebhookRoute: ApiPublicLemonsqueezyWebhookRoute,
   ApiSchreibenGradeEssayRoute: ApiSchreibenGradeEssayRoute,
   ApiSchreibenSubmitSimulationRoute: ApiSchreibenSubmitSimulationRoute,

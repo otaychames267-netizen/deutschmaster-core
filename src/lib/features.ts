@@ -76,6 +76,17 @@ export const LEMONSQUEEZY_VISIBLE = true;
  */
 export const SHOW_UNRELEASED_CONTENT = false;
 
+/**
+ * Is the AI Voice Tutor (1:1 speaking-practice, extending the Mündlich exam's
+ * Gemini Live pipeline) launched? Ships dark (`false`) until the full
+ * build (DB + relay + frontend + deferred correction) is verified end-to-end
+ * with a real disposable account. Same hardcoded-kill-switch contract as
+ * MUENDLICH_ENABLED/B1_ENABLED. B2-only for now — see the separate
+ * `activeLevel === "TELC_B2"` check in the voice-tutor routes, which is
+ * independent of this flag and not something flipping this alone changes.
+ */
+export const VOICE_TUTOR_ENABLED = false;
+
 export type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 /**

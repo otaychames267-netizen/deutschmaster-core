@@ -7,7 +7,14 @@
  * audio both directions. This file itself doesn't know or care which
  * backend is active — see voiceBackend.ts for that switch.
  *
- * Protocol (JSON text frames):
+ * Also hosts a SEPARATE, additive `/tutor/:scenarioId` path for the 1:1 AI
+ * Voice Tutor (free-conversation speaking practice) — see the "AI Voice
+ * Tutor" sections below. It shares this process/port but has its own
+ * session map, its own (always-Gemini-Live) session opener
+ * (tutorGeminiLive.ts), and its own daily-cap RPCs; it never touches
+ * `rooms`/`RoomSession` or any exam-only table/RPC.
+ *
+ * Protocol (JSON text frames), exam room (`/room/:roomId`):
  *   client -> relay: { type: "audio", data: "<base64 pcm16 16kHz>" }
  *                     { type: "repeat" }                         ("Wie bitte?", capped at MAX_REPEAT_USES)
  *                     { type: "ping", t }                        (app-level latency probe, echoed straight back)
@@ -22,6 +29,19 @@
  *                     { type: "transcript", speaker: "examiner"|"A"|"B", text }
  *                     { type: "finished" }
  *                     { type: "terminated", reason }             (reason "insufficient_minutes" also covers the pre-flight matchmaking guard)
+ *
+ * Protocol, AI Voice Tutor (`/tutor/:scenarioId`) — a subset of the above
+ * plus one new message type, no stage/intermission/repeat concepts (free-
+ * flowing 1:1 chat has none):
+ *   client -> relay: { type: "audio", data: "<base64 pcm16 16kHz>" }
+ *                     { type: "ping", t }
+ *   relay -> client: { type: "pong", t }
+ *                     { type: "ready", sessionId }                (sessionId is voice_tutor_sessions.id — the client needs it to later call POST /api/muendlich/tutor-correction in the main app; the exam has no equivalent since its evaluation is triggered server-side)
+ *                     { type: "cap_status", secondsRemaining }    (NEW — sent at session start and after each minute-tick; the exam has no equivalent since it hard-stops silently, but for money-metered practice time a visible, server-authoritative countdown is better UX)
+ *                     { type: "nudge" }
+ *                     { type: "audio", data: "<base64 pcm16 24kHz>" }
+ *                     { type: "transcript", speaker: "tutor"|"student", text }
+ *                     { type: "terminated", reason }              (reason "daily_cap_exceeded" is tutor-specific; "budget_exceeded"/"ai_error"/"idle_timeout" are shared concepts with the exam)
  *
  * Exam stage timing mirrors Room 1's already-proven prep timer pattern
  * (timestamp + duration written to the DB, client syncs via clock offset) —
@@ -46,6 +66,7 @@ import { WebSocketServer, WebSocket } from "ws";
 import { createServer } from "node:http";
 import { createClient } from "@supabase/supabase-js";
 import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "./voiceBackend.js";
+import { openTutorLiveSession, type TutorContext, type TutorLiveSession } from "./tutorGeminiLive.js";
 import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
 import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23 } from "./examinerPhrases.js";
 import { checkCreditBudget, recordExamUsage } from "./voice/creditBudget.js";
@@ -75,14 +96,16 @@ const PORT = Number(process.env.PORT ?? 8787);
 const SUPABASE_URL = process.env.SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY!;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-// Only the vendor keys the ACTIVE voice backend actually needs are
-// required — MUENDLICH_VOICE_BACKEND=gemini (default) doesn't need
-// ElevenLabs configured at all, and vice versa, so switching backends via
-// env never requires provisioning both vendors' credentials at once.
-const requiredEnv: Record<string, string | undefined> = { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY };
-if (activeVoiceBackend() === "gemini") {
-  requiredEnv.GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-} else {
+// Only the vendor keys the ACTIVE 2-candidate-exam voice backend actually
+// needs are conditionally required — MUENDLICH_VOICE_BACKEND=gemini
+// (default) doesn't need ElevenLabs configured at all, and vice versa, so
+// switching the EXAM's backend via env never requires provisioning both
+// vendors' credentials at once. GEMINI_API_KEY is separately unconditional
+// below because the AI Voice Tutor always talks to Gemini Live directly
+// (tutorGeminiLive.ts never reads MUENDLICH_VOICE_BACKEND) regardless of
+// which backend the exam room is currently configured to use.
+const requiredEnv: Record<string, string | undefined> = { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, GEMINI_API_KEY: process.env.GEMINI_API_KEY };
+if (activeVoiceBackend() === "elevenlabs") {
   requiredEnv.ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
   requiredEnv.ELEVENLABS_API_KEY = process.env.ELEVENLABS_API_KEY;
 }
@@ -149,6 +172,16 @@ const HARD_IDLE_CLOSE_MS = Number(process.env.MUENDLICH_HARD_IDLE_MS ?? 45_000);
 // This is an approximation, not exact billing telemetry.
 const GEMINI_AUDIO_TOKENS_PER_MINUTE = Number(process.env.GEMINI_AUDIO_TOKENS_PER_MINUTE ?? 3840);
 
+// --- AI Voice Tutor (1:1 speaking practice) constants ---------------------
+// A free-flowing 1:1 conversation is closer to Teil 1's "candidate collecting
+// their thoughts" tolerance than Teil 2/3's tighter exam thresholds, so this
+// borrows Teil 1's own SILENCE_THRESHOLD_MS[1] value rather than introducing
+// an unrelated number. CREDIT_TICK_MS, NUDGE_DEBOUNCE_MS, and
+// HARD_IDLE_CLOSE_MS above are reused as-is for the tutor — same cadence,
+// same "don't nag, but don't run unattended forever" reasoning applies.
+const TUTOR_SILENCE_THRESHOLD_MS = Number(process.env.VOICE_TUTOR_SILENCE_MS ?? SILENCE_THRESHOLD_MS[1]);
+const VOICE_TUTOR_DAILY_CAP_SECONDS = 2700; // 45 minutes — must match deduct_voice_tutor_seconds()'s hardcoded cap
+
 interface Participant {
   userId: string;
   slot: "A" | "B";
@@ -208,6 +241,30 @@ interface RoomSession {
 }
 
 const rooms = new Map<string, RoomSession>();
+
+// --- AI Voice Tutor session state ------------------------------------------
+// Deliberately its OWN map/type, never RoomSession/rooms — a 1:1 tutor
+// session has no slots, no participants Map, no Teil-stage machinery, and
+// shoehorning it into RoomSession's 2-candidate shape would mean stubbing
+// out most of that type's fields for no benefit. Nothing below touches
+// `rooms` or any RoomSession field.
+interface TutorSession {
+  sessionId: string; // voice_tutor_sessions.id, created the moment the socket connects
+  userId: string;
+  accessToken: string;
+  ws: WebSocket;
+  live?: TutorLiveSession;
+  level: "TELC_B1" | "TELC_B2";
+  scenarioId: string;
+  lastAudioAt: number;
+  lastNudgeAt: number;
+  creditTick?: NodeJS.Timeout;
+  idleTick?: NodeJS.Timeout;
+  liveSessionStartedAt: number | null;
+  ended: boolean;
+  voiceBackendErrored: boolean;
+}
+const tutorSessions = new Map<string, TutorSession>(); // keyed by sessionId
 
 function send(ws: WebSocket, msg: unknown) {
   if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg));
@@ -840,8 +897,200 @@ function endRoom(room: RoomSession, endReason: string) {
   rooms.delete(room.roomId);
 }
 
+// ============================================================
+// AI Voice Tutor (1:1 speaking practice) — session lifecycle. Additive only:
+// nothing here reads or writes `rooms`, `RoomSession`, or any exam-only RPC.
+// ============================================================
+
+function logTutorTranscript(session: TutorSession, speaker: "tutor" | "student", text: string) {
+  send(session.ws, { type: "transcript", speaker, text });
+  admin.from("voice_tutor_transcript_nodes").insert({
+    session_id: session.sessionId, speaker, text, started_at: new Date().toISOString(),
+  }).then(() => {});
+}
+
+function endTutorSession(session: TutorSession, endReason: string) {
+  // Same re-entry guard as endRoom() — closing the socket below fires its own
+  // "close" handler, which would otherwise call this a second time.
+  if (session.ended) return;
+  session.ended = true;
+
+  // Same global-ledger recording pattern as endRoom() — this is the
+  // platform-wide cost ceiling, separate from (and still necessary alongside)
+  // the per-user daily-cap RPC already enforced by the credit tick below.
+  if (session.liveSessionStartedAt) {
+    const elapsedMinutes = Math.max(1, Math.round((Date.now() - session.liveSessionStartedAt) / 60_000));
+    admin.rpc("record_api_usage", { p_tokens: elapsedMinutes * GEMINI_AUDIO_TOKENS_PER_MINUTE }).then(({ error }) => {
+      if (error) console.error(`[tutor ${session.sessionId}] failed to record API usage:`, error.message);
+    });
+  }
+
+  session.live?.close();
+  if (session.creditTick) clearInterval(session.creditTick);
+  if (session.idleTick) clearInterval(session.idleTick);
+  session.ws.close();
+
+  admin.from("voice_tutor_sessions").update({
+    ended_at: new Date().toISOString(), end_reason: endReason,
+  }).eq("id", session.sessionId).then(() => {});
+
+  tutorSessions.delete(session.sessionId);
+}
+
+/** Pre-flight-gates, opens the Gemini Live session, and wires the per-minute
+ * daily-cap tick + a small silence/idle checker. Returns null (having already
+ * closed the socket with a clear reason) if a pre-flight check fails or
+ * session creation itself errors — the caller should just stop, not treat
+ * that as an unexpected failure. */
+async function startTutorSession(
+  ws: WebSocket,
+  userId: string,
+  accessToken: string,
+  scenario: { id: string; title: string; system_prompt_fragment: string },
+  level: "TELC_B1" | "TELC_B2",
+  studentName: string,
+): Promise<TutorSession | null> {
+  const asUser = await userScopedClient(accessToken);
+
+  // Per-user daily cap, checked BEFORE any Gemini session opens — mirrors the
+  // exam's own pre-flight-guard-before-any-cost pattern in startRoomIfReady().
+  const { data: capRows, error: capError } = await asUser.rpc("get_my_voice_tutor_cap_status", { p_level: level });
+  const capRow = Array.isArray(capRows) ? capRows[0] : capRows;
+  if (capError || !capRow || capRow.seconds_remaining <= 0) {
+    send(ws, { type: "terminated", reason: "daily_cap_exceeded" });
+    ws.close(4009, "daily cap exceeded");
+    return null;
+  }
+
+  // Same global platform-wide Gemini cost ceiling the exam room checks —
+  // separate from, and still necessary alongside, the per-user cap above.
+  const { data: usage } = await admin.rpc("get_today_api_usage");
+  const dailyCap = Number(process.env.GEMINI_DAILY_TOKEN_CAP ?? Infinity);
+  if (Number.isFinite(dailyCap) && typeof usage === "number" && usage >= dailyCap) {
+    console.log(`[tutor] daily Gemini budget exceeded (${usage}/${dailyCap} tokens), refusing new session`);
+    send(ws, { type: "terminated", reason: "budget_exceeded" });
+    ws.close(4010, "budget exceeded");
+    return null;
+  }
+
+  const { data: sessionRow, error: insertError } = await admin
+    .from("voice_tutor_sessions")
+    .insert({ user_id: userId, scenario_id: scenario.id, level })
+    .select("id")
+    .single();
+  if (insertError || !sessionRow) {
+    console.error("[tutor] failed to create voice_tutor_sessions row:", insertError?.message);
+    ws.close(1011, "internal error");
+    return null;
+  }
+
+  const session: TutorSession = {
+    sessionId: sessionRow.id, userId, accessToken, ws,
+    level, scenarioId: scenario.id,
+    lastAudioAt: Date.now(), lastNudgeAt: 0,
+    liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
+  };
+  tutorSessions.set(session.sessionId, session);
+
+  const ctx: TutorContext = {
+    studentName, level: level === "TELC_B1" ? "B1" : "B2",
+    scenarioTitle: scenario.title, scenarioPromptFragment: scenario.system_prompt_fragment,
+  };
+
+  session.live = await openTutorLiveSession(ctx, {
+    // NOTE: do not rely on session.live inside onOpen — verified live that
+    // the underlying SDK's "open" event fires BEFORE ai.live.connect()'s own
+    // promise resolves, so `session.live` is still undefined here (an
+    // optional-chained `session.live?.foo()` call silently no-ops instead of
+    // throwing, which is what made this easy to miss without a live test).
+    // Anything needing session.live runs after the `await` below instead.
+    onOpen: () => {},
+    onAudioChunk: (b64) => send(ws, { type: "audio", data: b64 }),
+    onOutputTranscript: (text) => logTutorTranscript(session, "tutor", text),
+    onInputTranscript: (text) => logTutorTranscript(session, "student", text),
+    onError: (message) => {
+      console.error(`[tutor ${session.sessionId}] voice backend error:`, message);
+      session.voiceBackendErrored = true;
+      send(ws, { type: "terminated", reason: "ai_error" });
+      endTutorSession(session, "technical_issue");
+    },
+    onClose: (reason) => console.log(`[tutor ${session.sessionId}] voice backend closed:`, reason),
+  });
+  session.liveSessionStartedAt = Date.now();
+
+  // sessionId lets the client call the deferred correction API after the
+  // conversation ends (POST /api/muendlich/tutor-correction) — the exam
+  // protocol has no equivalent since its evaluation is triggered server-side
+  // (finishExam), but the tutor's correction pass is a separate main-app API
+  // call the CLIENT initiates, so it needs this id.
+  send(ws, { type: "ready", sessionId: session.sessionId });
+  send(ws, { type: "cap_status", secondsRemaining: capRow.seconds_remaining });
+  // Gemini Live does not reliably speak first on its own without an explicit
+  // trigger — same finding already documented for the exam room's Teil-1
+  // opening (see startStage()'s comment there). Unlike the exam's formal,
+  // exactly-scripted opening line, the tutor's casual tone doesn't need
+  // verbatim phrasing, so a single [SYSTEM] instruction is enough.
+  session.live.session.sendClientContent({
+    turns: `[SYSTEM] Begrüße ${studentName} freundlich und kurz, und leite dann direkt zum heutigen Übungsthema "${scenario.title}" über.`,
+    turnComplete: true,
+  });
+
+  // Per-minute daily-cap deduction — same cadence as the exam's CREDIT_TICK_MS.
+  session.creditTick = setInterval(async () => {
+    if (session.voiceBackendErrored || session.ended) return;
+    const { error } = await asUser.rpc("deduct_voice_tutor_seconds", { p_seconds: 60, p_level: level });
+    if (error) {
+      console.log(`[tutor ${session.sessionId}] daily cap deduction failed, hard-stopping:`, error.message);
+      send(ws, { type: "terminated", reason: "daily_cap_exceeded" });
+      endTutorSession(session, "daily_cap_exceeded");
+      return;
+    }
+    const { data: statusRows } = await asUser.rpc("get_my_voice_tutor_cap_status", { p_level: level });
+    const status = Array.isArray(statusRows) ? statusRows[0] : statusRows;
+    if (status) send(ws, { type: "cap_status", secondsRemaining: status.seconds_remaining });
+  }, CREDIT_TICK_MS);
+
+  // Much smaller than the exam's tick() — one lastAudioAt, one threshold, no
+  // per-Teil/per-slot branching, no scheduled marks (a free-flowing 1:1 chat
+  // has none) so there is no isLikelyMidSpeech()-style grace window to check
+  // here — that helper only matters at a fixed scheduled moment, not a
+  // floating silence threshold like this one.
+  session.idleTick = setInterval(() => {
+    if (session.ended) return;
+    const now = Date.now();
+    const silenceMs = now - session.lastAudioAt;
+
+    if (silenceMs > HARD_IDLE_CLOSE_MS) {
+      console.log(`[tutor ${session.sessionId}] hard idle-close: ${silenceMs}ms of silence`);
+      send(ws, { type: "terminated", reason: "idle_timeout" });
+      endTutorSession(session, "idle_timeout");
+      return;
+    }
+    if (silenceMs > TUTOR_SILENCE_THRESHOLD_MS && now - session.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
+      session.lastNudgeAt = now;
+      send(ws, { type: "nudge" });
+      session.live?.session.sendClientContent({
+        turns: "[SYSTEM] Der Student war eine Weile still — ermutigen Sie ihn freundlich, weiterzusprechen, zum Beispiel mit einer einfacheren oder konkreteren Frage zum heutigen Thema.",
+        turnComplete: true,
+      });
+    }
+  }, TICK_MS);
+
+  return session;
+}
+
 const httpServer = createServer((_req, res) => { res.writeHead(200); res.end("muendlich-relay ok"); });
-const wss = new WebSocketServer({ server: httpServer });
+// noServer:true on BOTH WebSocketServers below — `{ server: httpServer }`
+// would make `ws` auto-attach its own "upgrade" listener that intercepts
+// EVERY path on this http server (path filtering only happens later, inside
+// each server's own "connection" handler, not at the upgrade stage), which
+// collides with a second WebSocketServer's own upgrade listener on the same
+// httpServer ("handleUpgrade() was called more than once with the same
+// socket" — caught by actually running a live connection, not by
+// inspection). Routing every upgrade through one dispatcher below, keyed on
+// path, is the standard `ws`-documented way to host multiple WebSocketServers
+// on one HTTP server.
+const wss = new WebSocketServer({ noServer: true });
 
 wss.on("connection", async (ws, req) => {
   try {
@@ -945,6 +1194,70 @@ wss.on("connection", async (ws, req) => {
     });
   } catch (e) {
     console.error("connection setup failed:", e);
+    ws.close(1011, "internal error");
+  }
+});
+
+// ============================================================
+// Shared upgrade dispatcher for BOTH WebSocketServers (see the noServer:true
+// comment above) — routes purely by path prefix, `/room/` to the existing
+// exam `wss` (its own connection logic below is completely unchanged) and
+// `/tutor/` to the new `tutorWss`.
+// ============================================================
+const tutorWss = new WebSocketServer({ noServer: true });
+httpServer.on("upgrade", (req, socket, head) => {
+  const pathname = new URL(req.url ?? "", "http://localhost").pathname;
+  if (pathname.startsWith("/tutor/")) {
+    tutorWss.handleUpgrade(req, socket, head, (ws) => tutorWss.emit("connection", ws, req));
+  } else {
+    wss.handleUpgrade(req, socket, head, (ws) => wss.emit("connection", ws, req));
+  }
+});
+
+tutorWss.on("connection", async (ws, req) => {
+  try {
+    const url = new URL(req.url ?? "", "http://localhost");
+    const scenarioId = url.pathname.split("/").filter(Boolean)[1]; // /tutor/<scenarioId>
+    const token = url.searchParams.get("token");
+    if (!scenarioId || !token) { ws.close(4000, "missing scenario or token"); return; }
+
+    const asUser = await userScopedClient(token);
+    const { data: userData, error: authError } = await asUser.auth.getUser(token);
+    if (authError || !userData?.user) { ws.close(4001, "invalid token"); return; }
+    const userId = userData.user.id;
+
+    // No muendlich_participants lookup — a 1:1 tutor session has no
+    // participants table at all, unlike the exam's /room/:roomId path.
+    const [{ data: scenario }, { data: profile }] = await Promise.all([
+      admin.from("voice_tutor_scenarios").select("id, title, system_prompt_fragment").eq("id", scenarioId).eq("is_active", true).maybeSingle(),
+      admin.from("profiles").select("full_name, level").eq("id", userId).maybeSingle(),
+    ]);
+    if (!scenario) { ws.close(4004, "scenario not found"); return; }
+
+    const level: "TELC_B1" | "TELC_B2" = String(profile?.level ?? "").toUpperCase().includes("B1") ? "TELC_B1" : "TELC_B2";
+    const studentName = profile?.full_name || "Student";
+
+    const session = await startTutorSession(ws, userId, token, scenario, level, studentName);
+    if (!session) return; // startTutorSession already closed the socket with a clear reason
+
+    ws.on("message", (raw) => {
+      if (session.ended) return;
+      try {
+        const msg = JSON.parse(raw.toString());
+        if (msg.type === "ping") {
+          send(ws, { type: "pong", t: msg.t });
+        } else if (msg.type === "audio" && session.live) {
+          session.lastAudioAt = Date.now();
+          session.live.sendAudioChunk(msg.data);
+        }
+      } catch (e) { console.error(`[tutor ${session.sessionId}] bad client message:`, e); }
+    });
+
+    ws.on("close", () => {
+      if (!session.ended) endTutorSession(session, "completed_by_user");
+    });
+  } catch (e) {
+    console.error("[tutor] connection setup failed:", e);
     ws.close(1011, "internal error");
   }
 });
