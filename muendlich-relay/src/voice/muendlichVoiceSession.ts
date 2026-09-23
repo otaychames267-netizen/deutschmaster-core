@@ -503,19 +503,27 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     history.push({ speaker: slot, text });
     callbacks.onInputTranscript?.(text, slot);
 
-    // Organic follow-up trigger: Teil 1 only, and only while the examiner
-    // isn't already mid-reply (unlike a scheduled SYSTEM trigger, an
-    // organic one should never interrupt — it's a "maybe I'll say
-    // something" check, not an authoritative takeover) — matches Gemini
-    // Live's "listen, don't comment after every sentence" behavior (see
-    // examinerBrain.ts's header for the full reasoning). Debounced so a
-    // burst of short committed segments from one continuous sentence
-    // doesn't fire a Claude call per segment.
-    if (currentStage !== 1 || currentTtsHandle !== null || currentlyPlayingLibrary) return;
-    if (organicDebounceTimer) clearTimeout(organicDebounceTimer);
-    organicDebounceTimer = setTimeout(() => {
-      void speak({ type: "organic", candidateSlot: slot, text });
-    }, ORGANIC_TRIGGER_DEBOUNCE_MS);
+    // Organic follow-up trigger: PERMANENTLY DISABLED as of the Teil 1
+    // redesign (deterministic 90s presentation cap -> EXACTLY 2 questions ->
+    // 30s answer window each, code-driven via server.ts's tick()/
+    // openTeil1QuestionWindow). This used to be Teil 1's ONLY question-
+    // asking mechanism ("Teil 1 only", gated on currentStage===1) — asking
+    // Claude, on every committed transcript segment, whether now looks like
+    // a good moment for a follow-up. That is now a direct conflict, not just
+    // a redundancy: currentStage stays 1 through Teil 1's new q1/q2 answer
+    // windows too (this module has no visibility into server.ts's finer-
+    // grained presenting/q1/q2 phase), so the old gate would have ALSO fired
+    // while a candidate was mid-ANSWER to the code-driven Q1/Q2 — a real bug
+    // caught in review before ever running live: Claude could have asked a
+    // 3rd/4th organic question on top of the mandated exactly-2. Gemini
+    // Live's equivalent never had this risk (a plain system-prompt paragraph
+    // telling it to only react to [SYSTEM] cues, no separate STT-driven
+    // trigger of its own). Teil 1 no longer has ANY phase where "listen and
+    // decide for yourself" is correct — every question is now explicitly
+    // cued by openTeil1QuestionWindow() — so this is disabled outright
+    // rather than re-scoped. ExaminerTrigger's "organic" variant and
+    // SILENCE_TOKEN in examinerBrain.ts are now unreachable dead code, left
+    // in place rather than removed across both files in this same pass.
   }
 
   async function openSlotStt(slot: "A" | "B"): Promise<SttSession | null> {

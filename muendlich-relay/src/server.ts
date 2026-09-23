@@ -16,7 +16,7 @@
  *
  * Protocol (JSON text frames), exam room (`/room/:roomId`):
  *   client -> relay: { type: "audio", data: "<base64 pcm16 16kHz>" }
- *                     { type: "repeat" }                         ("Wie bitte?", capped at MAX_REPEAT_USES)
+ *                     { type: "repeat" }                         ("Wie bitte?", capped at MAX_REPEAT_USES PER STAGE — resets each Teil, see startStage())
  *                     { type: "ping", t }                        (app-level latency probe, echoed straight back)
  *   relay -> client: { type: "pong", t }
  *                     { type: "ready" }
@@ -46,9 +46,14 @@
  * Exam stage timing mirrors Room 1's already-proven prep timer pattern
  * (timestamp + duration written to the DB, client syncs via clock offset) —
  * exam_stage/exam_stage_started_at/exam_stage_seconds on muendlich_rooms.
- * Teil 1 = 4 min (Präsentation: Person A presents + follow-ups, AI hands off
- * to Person B at the halfway mark); Teil 2 = 5 min (AI takeover to direct
- * questioning injected internally at the 3.5-minute mark); Teil 3 = 5 min.
+ * Teil 1 = 5 min (deterministic per-candidate: 90s presentation, hard-capped,
+ * then EXACTLY 2 questions with a 30s answer window each — see
+ * TEIL1_PRESENTATION_SECONDS/TEIL1_ANSWER_WINDOW_SECONDS below and the
+ * 3-phase state machine in tick(), NOT the old single-handoff design this
+ * comment used to describe); Teil 2 = 6 min (natural discussion for the
+ * first ~4 min, then AI takeover to direct alternating questioning for the
+ * rest); Teil 3 = 6 min (free joint planning for the first ~4 min, then the
+ * AI becomes an active moderator for the rest).
  *
  * KNOWN SIMPLIFICATIONS (documented, not hidden — each needs real human audio
  * testing to tune correctly, which cannot be done blind):
@@ -120,12 +125,24 @@ const RECONNECT_GRACE_MS = 30_000;
 const TICK_MS = 1_000; // stage-timer + anti-silence check cadence
 // Overridable via env for fast local/CI testing (real exam durations by
 // default — do NOT change these in production without updating the spec).
+// Teil 1 structure (explicit product spec, not a loose timer): each
+// candidate gets a hard-capped 90s presentation, then EXACTLY 2 questions
+// about it, each with a hard-capped 30s answer window — 90 + 30 + 30 = 150s
+// per candidate, 300s (5 min) total for both. This REPLACES the previous
+// "120s combined slot, 1-2 questions at the model's own judgment" design —
+// deterministic and code-enforced, same pattern as Teil 2's takeover
+// windows below, not just a prompt-level suggestion the model might not
+// follow consistently (a real gap found in review: nothing previously
+// verified the model actually asked only 1-2 questions or stayed within any
+// per-candidate time budget at all).
+const TEIL1_PRESENTATION_SECONDS = Number(process.env.MUENDLICH_TEIL1_PRESENTATION_SECONDS ?? 90);
+const TEIL1_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS ?? 30);
+const TEIL1_QUESTIONS_PER_CANDIDATE = 2;
 const STAGE_SECONDS: Record<1 | 2 | 3, number> = {
-  1: Number(process.env.MUENDLICH_STAGE1_SECONDS ?? 240),
+  1: Number(process.env.MUENDLICH_STAGE1_SECONDS ?? 2 * (TEIL1_PRESENTATION_SECONDS + TEIL1_QUESTIONS_PER_CANDIDATE * TEIL1_ANSWER_WINDOW_SECONDS)), // 300s = 2 x (90 + 2x30)
   2: Number(process.env.MUENDLICH_STAGE2_SECONDS ?? 360), // ~4min natural dialogue + ~2min AI-facilitated takeover
   3: Number(process.env.MUENDLICH_STAGE3_SECONDS ?? 360), // ~3:30-4:00 natural planning + ~2min AI-moderated completion
 };
-const TEIL1_HANDOFF_AT_SEC = Number(process.env.MUENDLICH_TEIL1_HANDOFF_SEC ?? STAGE_SECONDS[1] / 2); // switch from A to B at the midpoint
 const TEIL2_TAKEOVER_AT_SEC = Number(process.env.MUENDLICH_TEIL2_TAKEOVER_SEC ?? 240); // 4 minutes into Teil 2
 // Once the scheduled takeover begins, each direct question gets a hard-capped
 // response window — long enough for a real B2 answer, short enough that a
@@ -203,7 +220,21 @@ interface RoomSession {
   lastNudgeAt: number;
   examStage: 1 | 2 | 3 | null;
   examStageStartedAt: number;
-  teil1HandoffSent: boolean;
+  // Teil 1's full deterministic state machine: which candidate is currently
+  // "up" and which sub-phase they're in. "presenting" = the 90s presentation
+  // cap is running; "q1"/"q2" = a 30s answer-window is open for that
+  // question number. Replaces the old single teil1HandoffSent boolean +
+  // wall-clock-midpoint design (see TEIL1_PRESENTATION_SECONDS's comment).
+  teil1Speaker: "A" | "B";
+  teil1Phase: "presenting" | "q1" | "q2";
+  teil1PhaseStartedAt: number;
+  // QA tripwire, not exam logic: counts how many times openTeil1QuestionWindow
+  // actually fired per candidate. The state machine's own phase enum
+  // (presenting -> q1 -> q2, no other path) already makes >2 structurally
+  // impossible today, but this catches it anyway the moment a future edit to
+  // tick() ever breaks that invariant — cheap insurance, not a new
+  // constraint, so it only ever logs, never blocks or alters scoring.
+  teil1QuestionsAsked: Record<"A" | "B", number>;
   // Teil 2's candidate<->candidate discussion is the default; "takeover" is
   // the scheduled, code-driven, alternating direct-questioning phase entered
   // once near the ~4min mark (see tick()). This is deliberately separate from
@@ -363,6 +394,28 @@ function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
   return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
 }
 
+/** Teil 1's post-presentation Q&A: EXACTLY 2 questions per candidate, each
+ * with a hard 30s answer window (TEIL1_ANSWER_WINDOW_SECONDS) — explicit
+ * product spec, replacing the old "ask 1-2 questions, no enforced count or
+ * per-answer time limit" prompt-only guidance. State (phase/timing) is
+ * managed by the caller (tick()); this only crafts and sends the [SYSTEM]
+ * cue — same division of labor as openTeil2TakeoverWindow below (question
+ * WORDING stays with the live model, only WHO/WHEN is code-driven). */
+function openTeil1QuestionWindow(room: RoomSession, speakerName: string, questionNumber: 1 | 2) {
+  room.teil1QuestionsAsked[room.teil1Speaker]++; // QA tripwire — see the field's doc comment
+  const framing = questionNumber === 1 ? `Die Präsentationszeit ist um.` : `Die Antwortzeit ist um.`;
+  const instruction = questionNumber === 1
+    ? `Stellen Sie ${speakerName} jetzt Ihre erste Frage zur Präsentation — konkret bezogen auf das, was ${speakerName} tatsächlich gesagt hat.`
+    : `Stellen Sie ${speakerName} jetzt Ihre zweite und letzte Frage zur Präsentation — eine andere Art von Frage als die erste (z. B. Meinung, Grund, Beispiel oder Vergleich statt einer Wiederholung derselben Frageart), ebenfalls konkret auf das Gesagte bezogen.`;
+  room.live?.sendSystemMessage(
+    // Interpolated (not hardcoded "30") — matters whenever
+    // MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS is overridden (e.g. shortened
+    // for local/CI testing), so the model's own stated number always
+    // matches what tick() actually enforces.
+    `${framing} ${instruction} ${speakerName} hat maximal ${TEIL1_ANSWER_WINDOW_SECONDS} Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
+  );
+}
+
 /** Opens (or re-opens, for the next candidate) a Teil 2 takeover response
  * window: updates room state deterministically (app-owned, per the spec's
  * "don't rely on the LLM prompt for timing" principle) and sends a single
@@ -409,10 +462,17 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   room.examStageStartedAt = Date.now();
   room.lastAudioAt = Date.now(); // reset so setup/connection latency doesn't eat into the anti-silence budget
   room.lastAudioAtBySlot = { A: Date.now(), B: Date.now() };
-  room.teil1HandoffSent = false;
   room.teil2Mode = "natural";
   room.teil2TakeoverTurn = null;
   room.teil3CompletionSignalSent = false;
+  // Real gap found in review: MAX_REPEAT_USES ("Wie bitte?") used to be a
+  // single budget for the WHOLE exam — a candidate who used both repeats
+  // during Teil 1 (e.g. mishearing the topic prompt) had zero left for Teil
+  // 2 and Teil 3, penalizing the rest of the exam for something that
+  // happened at the very start. Resetting per stage gives each Teil its own
+  // fresh allowance instead.
+  room.repeatCount = 0;
+  broadcast(room, { type: "repeat_ack", remaining: MAX_REPEAT_USES });
   const seconds = STAGE_SECONDS[stage];
   await admin.from("muendlich_rooms").update({
     exam_stage: stage, exam_stage_started_at: new Date().toISOString(), exam_stage_seconds: seconds,
@@ -442,9 +502,17 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
     // The actual presentation prompt — a real question from the 7-topic
     // library (teil1Questions.ts), not just a topic label. From here the
     // candidate does almost all of the talking; the examiner only speaks
-    // again for a genuinely necessary short follow-up (organic trigger) or
-    // the scheduled handoff below.
+    // again once the deterministic 90s cap/early-finish detection opens Q1
+    // (openTeil1QuestionWindow) or the scheduled handoff below.
     await room.live?.playTeil1Question(ctx.teil1TopicATitle);
+    // Presentation clock for Person A starts now (not at stage-start) — the
+    // welcome + exam_start + question prompt above all take real wall-clock
+    // seconds of TTS before the candidate can actually begin, and none of
+    // that should eat into their 90s presentation budget.
+    room.teil1Speaker = "A";
+    room.teil1Phase = "presenting";
+    room.teil1PhaseStartedAt = Date.now();
+    room.teil1QuestionsAsked = { A: 0, B: 0 };
   }
 
   // Teil 1 -> Teil 2. Skips Claude for the same reason as above.
@@ -639,28 +707,96 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
   const elapsedMs = Date.now() - room.examStageStartedAt;
   const stageSeconds = STAGE_SECONDS[room.examStage];
 
-  // Teil 1: at the midpoint, hand off from Person A's presentation+followups
-  // to Person B's — mirrors the Teil-2-takeover mechanic below.
-  if (room.examStage === 1 && !room.teil1HandoffSent && elapsedMs >= TEIL1_HANDOFF_AT_SEC * 1000) {
-    const withinGraceCap = elapsedMs < TEIL1_HANDOFF_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
-    // Candidate looks like they're actively speaking right at the 120s mark
-    // -> hold a few more ticks for a natural pause instead of cutting them
-    // off mid-sentence, but never past the hard grace cap above.
-    if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
-      room.teil1HandoffSent = true;
-      // Skips Claude — see startStage()'s comment above for why. The
-      // follow-up-question behavior this used to remind Claude about for
-      // Person B's presentation is now a standing rule in
-      // examinerBrain.ts's system prompt (generalized to "whichever
-      // candidate is presenting," not hardcoded to Person A), so no
-      // per-call reminder is needed here anymore.
-      const voiceId = room.live?.getVoiceId() ?? "gemini-default";
-      // Chained via .then() (not awaited — tick() is sync) so the handoff
-      // sentence finishes before the question starts: both calls share the
-      // same generation-id supersession machinery, so firing them
-      // concurrently would let the question cancel the handoff mid-word.
-      void room.live?.speakScriptedText(pickTaskTransition({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
-        .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle));
+  // Teil 1: deterministic 3-phase machine per candidate — presenting (90s
+  // hard cap) -> q1 (30s answer window) -> q2 (30s answer window) -> either
+  // hand off to the other candidate (after A) or end the Teil (after B).
+  // Explicit product spec, replacing the old single wall-clock-midpoint
+  // handoff (see TEIL1_PRESENTATION_SECONDS's comment for why).
+  if (room.examStage === 1) {
+    const now = Date.now();
+    const phaseElapsedMs = now - room.teil1PhaseStartedAt;
+    const speakerName = room.teil1Speaker === "A" ? ctx.aName : ctx.bName;
+
+    if (room.teil1Phase === "presenting") {
+      const capMs = TEIL1_PRESENTATION_SECONDS * 1000;
+      const withinGraceCap = phaseElapsedMs < capMs + HANDOFF_MAX_GRACE_MS;
+      const hitHardCap = phaseElapsedMs >= capMs && !(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, now));
+      // Early-finish: candidate has spoken for a while, then gone quiet for
+      // a normal "I'm done" pause — don't force them to sit out the rest of
+      // their 90s in silence just because the clock hasn't hit the cap yet.
+      // Requires at least 10s of the phase to have passed first, so the
+      // brief pause right after the opening question (before they've said
+      // anything) can never itself look like "finished."
+      // Real bug found in review (pre-live-test): this used
+      // HANDOFF_ACTIVE_SPEECH_MS (4s) here, the same threshold Teil 2's
+      // quick Q&A turns use for "answer looks finished." But this file's
+      // OWN documented design (see SILENCE_THRESHOLD_MS's comment above)
+      // says Teil 1 needs a LONGER tolerance than Teil 2 specifically
+      // because "a candidate collecting their thoughts mid-presentation is
+      // normal" — a 4s thinking-pause happens constantly in a real 90s
+      // presentation and would have cut candidates off mid-presentation
+      // into Q1 far too eagerly. Uses SILENCE_THRESHOLD_MS[1] (8s) instead,
+      // consistent with that existing principle.
+      const finishedEarly = phaseElapsedMs >= 10_000 && room.lastAudioAt > room.teil1PhaseStartedAt && now - room.lastAudioAt >= SILENCE_THRESHOLD_MS[1];
+      if (hitHardCap || finishedEarly) {
+        console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+        room.teil1Phase = "q1";
+        room.teil1PhaseStartedAt = now;
+        openTeil1QuestionWindow(room, speakerName, 1);
+      }
+    } else {
+      // q1 or q2 — a 30s answer window is open. Same "looks finished /
+      // window expired" logic as Teil 2's takeover windows below.
+      const windowMs = TEIL1_ANSWER_WINDOW_SECONDS * 1000;
+      const hasResponded = room.lastAudioAt > room.teil1PhaseStartedAt && room.lastSenderSlot === room.teil1Speaker;
+      const trailingSilenceMs = now - room.lastAudioAt;
+      const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
+      const windowExpired = phaseElapsedMs >= windowMs;
+      if (looksFinished || windowExpired) {
+        const reason = looksFinished ? "looks finished" : "window expired";
+        if (room.teil1Phase === "q1") {
+          console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} Q1 -> Q2 (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+          room.teil1Phase = "q2";
+          room.teil1PhaseStartedAt = now;
+          openTeil1QuestionWindow(room, speakerName, 2);
+        } else if (room.teil1Speaker === "A") {
+          // A's presentation + 2 questions done -> hand off to B. Skips
+          // Claude for the scripted transition, same reasoning as
+          // startStage()'s comment above.
+          console.log(`[room ${room.roomId}] Teil 1: A Q2 done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> handing off to B`);
+          room.teil1Speaker = "B";
+          room.teil1Phase = "presenting";
+          room.teil1PhaseStartedAt = now;
+          const voiceId = room.live?.getVoiceId() ?? "gemini-default";
+          // Chained via .then() (not awaited — tick() is sync) so the
+          // handoff sentence finishes before the question starts: both
+          // calls share the same generation-id supersession machinery,
+          // firing them concurrently would let the question cancel the
+          // handoff mid-word.
+          void room.live?.speakScriptedText(pickTaskTransition({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
+            .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle));
+        } else {
+          // B's presentation + 2 questions done -> both candidates finished
+          // -> Teil 1 is complete. Trigger the intermission directly here
+          // (tighter/more accurate than waiting for the generic
+          // elapsedMs>=stageSeconds check at the bottom of tick(), which
+          // stays in place purely as a safety backstop in case this phase
+          // machine ever gets stuck).
+          console.log(`[room ${room.roomId}] Teil 1: B Q2 done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> Teil 1 complete, advancing to Teil 2`);
+          // QA tripwire (see teil1QuestionsAsked's doc comment): the phase
+          // enum makes this structurally impossible today, so this should
+          // never actually fire — it exists purely to catch a future tick()
+          // edit that breaks that invariant, loudly, instead of silently
+          // shortchanging or over-questioning a real candidate. Log-only —
+          // never blocks the exam or touches scoring.
+          if (room.teil1QuestionsAsked.A !== TEIL1_QUESTIONS_PER_CANDIDATE || room.teil1QuestionsAsked.B !== TEIL1_QUESTIONS_PER_CANDIDATE) {
+            console.error(`[room ${room.roomId}] QA ANOMALY: Teil 1 ended with A=${room.teil1QuestionsAsked.A} B=${room.teil1QuestionsAsked.B} questions asked (expected exactly ${TEIL1_QUESTIONS_PER_CANDIDATE} each) — investigate this exam's transcript.`);
+          }
+          room.pendingNextStage = 2;
+          room.intermissionUntil = now + INTERMISSION_SECONDS * 1000;
+          broadcast(room, { type: "intermission", seconds: INTERMISSION_SECONDS });
+        }
+      }
     }
   }
 
@@ -733,6 +869,20 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
   // stays the sole, unsuppressed silence authority for the entire stage,
   // including after the completion signal above, exactly as specified.
   //
+  // Real bug found in review (pre-live-test): Teil 1's new 3-phase machine
+  // above is now ALWAYS active for the whole stage (unlike Teil 2, which
+  // only enters its structured "takeover" mode partway through) but was
+  // NOT included in this suppression — so a candidate who took >8s
+  // (SILENCE_THRESHOLD_MS[1]) to start answering inside a perfectly valid
+  // 30s q1/q2 window would ALSO trigger this generic nudge, which sends its
+  // OWN unrelated "take over and ask a direct question" system message —
+  // injecting a rogue 3rd/4th question into a flow the product spec
+  // requires to be EXACTLY 2 questions per candidate. Teil 1 now suppresses
+  // this generic path for its entire stage, the same way Teil 2 already
+  // does for its takeover window — the phase machine is its own sole
+  // silence authority throughout Teil 1 (presenting/q1/q2 each already
+  // enforce their own hard cap + early-finish detection above).
+  //
   // Also skipped while a participant is mid-reconnect (room.participants.size
   // < 2 the instant a socket closes, per the ws "close" handler below) — a
   // dropped WebSocket, not real candidate silence, would otherwise look
@@ -742,9 +892,9 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
   // edge case — the normal both-connected case (what Teil 1/2's already-
   // verified behavior was tested under) is completely unaffected.
   const silenceMs = Date.now() - room.lastAudioAt;
-  const teil2TakeoverOwnsSilence = room.examStage === 2 && room.teil2Mode === "takeover";
+  const structuredPhaseOwnsSilence = room.examStage === 1 || (room.examStage === 2 && room.teil2Mode === "takeover");
   const bothConnected = room.participants.size === 2;
-  if (bothConnected && !teil2TakeoverOwnsSilence && silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
+  if (bothConnected && !structuredPhaseOwnsSilence && silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
     room.lastNudgeAt = Date.now();
     broadcast(room, { type: "nudge" }); // surfaces the AI's takeover to the client as a toast
     // Teil 3 gets a candidate-aware variant: which of A/B has actually been
@@ -1097,23 +1247,38 @@ wss.on("connection", async (ws, req) => {
     const url = new URL(req.url ?? "", "http://localhost");
     const roomId = url.pathname.split("/").filter(Boolean)[1]; // /room/<roomId>
     const token = url.searchParams.get("token");
-    if (!roomId || !token) { ws.close(4000, "missing room or token"); return; }
+    // Real gap found in review: every early-rejection branch below used to
+    // close the socket with ZERO console output — indistinguishable, from
+    // the server's own logs, between "a client sent a malformed request"
+    // and "a systemic auth/RLS regression is rejecting every real
+    // candidate." Diagnosing the plan-access RLS bug this Teil 1 live-test
+    // actually hit (a real subscriber has plan access; this test's
+    // disposable accounts didn't) required a whole separate ad-hoc script
+    // BECAUSE these paths were silent. One line per rejection reason below
+    // — cheap, and the only way an operator could ever notice this class of
+    // problem from Fly.io logs alone.
+    if (!roomId || !token) { console.warn(`[room] rejecting connection: missing room or token (url=${req.url})`); ws.close(4000, "missing room or token"); return; }
 
     const asUser = await userScopedClient(token);
     const { data: userData, error: authError } = await asUser.auth.getUser(token);
-    if (authError || !userData?.user) { ws.close(4001, "invalid token"); return; }
+    if (authError || !userData?.user) { console.warn(`[room ${roomId}] rejecting connection: invalid token — ${authError?.message ?? "no user in response"}`); ws.close(4001, "invalid token"); return; }
     const userId = userData.user.id;
 
-    const { data: participantRow } = await asUser
+    const { data: participantRow, error: participantError } = await asUser
       .from("muendlich_participants").select("slot").eq("room_id", roomId).eq("user_id", userId).maybeSingle();
-    if (!participantRow) { ws.close(4003, "not a participant of this room"); return; }
+    if (!participantRow) {
+      console.warn(`[room ${roomId}] rejecting connection: user ${userId} not a participant${participantError ? ` (query error: ${participantError.message})` : " (no matching row visible under this user's RLS — check plan-access policy if this user should legitimately be a participant)"}`);
+      ws.close(4003, "not a participant of this room");
+      return;
+    }
 
     let room = rooms.get(roomId);
     if (!room) {
       room = {
         roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
         lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastNudgeAt: 0,
-        examStage: null, examStageStartedAt: 0, teil1HandoffSent: false,
+        examStage: null, examStageStartedAt: 0, teil1Speaker: "A", teil1Phase: "presenting", teil1PhaseStartedAt: 0,
+        teil1QuestionsAsked: { A: 0, B: 0 },
         teil2Mode: "natural", teil2TakeoverTurn: null, teil2TakeoverWindowOpenedAt: 0, teil2TakeoverWindowEndsAt: 0,
         teil3CompletionSignalSent: false,
         repeatCount: 0,
@@ -1148,8 +1313,11 @@ wss.on("connection", async (ws, req) => {
           // the moment the next stage actually starts.
           if (!room!.intermissionUntil) room!.live.sendAudioChunk(participantRow.slot as "A" | "B", msg.data);
         } else if (msg.type === "repeat" && room!.live) {
-          // "Wie bitte?" — capped at MAX_REPEAT_USES per exam so it can't be
-          // used to spam the session; doesn't touch the score/credit logic.
+          // "Wie bitte?" — capped at MAX_REPEAT_USES per STAGE (reset in
+          // startStage(), see its comment) so it can't be used to spam the
+          // session, while not letting a mishap early in Teil 1 cost the
+          // candidate their repeat allowance for the rest of the exam.
+          // Doesn't touch the score/credit logic.
           if (room!.repeatCount >= MAX_REPEAT_USES) {
             send(ws, { type: "repeat_denied" });
           } else {
@@ -1219,11 +1387,14 @@ tutorWss.on("connection", async (ws, req) => {
     const url = new URL(req.url ?? "", "http://localhost");
     const scenarioId = url.pathname.split("/").filter(Boolean)[1]; // /tutor/<scenarioId>
     const token = url.searchParams.get("token");
-    if (!scenarioId || !token) { ws.close(4000, "missing scenario or token"); return; }
+    // Same "silent rejection is undebuggable from production logs alone"
+    // fix as the /room path above — see its comment for the real incident
+    // that motivated this.
+    if (!scenarioId || !token) { console.warn(`[tutor] rejecting connection: missing scenario or token (url=${req.url})`); ws.close(4000, "missing scenario or token"); return; }
 
     const asUser = await userScopedClient(token);
     const { data: userData, error: authError } = await asUser.auth.getUser(token);
-    if (authError || !userData?.user) { ws.close(4001, "invalid token"); return; }
+    if (authError || !userData?.user) { console.warn(`[tutor ${scenarioId}] rejecting connection: invalid token — ${authError?.message ?? "no user in response"}`); ws.close(4001, "invalid token"); return; }
     const userId = userData.user.id;
 
     // No muendlich_participants lookup — a 1:1 tutor session has no
@@ -1232,7 +1403,7 @@ tutorWss.on("connection", async (ws, req) => {
       admin.from("voice_tutor_scenarios").select("id, title, system_prompt_fragment").eq("id", scenarioId).eq("is_active", true).maybeSingle(),
       admin.from("profiles").select("full_name, level").eq("id", userId).maybeSingle(),
     ]);
-    if (!scenario) { ws.close(4004, "scenario not found"); return; }
+    if (!scenario) { console.warn(`[tutor ${scenarioId}] rejecting connection: scenario not found or inactive`); ws.close(4004, "scenario not found"); return; }
 
     const level: "TELC_B1" | "TELC_B2" = String(profile?.level ?? "").toUpperCase().includes("B1") ? "TELC_B1" : "TELC_B2";
     const studentName = profile?.full_name || "Student";

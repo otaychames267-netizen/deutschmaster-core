@@ -6,8 +6,12 @@
  * muendlichVoiceSession.ts's playLibraryPhrase/speakScriptedText), PLUS
  * real Claude API calls (examinerBrain.ts's generateExaminerReply, with
  * real prompt-caching enabled) for every genuinely Claude-driven moment:
- * Teil-1 organic follow-ups, Teil-2 takeover questions, the anti-silence
- * nudge, and Teil-3 completion/moderation.
+ * Teil-1's 2 deterministic post-presentation questions per candidate
+ * (system-triggered via the Teil 1 redesign — see server.ts's
+ * openTeil1QuestionWindow; the OLD "organic follow-up" mechanism this used
+ * to cost-model here is permanently disabled, not just idle), Teil-2
+ * takeover questions, the anti-silence nudge, and Teil-3 completion/
+ * moderation.
  *
  * This supersedes the previous version of this file, which routed EVERY
  * moment (including the fully scripted ones) through Claude — that measured
@@ -17,7 +21,7 @@
  * Measures, per exam, with REAL numbers (not estimates):
  *   - Claude input/output/cache-write/cache-read tokens (from Anthropic's
  *     own usage block, via onUsage)
- *   - Claude-generated TTS characters (organic/takeover/nudge/moderation)
+ *   - Claude-generated TTS characters (Teil 1 Q1/Q2, takeover, nudge, moderation)
  *   - Scripted TTS characters (exam_start/task_transition/section_transition
  *     — Claude-free, but still real per-exam dynamic TTS)
  *   - Fixed-library characters (welcome/exam_end) — reported separately
@@ -112,9 +116,20 @@ async function runOneExam(examLabel, examIndex) {
   history.push({ speaker: "examiner", text: teil1QuestionA });
   history.push({ speaker: "A", text: PRESENTATION_A_I });
 
-  const followupA = await claudeSpeak(ctx, "teil1 organic followup A", breakdown, usage, history, { type: "organic", candidateSlot: "A", text: PRESENTATION_A_I.split(". ").slice(-2).join(". ") });
-  if (followupA) history.push({ speaker: "examiner", text: followupA });
+  // Teil 1's post-presentation Q&A is now fully deterministic (server.ts's
+  // openTeil1QuestionWindow), NOT an organic "should I comment now?" check —
+  // the old organic-follow-up mechanism this simulation used to cost-model
+  // here is disabled outright (see muendlichVoiceSession.ts's
+  // handleCommittedTranscript). Mirrors the real [SYSTEM] cue wording
+  // exactly: 2 questions per candidate, "system" trigger type, no [SILENCE]
+  // possibility (Claude always has something to ask, per the real prompt).
+  const q1A = await claudeSpeak(ctx, "teil1 Q1 (A)", breakdown, usage, history, { type: "system", text: `[SYSTEM] Die Präsentationszeit ist um. Stellen Sie ${ctx.personAName} jetzt Ihre erste Frage zur Präsentation — konkret bezogen auf das, was ${ctx.personAName} tatsächlich gesagt hat. ${ctx.personAName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.` });
+  history.push({ speaker: "examiner", text: q1A });
   history.push({ speaker: "A", text: "Ich denke, es liegt daran, dass man online oft nur oberflächlich kommuniziert." });
+
+  const q2A = await claudeSpeak(ctx, "teil1 Q2 (A)", breakdown, usage, history, { type: "system", text: `[SYSTEM] Die Antwortzeit ist um. Stellen Sie ${ctx.personAName} jetzt Ihre zweite und letzte Frage zur Präsentation — eine andere Art von Frage als die erste (z. B. Meinung, Grund, Beispiel oder Vergleich statt einer Wiederholung derselben Frageart), ebenfalls konkret auf das Gesagte bezogen. ${ctx.personAName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.` });
+  history.push({ speaker: "examiner", text: q2A });
+  history.push({ speaker: "A", text: "Zum Beispiel habe ich in Spanien viele Leute nur oberflächlich beim Feiern kennengelernt." });
 
   const handoff = scriptedSpeak("teil1 handoff to B (scripted)", breakdown, pickTaskTransition({ bName: ctx.personBName, topicB: ctx.teil1TopicB }, voiceId), "scripted");
   history.push({ speaker: "examiner", text: handoff });
@@ -122,9 +137,13 @@ async function runOneExam(examLabel, examIndex) {
   history.push({ speaker: "examiner", text: teil1QuestionB });
   history.push({ speaker: "B", text: PRESENTATION_B_I });
 
-  const followupB = await claudeSpeak(ctx, "teil1 organic followup B", breakdown, usage, history, { type: "organic", candidateSlot: "B", text: PRESENTATION_B_I.split(". ").slice(-2).join(". ") });
-  if (followupB) history.push({ speaker: "examiner", text: followupB });
+  const q1B = await claudeSpeak(ctx, "teil1 Q1 (B)", breakdown, usage, history, { type: "system", text: `[SYSTEM] Die Präsentationszeit ist um. Stellen Sie ${ctx.personBName} jetzt Ihre erste Frage zur Präsentation — konkret bezogen auf das, was ${ctx.personBName} tatsächlich gesagt hat. ${ctx.personBName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.` });
+  history.push({ speaker: "examiner", text: q1B });
   history.push({ speaker: "B", text: "Ja, genau, das Timemanagement ist wirklich eine Herausforderung." });
+
+  const q2B = await claudeSpeak(ctx, "teil1 Q2 (B)", breakdown, usage, history, { type: "system", text: `[SYSTEM] Die Antwortzeit ist um. Stellen Sie ${ctx.personBName} jetzt Ihre zweite und letzte Frage zur Präsentation — eine andere Art von Frage als die erste (z. B. Meinung, Grund, Beispiel oder Vergleich statt einer Wiederholung derselben Frageart), ebenfalls konkret auf das Gesagte bezogen. ${ctx.personBName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.` });
+  history.push({ speaker: "examiner", text: q2B });
+  history.push({ speaker: "B", text: "Ich würde sagen, feste Arbeitszeiten am Vormittag helfen mir am meisten." });
 
   // --- Teil 1 -> 2 (scripted) ---
   const trans12 = scriptedSpeak("teil1->2 transition (scripted)", breakdown, pickSectionTransition12({ teil2Topic: ctx.teil2Topic }, voiceId), "scripted");
