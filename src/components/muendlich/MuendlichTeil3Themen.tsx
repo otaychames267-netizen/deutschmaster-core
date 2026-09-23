@@ -30,6 +30,19 @@ export function MuendlichTeil3Themen() {
 
   const mainTopics = useMemo(() => catalog.items.filter((t) => !t.is_unassigned_center), [catalog.items]);
   const unassignedTopics = useMemo(() => catalog.items.filter((t) => t.is_unassigned_center), [catalog.items]);
+  // Grouped by theme_category so a candidate sees related planning tasks
+  // together (e.g. all "Reisen" topics under one heading) instead of one
+  // long undifferentiated grid — groups keep the RPC's own item order
+  // (first-appearance order), not re-sorted alphabetically.
+  const groupedMainTopics = useMemo(() => {
+    const groups = new Map<string, typeof mainTopics>();
+    for (const t of mainTopics) {
+      const key = t.theme_category ?? "Weitere Themen";
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(t);
+    }
+    return [...groups.entries()];
+  }, [mainTopics]);
 
   async function openTopicModal(id: string) {
     setFetchingId(id);
@@ -48,11 +61,16 @@ export function MuendlichTeil3Themen() {
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {mainTopics.map((t, i) => (
-          <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} levelLabel={levelLabel} />
-        ))}
-      </div>
+      {groupedMainTopics.map(([groupName, topics]) => (
+        <div key={groupName}>
+          <h2 className="mb-4 text-lg font-black tracking-tight text-foreground sm:text-xl">{groupName}</h2>
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {topics.map((t, i) => (
+              <HeroCard key={t.id} topic={t} index={i} loading={fetchingId === t.id} onOpen={() => openTopicModal(t.id)} levelLabel={levelLabel} />
+            ))}
+          </div>
+        </div>
+      ))}
 
       {unassignedTopics.length > 0 && (
         <div>

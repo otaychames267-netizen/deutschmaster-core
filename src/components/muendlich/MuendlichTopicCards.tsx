@@ -84,9 +84,14 @@ export function UnassignedTopicsNotice() {
       </h2>
       <div className="mb-6 flex items-start gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 sm:p-5">
         <Info className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
-        <p className="text-sm leading-relaxed text-foreground">
-          Hinweis: Diese Themen sind bisher in Tunesien noch nie in den Prüfungen vorgekommen. Wenn Sie noch genügend Zeit haben, unterschätzen Sie diese Themen nicht und gehen Sie sie durch. Falls Ihre Zeit jedoch knapp ist, machen Sie sich keine Sorgen und konzentrieren Sie sich zuerst auf die Hauptthemen.
-        </p>
+        <div className="space-y-2 text-sm leading-relaxed text-foreground">
+          <p>
+            Hinweis: Diese Themen sind bisher in Tunesien noch nie in den Prüfungen vorgekommen. Wenn Sie noch genügend Zeit haben, unterschätzen Sie diese Themen nicht und gehen Sie sie durch. Falls Ihre Zeit jedoch knapp ist, machen Sie sich keine Sorgen und konzentrieren Sie sich zuerst auf die Hauptthemen.
+          </p>
+          <p dir="rtl" className="text-right">
+            ملاحظة: هذه المواضيع لم تظهر بعد في امتحانات تونس. إذا كان لديك وقت كافٍ، لا تستهن بها وراجعها. أما إذا كان وقتك ضيقًا، فلا داعي للقلق، ركّز أولًا على المواضيع الرئيسية.
+          </p>
+        </div>
       </div>
     </div>
   );
