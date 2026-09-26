@@ -751,22 +751,33 @@ function DashboardPage() {
               </div>
             </div>
 
-            <div className="space-y-1.5 mb-4">
-              {referralMilestones.slice(0, 3).map(m => (
-                <div key={m.invites} className={`flex items-center justify-between rounded-xl px-3 py-2 text-xs transition-colors ${
-                  referralCount >= m.invites
-                    ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                    : "bg-muted text-muted-foreground"
-                }`}>
-                  <span className="flex items-center gap-2">
-                    {referralCount >= m.invites
-                      ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" />
-                      : <span className="h-3.5 w-3.5 shrink-0 rounded-full border border-current opacity-30" />}
-                    Invite {m.invites} friend{m.invites > 1 ? "s" : ""}
-                  </span>
-                  <span className="font-bold">+{m.days}d free</span>
-                </div>
-              ))}
+            {/* Step tracker — one node per referral, connected by a fill
+                line that grows with referralCount. Matches
+                process_referral_conversion()'s real schedule: +7d per
+                referral, capped at +30d (one month) after 5. */}
+            <div className="mb-4 px-1">
+              <div className="relative flex items-center justify-between">
+                <div className="absolute left-0 right-0 top-4 h-0.5 bg-muted" />
+                <div
+                  className="absolute left-0 top-4 h-0.5 bg-emerald-500 transition-all duration-700"
+                  style={{ width: `${Math.min(100, (referralCount / referralMilestones.length) * 100)}%` }}
+                />
+                {referralMilestones.map((m) => {
+                  const reached = referralCount >= m.invites;
+                  return (
+                    <div key={m.invites} className="relative z-10 flex flex-col items-center gap-1.5">
+                      <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-black ring-4 ring-card transition-colors ${
+                        reached ? "bg-emerald-500 text-white" : "bg-muted text-muted-foreground"
+                      }`}>
+                        {reached ? <CheckCircle2 className="h-4 w-4" /> : m.invites}
+                      </div>
+                      <span className={`text-[10px] font-bold ${reached ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
+                        +{m.days}d
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {nextMilestone && (
