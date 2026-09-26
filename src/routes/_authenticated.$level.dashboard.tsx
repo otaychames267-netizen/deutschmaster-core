@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
@@ -135,6 +136,7 @@ function DashboardPage() {
   const [weeklyGoal, setWeeklyGoal]     = useState<WeeklyGoal | null>(null);
   const [weeklyData, setWeeklyData]     = useState<WeeklyActivity[]>([]);
   const [referralCount, setReferralCount] = useState(0);
+  const [codeCopied, setCodeCopied] = useState(false);
   const [schriftlichStats, setSchriftlichStats] = useState({ count: 0, avg: 0 });
   const [muendlichStats, setMuendlichStats] = useState({ count: 0, avg: 0 });
   const [loading, setLoading]           = useState(true);
@@ -340,27 +342,48 @@ function DashboardPage() {
       )}
 
       {/* ── Referral banner — shown above the two exam cards so every
-            subscriber sees the current reward formula, not just people who
-            already found the /referrals page or the smaller dashboard
-            teaser lower down. ── */}
-      {hasAccess && (
-        <Link
-          to="/referrals"
-          className="group flex flex-col gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/8 via-card to-card px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:flex-row sm:items-center sm:justify-between"
+            subscriber sees the current reward formula immediately, not
+            just people who already found the /referrals page or the
+            smaller dashboard teaser lower down. The code + a one-tap copy
+            button live right here too, so grabbing it costs zero
+            navigation — the whole point of putting this on the very first
+            screen instead of behind a click. ── */}
+      {hasAccess && profile?.referral_code && (
+        <div
+          role="link" tabIndex={0}
+          onClick={() => navigate({ to: "/referrals" })}
+          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate({ to: "/referrals" }); } }}
+          className="group flex flex-col gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/10 via-primary/5 to-card px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer sm:flex-row sm:items-center sm:justify-between"
         >
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 ring-1 ring-primary/20">
               <Gift className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <p className="text-sm font-black text-foreground">Invite friends, earn free days</p>
+              <p className="text-sm font-black text-foreground">Invite friends, earn a free month</p>
               <p className="text-xs text-muted-foreground">+7 free days per friend who subscribes — up to +30 days (a full free month) after 5 referrals</p>
             </div>
           </div>
-          <span className="flex shrink-0 items-center gap-1.5 self-start rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground transition-colors group-hover:bg-primary/90 sm:self-auto">
-            Share your link <ChevronRight className="h-3.5 w-3.5" />
-          </span>
-        </Link>
+          <div className="flex shrink-0 items-center gap-2 self-stretch sm:self-auto">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(profile.referral_code!);
+                setCodeCopied(true);
+                toast.success("Referral code copied!");
+                setTimeout(() => setCodeCopied(false), 2000);
+              }}
+              className={`flex flex-1 items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold transition-colors sm:flex-none ${
+                codeCopied ? "bg-emerald-500 text-white" : "bg-primary text-primary-foreground hover:bg-primary/90"
+              }`}
+            >
+              {codeCopied ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Gift className="h-3.5 w-3.5" />}
+              <span className="font-mono tracking-widest">{profile.referral_code}</span>
+              {!codeCopied && <span className="hidden sm:inline">· Copy</span>}
+            </button>
+            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+          </div>
+        </div>
       )}
 
       {/* ── THE TWO BIG EXAM CARDS ───────────────────────────── */}
