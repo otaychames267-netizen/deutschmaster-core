@@ -58,7 +58,23 @@ const REDEMITTEL_LIBRARY: Record<string, { emoji: string; label: string; frage: 
   kosten: { emoji: "💰", label: "Kosten", frage: ["Wie hoch sollte das Budget insgesamt sein?", "Wie teilen wir die Kosten am besten auf?", "Sollten wir versuchen, Kosten zu sparen?"], antwort: ["Ich würde vorschlagen, dass wir die Kosten gleich aufteilen.", "Wir sollten ein realistisches Budget von … einplanen.", "Vielleicht können wir bei … sparen, indem wir …"] },
   ablauf: { emoji: "🔄", label: "Ablauf / Durchführung", frage: ["Wie sollte der genaue Ablauf aussehen?", "Was passiert zuerst, was danach?", "Sollten wir das in mehreren Schritten organisieren?"], antwort: ["Ich würde vorschlagen, dass wir zuerst … und danach …", "Am sinnvollsten wäre eine klare Reihenfolge: zuerst …, dann …", "Wir sollten genug Zeit für jeden Schritt einplanen."] },
   abschluss: { emoji: "✅", label: "Abschluss", frage: ["Können wir das so festhalten?", "Sind wir uns bei allen Punkten einig?", "Passt das so für dich?"], antwort: ["Dann können wir festhalten, dass …", "Perfekt, dann haben wir einen guten Plan.", "Genau, ich denke, das wird gut funktionieren."] },
+  zeitpunkt: { emoji: "⏰", label: "Zeitpunkt", frage: ["Wann wäre deiner Meinung nach der geeignetste Zeitpunkt dafür?", "Welcher Termin würde dir am besten passen?", "Wann wäre es deiner Meinung nach am sinnvollsten, …?"], antwort: ["Am sinnvollsten wäre es wahrscheinlich, …", "Ich würde vorschlagen, dass wir …", "Ich halte … für den geeignetsten Zeitpunkt, weil …"] },
+  materialien: { emoji: "🛠️", label: "Materialien", frage: ["Was benötigen wir dafür?", "Welche Materialien brauchen wir noch?", "Sollten wir noch etwas Bestimmtes besorgen?"], antwort: ["Wir brauchen auf jeden Fall …", "Vielleicht sollten wir auch … besorgen.", "Ja, das wäre sicherlich hilfreich."] },
+  vorschlag1: { emoji: "💡", label: "Vorschlag 1", frage: ["Ich würde vorschlagen, dass wir …", "Hast du dazu schon eine Idee?", "Was hältst du davon, wenn wir …?"], antwort: ["Das halte ich für eine ausgezeichnete Idee.", "Ja, das könnte gut funktionieren, weil …", "Das klingt vielversprechend."] },
+  vorschlag2: { emoji: "💭", label: "Vorschlag 2", frage: ["Eine weitere Möglichkeit wäre, …", "Was würdest du von … halten?", "Wir könnten außerdem …"], antwort: ["Das finde ich sinnvoll.", "Das wäre eine gute Ergänzung.", "Ja, das würde die Sache noch abrunden."] },
+  vorschlag3: { emoji: "✨", label: "Vorschlag 3", frage: ["Wie wäre es außerdem mit …?", "Sollten wir nicht auch … einplanen?", "Ein weiterer Gedanke wäre …"], antwort: ["Das wäre eine gute Ergänzung.", "Das finde ich eine schöne Idee.", "Ja, das rundet unseren Plan gut ab."] },
+  vorschlag4: { emoji: "🌟", label: "Vorschlag 4", frage: ["Was hältst du außerdem von …?", "Könnten wir zusätzlich … einplanen?", "Ein letzter Gedanke wäre noch …"], antwort: ["Das wäre eine sinnvolle Ergänzung.", "Das finde ich eine gute Idee.", "Ja, damit wäre unser Plan vollständig."] },
+  vorschlag5: { emoji: "🔆", label: "Vorschlag 5", frage: ["Sollten wir darüber hinaus noch etwas bedenken?", "Was hältst du zusätzlich von …?", "Gibt es noch einen weiteren Punkt?"], antwort: ["Das ist ein guter zusätzlicher Punkt.", "Das würde unseren Plan noch abrunden.", "Ja, damit haben wir alles abgedeckt."] },
+  probleme: { emoji: "⚠️", label: "Mögliche Probleme", frage: ["Was könnten wir tun, wenn ein Problem auftritt?", "Was, wenn etwas nicht wie geplant läuft?", "Sollten wir für Notfälle vorsorgen?"], antwort: ["Dann sollten wir vorsichtshalber eine Alternative bereithalten.", "Wir sollten das vorher unbedingt einplanen.", "Das wäre wahrscheinlich die beste Lösung."] },
+  bedarf: { emoji: "📝", label: "Bedarf", frage: ["Was genau benötigen wir noch?", "Sollten wir den Bedarf vorher genau klären?", "Was fehlt uns noch für die Planung?"], antwort: ["Wir sollten das vorher genau abklären.", "Ich denke, wir brauchen noch …", "Das sollten wir rechtzeitig organisieren."] },
 };
+
+function humanizeStrukturKey(key: string): string {
+  return key
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
 
 const ZUSTIMMUNG_WIDERSPRUCH = {
   meinung_erfragen: ["Was meinst du dazu?", "Wie siehst du das?", "Wie findest du diese Idee?", "Wäre das auch für dich passend?"],
@@ -115,7 +131,7 @@ function RedemittelCols({ frage, antwort }: { frage: string[]; antwort: string[]
 }
 
 function StrukturCard({ sec }: { sec: StrukturSection }) {
-  const lib = REDEMITTEL_LIBRARY[sec.key] ?? { emoji: "•", label: sec.key, frage: [], antwort: [] };
+  const lib = REDEMITTEL_LIBRARY[sec.key] ?? { emoji: "•", label: humanizeStrukturKey(sec.key), frage: [], antwort: [] };
   return (
     <div className="rounded-xl border border-sky-500/20 bg-sky-500/[0.02] p-4 shadow-sm">
       <h4 className="mb-3 flex items-center gap-1.5 text-sm font-black text-sky-700 dark:text-sky-400">
@@ -242,7 +258,7 @@ export function Teil3TopicModal({ topic, onClose }: { topic: Teil3TopicRow; onCl
                 return tb.beispieldialog.map((l, i) => {
                   const showHeader = l.section && l.section !== lastSection;
                   if (l.section) lastSection = l.section;
-                  const lib = l.section ? REDEMITTEL_LIBRARY[l.section] : null;
+                  const lib = l.section ? (REDEMITTEL_LIBRARY[l.section] ?? { emoji: "•", label: humanizeStrukturKey(l.section), frage: [], antwort: [] }) : null;
                   return (
                     <div key={i}>
                       {showHeader && lib && (
