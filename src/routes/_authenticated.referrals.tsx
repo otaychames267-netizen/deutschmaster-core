@@ -22,6 +22,7 @@ interface ReferralRow {
 
 interface RewardRow {
   id: string;
+  referral_id: string;
   days_granted: number;
   reason: string;
   applied_at: string | null;
@@ -69,7 +70,7 @@ function ReferralsPage() {
       const [subRes, refRes, rewardRes, profileRes] = await Promise.all([
         supabase.from("subscriptions").select("id").eq("user_id", user.id).eq("status", "active").gt("expires_at", new Date().toISOString()).limit(1),
         supabase.from("referrals").select("id, status, created_at, converted_at").eq("referrer_id", user.id).order("created_at", { ascending: false }),
-        supabase.from("referral_rewards").select("id, days_granted, reason, applied_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
+        supabase.from("referral_rewards").select("id, referral_id, days_granted, reason, applied_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
         supabase.from("profiles").select("referral_code").eq("id", user.id).maybeSingle(),
       ]);
       setHasSubscription((subRes.data?.length ?? 0) > 0);
@@ -96,6 +97,11 @@ function ReferralsPage() {
 
   const convertedCount = referrals.filter((r) => r.status === "converted").length;
   const pendingCount   = referrals.filter((r) => r.status === "pending").length;
+  // Each referral_rewards row records exactly which referral it came from
+  // (referral_id), so every converted friend can show the real days THAT
+  // specific referral earned — not just the running total — even once the
+  // 30-day cap means later friends earn 0 (cap already reached).
+  const daysByReferralId = new Map(rewards.map((r) => [r.referral_id, r.days_granted]));
 
   if (loading) {
     return (
@@ -258,24 +264,34 @@ function ReferralsPage() {
             <p className="font-semibold text-foreground">Referral history</p>
           </div>
           <div className="space-y-2">
-            {referrals.map((r) => (
-              <div key={r.id} className="flex items-center gap-3 rounded-xl bg-muted/20 px-4 py-3">
-                <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                  r.status === "converted" ? "bg-emerald-500/10 text-emerald-500" : "bg-muted text-muted-foreground"
-                }`}>
-                  {r.status === "converted" ? "✓" : "…"}
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-foreground capitalize font-medium">{r.status === "converted" ? "Subscribed" : "Registered"}</p>
-                  {r.converted_at && (
-                    <p className="text-xs text-muted-foreground">Converted {new Date(r.converted_at).toLocaleDateString("en-GB")}</p>
+            {referrals.map((r, i) => {
+              const daysEarned = daysByReferralId.get(r.id);
+              return (
+                <div key={r.id} className="flex items-center gap-3 rounded-xl bg-muted/20 px-4 py-3">
+                  <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                    r.status === "converted" ? "bg-emerald-500/10 text-emerald-500" : "bg-muted text-muted-foreground"
+                  }`}>
+                    {r.status === "converted" ? "✓" : "…"}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-foreground font-medium">Friend {i + 1} · {r.status === "converted" ? "Subscribed" : "Registered"}</p>
+                    {r.converted_at && (
+                      <p className="text-xs text-muted-foreground">Converted {new Date(r.converted_at).toLocaleDateString("en-GB")}</p>
+                    )}
+                  </div>
+                  {r.status === "converted" && (
+                    <span className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-bold ${
+                      daysEarned ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"
+                    }`}>
+                      {daysEarned ? `+${daysEarned} day${daysEarned > 1 ? "s" : ""}` : "cap reached"}
+                    </span>
                   )}
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                  </span>
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
