@@ -54,6 +54,13 @@ interface WeeklyActivity {
   count: number;
 }
 
+interface ReferralPreviewRow {
+  id: string;
+  status: string;
+  created_at: string;
+  converted_at: string | null;
+}
+
 function daysUntil(dateStr: string | null) {
   if (!dateStr) return null;
   const diff = Math.ceil((new Date(dateStr).getTime() - Date.now()) / 86400000);
@@ -136,6 +143,8 @@ function DashboardPage() {
   const [weeklyGoal, setWeeklyGoal]     = useState<WeeklyGoal | null>(null);
   const [weeklyData, setWeeklyData]     = useState<WeeklyActivity[]>([]);
   const [referralCount, setReferralCount] = useState(0);
+  const [referralRows, setReferralRows] = useState<ReferralPreviewRow[]>([]);
+  const [daysByReferralId, setDaysByReferralId] = useState<Map<string, number>>(new Map());
   const [codeCopied, setCodeCopied] = useState(false);
   const [schriftlichStats, setSchriftlichStats] = useState({ count: 0, avg: 0 });
   const [muendlichStats, setMuendlichStats] = useState({ count: 0, avg: 0 });
@@ -152,7 +161,7 @@ function DashboardPage() {
       weekStart.setDate(today.getDate() - ((today.getDay() + 6) % 7));
       weekStart.setHours(0, 0, 0, 0);
 
-      const [profileRes, subRes, attemptsRes, goalRes, refRes] = await Promise.all([
+      const [profileRes, subRes, attemptsRes, goalRes, refRes, rewardRes] = await Promise.all([
         supabase.from("profiles")
           .select("full_name, onboarding_completed, exam_date, referral_code")
           .eq("id", user.id).maybeSingle(),
@@ -175,9 +184,13 @@ function DashboardPage() {
           .eq("week_start", weekStart.toISOString().split("T")[0])
           .maybeSingle(),
         supabase.from("referrals")
-          .select("id", { count: "exact", head: true })
+          .select("id, status, created_at, converted_at")
           .eq("referrer_id", user.id)
-          .eq("status", "converted"),
+          .order("created_at", { ascending: false })
+          .limit(5),
+        supabase.from("referral_rewards")
+          .select("referral_id, days_granted")
+          .eq("user_id", user.id),
       ]);
 
       if (cancelled) return;
@@ -185,7 +198,9 @@ function DashboardPage() {
       setProfile(profileRes.data ?? null);
       setSubscription(subRes.data ?? null);
       setWeeklyGoal(goalRes.data ?? null);
-      setReferralCount(refRes.count ?? 0);
+      setReferralRows((refRes.data as ReferralPreviewRow[]) ?? []);
+      setReferralCount((refRes.data ?? []).filter((r: ReferralPreviewRow) => r.status === "converted").length);
+      setDaysByReferralId(new Map(((rewardRes.data as { referral_id: string; days_granted: number }[]) ?? []).map((r) => [r.referral_id, r.days_granted])));
 
       const results = (attemptsRes.data ?? []) as { score: number; created_at: string }[];
 
@@ -784,6 +799,42 @@ function DashboardPage() {
               <p className="mb-3 text-xs text-muted-foreground">
                 {nextMilestone.invites - referralCount} more to earn +{nextMilestone.days} premium day{nextMilestone.days > 1 ? "s" : ""}
               </p>
+            )}
+
+            {/* Your actual friends, not just abstract milestones — the
+                concrete "Friend 1 · +7d" proof that this really pays out,
+                right here on the first screen instead of a click away. */}
+            {referralRows.length > 0 ? (
+              <div className="mb-4 space-y-1.5">
+                {referralRows.slice(0, 3).map((r, i) => {
+                  const days = daysByReferralId.get(r.id);
+                  const converted = r.status === "converted";
+                  return (
+                    <div key={r.id} className="flex items-center gap-2.5 rounded-xl bg-muted/40 px-3 py-2">
+                      <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                        converted ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "bg-muted-foreground/10 text-muted-foreground"
+                      }`}>
+                        {converted ? "✓" : "…"}
+                      </div>
+                      <span className="flex-1 text-xs font-semibold text-foreground">Friend {i + 1}</span>
+                      {converted && (
+                        <span className={`shrink-0 rounded-md px-2 py-0.5 text-[10px] font-black ${
+                          days ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"
+                        }`}>
+                          {days ? `+${days}d` : "cap reached"}
+                        </span>
+                      )}
+                    </div>
+                  );
+                })}
+                {referralRows.length > 3 && (
+                  <Link to="/referrals" className="block pt-0.5 text-center text-[11px] font-semibold text-primary hover:underline">
+                    +{referralRows.length - 3} more — view all
+                  </Link>
+                )}
+              </div>
+            ) : (
+              <p className="mb-4 text-xs text-muted-foreground">No friends invited yet — be the first to earn free days! 🎉</p>
             )}
 
             <Link
