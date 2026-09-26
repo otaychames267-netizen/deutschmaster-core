@@ -238,7 +238,10 @@ function DashboardPage() {
     { label: "Study hours", done: +(weeklyGoal.study_hours_done / 3600).toFixed(1), target: weeklyGoal.study_hours_target, unit: "h" },
   ] : [];
 
-  const referralMilestones = [{ invites: 1, days: 1 }, { invites: 3, days: 2 }, { invites: 7, days: 4 }, { invites: 10, days: 7 }];
+  // Matches process_referral_conversion() in
+  // 20260926140000_referral_linear_7day_30cap.sql — each converted referral
+  // grants +7 total days, capped at +30 (one free month) after 5 referrals.
+  const referralMilestones = [{ invites: 1, days: 7 }, { invites: 2, days: 14 }, { invites: 3, days: 21 }, { invites: 4, days: 28 }, { invites: 5, days: 30 }];
   const nextMilestone = referralMilestones.find(m => referralCount < m.invites);
 
   // Schriftlich progress: use exercises_completed as proxy (max out at 200 exercises = 100%)
@@ -333,6 +336,30 @@ function DashboardPage() {
           <div className="flex items-center gap-1.5 shrink-0 rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-white transition-all group-hover:bg-emerald-600">
             Resume <ChevronRight className="h-3.5 w-3.5" />
           </div>
+        </Link>
+      )}
+
+      {/* ── Referral banner — shown above the two exam cards so every
+            subscriber sees the current reward formula, not just people who
+            already found the /referrals page or the smaller dashboard
+            teaser lower down. ── */}
+      {hasAccess && (
+        <Link
+          to="/referrals"
+          className="group flex flex-col gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/8 via-card to-card px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 ring-1 ring-primary/20">
+              <Gift className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-foreground">Invite friends, earn free days</p>
+              <p className="text-xs text-muted-foreground">+7 free days per friend who subscribes — up to +30 days (a full free month) after 5 referrals</p>
+            </div>
+          </div>
+          <span className="flex shrink-0 items-center gap-1.5 self-start rounded-xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground transition-colors group-hover:bg-primary/90 sm:self-auto">
+            Share your link <ChevronRight className="h-3.5 w-3.5" />
+          </span>
         </Link>
       )}
 

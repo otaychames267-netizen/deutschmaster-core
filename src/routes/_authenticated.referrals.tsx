@@ -29,12 +29,17 @@ interface RewardRow {
 }
 
 // Matches process_referral_conversion() in
-// 20260718020000_ban_referral_audit.sql exactly — 5 converted referrals = 5
-// total free days, 10 converted = 7 total free days, which is the hard cap.
-// No milestone ever grants a full month; nothing is granted past 10.
+// 20260926140000_referral_linear_7day_30cap.sql exactly — each converted
+// referral grants +7 total days, linearly, capped at +30 total days (one
+// free month) once 5 referrals have converted. Referral 5 only adds +2 (28
+// -> 30) so the running total lands exactly on the cap; nothing is granted
+// past the 5th.
 const MILESTONES = [
-  { count: 5,  reward: "+5 free days (total)", icon: "🏆", xp: 300 },
-  { count: 10, reward: "+7 free days (total, maximum)", icon: "👑", xp: 500 },
+  { count: 1, reward: "+7 free days (total)", icon: "🎁", xp: 100 },
+  { count: 2, reward: "+14 free days (total)", icon: "⭐", xp: 150 },
+  { count: 3, reward: "+21 free days (total)", icon: "🔥", xp: 200 },
+  { count: 4, reward: "+28 free days (total)", icon: "💎", xp: 250 },
+  { count: 5, reward: "+30 free days (total, one free month — maximum)", icon: "👑", xp: 400 },
 ];
 
 function Skeleton({ className = "" }: { className?: string }) {
