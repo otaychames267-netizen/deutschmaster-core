@@ -1,0 +1,21 @@
+{
+  "title": "Schmidt",
+  "level": "B1",
+  "position": 14,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 14/16 (Petra/Language Tests, page 186 printed / PDF page 187). Letter addressed to 'Herr Schmidt', signed by Harish Khurana (a travel complaint about a flight booking). Answer key from Lösungen page (p.193): 21b Ihnen, 22b was, 23b Obwohl, 24b mit, 25a erst, 26b sondern, 27a der, 28b um, 29b bei, 30b mir.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Sehr geehrter Herr Schmidt,\n\nim Januar hatte ich bei {{21}} für mich und meine Familie einen Flug nach Indien gebucht. Leider entsprach unser Flug überhaupt nicht dem, {{22}} bei der Buchung am Telefon ausgemacht worden war.\n\n{{23}} ich ausdrücklich einen Direktflug nach Mumbai bestellt hatte, haben Sie mir einen Flug {{24}} Zwischenstopp in Delhi ausgestellt. Wir mussten eine Nacht in Delhi verbringen und kamen so {{25}} einen Tag später als geplant in Mumbai an. Doch damit nicht genug. Der Flug war nicht nur anders als vereinbart, {{26}} auch noch viel teurer. Statt {{27}} erwarteten 640 Euro kostete der Flug 720 Euro.\n\nIch darf Sie daher {{28}} Rückzahlung der zu viel verrechneten Kosten auf mein Konto {{29}} der Deutschen Bank in Mumbai bitten. Meine Bankdaten haben Sie bereits.\n\nIch bitte Sie, die Angelegenheit bald zu klären und {{30}} dann zu antworten.\n\nMit freundlichen Grüßen\n\nHarish Khurana",
+  "gaps": [
+    { "n": 21, "a": "ihnen", "b": "Ihnen", "c": "Sie", "correct": "b" },
+    { "n": 22, "a": "das", "b": "was", "c": "wie", "correct": "b" },
+    { "n": 23, "a": "Danach", "b": "Obwohl", "c": "Nämlich", "correct": "b" },
+    { "n": 24, "a": "für", "b": "mit", "c": "zu", "correct": "b" },
+    { "n": 25, "a": "erst", "b": "nach", "c": "seit", "correct": "a" },
+    { "n": 26, "a": "besonders", "b": "sondern", "c": "sonst", "correct": "b" },
+    { "n": 27, "a": "der", "b": "deren", "c": "die", "correct": "a" },
+    { "n": 28, "a": "für", "b": "um", "c": "zu", "correct": "b" },
+    { "n": 29, "a": "an", "b": "bei", "c": "vor", "correct": "b" },
+    { "n": 30, "a": "mich", "b": "mir", "c": "sich", "correct": "b" }
+  ]
+}

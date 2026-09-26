@@ -1,0 +1,20 @@
+{
+  "title": "Herr Wenzel",
+  "level": "B2",
+  "position": 25,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Sehr geehrter Herr Wenzel,\n\nvielen Dank {{21}} Ihre Anfrage bezüglich der Aktivitäten des Kulturbunds. Unser Hauptanliegen ist es, das kulturelle Leben zu bereichern und kulturelle Initiativen zu fördern. Für unsere Mitglieder findet einmal im Monat - und zwar {{22}} am ersten Montag - ein kultureller Abend in unserer Geschäftsstelle in der Villa Emilia statt. Jeder Abend ist einem bestimmten kulturellen Aspekt {{23}}, von der Dichtung über die Musik bis hin zum Theater.\n\nDarüber hinaus besuchen wir regelmäßig Theateraufführungen innerhalb Deutschlands und haben dazu mehrere {{24}} Treffen. Von besonderem Interesse dürften für die {{25}} unserer Mitglieder unsere Studienreisen sein. Diese führen beispielsweise {{26}} der Route deutscher Dichter von Frankfurt nach Weimar, nach Salzburg und vieles mehr.\n\nIn diesem Jahr bieten wir übrigens eine ganz besondere Reise an: {{27}} den Spuren Tschaikowskis nach Russland. Alle von uns veranstalteten Reisen werden von sachkundigen Musik- oder Literaturwissenschaftlern begleitet, mit {{28}} Hilfe Sie Ihr kulturelles Wissen erweitern können. Auch bei der Wahl der Verkehrsmittel und Unterkünfte wird auf besonderen Komfort geachtet.\n\nEin besonderer Service ist der Kartentausch. Wenn Sie Theaterkarten besitzen, aber nicht nutzen wollen, können Sie diese bei uns gegen andere Karten umtauschen - {{29}} dies organisatorisch möglich ist.\n\nDer Preis für die Mitgliedschaft beträgt 200 Euro pro Jahr für eine Einzelperson bzw. 300 Euro für eine Doppelmitgliedschaft (zwei Personen, z.B. Ehepaare, Freunde etc.). Unsere Geschäftsstelle ist von Montag bis Freitag von 9 bis 12 und von 14 bis 17 Uhr {{30}} und steht Ihnen für Fragen gern zur Verfügung. Eine Anmeldeformular liegt diesem Schreiben bei.\nIn kultureller Verbundenheit grüßen wir Sie herzlich\n\nSabine Sänger\nKulturbund",
+  "gaps": [
+    { "n": 21, "a": "auf", "b": "für", "c": "wegen", "correct": "b" },
+    { "n": 22, "a": "jeden", "b": "jedoch", "c": "jeweils", "correct": "c" },
+    { "n": 23, "a": "gedacht", "b": "geeignet", "c": "gewidmet", "correct": "c" },
+    { "n": 24, "a": "vorbereitende", "b": "vorbereitend", "c": "vorbereiteten", "correct": "a" },
+    { "n": 25, "a": "am meisten", "b": "meisten", "c": "meistens", "correct": "b" },
+    { "n": 26, "a": "entlang", "b": "gegenüber", "c": "während", "correct": "a" },
+    { "n": 27, "a": "auf", "b": "hinter", "c": "neben", "correct": "a" },
+    { "n": 28, "a": "der", "b": "deren", "c": "dessen", "correct": "b" },
+    { "n": 29, "a": "sofern", "b": "sogar", "c": "sogleich", "correct": "a" },
+    { "n": 30, "a": "erhältlich", "b": "erreichbar", "c": "wirksam", "correct": "b" }
+  ]
+}

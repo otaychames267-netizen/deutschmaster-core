@@ -24,8 +24,8 @@ export const getMyProgress = createServerFn({ method: "GET" })
         .select("id,module,teil")
         .eq("status", "published"),
     ]);
-    if (attemptsRes.error) throw new Error(attemptsRes.error.message);
-    if (publishedRes.error) throw new Error(publishedRes.error.message);
+    if (attemptsRes.error) { console.error("[getMyProgress] attempts", attemptsRes.error); throw new Error("Unable to load progress. Please try again."); }
+    if (publishedRes.error) { console.error("[getMyProgress] published", publishedRes.error); throw new Error("Unable to load progress. Please try again."); }
 
     const attempts = (attemptsRes.data ?? []) as Array<{
       id: string; exercise_id: string; score: number | null; is_correct: boolean;

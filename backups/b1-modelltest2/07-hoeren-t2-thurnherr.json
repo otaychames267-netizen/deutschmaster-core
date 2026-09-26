@@ -1,0 +1,22 @@
+{
+  "title": "Thurnherr",
+  "teil": 2,
+  "level": "B1",
+  "position": 2,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 2/16 (Petra/Language Tests, page 22 = in-doc p.21). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page: 46+ 47+ 48- 49+ 50+ 51- 52+ 53- 54- 55+.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Herr Thurnherr ist Chef in einem großen Reisebüro in Bern.", "correct": true },
+    { "number": 47, "text": "Jährlich wollen über 100 Personen eine Ausbildung in einem Reisebüro machen.", "correct": true },
+    { "number": 48, "text": "Während der Ausbildung kann man noch keine Studienreisen machen.", "correct": false },
+    { "number": 49, "text": "Herr Thurnherr meint, die Arbeit in einem Reisebüro sei anstrengend.", "correct": true },
+    { "number": 50, "text": "In einem Reisebüro muss man oft Überstunden machen.", "correct": true },
+    { "number": 51, "text": "In einem Reisebüro verdient man gut.", "correct": false },
+    { "number": 52, "text": "Auf Studienreisen besichtigt man viele Hotels.", "correct": true },
+    { "number": 53, "text": "Im schriftlichen Teil des Tests wird vor allem politisches Wissen geprüft.", "correct": false },
+    { "number": 54, "text": "Jährlich können 50 Jugendliche an einem Eignungstest teilnehmen.", "correct": false },
+    { "number": 55, "text": "Das Reisebüro muss für die Fehler der Mitarbeitenden bezahlen.", "correct": true }
+  ]
+}

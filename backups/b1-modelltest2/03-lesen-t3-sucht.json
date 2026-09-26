@@ -1,0 +1,34 @@
+{
+  "teil": 3,
+  "title": "sucht",
+  "level": "TELC_B1",
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 2/16 (Petra/Language Tests, pages 17-18 = in-doc pp.16-17). Answer key from Lösungen page: 11E 12F 13H 14X 15C 16A 17K 18X 19I 20B. Source printed ad letters lowercase (a-l); normalized to uppercase (A-L) per this platform's schema convention.",
+  "key": "EFHXCAKXIB",
+  "situations": {
+    "11": "Ihr Bekannter ist Sportlehrer und sucht eine Nebenbeschäftigung in einem Verein.",
+    "12": "Ein guter Bekannter (39) sucht eine Partnerin. Er ist reiselustig und geht spazieren.",
+    "13": "Ihre Freundin ist besonders hübsch, Studentin und sucht für die Semesterferien im Sommer einen Job.",
+    "14": "Sie suchen für das kommende Wochenende eine Konzertkarte.",
+    "15": "Ihre 30-jährige Freundin hat in einem Hotel in Spanien gearbeitet und sucht jetzt eine ähnliche Arbeit in Deutschland.",
+    "16": "Ihre 55-jährige Nachbarin sucht jemanden, mit dem sie reisen und klassische Konzerte besuchen kann.",
+    "17": "Sie möchten lernen, wie Sie kleinere Reparaturen an Ihrem Auto selbst machen können.",
+    "18": "Die Tochter Ihrer russischen Bekannten sucht eine Au-pair-Stelle in Deutschland. Sie ist erst 18 Jahre alt.",
+    "19": "Ihre 21-jährige Bekannte sucht eine Stelle als Kindergärtnerin.",
+    "20": "Eine Freundin braucht ein paar Ratschläge, wie sie erfolgreich eine neue Arbeit finden kann."
+  },
+  "texts": {
+    "A": { "title": "", "content": "Meine Welt ist Beethoven. Jung gebliebener Rentner, ehemaliger Musiklehrer (Gymnasium), Beethovenfan, besucht (fast) alle Beethovenkonzerte und Opern auf der ganzen Welt. Suche kultur- und musikbegeisterte Begleiterin über 50. Zuschriften unter A/B 5813 an diese Zeitung." },
+    "B": { "title": "", "content": "Richtig bewerben – Bewerbungen richtig gestalten von Hans Müller. Das 11-Punkte-Programm zur erfolgreichen Bewerbung aus dem Millenniums-Verlag, mit vielen Musterbeispielen und Checklisten hilft Ihnen, Bewerbung und Bewerbungsgespräch erfolgreich zu bestehen. Jetzt neu in Ihrer Buchhandlung!" },
+    "C": { "title": "", "content": "Wir suchen zum nächstmöglichen Termin eine/n Rezeptionisten/Rezeptionistin. Sie sind: zeitlich flexibel, sympatisch und freundlich, zwischen 20 und 35 Jahre alt. Wir bieten: überdurchschnittliche Bezahlung, festes Arbeitsverhältnis (ganzjährig), gute Arbeitsatmosphäre. Wir erwarten: Ihre Bewerbungsunterlagen. Hotel Vier Jahreszeiten, Postfach 12345." },
+    "D": { "title": "", "content": "Neuerscheinung zur Buchmesse: „Ratgeber Au-pair“ von Erika und Justus Meier-Krause. Aus dem Inhalt: Suche und Auswahl des richtigen Au-pair-Mädchens, Vertragsbestimmungen, Wie hoch ist das passende Gehalt?, Was müssen Sie beachten? uvm. Millenniums-Verlag – Hamburg." },
+    "E": { "title": "", "content": "Wir sind ein Sportclub mit engagierten Mitgliedern und suchen für die nächste Saison einen neuen Jugendtrainer für unsere Vereinsjugend. Schwerpunkte: Handball, Volleyball, Basketball, Fußball. 2 Nachmittage pro Woche (je 3 Stunden). Sportclub Erbach, Tel.: 01233/56744." },
+    "F": { "title": "", "content": "Nette Lehrerin sucht Partner: Ich bin über dreißig, aber unter vierzig; meine Hobbys sind Reiten und Wandern. Ich suche einen humorvollen, intelligenten Enddreißiger, der mit mir zu Fuß oder zu Pferd ferne Gegenden erkundet und immer ein offenes Ohr für mich hat. Z/B 2240." },
+    "G": { "title": "", "content": "Wir stellen ein: Automechaniker/Autoschlosser. Sie haben eine abgeschlossene Berufsausbildung und viel Freude an Ihrem Beruf? Dann schwimmen Sie mit uns auf der Erfolgswelle. Bewerbungsunterlagen an: Autohaus Robert & Sohn, Postfach, 33378 Rheda-Wiedenbrück." },
+    "H": { "title": "", "content": "Großes Modehaus sucht junge Models (männlich/weiblich) für Modeschauen in ganz Deutschland und Österreich in den Monaten Juli und August. Wir bieten gute Bezahlung bei freier Reise, Kost und Logis. Bewerbungen mit Foto an: Modehaus Schwärzinger, Marketing-Abteilung, Postfach, 76530 Baden-Baden." },
+    "I": { "title": "", "content": "Kindergarten „Hokuspokus“ sucht neue Mitarbeiterin zum 1. September. Sie sind: kinderlieb, temperamentvoll, kreativ und geduldig! Dann bieten wir Ihnen einen Job in einem dynamischen, jungen Team mit guter Bezahlung! Bewerbung an: Hokuspokus, Gartenstr. 19, Karlsruhe." },
+    "J": { "title": "", "content": "Stadtverwaltung Erbach, Abteilung Sport. Um den Bürgerinnen und Bürgern die Wahl des richtigen Sportvereins zu erleichtern, haben wir eine Informationsbroschüre mit den Anschriften aller Vereine zusammengestellt. Die Broschüre „SPORTVEREINE BEI UNS“ ist ab sofort kostenlos im Rathaus, im Bürgerbüro und bei allen Banken und Sparkassen erhältlich." },
+    "K": { "title": "", "content": "Immer Ärger mit der Autowerkstatt? Reparaturen zu teuer und schlecht gemacht? Machen Sie es doch selbst! In dem Standardwerk HANDBUCH AUTO von Norbert Panse finden Sie – reich bebildert – detaillierte Anleitungen für viele Reparaturarbeiten am eigenen Auto. Millenniums-Verlag – Hamburg." },
+    "L": { "title": "", "content": "Für meine 2 und 4-jährigen Töchter suche ich ab kommenden Winter nettes, kreatives russisches Au-pair-Mädchen für die Betreuung der Kinder und leichte Hausarbeiten. Voraussetzungen: mindestens 21 Jahre alt, Studentin, gute Referenzen, mit ihnen zweisprachig aufwachsenden Töchtern ausschließlich Russisch sprechen. Bewerbung an: Dr. Igor Kadelakow, Stadtinar Str. 17, 10178 Berlin." }
+  }
+}

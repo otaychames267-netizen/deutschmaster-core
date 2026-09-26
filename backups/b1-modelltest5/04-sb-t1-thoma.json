@@ -1,0 +1,21 @@
+{
+  "title": "Frau Thoma",
+  "level": "B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 5/16 (Petra/Language Tests, page 60 printed / PDF page 61). Lösungen page short label is 'Thoma'; expanded to 'Frau Thoma' for consistency with Modelltest 1's 'Herr Meyerhofer' naming convention (addressee name from the letter salutation). Answer key from Lösungen page (printed p.66 / PDF p.67): 21b 22c 23b 24a 25b 26b 27b 28c 29c 30b.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig? Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Genuss mit Kaffee Partner\n\nSehr geehrte Frau Thoma,\n\nschade, {{21}} Sie bisher noch nicht Kunde bei Kaffee Partner {{22}}. Vielleicht liegt das an uns, weil wir {{23}} nicht das richtige Angebot gemacht haben, seit wir uns vor einiger Zeit in Köln auf der ANUGA, der großen Messe für Nahrung und Genussmittel, {{24}} haben. Wir {{25}} das jetzt mit dem aktuellen Katalog nachholen, den Sie heute erhalten.\n\nSie {{26}} darin viele nützliche und attraktive Dinge rund um das Thema Kaffee und Trinkwasser {{27}} Mitarbeiter und Besucher. Aber auch Tee, kleine Leckereien und nette Kalender für Büro und Zuhause {{28}} Ihnen unser Geschenkkatalog.\n\nViel Spaß beim Blättern und Aussuchen. Wir freuen {{29}} auf Sie!\n\n{{30}} Grüße aus Wallenhorst\nIhr Kaffee Partner-Team\nManfred Pflüger",
+  "gaps": [
+    { "n": 21, "a": "dass", "b": "darum", "c": "weil", "correct": "b" },
+    { "n": 22, "a": "seid", "b": "sein", "c": "sind", "correct": "c" },
+    { "n": 23, "a": "euch", "b": "Ihnen", "c": "Sie", "correct": "b" },
+    { "n": 24, "a": "kennen gelernt", "b": "kennen lernen", "c": "kennen lernte", "correct": "a" },
+    { "n": 25, "a": "mochten", "b": "möchten", "c": "mögen", "correct": "b" },
+    { "n": 26, "a": "fanden", "b": "finden", "c": "findet", "correct": "b" },
+    { "n": 27, "a": "für", "b": "von", "c": "wegen", "correct": "b" },
+    { "n": 28, "a": "gezeigt", "b": "zeigen", "c": "zeigt", "correct": "c" },
+    { "n": 29, "a": "mich", "b": "sich", "c": "uns", "correct": "c" },
+    { "n": 30, "a": "Freundlich", "b": "Freundliche", "c": "Freundlichen", "correct": "b" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Urlaub",
+  "teil": 1,
+  "level": "B1",
+  "position": 14,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 14/16 (Petra/Language Tests, page 189 printed / PDF page 190). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.193): 41+ 42+ 43- 44- 45+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Der Sprecher hätte gern Urlaub wie die anderen Kinder gemacht.", "correct": true },
+    { "number": 42, "text": "Dem Sprecher hat der Wanderurlaub nicht so gut gefallen.", "correct": true },
+    { "number": 43, "text": "Die Sprecherin hat die Ferien bei Verwandten verbracht.", "correct": false },
+    { "number": 44, "text": "Die Sprecherin hat mit ihren Eltern regelmäßig Fahrradausflüge gemacht.", "correct": false },
+    { "number": 45, "text": "Der Sprecher hat den Urlaub mit den Eltern gemeinsam geplant.", "correct": true }
+  ]
+}

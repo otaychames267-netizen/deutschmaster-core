@@ -1,0 +1,17 @@
+{
+  "title": "Bus zur Arbeit 2",
+  "teil": 1,
+  "level": "B1",
+  "position": 12,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 12/16 (Vera/Language Tests, page 141 printed / PDF page 142). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Genuine print-variant of Modelltest 6's own 'Bus zur Arbeit' exercise (same title, statements 41/43/44/45 identical) but with a different statement 42 ('geht den ganzen Weg zur Arbeit zu Fuß' here vs 'findet es gut, dass sie ein Stück zu Fuß gehen kann' in Modelltest 6) and a correspondingly different key at that position (this exercise: 42-; Modelltest 6: 42+) — confirmed NOT byte-identical, so inserted as a distinct exercise per this project's print-variant convention, titled with a '2' suffix. Answer key from Lösungen page (printed p.145 / PDF p.146): 41- 42- 43+ 44- 45-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Die Sprecherin könnte sich vorstellen, mit dem Bus zur Arbeit zu fahren.", "correct": false },
+    { "number": 42, "text": "Die Sprecherin geht den ganzen Weg zur Arbeit zu Fuß.", "correct": false },
+    { "number": 43, "text": "Der Sprecher fährt nie mit dem Auto zur Arbeit.", "correct": true },
+    { "number": 44, "text": "Der Sprecher benutzt für den Weg zur Arbeit zurzeit verschiedene Verkehrsmittel.", "correct": false },
+    { "number": 45, "text": "Für die Sprecherin ist der Firmenbus die einzige Möglichkeit zur Arbeit zu kommen.", "correct": false }
+  ]
+}

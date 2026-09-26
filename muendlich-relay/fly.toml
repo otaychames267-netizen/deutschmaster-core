@@ -1,0 +1,29 @@
+# Fly.io deploy config. Requires the user to run `fly launch`/`fly deploy`
+# themselves with a real Fly.io account — I cannot provision cloud
+# infrastructure or billing on anyone's behalf.
+#
+# Setup (run from inside muendlich-relay/):
+#   1. Install flyctl: https://fly.io/docs/hands-on/install-flyctl/
+#   2. fly auth login
+#   3. fly launch --no-deploy   (creates the app, keep this generated app name or edit below)
+#   4. fly secrets set SUPABASE_URL=... SUPABASE_ANON_KEY=... SUPABASE_SERVICE_ROLE_KEY=... GEMINI_API_KEY=...
+#      (same values as the main app's .env — do NOT commit them here)
+#   5. fly deploy
+#   6. Point the browser client at wss://<app-name>.fly.dev/room/<roomId>?token=...
+
+app = "muendlich-relay" # fly will ask to confirm/rename this on first launch
+primary_region = "fra"  # pick the region closest to your students; "fra" = Frankfurt
+
+[build]
+
+[http_service]
+  internal_port = 8787
+  force_https = true
+  auto_stop_machines = false   # keep it warm — cold-starting mid-exam would be bad
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 512

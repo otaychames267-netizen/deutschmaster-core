@@ -1,0 +1,629 @@
+[
+  {
+    "id": "72edec4e-4cc9-4858-b388-46fabdbd6585",
+    "teil": 2,
+    "title": "Sie - Frau Kiddar (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Sie kommt aus Düsseldorf.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie lebt jetzt in Malta.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie ist aktiv und engagiert in Malta.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie genießt es, das ganze Jahr im Mittelmeer zu baden.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Moderator kennt die Temperatur des Mittelmeers im Winter nicht.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Moderator denkt, in Malta gibt es drei Amtssprachen.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Malteser waren konservativ und zurückhaltend.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Malteser kommen aus verschiedenen Religionen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie plante, die maltesische Sprache zu lernen.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie möchte nach Vancouver umziehen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "df28c4af-92f0-40b1-9b8f-d08461257c3a",
+    "teil": 2,
+    "title": "Sie - Frau Kiddar (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Kiddar stammt aus Düsseldorf.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie lebt heute auf Malta.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie ist auf Malta beruflich tätig.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Kiddar möchte gerne bald nach Valletta ziehen.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie genießt es, das ganze Jahr über im Mittelmeer zu baden.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Moderator weiß nicht, wie viel Grad das Mittelmeer im Winter hat.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Kiddar weist darauf hin, dass die Einwohner Maltas ursprünglich aus verschiedenen Regionen stammten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Malteser haben sich ihr gegenüber aber zurückhaltend, ja misstrauisch verhalten.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Moderator denkt, dass es auf Malta drei Amtssprachen gibt.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Kiddar plant, bald die maltesische Sprache zu lernen.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "fc06d9e6-75fa-45c3-b604-5360e2c0d5d5",
+    "teil": 2,
+    "title": "Steiner (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Professor Steiner ist heute gar nicht mehr nervös, wenn er moderieren muss.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Steiner möchte, dass die Studierenden das Gelernte auch in der Praxis anwenden können.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Steiners Hobby ist es, experimentelle Filme zu machen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Journalisten sollten heute auf einzelne Medien spezialisiert sein.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach Steiners Ansicht ist der Berufswunsch Sportjournalist heutzutage unrealistisch.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Journalisten sollten Lust haben, etwas zu entdecken",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Steiner musste wegen einer Verletzung mit dem Fußballspielen aufhören.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Steiner hat während seines Journalistik-Studiums für das ZDF-Fußballspiele kommentiert.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Steiner ist wichtig, als Moderator den Sportlern gegenüber neutral zu bleiben.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Steiner rät Abiturienten dazu, verschiedene Tests zu Möglichkeit berufliche",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "d0ab91ca-d1cf-4a17-b30e-818f73619261",
+    "teil": 2,
+    "title": "Straßenkinder - Die Kinder (Kids)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Frau Edler arbeitete früher für die Verkehrsbetriebe Leipzig.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Zum ersten Mal wurde sie in Frankfurt mit dem Problem der Straßenkinder konfrontiert.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Zu Anfang kümmerte sie sich um obdachlose Erwachsene.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie hat den Straßenkindern immer Geld gegeben.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Kinder (Kids) wollten, nach Meinung von Frau Edler, Zigaretten kaufen.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie hat mit den Kindern in leer stehenden Häusern übernachtet.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Kolleginnen hatten anfangs kein Verständnis für ihr Engagement.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Zahl der Kinder, die an den Weihnachtsfeiern teilnehmen, ist seit 1990 stark gesunken.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie sammelt noch heute bei den früheren Kollegen Geld für die Straßenkinder.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Mit einer Büchse herumzulaufen, ist ihr manchmal peinlich.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "183e5d6a-d37f-4ed8-8818-ead3bd80f510",
+    "teil": 2,
+    "title": "Suza Hotop  ( Original )",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Für die Autorin Suza Hotop ist Schreiben Freude und Anstrengung zugleich.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Suza begann im Alter von zwölf Jahren mit ihrem Buch Jenseits von Zaram.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Anfang dachte Suza nicht daran, ihre Geschichte zu veröffentlichen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Zuerst Stellte Suza Auszüge ihrer Geschichte ins Internet.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Begeisterte Nutzer stellten den Kontakt zu einem Verlag her.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Suza beschreibt bewusst Personen aus ihre meigenen umfeld.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Autorin plant im Vorfeld genau, was in der Geschichte passieren wird.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Suza folgt beim Schreiben keinen besonderen Vorbildern.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die junge Frau gab während des Radiointerviews eine Lese probe.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Suza braucht immer Ruhe, um schreiben zu können",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "6f5096fa-4fdb-4d4b-afb8-7e8927a5eede",
+    "teil": 2,
+    "title": "Suza Hotop - المعدل",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Für die Autorin Suza Hotop ist Schreiben Freude und Anstrengung zugleich.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Suza begann im Alter von zwölf jahren mit ihrem Buch Jenseits von Zaram.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Anfang dachte Suza nicht daran, ihre Geschichte zu veröffentlichen.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Zuerst Stellte Suza Auszüge ihrer Geschichte ins Internet.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Begeisterte Nutzer stellten den Kontakt zu einem Verlag her.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Suza beschreibt bewusst Personen aus ihrem eigenen Umfeld.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Autorin plant nie ganz genau, was in der Geschichte passieren wird.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Suza folgt beim Schreiben keinen besonderen Vorbildern.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die junge Frau gab während des Radiointerviews eine Leseprobe.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Suza braucht immer Ruhe, um schreiben zu können",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "6a360f62-ac21-431f-b461-d3d9b5db9eab",
+    "teil": 2,
+    "title": "Thomas",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Nach seinem Studium hat Thomas Hirschbaum zuerst im IT-Bereich gearbeitet.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Er hat den Managementbereich in seiner Firma gegründet.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es hat ihm gefallen, Verantwortung für sein 50-köpfiges Team zu haben.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Seine Eltern haben erwartet, dass er einmal mehr Geld verdient als sie.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Seit seinem Start ins Berufsleben hatte er keine Freizeit mehr.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Er hat sich oft nicht gut gefühlt, wenn er an seine Familie dachte.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nach seinem 40. Geburtstag hatte er den Wunsch, mal einen Monat Urlaub zu machen.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sein Chef war sofort mit dem Vorschlag einverstanden, die Arbeit anders zu organisieren.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wie sein Kollege arbeitet Thomas Hirschbaum jetzt halbtags.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Trotzdem steht die Arbeit für ihn an oberster Stelle.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "cba591d3-0072-4b47-bf57-ef77f3adecac",
+    "teil": 2,
+    "title": "Vanessa",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Vanessa versucht, so viele Orte wie möglich zu besuchen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Mit den Arbeitsbedingungen in der Werbeagentur war Vanessa unzufrieden.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn Vanessa unter Menschen ist. Schadet das manchmal ihrer Konzentration.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die sicherheit, die eine feste Stelle bietet, bedeutet Vanessa nicht viel.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vanessa ist sich sicher, dass sie nie mehr als Angestellte arbeiten möchte.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Dass sie immer wieder neue Auftraggeber suchen muss, hat für Vanessa auch Vorteile.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vanessas Eltern würden auch gerne öfter verreisen.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Es fiel Vanessa leicht, sich von persönlichen Gegenständen zu trennen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vanessa glaubt, dass man in Zukunft in mehr Berufen ortsunabhängig arbeiten kann.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auch wer ortsunabhängig arbeitet, sollte nicht zu oft den Ort wechseln.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "756bc75b-7d71-48ba-9e73-c6a3888e1494",
+    "teil": 2,
+    "title": "Wohnmobil",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Hauptpreis des Gewinnspiels ist ein rund vierwöchiger Urlaub in Spanien.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können in der Sendung auch schöne Bildbände über verschiedene Länder gewinnen.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Thomas Schilp vertritt einen großen Wohnmobilhändler.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für das Wohnmobil Camper 500F benötigt man einen Zusatzführerschein.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wohnmobile für Reisen in Europa sollte man erst am Urlaubsort mieten.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Reisende mit Wohnmobilen schätzen ihre Unabhängigkeit.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auf Luxus muss man im Wohnwagen auch heute nicht verzichten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wer den Urlaub mit dem Wohnmobil erst einmal ausprobieren will, sollte ein gebrauchtes Fahrzeug kaufen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Deutsche zahlen für ein Wohnmobil durchschnittlich 200.000 Euro.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Mietpreis für ein Wohnmobil hängt von der Jahreszeit ab.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "366ca561-b739-47d7-b497-f7626c723d1b",
+    "teil": 2,
+    "title": "Wohnmobilen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "In der Sendung von Bayern 3 können Sie u. a. ein Zelt gewinnen.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für das Wohnmobil Camper 500F benötigt man einen Zusatzführerschein.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Hauptpreis des Gewinnspiels ist ein vierwöchiger Urlaub in Spanien.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können in der Sendung auch Bildbände über verschiedene Länder gewinnen.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wohnmobile für Reisen in Europa sollte man erst am Urlaubsort mieten.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Reisende mit Wohnmobilen schätzen ihre Unabhängigkeit.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf Luxus muss man im Wohnwagen auch heute noch verzichten.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wer den Urlaub mit dem Wohnmobil erst einmal ausprobieren will, sollte ein gebrauchtes Fahrzeug kaufen.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Deutsche zahlen für ein Wohnmobil durchschnittlich 200.000 Euro.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Mietpreis für ein Wohnmobil hängt von der Jahreszeit ab.",
+        "statement_number": 55
+      }
+    ]
+  },
+  {
+    "id": "db6ca08c-9a24-48aa-b57c-e3d8cd8ed360",
+    "teil": 2,
+    "title": "Zu Beginn",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Zu Beginn der Sendung hatte der Reporter ein exklusives Frühstücksrezept erwartet.",
+        "statement_number": 46
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ole hat sich vor 17 Jahren selbstständig gemacht.",
+        "statement_number": 47
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Davor hatte er eine Lehre als Koch absolviert.",
+        "statement_number": 48
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Er bevorzugt Gerichte ohne Fleisch.",
+        "statement_number": 49
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ole sieht wie ein Punker aus.",
+        "statement_number": 50
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Er kocht für Musiker, die auf Tournee sind.",
+        "statement_number": 51
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zuletzt hat er für die Band „Die Prinzen“ gekocht.",
+        "statement_number": 52
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ole nimmt eine komplette Kücheneinrichtung mit auf Tournee.",
+        "statement_number": 53
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Er macht sich über den Sender lustig, weil der Reporter bei englischen Wörtern nachfragt.",
+        "statement_number": 54
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Musiker müssen immer essen, was auf den Tisch kommt.",
+        "statement_number": 55
+      }
+    ]
+  }
+]

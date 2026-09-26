@@ -1,0 +1,63 @@
+{
+  "title": "Herr Werner",
+  "teil": 2,
+  "level": "B2",
+  "position": 30,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 31 (code 145790) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Auf dem Gipfel der Zugspitze liegt ungefähr ein Meter Schnee.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Man kann derzeit auf der Zugspitze Ski fahren.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Auch in Garmisch-Partenkirchen selbst hat es geschnelt.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "In der kommenden Woche erwartet man für die Zugspitzregion freundliches Wetter.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Am Sonntag wird ein Gottesdienst auf einer Bergstation abgehalten.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Die Zugspitze kann man momentan wegen des Nebels nicht erkennen.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Die Urlauber in Garmisch-Partenkirchen haben bei jedem Wetter genügend Möglichkeiten zur Freizeitgestaltung.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Herr Werner erwartet keine Wetterbesserung.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Auch in früheren Jahren hat es im Juni und August geschnelt.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Herr Werner ist mit seinem Arbeitsplatz zufrieden.",
+      "correct": true
+    }
+  ]
+}

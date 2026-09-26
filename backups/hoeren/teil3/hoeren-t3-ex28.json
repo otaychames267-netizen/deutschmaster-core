@@ -1,0 +1,38 @@
+{
+  "title": "den Opel-Zoo",
+  "teil": 3,
+  "level": "B2",
+  "position": 28,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 29 (code 13) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Am Donnerstag ist in der Uckermark mit Birkenpollen zu rechnen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Die Führung durch Frankfurts Hochhäuser beginnt am Messeturm.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Am 9. Juli kann man den Opel-Zoo nachts besuchen.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Für die Wanderung zur Ronneburg sollte man unbedingt genügend Verpflegung mitnehmen.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Auf der A7 Ulm - Füssen ist der linke Fahrstreifen gesperrt.",
+      "correct": false
+    }
+  ]
+}

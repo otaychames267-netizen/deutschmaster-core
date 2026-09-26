@@ -1,0 +1,38 @@
+{
+  "title": "Ausgang",
+  "teil": 3,
+  "level": "B2",
+  "position": 14,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": "اساسي",
+  "variant_group": "Ausgang",
+  "notes": "PDF page 15 (code 145) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Sie sollen zum Ausgang 26 kommen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Um die zuständige Abteilung zu erreichen, müssen Sie die 3 wählen.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Bei der Service-Nummer bekommen Sie Karten für eine Führung.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Sie können sich am Sonntag um ein Uhr bewerben.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "In der Bäckerstraße dürfen Sie nicht fahren.",
+      "correct": true
+    }
+  ]
+}

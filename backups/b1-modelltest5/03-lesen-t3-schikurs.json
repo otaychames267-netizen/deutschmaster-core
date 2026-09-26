@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "Schikurs",
+  "level": "TELC_B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 5/16 (Petra/Language Tests, pages 58-59 printed / PDF pages 59-60). Ad block is a low-resolution scan/photo inside the source PDF; text transcribed as legibly as possible, preserving apparent OCR-adjacent oddities (e.g. ad e headline as printed). Answer key from Lösungen page (printed p.66 / PDF p.67): 11D 12E 13C 14K 15X 16J 17X 18B 19X 20H. Note: situation 16 (Tierfilm for 10-year-old daughter) maps per the key to J (Top Center Wien cinema listing) rather than the seemingly more topical ad f ('Schweinchen Babe' animal film) — key followed exactly as printed, not overridden by inference.",
+  "key": "DECKXJXBXH",
+  "situations": {
+    "11": "Sie suchen für Ihnen 5-Jährigen Sohn einen Schikurs.",
+    "12": "Sie möchten am Wochenende in den Zoo gehen.",
+    "13": "Sie suchen eine Zeitschrift für Ihre Freundin, die sich für Mode interessiert.",
+    "14": "Ihre Bekannte sucht einen Job in einem Modegeschäft.",
+    "15": "Sie möchten Ihre Freunde am Montagabend in den Zirkus einladen.",
+    "16": "Ihre 10-jährige Tochter möchte sich gern einen Tierfilm ansehen.",
+    "17": "Sie möchten für Ihre Familie billige Winterkleidung kaufen.",
+    "18": "Sie möchten einen Schikurs machen und sich dafür Schier leihen.",
+    "19": "Sie machen in Österreich Urlaub und möchten sich einen Film im englischen Original ansehen.",
+    "20": "Sie interessieren sich für Tiere und möchten ihnen helfen."
+  },
+  "texts": {
+    "A": { "title": "", "content": "Eröffnungsangebote bei ADESSA. Mode für die ganze Familie. Adessa-Moden bietet günstige Herbst- und Wintermode, hochwertige Qualität und höchsten Service! Unsere gut geschulten Mitarbeiter beraten Sie und Ihre Familie gern! Besuchen Sie unsere neu eröffnete Filiale: tolle Eröffnungsangebote noch bis Samstag! Adessa-Moden, 7., Mariahilferstr. 34. Wir freuen uns auf Ihren Besuch!" },
+    "B": { "title": "", "content": "Schischule Schilehrer gesucht! 3 SchilehrerInnen, auch für kommende Saison. Zielgruppe Kunde: Kinder (3-5 Jahre), Anfänger, Fortgeschrittene. Bewerbungen an: Schischule Öbdächlig, Frau Mar, 5432 Wartenweng" },
+    "C": { "title": "", "content": "Fashion – das neue Modemagazin mit allen Modetipps und neuesten Trends! Bestellen Sie noch heute das Jahresabo zum Sensationspreis von nur 35 € (1 Zeitschrift/Monat). Fashion, PR-Verlag, Postfach 2000, 1150 Wien" },
+    "D": { "title": "", "content": "Der Schi-Ort Ötz im Tiroler Ötztal bietet Kindern bis 6 Jahren in Begleitung ihrer Eltern bei einem Aufenthalt von mindestens sieben Tagen einen kostenlosen Kinderschikurs. Nähere Informationen erhalten Sie bei der Ötztal Information: 05252/2269" },
+    "E": { "title": "", "content": "\"Tag der offenen Tür\" im Tiergarten Schönbrunn. Sonntag, 14. Oktober. Sonderführungen in das neue Aquarium und das Affenhaus! Fütterung von Elefantenbaby Abu! Ganztägige Kinderbetreuung! Gratis Eintritt für Groß und Klein! Der Zoo ist täglich von 9-18 Uhr geöffnet." },
+    "F": { "title": "", "content": "Heute im Kino: \"Schweinchen Babe in der großen Stadt\": Ein kleines Schwein erobert gemeinsam mit seinen Freunden dem Hund, der Katze, dem Schaf und Huhn die Welt und die Herzen der Menschen. Für Kinder ab 6 Jahren geeignet! Kolosseum-Saal 1: 15.30, 17.00, 19.00 Uhr. Karten unter 310 33 30, e-mail: kolo@yahoo.at" },
+    "G": { "title": "", "content": "Spaß & Urlaub. Schifahren und Freizeitspaß in den Bergen: Musikgruppen und Sportwettbewerbe locken Schifahrer und Snowboarder von Mitte März bis Mitte April in die Berge. Nähere Infos unter www.dachstein.at" },
+    "H": { "title": "", "content": "Spenden Sie zum Schutz der Tiere! Braunbären werden wieder in Sloweniens Wäldern angesiedelt. Die Tiere können dort frei leben und werden nicht länger im Zoo gehalten. Helfen Sie dem WWF mit einer Spende unter \"Braunbären\", PSK Kontonummer 12.33.9000" },
+    "I": { "title": "", "content": "Letzte Vorstellung am Sonntag! COLOMBO. Besuchen Sie mit Ihren Kindern auch unseren Streichelzoo, wo man viel über das Leben der Tiere im Zirkus erfahren kann! Nur noch eine Vorstellung!!! Beginn: 12:00 h, Jesuitenwiese" },
+    "J": { "title": "", "content": "TOP CENTER WIEN. FILME DER WOCHE: Top 1, 20.00 Uhr: Im Netz der Spinne (ab 16 Jahren). Top 2, 16.30 Uhr: Ötzi, der Mann aus dem Eis (ab 14 Jahren). Top 3, 19.30 Uhr: The Winslow Boy (ab 12 Jahren, in englischer Originalsprache). Kartenreservierung unter 533 43 43 oder <top@aon.at>" },
+    "K": { "title": "", "content": "GESCHÄFT IN WIENER INNENSTADT SUCHT: erfahrene, modebewusste, freundliche Verkäuferin für 20 Stunden/Woche, Zeiteinteilung und Gehalt nach Absprache. Bewerbungen an: Boutique \"MODE-CLAIRE\", Frau Gerti Langer, Weihburggasse 3, 1010 Wien" },
+    "L": { "title": "", "content": "Großer Abverkauf bei INTERSPORT. 50% Ermäßigung auf modische Sportjacken, Laufhosen und Schianzüge für Damen. INTERSPORT im Donauzentrum" }
+  }
+}

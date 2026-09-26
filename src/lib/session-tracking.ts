@@ -4,12 +4,16 @@ const FP_KEY = "dm_device_fp";
 
 function getOrCreateFingerprint(): string {
   if (typeof window === "undefined") return "ssr";
-  let fp = localStorage.getItem(FP_KEY);
-  if (!fp) {
-    fp = crypto.randomUUID();
-    localStorage.setItem(FP_KEY, fp);
+  try {
+    let fp = localStorage.getItem(FP_KEY);
+    if (!fp) {
+      fp = crypto.randomUUID();
+      localStorage.setItem(FP_KEY, fp);
+    }
+    return fp;
+  } catch {
+    return "storage-blocked";
   }
-  return fp;
 }
 
 function getDeviceName(): string {

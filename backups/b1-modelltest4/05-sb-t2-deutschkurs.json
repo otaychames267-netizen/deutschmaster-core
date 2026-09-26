@@ -1,0 +1,22 @@
+{
+  "title": "Deutschkurs",
+  "level": "B1",
+  "position": 4,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 4/16 (Nadia2/Language Tests, page 48 printed / PDF page 49). Letter to a language school, signed Ivica Palic (Kroatien). Answer key from Lösungen page (printed p.52 / PDF p.53): 31D IN, 32L WEIL, 33E MANCHMAL, 34H SCHON, 35A ABER, 36C DER, 37B DAMIT, 38M WENN, 39N WIE, 40G PAAR.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Damen und Herren,\n\nich habe Ihre Anzeige gelesen und interessiere mich sehr für Ihr Angebot. Ich komme aus Kroatien und möchte {{31}} den nächsten Sommerferien mein Deutsch verbessern. Klagenfurt ist für mich der ideale Ort, {{32}} das nicht so weit weg von meiner Heimatstadt Zagreb ist. Da kann ich an den Wochenenden vielleicht auch {{33}} nach Hause fahren.\n\nNun aber zu meiner Person: Ich bin 24 Jahre alt und habe in der Schule vier Jahre lang Deutsch gelernt. Ich kann zwar {{34}} ganz gut schreiben, {{35}} ich habe immer wieder Probleme beim freien Sprechen. Im Herbst möchte ich in Hamburg ein Studium beginnen, für das ich ebenfalls gute Deutschkenntnisse brauche.\n\nAm liebsten wäre mir ein vierwöchiger Deutschkurs, {{36}} nur vormittags stattfindet, {{37}} ich nachmittags etwas anderes machen kann. Ich hätte den ganzen August bis Mitte September Zeit.\n\n{{38}} Sie einen passenden Kurs für mich haben, schicken Sie mir bitte sobald {{39}} möglich nähere Informationen zu. Mich interessieren auch Ihre Freizeitprogramme, Spezialkurse, die Unterkunftsmöglichkeiten und natürlich die Preise.\n\nBitte empfehlen Sie mir auch ein {{40}} gute Webseiten über Klagenfurt und den Wörthersee.\n\nVielen Dank im Voraus und freundliche Grüße\nIvica Palic",
+  "words": ["ABER", "DAMIT", "DER", "IN", "MANCHMAL", "MIT", "PAAR", "SCHON", "SEHR", "TROTZ", "WANN", "WEIL", "WENN", "WIE", "ZU"],
+  "answers": {
+    "31": "IN",
+    "32": "WEIL",
+    "33": "MANCHMAL",
+    "34": "SCHON",
+    "35": "ABER",
+    "36": "DER",
+    "37": "DAMIT",
+    "38": "WENN",
+    "39": "WIE",
+    "40": "PAAR"
+  }
+}

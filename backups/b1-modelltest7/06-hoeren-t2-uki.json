@@ -1,0 +1,22 @@
+{
+  "title": "UKI",
+  "teil": 2,
+  "level": "B1",
+  "position": 7,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 7/16 (Annika3/Language Tests, page 90 printed / PDF page 91). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.93 / PDF p.94): 46- 47- 48+ 49+ 50+ 51+ 52+ 53+ 54- 55-.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Das Ziel des Vereins UKI ist, ausländische Bürger in Österreich zu unterstützen.", "correct": false },
+    { "number": 47, "text": "Der Verein wendet sich besonders an internationale Manager, weil diese den Verein finanziell unterstützen.", "correct": false },
+    { "number": 48, "text": "Die Abendkurse für Berufstätige dauern neun Monate.", "correct": true },
+    { "number": 49, "text": "Es gibt einen speziellen Deutschkurs für Jugendliche, die eine österreichische Hauptschule besuchen wollen.", "correct": true },
+    { "number": 50, "text": "Es gibt auch Kurse, die nichts mit Deutschlernen zu tun haben.", "correct": true },
+    { "number": 51, "text": "Die Deutschlehrer sind gleichzeitig auch Sozialarbeiter.", "correct": true },
+    { "number": 52, "text": "Sozialarbeiter helfen Ausländern bei Problemen mit Ämtern.", "correct": true },
+    { "number": 53, "text": "Im Kurs werden Papiere für eine Bewerbung vorbereitet.", "correct": true },
+    { "number": 54, "text": "Frauen und Kinder lernen im Unterricht gemeinsam Deutsch.", "correct": false },
+    { "number": 55, "text": "Die Gesetze machen die Arbeit von Frau Böck schwerer.", "correct": false }
+  ]
+}

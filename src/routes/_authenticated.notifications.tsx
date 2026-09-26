@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
 import {
   Bell, CheckCircle2, AlertCircle, Info,
   Zap, Calendar, BellOff, Check,
@@ -21,11 +20,9 @@ interface Notification {
 }
 
 /* Placeholder data until the notifications table is fully wired */
-function buildDefaultNotifications(
-  sub: { status: string; expires_at: string } | null
-): Notification[] {
+function buildDefaultNotifications(): Notification[] {
   const now = new Date().toISOString();
-  const notes: Notification[] = [
+  return [
     {
       id: "welcome",
       type: "success",
@@ -35,22 +32,6 @@ function buildDefaultNotifications(
       read: false,
     },
   ];
-
-  if (sub?.status === "trial") {
-    const days = Math.ceil(
-      (new Date(sub.expires_at).getTime() - Date.now()) / 86400000
-    );
-    notes.push({
-      id: "trial",
-      type: "warning",
-      title: "Trial ending soon",
-      body: `Your free trial expires in ${days} day${days !== 1 ? "s" : ""}. Upgrade now to keep full access.`,
-      created_at: now,
-      read: false,
-    });
-  }
-
-  return notes;
 }
 
 const TYPE_CONFIG = {
@@ -67,17 +48,8 @@ function NotificationsPage() {
 
   useEffect(() => {
     if (!user) return;
-    supabase
-      .from("subscriptions")
-      .select("status, expires_at")
-      .eq("user_id", user.id)
-      .in("status", ["active", "trial"])
-      .limit(1)
-      .maybeSingle()
-      .then(({ data }) => {
-        setItems(buildDefaultNotifications(data));
-        setLoading(false);
-      });
+    setItems(buildDefaultNotifications());
+    setLoading(false);
   }, [user?.id]);
 
   function markAllRead() {

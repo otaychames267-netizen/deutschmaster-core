@@ -1,0 +1,21 @@
+{
+  "title": "Andrea 2",
+  "level": "B2",
+  "position": 10,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 12, اساسي/basic version). Version pair with 'Andrea' (page 11, معدل) — differs at gaps 24 and 28 (positions + options + answers).",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Andrea,\n\nvielen Dank für deine Nachricht. Entschuldige bitte, dass ich {{21}} jetzt antworte, aber ich konnte gestern meinen Laptop nicht verwenden. Ich hatte ihn zu Peter gebracht, damit er mir ein neues Betriebssystem installiert. Jetzt funktioniert alles {{22}}, so dass ich endlich meine Fotos sortieren konnte. Peter und ich haben uns die Fotos von deinem letzten Besuch hier angesehen. Es war so lustig, du musst bald wieder mal {{23}} uns kommen. Nun zu deiner Nachricht: Du suchst also einen Sommerjob im Bereich Touristik und wolltest wissen, ob ich einen Tipp für dich habe. Ich habe mich hier ein wenig umgehört, {{24}} du bist ziemlich spät dran mit deiner Suche. Nur das Hotel \"Seeblick\" sucht noch jemanden für die Rezeption. Man braucht keine {{25}} Berufserfahrung; nur Englisch ist zwingende Voraussetzung, eine {{26}} Fremdsprache wäre noch besser. Das wäre für Juli und August, fünf Tage in der Woche. Du musst dich allerdings sehr bald {{27}}, am besten noch heute. Die Kontaktperson findest du auf der Webseite des Hotels. {{28}} kenne ich die Hotelbesitzer nicht persönlich, sonst hätte ich mich natürlich sofort für dich eingesetzt. Ich werde {{29}} wieder im Kinder-Feriencamp arbeiten. Eigentlich wollte ich dieses Jahr ins Ausland, aber dann habe ich mich doch {{30}}, hier zu bleiben. Meine Mutter hat sich noch nicht richtig von ihrer Operation erholt, und ich lasse sie ungern allein. Also bewirb dich gleich - es wäre toll, wenn wir uns im Sommer viel sehen könnten. Falls es nicht klappt, hoffe ich doch, dass du uns bald besuchen kommst!\n\nIn der Zwischenzeit alles Liebe\nSophia",
+  "gaps": [
+    { "n": 21, "a": "erst", "b": "gleich", "c": "zuerst", "correct": "a" },
+    { "n": 22, "a": "am besten", "b": "bestenfalls", "c": "bestens", "correct": "c" },
+    { "n": 23, "a": "bei", "b": "mit", "c": "zu", "correct": "c" },
+    { "n": 24, "a": "aber", "b": "denn", "c": "oder", "correct": "a" },
+    { "n": 25, "a": "besondere", "b": "geringe", "c": "gute", "correct": "a" },
+    { "n": 26, "a": "künftige", "b": "nächste", "c": "weitere", "correct": "c" },
+    { "n": 27, "a": "anwerben", "b": "bewerben", "c": "umwerben", "correct": "b" },
+    { "n": 28, "a": "Bedauerlich", "b": "Leider", "c": "Schade", "correct": "b" },
+    { "n": 29, "a": "deshalb", "b": "trotzdem", "c": "übrigens", "correct": "c" },
+    { "n": 30, "a": "ausgemacht", "b": "beschlossen", "c": "entschieden", "correct": "c" }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "title": "Die TU Dresden",
+  "teil": 2,
+  "level": "B2",
+  "position": 24,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 25 (code 35780) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Die TU Dresden ist eine kleine Universität.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "An der TU Dresden kann man nur technische Fächer studieren.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Ältere Studierende kümmern sich um neue Studierende.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Man erreicht die Neustadt nicht mit öffentlichen Verkehrsmitteln.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Jens ist nicht sicher, ob er nach dem Studium einen interessanten Job bekommt.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Studienanfänger können noch zwischen Bachelor und Diplom wählen.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Mit dem Semesterticket dürfen Studierende öffentliche Verkehrsmittel in Dresden nutzen.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Für Studienanfänger gibt es die Möglichkeit, bestimmte Grundkenntnisse aufzufrischen.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Im Studium gibt es keine Gruppenarbeit.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "An der TU Dresden kann man auch außergewöhnliche Sportarten treiben.",
+      "correct": true
+    }
+  ]
+}

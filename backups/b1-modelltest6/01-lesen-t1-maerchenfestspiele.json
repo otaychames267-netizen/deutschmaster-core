@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Märchenfestspiele",
+  "level": "TELC_B1",
+  "position": 6,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 6/16 (Petra/Language Tests, pages 67-68 printed / PDF pages 68-69). Headlines a/b/c printed lowercase and D/E/F/G printed uppercase in source (inconsistent capitalization); all uppercased to A-J per this platform's schema convention. Text 4 has two genuinely overlapping printed lines in the source (a print/layout defect, not a scan artifact) reading 'zahlt der Chef mehr. Im Laufe des vergangenen Jahres haben zwei weitere Untersuchungen festgestellt:' overlaid with 'Wer wenig lacht oder häufig mit Kollegen trinken geht, verdient mehr nur. Nicht'; both lines transcribed in this reading order, joined, per verbatim-transcription policy — not corrected or omitted. Answer key from Lösungen page (printed p.80 / PDF p.81): 1J 2E 3F 4D 5G.",
+  "headlines": [
+    { "letter": "A", "text": "Märchen-Festspiele in Bremen", "is_distractor": true },
+    { "letter": "B", "text": "Griechische Botschaft bietet Sprachkurse für Schüler", "is_distractor": true },
+    { "letter": "C", "text": "Universitätsstadt wird 300 Jahre", "is_distractor": true },
+    { "letter": "D", "text": "Wissenschaft: Von der Körpergröße hängt das Gehalt ab", "is_distractor": false },
+    { "letter": "E", "text": "Durch Handel reich geworden", "is_distractor": false },
+    { "letter": "F", "text": "Interessante Universitätsstadt mit hoher Lebensqualität", "is_distractor": false },
+    { "letter": "G", "text": "Latein in deutschen Schulen wieder beliebter", "is_distractor": false },
+    { "letter": "H", "text": "Wer wenig lacht, verdient auch weniger", "is_distractor": true },
+    { "letter": "I", "text": "Fremdsprachen: Schüler lernen nur Englisch und Französisch", "is_distractor": true },
+    { "letter": "J", "text": "Griechisch wird in deutschen Schulen kaum unterrichtet", "is_distractor": false }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "In Deutschland lernen nur ganz wenige Schüler Griechisch. Es sind insgesamt nur 0,14% aller Schüler. Vor 30 Jahren waren es noch 0,48%. So berichtet die griechische Botschaft in Berlin in ihrem Europabericht. Griechisch wird meistens von Zwölftklässlern als dritte Fremdsprache neben Französisch und Englisch gewählt. Die wenigen Schüler, die Griechisch wählen, haben Verwandte in Griechenland.", "correct_headline": "J" },
+    { "position": 2, "title": "", "content": "Dem Meer verdankt die Hansestadt Bremen ihre Bedeutung. Bremer Kaufleute und Seefahrer nutzten die günstige geografische Lage, um in aller Welt heimisch zu werden. Seit Generationen haben sie Handel getrieben, so dass Geld in die Stadt kam. Dies sieht man der Stadt heute noch an: das Alte Rathaus, das Kaufmannhaus, die historische Innenstadt. Außerdem war Bremen auch immer eine Heimat für natürlich das Märchen der Bremer Stadtmusikanten.", "correct_headline": "E" },
+    { "position": 3, "title": "", "content": "Freiburg, die Hauptstadt des Schwarzwaldes, liegt in einer der sonnigsten Gegenden Deutschlands. Wo es so viel Sonne gibt, da ist auch viel Lebensfreude, und nicht zuletzt gehören auch badische Küche und badischer Wein zum Besten, was in Deutschland geboten wird. Zum einmaligen Flair der gemütlichen Universitätsstadt trägt auch ihre Lage bei. Frankreich und die Schweiz sind nicht weit entfernt. Die Stadt selbst lockt mit vielen alten Straßen mit zahlreichen Museen und Baudenkmälern. Über alles hinaus ragt die große Kirche, die nach 300-jähriger Bauzeit 1513 vollendet wurde.", "correct_headline": "F" },
+    { "position": 4, "title": "", "content": "In einer wissenschaftlichen Untersuchung hat man erforscht, warum bestimmte Menschen mehr Geld verdienen als andere. Britische Wissenschaftler behaupten, größeren Menschen zahlt der Chef mehr. Im Laufe des vergangenen Jahres haben zwei weitere Untersuchungen festgestellt: Wer wenig lacht oder häufig mit Kollegen trinken geht, verdient mehr. Nur nicht lachen und mit Kollegen trinken gehen, das kann man lernen. Aber wachsen?", "correct_headline": "D" },
+    { "position": 5, "title": "", "content": "Das Statistische Bundesamt berichtet, dass in deutschen Schulen allgemein wieder mehr Latein gelernt wird. Allein in Thüringen hat sich die Anzahl in den letzten beiden Jahren verdoppelt. Während der Tiefpunkt bei Latein im vorletzten Jahr erreicht war, wählen zurzeit wieder mehr Schüler Latein als erste Fremdsprache. Als vorteilhaft hat sich offenbar vor allem das wittenbergische Modell erwiesen, das Latein in der fünften Klasse mit einer modernen Fremdsprache (Französisch, Englisch usw.) kombiniert. Allerdings sind hier meist nur drei Stunden für beide Sprachen pro Woche vorgesehen. Das sei bei Weitem zu wenig, kritisieren Lateinlehrer.", "correct_headline": "G" }
+  ]
+}

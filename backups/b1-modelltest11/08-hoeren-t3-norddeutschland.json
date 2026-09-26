@@ -1,0 +1,17 @@
+{
+  "title": "Norddeutschland",
+  "teil": 3,
+  "level": "B1",
+  "position": 11,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 11/16 (Petra/Language Tests, page 156 printed / PDF page 157). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.158): 56- 57+ 58+ 59- 60-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "In Norddeutschland steigen die Temperaturen morgen auf 5 bis 7 Grad.", "correct": false },
+    { "number": 57, "text": "Hamburg hat öfter gewonnen als Stuttgart.", "correct": true },
+    { "number": 58, "text": "Nach zwei Monaten müssen Sie für die Zeitschrift bezahlen.", "correct": true },
+    { "number": 59, "text": "Auf dem Mittleren Ring in München wird die Geschwindigkeit kontrolliert.", "correct": false },
+    { "number": 60, "text": "Janas Geburtstagsfest findet nicht im LEO statt.", "correct": false }
+  ]
+}

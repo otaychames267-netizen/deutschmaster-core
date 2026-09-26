@@ -1,0 +1,63 @@
+{
+  "title": "Die Radiosendung",
+  "teil": 2,
+  "level": "B2",
+  "position": 36,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 37 (code 24589) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Die Radiosendung stellt wöchentlich Leute aus ganz Deutschland vor.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Eva Küpper läuft im Training wenigstens einmal pro Woche auch über die Marathondistanz.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Ihren Job als Bankangestellte würde Eva Küpper gerne kündigen.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Nach der Ausbildung hat Eva Küpper ihren Lebensstil radikal verändert.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Eva Küpper kommt ursprünglich aus München.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Eva Küpper gefallen Dauerläufe in der Stadt genauso gut wie in den Bergen.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Während eines Ultramarathons wechselt Eva Küpper die Laufschuhe dreimal.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Die spezielle Uhr ist für Eva Küpper nicht nur im Training, sondern auch im Wettkampf wichtig.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Solange der Körper gesund ist, will Eva Küpper weiterhin Ultramarathons laufen.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Nach dem Berlin Marathon kann Eva Küpper dem Lauf-Club offiziell beitreten.",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Herr Meyerhofer",
+  "level": "B1",
+  "position": 1,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 1/16 (Petra/Language Tests, page 7). Answer key from Lösungen page (p.13): 21b 22a 23a 24a 25b 26b 27a 28a 29b 30b.",
+  "instructions": "Lesen Sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig? Markieren Sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Sehr geehrter Herr Meyerhofer,\n\nWie Sie wissen, miete ich nun schon seit drei Jahren eine Wohnung in {{21}} Haus. Ich {{22}} die ganze Zeit sehr zufrieden, denn im Haus war es immer ruhig, sauber und sicher. In der Zwischenzeit {{23}} sich die Wohnqualität durch die Eröffnung des Restaurants im Erdgeschoss aber deutlich verschlechtert. {{24}} spät abends höre ich nun täglich {{25}} Lärm der Restaurantgäste im Garten, die Mülleimer im Hof sind immer überfüllt, die Parkplätze vor dem Haus, {{26}} eigentlich für die Mieter reserviert sind, sind immer besetzt, und das Treppenhaus ist ständig verschmutzt. Außerdem fühle ich mich {{27}} Haus nicht mehr sicher, weil das Restaurant oft die ganze Nacht {{28}} hat. Ich möchte Sie dringend bitten, sich um diese {{29}} zu kümmern und mit den Restaurantbesitzern zu sprechen. Vielleicht könnte {{30}} gemeinsam eine Lösung finden.\n\nMit freundlichen Grüßen\n\nIhre Anneliese Kühne",
+  "gaps": [
+    { "n": 21, "a": "Ihr", "b": "Ihrem", "c": "Ihren", "correct": "b" },
+    { "n": 22, "a": "war", "b": "wäre", "c": "würde", "correct": "a" },
+    { "n": 23, "a": "hat", "b": "ist", "c": "wurde", "correct": "a" },
+    { "n": 24, "a": "Bis", "b": "Nach", "c": "Von", "correct": "a" },
+    { "n": 25, "a": "dem", "b": "den", "c": "der", "correct": "b" },
+    { "n": 26, "a": "denen", "b": "die", "c": "diese", "correct": "b" },
+    { "n": 27, "a": "im", "b": "in", "c": "ins", "correct": "a" },
+    { "n": 28, "a": "geöffnet", "b": "öffnen", "c": "öffnet", "correct": "a" },
+    { "n": 29, "a": "Problem", "b": "Probleme", "c": "Problemen", "correct": "b" },
+    { "n": 30, "a": "er", "b": "man", "c": "wir", "correct": "b" }
+  ]
+}

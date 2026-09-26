@@ -1,0 +1,63 @@
+{
+  "title": "Carina 2",
+  "teil": 2,
+  "level": "B2",
+  "position": 8,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Carina",
+  "notes": "PDF page 9 (code 134890) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Der Berufseinstieg ist in anderen Ländern nicht leicht.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Carina ist ihr Beruf wichtiger als ihr Privatleben.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Carina hat den Agentur mit einem Videofilm Interesse gewerkt.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Carina hat für einen Film ein Dait gemacht.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Carina macht lieber gefühlvolle Filme als Action-Filme.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Wegen der vielen Fehlstunden hatte Carina Probleme mit dem Direktor der Schule.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Carinas Eltern haben ihre Tochter von Anfang an unterstützt.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Carina finde den Wechsel zwischen Schule und Drehterminen Nicht leicht.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Bei Dialogen darf man auch selbst etwas erfinden.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Carina empfiehlt, sich andere Schauspieler im Theater und in Filmen anzusehen.",
+      "correct": true
+    }
+  ]
+}

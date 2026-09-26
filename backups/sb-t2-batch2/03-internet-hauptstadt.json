@@ -1,0 +1,22 @@
+{
+  "title": "Die Internet-Hauptstadt Deutschlands",
+  "level": "B2",
+  "position": 53,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 3. Source word-bank marks only 9 of 10 gaps (mark '3' absent from print after exhaustive per-word zoom check). Gap 33 answer (WORDEN, passive perfect of 'ausgebaut worden') determined by grammar + elimination: fits 'ist ... ausgebaut worden' precisely, and using it leaves exactly the required 5 distractors (DARÜBER, EIGENTLICH, GEWESEN, ÜBER, ÜBRIGENS). All other 9 gaps verified against explicit source marks.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Erste E-Mail startete 1984 von Karlsruhe aus ins Netz\n\nMit einem historischen Knopfdruck versandte der Karlsruher Informatik-Professor Heinz Henn im Jahr 1984 die erste E-Mail vom deutschen Boden aus. Mehr als zwei Jahre dauerte die Forschungsarbeit an der Karlsruher Universität, bis es möglich wurde, ein offenes Rechnernetz herzustellen, {{31}} das sich immer weitere Teilnehmer anschließen konnten. Aus dem ursprünglichen Kommunikationsnetz zum Informationsaustausch unter Wissenschaftlern war ein elektronischer Postverband {{32}}.\nKarlsruhe ist dann schnell zum Knotenpunkt des E-Mail-Netzes für Deutschland ausgebaut {{33}}. Aus allen Winkeln Deutschlands liefen hier die elektronischen Fäden zusammen. Zu den ersten Kunden zählten aber {{34}} nur Universitäten und Forschungseinrichtungen, {{35}} auch große Firmen wie Siemens oder Bosch. Deutschland war nach Kanada, Schweden und Israel das weltweit vierte Land, das ein landesweites E-Mail-Netz aufweisen konnte. Bis 1989 wurden schließlich die E-Mail-Netze bis nach China und in die USA ausgeweitet.\nDer Knopfdruck von 1984 hat die Kommunikationsmöglichkeiten der Menschen geradezu revolutioniert. Die Briefschreiber von früher verwandelten sich {{36}} die Versender elektronischer Post von heute. War früher ein Brief von einem Kontinent zu einem anderen manchmal wochenlang unterwegs, erreicht die E-Mail ihre Empfänger in Sekundenschnelle. Der uralte Menschheitstraum, jedermann jederzeit schnellstmöglich zu erreichen, wurde Wirklichkeit.\n{{37}} es gibt auch Stimmen, die Kritik {{38}} üben, dass die elektronische Post {{39}} einem Sprachgebrauch geführt hat, der sich deutlich negativ auf den Stil ausgewirkt hat. Es gebe keine festgelegte Form mehr für E-Mails, wie sie für Briefe verbindlich war. Man lege keinen Wert mehr {{40}} den Ausdruck, die Sprache sei knapp und kurz, ohne Schönheit.\nDiese Kritik interessiert die E-Mail-Nutzer von heute aber meist nicht. Das beweisen die mehr als drei Millionen Internetdomains, die heute auf den Servern einer einzigen Karlsruher Internetfirma liegen. Bis zum Ende des letzten Jahrtausends wurden Internetadressen nur von Karlsruhe aus vergeben. 2003 wurde Karlsruhe daher in den Stand der Internethauptstadt Deutschlands erhoben.",
+  "words": ["NICHT", "AN", "AUF", "DARAN", "DARÜBER", "DOCH", "EIGENTLICH", "GEWESEN", "GEWORDEN", "IN", "ÜBER", "SONDERN", "ÜBRIGENS", "WORDEN", "ZU"],
+  "answers": {
+    "31": "AN",
+    "32": "GEWORDEN",
+    "33": "WORDEN",
+    "34": "NICHT",
+    "35": "SONDERN",
+    "36": "IN",
+    "37": "DOCH",
+    "38": "DARAN",
+    "39": "ZU",
+    "40": "AUF"
+  }
+}

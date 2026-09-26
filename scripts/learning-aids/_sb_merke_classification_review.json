@@ -1,0 +1,8395 @@
+[
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "erst (دلالة على التأخر)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bestens + funktionieren",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "zu + Dativ",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "صفة نعتية قبل الاسم (Akkusativ بعد keine)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "weitere (إضافة من نفس النوع)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich bewerben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Leider",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "übrigens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entscheiden zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "erst (دلالة على التأخر)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bestens + funktionieren",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "zu + Dativ",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "ziemlich (تكثيف صفة)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "صفة نعتية قبل الاسم (Akkusativ بعد keine)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "weitere (إضافة من نفس النوع)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich bewerben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sonst + Konjunktiv II",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "übrigens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Andrea (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entscheiden zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "wie ihr wisst",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "vorliegen (التوفر/الجاهزية)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "im Interesse von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "abliefern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bei jmd. liegen (الملكية)",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "stark zurückgehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "bitten um / darum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ansprechen (يلامس الاهتمام)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Autorinnen und Autoren",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich verstehen als",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "vor + اسم جمع (-n)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Ihnen (مع mitteilen)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "Präteritum musste مع funktionierte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "noch (مدة متبقية)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "deshalb",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "entweder...oder",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "bitten um",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "in + meine Heimat (مؤنث)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "möchte...mitnehmen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Brauckmann Versand",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "jemanden benachrichtigen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es tut mir leid, dass...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "sich beschäftigen mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "doch + wie Sand am Meer",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "insbesondere",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "überwiegend",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "müssen (مع leider)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenig Lust haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "(Lust) kommt wieder",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sich Zeit lassen → lässt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "so früh wie möglich",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es tut mir leid, dass...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "sich beschäftigen mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "doch + wie Sand am Meer",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "insbesondere",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "überwiegend",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "fast + كمية زمنية",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenig Lust haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "(Lust) kommt wieder",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sich Zeit lassen → lässt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Corinna (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "so früh wie möglich",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "eigentlich (مع wollte)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "man...man",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "dessen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "eine Zeit überstehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "etwas Tolles unternehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ganz besonders",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sich interessieren für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Mach doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Daniela",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wir → uns",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "noch schöner",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich etwas anschauen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sollten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ankommen wirst",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "falls",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seitdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Erinnerungen auffrischen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "als (لا wenn)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "lass dich überraschen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "noch schöner",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich etwas anschauen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sollten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ankommen wirst",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "falls",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seitdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Erinnerungen auffrischen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "als (لا wenn)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "David (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "kaum zu glauben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "anlässlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "denen (مع sich widmen)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "es geht darum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "um...zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "Herz → Herzen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "anhand + Genitiv",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "schaffen → geschaffen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "größter",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "lässt sich vermeiden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Eltern und Erziehungsberechtigte",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "während",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Antwort auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "abschließen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "ein bisschen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einen Kurs machen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Frage an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "irgendjemandem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "danke, dass...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "schon",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "vorschlagen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Familie Geissler oder Dippold",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "ein bisschen mehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "um...zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "aber (مع anderseits)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "unbedingt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ich → mich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "kommenden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Lust dazu haben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "nicht nur...sondern auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "etwas für jemanden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "um...zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "doch (مع anderseits)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "unbedingt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ich → mich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "kommenden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Lust dazu haben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ferdinand, Phillip, Christopher (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einfach",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "davon",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "mittwochs",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "Beginn + Genitiv",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "dessen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Ihnen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sein + Partizip II (Zustandspassiv)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Goronsksa",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "Verbletztstellung",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "in dem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "untergebracht sein",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sich befinden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "zeigen → gezeigt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "der)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "berühmt für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "zur Verfügung stehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "an etwas teilnehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Melchior – Dresden-Reise",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einen Überblick verschaffen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "anlässlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "ob (مع anfragen)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sowohl...als auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "von...bis",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "deren",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "Vortragende",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "die Möglichkeit geben, zu...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "zur Verfügung stehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "ein paar Tage (vorher)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Stein ( Neu )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "rechnen mit → dabei/damit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Interesse an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in Höhe von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "für",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sich anschließen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bezüglich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "so...wie möglich",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "einer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "damit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "bei weiteren Fragen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "anbei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in Höhe von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "zur",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "stattfinden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bezüglich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "möglichst",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "einer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "damit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Frau Szabo (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "bei weiteren Fragen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "dafür",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "werden + Partizip II",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "bis",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "behoben werden müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "um...zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "Zugang ermöglichen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "letzter Zeit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "darauf achten, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Bällen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "HausbewohnerInnen",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "freundlichen Grüßen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "allergrößtem",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in dem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "dem Ihren",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "übernehmen zu können",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Lehre bei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ein Jahr lang",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seine Liebe zu etwas entdecken",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "was...angeht",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sowohl...als auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Dobromil",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entschließen, zu...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "allergrößtem",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "in dem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "so...wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "übernehmen zu können",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Lehre begann",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ein Jahr lang",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "seine Liebe zu etwas entdecken",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Während",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sowohl...als auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Dr. Moosberger",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich entschließen, zu...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Anfrage zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "kommenden Oktober",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nach Kriterien auswählen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "anbieten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "so dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "gemeinsam mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "der Besuch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ist geplant (Zustandspassiv)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "besprechen → besprochen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Ihrer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "kommenden Oktober",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nach Kriterien auswählen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "anbieten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "so dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "gemeinsam mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "der Besuch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ist geplant",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "besprechen → besprochen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Martini (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Dank für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "jeweils",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "einer Sache gewidmet sein",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "vorbereitende",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "die meisten (+Genitiv)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "entlang",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auf den Spuren",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "deren",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sofern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Herr Wenzel",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "erreichbar",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "hätte...können",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "ich → mich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nachdem + Plusquamperfekt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "es liegt daran, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "miteinander",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "anders als",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "bei uns",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ida",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "eigentlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "Zug fahren",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "abhängen davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sprechen → gesprochen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "vorschlagen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "die beiden → sich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "der",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Igor",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "jedenfalls",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "will...lassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "als + اسم بدون أداة",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ziemlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "beim + اسم",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "durchzusetzen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "totalem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jens' Fußballtrainer-Sorgen",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich(Dativ) etwas vorstellen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Hoffentlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "nämlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "schon",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einverstanden sein damit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "miteinander",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "kurz vor",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "weshalb",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "vollkommen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Judith oder Lina",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einen angenehmen Tag",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "voneinander hören",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "eine Rundreise durch",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wie du weißt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "es",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "erste",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "denken daran",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "mir kommt ein Gedanke",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julia",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "könnte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "hattest...konntest",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "würde",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "Zeit für etwas haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "vielen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "Fachwerkhäuser gefallen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "dann",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "ausgeräumter",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Julian",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "gar nicht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nicht besonders",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "schließlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "weit entfernt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "die Stelle wechseln",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ehrlich gesagt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "kommenden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "je + Komparativ",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie wäre es",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "zum ersten Mal",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nicht besonders",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "schließlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "weit entfernt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "die Stelle wechseln",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ehrlich gesagt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "kommenden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "je",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Justus oder Juhannas (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie wäre es",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Grund dafür",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "verschoben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nicht mehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "ins Krankenhaus einweisen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "Übergewicht",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "zur Behandlung",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "über",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "unter anderem",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jutta",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "gar nicht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie ist es denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "eine Einladung annehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich kümmern um",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auch wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sich freuen für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "mal überlegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wollen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie ist es denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nebenbei jobben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Einladung annehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auch wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "freuen für dich",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "wollen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "nicht viel zumuten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wie ist es denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nebenbei jobben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "eine Einladung annehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auch wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ihr versteht euch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "neulich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Karin (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "nicht viel zumuten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "einladen dazu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "beim Sparen helfen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "etwas gewinnen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "spätestens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "zwischen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich melden bei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "überprüfen lassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "am Herzen liegen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "hoffen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "deinen Brief",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "noch gut wissen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "für ... wünschen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "neuen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "du weißt ja",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "stolz darauf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "es wäre schön, wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "trotz",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lara",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "damit...können",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "von denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "es war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich gewöhnen daran",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einen Pullover",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "müsse",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "aus der Nähe von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "mit den großen Containerschiffen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "um die Schiffe",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "in einem der Cafés",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Laura",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wiedersehen müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "Grüße aus",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "was los war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "wird organisiert",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "wäre geblieben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "konnte schlecht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Beides",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "erst noch keine Pläne",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Leon",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich freuen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es ist ... her",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "ist erkrankt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "zwar...aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "werde...legen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sich freuen darauf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "halten davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "jmdm. auf der Nase herumtanzen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "es ist nicht leicht, zu...",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Agnieszka",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "einen Weg finden, wie",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "vergangen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "plötzlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "zwar...aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "werde...legen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sich freuen darauf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "halten davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "auf der Nase herumtanzen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "es ist nicht leicht, zu...",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie du zurechtkommst",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "den",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "hast verbracht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "fragen mich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "noch jung genug",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "einen Computer bedienen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "Angst haben, zu...",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Kenntnisse einsetzen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "wenn du mich fragst",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Anna (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "nämlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "voneinander hören",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "eine Rundreise durch",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wie du weißt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "es",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "erste",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "denken daran",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "mir kommt ein Gedanke",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Clara",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "könnte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "überraschen dich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "könnte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich erholen von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "etwas als X empfinden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bestehen aus",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ist zu erreichen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "lebenden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "wenige",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra ( Original )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "würdest gern umziehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "es überrascht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "es überrascht, dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "viel Stress",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "bestehen aus",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "zu erreichen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "lebenden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "wenige",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebe Sandra (معدل)",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "was gibt es Neues",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bevor + Plusquamperfekt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wollte (نية شخصية)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nichts davon hören wollen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "einerseits...andererseits",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "helfen dabei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auszusuchen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "grundlegende",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "im Gegensatz zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lieber Thomas",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "suchen nach",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "denken daran",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "zwar...aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "musste",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "verschiedenen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wurde gesucht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "keine",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "eine Einladung zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lina",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sollt (mit endlich)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "einladen für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wohnen bei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "einiges zu bieten haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "auf den Turm steigen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ist möglich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "wo",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "Dabei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "an diesem Wochenende",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lina und Florian",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "sich sehen lassen können",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "noch rasch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "wegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "bis auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nachdem + Plusquamperfekt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich erweisen als",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "auf dem Programm stehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "ganz schön",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "sollten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "inzwischen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "nachdem + Plusquamperfekt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "Da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "sich freuen für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sowohl...als auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "تصريف الصفة المُسمّاة بعد alle (جمع، تصريف ضعيف)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "einige + Genitiv",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "als (وصف حالة حقيقية سابقة)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "alle Hände voll zu tun haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maria und Timur",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "die Gelegenheit haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "wohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "etwas hinter sich haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "bestehen → bestanden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "ja",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich fangen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "sobald",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich bewerben bei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "von + der (مؤنث)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Markus",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "und zwar (تفصيل دقيق)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "تصريف الصفة بعد أداة ملكية في Dativ مؤنث",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "seit (بداية مستمرة)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "nachdenken über / darüber",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "sich einschreiben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "könnte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "so...wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "die Vorbereitungen nehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "für + mich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Meike",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "in + denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "die",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "überzeugt, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "unseres Magazins",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "für...denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "zu stärken",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "im Sommer",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "dieses Mal",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "sich bedanken bei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "welches",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "gemeinsamen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "kennenlernen sie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "deshalb",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wann",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "auf jeden Fall",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "sich vorstellen können",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "halten davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "Ausbildung als",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Paola",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie dem auch sei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "sich freuen über",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "sich befinden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "von dem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "kann...gestaltet werden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "sich beschäftigen mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "während",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "zwar...aber (ضمنية)",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "dessen Lebensstil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "damit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Rahim",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wenn...gewusst hätte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "bevor + Plusquamperfekt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "wollte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "nichts davon hören wollen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "einerseits...andererseits",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "helfen dabei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "auszusuchen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "grundlegende",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "im Gegensatz zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ramon",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "eine Tour durch",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "mit einer Gruppe",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "dir denken können",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "aufgeregt sein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "im Herbst",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "würde...wiedersehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "hätte lernen können",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "etwas davon haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theatertournee durch Spanien",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "wiedergefunden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "21",
+    "keyword": "über den Brief",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "22",
+    "keyword": "nichts mehr gehört",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "23",
+    "keyword": "du weißt doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "24",
+    "keyword": "Wie ist es",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "25",
+    "keyword": "am Fuß der Alpen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "26",
+    "keyword": "weh getan",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "27",
+    "keyword": "umfallen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "28",
+    "keyword": "dir vorstellen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "29",
+    "keyword": "jede Menge",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vanessa",
+    "teil": 1,
+    "gap": "30",
+    "keyword": "aufhören damit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "auf den Punkt bringen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "aus der Welt schaffen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "bieten...an",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "weitere",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "es geht darum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Mittel zum Zweck",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "entgehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "wovon handeln",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "am Unwillen liegen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Allein das Wort „Museum“ ist schon fad",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eher...als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "möchte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "eine Chance geben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "warum",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Verantwortung übernehmen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "könnten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "(zur/vor) Verfügung stehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "trotzdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ausbildung mit über 30",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "vorstellen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ebenfalls",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "die Jahre davor",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "vielmehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "herrschen...vor",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "bereit sein, zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "wohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "durch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "sich erfolgreich behaupten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Crowdfunding boomt, Print lebt",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "damit ein Qualitätsanspruch verbunden ist",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "kaum",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "umsteigen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "an...vorbei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "statt zu sitzen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "innerhalb",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "aufhalten müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Angebot an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "dann",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Fahrrad: ernsthafte Konkurrenz fürs Auto?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "während",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "dadurch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "unumstritten, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "um",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Nachkommen bekommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "der Grund dafür",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "menschliche Eingriffe",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "noch überall",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Das Schicksal des Braunbären",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "es ging bergab mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "was...betrifft",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "jetzt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Experimente an der Universität",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "auswählen aus",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "darauf erkennen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "so dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "nicht nur...sondern auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "von denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "schließen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der Hund als intelligentes Wesen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "keine",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zwar...jedoch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wurden durchgeführt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "an den Augen ablesen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "reagieren auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um...herum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "davon ausgehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "stolz darauf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zwar...jedoch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wurden durchgeführt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "an den Augen ablesen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "reagieren auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "war",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um...herum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "davon ausgehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "stolz darauf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Der klügste Freund des Menschen (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "verglichen mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "bei dem Kind bleiben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Das",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "der Grund dafür",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "obwohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "so...dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Anspruch auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sprechen von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zur Verfügung stehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "bei dem Kind bleiben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Das",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "dennoch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "niemanden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "so...dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Anspruch auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zur Verfügung stehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "dennoch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zu vereinbaren",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "niemanden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "werden geschlossen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "so...dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich breitmachen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Anspruch auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Deutschland – ein Paradies für Kinder? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dabei meinen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "an das",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "geworden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "ist ausgebaut worden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht nur...sondern auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "sich verwandeln in",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Kritik daran üben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "führen zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Internet-Hauptstadt Deutschlands",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Wert legen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "eingestellt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Kunden gewinnen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "aus Gründen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "in Mode kommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Konkurrenz machen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ganz schön",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "als + صفة",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "während",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Reise im Schlafwagen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "voreilig sein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "in Mode bringen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ganz so schnell",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "könnten...ausweiten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "insgesamt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "eine neue",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "eingestellt werden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Konkurrenten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "durch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gestaltet wäre",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die Rückkehr des Nachtzugs",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "rechnen mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "gültig",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sieht...vor",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "sollte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "so...dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "die Fahrweise anpassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "allerdings",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "den Rand benützen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "eine solche Stelle",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Die wichtigsten Regeln auf der Skipiste",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Personalien angeben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nach Angaben von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "drastisch sinken",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "rechnen mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aufgrund",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "steigen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "unschwer erahnen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich einstellen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich interessieren für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "im Konsum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Es gibt immer weniger Deutsche",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Probleme beheben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "genau das Gegenteil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "zu etwas fähig sein",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "entwickelten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "durch Beobachtung lernen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "noch nicht einmal",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "übrigens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "für intelligent halten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "andere...als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Fische sind schlauer, als wir denken",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich setzen lassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "werden gezüchtet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Vorteile liegen auf der Hand",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "je mehr, desto höher",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Schutz vor",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "es grünt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich einfach wohl fühlen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "mittlerweile",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "solche Städtchen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Garten in der Stadt",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dadurch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "von Handy zu Handy",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "herankommen an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "schon da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus der Mode kommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dafür umso",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "dabei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "daraus machen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "also",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Hase im Display",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "drastisch ansteigen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "gehören nicht auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "behält...an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "so mancher",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "mit 'Fräulein' rufen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dagegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ein Wink mit der Hand",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "mit dem Essen fertig sein",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Takt ist gefragt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "jmdm. etwas klarmachen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "gehören nicht auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "behält...an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "bereitet manchem",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "mit der Anrede",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dagegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ein Wink mit der Hand",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "mit dem Essen fertig sein",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Taktgefühl ist wichtig",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "jmdm. etwas klarmachen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Im Restaurant (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seltener...als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "die vergangene Woche",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zwar",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "durch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dieselbe Wirkung",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "wurden beobachtet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "ein geringeres Risiko",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "weniger auftreten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "deutlich besser",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Ist der Umgang mit Haustieren gesund für Kleinkinder?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "das Gegenteil ergeben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie immer",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "teilnehmen an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "als + صفة",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "bei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie immer",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "teilnehmen an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "im Bundesfinale",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "bei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "macht aufmerksam",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "eigene Argumente",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eine Chance, zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "teilnehmen möchten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "warum",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "im Bundesfinale",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "bei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "macht aufmerksam",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "eigene Argumente",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "prüfen kannst",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Jugend diskutiert – mach mit! (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "eine Chance, zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich treffen zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wie lange",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Sicher ist nur",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "damals",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "nicht nur...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "von",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "konnten sich leisten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "bis heute",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "aus aller Welt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Kaffee und Kuchen – ein Stück Tradition",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "immer häufiger",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "in der Lage sein",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nach eigenen Angaben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "das Verhalten untersuchen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "zunächst",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "immer weiter",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sofern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "es ist bekannt, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Katzen kennen ihren Namen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "bloß",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "vor Ostern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "einzelner Jahre",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "vieler Forscher",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "werden...steigen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "falls",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "bedrohlichen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Risse bekommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "befestigt worden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "überhaupt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "davor gewarnt werden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "genauso...wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "leiden unter",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "das stimmt nicht",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "findet...statt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "keine Rolle spielen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "nicht allzu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lange schlafen ist gesund, oder etwa nicht?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "zur Ruhe kommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "höchst rege",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "an einer Universität",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "allein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "darauf folgten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "dürften sein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "verzichten auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "stattdessen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "zu kurz kommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "aufgrund dessen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "gespeist werden durch",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nutzen die Chance",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wird angeboten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "als + صفة",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "dagegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "könnten sein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "sich einsetzen für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "erwachsen sein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "während",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "daher",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Lernen ist kein Privileg der Jugend (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "einige Kompetenzen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "anhand",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Kategorien von",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sowie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "liegt auf der Hand",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "zu anstrengend",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "folglich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "eher skeptisch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gehören zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wohl",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zufolge",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "sowie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "und",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "jede Frau",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "zu anstrengend",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "folglich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gehören zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "vermutlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zufolge",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Kategorien von",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sowie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "aus denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "jede Frau",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "zu anstrengend",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "folglich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "gehören zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Liebesgrüße aus der Kühltruhe (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "vermutlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ein Grund für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Unterschied zwischen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht irgendein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "die Voraussetzung dafür",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "davon abhängen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "helfen...weiter",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "führt dazu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "das Problem ist, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "das Interessante daran",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "zum Kochtopf greifen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ein Grund für",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Unterschied zwischen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "denen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "gelten als",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "davon abhängen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um die Ecke",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "führt dazu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "das Problem ist, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Man(n) kocht selbst (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "genauso...wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "eine Flut von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "recht einfach",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "stellt sich die Frage",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "diesen Fragen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "die meisten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "korrekt bestimmen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "unlogische Abweichungen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "zwischen...unterscheiden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Manipulierte Bilder",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "somit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich darüber ärgern",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "fast nur noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "ans Licht bringen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "weder...noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "suchen müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "das",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen ermöglichen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "dürfen sich freuen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "sich freuen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sich darüber aufregen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "fast nur noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "kam zu einer Erkenntnis",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "weder...noch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "habe zugenommen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Das",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen ermöglichen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "sich freuen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Maßgeschneidert nach Bodyscanning (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "gleich groß",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "traurig darüber",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "ganz besonders",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zeigen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "um zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "meinte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "wollte nichts annehmen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Menschen helfen Menschen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wenigstens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "doch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "leitet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "bis sie ankommt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nämlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "darf keinesfalls",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "schlimmer als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich genau ansehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "erwerben",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Obst und Gemüse",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "abgeschlossen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "sogar",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Partnerschaft mit",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "nicht nur...sondern auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ohne dass",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "anstatt zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "besonders geeignet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollte besser",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "um zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Online-Sprachkurse & Co. – Wie lernt man heute am besten eine Sprache?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "schon",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "wäre",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Grund dafür",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mag sein",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "zwar...aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "zwar...aber",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "mehr...als",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "zweifeln daran",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "Einfluss darauf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "würde entstehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schnell und schneller",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "danach befragt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "immer mehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mit etwas zu tun haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "wie Figuren",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "werden empfunden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Erfahrungen damit machen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf spielerische Weise",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ein Anliegen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "zu gestalten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schönschrift ist wieder \"in\"",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "von der Hand gehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "anstatt zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nicht jede",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Argument gegen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "abgesehen davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "will sehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "die Ausnahme bilden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "leer ausgehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "solche Fälle",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "es mit...zu tun bekommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "meistens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "anstatt zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nicht jede",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Argument gegen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "abgesehen davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "will sehen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "stellen...dar",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "leer ausgehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "solche Fälle",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "es mit...zu tun bekommen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Schwarzarbeit kann teuer werden (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "meistens",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "deshalb",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "nicht immer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "sich konzentrieren auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "sich selbst halten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "es ist hilfreich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Schritt für Schritt",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "das Verhalten im Straßenverkehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "kritische Situationen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "sich selbstbewusst verhalten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sicherer Schulweg",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Lösungen finden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "kaum",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "umsteigen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "zumeist",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "statt zu sitzen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "innerhalb",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "aufhalten müssen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "Angebot an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sollen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "dann",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Sollte man nicht doch besser aufs Fahrrad umsteigen?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "musste denken",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "beide",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "die",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "wie wäre es",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "schon seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "überhaupt nichts",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "man kennt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "es geht darum",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "auch wenn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Songwettbewerb auf der Burg Tanneck",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "bald hören lassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "davon träumen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "wer",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "daraus folgt, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "oft",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "als sie fahren",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "denn",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "führt dazu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "um zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "graben sich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Städte vor dem Infarkt",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "Überzeugungsarbeit kosten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "konnte nachweisen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "fähig zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "dazu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "eines davon",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "sei gewesen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "nur",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "fressen konnten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "liefert Hinweise",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Acht geben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teamarbeit als Schlüssel zum Erfolg",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "genau wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "deutlich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Fazit ziehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Erfahrungen bei",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "nicht...sondern",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "in voller Höhe",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "ganz abgesehen davon",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "sich wenden an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sogar unbefristet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "genauso...wie",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Teleshopping – nicht immer gut und günstig",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dabei",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nicht nur...sondern auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "wegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ab",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "am Ende",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "es ist wichtig",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "da",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich darum kümmern",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "auf diese Weise",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "um zu",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "nicht nur...sondern auch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "seit",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "wegen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ab",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "des Projekts",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Wolfgang Neuhausen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "keine Gelder",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "werden aufgehängt",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "auf diese Weise",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Theater für Kinder und Jugendliche (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "noch gesucht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "deutlich erhöht",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "Auswirkungen auf",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "beides",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "den Bedarf decken",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "kommen...vor",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "steckt in",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "überprüfen lassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "kommt es an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "ersetzen durch",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Vegetarisch essen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "vegetarisch ernährte Kinder",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "stimmen...zu",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "meinen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "Wunsch nach",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "ein höfliches Miteinander",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "vergeblich suchen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "gut die Hälfte",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "empfinden mögen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "sich stören an",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "den Vortritt lassen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Verlernen die Deutschen die Höflichkeit?",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "was sich gehört",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "enthalten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "hinter...steht",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "entlastet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "kommen aus",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf Wochenmärkten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "verwendet werden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "wirklich nur",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "garantieren, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "ob",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "außerdem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "enthalten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "hinter...steht",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "entlastet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "kommen aus",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf Wochenmärkten",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "verwendet werden",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "wirklich nur",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Was steckt hinter \"Bio\"? (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "garantieren, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "immer mehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mit etwas zu tun haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "wurde gefürchtet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "Verbindung von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "Erfahrungen damit machen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "auf spielerische Weise",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "ein Anliegen, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "zu gestalten",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird ( Original )",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "von der Hand gehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "weil",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "immer mehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "mit etwas zu tun haben",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "Erfahrungen damit machen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "auf spielerische Weise",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "wichtig, dass",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "zu suchen",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "von der Hand gehen",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "Verbindung von",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie Handschrift wieder cool wird (معدل)",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "wurde gefürchtet",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "31",
+    "keyword": "durch",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "32",
+    "keyword": "vor allem",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "33",
+    "keyword": "welche",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "34",
+    "keyword": "unterschieden sich",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "35",
+    "keyword": "ließen enden",
+    "merke_type": "fixed_expression"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "36",
+    "keyword": "wie sehr",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "37",
+    "keyword": "von",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "38",
+    "keyword": "mit dem",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "39",
+    "keyword": "was",
+    "merke_type": "grammar"
+  },
+  {
+    "title": "Wie TV-Bilder die Fantasie von Kindern prägen",
+    "teil": 2,
+    "gap": "40",
+    "keyword": "dann, wenn",
+    "merke_type": "grammar"
+  }
+]

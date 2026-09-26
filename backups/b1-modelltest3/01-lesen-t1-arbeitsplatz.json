@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Arbeitsplatz",
+  "level": "TELC_B1",
+  "position": 3,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 3/16 (Sophie/Language Tests, pages 27-28 printed = PDF pages 27-28). Answer key from Lösungen page (p.41 printed / PDF p.41): 1J 2I 3G 4C 5D, cross-verified content-to-headline by direct reading.",
+  "headlines": [
+    { "letter": "A", "text": "Arbeitsplatz: Bezahlung wichtiger als Zufriedenheit", "is_distractor": true },
+    { "letter": "B", "text": "Ausstellungseröffnung an bayerischem Gymnasium", "is_distractor": true },
+    { "letter": "C", "text": "Frauen: mehr Spaß am Beruf als Männer", "is_distractor": false },
+    { "letter": "D", "text": "Gründe für Zufriedenheit am Arbeitsplatz", "is_distractor": false },
+    { "letter": "E", "text": "Immer mehr Teilzeitarbeitsplätze für Männer", "is_distractor": true },
+    { "letter": "F", "text": "Karriere ist Männern weniger wichtig als Frauen", "is_distractor": true },
+    { "letter": "G", "text": "Technik für Kleinkinder", "is_distractor": false },
+    { "letter": "H", "text": "Technisches Museum vergibt Umwelt- und Technikpreis", "is_distractor": true },
+    { "letter": "I", "text": "Umwelt- und Technikpreis", "is_distractor": false },
+    { "letter": "J", "text": "Wünsche von berufstätigen Eltern", "is_distractor": false }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "Eine aktuelle Umfrage der Arbeiterkammer unter berufstätigen Eltern zeigt den dringenden Wunsch nach flexiblen Arbeitszeiten (60% der Eltern) und nach Kindergärten im oder in der Nähe des Betriebes (58%). Frauen verlangen aber deutlich mehr Teilzeitarbeitsplätze (50%) als Männer (36%). 52% aller Eltern wünschen eine Ersatzperson, die den Vater oder die Mutter bei Krankheit des Kindes im Betrieb vertritt. Die Arbeiterkammer fordert, dass sich Bedarf der Eltern orientieren.", "correct_headline": "J" },
+    { "position": 2, "title": "", "content": "MÜNCHEN: Schüler an bayerischen Gymnasien, die sich für Umwelt oder Technik interessieren, können sich auch dieses Jahr wieder um den Carl Friedrich von Martius Umwelt- und Technikpreis bewerben. Bei diesem Wettbewerb werden Facharbeiten aus dem letzten Schuljahr bewertet.\nNähere Informationen erhältlich beim GSF-Forschungszentrum unter der Telefonnummer 089/311 87 27 12.", "correct_headline": "I" },
+    { "position": 3, "title": "", "content": "WIEN. Eine einmalige Abteilung für drei- bis sechsjährige Kinder wurde im Technischen Museum (15, Mariahitferstraße 112) eröffnet. In einem speziell für Kinder eingerichteten Bereich können die jüngsten Besucher Technik angreifen. Dort gibt es unter anderem Plasmascheiben, die Blitze erzeugen, ein Laufrad und ein Hüpfklavier, mit dem die Kinder Töne erspringen können. Viel Spaß macht den Kleinen auch, in einem Elektroauto herumzukurven und sich in verschiedenen Zerrspiegeln zu betrachten.", "correct_headline": "G" },
+    { "position": 4, "title": "", "content": "HAMBURG. Männer haben mehr Karrierechancen, Frauen dafür mehr Freude am Beruf: Das ergab eine große Umfrage in Hamburg. Obwohl nur 8% der weiblichen Arbeitnehmer an ihre Aufstiegschancen glauben, geben 61% an, dass ihre Arbeit ihnen Spaß mache. Bei den Männern ist dieses Verhältnis 23 zu 57 Prozent.", "correct_headline": "C" },
+    { "position": 5, "title": "", "content": "Für Zufriedenheit am Arbeitsplatz kann Geld allein nicht entscheidend sein. Dies gilt in besonderem Maß für hochqualifizierte europäische Arbeitskräfte, wie eine vergleichende internationale Management-Studie zeigt. Sowohl in Europa wie auch unter japanischen und amerikanischen Managern wird der Möglichkeit, neben der Arbeit auch Zeit für das Privatleben zu haben, ein zentraler Stellenwert beigemessen. Viel stärker als in Japan spielt es unter europäischen Angestellten eine Rolle, dass die Arbeit Spaß macht. Die Analysen zeigen auch, dass neben dem Gehalt der Ruf des Unternehmens für die Arbeitsplatzwahl von europäischen Arbeitnehmern besonders wichtig ist.", "correct_headline": "D" }
+  ]
+}

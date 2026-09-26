@@ -1,0 +1,21 @@
+{
+  "title": "Samir",
+  "level": "B1",
+  "position": 15,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 15/16 (Thomas/Language Tests, page 174 printed / PDF page 175). Complaint letter addressed to 'Sehr geehrter Herr Samir', signed Luisa Martin, about incorrect flight tickets to India. On the Lösungen page, gaps 28 and 29's answer rows are printed visually overlapping/collided (a source rendering defect), but reconstructed unambiguously as 28b=um, 29b=bei by both careful re-inspection at high resolution and grammatical cross-check against the letter text ('Ich darf Sie daher um Rückzahlung ... bitten' / 'auf mein Konto bei der Bank of India'). Answer key from Lösungen page (printed p.180 / PDF p.181): 21b Ihnen, 22b war, 23b obwohl, 24b mit, 25a erst, 26b sondern, 27c die, 28b um, 29b bei, 30b mir.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Sehr geehrter Herr Samir,\n\nim Mai habe ich bei {{21}} für mich und meine Familie Flugtickets nach Indien bestellt und diese zwei Tage vor Abflug am 27. Juni auch erhalten. Leider entsprachen die Tickets überhaupt nicht dem, was zuvor bei der Buchung am Telefon ausgemacht worden {{22}}.\n\n{{23}} ich ausdrücklich einen Direktflug nach Mumbai bestellt hatte, haben Sie mir Tickets {{24}} Zwischenstopp in Delhi ausgestellt. Wir mussten eine Nacht in Delhi verbringen und kamen so {{25}} einen Tag später als geplant in Mumbai an. Doch damit nicht genug. Die Tickets waren nämlich nicht nur anders als vereinbart, {{26}} auch noch viel teurer. Statt der erwarteten 640 Euro kosteten {{27}} Tickets 720 Euro.\n\nIch darf Sie daher {{28}} Rückzahlung der zu viel verrechneten Kosten auf mein Konto {{29}} der Bank of India in Mumbai bitten. Meine Bankdaten finden Sie unten.\n\nIch bitte Sie, die Angelegenheit bald zu klären und {{30}} dann zu antworten.\n\nMit freundlichen Grüßen\n\nLuisa Martin",
+  "gaps": [
+    { "n": 21, "a": "ihnen", "b": "Ihnen", "c": "Sie", "correct": "b" },
+    { "n": 22, "a": "hat", "b": "war", "c": "wäre", "correct": "b" },
+    { "n": 23, "a": "Danach", "b": "Obwohl", "c": "Nämlich", "correct": "b" },
+    { "n": 24, "a": "für", "b": "mit", "c": "zu", "correct": "b" },
+    { "n": 25, "a": "erst", "b": "jetzt", "c": "schon", "correct": "a" },
+    { "n": 26, "a": "besonders", "b": "sondern", "c": "sonst", "correct": "b" },
+    { "n": 27, "a": "den", "b": "der", "c": "die", "correct": "c" },
+    { "n": 28, "a": "für", "b": "um", "c": "zu", "correct": "b" },
+    { "n": 29, "a": "an", "b": "bei", "c": "vor", "correct": "b" },
+    { "n": 30, "a": "mich", "b": "mir", "c": "sich", "correct": "b" }
+  ]
+}

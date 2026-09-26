@@ -1,0 +1,22 @@
+{
+  "title": "Maier",
+  "level": "B1",
+  "position": 2,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 2/16 (Petra/Language Tests, page 20 = in-doc p.19). Answer key from Lösungen page: 31O WOCHENENDE, 32D FÜR, 33F MÖCHTE, 34K TAGE, 35G MÜSSEN, 36I OB, 37H NICHTS, 38A AUSSERDEM, 39N WENN, 40M VORAUS.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrter Herr Maier,\n\nich habe Ihre Anzeige in der Zeitung vom letzten {{31}} gelesen und interessiere mich sehr {{32}} das Angebot. Ich {{33}} mit meiner Mutter und ihrer Schwester, die beide schon etwas ältere Damen sind, im September ein paar {{34}} Urlaub machen und benötige daher einige Informationen.\n\nIst die Benutzung des Hallenbads und der Sauna im Preis enthalten oder {{35}} wir diese extra bezahlen? Weiters würde mich noch interessieren, {{36}} Pensionisten eine Ermäßigung bekommen. Sie schreiben darüber leider {{37}} in Ihrer Anzeige. {{38}} möchte ich wissen, ob man in der Gegend um das Hotel einfache Wanderungen unternehmen kann.\n\nIch wäre Ihnen sehr dankbar, {{39}} Sie mir Bildmaterial zum Hotel und der Landschaft sowie eine Preisliste zukommen lassen könnten.\n\nIch bedanke mich im {{40}} für die Informationen.\n\nMit freundlichen Grüßen\n\nANNELIESE SCHNEEBERGER",
+  "words": ["AUSSERDEM", "FÜR", "MÜSSEN", "OBWOHL", "VORAUS", "DÜRFEN", "KEINES", "NICHTS", "TAGE", "WENN", "ERSTENS", "MÖCHTE", "OB", "ÜBER", "WOCHENENDE"],
+  "answers": {
+    "31": "WOCHENENDE",
+    "32": "FÜR",
+    "33": "MÖCHTE",
+    "34": "TAGE",
+    "35": "MÜSSEN",
+    "36": "OB",
+    "37": "NICHTS",
+    "38": "AUSSERDEM",
+    "39": "WENN",
+    "40": "VORAUS"
+  }
+}

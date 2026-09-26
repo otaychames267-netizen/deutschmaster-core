@@ -1,0 +1,13 @@
+{
+  "title": "Liebesgrüße aus der Kühltruhe",
+  "level": "B2",
+  "position": 23,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "version_tag": "VERSION 1",
+  "variant_group": "Liebesgrüße aus der Kühltruhe",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "notes": "Page explicitly labeled \"VERSION 1\" (English label, not the usual Arabic اساسي/معدل). Clean scan, verbatim transcription.",
+  "passage": "Wer sich einen Mann angeln will, sollte einen Blick in dessen Tiefkühlfach werfen. Einer Studie zufolge kann man {{31}} des Inhalts des Tiefkühlfachs den Charakter seines Besitzers erkennen. Die Meinungsforscher unterscheiden fünf Kategorien {{32}} Single-Männern: den spontanen Typ, den Bequemen, den Kreativen, {{33}} den Cocktail- und den Gourmet-Typen. Am häufigsten gibt es in Deutschland den spontanen Typ. Er hat neben kompletten Gerichten auch tiefgekühlte Produkte wie Brokkoligemüse oder Putenfilet in der Truhe, {{34}} denen er eine Mahlzeit zusammenstellen kann. Dieser Typ liebt die Abwechslung auf dem Teller und auch sonst im Leben. Da wird es vermutlich auch in der Liebe nicht langweilig.\nHauptgewinn für jede Frau ist aber der Gourmet-Typ. In seinem Tiefkühlfach liegen Produkte wie Garnelen, Muscheln oder Ente. Dieser Typ liebt es, Frauen zu verwöhnen. Der Nachteil liegt {{35}} der Hand: Dieser Typ Single-Mann ist selten.\n\nWas man in der Tiefkühltruhe von bequemen Single-Männern findet, kann man leicht erraten, denn diese Männer haben gar keine Lust zu kochen. Ihnen ist es sogar zu {{36}}, zwei Tüten zu öffnen statt nur einer. {{37}} kaufen diese Männer am häufigsten komplette Gerichte, die sie nur noch in die Mikrowelle oder den Backofen stellen müssen. Aber ob sie so das Herz einer Frau erobern können? Zumindest Frauen sehen das wohl {{38}} skeptisch.\n\nDoch egal, {{39}} welcher Kategorie ein Mann gehört – eines haben alle gemeinsam: Sie kaufen immer mehr Tiefkühlkost. Warum das so ist, kann die Studie nicht beantworten – da kann man nur raten: Einige haben vermutlich wenig Zeit zum Kochen, andere {{40}} eher keine Lust. Dabei wäre das doch der beste Weg, um eine Frau zu erobern.",
+  "words": ["ANHAND","ANSTRENGEND","AUF","AUS","EHER","FAST","FOLGLICH","IN","KAUM","LANGWEILIG","SOWIE","VON","WEGEN","WOHL","ZU"],
+  "answers": {"31":"ANHAND","32":"VON","33":"SOWIE","34":"AUS","35":"AUF","36":"ANSTRENGEND","37":"FOLGLICH","38":"EHER","39":"ZU","40":"WOHL"}
+}

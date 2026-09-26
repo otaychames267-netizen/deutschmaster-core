@@ -65,7 +65,10 @@ class ClaudeProvider implements VisionProvider {
     const url = `${process.env.ANTHROPIC_BASE_URL ?? "https://api.anthropic.com"}/v1/messages`;
     const content: any[] = [{ type: "text", text: prompt + "\n\nReturn ONLY valid JSON, no prose, no markdown fences." }];
     for (const b64 of imagesB64) content.push({ type: "image", source: { type: "base64", media_type: "image/png", data: b64 } });
-    const body = { model: this.model, max_tokens: 8192, temperature: 0, messages: [{ role: "user", content }] };
+    // No explicit temperature — some Claude models (e.g. claude-sonnet-5) reject
+    // it outright as deprecated (HTTP 400); see the identical fix in
+    // src/lib/d17/verify.functions.ts's callClaudeVerification.
+    const body = { model: this.model, max_tokens: 8192, messages: [{ role: "user", content }] };
     let lastErr: unknown = null;
     for (let attempt = 0; attempt < 3; attempt++) {
       if (signal?.aborted) throw new Error("aborted");

@@ -1,0 +1,63 @@
+{
+  "title": "Sie - Frau Kiddar",
+  "teil": 2,
+  "level": "B2",
+  "position": 47,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "اساسي",
+  "variant_group": "Sie - Frau Kiddar",
+  "notes": "PDF page 48 (code 23670) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Sie kommt aus Düsseldorf.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Sie lebt jetzt in Malta.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Sie ist aktiv und engagiert in Malta.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Sie möchte nach Vancouver umziehen.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Sie genießt es, das ganze Jahr im Mittelmeer zu baden.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Der Moderator kennt die Temperatur des Mittelmeers im Winter nicht.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Der Moderator denkt, in Malta gibt es drei Amtssprachen.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Die Malteser waren konservativ und zurückhaltend.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Sie plante, die maltesische Sprache zu lernen.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Malteser kommen aus verschiedenen Religionen.",
+      "correct": true
+    }
+  ]
+}

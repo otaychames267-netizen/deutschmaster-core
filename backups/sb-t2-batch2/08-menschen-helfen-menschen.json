@@ -1,0 +1,22 @@
+{
+  "title": "Menschen helfen Menschen",
+  "level": "B2",
+  "position": 45,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 8, green letter+number marks inline in each gap, all 10 verified vs text",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei Aufgaben 31-40.",
+  "passage": "Sehr geehrte Redaktion von „Menschen helfen Menschen“,\n\nich lese täglich die Zeitung und bin oft sehr traurig {{31}}, wie böse und grausam Menschen sein können. In solchen Momenten freue ich mich dann ganz {{32}} über Ihre Artikel, die zeigen, {{33}} es auch viele gute und hilfsbereite Menschen gibt. Ich selbst bin einem solchen Menschen vor kurzer Zeit begegnet.\nLetzten Samstag hatte ich auf der Autobahn kurz vor Wien eine Autopanne. Es war bereits 10 Uhr nachts, {{34}} mein Auto plötzlich stehen blieb und sich nicht mehr von der Stelle bewegte. Ich versuchte mehrmals, das Auto wieder zu starten, {{35}} alles war vergeblich. Kurz darauf hielt ein Autofahrer an und fragte, {{36}} er mir helfen könne. Er sagte, dass er Mechaniker sei und gleich in der Nähe wohne. Sofort stieg er aus, {{37}} sich den Motor anzusehen. Nach zehn Minuten fand er den Schaden und {{38}}, dass man einen Teil des Motors austauschen müsse. Dann fuhr er kurz nach Hause und kam eine halbe Stunde später mit dem notwendigen Ersatzteil wieder zurück. Kurz nach Mitternacht war das Auto wieder in Ordnung und ich konnte weiter fahren. Selbstverständlich wollte ich den netten Mann für seine Mühe belohnen, aber er {{39}} nichts annehmen. Doch möchte ich mich {{40}} mit diesem Brief besonders herzlich bei ihm bedanken.",
+  "words": ["ALS", "BESONDERS", "DA", "DASS", "DARÜBER", "DAZU", "DENN", "DOCH", "IMMER", "MEINTE", "OB", "SEHR", "UM", "WENIGSTENS", "WOLLTE"],
+  "answers": {
+    "31": "DARÜBER",
+    "32": "BESONDERS",
+    "33": "DASS",
+    "34": "ALS",
+    "35": "DOCH",
+    "36": "OB",
+    "37": "UM",
+    "38": "MEINTE",
+    "39": "WOLLTE",
+    "40": "WENIGSTENS"
+  }
+}

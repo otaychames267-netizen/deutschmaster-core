@@ -1,0 +1,20 @@
+{
+  "title": "Frau Stein",
+  "level": "B2",
+  "position": 41,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Sehr geehrte Frau Stein,\n\nanlässlich {{21}} über die gesundheitlichen Folgen des Rauchens bei Jugendlichen vergangene Woche im Rahmen der Jugend-Gesundheitswoche in Kassel habe ich ja schon kurz mit Ihnen gesprochen. Heute möchte ich anfragen, {{22}} Sie bereit wären, auch hier bei uns in Marburg zu sprechen.\nIm Rahmen eines groß angelegten Projekts an den Schulen findet im Juli ein Anti-Raucher-Tag in der Stadthalle statt. Die Veranstaltung beinhaltet {{23}} Vorträge {{23}} Workshops und Diskussionsforen und dauert von 9 Uhr {{24}} 18 Uhr. Da Sie eine anerkannte Gesundheitsexpertin sind, {{25}} Themen gerade junge Leute ansprechen und Ihre Vorträge sehr anschaulich sind, würden wir Sie gerne als {{26}} in unser Programm aufnehmen.\nDie Länge Ihres Vortrags sollte 30 Minuten nicht überschreiten. Im Anschluss an Ihren Vortrag möchten wir interessierten Jugendlichen die Möglichkeit geben, mit Ihnen über das Thema der gesundheitlichen Folgen des Rauchens {{27}}.\nSelbstverständlich stehen Ihnen alle modernen Techniken wie Computer oder ein Laptop mit Beamer {{28}}. Bitte teilen Sie uns mit, ob Sie noch andere Hilfsmittel benötigen. Wenn Sie Arbeitsblätter kopieren wollen, schicken Sie uns bitte diese {{29}} vorher zu, damit wir die Kopien für Sie anfertigen können.\nWir rechnen {{30}}, dass unsere Veranstaltung von etwa 1000 Jugendlichen aus der gesamten Region besucht werden wird. Ihre Teilnahme an der Veranstaltung wäre eine Bereicherung unseres Programms. Über Ihre Zusage würden wir uns daher sehr freuen.\n\nMit freundlichen Grüßen\nKarl-Heinz Hartung",
+  "gaps": [
+    {"n":21,"a":"Ihres Vortrags","b":"Ihrem Vortrag","c":"Ihren Vortrag","correct":"a"},
+    {"n":22,"a":"wenn","b":"ob","c":"dass","correct":"b"},
+    {"n":23,"a":"und...und","b":"sowohl...als auch","c":"zwar...aber","correct":"b"},
+    {"n":24,"a":"bis zu","b":"bis vor","c":"bis","correct":"c"},
+    {"n":25,"a":"denen","b":"deren","c":"die","correct":"b"},
+    {"n":26,"a":"Vortragende","b":"Vorgetragene","c":"Vortrag","correct":"a"},
+    {"n":27,"a":"geredet haben","b":"zu sprechen","c":"sprechen","correct":"b"},
+    {"n":28,"a":"zur Verfügung","b":"zu Hilfe","c":"zum Benutzen","correct":"a"},
+    {"n":29,"a":"eines Tages","b":"für einen Tag","c":"ein paar Tage","correct":"c"},
+    {"n":30,"a":"dabei","b":"damit","c":"dafür","correct":"a"}
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Arbeitsplatz für ihren Vater",
+  "teil": 1,
+  "level": "B1",
+  "position": 1,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 1/16 (Petra/Language Tests, page 9). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.13): 41- 42+ 43+ 44+ 45-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Die Sprecherin wünscht sich einen Arbeitsplatz für ihren Vater.", "correct": false },
+    { "number": 42, "text": "Der Sprecher ist kein besonders guter Schüler.", "correct": true },
+    { "number": 43, "text": "Die Sprecherin möchte nicht immer gestört werden.", "correct": true },
+    { "number": 44, "text": "Der Sprecher versteht sich nicht gut mit seiner Mutter.", "correct": true },
+    { "number": 45, "text": "Die Sprecherin ist am liebsten mit ihren Eltern zusammen.", "correct": false }
+  ]
+}

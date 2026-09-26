@@ -48,7 +48,6 @@ function AdminAnalyticsPage() {
   const [totals, setTotals] = useState({
     users: 0,
     activeSubs: 0,
-    trials: 0,
     attempts: 0,
   });
 
@@ -56,13 +55,11 @@ function AdminAnalyticsPage() {
     Promise.all([
       supabase.from("profiles").select("id", { count: "exact", head: true }),
       supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "active"),
-      supabase.from("subscriptions").select("id", { count: "exact", head: true }).eq("status", "trial"),
       supabase.from("attempt_sessions").select("id", { count: "exact", head: true }),
-    ]).then(([users, active, trials, attempts]) => {
+    ]).then(([users, active, attempts]) => {
       setTotals({
         users:      users.count   ?? 0,
         activeSubs: active.count  ?? 0,
-        trials:     trials.count  ?? 0,
         attempts:   attempts.count ?? 0,
       });
     });
@@ -83,7 +80,7 @@ function AdminAnalyticsPage() {
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <KPICard label="Total users"       value={totals.users.toLocaleString()}      icon={Users}      color="bg-blue-500/10 text-blue-500"    note="All time" />
         <KPICard label="Active subscribers" value={totals.activeSubs.toLocaleString()} icon={CreditCard} color="bg-emerald-500/10 text-emerald-500" note="Paid plans" />
-        <KPICard label="Conversion rate"   value={`${conversionRate}%`}               icon={TrendingUp} color="bg-violet-500/10 text-violet-500"  note="Trial → paid" />
+        <KPICard label="Conversion rate"   value={`${conversionRate}%`}               icon={TrendingUp} color="bg-violet-500/10 text-violet-500"  note="Signups → paid" />
         <KPICard label="Exam attempts"     value={totals.attempts.toLocaleString()}   icon={Target}     color="bg-amber-500/10 text-amber-500"    note="All time" />
       </div>
 
@@ -120,7 +117,7 @@ function AdminAnalyticsPage() {
           <div className="mb-5 flex items-center justify-between">
             <div>
               <p className="text-sm font-semibold text-foreground">Monthly revenue</p>
-              <p className="text-xs text-muted-foreground">EUR — Stripe data after integration</p>
+              <p className="text-xs text-muted-foreground">EUR — populates once payment volume exists</p>
             </div>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </div>
@@ -135,7 +132,7 @@ function AdminAnalyticsPage() {
               </BarChart>
             </ResponsiveContainer>
           </div>
-          <p className="mt-3 text-center text-xs text-muted-foreground">Revenue will populate once Stripe is connected</p>
+          <p className="mt-3 text-center text-xs text-muted-foreground">Revenue chart will populate once real payment volume exists</p>
         </div>
       </div>
 
@@ -145,9 +142,8 @@ function AdminAnalyticsPage() {
         <div className="grid gap-4 sm:grid-cols-3">
           {[
             { label: "Active",   value: totals.activeSubs, pct: totals.users > 0 ? (totals.activeSubs / totals.users) * 100 : 0, color: "bg-emerald-500" },
-            { label: "Trial",    value: totals.trials,     pct: totals.users > 0 ? (totals.trials / totals.users) * 100 : 0,     color: "bg-blue-500"   },
-            { label: "No plan",  value: Math.max(0, totals.users - totals.activeSubs - totals.trials),
-              pct: totals.users > 0 ? (Math.max(0, totals.users - totals.activeSubs - totals.trials) / totals.users) * 100 : 0,
+            { label: "No plan",  value: Math.max(0, totals.users - totals.activeSubs),
+              pct: totals.users > 0 ? (Math.max(0, totals.users - totals.activeSubs) / totals.users) * 100 : 0,
               color: "bg-muted-foreground/30" },
           ].map((s) => (
             <div key={s.label} className="space-y-2">

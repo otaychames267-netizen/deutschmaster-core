@@ -295,6 +295,32 @@
   }
 }
 
+/* ── Content protection ─────────────────────────────────── */
+/* ProtectedContentGate applies user-select:none on its wrapper for every
+   protected route, including the Schreiben essay editor — explicitly
+   re-enable selection/editing inside actual form fields so students can
+   still write and edit their own essays. */
+.select-none textarea,
+.select-none input,
+.select-none [contenteditable="true"] {
+  user-select: text;
+}
+
+.print-protection-notice {
+  display: none;
+}
+@media print {
+  .protected-content {
+    display: none !important;
+  }
+  .print-protection-notice {
+    display: block !important;
+    padding: 4rem 2rem;
+    text-align: center;
+    font-size: 14pt;
+  }
+}
+
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes shimmer {
   0% { background-position: -200% center; }

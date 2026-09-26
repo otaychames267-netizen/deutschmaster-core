@@ -1,0 +1,22 @@
+{
+  "title": "Obst und Gemüse",
+  "level": "B2",
+  "position": 48,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 11, red numbers beside word-bank letters, all 10 verified vs text. Word 'konten' (M) is printed that way in the source (distractor, likely a typo of 'konnten'); preserved as printed.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–n) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "Es ist erst 6 Uhr morgens, und draußen herrscht noch Dunkelheit… {{31}} in der riesigen, hell erleuchteten Halle, in der sich Kisten mit Obst und Gemüse meterhoch stapeln, wird schon lange gearbeitet. Vor ein paar Stunden war hier noch viel mehr Betrieb », sagt Jens Rogall. Er {{32}} einen Berliner Großmarkt,\n\nauf dem Einkäufer von Supermärkten, Geschäften oder Restaurants frisches Obst und Gemüse besorgen.\n\nDie Ware hat oft schon eine lange Reise zurückgelegt, bis sie auf dem Großmarkt {{33}}. Die meisten Früchte wurden {{34}} auf dem Land-, Luft- oder Seeweg aus wärmeren Ländern nach Deutschland transportiert.\nWenn die Ware per Schiff nach Europa gebracht wird, kommt sie in großen Seehäfen wie Rotterdam oder Hamburg an. Von dort aus geht es mit dem Lastwagen weiter. Auf seinem Weg {{35}} das empfindliche Obst und Gemüse keinesfalls Schaden nehmen. « Nichts ist schlimmer {{36}} verdorbene Ware », sagt Rogall.\n\nAuf dem Großmarkt schauen sich die Käufer alles {{37}} an. Für makellose Salatköpfe, Beeren und Kräuter zahlen sie höhere Preise, krumme Gurken oder verwachsene Kartoffeln {{38}} sie dagegen günstiger. Diese werden später nicht in Geschäften zum Verkauf angeboten, {{39}} direkt verarbeitet. « Es ist egal, wie Gurken aussehen, die ohnehin im Fertigsalat landen », erklärt Rogall. Wenn die Preisverhandlungen erfolgreich {{40}} sind, werden die Paletten voller Obst und Gemüse hinaus zu den Lieferwagen gebracht. Die Fahrer müssen dann zügig zu den Geschäften und Restaurants fahren, um die Ware abzuliefern.",
+  "words": ["sondern", "genau", "nämlich", "als", "abgeschlossen", "darf", "ankommt", "doch", "erwerben", "leitet", "zur", "bis", "konten", "bewundere", "sicher"],
+  "answers": {
+    "31": "doch",
+    "32": "leitet",
+    "33": "ankommt",
+    "34": "nämlich",
+    "35": "darf",
+    "36": "als",
+    "37": "genau",
+    "38": "erwerben",
+    "39": "sondern",
+    "40": "abgeschlossen"
+  }
+}

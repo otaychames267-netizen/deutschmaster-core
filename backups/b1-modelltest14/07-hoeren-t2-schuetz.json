@@ -1,0 +1,22 @@
+{
+  "title": "Schütz",
+  "teil": 2,
+  "level": "B1",
+  "position": 14,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 14/16 (Petra/Language Tests, page 190 printed / PDF page 191). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Statement 55's final clause ('nachts zu an.') is printed exactly this way in the source — appears to be a truncated/garbled sentence, transcribed verbatim, not corrected. Answer key from Lösungen page (p.193): 46- 47+ 48- 49+ 50- 51- 52+ 53- 54+ 55-.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Herr Schütz arbeitet erst seit kurzer Zeit als Taxifahrer.", "correct": false },
+    { "number": 47, "text": "In der Kleinstadt hatte Herr Schütz keine Geschäftsleute als Kunden.", "correct": true },
+    { "number": 48, "text": "Herr Schütz hat sich schon einmal in einen Fahrgast verliebt.", "correct": false },
+    { "number": 49, "text": "Die Fahrgäste erzählen viel, weil sie den Taxifahrer nicht kennen.", "correct": true },
+    { "number": 50, "text": "Männer sprechen oft über unpersönliche Dinge.", "correct": false },
+    { "number": 51, "text": "Herr Schütz bekommt von den Fahrgästen manchmal auch einen Tipp.", "correct": false },
+    { "number": 52, "text": "In der Freizeit steht Sport für Herrn Schütz an erster Stelle.", "correct": true },
+    { "number": 53, "text": "Beim Schwimmen kann sich Herr Schütz von einem anstrengenden Tag erholen.", "correct": false },
+    { "number": 54, "text": "Herr Schütz hat sich entschieden, nur am Tag Taxi zu fahren.", "correct": true },
+    { "number": 55, "text": "Nach Meinung von Herrn Schütz haben jüngere Taxifahrer weniger Angst, nachts zu an.", "correct": false }
+  ]
+}

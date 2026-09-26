@@ -1,0 +1,34 @@
+{
+  "teil": 3,
+  "title": "Sprachkurs",
+  "level": "TELC_B1",
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 8/16 (Petra/Language Tests, pages 98-99). Answer key from Lösungen page (p.106): 11B 12D 13X 14C 15F 16H 17G 18X 19L 20I.",
+  "key": "BDXCFHGXLI",
+  "situations": {
+    "11": "Ihre Freund wollen einen Sprachkurs in Spanien machen und ihre Kinder mitnehmen.",
+    "12": "Ihr Auto ist kaputt und Sie brauchen jemanden, der es repariert.",
+    "13": "Sie wollen mit einem Videoprogramm Deutsch lernen.",
+    "14": "Sie wollen Ihrer Kursleiterin eine Kursabschlussreise vorschlagen.",
+    "15": "Ihr Fernseher ist kaputt. Sie wollen ihn reparieren lassen.",
+    "16": "Eine Bekannte hat eine neue Wohnung. Sie möchten ihr etwas für die Küche schenken.",
+    "17": "Sie suchen ein Geschenk für ein 6-jähriges Kind.",
+    "18": "Ihr Kind ist krank. Sie suchen einen Kinderarzt.",
+    "19": "Ihre Tante ist operiert worden. Jetzt ist sie wieder zu Hause und braucht spezielles Essen.",
+    "20": "Sie haben sich beim Tennis den Fuß verletzt und brauchen einen Arzt."
+  },
+  "texts": {
+    "A": { "title": "", "content": "··· Spanisch lernen ··· Andalusien: Sevilla/Conil, Equador: Quito. Kombiangebot: Kurs plus Unterkunft. Ganzjährig, alle Niveaus. Bildungsurlaub. 2 Wochen ab 280 Euro. Académia Atlantika, seit 1984. Elbbecken 7 · 22299 Hamburg. Tel. 040/477587, Fax 040/477539. www.atlantika.net, E-Mail: spanisch@atlantika.net" },
+    "B": { "title": "", "content": "Can Ribes. Spanischkurse · Urlaub · Seminare. Spanischkurse mit Kinderbetreuung. Kurse für Schüler in altem Landhaus in Katalonien. Kontakt: Ch. Eckhardt, Dellstr. 13, 47051 Duisburg. Telefon: (0203) 287588, Fax: (0203) 21715" },
+    "C": { "title": "", "content": "Einmal was erleben! Wenn Sie mit Ihrer Klasse Abenteuer, Romantik, Natur pur und Gemeinschaftssport erleben wollen, dann sollten Sie mit uns Kanu fahren. Wir organisieren für Sie die komplette Tour. Versicherungsschutz auf dem Wasser durch uns. Betreuung der Tour durch einen erfahrenen Kanuten. Anmeldung und ausführliche Information. Am Sportplatz 70 · 45459 Lembruch. Tel.: 05447-525 · Fax: 05447-1772" },
+    "D": { "title": "", "content": "Autoreparatur. Schnell und günstig. Auspuff · Bremsen · AU. Kupplung · TÜV · Unfall, kaum Wartezeit. Rufen Sie uns an: Fa. ASS. Landsberger Str. 328. Telefon 54 64 47 33" },
+    "E": { "title": "", "content": "Schrott-Autos, Unfall-Autos. Wir erledigen alles für Sie: Ankauf, Abholen, Abmelden. ☎ (089) 8 63 39 75, 9-18 Uhr" },
+    "F": { "title": "", "content": "Radio- und Fernsehtechnik GmbH. SCHMIDT & MÜLLER. TV – HiFi – Video. Reparaturen, Kabelanschlüsse, Antennenbau, Satellitenanlagen. Limesstraße 103, 81243 München. Tel. 089-8 71 20 20. Mail: Fernseh-Schmidt@muenchen.de" },
+    "G": { "title": "", "content": "Liebevolle Geschenkideen für Klein und Groß im Harlachinger Kinderladen. Puppendoktor – Wir reparieren Puppen und Stofftiere jeder Art. Heigelstr. 1 · Ecke Naupliastraße. Telefon 089-644838" },
+    "H": { "title": "", "content": "FACHHANDEL GRÜN. Haushaltsgeräte · Einbauküchen. Haushaltswaren · Bestecke. Porzellan und Glaswaren. Geschenke · Geschenkgutscheine und Hochzeitslisten. Leibistraße 9, 82166 Lochham/München. Tel. 089-87 53 23" },
+    "I": { "title": "", "content": "Praxis Dr. W. Penners. Orthopäde · Chirotherapie · Sportmedizin. Rathenaustraße 4 · München-Hensching. Geöffnet von Montag bis Donnerstag 8-13 Uhr. Termine nach Vereinbarung. Telefon 87 04 01. Vertretung in dringenden Notfällen: Dr. Heyn · Telefon 8344025" },
+    "J": { "title": "", "content": "Gemeinnützige Gesellschaft der Landeshauptstadt mbH. MÜNCHENSTIFT wohnen und pflegen in der Stadt. Pflege zu Hause. Ambulanter Dienst in Laim/Pasing: Alfons-Hoffmann-Haus. Agnes-Bernauer-Straße 185, 80687 München. Telefon (089) 5 46 47-230" },
+    "K": { "title": "", "content": "Pizza AVANTI. Heimservice gut und frisch. Chicken-Aktion. Chicken-Chips-Menü, Chicken-Wings-Menü, jeweils mit gem. Salat und Getränk 6,20 Euro. Firmen-Menü, Pizza n. Wahl mit gem. Salat und Getränk 7,20 Euro. Tel. 89 66 90 99. Landsberger Straße 487 bei der Offenbachstr., Mo.-Fr. 10-23 Uhr, Sa./So./Feiertag 11-23 Uhr. Pizza AVANTI Heimservice mit Stehimbiss" },
+    "L": { "title": "", "content": "Allein Kochen?? Nein! Danke! Auch Sa + So warmes Essen. Wir bringen zu Ihnen ins Haus: Werktags eine warme Mahlzeit (mit oder ohne Suppe), an Samstagen, Sonntagen, Feiertagen auf Wunsch tiefgefroren. Normalkost, Schonkost, Diät, vegetarisch oder Luxus – à la carte, weit über 100 abwechslungsreiche Menüs. Telefon 89 11 66-17 oder 89 11 66-18. Caritas-Zentrum Menzing. Ökumenische Sozialstation. Pippinger Str. 97 / Nähe Verdistraße" }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "title": "Deutschland – ein Paradies für Kinder? 2",
+  "level": "B2",
+  "position": 40,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "version_tag": "VERSION 2",
+  "variant_group": "Deutschland – ein Paradies für Kinder?",
+  "notes": "PDF page 29 of sprachbausteine teil 2.pdf. RECOVERED on re-investigation (2026-07-06) after initially being marked pending: word box has two genuine print duplicates (D/H both DENNOCH; N/I both DOCH) — verified via multiple 900dpi crops, not a misread. Since the passage, full answer key, and 13 of 15 distinct words are completely intact, imported faithfully rather than skipped (content is not missing, just contains a duplicate-word print artifact in the distractor set). Inserted with --allow-dup-words. Word-box entries L 'NIMANDEN' and M 'SONDER' corrected to NIEMANDEN/SONDERN (OCR-type letter-drop, not a grammar defect) per standing correction convention. Appended as position 40 (after position 39) since positions 1-39 were already sequential; variant_group links it to VERSION 1 (position 28) and VERSION 3 (position 29 in DB, PDF page 30).",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "Deutschland – ein Paradies für Kinder?\n\n17 Millionen Kinder leben in Deutschland. Verglichen mit der Bevölkerungszahl von ungefähr 80 Millionen ist das fast ein Viertel der Einwohner. Doch nur für jedes zehnte Kind unter drei Jahren steht ein Betreuungsplatz in einer Kindertagesstätte {{31}} Verfügung. Die Folge: Nur etwas mehr als die Hälfte der Mütter dieser Kinder ist berufstätig – und nur ein Viertel kann ganztägig zur Arbeit gehen.\n\nUm dem entgegenzuwirken, gibt es in Deutschland die dreijährige Elternzeit, die es einem Elternteil ermöglichen soll, drei Jahre {{32}} dem Kind zu Hause zu bleiben, {{33}} hat den Vorteil, dass der zu Hause bleibende Elternteil seinen Arbeitsplatz nicht verliert. {{34}} wird die Elternzeit für viele Eltern in finanzieller Hinsicht zu einem gravierenden Problem. Außerdem gilt die Elternzeit nur für Angestellte. Mütter zum Beispiel, die vor der Geburt ihres Kindes selbständig waren und mit dem Baby zu Hause bleiben wollen, stehen weit schlechter da. Kind und Karriere zu vereinbaren ist daher in Deutschland für die meisten Mütter so gut wie unmöglich. Dies scheinen die Hauptgründe dafür zu sein, warum in Deutschland zurzeit weltweit die wenigsten Kinder geboren werden.\n\n{{35}} auch andere Dinge machen Familien mit Kindern in Deutschland das Leben schwer: In Restaurants zum Beispiel sind Kinder selten willkommen. Sie sitzen eben nicht still am Tisch, {{36}} stören mit ihrem Lachen und lauten Sprechen die anderen (kinderlosen) Gäste. Bei den kinderlosen Erwachsenen werden andere Maßstäbe angelegt. Obwohl diese selbst häufig lautstark telefonieren, stört das {{37}}: Telefonate sind eben wichtiger als Kinder.\n\nIn zahlreichen deutschen Städten wie Mainz strengen Anwohner Prozesse gegen Kindergärten und Spielplätze an, {{38}} die Kinder die Ruhe der benachbarten (kinderlosen) Hausbewohner stören. Die Folge: Spielplätze werden von Gerichts wegen geschlossen. An Wiesen, auf denen früher Kinder tobten und Ball spielten, stehen nun Schilder: Betreten und spielen verboten. Bei Zuwiderhandlung drohen Geldstrafen.\n\nEltern, die mit der deutschen Bahn mit ihren Kindern verreisen möchten, haben schlechte Karten. In den meisten Zügen sind die Gänge so angeordnet, {{39}} mit einem Kinderwagen kein Durchkommen ist. Und in den Mutter-Kind-Abteilen haben sich schon andere Reisende breitgemacht, die nicht einsehen, warum sie Müttern mit Kind Platz machen sollten. Schließlich hätten sie ja eine Fahrkarte gekauft und damit Anspruch {{40}} einen Platz. In vielen Berichten in Zeitungen oder im Fernsehen, die sich mit Kindern, ihrer Erziehung oder mit dem Schulsystem befassen, spricht man in Deutschland gerne von \"Problemen\". Man meint damit die Kinder. Kann eine Gesellschaft, in der ein Kind als ein Problemfall angesehen wird, ein Paradies für Kinder sein?",
+  "words": ["ZUR", "BEI", "DABEI", "DENNOCH", "DAS", "DASS", "DAVON", "DENNOCH", "DOCH", "JEDOCH", "AUF", "NIEMANDEN", "SONDERN", "DOCH", "WEIL"],
+  "answers": {
+    "31": "ZUR",
+    "32": "BEI",
+    "33": "DAS",
+    "34": "DENNOCH",
+    "35": "DOCH",
+    "36": "SONDERN",
+    "37": "NIEMANDEN",
+    "38": "WEIL",
+    "39": "DASS",
+    "40": "AUF"
+  }
+}

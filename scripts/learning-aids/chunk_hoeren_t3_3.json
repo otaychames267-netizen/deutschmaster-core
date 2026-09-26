@@ -1,0 +1,578 @@
+[
+  {
+    "id": "1ed40dd2-9167-48f1-ac66-c71de36207c9",
+    "teil": 3,
+    "title": "im Süden Deutschlands - Schnee",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Morgen muss man im Süden Deutschlands mit Schnee rechnen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die zwei Jungen sind von zu Hause weggelaufen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Samstag können Sie einen Mitarbeiter der Firma anrufen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen einer Demonstration ist es verboten, in die Nürnberger Altstadt zu fahren.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die historische elektrische Eisenbahn wird im Dezember wie gewohnt fahren.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "437ce6b0-75f4-439c-9105-187cb434cc50",
+    "teil": 3,
+    "title": "In Raum C23 (Original)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "In Raum C23 trägt ein bekannter Schriftsteller etwas vor.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn Ihre Software nicht funktioniert, erhalten Sie über Internet Unterstützung.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In der Stadtbibliothek präsentiert heute eine Hochschule ihr Angebot vor allem für Berufstätige.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Internet finden Sie auch Angebote für spezielle Zielgruppen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wenn man Dienstag oder Donnerstag jemanden persönlich sprechen möchte, braucht man einen Termin.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "603c3536-7010-49e2-9174-c965fbc99b10",
+    "teil": 3,
+    "title": "In Raum C23 (المعدل) ( Neu )",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "In Raum C23 trägt ein bekannter Schriftlicher etwas vor.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn ihre Software nicht funktioniert, erhalten Sie über Internet Unterstützung.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In der Stadtbibliothek präsentiert heute eine Hochschule ihr Angebot vor allem für Berufstätige.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Internet finden Sie auch Angebot für spezielle Zielgruppen.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn man jemandem persönlich sprechen möchte, braucht man keinen Termin.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "a9385461-68eb-4aed-a61a-4f929368847c",
+    "teil": 3,
+    "title": "internet",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Sie können im Internet prüfen, ob Ihre aktuelle Bestellung schon unterwegs ist.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man kann für die Nachtveranstaltung noch Karten im Internet kaufen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Teilnahme an der Party im Burghof kostet nichts.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Bamberg kann man in der nächsten Woche besonders günstig Mitglied in einem Sportverein werden.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wer ein wichtiges Anliegen hat, soll eine andere Nummer wählen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "fa4e1676-1c0b-4c20-bbc0-8174ee8078fb",
+    "teil": 3,
+    "title": "Klavierkonzert",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Festivalbesucher erhalten beim Vorzeigen ihres Tickets Rabatt auf Bus und Bahn.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Klavierkonzert am 3. Juli findet wegen einer Erkrankung der Künstler nicht statt.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Im Botanischen Garten gibt es am Sonntag Tipps zur Pflege von Obstbäumen.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Sonderausstellung im Museum zeigt historische Arbeitskleidung aus Leder.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die A6 ist zwischen Baden-Baden und Rastatt in beide Richtungen gesperrt.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "de09c43d-671e-4753-8b09-64d81ee700b8",
+    "teil": 3,
+    "title": "KöGa",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Parade der Kulturen wird mit einem Feuerwerk eröffnet.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Zum Skateboard-Treffen am 31. Oktober soll man verkleidet erscheinen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei der Gartenausstellung KöGa kann man Gartenzwerge kaufen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Autobahn A2 Richtung Hannover ist zwischen Rheda-Wiedenbrück und Oelde gesperrt.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für handvermittelte Telefongespräche ins Ausland müssen Sie die 613 30 30 wählen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "92b036e7-014a-41ce-a987-4a4cd97f97ec",
+    "teil": 3,
+    "title": "Kurze Durchsagen und Mitteilungen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Das Buch kann erst morgen ab 9 Uhr in der Buchhandlung abgeholt werden.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Firma ist in der Wilhelmstraße.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sie können den Film von Rainer Bölkow heute Abend im Kino sehen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können eine Zeitung im Zugrestaurant kaufen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vom Bahnhof zur Universität dauert es mit der U-Bahn und dem Bus nur 5 Minuten.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "b28a6c6a-f9d1-4363-99fd-434467f632bd",
+    "teil": 3,
+    "title": "Musicfestivals (Original)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Während des Musikfestivals \"Sound of Frankfurt\" gibt es verbilligte Fahrkarten für alle öffentlichen Verkehrsmittel.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie gehen am 3. Juli ins Konzert, weil Sie die beiden Leipziger Klaviervirtuosen hören möchten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Wochenende können Sie sich in Namburg über die Bekämpfung von Krankheiten bei Apfelbäumen i informieren.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Handwerksmuseum werden Kleidungsstücke ausgestellt.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Autobahn \"AS\" ist zwischen Baden-",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "4f392466-4560-4440-97d1-b27c35ea0f28",
+    "teil": 3,
+    "title": "Musikfest",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Das Musikfest wendet sich vornehmlich an Berufsmusiker.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "„MoveSmart“ unterstützt umweltschonende Verkehrsentscheidungen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Sendung „Zeitzeugen erzählen“ nutzt ausschließlich Interviews aus den 80er-Jahren.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "„Jobwechsel 40+“ ist speziell für Berufseinsteiger konzipiert.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Zentrum ermöglicht Besuchern eigenständige Experimente.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "d5f5920e-8971-42d5-9966-18c6d52de018",
+    "teil": 3,
+    "title": "Musikfestivals (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Geschäftsreisende werden gebeten, Mietwagen unter der Nummer 3223 zu buchen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie gehen am 3. Juli ins Konzert, weil Sie die beiden Leipziger Klaviervirtuosen hören möchten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Wochenende können Sie sich in Naumburg über die Bekämpfung von Krankheiten bei Apfelbäumen informieren.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Handwerksmuseum werden Kleidungsstücke ausgestellt.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Autobahn A5 ist zwischen Baden-Baden und Rastatt in beiden Richtungen gesperrt.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "5ea12aa0-3bea-4b80-86b5-732950e7806c",
+    "teil": 3,
+    "title": "Nürnberg",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Christkindlesmarkt in Nürnberg bietet einen speziellen Geschenk-Dienst für Kinder an.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auf dem deutsch-französischen Bauernmarkt in Hochspeyer werden ökologische Projekte vorgestellt.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Heilsheim findet heute Abend ein Jodelkurs statt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auf der A5 gibt es hinter Karlsruhe mehrere Verkehrsbehinderungen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn Ihr Computer nicht mehr hochfährt, können Sie die Nummer 70 17 17 wählen, um Hilfe von Computer World zu erhalten.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "fe0a8cce-d674-44c2-9274-3b45324abde0",
+    "teil": 3,
+    "title": "Open-Air-Kino",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Das Open-Air-Kino zeigt im Juli an jedem Wochentag einen Film.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Zum Flughafen muss man am Westkreuz in einen Bus umsteigen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In akuten Notfällen soll man zur Vertretungspraxis gehen.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Abgabe von Bücherspenden ist nur von Montag bis Freitag möglich.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der A8 ist vor allem abends mit Stau zu rechnen.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "4426b04e-320a-418c-a937-3a649cfc9cf3",
+    "teil": 3,
+    "title": "Reitturniers",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Besucher des Reitturniers sollten möglichst Parkplätze außerhalb des Turniergeländes nutzen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Open-Air-Gospelkonzert wird live im Radio übertragen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei der Berliner Museumsnacht können Sie mit einer Sonderbuslinie bequem jedes Museum erreichen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen Glätte ist die A5 zwischen Mannheim und Frankfurt in beide Richtungen voll gesperrt.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Hotelreservierungen in Dresden sind ausschließlich telefonisch möglich.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "1ad8c60e-d09f-4d9e-8af5-ee767f840c9d",
+    "teil": 3,
+    "title": "Süddeutschland",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Morgen wird in Süddeutschland mit Neuschnee gerechnet.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Polizei sucht Kinder, die von zu Hause geflohen sind.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Samstags gibt es bei der Firma telefonische Beratung.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Besucher können problemlos mit dem Auto in die Altstadt fahren.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die historische Bahn fährt im Dezember nach Plan.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "3c452a66-d0c6-4712-9882-48750b4354bf",
+    "teil": 3,
+    "title": "Telefon",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Bei der Deutschen Telefon KG bekommen Sie nur Auskunft zu Telefonapparaten dieses Unternehmens.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Rahmen des „BR3 Aquarena Weekends“ in Starnberg können Sie jeden Abend ein Feuerwerk betrachten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Trierer Domorganisten spielen am 6. Juli in Michelstadt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Während des Musikfestivals „Sound of Frankfurt“ ist die Benutzung der U- und S-Bahnen gebührenfrei.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie haben eine ungültige Servicenummer gewählt und werden daher automatisch weiterverbunden.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "3e268296-ef17-4471-b912-7ec96e8108fc",
+    "teil": 3,
+    "title": "Trainingsausfahrten",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Trainingsausfahrten mit dem Rennvelo samstags empfehlen sich nur für besonders geübte Radfahrer.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auf dem Blumenmarkt in Groningen kann man auch Gartenzubehör kaufen.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In der Zooschule wird Unterricht nicht nur für Schüler, sondern auch für Rentner erteilt.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein Markt wird Ende Juli für Kinder bis 16 Jahre in Stuttgart veranstaltet, wo sie ihre alten Bücher und Spielzeuge verkaufen können.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der A94 zwischen München und Burghausen muss man langsam fahren, weil sich auf der Straße Gegenstände befinden.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "7aef67e1-f3fd-49c9-bd56-fcdc826d4aa1",
+    "teil": 3,
+    "title": "Wanderung",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Nach einer Großdemonstration liegen in Frankfurt Gegenstände auf den Straßen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wer bei der Wanderung keinen Rucksack mitnehmen will, kann unterwegs etwas zu essen und zu trinken bekommen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei der Volkshochschule Tübingen kann man sich für alle Kurse problemlos per E-Mail anmelden.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Klassikfunk kann man ab 20.15 Uhr CDs mit Musik von Verdi bestellen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Kinder können während der Sommerferien im Römerkastell Saalburg übernachten.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "9b51b73d-631a-495c-b488-8a155e2eb997",
+    "teil": 3,
+    "title": "Zugverkehr",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Zugverkehr nach Westend ist aufgrund von Personalmangel unterbrochen.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Kursanmeldungen sind trotz geschlossener Anmeldezentrale online möglich.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die neuen Parkausweise sind ab sofort ausschließlich digital verfügbar.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Museum bietet am Wochenende freien Eintritt für alle Altersgruppen.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Verpflegung der Freiwilligen wird vom Veranstalter übernommen.",
+        "statement_number": 5
+      }
+    ]
+  }
+]

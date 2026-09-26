@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "Eisenbahn",
+  "level": "TELC_B1",
+  "position": 6,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 6/16 (Petra/Language Tests, pages 71-72 printed / PDF pages 72-73). Ad block is a low-resolution scan/photo inside the source PDF; some phone numbers/addresses transcribed as legibly as possible. Answer key from Lösungen page (printed p.80 / PDF p.81): 11K 12X 13F 14E 15D 16G 17L 18X 19H 20A.",
+  "key": "KXFEDGLXHA",
+  "situations": {
+    "11": "Sie lieben Krimis und möchten daher einer Krimiautorin beim Vorlesen zuhören.",
+    "12": "Ihr Bekannter würde gerne am Wochenende ein Boot mieten.",
+    "13": "Sie möchten sich in einem Hotel in den Bergen erholen und mit dem Zug anreisen.",
+    "14": "Sie möchten sich eine Märchenvorstellung im Theater ansehen.",
+    "15": "Ihre Freundin sucht ein angenehmes Hotel, in dem man auch Sport treiben kann.",
+    "16": "Am Sonntag wollen Sie einen kleinen Ausflug mit Kindern machen. Die Kinder mögen Tiere.",
+    "17": "Ihre Bekannten möchten gerne im Mai eine Schiffsfahrt machen.",
+    "18": "Sie möchten gerne am Wochenende tanzen gehen und suchen eine tolle Disco.",
+    "19": "Der kleine Sohn von Freunden ist begeistert von der Eisenbahn. Sie möchten am Wochenende mit ihm etwas Interessantes machen.",
+    "20": "Sie möchten im August eine Woche in den Bergen wandern und brauchen eine erfahrene Person, die mit Ihnen geht."
+  },
+  "texts": {
+    "A": { "title": "", "content": "OBER-GOMS. Wandern im Wallis. 06.-10. Juni Fr. 425, 19.-25. August Fr. 750, 22.-29. September Fr. 750. Halbpension/Führungen/Wanderungen/Klettertouren mit geprüften Bergführern. Hotel Walser, 3988 Ulrichen. Tel.: 027/973 21 22, Fax: 027/973 21 20. www.goms.ch/hotel-walser" },
+    "B": { "title": "", "content": "Ausstellung \"Märchen – Mythen – Erzählungen\". Acht Künstlerinnen zeigen ihre Arbeiten vom 2. bis 30. Juni in Thun. Die Arbeiten werden in der Zeit vom 2. bis 30. Juni in Schaufenstern der Innenstadt gezeigt. Vernissage: 2. Juni, 19.30 Uhr, Schlossstrasse 21 – Thun, Tel. 033 222 02 47" },
+    "C": { "title": "", "content": "Chocolat-Werbung. Im Rahmen der Ausstellung \"Chocolat-Tobler. Die Geschichte der Schokolade von 1899 bis heute\" präsentieren und kommentieren Christian Jacquet und Fritz Kobi im Kornhausforum alte und neue Chocolat-Tobler-Werbefilme. Bern: Kornhausforum, 19 Uhr. Mehr Ausgehtipps in der \"Berner Woche\" und im Internet unter www.BernerWoche.ch" },
+    "D": { "title": "", "content": "Sarazena Zermatt. Herzlich willkommen in unserem gemütlichen Ferienhotel in zentraler Lage! Perfekt ausgestattete Zimmer mit allem Komfort, Fitnessraum, Tennishalle, Schwimmbad, reichhaltiges Frühstücksbuffet. Bruno & Catherine Wyrsch-Zurniwen, Tel. 027/967 44 41, Fax 027/967 63 26. Internet: www.hotel-sarazena.ch, E-Mail: sarazena.zermatt@bluewin.ch" },
+    "E": { "title": "", "content": "DAS ASCHENPUTTEL. Cinderella, Cenerentola, Aschenputtel – einmal erzählt, einmal gespielt. Die Schriftstellerin Elke Seidenreich präsentiert zusammen mit der Basel Sinfonietta den bekannten Märchenstoff auf der Bühne. Theaterhalle Bern, 20.30 Uhr" },
+    "F": { "title": "", "content": "SCHWEIZER FERIENORT ZERMATT. Erholung pur im Naturfreunde-Hotel Zermatt. Herrliche Wanderwege in den Bergen. Vorzügliche Küche. Eigener Bahnanschluss. Naturfreunde-Hotel Zermatt, Daniela + René Zimmermann, Tel. 027 967 27 88, Fax 967 66 29, zermatt@spectraweb.ch" },
+    "G": { "title": "", "content": "Tierpark Goldau. Ein Besuch, der sich lohnt! Freilaufzone, Abenteuerspielplatz, Restaurant, 365 Tage im Jahr offen. Eintritt frei für Begleitpersonen von Gruppen ab 12 Personen. Tel. 041-855 50 00, www.tierpark.ch" },
+    "H": { "title": "", "content": "DER FEURIGE ELIAS. Historische Lokomotiven und Waggons, jetzt ausgestellt im Bahnmuseum WORB. Führungen für Kinder und Erwachsene: Jeden Samstag und Sonntag 11.00 Uhr und 16.00 Uhr. Infos: RBS, 3048 Worb, Telefon: (031) 925 55 55" },
+    "I": { "title": "", "content": "Geöffnet: Mo.-Fr. 9.00-19. Uhr, Sa. 9.00-14.00 Uhr. ANDREAS TIERWELT. Vögel – Nager – Pflanzen, Warm- und Kaltwasserfische, Futter und Zubehör für alle Tierarten, Aquarien und Terrarien, Fachberatung. Kreuzgasse 14, CH 4500 Solothurn, Tel. 032 622 20 20, Fax 032 621 52 32" },
+    "J": { "title": "", "content": "TANZ IMPULSE. Schule für zeitgenössischen Tanz, klassisches Ballett, Malen und Tanz. Laufendes Kursangebot für Anfänger und Fortgeschrittene, Einführungskurse zum Kennenlernen, offene Gruppen für Kinder, Jugendliche und Erwachsene, max. 10 Teilnehmerinnen. Information und Beratung: Tanz Impulse, Tel. 027 967 18 18" },
+    "K": { "title": "", "content": "JÄGGI BUCHHANDLUNG. Dienstag 8.5, 20 Uhr, INGRID NOLL (Live im Loeb), die erfolgreichste und ungewöhnlichste deutsche Krimiautorin liest aus ihrem unheimlichen Werk \"Selige Witwen\". Eintritt Fr. 10,00. TicketCorner.ch, 0848 800 800, Vorverkauf 2. UG im Loeb Bern, Telefon 031 320 20 20. Eingang Spitalgasse, Türöffnung 30 Min. vor Beginn" },
+    "L": { "title": "", "content": "Viking-Tours. Flussfahrten auf der Aare, tägliche Fahrten von Mai bis Sep. Abfahrt der Schiffe: 11 Uhr, 14 Uhr, 16 Uhr. Treffpunkt: Thun/Schwäbis Schiffssteg. Preise: 43 Franken. Spezialangebot: Abendfahrten (Rückkehr 23 Uhr), Tanz an Bord, Spezialangebote für Senioren. Tel. 01 434 33 66, Fax 01 434 33 44, viking@viking.ch" }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Nordsee",
+  "teil": 2,
+  "level": "B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 5/16 (Petra/Language Tests, page 63 printed / PDF page 64). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.66 / PDF p.67): 46- 47+ 48- 49+ 50- 51- 52+ 53+ 54+ 55-.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 – 55. Markieren Sie PLUS (+) gleich richtig und MINUS (-) gleich falsch auf dem Antwortbogen.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Die Lehrerin fährt mit ihrer Klasse und an die Nordsee.", "correct": false },
+    { "number": 47, "text": "Herr Kühne hat den Brief der Lehrerin nicht erhalten.", "correct": true },
+    { "number": 48, "text": "Die Klassenfahrt beginnt an einem Samstag.", "correct": false },
+    { "number": 49, "text": "Herrn Kühnes Sohn Martin wird bei Busfahrten oft schlecht.", "correct": true },
+    { "number": 50, "text": "Die Fahrt mit dem Schiff dauert fünf bis sechs Stunden.", "correct": false },
+    { "number": 51, "text": "Das Haus, in dem die Schüler wohnen, gehört zu einem Hotel.", "correct": false },
+    { "number": 52, "text": "Die Klassenfahrt wird von einer Lehrerin und einem Lehrer geleitet.", "correct": true },
+    { "number": 53, "text": "Die Lehrerin empfiehlt, dass die Kinder nicht mehr als 50 Euro Taschengeld mitnehmen.", "correct": true },
+    { "number": 54, "text": "Katerina kann entweder mitfahren, oder in eine andere Klasse gehen.", "correct": true },
+    { "number": 55, "text": "Auf der Klassenfahrt darf nur mit Erlaubnis der Eltern geraucht werden.", "correct": false }
+  ]
+}

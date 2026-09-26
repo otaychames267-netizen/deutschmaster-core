@@ -1,0 +1,20 @@
+{
+  "title": "Rahim",
+  "level": "B2",
+  "position": 44,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Hallo Rahim,\n\nvielen Dank für deine Mail und deine Fragen zu dem Zimmer in unserer WG. Wir freuen uns {{21}} dein Interesse an dem Zimmer und beantworten dir gerne alles.\n\nDie Wohnung befindet {{22}} im dritten Stock eines Altbaus. Sie hat zwei Badezimmer, die wir gemeinschaftlich nutzen, und eine sehr gut ausgestattete Küche – inklusive Spülmaschine. Wir haben außerdem einen großen Balkon, {{23}} man bei gutem Wetter eine super Aussicht hat. Das Zimmer, das zu vermieten ist, kann nach eigenen Wünschen gestaltet {{24}}. Es ist 28qm groß und nicht möbliert.\n\nWir sind übrigens keine Studenten-WG, sondern eine „Berufstätigen-WG“. Mein Mitbewohner Johannes ist Sozialarbeiter und ich beschäftige mich beruflich {{25}} der Entwicklung von Lernsoftware. Unsere Freizeitinteressen sind teilweise recht unterschiedlich. Johannes liebt Sport aller Art und ist viel unterwegs, {{26}} ich meinen Feierabend gern auf dem Sofa ausklingen lasse. Wir kochen aber oft zusammen und machen auch mal einen Spieleabend. Generell geht es bei uns eher ruhig zu. Abends trinken wir {{27}} gerne mal ein Gläschen Wein mit Freunden, aber große Partys feiern wir hier fast nie. Wir wünschen uns einen Mitbewohner, {{28}} Lebensstil zu unserem passt. Ein Nichtraucher wäre super, aber mit einem Raucher, der zum Rauchen auf den Balkon geht, könnten wir auch gut leben.\n\nSchön, dass du anbietest vorbeizukommen, {{29}} wir uns persönlich kennenlernen können. Morgen klappt es allerdings leider nicht. Wenn ich eher {{30}}, dass du dann in der Stadt bist, hätte ich mir Zeit frei gehalten, aber so habe ich den Tag schon verplant. Könntest du vielleicht auch am Sonntag?\n\nViele Grüße\nTill",
+  "gaps": [
+    {"n":21,"a":"für","b":"über","c":"wegen","correct":"b"},
+    {"n":22,"a":"man","b":"sich","c":"uns","correct":"b"},
+    {"n":23,"a":"auf der","b":"für den","c":"von dem","correct":"c"},
+    {"n":24,"a":"werden","b":"wurden","c":"würden","correct":"a"},
+    {"n":25,"a":"an","b":"in","c":"mit","correct":"c"},
+    {"n":26,"a":"anstatt","b":"sondern","c":"während","correct":"c"},
+    {"n":27,"a":"entweder","b":"sowohl","c":"zwar","correct":"c"},
+    {"n":28,"a":"denen","b":"dessen","c":"seinen","correct":"b"},
+    {"n":29,"a":"damit","b":"deswegen","c":"indem","correct":"a"},
+    {"n":30,"a":"gewusst habe","b":"gewusst hätte","c":"wüsste","correct":"b"}
+  ]
+}

@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ClipboardList, Download, TrendingUp, Users, BookOpen, CreditCard } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { ClipboardList, Download, TrendingUp, Users, BookOpen, CreditCard, ShieldAlert, Copy, Loader2, ScanSearch } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { getWeeklyReconciliation } from "@/lib/d17/reconciliation.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/admin/reports")({
   component: AdminReportsPage,
@@ -36,6 +40,324 @@ const REPORTS = [
   },
 ];
 
+function toCsv(rows: Record<string, string | number>[]): string {
+  if (rows.length === 0) return "";
+  const headers = Object.keys(rows[0]);
+  const lines = [headers.join(",")];
+  for (const row of rows) lines.push(headers.map((h) => JSON.stringify(row[h] ?? "")).join(","));
+  return lines.join("\n");
+}
+
+function downloadCsv(filename: string, csv: string) {
+  const blob = new Blob([csv], { type: "text/csv" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function todayISO() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function formatDuration(ms: number): string {
+  if (ms <= 0) return "0m";
+  const totalMinutes = Math.round(ms / 60_000);
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (hours === 0) return `${minutes}m`;
+  return `${hours}h ${minutes}m`;
+}
+
+function D17ReportCard() {
+  const [from, setFrom] = useState(todayISO());
+  const [to, setTo] = useState(todayISO());
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    autoApproved: 0, manualReview: 0, rejected: 0, duplicateAttempts: 0, fraudAttempts: 0,
+    avgVerificationMs: 0, approvalRate: 0, rejectionRate: 0,
+    crossCheckInconsistentCount: 0, crossCheckInconsistentRate: 0,
+    activeSuspensions: 0, lockedAccounts: 0,
+    ocrFailures: 0, ocrFailureRate: 0, avgReviewResolutionMs: 0, reviewResolutionSampleSize: 0,
+  });
+  const [rows, setRows] = useState<Record<string, string | number>[]>([]);
+  const [providerStats, setProviderStats] = useState<{ provider: string; count: number; revenue: number }[]>([]);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const fromIso = new Date(`${from}T00:00:00`).toISOString();
+    const toIso = new Date(`${to}T23:59:59`).toISOString();
+
+    const [{ data: orders }, { data: attempts }, { data: suspensions }, { data: payments }, { count: ocrFailureCount }] = await Promise.all([
+      supabase.from("d17_orders").select("id, status, resolved_at").gte("created_at", fromIso).lte("created_at", toIso),
+      supabase
+        .from("d17_verification_attempts")
+        .select("id, order_id, decision, verification_duration_ms, risk_score, ai_confidence, created_at, cross_check_consistent")
+        .gte("created_at", fromIso)
+        .lte("created_at", toIso),
+      // Current suspension state is a live snapshot, not date-ranged — an
+      // account either is or isn't suspended/locked right now.
+      supabase.from("d17_fraud_suspensions").select("account_locked, suspended_until"),
+      // Cross-provider comparison: same date range, sourced from the
+      // single payments table both providers write to (provider:
+      // "lemonsqueezy" from the webhook, "d17_manual" from
+      // activate_d17_order) — lets an admin see at a glance how much
+      // revenue still flows through the temporary manual D17 path vs.
+      // the real payment processor, informing when the real D17 API
+      // integration becomes worth prioritizing.
+      supabase.from("payments").select("provider, amount, currency, status").eq("status", "succeeded").gte("created_at", fromIso).lte("created_at", toIso),
+      // A fail-closed OCR/AI-provider crash (Phase A) never writes a
+      // verification attempt row — it throws before finalizeAttempt runs, so
+      // it can't be counted from d17_verification_attempts. It does always
+      // raise a "gemini_failure" alert (alertGeminiFailure), which is the
+      // only queryable record of how often this happens.
+      supabase.from("d17_alerts").select("id", { count: "exact", head: true }).eq("category", "gemini_failure").gte("created_at", fromIso).lte("created_at", toIso),
+    ]);
+
+    const approved = (orders ?? []).filter((o) => o.status === "auto_approved" || o.status === "admin_approved").length;
+    const manualReview = (orders ?? []).filter((o) => o.status === "manual_review" || o.status === "under_review").length;
+    const rejected = (orders ?? []).filter((o) => o.status === "rejected").length;
+    const duplicateAttempts = (attempts ?? []).filter((a) => a.decision === "auto_rejected_duplicate").length;
+    const fraudAttempts = (attempts ?? []).filter((a) => a.decision === "auto_rejected_fraud").length;
+    const durations = (attempts ?? []).map((a) => a.verification_duration_ms).filter((d): d is number => typeof d === "number");
+    const avgVerificationMs = durations.length ? Math.round(durations.reduce((s, d) => s + d, 0) / durations.length) : 0;
+    const resolved = approved + rejected;
+    const approvalRate = resolved ? Math.round((approved / resolved) * 100) : 0;
+    const rejectionRate = resolved ? Math.round((rejected / resolved) * 100) : 0;
+
+    // Only attempts that got far enough to run the two-screenshot cross-check
+    // (i.e. cross_check_consistent is not null — duplicate/kill-switch/
+    // budget/Gemini-error short-circuits never populate it) count toward
+    // the denominator, so the rate reflects genuine inconsistency, not
+    // attempts that never reached that stage.
+    const crossCheckable = (attempts ?? []).filter((a) => a.cross_check_consistent !== null);
+    const crossCheckInconsistentCount = crossCheckable.filter((a) => a.cross_check_consistent === false).length;
+    const crossCheckInconsistentRate = crossCheckable.length ? Math.round((crossCheckInconsistentCount / crossCheckable.length) * 100) : 0;
+
+    const now = Date.now();
+    const lockedAccounts = (suspensions ?? []).filter((s) => s.account_locked).length;
+    const activeSuspensions = (suspensions ?? []).filter((s) => !s.account_locked && s.suspended_until && new Date(s.suspended_until).getTime() > now).length;
+
+    const ocrFailures = ocrFailureCount ?? 0;
+    // Denominator is every verification EVENT in range, successful or not —
+    // attempts that got far enough to write a row, plus fail-closed crashes
+    // that didn't. Rate answers "of all verification attempts, how many hit
+    // a system failure" rather than comparing against unrelated totals.
+    const totalVerificationEvents = (attempts?.length ?? 0) + ocrFailures;
+    const ocrFailureRate = totalVerificationEvents ? Math.round((ocrFailures / totalVerificationEvents) * 100) : 0;
+
+    // Average manual-review resolution time: for orders resolved in this
+    // range that passed through manual_review, resolved_at minus the
+    // earliest manual_review attempt for that order (i.e. when it entered
+    // review). Both orders and attempts are scoped to the same [from, to]
+    // window, so a review that started just before `from` and resolved just
+    // after `to` would be undercounted — acceptable for a coarse admin
+    // metric, not a billing-grade SLA report.
+    const reviewEntryByOrder = new Map<string, string>();
+    for (const a of attempts ?? []) {
+      if (a.decision !== "manual_review") continue;
+      const existing = reviewEntryByOrder.get(a.order_id);
+      if (!existing || a.created_at < existing) reviewEntryByOrder.set(a.order_id, a.created_at);
+    }
+    const reviewDurationsMs: number[] = [];
+    for (const o of orders ?? []) {
+      if (!o.resolved_at) continue;
+      const enteredAt = reviewEntryByOrder.get(o.id);
+      if (!enteredAt) continue;
+      reviewDurationsMs.push(new Date(o.resolved_at).getTime() - new Date(enteredAt).getTime());
+    }
+    const avgReviewResolutionMs = reviewDurationsMs.length
+      ? Math.round(reviewDurationsMs.reduce((s, d) => s + d, 0) / reviewDurationsMs.length)
+      : 0;
+
+    setStats({
+      autoApproved: approved, manualReview, rejected, duplicateAttempts, fraudAttempts, avgVerificationMs, approvalRate, rejectionRate,
+      crossCheckInconsistentCount, crossCheckInconsistentRate, activeSuspensions, lockedAccounts,
+      ocrFailures, ocrFailureRate, avgReviewResolutionMs, reviewResolutionSampleSize: reviewDurationsMs.length,
+    });
+
+    // Grouped by provider, not currency-converted (this app is TND-only
+    // across both providers today) — a simple sum is accurate as-is.
+    const byProvider = new Map<string, { count: number; revenue: number }>();
+    for (const p of payments ?? []) {
+      const entry = byProvider.get(p.provider) ?? { count: 0, revenue: 0 };
+      entry.count += 1;
+      entry.revenue += Number(p.amount);
+      byProvider.set(p.provider, entry);
+    }
+    setProviderStats(
+      [...byProvider.entries()]
+        .map(([provider, v]) => ({ provider, ...v }))
+        .sort((a, b) => b.revenue - a.revenue),
+    );
+    setRows(
+      (attempts ?? []).map((a) => ({
+        id: a.id, decision: a.decision, risk_score: a.risk_score ?? "", ai_confidence: a.ai_confidence ?? "",
+        verification_duration_ms: a.verification_duration_ms ?? "",
+        cross_check_consistent: a.cross_check_consistent === null ? "" : String(a.cross_check_consistent),
+        created_at: a.created_at,
+      })),
+    );
+    setLoading(false);
+  }, [from, to]);
+
+  useEffect(() => { load(); }, [load]);
+
+  return (
+    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10">
+            <ShieldAlert className="h-5 w-5 text-blue-500" />
+          </div>
+          <div>
+            <p className="font-semibold text-foreground">D17 Verification Report</p>
+            <p className="text-xs text-muted-foreground">Auto/manual/rejected breakdown, fraud &amp; duplicate attempts, verification speed.</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <input type="date" value={from} onChange={(e) => setFrom(e.target.value)} className="rounded-lg border border-input bg-background px-2 py-1.5 text-xs" />
+          <span className="text-xs text-muted-foreground">to</span>
+          <input type="date" value={to} onChange={(e) => setTo(e.target.value)} className="rounded-lg border border-input bg-background px-2 py-1.5 text-xs" />
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="flex justify-center py-6"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>
+      ) : (
+        <>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {[
+              { label: "Auto/admin approved", value: stats.autoApproved },
+              { label: "Manual review", value: stats.manualReview },
+              { label: "Rejected", value: stats.rejected },
+              { label: "Duplicate attempts", value: stats.duplicateAttempts },
+              { label: "Fraud attempts", value: stats.fraudAttempts },
+              { label: "Avg. verification time", value: `${stats.avgVerificationMs} ms` },
+              { label: "Approval rate", value: `${stats.approvalRate}%` },
+              { label: "Rejection rate", value: `${stats.rejectionRate}%` },
+              { label: "Cross-screenshot inconsistent", value: `${stats.crossCheckInconsistentCount} (${stats.crossCheckInconsistentRate}%)` },
+              { label: "Currently suspended", value: stats.activeSuspensions },
+              { label: "Currently locked", value: stats.lockedAccounts },
+              { label: "OCR/system failures", value: `${stats.ocrFailures} (${stats.ocrFailureRate}%)` },
+              {
+                label: "Avg. manual review time",
+                value: stats.reviewResolutionSampleSize ? formatDuration(stats.avgReviewResolutionMs) : "—",
+              },
+            ].map((s) => (
+              <div key={s.label} className="rounded-xl border border-border bg-muted/20 p-3">
+                <p className="text-[10px] text-muted-foreground">{s.label}</p>
+                <p className="text-lg font-black text-foreground">{s.value}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 border-t border-border pt-4">
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide text-muted-foreground">Revenue by provider (this range)</p>
+            {providerStats.length === 0 ? (
+              <p className="text-xs text-muted-foreground">No succeeded payments in this range.</p>
+            ) : (
+              <div className="grid gap-2 sm:grid-cols-2">
+                {providerStats.map((p) => (
+                  <div key={p.provider} className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2.5">
+                    <span className="text-xs font-semibold capitalize text-foreground">
+                      {p.provider === "d17_manual" ? "D17 (manual)" : p.provider === "lemonsqueezy" ? "Lemon Squeezy" : p.provider}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{p.count} payment{p.count === 1 ? "" : "s"} · {p.revenue.toFixed(2)} TND</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={() => downloadCsv(`d17-verification-report-${from}-to-${to}.csv`, toCsv(rows))}
+            disabled={rows.length === 0}
+            className="mt-4 flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-50"
+          >
+            <Download className="h-3.5 w-3.5" /> Download CSV ({rows.length} attempts)
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+interface ReconciliationResult {
+  missingSubscription: { id: string; user_id: string; plan_code: string; amount_tnd: number }[];
+  mismatched: { id: string; user_id: string; plan_code: string }[];
+  checkedAt: string;
+}
+
+function D17ReconciliationCard() {
+  const [result, setResult] = useState<ReconciliationResult | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function run() {
+    setLoading(true);
+    try {
+      const r = await getWeeklyReconciliation();
+      setResult(r);
+      const issues = r.missingSubscription.length + r.mismatched.length;
+      if (issues === 0) toast.success("No reconciliation issues found.");
+      else toast.warning(`${issues} reconciliation issue(s) found.`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Reconciliation check failed.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-500/10">
+            <ScanSearch className="h-5 w-5 text-violet-500" />
+          </div>
+          <div>
+            <p className="font-semibold text-foreground">D17 Reconciliation</p>
+            <p className="text-xs text-muted-foreground">
+              Internal-consistency check only — flags approved orders with a missing or mismatched subscription.
+              No bank-statement feed exists in this app to reconcile against real deposits.
+            </p>
+          </div>
+        </div>
+        <button
+          onClick={run}
+          disabled={loading}
+          className="flex shrink-0 items-center gap-2 rounded-xl border border-border bg-card px-4 py-2 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-50"
+        >
+          {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Copy className="h-3.5 w-3.5" />} Run check
+        </button>
+      </div>
+
+      {result && (
+        <div className="space-y-2 text-xs">
+          <p className="text-muted-foreground">Checked at {new Date(result.checkedAt).toLocaleString()}</p>
+          {result.missingSubscription.length === 0 && result.mismatched.length === 0 ? (
+            <p className="font-semibold text-emerald-600 dark:text-emerald-400">No issues found.</p>
+          ) : (
+            <>
+              {result.missingSubscription.map((o) => (
+                <div key={o.id} className="rounded-lg border border-red-500/30 bg-red-500/5 px-3 py-2 text-red-700 dark:text-red-400">
+                  Order {o.id} is approved but has no linked subscription ({o.plan_code}, {o.amount_tnd} TND).
+                </div>
+              ))}
+              {result.mismatched.map((o) => (
+                <div key={o.id} className="rounded-lg border border-amber-500/30 bg-amber-500/5 px-3 py-2 text-amber-700 dark:text-amber-400">
+                  Order {o.id}'s subscription doesn't match its plan ({o.plan_code}).
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function AdminReportsPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6 pb-8">
@@ -48,6 +370,9 @@ function AdminReportsPage() {
         </div>
         <p className="text-sm text-muted-foreground ml-12">Download detailed reports about platform performance.</p>
       </div>
+
+      <D17ReportCard />
+      <D17ReconciliationCard />
 
       <div className="grid gap-4 sm:grid-cols-2">
         {REPORTS.map((r) => (
@@ -70,7 +395,7 @@ function AdminReportsPage() {
               onClick={() => {}}
               disabled
               className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted/30 py-2 text-xs font-semibold text-muted-foreground cursor-not-allowed"
-              title="Available when Stripe + full analytics are connected"
+              title="Available once the full analytics pipeline is connected"
             >
               <Download className="h-3.5 w-3.5" /> Download CSV — coming soon
             </button>
@@ -80,7 +405,7 @@ function AdminReportsPage() {
 
       <div className="rounded-2xl border border-dashed border-border bg-muted/20 p-6 text-center">
         <p className="text-sm text-muted-foreground">
-          Full report exports will be available once Stripe and the analytics pipeline are connected.
+          Full report exports will be available once the analytics pipeline is connected.
           Reports will be downloadable as CSV and PDF.
         </p>
       </div>

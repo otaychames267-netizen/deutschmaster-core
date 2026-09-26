@@ -1,0 +1,22 @@
+{
+  "title": "Klimawandel lässt in den Alpen neue Seen entstehen",
+  "level": "B2",
+  "position": 50,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 13, red numbers beside word-bank letters, all 10 verified vs text",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Gletscherschmelze, Überschwemmungen, Steinschlag: Der Klimawandel bringt Extreme – mit drastischen Folgen für den Alpenraum.\n\nSchmutzig weiß zieht sich der Rest einer Skipiste durch grüne Wiesen: Schon {{31}} Ostern ist vielerorts in den Nordalpen die Wintersportsaison beendet. Der milde Winter scheint manchen Menschen ein Vorgeschmack auf den Klimawandel zu sein. Doch einige Experten warnen, das Wetter {{32}} Jahre als Hinweis auf die Erwärmung zu betrachten.\nDer Klimawandel bringt nach Ansicht {{33}} Forscher nicht einfach milderes Wetter, {{34}} vor allem mehr Extreme mit Stürmen, Fluten und Dürren. Das Ausmaß der Extreme ist demnach kaum einschätzbar. In den Alpen werden die Durchschnittstemperaturen bis 2100 je nach Klimaschutz und Modellrechnung um wenige bis einige Grad {{35}}. Die Folgen: grüne Almen statt Skipisten, Regen statt Schnee, Steinschlag und schwindende Gletscher.\n{{36}} die Gletscher gerade erst schmelzen, entstehen derzeit neue Seen; 500 könnten es in der Schweiz bis Ende des Jahrhunderts sein. Blaues Wasser in blitzendem Eis: schön – und gefährlich. Vielerorts wurden Schutzbauten errichtet – {{37}} die Seen sich sturzbachartig entladen.\nIn den Alpen kommt es zu weiteren {{38}} Situationen. Im extrem heißen Sommer 2003 häuften sich Steinschlag und Bergstürze. Eis, das die Felsen zusammenhält, indem es das Eindringen von Wasser verhindert, taut. Liftanlagen, einst auf eishartem Boden gebaut, gleiten. Hütten {{39}} Risse. Steinschlag und Muren häufen sich. Felsen rutschen. Der Gipfel des Hohen Sonnblicks in Österreich ist sogar eigens mit Beton {{40}} worden.\n\n(Zu Übungszwecken bearbeitet; Quelle: http://www.welt.de/wissenschaft/umwelt/article126298067/Klimawandel-laesst-in-den-Alpen-neue-Seen-entstehen.html, Sabine Dobel, Die Welt, 28.3.2014)",
+  "words": ["bekommen", "bedrohlichen", "befestigt", "beschwerlich", "sinken", "gleiten", "vor", "da", "zu", "vieler", "einzelner", "keiner", "steigen", "falls", "sondern"],
+  "answers": {
+    "31": "vor",
+    "32": "einzelner",
+    "33": "vieler",
+    "34": "sondern",
+    "35": "steigen",
+    "36": "da",
+    "37": "falls",
+    "38": "bedrohlichen",
+    "39": "bekommen",
+    "40": "befestigt"
+  }
+}

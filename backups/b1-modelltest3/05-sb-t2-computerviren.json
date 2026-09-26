@@ -1,0 +1,22 @@
+{
+  "title": "Computerviren",
+  "level": "B1",
+  "position": 3,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 3/16 (Sophie/Language Tests, page 35 printed / PDF page 36). Letter to a seminar organizer, signed 'WILLY GATES'. Answer key from Lösungen page (p.40 printed / PDF p.41): 31I SCHNELLE, 32A AUCH, 33D EINIGE, 34J SCHON, 35E KÖNNTEN, 36B BEIDEN, 37N WANN, 38F MÖCHTE, 39H OB, 40O WERDE.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Damen und Herren,\n\nvielen Dank für die {{31}} Zusendung der Informationsmaterialien. Ich interessiere mich sowohl für das Seminar Schutz gegen Computerviren als {{32}} für Einführung ins Internet.\n\nDazu habe ich noch {{33}} Fragen: Ist die Veranstaltung Einführung ins Internet auch wirklich für Anfänger gedacht? Da ich noch gar keine Erfahrung habe, möchte ich mich {{34}} jetzt auf das Seminar vorbereiten. {{35}} Sie mir die Schulungsunterlagen bereits vorher schicken?\n\nGibt es für die {{36}} Seminare noch genügend freie Plätze? Bis {{37}} muss ich mich spätestens anmelden?\n\nUnd nun noch eine Frage zur Bezahlung: Auslandsüberweisungen sind sehr teuer, daher {{38}} ich wissen, {{39}} man im Voraus bezahlen muss oder auch vor Ort bar bezahlen kann.\n\n{{40}} ich auch eine Kursbestätigung am Ende des Seminars erhalten?\n\nMit freundlichen Grüßen\nWILLY GATES",
+  "words": ["AUCH", "BEIDEN", "EINE", "EINIGE", "KÖNNTEN", "MÖCHTE", "MÜSSEN", "OB", "SCHNELLE", "SCHON", "SOLL", "SONDERN", "VORNE", "WANN", "WERDE"],
+  "answers": {
+    "31": "SCHNELLE",
+    "32": "AUCH",
+    "33": "EINIGE",
+    "34": "SCHON",
+    "35": "KÖNNTEN",
+    "36": "BEIDEN",
+    "37": "WANN",
+    "38": "MÖCHTE",
+    "39": "OB",
+    "40": "WERDE"
+  }
+}

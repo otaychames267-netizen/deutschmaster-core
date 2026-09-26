@@ -1,0 +1,21 @@
+{
+  "title": "Justus oder Juhannas",
+  "level": "B2",
+  "position": 16,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 18, اساسي/basic version). Gap 25 option A is literally '----' (blank/dashes distractor) in the source — reproduced verbatim, not invented.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Lieber Justus, oder Juhannas\n\nvielen Dank für deine Urlaubskarte, {{21}} die ich mich wirklich sehr gefreut habe! Ich wusste {{22}} nicht, dass ihr gerne wandern geht. Oder habt ihr das jetzt zum ersten Mal gemacht? Als Kind war ich mit meinen Eltern mal wandern, aber mir hat das damals nicht {{23}} gefallen. Ich war auch noch klein und hatte keine Lust, so lange zu laufen. Heute fahre ich lieber an den Strand und mache einen schönen Badeurlaub. Den ganzen Tag lesen, in der Sonne liegen, ab und zu mal ins Wasser gehen - {{24}} habe ich schon im Alltag genug Stress. Dabei fällt mir ein: Wie ist eigentlich deine neue Stelle? Du arbeitest doch jetzt in dieser internationalen Baufirma, oder? Bist du jetzt schneller im Büro als früher oder ist die Firma sogar noch weiter {{25}} als deine alte? Du musstest ja immer ziemlich lange fahren, daran erinnere ich mich noch gut! Ich denke im Moment auch darüber nach, die Stelle zu {{26}}. Mein Chef und meine Kollegen sind zwar total nett und die Bezahlung ist auch gut, aber ich mache fast jeden Tag das Gleiche - und das jetzt schon seit über zehn Jahren. Ehrlich {{27}} langweile ich mich in den letzten Monaten immer häufiger und würde gerne noch mal etwas Neues ausprobieren. Deshalb mache ich ab dem {{28}} Monat erst mal eine Weiterbildung, sonst hätte ich wohl nicht so gute Chancen, eine neue Stelle zu bekommen. Schließlich wird es auch immer schwieriger, {{29}} älter man ist. Die meisten Arbeitgeber wollen doch lieber jüngere Angestellte. Wie {{30}} es, wenn wir uns demnächst treffen würden? Wir könnten in diesem neuen Restaurant in der Innenstadt essen gehen. Melde dich doch einfach mal wieder!\n\nViele Grüße\nRichard",
+  "gaps": [
+    { "n": 21, "a": "an", "b": "für", "c": "über", "correct": "c" },
+    { "n": 22, "a": "daher", "b": "gar", "c": "sicher", "correct": "b" },
+    { "n": 23, "a": "besonders", "b": "einfach", "c": "kaum", "correct": "a" },
+    { "n": 24, "a": "allerdings", "b": "außerdem", "c": "schließlich", "correct": "c" },
+    { "n": 25, "a": "----", "b": "abgerückt", "c": "entfernt", "correct": "c" },
+    { "n": 26, "a": "ändern", "b": "verwechseln", "c": "wechseln", "correct": "c" },
+    { "n": 27, "a": "gesagt", "b": "sagend", "c": "zu sagen", "correct": "a" },
+    { "n": 28, "a": "kommende", "b": "kommendem", "c": "kommenden", "correct": "c" },
+    { "n": 29, "a": "als", "b": "je", "c": "weil", "correct": "b" },
+    { "n": 30, "a": "ist", "b": "war", "c": "wäre", "correct": "c" }
+  ]
+}

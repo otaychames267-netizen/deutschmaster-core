@@ -1,0 +1,63 @@
+{
+  "title": "Straßenkinder - Die Kinder (Kids)",
+  "teil": 2,
+  "level": "B2",
+  "position": 32,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 33 (code 1235679) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Frau Edler arbeitete früher für die Verkehrsbetriebe Leipzig.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Zum ersten Mal wurde sie in Frankfurt mit dem Problem der Straßenkinder konfrontiert.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Zu Anfang kümmerte sie sich um obdachlose Erwachsene.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Sie hat den Straßenkindern immer Geld gegeben.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Die Kinder (Kids) wollten, nach Meinung von Frau Edler, Zigaretten kaufen.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Sie hat mit den Kindern in leer stehenden Häusern übernachtet.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Die Kolleginnen hatten anfangs kein Verständnis für ihr Engagement.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Die Zahl der Kinder, die an den Weihnachtsfeiern teilnehmen, ist seit 1990 stark gesunken.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Sie sammelt noch heute bei den früheren Kollegen Geld für die Straßenkinder.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Mit einer Büchse herumzulaufen, ist ihr manchmal peinlich.",
+      "correct": false
+    }
+  ]
+}

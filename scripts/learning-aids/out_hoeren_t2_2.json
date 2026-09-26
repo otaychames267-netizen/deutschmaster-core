@@ -1,0 +1,750 @@
+{
+  "5e895740-28d7-4942-858d-c051b97b71d7": {
+    "translation": {
+      "questions": {
+        "46": "يقدّم البرنامج الإذاعي أسبوعيًا أشخاصًا من جميع أنحاء ألمانيا.",
+        "47": "تركض إيفا كوبر خلال التمرين مرة واحدة على الأقل أسبوعيًا مسافة الماراثون أيضًا.",
+        "48": "تودّ إيفا كوبر أن تستقيل من وظيفتها كموظفة بنك.",
+        "49": "بعد التدريب المهني، غيّرت إيفا كوبر أسلوب حياتها بشكل جذري.",
+        "50": "إيفا كوبر أصلها من ميونخ.",
+        "51": "تعجب إيفا كوبر الجريات الطويلة في المدينة بنفس القدر الذي تعجبها في الجبال.",
+        "52": "أثناء سباق الماراثون الفائق، تُغيّر إيفا كوبر حذاء الجري ثلاث مرات.",
+        "53": "الساعة الخاصة مهمة لإيفا كوبر ليس فقط في التمرين، بل أيضًا في المنافسة.",
+        "54": "طالما أن جسدها بصحة جيدة، تريد إيفا كوبر الاستمرار في ركض سباقات الماراثون الفائقة.",
+        "55": "بعد ماراثون برلين، يمكن لإيفا كوبر الانضمام رسميًا إلى نادي الجري."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "wöchentlich",
+        "explanation_correct": "Achte bei Frequenzangaben wie „wöchentlich“ genau darauf, ob die im Hörtext genannte Häufigkeit wirklich mit der Aussage übereinstimmt. Diese Aussage ist falsch – typisch für TELC-Fallen ist es, eine plausible, aber nicht exakt zutreffende Häufigkeit oder Reichweite anzugeben.",
+        "explanation_wrong": "Achte bei Frequenzangaben wie „wöchentlich“ genau darauf, ob die im Hörtext genannte Häufigkeit wirklich mit der Aussage übereinstimmt. Diese Aussage ist falsch – typisch für TELC-Fallen ist es, eine plausible, aber nicht exakt zutreffende Häufigkeit oder Reichweite anzugeben."
+      },
+      "47": {
+        "keyword": "wenigstens einmal pro Woche",
+        "explanation_correct": "Formulierungen wie „wenigstens einmal pro Woche“ geben eine Mindesthäufigkeit an – höre genau hin, ob eine solche Mindestangabe bestätigt wird. Diese Aussage ist richtig, sie gibt die Trainingshäufigkeit korrekt und ohne Übertreibung wieder.",
+        "explanation_wrong": "Formulierungen wie „wenigstens einmal pro Woche“ geben eine Mindesthäufigkeit an – höre genau hin, ob eine solche Mindestangabe bestätigt wird. Diese Aussage ist richtig, sie gibt die Trainingshäufigkeit korrekt und ohne Übertreibung wieder."
+      },
+      "48": {
+        "keyword": "kündigen",
+        "explanation_correct": "Bei Aussagen über Wünsche oder Absichten wie „kündigen“ solltest du prüfen, ob die Person diesen Wunsch tatsächlich äußert oder ob das Gegenteil zutrifft. Diese Aussage ist falsch – ein klassischer TELC-Trick ist es, eine erfundene Absicht zu unterstellen, die im Hörtext nicht bestätigt wird.",
+        "explanation_wrong": "Bei Aussagen über Wünsche oder Absichten wie „kündigen“ solltest du prüfen, ob die Person diesen Wunsch tatsächlich äußert oder ob das Gegenteil zutrifft. Diese Aussage ist falsch – ein klassischer TELC-Trick ist es, eine erfundene Absicht zu unterstellen, die im Hörtext nicht bestätigt wird."
+      },
+      "49": {
+        "keyword": "radikal verändert",
+        "explanation_correct": "Verstärkende Ausdrücke wie „radikal“ solltest du mit dem tatsächlichen Ausmaß der beschriebenen Veränderung vergleichen. Diese Aussage ist richtig, sie beschreibt eine tiefgreifende Veränderung angemessen.",
+        "explanation_wrong": "Verstärkende Ausdrücke wie „radikal“ solltest du mit dem tatsächlichen Ausmaß der beschriebenen Veränderung vergleichen. Diese Aussage ist richtig, sie beschreibt eine tiefgreifende Veränderung angemessen."
+      },
+      "50": {
+        "keyword": "ursprünglich aus München",
+        "explanation_correct": "Herkunftsangaben wie Städtenamen sind im Hörverstehen oft entscheidende Details, bei denen leicht ein anderer Ort verwechselt werden kann. Diese Aussage ist richtig, sie nennt die Herkunft korrekt.",
+        "explanation_wrong": "Herkunftsangaben wie Städtenamen sind im Hörverstehen oft entscheidende Details, bei denen leicht ein anderer Ort verwechselt werden kann. Diese Aussage ist richtig, sie nennt die Herkunft korrekt."
+      },
+      "51": {
+        "keyword": "genauso gut wie",
+        "explanation_correct": "Vergleichsformulierungen wie „genauso gut wie“ behaupten eine Gleichwertigkeit, die im Original oft nicht so besteht. Diese Aussage ist falsch – TELC-Aufgaben nutzen häufig solche Gleichsetzungen, um eine tatsächlich vorhandene Präferenz zu verschleiern.",
+        "explanation_wrong": "Vergleichsformulierungen wie „genauso gut wie“ behaupten eine Gleichwertigkeit, die im Original oft nicht so besteht. Diese Aussage ist falsch – TELC-Aufgaben nutzen häufig solche Gleichsetzungen, um eine tatsächlich vorhandene Präferenz zu verschleiern."
+      },
+      "52": {
+        "keyword": "dreimal",
+        "explanation_correct": "Zahlenangaben wie „dreimal“ sind klassische Stolperfallen – im Hörtext kann eine andere Zahl oder gar keine genannt werden. Diese Aussage ist falsch, achte bei Zahlen stets besonders genau hin.",
+        "explanation_wrong": "Zahlenangaben wie „dreimal“ sind klassische Stolperfallen – im Hörtext kann eine andere Zahl oder gar keine genannt werden. Diese Aussage ist falsch, achte bei Zahlen stets besonders genau hin."
+      },
+      "53": {
+        "keyword": "nicht nur, sondern auch",
+        "explanation_correct": "Die Struktur „nicht nur ... sondern auch“ erweitert eine Aussage auf einen zweiten Bereich – prüfe, ob beide Teile tatsächlich zutreffen. Diese Aussage ist richtig, beide genannten Bereiche werden bestätigt.",
+        "explanation_wrong": "Die Struktur „nicht nur ... sondern auch“ erweitert eine Aussage auf einen zweiten Bereich – prüfe, ob beide Teile tatsächlich zutreffen. Diese Aussage ist richtig, beide genannten Bereiche werden bestätigt."
+      },
+      "54": {
+        "keyword": "solange gesund",
+        "explanation_correct": "Bedingungssätze mit „solange“ knüpfen eine Aussage an eine Voraussetzung – achte darauf, ob diese Bedingung im Hörtext ebenso formuliert wird. Diese Aussage ist richtig, sie gibt die genannte Bedingung korrekt wieder.",
+        "explanation_wrong": "Bedingungssätze mit „solange“ knüpfen eine Aussage an eine Voraussetzung – achte darauf, ob diese Bedingung im Hörtext ebenso formuliert wird. Diese Aussage ist richtig, sie gibt die genannte Bedingung korrekt wieder."
+      },
+      "55": {
+        "keyword": "offiziell beitreten",
+        "explanation_correct": "Achte bei Aussagen über Bedingungen für eine Mitgliedschaft oder einen Beitritt genau auf den genannten Zeitpunkt und die Voraussetzung. Diese Aussage ist falsch – ein typischer Trick ist es, ein falsches Ereignis als Voraussetzung für einen späteren Schritt zu nennen.",
+        "explanation_wrong": "Achte bei Aussagen über Bedingungen für eine Mitgliedschaft oder einen Beitritt genau auf den genannten Zeitpunkt und die Voraussetzung. Diese Aussage ist falsch – ein typischer Trick ist es, ein falsches Ereignis als Voraussetzung für einen späteren Schritt zu nennen."
+      }
+    }
+  },
+  "7502404d-2c48-4483-991f-183e52234f4f": {
+    "translation": {
+      "questions": {
+        "46": "جامعة TU دريسدن هي جامعة صغيرة.",
+        "47": "في جامعة TU دريسدن يمكن دراسة التخصصات التقنية فقط.",
+        "48": "يهتم الطلاب الأكبر سنًا (الأقدم) بالطلاب الجدد.",
+        "49": "لا يمكن الوصول إلى نويشتات (الحي الجديد) بوسائل النقل العام.",
+        "50": "لا يشعر ينس باليقين حول ما إذا كان سيحصل على وظيفة مثيرة للاهتمام بعد الدراسة.",
+        "51": "لا يزال بإمكان الطلاب المستجدين الاختيار بين البكالوريوس والدبلوم.",
+        "52": "بموجب تذكرة الفصل الدراسي، يُسمح للطلاب باستخدام وسائل النقل العام في دريسدن.",
+        "53": "يوجد للطلاب المستجدين إمكانية لتجديد بعض المعارف الأساسية.",
+        "54": "لا يوجد عمل جماعي في الدراسة.",
+        "55": "في جامعة TU دريسدن يمكن أيضًا ممارسة أنواع رياضة غير تقليدية."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "kleine",
+        "explanation_correct": "Adjektive wie „klein“ oder „groß“ beschreiben eine Größenordnung, die häufig absichtlich falsch dargestellt wird. Diese Aussage ist falsch, prüfe solche Größenangaben stets kritisch.",
+        "explanation_wrong": "Adjektive wie „klein“ oder „groß“ beschreiben eine Größenordnung, die häufig absichtlich falsch dargestellt wird. Diese Aussage ist falsch, prüfe solche Größenangaben stets kritisch."
+      },
+      "47": {
+        "keyword": "nur",
+        "explanation_correct": "Das einschränkende Wort „nur“ schließt alle anderen Möglichkeiten aus – solche absoluten Formulierungen sind oft ein Warnsignal. Diese Aussage ist falsch, ein klassisches Merkmal von TELC-Fallen sind unrealistische Einschränkungen wie „nur“.",
+        "explanation_wrong": "Das einschränkende Wort „nur“ schließt alle anderen Möglichkeiten aus – solche absoluten Formulierungen sind oft ein Warnsignal. Diese Aussage ist falsch, ein klassisches Merkmal von TELC-Fallen sind unrealistische Einschränkungen wie „nur“."
+      },
+      "48": {
+        "keyword": "kümmern sich um",
+        "explanation_correct": "Achte bei Aussagen über Unterstützungsangebote darauf, wer genau für wen verantwortlich ist. Diese Aussage ist richtig, die Zuständigkeit wird korrekt wiedergegeben.",
+        "explanation_wrong": "Achte bei Aussagen über Unterstützungsangebote darauf, wer genau für wen verantwortlich ist. Diese Aussage ist richtig, die Zuständigkeit wird korrekt wiedergegeben."
+      },
+      "49": {
+        "keyword": "nicht mit öffentlichen Verkehrsmitteln",
+        "explanation_correct": "Verneinungen wie „nicht“ kehren eine Aussage komplett ins Gegenteil – höre bei negierten Sätzen besonders genau hin. Diese Aussage ist falsch, hier wird eine tatsächlich vorhandene Möglichkeit fälschlich verneint.",
+        "explanation_wrong": "Verneinungen wie „nicht“ kehren eine Aussage komplett ins Gegenteil – höre bei negierten Sätzen besonders genau hin. Diese Aussage ist falsch, hier wird eine tatsächlich vorhandene Möglichkeit fälschlich verneint."
+      },
+      "50": {
+        "keyword": "nicht sicher",
+        "explanation_correct": "Ausdrücke von Unsicherheit wie „nicht sicher“ solltest du von einer klaren Zusage oder Ablehnung unterscheiden. Diese Aussage ist richtig, sie gibt eine vorsichtige, unsichere Haltung korrekt wieder.",
+        "explanation_wrong": "Ausdrücke von Unsicherheit wie „nicht sicher“ solltest du von einer klaren Zusage oder Ablehnung unterscheiden. Diese Aussage ist richtig, sie gibt eine vorsichtige, unsichere Haltung korrekt wieder."
+      },
+      "51": {
+        "keyword": "noch wählen",
+        "explanation_correct": "Das Wort „noch“ behauptet, dass eine frühere Möglichkeit weiterhin besteht – prüfe, ob das wirklich zutrifft. Diese Aussage ist falsch, oft wird in TELC-Aufgaben eine bereits abgeschaffte Option als noch gültig dargestellt.",
+        "explanation_wrong": "Das Wort „noch“ behauptet, dass eine frühere Möglichkeit weiterhin besteht – prüfe, ob das wirklich zutrifft. Diese Aussage ist falsch, oft wird in TELC-Aufgaben eine bereits abgeschaffte Option als noch gültig dargestellt."
+      },
+      "52": {
+        "keyword": "Semesterticket",
+        "explanation_correct": "Bei Aussagen über konkrete Angebote wie ein „Semesterticket“ solltest du genau auf die genannte Berechtigung achten. Diese Aussage ist richtig, die Nutzungsberechtigung wird korrekt beschrieben.",
+        "explanation_wrong": "Bei Aussagen über konkrete Angebote wie ein „Semesterticket“ solltest du genau auf die genannte Berechtigung achten. Diese Aussage ist richtig, die Nutzungsberechtigung wird korrekt beschrieben."
+      },
+      "53": {
+        "keyword": "Grundkenntnisse aufzufrischen",
+        "explanation_correct": "Formulierungen wie „die Möglichkeit haben“ beschreiben ein optionales Angebot – achte darauf, ob dieses Angebot tatsächlich existiert. Diese Aussage ist richtig, ein solches Angebot wird bestätigt.",
+        "explanation_wrong": "Formulierungen wie „die Möglichkeit haben“ beschreiben ein optionales Angebot – achte darauf, ob dieses Angebot tatsächlich existiert. Diese Aussage ist richtig, ein solches Angebot wird bestätigt."
+      },
+      "54": {
+        "keyword": "keine",
+        "explanation_correct": "Das Wort „keine“ ist eine absolute Verneinung – solche Formulierungen sind in TELC-Texten oft Fallen, wenn tatsächlich das Gegenteil zutrifft. Diese Aussage ist falsch, hier wird eine tatsächlich vorhandene Sache komplett verneint.",
+        "explanation_wrong": "Das Wort „keine“ ist eine absolute Verneinung – solche Formulierungen sind in TELC-Texten oft Fallen, wenn tatsächlich das Gegenteil zutrifft. Diese Aussage ist falsch, hier wird eine tatsächlich vorhandene Sache komplett verneint."
+      },
+      "55": {
+        "keyword": "außergewöhnliche Sportarten",
+        "explanation_correct": "Achte bei Aufzählungen von Angeboten auf besondere oder ungewöhnliche Details, die als Beleg für die Vielfalt dienen. Diese Aussage ist richtig, ein entsprechendes Angebot wird bestätigt.",
+        "explanation_wrong": "Achte bei Aufzählungen von Angeboten auf besondere oder ungewöhnliche Details, die als Beleg für die Vielfalt dienen. Diese Aussage ist richtig, ein entsprechendes Angebot wird bestätigt."
+      }
+    }
+  },
+  "a386cb6b-144c-49cb-b049-d04c4c31ae06": {
+    "translation": {
+      "questions": {
+        "1": "تتحدث الدكتورة لينتس من مكتبها الهادئ.",
+        "2": "بدأ مشروع „مستقبل التعلّم“ منذ أسابيع قليلة فقط.",
+        "3": "لا يوجد إلزام بالحضور بالنسبة للتلاميذ.",
+        "4": "تحل جلسات التغذية الراجعة (الملاحظات) محل الدرجات المدرسية التقليدية.",
+        "5": "يواصل المعلمون تقديم التعليم التقليدي (الأمامي) في الغالب.",
+        "6": "أيّد جميع الآباء هذا المفهوم منذ البداية.",
+        "7": "تم تمويل المدرسة بالكامل من أموال الدولة.",
+        "8": "تزايد الاهتمام بهذا النموذج المدرسي.",
+        "9": "يتطلب هذا المفهوم قدرًا كبيرًا من التنظيم الذاتي.",
+        "10": "تنظر الدكتورة لينتس إلى المستقبل بتفاؤل رغم التوتر."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "ruhigen Büro",
+        "explanation_correct": "Beschreibende Details wie „ruhig“ zum Ort des Gesprächs können bewusst verfälscht sein. Diese Aussage ist falsch, achte auf solche Umgebungsangaben als mögliche Falle.",
+        "explanation_wrong": "Beschreibende Details wie „ruhig“ zum Ort des Gesprächs können bewusst verfälscht sein. Diese Aussage ist falsch, achte auf solche Umgebungsangaben als mögliche Falle."
+      },
+      "2": {
+        "keyword": "erst seit wenigen Wochen",
+        "explanation_correct": "Zeitangaben wie „erst seit wenigen Wochen“ behaupten eine kurze Laufzeit – vergleiche sie kritisch mit der tatsächlichen Dauer. Diese Aussage ist falsch, ein typischer TELC-Trick ist die Verkürzung eines eigentlich längeren Zeitraums.",
+        "explanation_wrong": "Zeitangaben wie „erst seit wenigen Wochen“ behaupten eine kurze Laufzeit – vergleiche sie kritisch mit der tatsächlichen Dauer. Diese Aussage ist falsch, ein typischer TELC-Trick ist die Verkürzung eines eigentlich längeren Zeitraums."
+      },
+      "3": {
+        "keyword": "keine Anwesenheitspflicht",
+        "explanation_correct": "Die absolute Verneinung „keine“ behauptet das völlige Fehlen einer Regel – prüfe das genau. Diese Aussage ist falsch, hier wird eine tatsächlich bestehende Pflicht fälschlich verneint.",
+        "explanation_wrong": "Die absolute Verneinung „keine“ behauptet das völlige Fehlen einer Regel – prüfe das genau. Diese Aussage ist falsch, hier wird eine tatsächlich bestehende Pflicht fälschlich verneint."
+      },
+      "4": {
+        "keyword": "ersetzen",
+        "explanation_correct": "Bei Aussagen über das Ersetzen einer Sache durch eine andere solltest du genau prüfen, was durch was ersetzt wird. Diese Aussage ist richtig, das genannte Prinzip wird korrekt wiedergegeben.",
+        "explanation_wrong": "Bei Aussagen über das Ersetzen einer Sache durch eine andere solltest du genau prüfen, was durch was ersetzt wird. Diese Aussage ist richtig, das genannte Prinzip wird korrekt wiedergegeben."
+      },
+      "5": {
+        "keyword": "weiterhin überwiegend",
+        "explanation_correct": "Formulierungen wie „weiterhin überwiegend“ behaupten eine Fortsetzung der alten Praxis – das ist ein häufiges Trapmuster, wenn sich tatsächlich etwas verändert hat. Diese Aussage ist falsch.",
+        "explanation_wrong": "Formulierungen wie „weiterhin überwiegend“ behaupten eine Fortsetzung der alten Praxis – das ist ein häufiges Trapmuster, wenn sich tatsächlich etwas verändert hat. Diese Aussage ist falsch."
+      },
+      "6": {
+        "keyword": "Alle",
+        "explanation_correct": "Das Wort „alle“ ist eine absolute Verallgemeinerung – solche Angaben sind in TELC-Aufgaben häufig übertrieben. Diese Aussage ist falsch, meist gibt es differenziertere Reaktionen als eine vollständige Zustimmung.",
+        "explanation_wrong": "Das Wort „alle“ ist eine absolute Verallgemeinerung – solche Angaben sind in TELC-Aufgaben häufig übertrieben. Diese Aussage ist falsch, meist gibt es differenziertere Reaktionen als eine vollständige Zustimmung."
+      },
+      "7": {
+        "keyword": "rein aus Staatsmitteln",
+        "explanation_correct": "Das einschränkende Wort „rein“ behauptet eine ausschließliche Finanzierungsquelle – das ist oft eine Übertreibung. Diese Aussage ist falsch, achte auf solche absoluten Herkunftsangaben.",
+        "explanation_wrong": "Das einschränkende Wort „rein“ behauptet eine ausschließliche Finanzierungsquelle – das ist oft eine Übertreibung. Diese Aussage ist falsch, achte auf solche absoluten Herkunftsangaben."
+      },
+      "8": {
+        "keyword": "zugenommen",
+        "explanation_correct": "Verben wie „zunehmen“ beschreiben eine Entwicklung – vergleiche die Richtung dieser Entwicklung genau mit dem Hörtext. Diese Aussage ist richtig, die beschriebene positive Entwicklung wird korrekt wiedergegeben.",
+        "explanation_wrong": "Verben wie „zunehmen“ beschreiben eine Entwicklung – vergleiche die Richtung dieser Entwicklung genau mit dem Hörtext. Diese Aussage ist richtig, die beschriebene positive Entwicklung wird korrekt wiedergegeben."
+      },
+      "9": {
+        "keyword": "viel Selbstorganisation",
+        "explanation_correct": "Aussagen über Anforderungen wie „viel Selbstorganisation“ solltest du mit dem tatsächlichen Anspruch des beschriebenen Konzepts abgleichen. Diese Aussage ist richtig, sie gibt die Anforderung angemessen wieder.",
+        "explanation_wrong": "Aussagen über Anforderungen wie „viel Selbstorganisation“ solltest du mit dem tatsächlichen Anspruch des beschriebenen Konzepts abgleichen. Diese Aussage ist richtig, sie gibt die Anforderung angemessen wieder."
+      },
+      "10": {
+        "keyword": "trotz Stress positiv",
+        "explanation_correct": "Konzessive Formulierungen mit „trotz“ verbinden zwei gegensätzliche Aspekte – prüfe, ob beide im Hörtext so vorkommen. Diese Aussage ist richtig, die beschriebene Grundhaltung trotz Belastung wird korrekt wiedergegeben.",
+        "explanation_wrong": "Konzessive Formulierungen mit „trotz“ verbinden zwei gegensätzliche Aspekte – prüfe, ob beide im Hörtext so vorkommen. Diese Aussage ist richtig, die beschriebene Grundhaltung trotz Belastung wird korrekt wiedergegeben."
+      }
+    }
+  },
+  "a7b2f83f-1142-4a9e-878b-e97179827b7a": {
+    "translation": {
+      "questions": {
+        "46": "من خلال تأسيس رابطة السباحة في الجليد، أراد إلياس فوندرليش، من بين أمور أخرى، منح رياضة السباحة في الجليد وضعًا رسميًا.",
+        "47": "اكتشف إلياس فوندرليش رياضة السباحة في الجليد من خلال التبادل مع رياضيين آخرين.",
+        "48": "يتفق الأطباء على أن السباحة في الجليد تعزز الصحة.",
+        "49": "ينبغي فقط للأشخاص ذوي اللياقة البدنية العالية ممارسة السباحة في الجليد.",
+        "50": "بالنسبة لبداية ممارسة رياضة السباحة في الجليد، فإن بداية الشتاء هي أفضل وقت.",
+        "51": "يلتزم إلياس فوندرليش بدقة بتوصياته الخاصة.",
+        "52": "يتم أيضًا إنتاج الدهون العازلة للحرارة نتيجة استجابة الجسم للبرودة.",
+        "53": "في المسابقات، من المفترض ارتداء ملابس واقية تغطي الجسم بالكامل.",
+        "54": "يشارك إلياس فوندرليش في المسابقات من أجل الفوز.",
+        "55": "بحسب إلياس فوندرليش، يمكن أن تؤدي السباحة في الجليد إلى الإدمان."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "offiziellen Status",
+        "explanation_correct": "Bei Aussagen über Beweggründe für eine Gründung solltest du prüfen, ob der genannte Zweck wirklich zutrifft. Diese Aussage ist falsch, ein anderer Beweggrund könnte tatsächlich im Vordergrund stehen.",
+        "explanation_wrong": "Bei Aussagen über Beweggründe für eine Gründung solltest du prüfen, ob der genannte Zweck wirklich zutrifft. Diese Aussage ist falsch, ein anderer Beweggrund könnte tatsächlich im Vordergrund stehen."
+      },
+      "47": {
+        "keyword": "durch den Austausch mit anderen Sportlern",
+        "explanation_correct": "Achte bei Aussagen darüber, wie jemand zu einer Aktivität gekommen ist, genau auf den genannten Auslöser. Diese Aussage ist falsch, hier wird vermutlich ein falscher Entdeckungsweg genannt.",
+        "explanation_wrong": "Achte bei Aussagen darüber, wie jemand zu einer Aktivität gekommen ist, genau auf den genannten Auslöser. Diese Aussage ist falsch, hier wird vermutlich ein falscher Entdeckungsweg genannt."
+      },
+      "48": {
+        "keyword": "sind sich einig",
+        "explanation_correct": "Formulierungen wie „sich einig sein“ behaupten eine vollständige Übereinstimmung von Meinungen – prüfe, ob das im Hörtext wirklich so dargestellt wird. Diese Aussage ist richtig, ein entsprechender Konsens wird bestätigt.",
+        "explanation_wrong": "Formulierungen wie „sich einig sein“ behaupten eine vollständige Übereinstimmung von Meinungen – prüfe, ob das im Hörtext wirklich so dargestellt wird. Diese Aussage ist richtig, ein entsprechender Konsens wird bestätigt."
+      },
+      "49": {
+        "keyword": "Nur durchtrainierte",
+        "explanation_correct": "Das einschränkende Wort „nur“ schließt andere Personengruppen aus – solche Einschränkungen sind eine typische TELC-Falle. Diese Aussage ist falsch, vermutlich wird die Aktivität als für mehr Menschen geeignet beschrieben.",
+        "explanation_wrong": "Das einschränkende Wort „nur“ schließt andere Personengruppen aus – solche Einschränkungen sind eine typische TELC-Falle. Diese Aussage ist falsch, vermutlich wird die Aktivität als für mehr Menschen geeignet beschrieben."
+      },
+      "50": {
+        "keyword": "beste Zeitpunkt",
+        "explanation_correct": "Superlative wie „der beste Zeitpunkt“ solltest du mit der im Hörtext empfohlenen Jahreszeit vergleichen. Diese Aussage ist richtig, der genannte Einstiegszeitpunkt wird korrekt wiedergegeben.",
+        "explanation_wrong": "Superlative wie „der beste Zeitpunkt“ solltest du mit der im Hörtext empfohlenen Jahreszeit vergleichen. Diese Aussage ist richtig, der genannte Einstiegszeitpunkt wird korrekt wiedergegeben."
+      },
+      "51": {
+        "keyword": "strikt an seine eigenen Empfehlungen",
+        "explanation_correct": "Aussagen über konsequentes eigenes Verhalten wie „strikt halten“ solltest du kritisch mit dem tatsächlichen Verhalten der Person abgleichen. Diese Aussage ist richtig, die beschriebene Konsequenz wird bestätigt.",
+        "explanation_wrong": "Aussagen über konsequentes eigenes Verhalten wie „strikt halten“ solltest du kritisch mit dem tatsächlichen Verhalten der Person abgleichen. Diese Aussage ist richtig, die beschriebene Konsequenz wird bestätigt."
+      },
+      "52": {
+        "keyword": "durch die Reaktion des Körpers auf Kälte",
+        "explanation_correct": "Bei Aussagen über körperliche Vorgänge solltest du genau auf die genannte Ursache achten. Diese Aussage ist falsch, hier wird vermutlich ein falscher Entstehungsmechanismus behauptet.",
+        "explanation_wrong": "Bei Aussagen über körperliche Vorgänge solltest du genau auf die genannte Ursache achten. Diese Aussage ist falsch, hier wird vermutlich ein falscher Entstehungsmechanismus behauptet."
+      },
+      "53": {
+        "keyword": "Ganzkörperbekleidung",
+        "explanation_correct": "Achte bei Aussagen über Regeln und Vorschriften genau auf den Umfang der geforderten Ausrüstung. Diese Aussage ist falsch, vermutlich gelten andere oder weniger umfassende Regeln.",
+        "explanation_wrong": "Achte bei Aussagen über Regeln und Vorschriften genau auf den Umfang der geforderten Ausrüstung. Diese Aussage ist falsch, vermutlich gelten andere oder weniger umfassende Regeln."
+      },
+      "54": {
+        "keyword": "um zu siegen",
+        "explanation_correct": "Bei Aussagen über die Motivation zur Teilnahme solltest du prüfen, ob der genannte Grund wirklich zutrifft. Diese Aussage ist richtig, das genannte Motiv wird bestätigt.",
+        "explanation_wrong": "Bei Aussagen über die Motivation zur Teilnahme solltest du prüfen, ob der genannte Grund wirklich zutrifft. Diese Aussage ist richtig, das genannte Motiv wird bestätigt."
+      },
+      "55": {
+        "keyword": "zur Abhängigkeit führen",
+        "explanation_correct": "Formulierungen wie „laut [Person]“ verweisen auf eine direkte Einschätzung der sprechenden Person – prüfe, ob diese Meinung so geäußert wird. Diese Aussage ist richtig, die genannte Einschätzung wird bestätigt.",
+        "explanation_wrong": "Formulierungen wie „laut [Person]“ verweisen auf eine direkte Einschätzung der sprechenden Person – prüfe, ob diese Meinung so geäußert wird. Diese Aussage ist richtig, die genannte Einschätzung wird bestätigt."
+      }
+    }
+  },
+  "32579eec-9dab-4f99-8e73-b05561ca4ff3": {
+    "translation": {
+      "questions": {
+        "46": "يعيش ما يقارب 11500 طفل بعيدًا عن والديهم البيولوجيين.",
+        "47": "في الماضي، كانت حالات العنف الأسري غالبًا لا تُكتشف.",
+        "48": "لا يتم فصل الأطفال عن عائلاتهم فورًا.",
+        "49": "لا يمكن للدعم المادي مثل الأجهزة الكهربائية أن يكون مساعدة.",
+        "50": "رعاية بعد الظهر لأكبر الأطفال سنًا مجانية.",
+        "51": "توجد في اسكندنافيا رعاية أسرية أفضل.",
+        "52": "في الماضي، كان يتم تعلم التربية من خلال مواقف نموذجية داخل الأسرة الممتدة.",
+        "53": "يتم الحفاظ قدر الإمكان على التواصل بين الأطفال ووالديهم البيولوجيين.",
+        "54": "توجد شقق سكن مشترك خاصة للمراهقين الذين لا يعيشون مع والديهم.",
+        "55": "يطلب السيد بلاشيتس من المستمعين الدعم."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Fast 11500",
+        "explanation_correct": "Zahlenangaben wie „fast 11500“ solltest du genau mit der im Hörtext genannten Zahl vergleichen, da hier leicht verändert werden kann. Diese Aussage ist richtig, die genannte Zahl wird korrekt wiedergegeben.",
+        "explanation_wrong": "Zahlenangaben wie „fast 11500“ solltest du genau mit der im Hörtext genannten Zahl vergleichen, da hier leicht verändert werden kann. Diese Aussage ist richtig, die genannte Zahl wird korrekt wiedergegeben."
+      },
+      "47": {
+        "keyword": "Früher oft nicht bekannt",
+        "explanation_correct": "Zeitliche Vergleiche mit „früher“ solltest du von der heutigen Situation klar unterscheiden. Diese Aussage ist richtig, sie beschreibt die frühere Situation korrekt.",
+        "explanation_wrong": "Zeitliche Vergleiche mit „früher“ solltest du von der heutigen Situation klar unterscheiden. Diese Aussage ist richtig, sie beschreibt die frühere Situation korrekt."
+      },
+      "48": {
+        "keyword": "nicht sofort",
+        "explanation_correct": "Zeitangaben wie „sofort“ in Verbindung mit einer Verneinung solltest du genau prüfen, da sie den Ablauf eines Verfahrens beschreiben. Diese Aussage ist richtig, der beschriebene, nicht überstürzte Vorgang wird korrekt wiedergegeben.",
+        "explanation_wrong": "Zeitangaben wie „sofort“ in Verbindung mit einer Verneinung solltest du genau prüfen, da sie den Ablauf eines Verfahrens beschreiben. Diese Aussage ist richtig, der beschriebene, nicht überstürzte Vorgang wird korrekt wiedergegeben."
+      },
+      "49": {
+        "keyword": "keine Hilfe",
+        "explanation_correct": "Die absolute Verneinung „keine Hilfe“ schließt jeden Nutzen aus – das ist oft übertrieben dargestellt. Diese Aussage ist falsch, vermutlich wird materielle Unterstützung als durchaus hilfreich beschrieben.",
+        "explanation_wrong": "Die absolute Verneinung „keine Hilfe“ schließt jeden Nutzen aus – das ist oft übertrieben dargestellt. Diese Aussage ist falsch, vermutlich wird materielle Unterstützung als durchaus hilfreich beschrieben."
+      },
+      "50": {
+        "keyword": "kostenlos",
+        "explanation_correct": "Angaben zu Kosten wie „kostenlos“ solltest du kritisch prüfen, da hier oft ein falscher Preis oder eine falsche Zielgruppe genannt wird. Diese Aussage ist falsch.",
+        "explanation_wrong": "Angaben zu Kosten wie „kostenlos“ solltest du kritisch prüfen, da hier oft ein falscher Preis oder eine falsche Zielgruppe genannt wird. Diese Aussage ist falsch."
+      },
+      "51": {
+        "keyword": "bessere Familienvorsorge",
+        "explanation_correct": "Vergleichende Aussagen mit Komparativen wie „besser“ solltest du mit dem im Hörtext genannten Ländervergleich abgleichen. Diese Aussage ist richtig, der genannte Vergleich wird bestätigt.",
+        "explanation_wrong": "Vergleichende Aussagen mit Komparativen wie „besser“ solltest du mit dem im Hörtext genannten Ländervergleich abgleichen. Diese Aussage ist richtig, der genannte Vergleich wird bestätigt."
+      },
+      "52": {
+        "keyword": "Großfamilie",
+        "explanation_correct": "Bei Aussagen über frühere gesellschaftliche Strukturen solltest du auf die genannte Institution oder Umgebung achten. Diese Aussage ist richtig, die beschriebene frühere Lernform wird korrekt wiedergegeben.",
+        "explanation_wrong": "Bei Aussagen über frühere gesellschaftliche Strukturen solltest du auf die genannte Institution oder Umgebung achten. Diese Aussage ist richtig, die beschriebene frühere Lernform wird korrekt wiedergegeben."
+      },
+      "53": {
+        "keyword": "möglichst erhalten",
+        "explanation_correct": "Formulierungen wie „möglichst“ beschreiben ein angestrebtes, aber nicht garantiertes Ziel – prüfe, ob dieses Bemühen im Hörtext bestätigt wird. Diese Aussage ist richtig, das beschriebene Bemühen wird korrekt wiedergegeben.",
+        "explanation_wrong": "Formulierungen wie „möglichst“ beschreiben ein angestrebtes, aber nicht garantiertes Ziel – prüfe, ob dieses Bemühen im Hörtext bestätigt wird. Diese Aussage ist richtig, das beschriebene Bemühen wird korrekt wiedergegeben."
+      },
+      "54": {
+        "keyword": "spezielle WGs",
+        "explanation_correct": "Achte bei Aussagen über spezielle Angebote genau auf die genannte Zielgruppe und Wohnform. Diese Aussage ist richtig, ein solches Angebot wird bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen über spezielle Angebote genau auf die genannte Zielgruppe und Wohnform. Diese Aussage ist richtig, ein solches Angebot wird bestätigt."
+      },
+      "55": {
+        "keyword": "bittet um Unterstützung",
+        "explanation_correct": "Aufrufe oder Bitten am Ende eines Interviews solltest du genau auf ihren Inhalt und die angesprochene Zielgruppe prüfen. Diese Aussage ist richtig, der beschriebene Aufruf wird korrekt wiedergegeben.",
+        "explanation_wrong": "Aufrufe oder Bitten am Ende eines Interviews solltest du genau auf ihren Inhalt und die angesprochene Zielgruppe prüfen. Diese Aussage ist richtig, der beschriebene Aufruf wird korrekt wiedergegeben."
+      }
+    }
+  },
+  "7fef871a-6ffd-496f-91b4-8318e4d0b495": {
+    "translation": {
+      "questions": {
+        "46": "لا يتاجر فرانتس شوماخر بمنتجات من زراعته الخاصة فقط، بل بغيرها أيضًا.",
+        "47": "يحصل السيد شوماخر أيضًا على منتجات موردة من مزارعين آخرين.",
+        "48": "يوجد بالفعل الكثير من الزوار في السوق.",
+        "49": "الغالبية العظمى من زبائن السيد شوماخر هم زبائن دائمون.",
+        "50": "السيد شوماخر فخور بشكل خاص ببطاطس الفالز.",
+        "51": "ليس لدى فرانتس شوماخر رأي جيد في „جمعية التجار المتخصصين في ساحة البلدية\".",
+        "52": "يأتي السيد شوماخر إلى السوق مبكرًا جدًا في الصباح لضمان مكان جيد لكشكه.",
+        "53": "لدى السيد شوماخر كشك في سوق لانداو منذ أكثر من 20 عامًا.",
+        "54": "يرتدي السيد شوماخر قبعة لحماية نفسه من البرد.",
+        "55": "يرغب السيد شوماخر مستقبلًا في افتتاح كشك بيع في سوق مغطى."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "nicht nur eigenem Anbau",
+        "explanation_correct": "Die Struktur „nicht nur“ weist auf eine Erweiterung über das Erwartete hinaus hin – prüfe, ob diese Erweiterung bestätigt wird. Diese Aussage ist richtig, das beschriebene breitere Angebot wird bestätigt.",
+        "explanation_wrong": "Die Struktur „nicht nur“ weist auf eine Erweiterung über das Erwartete hinaus hin – prüfe, ob diese Erweiterung bestätigt wird. Diese Aussage ist richtig, das beschriebene breitere Angebot wird bestätigt."
+      },
+      "47": {
+        "keyword": "von anderen Bauern",
+        "explanation_correct": "Achte bei Aussagen über Lieferbeziehungen darauf, wer genau als Quelle der Produkte genannt wird. Diese Aussage ist richtig, die genannte Lieferbeziehung wird bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen über Lieferbeziehungen darauf, wer genau als Quelle der Produkte genannt wird. Diese Aussage ist richtig, die genannte Lieferbeziehung wird bestätigt."
+      },
+      "48": {
+        "keyword": "schon viele Besucher",
+        "explanation_correct": "Zeit- und Mengenangaben wie „schon viele“ zu einem bestimmten Zeitpunkt solltest du kritisch prüfen. Diese Aussage ist falsch, vermutlich wird eine andere, zum Beispiel noch geringe, Besucherzahl beschrieben.",
+        "explanation_wrong": "Zeit- und Mengenangaben wie „schon viele“ zu einem bestimmten Zeitpunkt solltest du kritisch prüfen. Diese Aussage ist falsch, vermutlich wird eine andere, zum Beispiel noch geringe, Besucherzahl beschrieben."
+      },
+      "49": {
+        "keyword": "große Mehrheit",
+        "explanation_correct": "Mengenangaben wie „die große Mehrheit“ solltest du mit der tatsächlich beschriebenen Kundenstruktur vergleichen. Diese Aussage ist richtig, der beschriebene hohe Anteil an Stammkunden wird bestätigt.",
+        "explanation_wrong": "Mengenangaben wie „die große Mehrheit“ solltest du mit der tatsächlich beschriebenen Kundenstruktur vergleichen. Diese Aussage ist richtig, der beschriebene hohe Anteil an Stammkunden wird bestätigt."
+      },
+      "50": {
+        "keyword": "besonders stolz",
+        "explanation_correct": "Aussagen über besonderen Stolz auf ein bestimmtes Produkt solltest du mit dem tatsächlich hervorgehobenen Produkt abgleichen. Diese Aussage ist falsch, vermutlich ist ein anderes Produkt gemeint.",
+        "explanation_wrong": "Aussagen über besonderen Stolz auf ein bestimmtes Produkt solltest du mit dem tatsächlich hervorgehobenen Produkt abgleichen. Diese Aussage ist falsch, vermutlich ist ein anderes Produkt gemeint."
+      },
+      "51": {
+        "keyword": "keine hohe Meinung",
+        "explanation_correct": "Formulierungen wie „keine hohe Meinung haben“ drücken eine negative Einstellung aus – prüfe, ob diese kritische Haltung im Hörtext bestätigt wird. Diese Aussage ist richtig, die beschriebene kritische Einstellung wird bestätigt.",
+        "explanation_wrong": "Formulierungen wie „keine hohe Meinung haben“ drücken eine negative Einstellung aus – prüfe, ob diese kritische Haltung im Hörtext bestätigt wird. Diese Aussage ist richtig, die beschriebene kritische Einstellung wird bestätigt."
+      },
+      "52": {
+        "keyword": "guten Platz zu sichern",
+        "explanation_correct": "Achte bei Aussagen über Beweggründe für ein bestimmtes Verhalten genau auf den genannten Grund. Diese Aussage ist falsch, vermutlich hat das frühe Kommen einen anderen Grund oder trifft so nicht zu.",
+        "explanation_wrong": "Achte bei Aussagen über Beweggründe für ein bestimmtes Verhalten genau auf den genannten Grund. Diese Aussage ist falsch, vermutlich hat das frühe Kommen einen anderen Grund oder trifft so nicht zu."
+      },
+      "53": {
+        "keyword": "seit über 20 Jahren",
+        "explanation_correct": "Zeitangaben wie „seit über 20 Jahren“ solltest du genau mit der im Hörtext genannten Dauer vergleichen. Diese Aussage ist richtig, die genannte Zeitspanne wird korrekt wiedergegeben.",
+        "explanation_wrong": "Zeitangaben wie „seit über 20 Jahren“ solltest du genau mit der im Hörtext genannten Dauer vergleichen. Diese Aussage ist richtig, die genannte Zeitspanne wird korrekt wiedergegeben."
+      },
+      "54": {
+        "keyword": "um sich vor Kälte zu schützen",
+        "explanation_correct": "Bei Aussagen über den Zweck eines Kleidungsstücks solltest du genau auf den genannten Grund achten. Diese Aussage ist falsch, vermutlich hat das Tragen der Mütze einen anderen Grund.",
+        "explanation_wrong": "Bei Aussagen über den Zweck eines Kleidungsstücks solltest du genau auf den genannten Grund achten. Diese Aussage ist falsch, vermutlich hat das Tragen der Mütze einen anderen Grund."
+      },
+      "55": {
+        "keyword": "in Zukunft eröffnen",
+        "explanation_correct": "Zukunftspläne solltest du mit dem im Hörtext beschriebenen Vorhaben abgleichen. Diese Aussage ist richtig, das genannte Zukunftsvorhaben wird bestätigt.",
+        "explanation_wrong": "Zukunftspläne solltest du mit dem im Hörtext beschriebenen Vorhaben abgleichen. Diese Aussage ist richtig, das genannte Zukunftsvorhaben wird bestätigt."
+      }
+    }
+  },
+  "9d65952e-f768-446b-8719-94f3506d498f": {
+    "translation": {
+      "questions": {
+        "46": "كان لوالد المؤسس سابقًا كشك في أحد الأسواق.",
+        "47": "كانت الخطوات الأولى نحو العمل الحر خالية من المشاكل.",
+        "48": "في البداية كان من الصعب إيجاد موردين مناسبين.",
+        "49": "تحكي السيدة آيشهورن كيف استقطبت أولى زبائنها.",
+        "50": "يستهدف عرض المتجر حصريًا الزبائن من المدينة نفسها.",
+        "51": "في البداية كان لدى بعض الزبائن شكوك حول جودة المنتجات.",
+        "52": "تتحدث السيدة آيشهورن عن التعاون مع المنتجين والموردين.",
+        "53": "يخطط المالك لافتتاح فرع آخر في المدينة في المستقبل القريب.",
+        "54": "من المقرر مبدئيًا بيع المنتجات في دول أخرى.",
+        "55": "ستظل الاستشارة الشخصية في المتجر مهمة جدًا في المستقبل أيضًا."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "Vater des Gründers",
+        "explanation_correct": "Achte bei Aussagen über familiäre Hintergründe genau darauf, welche Person tatsächlich gemeint ist. Diese Aussage ist falsch, vermutlich wird hier eine falsche Person oder Vorgeschichte genannt.",
+        "explanation_wrong": "Achte bei Aussagen über familiäre Hintergründe genau darauf, welche Person tatsächlich gemeint ist. Diese Aussage ist falsch, vermutlich wird hier eine falsche Person oder Vorgeschichte genannt."
+      },
+      "47": {
+        "keyword": "problemlos",
+        "explanation_correct": "Formulierungen wie „problemlos“ behaupten eine reibungslose Entwicklung – solche positiven Pauschalaussagen sind oft eine Falle. Diese Aussage ist falsch, vermutlich gab es tatsächlich Schwierigkeiten.",
+        "explanation_wrong": "Formulierungen wie „problemlos“ behaupten eine reibungslose Entwicklung – solche positiven Pauschalaussagen sind oft eine Falle. Diese Aussage ist falsch, vermutlich gab es tatsächlich Schwierigkeiten."
+      },
+      "48": {
+        "keyword": "schwierig, passende Lieferanten zu finden",
+        "explanation_correct": "Bei Aussagen über anfängliche Schwierigkeiten solltest du genau prüfen, welcher Bereich tatsächlich als schwierig beschrieben wird. Diese Aussage ist falsch, vermutlich lag die Schwierigkeit in einem anderen Bereich.",
+        "explanation_wrong": "Bei Aussagen über anfängliche Schwierigkeiten solltest du genau prüfen, welcher Bereich tatsächlich als schwierig beschrieben wird. Diese Aussage ist falsch, vermutlich lag die Schwierigkeit in einem anderen Bereich."
+      },
+      "49": {
+        "keyword": "die ersten Kunden gewonnen",
+        "explanation_correct": "Achte bei Aussagen darüber, worüber jemand berichtet, genau auf das genannte Thema. Diese Aussage ist richtig, das beschriebene Thema wird bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen darüber, worüber jemand berichtet, genau auf das genannte Thema. Diese Aussage ist richtig, das beschriebene Thema wird bestätigt."
+      },
+      "50": {
+        "keyword": "ausschließlich",
+        "explanation_correct": "Das einschränkende Wort „ausschließlich“ schließt alle anderen Zielgruppen aus – solche absoluten Formulierungen sind typische Fallen. Diese Aussage ist falsch, vermutlich richtet sich das Angebot an eine breitere Zielgruppe.",
+        "explanation_wrong": "Das einschränkende Wort „ausschließlich“ schließt alle anderen Zielgruppen aus – solche absoluten Formulierungen sind typische Fallen. Diese Aussage ist falsch, vermutlich richtet sich das Angebot an eine breitere Zielgruppe."
+      },
+      "51": {
+        "keyword": "Zweifel an der Qualität",
+        "explanation_correct": "Achte bei Aussagen über anfängliche Bedenken genau auf den genannten Grund für die Skepsis. Diese Aussage ist richtig, die beschriebenen anfänglichen Zweifel werden bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen über anfängliche Bedenken genau auf den genannten Grund für die Skepsis. Diese Aussage ist richtig, die beschriebenen anfänglichen Zweifel werden bestätigt."
+      },
+      "52": {
+        "keyword": "Zusammenarbeit mit Produzenten und Lieferanten",
+        "explanation_correct": "Achte bei Themenangaben genau darauf, ob das genannte Thema wirklich im beschriebenen Umfang behandelt wird. Diese Aussage ist richtig, das genannte Thema wird bestätigt.",
+        "explanation_wrong": "Achte bei Themenangaben genau darauf, ob das genannte Thema wirklich im beschriebenen Umfang behandelt wird. Diese Aussage ist richtig, das genannte Thema wird bestätigt."
+      },
+      "53": {
+        "keyword": "weitere Filiale",
+        "explanation_correct": "Zukunftspläne wie die Eröffnung einer weiteren Filiale solltest du kritisch mit dem tatsächlich genannten Vorhaben abgleichen. Diese Aussage ist falsch, ein solcher konkreter Plan wird vermutlich nicht bestätigt.",
+        "explanation_wrong": "Zukunftspläne wie die Eröffnung einer weiteren Filiale solltest du kritisch mit dem tatsächlich genannten Vorhaben abgleichen. Diese Aussage ist falsch, ein solcher konkreter Plan wird vermutlich nicht bestätigt."
+      },
+      "54": {
+        "keyword": "grundsätzlich vorgesehen",
+        "explanation_correct": "Formulierungen wie „grundsätzlich vorgesehen“ behaupten eine feste Absicht – prüfe, ob diese Absicht tatsächlich besteht. Diese Aussage ist falsch, ein internationaler Verkauf wird vermutlich nicht bestätigt.",
+        "explanation_wrong": "Formulierungen wie „grundsätzlich vorgesehen“ behaupten eine feste Absicht – prüfe, ob diese Absicht tatsächlich besteht. Diese Aussage ist falsch, ein internationaler Verkauf wird vermutlich nicht bestätigt."
+      },
+      "55": {
+        "keyword": "auch in Zukunft sehr wichtig",
+        "explanation_correct": "Aussagen über die zukünftige Bedeutung eines Aspekts solltest du mit der im Hörtext beschriebenen Priorität vergleichen. Diese Aussage ist richtig, die anhaltende Bedeutung wird bestätigt.",
+        "explanation_wrong": "Aussagen über die zukünftige Bedeutung eines Aspekts solltest du mit der im Hörtext beschriebenen Priorität vergleichen. Diese Aussage ist richtig, die anhaltende Bedeutung wird bestätigt."
+      }
+    }
+  },
+  "51e531e8-af6d-411b-91b1-a5149b2d8ecf": {
+    "translation": {
+      "questions": {
+        "46": "يتحدث الصحفي مع زبونة في المتجر الكبير.",
+        "47": "تعلمت السيدة هان مهنتها في متجر بروك الكبير.",
+        "48": "أرادت السيدة هان منذ طفولتها أن تصبح بائعة في متجر بروك الكبير.",
+        "49": "رأت السيدة هان أنه من المهم أن يكون لديها زملاء لطيفون.",
+        "50": "يعمل زوج السيدة هان الآن في نفس المتجر الكبير الذي تعمل فيه.",
+        "51": "عمل زوج السيدة هان كبائع أحذية.",
+        "52": "سيتم هدم متجر بروك الكبير بعد إغلاقه.",
+        "53": "ترى السيدة هان أنه من المهم العمل في مبنى جميل.",
+        "54": "كان بإمكان الملاك الجدد أن يرغبوا في مواصلة تشغيل المتجر الكبير.",
+        "55": "لا تريد السيدة هان العمل في متجر كبير آخر."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "einer Kundin",
+        "explanation_correct": "Achte bei Aussagen über die Rolle der interviewten Person genau darauf, welche Funktion sie tatsächlich hat. Diese Aussage ist falsch, vermutlich handelt es sich um eine andere Rolle als „Kundin“.",
+        "explanation_wrong": "Achte bei Aussagen über die Rolle der interviewten Person genau darauf, welche Funktion sie tatsächlich hat. Diese Aussage ist falsch, vermutlich handelt es sich um eine andere Rolle als „Kundin“."
+      },
+      "47": {
+        "keyword": "im Kaufhaus Brück gelernt",
+        "explanation_correct": "Achte bei Aussagen über den Ausbildungsort genau auf den genannten Namen des Unternehmens. Diese Aussage ist richtig, der genannte Ausbildungsort wird bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen über den Ausbildungsort genau auf den genannten Namen des Unternehmens. Diese Aussage ist richtig, der genannte Ausbildungsort wird bestätigt."
+      },
+      "48": {
+        "keyword": "schon als Kind",
+        "explanation_correct": "Zeitangaben wie „schon als Kind“ behaupten einen sehr frühen Wunsch – solche Details solltest du kritisch prüfen. Diese Aussage ist falsch, ein so früher Berufswunsch wird vermutlich nicht bestätigt.",
+        "explanation_wrong": "Zeitangaben wie „schon als Kind“ behaupten einen sehr frühen Wunsch – solche Details solltest du kritisch prüfen. Diese Aussage ist falsch, ein so früher Berufswunsch wird vermutlich nicht bestätigt."
+      },
+      "49": {
+        "keyword": "wichtig, nette Kollegen",
+        "explanation_correct": "Aussagen über persönliche Prioritäten solltest du mit dem im Hörtext genannten Aspekt abgleichen. Diese Aussage ist richtig, die genannte Priorität wird bestätigt.",
+        "explanation_wrong": "Aussagen über persönliche Prioritäten solltest du mit dem im Hörtext genannten Aspekt abgleichen. Diese Aussage ist richtig, die genannte Priorität wird bestätigt."
+      },
+      "50": {
+        "keyword": "jetzt in demselben Kaufhaus",
+        "explanation_correct": "Achte bei Aussagen über gemeinsame Arbeitsplätze genau auf den zeitlichen Bezug „jetzt“. Diese Aussage ist falsch, die aktuelle Situation wird vermutlich anders beschrieben.",
+        "explanation_wrong": "Achte bei Aussagen über gemeinsame Arbeitsplätze genau auf den zeitlichen Bezug „jetzt“. Diese Aussage ist falsch, die aktuelle Situation wird vermutlich anders beschrieben."
+      },
+      "51": {
+        "keyword": "als Schuhverkäufer",
+        "explanation_correct": "Achte bei Berufsangaben genau auf die genannte Tätigkeit. Diese Aussage ist richtig, die genannte frühere Tätigkeit wird bestätigt.",
+        "explanation_wrong": "Achte bei Berufsangaben genau auf die genannte Tätigkeit. Diese Aussage ist richtig, die genannte frühere Tätigkeit wird bestätigt."
+      },
+      "52": {
+        "keyword": "abgerissen",
+        "explanation_correct": "Aussagen über das zukünftige Schicksal eines Gebäudes solltest du kritisch prüfen, da hier oft eine falsche Konsequenz behauptet wird. Diese Aussage ist falsch, ein Abriss wird vermutlich nicht bestätigt.",
+        "explanation_wrong": "Aussagen über das zukünftige Schicksal eines Gebäudes solltest du kritisch prüfen, da hier oft eine falsche Konsequenz behauptet wird. Diese Aussage ist falsch, ein Abriss wird vermutlich nicht bestätigt."
+      },
+      "53": {
+        "keyword": "in einem schönen Haus",
+        "explanation_correct": "Aussagen über die Bedeutung der Arbeitsumgebung solltest du mit der im Hörtext geäußerten Einstellung vergleichen. Diese Aussage ist richtig, die genannte Wertschätzung wird bestätigt.",
+        "explanation_wrong": "Aussagen über die Bedeutung der Arbeitsumgebung solltest du mit der im Hörtext geäußerten Einstellung vergleichen. Diese Aussage ist richtig, die genannte Wertschätzung wird bestätigt."
+      },
+      "54": {
+        "keyword": "gerne weitergeführt",
+        "explanation_correct": "Konjunktivformulierungen wie „hätten gerne“ beschreiben einen nicht realisierten Wunsch – prüfe, ob dieser Wunsch im Hörtext tatsächlich geäußert wird. Diese Aussage ist falsch, eine solche Absicht der neuen Inhaber wird vermutlich nicht bestätigt.",
+        "explanation_wrong": "Konjunktivformulierungen wie „hätten gerne“ beschreiben einen nicht realisierten Wunsch – prüfe, ob dieser Wunsch im Hörtext tatsächlich geäußert wird. Diese Aussage ist falsch, eine solche Absicht der neuen Inhaber wird vermutlich nicht bestätigt."
+      },
+      "55": {
+        "keyword": "nicht in einem anderen Kaufhaus",
+        "explanation_correct": "Verneinte Absichtsaussagen solltest du genau auf ihren Bezug prüfen – hier auf einen möglichen Arbeitsplatzwechsel. Diese Aussage ist richtig, die ablehnende Haltung wird bestätigt.",
+        "explanation_wrong": "Verneinte Absichtsaussagen solltest du genau auf ihren Bezug prüfen – hier auf einen möglichen Arbeitsplatzwechsel. Diese Aussage ist richtig, die ablehnende Haltung wird bestätigt."
+      }
+    }
+  },
+  "a1c4d525-1f93-4faa-926b-0c9faa539051": {
+    "translation": {
+      "questions": {
+        "46": "مارست ميرون ماكيبا ألعاب القوى بالفعل في غانا.",
+        "47": "السيدة ماكيبا راضية جدًا عن نتيجتها في بطولة العالم.",
+        "48": "زارت السيدة ماكيبا والديها في غانا في العام الماضي.",
+        "49": "دعم الجمهور في بطولة العالم رياضيي جميع الدول.",
+        "50": "نادرًا ما تلتقي السيدة ماكيبا برياضيين آخرين من غانا.",
+        "51": "بالنسبة للسيدة ماكيبا، لا تزال غانا وطنها.",
+        "52": "بسبب خلفيتها المهاجرة، لم تواجه السيدة ماكيبا أي صعوبات.",
+        "53": "في البداية كانت السيدة ماكيبا المهاجرة الوحيدة في ناديها.",
+        "54": "لا تعتقد السيدة ماكيبا أن الأصل يمنح الشخص أفضلية في رياضات معينة.",
+        "55": "تختلف تجارب السيدة ماكيبا في المجال الخاص اختلافًا كبيرًا عن تجاربها في الرياضة."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "schon in Ghana",
+        "explanation_correct": "Zeit- und Ortsangaben wie „schon in Ghana“ zum Beginn einer sportlichen Karriere solltest du kritisch prüfen. Diese Aussage ist falsch, der Beginn der sportlichen Laufbahn wird vermutlich anders beschrieben.",
+        "explanation_wrong": "Zeit- und Ortsangaben wie „schon in Ghana“ zum Beginn einer sportlichen Karriere solltest du kritisch prüfen. Diese Aussage ist falsch, der Beginn der sportlichen Laufbahn wird vermutlich anders beschrieben."
+      },
+      "47": {
+        "keyword": "sehr zufrieden",
+        "explanation_correct": "Bewertende Formulierungen wie „sehr zufrieden“ solltest du mit der tatsächlich geäußerten Reaktion vergleichen. Diese Aussage ist falsch, die tatsächliche Reaktion fällt vermutlich anders aus.",
+        "explanation_wrong": "Bewertende Formulierungen wie „sehr zufrieden“ solltest du mit der tatsächlich geäußerten Reaktion vergleichen. Diese Aussage ist falsch, die tatsächliche Reaktion fällt vermutlich anders aus."
+      },
+      "48": {
+        "keyword": "im vergangenen Jahr",
+        "explanation_correct": "Zeitangaben wie „im vergangenen Jahr“ solltest du genau mit dem im Hörtext genannten Zeitpunkt vergleichen. Diese Aussage ist falsch, ein solcher Besuch wird vermutlich zu einem anderen Zeitpunkt oder gar nicht bestätigt.",
+        "explanation_wrong": "Zeitangaben wie „im vergangenen Jahr“ solltest du genau mit dem im Hörtext genannten Zeitpunkt vergleichen. Diese Aussage ist falsch, ein solcher Besuch wird vermutlich zu einem anderen Zeitpunkt oder gar nicht bestätigt."
+      },
+      "49": {
+        "keyword": "aller Nationen",
+        "explanation_correct": "Formulierungen wie „aller Nationen“ behaupten eine umfassende Unterstützung – prüfe, ob dieser umfassende Umfang bestätigt wird. Diese Aussage ist richtig, die breite Unterstützung wird bestätigt.",
+        "explanation_wrong": "Formulierungen wie „aller Nationen“ behaupten eine umfassende Unterstützung – prüfe, ob dieser umfassende Umfang bestätigt wird. Diese Aussage ist richtig, die breite Unterstützung wird bestätigt."
+      },
+      "50": {
+        "keyword": "selten",
+        "explanation_correct": "Häufigkeitsangaben wie „selten“ solltest du genau mit der im Hörtext beschriebenen Häufigkeit vergleichen. Diese Aussage ist richtig, die genannte geringe Häufigkeit wird bestätigt.",
+        "explanation_wrong": "Häufigkeitsangaben wie „selten“ solltest du genau mit der im Hörtext beschriebenen Häufigkeit vergleichen. Diese Aussage ist richtig, die genannte geringe Häufigkeit wird bestätigt."
+      },
+      "51": {
+        "keyword": "noch immer ihre Heimat",
+        "explanation_correct": "Formulierungen wie „noch immer“ behaupten eine unveränderte Situation – prüfe, ob sich die Einstellung der Person nicht doch verändert hat. Diese Aussage ist falsch, ihre Sicht auf die Heimat hat sich vermutlich verändert.",
+        "explanation_wrong": "Formulierungen wie „noch immer“ behaupten eine unveränderte Situation – prüfe, ob sich die Einstellung der Person nicht doch verändert hat. Diese Aussage ist falsch, ihre Sicht auf die Heimat hat sich vermutlich verändert."
+      },
+      "52": {
+        "keyword": "keine Schwierigkeiten",
+        "explanation_correct": "Die absolute Verneinung „keine Schwierigkeiten“ schließt jegliche Probleme aus – solche Pauschalaussagen sind oft eine Falle. Diese Aussage ist falsch, entsprechende Schwierigkeiten werden vermutlich bestätigt.",
+        "explanation_wrong": "Die absolute Verneinung „keine Schwierigkeiten“ schließt jegliche Probleme aus – solche Pauschalaussagen sind oft eine Falle. Diese Aussage ist falsch, entsprechende Schwierigkeiten werden vermutlich bestätigt."
+      },
+      "53": {
+        "keyword": "die einzige Migrantin",
+        "explanation_correct": "Das Wort „einzige“ behauptet eine Ausnahmeposition – solche absoluten Formulierungen solltest du kritisch prüfen. Diese Aussage ist falsch, vermutlich gab es weitere Migrantinnen im Verein.",
+        "explanation_wrong": "Das Wort „einzige“ behauptet eine Ausnahmeposition – solche absoluten Formulierungen solltest du kritisch prüfen. Diese Aussage ist falsch, vermutlich gab es weitere Migrantinnen im Verein."
+      },
+      "54": {
+        "keyword": "glaubt nicht bevorzugt",
+        "explanation_correct": "Verneinte Meinungsaussagen solltest du genau auf ihren Bezug prüfen – hier auf einen vermuteten Vorteil aufgrund der Herkunft. Diese Aussage ist richtig, ihre ablehnende Meinung wird bestätigt.",
+        "explanation_wrong": "Verneinte Meinungsaussagen solltest du genau auf ihren Bezug prüfen – hier auf einen vermuteten Vorteil aufgrund der Herkunft. Diese Aussage ist richtig, ihre ablehnende Meinung wird bestätigt."
+      },
+      "55": {
+        "keyword": "unterscheiden sich stark",
+        "explanation_correct": "Vergleichsformulierungen wie „sich stark unterscheiden“ solltest du mit dem im Hörtext beschriebenen Kontrast zwischen zwei Lebensbereichen abgleichen. Diese Aussage ist richtig, der beschriebene deutliche Unterschied wird bestätigt.",
+        "explanation_wrong": "Vergleichsformulierungen wie „sich stark unterscheiden“ solltest du mit dem im Hörtext beschriebenen Kontrast zwischen zwei Lebensbereichen abgleichen. Diese Aussage ist richtig, der beschriebene deutliche Unterschied wird bestätigt."
+      }
+    }
+  },
+  "72add935-e365-4166-b35c-eaea66c90d65": {
+    "translation": {
+      "questions": {
+        "46": "السيدة بيسينا هي مديرة سينما كوزموس.",
+        "47": "من هاناو إلى فرانكفورت يحتاج المرء إلى أقل من نصف ساعة.",
+        "48": "كان تأسيس السينما قبل 100 عام أشبه بالصدفة.",
+        "49": "بنى العم الجد على الفور صالة سينما منفصلة.",
+        "50": "بعد عمها الجد، تولت السيدة بيسينا مباشرة إدارة السينما.",
+        "51": "تعتقد أحيانًا أنه كان من الأفضل الاحتفاظ بوظيفتها الآمنة في البنك.",
+        "52": "توجد في السينما اليوم، إلى جانب زوجة الأخ والأختين، موظفون آخرون أيضًا.",
+        "53": "تسير الحياة اليومية في العمل بالسينما دائمًا دون أي مشاكل.",
+        "54": "تقرر السيدة بيسينا دائمًا وحدها ما يُعرض في سينما كوزموس.",
+        "55": "توجد أحيانًا في السينما برامج خاصة مخصصة للنساء."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "die Chefin",
+        "explanation_correct": "Achte bei Aussagen über die Rolle oder Position einer Person genau auf die genannte Funktion. Diese Aussage ist richtig, die genannte Position wird bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen über die Rolle oder Position einer Person genau auf die genannte Funktion. Diese Aussage ist richtig, die genannte Position wird bestätigt."
+      },
+      "47": {
+        "keyword": "weniger als eine halbe Stunde",
+        "explanation_correct": "Zeit- und Streckenangaben wie „weniger als eine halbe Stunde“ solltest du genau mit der im Hörtext genannten Dauer vergleichen. Diese Aussage ist richtig, die genannte Fahrzeit wird bestätigt.",
+        "explanation_wrong": "Zeit- und Streckenangaben wie „weniger als eine halbe Stunde“ solltest du genau mit der im Hörtext genannten Dauer vergleichen. Diese Aussage ist richtig, die genannte Fahrzeit wird bestätigt."
+      },
+      "48": {
+        "keyword": "eher ein Zufall",
+        "explanation_correct": "Formulierungen wie „eher ein Zufall“ beschreiben die Umstände einer Gründung – prüfe, ob dieser zufällige Charakter bestätigt wird. Diese Aussage ist richtig, die beschriebenen Umstände werden bestätigt.",
+        "explanation_wrong": "Formulierungen wie „eher ein Zufall“ beschreiben die Umstände einer Gründung – prüfe, ob dieser zufällige Charakter bestätigt wird. Diese Aussage ist richtig, die beschriebenen Umstände werden bestätigt."
+      },
+      "49": {
+        "keyword": "sofort",
+        "explanation_correct": "Zeitangaben wie „sofort“ behaupten einen unmittelbaren Vorgang – prüfe, ob die Entwicklung nicht eher schrittweise verlief. Diese Aussage ist falsch, der Bau erfolgte vermutlich nicht sofort.",
+        "explanation_wrong": "Zeitangaben wie „sofort“ behaupten einen unmittelbaren Vorgang – prüfe, ob die Entwicklung nicht eher schrittweise verlief. Diese Aussage ist falsch, der Bau erfolgte vermutlich nicht sofort."
+      },
+      "50": {
+        "keyword": "leitete gleich",
+        "explanation_correct": "Das Wort „gleich“ behauptet eine unmittelbare Nachfolge ohne Zwischenschritt – prüfe, ob nicht andere Personen dazwischen leiteten. Diese Aussage ist falsch, vermutlich gab es eine andere Reihenfolge in der Leitung.",
+        "explanation_wrong": "Das Wort „gleich“ behauptet eine unmittelbare Nachfolge ohne Zwischenschritt – prüfe, ob nicht andere Personen dazwischen leiteten. Diese Aussage ist falsch, vermutlich gab es eine andere Reihenfolge in der Leitung."
+      },
+      "51": {
+        "keyword": "wäre besser gewesen",
+        "explanation_correct": "Konjunktivformulierungen mit „wäre besser gewesen“ drücken Bedauern aus – prüfe, ob ein solches Bedauern tatsächlich geäußert wird. Diese Aussage ist falsch, ein solches Bedauern wird vermutlich nicht bestätigt.",
+        "explanation_wrong": "Konjunktivformulierungen mit „wäre besser gewesen“ drücken Bedauern aus – prüfe, ob ein solches Bedauern tatsächlich geäußert wird. Diese Aussage ist falsch, ein solches Bedauern wird vermutlich nicht bestätigt."
+      },
+      "52": {
+        "keyword": "auch noch weitere Mitarbeiter",
+        "explanation_correct": "Aufzählungen von Personen solltest du daraufhin prüfen, ob tatsächlich noch weitere Personen als die genannten hinzukommen. Diese Aussage ist richtig, weitere Mitarbeiter werden bestätigt.",
+        "explanation_wrong": "Aufzählungen von Personen solltest du daraufhin prüfen, ob tatsächlich noch weitere Personen als die genannten hinzukommen. Diese Aussage ist richtig, weitere Mitarbeiter werden bestätigt."
+      },
+      "53": {
+        "keyword": "immer völlig reibungslos",
+        "explanation_correct": "Absolute Formulierungen wie „immer völlig reibungslos“ sind eine typische TELC-Falle, da im Alltag meist auch Probleme vorkommen. Diese Aussage ist falsch.",
+        "explanation_wrong": "Absolute Formulierungen wie „immer völlig reibungslos“ sind eine typische TELC-Falle, da im Alltag meist auch Probleme vorkommen. Diese Aussage ist falsch."
+      },
+      "54": {
+        "keyword": "immer allein",
+        "explanation_correct": "Formulierungen wie „immer allein“ schließen jede Mitentscheidung anderer aus – solche absoluten Aussagen solltest du kritisch prüfen. Diese Aussage ist falsch, vermutlich sind auch andere Personen an der Entscheidung beteiligt.",
+        "explanation_wrong": "Formulierungen wie „immer allein“ schließen jede Mitentscheidung anderer aus – solche absoluten Aussagen solltest du kritisch prüfen. Diese Aussage ist falsch, vermutlich sind auch andere Personen an der Entscheidung beteiligt."
+      },
+      "55": {
+        "keyword": "spezielles Programm für Frauen",
+        "explanation_correct": "Das Wort „manchmal“ beschreibt eine gelegentliche, nicht regelmäßige Häufigkeit – prüfe, ob genau dieser Grad an Regelmäßigkeit bestätigt wird. Diese Aussage ist richtig, ein solches gelegentliches Angebot wird bestätigt.",
+        "explanation_wrong": "Das Wort „manchmal“ beschreibt eine gelegentliche, nicht regelmäßige Häufigkeit – prüfe, ob genau dieser Grad an Regelmäßigkeit bestätigt wird. Diese Aussage ist richtig, ein solches gelegentliches Angebot wird bestätigt."
+      }
+    }
+  },
+  "511cddac-0c97-46bc-887c-86a6885a14fe": {
+    "translation": {
+      "questions": {
+        "46": "لدى السيدة شينك شعر قصير مصبوغ باللون الأشقر.",
+        "47": "أنجي هو الاسم الفني للسيدة شينك.",
+        "48": "تعيش السيدة شينك منذ أكثر من عامين بقليل في بايرن.",
+        "49": "ليس لدى المُحاوَر ذكريات جيدة عن إقاماته في بيوت الشباب.",
+        "50": "حتى في بيت الشباب الحديث الخاص بالسيدة شينك، توجد غرف نوم تحتوي على أكثر من عشرة أسرّة.",
+        "51": "فقط في حالة الصفوف المدرسية يُراعى الفصل بين الجنسين في غرف النوم.",
+        "52": "يتم تصميم عروض الطعام وفقًا لرغبات الضيوف.",
+        "53": "التلاميذ القادمون من المناطق الريفية هم غالبًا ضيوف غير مثيرين للمشاكل.",
+        "54": "ركوب الخيل يُعد جزءًا من البرنامج الرياضي لبيت الشباب.",
+        "55": "يتعين على السيدة شينك دفع 800 يورو مقابل شقتها الوظيفية."
+      }
+    },
+    "items": {
+      "46": {
+        "keyword": "kurze blondierte Haar",
+        "explanation_correct": "Äußere Merkmale wie Frisur oder Haarfarbe sind typische Detailfragen im Hörverstehen – achte auf solche Beschreibungen. Diese Aussage ist richtig, das beschriebene äußere Merkmal wird bestätigt.",
+        "explanation_wrong": "Äußere Merkmale wie Frisur oder Haarfarbe sind typische Detailfragen im Hörverstehen – achte auf solche Beschreibungen. Diese Aussage ist richtig, das beschriebene äußere Merkmal wird bestätigt."
+      },
+      "47": {
+        "keyword": "Künstlername",
+        "explanation_correct": "Achte bei Namensangaben genau darauf, ob ein genannter Name wirklich als Künstlername oder in anderer Funktion verwendet wird. Diese Aussage ist falsch, „Angie“ wird vermutlich anders erklärt.",
+        "explanation_wrong": "Achte bei Namensangaben genau darauf, ob ein genannter Name wirklich als Künstlername oder in anderer Funktion verwendet wird. Diese Aussage ist falsch, „Angie“ wird vermutlich anders erklärt."
+      },
+      "48": {
+        "keyword": "seit etwas mehr als zwei Jahren",
+        "explanation_correct": "Zeitangaben wie „seit etwas mehr als zwei Jahren“ solltest du genau mit der im Hörtext genannten Dauer vergleichen. Diese Aussage ist falsch, die tatsächliche Zeitspanne ist vermutlich eine andere.",
+        "explanation_wrong": "Zeitangaben wie „seit etwas mehr als zwei Jahren“ solltest du genau mit der im Hörtext genannten Dauer vergleichen. Diese Aussage ist falsch, die tatsächliche Zeitspanne ist vermutlich eine andere."
+      },
+      "49": {
+        "keyword": "keine guten Erinnerungen",
+        "explanation_correct": "Achte bei Aussagen über persönliche Erinnerungen genau darauf, ob sie positiv oder negativ dargestellt werden. Diese Aussage ist richtig, die negative Erinnerung wird bestätigt.",
+        "explanation_wrong": "Achte bei Aussagen über persönliche Erinnerungen genau darauf, ob sie positiv oder negativ dargestellt werden. Diese Aussage ist richtig, die negative Erinnerung wird bestätigt."
+      },
+      "50": {
+        "keyword": "mehr als zehn Bette",
+        "explanation_correct": "Zahlenangaben zur Zimmergröße wie „mehr als zehn Betten“ solltest du genau mit der tatsächlich genannten Anzahl vergleichen. Diese Aussage ist falsch, die Schlafräume sind vermutlich kleiner.",
+        "explanation_wrong": "Zahlenangaben zur Zimmergröße wie „mehr als zehn Betten“ solltest du genau mit der tatsächlich genannten Anzahl vergleichen. Diese Aussage ist falsch, die Schlafräume sind vermutlich kleiner."
+      },
+      "51": {
+        "keyword": "Nur bei Schulklassen",
+        "explanation_correct": "Das einschränkende Wort „nur“ begrenzt eine Regelung auf eine bestimmte Gruppe – prüfe, ob diese Einschränkung wirklich zutrifft. Diese Aussage ist richtig, die genannte Einschränkung auf Schulklassen wird bestätigt.",
+        "explanation_wrong": "Das einschränkende Wort „nur“ begrenzt eine Regelung auf eine bestimmte Gruppe – prüfe, ob diese Einschränkung wirklich zutrifft. Diese Aussage ist richtig, die genannte Einschränkung auf Schulklassen wird bestätigt."
+      },
+      "52": {
+        "keyword": "auf die Wünsche zugeschnitten",
+        "explanation_correct": "Formulierungen wie „zugeschnitten auf“ beschreiben eine individuelle Anpassung – prüfe, ob diese Flexibilität im Hörtext bestätigt wird. Diese Aussage ist richtig, die beschriebene Anpassung wird bestätigt.",
+        "explanation_wrong": "Formulierungen wie „zugeschnitten auf“ beschreiben eine individuelle Anpassung – prüfe, ob diese Flexibilität im Hörtext bestätigt wird. Diese Aussage ist richtig, die beschriebene Anpassung wird bestätigt."
+      },
+      "53": {
+        "keyword": "meist unproblematische Gäste",
+        "explanation_correct": "Das Wort „meist“ beschreibt eine überwiegende, aber nicht absolute Tendenz – achte darauf, ob genau dieser Grad an Regelmäßigkeit gemeint ist. Diese Aussage ist richtig, die beschriebene Tendenz wird bestätigt.",
+        "explanation_wrong": "Das Wort „meist“ beschreibt eine überwiegende, aber nicht absolute Tendenz – achte darauf, ob genau dieser Grad an Regelmäßigkeit gemeint ist. Diese Aussage ist richtig, die beschriebene Tendenz wird bestätigt."
+      },
+      "54": {
+        "keyword": "Reiten",
+        "explanation_correct": "Achte bei Aufzählungen von Sport- oder Freizeitangeboten genau darauf, welche Aktivitäten tatsächlich genannt werden. Diese Aussage ist falsch, „Reiten“ gehört vermutlich nicht zum genannten Angebot.",
+        "explanation_wrong": "Achte bei Aufzählungen von Sport- oder Freizeitangeboten genau darauf, welche Aktivitäten tatsächlich genannt werden. Diese Aussage ist falsch, „Reiten“ gehört vermutlich nicht zum genannten Angebot."
+      },
+      "55": {
+        "keyword": "800€",
+        "explanation_correct": "Zahlenangaben wie ein bestimmter Eurobetrag sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist falsch, der tatsächliche Betrag oder die Zahlungspflicht ist vermutlich anders.",
+        "explanation_wrong": "Zahlenangaben wie ein bestimmter Eurobetrag sind eine klassische Stolperfalle – prüfe sie immer besonders genau. Diese Aussage ist falsch, der tatsächliche Betrag oder die Zahlungspflicht ist vermutlich anders."
+      }
+    }
+  }
+}
