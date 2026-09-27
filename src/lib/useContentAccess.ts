@@ -106,7 +106,7 @@ export function useExerciseCatalog(skill: "lesen" | "hoeren" | "sprachbausteine"
 
 export interface MuendlichCatalogItem {
   id: string; title: string; theme_category: string | null; difficulty_level: string | null;
-  is_unassigned_center: boolean; body_text: string | null;
+  is_unassigned_center: boolean; body_text: string | null; is_free_sample: boolean;
 }
 
 /**

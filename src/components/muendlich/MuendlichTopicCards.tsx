@@ -21,6 +21,7 @@ export interface HeroCardTopic {
   difficulty_level: string | null;
   is_unassigned_center: boolean;
   body_text: string | null;
+  is_free_sample: boolean;
 }
 
 /**
@@ -57,6 +58,9 @@ export function HeroCard({ topic, index, onOpen, loading, levelLabel }: { topic:
             <span className="rounded-full bg-muted px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted-foreground">{topic.theme_category}</span>
           )}
           <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-primary">{levelLabel}</span>
+          {topic.is_free_sample && (
+            <span className="rounded-full bg-emerald-500/15 px-2 py-0.5 text-[10px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400">Kostenlos testen</span>
+          )}
         </div>
         <h3 className="mb-1.5 text-base font-black leading-snug text-foreground">{topic.title}</h3>
         {topic.body_text && (
