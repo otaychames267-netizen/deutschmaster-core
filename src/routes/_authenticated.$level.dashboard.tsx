@@ -255,12 +255,6 @@ function DashboardPage() {
     { label: "Study hours", done: +(weeklyGoal.study_hours_done / 3600).toFixed(1), target: weeklyGoal.study_hours_target, unit: "h" },
   ] : [];
 
-  // Matches process_referral_conversion() in
-  // 20260926140000_referral_linear_7day_30cap.sql — each converted referral
-  // grants +7 total days, capped at +30 (one free month) after 5 referrals.
-  const referralMilestones = [{ invites: 1, days: 7 }, { invites: 2, days: 14 }, { invites: 3, days: 21 }, { invites: 4, days: 28 }, { invites: 5, days: 30 }];
-  const nextMilestone = referralMilestones.find(m => referralCount < m.invites);
-
   // Schriftlich progress: use exercises_completed as proxy (max out at 200 exercises = 100%)
   const schPct = Math.min(100, Math.round((progress.exercises_completed / 200) * 100));
   // Mündlich: 0 until oral tracking exists
@@ -781,40 +775,20 @@ function DashboardPage() {
               </div>
             </div>
 
-            {/* Step tracker — one node per referral, connected by a fill
-                line that grows with referralCount. Matches
+            {/* One plain sentence instead of an abstract 1-2-3-4-5 step
+                tracker — explicit "how many, how much earned, how many
+                more" reads clearer than a progress graphic. Matches
                 process_referral_conversion()'s real schedule: +7d per
                 referral, capped at +30d (one month) after 5. */}
-            <div className="mb-4 px-1">
-              <div className="relative flex items-center justify-between">
-                <div className="absolute left-0 right-0 top-4 h-0.5 bg-muted" />
-                <div
-                  className="absolute left-0 top-4 h-0.5 bg-emerald-500 transition-all duration-700"
-                  style={{ width: `${Math.min(100, (referralCount / referralMilestones.length) * 100)}%` }}
-                />
-                {referralMilestones.map((m) => {
-                  const reached = referralCount >= m.invites;
-                  return (
-                    <div key={m.invites} className="relative z-10 flex flex-col items-center gap-1.5">
-                      <div className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-black ring-4 ring-card transition-colors ${
-                        reached ? "bg-emerald-500 text-white" : "bg-muted text-muted-foreground"
-                      }`}>
-                        {reached ? <CheckCircle2 className="h-4 w-4" /> : m.invites}
-                      </div>
-                      <span className={`text-[10px] font-bold ${reached ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
-                        +{m.days}d
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {nextMilestone && (
-              <p className="mb-3 text-xs text-muted-foreground">
-                {nextMilestone.invites - referralCount} more to earn +{nextMilestone.days} premium day{nextMilestone.days > 1 ? "s" : ""}
-              </p>
-            )}
+            <p className="mb-4 rounded-xl bg-muted/40 px-3.5 py-3 text-sm leading-relaxed text-foreground">
+              {referralCount === 0 ? (
+                <>You've invited <strong>0 friends</strong> so far. Each friend who subscribes earns you <strong className="text-emerald-600 dark:text-emerald-400">+7 days</strong> — invite <strong>5 friends</strong> to unlock a full free month (+30 days).</>
+              ) : referralCount < 5 ? (
+                <>You've invited <strong>{referralCount} friend{referralCount > 1 ? "s" : ""}</strong> so far, earning <strong className="text-emerald-600 dark:text-emerald-400">+{referralCount * 7} days</strong>. Invite <strong>{5 - referralCount} more</strong> to unlock a full free month (+30 days).</>
+              ) : (
+                <>You've invited <strong>{referralCount} friends</strong> and unlocked the full <strong className="text-emerald-600 dark:text-emerald-400">+30-day reward</strong> — one free month! 🎉</>
+              )}
+            </p>
 
             {/* Your actual friends, not just abstract milestones — the
                 concrete "Friend 1 · +7d" proof that this really pays out,
