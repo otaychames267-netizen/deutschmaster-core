@@ -175,7 +175,7 @@ function PreExamScreen({ onStart, starting }: { onStart: () => void; starting: b
             <li>• Der Timer läuft nach dem Start durchgehend und kann nicht pausiert werden.</li>
             <li>• Ihre Antworten werden bei jeder Navigation automatisch gespeichert.</li>
             <li>• Bei Ablauf der Zeit wird die Prüfung automatisch abgegeben und bewertet.</li>
-            <li>• Sie können bis zu 20 vollständige Simulationen pro Monat starten.</li>
+            <li>• Sie können beliebig viele vollständige Simulationen starten.</li>
           </ul>
         </div>
       </div>
@@ -375,9 +375,16 @@ function SchriftlichPruefungPage() {
 
   const currentSection = SECTIONS[sectionIndex]?.key;
 
-  // ── Resume check on mount ──────────────────────────────────
+  // ── Resume check on mount — deliberately independent of `hasAccess`.
+  //    A resumable attempt was already admitted by start_simulation() when
+  //    it was created and carries its own 145-minute expires_at deadline;
+  //    simulation_attempts' own RLS is just `user_id = auth.uid()`, so this
+  //    resume check must succeed even if the live subscription has since
+  //    lapsed (e.g. a renewal fell due mid-exam) — otherwise a refresh
+  //    during an in-progress attempt would strand the student on the
+  //    paywall instead of back in their exam. ──
   useEffect(() => {
-    if (!user || !level || hasAccess !== true) return;
+    if (!user || !level) return;
     (async () => {
       const { data } = await (supabase as any)
         .from("simulation_attempts")
@@ -400,7 +407,7 @@ function SchriftlichPruefungPage() {
         setPhase("pre");
       }
     })();
-  }, [user, level, hasAccess]);
+  }, [user, level]);
 
   // ── Load current section's content (cached; tagged to eliminate any stale-render race) ──
   useEffect(() => {
@@ -580,7 +587,7 @@ function SchriftlichPruefungPage() {
     }
   }
 
-  if (accessLoading) {
+  if (accessLoading || phase === "loading") {
     return (
       <div className="flex min-h-64 items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -588,21 +595,18 @@ function SchriftlichPruefungPage() {
     );
   }
 
-  if (hasAccess === false) {
+  // A resumed in-progress attempt stays valid even if `hasAccess` has since
+  // flipped to false (subscription lapsed mid-exam) — it was legitimately
+  // admitted at start_simulation() time and the DB-level RLS carve-out
+  // (20260927140000) keeps its own content readable until its own
+  // 145-minute expires_at, independent of live subscription state.
+  if (hasAccess === false && !attempt) {
     return (
       <LockedExerciseOverview
         heading="Prüfungssimulation — Schriftlich"
         subheading="Preview — subscribe to unlock the full exam simulation."
         items={[{ id: "pruefung-schriftlich", title: "Vollständige Prüfung (2h 25min) — Lesen, Sprachbausteine, Hören, Schreiben" }]}
       />
-    );
-  }
-
-  if (phase === "loading") {
-    return (
-      <div className="flex min-h-64 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
     );
   }
 
