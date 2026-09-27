@@ -260,6 +260,17 @@ function DashboardPage() {
   // Mündlich: 0 until oral tracking exists
   const muePct = 0;
 
+  // Single source of truth for the referral progress line — shown once, in
+  // the banner above the two exam cards, matching process_referral_conversion()'s
+  // real schedule: +7d per referral, capped at +30d (one month) after 5.
+  const referralSentence = referralCount === 0 ? (
+    <>Each friend who subscribes earns you <strong className="text-emerald-600 dark:text-emerald-400">+7 days</strong> — invite <strong>5 friends</strong> to unlock a full free month (+30 days).</>
+  ) : referralCount < 5 ? (
+    <>You've invited <strong>{referralCount} friend{referralCount > 1 ? "s" : ""}</strong> so far, earning <strong className="text-emerald-600 dark:text-emerald-400">+{referralCount * 7} days</strong>. Invite <strong>{5 - referralCount} more</strong> to unlock a full free month (+30 days).</>
+  ) : (
+    <>You've invited <strong>{referralCount} friends</strong> and unlocked the full <strong className="text-emerald-600 dark:text-emerald-400">+30-day reward</strong> — one free month! 🎉</>
+  );
+
   return (
     <div className="mx-auto max-w-5xl space-y-6 pb-10">
 
@@ -385,7 +396,7 @@ function DashboardPage() {
             </div>
             <div>
               <p className="text-sm font-black text-foreground">Invite friends, earn a free month</p>
-              <p className="text-xs text-muted-foreground">+7 free days per friend who subscribes — up to +30 days (a full free month) after 5 referrals</p>
+              <p className="text-xs text-muted-foreground">{referralSentence}</p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 self-stretch sm:self-auto">
@@ -774,21 +785,6 @@ function DashboardPage() {
                 <p className="text-xs text-muted-foreground">{referralCount} friend{referralCount !== 1 ? "s" : ""} invited</p>
               </div>
             </div>
-
-            {/* One plain sentence instead of an abstract 1-2-3-4-5 step
-                tracker — explicit "how many, how much earned, how many
-                more" reads clearer than a progress graphic. Matches
-                process_referral_conversion()'s real schedule: +7d per
-                referral, capped at +30d (one month) after 5. */}
-            <p className="mb-4 rounded-xl bg-muted/40 px-3.5 py-3 text-sm leading-relaxed text-foreground">
-              {referralCount === 0 ? (
-                <>You've invited <strong>0 friends</strong> so far. Each friend who subscribes earns you <strong className="text-emerald-600 dark:text-emerald-400">+7 days</strong> — invite <strong>5 friends</strong> to unlock a full free month (+30 days).</>
-              ) : referralCount < 5 ? (
-                <>You've invited <strong>{referralCount} friend{referralCount > 1 ? "s" : ""}</strong> so far, earning <strong className="text-emerald-600 dark:text-emerald-400">+{referralCount * 7} days</strong>. Invite <strong>{5 - referralCount} more</strong> to unlock a full free month (+30 days).</>
-              ) : (
-                <>You've invited <strong>{referralCount} friends</strong> and unlocked the full <strong className="text-emerald-600 dark:text-emerald-400">+30-day reward</strong> — one free month! 🎉</>
-              )}
-            </p>
 
             {/* Your actual friends, not just abstract milestones — the
                 concrete "Friend 1 · +7d" proof that this really pays out,
