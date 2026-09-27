@@ -322,19 +322,34 @@ function DashboardPage() {
         </div>
       </div>
 
-      {/* ── Subscription alert ───────────────────────────────── */}
-      {!hasAccess && (
-        <div className="flex items-start gap-3 rounded-2xl border border-amber-500/30 bg-amber-500/5 px-5 py-4">
-          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-foreground">Unlock your full study plan</p>
-            <p className="mt-0.5 text-xs text-muted-foreground">Subscribe to unlock practice exercises, exam simulations, and AI features.</p>
+      {/* ── Subscription alert — escalates with the exam countdown when the
+            user has set an exam_date, instead of a single static message
+            regardless of how much time is actually left. ── */}
+      {!hasAccess && (() => {
+        const urgency =
+          examCountdown === null ? null
+          : examCountdown <= 10 ? { title: `⚠️ Only ${examCountdown} day${examCountdown !== 1 ? "s" : ""} left until your exam!`, body: "Unlock full practice now — every day counts before your exam.", tone: "urgent" as const }
+          : examCountdown <= 30 ? { title: `${examCountdown} days until your exam — don't fall behind`, body: "Unlock exam simulations and AI feedback now to catch up in time.", tone: "moderate" as const }
+          : { title: `Your exam is in ${examCountdown} days`, body: "Start building your foundation now with full practice access.", tone: "gentle" as const };
+
+        const tone = urgency?.tone ?? "gentle";
+        const colors = tone === "urgent"
+          ? { border: "border-rose-500/30", bg: "bg-rose-500/5", icon: "text-rose-500", btn: "bg-rose-500 hover:bg-rose-500/90" }
+          : { border: "border-amber-500/30", bg: "bg-amber-500/5", icon: "text-amber-500", btn: "bg-amber-500 hover:bg-amber-500/90" };
+
+        return (
+          <div className={`flex items-start gap-3 rounded-2xl border ${colors.border} ${colors.bg} px-5 py-4`}>
+            <AlertCircle className={`mt-0.5 h-4 w-4 shrink-0 ${colors.icon}`} />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-foreground">{urgency?.title ?? "Unlock your full study plan"}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{urgency?.body ?? "Subscribe to unlock practice exercises, exam simulations, and AI features."}</p>
+            </div>
+            <Link to="/billing" className={`shrink-0 rounded-xl px-4 py-2 text-xs font-bold text-white transition-colors ${colors.btn}`}>
+              View plans
+            </Link>
           </div>
-          <Link to="/billing" className="shrink-0 rounded-xl bg-amber-500 px-4 py-2 text-xs font-bold text-white hover:bg-amber-500/90 transition-colors">
-            View plans
-          </Link>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ── Continue Learning ────────────────────────────────── */}
       {lastLesson && (
