@@ -13,8 +13,9 @@ import {
   Trophy, ArrowUpRight, Target,
   Gift, CheckCircle2, ChevronRight, Crown,
   BookOpen, GraduationCap, Sparkles, Star,
-  TrendingUp, PlayCircle, CreditCard,
+  TrendingUp, PlayCircle, CreditCard, MessageCircle,
 } from "lucide-react";
+import { COMMUNITY_WHATSAPP_URL } from "@/lib/features";
 import { getLastLesson, type LastLesson } from "@/lib/useLastLesson";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
 import {
@@ -451,6 +452,28 @@ function DashboardPage() {
             <span>{codeCopied ? "Copied!" : "· Copy"}</span>
           </button>
         </div>
+      )}
+
+      {/* ── Subscriber-only WhatsApp community — a retention/engagement
+            perk exclusive to paying subscribers, same visibility placement
+            as the referral banner above (first screen, no click needed to
+            discover it exists). ── */}
+      {hasAccess && (
+        <a
+          href={COMMUNITY_WHATSAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-3 rounded-2xl border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-card px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+        >
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 ring-1 ring-emerald-500/20">
+            <MessageCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-black text-foreground">Join the subscriber community</p>
+            <p className="text-xs text-muted-foreground">Exclusive WhatsApp group — ask questions, share progress, stay motivated</p>
+          </div>
+          <ChevronRight className="hidden h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 sm:block" />
+        </a>
       )}
 
       {/* ── THE TWO BIG EXAM CARDS ───────────────────────────── */}

@@ -87,6 +87,14 @@ export const SHOW_UNRELEASED_CONTENT = false;
  */
 export const VOICE_TUTOR_ENABLED = false;
 
+/**
+ * Invite link for the subscriber-only WhatsApp community group. Shown as a
+ * dashboard banner gated by `hasAccess` (an active subscription) — kept here
+ * as a single constant so rotating the link (if it expires or the group is
+ * recreated) is a one-line change, not a hunt through route files.
+ */
+export const COMMUNITY_WHATSAPP_URL = "https://chat.whatsapp.com/DHQil2MLKfYHCl2L4wQZIL?mode=gi_t";
+
 export type PlanCode = "schriftlich" | "muendlich" | "komplett";
 
 /**
