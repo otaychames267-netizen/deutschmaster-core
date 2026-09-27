@@ -1,6 +1,9 @@
 /**
- * confirmation-email.server.ts — the authoritative, monitored confirmation-
- * email pipeline. Replaces reliance on Supabase Auth's own SMTP-triggered
+ * confirmation-email.server.ts — the authoritative, monitored email pipeline
+ * for password recovery and resending a confirmation link to an existing
+ * unconfirmed account. Fresh signups no longer go through here at all (see
+ * createConfirmedUser below) — they're created pre-confirmed since
+ * 2026-09-27. Replaces reliance on Supabase Auth's own SMTP-triggered
  * mailer for this critical path.
  *
  * ROOT CAUSE this exists to fix (investigated 2026-07-29): Supabase Auth's
@@ -130,24 +133,27 @@ async function sendAndLog(
 }
 
 /**
- * The registration path. Creates the user via generateLink (type: 'signup')
- * — this is the ONLY step that touches auth.users; Supabase never attempts
- * its own send. On success, delivers the confirmation email ourselves.
- * Returns a shape compatible with what api.auth.register.ts's existing
- * frontend contract expects (an error with .message on failure).
+ * The registration path. Product decision (2026-09-27): email confirmation
+ * before login was confusing real users — they didn't realize a
+ * verification email had been sent and assumed signup was broken. Content
+ * access is already fully gated by subscription status elsewhere
+ * (has_plan_access), so confirming email ownership before login added
+ * friction without protecting anything this app actually depends on.
+ * Creates the user already confirmed (email_confirm: true) — no
+ * confirmation email, no action link, no auth_email_log row for this path.
  */
-export async function createUserAndSendConfirmation(
+export async function createConfirmedUser(
   supabaseAdmin: any,
-  params: { email: string; password: string; fullName: string; redirectTo?: string },
+  params: { email: string; password: string; fullName: string },
 ): Promise<{ ok: true; userId: string } | { ok: false; status: number; errorCode: string; message: string }> {
-  const { data, error } = await supabaseAdmin.auth.admin.generateLink({
-    type: "signup",
+  const { data, error } = await supabaseAdmin.auth.admin.createUser({
     email: params.email,
     password: params.password,
-    options: { data: { full_name: params.fullName }, ...(params.redirectTo ? { redirectTo: params.redirectTo } : {}) },
+    email_confirm: true,
+    user_metadata: { full_name: params.fullName },
   });
 
-  if (error || !data?.properties?.action_link || !data.user) {
+  if (error || !data?.user) {
     // Mirrors the error shape api.auth.register.ts already returns to the
     // frontend for a failed /auth/v1/signup call (error_code + message),
     // so register.tsx needs no changes to its error handling.
@@ -159,26 +165,6 @@ export async function createUserAndSendConfirmation(
       message: error?.message ?? "Could not create account.",
     };
   }
-
-  // MUST be awaited, not fire-and-forget: confirmed live (2026-07-29) that
-  // an un-awaited call here never actually runs on Vercel's serverless
-  // runtime — the function is frozen/terminated the instant the HTTP
-  // response is sent, so the "background" send silently never happens and
-  // every auth_email_log row was stuck at status='retrying' forever. This
-  // was caught by testing the deployed fix against real production, not by
-  // local dev (which has no such runtime-freeze behavior) — exactly why
-  // step 5 of the task ("test everything before deployment... repeat until
-  // it succeeds") matters. sendAndLog() never throws (it catches and logs
-  // internally), so awaiting it here still can't turn a successful account
-  // creation into a failed HTTP response — a slow/failing send only adds
-  // latency to this request, it can't fail it.
-  await sendAndLog(supabaseAdmin, {
-    userId: data.user.id,
-    email: params.email,
-    emailType: "signup_confirmation",
-    actionLink: data.properties.action_link,
-    fullName: params.fullName,
-  });
 
   return { ok: true, userId: data.user.id };
 }

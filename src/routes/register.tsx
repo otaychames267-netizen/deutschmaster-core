@@ -1,11 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
 import { GoogleAuthButton, OrDivider } from "@/components/GoogleAuthButton";
-import { getSiteUrl } from "@/lib/site-url";
 import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
 import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
@@ -40,7 +41,7 @@ function RegisterPage() {
   const [accepted, setAccepted]   = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState<string | null>(null);
-  const [done, setDone]           = useState(false);
+  const [createdButNeedsLogin, setCreatedButNeedsLogin] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -72,42 +73,60 @@ function RegisterPage() {
     const res = await fetch("/api/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-        full_name: fullName,
-        email_redirect_to: `${getSiteUrl()}/dashboard`,
-      }),
+      body: JSON.stringify({ email, password, full_name: fullName }),
     });
     const resBody = await res.json();
-    setLoading(false);
 
     if (!res.ok) {
+      setLoading(false);
       setError(res.status === 429 ? resBody.message : (resBody.message ?? "Could not create account."));
       return;
     }
 
-    setDone(true);
+    // The account is already confirmed and created — resBody carries a real
+    // session (same shape login.tsx gets from /api/auth/login) unless the
+    // immediately-following auto-login call itself hit a transient hiccup
+    // (autoLoginFailed), in which case the account still exists and the
+    // user just needs to sign in normally.
+    if (resBody.autoLoginFailed || !resBody.access_token) {
+      setLoading(false);
+      setCreatedButNeedsLogin(true);
+      return;
+    }
+
+    const { error: sessionErr } = await supabase.auth.setSession({
+      access_token: resBody.access_token,
+      refresh_token: resBody.refresh_token,
+    });
+    setLoading(false);
+    if (sessionErr) {
+      setCreatedButNeedsLogin(true);
+      return;
+    }
+
+    toast.success("Account created!");
+    // Hard navigation, not TanStack Router's client-side nav() — same
+    // reasoning as login.tsx: forces AuthProvider to remount and read the
+    // session setSession() just persisted, rather than depending on an
+    // onAuthStateChange event reaching it in time.
+    window.location.href = "/dashboard";
   }
 
-  if (done) {
+  if (createdButNeedsLogin) {
     return (
-      <AuthLayout title="Check your email" subtitle={t("auth.verify_sent")}>
+      <AuthLayout title="Account created" subtitle="You can sign in now">
         <div className="space-y-4 text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
             <CheckCircle2 className="h-7 w-7 text-emerald-500" />
           </div>
-          <div>
-            <p className="text-sm text-muted-foreground">
-              We sent a verification email to <strong className="text-foreground">{email}</strong>.
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">{t("auth.check_spam")}</p>
-          </div>
+          <p className="text-sm text-muted-foreground">
+            Your account (<strong className="text-foreground">{email}</strong>) was created. Sign in with your new password to continue.
+          </p>
           <Link
             to="/login"
             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
           >
-            {t("auth.back_to_login")}
+            {t("auth.sign_in")}
           </Link>
         </div>
       </AuthLayout>
