@@ -260,16 +260,17 @@ function DashboardPage() {
   // Mündlich: 0 until oral tracking exists
   const muePct = 0;
 
-  // Single source of truth for the referral progress line — shown once, in
-  // the banner above the two exam cards, matching process_referral_conversion()'s
-  // real schedule: +7d per referral, capped at +30d (one month) after 5.
-  const referralSentence = referralCount === 0 ? (
-    <>Each friend who subscribes earns you <strong className="text-emerald-600 dark:text-emerald-400">+7 days</strong> — invite <strong>5 friends</strong> to unlock a full free month (+30 days).</>
-  ) : referralCount < 5 ? (
-    <>You've invited <strong>{referralCount} friend{referralCount > 1 ? "s" : ""}</strong> so far, earning <strong className="text-emerald-600 dark:text-emerald-400">+{referralCount * 7} days</strong>. Invite <strong>{5 - referralCount} more</strong> to unlock a full free month (+30 days).</>
-  ) : (
-    <>You've invited <strong>{referralCount} friends</strong> and unlocked the full <strong className="text-emerald-600 dark:text-emerald-400">+30-day reward</strong> — one free month! 🎉</>
-  );
+  // Milestone nodes for the referral stepper — a "0" start node plus one per
+  // real reward tier from process_referral_conversion(): +7d per referral,
+  // capped at +30d (one month) after 5.
+  const referralStepperNodes = [
+    { invites: 0, days: null as number | null },
+    { invites: 1, days: 7 },
+    { invites: 2, days: 14 },
+    { invites: 3, days: 21 },
+    { invites: 4, days: 28 },
+    { invites: 5, days: 30 },
+  ];
 
   return (
     <div className="mx-auto max-w-5xl space-y-6 pb-10">
@@ -382,42 +383,73 @@ function DashboardPage() {
             smaller dashboard teaser lower down. The code + a one-tap copy
             button live right here too, so grabbing it costs zero
             navigation — the whole point of putting this on the very first
-            screen instead of behind a click. ── */}
+            screen instead of behind a click. A numbered 0→5 stepper (plus
+            the "0" start node) shows real progress at a glance, matching
+            process_referral_conversion()'s actual +7d/referral, capped at
+            +30d schedule — not the competitor screenshot's own +7d-flat/
+            cash-at-4 structure, just its stepper visual language. ── */}
       {hasAccess && profile?.referral_code && (
         <div
           role="link" tabIndex={0}
           onClick={() => navigate({ to: "/referrals" })}
           onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); navigate({ to: "/referrals" }); } }}
-          className="group flex flex-col gap-3 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/10 via-primary/5 to-card px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer sm:flex-row sm:items-center sm:justify-between"
+          className="group flex flex-col gap-4 rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/10 via-primary/5 to-card px-5 py-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md cursor-pointer"
         >
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 ring-1 ring-primary/20">
-              <Gift className="h-5 w-5 text-primary" />
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/12 ring-1 ring-primary/20">
+                <Gift className="h-5 w-5 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-black text-foreground">Invite friends, earn a free month</p>
+                <p className="text-xs text-muted-foreground">{referralCount}/5 friends invited</p>
+              </div>
             </div>
-            <div>
-              <p className="text-sm font-black text-foreground">Invite friends, earn a free month</p>
-              <p className="text-xs text-muted-foreground">{referralSentence}</p>
+            <ChevronRight className="hidden h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 sm:block" />
+          </div>
+
+          {/* Stepper */}
+          <div className="px-1">
+            <div className="relative flex items-center justify-between">
+              <div className="absolute left-0 right-0 top-3.5 h-0.5 bg-muted" />
+              <div
+                className="absolute left-0 top-3.5 h-0.5 bg-emerald-500 transition-all duration-700"
+                style={{ width: `${Math.min(100, (referralCount / 5) * 100)}%` }}
+              />
+              {referralStepperNodes.map((n) => {
+                const reached = referralCount >= n.invites;
+                return (
+                  <div key={n.invites} className="relative z-10 flex flex-col items-center gap-1">
+                    <div className={`flex h-7 w-7 items-center justify-center rounded-full text-[11px] font-black ring-4 ring-card transition-colors ${
+                      reached ? "bg-emerald-500 text-white" : "bg-muted text-muted-foreground"
+                    }`}>
+                      {n.invites === 0 ? <Gift className="h-3 w-3" /> : reached ? <CheckCircle2 className="h-3.5 w-3.5" /> : n.invites}
+                    </div>
+                    <span className={`text-[9px] font-bold ${reached && n.days ? "text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
+                      {n.days ? `+${n.days}d` : "Start"}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2 self-stretch sm:self-auto">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigator.clipboard.writeText(profile.referral_code!);
-                setCodeCopied(true);
-                toast.success("Referral code copied!");
-                setTimeout(() => setCodeCopied(false), 2000);
-              }}
-              className={`flex flex-1 items-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold transition-colors sm:flex-none ${
-                codeCopied ? "bg-emerald-500 text-white" : "bg-primary text-primary-foreground hover:bg-primary/90"
-              }`}
-            >
-              {codeCopied ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Gift className="h-3.5 w-3.5" />}
-              <span className="font-mono tracking-widest">{profile.referral_code}</span>
-              {!codeCopied && <span className="hidden sm:inline">· Copy</span>}
-            </button>
-            <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-          </div>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              navigator.clipboard.writeText(profile.referral_code!);
+              setCodeCopied(true);
+              toast.success("Referral code copied!");
+              setTimeout(() => setCodeCopied(false), 2000);
+            }}
+            className={`flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-xs font-bold transition-colors ${
+              codeCopied ? "bg-emerald-500 text-white" : "bg-primary text-primary-foreground hover:bg-primary/90"
+            }`}
+          >
+            {codeCopied ? <CheckCircle2 className="h-3.5 w-3.5" /> : <Gift className="h-3.5 w-3.5" />}
+            <span className="font-mono tracking-widest">{profile.referral_code}</span>
+            <span>{codeCopied ? "Copied!" : "· Copy"}</span>
+          </button>
         </div>
       )}
 
