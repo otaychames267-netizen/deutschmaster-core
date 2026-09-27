@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
@@ -41,7 +41,17 @@ function RegisterPage() {
   const [accepted, setAccepted]   = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState<string | null>(null);
-  const [createdButNeedsLogin, setCreatedButNeedsLogin] = useState(false);
+  const [awaitingCode, setAwaitingCode] = useState(false);
+  const [code, setCode]           = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setTimeout(() => setResendCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -60,10 +70,10 @@ function RegisterPage() {
       return;
     }
 
-    // Capture ?ref=CODE now, before signup — this app requires email
-    // confirmation, so there's no session yet to call register_referral()
-    // with; the code is relayed via localStorage and linked on the user's
-    // first real authenticated session instead (see auth.tsx).
+    // Capture ?ref=CODE now, before signup — there's no session yet to call
+    // register_referral() with (the account isn't confirmed until the code
+    // step below succeeds); the code is relayed via localStorage and linked
+    // on the user's first real authenticated session instead (see auth.tsx).
     const refCode = new URLSearchParams(window.location.search).get("ref");
     if (refCode && refCode.trim()) {
       try { localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, refCode.trim()); } catch { /* localStorage unavailable — referral capture skipped, never blocks signup */ }
@@ -76,21 +86,31 @@ function RegisterPage() {
       body: JSON.stringify({ email, password, full_name: fullName }),
     });
     const resBody = await res.json();
+    setLoading(false);
 
     if (!res.ok) {
-      setLoading(false);
       setError(res.status === 429 ? resBody.message : (resBody.message ?? "Could not create account."));
       return;
     }
 
-    // The account is already confirmed and created — resBody carries a real
-    // session (same shape login.tsx gets from /api/auth/login) unless the
-    // immediately-following auto-login call itself hit a transient hiccup
-    // (autoLoginFailed), in which case the account still exists and the
-    // user just needs to sign in normally.
-    if (resBody.autoLoginFailed || !resBody.access_token) {
-      setLoading(false);
-      setCreatedButNeedsLogin(true);
+    setAwaitingCode(true);
+  }
+
+  async function handleVerifyCode(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setVerifying(true);
+
+    const res = await fetch("/api/auth/verify-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code }),
+    });
+    const resBody = await res.json();
+
+    if (!res.ok) {
+      setVerifying(false);
+      setError(resBody.message ?? "That code is incorrect or has expired.");
       return;
     }
 
@@ -98,9 +118,9 @@ function RegisterPage() {
       access_token: resBody.access_token,
       refresh_token: resBody.refresh_token,
     });
-    setLoading(false);
+    setVerifying(false);
     if (sessionErr) {
-      setCreatedButNeedsLogin(true);
+      setError(sessionErr.message);
       return;
     }
 
@@ -112,23 +132,69 @@ function RegisterPage() {
     window.location.href = "/dashboard";
   }
 
-  if (createdButNeedsLogin) {
+  async function handleResend() {
+    if (resending || resendCooldown > 0) return;
+    setResending(true);
+    setError(null);
+    const res = await fetch("/api/auth/resend-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, full_name: fullName }),
+    });
+    const resBody = await res.json();
+    setResending(false);
+    if (!res.ok) {
+      setError(resBody.message ?? "Could not resend the code.");
+      return;
+    }
+    toast.success("A new code was sent.");
+    setResendCooldown(30);
+  }
+
+  if (awaitingCode) {
     return (
-      <AuthLayout title="Account created" subtitle="You can sign in now">
-        <div className="space-y-4 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
-            <CheckCircle2 className="h-7 w-7 text-emerald-500" />
+      <AuthLayout title="Enter your code" subtitle={`We sent a verification code to ${email}`}>
+        <form onSubmit={handleVerifyCode} className="space-y-4">
+          {error && (
+            <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {error}
+            </div>
+          )}
+          <div className="space-y-1.5">
+            <label className="text-sm font-medium text-foreground" htmlFor="code">
+              Verification code
+            </label>
+            <input
+              id="code"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              autoFocus
+              required
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+              className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-center text-lg font-mono tracking-[0.4em] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
+              placeholder="••••••"
+            />
           </div>
-          <p className="text-sm text-muted-foreground">
-            Your account (<strong className="text-foreground">{email}</strong>) was created. Sign in with your new password to continue.
-          </p>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          <button
+            type="submit"
+            disabled={verifying || code.length === 0}
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
           >
-            {t("auth.sign_in")}
-          </Link>
-        </div>
+            {verifying && <Loader2 className="h-4 w-4 animate-spin" />}
+            Verify &amp; continue
+          </button>
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={resending || resendCooldown > 0}
+            className="flex w-full items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60"
+          >
+            {resending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+            {resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : "Didn't get it? Resend code"}
+          </button>
+        </form>
       </AuthLayout>
     );
   }

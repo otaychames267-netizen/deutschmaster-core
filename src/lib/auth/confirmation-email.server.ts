@@ -68,6 +68,25 @@ function confirmationEmailHtml(actionLink: string, fullName: string): string {
   `;
 }
 
+/** Product decision (2026-09-27): a clickable link made users leave the
+ * registration tab and confused several of them into thinking signup was
+ * broken. A short code they type back into the same page they're already
+ * on is the whole point — this email has no button/link at all. */
+function confirmationCodeEmailHtml(code: string, fullName: string): string {
+  const greeting = fullName ? `Hi ${fullName},` : "Hi,";
+  return `
+    <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto;">
+      <h2 style="color: #111;">Your AuraLingovia verification code</h2>
+      <p>${greeting}</p>
+      <p>Enter this code on the sign-up page to activate your account:</p>
+      <p style="text-align: center; margin: 32px 0;">
+        <span style="display: inline-block; background: #f4f4f5; color: #111; padding: 16px 28px; border-radius: 10px; font-size: 32px; font-weight: 700; letter-spacing: 8px; font-family: monospace;">${code}</span>
+      </p>
+      <p style="color: #666; font-size: 13px;">This code expires shortly. If you didn't create this account, you can safely ignore this email.</p>
+    </div>
+  `;
+}
+
 /**
  * Writes the initial `retrying` row, attempts delivery up to MAX_ATTEMPTS
  * times with backoff, updates the row to its final state, and returns
@@ -77,7 +96,7 @@ function confirmationEmailHtml(actionLink: string, fullName: string): string {
  */
 async function sendAndLog(
   supabaseAdmin: any,
-  params: { userId: string | null; email: string; emailType: "signup_confirmation" | "resend_confirmation" | "password_recovery"; actionLink: string; fullName: string },
+  params: { userId: string | null; email: string; emailType: "signup_otp" | "resend_confirmation" | "password_recovery"; actionLink?: string; otpCode?: string; fullName: string },
 ): Promise<boolean> {
   const { data: logRow, error: insertError } = await supabaseAdmin
     .from("auth_email_log")
@@ -90,12 +109,13 @@ async function sendAndLog(
   const logId = logRow?.id as string | undefined;
 
   const subject =
-    params.emailType === "signup_confirmation" ? "Confirm your AuraLingovia email address"
+    params.emailType === "signup_otp" ? "Your AuraLingovia verification code"
     : params.emailType === "password_recovery" ? "Reset your AuraLingovia password"
     : "Your AuraLingovia confirmation link";
-  const html = params.emailType === "password_recovery"
-    ? passwordRecoveryEmailHtml(params.actionLink)
-    : confirmationEmailHtml(params.actionLink, params.fullName);
+  const html =
+    params.emailType === "password_recovery" ? passwordRecoveryEmailHtml(params.actionLink!)
+    : params.emailType === "signup_otp" ? confirmationCodeEmailHtml(params.otpCode!, params.fullName)
+    : confirmationEmailHtml(params.actionLink!, params.fullName);
 
   let lastError: string | null = null;
   for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
@@ -133,27 +153,34 @@ async function sendAndLog(
 }
 
 /**
- * The registration path. Product decision (2026-09-27): email confirmation
- * before login was confusing real users — they didn't realize a
- * verification email had been sent and assumed signup was broken. Content
- * access is already fully gated by subscription status elsewhere
- * (has_plan_access), so confirming email ownership before login added
- * friction without protecting anything this app actually depends on.
- * Creates the user already confirmed (email_confirm: true) — no
- * confirmation email, no action link, no auth_email_log row for this path.
+ * The registration path. Product decision (2026-09-27): a clickable
+ * confirmation link confused real users into thinking signup was broken —
+ * they didn't realize an email had even been sent. Replaced with a short
+ * code typed back into the SAME registration page (verifyRegistrationCode
+ * below), which also lets this keep verifying real email ownership
+ * (unlike the brief mailer_autoconfirm-based attempt this superseded,
+ * which removed that check entirely). Content access is separately and
+ * fully gated by subscription status elsewhere (has_plan_access) either way.
+ *
+ * generateLink({type:'signup'}) creates the user (unconfirmed) and returns
+ * an `email_otp` alongside the action_link — confirmed empirically this
+ * session against the real auth endpoints — without Supabase ever
+ * attempting to send anything itself. Calling this again for the same
+ * still-unconfirmed email (e.g. "resend code") issues a fresh code and
+ * automatically invalidates the previous one (also confirmed empirically).
  */
-export async function createConfirmedUser(
+export async function createUserAndSendCode(
   supabaseAdmin: any,
   params: { email: string; password: string; fullName: string },
 ): Promise<{ ok: true; userId: string } | { ok: false; status: number; errorCode: string; message: string }> {
-  const { data, error } = await supabaseAdmin.auth.admin.createUser({
+  const { data, error } = await supabaseAdmin.auth.admin.generateLink({
+    type: "signup",
     email: params.email,
     password: params.password,
-    email_confirm: true,
-    user_metadata: { full_name: params.fullName },
+    options: { data: { full_name: params.fullName } },
   });
 
-  if (error || !data?.user) {
+  if (error || !data?.properties?.email_otp || !data.user) {
     // Mirrors the error shape api.auth.register.ts already returns to the
     // frontend for a failed /auth/v1/signup call (error_code + message),
     // so register.tsx needs no changes to its error handling.
@@ -165,6 +192,17 @@ export async function createConfirmedUser(
       message: error?.message ?? "Could not create account.",
     };
   }
+
+  // Same never-let-a-slow/failing-send-fail-the-request contract as before
+  // (see the removed fire-and-forget-on-Vercel comment this superseded) —
+  // MUST be awaited, sendAndLog never throws.
+  await sendAndLog(supabaseAdmin, {
+    userId: data.user.id,
+    email: params.email,
+    emailType: "signup_otp",
+    otpCode: data.properties.email_otp,
+    fullName: params.fullName,
+  });
 
   return { ok: true, userId: data.user.id };
 }

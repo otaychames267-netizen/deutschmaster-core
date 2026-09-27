@@ -48,6 +48,8 @@ import { Route as ApiSchreibenSubmitSimulationRouteImport } from './routes/api.s
 import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api.public.lemonsqueezy-webhook'
 import { Route as ApiMuendlichTutorCorrectionRouteImport } from './routes/api.muendlich.tutor-correction'
+import { Route as ApiAuthVerifyCodeRouteImport } from './routes/api.auth.verify-code'
+import { Route as ApiAuthResendCodeRouteImport } from './routes/api.auth.resend-code'
 import { Route as ApiAuthRegisterRouteImport } from './routes/api.auth.register'
 import { Route as ApiAuthLoginRouteImport } from './routes/api.auth.login'
 import { Route as ApiAuthForgotPasswordRouteImport } from './routes/api.auth.forgot-password'
@@ -330,6 +332,16 @@ const ApiMuendlichTutorCorrectionRoute =
     path: '/api/muendlich/tutor-correction',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiAuthVerifyCodeRoute = ApiAuthVerifyCodeRouteImport.update({
+  id: '/api/auth/verify-code',
+  path: '/api/auth/verify-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthResendCodeRoute = ApiAuthResendCodeRouteImport.update({
+  id: '/api/auth/resend-code',
+  path: '/api/auth/resend-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthRegisterRoute = ApiAuthRegisterRouteImport.update({
   id: '/api/auth/register',
   path: '/api/auth/register',
@@ -884,6 +896,8 @@ export interface FileRoutesByFullPath {
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/auth/resend-code': typeof ApiAuthResendCodeRoute
+  '/api/auth/verify-code': typeof ApiAuthVerifyCodeRoute
   '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
@@ -1000,6 +1014,8 @@ export interface FileRoutesByTo {
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/auth/resend-code': typeof ApiAuthResendCodeRoute
+  '/api/auth/verify-code': typeof ApiAuthVerifyCodeRoute
   '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
@@ -1120,6 +1136,8 @@ export interface FileRoutesById {
   '/api/auth/forgot-password': typeof ApiAuthForgotPasswordRoute
   '/api/auth/login': typeof ApiAuthLoginRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/auth/resend-code': typeof ApiAuthResendCodeRoute
+  '/api/auth/verify-code': typeof ApiAuthVerifyCodeRoute
   '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
@@ -1242,6 +1260,8 @@ export interface FileRouteTypes {
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
+    | '/api/auth/resend-code'
+    | '/api/auth/verify-code'
     | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
@@ -1358,6 +1378,8 @@ export interface FileRouteTypes {
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
+    | '/api/auth/resend-code'
+    | '/api/auth/verify-code'
     | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
@@ -1477,6 +1499,8 @@ export interface FileRouteTypes {
     | '/api/auth/forgot-password'
     | '/api/auth/login'
     | '/api/auth/register'
+    | '/api/auth/resend-code'
+    | '/api/auth/verify-code'
     | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
@@ -1543,6 +1567,8 @@ export interface RootRouteChildren {
   ApiAuthForgotPasswordRoute: typeof ApiAuthForgotPasswordRoute
   ApiAuthLoginRoute: typeof ApiAuthLoginRoute
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
+  ApiAuthResendCodeRoute: typeof ApiAuthResendCodeRoute
+  ApiAuthVerifyCodeRoute: typeof ApiAuthVerifyCodeRoute
   ApiMuendlichTutorCorrectionRoute: typeof ApiMuendlichTutorCorrectionRoute
   ApiPublicLemonsqueezyWebhookRoute: typeof ApiPublicLemonsqueezyWebhookRoute
   ApiSchreibenGradeEssayRoute: typeof ApiSchreibenGradeEssayRoute
@@ -1822,6 +1848,20 @@ declare module '@tanstack/react-router' {
       path: '/api/muendlich/tutor-correction'
       fullPath: '/api/muendlich/tutor-correction'
       preLoaderRoute: typeof ApiMuendlichTutorCorrectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/verify-code': {
+      id: '/api/auth/verify-code'
+      path: '/api/auth/verify-code'
+      fullPath: '/api/auth/verify-code'
+      preLoaderRoute: typeof ApiAuthVerifyCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/resend-code': {
+      id: '/api/auth/resend-code'
+      path: '/api/auth/resend-code'
+      fullPath: '/api/auth/resend-code'
+      preLoaderRoute: typeof ApiAuthResendCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/register': {
@@ -2734,6 +2774,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthForgotPasswordRoute: ApiAuthForgotPasswordRoute,
   ApiAuthLoginRoute: ApiAuthLoginRoute,
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,
+  ApiAuthResendCodeRoute: ApiAuthResendCodeRoute,
+  ApiAuthVerifyCodeRoute: ApiAuthVerifyCodeRoute,
   ApiMuendlichTutorCorrectionRoute: ApiMuendlichTutorCorrectionRoute,
   ApiPublicLemonsqueezyWebhookRoute: ApiPublicLemonsqueezyWebhookRoute,
   ApiSchreibenGradeEssayRoute: ApiSchreibenGradeEssayRoute,
