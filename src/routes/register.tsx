@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
@@ -11,6 +11,62 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
 });
+
+// Supabase's generateLink({type:'signup'}) issues an 8-digit email_otp
+// (confirmed empirically against the real auth endpoints, not assumed) —
+// one box per digit, not a single free-text field.
+const CODE_LENGTH = 8;
+
+function CodeInput({ value, onChange, disabled }: { value: string; onChange: (v: string) => void; disabled?: boolean }) {
+  const refs = useRef<(HTMLInputElement | null)[]>([]);
+
+  function setDigitAt(index: number, digit: string) {
+    const digits = value.padEnd(CODE_LENGTH, " ").split("");
+    digits[index] = digit;
+    onChange(digits.join("").trimEnd());
+  }
+
+  function handleChange(index: number, raw: string) {
+    const digit = raw.replace(/\D/g, "").slice(-1);
+    if (!digit) { setDigitAt(index, ""); return; }
+    setDigitAt(index, digit);
+    if (index < CODE_LENGTH - 1) refs.current[index + 1]?.focus();
+  }
+
+  function handleKeyDown(index: number, e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Backspace" && !value[index] && index > 0) {
+      refs.current[index - 1]?.focus();
+    }
+  }
+
+  function handlePaste(e: React.ClipboardEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, CODE_LENGTH);
+    if (!pasted) return;
+    onChange(pasted);
+    refs.current[Math.min(pasted.length, CODE_LENGTH - 1)]?.focus();
+  }
+
+  return (
+    <div className="flex justify-center gap-1.5" onPaste={handlePaste}>
+      {Array.from({ length: CODE_LENGTH }).map((_, i) => (
+        <input
+          key={i}
+          ref={(el) => { refs.current[i] = el; }}
+          type="text"
+          inputMode="numeric"
+          maxLength={1}
+          autoFocus={i === 0}
+          disabled={disabled}
+          value={value[i] ?? ""}
+          onChange={(e) => handleChange(i, e.target.value)}
+          onKeyDown={(e) => handleKeyDown(i, e)}
+          className="h-12 w-9 rounded-lg border border-input bg-background text-center text-lg font-mono font-bold text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:opacity-60"
+        />
+      ))}
+    </div>
+  );
+}
 
 function PasswordStrength({ password }: { password: string }) {
   const checks = [
@@ -161,25 +217,14 @@ function RegisterPage() {
             </div>
           )}
           <div className="space-y-1.5">
-            <label className="text-sm font-medium text-foreground" htmlFor="code">
+            <label className="block text-center text-sm font-medium text-foreground">
               Verification code
             </label>
-            <input
-              id="code"
-              type="text"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              autoFocus
-              required
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-center text-lg font-mono tracking-[0.4em] text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
-              placeholder="••••••"
-            />
+            <CodeInput value={code} onChange={setCode} disabled={verifying} />
           </div>
           <button
             type="submit"
-            disabled={verifying || code.length === 0}
+            disabled={verifying || code.length < CODE_LENGTH}
             className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
           >
             {verifying && <Loader2 className="h-4 w-4 animate-spin" />}
