@@ -396,6 +396,107 @@ function HowItWorks() {
   );
 }
 
+/* ─── Showcase (real product screenshots) ─────────────────────────────
+   Real screenshots from the live app (dashboard, a Lesen exercise, the
+   Prüfungssimulation) framed in a phone mockup — no stock photos, no
+   illustrated mockups. Captured from a seeded demo account, so the numbers
+   shown (streak, exercises, score) are representative sample data, not a
+   real student's private progress. ── */
+
+const SHOWCASE_TABS = [
+  {
+    key: "dashboard",
+    label: "Your dashboard",
+    icon: TrendingUp,
+    img: "/screenshots/shot-dashboard.png",
+    caption: "Track your progress, streaks, and referral rewards — all in one place.",
+  },
+  {
+    key: "practice",
+    label: "Practice exercises",
+    icon: BookOpen,
+    img: "/screenshots/shot-lesen-exercise.png",
+    caption: "Authentic TELC-style texts and tasks, with built-in translation help.",
+  },
+  {
+    key: "simulation",
+    label: "Exam simulation",
+    icon: Clock,
+    img: "/screenshots/shot-pruefung.png",
+    caption: "A full timed mock exam that feels exactly like the real TELC test day.",
+  },
+];
+
+function Showcase() {
+  const [active, setActive] = useState(0);
+  const tab = SHOWCASE_TABS[active];
+
+  return (
+    <section id="showcase" className="border-y border-border bg-muted/30 py-20 sm:py-28">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
+        <div className="text-center">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+            See it in action
+          </p>
+          <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Real practice. Real exam feel.
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-base text-muted-foreground">
+            No stock photos — this is exactly what you'll see the moment you sign up.
+          </p>
+        </div>
+
+        <div className="mt-14 grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-16">
+          {/* Tab list */}
+          <div className="order-2 flex flex-row gap-3 overflow-x-auto pb-1 lg:order-1 lg:w-80 lg:flex-col lg:overflow-visible lg:pb-0">
+            {SHOWCASE_TABS.map((t, i) => (
+              <button
+                key={t.key}
+                onClick={() => setActive(i)}
+                className={`flex shrink-0 items-start gap-3 rounded-2xl border p-4 text-left transition-all ${
+                  active === i
+                    ? "border-primary bg-card shadow-md"
+                    : "border-border bg-card/50 hover:border-primary/30 hover:bg-card"
+                }`}
+              >
+                <div
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                    active === i ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  <t.icon className="h-4 w-4" />
+                </div>
+                <div className="min-w-[9rem]">
+                  <p className="text-sm font-semibold text-foreground">{t.label}</p>
+                  <p className="mt-0.5 hidden text-xs leading-relaxed text-muted-foreground sm:block">
+                    {t.caption}
+                  </p>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Phone mockup */}
+          <div className="order-1 flex justify-center lg:order-2">
+            <div className="relative">
+              <div className="pointer-events-none absolute -inset-10 rounded-[3rem] bg-primary/10 blur-3xl" />
+              <div className="relative w-[270px] overflow-hidden rounded-[2.5rem] border-[6px] border-foreground/90 bg-foreground/90 shadow-2xl sm:w-[300px]">
+                <div className="pointer-events-none absolute left-1/2 top-0 z-10 h-5 w-28 -translate-x-1/2 rounded-b-2xl bg-foreground/90" />
+                <img
+                  key={tab.key}
+                  src={tab.img}
+                  alt={tab.label}
+                  className="h-[560px] w-full object-cover object-top sm:h-[620px]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─── Features ──────────────────────────────────────────────────────── */
 
 function Features() {
@@ -737,6 +838,7 @@ function LandingPage() {
       <main>
         <Hero />
         <HowItWorks />
+        <Showcase />
         <Features />
         <Pricing />
         <FAQ />
