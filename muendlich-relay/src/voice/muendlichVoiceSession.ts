@@ -10,10 +10,25 @@
  * handoffs, takeover questions, anti-silence nudges, repeat requests —
  * mirrors 1:1 what server.ts already sends today:
  *   sendSystemMessage(text) -> generateExaminerReply() streams sentence
- *   chunks -> each chunk is appended to the one persistent ElevenLabs Flash
- *   v2.5 streaming connection for this session -> audio chunks stream back
- *   out through onAudioChunk as they arrive (progressive playback, not
- *   wait-for-the-whole-reply).
+ *   chunks -> each chunk is appended to a FRESH, per-utterance ElevenLabs
+ *   Flash v2.5 streaming connection (opened just for this one reply, closed
+ *   right after) -> audio chunks stream back out through onAudioChunk as
+ *   they arrive (progressive playback, not wait-for-the-whole-reply).
+ *
+ *   Deliberately NOT one persistent connection reused across the whole
+ *   exam (that was the original design, and a real bug): ElevenLabs'
+ *   /stream-input endpoint's "isFinal" completion signal is delivered on
+ *   the shared socket with no request id, so when a call is superseded
+ *   (a newer trigger arrives before the previous one's TTS finished — the
+ *   normal case in a live exam) its late-arriving isFinal could be
+ *   misattributed to whichever NEWER call's listener happened to be
+ *   attached at that moment, silently corrupting that unrelated call's
+ *   own completion signal and making the examiner go silent for the rest
+ *   of the exam. Opening a dedicated socket per utterance makes that
+ *   misattribution structurally impossible — a stray message can only
+ *   ever reach the listener for the utterance that owns that socket. The
+ *   cost is one extra WebSocket handshake per utterance (roughly once
+ *   every 20-90s during an exam), which is a non-issue at this cadence.
  *
  * Organic triggers (Teil-1 presentation follow-ups) are driven by the
  * per-slot ElevenLabs STT streams' committed_transcript events — see this
@@ -140,7 +155,6 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // original, now-stale voiceId on every subsequent failure instead of the
   // current one), caught while wiring in getVoiceId(), not by a test.
   let voice = await voiceManager.assignVoice(examSessionId, EXAMINER_POOL);
-  let ttsConn: StreamConnection = await openStreamingConnection(voice.voiceId);
 
   const history: HistoryTurn[] = [];
   let currentStage: 1 | 2 | 3 = 1;
@@ -240,45 +254,58 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // creates its own. Relying solely on AbortSignal for this would leave a
   // real race: the old generateExaminerReply() only notices abortSignal at
   // specific await points, so between currentAbort.abort() and the old call
-  // actually throwing, BOTH the old and new ttsHandle would have live
-  // `message` listeners on the same shared ttsConn.ws at once —
-  // synchronous cancel() here removes the old listener immediately instead.
+  // actually throwing, the old ttsHandle could still emit audio/errors —
+  // synchronous cancel() (and closing its own socket, see currentTtsConn
+  // below) here stops it immediately instead of waiting for that.
   let currentTtsHandle: ReturnType<typeof startStreamingSynthesis> | null = null;
+  // The CURRENT utterance's own dedicated ElevenLabs socket — see this
+  // file's header comment for why this is opened fresh per call instead of
+  // being one persistent, session-wide connection. Closed unconditionally
+  // by whichever call opened it (in that call's own finally block) the
+  // moment that utterance is done, canceled, or superseded — so a stray
+  // late message from a finished/canceled utterance has no socket left to
+  // arrive on, let alone a listener to misfire.
+  let currentTtsConn: StreamConnection | null = null;
 
   async function speak(trigger: Parameters<typeof generateExaminerReply>[2]) {
     if (closed) return;
     currentAbort?.abort(); // supersede whatever's in flight
     currentTtsHandle?.cancel();
+    try { currentTtsConn?.close(); } catch {}
     const myId = ++currentGenerationId;
     const abortCtrl = new AbortController();
     currentAbort = abortCtrl;
+    let conn: StreamConnection | null = null;
 
     try {
-      const ttsHandle = startStreamingSynthesis(ttsConn, {
+      conn = await openStreamingConnection(voice.voiceId);
+      if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; } // session closed or superseded while connecting
+      currentTtsConn = conn;
+      const ttsHandle = startStreamingSynthesis(conn, {
         onAudioChunk: (b64) => { if (myId === currentGenerationId) callbacks.onAudioChunk?.(b64); },
         onVoiceError: async (message) => {
           console.error(`[voice] TTS error for session ${examSessionId}:`, message);
           // Real voice-level failure (invalid/unavailable voice) — fall back
-          // to a different voice and reconnect for the REST of the session,
-          // rather than let one bad voice id break the whole exam.
+          // to a different voice for every FUTURE utterance, rather than
+          // let one bad voice id break the whole exam. This utterance's own
+          // connection is already doomed either way; there's nothing to
+          // reconnect here since each call owns (and closes) only its own
+          // socket now.
           //
-          // This whole body is wrapped in try/catch — a REAL, found bug: it
-          // used to run unguarded, called fire-and-forget from
-          // elevenLabsTts.ts's message handler with no .catch() anywhere in
-          // the chain. If EITHER await below threw (e.g.
-          // reassignAfterFailure() throwing "no available voices in pool"
-          // once every voice has failed during a broader outage, or the
-          // reconnect itself failing), it became a genuine unhandled
-          // promise rejection — which crashes the ENTIRE Node process by
-          // default (verified: no process.on("unhandledRejection") handler
-          // existed anywhere in this package), taking down every OTHER
-          // concurrent exam room on the relay, not just this one. Caught
-          // during a full audit, fixed before it could happen live.
+          // Wrapped in try/catch — a REAL, found bug: it used to run
+          // unguarded, called fire-and-forget from elevenLabsTts.ts's
+          // message handler with no .catch() anywhere in the chain. If the
+          // await below threw (e.g. reassignAfterFailure() throwing "no
+          // available voices in pool" once every voice has failed during a
+          // broader outage), it became a genuine unhandled promise
+          // rejection — which crashes the ENTIRE Node process by default
+          // (verified: no process.on("unhandledRejection") handler existed
+          // anywhere in this package), taking down every OTHER concurrent
+          // exam room on the relay, not just this one. Caught during a full
+          // audit, fixed before it could happen live.
           try {
             const fresh = await voiceManager.reassignAfterFailure(examSessionId, EXAMINER_POOL, voice.voiceId);
             voice = fresh;
-            try { ttsConn.close(); } catch {}
-            ttsConn = await openStreamingConnection(fresh.voiceId);
           } catch (e) {
             console.error(`[voice] onVoiceError recovery itself failed for session ${examSessionId} — no further fallback voice available:`, e);
             callbacks.onError?.(e instanceof Error ? e.message : String(e));
@@ -344,7 +371,13 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       console.error(`[voice] speak() failed for session ${examSessionId}:`, e);
       if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
     } finally {
-      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; }
+      // Always close the connection THIS call opened, whether it finished,
+      // errored, or was superseded — it's this call's alone, never shared.
+      if (conn) { try { conn.close(); } catch {} }
+      // Only clear the shared "current" pointers if nothing newer has
+      // already taken over (a superseding call already reset these to its
+      // own objects before this call's awaits ever settled).
+      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
     }
   }
 
@@ -371,10 +404,15 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     }
     currentAbort?.abort();
     currentTtsHandle?.cancel();
+    try { currentTtsConn?.close(); } catch {}
     const myId = ++currentGenerationId;
+    let conn: StreamConnection | null = null;
 
     try {
-      const ttsHandle = startStreamingSynthesis(ttsConn, {
+      conn = await openStreamingConnection(voice.voiceId);
+      if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
+      currentTtsConn = conn;
+      const ttsHandle = startStreamingSynthesis(conn, {
         onAudioChunk: (b64) => { if (myId === currentGenerationId) callbacks.onAudioChunk?.(b64); },
         onVoiceError: async (message) => {
           console.error(`[voice] TTS error (scripted) for session ${examSessionId}:`, message);
@@ -384,8 +422,6 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
           try {
             const fresh = await voiceManager.reassignAfterFailure(examSessionId, EXAMINER_POOL, voice.voiceId);
             voice = fresh;
-            try { ttsConn.close(); } catch {}
-            ttsConn = await openStreamingConnection(fresh.voiceId);
           } catch (e) {
             console.error(`[voice] onVoiceError recovery itself failed for session ${examSessionId} — no further fallback voice available:`, e);
             callbacks.onError?.(e instanceof Error ? e.message : String(e));
@@ -409,7 +445,8 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       console.error(`[voice] speakScriptedText() failed for session ${examSessionId}:`, e);
       if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
     } finally {
-      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; }
+      if (conn) { try { conn.close(); } catch {} }
+      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
     }
   }
 
@@ -427,6 +464,8 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     if (closed) return;
     currentAbort?.abort();
     currentTtsHandle?.cancel();
+    try { currentTtsConn?.close(); } catch {}
+    currentTtsConn = null;
     const myId = ++currentGenerationId;
     currentlyPlayingLibrary = true;
     try {
@@ -638,7 +677,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       currentTtsHandle?.cancel();
       sttA?.close();
       sttB?.close();
-      try { ttsConn.close(); } catch {}
+      try { currentTtsConn?.close(); } catch {}
     },
   };
 }
