@@ -19,9 +19,15 @@ primary_region = "fra"  # pick the region closest to your students; "fra" = Fran
 [http_service]
   internal_port = 8787
   force_https = true
-  auto_stop_machines = false   # keep it warm — cold-starting mid-exam would be bad
+  # Scale-to-zero when idle: the always-on setting this replaced cost ~$32/mo
+  # regardless of real usage. Real measured cold-start (from Fly's own logs
+  # during testing) is ~1.5-3s to a new machine becoming reachable — a small,
+  # one-time delay for whoever connects first after an idle stretch, well
+  # worth it at low-to-moderate exam volume. min_machines_running=0 lets the
+  # single machine fully stop rather than always keeping one instance paid for.
+  auto_stop_machines = true
   auto_start_machines = true
-  min_machines_running = 1
+  min_machines_running = 0
 
 [[vm]]
   cpu_kind = "shared"
