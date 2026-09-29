@@ -210,10 +210,11 @@ const GEMINI_AUDIO_TOKENS_PER_MINUTE = Number(process.env.GEMINI_AUDIO_TOKENS_PE
 // the actual timed exam has room for, per the owner's explicit numbers
 // (2026-09-29). Reuses TEIL1_PRESENTATION_SECONDS (90s — same value) plus
 // SILENCE_THRESHOLD_MS[1]/HANDOFF_ACTIVE_SPEECH_MS/HANDOFF_MAX_GRACE_MS/
-// CREDIT_TICK_MS/HARD_IDLE_CLOSE_MS/TICK_MS directly from the exam's own
-// constants (see tutorTick()) — those are generic timing/cadence knobs with
-// no reason to diverge; only the per-Teil question counts and answer windows
-// below are genuinely tutor-specific.
+// CREDIT_TICK_MS/TICK_MS directly from the exam's own constants (see
+// tutorTick()) — those are generic timing/cadence knobs with no reason to
+// diverge; the per-Teil question counts/answer windows below, and the
+// tutor's own hard-idle-close margin further down, are genuinely
+// tutor-specific.
 const TUTOR_TEIL1_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL1_QUESTIONS ?? 3);
 const TUTOR_TEIL1_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL1_ANSWER_WINDOW_SECONDS ?? 40);
 // Teil 2 is a FIXED question count here (unlike the real exam's time-boxed
@@ -229,6 +230,17 @@ const TUTOR_TEIL2_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEI
 // negotiation, not a formal question.
 const TUTOR_TEIL3_TURNS = Number(process.env.MUENDLICH_TUTOR_TEIL3_TURNS ?? 5);
 const TUTOR_TEIL3_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL3_ANSWER_WINDOW_SECONDS ?? 40);
+// Real bug found via live full-timing testing (2026-09-29): the exam's own
+// HARD_IDLE_CLOSE_MS (45s) was tuned against ITS answer windows (30s — see
+// TEIL1_ANSWER_WINDOW_SECONDS), leaving a comfortable 15s margin. The tutor's
+// windows are 40s (owner spec), which shared the SAME 45s ceiling — only 5s
+// of margin, too tight to survive normal TTS synthesis time for a long Teil
+// 2/3 topic announcement (some muendlich_materials rows embed a full
+// newspaper-article body_text, see MAX_ELEVENLABS_CHARS_PER_SESSION's
+// comment) plus any brief network hiccup, let alone a student who
+// legitimately takes close to the full window to respond. Own, more
+// generous threshold instead of reusing the exam's.
+const TUTOR_HARD_IDLE_CLOSE_MS = Number(process.env.MUENDLICH_TUTOR_HARD_IDLE_MS ?? 90_000);
 
 interface Participant {
   userId: string;
@@ -1223,6 +1235,7 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
   const transitionText = pickTeil1ToTeil2({ teil2Topic: session.teil2Topic }, voiceId);
   await session.live?.speakScriptedText(transitionText);
   if (session.ended) return; // session could have been ended (cap/error) while the transition line was still playing
+  session.lastAudioAt = Date.now(); // reset so this line's own synthesis time (it embeds the full Teil 2 topic text, sometimes a long article — see MAX_ELEVENLABS_CHARS_PER_SESSION's comment) doesn't eat into Q1's idle budget, same reasoning as the session-opening line's identical reset
   session.questionIndex = 1;
   session.phaseStartedAt = Date.now();
   session.advancingStage = false; // only now is it safe for tutorTick() to evaluate Teil 2's timing — see the field's doc comment
@@ -1239,6 +1252,7 @@ async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
   const transitionText = pickTeil2ToTeil3({ teil3Topic: session.teil3Topic }, voiceId);
   await session.live?.speakScriptedText(transitionText);
   if (session.ended) return;
+  session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into turn 1's idle budget — same reasoning as startTutorTeil2's identical reset
   await session.live?.setPartnerStage(session.teil3Topic);
   session.teilStage = 3;
   send(session.ws, { type: "stage", stage: 3 });
@@ -1357,16 +1371,18 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
     });
 }
 
-/** Dispatches to the current Teil's own tick function, plus the shared
+/** Dispatches to the current Teil's own tick function, plus the tutor's own
  * hard-idle-close safety net (merged here rather than a separate timer,
- * since it applies identically regardless of which Teil is active). */
+ * since it applies identically regardless of which Teil is active) — see
+ * TUTOR_HARD_IDLE_CLOSE_MS's own comment for why this is a separate,
+ * more generous threshold than the exam's HARD_IDLE_CLOSE_MS. */
 function tutorTick(session: TutorSession, ctx: TutorContext) {
   if (session.ended) return;
   if (session.advancingStage) return; // a Teil handoff is in flight — see the field's doc comment
   const now = Date.now();
 
   const idleSilenceMs = now - session.lastAudioAt;
-  if (idleSilenceMs > HARD_IDLE_CLOSE_MS) {
+  if (idleSilenceMs > TUTOR_HARD_IDLE_CLOSE_MS) {
     console.log(`[tutor ${session.sessionId}] hard idle-close: ${idleSilenceMs}ms of silence`);
     send(session.ws, { type: "terminated", reason: "idle_timeout" });
     endTutorSession(session, "idle_timeout");
