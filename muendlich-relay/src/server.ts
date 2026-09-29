@@ -727,7 +727,27 @@ async function startRoomIfReady(room: RoomSession) {
       p_room_id: room.roomId, p_user_a: pa.userId, p_user_b: pb.userId, p_minutes: 1,
     });
     if (error) {
-      console.log(`[room ${room.roomId}] credit deduction failed, hard-stopping:`, error.message);
+      // Real bug found via live testing (2026-09-29, discovered while
+      // debugging the same pattern on the Voice Tutor's own credit tick): a
+      // plain transient RPC failure (confirmed live: "TypeError: fetch
+      // failed" — a network/Supabase blip, nothing to do with either
+      // candidate's minutes) used to hard-stop the ENTIRE live exam for
+      // BOTH real students, mislabeled as "window_expired" (that label was
+      // really just the ELSE branch for "anything that isn't INSUFFICIENT",
+      // not a real signal — deduct_muendlich_minutes_dual's only genuine
+      // exhaustion exceptions are NO_ACTIVE_SUBSCRIPTION_A/B and
+      // INSUFFICIENT_MINUTES_A/B, confirmed against its own migration).
+      // Over a ~16+ minute exam with a tick every minute, that's a real,
+      // repeated chance for one network hiccup to end a paying session
+      // outright. Only one of those four genuine signals is fatal; anything
+      // else (a validation bug that should never fire, or a transient
+      // fetch/network failure) just skips this tick and retries next time.
+      const isGenuineExhaustion = /INSUFFICIENT_MINUTES_|NO_ACTIVE_SUBSCRIPTION_/.test(error.message);
+      if (!isGenuineExhaustion) {
+        console.warn(`[room ${room.roomId}] credit deduction tick failed (not a real minutes/subscription signal — retrying next tick):`, error.message);
+        return;
+      }
+      console.log(`[room ${room.roomId}] credit deduction genuinely exhausted, hard-stopping:`, error.message);
       broadcast(room, { type: "terminated", reason: error.message.includes("INSUFFICIENT") ? "insufficient_minutes" : "window_expired" });
       endRoom(room, "expired_mid_exam");
       return;
@@ -1491,7 +1511,22 @@ async function startTutorSession(
     if (session.voiceBackendErrored || session.ended) return;
     const { error } = await asUser.rpc("deduct_voice_tutor_seconds", { p_seconds: 60, p_level: level });
     if (error) {
-      console.log(`[tutor ${session.sessionId}] daily cap deduction failed, hard-stopping:`, error.message);
+      // Real bug found via live testing (2026-09-29): this used to treat ANY
+      // RPC failure as "the student hit their daily cap" and end the session
+      // — but deduct_voice_tutor_seconds() can ALSO fail for reasons that
+      // have nothing to do with the cap (a transient network/Supabase blip
+      // surfaces here as a plain "TypeError: fetch failed", confirmed live).
+      // Ending the session and telling the student they're out of practice
+      // time for a one-off network hiccup is both wrong and needlessly
+      // destructive — same "don't kill the session over a transient error"
+      // principle already applied to the ElevenLabs voice path. Only the
+      // RPC's own genuine 'DAILY_CAP_EXCEEDED' exception is treated as fatal;
+      // anything else just skips this tick's deduction and retries next time.
+      if (!error.message?.includes("DAILY_CAP_EXCEEDED")) {
+        console.warn(`[tutor ${session.sessionId}] daily cap deduction tick failed (not an actual cap-exceeded — retrying next tick):`, error.message);
+        return;
+      }
+      console.log(`[tutor ${session.sessionId}] daily cap genuinely exceeded, hard-stopping:`, error.message);
       send(ws, { type: "terminated", reason: "daily_cap_exceeded" });
       endTutorSession(session, "daily_cap_exceeded");
       return;

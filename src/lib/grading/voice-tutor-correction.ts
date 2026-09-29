@@ -23,9 +23,9 @@ const CORRECTION_CATEGORIES = ["Grammatik", "Wortstellung", "Kasus", "Verbformen
 export type CorrectionCategory = (typeof CORRECTION_CATEGORIES)[number];
 
 function systemPrompt(level: "B1" | "B2"): string {
-  return `Du analysierst das Transkript eines lockeren Sprechtrainings (KEINE Prüfung) zwischen einem Deutschlernenden auf Niveau ${level} und einem KI-Sprachpartner. Deine Aufgabe ist ausschließlich sprachliche Korrektur — keine Bewertung, keine Punktzahl, kein Urteil ob der Student "bestanden" hat.
+  return `Du analysierst das Transkript eines lockeren Sprechtrainings (KEINE Prüfung) zwischen einem Deutschlernenden auf Niveau ${level} und einer KI (Teil 1/2: "examiner", Teil 3: "partner"). Deine Aufgabe ist ausschließlich sprachliche Korrektur — keine Bewertung, keine Punktzahl, kein Urteil ob der Student "bestanden" hat.
 
-Analysiere NUR die Redebeiträge des Studenten ("student"), nicht die des Sprachpartners ("tutor") — diese sind nur Kontext.
+Analysiere NUR die Redebeiträge des Studenten ("student"), nicht die der KI ("examiner" oder "partner") — diese sind nur Kontext.
 
 Identifiziere echte, konkrete Fehler und ordne jeden Fehler GENAU EINER dieser Kategorien zu: Grammatik, Wortstellung, Kasus, Verbformen, Wortschatz, Redemittel. Wähle die präziseste passende Kategorie (z. B. ein falscher Fall nach einer Präposition ist "Kasus", nicht allgemein "Grammatik"; ein falsch platziertes Verb im Nebensatz ist "Wortstellung").
 
@@ -113,7 +113,7 @@ function validate(raw: any): Omit<VoiceTutorCorrectionResult, "model"> {
 }
 
 /**
- * @param transcriptText Plain-text transcript, speaker-labeled ("tutor: ..." / "student: ...").
+ * @param transcriptText Plain-text transcript, speaker-labeled ("examiner"/"partner"/"student": ...).
  */
 export async function generateVoiceTutorCorrection(transcriptText: string, level: "B1" | "B2" = "B2"): Promise<VoiceTutorCorrectionResult> {
   const userMessage = wrapUntrustedText("TRANSKRIPT", transcriptText);

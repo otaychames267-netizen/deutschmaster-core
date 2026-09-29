@@ -258,8 +258,18 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
         callbacks.onOutputTranscript?.(reply);
       }
     } catch (e) {
-      console.error(`[tutor voice] speak() failed for session ${sessionId}:`, e);
-      if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
+      // Real bug found via live testing (2026-09-29): a post-connection TTS
+      // failure here — including the new synthesis-stall timeout added to
+      // elevenLabsTts.ts earlier the same day — used to call callbacks.onError,
+      // which server.ts wires to a FATAL path that ends the entire session.
+      // That meant a single transient ElevenLabs hiccup killed an otherwise-
+      // fine practice session outright, wasting the student's daily-cap
+      // minutes for a network blip. Treat it the same as the connection-open
+      // failure branch above: recoverable, this one turn's audio is skipped,
+      // the session continues. Reserve escalation for a genuinely
+      // unrecoverable case (onVoiceError's own recovery attempt failing,
+      // handled separately below) rather than every single-utterance error.
+      console.error(`[tutor voice] speak() failed for session ${sessionId}, skipping this utterance:`, e);
     } finally {
       if (conn) { try { conn.close(); } catch {} }
       if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
@@ -340,8 +350,17 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
         callbacks.onOutputTranscript?.(text);
       }
     } catch (e) {
-      console.error(`[tutor voice] speakScriptedText() failed for session ${sessionId}:`, e);
-      if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
+      // Same fix as speak()'s identical catch block, same reasoning — a
+      // post-connection TTS failure (including a synthesis-stall timeout)
+      // is a recoverable per-utterance blip, not a reason to end the whole
+      // session. We already know the exact text here, so it's still
+      // recorded to the transcript (audio just didn't make it this time) —
+      // same convention as the connection-failure branch above.
+      console.error(`[tutor voice] speakScriptedText() failed for session ${sessionId}, skipping this utterance's audio:`, e);
+      if (myId === currentGenerationId) {
+        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text });
+        callbacks.onOutputTranscript?.(text);
+      }
     } finally {
       if (conn) { try { conn.close(); } catch {} }
       if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
