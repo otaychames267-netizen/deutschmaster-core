@@ -24,9 +24,10 @@ export const Route = createFileRoute("/_authenticated/$level/muendlich/voice-tut
  * the 2-candidate exam's own prep room already uses, per the owner's
  * explicit design (2026-09-29): Teil 1/2/3 topic selection should feel
  * identical to the real exam, just for one student. This build's live
- * conversation drives Teil 1 straight into Teil 2 (see the session route
- * and server.ts's tutorTickTeil1 handoff) — both topics are required to
- * start. Teil 3's choice is stored for later, once that Teil exists. */
+ * conversation runs Teil 1 -> Teil 2 -> Teil 3 straight through in one
+ * session (see the session route and server.ts's tutorTick* handoffs) —
+ * all three topics are required to start. In Teil 3 the same AI switches
+ * from examiner to a "study partner" persona for a joint-planning task. */
 function VoiceTutorPicker() {
   const activeLevel = useActiveLevel();
   const { isAdmin, loading, roleLoading, user } = useAuth();
@@ -77,7 +78,7 @@ function VoiceTutorPicker() {
   }
 
   const levelSeg = activeLevel === "TELC_B1" ? "b1" : "b2";
-  const readyToStart = !!picked[1] && !!picked[2]; // Teil 3's choice is stored for later, but only Teil 1+2 gate starting today's build (the session flows Teil 1 -> Teil 2 automatically)
+  const readyToStart = !!picked[1] && !!picked[2] && !!picked[3];
 
   async function handleStart() {
     if (!picked[1] || !user) return;
@@ -104,7 +105,7 @@ function VoiceTutorPicker() {
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/10 text-rose-500"><Mic className="h-5 w-5" /></div>
         <div>
           <h1 className="text-lg font-bold text-foreground">KI-Sprachtrainer</h1>
-          <p className="text-xs text-muted-foreground">Wähle deine Themen wie in der echten Prüfung — übe dann Teil 1 und Teil 2 mit deiner KI-Prüferin, direkt nacheinander.</p>
+          <p className="text-xs text-muted-foreground">Wähle deine Themen wie in der echten Prüfung — übe dann Teil 1, 2 und 3 mit deiner KI-Prüferin, direkt nacheinander.</p>
         </div>
       </div>
 
@@ -119,7 +120,7 @@ function VoiceTutorPicker() {
       </section>
 
       <section className="space-y-2">
-        <h2 className="text-sm font-bold text-foreground">Teil 3 — Planung <span className="font-normal text-muted-foreground">(bald verfügbar)</span></h2>
+        <h2 className="text-sm font-bold text-foreground">Teil 3 — Gemeinsam planen</h2>
         <TopicSelector teil={3} options={materials[3]} selected={picked[3]} onPick={(title) => setPicked((p) => ({ ...p, 3: title }))} />
       </section>
 

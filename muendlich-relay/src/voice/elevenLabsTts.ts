@@ -137,27 +137,65 @@ export interface StreamingSynthesisHandle {
   done: Promise<void>;
 }
 
+// Real bug found via live testing (the AI Voice Tutor's Teil 2->3 handoff):
+// once the CONNECTION is open, `done` had NO timeout of its own — if
+// ElevenLabs ever goes silent mid-stream (no further "audio" chunk, no
+// "isFinal") after we've sent it text, the promise never settles. Every
+// caller of a scripted transition (e.g. server.ts's startTutorTeil2/
+// startTutorTeil3) awaits this promise before advancing its own state
+// machine, so a single stalled utterance silently froze the ENTIRE session
+// forever — no error, no timeout, nothing — exactly the same class of bug
+// CONNECT_TIMEOUT_MS above fixed for the handshake phase, just one step
+// later in the same call. Armed only once we've actually sent ElevenLabs
+// something (on the first appendText call and refreshed on every one after,
+// and refreshed again on every inbound message) so a slow-to-generate reply
+// upstream (e.g. Claude still thinking, before any appendText call) can
+// never trip it — only real silence from ElevenLabs AFTER we've given it
+// text does.
+const SYNTHESIS_IDLE_TIMEOUT_MS = 15_000;
+
 export function startStreamingSynthesis(conn: StreamConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
   let gotFirstAudio = false;
+  let settled = false;
+  let idleTimer: NodeJS.Timeout | null = null;
   let resolveDone: () => void;
   let rejectDone: (e: unknown) => void;
   const done = new Promise<void>((res, rej) => { resolveDone = res; rejectDone = rej; });
 
+  function armIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      conn.ws.off("message", onMessage);
+      rejectDone(new Error(`ElevenLabs streaming synthesis stalled — no response ${SYNTHESIS_IDLE_TIMEOUT_MS}ms after sending text`));
+    }, SYNTHESIS_IDLE_TIMEOUT_MS);
+  }
+  function clearIdleTimer() {
+    if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+  }
+
   const onMessage = (raw: WebSocket.RawData) => {
+    if (settled) return;
     let msg: any;
     try { msg = JSON.parse(raw.toString()); } catch { return; }
+    armIdleTimer(); // any server activity resets the stall clock
     if (msg.audio) {
       if (!gotFirstAudio) { gotFirstAudio = true; callbacks.onFirstAudio?.(Date.now()); }
       callbacks.onAudioChunk?.(msg.audio);
     }
     if (msg.error || msg.message) {
       const text = String(msg.message ?? msg.error);
+      settled = true;
+      clearIdleTimer();
       callbacks.onVoiceError?.(text);
       rejectDone(new Error(text));
       conn.ws.off("message", onMessage);
       return;
     }
     if (msg.isFinal || msg.is_final) {
+      settled = true;
+      clearIdleTimer();
       callbacks.onDone?.(Date.now());
       resolveDone();
       conn.ws.off("message", onMessage);
@@ -168,6 +206,7 @@ export function startStreamingSynthesis(conn: StreamConnection, callbacks: Strea
   return {
     appendText(text: string, isFinal: boolean) {
       if (conn.ws.readyState !== WebSocket.OPEN) return;
+      armIdleTimer(); // we just sent ElevenLabs something to synthesize — arm/refresh the stall clock waiting for its response
       conn.ws.send(JSON.stringify({ text: text + (isFinal ? "" : " ") }));
       if (isFinal) conn.ws.send(JSON.stringify({ text: "" }));
     },
@@ -176,6 +215,9 @@ export function startStreamingSynthesis(conn: StreamConnection, callbacks: Strea
       // reasoning as the dialogue client below: flush/end-of-stream is the
       // safe stop signal, actual audio playback interruption is the
       // caller's responsibility (already handled in muendlichVoiceSession.ts).
+      if (settled) return;
+      settled = true;
+      clearIdleTimer();
       if (conn.ws.readyState === WebSocket.OPEN) conn.ws.send(JSON.stringify({ text: "" }));
       conn.ws.off("message", onMessage);
       resolveDone();
@@ -223,28 +265,51 @@ export function openDialogueConnection(voiceId: string): Promise<DialogueConnect
   });
 }
 
+// Same stalled-synthesis guard as startStreamingSynthesis above, and for the
+// identical reason — see that function's comment.
 export function startDialogueSynthesis(conn: DialogueConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
   let firstChunkSent = true;
   let gotFirstAudio = false;
+  let settled = false;
+  let idleTimer: NodeJS.Timeout | null = null;
   let resolveDone: () => void;
   let rejectDone: (e: unknown) => void;
   const done = new Promise<void>((res, rej) => { resolveDone = res; rejectDone = rej; });
 
+  function armIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      conn.ws.off("message", onMessage);
+      rejectDone(new Error(`ElevenLabs dialogue synthesis stalled — no response ${SYNTHESIS_IDLE_TIMEOUT_MS}ms after sending text`));
+    }, SYNTHESIS_IDLE_TIMEOUT_MS);
+  }
+  function clearIdleTimer() {
+    if (idleTimer) { clearTimeout(idleTimer); idleTimer = null; }
+  }
+
   const onMessage = (raw: WebSocket.RawData) => {
+    if (settled) return;
     let msg: any;
     try { msg = JSON.parse(raw.toString()); } catch { return; }
+    armIdleTimer();
     if (msg.audio) {
       if (!gotFirstAudio) { gotFirstAudio = true; callbacks.onFirstAudio?.(Date.now()); }
       callbacks.onAudioChunk?.(msg.audio);
     }
     if (msg.error || msg.message) {
       const text = String(msg.message ?? msg.error);
+      settled = true;
+      clearIdleTimer();
       callbacks.onVoiceError?.(text);
       rejectDone(new Error(text));
       conn.ws.off("message", onMessage);
       return;
     }
     if (msg.is_final) {
+      settled = true;
+      clearIdleTimer();
       callbacks.onDone?.(Date.now());
       resolveDone();
       conn.ws.off("message", onMessage);
@@ -255,11 +320,15 @@ export function startDialogueSynthesis(conn: DialogueConnection, callbacks: Stre
   return {
     appendText(text: string, isFinal: boolean) {
       if (conn.ws.readyState !== WebSocket.OPEN) return;
+      armIdleTimer();
       conn.ws.send(JSON.stringify({ inputs: [{ text, voice_id: conn.voiceId, new_turn: firstChunkSent }] }));
       firstChunkSent = false;
       if (isFinal) conn.ws.send(JSON.stringify({ flush: true }));
     },
     cancel() {
+      if (settled) return;
+      settled = true;
+      clearIdleTimer();
       if (conn.ws.readyState === WebSocket.OPEN) conn.ws.send(JSON.stringify({ flush: true }));
       conn.ws.off("message", onMessage);
       resolveDone();
