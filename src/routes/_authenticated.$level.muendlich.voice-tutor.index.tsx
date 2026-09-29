@@ -14,33 +14,43 @@ export const Route = createFileRoute("/_authenticated/$level/muendlich/voice-tut
   component: VoiceTutorPicker,
 });
 
-interface VoiceTutorScenario {
-  id: string;
-  slug: string;
-  title: string;
-  description: string | null;
-}
-
 /** B2-only for now — a check deliberately SEPARATE from useHasPlanAccess
  * (module/plan access) and from LevelLayout (which only blocks cross-level
  * URL access, not feature-specific restrictions). See features.ts's
- * VOICE_TUTOR_ENABLED doc comment. */
+ * VOICE_TUTOR_ENABLED doc comment.
+ *
+ * Topic selection reuses muendlich_materials directly (teil, category=
+ * 'themen', level) — the SAME content and the SAME TopicSelector component
+ * the 2-candidate exam's own prep room already uses, per the owner's
+ * explicit design (2026-09-29): Teil 1/2/3 topic selection should feel
+ * identical to the real exam, just for one student. This build's live
+ * conversation only drives Teil 1 (see the session route) — Teil 2/3
+ * choices are locked in and stored now so no re-selection is needed once
+ * those Teile exist. */
 function VoiceTutorPicker() {
   const activeLevel = useActiveLevel();
-  const { isAdmin, loading, roleLoading } = useAuth();
+  const { isAdmin, loading, roleLoading, user } = useAuth();
   const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich");
   const navigate = useNavigate();
 
-  const [scenarios, setScenarios] = useState<VoiceTutorScenario[] | null>(null);
+  const [materials, setMaterials] = useState<Record<1 | 2 | 3, TopicMaterial[]> | null>(null);
+  const [picked, setPicked] = useState<{ 1?: string; 2?: string; 3?: string }>({});
+  const [starting, setStarting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!activeLevel) return;
-    db.from("voice_tutor_scenarios")
-      .select("id, slug, title, description")
-      .eq("level", activeLevel)
-      .eq("is_active", true)
-      .order("sort_order")
-      .then(({ data }: { data: VoiceTutorScenario[] | null }) => setScenarios(data ?? []));
+    (async () => {
+      const out: Record<1 | 2 | 3, TopicMaterial[]> = { 1: [], 2: [], 3: [] };
+      for (const teil of [1, 2, 3] as const) {
+        const { data } = await db.from("muendlich_materials")
+          .select("id, title, body_text, key_arguments, difficulty_level, theme_category")
+          .eq("teil", teil).eq("category", "themen").eq("level", activeLevel)
+          .order(teil === 1 ? "sort_order" : "position");
+        out[teil] = data ?? [];
+      }
+      setMaterials(out);
+    })();
   }, [activeLevel]);
 
   if (loading || roleLoading || accessLoading) return null;
@@ -58,7 +68,7 @@ function VoiceTutorPicker() {
     );
   }
 
-  if (!scenarios) {
+  if (!materials || !user) {
     return (
       <div className="flex justify-center p-10">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -66,28 +76,66 @@ function VoiceTutorPicker() {
     );
   }
 
-  const topicOptions: TopicMaterial[] = scenarios.map((s) => ({
-    id: s.id, title: s.title, body_text: s.description, key_arguments: null, difficulty_level: null, theme_category: null,
-  }));
+  const levelSeg = activeLevel === "TELC_B1" ? "b1" : "b2";
+  const readyToStart = !!picked[1]; // Teil 2/3 selections are stored for later, but only Teil 1 gates starting today's build
+
+  async function handleStart() {
+    if (!picked[1] || !user) return;
+    setStarting(true);
+    setError(null);
+    const findId = (teil: 1 | 2 | 3, title: string | undefined) => materials![teil].find((m) => m.title === title)?.id ?? null;
+    const { data, error: insertError } = await db.from("voice_tutor_sessions").insert({
+      user_id: user.id, level: activeLevel,
+      teil1_material_id: findId(1, picked[1]),
+      teil2_material_id: findId(2, picked[2]),
+      teil3_material_id: findId(3, picked[3]),
+    }).select("id").single();
+    if (insertError || !data) {
+      setError("Die Sitzung konnte nicht gestartet werden. Bitte versuche es erneut.");
+      setStarting(false);
+      return;
+    }
+    navigate({ to: "/$level/muendlich/voice-tutor/$sessionId", params: { level: levelSeg, sessionId: data.id } });
+  }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6 p-4">
+    <div className="mx-auto max-w-2xl space-y-6 p-4 pb-28">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/10 text-rose-500"><Mic className="h-5 w-5" /></div>
         <div>
           <h1 className="text-lg font-bold text-foreground">KI-Sprachtrainer</h1>
-          <p className="text-xs text-muted-foreground">Wähle ein Übungsthema für ein freies Gespräch mit deinem KI-Sprachpartner.</p>
+          <p className="text-xs text-muted-foreground">Wähle deine Themen wie in der echten Prüfung — übe dann Teil 1 mit deiner KI-Prüferin.</p>
         </div>
       </div>
 
-      <TopicSelector
-        teil={1}
-        options={topicOptions}
-        onPick={(title) => {
-          const picked = scenarios.find((s) => s.title === title);
-          if (picked) navigate({ to: "/$level/muendlich/voice-tutor/$scenarioId", params: { level: activeLevel === "TELC_B1" ? "b1" : "b2", scenarioId: picked.id } });
-        }}
-      />
+      <section className="space-y-2">
+        <h2 className="text-sm font-bold text-foreground">Teil 1 — Präsentation</h2>
+        <TopicSelector teil={1} options={materials[1]} selected={picked[1]} onPick={(title) => setPicked((p) => ({ ...p, 1: title }))} />
+      </section>
+
+      <section className="space-y-2">
+        <h2 className="text-sm font-bold text-foreground">Teil 2 — Gespräch <span className="font-normal text-muted-foreground">(bald verfügbar)</span></h2>
+        <TopicSelector teil={2} options={materials[2]} selected={picked[2]} onPick={(title) => setPicked((p) => ({ ...p, 2: title }))} />
+      </section>
+
+      <section className="space-y-2">
+        <h2 className="text-sm font-bold text-foreground">Teil 3 — Planung <span className="font-normal text-muted-foreground">(bald verfügbar)</span></h2>
+        <TopicSelector teil={3} options={materials[3]} selected={picked[3]} onPick={(title) => setPicked((p) => ({ ...p, 3: title }))} />
+      </section>
+
+      {error && <p className="text-center text-sm text-destructive">{error}</p>}
+
+      <div className="fixed inset-x-0 bottom-0 border-t border-border bg-background p-4">
+        <button
+          type="button"
+          onClick={handleStart}
+          disabled={!readyToStart || starting}
+          className="mx-auto flex w-full max-w-2xl items-center justify-center gap-2 rounded-xl bg-rose-500 px-5 py-3 text-sm font-bold text-white hover:bg-rose-600 disabled:opacity-50"
+        >
+          {starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mic className="h-4 w-4" />}
+          Teil 1 starten
+        </button>
+      </div>
     </div>
   );
 }

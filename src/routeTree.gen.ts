@@ -116,7 +116,7 @@ import { Route as AuthenticatedPracticeLevelModuleTeilRouteImport } from './rout
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil3RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-3'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil2RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-2'
 import { Route as AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport } from './routes/_authenticated.$level.muendlich.vorbereitung.teil-1'
-import { Route as AuthenticatedLevelMuendlichVoiceTutorScenarioIdRouteImport } from './routes/_authenticated.$level.muendlich.voice-tutor.$scenarioId'
+import { Route as AuthenticatedLevelMuendlichVoiceTutorSessionIdRouteImport } from './routes/_authenticated.$level.muendlich.voice-tutor.$sessionId'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-2'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-1'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.service-karten'
@@ -727,10 +727,10 @@ const AuthenticatedLevelMuendlichVorbereitungTeil1Route =
     path: '/teil-1',
     getParentRoute: () => AuthenticatedLevelMuendlichVorbereitungRoute,
   } as any)
-const AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute =
-  AuthenticatedLevelMuendlichVoiceTutorScenarioIdRouteImport.update({
-    id: '/voice-tutor/$scenarioId',
-    path: '/voice-tutor/$scenarioId',
+const AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute =
+  AuthenticatedLevelMuendlichVoiceTutorSessionIdRouteImport.update({
+    id: '/voice-tutor/$sessionId',
+    path: '/voice-tutor/$sessionId',
     getParentRoute: () => AuthenticatedLevelMuendlichRoute,
   } as any)
 const AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil2Route =
@@ -924,7 +924,7 @@ export interface FileRoutesByFullPath {
   '/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/d17/$orderId/': typeof AuthenticatedD17OrderIdIndexRoute
-  '/$level/muendlich/voice-tutor/$scenarioId': typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
+  '/$level/muendlich/voice-tutor/$sessionId': typeof AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
@@ -1040,7 +1040,7 @@ export interface FileRoutesByTo {
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichIndexRoute
   '/$level/schriftlich': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/d17/$orderId': typeof AuthenticatedD17OrderIdIndexRoute
-  '/$level/muendlich/voice-tutor/$scenarioId': typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
+  '/$level/muendlich/voice-tutor/$sessionId': typeof AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute
   '/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
@@ -1164,7 +1164,7 @@ export interface FileRoutesById {
   '/_authenticated/$level/muendlich/': typeof AuthenticatedLevelMuendlichIndexRoute
   '/_authenticated/$level/schriftlich/': typeof AuthenticatedLevelSchriftlichIndexRoute
   '/_authenticated/d17/$orderId/': typeof AuthenticatedD17OrderIdIndexRoute
-  '/_authenticated/$level/muendlich/voice-tutor/$scenarioId': typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
+  '/_authenticated/$level/muendlich/voice-tutor/$sessionId': typeof AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute
   '/_authenticated/$level/muendlich/vorbereitung/teil-1': typeof AuthenticatedLevelMuendlichVorbereitungTeil1Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-2': typeof AuthenticatedLevelMuendlichVorbereitungTeil2Route
   '/_authenticated/$level/muendlich/vorbereitung/teil-3': typeof AuthenticatedLevelMuendlichVorbereitungTeil3Route
@@ -1288,7 +1288,7 @@ export interface FileRouteTypes {
     | '/$level/muendlich/'
     | '/$level/schriftlich/'
     | '/d17/$orderId/'
-    | '/$level/muendlich/voice-tutor/$scenarioId'
+    | '/$level/muendlich/voice-tutor/$sessionId'
     | '/$level/muendlich/vorbereitung/teil-1'
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
@@ -1404,7 +1404,7 @@ export interface FileRouteTypes {
     | '/$level/muendlich'
     | '/$level/schriftlich'
     | '/d17/$orderId'
-    | '/$level/muendlich/voice-tutor/$scenarioId'
+    | '/$level/muendlich/voice-tutor/$sessionId'
     | '/$level/muendlich/vorbereitung/teil-1'
     | '/$level/muendlich/vorbereitung/teil-2'
     | '/$level/muendlich/vorbereitung/teil-3'
@@ -1527,7 +1527,7 @@ export interface FileRouteTypes {
     | '/_authenticated/$level/muendlich/'
     | '/_authenticated/$level/schriftlich/'
     | '/_authenticated/d17/$orderId/'
-    | '/_authenticated/$level/muendlich/voice-tutor/$scenarioId'
+    | '/_authenticated/$level/muendlich/voice-tutor/$sessionId'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-1'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-2'
     | '/_authenticated/$level/muendlich/vorbereitung/teil-3'
@@ -2326,11 +2326,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelMuendlichVorbereitungTeil1RouteImport
       parentRoute: typeof AuthenticatedLevelMuendlichVorbereitungRoute
     }
-    '/_authenticated/$level/muendlich/voice-tutor/$scenarioId': {
-      id: '/_authenticated/$level/muendlich/voice-tutor/$scenarioId'
-      path: '/voice-tutor/$scenarioId'
-      fullPath: '/$level/muendlich/voice-tutor/$scenarioId'
-      preLoaderRoute: typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRouteImport
+    '/_authenticated/$level/muendlich/voice-tutor/$sessionId': {
+      id: '/_authenticated/$level/muendlich/voice-tutor/$sessionId'
+      path: '/voice-tutor/$sessionId'
+      fullPath: '/$level/muendlich/voice-tutor/$sessionId'
+      preLoaderRoute: typeof AuthenticatedLevelMuendlichVoiceTutorSessionIdRouteImport
       parentRoute: typeof AuthenticatedLevelMuendlichRoute
     }
     '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-2': {
@@ -2455,7 +2455,7 @@ interface AuthenticatedLevelMuendlichRouteChildren {
   AuthenticatedLevelMuendlichPruefungRoute: typeof AuthenticatedLevelMuendlichPruefungRoute
   AuthenticatedLevelMuendlichVorbereitungRoute: typeof AuthenticatedLevelMuendlichVorbereitungRouteWithChildren
   AuthenticatedLevelMuendlichIndexRoute: typeof AuthenticatedLevelMuendlichIndexRoute
-  AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute: typeof AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute
+  AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute: typeof AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute
   AuthenticatedLevelMuendlichVoiceTutorIndexRoute: typeof AuthenticatedLevelMuendlichVoiceTutorIndexRoute
 }
 
@@ -2467,8 +2467,8 @@ const AuthenticatedLevelMuendlichRouteChildren: AuthenticatedLevelMuendlichRoute
       AuthenticatedLevelMuendlichVorbereitungRouteWithChildren,
     AuthenticatedLevelMuendlichIndexRoute:
       AuthenticatedLevelMuendlichIndexRoute,
-    AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute:
-      AuthenticatedLevelMuendlichVoiceTutorScenarioIdRoute,
+    AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute:
+      AuthenticatedLevelMuendlichVoiceTutorSessionIdRoute,
     AuthenticatedLevelMuendlichVoiceTutorIndexRoute:
       AuthenticatedLevelMuendlichVoiceTutorIndexRoute,
   }

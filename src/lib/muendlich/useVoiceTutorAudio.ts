@@ -2,28 +2,31 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { describeMicError } from "./micError";
 
 /**
- * useVoiceTutorAudio — forked from useRelayAudio.ts for the 1:1 AI Voice
- * Tutor (free-conversation speaking practice), which talks to the relay's
- * separate `/tutor/:scenarioId` path instead of the 2-candidate exam's
+ * useVoiceTutorAudio — forked from useRelayAudio.ts for the AI Voice
+ * Tutor's Teil 1 (structured examiner practice), which talks to the relay's
+ * separate `/tutor/:sessionId` path instead of the 2-candidate exam's
  * `/room/:roomId`. All mic-capture/PCM16-resample/gapless-playback logic
  * below is unchanged from the original — that part is genuinely generic
  * audio I/O with no room/participant coupling. What's different:
- *   - WS URL targets `/tutor/${scenarioId}` instead of `/room/${roomId}`.
- *   - TranscriptLine.speaker is "tutor"|"student" instead of "examiner"|"A"|"B".
- *   - No stage/intermission/repeat concepts (a free-flowing 1:1 chat has
- *     none of the exam's Teil structure) — dropped entirely rather than
- *     carried over as always-null fields.
- *   - No setMySlot/ducking-by-partner heuristic (there is no "partner" in a
- *     1:1 session) — the AI-speaking ducking (attenuate mic while the tutor
- *     is talking) is kept, since that's a real, still-relevant echo guard.
- *   - New `secondsRemaining` field, populated from the relay's `cap_status`
- *     message (the exam has no equivalent — it hard-stops silently instead;
- *     for money-metered practice time a visible, server-authoritative
- *     countdown is better UX, see server.ts's protocol doc-comment).
+ *   - WS URL targets `/tutor/${sessionId}` (a real voice_tutor_sessions row
+ *     the CALLER already created, topics locked in) instead of `/room/${roomId}`.
+ *   - TranscriptLine.speaker is "examiner"|"student" — Teil 2/3's separate
+ *     "partner" persona is a later pass, once those Teile exist.
+ *   - No stage/intermission/repeat concepts (Teil 1 here is fully
+ *     server-driven timing, the client has nothing to manage) — dropped
+ *     entirely rather than carried over as always-null fields.
+ *   - No setMySlot/ducking-by-partner heuristic (there is no "partner" in
+ *     Teil 1) — the AI-speaking ducking (attenuate mic while the examiner is
+ *     talking) is kept, since that's a real, still-relevant echo guard.
+ *   - `secondsRemaining` from the relay's `cap_status` message (the exam has
+ *     no equivalent — it hard-stops silently instead; for money-metered
+ *     practice time a visible, server-authoritative countdown is better UX).
+ *   - `teil1Complete`, set on the relay's `teil1_complete` message — this
+ *     build ends the session there, so the UI needs to know explicitly.
  */
 
 export interface TutorTranscriptLine {
-  speaker: "tutor" | "student";
+  speaker: "examiner" | "student";
   text: string;
   at: number;
 }
@@ -41,6 +44,7 @@ export interface VoiceTutorAudioState {
   lastNudgeAt: number | null;
   latencyMs: number | null;
   transcript: TutorTranscriptLine[];
+  teil1Complete: boolean;
   terminated: TutorTerminatedReason | null;
   error: string | null;
 }
@@ -94,10 +98,10 @@ function resample(input: Float32Array, fromRate: number, toRate: number): Float3
 const initialState: VoiceTutorAudioState = {
   connected: false, ready: false, sessionId: null, secondsRemaining: null,
   micLevel: 0, aiSpeaking: false, aiThinking: false, lastNudgeAt: null,
-  latencyMs: null, transcript: [], terminated: null, error: null,
+  latencyMs: null, transcript: [], teil1Complete: false, terminated: null, error: null,
 };
 
-export function useVoiceTutorAudio(relayUrl: string | null, scenarioId: string | null, accessToken: string | null) {
+export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | null, accessToken: string | null) {
   const [state, setState] = useState<VoiceTutorAudioState>(initialState);
   const [reconnectNonce, setReconnectNonce] = useState(0);
 
@@ -133,7 +137,7 @@ export function useVoiceTutorAudio(relayUrl: string | null, scenarioId: string |
   const setMicMuted = useCallback((muted: boolean) => { micMutedRef.current = muted; setMicMutedState(muted); }, []);
 
   useEffect(() => {
-    if (!relayUrl || !scenarioId || !accessToken) return;
+    if (!relayUrl || !sessionId || !accessToken) return;
     let cancelled = false;
 
     (async () => {
@@ -148,7 +152,7 @@ export function useVoiceTutorAudio(relayUrl: string | null, scenarioId: string |
         audioCtxRef.current = audioCtx;
         nextPlayTimeRef.current = audioCtx.currentTime;
 
-        const ws = new WebSocket(`${relayUrl}/tutor/${scenarioId}?token=${encodeURIComponent(accessToken)}`);
+        const ws = new WebSocket(`${relayUrl}/tutor/${sessionId}?token=${encodeURIComponent(accessToken)}`);
         wsRef.current = ws;
 
         ws.onopen = () => {
@@ -178,7 +182,8 @@ export function useVoiceTutorAudio(relayUrl: string | null, scenarioId: string |
               duckRef.current.aiSpeaking = false;
               setState((s) => ({ ...s, aiSpeaking: false }));
             }, 600);
-          } else if (msg.type === "terminated") setState((s) => ({ ...s, terminated: msg.reason }));
+          } else if (msg.type === "teil1_complete") setState((s) => ({ ...s, teil1Complete: true }));
+          else if (msg.type === "terminated") setState((s) => ({ ...s, terminated: msg.reason }));
         };
 
         const source = audioCtx.createMediaStreamSource(stream);
@@ -232,7 +237,7 @@ export function useVoiceTutorAudio(relayUrl: string | null, scenarioId: string |
       if (aiSpeakingTimeoutRef.current) clearTimeout(aiSpeakingTimeoutRef.current);
       stop();
     };
-  }, [relayUrl, scenarioId, accessToken, stop, reconnectNonce]);
+  }, [relayUrl, sessionId, accessToken, stop, reconnectNonce]);
 
   return { ...state, reconnect, micMuted, setMicMuted };
 }
