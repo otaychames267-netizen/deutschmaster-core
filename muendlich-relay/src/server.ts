@@ -1124,7 +1124,9 @@ function logTutorTranscript(session: TutorSession, speaker: "examiner" | "partne
     // which Teil was actually active, which would have silently mislabeled
     // every Teil 2/3 transcript node once those existed.
     session_id: session.sessionId, speaker, teil: session.teilStage, text, started_at: new Date().toISOString(),
-  }).then(() => {});
+  }).then(({ error }) => {
+    if (error) console.error(`[tutor ${session.sessionId}] transcript insert failed:`, error.message);
+  });
 }
 
 function endTutorSession(session: TutorSession, endReason: string) {
