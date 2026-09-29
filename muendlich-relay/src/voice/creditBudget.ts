@@ -72,3 +72,29 @@ export async function recordExamUsage(admin: SupabaseClient, userId: string, ses
   );
   if (error) console.error(`[credits] failed to record usage for user ${userId}, session ${sessionKey}:`, error.message);
 }
+
+/** The AI Voice Tutor's equivalent of recordExamUsage() — deliberately NOT
+ * the same function with a parameter, because recordExamUsage's entire
+ * reason to exist is the 2-participant 50/50 split (see its own doc comment
+ * for the real double-billing bug that split fixes). A 1:1 tutor session has
+ * exactly one participant consuming exactly the usage it generates — no
+ * split, no halving, full usage recorded as-is against the one user who
+ * incurred it. Writes to the SAME muendlich_elevenlabs_usage table (it's
+ * keyed per user+session, not exam-specific) so the existing 60,000-credit
+ * checkCreditBudget() check above already covers tutor usage for free. */
+export async function recordTutorUsage(admin: SupabaseClient, userId: string, sessionKey: string, usage: ExamUsage): Promise<void> {
+  const fullCost = computeExamCost(usage);
+  const { error } = await admin.from("muendlich_elevenlabs_usage").upsert(
+    {
+      user_id: userId,
+      session_key: sessionKey,
+      tts_characters: Math.round(usage.ttsCharacters),
+      stt_minutes: usage.sttMinutes,
+      tts_credits: fullCost.ttsCredits,
+      stt_credits: fullCost.sttCredits,
+      total_credits: fullCost.totalCredits,
+    },
+    { onConflict: "user_id,session_key" },
+  );
+  if (error) console.error(`[credits] failed to record tutor usage for user ${userId}, session ${sessionKey}:`, error.message);
+}
