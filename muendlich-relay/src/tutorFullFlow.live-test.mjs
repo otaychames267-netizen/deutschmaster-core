@@ -234,7 +234,17 @@ async function main() {
   ok("Teil 1 transcript nodes are correctly labeled teil=1 (not hardcoded)", teil1Rows.length > 0);
   ok("Teil 2 transcript nodes are correctly labeled teil=2 (not hardcoded)", teil2Rows.length > 0);
 
-  function summarizeUtterances(chunks) {
+  // Cosmetic grouping ONLY, for a readable printed timeline — the relay's
+  // onOutputTranscript fires exactly once per complete speak()/
+  // speakScriptedText() call (never split into multiple transcript
+  // messages), so examinerChunks/partnerChunks are ALREADY an exact,
+  // unfragmented count of utterances. Using this grouped/merged version for
+  // the PASS/FAIL count below was a real bug: two genuinely separate
+  // utterances (e.g. Teil 3's last turn + the session-end line) landing
+  // within 2.5s of each other got merged into one, undercounting a fully
+  // correct run as "only 4 partner utterances" — confirmed by re-running
+  // and inspecting the raw DB rows, which always show the true count.
+  function summarizeUtterancesForDisplay(chunks) {
     const utterances = [];
     for (const c of chunks) {
       const last = utterances[utterances.length - 1];
@@ -244,21 +254,25 @@ async function main() {
     return utterances;
   }
 
-  const examinerUtterances = summarizeUtterances(examinerChunks);
-  const partnerUtterances = summarizeUtterances(partnerChunks);
+  const examinerUtterances = summarizeUtterancesForDisplay(examinerChunks);
+  const partnerUtterances = summarizeUtterancesForDisplay(partnerChunks);
   console.log("\n=== Examiner utterance timeline (Teil 1 + Teil 2) ===");
   for (const u of examinerUtterances) console.log(`  [+${(u.startT / 1000).toFixed(1)}s] ${u.text.replace(/\s+/g, " ").trim()}`);
   console.log(`\n=== Partner utterance timeline (Teil 3) ===`);
   for (const u of partnerUtterances) console.log(`  [+${(u.startT / 1000).toFixed(1)}s] ${u.text.replace(/\s+/g, " ").trim()}`);
-  console.log(`\nTotal examiner utterances: ${examinerUtterances.length}, partner utterances: ${partnerUtterances.length}`);
-  ok(`at least ${2 + TEIL1_QUESTIONS} examiner utterances (Teil1 opening+questions, Teil1->2 transition, >=1 Teil2 question)`, examinerUtterances.length >= 2 + TEIL1_QUESTIONS);
-  ok(`at least ${TEIL3_TURNS} partner utterances across Teil 3`, partnerUtterances.length >= TEIL3_TURNS);
+  console.log(`\nTotal examiner utterances: ${examinerChunks.length} (${examinerUtterances.length} grouped for display), partner utterances: ${partnerChunks.length} (${partnerUtterances.length} grouped for display)`);
+  ok(`at least ${2 + TEIL1_QUESTIONS} examiner utterances (Teil1 opening+questions, Teil1->2 transition, >=1 Teil2 question)`, examinerChunks.length >= 2 + TEIL1_QUESTIONS);
+  ok(`exactly ${TEIL3_TURNS} partner turn utterances plus 1 session-end line across Teil 3`, partnerChunks.length === TEIL3_TURNS + 1);
 
   console.log("\nDone. Cleaning up...");
   ws.close();
   await sleep(500);
-  await cleanup();
-  console.log("cleanup done.");
+  if (process.env.SKIP_CLEANUP) {
+    console.log(`SKIP_CLEANUP set — leaving session ${sessionId} and student ${student.id} in place for inspection.`);
+  } else {
+    await cleanup();
+    console.log("cleanup done.");
+  }
 }
 
 main().catch((e) => { console.error("FATAL", e); process.exitCode = 1; });
