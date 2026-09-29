@@ -38,19 +38,22 @@
  *                     { type: "finished" }
  *                     { type: "terminated", reason }             (reason "insufficient_minutes" also covers the pre-flight matchmaking guard)
  *
- * Protocol, AI Voice Tutor (`/tutor/:sessionId`) — Teil 1 only in this build:
- * a single deterministic presentation+Q&A phase, same timing spec as the
- * exam's own Teil 1 (90s presentation, exactly 2 questions, 30s answer
- * window each), just for one student instead of two candidates:
+ * Protocol, AI Voice Tutor (`/tutor/:sessionId`) — Teil 1 then Teil 2 in this
+ * build (Teil 3, AI-as-study-partner, is a later pass): Teil 1 is the exam's
+ * own deterministic presentation+Q&A spec (90s presentation, exactly 2
+ * questions, 30s answer window each) for one student against an AI
+ * examiner; Teil 2 hands off straight into examiner-led continuous Q&A on a
+ * shared topic, time-boxed rather than a fixed question count:
  *   client -> relay: { type: "audio", data: "<base64 pcm16 16kHz>" }
  *                     { type: "ping", t }
  *   relay -> client: { type: "pong", t }
  *                     { type: "ready", sessionId }
  *                     { type: "cap_status", secondsRemaining }    (sent at session start and after each minute-tick — a visible, server-authoritative countdown for money-metered practice time; the exam has no equivalent since it hard-stops silently)
- *                     { type: "nudge" }
  *                     { type: "audio", data: "<base64 pcm16 24kHz>" }
  *                     { type: "transcript", speaker: "examiner"|"student", text }
- *                     { type: "teil1_complete" }                  (Teil 1 finished — this build ends the session here; Teil 2/3 are a later pass)
+ *                     { type: "teil1_complete" }                  (informational milestone only — the session keeps running, Teil 2 starts right after)
+ *                     { type: "stage", stage: 2, seconds }         (Teil 2 begins — mirrors the exam's own stage message shape)
+ *                     { type: "session_complete" }                 (Teil 2's time budget spent — the whole session ends here, cleanly, not an error)
  *                     { type: "terminated", reason }              (reason "daily_cap_exceeded" is tutor-specific; "budget_exceeded"/"ai_error"/"idle_timeout" are shared concepts with the exam)
  *
  * Exam stage timing mirrors Room 1's already-proven prep timer pattern
@@ -296,14 +299,39 @@ interface TutorSession {
   live?: TutorVoiceSession;
   level: "TELC_B1" | "TELC_B2";
   lastAudioAt: number;
+  // Which Teil is currently driving tutorTick() — see tutorTickTeil1()/
+  // tutorTickTeil2() below. Starts at 1; startTutorTeil2() advances it once,
+  // never back.
+  teilStage: 1 | 2;
+  // True for the whole (async, multi-await) duration of startTutorTeil2() —
+  // a REAL race found via live testing: teilStage flips to 2 synchronously,
+  // but teil2StartedAt/teil2QuestionStartedAt aren't set until AFTER the
+  // scripted transition line finishes speaking (a real await, seconds
+  // later). Without this guard, a tutorTick() firing in that window sees
+  // teilStage===2 with teil2StartedAt still at its 0 init value —
+  // `now - 0` reads as a multi-decade elapsed time, so Teil 2 (and the
+  // whole session) was seen as instantly "overdue" and wrapped up before a
+  // single question had actually been asked. Checked first in tutorTick(),
+  // before either Teil's own logic runs.
+  advancingStage: boolean;
   // Teil 1's deterministic 3-phase machine — same states as RoomSession's
   // teil1Speaker/teil1Phase for the exam, minus the A/B dimension (exactly
   // one "speaker" here: the student).
   teil1Phase: "presenting" | "q1" | "q2";
   teil1PhaseStartedAt: number;
   teil1QuestionsAsked: number; // QA tripwire, same reasoning as RoomSession's teil1QuestionsAsked
+  // Teil 2: formatted like teil1Topic (set once, at connection time, from
+  // the session's teil2_material_id — required to connect at all, same as
+  // teil1_material_id, since this build always continues Teil 1 -> Teil 2).
+  // No fixed question count (unlike Teil 1's exactly-2) — time-boxed by
+  // STAGE_SECONDS[2] instead, checked only at natural answer-pause points
+  // so a question is never cut off mid-answer.
+  teil2Topic: string;
+  teil2StartedAt: number;
+  teil2QuestionStartedAt: number;
+  teil2QuestionsAsked: number; // informational only — logged at session end, not a strict invariant like Teil 1's count
   creditTick?: NodeJS.Timeout;
-  mainTick?: NodeJS.Timeout; // Teil-1 phase machine + idle/nudge checks, same TICK_MS cadence as the exam's tick()
+  mainTick?: NodeJS.Timeout; // Teil-1/2 phase machine + idle check, same TICK_MS cadence as the exam's tick()
   liveSessionStartedAt: number | null;
   ended: boolean;
   voiceBackendErrored: boolean;
@@ -1127,26 +1155,43 @@ function openTutorQuestionWindow(session: TutorSession, ctx: TutorContext, quest
   );
 }
 
+/** Teil 2's question-asking instruction for the tutor — unlike Teil 1's
+ * exactly-2, there is no fixed count here (time-boxed instead, see
+ * tutorTickTeil2()), so this doesn't take a question number, just fires
+ * "ask the next one" and lets Claude's own instruction (vary the type,
+ * ground it in what was said) handle the rest. */
+function openTutorTeil2Question(session: TutorSession, ctx: TutorContext) {
+  session.teil2QuestionsAsked++;
+  session.live?.sendSystemMessage(
+    `Stellen Sie ${ctx.studentName} jetzt die nächste Frage zum Thema — eine andere Art von Frage als zuletzt, nach Möglichkeit auf das bisher Gesagte bezogen. ${ctx.studentName} hat maximal ${TEIL2_RESPONSE_WINDOW_MS / 1000} Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
+  );
+}
+
+/** Teil 1 complete -> Teil 2 begins: scripted transition (reusing the exam's
+ * own pickSectionTransition12 phrase pool — pure content, no 2-candidate
+ * coupling) + the shared topic announcement, then the first question. Not
+ * folded into tutorTick() itself since it's a one-shot async sequence
+ * (awaiting each spoken line) rather than a per-tick check. */
+async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
+  session.teilStage = 2;
+  session.live?.setStage(2, session.teil2Topic);
+  send(session.ws, { type: "stage", stage: 2, seconds: STAGE_SECONDS[2] });
+  const voiceId = session.live?.getVoiceId() ?? "tutor-default";
+  const transitionText = pickSectionTransition12({ teil2Topic: session.teil2Topic }, voiceId);
+  await session.live?.speakScriptedText(transitionText);
+  if (session.ended) return; // session could have been ended (cap/error) while the transition line was still playing
+  session.teil2StartedAt = Date.now();
+  session.teil2QuestionStartedAt = Date.now();
+  session.advancingStage = false; // only now is it safe for tutorTick() to evaluate Teil 2's timing — see the field's doc comment
+  openTutorTeil2Question(session, ctx);
+}
+
 /** Teil 1's deterministic 3-phase machine for ONE student — presenting (90s
- * hard cap) -> q1 (30s answer window) -> q2 (30s answer window) -> Teil 1
- * complete. Direct adaptation of tick()'s Teil-1 branch for RoomSession,
- * minus the A/B handoff (there is no second candidate to hand off to — Teil
- * 1 complete IS session complete in this build pass). Also carries the
- * hard-idle-close safety net the exam splits into a separate concern —
- * merged here into one function/one timer since the tutor has no Teil 2/3
- * anti-silence nudge machinery to keep separate from it (yet). */
-function tutorTick(session: TutorSession, ctx: TutorContext) {
-  if (session.ended) return;
-  const now = Date.now();
-
-  const idleSilenceMs = now - session.lastAudioAt;
-  if (idleSilenceMs > HARD_IDLE_CLOSE_MS) {
-    console.log(`[tutor ${session.sessionId}] hard idle-close: ${idleSilenceMs}ms of silence`);
-    send(session.ws, { type: "terminated", reason: "idle_timeout" });
-    endTutorSession(session, "idle_timeout");
-    return;
-  }
-
+ * hard cap) -> q1 (30s answer window) -> q2 (30s answer window) -> Teil 2
+ * begins. Direct adaptation of tick()'s Teil-1 branch for RoomSession, minus
+ * the A/B handoff (there is no second candidate to hand off to — this build
+ * hands off to Teil 2 instead of ending). */
+function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
   const phaseElapsedMs = now - session.teil1PhaseStartedAt;
 
   if (session.teil1Phase === "presenting") {
@@ -1183,13 +1228,62 @@ function tutorTick(session: TutorSession, ctx: TutorContext) {
     return;
   }
 
-  // Q2 done -> Teil 1 (and, in this build, the whole session) is complete.
-  console.log(`[tutor ${session.sessionId}] Teil 1: Q2 done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> complete`);
+  // Q2 done -> Teil 1 complete -> Teil 2 begins.
+  console.log(`[tutor ${session.sessionId}] Teil 1: Q2 done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> Teil 2`);
   if (session.teil1QuestionsAsked !== TEIL1_QUESTIONS_PER_CANDIDATE) {
     console.error(`[tutor ${session.sessionId}] QA ANOMALY: Teil 1 ended with ${session.teil1QuestionsAsked} questions asked (expected exactly ${TEIL1_QUESTIONS_PER_CANDIDATE}) — investigate this session's transcript.`);
   }
   send(session.ws, { type: "teil1_complete" });
-  endTutorSession(session, "completed_by_user");
+  session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil2()'s own awaits settle
+  void startTutorTeil2(session, ctx);
+}
+
+/** Teil 2's examiner-led Q&A loop for ONE student — no fixed question count
+ * (unlike Teil 1's exactly-2); instead time-boxed by STAGE_SECONDS[2], and
+ * that budget is only ever checked at a natural answer-pause point (same
+ * moment a new question would otherwise fire), so a question is never cut
+ * off mid-answer. Ends the WHOLE session once the time budget is spent —
+ * Teil 3 (AI-as-study-partner) is a later pass. */
+function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
+  const phaseElapsedMs = now - session.teil2QuestionStartedAt;
+  const hasResponded = session.lastAudioAt > session.teil2QuestionStartedAt;
+  const trailingSilenceMs = now - session.lastAudioAt;
+  const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
+  const windowExpired = phaseElapsedMs >= TEIL2_RESPONSE_WINDOW_MS;
+  if (!looksFinished && !windowExpired) return;
+
+  const totalElapsedMs = now - session.teil2StartedAt;
+  if (totalElapsedMs >= STAGE_SECONDS[2] * 1000) {
+    console.log(`[tutor ${session.sessionId}] Teil 2 complete (${session.teil2QuestionsAsked} questions asked, ${(totalElapsedMs / 1000).toFixed(1)}s) -> session complete`);
+    void session.live?.speakScriptedText(`Vielen Dank, ${ctx.studentName}. Das war's für heute — gut gemacht!`)
+      .finally(() => {
+        send(session.ws, { type: "session_complete" });
+        endTutorSession(session, "completed_by_user");
+      });
+    return;
+  }
+  session.teil2QuestionStartedAt = now;
+  openTutorTeil2Question(session, ctx);
+}
+
+/** Dispatches to the current Teil's own tick function, plus the shared
+ * hard-idle-close safety net (merged here rather than a separate timer,
+ * since it applies identically regardless of which Teil is active). */
+function tutorTick(session: TutorSession, ctx: TutorContext) {
+  if (session.ended) return;
+  if (session.advancingStage) return; // Teil 1 -> Teil 2 handoff in flight — see the field's doc comment
+  const now = Date.now();
+
+  const idleSilenceMs = now - session.lastAudioAt;
+  if (idleSilenceMs > HARD_IDLE_CLOSE_MS) {
+    console.log(`[tutor ${session.sessionId}] hard idle-close: ${idleSilenceMs}ms of silence`);
+    send(session.ws, { type: "terminated", reason: "idle_timeout" });
+    endTutorSession(session, "idle_timeout");
+    return;
+  }
+
+  if (session.teilStage === 1) tutorTickTeil1(session, ctx, now);
+  else tutorTickTeil2(session, ctx, now);
 }
 
 /** Pre-flight-gates, opens the ElevenLabs+Claude tutor voice session, and
@@ -1201,7 +1295,11 @@ async function startTutorSession(
   ws: WebSocket,
   userId: string,
   accessToken: string,
-  sessionRow: { id: string; teil1MaterialTitle: string; teil1MaterialBodyText: string | null },
+  sessionRow: {
+    id: string;
+    teil1MaterialTitle: string; teil1MaterialBodyText: string | null;
+    teil2MaterialTitle: string; teil2MaterialBodyText: string | null;
+  },
   level: "TELC_B1" | "TELC_B2",
   studentName: string,
 ): Promise<TutorSession | null> {
@@ -1228,10 +1326,13 @@ async function startTutorSession(
     return null;
   }
 
+  const teil2Topic = formatTopic(sessionRow.teil2MaterialTitle, [{ title: sessionRow.teil2MaterialTitle, body_text: sessionRow.teil2MaterialBodyText }]);
+
   const session: TutorSession = {
     sessionId: sessionRow.id, userId, accessToken, ws,
-    level, lastAudioAt: Date.now(),
+    level, lastAudioAt: Date.now(), teilStage: 1, advancingStage: false,
     teil1Phase: "presenting", teil1PhaseStartedAt: 0, teil1QuestionsAsked: 0,
+    teil2Topic, teil2StartedAt: 0, teil2QuestionStartedAt: 0, teil2QuestionsAsked: 0,
     liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
   };
   tutorSessions.set(session.sessionId, session);
@@ -1467,23 +1568,33 @@ tutorWss.on("connection", async (ws, req) => {
     // needed — a 1:1 tutor session has no participants table at all.
     const { data: sessionRow, error: sessionError } = await asUser
       .from("voice_tutor_sessions")
-      .select("id, level, ended_at, teil1_material_id")
+      .select("id, level, ended_at, teil1_material_id, teil2_material_id")
       .eq("id", sessionId)
       .maybeSingle();
     if (!sessionRow) { console.warn(`[tutor ${sessionId}] rejecting connection: session not found or not owned by this user${sessionError ? ` (query error: ${sessionError.message})` : ""}`); ws.close(4004, "session not found"); return; }
     if (sessionRow.ended_at) { console.warn(`[tutor ${sessionId}] rejecting connection: session already ended`); ws.close(4005, "session already ended"); return; }
     if (!sessionRow.teil1_material_id) { console.warn(`[tutor ${sessionId}] rejecting connection: no Teil 1 topic selected`); ws.close(4006, "missing topic selection"); return; }
+    // Teil 2 topic is required too, not just Teil 1 — this build always
+    // continues Teil 1 straight into Teil 2 (see tutorTickTeil1's handoff),
+    // so a session without one would hit Teil 2 having nothing to talk
+    // about. The picker route enforces this at selection time; this is the
+    // server-side backstop.
+    if (!sessionRow.teil2_material_id) { console.warn(`[tutor ${sessionId}] rejecting connection: no Teil 2 topic selected`); ws.close(4006, "missing topic selection"); return; }
 
-    const [{ data: material }, { data: profile }] = await Promise.all([
+    const [{ data: material1 }, { data: material2 }, { data: profile }] = await Promise.all([
       admin.from("muendlich_materials").select("title, body_text").eq("id", sessionRow.teil1_material_id).maybeSingle(),
+      admin.from("muendlich_materials").select("title, body_text").eq("id", sessionRow.teil2_material_id).maybeSingle(),
       admin.from("profiles").select("full_name").eq("id", userId).maybeSingle(),
     ]);
-    if (!material) { console.warn(`[tutor ${sessionId}] rejecting connection: referenced Teil 1 material row no longer exists`); ws.close(4007, "topic not found"); return; }
+    if (!material1) { console.warn(`[tutor ${sessionId}] rejecting connection: referenced Teil 1 material row no longer exists`); ws.close(4007, "topic not found"); return; }
+    if (!material2) { console.warn(`[tutor ${sessionId}] rejecting connection: referenced Teil 2 material row no longer exists`); ws.close(4007, "topic not found"); return; }
 
     const studentName = profile?.full_name || "Student";
 
     const session = await startTutorSession(ws, userId, token, {
-      id: sessionRow.id, teil1MaterialTitle: material.title, teil1MaterialBodyText: material.body_text,
+      id: sessionRow.id,
+      teil1MaterialTitle: material1.title, teil1MaterialBodyText: material1.body_text,
+      teil2MaterialTitle: material2.title, teil2MaterialBodyText: material2.body_text,
     }, sessionRow.level as "TELC_B1" | "TELC_B2", studentName);
     if (!session) return; // startTutorSession already closed the socket with a clear reason
 

@@ -57,6 +57,22 @@ export interface StreamConnection {
   close(): void;
 }
 
+// Real bug found via live testing (the AI Voice Tutor's Teil 1/2 flow, but
+// this function is shared with the exam room too): this had NO timeout at
+// all — if the WebSocket handshake ever stalls (neither "open" nor "error"
+// fires — a real, observed network condition, not hypothetical), the
+// returned Promise never settles, hanging whatever called it FOREVER with
+// zero error output anywhere in the pipeline. That silent hang was
+// indistinguishable from "nothing went wrong" until traced live: the only
+// visible symptom was the caller's own much-later, generic idle-timeout.
+// Exposure to this went up specifically because of today's per-utterance
+// connection redesign (see muendlichVoiceSession.ts's header) — many short
+// connection attempts per exam/session instead of one long-lived one means
+// many more chances for a single handshake to stall. A ~8s timeout is well
+// under any caller's own answer/response windows, so a real stall now fails
+// fast and visibly instead of silently eating an entire turn.
+const CONNECT_TIMEOUT_MS = 8_000;
+
 export function openStreamingConnection(voiceId: string): Promise<StreamConnection> {
   const key = process.env.ELEVENLABS_API_KEY;
   if (!key) return Promise.reject(new Error("ELEVENLABS_API_KEY not set"));
@@ -68,7 +84,18 @@ export function openStreamingConnection(voiceId: string): Promise<StreamConnecti
     ws.on("upgrade", (res: any) => { res.socket?.setNoDelay?.(true); });
 
     let keepalive: NodeJS.Timeout | null = null;
+    let settled = false;
+    const connectTimer = setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      try { ws.terminate(); } catch {}
+      reject(new Error(`ElevenLabs streaming connection handshake timed out after ${CONNECT_TIMEOUT_MS}ms`));
+    }, CONNECT_TIMEOUT_MS);
+
     ws.on("open", () => {
+      if (settled) return; // timeout already fired and terminated the socket — don't resolve a connection the caller already gave up on
+      settled = true;
+      clearTimeout(connectTimer);
       ws.send(JSON.stringify({
         text: " ",
         voice_settings: { stability: 0.5, similarity_boost: 0.8, use_speaker_boost: false },
@@ -87,7 +114,13 @@ export function openStreamingConnection(voiceId: string): Promise<StreamConnecti
         },
       });
     });
-    ws.on("error", (err) => { if (keepalive) clearInterval(keepalive); reject(err); });
+    ws.on("error", (err) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(connectTimer);
+      if (keepalive) clearInterval(keepalive);
+      reject(err);
+    });
   });
 }
 

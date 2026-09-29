@@ -41,7 +41,8 @@ function VoiceTutorSession() {
   const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich");
   const navigate = useNavigate();
 
-  const [topicTitle, setTopicTitle] = useState<string | null>(null);
+  const [teil1Title, setTeil1Title] = useState<string | null>(null);
+  const [teil2Title, setTeil2Title] = useState<string | null>(null);
   const [sessionValid, setSessionValid] = useState<boolean | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [started, setStarted] = useState(false);
@@ -49,12 +50,15 @@ function VoiceTutorSession() {
   const [correction, setCorrection] = useState<CorrectionState>({ status: "idle" });
 
   useEffect(() => {
-    db.from("voice_tutor_sessions").select("teil1_material_id, muendlich_materials:teil1_material_id(title)").eq("id", sessionId).maybeSingle()
-      .then(({ data }: { data: { teil1_material_id: string | null; muendlich_materials: { title: string } | { title: string }[] | null } | null }) => {
+    db.from("voice_tutor_sessions")
+      .select("teil1_material_id, teil2_material_id, t1:teil1_material_id(title), t2:teil2_material_id(title)")
+      .eq("id", sessionId).maybeSingle()
+      .then(({ data }: { data: { t1: { title: string } | { title: string }[] | null; t2: { title: string } | { title: string }[] | null } | null }) => {
         if (!data) { setSessionValid(false); return; }
         setSessionValid(true);
-        const m = Array.isArray(data.muendlich_materials) ? data.muendlich_materials[0] : data.muendlich_materials;
-        setTopicTitle(m?.title ?? null);
+        const one = (v: { title: string } | { title: string }[] | null) => (Array.isArray(v) ? v[0] : v)?.title ?? null;
+        setTeil1Title(one(data.t1));
+        setTeil2Title(one(data.t2));
       });
   }, [sessionId]);
 
@@ -64,11 +68,12 @@ function VoiceTutorSession() {
 
   const audio = useVoiceTutorAudio(started && !endedManually ? RELAY_URL : null, sessionId, accessToken);
 
-  const ended = endedManually || audio.teil1Complete || !!audio.terminated;
+  const ended = endedManually || audio.sessionComplete || !!audio.terminated;
 
-  // Fires the deferred correction pass exactly once, the moment Teil 1 ends
-  // (server-completed, server-terminated, or user-initiated) — never during
-  // the live conversation itself.
+  // Fires the deferred correction pass exactly once, the moment the whole
+  // session ends (server-completed after Teil 2, server-terminated, or
+  // user-initiated) — never during the live conversation itself, and never
+  // on Teil 1's own completion (the session continues straight into Teil 2).
   useEffect(() => {
     if (!ended || correction.status !== "idle" || !accessToken) return;
     setCorrection({ status: "loading" });
@@ -106,15 +111,15 @@ function VoiceTutorSession() {
   if (!started) {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-4 p-6 text-center">
-        <h1 className="text-lg font-bold text-foreground">{topicTitle ?? <Loader2 className="mx-auto h-5 w-5 animate-spin" />}</h1>
-        <p className="text-sm text-muted-foreground">Präsentiere dein Thema, dann stellt dir die KI-Prüferin zwei Fragen dazu — genau wie in Teil 1 der echten Prüfung. Sprachfehler werden erst danach angezeigt, nicht während des Sprechens.</p>
+        <h1 className="text-lg font-bold text-foreground">{teil1Title ?? <Loader2 className="mx-auto h-5 w-5 animate-spin" />}</h1>
+        <p className="text-sm text-muted-foreground">Präsentiere dein Thema, dann stellt dir die KI-Prüferin zwei Fragen dazu — genau wie in Teil 1 der echten Prüfung. Direkt danach geht es weiter mit Teil 2. Sprachfehler werden erst am Ende angezeigt, nicht während des Sprechens.</p>
         <button
           type="button"
           onClick={() => setStarted(true)}
-          disabled={!topicTitle}
+          disabled={!teil1Title || !teil2Title}
           className="flex items-center gap-2 rounded-xl bg-rose-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-rose-600 disabled:opacity-50"
         >
-          <Mic className="h-4 w-4" /> Teil 1 beginnen
+          <Mic className="h-4 w-4" /> Prüfung beginnen
         </button>
       </div>
     );
@@ -123,8 +128,8 @@ function VoiceTutorSession() {
   if (ended) {
     return (
       <div className="mx-auto max-w-md space-y-4 p-4">
-        {audio.teil1Complete && !audio.terminated && (
-          <p className="rounded-xl bg-emerald-500/10 p-3 text-center text-sm font-semibold text-emerald-600 dark:text-emerald-400">Teil 1 abgeschlossen! Teil 2 und 3 folgen bald.</p>
+        {audio.sessionComplete && !audio.terminated && (
+          <p className="rounded-xl bg-emerald-500/10 p-3 text-center text-sm font-semibold text-emerald-600 dark:text-emerald-400">Teil 1 und Teil 2 abgeschlossen! Teil 3 folgt bald.</p>
         )}
         {audio.terminated && (
           <p className="rounded-xl bg-muted p-3 text-center text-sm text-muted-foreground">{TERMINATED_MESSAGE[audio.terminated] ?? "Die Sitzung wurde beendet."}</p>
@@ -153,8 +158,11 @@ function VoiceTutorSession() {
 
   return (
     <div className="mx-auto flex max-w-md flex-col items-center gap-4 p-4">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-sm font-bold text-foreground">{topicTitle}</h1>
+      <div className="flex w-full items-center justify-between gap-2">
+        <div className="min-w-0">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-rose-500">Teil {audio.currentStage}</span>
+          <h1 className="truncate text-sm font-bold text-foreground">{audio.currentStage === 2 ? teil2Title : teil1Title}</h1>
+        </div>
         <VoiceTutorCountdown secondsRemaining={audio.secondsRemaining} />
       </div>
 

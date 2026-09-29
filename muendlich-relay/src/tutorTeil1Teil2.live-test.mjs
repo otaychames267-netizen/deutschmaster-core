@@ -1,21 +1,25 @@
-/** Live end-to-end test of the AI Voice Tutor's Teil 1 flow (90s presentation
- * cap -> EXACTLY 2 questions -> 30s answer window each, for ONE student
- * against an AI examiner) against the REAL running relay process and REAL
- * Supabase + Claude + ElevenLabs.
+/** Live end-to-end test of the AI Voice Tutor's Teil 1 -> Teil 2 flow:
+ * Teil 1 (90s presentation cap -> EXACTLY 2 questions -> 30s answer window
+ * each) handing off straight into Teil 2 (examiner-led continuous Q&A on a
+ * shared topic, time-boxed rather than a fixed question count), for ONE
+ * student against an AI examiner, against the REAL running relay process
+ * and REAL Supabase + Claude + ElevenLabs.
  *
- * Requires the relay to already be running locally with SHORTENED Teil 1
- * timing so this doesn't take minutes — start it with:
+ * Requires the relay to already be running locally with SHORTENED timing so
+ * this doesn't take minutes — start it with:
  *   MUENDLICH_TEIL1_PRESENTATION_SECONDS=30 MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS=20 \
+ *   MUENDLICH_STAGE2_SECONDS=25 MUENDLICH_TEIL2_RESPONSE_WINDOW_MS=8000 \
  *   npm run dev
  * (Reads the same values back from process.env, same convention as
  * teil1Redesign.live-test.mjs, so this never hardcodes a second copy.)
  *
  * Creates one disposable student + a real voice_tutor_sessions row (pointing
- * at a real Teil-1 B2 muendlich_materials topic), connects one real
- * WebSocket client, drives realistic audio timing through the early-finish
- * presentation path and both Q&A windows, then confirms teil1_complete
- * fires and the socket closes cleanly — before cleaning up the test user and
- * session row.
+ * at real Teil-1 and Teil-2 B2 muendlich_materials topics — both required to
+ * connect at all), connects one real WebSocket client, drives realistic
+ * audio timing through Teil 1's early-finish presentation + both Q&A
+ * windows, then through a couple of Teil 2 answer rounds, then confirms
+ * session_complete fires and the socket closes cleanly — before cleaning up
+ * the test user and session row.
  */
 import { readFileSync } from "node:fs";
 import WebSocket from "ws";
@@ -40,6 +44,8 @@ const RELAY_URL = process.env.LIVE_TEST_RELAY_URL ?? `ws://localhost:${process.e
 
 const PRESENTATION_S = Number(process.env.MUENDLICH_TEIL1_PRESENTATION_SECONDS ?? 90);
 const ANSWER_WINDOW_S = Number(process.env.MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS ?? 30);
+const STAGE2_S = Number(process.env.MUENDLICH_STAGE2_SECONDS ?? 360);
+const TEIL2_WINDOW_MS = Number(process.env.MUENDLICH_TEIL2_RESPONSE_WINDOW_MS ?? 30_000);
 
 function ok(name, cond) {
   console.log(`${cond ? "PASS" : "FAIL"} — ${name}`);
@@ -63,8 +69,8 @@ async function rest(path, opts = {}) {
 }
 
 async function createStudent() {
-  const email = `tutor-t1-livetest-${Date.now()}@auralingovia-test.local`;
-  const password = "TestTutorT1Live2026!";
+  const email = `tutor-t1t2-livetest-${Date.now()}@auralingovia-test.local`;
+  const password = "TestTutorT1T2Live2026!";
   const user = await rest("/auth/v1/admin/users", { method: "POST", body: JSON.stringify({ email, password, email_confirm: true }) });
   const loginRes = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
     method: "POST",
@@ -81,18 +87,20 @@ async function createStudent() {
 }
 
 async function main() {
-  console.log(`Schedule based on: presentation=${PRESENTATION_S}s answerWindow=${ANSWER_WINDOW_S}s`);
+  console.log(`Schedule based on: presentation=${PRESENTATION_S}s answerWindow=${ANSWER_WINDOW_S}s stage2=${STAGE2_S}s teil2Window=${TEIL2_WINDOW_MS}ms`);
 
   const student = await createStudent();
   console.log("student:", student.id);
 
-  const [material] = await rest(`/rest/v1/muendlich_materials?teil=eq.1&category=eq.themen&level=eq.TELC_B2&limit=1&select=id,title`);
-  if (!material) throw new Error("no Teil-1 B2 'themen' material found to test with");
-  console.log("topic:", material.title, material.id);
+  const [material1] = await rest(`/rest/v1/muendlich_materials?teil=eq.1&category=eq.themen&level=eq.TELC_B2&limit=1&select=id,title`);
+  if (!material1) throw new Error("no Teil-1 B2 'themen' material found to test with");
+  const [material2] = await rest(`/rest/v1/muendlich_materials?teil=eq.2&category=eq.themen&level=eq.TELC_B2&limit=1&select=id,title`);
+  if (!material2) throw new Error("no Teil-2 B2 'themen' material found to test with");
+  console.log("topics:", material1.title, "/", material2.title);
 
   const [session] = await rest(`/rest/v1/voice_tutor_sessions`, {
     method: "POST", headers: { Prefer: "return=representation", Authorization: `Bearer ${student.jwt}`, apikey: SUPABASE_ANON_KEY },
-    body: JSON.stringify({ user_id: student.id, level: "TELC_B2", teil1_material_id: material.id }),
+    body: JSON.stringify({ user_id: student.id, level: "TELC_B2", teil1_material_id: material1.id, teil2_material_id: material2.id }),
   });
   const sessionId = session.id;
   console.log("session:", sessionId);
@@ -101,7 +109,7 @@ async function main() {
   const t0 = Date.now();
   const log = (text) => { const t = Date.now() - t0; events.push({ t, text }); console.log(`[+${(t / 1000).toFixed(1)}s] ${text}`); };
 
-  let readyAt = null, teil1CompleteAt = null, terminatedSeen = false, closed = false;
+  let readyAt = null, teil1CompleteAt = null, stage2At = null, sessionCompleteAt = null, terminatedSeen = false, closed = false;
   const examinerChunks = [];
 
   async function cleanup() {
@@ -125,6 +133,8 @@ async function main() {
     log(`<- ${JSON.stringify(msg).slice(0, 200)}`);
     if (msg.type === "ready" && readyAt === null) readyAt = Date.now();
     if (msg.type === "teil1_complete" && teil1CompleteAt === null) teil1CompleteAt = Date.now();
+    if (msg.type === "stage" && msg.stage === 2 && stage2At === null) stage2At = Date.now();
+    if (msg.type === "session_complete" && sessionCompleteAt === null) sessionCompleteAt = Date.now();
     if (msg.type === "terminated") terminatedSeen = true;
   });
   ws.on("error", (e) => log(`ERROR ${e.message}`));
@@ -145,26 +155,48 @@ async function main() {
   ok("received ready within 20s of connecting", readyAt !== null);
   if (readyAt === null) { console.error("Aborting — never got ready."); await cleanup(); process.exit(1); }
 
-  log("presenting (will go quiet after 8s to trigger early-finish)");
+  log("Teil 1: presenting (will go quiet after 8s to trigger early-finish)");
   let stop = startSpeaking();
   await sleep(8_000);
   stop(); log("stopped speaking (silence begins)");
 
   await sleep(12_000); // expect Q1 ~8s after silence begins (SILENCE_THRESHOLD_MS[1], not env-overridable)
 
-  log("answering Q1 briefly (1s speech, then quiet -> expect early completion)");
+  log("Teil 1: answering Q1 briefly (1s speech, then quiet -> expect early completion)");
   stop = startSpeaking();
   await sleep(1_000);
   stop();
   await sleep(6_000); // expect looksFinished ~4s after stop
 
-  log("NOT answering Q2 at all (expect windowExpired path, ~" + ANSWER_WINDOW_S + "s wait)");
+  log("Teil 1: NOT answering Q2 at all (expect windowExpired path, ~" + ANSWER_WINDOW_S + "s wait)");
   await sleep(ANSWER_WINDOW_S * 1000 + 4_000);
 
-  const completeDeadline = Date.now() + 10_000;
-  while (teil1CompleteAt === null && !closed && Date.now() < completeDeadline) await sleep(200);
-
+  const teil1Deadline = Date.now() + 10_000;
+  while (teil1CompleteAt === null && !closed && Date.now() < teil1Deadline) await sleep(200);
   ok("teil1_complete received", teil1CompleteAt !== null);
+
+  const stage2Deadline = Date.now() + 15_000;
+  while (stage2At === null && !closed && Date.now() < stage2Deadline) await sleep(200);
+  ok("stage 2 (Teil 2) started right after Teil 1", stage2At !== null);
+  if (stage2At === null) { console.error("Aborting — Teil 2 never started."); ws.close(); await cleanup(); process.exit(1); }
+
+  // Answer a couple of Teil 2 rounds briefly, then go quiet and let the
+  // time budget (STAGE2_S) run out — same "looksFinished" pattern as Teil 1.
+  log("Teil 2: answering round 1 briefly");
+  stop = startSpeaking();
+  await sleep(1_000);
+  stop();
+  await sleep(Math.min(TEIL2_WINDOW_MS, 6_000) + 2_000);
+
+  log("Teil 2: answering round 2 briefly, then going silent until the time budget runs out");
+  stop = startSpeaking();
+  await sleep(1_000);
+  stop();
+
+  const sessionCompleteDeadline = Date.now() + STAGE2_S * 1000 + TEIL2_WINDOW_MS + 15_000;
+  while (sessionCompleteAt === null && !closed && Date.now() < sessionCompleteDeadline) await sleep(300);
+
+  ok("session_complete received after Teil 2's time budget", sessionCompleteAt !== null);
   ok("no terminated/error event during the run", !terminatedSeen);
 
   const utterances = [];
@@ -175,8 +207,8 @@ async function main() {
   }
   console.log("\n=== Examiner utterance timeline ===");
   for (const u of utterances) console.log(`  [+${(u.startT / 1000).toFixed(1)}s] ${u.text.replace(/\s+/g, " ").trim()}`);
-  console.log(`\nTotal examiner utterances: ${utterances.length} (expect 3: opening, Q1, Q2)`);
-  ok("exactly 3 examiner utterances (opening + Q1 + Q2)", utterances.length === 3);
+  console.log(`\nTotal examiner utterances: ${utterances.length} (expect at least 6: Teil1 opening+Q1+Q2, Teil1->2 transition, >=2 Teil2 questions, closing)`);
+  ok("at least 6 examiner utterances across Teil 1 + Teil 2", utterances.length >= 6);
 
   console.log("\nDone. Cleaning up...");
   ws.close();

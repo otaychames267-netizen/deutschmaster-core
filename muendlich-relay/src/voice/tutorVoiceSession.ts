@@ -20,7 +20,8 @@
  * could be misattributed to a newer, unrelated call. No reason to
  * reintroduce that bug in new code.
  *
- * Scope for this build pass: Teil 1 only (ctx.stage is always 1 here).
+ * Scope: Teil 1 and Teil 2 (both AI-as-examiner) — see setStage() below for
+ * how the session advances from one to the other mid-connection.
  */
 import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
@@ -48,14 +49,42 @@ export interface TutorVoiceSession {
   sendAudioChunk(base64: string): void;
   sendSystemMessage(text: string): void;
   speakScriptedText(text: string): Promise<void>;
+  /** Advances the session's stage (and, for stage 2, sets the shared topic)
+   * — server.ts calls this exactly once, when Teil 1 completes and Teil 2
+   * begins. Mutates the context used by every SUBSEQUENT speak() call;
+   * Claude needs the CURRENT stage's own prompt/topic, not whatever this
+   * session opened with (see tutorBrain.ts's buildTutorSystemPrompt, which
+   * branches on ctx.stage). History is deliberately NOT cleared — Teil 2's
+   * examiner can still ground a question in something said back in Teil 1
+   * if genuinely relevant, same as a real examiner would remember. */
+  setStage(stage: 2, teil2Topic: string): void;
+  /** The real ElevenLabs voice ID for this session — needed to pick a
+   * style-consistent scripted-phrase variant (examinerPhrases.ts's
+   * pickSectionTransition12) before speaking it, same reasoning as
+   * muendlichVoiceSession.ts's identical method. */
+  getVoiceId(): string;
   getUsage(): ExamUsage;
   close(): void;
 }
 
-const MAX_ELEVENLABS_CHARS_PER_SESSION = 3000; // a single Teil-1 practice run is far shorter than a full 3-Teil exam room's 7,000
+// Real bug found via live testing at the original 3,000: some Teil 2/3
+// muendlich_materials rows carry a FULL reading-passage body_text (a whole
+// short newspaper article, not a one-line guiding sentence) — formatTopic()
+// embeds that verbatim into the topic announcement, which alone can run
+// 1,500+ characters. Combined with Teil 1's opening/2 questions and several
+// Teil 2 questions, the ceiling was hit mid-session, silently dropping the
+// closing line's AUDIO (the transcript still recorded it via the ceiling's
+// own text-only fallback — see speakScriptedText's ceiling branch below —
+// which is exactly why this went unnoticed until the actual character count
+// was checked, not just "did a transcript line appear"). 6,000 covers
+// Teil 1 + a long-article Teil 2 topic + several questions + closing with
+// real headroom, while staying well under the 2-participant exam room's
+// 7,000 (this is one participant, not two).
+const MAX_ELEVENLABS_CHARS_PER_SESSION = 6000;
 
-export async function openTutorVoiceSession(ctx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {
+export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {
   let voice = await voiceManager.assignVoice(sessionId, EXAMINER_POOL);
+  let ctx: TutorContext = initialCtx;
 
   const history: TutorHistoryTurn[] = [];
   let closed = false;
@@ -84,6 +113,21 @@ export async function openTutorVoiceSession(ctx: TutorContext, sessionId: string
 
     try {
       conn = await openStreamingConnection(voice.voiceId);
+    } catch (e) {
+      // Connection-level failure (including a handshake timeout — see
+      // elevenLabsTts.ts's CONNECT_TIMEOUT_MS, added after a real live-
+      // tested hang with zero error output anywhere) is treated as a
+      // recoverable, per-utterance blip, NOT a fatal session error: this one
+      // scheduled question/reply is skipped (logged, not silently) rather
+      // than ending an otherwise-fine practice session over a single
+      // transient network hiccup. Distinct from onVoiceError below, which
+      // handles failures AFTER a connection is already open.
+      console.warn(`[tutor voice] connection failed for session ${sessionId}, skipping this utterance:`, e instanceof Error ? e.message : e);
+      if (myId === currentGenerationId) currentAbort = null;
+      return;
+    }
+
+    try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
@@ -106,10 +150,17 @@ export async function openTutorVoiceSession(ctx: TutorContext, sessionId: string
       let reply: string | null = null;
       let attempt = 0;
       for (;;) {
+        // True the moment generateTutorReply emits its first chunk THIS
+        // attempt — distinguishes "Claude returned nothing at all" (safe to
+        // silently retry: no partial audio has gone out yet) from "Claude
+        // returned something, it just happened to trim to empty" (NOT safe
+        // to retry once chunks already reached ttsHandle — see below).
+        let chunksSentThisAttempt = false;
         try {
           reply = await generateTutorReply(ctx, history, trigger, {
             onChunk: (text) => {
               if (myId !== currentGenerationId) return;
+              chunksSentThisAttempt = true;
               const budget = charBudgetRemaining();
               if (budget <= 0) { console.warn(`[tutor voice] ${MAX_ELEVENLABS_CHARS_PER_SESSION}-char ceiling reached for session ${sessionId}`); return; }
               const toSend = text.length > budget ? text.slice(0, budget) : text;
@@ -122,6 +173,19 @@ export async function openTutorVoiceSession(ctx: TutorContext, sessionId: string
               claudeCacheCreationInputTokens += usage.cacheCreationInputTokens; claudeCacheReadInputTokens += usage.cacheReadInputTokens;
             },
           }, abortCtrl.signal);
+          // Real failure mode found via live testing: Claude occasionally
+          // returns a genuinely empty reply with NO thrown error and NO
+          // chunks ever emitted — previously silently accepted as "nothing
+          // to say," which in practice meant the examiner skipped an entire
+          // scheduled question with no visible symptom anywhere. Since zero
+          // chunks means zero audio has been sent to ttsHandle yet, retrying
+          // the whole call is safe (unlike a partial-then-trimmed-empty
+          // reply, which we do NOT retry — something may already be playing).
+          if (!reply?.trim() && !chunksSentThisAttempt && attempt < 2) {
+            console.warn(`[tutor voice] empty reply with no chunks sent for session ${sessionId} (attempt ${attempt + 1}) — retrying`);
+            attempt++;
+            continue;
+          }
           break;
         } catch (e) {
           if (e instanceof ExaminerBrainError && e.message === "aborted") { ttsHandle.cancel(); return; }
@@ -165,6 +229,23 @@ export async function openTutorVoiceSession(ctx: TutorContext, sessionId: string
 
     try {
       conn = await openStreamingConnection(voice.voiceId);
+    } catch (e) {
+      // Same reasoning as speak()'s identical connection-failure branch — a
+      // recoverable, per-utterance blip (including a handshake timeout, see
+      // elevenLabsTts.ts's CONNECT_TIMEOUT_MS), not a fatal session error.
+      // Unlike speak(), we already know the exact text here, so it's still
+      // recorded to the transcript (audio just didn't make it this time) —
+      // same convention as the char-budget-ceiling branch above.
+      console.warn(`[tutor voice] connection failed for session ${sessionId}, skipping this scripted utterance's audio:`, e instanceof Error ? e.message : e);
+      if (myId === currentGenerationId) {
+        currentAbort = null;
+        history.push({ speaker: "examiner", text });
+        callbacks.onOutputTranscript?.(text);
+      }
+      return;
+    }
+
+    try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
@@ -236,6 +317,12 @@ export async function openTutorVoiceSession(ctx: TutorContext, sessionId: string
     },
     speakScriptedText(text) {
       return speakScriptedText(text);
+    },
+    setStage(stage, teil2Topic) {
+      ctx = { ...ctx, stage, teil2Topic };
+    },
+    getVoiceId() {
+      return voice.voiceId;
     },
     getUsage() {
       const sttMinutes = sttBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;

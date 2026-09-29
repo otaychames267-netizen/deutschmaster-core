@@ -183,18 +183,18 @@ export async function generateExaminerReply(
 
   const body = {
     model,
-    // Bumped from 250 to 1024, found via a live sibling bug in
-    // tutorBrain.ts's identical request shape: Claude can spend the ENTIRE
-    // budget on extended-thinking content blocks (thinking_delta/
-    // signature_delta) and hit stop_reason="max_tokens" before emitting a
-    // single text_delta — a silent empty spoken reply, no error anywhere in
-    // the pipeline. Earlier ad-hoc testing this session (direct API calls
-    // with the production prompt) happened not to trigger this at 250, but
-    // that only shows it's prompt/trigger-dependent, not that 250 is safe in
-    // general. 1024 gives thinking real room without starving the actual
-    // answer — a short exam question/reply is nowhere close to that many
-    // output tokens once thinking (already filtered out below, before this
-    // fix and after) is excluded.
+    // Found via a live sibling bug in tutorBrain.ts's identical request
+    // shape: Claude can spend its ENTIRE max_tokens budget on extended-
+    // thinking content blocks (thinking_delta/signature_delta) and hit
+    // stop_reason="max_tokens" before emitting a single text_delta — a
+    // silent empty spoken reply, no error anywhere in the pipeline. Raising
+    // max_tokens (250 -> 1024) only lowers the odds, it doesn't remove the
+    // cause — confirmed live in the tutor: it still recurred intermittently
+    // even at 1024. Explicitly disabling thinking is the real fix, verified
+    // directly against the API (usage.output_tokens_details.thinking_tokens:
+    // 0, HTTP 200) — a short exam question/reply doesn't benefit from
+    // extended reasoning anyway.
+    thinking: { type: "disabled" },
     max_tokens: 1024,
     stream: true,
     // Prompt caching: the system prompt is identical across EVERY Claude

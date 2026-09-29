@@ -3,26 +3,30 @@ import { describeMicError } from "./micError";
 
 /**
  * useVoiceTutorAudio — forked from useRelayAudio.ts for the AI Voice
- * Tutor's Teil 1 (structured examiner practice), which talks to the relay's
- * separate `/tutor/:sessionId` path instead of the 2-candidate exam's
- * `/room/:roomId`. All mic-capture/PCM16-resample/gapless-playback logic
- * below is unchanged from the original — that part is genuinely generic
- * audio I/O with no room/participant coupling. What's different:
+ * Tutor's Teil 1 -> Teil 2 flow (structured examiner practice), which talks
+ * to the relay's separate `/tutor/:sessionId` path instead of the
+ * 2-candidate exam's `/room/:roomId`. All mic-capture/PCM16-resample/
+ * gapless-playback logic below is unchanged from the original — that part
+ * is genuinely generic audio I/O with no room/participant coupling. What's
+ * different:
  *   - WS URL targets `/tutor/${sessionId}` (a real voice_tutor_sessions row
  *     the CALLER already created, topics locked in) instead of `/room/${roomId}`.
- *   - TranscriptLine.speaker is "examiner"|"student" — Teil 2/3's separate
- *     "partner" persona is a later pass, once those Teile exist.
- *   - No stage/intermission/repeat concepts (Teil 1 here is fully
- *     server-driven timing, the client has nothing to manage) — dropped
- *     entirely rather than carried over as always-null fields.
- *   - No setMySlot/ducking-by-partner heuristic (there is no "partner" in
- *     Teil 1) — the AI-speaking ducking (attenuate mic while the examiner is
+ *   - TranscriptLine.speaker is "examiner"|"student" — Teil 3's separate
+ *     "partner" persona is a later pass, once that Teil exists.
+ *   - `currentStage` (1|2) from the relay's `stage` message, mirroring the
+ *     exam's own stage concept — but no intermission/repeat concepts (this
+ *     build's Teil 1->2 handoff is a scripted transition line, not a timed
+ *     breather the client needs to display).
+ *   - No setMySlot/ducking-by-partner heuristic (there is no "partner" yet)
+ *     — the AI-speaking ducking (attenuate mic while the examiner is
  *     talking) is kept, since that's a real, still-relevant echo guard.
  *   - `secondsRemaining` from the relay's `cap_status` message (the exam has
  *     no equivalent — it hard-stops silently instead; for money-metered
  *     practice time a visible, server-authoritative countdown is better UX).
- *   - `teil1Complete`, set on the relay's `teil1_complete` message — this
- *     build ends the session there, so the UI needs to know explicitly.
+ *   - `teil1Complete` (informational — the session continues into Teil 2)
+ *     and `sessionComplete` (the real end-of-session signal, once Teil 2's
+ *     time budget is spent) are separate flags — do not treat the former as
+ *     an ending.
  */
 
 export interface TutorTranscriptLine {
@@ -44,7 +48,16 @@ export interface VoiceTutorAudioState {
   lastNudgeAt: number | null;
   latencyMs: number | null;
   transcript: TutorTranscriptLine[];
+  /** Which Teil the relay is currently driving — starts at 1, moves to 2 on
+   * the server's own "stage" message. Teil 3 doesn't exist yet. */
+  currentStage: 1 | 2;
+  /** Informational only — Teil 1 finished but the session keeps running
+   * straight into Teil 2 (see server.ts's tutorTickTeil1 handoff). Not an
+   * end-of-session signal; see sessionComplete for that. */
   teil1Complete: boolean;
+  /** The whole session ended normally (Teil 2's time budget spent) — a
+   * clean completion, not an error/terminated case. */
+  sessionComplete: boolean;
   terminated: TutorTerminatedReason | null;
   error: string | null;
 }
@@ -98,7 +111,8 @@ function resample(input: Float32Array, fromRate: number, toRate: number): Float3
 const initialState: VoiceTutorAudioState = {
   connected: false, ready: false, sessionId: null, secondsRemaining: null,
   micLevel: 0, aiSpeaking: false, aiThinking: false, lastNudgeAt: null,
-  latencyMs: null, transcript: [], teil1Complete: false, terminated: null, error: null,
+  latencyMs: null, transcript: [], currentStage: 1, teil1Complete: false, sessionComplete: false,
+  terminated: null, error: null,
 };
 
 export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | null, accessToken: string | null) {
@@ -183,6 +197,8 @@ export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | 
               setState((s) => ({ ...s, aiSpeaking: false }));
             }, 600);
           } else if (msg.type === "teil1_complete") setState((s) => ({ ...s, teil1Complete: true }));
+          else if (msg.type === "stage") setState((s) => ({ ...s, currentStage: msg.stage }));
+          else if (msg.type === "session_complete") setState((s) => ({ ...s, sessionComplete: true }));
           else if (msg.type === "terminated") setState((s) => ({ ...s, terminated: msg.reason }));
         };
 
