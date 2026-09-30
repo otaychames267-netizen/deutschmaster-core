@@ -101,7 +101,9 @@ function VoiceTutorSession() {
 
   const b2OrAdmin = activeLevel === "TELC_B2" || isAdmin;
   const levelSeg = activeLevel === "TELC_B1" ? "b1" : "b2";
-  if (!VOICE_TUTOR_ENABLED || !b2OrAdmin || !hasAccess) {
+  // Admin always bypasses the launch flag (dev/preview access while the
+  // feature ships dark to everyone else) — see VOICE_TUTOR_ENABLED's doc comment.
+  if ((!isAdmin && !VOICE_TUTOR_ENABLED) || !b2OrAdmin || !hasAccess) {
     return <Navigate to="/$level/muendlich" params={{ level: levelSeg }} replace />;
   }
   if (sessionValid === false) {

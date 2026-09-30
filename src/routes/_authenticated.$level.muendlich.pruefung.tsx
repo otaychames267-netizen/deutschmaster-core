@@ -38,7 +38,7 @@ const db = supabase as any;
 function PruefungPage() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
-  const { user } = useAuth();
+  const { user, isAdmin, loading: authLoading, roleLoading } = useAuth();
   // Level- AND user-scoped. Without the user id, this localStorage key is
   // shared by the whole browser origin — a second account signing in on
   // another tab of the same browser would silently overwrite the first
@@ -121,6 +121,20 @@ function PruefungPage() {
   }
 
   function leave() { if (roomId) markDisconnected(roomId); if (LS_KEY) localStorage.removeItem(LS_KEY); setRoomId(null); setSlot(null); setRoom(null); }
+
+  // Admin-only preview gate (2026-09-30): the live 2-candidate simulation is
+  // temporarily locked to admin while the AI 1:1 tutor is validated — every
+  // other Mündlich feature (Vorbereitung) stays open to subscribers as before.
+  if (authLoading || roleLoading) return null;
+  if (!isAdmin) {
+    return (
+      <div className="mx-auto max-w-md py-16 text-center">
+        <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted"><Users className="h-7 w-7 text-muted-foreground" /></div>
+        <h1 className="text-2xl font-black text-foreground">Prüfungssimulation</h1>
+        <p className="mx-auto mt-2 max-w-sm text-sm text-muted-foreground">Diese Funktion ist derzeit vorübergehend nicht verfügbar. Wir arbeiten daran, sie bald wieder freizuschalten.</p>
+      </div>
+    );
+  }
 
   // ── Landing ──
   if (!roomId) {

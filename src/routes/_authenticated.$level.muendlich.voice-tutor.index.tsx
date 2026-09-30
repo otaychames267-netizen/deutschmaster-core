@@ -57,7 +57,9 @@ function VoiceTutorPicker() {
   if (loading || roleLoading || accessLoading) return null;
 
   const b2OrAdmin = activeLevel === "TELC_B2" || isAdmin;
-  if (!VOICE_TUTOR_ENABLED || !b2OrAdmin) {
+  // Admin always bypasses the launch flag (dev/preview access while the
+  // feature ships dark to everyone else) — see VOICE_TUTOR_ENABLED's doc comment.
+  if ((!isAdmin && !VOICE_TUTOR_ENABLED) || !b2OrAdmin) {
     return <Navigate to="/$level/muendlich" params={{ level: activeLevel === "TELC_B1" ? "b1" : "b2" }} replace />;
   }
 
