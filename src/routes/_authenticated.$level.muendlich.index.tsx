@@ -5,6 +5,7 @@ import {
   Lightbulb, BookOpen, MessageCircle, Lock, Bot,
 } from "lucide-react";
 import { useLevelSegment } from "@/lib/useActiveLevel";
+import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/_authenticated/$level/muendlich/")({
   component: MuendlichIndexPage,
@@ -58,8 +59,30 @@ const TEILE = [
   },
 ];
 
+/** A locked, non-interactive square tile — used for features that are
+ * temporarily restricted to admin-only preview. Never an <a>/<Link>, so it
+ * never navigates and never bounces through a route's own redirect-away
+ * gate (which would look like a broken click to a regular user). */
+function LockedTile({ icon: Icon, title, subtitle }: { icon: React.ComponentType<{ className?: string }>; title: string; subtitle: string }) {
+  return (
+    <div className="relative flex aspect-square cursor-not-allowed select-none flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-border bg-muted/30 p-5 text-center opacity-70">
+      <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-muted-foreground">
+        <Lock className="h-2.5 w-2.5" /> Bald
+      </span>
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted ring-1 ring-border">
+        <Icon className="h-7 w-7 text-muted-foreground" />
+      </div>
+      <div>
+        <p className="text-sm font-black text-muted-foreground">{title}</p>
+        <p className="mt-0.5 text-[11px] text-muted-foreground">{subtitle}</p>
+      </div>
+    </div>
+  );
+}
+
 function MuendlichIndexPage() {
   const seg = useLevelSegment();
+  const { isAdmin } = useAuth();
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-10">
 
@@ -115,32 +138,42 @@ function MuendlichIndexPage() {
             </div>
           </button>
 
-          <Link
-            to={`/${seg}/muendlich/pruefung` as never}
-            className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
-          >
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
-              <GraduationCap className="h-7 w-7 text-rose-500" />
-            </div>
-            <div>
-              <p className="text-sm font-black text-foreground">Prüfungssimulation</p>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">Alle 3 Teile · ~15 min</p>
-            </div>
-          </Link>
+          {isAdmin ? (
+            <Link
+              to={`/${seg}/muendlich/pruefung` as never}
+              className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
+            >
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
+                <GraduationCap className="h-7 w-7 text-rose-500" />
+              </div>
+              <div>
+                <p className="text-sm font-black text-foreground">Prüfungssimulation</p>
+                <p className="mt-0.5 text-[11px] text-muted-foreground">Alle 3 Teile · ~15 min</p>
+              </div>
+            </Link>
+          ) : (
+            <LockedTile icon={GraduationCap} title="Prüfungssimulation" subtitle="Alle 3 Teile · ~15 min" />
+          )}
         </div>
 
         <div className="flex justify-center">
-          <div className="relative flex aspect-square w-[calc(50%-0.5rem)] cursor-not-allowed select-none flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-border bg-muted/30 p-5 text-center opacity-70">
-            <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-muted-foreground">
-              <Lock className="h-2.5 w-2.5" /> Bald
-            </span>
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted ring-1 ring-border">
-              <Bot className="h-7 w-7 text-muted-foreground" />
-            </div>
-            <div>
-              <p className="text-sm font-black text-muted-foreground">AI 1:1</p>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">KI-Sprachpartner · demnächst</p>
-            </div>
+          <div className="w-[calc(50%-0.5rem)]">
+            {isAdmin ? (
+              <Link
+                to={`/${seg}/muendlich/voice-tutor` as never}
+                className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
+                  <Bot className="h-7 w-7 text-rose-500" />
+                </div>
+                <div>
+                  <p className="text-sm font-black text-foreground">AI 1:1</p>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">KI-Sprachpartner · Admin-Vorschau</p>
+                </div>
+              </Link>
+            ) : (
+              <LockedTile icon={Bot} title="AI 1:1" subtitle="KI-Sprachpartner · demnächst" />
+            )}
           </div>
         </div>
       </div>
