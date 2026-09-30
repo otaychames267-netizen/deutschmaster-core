@@ -58,12 +58,21 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
   // client-side rather than pushing the state exclusion into the query (max
   // a couple of rows, and avoids relying on PostgREST's embedded-filter
   // syntax for a check that only needs to be approximately fast, not exact).
+  // Mirrors the trigger's own 15-minute staleness carve-out (see the
+  // 2026-09-30 migration) so this friendly pre-check never blocks a join the
+  // real DB-level insert would actually allow.
   const { data: otherRows } = await db
     .from("muendlich_participants")
-    .select("room_id, muendlich_rooms!inner(state)")
+    .select("room_id, muendlich_rooms!inner(state, updated_at)")
     .eq("user_id", userId)
     .neq("room_id", room!.id);
-  const activeElsewhere = (otherRows ?? []).some((r: any) => !["finished", "abandoned"].includes(r.muendlich_rooms?.state));
+  const PRE_EXAM_STATES = ["waiting_for_partner", "both_connected", "ready_check"];
+  const activeElsewhere = (otherRows ?? []).some((r: any) => {
+    const s = r.muendlich_rooms?.state;
+    if (["finished", "abandoned"].includes(s)) return false;
+    if (PRE_EXAM_STATES.includes(s) && Date.now() - new Date(r.muendlich_rooms.updated_at).getTime() > 15 * 60_000) return false;
+    return true;
+  });
   if (activeElsewhere) {
     return { error: "You already have an active exam session in another room. Finish or leave it first." };
   }
@@ -143,6 +152,25 @@ export async function saveSelection(roomId: string, teil: number, slot: Slot | n
 export async function markDisconnected(roomId: string) {
   const { data: u } = await db.auth.getUser();
   if (u?.user?.id) await db.from("muendlich_participants").update({ connected: false }).eq("room_id", roomId).eq("user_id", u.user.id);
+}
+
+/** Real bug found via a professional-experience audit (2026-09-30): "abandoned"
+ * was a real value in the RoomState CHECK constraint and the DB's own
+ * single-active-session trigger (check_single_active_muendlich_session)
+ * already excluded it as "not active" — but NOTHING anywhere in this codebase
+ * ever actually wrote it. A student who created a room and never found a
+ * partner (or whose partner never confirmed Ready) had no way to leave that
+ * room state — markDisconnected() only flips their own participant row to
+ * connected:false, never the room's own state — so the trigger permanently
+ * blocked them from ever creating or joining another room again, with zero
+ * self-service recovery. Called from leave() below whenever the room hasn't
+ * reached preparation yet (nothing exam-relevant has happened, so abandoning
+ * is always safe here) — atomic state guard, same idiom as every other
+ * transition in this file, so a stale click can't clobber a room that
+ * legitimately advanced in the meantime. */
+export async function abandonRoomIfIncomplete(roomId: string, currentState: RoomState) {
+  if (!(["waiting_for_partner", "both_connected", "ready_check"] as RoomState[]).includes(currentState)) return;
+  await db.from("muendlich_rooms").update({ state: "abandoned" }).eq("id", roomId).eq("state", currentState);
 }
 
 export async function sendChat(roomId: string, slot: Slot | null, body: string) {

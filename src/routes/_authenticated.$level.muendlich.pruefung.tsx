@@ -18,7 +18,7 @@ import { ScoreRevealModal } from "@/components/muendlich/ScoreRevealModal";
 import {
   joinOrCreateRoom, maybeStartPreparation, lockAndAdvanceToExam, setReady, setConnChecks,
   saveSelection, sendChat, fetchRoomBundle, subscribeRoom, remainingSeconds,
-  fetchServerOffsetMs, roomExists, markDisconnected,
+  fetchServerOffsetMs, roomExists, markDisconnected, abandonRoomIfIncomplete,
   type Room, type Participant, type Selection, type Slot,
 } from "@/lib/muendlich/room";
 import { supabase } from "@/integrations/supabase/client";
@@ -120,7 +120,18 @@ function PruefungPage() {
     if (LS_KEY) localStorage.setItem(LS_KEY, JSON.stringify({ roomId: r.room.id, slot: r.slot }));
   }
 
-  function leave() { if (roomId) markDisconnected(roomId); if (LS_KEY) localStorage.removeItem(LS_KEY); setRoomId(null); setSlot(null); setRoom(null); }
+  function leave() {
+    if (roomId) markDisconnected(roomId);
+    // Real bug found via audit (2026-09-30): leaving before the exam actually
+    // started (no partner ever showed up, or they never confirmed Ready)
+    // used to leave the room stuck forever, permanently locking this user
+    // out of ever starting another room (see abandonRoomIfIncomplete's own
+    // comment for the full trigger-level mechanics). Safe no-op once
+    // preparation has begun — that path keeps existing reconnect behavior.
+    if (roomId && room) abandonRoomIfIncomplete(roomId, room.state);
+    if (LS_KEY) localStorage.removeItem(LS_KEY);
+    setRoomId(null); setSlot(null); setRoom(null);
+  }
 
   // Admin-only preview gate (2026-09-30): the live 2-candidate simulation is
   // temporarily locked to admin while the AI 1:1 tutor is validated — every
