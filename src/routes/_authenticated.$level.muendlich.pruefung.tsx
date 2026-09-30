@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Users, Mic, MicOff, Wifi, WifiOff, Loader2, CheckCircle2, Copy, PhoneCall, Send, Clock, AlertTriangle,
-  RefreshCw, HelpCircle, Volume2, VolumeX, EyeOff, Coins, PauseCircle,
+  RefreshCw, HelpCircle, Volume2, VolumeX, EyeOff, Coins, PauseCircle, Shuffle, XCircle,
 } from "lucide-react";
 import { useVoiceCall } from "@/lib/muendlich/useVoiceCall";
 import { useRelayAudio } from "@/lib/muendlich/useRelayAudio";
@@ -19,6 +19,7 @@ import {
   joinOrCreateRoom, maybeStartPreparation, lockAndAdvanceToExam, setReady, setConnChecks,
   saveSelection, sendChat, fetchRoomBundle, subscribeRoom, remainingSeconds,
   fetchServerOffsetMs, roomExists, markDisconnected, abandonRoomIfIncomplete,
+  joinMatchmakingQueue, leaveMatchmakingQueue, subscribeMatchmakingQueue,
   type Room, type Participant, type Selection, type Slot,
 } from "@/lib/muendlich/room";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,6 +56,9 @@ function PruefungPage() {
   const [joinCode, setJoinCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [searching, setSearching] = useState(false);
+  const stopQueueWatch = useRef<(() => void) | null>(null);
+  const searchTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [offsetMs, setOffsetMs] = useState(0);
   const [materials, setMaterials] = useState<Record<number, TopicMaterial[]>>({ 1: [], 2: [], 3: [] });
 
@@ -120,6 +124,43 @@ function PruefungPage() {
     if (LS_KEY) localStorage.setItem(LS_KEY, JSON.stringify({ roomId: r.room.id, slot: r.slot }));
   }
 
+  function stopSearching() {
+    stopQueueWatch.current?.(); stopQueueWatch.current = null;
+    if (searchTimeout.current) { clearTimeout(searchTimeout.current); searchTimeout.current = null; }
+    setSearching(false);
+  }
+
+  // Real gap found via a professional-experience audit (2026-09-30): before
+  // this, the ONLY way to start an exam was to create a room and manually
+  // share its code, or join a code someone else shared — no automatic
+  // pairing. Most students studying alone have no partner ready at the same
+  // moment. This calls the new matchmaking queue (join_muendlich_queue) —
+  // either matched immediately (a room code comes back right away) or
+  // enrolled to wait, watched via subscribeMatchmakingQueue until a LATER
+  // student matches with us. 90s client-side give-up matches this app's own
+  // convention of a generous-but-bounded wait rather than an infinite one.
+  async function findPartner() {
+    if (!level) return;
+    setError(null); setSearching(true);
+    const r = await joinMatchmakingQueue(level);
+    if ("error" in r) { setError(r.error); setSearching(false); return; }
+    if (r.code) { stopSearching(); await start(r.code); return; }
+    if (!user) return;
+    stopQueueWatch.current = subscribeMatchmakingQueue(user.id, (code) => { stopSearching(); start(code); });
+    searchTimeout.current = setTimeout(() => {
+      stopSearching();
+      leaveMatchmakingQueue();
+      setError("No partner found within 90 seconds. Try again, or share a Room ID with someone directly.");
+    }, 90_000);
+  }
+
+  function cancelSearch() {
+    stopSearching();
+    leaveMatchmakingQueue();
+  }
+
+  useEffect(() => () => { stopQueueWatch.current?.(); if (searchTimeout.current) clearTimeout(searchTimeout.current); }, []);
+
   function leave() {
     if (roomId) markDisconnected(roomId);
     // Real bug found via audit (2026-09-30): leaving before the exam actually
@@ -160,13 +201,37 @@ function PruefungPage() {
           ))}
         </div>
         {error && <p className="mt-4 text-sm text-rose-600">{error}</p>}
-        <button onClick={() => start(null)} disabled={busy} className="mx-auto mt-6 flex items-center gap-2 rounded-2xl bg-rose-500 px-8 py-3 text-base font-bold text-white hover:bg-rose-600 disabled:opacity-50">
-          {busy ? <Loader2 className="h-5 w-5 animate-spin" /> : <PhoneCall className="h-5 w-5" />} Start Prüfung
-        </button>
-        <div className="mt-6 flex items-center justify-center gap-2">
-          <input value={joinCode} onChange={(e) => setJoinCode(e.target.value)} placeholder="Join with Room ID" className="w-40 rounded-lg border border-border bg-background px-3 py-2 text-sm uppercase" />
-          <button onClick={() => start(joinCode.trim() || null)} disabled={busy || !joinCode.trim()} className="rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:bg-muted disabled:opacity-50">Join</button>
-        </div>
+
+        {searching ? (
+          <div className="mx-auto mt-6 flex max-w-xs flex-col items-center gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/5 p-6">
+            <Loader2 className="h-7 w-7 animate-spin text-rose-500" />
+            <p className="text-sm font-bold text-foreground">Searching for a partner…</p>
+            <p className="text-xs text-muted-foreground">You'll be connected automatically as soon as another {level === "TELC_B1" ? "B1" : "B2"} student is found.</p>
+            <button onClick={cancelSearch} className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-destructive">
+              <XCircle className="h-3.5 w-3.5" /> Cancel search
+            </button>
+          </div>
+        ) : (
+          <>
+            <button onClick={findPartner} disabled={busy} className="mx-auto mt-6 flex items-center gap-2 rounded-2xl bg-rose-500 px-8 py-3 text-base font-bold text-white hover:bg-rose-600 disabled:opacity-50">
+              <Shuffle className="h-5 w-5" /> Find a Partner Automatically
+            </button>
+
+            <div className="mx-auto mt-6 flex max-w-xs items-center gap-3 text-xs text-muted-foreground">
+              <div className="h-px flex-1 bg-border" /> or, with someone you know <div className="h-px flex-1 bg-border" />
+            </div>
+
+            <div className="mt-4 flex flex-col items-center gap-3">
+              <button onClick={() => start(null)} disabled={busy} className="flex items-center gap-2 rounded-xl border border-border px-5 py-2 text-sm font-semibold hover:bg-muted disabled:opacity-50">
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <PhoneCall className="h-4 w-4" />} Create a private room
+              </button>
+              <div className="flex items-center justify-center gap-2">
+                <input value={joinCode} onChange={(e) => setJoinCode(e.target.value)} placeholder="Join with Room ID" className="w-40 rounded-lg border border-border bg-background px-3 py-2 text-sm uppercase" />
+                <button onClick={() => start(joinCode.trim() || null)} disabled={busy || !joinCode.trim()} className="rounded-lg border border-border px-3 py-2 text-sm font-semibold hover:bg-muted disabled:opacity-50">Join</button>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     );
   }

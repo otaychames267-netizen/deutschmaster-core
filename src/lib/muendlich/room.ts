@@ -199,6 +199,46 @@ export function subscribeRoom(roomId: string, onChange: () => void) {
   return () => { db.removeChannel(ch); };
 }
 
+/** Real gap found via a professional-experience audit (2026-09-30): the only
+ * way to start a Prüfungssimulation was to create a room and manually share
+ * its code, or join one someone else shared — no automatic pairing at all.
+ * Most students studying alone have no partner ready at the same moment.
+ * join_muendlich_queue() (see its own migration) either matches immediately
+ * with an existing same-level waiting student (returning a real room code
+ * right away) or enrolls this user to wait (returns null) — the waiting
+ * side then watches its OWN queue row via subscribeMatchmakingQueue() below
+ * for matched_room_code to appear, same Realtime+poll idiom as subscribeRoom. */
+export async function joinMatchmakingQueue(level: "TELC_B1" | "TELC_B2"): Promise<{ code: string | null } | { error: string }> {
+  const { data, error } = await db.rpc("join_muendlich_queue", { p_level: level });
+  if (error) {
+    if (error.message?.includes("NO_MUENDLICH_ACCESS")) return { error: "Your subscription doesn't include Mündlich access. Upgrade to Mündlich or Komplett to use the exam room." };
+    if (error.message?.includes("ALREADY_IN_ACTIVE_SESSION")) return { error: "You already have an active exam session. Finish or leave it first." };
+    return { error: error.message };
+  }
+  return { code: data as string | null };
+}
+
+export async function leaveMatchmakingQueue(): Promise<void> {
+  await db.rpc("leave_muendlich_queue");
+}
+
+/** Watches this user's own queue row for a match. Realtime is the primary
+ * signal; the 2s poll is a safety net for the same reasons subscribeRoom's
+ * callers already pair it with a poll elsewhere in this app. */
+export function subscribeMatchmakingQueue(userId: string, onMatched: (code: string) => void) {
+  let done = false;
+  const check = async () => {
+    if (done) return;
+    const { data } = await db.from("muendlich_matchmaking_queue").select("matched_room_code").eq("user_id", userId).maybeSingle();
+    if (data?.matched_room_code && !done) { done = true; onMatched(data.matched_room_code); }
+  };
+  const ch = db.channel(`muendlich-queue:${userId}`)
+    .on("postgres_changes", { event: "UPDATE", schema: "public", table: "muendlich_matchmaking_queue", filter: `user_id=eq.${userId}` }, check)
+    .subscribe();
+  const poll = setInterval(check, 2000);
+  return () => { done = true; db.removeChannel(ch); clearInterval(poll); };
+}
+
 /** One-time clock-offset measurement: serverNow − clientNow (ms). */
 export async function fetchServerOffsetMs(): Promise<number> {
   try {
