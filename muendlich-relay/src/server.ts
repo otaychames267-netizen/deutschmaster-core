@@ -87,7 +87,7 @@ import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "
 import { openTutorVoiceSession, type TutorVoiceSession } from "./voice/tutorVoiceSession.js";
 import type { TutorContext } from "./voice/tutorBrain.js";
 import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
-import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23 } from "./examinerPhrases.js";
+import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23, pickEarlyEnd } from "./examinerPhrases.js";
 import { pickTeil1ToTeil2, pickTeil2ToTeil3, pickSessionEnd } from "./tutorPhrases.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
 
@@ -748,6 +748,21 @@ async function startRoomIfReady(room: RoomSession) {
         return;
       }
       console.log(`[room ${room.roomId}] credit deduction genuinely exhausted, hard-stopping:`, error.message);
+      // Speak a short closing line before cutting audio — previously this
+      // path (and idle_timeout/partner_disconnected below) went dead silent
+      // straight to the text-only "terminated" screen, unlike the natural
+      // end-of-exam path (exam_end, above) which always got a spoken
+      // goodbye. speakScriptedText already catches its own failures
+      // internally (never throws), so no extra try/catch needed here. The
+      // finishing guard matters here too: without it, live-testing showed
+      // the NEXT tick (mainTick fires every TICK_MS, independent of this
+      // interval) can re-enter another "ending" branch while this speak()
+      // is still in flight, opening a second ElevenLabs generation that
+      // supersedes this one before its own onOutputTranscript ever fires —
+      // the closing line silently never reaches the client.
+      if (room.finishing) return;
+      room.finishing = true;
+      await room.live?.speakScriptedText(pickEarlyEnd("time_up", room.live?.getVoiceId() ?? "gemini-default"));
       broadcast(room, { type: "terminated", reason: error.message.includes("INSUFFICIENT") ? "insufficient_minutes" : "window_expired" });
       endRoom(room, "expired_mid_exam");
       return;
@@ -771,6 +786,7 @@ async function startRoomIfReady(room: RoomSession) {
       ]);
       if (!budgetA.allowed || !budgetB.allowed) {
         console.log(`[room ${room.roomId}] ElevenLabs credit allowance exhausted mid-exam (A: ${budgetA.creditsRemaining}, B: ${budgetB.creditsRemaining}), hard-stopping`);
+        await room.live?.speakScriptedText(pickEarlyEnd("time_up", room.live?.getVoiceId() ?? "gemini-default"));
         broadcast(room, { type: "terminated", reason: "insufficient_minutes" });
         endRoom(room, "insufficient_credits_mid_exam");
       }
@@ -781,7 +797,7 @@ async function startRoomIfReady(room: RoomSession) {
   room.mainTick = setInterval(() => tick(room, ctx), TICK_MS);
 }
 
-function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil1TopicB: string; teil1TopicBTitle: string; teil2Topic: string; teil3Topic: string }) {
+async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil1TopicB: string; teil1TopicBTitle: string; teil2Topic: string; teil3Topic: string }) {
   if (room.finishing) return;
 
   // A stage's duration just elapsed -> we're on a 15s breather before the
@@ -1015,6 +1031,15 @@ function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1Topic
   // outright to protect the API budget rather than let it run unattended.
   if (silenceMs > HARD_IDLE_CLOSE_MS) {
     console.log(`[room ${room.roomId}] hard idle-close: ${silenceMs}ms of silence`);
+    // Guard against re-entry: tick() now awaits speakScriptedText() below,
+    // and mainTick fires every TICK_MS regardless of whether the previous
+    // invocation finished — without this, a second tick firing mid-speech
+    // opens a second ElevenLabs generation that supersedes the first one
+    // before its onOutputTranscript ever fires, so the closing line never
+    // actually reaches the client (caught by live-testing, not inspection).
+    if (room.finishing) return;
+    room.finishing = true;
+    await room.live?.speakScriptedText(pickEarlyEnd("idle_timeout", room.live?.getVoiceId() ?? "gemini-default"));
     broadcast(room, { type: "terminated", reason: "idle_timeout" });
     endRoom(room, "idle_timeout");
     return;
@@ -1668,7 +1693,13 @@ wss.on("connection", async (ws, req) => {
       // window — symmetric treatment, same broadcast/reason once it
       // actually expires. (Spec's "AI pivots to play both roles" for a
       // remaining student is still NOT implemented — see file header.)
-      const timer = setTimeout(() => {
+      const timer = setTimeout(async () => {
+        // Both sides' sockets schedule their own identical timer (see the
+        // comment above), so both can fire here — guard the same way as the
+        // other early-end paths so only the first one actually speaks/ends.
+        if (room!.finishing) return;
+        room!.finishing = true;
+        await room!.live?.speakScriptedText(pickEarlyEnd("partner_disconnected", room!.live?.getVoiceId() ?? "gemini-default"));
         broadcast(room!, { type: "terminated", reason: "partner_disconnected" });
         endRoom(room!, "disconnect_timeout");
       }, RECONNECT_GRACE_MS);
