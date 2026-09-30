@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Mic, GraduationCap, ChevronRight, Clock,
   Presentation, MessageSquare, Users, Target, Zap,
-  Lightbulb, BookOpen, MessageCircle,
+  Lightbulb, BookOpen, MessageCircle, Lock, Bot,
 } from "lucide-react";
 import { useLevelSegment } from "@/lib/useActiveLevel";
 
@@ -95,21 +95,52 @@ function MuendlichIndexPage() {
               </span>
             </div>
           </div>
+        </div>
+      </div>
 
-          {/* Prüfungssimulation quick link */}
-          <div className="hidden sm:block shrink-0">
-            <Link
-              to={`/${seg}/muendlich/pruefung` as never}
-              className="flex flex-col items-center gap-3 rounded-2xl bg-white/10 p-5 backdrop-blur-sm ring-1 ring-white/15 hover:bg-white/15 transition-colors min-w-[160px] text-center"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white/20">
-                <GraduationCap className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <p className="text-xs font-black text-white">Prüfungssimulation</p>
-                <p className="mt-0.5 text-[10px] text-rose-100/60">All 3 tasks · ~15 min</p>
-              </div>
-            </Link>
+      {/* ── Triangle nav: Vorbereitung + Prüfungssimulation on top, AI 1:1 centered below ── */}
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <button
+            type="button"
+            onClick={() => document.getElementById("vorbereitung-teile")?.scrollIntoView({ behavior: "smooth", block: "start" })}
+            className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
+          >
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
+              <BookOpen className="h-7 w-7 text-rose-500" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-foreground">Vorbereitung</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">3 Teile einzeln üben</p>
+            </div>
+          </button>
+
+          <Link
+            to={`/${seg}/muendlich/pruefung` as never}
+            className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
+          >
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
+              <GraduationCap className="h-7 w-7 text-rose-500" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-foreground">Prüfungssimulation</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">Alle 3 Teile · ~15 min</p>
+            </div>
+          </Link>
+        </div>
+
+        <div className="flex justify-center">
+          <div className="relative flex aspect-square w-[calc(50%-0.5rem)] cursor-not-allowed select-none flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-border bg-muted/30 p-5 text-center opacity-70">
+            <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-muted-foreground">
+              <Lock className="h-2.5 w-2.5" /> Bald
+            </span>
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted ring-1 ring-border">
+              <Bot className="h-7 w-7 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="text-sm font-black text-muted-foreground">AI 1:1</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">KI-Sprachpartner · demnächst</p>
+            </div>
           </div>
         </div>
       </div>
@@ -123,18 +154,10 @@ function MuendlichIndexPage() {
       </div>
 
       {/* ── Direct Teil Practice Cards ───────────────────────── */}
-      <div>
-        <div className="mb-4 flex items-center justify-between">
-          <div>
-            <h2 className="text-lg font-black text-foreground">Vorbereitung</h2>
-            <p className="text-sm text-muted-foreground">Click any Teil to start practising immediately.</p>
-          </div>
-          <Link
-            to={`/${seg}/muendlich/pruefung` as never}
-            className="flex items-center gap-2 rounded-2xl border border-rose-500/25 bg-rose-500/8 px-4 py-2 text-xs font-bold text-rose-600 dark:text-rose-400 hover:bg-rose-500/15 transition-colors sm:hidden"
-          >
-            Full Sim <ChevronRight className="h-3 w-3" />
-          </Link>
+      <div id="vorbereitung-teile" className="scroll-mt-6">
+        <div className="mb-4">
+          <h2 className="text-lg font-black text-foreground">Vorbereitung</h2>
+          <p className="text-sm text-muted-foreground">Click any Teil to start practising immediately.</p>
         </div>
 
         <div className="space-y-4">
@@ -212,23 +235,6 @@ function MuendlichIndexPage() {
           ))}
         </div>
       </div>
-
-      {/* ── Full simulation CTA (mobile) ─────────────────────── */}
-      <Link
-        to={`/${seg}/muendlich/pruefung` as never}
-        className="sm:hidden group flex items-center justify-between rounded-2xl border border-rose-500/25 bg-gradient-to-br from-rose-500/8 to-card p-5 shadow-sm hover:border-rose-500/40 hover:shadow-md transition-all"
-      >
-        <div className="flex items-center gap-4">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-rose-500/15">
-            <GraduationCap className="h-5 w-5 text-rose-500" />
-          </div>
-          <div>
-            <p className="font-black text-foreground text-sm">Prüfungssimulation</p>
-            <p className="text-xs text-muted-foreground">All 3 tasks · ~15 min · Exam conditions</p>
-          </div>
-        </div>
-        <ChevronRight className="h-5 w-5 text-rose-500 group-hover:translate-x-0.5 transition-transform" />
-      </Link>
     </div>
   );
 }
