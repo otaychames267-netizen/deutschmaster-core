@@ -15,15 +15,18 @@ const db = supabase as any;
 export function ScoreRevealModal({ roomId, candidateName, roomCode }: { roomId: string; candidateName: string; roomCode: string }) {
   const [evaluation, setEvaluation] = useState<MuendlichEvaluationResult | null>(null);
   const [transcript, setTranscript] = useState<{ speaker: string; text: string }[]>([]);
+  const [failed, setFailed] = useState(false);
+  const [retryKey, setRetryKey] = useState(0);
   const firedConfetti = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
     let attempts = 0;
+    setFailed(false);
     const poll = async () => {
       attempts++;
       const { data: session } = await db.from("muendlich_exam_sessions").select("id, transcript").eq("room_id", roomId).order("created_at", { ascending: false }).limit(1).maybeSingle();
-      if (cancelled || !session) { if (attempts < 30) setTimeout(poll, 2000); return; }
+      if (cancelled || !session) { if (attempts < 30) setTimeout(poll, 2000); else setFailed(true); return; }
       if (Array.isArray(session.transcript)) setTranscript(session.transcript);
 
       const { data } = await db.from("muendlich_evaluations").select("*").eq("session_id", session.id).maybeSingle();
@@ -36,11 +39,18 @@ export function ScoreRevealModal({ roomId, candidateName, roomCode }: { roomId: 
         });
         return;
       }
-      if (attempts < 30) setTimeout(poll, 2000); // evaluation generation runs 2 sequential Gemini calls server-side, can take a while
+      // evaluation generation runs 2 sequential Claude calls server-side
+      // (with its own internal retry on a malformed response), can take a
+      // while. Real bug found via live-testing a full exam (2026-09-30):
+      // this used to just stop silently once attempts ran out, leaving the
+      // student staring at "wird erstellt…" forever with zero explanation —
+      // now surfaces a real error state with a retry option instead.
+      if (attempts < 30) setTimeout(poll, 2000);
+      else setFailed(true);
     };
     poll();
     return () => { cancelled = true; };
-  }, [roomId]);
+  }, [roomId, retryKey]);
 
   useEffect(() => {
     if (evaluation?.passed && !firedConfetti.current) {
@@ -52,7 +62,19 @@ export function ScoreRevealModal({ roomId, candidateName, roomCode }: { roomId: 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl">
-        {!evaluation ? (
+        {failed ? (
+          <div className="flex flex-col items-center gap-3 py-10 text-center">
+            <p className="font-bold text-foreground">Die Auswertung konnte noch nicht geladen werden.</p>
+            <p className="max-w-xs text-xs text-muted-foreground">Dein Prüfungsergebnis wurde gespeichert. Das kann manchmal etwas länger dauern — versuche es erneut oder schau in ein paar Minuten in deinem Profil vorbei.</p>
+            <button
+              type="button"
+              onClick={() => setRetryKey((k) => k + 1)}
+              className="rounded-xl bg-rose-500 px-5 py-2 text-sm font-bold text-white hover:bg-rose-600"
+            >
+              Erneut versuchen
+            </button>
+          </div>
+        ) : !evaluation ? (
           <div className="flex flex-col items-center gap-3 py-10 text-center">
             <Loader2 className="h-8 w-8 animate-spin text-rose-500" />
             <p className="font-bold text-foreground">Ihre Auswertung wird erstellt…</p>

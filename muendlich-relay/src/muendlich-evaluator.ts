@@ -288,24 +288,45 @@ function validate(raw: any): Omit<MuendlichEvaluationResult, "overall_score" | "
 export async function generateMuendlichEvaluation(transcriptText: string, candidateLabel: string, level: "B1" | "B2" = "B2"): Promise<MuendlichEvaluationResult> {
   const userMessage = `Zu bewertender Kandidat: ${candidateLabel}\n\n${wrapUntrustedText("TRANSKRIPT", transcriptText)}`;
 
-  const { data, model } = await callClaudeTool<any>({
-    system: systemPrompt(level),
-    userMessage,
-    toolName: "submit_evaluation",
-    toolDescription: "Submit the three-teil telc Mündlich evaluation for the candidate.",
-    inputSchema: EVALUATION_TOOL_SCHEMA,
-    maxTokens: 8000,
-    timeoutMs: 90000,
-  });
+  // Real failure found via live-testing a full exam (2026-09-30): the model
+  // occasionally returns a tool call missing a required field (observed:
+  // cefr_level, the LAST field in EVALUATION_TOOL_SCHEMA's required list —
+  // consistent with hitting maxTokens mid-generation on a verbose response,
+  // though callClaudeTool doesn't currently surface stop_reason to confirm
+  // that directly). Previously this threw straight out of generateMuendlich
+  // Evaluation with zero retry, and the caller (attemptBestEffortEvaluation)
+  // just logged it and moved on — that candidate got NO evaluation row at
+  // all, silently, with ScoreRevealModal.tsx polling forever with no error
+  // state on the frontend (fixed separately). One retry costs one extra
+  // Claude call in the rare case this happens, against the alternative of a
+  // real student finishing a real exam and never receiving a score.
+  let lastError: unknown = null;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const { data, model } = await callClaudeTool<any>({
+        system: systemPrompt(level),
+        userMessage,
+        toolName: "submit_evaluation",
+        toolDescription: "Submit the three-teil telc Mündlich evaluation for the candidate.",
+        inputSchema: EVALUATION_TOOL_SCHEMA,
+        maxTokens: 8000,
+        timeoutMs: 90000,
+      });
 
-  const validated = validate(data);
-  const overall_score = validated.teil1_score + validated.teil2_score + validated.teil3_score;
+      const validated = validate(data);
+      const overall_score = validated.teil1_score + validated.teil2_score + validated.teil3_score;
 
-  return {
-    ...validated,
-    overall_score,
-    passed: overall_score >= 45, // telc pass threshold, ~60% of 75
-    model,
-    feedback: { ...validated.feedback, closing_statement: MUENDLICH_CLOSING_STATEMENT },
-  };
+      return {
+        ...validated,
+        overall_score,
+        passed: overall_score >= 45, // telc pass threshold, ~60% of 75
+        model,
+        feedback: { ...validated.feedback, closing_statement: MUENDLICH_CLOSING_STATEMENT },
+      };
+    } catch (e) {
+      lastError = e;
+      console.warn(`[muendlich-evaluator] generation attempt ${attempt + 1} failed for ${candidateLabel}${attempt === 0 ? ", retrying once" : ""}:`, e instanceof Error ? e.message : e);
+    }
+  }
+  throw lastError;
 }

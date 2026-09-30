@@ -70,8 +70,14 @@
  *
  * KNOWN SIMPLIFICATIONS (documented, not hidden — each needs real human audio
  * testing to tune correctly, which cannot be done blind):
- *   - Speaker attribution for input transcripts uses a "last sender before
- *     this transcript arrived" heuristic, not true diarization.
+ *   - Speaker attribution for input transcripts: on the ElevenLabs backend
+ *     (the active one, MUENDLICH_VOICE_BACKEND=elevenlabs) this is now TRUE
+ *     diarization — each candidate has their own dedicated STT connection
+ *     (see muendlichVoiceSession.ts's sttA/sttB), not a guess. Only the
+ *     Gemini backend (voiceBackend.ts's adapter, one shared Live session for
+ *     both candidates) still falls back to a "last sender before this
+ *     transcript arrived" heuristic, since Gemini Live has no per-candidate
+ *     input stream in this app's usage.
  *   - Reconnect grace window (30s) is implemented; the spec's "AI seamlessly
  *     plays both partner AND examiner" behavior on permanent disconnect is
  *     NOT implemented yet — deep prompt-engineering problem, needs live tuning.

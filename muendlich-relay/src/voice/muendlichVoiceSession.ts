@@ -279,6 +279,23 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
 
     try {
       conn = await openStreamingConnection(voice.voiceId);
+    } catch (e) {
+      // Real bug found via live-testing this exact fix (2026-09-30): a
+      // connection-level failure here — including a handshake timeout, see
+      // elevenLabsTts.ts's CONNECT_TIMEOUT_MS — used to fall through to the
+      // outer catch below and call callbacks.onError, which server.ts wires
+      // to a FATAL path ending the exam for BOTH real candidates. This exact
+      // "transient network blip = fatal" pattern was already fixed in the
+      // sibling tutorVoiceSession.ts on 2026-09-29 but never ported here —
+      // the live exam room, unlike the tutor, kept the fatal behavior this
+      // whole time. Treated the same way now: a recoverable, per-utterance
+      // blip, not a reason to end an otherwise-fine paying exam.
+      console.warn(`[voice] connection failed for session ${examSessionId}, skipping this utterance:`, e instanceof Error ? e.message : e);
+      if (myId === currentGenerationId) currentAbort = null;
+      return;
+    }
+
+    try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; } // session closed or superseded while connecting
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
@@ -368,8 +385,13 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
         callbacks.onOutputTranscript?.(reply);
       }
     } catch (e) {
-      console.error(`[voice] speak() failed for session ${examSessionId}:`, e);
-      if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
+      // Same reasoning as the connection-open failure branch above: a post-
+      // connection TTS failure is a recoverable per-utterance blip, not a
+      // reason to end the whole exam. Reserve escalation to callbacks.onError
+      // for a genuinely unrecoverable case (onVoiceError's own recovery
+      // attempt failing, handled separately above) rather than every
+      // single-utterance error.
+      console.error(`[voice] speak() failed for session ${examSessionId}, skipping this utterance:`, e);
     } finally {
       // Always close the connection THIS call opened, whether it finished,
       // errored, or was superseded — it's this call's alone, never shared.
@@ -410,6 +432,23 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
 
     try {
       conn = await openStreamingConnection(voice.voiceId);
+    } catch (e) {
+      // Same reasoning as speak()'s identical connection-failure branch — a
+      // recoverable, per-utterance blip (including a handshake timeout), not
+      // a fatal session error. Unlike speak(), we already know the exact
+      // text here, so it's still recorded to the transcript (audio just
+      // didn't make it this time) — same convention as the char-budget-
+      // ceiling branch above.
+      console.warn(`[voice] connection failed for session ${examSessionId}, skipping this scripted utterance's audio:`, e instanceof Error ? e.message : e);
+      if (myId === currentGenerationId) {
+        currentAbort = null;
+        history.push({ speaker: "examiner", text });
+        callbacks.onOutputTranscript?.(text);
+      }
+      return;
+    }
+
+    try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
@@ -442,8 +481,16 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
         callbacks.onOutputTranscript?.(text);
       }
     } catch (e) {
-      console.error(`[voice] speakScriptedText() failed for session ${examSessionId}:`, e);
-      if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
+      // Same fix as speak()'s identical catch block, same reasoning — a
+      // post-connection TTS failure is a recoverable per-utterance blip, not
+      // a reason to end the whole exam. We already know the exact text here,
+      // so it's still recorded to the transcript (audio just didn't make it
+      // this time) — same convention as the connection-failure branch above.
+      console.error(`[voice] speakScriptedText() failed for session ${examSessionId}, skipping this utterance's audio:`, e);
+      if (myId === currentGenerationId) {
+        history.push({ speaker: "examiner", text });
+        callbacks.onOutputTranscript?.(text);
+      }
     } finally {
       if (conn) { try { conn.close(); } catch {} }
       if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
@@ -482,8 +529,11 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
         callbacks.onOutputTranscript?.(spokenText);
       }
     } catch (e) {
-      console.error(`[voice] ${logLabel} failed for session ${examSessionId}:`, e);
-      if (myId === currentGenerationId) callbacks.onError?.(e instanceof Error ? e.message : String(e));
+      // Same "one utterance's failure shouldn't end the exam" philosophy as
+      // speak()/speakScriptedText() above — a local pre-generated audio file
+      // failing to read (missing/corrupted asset) is rare, but still just
+      // one line's audio, not a reason to end an otherwise-fine paying exam.
+      console.error(`[voice] ${logLabel} failed for session ${examSessionId}, skipping this utterance's audio:`, e);
     } finally {
       if (myId === currentGenerationId) currentlyPlayingLibrary = false;
     }
