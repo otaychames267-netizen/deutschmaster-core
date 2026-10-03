@@ -140,3 +140,19 @@ function headline(label, roomChars) {
 headline("realistic (library generated)", 2162);
 console.log("\n=== HEADLINE B: today's REAL fallback case -- library NOT yet generated (ElevenLabs still free-tier) ===");
 headline("today's fallback (no library yet)", 2772);
+
+// ACTUAL current state as of 2026-10-03: welcome + exam_end ARE now generated
+// and live (see phraseLibrary/generateLibrary.ts) -- $0 marginal TTS cost,
+// Fly-deployed. teil1_question was DELIBERATELY excluded from pre-generation
+// per an explicit user decision (keep Teil 1 presentation questions
+// spontaneous/live, not cached) -- it still costs real per-exam ElevenLabs
+// TTS, same as HEADLINE B. early_end_* are cached too but only fire on an
+// early-termination path, not every exam, so they're not part of the
+// per-exam steady-state baseline below.
+// teil1_question real measured cost: 350 real questions, avg 88.6
+// chars/question (see teil1Questions.ts), asked ONCE per candidate (2/room)
+// = ~177 chars/exam(room) of live TTS that HEADLINE A's 2,162 baseline had
+// assumed would be $0 (it assumed ALL THREE categories cached, not two).
+const TEIL1_LIVE_CHARS_PER_ROOM = 2 * 88.6;
+console.log("\n=== HEADLINE C: ACTUAL current state (2026-10-03) -- welcome+exam_end cached, teil1_question deliberately kept live ===");
+headline("actual (teil1_question excluded from cache)", 2162 + TEIL1_LIVE_CHARS_PER_ROOM);
