@@ -23,15 +23,20 @@
  * actually running it — but running it now is a real, one-time ElevenLabs
  * cost (voices × phrases syntheses), not free, so don't re-run casually.
  *
- * Idempotent-ish: re-running regenerates every file and overwrites
- * manifest.json. Safe to re-run after adding a new voice or phrase.
+ * Resumable: skips any phrase/voice pair whose .pcm file already exists on
+ * disk (e.g. from a prior run stopped partway through) instead of
+ * re-synthesizing and re-paying for it — important since this is real,
+ * metered ElevenLabs cost, not a free local operation. Delete a .pcm file
+ * manually to force that one entry to regenerate. manifest.json is still
+ * rebuilt from scratch every run (cheap, local) so it always matches
+ * whatever is actually on disk.
  */
 import { mkdir, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { VOICES } from "../voices.config.js";
 import { WELCOME_PHRASES, EXAM_END_PHRASES, EARLY_END_TIME_UP_PHRASES, EARLY_END_IDLE_PHRASES, EARLY_END_PARTNER_DISCONNECTED_PHRASES } from "./fixedPhrases.js";
-import { allTeil1Questions } from "./teil1Questions.js";
 import { synthesizeOnce } from "../elevenLabsTts.js";
 import type { PhraseAudioAsset } from "./phraseTypes.js";
 
@@ -50,12 +55,12 @@ async function main() {
   const categories = [
     { name: "welcome" as const, phrases: WELCOME_PHRASES },
     { name: "exam_end" as const, phrases: EXAM_END_PHRASES },
-    // 105 real Teil-1 presentation prompts (7 topics x 15 questions — see
-    // teil1Questions.ts's header for why this is a partial, real delivery
-    // against the requested 7x50=350, not the full count) x 27 voices =
-    // 2,835 syntheses. Same $0-at-runtime library mechanism as welcome/
-    // exam_end — these are name-free, so fully pre-generatable.
-    { name: "teil1_question" as const, phrases: allTeil1Questions() },
+    // teil1_question is deliberately NOT pre-generated: the user chose to
+    // keep Teil 1 presentation prompts live/spontaneous from the AI rather
+    // than cached, even though they're name-free and technically cacheable
+    // (2026-10-03 decision) — playLibraryPhrase() already falls back to live
+    // TTS when no manifest entry exists for a category, so this needs no
+    // runtime change, only omission here.
     // Added 2026-10-03: candidate-name/topic-free, same as welcome/exam_end
     // above — see fixedPhrases.ts's own comment for why these moved out of
     // live-TTS-only territory once the account-tier blocker cleared.
@@ -65,7 +70,7 @@ async function main() {
   ];
 
   const manifest: PhraseAudioAsset[] = [];
-  let ok = 0, failed = 0;
+  let ok = 0, failed = 0, skipped = 0;
 
   for (const { name, phrases } of categories) {
     const dir = path.join(LIBRARY_ROOT, name);
@@ -74,6 +79,21 @@ async function main() {
       for (const voice of voices) {
         const fileName = `${phrase.id}__${voice.voiceId}.pcm`;
         const fullPath = path.join(dir, fileName);
+        if (existsSync(fullPath)) {
+          manifest.push({
+            phraseId: phrase.id,
+            category: name,
+            style: phrase.style,
+            voiceId: voice.voiceId,
+            text: phrase.text,
+            characterCount: phrase.text.length,
+            pcmPath: path.join(name, fileName).replace(/\\/g, "/"),
+            generatedAt: new Date().toISOString(),
+            topic: phrase.topic,
+          });
+          skipped++;
+          continue;
+        }
         try {
           const pcm = await synthesizeOnce(voice.voiceId, phrase.text, MODEL, OUTPUT_FORMAT);
           await writeFile(fullPath, pcm);
@@ -99,7 +119,7 @@ async function main() {
   }
 
   await writeFile(path.join(LIBRARY_ROOT, "manifest.json"), JSON.stringify(manifest, null, 2));
-  console.log(`\nDone. ${ok} generated, ${failed} failed. Manifest: ${path.join(LIBRARY_ROOT, "manifest.json")}`);
+  console.log(`\nDone. ${ok} generated, ${skipped} skipped (already on disk), ${failed} failed. Manifest: ${path.join(LIBRARY_ROOT, "manifest.json")}`);
   if (failed > 0 && ok === 0) process.exit(1);
 }
 
