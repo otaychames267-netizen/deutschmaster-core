@@ -93,7 +93,7 @@ import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "
 import { openTutorVoiceSession, type TutorVoiceSession } from "./voice/tutorVoiceSession.js";
 import type { TutorContext } from "./voice/tutorBrain.js";
 import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
-import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23, pickEarlyEnd } from "./examinerPhrases.js";
+import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23 } from "./examinerPhrases.js";
 import { pickTeil1ToTeil2, pickTeil2ToTeil3, pickSessionEnd } from "./tutorPhrases.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
 
@@ -779,7 +779,7 @@ async function startRoomIfReady(room: RoomSession) {
       // the closing line silently never reaches the client.
       if (room.finishing) return;
       room.finishing = true;
-      await room.live?.speakScriptedText(pickEarlyEnd("time_up", room.live?.getVoiceId() ?? "gemini-default"));
+      await room.live?.playLibraryPhrase("early_end_time_up");
       broadcast(room, { type: "terminated", reason: error.message.includes("INSUFFICIENT") ? "insufficient_minutes" : "window_expired" });
       endRoom(room, "expired_mid_exam");
       return;
@@ -803,7 +803,7 @@ async function startRoomIfReady(room: RoomSession) {
       ]);
       if (!budgetA.allowed || !budgetB.allowed) {
         console.log(`[room ${room.roomId}] ElevenLabs credit allowance exhausted mid-exam (A: ${budgetA.creditsRemaining}, B: ${budgetB.creditsRemaining}), hard-stopping`);
-        await room.live?.speakScriptedText(pickEarlyEnd("time_up", room.live?.getVoiceId() ?? "gemini-default"));
+        await room.live?.playLibraryPhrase("early_end_time_up");
         broadcast(room, { type: "terminated", reason: "insufficient_minutes" });
         endRoom(room, "insufficient_credits_mid_exam");
       }
@@ -1056,7 +1056,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
     // actually reaches the client (caught by live-testing, not inspection).
     if (room.finishing) return;
     room.finishing = true;
-    await room.live?.speakScriptedText(pickEarlyEnd("idle_timeout", room.live?.getVoiceId() ?? "gemini-default"));
+    await room.live?.playLibraryPhrase("early_end_idle_timeout");
     broadcast(room, { type: "terminated", reason: "idle_timeout" });
     endRoom(room, "idle_timeout");
     return;
@@ -1775,7 +1775,7 @@ wss.on("connection", async (ws, req) => {
         // other early-end paths so only the first one actually speaks/ends.
         if (room!.finishing) return;
         room!.finishing = true;
-        await room!.live?.speakScriptedText(pickEarlyEnd("partner_disconnected", room!.live?.getVoiceId() ?? "gemini-default"));
+        await room!.live?.playLibraryPhrase("early_end_partner_disconnected");
         broadcast(room!, { type: "terminated", reason: "partner_disconnected" });
         endRoom(room!, "disconnect_timeout");
       }, RECONNECT_GRACE_MS);

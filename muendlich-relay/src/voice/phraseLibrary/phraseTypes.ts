@@ -28,7 +28,12 @@ export type PhraseStyle = "formal" | "warm" | "calm";
 // getTeil1QuestionPool() path instead, never the topic-less one. See
 // LibraryCategory below for the broader union the audio-library machinery
 // (generateLibrary.ts, libraryStore.ts, PhraseAudioAsset) actually spans.
-export type FixedPhraseCategory = "welcome" | "exam_end";
+// early_end_* added 2026-10-03: the three abnormal-ending closing lines
+// (time_up/idle_timeout/partner_disconnected) are, like welcome/exam_end,
+// candidate-name- and topic-free — eligible for the same true pre-
+// generation. They were originally written as live-TTS-only "controlled
+// variation" text in examinerPhrases.ts before this was noticed.
+export type FixedPhraseCategory = "welcome" | "exam_end" | "early_end_time_up" | "early_end_idle_timeout" | "early_end_partner_disconnected";
 export type ScriptedPhraseCategory = "exam_start" | "task_transition" | "section_transition";
 export type PhraseCategory = FixedPhraseCategory | ScriptedPhraseCategory;
 

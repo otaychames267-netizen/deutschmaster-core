@@ -78,6 +78,45 @@ export const EXAM_END_PHRASES: FixedPhrase[] = [
   { id: "exam_end_calm_08", category: "exam_end", style: "calm", text: "Damit ist die Prüfung abgeschlossen. Ich danke Ihnen für Ihre Mitarbeit in allen drei Teilen der heutigen Prüfung. Nehmen Sie sich nun die Zeit, die Sie brauchen. Auf Wiedersehen." },
 ];
 
-export function getFixedPool(category: "welcome" | "exam_end"): FixedPhrase[] {
-  return category === "welcome" ? WELCOME_PHRASES : EXAM_END_PHRASES;
+// Moved here 2026-10-03 from examinerPhrases.ts — these abnormal-ending
+// closing lines (idle silence / time or minutes up / partner's connection
+// never came back) are candidate-name- and topic-free, same as welcome/
+// exam_end, so they're equally eligible for true pre-generation instead of
+// live TTS every time. Smaller pools (2 per style instead of 8) since these
+// paths are rare — still enough to avoid an identical line every time.
+export const EARLY_END_TIME_UP_PHRASES: FixedPhrase[] = [
+  { id: "early_end_time_up_formal_01", category: "early_end_time_up", style: "formal", text: "Es tut mir leid, aber Ihr verfügbares Prüfungsguthaben ist an dieser Stelle aufgebraucht. Die Prüfung muss daher jetzt beendet werden." },
+  { id: "early_end_time_up_formal_02", category: "early_end_time_up", style: "formal", text: "Leider ist Ihre verfügbare Prüfungszeit hiermit aufgebraucht. Wir müssen die Prüfung an dieser Stelle beenden." },
+  { id: "early_end_time_up_warm_01", category: "early_end_time_up", style: "warm", text: "Es tut mir wirklich leid, aber Ihr Guthaben für die Prüfung ist jetzt aufgebraucht — wir müssen hier leider aufhören." },
+  { id: "early_end_time_up_warm_02", category: "early_end_time_up", style: "warm", text: "Schade, aber an dieser Stelle ist Ihre Prüfungszeit zu Ende. Wir müssen die Prüfung jetzt leider abbrechen." },
+  { id: "early_end_time_up_calm_01", category: "early_end_time_up", style: "calm", text: "Ihr verfügbares Prüfungsguthaben ist an dieser Stelle aufgebraucht. Die Prüfung wird daher jetzt beendet." },
+  { id: "early_end_time_up_calm_02", category: "early_end_time_up", style: "calm", text: "An dieser Stelle ist die verfügbare Zeit für die Prüfung aufgebraucht. Wir beenden die Prüfung nun." },
+];
+
+export const EARLY_END_IDLE_PHRASES: FixedPhrase[] = [
+  { id: "early_end_idle_formal_01", category: "early_end_idle_timeout", style: "formal", text: "Da über einen längeren Zeitraum keine Antwort erfolgt ist, muss die Prüfung an dieser Stelle leider beendet werden." },
+  { id: "early_end_idle_formal_02", category: "early_end_idle_timeout", style: "formal", text: "Da wir seit geraumer Zeit keine Rückmeldung erhalten haben, wird die Prüfung nun beendet." },
+  { id: "early_end_idle_warm_01", category: "early_end_idle_timeout", style: "warm", text: "Da schon eine Weile nichts mehr gesagt wurde, müssen wir die Prüfung an dieser Stelle leider beenden." },
+  { id: "early_end_idle_warm_02", category: "early_end_idle_timeout", style: "warm", text: "Da es länger sehr still geblieben ist, müssen wir hier leider aufhören." },
+  { id: "early_end_idle_calm_01", category: "early_end_idle_timeout", style: "calm", text: "Da über längere Zeit keine Antwort kam, wird die Prüfung nun an dieser Stelle beendet." },
+  { id: "early_end_idle_calm_02", category: "early_end_idle_timeout", style: "calm", text: "Da es für längere Zeit still geblieben ist, beenden wir die Prüfung an dieser Stelle." },
+];
+
+export const EARLY_END_PARTNER_DISCONNECTED_PHRASES: FixedPhrase[] = [
+  { id: "early_end_partner_formal_01", category: "early_end_partner_disconnected", style: "formal", text: "Da die Verbindung zu Ihrer Prüfungspartnerin beziehungsweise Ihrem Prüfungspartner nicht wiederhergestellt werden konnte, muss die Prüfung an dieser Stelle leider beendet werden." },
+  { id: "early_end_partner_formal_02", category: "early_end_partner_disconnected", style: "formal", text: "Da die Verbindung Ihres Prüfungspartners beziehungsweise Ihrer Prüfungspartnerin nicht wiederhergestellt werden konnte, wird die Prüfung nun beendet." },
+  { id: "early_end_partner_warm_01", category: "early_end_partner_disconnected", style: "warm", text: "Da die Verbindung zu Ihrem Gegenüber leider nicht wieder zustande kam, müssen wir die Prüfung an dieser Stelle beenden." },
+  { id: "early_end_partner_warm_02", category: "early_end_partner_disconnected", style: "warm", text: "Da die Verbindung leider nicht wiederhergestellt werden konnte, müssen wir hier aufhören." },
+  { id: "early_end_partner_calm_01", category: "early_end_partner_disconnected", style: "calm", text: "Da die Verbindung Ihres Gegenübers nicht wiederhergestellt werden konnte, wird die Prüfung an dieser Stelle beendet." },
+  { id: "early_end_partner_calm_02", category: "early_end_partner_disconnected", style: "calm", text: "Da die Verbindung nicht wiederhergestellt werden konnte, beenden wir die Prüfung an dieser Stelle." },
+];
+
+export function getFixedPool(category: "welcome" | "exam_end" | "early_end_time_up" | "early_end_idle_timeout" | "early_end_partner_disconnected"): FixedPhrase[] {
+  switch (category) {
+    case "welcome": return WELCOME_PHRASES;
+    case "exam_end": return EXAM_END_PHRASES;
+    case "early_end_time_up": return EARLY_END_TIME_UP_PHRASES;
+    case "early_end_idle_timeout": return EARLY_END_IDLE_PHRASES;
+    case "early_end_partner_disconnected": return EARLY_END_PARTNER_DISCONNECTED_PHRASES;
+  }
 }

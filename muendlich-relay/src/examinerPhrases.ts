@@ -36,7 +36,6 @@ export interface ExamStartVars { aName: string; topicA: string }
 export interface TaskTransitionVars { bName: string; topicB: string }
 export interface SectionTransitionVars { teil2Topic: string }
 export interface Teil3SectionTransitionVars { teil3Topic: string }
-export interface EarlyEndVars {}
 
 // Teil 2/3 topics are often phrased as yes/no discussion questions
 // ("Sollte man ... verbieten?") — several variant templates below
@@ -176,38 +175,18 @@ const SECTION_TRANSITION_23_VARIANTS: Variant<Teil3SectionTransitionVars>[] = [
 // prolonged silence, or the partner's connection never came back) — before
 // this, every one of these paths cut the AI's audio dead silent and jumped
 // straight to a text-only "terminated" screen, while the NATURAL end-of-
-// exam path (exam_end, above) always got a proper spoken goodbye. Smaller
-// pools than the high-frequency categories above (2 per style instead of 8)
-// since these paths are rare — still enough to avoid an identical line every
-// time without writing 24 variants for something that fires occasionally.
-const EARLY_END_TIME_UP_VARIANTS: Variant<EarlyEndVars>[] = [
-  { id: "early_end_time_up_formal_01", style: "formal", render: () => `Es tut mir leid, aber Ihr verfügbares Prüfungsguthaben ist an dieser Stelle aufgebraucht. Die Prüfung muss daher jetzt beendet werden.` },
-  { id: "early_end_time_up_formal_02", style: "formal", render: () => `Leider ist Ihre verfügbare Prüfungszeit hiermit aufgebraucht. Wir müssen die Prüfung an dieser Stelle beenden.` },
-  { id: "early_end_time_up_warm_01", style: "warm", render: () => `Es tut mir wirklich leid, aber Ihr Guthaben für die Prüfung ist jetzt aufgebraucht — wir müssen hier leider aufhören.` },
-  { id: "early_end_time_up_warm_02", style: "warm", render: () => `Schade, aber an dieser Stelle ist Ihre Prüfungszeit zu Ende. Wir müssen die Prüfung jetzt leider abbrechen.` },
-  { id: "early_end_time_up_calm_01", style: "calm", render: () => `Ihr verfügbares Prüfungsguthaben ist an dieser Stelle aufgebraucht. Die Prüfung wird daher jetzt beendet.` },
-  { id: "early_end_time_up_calm_02", style: "calm", render: () => `An dieser Stelle ist die verfügbare Zeit für die Prüfung aufgebraucht. Wir beenden die Prüfung nun.` },
-];
-
-const EARLY_END_IDLE_VARIANTS: Variant<EarlyEndVars>[] = [
-  { id: "early_end_idle_formal_01", style: "formal", render: () => `Da über einen längeren Zeitraum keine Antwort erfolgt ist, muss die Prüfung an dieser Stelle leider beendet werden.` },
-  { id: "early_end_idle_formal_02", style: "formal", render: () => `Da wir seit geraumer Zeit keine Rückmeldung erhalten haben, wird die Prüfung nun beendet.` },
-  { id: "early_end_idle_warm_01", style: "warm", render: () => `Da schon eine Weile nichts mehr gesagt wurde, müssen wir die Prüfung an dieser Stelle leider beenden.` },
-  { id: "early_end_idle_warm_02", style: "warm", render: () => `Da es länger sehr still geblieben ist, müssen wir hier leider aufhören.` },
-  { id: "early_end_idle_calm_01", style: "calm", render: () => `Da über längere Zeit keine Antwort kam, wird die Prüfung nun an dieser Stelle beendet.` },
-  { id: "early_end_idle_calm_02", style: "calm", render: () => `Da es für längere Zeit still geblieben ist, beenden wir die Prüfung an dieser Stelle.` },
-];
-
-const EARLY_END_PARTNER_DISCONNECTED_VARIANTS: Variant<EarlyEndVars>[] = [
-  { id: "early_end_partner_formal_01", style: "formal", render: () => `Da die Verbindung zu Ihrer Prüfungspartnerin beziehungsweise Ihrem Prüfungspartner nicht wiederhergestellt werden konnte, muss die Prüfung an dieser Stelle leider beendet werden.` },
-  { id: "early_end_partner_formal_02", style: "formal", render: () => `Da die Verbindung Ihres Prüfungspartners beziehungsweise Ihrer Prüfungspartnerin nicht wiederhergestellt werden konnte, wird die Prüfung nun beendet.` },
-  { id: "early_end_partner_warm_01", style: "warm", render: () => `Da die Verbindung zu Ihrem Gegenüber leider nicht wieder zustande kam, müssen wir die Prüfung an dieser Stelle beenden.` },
-  { id: "early_end_partner_warm_02", style: "warm", render: () => `Da die Verbindung leider nicht wiederhergestellt werden konnte, müssen wir hier aufhören.` },
-  { id: "early_end_partner_calm_01", style: "calm", render: () => `Da die Verbindung Ihres Gegenübers nicht wiederhergestellt werden konnte, wird die Prüfung an dieser Stelle beendet.` },
-  { id: "early_end_partner_calm_02", style: "calm", render: () => `Da die Verbindung nicht wiederhergestellt werden konnte, beenden wir die Prüfung an dieser Stelle.` },
-];
-
-export type EarlyEndReason = "time_up" | "idle_timeout" | "partner_disconnected";
+// exam path (exam_end, above) always got a proper spoken goodbye.
+//
+// MOVED 2026-10-03 to fixedPhrases.ts (as EARLY_END_TIME_UP_PHRASES etc.):
+// these are candidate-name- and topic-free just like welcome/exam_end — the
+// ElevenLabs account-tier restriction that blocked true pre-generation for
+// everything (see generateLibrary.ts's header) has since been resolved, so
+// treating these as live-TTS-only "controlled variation" text (the original
+// 2026-09-30 design) was leaving free cost savings on the table. Callers now
+// go through room.live.playLibraryPhrase("early_end_*") directly — the same
+// mechanism welcome/exam_end already use, with its own built-in live-TTS
+// fallback (via getFixedPool + pickVariant) for exactly this content if the
+// audio library hasn't been (re)generated yet for a given voice.
 
 function pick<V>(category: string, variants: Variant<V>[], voiceId: string, vars: V): string {
   const chosen = pickVariant(category, variants, assignPhraseStyle(voiceId));
@@ -228,13 +207,6 @@ export function pickSectionTransition12(v: SectionTransitionVars, voiceId: strin
 
 export function pickSectionTransition23(v: Teil3SectionTransitionVars, voiceId: string): string {
   return pick("section_transition_2_3", SECTION_TRANSITION_23_VARIANTS, voiceId, { ...v, teil3Topic: cleanTopic(v.teil3Topic) });
-}
-
-export function pickEarlyEnd(reason: EarlyEndReason, voiceId: string): string {
-  const pool = reason === "time_up" ? EARLY_END_TIME_UP_VARIANTS
-    : reason === "idle_timeout" ? EARLY_END_IDLE_VARIANTS
-    : EARLY_END_PARTNER_DISCONNECTED_VARIANTS;
-  return pick(`early_end_${reason}`, pool, voiceId, {});
 }
 
 /** Re-exported so callers only need one import for both fixed and scripted

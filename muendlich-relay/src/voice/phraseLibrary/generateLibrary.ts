@@ -1,23 +1,27 @@
 /**
- * Offline, one-time generation of the fixed audio library: every (welcome |
- * exam_end) phrase x every enabled voice, synthesized ONCE via ElevenLabs
- * v3 (synthesizeOnce — quality matters here, not latency, since this never
- * runs during a live exam) and saved as raw PCM16 mono @ 24kHz — the exact
- * wire format muendlichVoiceSession.ts already streams to clients, so
- * runtime playback (playLibraryPhrase) needs zero transcoding.
+ * Offline, one-time generation of the fixed audio library: every fully-
+ * fixed-category phrase (welcome | exam_end | early_end_*) x every enabled
+ * voice, synthesized ONCE via ElevenLabs v3 (synthesizeOnce — quality
+ * matters here, not latency, since this never runs during a live exam) and
+ * saved as raw PCM16 mono @ 24kHz — the exact wire format
+ * muendlichVoiceSession.ts already streams to clients, so runtime playback
+ * (playLibraryPhrase) needs zero transcoding.
  *
  * Run with: npm run generate-phrase-library
  *
- * BLOCKED as of this writing — same account-tier issue documented in
- * README.md and voiceProfiles.ts's header: the dev ElevenLabs key is on the
- * free tier, which rejects ALL library-voice TTS via the API
- * ("Free users cannot use library voices via the API", code
- * "payment_required"). This script is fully written and ready to run the
- * moment the account is upgraded — muendlichVoiceSession.ts's
- * playLibraryPhrase() already checks for a manifest and falls back to
- * dynamic scripted TTS (speakScriptedText) when one doesn't exist yet, so
- * shipping this code now is safe: it costs nothing and changes no runtime
- * behavior until generate-phrase-library has actually been run once.
+ * UNBLOCKED as of 2026-10-03 — confirmed live (a real synthesizeOnce call
+ * against a real library voice ID now returns 200, not the previous
+ * "payment_required"/"Free users cannot use library voices via the API"
+ * rejection documented here until this date). The account-tier restriction
+ * that blocked this script since it was first written is gone; it has never
+ * actually been run against this backend before, so EVERY exam to date has
+ * paid live ElevenLabs TTS cost for welcome/exam_end/teil1_question/
+ * early_end_* despite the code having supported zero-cost playback this
+ * whole time. muendlichVoiceSession.ts's playLibraryPhrase() already checks
+ * for a manifest and falls back to dynamic scripted TTS (speakScriptedText)
+ * when one doesn't exist yet, so this has always been safe to ship ahead of
+ * actually running it — but running it now is a real, one-time ElevenLabs
+ * cost (voices × phrases syntheses), not free, so don't re-run casually.
  *
  * Idempotent-ish: re-running regenerates every file and overwrites
  * manifest.json. Safe to re-run after adding a new voice or phrase.
@@ -26,7 +30,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { VOICES } from "../voices.config.js";
-import { WELCOME_PHRASES, EXAM_END_PHRASES } from "./fixedPhrases.js";
+import { WELCOME_PHRASES, EXAM_END_PHRASES, EARLY_END_TIME_UP_PHRASES, EARLY_END_IDLE_PHRASES, EARLY_END_PARTNER_DISCONNECTED_PHRASES } from "./fixedPhrases.js";
 import { allTeil1Questions } from "./teil1Questions.js";
 import { synthesizeOnce } from "../elevenLabsTts.js";
 import type { PhraseAudioAsset } from "./phraseTypes.js";
@@ -52,6 +56,12 @@ async function main() {
     // 2,835 syntheses. Same $0-at-runtime library mechanism as welcome/
     // exam_end — these are name-free, so fully pre-generatable.
     { name: "teil1_question" as const, phrases: allTeil1Questions() },
+    // Added 2026-10-03: candidate-name/topic-free, same as welcome/exam_end
+    // above — see fixedPhrases.ts's own comment for why these moved out of
+    // live-TTS-only territory once the account-tier blocker cleared.
+    { name: "early_end_time_up" as const, phrases: EARLY_END_TIME_UP_PHRASES },
+    { name: "early_end_idle_timeout" as const, phrases: EARLY_END_IDLE_PHRASES },
+    { name: "early_end_partner_disconnected" as const, phrases: EARLY_END_PARTNER_DISCONNECTED_PHRASES },
   ];
 
   const manifest: PhraseAudioAsset[] = [];

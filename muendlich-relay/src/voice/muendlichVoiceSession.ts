@@ -174,13 +174,24 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // session-ending path — an intentional barge-in must never trigger it).
   let currentGenerationId = 0;
   let currentAbort: AbortController | null = null;
-  // True only while playLibraryPhrase() is actively streaming pre-generated
-  // file bytes — it has no ttsHandle (no ElevenLabs synthesis in flight),
-  // so the organic-trigger busy-check below needs this in addition to
-  // currentTtsHandle to correctly treat "examiner is currently speaking a
-  // library phrase" the same as "examiner is currently speaking a live
-  // TTS reply."
-  let currentlyPlayingLibrary = false;
+  // Real gap found via a professional-experience audit (2026-10-03): this
+  // flag used to be called currentlyPlayingLibrary and was set/cleared
+  // correctly by playPcmFile(), but had ZERO readers anywhere in this file —
+  // the "organic-trigger busy-check" its own comment referenced was removed
+  // in an earlier round (2026-09-22/23's Teil 1 redesign, see memory) and
+  // this flag was simply never cleaned up or reconnected to anything new.
+  // Net effect: there was no mechanism at all suppressing a candidate's mic
+  // audio from reaching STT while the examiner's own voice is actively
+  // playing through their speakers — relying ENTIRELY on the browser's own
+  // getUserMedia echoCancellation (useRelayAudio.ts) to stop the AI's own
+  // voice from being picked back up by the candidate's mic and treated as
+  // their speech. Browser-level AEC is good but never perfect (especially
+  // without headphones) — this is the server-side second layer of defense.
+  // Renamed + generalized to cover every speech source (speak/
+  // speakScriptedText/playPcmFile — live TTS, scripted TTS, AND library
+  // playback all set it), consumed by shouldForwardToStt below.
+  let aiSpeaking = false;
+  let aiSpeechEndedAt = 0;
   // HARD ceiling on dynamic ElevenLabs TTS characters for this one exam
   // (room total, both candidates combined) — a real, product-mandated
   // business limit, not just something reported after the fact. Fixed
@@ -242,10 +253,28 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     }
     return Math.sqrt(sumSquares / sampleCount);
   }
-  /** true = forward this frame to Scribe; false = drop it (genuine
-   * long-silence suppression, past the hangover window). */
+  // Short post-speech grace window — room acoustics/speaker decay can leave
+  // a faint tail of the examiner's own voice audible for a moment after
+  // playback technically ends, even with echoCancellation on. Same
+  // order-of-magnitude as SILENCE_HANGOVER_MS above, not a separate design.
+  const AI_SPEECH_ECHO_HANGOVER_MS = 500;
+
+  /** true = forward this frame to Scribe; false = drop it — either genuine
+   * long-silence suppression (past the hangover window) or, more
+   * importantly, because the examiner is CURRENTLY speaking (or just
+   * finished): never let the candidate's own mic feed the AI's own voice
+   * back into STT as if it were their speech. */
+  // Logged only on state CHANGE (never per-frame) — cheap enough to keep
+  // permanently, and useful for confirming this new mechanism is actually
+  // engaging during a real exam if its behavior is ever in question later.
+  let lastSuppressLogState = false;
   function shouldForwardToStt(slot: "A" | "B", base64: string): boolean {
     const now = Date.now();
+    if (aiSpeaking || now - aiSpeechEndedAt < AI_SPEECH_ECHO_HANGOVER_MS) {
+      if (!lastSuppressLogState) { console.log(`[echo-suppress] session ${examSessionId}: suppressing mic input while examiner speaks`); lastSuppressLogState = true; }
+      return false;
+    }
+    if (lastSuppressLogState) { console.log(`[echo-suppress] session ${examSessionId}: resumed forwarding mic input`); lastSuppressLogState = false; }
     if (frameRms(base64) > SILENCE_RMS_THRESHOLD) { lastActiveAt[slot] = now; return true; }
     return now - lastActiveAt[slot] < SILENCE_HANGOVER_MS;
   }
@@ -273,6 +302,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     currentTtsHandle?.cancel();
     try { currentTtsConn?.close(); } catch {}
     const myId = ++currentGenerationId;
+    aiSpeaking = true; // see its own declaration comment — suppresses candidate mic forwarding for the whole duration of this call
     const abortCtrl = new AbortController();
     currentAbort = abortCtrl;
     let conn: StreamConnection | null = null;
@@ -291,7 +321,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // whole time. Treated the same way now: a recoverable, per-utterance
       // blip, not a reason to end an otherwise-fine paying exam.
       console.warn(`[voice] connection failed for session ${examSessionId}, skipping this utterance:`, e instanceof Error ? e.message : e);
-      if (myId === currentGenerationId) currentAbort = null;
+      if (myId === currentGenerationId) { currentAbort = null; aiSpeaking = false; aiSpeechEndedAt = Date.now(); }
       return;
     }
 
@@ -399,7 +429,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // Only clear the shared "current" pointers if nothing newer has
       // already taken over (a superseding call already reset these to its
       // own objects before this call's awaits ever settled).
-      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
+      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; aiSpeaking = false; aiSpeechEndedAt = Date.now(); }
     }
   }
 
@@ -428,6 +458,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     currentTtsHandle?.cancel();
     try { currentTtsConn?.close(); } catch {}
     const myId = ++currentGenerationId;
+    aiSpeaking = true; // see its own declaration comment — suppresses candidate mic forwarding for the whole duration of this call
     let conn: StreamConnection | null = null;
 
     try {
@@ -442,6 +473,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       console.warn(`[voice] connection failed for session ${examSessionId}, skipping this scripted utterance's audio:`, e instanceof Error ? e.message : e);
       if (myId === currentGenerationId) {
         currentAbort = null;
+        aiSpeaking = false; aiSpeechEndedAt = Date.now();
         history.push({ speaker: "examiner", text });
         callbacks.onOutputTranscript?.(text);
       }
@@ -493,7 +525,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       }
     } finally {
       if (conn) { try { conn.close(); } catch {} }
-      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
+      if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; aiSpeaking = false; aiSpeechEndedAt = Date.now(); }
     }
   }
 
@@ -514,7 +546,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     try { currentTtsConn?.close(); } catch {}
     currentTtsConn = null;
     const myId = ++currentGenerationId;
-    currentlyPlayingLibrary = true;
+    aiSpeaking = true; // see its own declaration comment — suppresses candidate mic forwarding for the whole duration of this call
     try {
       const pcm = await readFile(absolutePath);
       if (myId !== currentGenerationId) return; // superseded while reading the file
@@ -535,7 +567,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // one line's audio, not a reason to end an otherwise-fine paying exam.
       console.error(`[voice] ${logLabel} failed for session ${examSessionId}, skipping this utterance's audio:`, e);
     } finally {
-      if (myId === currentGenerationId) currentlyPlayingLibrary = false;
+      if (myId === currentGenerationId) { aiSpeaking = false; aiSpeechEndedAt = Date.now(); }
     }
   }
 

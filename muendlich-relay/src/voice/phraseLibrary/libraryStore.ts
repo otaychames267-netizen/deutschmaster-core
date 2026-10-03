@@ -2,9 +2,12 @@
  * Runtime lookup for the pre-generated fixed-phrase audio library —
  * separate from generateLibrary.ts (which WRITES the library, offline,
  * once) so the live exam path only ever needs a cheap manifest read, never
- * touches ElevenLabs for these categories. See generateLibrary.ts's header
- * for why this is currently unpopulated (account-tier block) and how
- * muendlichVoiceSession.ts falls back safely when it is.
+ * touches ElevenLabs for these categories. Populated for real as of
+ * 2026-10-03 (see generateLibrary.ts's header for the account-tier
+ * restriction that blocked this until then) — muendlichVoiceSession.ts
+ * still falls back safely to live TTS if a manifest/voice/category
+ * combination is ever missing (e.g. a newly added voice before the next
+ * `npm run generate-phrase-library` run).
  */
 import { readFile } from "node:fs/promises";
 import path from "node:path";

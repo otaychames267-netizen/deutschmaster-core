@@ -1,7 +1,11 @@
 /**
  * Raw WebSocket client for ElevenLabs Scribe v2 Realtime (speech-to-text).
- * Protocol verified against ElevenLabs' docs before writing this (see this
- * module's README note on the account-tier blocker for live-test status):
+ * Protocol verified against ElevenLabs' own docs before writing this, and
+ * extensively live-tested since (real exams, real candidate audio, this
+ * module's own per-slot STT connections) — the account-tier restriction
+ * that once blocked library-voice TTS (a separate endpoint/limitation, see
+ * phraseLibrary/generateLibrary.ts's header for its own resolution) never
+ * actually applied to this STT endpoint in practice.
  *
  *   connect: wss://api.elevenlabs.io/v1/speech-to-text/realtime
  *            ?model_id=scribe_v2_realtime&audio_format=pcm_16000

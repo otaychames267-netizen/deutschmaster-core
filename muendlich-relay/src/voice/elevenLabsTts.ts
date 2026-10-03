@@ -40,9 +40,11 @@
  *      the extra quality is worth the one-time cost/latency.
  *
  * Protocol details for #1 and #3 verified against ElevenLabs' own docs
- * before writing this (not yet live-tested — the account-tier blocker
- * documented in this module's README applies to ALL THREE paths equally,
- * since it's an account limitation, not a per-endpoint one).
+ * before writing this, and extensively live-tested since (every real exam
+ * this whole project has run uses #1). The library-voice-via-API account-
+ * tier restriction that once blocked #3's offline generation script
+ * (generateLibrary.ts) was unrelated to #1's own live streaming path — see
+ * that script's header for its own resolution as of 2026-10-03.
  */
 import WebSocket from "ws";
 
