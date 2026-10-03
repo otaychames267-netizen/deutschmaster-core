@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Mic, CheckCircle2, AlertTriangle, ArrowRight } from "lucide-react";
+import { Mic, CheckCircle2, AlertTriangle, ArrowRight, RefreshCw } from "lucide-react";
 import { describeMicError } from "@/lib/muendlich/micError";
 
 /** Pre-flight hardware check shown once before the live exam connection
@@ -10,15 +10,19 @@ export function HardwareCheck({ onConfirm }: { onConfirm: () => void }) {
   const [level, setLevel] = useState(0);
   const [status, setStatus] = useState<"checking" | "ok" | "denied">("checking");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
   const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     let stream: MediaStream | null = null;
     let ctx: AudioContext | null = null;
+    let cancelled = false;
 
     (async () => {
+      setStatus("checking");
       try {
         stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        if (cancelled) { stream.getTracks().forEach((t) => t.stop()); return; }
         ctx = new AudioContext();
         const source = ctx.createMediaStreamSource(stream);
         const analyser = ctx.createAnalyser();
@@ -35,17 +39,19 @@ export function HardwareCheck({ onConfirm }: { onConfirm: () => void }) {
         tick();
         setStatus("ok");
       } catch (e) {
+        if (cancelled) return;
         setErrorMessage(describeMicError(e));
         setStatus("denied");
       }
     })();
 
     return () => {
+      cancelled = true;
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       stream?.getTracks().forEach((t) => t.stop());
       ctx?.close().catch(() => {});
     };
-  }, []);
+  }, [attempt]);
 
   return (
     <div className="mx-auto flex max-w-md flex-col items-center gap-5 rounded-3xl border border-border bg-card/80 p-8 text-center shadow-xl backdrop-blur-sm">
@@ -64,6 +70,23 @@ export function HardwareCheck({ onConfirm }: { onConfirm: () => void }) {
       {status === "checking" && <p className="text-xs text-muted-foreground">Mikrofonzugriff wird angefragt…</p>}
       {status === "ok" && <p className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600"><CheckCircle2 className="h-4 w-4" /> Mikrofon aktiv</p>}
       {status === "denied" && <p className="flex items-center gap-1.5 text-xs font-semibold text-destructive"><AlertTriangle className="h-4 w-4" /> {errorMessage}</p>}
+
+      {/* Real dead-end found via a professional-experience audit (2026-09-30):
+       * a denied/failed mic permission (e.g. the student fumbled the
+       * browser's own permission popup) used to just disable "Weiter"
+       * forever with zero way to retry after fixing the permission — the
+       * only way out was leaving the room entirely. A student can grant the
+       * permission after the fact (browser address-bar icon) and just needs
+       * a way to ask this component to try again. */}
+      {status === "denied" && (
+        <button
+          type="button"
+          onClick={() => setAttempt((n) => n + 1)}
+          className="flex items-center gap-2 rounded-xl border border-border px-5 py-2 text-sm font-semibold hover:bg-muted"
+        >
+          <RefreshCw className="h-4 w-4" /> Erneut versuchen
+        </button>
+      )}
 
       <button
         type="button"
