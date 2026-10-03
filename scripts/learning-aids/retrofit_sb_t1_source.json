@@ -1,0 +1,464 @@
+[
+ {
+  "id": "e2cd38c2-8eac-431d-8792-75e8e3055edf",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "erst",
+    "option_b": "gleich",
+    "option_c": "zuerst",
+    "gap_number": 21
+   },
+   {
+    "correct": "c",
+    "option_a": "am besten",
+    "option_b": "bestenfalls",
+    "option_c": "bestens",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "bei",
+    "option_b": "mit",
+    "option_c": "zu",
+    "gap_number": 23
+   },
+   {
+    "correct": "a",
+    "option_a": "aber",
+    "option_b": "denn",
+    "option_c": "oder",
+    "gap_number": 24
+   },
+   {
+    "correct": "a",
+    "option_a": "besondere",
+    "option_b": "geringe",
+    "option_c": "gute",
+    "gap_number": 25
+   },
+   {
+    "correct": "c",
+    "option_a": "künftige",
+    "option_b": "nächste",
+    "option_c": "weitere",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "anwerben",
+    "option_b": "bewerben",
+    "option_c": "umwerben",
+    "gap_number": 27
+   },
+   {
+    "correct": "b",
+    "option_a": "Bedauerlich",
+    "option_b": "Leider",
+    "option_c": "Schade",
+    "gap_number": 28
+   },
+   {
+    "correct": "c",
+    "option_a": "deshalb",
+    "option_b": "trotzdem",
+    "option_c": "übrigens",
+    "gap_number": 29
+   },
+   {
+    "correct": "c",
+    "option_a": "ausgemacht",
+    "option_b": "beschlossen",
+    "option_c": "entschieden",
+    "gap_number": 30
+   }
+  ],
+  "title": "Andrea ( Original )",
+  "passage": "Liebe Andrea,\n\nvielen Dank für deine Nachricht. Entschuldige bitte, dass ich {{21}} jetzt antworte, aber ich konnte gestern meinen Laptop nicht verwenden. Ich hatte ihn zu Peter gebracht, damit er mir ein neues Betriebssystem installiert. Jetzt funktioniert alles {{22}}, so dass ich endlich meine Fotos sortieren konnte. Peter und ich haben uns die Fotos von deinem letzten Besuch hier angesehen. Es war so lustig, du musst bald wieder mal {{23}} uns kommen.\nNun zu deiner Nachricht: Du suchst also einen Sommerjob im Bereich Touristik und wolltest wissen, ob ich einen Tipp für dich habe. Ich habe mich hier ein wenig umgehört, {{24}} du bist ziemlich spät dran mit deiner Suche. Nur das Hotel \"Seeblick\" sucht noch jemanden für die Rezeption. Man braucht keine {{25}} Berufserfahrung; nur Englisch ist zwingende Voraussetzung, eine {{26}} Fremdsprache wäre noch besser. Das wäre für Juli und August, fünf Tage in der Woche. Du musst dich allerdings sehr bald {{27}}, am besten noch heute. Die Kontaktperson findest du auf der Webseite des Hotels. {{28}} kenne ich die Hotelbesitzer nicht persönlich, sonst hätte ich mich natürlich sofort für dich eingesetzt.\nIch werde {{29}} wieder im Kinder-Feriencamp arbeiten. Eigentlich wollte ich dieses Jahr ins Ausland, aber dann habe ich mich doch {{30}}, hier zu bleiben. Meine Mutter hat sich noch nicht richtig von ihrer Operation erholt, und ich lasse sie ungern allein.\nAlso bewirb dich gleich - es wäre toll, wenn wir uns im Sommer viel sehen könnten. Falls es nicht klappt, hoffe ich doch, dass du uns bald besuchen kommst!\n\nIn der Zwischenzeit alles Liebe\nSophia"
+ },
+ {
+  "id": "6cdbb3a2-dddb-44cb-93b8-93f7a15c22d9",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "erst",
+    "option_b": "gleich",
+    "option_c": "zuerst",
+    "gap_number": 21
+   },
+   {
+    "correct": "c",
+    "option_a": "am besten",
+    "option_b": "bestenfalls",
+    "option_c": "bestens",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "bei",
+    "option_b": "mit",
+    "option_c": "zu",
+    "gap_number": 23
+   },
+   {
+    "correct": "c",
+    "option_a": "fast",
+    "option_b": "ungefähr",
+    "option_c": "ziemlich",
+    "gap_number": 24
+   },
+   {
+    "correct": "a",
+    "option_a": "besondere",
+    "option_b": "geringe",
+    "option_c": "gute",
+    "gap_number": 25
+   },
+   {
+    "correct": "c",
+    "option_a": "künftige",
+    "option_b": "nächste",
+    "option_c": "weitere",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "anwerben",
+    "option_b": "bewerben",
+    "option_c": "umwerben",
+    "gap_number": 27
+   },
+   {
+    "correct": "c",
+    "option_a": "außerdem",
+    "option_b": "damals",
+    "option_c": "sonst",
+    "gap_number": 28
+   },
+   {
+    "correct": "c",
+    "option_a": "deshalb",
+    "option_b": "trotzdem",
+    "option_c": "übrigens",
+    "gap_number": 29
+   },
+   {
+    "correct": "c",
+    "option_a": "ausgemacht",
+    "option_b": "beschlossen",
+    "option_c": "entschieden",
+    "gap_number": 30
+   }
+  ],
+  "title": "Andrea (معدل)",
+  "passage": "Liebe Andrea,\n\nvielen Dank für deine Nachricht. Entschuldige bitte, dass ich {{21}} jetzt antworte, aber ich konnte gestern meinen Laptop nicht verwenden. Ich hatte ihn zu Peter gebracht, damit er mir ein neues Betriebssystem installiert. Jetzt funktioniert alles {{22}}, so dass ich endlich meine Fotos sortieren konnte. Peter und ich haben uns die Fotos von deinem letzten Besuch hier angesehen. Es war so lustig, du musst bald wieder mal {{23}} uns kommen. Nun zu deiner Nachricht: Du suchst also einen Sommerjob im Bereich Touristik und wolltest wissen, ob ich einen Tipp für dich habe. Ich habe mich hier ein wenig umgehört, aber du bist {{24}} spät dran mit deiner Suche. Nur das Hotel \"Seeblick\" sucht noch jemanden für die Rezeption. Man braucht keine {{25}} Berufserfahrung; nur Englisch ist zwingende Voraussetzung, eine {{26}} Fremdsprache wäre noch besser. Das wäre für Juli und August, fünf Tage in der Woche. Du musst dich allerdings sehr bald {{27}}, am besten noch heute. Die Kontaktperson findest du auf der Webseite des Hotels. Leider kenne ich die Hotelbesitzer nicht persönlich, {{28}} hätte ich mich natürlich sofort für dich eingesetzt. Ich werde {{29}} wieder im Kinder-Feriencamp arbeiten. Eigentlich wollte ich dieses Jahr ins Ausland, aber dann habe ich mich doch {{30}}, hier zu bleiben. Meine Mutter hat sich noch nicht richtig von ihrer Operation erholt, und ich lasse sie ungern allein. Also bewirb dich gleich - es wäre toll, wenn wir uns im Sommer viel sehen könnten. Falls es nicht klappt, hoffe ich doch, dass du uns bald besuchen kommst!\n\nIn der Zwischenzeit alles Liebe\nSophia"
+ },
+ {
+  "id": "132d3413-e83b-4c41-9bed-5b3a6f081218",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "wie",
+    "option_b": "was",
+    "option_c": "wann",
+    "gap_number": 21
+   },
+   {
+    "correct": "a",
+    "option_a": "vorliegen",
+    "option_b": "unterliegen",
+    "option_c": "liegen lassen",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "von",
+    "option_b": "ohne",
+    "option_c": "im",
+    "gap_number": 23
+   },
+   {
+    "correct": "c",
+    "option_a": "zu",
+    "option_b": "ein",
+    "option_c": "ab",
+    "gap_number": 24
+   },
+   {
+    "correct": "c",
+    "option_a": "mit",
+    "option_b": "für",
+    "option_c": "bei",
+    "gap_number": 25
+   },
+   {
+    "correct": "b",
+    "option_a": "unerschütterlich",
+    "option_b": "stark",
+    "option_c": "fest",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "deswegen",
+    "option_b": "darum",
+    "option_c": "dafür",
+    "gap_number": 27
+   },
+   {
+    "correct": "c",
+    "option_a": "besprechen",
+    "option_b": "aussprechen",
+    "option_c": "ansprechen",
+    "gap_number": 28
+   },
+   {
+    "correct": "b",
+    "option_a": "ob",
+    "option_b": "dass",
+    "option_c": "damit",
+    "gap_number": 29
+   },
+   {
+    "correct": "c",
+    "option_a": "sowie",
+    "option_b": "als ob",
+    "option_c": "als",
+    "gap_number": 30
+   }
+  ],
+  "title": "Autorinnen und Autoren",
+  "passage": "Liebe Autorinnen und Autoren,\n\nWeihnachten ist nicht mehr weit, und bevor wir uns alle in die wohlverdienten Feiertage verabschieden, möchte ich euch noch einmal an den Redaktionsschluss für unsere Vereinszeitung erinnern, den wir für den 10. Januar festgelegt haben. {{21}} ihr alle wisst, kann Claudia, unsere fleißige Layouterin, sich erst dann an die Arbeit machen, wenn alle Texte und Bilder {{22}}. Die fertige Datei muss bis spätestens 22. Januar in der Druckerei sein, damit das Heft pünktlich zum 1. Februar fertig sein kann. Ein gutes Layout ist auch {{23}} Interesse der Autorinnen und Autoren. Ist es schlecht, schenkt man dem Artikel automatisch weniger Beachtung. Liefert also bitte eure Beiträge rechtzeitig {{24}}. Für die Bildbearbeitung ist wie immer Florian zuständig. Bitte die Bilder im TIF- oder im JPG-Format liefern und bitte den Bildnachweis anführen, wenn die Bilder nicht von euch selbst stammen. Für eure eigenen Bilder liegt das Copyright natürlich {{25}} euch. Leider sind die Verkaufszahlen unserer Vereinszeitung im letzten Jahr {{26}} zurückgegangen. Deshalb möchten wir euch alle noch einmal herzlich {{27}} bitten, nur Themen zu wählen, die unsere Vereinsmitglieder betreffen und sie auch wirklich {{28}}. Das heißt nicht, {{29}} man große Themen wie Politik oder Gesellschaft nicht behandeln kann, aber sie sollten leserfreundlich verpackt sein. Wir verstehen uns ausdrücklich {{30}} unabhängige Zeitung und möchten uns keinen Maulkorb umhängen lassen. Trotzdem sollten die Beiträge im Rahmen sachlicher Meinungsäußerungen bleiben. In diesem Sinne freut sich die Redaktion auf zahlreiche Artikel!\n\nBeste Grüße und viel Erfolg\nEure Redaktion"
+ },
+ {
+  "id": "ee4b3324-3d9e-4838-80bd-f4a5fd67dded",
+  "gaps": [
+   {
+    "correct": "c",
+    "option_a": "seien",
+    "option_b": "sind",
+    "option_c": "waren",
+    "gap_number": 21
+   },
+   {
+    "correct": "a",
+    "option_a": "Da",
+    "option_b": "Das",
+    "option_c": "Dass",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "an",
+    "option_b": "auf",
+    "option_c": "für",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "je...desto",
+    "option_b": "sowohl...als auch",
+    "option_c": "weder...noch",
+    "gap_number": 24
+   },
+   {
+    "correct": "b",
+    "option_a": "Verwandte",
+    "option_b": "Verwandten",
+    "option_c": "Verwandter",
+    "gap_number": 25
+   },
+   {
+    "correct": "c",
+    "option_a": "unsere",
+    "option_b": "unseren",
+    "option_c": "unserer",
+    "gap_number": 26
+   },
+   {
+    "correct": "a",
+    "option_a": "als",
+    "option_b": "für",
+    "option_c": "wie",
+    "gap_number": 27
+   },
+   {
+    "correct": "c",
+    "option_a": "dass",
+    "option_b": "falls",
+    "option_c": "ob",
+    "gap_number": 28
+   },
+   {
+    "correct": "c",
+    "option_a": "bereiten",
+    "option_b": "machen",
+    "option_c": "tun",
+    "gap_number": 29
+   },
+   {
+    "correct": "a",
+    "option_a": "hätten",
+    "option_b": "könnten",
+    "option_c": "sollten",
+    "gap_number": 30
+   }
+  ],
+  "title": "Maria und Timur",
+  "passage": "Liebe Maria, lieber Timur,\n\nherzlichen Dank für die Einladung zu eurem Hochzeitsfest! Nachdem wir gestern aus dem Urlaub zurückgekommen {{21}}, haben wir euren Brief und die Einladungskarte im Briefkasten entdeckt. {{22}} gibt es nicht viel zu überlegen: Natürlich kommen wir sehr gerne! Wir freuen uns sehr {{23}} euch, dass ihr nun endlich diesen Schritt wagt. Es ist eine geniale Idee, {{24}} in der Türkei {{24}} in Österreich zu feiern. So können alle Freunde und {{25}} dabei sein.\n\nWir hoffen, dass wir so einige {{26}} alten Freunde wiedersehen werden. Ihr habt geschrieben, dass Timurs Eltern und seine Schwestern auch in Österreich sein werden. Endlich lernen wir auch Timurs Familie kennen! Und wie schön, dass ihr in Marias Heimatdorf im Mühlviertel feiert! Wir erinnern uns noch oft an die langen Partynächte, die wir dort {{27}} Jugendliche gemeinsam verbracht haben. Nun überlegen wir, {{28}} wir nicht gleich ein Hotelzimmer für einige Tage buchen sollten. Ihr habt ja sicher mit den Vorbereitungen alle Hände voll zu {{29}}. Dann könnten wir am Freitag wandern gehen. Am Samstag ist dann euer Fest, und am Sonntag {{30}} wir die Gelegenheit, vor der Abreise noch gemütlich zusammen zu frühstücken. In welchem Hotel habt ihr eure Verwandten untergebracht? Seid ihr auch in einem Hotel, oder übernachtet ihr bei deinen Eltern, Maria? Nun, das können wir alles noch später besprechen. Vorerst freuen wir uns einfach nur auf euch und euer Fest.\n\nNoch einmal vielen Dank für die Einladung und bis bald!\nYasmin & Peter"
+ },
+ {
+  "id": "84a41b51-29ad-4a52-a1a3-a0503f6ab42f",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "wohl",
+    "option_b": "doch",
+    "option_c": "sogar",
+    "gap_number": 21
+   },
+   {
+    "correct": "a",
+    "option_a": "hinter",
+    "option_b": "hinten",
+    "option_c": "hinunter",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "gepasst",
+    "option_b": "bestehen",
+    "option_c": "bestanden",
+    "gap_number": 23
+   },
+   {
+    "correct": "a",
+    "option_a": "ja",
+    "option_b": "also",
+    "option_c": "wohl",
+    "gap_number": 24
+   },
+   {
+    "correct": "b",
+    "option_a": "mir",
+    "option_b": "mich",
+    "option_c": "meins",
+    "gap_number": 25
+   },
+   {
+    "correct": "c",
+    "option_a": "seit",
+    "option_b": "nachdem",
+    "option_c": "sobald",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "um",
+    "option_b": "bei",
+    "option_c": "an",
+    "gap_number": 27
+   },
+   {
+    "correct": "a",
+    "option_a": "was",
+    "option_b": "wer",
+    "option_c": "wen",
+    "gap_number": 28
+   },
+   {
+    "correct": "a",
+    "option_a": "der",
+    "option_b": "dem",
+    "option_c": "das",
+    "gap_number": 29
+   },
+   {
+    "correct": "b",
+    "option_a": "dann",
+    "option_b": "zwar",
+    "option_c": "auch",
+    "gap_number": 30
+   }
+  ],
+  "title": "Markus",
+  "passage": "Lieber Markus,\n\nvielen Dank für deine letzte Mail mit den tollen Tipps gegen Prüfungsangst! Die waren wirklich mehr als hilfreich. Besonders locker war ich natürlich trotzdem nicht. Vor Prüfungen gestresst zu sein, ist ja {{21}} ganz normal, denke ich. Und stell dir vor, jetzt habe ich die Prüfung {{22}} mir und auch schon das Ergebnis, mit dem ich mehr als zufrieden bin. Die schriftliche Prüfung habe ich mit \"sehr gut\" {{23}} und die mündliche mit \"gut\". Ich hatte mich {{24}} auch wirklich gut darauf vorbereitet. Nur am Anfang in der mündlichen Prüfung hatte ich ein totales Blackout und es dauerte etwas, bis ich {{25}} wieder gefangen hatte.\n\n{{26}} ich das Zeugnis bekomme, bewerbe ich mich hier im Ort {{27}} einer großen Firma. Ich bin eigentlich ganz zuversichtlich, dass es klappt. Mal sehen, {{28}} mich da dann so erwartet. Aber jetzt brauche ich erst mal Abstand von {{29}} ganzen Lernerei.\n\nZwei Dinge sind geplant: Eine große Party, und {{30}} am 14.Juni und danach eine kurze Reise in die Schweiz zum Bergsteigen. Hast du Lust auf die Party zu kommen? Ich würde mich sehr freuen.\n\nLieben Gruß\nAlina"
+ },
+ {
+  "id": "a46cedaf-0897-40e2-85a7-6f2564232503",
+  "gaps": [
+   {
+    "correct": "b",
+    "option_a": "neue",
+    "option_b": "neuen",
+    "option_c": "neuer",
+    "gap_number": 21
+   },
+   {
+    "correct": "a",
+    "option_a": "Seit",
+    "option_b": "Sobald",
+    "option_c": "Solange",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "daran",
+    "option_b": "darauf",
+    "option_c": "darüber",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "es",
+    "option_b": "mich",
+    "option_c": "mir",
+    "gap_number": 24
+   },
+   {
+    "correct": "b",
+    "option_a": "Damit",
+    "option_b": "Obwohl",
+    "option_c": "Wenn",
+    "gap_number": 25
+   },
+   {
+    "correct": "b",
+    "option_a": "dürfte",
+    "option_b": "könnte",
+    "option_c": "müsste",
+    "gap_number": 26
+   },
+   {
+    "correct": "c",
+    "option_a": "als",
+    "option_b": "nach",
+    "option_c": "wie",
+    "gap_number": 27
+   },
+   {
+    "correct": "b",
+    "option_a": "nahmen",
+    "option_b": "nehmen",
+    "option_c": "nimmt",
+    "gap_number": 28
+   },
+   {
+    "correct": "b",
+    "option_a": "mein",
+    "option_b": "mich",
+    "option_c": "mir",
+    "gap_number": 29
+   },
+   {
+    "correct": "a",
+    "option_a": "denen",
+    "option_b": "der",
+    "option_c": "die",
+    "gap_number": 30
+   }
+  ],
+  "title": "Meike",
+  "passage": "Liebe Meike,\n\nvielen Dank für deine Mail! Es freut mich, dass du dich in Bremen wohlfühlst und mit deiner {{21}} Arbeit zufrieden bist. Auch ich habe eine Menge zu erzählen. Du weißt ja, wie unzufrieden ich in letzter Zeit oft war. {{22}} ich einen neuen Chef habe, hat sich in der Firma viel verändert: Die Arbeitsatmosphäre ist schlechter geworden und ich muss viele Überstunden machen. Daher habe ich oft {{23}} nachgedacht, ob ein beruflicher Neuanfang das Richtige für mich wäre.\n\nNun, inzwischen habe ich einen ersten Schritt unternommen: Ich habe {{24}} an einer Fernuniversität für ein Psychologie-Studium eingeschrieben. {{25}} ich zuerst einige Bedenken hatte, bin ich nun sehr froh über meine Entscheidung. Anfangs war ich mir nicht sicher, ob ich nebenberuflich ein Studium schaffen {{26}}. Schließlich muss ich ja auch noch meinen Lebensunterhalt verdienen. Außerdem hatte ich Angst, dass mir das Lernen nicht mehr so leichtfallen würde {{27}} früher.\n\nDas Studium macht mir wirklich Spaß. Allerdings habe ich es unterschätzt, wie viel Zeit die Vorbereitungen in Anspruch {{28}}. Manchmal fehlt mir bei dem Fernstudium auch der direkte Austausch mit Kommilitonen, denn den Lehrstoff arbeite ich alleine zuhause durch.\nFür {{29}} ist es aber eine große Hilfe, dass die Fernuniversität Chatgruppen anbietet, in {{30}} man rund um die Uhr Fragen stellen kann. Ich bin jedenfalls gespannt, wie es mit meinem Studium weitergeht.\n\nWie wäre es, wenn wir demnächst mal wieder telefonieren? Ich würde mich freuen, bald von dir zu hören.\n\nHerzliche Grüße\nElise"
+ }
+]

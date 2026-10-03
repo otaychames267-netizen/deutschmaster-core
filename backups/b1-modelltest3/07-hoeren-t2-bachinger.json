@@ -1,0 +1,22 @@
+{
+  "title": "Bachinger",
+  "teil": 2,
+  "level": "B1",
+  "position": 3,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 3/16 (Sophie/Language Tests, page 37 printed / PDF page 38). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.40 printed / PDF p.41): 46+ 47- 48- 49+ 50+ 51- 52- 53- 54+ 55-.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Herr Bachinger hat ein Buch über Väter geschrieben.", "correct": true },
+    { "number": 47, "text": "Herr Bachinger hat vor zehn Monaten geheiratet.", "correct": false },
+    { "number": 48, "text": "Herr Bachinger meint, dass die Zeitungen mehr über moderne Familien berichten sollen.", "correct": false },
+    { "number": 49, "text": "Herr Bachinger konnte seinen Chef sofort überzeugen.", "correct": true },
+    { "number": 50, "text": "Hausarbeit war für Herrn Bachinger nichts Neues.", "correct": true },
+    { "number": 51, "text": "Seine Kollegen haben ihn anfangs sehr vermisst.", "correct": false },
+    { "number": 52, "text": "Herr Bachinger hat gegen viele Vorurteile kämpfen müssen.", "correct": false },
+    { "number": 53, "text": "Herr Bachinger hat das Buch für andere Väter geschrieben.", "correct": false },
+    { "number": 54, "text": "Er will erst wieder arbeiten gehen, wenn sein Sohn in die Schule kommt.", "correct": true },
+    { "number": 55, "text": "Herr Bachinger meint, dass Teilzeitarbeit für ihn das Beste sei.", "correct": false }
+  ]
+}

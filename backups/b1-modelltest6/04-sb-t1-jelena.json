@@ -1,0 +1,21 @@
+{
+  "title": "Jelena",
+  "level": "B1",
+  "position": 6,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 6/16 (Petra/Language Tests, page 73 printed / PDF page 74). Letter addressed to 'Liebe Jelena'; Lösungen page short label is 'Jelena', used verbatim as title. Answer key from Lösungen page (printed p.80 / PDF p.81): 21b 22b 23b 24c 25a 26a 27c 28b 29c 30a.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Liebe Jelena,\n\nich hab dir doch schon vom Deutschkurs erzählt, {{21}} ich hier besuche. Der ist wirklich ganz gut. Wir haben jetzt eine neue Aufgabe bekommen. Wir müssen Informationen {{22}} Thema Gesundheit und Ernährung suchen und schauen, was es dazu Interessantes {{23}} Internet gibt. Die interessanteste Internetseite, die ich finden {{24}}, ist www.gesund.ch. Diese Seite ist für {{25}} Leute gemacht, die gern mehr über gesunde Ernährung erfahren möchten. Fachleute beschreiben hier genau, {{26}} Lebensmittel für unseren Körper wichtig und gesund sind und wie oft und wie viel man pro Tag essen sollte. Außerdem kann man {{27}} seinen persönlichen Speiseplan selbst erstellen und dafür passende Rezepte {{28}}. Für Menschen, {{29}} ein paar Kilos zu viel haben, gibt es auch Tipps zum Abnehmen und Links zu verschiedenen Fitnesszentren in der Schweiz.\n\nUnd was gibt es bei dir Neues? {{30}} mir doch möglichst bald zurück!\n\nBis dann und viele Grüße\nPaola",
+  "gaps": [
+    { "n": 21, "a": "das", "b": "den", "c": "der", "correct": "b" },
+    { "n": 22, "a": "zu", "b": "zum", "c": "zur", "correct": "b" },
+    { "n": 23, "a": "am", "b": "im", "c": "mit", "correct": "b" },
+    { "n": 24, "a": "können", "b": "könnten", "c": "konnte", "correct": "c" },
+    { "n": 25, "a": "junge", "b": "jungen", "c": "junges", "correct": "a" },
+    { "n": 26, "a": "welche", "b": "welchen", "c": "welcher", "correct": "a" },
+    { "n": 27, "a": "mir", "b": "dir", "c": "sich", "correct": "c" },
+    { "n": 28, "a": "fand", "b": "finden", "c": "gefunden", "correct": "b" },
+    { "n": 29, "a": "denen", "b": "deren", "c": "die", "correct": "c" },
+    { "n": 30, "a": "Schreibe", "b": "Schreiben", "c": "Schreibt", "correct": "a" }
+  ]
+}

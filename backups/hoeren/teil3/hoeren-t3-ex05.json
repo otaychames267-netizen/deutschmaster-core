@@ -1,0 +1,38 @@
+{
+  "title": "Im Süden Deutschlands - regnen",
+  "teil": 3,
+  "level": "B2",
+  "position": 5,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 6 (code 14) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Im Süden Deutschlands wird es nachmittags regnen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Die Busse verkehren zu anderen Zeiten als die Regionalzüge.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Auf der A3 von Würzburg nach Frankfurt gibt es aufgrund eines Unfalls eine Vollsperrung.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Wenn Sie über Ihre Autoversicherung sprechen wollen, müssen Sie die 1 wählen.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "Ihr Bekannter ist jederzeit telefonisch erreichbar.",
+      "correct": false
+    }
+  ]
+}

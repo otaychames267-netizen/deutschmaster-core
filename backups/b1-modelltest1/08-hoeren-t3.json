@@ -1,0 +1,17 @@
+{
+  "title": "Georg und Claudia",
+  "teil": 3,
+  "level": "B1",
+  "position": 1,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 1/16 (Petra/Language Tests, page 11). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.13): 56- 57+ 58- 59- 60+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Sie sollen um 19:30 Uhr bei Georg und Claudia sein.", "correct": false },
+    { "number": 57, "text": "Im südlichen Österreich ist es tagsüber sonnig, später windig und regnerisch.", "correct": true },
+    { "number": 58, "text": "Der Speisewagen befindet sich im hinteren Teil des Zuges.", "correct": false },
+    { "number": 59, "text": "Die Schweizer geben für Urlaub mehr Geld aus als für ihre Gesundheit.", "correct": false },
+    { "number": 60, "text": "Der Sänger beginnt seine Konzertreise mit einer Vorstellung in Wien.", "correct": true }
+  ]
+}

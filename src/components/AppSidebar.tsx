@@ -1,16 +1,20 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, GraduationCap, PenLine, Mic,
-  BarChart3, Gift, LogOut,
+  LayoutDashboard, PenLine, Mic,
+  BarChart3, Gift, LogOut, BookMarked,
   Users, FileText, BookOpen, CreditCard,
   LayoutGrid, Star, Shield,
   TrendingUp, Settings2, Megaphone, ScrollText,
   Tag, ClipboardList, HardDrive, DollarSign,
   Search, Bell, User, HelpCircle,
-  ChevronRight, Upload, Headphones, Wrench,
+  ChevronRight, Upload, Headphones, Wrench, Coins, ListChecks, Pencil,
+  Presentation, Type, ShieldAlert, Mail, LogIn, UserCog,
 } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import { useAuth } from "@/lib/auth";
+import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
+import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import {
   Sidebar,
   SidebarContent,
@@ -244,17 +248,30 @@ function ImportPDFsSection({ pathname }: ImportRootProps) {
 // ── Main sidebar ─────────────────────────────────────────────────────────────
 
 export function AppSidebar() {
-  const { user, isAdmin, level, signOut } = useAuth();
+  const { user, isAdmin, signOut } = useAuth();
+  const muendlichVisible = useMuendlichVisible();
+  const activeLevel = useActiveLevel();
+  const seg = useLevelSegment();
   const state = useRouterState();
   const pathname = state.location.pathname;
 
   function isActive(to: string) {
-    if (to === "/dashboard") return pathname === "/dashboard";
     if (to === "/admin") return pathname === "/admin";
     return pathname === to || pathname.startsWith(to + "/");
   }
 
-  const levelBadge = level === "TELC_B1" ? "B1" : level === "TELC_B2" ? "B2" : null;
+  // Every content link is locked to the level currently in the URL. Outside a
+  // level context (gate page, account pages) they fall back to the gate —
+  // never guess a level, that's exactly the cross-contamination this avoids.
+  const dashboardTo    = seg ? `/${seg}/dashboard` : "/dashboard";
+  const schriftlichTo  = seg ? `/${seg}/schriftlich` : "/dashboard";
+  const muendlichTo    = seg ? `/${seg}/muendlich` : "/dashboard";
+  const searchTo       = seg ? `/${seg}/search` : "/dashboard";
+  const isDashboardActive   = seg ? pathname === dashboardTo : pathname === "/dashboard";
+  const isSchriftlichActive = !!seg && (pathname === schriftlichTo || pathname.startsWith(schriftlichTo + "/"));
+  const isMuendlichActive   = !!seg && (pathname === muendlichTo || pathname.startsWith(muendlichTo + "/"));
+
+  const levelBadge = activeLevel === "TELC_B1" ? "B1" : activeLevel === "TELC_B2" ? "B2" : null;
   const displayName = (user?.user_metadata?.full_name as string | undefined)?.split(" ")[0]
     ?? user?.email?.split("@")[0]
     ?? "You";
@@ -266,7 +283,7 @@ export function AppSidebar() {
       <SidebarHeader className="border-b border-sidebar-border">
         <Link to="/dashboard" className="flex items-center gap-3 px-2 py-3">
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary/70 shadow-sm shadow-primary/30">
-            <GraduationCap className="h-4 w-4 text-primary-foreground" />
+            <BrandMark className="h-4 w-4 text-primary-foreground" />
           </div>
           <div className="flex min-w-0 flex-1 items-center justify-between group-data-[collapsible=icon]:hidden">
             <span className="text-sm font-black tracking-tight text-sidebar-foreground">
@@ -283,15 +300,19 @@ export function AppSidebar() {
 
       <SidebarContent className="py-1">
 
-        {/* ── Main ─────────────────────────────────────────────── */}
+        {/* ── Main — guests have no dashboard/search to browse ──── */}
+        {user && (
+        <>
         <SidebarGroup className="py-1">
           <SidebarMenu>
-            <NavItem to="/dashboard" label="Dashboard" icon={LayoutDashboard} active={isActive("/dashboard")} />
-            <NavItem to="/search"    label="Search"    icon={Search}          active={isActive("/search")}    />
+            <NavItem to={dashboardTo} label="Dashboard" icon={LayoutDashboard} active={isDashboardActive} />
+            <NavItem to={searchTo}   label="Search"    icon={Search}          active={!!seg && pathname === searchTo}    />
           </SidebarMenu>
         </SidebarGroup>
 
         <SidebarSeparator />
+        </>
+        )}
 
         {/* ── Exam Preparation ─────────────────────────────────── */}
         <SidebarGroup className="py-1">
@@ -299,43 +320,52 @@ export function AppSidebar() {
           <SidebarMenu>
             {/* Schriftlich */}
             <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/schriftlich")}>
-                <Link to="/schriftlich" className={`relative gap-3 transition-all duration-150 ${
-                  isActive("/schriftlich")
+              <SidebarMenuButton asChild isActive={isSchriftlichActive}>
+                <Link to={schriftlichTo} className={`relative gap-3 transition-all duration-150 ${
+                  isSchriftlichActive
                     ? `${COLOR_MAP.blue.activeClass} ${COLOR_MAP.blue.glow}`
                     : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/60"
                 }`}>
-                  <PenLine className={`h-4 w-4 shrink-0 ${isActive("/schriftlich") ? "text-blue-500" : ""}`} />
+                  <PenLine className={`h-4 w-4 shrink-0 ${isSchriftlichActive ? "text-blue-500" : ""}`} />
                   <span className="group-data-[collapsible=icon]:hidden flex-1 font-medium">Schriftlich</span>
-                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isActive("/schriftlich") ? "fill-blue-500 text-blue-500" : "fill-amber-400 text-amber-400"}`} />
+                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isSchriftlichActive ? "fill-blue-500 text-blue-500" : "fill-amber-400 text-amber-400"}`} />
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
 
-            {/* Mündlich */}
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={isActive("/muendlich")}>
-                <Link to="/muendlich" className={`relative gap-3 transition-all duration-150 ${
-                  isActive("/muendlich")
-                    ? `${COLOR_MAP.rose.activeClass} ${COLOR_MAP.rose.glow}`
-                    : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/60"
-                }`}>
-                  <Mic className={`h-4 w-4 shrink-0 ${isActive("/muendlich") ? "text-rose-500" : ""}`} />
-                  <span className="group-data-[collapsible=icon]:hidden flex-1 font-medium">Mündlich</span>
-                  <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isActive("/muendlich") ? "fill-rose-500 text-rose-500" : "fill-amber-400 text-amber-400"}`} />
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {/* Mündlich — hidden until the speaking module launches
+                (MUENDLICH_ENABLED in features.ts). Admins get a developer
+                preview here per useMuendlichVisible, and the layout-route
+                gate at _authenticated.$level.muendlich.tsx enforces the
+                same rule for direct-URL access. */}
+            {muendlichVisible && (
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isMuendlichActive}>
+                  <Link to={muendlichTo} className={`relative gap-3 transition-all duration-150 ${
+                    isMuendlichActive
+                      ? `${COLOR_MAP.rose.activeClass} ${COLOR_MAP.rose.glow}`
+                      : "text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent/60"
+                  }`}>
+                    <Mic className={`h-4 w-4 shrink-0 ${isMuendlichActive ? "text-rose-500" : ""}`} />
+                    <span className="group-data-[collapsible=icon]:hidden flex-1 font-medium">Mündlich</span>
+                    <Star className={`h-3 w-3 shrink-0 group-data-[collapsible=icon]:hidden transition-colors ${isMuendlichActive ? "fill-rose-500 text-rose-500" : "fill-amber-400 text-amber-400"}`} />
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            )}
           </SidebarMenu>
         </SidebarGroup>
 
         <SidebarSeparator />
 
-        {/* ── Progress & Community ──────────────────────────────── */}
+        {/* ── Progress & Community — signed-in only ─────────────── */}
+        {user && (
+        <>
         <SidebarGroup className="py-1">
           <SectionLabel>Progress</SectionLabel>
           <SidebarMenu>
             <NavItem to="/statistik" label="Statistics"       icon={BarChart3}  active={isActive("/statistik")} />
+            <NavItem to="/woerter"   label="Meine Wörter"     icon={BookMarked} active={isActive("/woerter")} />
             <NavItem to="/referrals" label="Referral Program" icon={Gift}        active={isActive("/referrals")} />
           </SidebarMenu>
         </SidebarGroup>
@@ -352,6 +382,8 @@ export function AppSidebar() {
             <NavItem to="/security"      label="Security"       icon={Shield}      active={isActive("/security")}      />
           </SidebarMenu>
         </SidebarGroup>
+        </>
+        )}
 
         <SidebarSeparator />
 
@@ -373,16 +405,26 @@ export function AppSidebar() {
                 <NavItem to="/admin"                label="Overview"       icon={LayoutGrid}    active={isActive("/admin")}                color="amber" />
                 <NavItem to="/admin/users"          label="Users"          icon={Users}          active={isActive("/admin/users")}          color="amber" />
                 <NavItem to="/admin/subscriptions"  label="Subscriptions"  icon={CreditCard}     active={isActive("/admin/subscriptions")}  color="amber" />
+                <NavItem to="/admin/manual-subscription" label="Manual Subscription" icon={UserCog} active={isActive("/admin/manual-subscription")} color="amber" />
                 <NavItem to="/admin/analytics"      label="Analytics"      icon={TrendingUp}     active={isActive("/admin/analytics")}      color="amber" />
                 <NavItem to="/admin/exams"          label="Exams"          icon={BookOpen}       active={isActive("/admin/exams")}          color="amber" />
+                <NavItem to="/admin/content"        label="Exercise Titles" icon={Pencil}        active={isActive("/admin/content")}        color="amber" />
+                <NavItem to="/admin/lesen"          label="Lesen Titles"   icon={Type}           active={isActive("/admin/lesen")}          color="amber" />
                 <NavItem to="/admin/pdf-import"     label="PDF Library"    icon={FileText}       active={isActive("/admin/pdf-import")}     color="amber" />
                 <NavItem to="/admin/payments"       label="Payments"       icon={DollarSign}     active={isActive("/admin/payments")}       color="amber" />
+                <NavItem to="/admin/manual-payments" label="Manual Payments" icon={DollarSign}    active={isActive("/admin/manual-payments")} color="amber" />
+                <NavItem to="/admin/reconciliation" label="Reconciliation" icon={ListChecks}     active={isActive("/admin/reconciliation")} color="amber" />
                 <NavItem to="/admin/coupons"        label="Coupons"        icon={Tag}            active={isActive("/admin/coupons")}        color="amber" />
+                <NavItem to="/admin/credits"        label="Essay Credits"  icon={Coins}          active={isActive("/admin/credits")}        color="amber" />
+                <NavItem to="/admin/muendlich-credits" label="Mündlich Minutes" icon={Mic}         active={isActive("/admin/muendlich-credits")} color="amber" />
+                <NavItem to="/admin/muendlich"      label="Mündlich Management" icon={Presentation} active={isActive("/admin/muendlich")}    color="amber" />
                 <NavItem to="/admin/announcements"  label="Announcements"  icon={Megaphone}      active={isActive("/admin/announcements")}  color="amber" />
                 <NavItem to="/admin/reports"        label="Reports"        icon={ClipboardList}  active={isActive("/admin/reports")}        color="amber" />
                 <NavItem to="/admin/audit-logs"     label="Audit Logs"     icon={ScrollText}     active={isActive("/admin/audit-logs")}     color="amber" />
+                <NavItem to="/admin/email-log"      label="Email Delivery" icon={Mail}           active={isActive("/admin/email-log")}      color="amber" />
                 <NavItem to="/admin/backup"         label="Backups"        icon={HardDrive}      active={isActive("/admin/backup")}         color="amber" />
                 <NavItem to="/admin/roles"          label="Roles"          icon={Shield}         active={isActive("/admin/roles")}          color="amber" />
+                <NavItem to="/admin/content-protection" label="Content Protection" icon={ShieldAlert} active={isActive("/admin/content-protection")} color="amber" />
                 <NavItem to="/admin/settings"       label="Settings"       icon={Settings2}      active={isActive("/admin/settings")}       color="amber" />
 
                 {/* Collapsible Import PDFs */}
@@ -393,29 +435,42 @@ export function AppSidebar() {
         )}
       </SidebarContent>
 
-      {/* ── Footer: User card + Sign out ─────────────────────── */}
+      {/* ── Footer: User card + Sign out (guests get a Log in prompt) ── */}
       <SidebarFooter className="border-t border-sidebar-border py-2">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild>
-              <Link to="/profile" className="gap-3 hover:bg-sidebar-accent/60 transition-colors">
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/20 text-[10px] font-black text-primary ring-1 ring-primary/20">
-                  {initials}
-                </div>
-                <div className="flex min-w-0 flex-1 flex-col group-data-[collapsible=icon]:hidden">
-                  <span className="truncate text-xs font-semibold text-sidebar-foreground">{displayName}</span>
-                  <span className="truncate text-[10px] text-sidebar-foreground/45">{user?.email}</span>
-                </div>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {user ? (
+            <>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/profile" className="gap-3 hover:bg-sidebar-accent/60 transition-colors">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-primary/40 to-primary/20 text-[10px] font-black text-primary ring-1 ring-primary/20">
+                      {initials}
+                    </div>
+                    <div className="flex min-w-0 flex-1 flex-col group-data-[collapsible=icon]:hidden">
+                      <span className="truncate text-xs font-semibold text-sidebar-foreground">{displayName}</span>
+                      <span className="truncate text-[10px] text-sidebar-foreground/45">{user?.email}</span>
+                    </div>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
 
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={signOut} className="gap-2 text-sidebar-foreground/50 hover:text-destructive hover:bg-destructive/5 transition-colors">
-              <LogOut className="h-4 w-4" />
-              <span className="group-data-[collapsible=icon]:hidden text-xs">Sign out</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={signOut} className="gap-2 text-sidebar-foreground/50 hover:text-destructive hover:bg-destructive/5 transition-colors">
+                  <LogOut className="h-4 w-4" />
+                  <span className="group-data-[collapsible=icon]:hidden text-xs">Sign out</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </>
+          ) : (
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild>
+                <Link to="/login" className="gap-3 text-primary hover:bg-sidebar-accent/60 transition-colors">
+                  <LogIn className="h-4 w-4" />
+                  <span className="group-data-[collapsible=icon]:hidden text-xs font-semibold">Log in to subscribe</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarFooter>
     </Sidebar>

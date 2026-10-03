@@ -1,0 +1,38 @@
+{
+  "title": "Internet",
+  "teil": 3,
+  "level": "B2",
+  "position": 7,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 8 (code 15) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Sie können im Internet prüfen, ob Ihre aktuelle Bestellung schon unterwegs ist.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Man kann für die Nachtveranstaltung noch Karten im Internet kaufen.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Die Teilnahme an der Party im Burghof kostet nichts.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "In Bamberg kann man in der nächsten Woche besonders günstig Mitglied in einem Sportverein werden.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Wer ein wichtiges Anliegen hat, soll eine andere Nummer wählen.",
+      "correct": true
+    }
+  ]
+}

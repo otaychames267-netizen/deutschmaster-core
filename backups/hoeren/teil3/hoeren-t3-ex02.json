@@ -1,0 +1,38 @@
+{
+  "title": "Musikfestivals",
+  "teil": 3,
+  "level": "B2",
+  "position": 2,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": "اساسي",
+  "variant_group": "Musikfestivals",
+  "notes": "PDF page 3 (code 13) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Während des Musikfestivals \"Sound of Frankfurt\" gibt es verbilligte Fahrkarten für alle öffentlichen Verkehrsmittel.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Sie gehen am 3. Juli ins Konzert, weil Sie die beiden Leipziger Klaviervirtuosen hören möchten.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Am Wochenende können Sie sich in Namburg über die Bekämpfung von Krankheiten bei Apfelbäumen i informieren.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Im Handwerksmuseum werden Kleidungsstücke ausgestellt.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Die Autobahn \"AS\" ist zwischen Baden-",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Ehrenamts",
+  "teil": 3,
+  "level": "B2",
+  "position": 8,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": "اساسي",
+  "variant_group": "Ehrenamts",
+  "notes": "PDF page 9 (code 15) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Man kann am \"Tag des Ehrenamts\" probeweise mithelfen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Die Skateboard-Vorführung fällt dieses Mal aus.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Vor Passwort-Programmen wird gewarnt.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Es wird empfohlen, mit dem Fahrrad zum Volkspark zu fahren.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Wenn man das Training ausprobieren möchte, muss man vorher Bescheid sagen.",
+      "correct": true
+    }
+  ]
+}

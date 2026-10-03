@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Unterstützung",
+  "level": "TELC_B1",
+  "position": 7,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 7/16 (Annika3/Language Tests, pages 81-82 printed = PDF pages 82-83). Two text boxes (texts 1 and 3) have the same line-overlap rendering defect seen elsewhere in this compilation; reconstructed the correct line order (coherent sentences result, confirming this is a rendering artifact rather than missing content). Answer key from Lösungen page (printed p.93 / PDF p.94): 1J 2B 3F 4A 5G, cross-verified content-to-headline by direct reading.",
+  "headlines": [
+    { "letter": "A", "text": "Finanzielle Unterstützung für Kunstprojekte mit Schülern", "is_distractor": false },
+    { "letter": "B", "text": "Winterveranstaltung auf dem Eis mit Musik", "is_distractor": false },
+    { "letter": "C", "text": "Aktionsprogramm der EU: Finanzielle Unterstützung für italienische Künstler", "is_distractor": true },
+    { "letter": "D", "text": "Kunstausstellung von italienischen Schülern", "is_distractor": true },
+    { "letter": "E", "text": "Deutschlernen mit euer Methode im Radio", "is_distractor": true },
+    { "letter": "F", "text": "Geld für gemeinsame europäische Projekte", "is_distractor": false },
+    { "letter": "G", "text": "Elternverein organisiert Kunstausstellung", "is_distractor": false },
+    { "letter": "H", "text": "Mit der Eisenbahn ins winterliche Wien", "is_distractor": true },
+    { "letter": "I", "text": "Mehr Geld für österreichische Musikschulen", "is_distractor": true },
+    { "letter": "J", "text": "Wie Sprachaufenthalte auswählen?", "is_distractor": false }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "Rund 150.000 Sprachreisen werden von Deutschen jährlich unternommen. Der Wunsch, eine andere Sprache zu lernen, kann verschiedene Gründe haben: private, schulische oder berufliche. Das Angebot an Sprachreisen wächst ständig, über die Qualität ist jedoch wenig oder nichts bekannt. Im Marktplatz geht es diesmal um Kriterien für das Lernen mit Erfolg. Welche Methoden sind zu empfehlen, welche Anbieter kosten? Ihre Fragen werden am Hörertelefon unter 0800-839601 von Fachleuten beantwortet.", "correct_headline": "J" },
+    { "position": 2, "title": "", "content": "Die Metropole Wien lädt zum winterlichen Eisvergnügen vor dem Wiener Rathaus ein: vom 22. Januar bis 7. März kann man auf 1800 Quadratmetern übers Eis fahren. Die Musik dazu bestimmt den Fahrstil und reicht vom klassischen Walzer bis zur Diskomusik. Nachts werden auf der Eisbahn Partys veranstaltet, vom Samba-Fest bis zum Hip-Hop-Event. Speisen und Getränke gibt es an verschiedenen Ständen, Schlittschuhe und Stiefel kann man leihen. Informationen: Wiener Tourismusverband.", "correct_headline": "B" },
+    { "position": 3, "title": "", "content": "Für das Aktionsprogramm der Europäischen Union (EU) zur beruflichen Weiterbildung, Leonardo da Vinci, können noch bis zum 31. März Anträge gestellt werden. Ziel des Programms ist es, europäische Projekte zur beruflichen Weiterbildung zu unterstützen. Anträge auf finanzielle Unterstützung können die Institutionen stellen, die mit mindestens zwei weiteren europäischen Partnern an einem Projekt arbeiten wollen. Information: Nationale Koordinierungsstelle Leonardo da Vinci, Fehrbelliner Platz 3, D-10707 Berlin, Tel. 030/8643-0, Fax -2637.", "correct_headline": "F" },
+    { "position": 4, "title": "", "content": "Wien (SN.APA). Wie das Unterrichtsministerium mitteilte, sollen im kommenden Jahr monatlich 70.000 Euro für Kulturprojekte an Schulen zur Verfügung gestellt werden. Unterstützt würden damit Veranstaltungen und Projekte, die das Verständnis der Kinder und Jugendlichen für die Künste wecken, das Interesse am Musisch-Kreativen verstärken und zu Kontakten und einer Auseinandersetzung mit Künstlern führen. Dadurch soll in altersgemäßer Form die ganzheitliche Entwicklung der Persönlichkeit von Kindern und Jugendlichen gefördert werden.", "correct_headline": "A" },
+    { "position": 5, "title": "", "content": "Zum sechsten Mal veranstaltet das Comitato Genitori Binningen/Bottmingen seine breit angelegte multikulturelle Kunstausstellung Arte. An der Veranstaltung nehmen 70 Künstlerinnen und Künstler aus der Region sowie Gäste aus Italien, Frankreich, Deutschland und weiteren Ländern teil. Bei dem vor 18 Jahren gegründeten Comitato handelt es sich um einen Elternverein, der damals italienischsprachigen Kindern bei ihren Schulproblemen hilfreich zur Seite stand. Da die jetzige dritte Kindergeneration nicht mehr diese Probleme hat, suchte das Comitato nach neuen Aufgaben und fand in der Organisation der alljährlichen Kunstausstellung ein neues, interessantes Betätigungsfeld.", "correct_headline": "G" }
+  ]
+}

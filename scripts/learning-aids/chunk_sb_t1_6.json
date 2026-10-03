@@ -1,0 +1,695 @@
+[
+  {
+    "id": "ee4b3324-3d9e-4838-80bd-f4a5fd67dded",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "seien",
+        "option_b": "sind",
+        "option_c": "waren",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "Da",
+        "option_b": "Das",
+        "option_c": "Dass",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "an",
+        "option_b": "auf",
+        "option_c": "für",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "je...desto",
+        "option_b": "sowohl...als auch",
+        "option_c": "weder...noch",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "Verwandte",
+        "option_b": "Verwandten",
+        "option_c": "Verwandter",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "unsere",
+        "option_b": "unseren",
+        "option_c": "unserer",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "für",
+        "option_c": "wie",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "dass",
+        "option_b": "falls",
+        "option_c": "ob",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "bereiten",
+        "option_b": "machen",
+        "option_c": "tun",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "hätten",
+        "option_b": "könnten",
+        "option_c": "sollten",
+        "gap_number": 30
+      }
+    ],
+    "title": "Maria und Timur",
+    "passage": "Liebe Maria, lieber Timur,\n\nherzlichen Dank für die Einladung zu eurem Hochzeitsfest! Nachdem wir gestern aus dem Urlaub zurückgekommen {{21}}, haben wir euren Brief und die Einladungskarte im Briefkasten entdeckt. {{22}} gibt es nicht viel zu überlegen: Natürlich kommen wir sehr gerne! Wir freuen uns sehr {{23}} euch, dass ihr nun endlich diesen Schritt wagt. Es ist eine geniale Idee, {{24}} in der Türkei {{24}} in Österreich zu feiern. So können alle Freunde und {{25}} dabei sein.\n\nWir hoffen, dass wir so einige {{26}} alten Freunde wiedersehen werden. Ihr habt geschrieben, dass Timurs Eltern und seine Schwestern auch in Österreich sein werden. Endlich lernen wir auch Timurs Familie kennen! Und wie schön, dass ihr in Marias Heimatdorf im Mühlviertel feiert! Wir erinnern uns noch oft an die langen Partynächte, die wir dort {{27}} Jugendliche gemeinsam verbracht haben. Nun überlegen wir, {{28}} wir nicht gleich ein Hotelzimmer für einige Tage buchen sollten. Ihr habt ja sicher mit den Vorbereitungen alle Hände voll zu {{29}}. Dann könnten wir am Freitag wandern gehen. Am Samstag ist dann euer Fest, und am Sonntag {{30}} wir die Gelegenheit, vor der Abreise noch gemütlich zusammen zu frühstücken. In welchem Hotel habt ihr eure Verwandten untergebracht? Seid ihr auch in einem Hotel, oder übernachtet ihr bei deinen Eltern, Maria? Nun, das können wir alles noch später besprechen. Vorerst freuen wir uns einfach nur auf euch und euer Fest.\n\nNoch einmal vielen Dank für die Einladung und bis bald!\nYasmin & Peter"
+  },
+  {
+    "id": "84a41b51-29ad-4a52-a1a3-a0503f6ab42f",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "wohl",
+        "option_b": "doch",
+        "option_c": "sogar",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "hinter",
+        "option_b": "hinten",
+        "option_c": "hinunter",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "gepasst",
+        "option_b": "bestehen",
+        "option_c": "bestanden",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "ja",
+        "option_b": "also",
+        "option_c": "wohl",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "mir",
+        "option_b": "mich",
+        "option_c": "meins",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "seit",
+        "option_b": "nachdem",
+        "option_c": "sobald",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "um",
+        "option_b": "bei",
+        "option_c": "an",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "was",
+        "option_b": "wer",
+        "option_c": "wen",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "der",
+        "option_b": "dem",
+        "option_c": "das",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "dann",
+        "option_b": "zwar",
+        "option_c": "auch",
+        "gap_number": 30
+      }
+    ],
+    "title": "Markus",
+    "passage": "Lieber Markus,\n\nvielen Dank für deine letzte Mail mit den tollen Tipps gegen Prüfungsangst! Die waren wirklich mehr als hilfreich. Besonders locker war ich natürlich trotzdem nicht. Vor Prüfungen gestresst zu sein, ist ja {{21}} ganz normal, denke ich. Und stell dir vor, jetzt habe ich die Prüfung {{22}} mir und auch schon das Ergebnis, mit dem ich mehr als zufrieden bin. Die schriftliche Prüfung habe ich mit \"sehr gut\" {{23}} und die mündliche mit \"gut\". Ich hatte mich {{24}} auch wirklich gut darauf vorbereitet. Nur am Anfang in der mündlichen Prüfung hatte ich ein totales Blackout und es dauerte etwas, bis ich {{25}} wieder gefangen hatte.\n\n{{26}} ich das Zeugnis bekomme, bewerbe ich mich hier im Ort {{27}} einer großen Firma. Ich bin eigentlich ganz zuversichtlich, dass es klappt. Mal sehen, {{28}} mich da dann so erwartet. Aber jetzt brauche ich erst mal Abstand von {{29}} ganzen Lernerei.\n\nZwei Dinge sind geplant: Eine große Party, und {{30}} am 14.Juni und danach eine kurze Reise in die Schweiz zum Bergsteigen. Hast du Lust auf die Party zu kommen? Ich würde mich sehr freuen.\n\nLieben Gruß\nAlina"
+  },
+  {
+    "id": "a46cedaf-0897-40e2-85a7-6f2564232503",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "neue",
+        "option_b": "neuen",
+        "option_c": "neuer",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "Seit",
+        "option_b": "Sobald",
+        "option_c": "Solange",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "daran",
+        "option_b": "darauf",
+        "option_c": "darüber",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "es",
+        "option_b": "mich",
+        "option_c": "mir",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "Damit",
+        "option_b": "Obwohl",
+        "option_c": "Wenn",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "dürfte",
+        "option_b": "könnte",
+        "option_c": "müsste",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "als",
+        "option_b": "nach",
+        "option_c": "wie",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "nahmen",
+        "option_b": "nehmen",
+        "option_c": "nimmt",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "mein",
+        "option_b": "mich",
+        "option_c": "mir",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "denen",
+        "option_b": "der",
+        "option_c": "die",
+        "gap_number": 30
+      }
+    ],
+    "title": "Meike",
+    "passage": "Liebe Meike,\n\nvielen Dank für deine Mail! Es freut mich, dass du dich in Bremen wohlfühlst und mit deiner {{21}} Arbeit zufrieden bist. Auch ich habe eine Menge zu erzählen. Du weißt ja, wie unzufrieden ich in letzter Zeit oft war. {{22}} ich einen neuen Chef habe, hat sich in der Firma viel verändert: Die Arbeitsatmosphäre ist schlechter geworden und ich muss viele Überstunden machen. Daher habe ich oft {{23}} nachgedacht, ob ein beruflicher Neuanfang das Richtige für mich wäre.\n\nNun, inzwischen habe ich einen ersten Schritt unternommen: Ich habe {{24}} an einer Fernuniversität für ein Psychologie-Studium eingeschrieben. {{25}} ich zuerst einige Bedenken hatte, bin ich nun sehr froh über meine Entscheidung. Anfangs war ich mir nicht sicher, ob ich nebenberuflich ein Studium schaffen {{26}}. Schließlich muss ich ja auch noch meinen Lebensunterhalt verdienen. Außerdem hatte ich Angst, dass mir das Lernen nicht mehr so leichtfallen würde {{27}} früher.\n\nDas Studium macht mir wirklich Spaß. Allerdings habe ich es unterschätzt, wie viel Zeit die Vorbereitungen in Anspruch {{28}}. Manchmal fehlt mir bei dem Fernstudium auch der direkte Austausch mit Kommilitonen, denn den Lehrstoff arbeite ich alleine zuhause durch.\nFür {{29}} ist es aber eine große Hilfe, dass die Fernuniversität Chatgruppen anbietet, in {{30}} man rund um die Uhr Fragen stellen kann. Ich bin jedenfalls gespannt, wie es mit meinem Studium weitergeht.\n\nWie wäre es, wenn wir demnächst mal wieder telefonieren? Ich würde mich freuen, bald von dir zu hören.\n\nHerzliche Grüße\nElise"
+  },
+  {
+    "id": "20a8e364-2309-4a4a-9134-c77a2937bdd3",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "der",
+        "option_b": "die",
+        "option_c": "diese",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "dass",
+        "option_c": "ob",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "Magazin",
+        "option_b": "Magazins",
+        "option_c": "Magazines",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "den",
+        "option_b": "dem",
+        "option_c": "denen",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "zu",
+        "option_b": "zum",
+        "option_c": "zur",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "im",
+        "option_b": "in",
+        "option_c": "aus",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "Dieses",
+        "option_b": "Diese",
+        "option_c": "Diesen",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "von",
+        "option_b": "bei",
+        "option_c": "für",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "welcher",
+        "option_b": "welchem",
+        "option_c": "welches",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "gemeinsames",
+        "option_b": "gemeinsamen",
+        "option_c": "gemein",
+        "gap_number": 30
+      }
+    ],
+    "title": "Mitarbeiterinnen und Mitarbeiter ( Neu )",
+    "passage": "Liebe Mitarbeiterinnen und Mitarbeiter,\n\nwir haben nun fast das Halbjahr geschafft und ich möchte mich bei allen für diese gute und fruchtbare Zusammenarbeit bedanken. Einige der Jahresziele, {{21}} wir uns im letzten Jahr für heuer vorgenommen hatten, konnten wir bereits erreichen und ich bin davon überzeugt, {{22}} wir auch noch die restlichen bis Jahresende gut meistern werden.\nUm einige der Besonderheiten in diesem Jahr zu nennen:\nIm ersten Halbjahr konnten wir die Verkaufszahlen unseres {{23}} um 35% steigern und die Klicks auf unserer Homepage haben sich mehr als verdoppelt. Dies ist auch ein Mitverdienst der KommunikationsexpertInnen in unserer Firma, {{24}} ich ein besonderes Lob für die guten Werbemaßnahmen aussprechen möchte.\nWeiters konnten wir mit zwei großen Verlagen in Österreich Kooperationspartnerschaften eingehen und dadurch unseren Absatzmarkt erweitern. Hier gilt weiterhin, die Kooperationen {{25}} stärken, viel Arbeit zu investieren und dennoch auf die Interessen der Kooperationspartner nicht zu vergessen. Eine solche Annäherung bedarf großer Sensibilität, damit die Arbeit auch in Zukunft Früchte tragen wird.\nDie Ausgabe {{26}} Sommer haben wir bereits finalisiert und es sind nur mehr einige wenige Schritte bis zum Druck notwendig. {{27}} Mal werden auch beide Kooperationspartner auf der Titelseite vertreten sein. An dieser Stelle muss ich mich auch {{28}} den GraphikerInnen für die besonders gelungene und ansprechende Lösung bedanken. Beide Partner waren von der Gestaltung mehr als begeistert.\nAbschließend darf ich nun die Einladung zum diesjährigen Sommerfest verkünden, {{29}} diesmal im Palais Schönberg stattfinden wird. Ich lade Sie alle herzlich dazu ein, unseren {{30}} Erfolg in diesem Halbjahr bei einem wunderbaren Buffet und herrlicher Musik zu feiern.\n\nHerzlichst\nDie Geschäftsführung"
+  },
+  {
+    "id": "270ee2d1-7f72-4166-9ce1-63743b0eb8df",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "ihr",
+        "option_b": "Sie",
+        "option_c": "sie",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "deshalb",
+        "option_b": "obwohl",
+        "option_c": "trotzdem",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "bis",
+        "option_b": "dann",
+        "option_c": "wann",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "auf",
+        "option_b": "im",
+        "option_c": "in",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "seit",
+        "option_b": "vom",
+        "option_c": "Zum",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "ob",
+        "option_b": "obwohl",
+        "option_c": "ohnehin",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "verstellen",
+        "option_b": "vorstellen",
+        "option_c": "zustellen",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "dafür",
+        "option_b": "damit",
+        "option_c": "davon",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "als",
+        "option_b": "wie",
+        "option_c": "zu",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "hätte",
+        "option_b": "sei",
+        "option_c": "wäre",
+        "gap_number": 30
+      }
+    ],
+    "title": "Paola",
+    "passage": "Liebe Paola,\n\nvielen Dank für deine Nachricht und die vielen schönen Fotos. Eure Laura ist wirklich niedlich!\nIch hoffe, dass wir {{21}} bald kennenlernen. Aber ich weiß, wie anstrengend die erste Zeit mit einem Baby sein kann. {{22}} Warten wir lieber noch etwas, bevor wir euch besuchen. Sagt uns einfach Bescheid, {{23}} euch ein Treffen lieb wäre. Eine kleine Überraschung für eure Laura steht {{24}} jeden Fall bereit.\nBei uns gibt es auch einige Veränderungen. Elijah ist diesen Herbst eingeschult worden. Er kommt mit allem gut zurecht und hat auch schon Freundschaften geschlossen. Lea geht nun in den Kindergarten. {{25}} diesem Jahr sind hier im Ort Grundschule und Kindergarten in demselben Gebäudekomplex untergebracht. Das kommt uns sehr gelegen.\nNun ist es vormittags sehr still bei uns im Haus, Ich überlege mir, {{26}} Ich nicht wieder anfangen soll, halbtags zu arbeiten. In meinen alten Beruf als Krankenschwester möchte ich aber nicht zurück, denn ich kann mir gar nicht {{27}}, wie ich den Schichtdienst im Krankenhaus und die Kinderbetreuung unter einen Hut bringen soll.\nWahrscheinlich bewerbe ich mich bei einer Arztpraxis oder der Verwaltung einer Krankenkasse. Was hältst du {{28}}? Fällt dir vielleicht eine Tätigkeit ein, bei der meine Ausbildung {{29}} Krankenschwester von Vorteil wäre? Wie dem auch {{30}} - ich wünsche euch viel Glück und Freude mit eurem Baby. Wenn Du irgendwelche Tipps brauchst, kannst du mich jederzeit anrufen. Im Anhang schicke ich dir ein paar Fotos vom Schulanfang.\nIch freue mich schon darauf, euch bald wiederzusehen.\n\nLiebe Grüße\nSarah"
+  },
+  {
+    "id": "bfb9ef47-8d40-4c71-94ac-20f2f1d13fd5",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "für",
+        "option_b": "über",
+        "option_c": "wegen",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "man",
+        "option_b": "sich",
+        "option_c": "uns",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "auf der",
+        "option_b": "für den",
+        "option_c": "von dem",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "werden",
+        "option_b": "wurden",
+        "option_c": "würden",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "an",
+        "option_b": "in",
+        "option_c": "mit",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "anstatt",
+        "option_b": "sondern",
+        "option_c": "während",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "entweder",
+        "option_b": "sowohl",
+        "option_c": "zwar",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "denen",
+        "option_b": "dessen",
+        "option_c": "seinen",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "damit",
+        "option_b": "deswegen",
+        "option_c": "indem",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "gewusst habe",
+        "option_b": "gewusst hätte",
+        "option_c": "wüsste",
+        "gap_number": 30
+      }
+    ],
+    "title": "Rahim",
+    "passage": "Hallo Rahim,\n\nvielen Dank für deine Mail und deine Fragen zu dem Zimmer in unserer WG. Wir freuen uns {{21}} dein Interesse an dem Zimmer und beantworten dir gerne alles.\n\nDie Wohnung befindet {{22}} im dritten Stock eines Altbaus. Sie hat zwei Badezimmer, die wir gemeinschaftlich nutzen, und eine sehr gut ausgestattete Küche – inklusive Spülmaschine. Wir haben außerdem einen großen Balkon, {{23}} man bei gutem Wetter eine super Aussicht hat. Das Zimmer, das zu vermieten ist, kann nach eigenen Wünschen gestaltet {{24}}. Es ist 28qm groß und nicht möbliert.\n\nWir sind übrigens keine Studenten-WG, sondern eine „Berufstätigen-WG“. Mein Mitbewohner Johannes ist Sozialarbeiter und ich beschäftige mich beruflich {{25}} der Entwicklung von Lernsoftware. Unsere Freizeitinteressen sind teilweise recht unterschiedlich. Johannes liebt Sport aller Art und ist viel unterwegs, {{26}} ich meinen Feierabend gern auf dem Sofa ausklingen lasse. Wir kochen aber oft zusammen und machen auch mal einen Spieleabend. Generell geht es bei uns eher ruhig zu. Abends trinken wir {{27}} gerne mal ein Gläschen Wein mit Freunden, aber große Partys feiern wir hier fast nie. Wir wünschen uns einen Mitbewohner, {{28}} Lebensstil zu unserem passt. Ein Nichtraucher wäre super, aber mit einem Raucher, der zum Rauchen auf den Balkon geht, könnten wir auch gut leben.\n\nSchön, dass du anbietest vorbeizukommen, {{29}} wir uns persönlich kennenlernen können. Morgen klappt es allerdings leider nicht. Wenn ich eher {{30}}, dass du dann in der Stadt bist, hätte ich mir Zeit frei gehalten, aber so habe ich den Tag schon verplant. Könntest du vielleicht auch am Sonntag?\n\nViele Grüße\nTill"
+  },
+  {
+    "id": "bf3f8f2d-a1e3-4794-8b73-bbeb1d1b1712",
+    "gaps": [
+      {
+        "correct": "a",
+        "option_a": "obwohl",
+        "option_b": "trotz",
+        "option_c": "während",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "hat",
+        "option_b": "hatte",
+        "option_c": "hätte",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "konnte",
+        "option_b": "sollte",
+        "option_c": "wollte",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "dafür",
+        "option_b": "damit",
+        "option_c": "davon",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "Einerseits...andererseits",
+        "option_b": "weder ...noch",
+        "option_c": "zwar … aber",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "dabei",
+        "option_b": "davon",
+        "option_c": "dazu",
+        "gap_number": 26
+      },
+      {
+        "correct": "c",
+        "option_a": "aussuchen",
+        "option_b": "ausgesucht",
+        "option_c": "auszusuchen",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "grundlegende",
+        "option_b": "grundlegenden",
+        "option_c": "grundlegender",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "am",
+        "option_b": "im",
+        "option_c": "zum",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "dass",
+        "option_b": "ob",
+        "option_c": "wie",
+        "gap_number": 30
+      }
+    ],
+    "title": "Ramon",
+    "passage": "Lieber Ramon,\n\nich muss dir unbedingt etwas erzählen: Ich bin heute das erste Mal in meinem Leben Ski gefahren, {{21}} ich mir das bisher nie zugetraut hatte. Meine Freundin Lisa hat mich eingeladen, einige Tage mit ihr und ihren Eltern in den Bergen zu verbringen. Und bevor ich ankam, {{22}} sie schon einen individuellen Skikurs für mich gebucht! Du kannst dir vorstellen, wie mich das überrascht hat! Ich {{23}} es mir schon anders überlegen, aber Lisa wollte nichts {{24}} hören. Heute Morgen ging es dann los. {{25}} war ich ziemlich aufgeregt, {{25}} habe ich mich auch unheimlich gefreut. Mit der Skilehrerin habe ich mich gleich gut verstanden. Sie hat mich abgeholt und mir {{26}} geholfen, im Sportgeschäft Schuhe, Skier, Stöcke und einen Helm für mich {{27}}. Dann hat mir die Skilehrerin einige {{28}} Dinge erklärt. Ich war anfangs sehr unsicher, mit der Zeit ließ das aber nach. Die Kinder im Zwergerlkurs scheinen {{29}} Gegensatz zu mir überhaupt keine Angst zu haben. Das Schlimmste am ersten Tag war der Schlepplift. Erst habe ich den Lift einige Male verpasst, dann bin ich hingefallen. Irgendwie habe ich es dann doch noch geschafft. Und zum Schluss bin ich mit der Lehrerin sogar eine leichte Piste runtergefahren. Morgen habe ich wieder zwei Stunden. Ich habe jetzt schon Muskelkater und mir tut alles weh! Ich weiß gar nicht, {{30}} ich das schaffen soll. Ich werde dich über meine Fortschritte auf dem Laufenden halten :)\n\nBis bald und liebe Grüße\n\nSamira"
+  },
+  {
+    "id": "1b4df4e9-5c4d-4a52-ad7e-0b990fd9fe88",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "aus",
+        "option_b": "durch",
+        "option_c": "von",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "eine",
+        "option_b": "einen",
+        "option_c": "einer",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "dich",
+        "option_b": "dir",
+        "option_c": "sich",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "aufgeregt",
+        "option_b": "aufregend",
+        "option_c": "aufzuregen",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "obwohl",
+        "option_b": "weil",
+        "option_c": "zwar",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "Im",
+        "option_b": "In",
+        "option_c": "Während",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "hätte",
+        "option_b": "würde",
+        "option_c": "wurde",
+        "gap_number": 27
+      },
+      {
+        "correct": "a",
+        "option_a": "können",
+        "option_b": "müssen",
+        "option_c": "sollen",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "damit",
+        "option_b": "davon",
+        "option_c": "dazu",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "wiederfinden",
+        "option_b": "wiedergefunden",
+        "option_c": "wiederzufinden",
+        "gap_number": 30
+      }
+    ],
+    "title": "Theatertournee durch Spanien",
+    "passage": "Hallo Nikolas,\n\nin knapp einer Woche ist es so weit: Unsere spanische Theatergruppe „Los Mutantes\" geht auf große Tour {{21}} Deutschland und Spanien mit dem Stück „Niebla\" (Nebel).\nWir planen, mindestens 30 Vorstellungen zu geben und das mit so {{22}} bunt gemischten Gruppe aus zehn (!) Ländern. Am 7. April beginnen wir unsere Theaterreise an der Uni von Alicante/Spanien. Du kannst {{23}} denken, dass ich als Nichtmuttersprachlerin sehr {{24}} bin, dort vor spanischem Publikum zu spielen, {{25}} ich ja fließend und fast ohne Akzent Spanisch spreche.\n{{26}} Herbst steht vielleicht auch meine alte „Wahlheimatstadt\" Barcelona auf dem Programm, wie gerne {{27}} ich euch alle wiedersehen! Ohne eure Hilfe hätte ich die Sprache niemals so gut lernen {{28}}. Ich denke oft an unsere multikulturelle Wohngemeinschaft: das gemeinsame Kochen, die tollen Feste ... Ein bisschen {{29}} habe ich jetzt in der Theatergruppe {{30}}.\n\nLiebe Grüße auch an deine Mitbewohner\nschickt dir\nSarah"
+  },
+  {
+    "id": "2580f96c-3802-4e9d-9886-a042ae08d5e5",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "an den",
+        "option_b": "auf dem",
+        "option_c": "über den",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "nichts mehr",
+        "option_b": "noch nicht",
+        "option_c": "keines",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "doch",
+        "option_b": "eben",
+        "option_c": "überhaupt",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "Wann",
+        "option_b": "Was",
+        "option_c": "Wie",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "der",
+        "option_b": "die",
+        "option_c": "von",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "gelaufen",
+        "option_b": "getan",
+        "option_c": "geworden",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "durchfallen",
+        "option_b": "umfallen",
+        "option_c": "wegfallen",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "dich",
+        "option_b": "dir",
+        "option_c": "mal",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "alle",
+        "option_b": "ganze",
+        "option_c": "jede",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "dabei",
+        "option_b": "damit",
+        "option_c": "davon",
+        "gap_number": 30
+      }
+    ],
+    "title": "Vanessa",
+    "passage": "Liebe Vanessa,\n\ndanke für deinen Brief, {{21}} ich mich total gefreut habe. Du fragst dich bestimmt, warum du schon drei Wochen {{22}} von mir gehört hast, oder? Ich war mit meiner Gastfamilie in Urlaub. Vierzehn Tage im Allgäu - mit den Kindern Stefan, Anja und Karina. Du weißt {{23}} selbst, wie anstrengend es ist, wenn man ständig drei kleine Kinder um sich hat, die pausenlos unterhalten werden möchten. {{24}} ist es übrigens in deiner Au-pair-Familie mit der kleinen Dorothea? Das Allgäu liegt in Süddeutschland am Fuß {{25}} Alpen. Wir sind fast jeden Tag gewandert, immer bergauf und bergab. Den Kindern und mir haben ständig die Füße weh {{26}}, doch meine Gasteltern, Herr und Frau Zimmer, sind einfach immer weitergelaufen. Die Deutschen lieben es nämlich, in der Natur spazieren zu gehen, bis sie vor Erschöpfung {{27}}. Unterwegs haben wir manchmal an einer sogenannten \"Wassertretstelle\" Rast gemacht. Das sind kleine Wasserbecken, die oft mitten im Wald liegen. Durch das Becken fließt ein Bach mit eiskaltem Wasser, das direkt von den Bergen kommt. Stell {{28}} vor, alle Wanderer ziehen ihre Schuhe und Strümpfe aus und laufen durch dieses Becken. Als ich meinen Fuß in dieses kalte Wasser getaucht hatte, dachte ich, dass ich gleich sterben muss.\nAm Wochenende haben wir alle Minigolf gespielt. Dabei muss ein Golfball mit einem Schläger in ein etwa zehn Meter entferntes Loch geschlagen werden. Aber vor dem Loch gibt es {{29}} Menge Hindernisse: Gräben, kleine Hügel, Tunnel. Der Spieler, dessen Ball mit den wenigsten Schlägen im Loch ankommt, hat gewonnen. Die Kinder wollten gar nicht mehr {{30}} aufhören. Jetzt muss ich aber Schluss machen, die Kinder warten auf ihr Abendessen, denn die Zimmers sind heute nicht da: Sie wandern mal wieder.\n\nViele Grüße\ndeine Mercedes"
+  }
+]

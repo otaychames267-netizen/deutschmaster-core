@@ -101,7 +101,7 @@ function AdminCouponsPage() {
               Cancel
             </button>
             <button
-              onClick={() => { toast.info("Coupon creation requires Stripe integration."); setShowForm(false); }}
+              onClick={() => { toast.info("Coupon creation is not yet implemented."); setShowForm(false); }}
               className="rounded-xl bg-amber-500 px-4 py-2 text-sm font-bold text-white hover:bg-amber-600 transition-colors">
               Create coupon
             </button>

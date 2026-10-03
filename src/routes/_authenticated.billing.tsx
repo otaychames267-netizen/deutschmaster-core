@@ -1,12 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { createCheckoutSession } from "@/lib/billing/checkout.functions";
+import { createManualPaymentOrder, type ManualMethod } from "@/lib/payment/manual-orders.functions";
+import { isPlanPurchasable, CARD_PAYMENTS_ENABLED, LEMONSQUEEZY_VISIBLE } from "@/lib/features";
+import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
   Check, Shield, Zap, Clock, RefreshCw,
   Crown, Calendar, TrendingUp, BookOpen,
-  Mic, PenLine, ChevronRight, ArrowUpRight,
+  Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
+  Landmark, Sparkles, Wallet,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/billing")({
@@ -19,7 +24,7 @@ const PLANS = [
     code: "schriftlich",
     name: "Schriftlich",
     icon: PenLine,
-    price_tnd: 25,
+    price_tnd: 30,
     period: "/month",
     tagline: "Master all written exam components",
     color: "blue",
@@ -40,14 +45,14 @@ const PLANS = [
     code: "komplett",
     name: "Komplett",
     icon: Crown,
-    price_tnd: 60,
+    price_tnd: 30,
     period: "/month",
     tagline: "Everything — written and spoken",
     color: "violet",
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
     features: [
-      "Everything in Schriftlich",
+      "Lesen, Hören, Sprachbausteine & Schreiben",
       "Mündlich — full preparation",
       "Prüfungssimulation — full exam",
       "Priority support",
@@ -55,13 +60,13 @@ const PLANS = [
       "All future content included",
     ],
     highlighted: true,
-    badge: "Best value",
+    badge: "Full access",
   },
   {
     code: "muendlich",
     name: "Mündlich",
     icon: Mic,
-    price_tnd: 45,
+    price_tnd: 55,
     period: "/month",
     tagline: "Perfect your speaking skills",
     color: "rose",
@@ -98,8 +103,47 @@ function daysRemaining(expiresAt: string) {
 
 function BillingPage() {
   const { user } = useAuth();
+  const nav = useNavigate();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
+  const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
+  const [d17Disabled, setD17Disabled] = useState(false);
+  const [manualPlan, setManualPlan] = useState<string | null>(null);
+
+  async function handleSubscribe(planCode: "schriftlich" | "muendlich" | "komplett") {
+    if (!CARD_PAYMENTS_ENABLED) {
+      toast.info(
+        "Lemon Squeezy card payments are pending merchant account approval. This button will activate automatically once approved — no action needed from you. Please use D17 Mobile Transfer for now.",
+        { duration: 8000 },
+      );
+      return;
+    }
+    setCheckoutPlan(planCode);
+    try {
+      const result = await createCheckoutSession({ data: { plan_code: planCode } });
+      window.location.href = result.checkoutUrl;
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not start checkout. Please try again.");
+      setCheckoutPlan(null);
+    }
+  }
+
+  async function handleManualPayment(planCode: "schriftlich" | "muendlich" | "komplett", method: ManualMethod) {
+    setManualPlan(planCode);
+    try {
+      const order = await createManualPaymentOrder({ data: { plan_code: planCode, method } });
+      nav({ to: "/paiement/$orderId", params: { orderId: order.id } });
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not start payment. Please try again.");
+      setManualPlan(null);
+    }
+  }
+
+  useEffect(() => {
+    supabase
+      .rpc("get_platform_setting", { p_key: "d17_disabled" })
+      .then(({ data }) => setD17Disabled(data === true));
+  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -107,7 +151,8 @@ function BillingPage() {
       .from("subscriptions")
       .select("status, plan_code, expires_at")
       .eq("user_id", user.id)
-      .in("status", ["active", "trial"])
+      .eq("status", "active")
+      .gt("expires_at", new Date().toISOString())
       .order("expires_at", { ascending: false })
       .limit(1)
       .maybeSingle()
@@ -117,8 +162,19 @@ function BillingPage() {
       });
   }, [user?.id]);
 
+  // Admin-only mock checkout redirects here with ?mock=success while real
+  // Lemon Squeezy credentials are pending — see checkout.functions.ts.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("mock") === "success") {
+      toast.success("Mock payment complete (test mode) — no real charge occurred.", { duration: 8000 });
+      window.history.replaceState({}, "", "/billing");
+    }
+  }, []);
+
   const isActive = subscription?.status === "active";
-  const isTrial  = subscription?.status === "trial";
+  // Launch gate: only sellable plans are shown. While Mündlich is disabled,
+  // this is just Schriftlich (Komplett/Mündlich both grant speaking access).
+  const visiblePlans = PLANS.filter((p) => isPlanPurchasable(p.code));
   const daysLeft = subscription ? daysRemaining(subscription.expires_at) : 0;
   const renewDate = subscription
     ? new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })
@@ -139,62 +195,38 @@ function BillingPage() {
       </div>
 
       {/* ── Current subscription status card ─────────────────── */}
-      {!loading && (isActive || isTrial) && subscription && (
-        <div className={`relative overflow-hidden rounded-2xl border p-6 shadow-sm ${
-          isTrial ? "border-amber-500/30 bg-amber-500/5" : "border-emerald-500/30 bg-emerald-500/5"
-        }`}>
+      {!loading && isActive && subscription && (
+        <div className="relative overflow-hidden rounded-2xl border border-emerald-500/30 bg-emerald-500/5 p-6 shadow-sm">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-4">
-              <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${
-                isTrial ? "bg-amber-500/15" : "bg-emerald-500/15"
-              }`}>
-                {isTrial
-                  ? <Clock className="h-6 w-6 text-amber-500" />
-                  : <CheckCircle2 className="h-6 w-6 text-emerald-500" />
-                }
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-500/15">
+                <CheckCircle2 className="h-6 w-6 text-emerald-500" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <p className="font-black text-foreground text-base">
-                    {isTrial ? "Free Trial" : "Active Subscription"}
-                  </p>
-                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${
-                    isTrial
-                      ? "bg-amber-500/15 text-amber-600 dark:text-amber-400"
-                      : "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
-                  }`}>
-                    {isTrial ? "Trial" : "Active"}
+                  <p className="font-black text-foreground text-base">Active Subscription</p>
+                  <span className="rounded-full px-2.5 py-0.5 text-xs font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
+                    Active
                   </span>
                 </div>
                 <p className="mt-0.5 text-sm text-muted-foreground">
                   Plan: <span className="font-semibold capitalize text-foreground">{subscription.plan_code}</span>
-                  {renewDate ? ` · ${isTrial ? "Expires" : "Renews"} ${renewDate}` : ""}
+                  {renewDate ? ` · Renews ${renewDate}` : ""}
                 </p>
               </div>
             </div>
 
             {/* Days remaining counter */}
-            <div className={`flex flex-col items-center rounded-2xl px-6 py-3 text-center ${
-              isTrial ? "bg-amber-500/10" : "bg-emerald-500/10"
-            }`}>
-              <p className={`text-3xl font-black ${isTrial ? "text-amber-500" : "text-emerald-500"}`}>
+            <div className="flex flex-col items-center rounded-2xl px-6 py-3 text-center bg-emerald-500/10">
+              <p className="text-3xl font-black text-emerald-500">
                 {daysLeft}
               </p>
               <p className="text-xs font-semibold text-muted-foreground">days remaining</p>
             </div>
           </div>
 
-          {isTrial && (
-            <div className="mt-4 flex items-start gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
-              <p className="text-sm text-amber-700 dark:text-amber-300">
-                Your trial gives full access. Subscribe before it ends to avoid interruption.
-              </p>
-            </div>
-          )}
-
           {/* Renewal date warning */}
-          {isActive && daysLeft <= 7 && (
+          {daysLeft <= 7 && (
             <div className="mt-4 flex items-start gap-2 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3">
               <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
               <p className="text-sm text-amber-700 dark:text-amber-300">
@@ -214,7 +246,7 @@ function BillingPage() {
           <div className="flex-1">
             <p className="font-black text-foreground">No active subscription</p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Choose a plan below to start your 3-day free trial — no credit card required.
+              Choose a plan below to unlock practice exercises, exam simulations, and AI features.
             </p>
           </div>
         </div>
@@ -227,8 +259,8 @@ function BillingPage() {
           <p className="text-sm text-muted-foreground">Choose the plan that fits your exam goals. Cancel anytime.</p>
         </div>
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {PLANS.map((plan) => {
+        <div className={`grid gap-5 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "md:grid-cols-3"}`}>
+          {visiblePlans.map((plan) => {
             const isCurrent = subscription?.plan_code === plan.code;
             const c = COLOR_CLASSES[plan.color];
             return (
@@ -281,15 +313,101 @@ function BillingPage() {
                     Current plan
                   </div>
                 ) : (
-                  <button
-                    disabled
-                    title="Stripe integration coming soon — contact support to subscribe"
-                    className={`flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
-                  >
-                    <CreditCard className="h-4 w-4" />
-                    {subscription ? "Switch plan" : "Start free trial"}
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </button>
+                  <div className="space-y-2">
+                    {/* Card checkout (Lemon Squeezy) is VISIBLE whenever
+                        LEMONSQUEEZY_VISIBLE is true, independent of whether
+                        it's actually live (CARD_PAYMENTS_ENABLED) — see
+                        features.ts for why. When not yet enabled, the button
+                        stays fully styled but explains it's pending merchant
+                        approval instead of erroring for students. */}
+                    {LEMONSQUEEZY_VISIBLE && (
+                      <>
+                        <button
+                          onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
+                          disabled={checkoutPlan !== null || manualPlan !== null}
+                          className={`relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
+                        >
+                          {checkoutPlan === plan.code ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Zap className="h-4 w-4" />
+                          )}
+                          Pay with Lemon Squeezy
+                          <ArrowUpRight className="h-3.5 w-3.5" />
+                          {!CARD_PAYMENTS_ENABLED && (
+                            <span className="absolute -top-2 -right-2 rounded-full bg-amber-500 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white shadow-sm">
+                              Pending approval
+                            </span>
+                          )}
+                        </button>
+                        <p className="text-center text-[11px] font-medium text-muted-foreground">
+                          {CARD_PAYMENTS_ENABLED ? (
+                            <>
+                              <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
+                              Recommended · Instant activation · Carte Technologique & international cards supported
+                            </>
+                          ) : (
+                            <>
+                              <Clock className="mr-1 inline h-3 w-3 text-amber-500" />
+                              Pending merchant approval — card payments launching soon
+                            </>
+                          )}
+                        </p>
+
+                        <div className="relative py-1 text-center">
+                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">or</span>
+                        </div>
+                      </>
+                    )}
+
+                    {d17Disabled ? (
+                      <div className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-center">
+                        <p className="text-xs font-semibold text-muted-foreground">Payment (D17) — temporarily unavailable</p>
+                        <p className="mt-0.5 text-[10px] text-muted-foreground">Manual payment is paused right now. Please check back shortly.</p>
+                      </div>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "d17")}
+                          disabled={checkoutPlan !== null || manualPlan !== null}
+                          title="Pay via D17 mobile transfer, then send your receipt on WhatsApp."
+                          className={
+                            LEMONSQUEEZY_VISIBLE
+                              ? "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                              : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`
+                          }
+                        >
+                          {manualPlan === plan.code ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Landmark className="h-4 w-4" />
+                          )}
+                          Pay with D17 Mobile Transfer
+                        </button>
+
+                        <div className="grid grid-cols-2 gap-2">
+                          <button
+                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "postal")}
+                            disabled={checkoutPlan !== null || manualPlan !== null}
+                            title="Pay via La Poste Tunisienne (Virement Postal), then send your receipt on WhatsApp."
+                            className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                          >
+                            {manualPlan === plan.code ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Landmark className="h-3.5 w-3.5" />}
+                            Virement Postal
+                          </button>
+                          <button
+                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "bancaire")}
+                            disabled={checkoutPlan !== null || manualPlan !== null}
+                            title="Pay via bank transfer (Virement Bancaire), then send your receipt on WhatsApp."
+                            className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
+                          >
+                            {manualPlan === plan.code ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wallet className="h-3.5 w-3.5" />}
+                            Virement Bancaire
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                 )}
               </div>
             );
@@ -300,9 +418,9 @@ function BillingPage() {
       {/* ── Benefits overview ─────────────────────────────────── */}
       <div className="grid gap-4 sm:grid-cols-3">
         {[
-          { icon: Zap,       title: "Instant access",     desc: "Full access granted the moment your trial starts.",              color: "text-amber-500 bg-amber-500/10" },
-          { icon: Shield,    title: "Secure payments",    desc: "Stripe-powered — your card details are never stored here.",       color: "text-blue-500 bg-blue-500/10"   },
-          { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Cancel in one click, no questions asked.",           color: "text-emerald-500 bg-emerald-500/10" },
+          { icon: Zap,       title: "Fast verification",  desc: "Send your receipt on WhatsApp — most payments are confirmed within minutes.",  color: "text-amber-500 bg-amber-500/10" },
+          { icon: Shield,    title: "Secure by design",   desc: "Your payment is reviewed before any access is granted — we never store card details.", color: "text-blue-500 bg-blue-500/10"   },
+          { icon: RefreshCw, title: "Cancel anytime",     desc: "No lock-in. Contact support and we'll cancel it right away, no questions asked.", color: "text-emerald-500 bg-emerald-500/10" },
         ].map((item) => (
           <div key={item.title} className="rounded-2xl border border-border bg-card p-5">
             <div className={`mb-3 inline-flex h-9 w-9 items-center justify-center rounded-xl ${item.color.split(" ")[1]}`}>
@@ -328,9 +446,9 @@ function BillingPage() {
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        Stripe payment integration will activate once your Stripe account is connected via Admin → Settings.
-        <br />
-        During this phase, free trials are granted automatically at registration.
+        {CARD_PAYMENTS_ENABLED
+          ? "Card payments are processed securely by Lemon Squeezy and activate instantly. D17 mobile-transfer payments are verified after you upload your confirmation — usually within moments, and within 8 working hours if a manual review is needed."
+          : "D17 mobile transfer is live today — upload your payment confirmation and most payments are verified automatically within moments (up to 8 working hours if a manual review is needed). Card payments via Lemon Squeezy are pending merchant approval and will activate soon."}
       </p>
     </div>
   );

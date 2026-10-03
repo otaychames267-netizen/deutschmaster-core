@@ -1,0 +1,38 @@
+{
+  "title": "Die Fahrradtouren von Berlin",
+  "teil": 3,
+  "level": "B2",
+  "position": 33,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 34 (code 15) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Die Fahrradtouren von „Berlin auf zwei Rädern“ können nicht nur privat, sondern auch im beruflichen Kontext gebucht werden.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Straßen in Passau sind durch das starke Unwetter heute noch bis vier Uhr blockiert.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Sitzplatzreservierungen im ICE sind wegen technischer Probleme in den Wagen 24-38 ungültig.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Selma schlägt vor, die Verabredung auf Samstag zu verschieben.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Die lange Nacht der Architektur ist kostenlos, wenn man sich vorher online anmeldet.",
+      "correct": true
+    }
+  ]
+}

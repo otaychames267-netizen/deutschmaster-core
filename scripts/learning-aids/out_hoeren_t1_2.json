@@ -1,0 +1,610 @@
+{
+  "700657c1-4c73-45c2-a4f0-6282539ce070": {
+    "translation": {
+      "questions": {
+        "41": "ارتفع معدل خريجي الجامعات في ألمانيا إلى المتوسط الدولي البالغ 32٪.",
+        "42": "ينتقد العاملون المتنقلون يوميًا بين المنزل والعمل أوقات الانتظار والتكاليف غير الضرورية للرحلات اليومية.",
+        "43": "اتحاد المزارعين الألماني راضٍ بشكل عام عن محصول هذا العام.",
+        "44": "يرغب متحف السينما الألماني في زيادة عدد الزوار في المستقبل.",
+        "45": "يؤدي مسار ماراثون غوتنبرغ في ماينتس تقليديًا إلى فيسبادن."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "32%",
+        "explanation_correct": "Diese Aussage nennt die konkrete Prozentzahl „32%\" – Zahlenangaben werden in Hörtexten besonders häufig verändert, deshalb lohnt es sich, sie genau zu merken. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Diese Aussage nennt die konkrete Prozentzahl „32%\" – Zahlenangaben werden in Hörtexten besonders häufig verändert, deshalb lohnt es sich, sie genau zu merken. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "unnötige Wartezeiten und Kosten",
+        "explanation_correct": "Der Ausdruck „unnötige Wartezeiten und Kosten\" beschreibt eine klare Kritik; solche wertenden Formulierungen sollte man beim Hören besonders aufmerksam verfolgen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „unnötige Wartezeiten und Kosten\" beschreibt eine klare Kritik; solche wertenden Formulierungen sollte man beim Hören besonders aufmerksam verfolgen. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "im Allgemeinen zufrieden",
+        "explanation_correct": "Die Formulierung „im Allgemeinen zufrieden\" drückt eine positive Gesamteinschätzung aus – solche pauschalen Bewertungen werden in Prüfungsaufgaben oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Formulierung „im Allgemeinen zufrieden\" drückt eine positive Gesamteinschätzung aus – solche pauschalen Bewertungen werden in Prüfungsaufgaben oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Besucherzahlen",
+        "explanation_correct": "Das Stichwort „Besucherzahlen\" verweist auf eine Zukunftsabsicht der Einrichtung; solche Zielsetzungen werden im Hörtext meist direkt genannt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Stichwort „Besucherzahlen\" verweist auf eine Zukunftsabsicht der Einrichtung; solche Zielsetzungen werden im Hörtext meist direkt genannt. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "traditionell nach Wiesbaden",
+        "explanation_correct": "Bei Ortsangaben wie „traditionell nach Wiesbaden\" handelt es sich oft um vertauschte Ziel- oder Ausgangsorte, die man genau prüfen sollte. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Bei Ortsangaben wie „traditionell nach Wiesbaden\" handelt es sich oft um vertauschte Ziel- oder Ausgangsorte, die man genau prüfen sollte. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "99a3eb3c-71e4-43d4-b115-35560e1cae48": {
+    "translation": {
+      "questions": {
+        "41": "أوراق فئة الخمسين يورو الصادرة عن البنك المركزي الألماني الفيدرالي أصبحت الآن أكثر أمانًا ضد التزوير.",
+        "42": "طالبت نقابة الأطباء بأن يؤدي الأطباء الشباب مستقبلاً سنة إلزامية في عيادة طبيب ريفي.",
+        "43": "يشارك علماء من جامعة ماينتس في مشروع لاستكشاف كوكب المريخ.",
+        "44": "يطالب اتحاد التعليم والتربية بـ 10,000 وظيفة تدريس إضافية.",
+        "45": "زاد العمل غير المصرح به (الاقتصاد الموازي) بنسبة 15٪ في العام الماضي."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "fälschungssicherer",
+        "explanation_correct": "Das Wort „fälschungssicherer\" behauptet eine konkrete Verbesserung; solche Eigenschaftsangaben werden in Falschaussagen häufig verändert oder verneint. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „fälschungssicherer\" behauptet eine konkrete Verbesserung; solche Eigenschaftsangaben werden in Falschaussagen häufig verändert oder verneint. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "Pflichtjahr",
+        "explanation_correct": "Der Begriff „Pflichtjahr\" drückt eine verbindliche Verpflichtung aus – Wörter, die eine strikte Pflicht behaupten, sind typische Stolperstellen, da die tatsächliche Forderung oft anders lautet. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Begriff „Pflichtjahr\" drückt eine verbindliche Verpflichtung aus – Wörter, die eine strikte Pflicht behaupten, sind typische Stolperstellen, da die tatsächliche Forderung oft anders lautet. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Planeten Mars",
+        "explanation_correct": "Das Stichwort „Planeten Mars\" benennt das konkrete Forschungsziel; achte bei solchen Fachbegriffen darauf, ob Akteur und Thema wirklich zusammenpassen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Stichwort „Planeten Mars\" benennt das konkrete Forschungsziel; achte bei solchen Fachbegriffen darauf, ob Akteur und Thema wirklich zusammenpassen. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "10.000",
+        "explanation_correct": "Die genaue Zahl „10.000\" ist ein typisches Detail, das in Falschaussagen leicht verändert wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die genaue Zahl „10.000\" ist ein typisches Detail, das in Falschaussagen leicht verändert wird. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "15%",
+        "explanation_correct": "Auch hier ist die Prozentangabe „15%\" das entscheidende Detail – Zahlen sollte man beim Hören besonders kritisch prüfen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Auch hier ist die Prozentangabe „15%\" das entscheidende Detail – Zahlen sollte man beim Hören besonders kritisch prüfen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "a355bc19-56a3-48f4-aea7-1631105bc90d": {
+    "translation": {
+      "questions": {
+        "41": "من المفترض أن تحصل الولايات الاتحادية مستقبلاً على أموال لدعم الطاقات البديلة.",
+        "42": "إذا أراد المرء شراء شيء عبر الإنترنت، فينبغي عليه إثبات هويته.",
+        "43": "خلال عملية سطو، أُجبرت سفينة على التوجه نحو الساحل.",
+        "44": "وفقًا لوزير السياحة، ينبغي إلغاء إجازة مشاهدة الفهود في جزيرة غران كناريا.",
+        "45": "لم يُحسم بعد إلى متى سيستمر الإضراب."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "alternative Energien",
+        "explanation_correct": "Das Stichwort „alternative Energien\" benennt den konkreten Förderbereich; solche Sachthemen werden im Hörtext meist klar erwähnt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Stichwort „alternative Energien\" benennt den konkreten Förderbereich; solche Sachthemen werden im Hörtext meist klar erwähnt. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "Identität nachweisen",
+        "explanation_correct": "Der Ausdruck „Identität nachweisen\" beschreibt eine konkrete Anforderung; achte darauf, ob eine Bedingung wirklich so im Text vorkommt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „Identität nachweisen\" beschreibt eine konkrete Anforderung; achte darauf, ob eine Bedingung wirklich so im Text vorkommt. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Richtung Küste",
+        "explanation_correct": "Richtungsangaben wie „Richtung Küste\" werden in Falschaussagen gern vertauscht, zum Beispiel mit der entgegengesetzten Richtung. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Richtungsangaben wie „Richtung Küste\" werden in Falschaussagen gern vertauscht, zum Beispiel mit der entgegengesetzten Richtung. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "absagen",
+        "explanation_correct": "Das Verb „absagen\" drückt eine Empfehlung oder Aufforderung aus; solche Handlungsanweisungen werden in Prüfungsaufgaben oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „absagen\" drückt eine Empfehlung oder Aufforderung aus; solche Handlungsanweisungen werden in Prüfungsaufgaben oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "noch nicht entschieden",
+        "explanation_correct": "Die Formulierung „noch nicht entschieden\" zeigt eine offene Situation an; solche zeitlichen Zwischenstände sind ein wichtiges Detail beim Hören. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „noch nicht entschieden\" zeigt eine offene Situation an; solche zeitlichen Zwischenstände sind ein wichtiges Detail beim Hören. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "f6560b2b-fe08-416f-b080-72582a4d804a": {
+    "translation": {
+      "questions": {
+        "41": "شركة الطيران DL لم تعد تسيّر رحلات إلى روستوك، على سبيل المثال.",
+        "42": "تُقدَّم الحلويات هذا العام لاستعادة المشترين.",
+        "43": "لم يكن للعواصف الشمسية أي آثار سلبية.",
+        "44": "استطاع أحد المرشحين كسب أغلبية المشاهدين لصالحه.",
+        "45": "قد يتسبب منخفض الضغط الجوي «هيلينا» غدًا في مشاكل مرورية جنوب غرب ألمانيا."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "nicht mehr an",
+        "explanation_correct": "Die Verneinung „nicht mehr an\" bezieht sich auf ein konkretes Reiseziel; bei solchen Negationen lohnt sich besondere Aufmerksamkeit. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Verneinung „nicht mehr an\" bezieht sich auf ein konkretes Reiseziel; bei solchen Negationen lohnt sich besondere Aufmerksamkeit. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "Süßwaren",
+        "explanation_correct": "Das Stichwort „Süßwaren\" benennt ein konkretes Produkt – in Falschaussagen wird oft ein anderes Produkt oder eine andere Maßnahme genannt als im Hörtext. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Stichwort „Süßwaren\" benennt ein konkretes Produkt – in Falschaussagen wird oft ein anderes Produkt oder eine andere Maßnahme genannt als im Hörtext. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "keine negativen Auswirkungen",
+        "explanation_correct": "Die absolute Verneinung „keine negativen Auswirkungen\" ist typisch für Falschaussagen, da Hörtexte solche Pauschalurteile selten in dieser Form bestätigen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die absolute Verneinung „keine negativen Auswirkungen\" ist typisch für Falschaussagen, da Hörtexte solche Pauschalurteile selten in dieser Form bestätigen. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Mehrheit",
+        "explanation_correct": "Das Wort „Mehrheit\" behauptet ein eindeutiges Ergebnis; solche Mehrheitsaussagen sind eine klassische Falle, wenn das tatsächliche Ergebnis knapper oder anders ist. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „Mehrheit\" behauptet ein eindeutiges Ergebnis; solche Mehrheitsaussagen sind eine klassische Falle, wenn das tatsächliche Ergebnis knapper oder anders ist. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "Tiefdruckgebiet „Helena”",
+        "explanation_correct": "Der Eigenname „Tiefdruckgebiet Helena\" ist ein konkretes Detail; solche benannten Fakten werden im Hörtext meist direkt bestätigt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Eigenname „Tiefdruckgebiet Helena\" ist ein konkretes Detail; solche benannten Fakten werden im Hörtext meist direkt bestätigt. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "1c10bfd3-1582-4892-979f-446db792a0c0": {
+    "translation": {
+      "questions": {
+        "41": "يعبّر عملاء شركة الطيران DL عن استيائهم.",
+        "42": "خُفّضت أسعار الحلويات هذا العام لاستعادة المشترين.",
+        "43": "لم يكن للعواصف الشمسية أي آثار سلبية.",
+        "44": "استطاع أحد المرشحين كسب تأييد أغلبية المشاهدين لصالحه.",
+        "45": "قد يتسبب منخفض الضغط الجوي «هيلينا» غدًا في مشاكل مرورية جنوب غرب ألمانيا."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Unzufriedenheit",
+        "explanation_correct": "Das Stichwort „Unzufriedenheit\" fasst die Kernaussage zusammen; achte auf Wörter, die eine Stimmung oder Bewertung ausdrücken. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Stichwort „Unzufriedenheit\" fasst die Kernaussage zusammen; achte auf Wörter, die eine Stimmung oder Bewertung ausdrücken. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "gesenkt",
+        "explanation_correct": "Das Verb „gesenkt\" behauptet eine bestimmte Preisrichtung; Angaben zu „gesenkt\" oder „erhöht\" werden in Falschaussagen häufig vertauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Verb „gesenkt\" behauptet eine bestimmte Preisrichtung; Angaben zu „gesenkt\" oder „erhöht\" werden in Falschaussagen häufig vertauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "keine negativen Auswirkungen",
+        "explanation_correct": "Wie bei absoluten Verneinungen üblich, ist „keine negativen Auswirkungen\" eine Formulierung, die im Hörtext oft nicht in dieser pauschalen Form bestätigt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Wie bei absoluten Verneinungen üblich, ist „keine negativen Auswirkungen\" eine Formulierung, die im Hörtext oft nicht in dieser pauschalen Form bestätigt wird. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Mehrheit",
+        "explanation_correct": "Auch hier ist „Mehrheit\" das entscheidende Wort – Mehrheitsbehauptungen sollte man nie ungeprüft übernehmen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Auch hier ist „Mehrheit\" das entscheidende Wort – Mehrheitsbehauptungen sollte man nie ungeprüft übernehmen. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "Tiefdruckgebiet „Helena”",
+        "explanation_correct": "Der benannte Sturm „Tiefdruckgebiet Helena\" ist ein konkretes, überprüfbares Detail. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der benannte Sturm „Tiefdruckgebiet Helena\" ist ein konkretes, überprüfbares Detail. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "faabe662-c0e5-4f4b-ab9c-23b3e2a281ec": {
+    "translation": {
+      "questions": {
+        "41": "يرى خبراء من عالم البنوك والاقتصاد أن التطور الاقتصادي سلبي.",
+        "42": "قررت الحكومة الاتحادية مجددًا عدم دعم الجامعات النخبوية.",
+        "43": "في مهرجان كان السينمائي، فاز فيلم ألماني بالجائزة الأولى بعد مرور أحد عشر عامًا.",
+        "44": "تجتمع اللجنة الأولمبية الدولية في لوزان للتداول بشأن مكان استضافة الألعاب الأولمبية لعام 2012.",
+        "45": "يوجد في ولاية هيسن فائض في عدد أماكن التدريب المهني."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "negativ",
+        "explanation_correct": "Das Wort „negativ\" gibt die Grundstimmung der Einschätzung wieder; solche Bewertungswörter sind zentrale Anhaltspunkte beim Hören. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „negativ\" gibt die Grundstimmung der Einschätzung wieder; solche Bewertungswörter sind zentrale Anhaltspunkte beim Hören. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "erneut gegen",
+        "explanation_correct": "Die Formulierung „erneut gegen\" behauptet eine wiederholte ablehnende Entscheidung; Wörter wie „erneut\" oder „wieder\" markieren oft eine veränderte Tatsache. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Formulierung „erneut gegen\" behauptet eine wiederholte ablehnende Entscheidung; Wörter wie „erneut\" oder „wieder\" markieren oft eine veränderte Tatsache. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "nach elf Jahren",
+        "explanation_correct": "Die Zeitangabe „nach elf Jahren\" ist ein typisches Zahlendetail, das in Falschaussagen leicht abgewandelt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Zeitangabe „nach elf Jahren\" ist ein typisches Zahlendetail, das in Falschaussagen leicht abgewandelt wird. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Lausanne",
+        "explanation_correct": "Der Ortsname „Lausanne\" ist ein konkretes, überprüfbares Detail zum Treffen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ortsname „Lausanne\" ist ein konkretes, überprüfbares Detail zum Treffen. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "Überangebot",
+        "explanation_correct": "Das Wort „Überangebot\" behauptet einen Überschuss; solche Begriffe werden in Falschaussagen gern durch ihr Gegenteil (z. B. Mangel) ersetzt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „Überangebot\" behauptet einen Überschuss; solche Begriffe werden in Falschaussagen gern durch ihr Gegenteil (z. B. Mangel) ersetzt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "752fbcfc-fc1a-4a24-afa3-3951b0387453": {
+    "translation": {
+      "questions": {
+        "41": "يناضل طيارو لوفتهانزا من أجل أجور أفضل.",
+        "42": "توصي وزارة الصحة جميع المواطنين بالتطعيم ضد الإنفلونزا.",
+        "43": "يزور عدد متزايد باستمرار من الناس «يوم النصب التذكاري المفتوح».",
+        "44": "أغلبية الموظفين الألمان مستعدون للعمل في الخارج أيضًا.",
+        "45": "لم يكن هناك فائز في مباريات كرة القدم."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "bessere Bezahlung",
+        "explanation_correct": "Der Ausdruck „bessere Bezahlung\" nennt einen möglichen Grund für den Protest; achte darauf, ob der genannte Grund wirklich zutrifft oder ein anderer Grund vorliegt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Ausdruck „bessere Bezahlung\" nennt einen möglichen Grund für den Protest; achte darauf, ob der genannte Grund wirklich zutrifft oder ein anderer Grund vorliegt. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "allen Bürgern",
+        "explanation_correct": "Das Wort „allen\" ist ein absoluter Mengenbegriff; solche Pauschalaussagen sind in Falschaussagen besonders häufig, da Empfehlungen meist nur für bestimmte Gruppen gelten. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „allen\" ist ein absoluter Mengenbegriff; solche Pauschalaussagen sind in Falschaussagen besonders häufig, da Empfehlungen meist nur für bestimmte Gruppen gelten. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Immer mehr",
+        "explanation_correct": "Die Formulierung „Immer mehr\" beschreibt einen zunehmenden Trend; solche Mengenentwicklungen sind ein wichtiges Detail beim Hören. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „Immer mehr\" beschreibt einen zunehmenden Trend; solche Mengenentwicklungen sind ein wichtiges Detail beim Hören. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "Mehrheit",
+        "explanation_correct": "Auch hier ist „Mehrheit\" das entscheidende Stichwort – Mehrheitsbehauptungen über eine ganze Gruppe sind eine klassische Prüfungsfalle. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Auch hier ist „Mehrheit\" das entscheidende Stichwort – Mehrheitsbehauptungen über eine ganze Gruppe sind eine klassische Prüfungsfalle. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "keinen Sieger",
+        "explanation_correct": "Die Verneinung „keinen Sieger\" beschreibt ein konkretes Ergebnis; achte bei solchen Ergebnisangaben genau auf das Wort „kein\". Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Verneinung „keinen Sieger\" beschreibt ein konkretes Ergebnis; achte bei solchen Ergebnisangaben genau auf das Wort „kein\". Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "8a353675-d205-4c3c-acbd-6473319a9dfb": {
+    "translation": {
+      "questions": {
+        "41": "ترغب المتحدثة في العيش بمفردها وأن تكون قادرة على فعل ما تريد.",
+        "42": "يسكن المتحدث مع شريكته في شقة كبيرة.",
+        "43": "المتحدثة متزوجة ولديها طفلان.",
+        "44": "المتحدث مطلّق ويعيش مع ابنته لدى عائلة أخرى.",
+        "45": "لم ترغب المتحدثة أبدًا في إنجاب أطفال كثر."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "allein leben",
+        "explanation_correct": "Der Ausdruck „allein leben\" beschreibt einen klaren Wunsch der Sprecherin; solche persönlichen Aussagen sind zentrale Prüfdetails. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „allein leben\" beschreibt einen klaren Wunsch der Sprecherin; solche persönlichen Aussagen sind zentrale Prüfdetails. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "großen Wohnung",
+        "explanation_correct": "Das Detail „großen Wohnung\" beschreibt eine bestimmte Wohnsituation; solche Detailangaben (Größe, Ort, Personen) werden in Falschaussagen oft leicht verändert. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Detail „großen Wohnung\" beschreibt eine bestimmte Wohnsituation; solche Detailangaben (Größe, Ort, Personen) werden in Falschaussagen oft leicht verändert. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "zwei Kinder",
+        "explanation_correct": "Die Zahlangabe „zwei Kinder\" ist ein konkretes, überprüfbares Detail zur Familiensituation. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Zahlangabe „zwei Kinder\" ist ein konkretes, überprüfbares Detail zur Familiensituation. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "geschieden",
+        "explanation_correct": "Das Wort „geschieden\" beschreibt den Familienstand des Sprechers; solche persönlichen Fakten sollte man sich beim Hören gut merken. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „geschieden\" beschreibt den Familienstand des Sprechers; solche persönlichen Fakten sollte man sich beim Hören gut merken. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "nie",
+        "explanation_correct": "Das Wort „nie\" ist eine absolute Verneinung; solche Extremformulierungen werden in Falschaussagen besonders oft verwendet, weil die Realität meist differenzierter ist. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „nie\" ist eine absolute Verneinung; solche Extremformulierungen werden in Falschaussagen besonders oft verwendet, weil die Realität meist differenzierter ist. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "d3750723-ed56-4354-882d-57919f338698": {
+    "translation": {
+      "questions": {
+        "41": "تدعو مدينة فريدريشسبيرغ إلى حفل توزيع جوائز.",
+        "42": "الجسر القديم أصبح صالحًا للعبور مجددًا مع بداية العام.",
+        "43": "تلقى المتنزه الإسعافات الطبية ونُقل إلى بر الأمان.",
+        "44": "تحدث في الشركة حالات فصل من العمل.",
+        "45": "يمكن للمرء المشاركة في سباق جماعي بعد التسجيل."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Preisverleihung",
+        "explanation_correct": "Das Stichwort „Preisverleihung\" benennt einen bestimmten Anlasstyp; in Falschaussagen wird häufig eine andere Art von Veranstaltung genannt als tatsächlich gemeint ist. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Stichwort „Preisverleihung\" benennt einen bestimmten Anlasstyp; in Falschaussagen wird häufig eine andere Art von Veranstaltung genannt als tatsächlich gemeint ist. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "zum Jahresbeginn",
+        "explanation_correct": "Die Zeitangabe „zum Jahresbeginn\" ist ein konkretes Detail zur Wiedereröffnung; solche Terminangaben sollte man genau im Ohr behalten. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Zeitangabe „zum Jahresbeginn\" ist ein konkretes Detail zur Wiedereröffnung; solche Terminangaben sollte man genau im Ohr behalten. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "in Sicherheit gebracht",
+        "explanation_correct": "Der Ausdruck „in Sicherheit gebracht\" beschreibt den Ausgang der Rettungsaktion. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „in Sicherheit gebracht\" beschreibt den Ausgang der Rettungsaktion. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "Kündigungen",
+        "explanation_correct": "Das Wort „Kündigungen\" behauptet eine negative Entwicklung für die Beschäftigten; solche Aussagen zur wirtschaftlichen Lage eines Unternehmens werden oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „Kündigungen\" behauptet eine negative Entwicklung für die Beschäftigten; solche Aussagen zur wirtschaftlichen Lage eines Unternehmens werden oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "nach einer Registrierung",
+        "explanation_correct": "Die Bedingung „nach einer Registrierung\" beschreibt eine konkrete Teilnahmevoraussetzung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Bedingung „nach einer Registrierung\" beschreibt eine konkrete Teilnahmevoraussetzung. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "774924fd-78f6-44d6-85f7-3c8c96b0f39e": {
+    "translation": {
+      "questions": {
+        "41": "مدينة بلسن التشيكية هي عاصمة الثقافة الأوروبية لعام 2015.",
+        "42": "وقع بالقرب من سانكت فايت آن دير غلان حادث سيارة أودى بحياة شخص واحد.",
+        "43": "يمكن مشاهدة فيلم «إيفرست» الآن بالفعل في جميع دور السينما الأوروبية.",
+        "44": "بعد العواصف الرعدية، سترتفع درجات الحرارة مجددًا في شمال غرب النمسا.",
+        "45": "يحظى مواليد برج الدلو هذا الأسبوع بحظ وافر في العمل والصحة والحب."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Kulturhauptstadt 2015",
+        "explanation_correct": "Der Titel „Kulturhauptstadt 2015\" ist ein konkretes, überprüfbares Faktendetail. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Titel „Kulturhauptstadt 2015\" ist ein konkretes, überprüfbares Faktendetail. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "einen Toten",
+        "explanation_correct": "Die Angabe „einen Toten\" beschreibt die Folge des Unfalls; solche Opferzahlen sind wichtige Prüfdetails. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Angabe „einen Toten\" beschreibt die Folge des Unfalls; solche Opferzahlen sind wichtige Prüfdetails. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "schon jetzt in allen",
+        "explanation_correct": "Die Kombination aus Zeitangabe „schon jetzt\" und Mengenbegriff „allen\" ist doppelt auffällig – solche übertriebenen Formulierungen zu Zeitpunkt und Umfang sind typische Fallen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Kombination aus Zeitangabe „schon jetzt\" und Mengenbegriff „allen\" ist doppelt auffällig – solche übertriebenen Formulierungen zu Zeitpunkt und Umfang sind typische Fallen. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Nordwesten",
+        "explanation_correct": "Die Richtungsangabe „Nordwesten\" wird in Falschaussagen häufig gegen eine andere Himmelsrichtung ausgetauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Richtungsangabe „Nordwesten\" wird in Falschaussagen häufig gegen eine andere Himmelsrichtung ausgetauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "rundum Glück",
+        "explanation_correct": "Der Ausdruck „rundum Glück\" ist eine absolute Pauschalaussage über mehrere Lebensbereiche zugleich; solche Rundum-Behauptungen werden selten vollständig bestätigt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Ausdruck „rundum Glück\" ist eine absolute Pauschalaussage über mehrere Lebensbereiche zugleich; solche Rundum-Behauptungen werden selten vollständig bestätigt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "482c3a7c-aa8e-4597-9465-9d0099444b30": {
+    "translation": {
+      "questions": {
+        "41": "نسبة المشاركة في الانتخابات في ألمانيا تتزايد مجددًا.",
+        "42": "يتعين تسريح 150 عامل بناء.",
+        "43": "في الحدث الرياضي، تم تسجيل أرقام قياسية جديدة.",
+        "44": "لم يتم العثور بعد على الثغرة الأمنية في الخدمات المصرفية عبر الإنترنت.",
+        "45": "يمكن للأطفال قراءة نصوصهم الخاصة بصوت عالٍ في المكتبة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "nimmt wieder zu",
+        "explanation_correct": "Die Formulierung „nimmt wieder zu\" beschreibt einen konkreten Trend; achte auf Verben, die eine Zu- oder Abnahme ausdrücken. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „nimmt wieder zu\" beschreibt einen konkreten Trend; achte auf Verben, die eine Zu- oder Abnahme ausdrücken. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "150 Bauarbeiter",
+        "explanation_correct": "Die genaue Zahl „150\" ist ein typisches Detail, das in Falschaussagen häufig verändert wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die genaue Zahl „150\" ist ein typisches Detail, das in Falschaussagen häufig verändert wird. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "neue Bestzeiten",
+        "explanation_correct": "Der Ausdruck „neue Bestzeiten\" beschreibt ein konkretes Ergebnis der Veranstaltung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „neue Bestzeiten\" beschreibt ein konkretes Ergebnis der Veranstaltung. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "noch nicht gefunden",
+        "explanation_correct": "Die Verneinung „noch nicht gefunden\" behauptet einen offenen Zustand; solche Formulierungen werden in Falschaussagen oft in ihr Gegenteil verkehrt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Verneinung „noch nicht gefunden\" behauptet einen offenen Zustand; solche Formulierungen werden in Falschaussagen oft in ihr Gegenteil verkehrt. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "ihre eigenen Texte",
+        "explanation_correct": "Das Detail „ihre eigenen Texte\" beschreibt eine bestimmte Aktivität; achte darauf, ob Handlung und Urheberschaft wirklich so zusammenpassen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Detail „ihre eigenen Texte\" beschreibt eine bestimmte Aktivität; achte darauf, ob Handlung und Urheberschaft wirklich so zusammenpassen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "7dd1c2b8-5dbf-439b-abf4-a07aad5db598": {
+    "translation": {
+      "questions": {
+        "41": "انخفض عدد العاطلين عن العمل في ألمانيا في شهر مايو.",
+        "42": "تريد المكسيك وروسيا مواصلة تعميق تعاونهما في مجالي الاقتصاد والمالية.",
+        "43": "قطاع التجزئة الألماني راضٍ جدًا عن نتائج تخفيضات نهاية الصيف.",
+        "44": "أعرب رئيس البنك الدولي عن قلقه إزاء المساعدات الإنمائية لما يسمى بـ«العالم الثالث».",
+        "45": "توفي أربعة مراهقين في انفجار وقع في قرية إريش كستنر للأطفال."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "verringert",
+        "explanation_correct": "Das Verb „verringert\" beschreibt eine konkrete Entwicklung der Arbeitslosenzahl. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Verb „verringert\" beschreibt eine konkrete Entwicklung der Arbeitslosenzahl. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "weiter vertiefen",
+        "explanation_correct": "Der Ausdruck „weiter vertiefen\" beschreibt die Absicht zur verstärkten Zusammenarbeit. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „weiter vertiefen\" beschreibt die Absicht zur verstärkten Zusammenarbeit. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "sehr zufrieden",
+        "explanation_correct": "Die Formulierung „sehr zufrieden\" behauptet eine starke positive Bewertung; solche Zufriedenheitsaussagen werden in Falschaussagen oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Formulierung „sehr zufrieden\" behauptet eine starke positive Bewertung; solche Zufriedenheitsaussagen werden in Falschaussagen oft ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "besorgt",
+        "explanation_correct": "Das Wort „besorgt\" gibt die Grundhaltung des Sprechers wieder. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „besorgt\" gibt die Grundhaltung des Sprechers wieder. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "vier Jugendliche",
+        "explanation_correct": "Die Zahl „vier Jugendliche\" ist ein typisches Opferdetail, das in Falschaussagen häufig verändert wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Zahl „vier Jugendliche\" ist ein typisches Opferdetail, das in Falschaussagen häufig verändert wird. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "22ee6b6b-42ad-4882-bd4d-514c951f4be3": {
+    "translation": {
+      "questions": {
+        "41": "علقت سفينة ألمانية متجمدة عند القطب الجنوبي، لكن لم يصب أحد بأذى.",
+        "42": "تعرضت شركة Brain International لصعوبات اقتصادية.",
+        "43": "يريد الاتحاد الأوروبي سن قوانين للرقابة على شبكات التواصل الاجتماعي.",
+        "44": "بموجب قانون جديد، تريد البنوك النمساوية جعل حسابات التوفير جذابة مجددًا.",
+        "45": "بعد انتخابات رئيس البلدية في بنسهايم، يبقى الحزب الديمقراطي المسيحي (CDU) في الحكم."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "nicht zu Schaden",
+        "explanation_correct": "Die Formulierung „nicht zu Schaden\" beschreibt den glimpflichen Ausgang des Vorfalls. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „nicht zu Schaden\" beschreibt den glimpflichen Ausgang des Vorfalls. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "wirtschaftliche Schwierigkeiten",
+        "explanation_correct": "Der Ausdruck „wirtschaftliche Schwierigkeiten\" beschreibt die Lage des Unternehmens. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „wirtschaftliche Schwierigkeiten\" beschreibt die Lage des Unternehmens. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Kontrolle sozialer Netzwerke",
+        "explanation_correct": "Das Thema „Kontrolle sozialer Netzwerke\" wird hier einem bestimmten Akteur zugeschrieben; achte genau darauf, wer im Hörtext tatsächlich handelt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Thema „Kontrolle sozialer Netzwerke\" wird hier einem bestimmten Akteur zugeschrieben; achte genau darauf, wer im Hörtext tatsächlich handelt. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "österreichischen Banken",
+        "explanation_correct": "Die Angabe „österreichische Banken\" nennt einen bestimmten Akteur bzw. ein Land; solche Zuordnungen werden in Falschaussagen häufig ausgetauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Angabe „österreichische Banken\" nennt einen bestimmten Akteur bzw. ein Land; solche Zuordnungen werden in Falschaussagen häufig ausgetauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "weiterhin an der Regierung",
+        "explanation_correct": "Der Ausdruck „weiterhin an der Regierung\" beschreibt das Wahlergebnis. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „weiterhin an der Regierung\" beschreibt das Wahlergebnis. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "a0312435-36bf-42da-b16c-7552cfba1f3a": {
+    "translation": {
+      "questions": {
+        "41": "من المفترض أن يسهم اجتماع لدى مفوضة الاندماج في تحسين اندماج المهاجرين والمهاجرات.",
+        "42": "انقطعت الكهرباء عن أجزاء من مدينة كارلسروه مساء الأربعاء لمدة أربعين دقيقة.",
+        "43": "دراسة حول سلوك الأكل لدى الألمان تُظهر: كثيرون يعانون من مشاكل في الوزن.",
+        "44": "الشرطة الصينية تساعد ضحايا العواصف الشديدة.",
+        "45": "مراسم دفن متأخرة لمهاتما غاندي."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "verbessern",
+        "explanation_correct": "Das Verb „verbessern\" nennt das Ziel des Treffens. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Verb „verbessern\" nennt das Ziel des Treffens. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "vierzig Minuten",
+        "explanation_correct": "Die Zeitangabe „vierzig Minuten\" ist ein typisches Zahlendetail, das in Falschaussagen leicht verändert wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Zeitangabe „vierzig Minuten\" ist ein typisches Zahlendetail, das in Falschaussagen leicht verändert wird. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Gewichtsprobleme",
+        "explanation_correct": "Das Stichwort „Gewichtsprobleme\" fasst das Ergebnis der Untersuchung zusammen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Stichwort „Gewichtsprobleme\" fasst das Ergebnis der Untersuchung zusammen. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "Chinas Polizei",
+        "explanation_correct": "Die Angabe „Chinas Polizei\" nennt einen bestimmten Akteur; solche Akteursangaben werden in Falschaussagen oft gegen einen anderen Akteur ausgetauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Angabe „Chinas Polizei\" nennt einen bestimmten Akteur; solche Akteursangaben werden in Falschaussagen oft gegen einen anderen Akteur ausgetauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "Später Bestattungsritus",
+        "explanation_correct": "Der Ausdruck „später Bestattungsritus\" ist ein konkretes Sachdetail zur Meldung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „später Bestattungsritus\" ist ein konkretes Sachdetail zur Meldung. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "41adeff7-d504-4bb8-b1cd-9a44ff5dcc98": {
+    "translation": {
+      "questions": {
+        "1": "عدد أكبر من الشباب في الاتحاد الأوروبي يختارون التدريب المهني بدلاً من الدراسة الجامعية.",
+        "2": "تدعم وزارة الصحة الاتحادية الكوادر التمريضية الأجنبية.",
+        "3": "يُقام «مهرجان إلب جاز» هذا العام في الهواء الطلق حصرًا.",
+        "4": "عثر علماء الآثار على قبر من العصر الكلتي يكاد يكون غير متضرر.",
+        "5": "من المتوقع أن يسود طقس صيفي هادئ في شمال ألمانيا."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "statt eines Studiums",
+        "explanation_correct": "Die Formulierung „statt eines Studiums\" beschreibt einen Vergleich zwischen zwei Bildungswegen; solche Vergleichsangaben sind wichtige Prüfdetails. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „statt eines Studiums\" beschreibt einen Vergleich zwischen zwei Bildungswegen; solche Vergleichsangaben sind wichtige Prüfdetails. Diese Aussage ist als Richtig markiert."
+      },
+      "2": {
+        "keyword": "fördert",
+        "explanation_correct": "Das Verb „fördert\" beschreibt eine konkrete Maßnahme des Ministeriums. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Verb „fördert\" beschreibt eine konkrete Maßnahme des Ministeriums. Diese Aussage ist als Richtig markiert."
+      },
+      "3": {
+        "keyword": "ausschließlich im Freien",
+        "explanation_correct": "Das Wort „ausschließlich\" ist ein absoluter Einschränkungsbegriff; solche Alles-oder-nichts-Formulierungen zum Veranstaltungsort sind eine typische Falle. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „ausschließlich\" ist ein absoluter Einschränkungsbegriff; solche Alles-oder-nichts-Formulierungen zum Veranstaltungsort sind eine typische Falle. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "kaum beschädigtes",
+        "explanation_correct": "Der Ausdruck „kaum beschädigtes\" beschreibt den Zustand des Fundes. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „kaum beschädigtes\" beschreibt den Zustand des Fundes. Diese Aussage ist als Richtig markiert."
+      },
+      "5": {
+        "keyword": "ruhiges Sommerwetter",
+        "explanation_correct": "Die Wetterbeschreibung „ruhiges Sommerwetter\" ist ein Detail, das in Falschaussagen häufig ins Gegenteil verkehrt wird, etwa zu unruhigem statt ruhigem Wetter. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Wetterbeschreibung „ruhiges Sommerwetter\" ist ein Detail, das in Falschaussagen häufig ins Gegenteil verkehrt wird, etwa zu unruhigem statt ruhigem Wetter. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "7ce599f1-623d-4922-96b5-3c7cc298df32": {
+    "translation": {
+      "questions": {
+        "41": "بعد وقوع الزلزال، أبلغ العديد من المواطنين الشرطة والدفاع المدني عن أضرار.",
+        "42": "على الآباء والأمهات مؤخرًا الحصول على استشارة بشأن التطعيمات الوقائية لأطفالهم.",
+        "43": "من المتوقع حدوث اختناقات مرورية في الأسابيع القادمة، خاصة أيام السبت والأحد.",
+        "44": "تساهم خطوط الأنابيب بشكل كبير في التلوث البيئي في ولاية شليسفيغ هولشتاين.",
+        "45": "من المتوقع حدوث ارتفاع في نسبة تلوث الأوزون في بداية الأسبوع المقبل."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "viele Bürger",
+        "explanation_correct": "Die Angabe „viele Bürger\" beschreibt das Ausmaß der Meldungen nach dem Erdbeben. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Angabe „viele Bürger\" beschreibt das Ausmaß der Meldungen nach dem Erdbeben. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "müssen",
+        "explanation_correct": "Das Modalverb „müssen\" behauptet eine strikte Pflicht; solche Verpflichtungsangaben werden in Falschaussagen oft abgeschwächt oder anders dargestellt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Modalverb „müssen\" behauptet eine strikte Pflicht; solche Verpflichtungsangaben werden in Falschaussagen oft abgeschwächt oder anders dargestellt. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "samstags und sonntags",
+        "explanation_correct": "Die genannten Wochentage „samstags und sonntags\" sind ein typisches Detail, das in Falschaussagen gegen andere Tage ausgetauscht wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die genannten Wochentage „samstags und sonntags\" sind ein typisches Detail, das in Falschaussagen gegen andere Tage ausgetauscht wird. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "maßgeblich",
+        "explanation_correct": "Das Wort „maßgeblich\" behauptet einen entscheidenden Beitrag; solche Ausmaß- und Ursachenangaben werden in Falschaussagen häufig übertrieben oder falsch zugeordnet. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „maßgeblich\" behauptet einen entscheidenden Beitrag; solche Ausmaß- und Ursachenangaben werden in Falschaussagen häufig übertrieben oder falsch zugeordnet. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "erhöhten Ozonbelastung",
+        "explanation_correct": "Der Ausdruck „erhöhte Ozonbelastung\" beschreibt eine konkrete Vorhersage. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Der Ausdruck „erhöhte Ozonbelastung\" beschreibt eine konkrete Vorhersage. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  }
+}

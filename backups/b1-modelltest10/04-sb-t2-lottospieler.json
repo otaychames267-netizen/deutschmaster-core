@@ -1,0 +1,22 @@
+{
+  "title": "Lottospieler",
+  "level": "B1",
+  "position": 10,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 10/16 (Carolina/Language Tests, page 127 printed / PDF page 128). Marketing letter for a lottery system ('QUANTUM-SYSTEM, Das Lotterie-Systemspiel', Otto-Suhr-Allee 100, D-10120 Berlin), addressed to 'Sehr geehrte Lottospieler', signed Sabine Meier-Pütz. Answer key from Lösungen page (printed p.132 / PDF p.133): 31C EINMAL, 32J NUR, 33H KÖNNEN, 34O WENN, 35K STATT, 36E GANZ, 37A BEI, 38F GARANTIEREN, 39B BEREITS, 40I MACHEN.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "QUANTUM-SYSTEM\nDas Lotterie-Systemspiel\nOtto-Suhr-Allee 100, D-10120 Berlin\n\nSehr geehrte Lottospieler,\n\nwer möchte nicht auch {{31}} bei sechs Richtigen im Lotto dabei sein? Vertrauen Sie beim Lottospiel nicht {{32}} auf das Glück, denn Sie {{33}} Ihre Chancen selbst stark verbessern, {{34}} Sie mit unserem Lotterie-System spielen – und das für nur 5 Euro in der Woche!\n\n{{35}} allein zu spielen, spielen Sie mit uns in einer starken Spielergemeinschaft. Dadurch erhöhen sich {{36}} automatisch Ihre Chancen!\n\nUnd was Sie gewinnen können? {{37}} unserem Quantum-System spielen Sie mit einer Chance auf einen Gewinn von 1 Million Euro! Alle Gewinne erhalten Sie umgehend und ungekürzt zu 100% - das {{38}} wir Ihnen!\n\nDavon habe ich mich selbst überzeugt! Spielen Sie mit uns das Quantum-System: {{39}} 700 Quantum-Systemspielgruppen haben zusammen schon über sieben Millionen Euro gewonnen.\n\nHerzliche Grüße,\nIhre SABINE MEIER-PÜTZ\n\nPS: Als besondere Gewinnchance erhalten Sie heute das Vier-Richtige-Gratisspiel. {{40}} Sie hier unbedingt mit und gewinnen Sie! Ich drücke Ihnen die Daumen......",
+  "words": ["BEI", "BEREITS", "EINMAL", "EURE", "GANZ", "GARANTIEREN", "GESTRN", "KÖNNEN", "MACHEN", "NUR", "STATT", "TECHNISCH", "ÜBER", "UNSER", "WENN"],
+  "answers": {
+    "31": "EINMAL",
+    "32": "NUR",
+    "33": "KÖNNEN",
+    "34": "WENN",
+    "35": "STATT",
+    "36": "GANZ",
+    "37": "BEI",
+    "38": "GARANTIEREN",
+    "39": "BEREITS",
+    "40": "MACHEN"
+  }
+}

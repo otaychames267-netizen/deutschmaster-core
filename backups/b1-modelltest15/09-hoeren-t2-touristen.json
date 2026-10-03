@@ -1,0 +1,22 @@
+{
+  "title": "Touristen",
+  "teil": 2,
+  "level": "B1",
+  "position": 15,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 15/16 (Thomas/Language Tests, page 177 printed / PDF page 178). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.180 / PDF p.181): 46+ 47- 48- 49+ 50+ 51- 52- 53- 54+ 55-. NOT INSERTED: confirmed byte-identical duplicate of Modelltest 12's own 'Touristen' Hören Teil 2 exercise (backups/b1-modelltest12/07-hoeren-t2-touristen.json), which was itself already confirmed a duplicate of a pre-existing DB entry (id 32546a86-af58-43fa-8345-45b9937da29f) and never inserted. All 10 statements and the answer key match verbatim. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted).",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Viele Touristen besuchen Torgau wegen seiner historischen Sehenswürdigkeiten.", "correct": true },
+    { "number": 47, "text": "Den Spielpark Hartenfels gibt es schon seit vielen Jahren.", "correct": false },
+    { "number": 48, "text": "Außer dem Spielpark gibt es in der Umgebung viele andere Freizeitmöglichkeiten für die Kinder.", "correct": false },
+    { "number": 49, "text": "Der Spielpark bietet den Kindern Spielmöglichkeiten, die sie zu Hause nicht haben.", "correct": true },
+    { "number": 50, "text": "Die Kinder können im Spielpark auch selbst etwas bauen.", "correct": true },
+    { "number": 51, "text": "Das Spielen am Back kann für die Kinder gefährlich werden.", "correct": false },
+    { "number": 52, "text": "Beide Elternteile müssen auf die Kinder aufpassen.", "correct": false },
+    { "number": 53, "text": "Im Spielpark können Kinder bis zum Alter von sieben von Aufsichtspersonen betreut werden.", "correct": false },
+    { "number": 54, "text": "Der Eintritt in den Spielpark ist zurzeit frei.", "correct": true },
+    { "number": 55, "text": "Die Schlossführung bereitet Kindern und Erwachsenen viel Spaß.", "correct": false }
+  ]
+}

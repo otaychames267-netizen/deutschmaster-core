@@ -1,0 +1,17 @@
+{
+  "title": "Ingolstadt",
+  "teil": 3,
+  "level": "B1",
+  "position": 4,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 4/16 (Nadia2/Language Tests, page 51 printed / PDF page 52). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.52 / PDF p.53): 56- 57- 58+ 59+ 60-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Sie müssen in Ingolstadt die Regionalbahn nach Regensburg nehmen.", "correct": false },
+    { "number": 57, "text": "Clara kann wegen einer Prüfung die Theaterkarten nicht abholen.", "correct": false },
+    { "number": 58, "text": "Im Schwarzwald können die Straßen morgen glatt werden.", "correct": true },
+    { "number": 59, "text": "Der Liederabend findet zu einem späteren Termin statt.", "correct": true },
+    { "number": 60, "text": "Im Untergeschoss gibt es Winterkleidung zum halben Preis.", "correct": false }
+  ]
+}

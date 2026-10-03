@@ -1,0 +1,38 @@
+{
+  "title": "Fußballspiels im Ostpark",
+  "teil": 3,
+  "level": "B2",
+  "position": 35,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 36 (code 12) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Die Übertragung des Fußballspiels im Ostpark findet bei jedem Wetter statt.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Wer sich für den Newsletter registriert, kann jeden Monat etwas gewinnen.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Alle Besucher des Schwimmbads dürfen heute im Restaurant kostenlos etwas trinken.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Wegen einer technischen Störung ist der Onlineshop weder telefonisch noch per E-Mail erreichbar.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Am Familiensonntag dürfen Kinder kostenlos ins Museum.",
+      "correct": false
+    }
+  ]
+}

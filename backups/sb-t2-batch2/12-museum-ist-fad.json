@@ -1,0 +1,22 @@
+{
+  "title": "Allein das Wort „Museum“ ist schon fad",
+  "level": "B2",
+  "position": 49,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 12, red numbers beside word-bank letters, all 10 verified vs text",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "Museen gelten nach wie vor und trotz aller gegenteiligen Bemühungen gerade unter Jugendlichen als verstaubt und uncool. Oder wie es eine Oberstufenschülerin auf den {{31}} bringt: „Allein das Wort ‚Museum‘ ist schon irgendwie fad.“ Ignoranter Sarkasmus, könnte man meinen, aber enthält diese Einschätzung nicht auch eine Prise Wahrheit?\nUm genau diese Vorurteile aus der Welt zu {{32}}, wurde der Aktionstag „Schule schaut Museum“ eingeführt. Über fünfzig Einrichtungen in ganz Österreich sind an diesem Unternehmen beteiligt und bieten spezielle Veranstaltungen für Schüler {{33}}. In Zukunft sollen in Zusammenarbeit mit den Landesschulräten noch {{34}} schulbezogene Veranstaltungen angeboten werden, um das Museum stärker in den Unterricht einzubauen. Geht es den teilnehmenden Schulklassen {{35}}, Interessantes über unsere Kultur und Geschichte zu erfahren, oder ist der Museumsbesuch nur Mittel {{36}} Zweck, um dem Schulalltag zu {{37}}? Woran liegt es, dass viele Schüler nach Ende eines Rundgangs gar nicht sagen können, {{38}} das zuvor Gesehene handelt? Obwohl Jugendliche in ganz Österreich von speziellen Vergünstigungen profitieren, gehen sie nur selten ins Museum. Liegt es allein {{39}} Unwillen der jungen Bevölkerung, sich der Kultur zu widmen? Vielleicht ist einer der Gründe auch darin zu finden, dass bei der Auswahl des Programms {{40}} die Vorlieben der Pädagogen als diejenigen der Schüler zählen. Fragt man die Jugendlichen selbst, woran sie Interesse hätten, kommen hauptsächlich Wünsche nach interaktiven und multimedialen Ausstellungen. Dazu gibt es genug spannende Projekte, bei denen die Grenzen zwischen Kunst, Medien und Alltag verschwimmen und welche die Schüler durchaus begeistern können.\n\nQuelle: http://derstandard.at/1362108276095/ (zu Prüfungszwecken bearbeitet)",
+  "words": ["AM", "AN", "BRINGEN", "DARIN", "DARUM", "EHER", "ENTGEHEN", "GIPFEL", "LIEFERN", "PUNKT", "SCHAFFEN", "WEITERE", "WOMIT", "WOVON", "ZUM"],
+  "answers": {
+    "31": "PUNKT",
+    "32": "SCHAFFEN",
+    "33": "AN",
+    "34": "WEITERE",
+    "35": "DARUM",
+    "36": "ZUM",
+    "37": "ENTGEHEN",
+    "38": "WOVON",
+    "39": "AM",
+    "40": "EHER"
+  }
+}

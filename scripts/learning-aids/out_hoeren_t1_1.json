@@ -1,0 +1,610 @@
+{
+  "1d675d81-cf0b-4ac1-baec-a7f7422e3a8e": {
+    "translation": {
+      "questions": {
+        "1": "أصبحت شركة إير برلين-نيو مرة أخرى الرائدة في هذا القطاع على المستوى الأوروبي.",
+        "2": "يقدّم نادٍ رياضي في هامبورغ دورات للأعضاء فقط.",
+        "3": "لا تزال هناك مشاكل كبيرة في نقص الموظفين في مجال رعاية المسنين.",
+        "4": "بفضل النوافذ ثلاثية الزجاج، تنخفض تكاليف التدفئة بشكل ملحوظ.",
+        "5": "أصبح مارك فيبر مسموحًا له بالمشاركة في البطولات من جديد."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "wieder europäischer Branchenführer",
+        "explanation_correct": "Achten Sie auf das Wort „wieder“ – es behauptet eine Rückkehr zu einer früheren Spitzenposition, was eine typische Falle in Hörtexten ist. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf das Wort „wieder“ – es behauptet eine Rückkehr zu einer früheren Spitzenposition, was eine typische Falle in Hörtexten ist. Diese Aussage ist als Falsch markiert."
+      },
+      "2": {
+        "keyword": "nur Kurse für Mitglieder",
+        "explanation_correct": "Das einschränkende Wort „nur“ macht diese Aussage besonders anfällig für Verzerrungen – im Hörtext wird oft ein weiterer Personenkreis genannt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das einschränkende Wort „nur“ macht diese Aussage besonders anfällig für Verzerrungen – im Hörtext wird oft ein weiterer Personenkreis genannt. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "weiterhin große Personalprobleme",
+        "explanation_correct": "Hier geht es um eine allgemein gehaltene Aussage ohne Zahlen oder Einschränkungen – solche Formulierungen stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Hier geht es um eine allgemein gehaltene Aussage ohne Zahlen oder Einschränkungen – solche Formulierungen stimmen im TELC-Hörtest häufiger mit dem Gesagten überein. Diese Aussage ist als Richtig markiert."
+      },
+      "4": {
+        "keyword": "dreifach verglaste Fenster",
+        "explanation_correct": "Prüfen Sie technische Details wie „dreifach verglast“ genau – solche spezifischen Angaben werden im Hörtext oft anders oder gar nicht genannt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prüfen Sie technische Details wie „dreifach verglast“ genau – solche spezifischen Angaben werden im Hörtext oft anders oder gar nicht genannt. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "wieder für Turniere zugelassen",
+        "explanation_correct": "Namen und der Status einer Person sind wichtige Hördetails; hier wird eine Rückkehr zur Zulassung behauptet. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Namen und der Status einer Person sind wichtige Hördetails; hier wird eine Rückkehr zur Zulassung behauptet. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "4e3d392b-5237-4051-9beb-ce26ebab64fe": {
+    "translation": {
+      "questions": {
+        "41": "اكتشاف مخدرات مثير: تعثر الشرطة على الكوكايين على متن سفينة شحن.",
+        "42": "يحذّر المزارعون: الإفراط في حماية البيئة يهدد وجود العديد من المزارع.",
+        "43": "تتفق جمعيات مختلفة للنقل مع صناعة السيارات على فرض حد أقصى للسرعة.",
+        "44": "فروقات واضحة في الرواتب بين الولايات الألمانية الشرقية والغربية.",
+        "45": "تسبب أحد المدخنين في حريق داخل مبنى سكني متعدد الطوابق."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Kokain auf einem Frachtschiff",
+        "explanation_correct": "Achten Sie bei Meldungen über Funde auf die genaue Substanz und den Ort – solche Details werden in Falschaussagen gern vertauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie bei Meldungen über Funde auf die genaue Substanz und den Ort – solche Details werden in Falschaussagen gern vertauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "gefährdet die Existenz",
+        "explanation_correct": "Diese Aussage formuliert eine Warnung ohne übertriebene Zahlen oder absolute Wörter, was sie plausibel als Wiedergabe des Hörtextes macht. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage formuliert eine Warnung ohne übertriebene Zahlen oder absolute Wörter, was sie plausibel als Wiedergabe des Hörtextes macht. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "auf ein Tempolimit einigen",
+        "explanation_correct": "Eine behauptete Einigung zwischen zwei Parteien ist ein klassisches Fallenmuster – prüfen Sie, ob im Hörtext wirklich von Konsens oder eher von Streit die Rede sein könnte. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Eine behauptete Einigung zwischen zwei Parteien ist ein klassisches Fallenmuster – prüfen Sie, ob im Hörtext wirklich von Konsens oder eher von Streit die Rede sein könnte. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "deutliche Unterschiede",
+        "explanation_correct": "Diese Aussage nennt einen allgemeinen Unterschied ohne konkrete Zahl, was Fehlerquellen reduziert. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage nennt einen allgemeinen Unterschied ohne konkrete Zahl, was Fehlerquellen reduziert. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "Raucher",
+        "explanation_correct": "Die genannte Ursache eines Ereignisses (hier: ein Raucher) ist ein typisches Detail, das im Hörtext oft durch eine andere Ursache ersetzt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die genannte Ursache eines Ereignisses (hier: ein Raucher) ist ein typisches Detail, das im Hörtext oft durch eine andere Ursache ersetzt wird. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "4f7433b2-3521-44cd-97eb-0aa36d5c3265": {
+    "translation": {
+      "questions": {
+        "41": "في انتخابات البرلمان الأوروبي، حققت الأحزاب اليسارية تقدمًا ملحوظًا.",
+        "42": "ارتفعت المفاوضات الجماعية للأجور بسبب عوامل تأثير دولية.",
+        "43": "ارتفع سعر البنزين بسبب عوامل تأثير دولية.",
+        "44": "سيتم مراجعة إصلاح الإملاء في الدول الناطقة بالألمانية مرة أخرى.",
+        "45": "في حادث قطار الأنفاق (إس-بان) في ميونخ، كان هناك العديد من الجرحى وأضرار مادية جسيمة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Linksparteien deutlich zugelegt",
+        "explanation_correct": "Achten Sie auf die genannte politische Gruppierung – im Hörtext kann es sich um eine ganz andere Partei oder Richtung handeln. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf die genannte politische Gruppierung – im Hörtext kann es sich um eine ganz andere Partei oder Richtung handeln. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "Tarifverhandlungen",
+        "explanation_correct": "Das Subjekt der Aussage (hier: Tarifverhandlungen) ist entscheidend – vergleichen Sie es genau mit dem, was tatsächlich thematisiert wird, da Subjekte in Falschaussagen häufig vertauscht werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Subjekt der Aussage (hier: Tarifverhandlungen) ist entscheidend – vergleichen Sie es genau mit dem, was tatsächlich thematisiert wird, da Subjekte in Falschaussagen häufig vertauscht werden. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Benzinpreis",
+        "explanation_correct": "Diese Aussage nennt ein plausibles, unspezifisches Ereignis (Preisanstieg durch äußere Faktoren) ohne übertriebene Zusätze. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage nennt ein plausibles, unspezifisches Ereignis (Preisanstieg durch äußere Faktoren) ohne übertriebene Zusätze. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "abermals überarbeitet",
+        "explanation_correct": "Das Wort „abermals“ (erneut) deutet auf eine Wiederholung hin – solche Zeitangaben werden im Hörtext oft anders dargestellt oder fehlen ganz. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „abermals“ (erneut) deutet auf eine Wiederholung hin – solche Zeitangaben werden im Hörtext oft anders dargestellt oder fehlen ganz. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "zahlreiche Verletzte und einen hohen Sachschaden",
+        "explanation_correct": "Diese Aussage kombiniert zwei Folgen eines Unglücks (Verletzte und Sachschaden) – wenn beide Teile allgemein formuliert sind, stimmen sie häufiger mit dem Hörtext überein. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage kombiniert zwei Folgen eines Unglücks (Verletzte und Sachschaden) – wenn beide Teile allgemein formuliert sind, stimmen sie häufiger mit dem Hörtext überein. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "f2e29af1-ffee-4d83-ab50-24ff5bf7b3a3": {
+    "translation": {
+      "questions": {
+        "41": "في انتخابات البرلمان الأوروبي، حصل حزبا الاتحاد المسيحي الديمقراطي والمسيحي الاجتماعي على ما يقارب نصف الأصوات.",
+        "42": "ارتفعت المفاوضات الجماعية للأجور بسبب عوامل تأثير دولية.",
+        "43": "ارتفع سعر البنزين بسبب عوامل تأثير دولية.",
+        "44": "سيتم مراجعة إصلاح الإملاء في الدول الناطقة بالألمانية مرة أخرى.",
+        "45": "في حادث قطار الأنفاق (إس-بان) في ميونخ، كان هناك العديد من الجرحى وأضرار مادية جسيمة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "fast die Hälfte aller Stimmen",
+        "explanation_correct": "Zahlen- und Mengenangaben wie „fast die Hälfte“ sollten Sie genau im Ohr behalten, da sie oft leicht verändert werden. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Zahlen- und Mengenangaben wie „fast die Hälfte“ sollten Sie genau im Ohr behalten, da sie oft leicht verändert werden. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "Tarifverhandlungen",
+        "explanation_correct": "Vergleichen Sie das genannte Subjekt genau mit dem tatsächlichen Thema des Hörtextes, da Substantive wie „Tarifverhandlungen“ häufig gegen ein anderes Thema ausgetauscht werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Vergleichen Sie das genannte Subjekt genau mit dem tatsächlichen Thema des Hörtextes, da Substantive wie „Tarifverhandlungen“ häufig gegen ein anderes Thema ausgetauscht werden. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "Benzinpreis",
+        "explanation_correct": "Diese allgemein gehaltene Aussage über eine Preiserhöhung enthält keine riskanten Extremwörter. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese allgemein gehaltene Aussage über eine Preiserhöhung enthält keine riskanten Extremwörter. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "abermals überarbeitet",
+        "explanation_correct": "Achten Sie auf Wiederholungswörter wie „abermals“ – sie behaupten einen wiederholten Vorgang, der im Hörtext oft nicht bestätigt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf Wiederholungswörter wie „abermals“ – sie behaupten einen wiederholten Vorgang, der im Hörtext oft nicht bestätigt wird. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "zahlreiche Verletzte und einen hohen Sachschaden",
+        "explanation_correct": "Die Kombination zweier plausibler Folgen (Verletzte, Sachschaden) ohne übertriebene Übersteigerung spricht für eine wahrheitsgemäße Wiedergabe. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Kombination zweier plausibler Folgen (Verletzte, Sachschaden) ohne übertriebene Übersteigerung spricht für eine wahrheitsgemäße Wiedergabe. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "e28cc262-9310-4dfa-ac4c-bfd45aad24e9": {
+    "translation": {
+      "questions": {
+        "41": "تعتزم السكك الحديدية النمساوية الاتحادية توسيع تعاونها مع السكك الحديدية الاتحادية السويسرية.",
+        "42": "بسبب وقوع حادث، تم حشد عدد كبير من سيارات الطوارئ.",
+        "43": "تستعد بادن لتقديم طلب الانضمام إلى قائمة „المدن التاريخية الصغيرة“.",
+        "44": "في فعالية „ستيلِشت“ الرياضية، تُعرض دراجات من جميع الأنواع.",
+        "45": "من المتوقع هطول أمطار غزيرة في جميع أنحاء النمسا خلال الأسابيع القادمة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "Kooperation ausbauen",
+        "explanation_correct": "Prüfen Sie genau, welche zwei Institutionen genannt werden – Partnernamen und Länder werden in Falschaussagen häufig vertauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prüfen Sie genau, welche zwei Institutionen genannt werden – Partnernamen und Länder werden in Falschaussagen häufig vertauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "Großaufgebot von Einsatzwagen",
+        "explanation_correct": "Diese Aussage beschreibt eine allgemeine Folge (viele Einsatzfahrzeuge) ohne genaue Zahl oder Übertreibung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage beschreibt eine allgemeine Folge (viele Einsatzfahrzeuge) ohne genaue Zahl oder Übertreibung. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Kleine historische Stadt",
+        "explanation_correct": "Achten Sie auf exakte Bezeichnungen wie Titel oder Kategorien in Anführungszeichen – sie werden oft leicht abgewandelt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf exakte Bezeichnungen wie Titel oder Kategorien in Anführungszeichen – sie werden oft leicht abgewandelt. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Fahrräder aller Arten",
+        "explanation_correct": "Diese Aussage nennt eine breite, aber nicht unrealistische Kategorie („aller Arten“) im Zusammenhang mit dem Veranstaltungsnamen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage nennt eine breite, aber nicht unrealistische Kategorie („aller Arten“) im Zusammenhang mit dem Veranstaltungsnamen. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "österreichweit starke Niederschläge",
+        "explanation_correct": "Geografische Reichweiten wie „österreichweit“ sind anfällig für Übertreibung – Wetterberichte differenzieren im Hörtext meist nach Regionen. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Geografische Reichweiten wie „österreichweit“ sind anfällig für Übertreibung – Wetterberichte differenzieren im Hörtext meist nach Regionen. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "f2ab562b-99f7-43e1-b9cd-556dfe06619a": {
+    "translation": {
+      "questions": {
+        "1": "قد تدفع أزمة نقص الموظفين الإدارة العامة إلى حافة الانهيار.",
+        "2": "تعتبر الجماعات البيئية مشروع طاقة الرياح البحرية خاليًا تمامًا من أي خلافات.",
+        "3": "يتناول المعرض في الفاتيكان حصريًا موضوع ترميم المواقع الأثرية القديمة.",
+        "4": "اعتبر خبراء الطيران رد فعل الركاب دليلاً على الإدارة الممتازة للأزمة من قبل الطيارين.",
+        "5": "لا تزال الأسباب الدقيقة لحادثة سفينة الشحن في بحر الشمال قيد التحقيق."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "an den Rand des Zusammenbruchs",
+        "explanation_correct": "Diese dramatische, aber unspezifische Formulierung beschreibt eine mögliche Folge ohne feste Zahlen. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese dramatische, aber unspezifische Formulierung beschreibt eine mögliche Folge ohne feste Zahlen. Diese Aussage ist als Richtig markiert."
+      },
+      "2": {
+        "keyword": "uneingeschränkt konfliktfrei",
+        "explanation_correct": "Das absolute Wort „uneingeschränkt“ ist ein klassisches Warnsignal – solche Totalaussagen werden im Hörtext meist relativiert. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das absolute Wort „uneingeschränkt“ ist ein klassisches Warnsignal – solche Totalaussagen werden im Hörtext meist relativiert. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "ausschließlich",
+        "explanation_correct": "Das Wort „ausschließlich“ schließt jedes andere Thema aus – solche exklusiven Formulierungen sind in Hörtexten selten vollständig zutreffend. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „ausschließlich“ schließt jedes andere Thema aus – solche exklusiven Formulierungen sind in Hörtexten selten vollständig zutreffend. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "hervorragende Krisenmanagement",
+        "explanation_correct": "Bei Bewertungen durch „Experten“ lohnt sich ein genauer Blick, wer eigentlich wen bewertet und wie positiv oder negativ das Urteil wirklich ausfällt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Bei Bewertungen durch „Experten“ lohnt sich ein genauer Blick, wer eigentlich wen bewertet und wie positiv oder negativ das Urteil wirklich ausfällt. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "weiterhin Gegenstand einer Untersuchung",
+        "explanation_correct": "Diese Aussage behauptet lediglich, dass eine Klärung noch aussteht – eine vorsichtige, unspezifische Formulierung ohne feste Behauptung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage behauptet lediglich, dass eine Klärung noch aussteht – eine vorsichtige, unspezifische Formulierung ohne feste Behauptung. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "1e2db0ee-0f87-4450-a411-fff1e65aa319": {
+    "translation": {
+      "questions": {
+        "41": "يرتفع استهلاك البيرة بنسبة 10%.",
+        "42": "تحتل الدخول الألمانية مرتبة متوسطة فقط في المقارنة الأوروبية.",
+        "43": "يلوح في الأفق نهاية لإضراب السكك الحديدية.",
+        "44": "يُخشى من وقوع أعمال عنف من مشجعي كرة القدم في ألمانيا أيضًا.",
+        "45": "من المفترض أن تصبح أكاديمية ليوبولدينا أكاديمية دولية."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "steigt um 10%",
+        "explanation_correct": "Exakte Prozentzahlen wie „10%“ sind besonders fehleranfällig – solche Zahlen werden im Hörtext oft leicht verändert oder gehören zu einer ganz anderen Größe. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Exakte Prozentzahlen wie „10%“ sind besonders fehleranfällig – solche Zahlen werden im Hörtext oft leicht verändert oder gehören zu einer ganz anderen Größe. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "nur im Mittelfeld",
+        "explanation_correct": "Obwohl „nur“ hier auftaucht, beschreibt es eine plausible, moderate Einordnung (Mittelfeld) statt eines Extrems. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Obwohl „nur“ hier auftaucht, beschreibt es eine plausible, moderate Einordnung (Mittelfeld) statt eines Extrems. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Ende des Bahnstreiks in Sicht",
+        "explanation_correct": "Behauptungen über das nahende Ende eines Ereignisses sollten Sie kritisch prüfen – der Hörtext könnte das Gegenteil, etwa eine Fortsetzung, beschreiben. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Behauptungen über das nahende Ende eines Ereignisses sollten Sie kritisch prüfen – der Hörtext könnte das Gegenteil, etwa eine Fortsetzung, beschreiben. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "auch in Deutschland befürchtet",
+        "explanation_correct": "Diese Aussage formuliert eine Befürchtung, keine feststehende Tatsache – solche vorsichtigen Formulierungen kommen im Hörtext häufig korrekt vor. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage formuliert eine Befürchtung, keine feststehende Tatsache – solche vorsichtigen Formulierungen kommen im Hörtext häufig korrekt vor. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "internationale Akademie werden",
+        "explanation_correct": "Institutsnamen wie „Leopoldina“ und die genannte Zielrolle sollten Sie genau abgleichen, da Eigennamen in Falschaussagen oft mit falschen Funktionen verbunden werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Institutsnamen wie „Leopoldina“ und die genannte Zielrolle sollten Sie genau abgleichen, da Eigennamen in Falschaussagen oft mit falschen Funktionen verbunden werden. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "507bd7c5-2ca5-43b6-be65-4b6de40b5929": {
+    "translation": {
+      "questions": {
+        "41": "يرتفع استهلاك البيرة بنسبة 10%.",
+        "42": "تحتل الدخول الألمانية مرتبة متوسطة فقط في المقارنة الأوروبية.",
+        "43": "يلوح في الأفق نهاية لإضراب السكك الحديدية.",
+        "44": "يُخشى في ألمانيا أيضًا من عنف مشجعي كرة القدم.",
+        "45": "من المفترض أن تصبح أكاديمية ليوبولدينا أكاديمية دولية."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "steigt um 10%",
+        "explanation_correct": "Zahlen wie Prozentangaben sind ein typischer Stolperstein – hören Sie genau hin, ob die Zahl im Hörtext tatsächlich so genannt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Zahlen wie Prozentangaben sind ein typischer Stolperstein – hören Sie genau hin, ob die Zahl im Hörtext tatsächlich so genannt wird. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "nur im Mittelfeld",
+        "explanation_correct": "Diese moderate Einordnung ohne Extremwerte ist typisch für eine zutreffende Aussage. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese moderate Einordnung ohne Extremwerte ist typisch für eine zutreffende Aussage. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Ende des Bahnstreiks in Sicht",
+        "explanation_correct": "Seien Sie vorsichtig bei Aussagen über den Abschluss eines andauernden Ereignisses – der Hörtext kann eine gegenteilige Entwicklung schildern. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Seien Sie vorsichtig bei Aussagen über den Abschluss eines andauernden Ereignisses – der Hörtext kann eine gegenteilige Entwicklung schildern. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "auch in Deutschland",
+        "explanation_correct": "Diese vorsichtig formulierte Befürchtung ohne übertriebene Zusätze passt gut zu einer zutreffenden Wiedergabe. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese vorsichtig formulierte Befürchtung ohne übertriebene Zusätze passt gut zu einer zutreffenden Wiedergabe. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "internationale Akademie werden",
+        "explanation_correct": "Institutsnamen und die ihnen zugeschriebene Rolle sollten genau verglichen werden, da solche Zuordnungen häufig manipuliert werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Institutsnamen und die ihnen zugeschriebene Rolle sollten genau verglichen werden, da solche Zuordnungen häufig manipuliert werden. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "454040f2-39c2-4f7c-9ff8-ebe5d7dcd817": {
+    "translation": {
+      "questions": {
+        "41": "وفقًا لصحيفة بيلد آم زونتاغ، سيتمكن المستأجرون فقط دون الملاك مستقبلاً من إنهاء بعض عقود الإيجار بشكل أسرع.",
+        "42": "من المقرر هدم مبانٍ سكنية في بعض الولايات الألمانية لأنها غير مأهولة.",
+        "43": "انتهت كل من حرائق الغابات وموجة الحر في اليونان.",
+        "44": "في كندا، تعيّن إيقاف أعمال الإنقاذ بعد إعصار بسبب تحذيرات جوية جديدة من عواصف.",
+        "45": "في حادثة عبّارة بالقرب من جبل طارق، كانت هناك أضرار مادية فقط."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "nur Mieter, aber nicht Vermieter",
+        "explanation_correct": "Diese Aussage stellt einen klaren Gegensatz zwischen zwei Parteien (Mieter vs. Vermieter) her – solche Gegenüberstellungen sollten Sie genau nachvollziehen, wer welches Recht erhält. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage stellt einen klaren Gegensatz zwischen zwei Parteien (Mieter vs. Vermieter) her – solche Gegenüberstellungen sollten Sie genau nachvollziehen, wer welches Recht erhält. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "abgerissen werden, weil sie unbewohnt sind",
+        "explanation_correct": "Diese Aussage nennt einen plausiblen Grund (Leerstand) für eine Maßnahme, ohne übertriebene Zusätze. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage nennt einen plausiblen Grund (Leerstand) für eine Maßnahme, ohne übertriebene Zusätze. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "Sowohl die Waldbrände als auch die Hitzewelle",
+        "explanation_correct": "Bei „sowohl … als auch“ müssen beide genannten Sachverhalte zutreffen, damit die ganze Aussage stimmt – prüfen Sie stets beide Teile einzeln. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Bei „sowohl … als auch“ müssen beide genannten Sachverhalte zutreffen, damit die ganze Aussage stimmt – prüfen Sie stets beide Teile einzeln. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "wegen erneuter Unwetterwarnungen eingestellt",
+        "explanation_correct": "Der genannte Grund für eine Unterbrechung (hier: neue Unwetterwarnungen) ist ein Detail, das im Hörtext oft durch eine andere Ursache ersetzt wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der genannte Grund für eine Unterbrechung (hier: neue Unwetterwarnungen) ist ein Detail, das im Hörtext oft durch eine andere Ursache ersetzt wird. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "nur Sachschaden",
+        "explanation_correct": "Das einschränkende Wort „nur“ schließt hier Personenschäden aus – eine solche Beschränkung wird im Hörtext häufig nicht bestätigt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das einschränkende Wort „nur“ schließt hier Personenschäden aus – eine solche Beschränkung wird im Hörtext häufig nicht bestätigt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "b035684c-9aa2-472d-b457-97dafec3442f": {
+    "translation": {
+      "questions": {
+        "41": "استخدام الشعار البيئي (البيو) منظم بشكل صارم.",
+        "42": "يتبنى وزراء الزراعة في الاتحاد الأوروبي مواقف مختلفة.",
+        "43": "سار تشغيل قطار الأنفاق (إس-بان) في برلين دون أي أعطال.",
+        "44": "تم إقرار لوائح جديدة بشأن استخراج الغاز.",
+        "45": "تنتقد المفوضية الأوروبية مستويات ثاني أكسيد النيتروجين في المدن الألمانية."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "streng geregelt",
+        "explanation_correct": "Diese Aussage beschreibt einen Grad der Regulierung ohne absolute Übertreibung wie „vollständig“ oder „ausnahmslos“. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage beschreibt einen Grad der Regulierung ohne absolute Übertreibung wie „vollständig“ oder „ausnahmslos“. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "unterschiedliche Positionen",
+        "explanation_correct": "Prüfen Sie, ob im Hörtext tatsächlich Uneinigkeit oder eher Einigkeit zwischen den genannten Akteuren beschrieben wird, da dies oft vertauscht wird. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prüfen Sie, ob im Hörtext tatsächlich Uneinigkeit oder eher Einigkeit zwischen den genannten Akteuren beschrieben wird, da dies oft vertauscht wird. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "störungsfrei",
+        "explanation_correct": "Das Wort „störungsfrei“ behauptet einen reibungslosen Ablauf ohne jede Ausnahme – solche absoluten Zustände werden im Hörtext oft widerlegt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „störungsfrei“ behauptet einen reibungslosen Ablauf ohne jede Ausnahme – solche absoluten Zustände werden im Hörtext oft widerlegt. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Gasförderung",
+        "explanation_correct": "Achten Sie auf das genannte Thema (hier: Gasförderung) – Themenbereiche werden in Falschaussagen häufig gegen ein anderes, ähnlich klingendes Thema ausgetauscht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf das genannte Thema (hier: Gasförderung) – Themenbereiche werden in Falschaussagen häufig gegen ein anderes, ähnlich klingendes Thema ausgetauscht. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "kritisiert die Stickstoffdioxid-Werte",
+        "explanation_correct": "Diese Aussage nennt einen konkreten Akteur und ein konkretes Thema ohne widersprüchliche Zusätze, was für eine zutreffende Wiedergabe spricht. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage nennt einen konkreten Akteur und ein konkretes Thema ohne widersprüchliche Zusätze, was für eine zutreffende Wiedergabe spricht. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "302eb6bc-a685-492e-853b-4f35da4150aa": {
+    "translation": {
+      "questions": {
+        "1": "بحث المواطنون بعد وقوع الزلزال عن التواصل مع فرق الإنقاذ.",
+        "2": "يقدم المربّون في الحضانة استشارات للآباء حول التطعيم.",
+        "3": "من المتوقع حدوث اضطرابات مرورية خاصة في عطلة نهاية الأسبوع.",
+        "4": "الأنابيب المعطلة هي السبب الرئيسي للأضرار البيئية في شليسفيغ هولشتاين.",
+        "5": "سينخفض تلوث الهواء الأسبوع المقبل."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "suchten Kontakt zu den Einsatzkräften",
+        "explanation_correct": "Diese Aussage beschreibt ein nachvollziehbares Verhalten nach einem Ereignis ohne übertriebene Details. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage beschreibt ein nachvollziehbares Verhalten nach einem Ereignis ohne übertriebene Details. Diese Aussage ist als Richtig markiert."
+      },
+      "2": {
+        "keyword": "beraten die Eltern zum Impfen",
+        "explanation_correct": "Achten Sie auf die genannten Akteure und ihre Rolle (Erzieher als Berater) – solche Zuständigkeiten werden in Falschaussagen oft falsch zugeordnet. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf die genannten Akteure und ihre Rolle (Erzieher als Berater) – solche Zuständigkeiten werden in Falschaussagen oft falsch zugeordnet. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "vor allem für das Wochenende",
+        "explanation_correct": "Die Formulierung „vor allem“ grenzt vorsichtig ein, statt einen absoluten Anspruch zu erheben, was für eine korrekte Aussage spricht. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Die Formulierung „vor allem“ grenzt vorsichtig ein, statt einen absoluten Anspruch zu erheben, was für eine korrekte Aussage spricht. Diese Aussage ist als Richtig markiert."
+      },
+      "4": {
+        "keyword": "Hauptursache",
+        "explanation_correct": "Die genannte Ursache eines Problems ist ein zentrales Prüfdetail – im Hörtext kann eine ganz andere Ursache angegeben sein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die genannte Ursache eines Problems ist ein zentrales Prüfdetail – im Hörtext kann eine ganz andere Ursache angegeben sein. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "nimmt nächste Woche ab",
+        "explanation_correct": "Achten Sie auf die Richtung einer Entwicklung (Zunahme oder Abnahme) – solche Verben werden in Falschaussagen häufig ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf die Richtung einer Entwicklung (Zunahme oder Abnahme) – solche Verben werden in Falschaussagen häufig ins Gegenteil verkehrt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "d34d3964-aea1-490a-af7b-964c33bb80b0": {
+    "translation": {
+      "questions": {
+        "1": "تطالب الولايات بقواعد موحدة لمواجهة أزمة نقص السكن.",
+        "2": "يحظى مشروع محطة للطاقة الشمسية مخطط له في إسبانيا بتأييد واسع من السكان المحليين.",
+        "3": "يعرض المعرض تقنيات من القرن الحادي والعشرين فقط.",
+        "4": "تم تكريم سائق حافلة في فيينا لتدخله الشجاع أثناء عملية سطو.",
+        "5": "أصبحت أسباب انقطاع التيار الكهربائي في براغ معروفة الآن."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "einheitliche Regeln",
+        "explanation_correct": "Diese Aussage beschreibt eine Forderung in allgemeiner Form ohne übertriebene Details. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage beschreibt eine Forderung in allgemeiner Form ohne übertriebene Details. Diese Aussage ist als Richtig markiert."
+      },
+      "2": {
+        "keyword": "breite Zustimmung",
+        "explanation_correct": "Prüfen Sie, ob die Reaktion der Anwohner tatsächlich positiv oder eher ablehnend beschrieben wird, da solche Bewertungen leicht ins Gegenteil verkehrt werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Prüfen Sie, ob die Reaktion der Anwohner tatsächlich positiv oder eher ablehnend beschrieben wird, da solche Bewertungen leicht ins Gegenteil verkehrt werden. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "nur Technik aus dem 21. Jahrhundert",
+        "explanation_correct": "Das einschränkende „nur“ in Verbindung mit einer Zeitangabe ist ein typisches Fallenmuster – der Hörtext nennt oft einen breiteren Zeitraum. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das einschränkende „nur“ in Verbindung mit einer Zeitangabe ist ein typisches Fallenmuster – der Hörtext nennt oft einen breiteren Zeitraum. Diese Aussage ist als Falsch markiert."
+      },
+      "4": {
+        "keyword": "mutiges Eingreifen",
+        "explanation_correct": "Diese Aussage verbindet eine Person, einen Ort und eine Handlung konkret, aber plausibel miteinander. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage verbindet eine Person, einen Ort und eine Handlung konkret, aber plausibel miteinander. Diese Aussage ist als Richtig markiert."
+      },
+      "5": {
+        "keyword": "stehen inzwischen fest",
+        "explanation_correct": "Behauptungen über eine bereits abgeschlossene Klärung sollten Sie hinterfragen – oft ist im Hörtext noch von einer offenen Untersuchung die Rede. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Behauptungen über eine bereits abgeschlossene Klärung sollten Sie hinterfragen – oft ist im Hörtext noch von einer offenen Untersuchung die Rede. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "a762e0c2-7cf9-4832-bc82-67c9e15e36f9": {
+    "translation": {
+      "questions": {
+        "1": "أصبح السكن المشترك (كو-ليفينغ) الآن نموذجًا معتادًا للعائلات.",
+        "2": "ستجعل أنظمة الذكاء الاصطناعي الأطباء غير ضروريين في المستقبل.",
+        "3": "يستمر سوق الأزياء السريعة في النمو رغم اتجاه الاستدامة.",
+        "4": "تكفي وسائل النقل العام المجانية كحل لتحول قطاع النقل.",
+        "5": "يؤيد السكان استخدام روبوتات الرعاية دون أي تحفظات."
+      }
+    },
+    "items": {
+      "1": {
+        "keyword": "Standardmodell für Familien",
+        "explanation_correct": "Der Anspruch, etwas sei bereits „Standard“ geworden, ist eine starke Behauptung – solche Verallgemeinerungen werden im Hörtext oft relativiert. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Der Anspruch, etwas sei bereits „Standard“ geworden, ist eine starke Behauptung – solche Verallgemeinerungen werden im Hörtext oft relativiert. Diese Aussage ist als Falsch markiert."
+      },
+      "2": {
+        "keyword": "überflüssig",
+        "explanation_correct": "Das Wort „überflüssig“ ist eine absolute Aussage über eine völlige Ersetzung – solche Extremformulierungen halten im Hörtext selten stand. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „überflüssig“ ist eine absolute Aussage über eine völlige Ersetzung – solche Extremformulierungen halten im Hörtext selten stand. Diese Aussage ist als Falsch markiert."
+      },
+      "3": {
+        "keyword": "wächst trotz Nachhaltigkeitstrend",
+        "explanation_correct": "Diese Aussage verbindet zwei gegenläufige Entwicklungen (Wachstum trotz Nachhaltigkeitstrend) auf plausible, nicht übertriebene Weise. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage verbindet zwei gegenläufige Entwicklungen (Wachstum trotz Nachhaltigkeitstrend) auf plausible, nicht übertriebene Weise. Diese Aussage ist als Richtig markiert."
+      },
+      "4": {
+        "keyword": "reicht als Lösung aus",
+        "explanation_correct": "Die Behauptung, eine einzelne Maßnahme sei ausreichend, ist eine starke Vereinfachung – solche Alleinlösungen werden im Hörtext meist infrage gestellt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Behauptung, eine einzelne Maßnahme sei ausreichend, ist eine starke Vereinfachung – solche Alleinlösungen werden im Hörtext meist infrage gestellt. Diese Aussage ist als Falsch markiert."
+      },
+      "5": {
+        "keyword": "ohne Vorbehalte",
+        "explanation_correct": "Die Formulierung „ohne Vorbehalte“ schließt jede Skepsis aus – ein solcher absoluter Konsens ist im Hörtext selten realistisch dargestellt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Die Formulierung „ohne Vorbehalte“ schließt jede Skepsis aus – ein solcher absoluter Konsens ist im Hörtext selten realistisch dargestellt. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "ee0cdd07-e01c-4d3e-9ceb-0d14a5dbf008": {
+    "translation": {
+      "questions": {
+        "41": "في المستقبل سيكون من الأصعب منع مشاريع البناء الفيدرالية – مثل الطرق السريعة أو خطوط السكك الحديدية.",
+        "42": "لن يتسبب تمديد إضافي لسن التقاعد في مشاكل اجتماعية خطيرة.",
+        "43": "تم العثور أخيرًا على سفينة الصيد التي تعرضت لخطر الغرق في بحر الشمال.",
+        "44": "تعتبر الوزارة الاتحادية لشؤون الأسرة توسيع سياسة الأسرة أمرًا مكتملاً.",
+        "45": "بالنسبة للأطفال الذين يصابون أثناء اللعب في الحضانة، لا تتحمل المؤسسة المسؤولية تلقائيًا."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "schwieriger sein ... zu verhindern",
+        "explanation_correct": "Achten Sie auf die Richtung einer Veränderung (leichter oder schwieriger) – solche Komparative werden in Falschaussagen häufig umgedreht. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Achten Sie auf die Richtung einer Veränderung (leichter oder schwieriger) – solche Komparative werden in Falschaussagen häufig umgedreht. Diese Aussage ist als Falsch markiert."
+      },
+      "42": {
+        "keyword": "keine ernsthaften sozialen Probleme",
+        "explanation_correct": "Trotz der Verneinung „keine“ ist dies eine vorsichtig abgewogene Einschätzung statt einer extremen Behauptung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Trotz der Verneinung „keine“ ist dies eine vorsichtig abgewogene Einschätzung statt einer extremen Behauptung. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "inzwischen gefunden worden",
+        "explanation_correct": "Aussagen über den Ausgang einer Rettungsaktion sollten Sie kritisch prüfen – der Hörtext kann eine andere, zum Beispiel noch offene Situation schildern. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Aussagen über den Ausgang einer Rettungsaktion sollten Sie kritisch prüfen – der Hörtext kann eine andere, zum Beispiel noch offene Situation schildern. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "als abgeschlossen",
+        "explanation_correct": "Beachten Sie, welche Institution eine Einschätzung äußert und wie sie den Stand einer Entwicklung bewertet (abgeschlossen oder fortlaufend). Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Beachten Sie, welche Institution eine Einschätzung äußert und wie sie den Stand einer Entwicklung bewertet (abgeschlossen oder fortlaufend). Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "haftet nicht automatisch",
+        "explanation_correct": "Rechtliche Aussagen mit Verneinung wie „nicht automatisch“ sind ein typisches Prüfdetail – der Hörtext kann die Haftungsfrage anders regeln. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Rechtliche Aussagen mit Verneinung wie „nicht automatisch“ sind ein typisches Prüfdetail – der Hörtext kann die Haftungsfrage anders regeln. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  },
+  "a79b1845-7bdc-4dfe-bed3-ea9b88560691": {
+    "translation": {
+      "questions": {
+        "41": "سباق التزلج في شلادمينغ يُلغى مرة أخرى.",
+        "42": "عدد الفتيات اللواتي يقدّمن رعاية داخل الأسرة كأطفال أو مراهقين أكبر من عدد الفتيان.",
+        "43": "احترق مبنى سكني في غراتس بالكامل خلال حريق كبير.",
+        "44": "نفقت جميع الحيتان التي جنحت قرب سواحل أستراليا.",
+        "45": "بشكل عام، يبقى الطقس معتدلاً."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "fällt wieder aus",
+        "explanation_correct": "Das Wort „wieder“ deutet auf eine Wiederholung eines früheren Ereignisses hin – hier passt es zu einer plausiblen, nicht übertriebenen Aussage. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Das Wort „wieder“ deutet auf eine Wiederholung eines früheren Ereignisses hin – hier passt es zu einer plausiblen, nicht übertriebenen Aussage. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "Mehr Mädchen als Jungen",
+        "explanation_correct": "Vergleichsformulierungen wie „mehr … als“ sollten Sie genau prüfen, da die beiden verglichenen Gruppen in Falschaussagen oft vertauscht werden. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Vergleichsformulierungen wie „mehr … als“ sollten Sie genau prüfen, da die beiden verglichenen Gruppen in Falschaussagen oft vertauscht werden. Diese Aussage ist als Richtig markiert."
+      },
+      "43": {
+        "keyword": "komplett aus",
+        "explanation_correct": "Das Wort „komplett“ behauptet eine vollständige Zerstörung – solche absoluten Ausmaße werden im Hörtext oft abgeschwächt. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das Wort „komplett“ behauptet eine vollständige Zerstörung – solche absoluten Ausmaße werden im Hörtext oft abgeschwächt. Diese Aussage ist als Falsch markiert."
+      },
+      "44": {
+        "keyword": "Alle",
+        "explanation_correct": "Das absolute Wort „alle“ behauptet ein vollständiges Ergebnis ohne Ausnahme – solche Totalaussagen sind eine klassische TELC-Falle. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Das absolute Wort „alle“ behauptet ein vollständiges Ergebnis ohne Ausnahme – solche Totalaussagen sind eine klassische TELC-Falle. Diese Aussage ist als Falsch markiert."
+      },
+      "45": {
+        "keyword": "Insgesamt bleibt es mild",
+        "explanation_correct": "Diese allgemein gehaltene Wetteraussage ohne konkrete Gradzahlen ist typisch für eine zutreffende Zusammenfassung. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese allgemein gehaltene Wetteraussage ohne konkrete Gradzahlen ist typisch für eine zutreffende Zusammenfassung. Diese Aussage ist als Richtig markiert."
+      }
+    }
+  },
+  "49d902b6-aed8-4d5f-923e-aa9fbdb27425": {
+    "translation": {
+      "questions": {
+        "41": "كلف بناء أطول مبنى في العالم في دبي مليار دولار.",
+        "42": "وفقًا لتصريح البنك المركزي الألماني، ينعكس تباطؤ الاقتصاد الأمريكي بشكل ملحوظ على الصناعة الألمانية.",
+        "43": "يعتزم حزب الخضر في ولاية نيدرزاكسن استثمار أموال كبيرة في مجالي حماية المناخ والتعليم.",
+        "44": "خسر نادي فرايبورغ لكرة القدم المباراة النهائية.",
+        "45": "في فترة بعد الظهر تسود حالة من الهدوء التام للرياح، وترتفع درجات الحرارة في الشمال والشمال الشرقي إلى ما بين 2 و7 درجات، وفي الغرب والجنوب الغربي إلى ما بين 6 و11 درجة."
+      }
+    },
+    "items": {
+      "41": {
+        "keyword": "eine Milliarde Dollar",
+        "explanation_correct": "Konkrete Geldbeträge wie „eine Milliarde Dollar“ sollten Sie sich genau merken, da solche Zahlen leicht verändert werden können. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Konkrete Geldbeträge wie „eine Milliarde Dollar“ sollten Sie sich genau merken, da solche Zahlen leicht verändert werden können. Diese Aussage ist als Richtig markiert."
+      },
+      "42": {
+        "keyword": "auffallend",
+        "explanation_correct": "Verstärkende Wörter wie „auffallend“ übertreiben oft den tatsächlichen Effekt – im Hörtext kann die Wirkung als gering oder unklar beschrieben werden. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Verstärkende Wörter wie „auffallend“ übertreiben oft den tatsächlichen Effekt – im Hörtext kann die Wirkung als gering oder unklar beschrieben werden. Diese Aussage ist als Falsch markiert."
+      },
+      "43": {
+        "keyword": "viel Geld in die Bereiche Klimaschutz und Bildung",
+        "explanation_correct": "Diese Aussage nennt eine politische Absicht mit zwei konkreten Bereichen, ohne extreme oder widersprüchliche Zusätze. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Diese Aussage nennt eine politische Absicht mit zwei konkreten Bereichen, ohne extreme oder widersprüchliche Zusätze. Diese Aussage ist als Richtig markiert."
+      },
+      "44": {
+        "keyword": "das Finale verloren",
+        "explanation_correct": "Ergebnisse von Sportereignissen (gewonnen oder verloren) sind zentrale Hördetails – hier wird ein klares, einfaches Ergebnis genannt. Diese Aussage ist als Richtig markiert.",
+        "explanation_wrong": "Ergebnisse von Sportereignissen (gewonnen oder verloren) sind zentrale Hördetails – hier wird ein klares, einfaches Ergebnis genannt. Diese Aussage ist als Richtig markiert."
+      },
+      "45": {
+        "keyword": "Windstille",
+        "explanation_correct": "Wetterberichte mit mehreren genauen Gradzahlen und Regionen sind besonders fehleranfällig – meist stimmt nur ein Teil der Zahlen oder Regionen mit dem Hörtext überein. Diese Aussage ist als Falsch markiert.",
+        "explanation_wrong": "Wetterberichte mit mehreren genauen Gradzahlen und Regionen sind besonders fehleranfällig – meist stimmt nur ein Teil der Zahlen oder Regionen mit dem Hörtext überein. Diese Aussage ist als Falsch markiert."
+      }
+    }
+  }
+}

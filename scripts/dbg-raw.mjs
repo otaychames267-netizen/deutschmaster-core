@@ -1,0 +1,10 @@
+import { readFileSync, mkdtempSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { execFileSync } from "node:child_process";
+const POPPLER = "C:\\Users\\asus\\AppData\\Local\\poppler\\poppler-26.02.0\\Library\\bin\\pdftotext.exe";
+const PDF = "C:\\Users\\asus\\Desktop\\TELC PDFS LESEN\\Lesen teil 1..pdf";
+const p = Number(process.argv[2]);
+const dir = mkdtempSync(join(tmpdir(), "rw-")); const o = join(dir, "o.txt");
+execFileSync(POPPLER, ["-layout", "-f", String(p), "-l", String(p), PDF, o], { stdio: "pipe" });
+readFileSync(o, "utf8").split(/\r?\n/).forEach((l, i) => { if (l.trim()) console.log(`${String(i).padStart(3)}| ${l}`); });

@@ -1,0 +1,293 @@
+{
+  "e2cd38c2-8eac-431d-8792-75e8e3055edf": {
+    "translation": {
+      "text": "عزيزتي أندريا،\n\nشكرًا جزيلاً على رسالتك. أعتذر لأنني أجيب الآن فقط، لكنني لم أستطع استخدام حاسوبي المحمول أمس. كنت قد أخذته إلى بيتر ليركّب لي نظام تشغيل جديدًا. الآن كل شيء يعمل على أكمل وجه، حتى إنني تمكنت أخيرًا من ترتيب صوري. أنا وبيتر شاهدنا صور زيارتك الأخيرة هنا. كان الأمر مضحكًا جدًا، يجب أن تأتي إلينا مرة أخرى قريبًا.\nوالآن بخصوص رسالتك: أنت تبحثين إذن عن عمل صيفي في مجال السياحة وأردت أن تعرفي إن كانت لدي فكرة لك. سألت هنا قليلاً، لكنك متأخرة جدًا في بحثك. فندق «Seeblick» فقط ما زال يبحث عن شخص للاستقبال. لا يحتاجون إلى خبرة مهنية خاصة؛ الإنجليزية فقط شرط إلزامي، ولغة أجنبية إضافية ستكون أفضل. هذا سيكون لشهري يوليو وأغسطس، خمسة أيام في الأسبوع. عليك مع ذلك أن تتقدمي بطلبك قريبًا جدًا، ويفضل أن يكون ذلك اليوم. ستجدين الشخص المسؤول عن التواصل على موقع الفندق الإلكتروني. للأسف لا أعرف أصحاب الفندق شخصيًا، وإلا لكنت بالطبع تدخلت لأجلك فورًا.\nسأعمل بالمناسبة مرة أخرى في مخيم الأطفال الصيفي. في الواقع كنت أريد السفر إلى الخارج هذا العام، لكنني قررت رغم ذلك البقاء هنا. أمي لم تتعاف بعد تمامًا من عمليتها الجراحية، ولا أحب أن أتركها وحدها.\nإذن تقدمي بطلبك فورًا - سيكون رائعًا لو استطعنا رؤية بعضنا كثيرًا في الصيف. وإذا لم ينجح الأمر، فآمل مع ذلك أن تأتي لزيارتنا قريبًا!\n\nفي هذه الأثناء مع كل الحب\nصوفيا"
+    },
+    "items": {
+      "21": {
+        "evidence_text": "Entschuldige bitte, dass ich erst jetzt antworte, aber ich konnte gestern meinen Laptop nicht verwenden.",
+        "keyword": "erst",
+        "explanation_correct": "„Erst“ bedeutet hier zeitlich „nicht früher als, nur gerade jetzt“ und drückt aus, dass die Antwort später als erwartet kommt. „Zuerst“ bedeutet „als Erstes/vor allem anderen“ und passt nicht, da keine Reihenfolge von Handlungen gemeint ist. „Gleich“ bedeutet „sofort/bald“ und widerspricht dem Kontext, da die Antwort ja bereits (verspätet) erfolgt.",
+        "explanation_wrong": "„Erst“ bedeutet hier zeitlich „nicht früher als, nur gerade jetzt“ und drückt aus, dass die Antwort später als erwartet kommt. „Zuerst“ bedeutet „als Erstes/vor allem anderen“ und passt nicht, da keine Reihenfolge von Handlungen gemeint ist. „Gleich“ bedeutet „sofort/bald“ und widerspricht dem Kontext, da die Antwort ja bereits (verspätet) erfolgt.",
+        "grammar_structure": "Temporaladverb: erst (zeitliche Verspätung)",
+        "grammar_example": "Ich habe erst gestern von der Prüfung erfahren.",
+        "grammar_translation": "لم أعلم بالامتحان إلا أمس."
+      },
+      "22": {
+        "evidence_text": "Jetzt funktioniert alles bestens, so dass ich endlich meine Fotos sortieren konnte.",
+        "keyword": "bestens",
+        "explanation_correct": "„Bestens“ ist ein Adverb und bedeutet „sehr gut/ausgezeichnet“; es beschreibt, wie das Gerät funktioniert. „Am besten“ ist der adverbiale Superlativ, der einen Vergleich oder eine Empfehlung ausdrückt (z. B. „Das machst du am besten so“), passt aber nicht als Beschreibung eines Zustands. „Bestenfalls“ bedeutet „im günstigsten Fall“ und drückt eine Einschränkung aus, die hier nicht gemeint ist.",
+        "explanation_wrong": "„Bestens“ ist ein Adverb und bedeutet „sehr gut/ausgezeichnet“; es beschreibt, wie das Gerät funktioniert. „Am besten“ ist der adverbiale Superlativ, der einen Vergleich oder eine Empfehlung ausdrückt (z. B. „Das machst du am besten so“), passt aber nicht als Beschreibung eines Zustands. „Bestenfalls“ bedeutet „im günstigsten Fall“ und drückt eine Einschränkung aus, die hier nicht gemeint ist.",
+        "grammar_structure": "Adverb: bestens (feste Wendung „funktionieren bestens“)",
+        "grammar_example": "Nach der Reparatur läuft mein Auto wieder bestens.",
+        "grammar_translation": "بعد الإصلاح، أصبحت سيارتي تعمل على أكمل وجه من جديد."
+      },
+      "23": {
+        "evidence_text": "Es war so lustig, du musst bald wieder mal zu uns kommen.",
+        "keyword": "zu",
+        "explanation_correct": "Die Präposition „zu“ + Dativ drückt bei Verben der Bewegung wie „kommen“ die Richtung zu einer Person hin aus („zu uns kommen“ = uns besuchen). „Bei“ + Dativ bezeichnet einen Ort, an dem man sich bereits befindet, nicht die Richtung dorthin. „Mit“ + Dativ drückt eine Begleitung aus und passt inhaltlich nicht zu „kommen“.",
+        "explanation_wrong": "Die Präposition „zu“ + Dativ drückt bei Verben der Bewegung wie „kommen“ die Richtung zu einer Person hin aus („zu uns kommen“ = uns besuchen). „Bei“ + Dativ bezeichnet einen Ort, an dem man sich bereits befindet, nicht die Richtung dorthin. „Mit“ + Dativ drückt eine Begleitung aus und passt inhaltlich nicht zu „kommen“.",
+        "grammar_structure": "Präposition + Dativ: zu (Richtung zu einer Person)",
+        "grammar_example": "Kommst du morgen zu uns zum Essen?",
+        "grammar_translation": "هل ستأتي إلينا غدًا لتناول الطعام؟"
+      },
+      "24": {
+        "evidence_text": "Ich habe mich hier ein wenig umgehört, aber du bist ziemlich spät dran mit deiner Suche.",
+        "keyword": "aber",
+        "explanation_correct": "„Aber“ ist eine nebenordnende Konjunktion, die einen Gegensatz ausdrückt: Die Nachforschung wurde gemacht, doch das Ergebnis ist ernüchternd (späte Suche). „Denn“ würde einen Grund einleiten, was hier logisch nicht passt. „Oder“ drückt eine Alternative aus und ergibt in diesem Zusammenhang keinen Sinn.",
+        "explanation_wrong": "„Aber“ ist eine nebenordnende Konjunktion, die einen Gegensatz ausdrückt: Die Nachforschung wurde gemacht, doch das Ergebnis ist ernüchternd (späte Suche). „Denn“ würde einen Grund einleiten, was hier logisch nicht passt. „Oder“ drückt eine Alternative aus und ergibt in diesem Zusammenhang keinen Sinn.",
+        "grammar_structure": "Adversative Konjunktion: aber (Hauptsatz + Hauptsatz)",
+        "grammar_example": "Ich habe mich beworben, aber ich habe noch keine Antwort bekommen.",
+        "grammar_translation": "لقد تقدمت بطلب، لكنني لم أتلقَّ ردًا بعد."
+      },
+      "25": {
+        "evidence_text": "Man braucht keine besondere Berufserfahrung; nur Englisch ist zwingende Voraussetzung, eine weitere Fremdsprache wäre noch besser.",
+        "keyword": "besondere",
+        "explanation_correct": "„Besondere Erfahrung“ ist eine feste Kollokation für „spezielle/außergewöhnliche Erfahrung“; in Verbindung mit der Verneinung „keine“ bedeutet es „keine spezielle Erfahrung nötig“. „Geringe“ (gering = wenig) würde mit „keine“ einen unlogischen doppelten Gegensatz erzeugen. „Gute“ passt inhaltlich nicht, da es nicht um die Qualität, sondern um den Umfang bzw. die Art der Erfahrung geht.",
+        "explanation_wrong": "„Besondere Erfahrung“ ist eine feste Kollokation für „spezielle/außergewöhnliche Erfahrung“; in Verbindung mit der Verneinung „keine“ bedeutet es „keine spezielle Erfahrung nötig“. „Geringe“ (gering = wenig) würde mit „keine“ einen unlogischen doppelten Gegensatz erzeugen. „Gute“ passt inhaltlich nicht, da es nicht um die Qualität, sondern um den Umfang bzw. die Art der Erfahrung geht.",
+        "grammar_structure": "Adjektiv-Kollokation: besondere Erfahrung/Kenntnisse",
+        "grammar_example": "Für diesen Job braucht man keine besonderen Vorkenntnisse.",
+        "grammar_translation": "لا حاجة إلى معرفة مسبقة خاصة لهذه الوظيفة."
+      },
+      "26": {
+        "evidence_text": "nur Englisch ist zwingende Voraussetzung, eine weitere Fremdsprache wäre noch besser.",
+        "keyword": "weitere",
+        "explanation_correct": "„Weitere“ bedeutet „zusätzliche, eine weitere von derselben Art“ und passt, da bereits Englisch genannt wurde und eine zweite (zusätzliche) Fremdsprache gemeint ist. „Künftige“ bedeutet „zukünftige“ und ergibt hier keinen Sinn. „Nächste“ bezieht sich auf eine Reihenfolge (die als Nächstes kommende), nicht auf eine Ergänzung.",
+        "explanation_wrong": "„Weitere“ bedeutet „zusätzliche, eine weitere von derselben Art“ und passt, da bereits Englisch genannt wurde und eine zweite (zusätzliche) Fremdsprache gemeint ist. „Künftige“ bedeutet „zukünftige“ und ergibt hier keinen Sinn. „Nächste“ bezieht sich auf eine Reihenfolge (die als Nächstes kommende), nicht auf eine Ergänzung.",
+        "grammar_structure": "Adjektiv: weitere (zusätzlich, eine/ein mehr)",
+        "grammar_example": "Neben Deutsch spricht sie noch eine weitere Sprache.",
+        "grammar_translation": "إلى جانب الألمانية، تتحدث لغة أخرى إضافية."
+      },
+      "27": {
+        "evidence_text": "Du musst dich allerdings sehr bald bewerben, am besten noch heute.",
+        "keyword": "bewerben",
+        "explanation_correct": "„Sich bewerben“ ist ein reflexives Verb und bedeutet „eine Bewerbung einreichen“; das vorangehende Reflexivpronomen „dich“ passt dazu. „Anwerben“ bedeutet „jemanden aktiv rekrutieren“ und wird nicht reflexiv verwendet. „Umwerben“ bedeutet „jemandem den Hof machen/um jemanden werben“ (z. B. romantisch) und passt inhaltlich nicht.",
+        "explanation_wrong": "„Sich bewerben“ ist ein reflexives Verb und bedeutet „eine Bewerbung einreichen“; das vorangehende Reflexivpronomen „dich“ passt dazu. „Anwerben“ bedeutet „jemanden aktiv rekrutieren“ und wird nicht reflexiv verwendet. „Umwerben“ bedeutet „jemandem den Hof machen/um jemanden werben“ (z. B. romantisch) und passt inhaltlich nicht.",
+        "grammar_structure": "Reflexives Verb: sich bewerben (um eine Stelle)",
+        "grammar_example": "Er hat sich letzte Woche bei drei Firmen beworben.",
+        "grammar_translation": "تقدم بطلب توظيف لدى ثلاث شركات الأسبوع الماضي."
+      },
+      "28": {
+        "evidence_text": "Leider kenne ich die Hotelbesitzer nicht persönlich, sonst hätte ich mich natürlich sofort für dich eingesetzt.",
+        "keyword": "Leider",
+        "explanation_correct": "„Leider“ ist ein Satzadverb, das an erster Position stehen und die Inversion (Verb an zweiter Stelle: „kenne ich“) auslösen kann. „Bedauerlich“ ist ein Adjektiv, das so allein am Satzanfang nicht stehen kann (nötig wäre „Bedauerlicherweise“). „Schade“ wird meist als eigenständiger Ausruf oder mit „dass“-Satz verwendet, nicht als satzeinleitendes Adverb vor einem finiten Verb in dieser Konstruktion.",
+        "explanation_wrong": "„Leider“ ist ein Satzadverb, das an erster Position stehen und die Inversion (Verb an zweiter Stelle: „kenne ich“) auslösen kann. „Bedauerlich“ ist ein Adjektiv, das so allein am Satzanfang nicht stehen kann (nötig wäre „Bedauerlicherweise“). „Schade“ wird meist als eigenständiger Ausruf oder mit „dass“-Satz verwendet, nicht als satzeinleitendes Adverb vor einem finiten Verb in dieser Konstruktion.",
+        "grammar_structure": "Satzadverb: leider (Position 1, Inversion)",
+        "grammar_example": "Leider habe ich heute keine Zeit für einen Kaffee.",
+        "grammar_translation": "للأسف ليس لدي وقت اليوم لشرب قهوة."
+      },
+      "29": {
+        "evidence_text": "Ich werde übrigens wieder im Kinder-Feriencamp arbeiten.",
+        "keyword": "übrigens",
+        "explanation_correct": "„Übrigens“ leitet eine zusätzliche, beiläufige Information ein („nebenbei bemerkt“), was hier passt, da ein neues Thema angeschnitten wird. „Deshalb“ drückt eine Folge/einen Grund aus, der hier fehlt. „Trotzdem“ drückt einen Gegensatz aus, der hier ebenfalls nicht vorliegt.",
+        "explanation_wrong": "„Übrigens“ leitet eine zusätzliche, beiläufige Information ein („nebenbei bemerkt“), was hier passt, da ein neues Thema angeschnitten wird. „Deshalb“ drückt eine Folge/einen Grund aus, der hier fehlt. „Trotzdem“ drückt einen Gegensatz aus, der hier ebenfalls nicht vorliegt.",
+        "grammar_structure": "Adverb: übrigens (beiläufige Zusatzinformation)",
+        "grammar_example": "Ich fahre übrigens nächste Woche wieder nach Berlin.",
+        "grammar_translation": "بالمناسبة، سأسافر إلى برلين مرة أخرى الأسبوع المقبل."
+      },
+      "30": {
+        "evidence_text": "aber dann habe ich mich doch entschieden, hier zu bleiben.",
+        "keyword": "entschieden",
+        "explanation_correct": "„Sich entscheiden“ ist ein reflexives Verb; das bereits im Satz stehende Reflexivpronomen „mich“ verlangt genau diese Verbform. „Beschließen“ (beschlossen) wird nicht reflexiv gebraucht (man „beschließt etwas“, nicht „sich etwas“). „Ausmachen“ (ausgemacht) bedeutet in diesem Sinn „vereinbaren“ und passt weder grammatisch noch inhaltlich.",
+        "explanation_wrong": "„Sich entscheiden“ ist ein reflexives Verb; das bereits im Satz stehende Reflexivpronomen „mich“ verlangt genau diese Verbform. „Beschließen“ (beschlossen) wird nicht reflexiv gebraucht (man „beschließt etwas“, nicht „sich etwas“). „Ausmachen“ (ausgemacht) bedeutet in diesem Sinn „vereinbaren“ und passt weder grammatisch noch inhaltlich.",
+        "grammar_structure": "Reflexives Verb: sich entscheiden (für etwas / zu + Infinitiv)",
+        "grammar_example": "Nach langem Überlegen habe ich mich entschieden, den Job anzunehmen.",
+        "grammar_translation": "بعد تفكير طويل، قررت قبول الوظيفة."
+      }
+    }
+  },
+  "6cdbb3a2-dddb-44cb-93b8-93f7a15c22d9": {
+    "translation": {
+      "text": "عزيزتي أندريا،\n\nشكرًا جزيلاً على رسالتك. أعتذر لأنني أجيب الآن فقط، لكنني لم أستطع استخدام حاسوبي المحمول أمس. كنت قد أخذته إلى بيتر ليركّب لي نظام تشغيل جديدًا. الآن كل شيء يعمل على أكمل وجه، حتى إنني تمكنت أخيرًا من ترتيب صوري. أنا وبيتر شاهدنا صور زيارتك الأخيرة هنا. كان الأمر مضحكًا جدًا، يجب أن تأتي إلينا مرة أخرى قريبًا. والآن بخصوص رسالتك: أنت تبحثين إذن عن عمل صيفي في مجال السياحة وأردت أن تعرفي إن كانت لدي فكرة لك. سألت هنا قليلاً، لكنك متأخرة نوعًا ما في بحثك. فندق «Seeblick» فقط ما زال يبحث عن شخص للاستقبال. لا يحتاجون إلى خبرة مهنية خاصة؛ الإنجليزية فقط شرط إلزامي، ولغة أجنبية إضافية ستكون أفضل. هذا سيكون لشهري يوليو وأغسطس، خمسة أيام في الأسبوع. عليك مع ذلك أن تتقدمي بطلبك قريبًا جدًا، ويفضل أن يكون ذلك اليوم. ستجدين الشخص المسؤول عن التواصل على موقع الفندق الإلكتروني. للأسف لا أعرف أصحاب الفندق شخصيًا، وإلا لكنت بالطبع تدخلت لأجلك فورًا. سأعمل بالمناسبة مرة أخرى في مخيم الأطفال الصيفي. في الواقع كنت أريد السفر إلى الخارج هذا العام، لكنني قررت رغم ذلك البقاء هنا. أمي لم تتعاف بعد تمامًا من عمليتها الجراحية، ولا أحب أن أتركها وحدها. إذن تقدمي بطلبك فورًا - سيكون رائعًا لو استطعنا رؤية بعضنا كثيرًا في الصيف. وإذا لم ينجح الأمر، فآمل مع ذلك أن تأتي لزيارتنا قريبًا!\n\nفي هذه الأثناء مع كل الحب\nصوفيا"
+    },
+    "items": {
+      "21": {
+        "evidence_text": "Entschuldige bitte, dass ich erst jetzt antworte, aber ich konnte gestern meinen Laptop nicht verwenden.",
+        "keyword": "erst",
+        "explanation_correct": "„Erst“ bedeutet hier zeitlich „nicht früher als, nur gerade jetzt“ und drückt aus, dass die Antwort später als erwartet kommt. „Zuerst“ bedeutet „als Erstes/vor allem anderen“ und passt nicht, da keine Reihenfolge von Handlungen gemeint ist. „Gleich“ bedeutet „sofort/bald“ und widerspricht dem Kontext, da die Antwort ja bereits (verspätet) erfolgt.",
+        "explanation_wrong": "„Erst“ bedeutet hier zeitlich „nicht früher als, nur gerade jetzt“ und drückt aus, dass die Antwort später als erwartet kommt. „Zuerst“ bedeutet „als Erstes/vor allem anderen“ und passt nicht, da keine Reihenfolge von Handlungen gemeint ist. „Gleich“ bedeutet „sofort/bald“ und widerspricht dem Kontext, da die Antwort ja bereits (verspätet) erfolgt.",
+        "grammar_structure": "Temporaladverb: erst (zeitliche Verspätung)",
+        "grammar_example": "Ich habe erst gestern von der Prüfung erfahren.",
+        "grammar_translation": "لم أعلم بالامتحان إلا أمس."
+      },
+      "22": {
+        "evidence_text": "Jetzt funktioniert alles bestens, so dass ich endlich meine Fotos sortieren konnte.",
+        "keyword": "bestens",
+        "explanation_correct": "„Bestens“ ist ein Adverb und bedeutet „sehr gut/ausgezeichnet“; es beschreibt, wie das Gerät funktioniert. „Am besten“ ist der adverbiale Superlativ, der einen Vergleich oder eine Empfehlung ausdrückt, passt aber nicht als Beschreibung eines Zustands. „Bestenfalls“ bedeutet „im günstigsten Fall“ und drückt eine Einschränkung aus, die hier nicht gemeint ist.",
+        "explanation_wrong": "„Bestens“ ist ein Adverb und bedeutet „sehr gut/ausgezeichnet“; es beschreibt, wie das Gerät funktioniert. „Am besten“ ist der adverbiale Superlativ, der einen Vergleich oder eine Empfehlung ausdrückt, passt aber nicht als Beschreibung eines Zustands. „Bestenfalls“ bedeutet „im günstigsten Fall“ und drückt eine Einschränkung aus, die hier nicht gemeint ist.",
+        "grammar_structure": "Adverb: bestens (feste Wendung „funktionieren bestens“)",
+        "grammar_example": "Nach der Reparatur läuft mein Auto wieder bestens.",
+        "grammar_translation": "بعد الإصلاح، أصبحت سيارتي تعمل على أكمل وجه من جديد."
+      },
+      "23": {
+        "evidence_text": "Es war so lustig, du musst bald wieder mal zu uns kommen.",
+        "keyword": "zu",
+        "explanation_correct": "Die Präposition „zu“ + Dativ drückt bei Verben der Bewegung wie „kommen“ die Richtung zu einer Person hin aus („zu uns kommen“ = uns besuchen). „Bei“ + Dativ bezeichnet einen Ort, an dem man sich bereits befindet, nicht die Richtung dorthin. „Mit“ + Dativ drückt eine Begleitung aus und passt inhaltlich nicht zu „kommen“.",
+        "explanation_wrong": "Die Präposition „zu“ + Dativ drückt bei Verben der Bewegung wie „kommen“ die Richtung zu einer Person hin aus („zu uns kommen“ = uns besuchen). „Bei“ + Dativ bezeichnet einen Ort, an dem man sich bereits befindet, nicht die Richtung dorthin. „Mit“ + Dativ drückt eine Begleitung aus und passt inhaltlich nicht zu „kommen“.",
+        "grammar_structure": "Präposition + Dativ: zu (Richtung zu einer Person)",
+        "grammar_example": "Kommst du morgen zu uns zum Essen?",
+        "grammar_translation": "هل ستأتي إلينا غدًا لتناول الطعام؟"
+      },
+      "24": {
+        "evidence_text": "Ich habe mich hier ein wenig umgehört, aber du bist ziemlich spät dran mit deiner Suche.",
+        "keyword": "ziemlich",
+        "explanation_correct": "„Ziemlich“ ist ein Gradadverb, das ein Adjektiv verstärkt und „relativ/recht“ bedeutet; „ziemlich spät“ ist eine gängige Kollokation. „Fast“ bedeutet „beinahe“ und würde bedeuten, dass der Zustand noch nicht ganz erreicht ist, was dem Sinn (schon spät dran sein) widerspricht. „Ungefähr“ bezieht sich auf ungefähre Mengen- oder Zeitangaben (z. B. „ungefähr drei Uhr“) und kann kein Adjektiv wie „spät“ verstärken.",
+        "explanation_wrong": "„Ziemlich“ ist ein Gradadverb, das ein Adjektiv verstärkt und „relativ/recht“ bedeutet; „ziemlich spät“ ist eine gängige Kollokation. „Fast“ bedeutet „beinahe“ und würde bedeuten, dass der Zustand noch nicht ganz erreicht ist, was dem Sinn (schon spät dran sein) widerspricht. „Ungefähr“ bezieht sich auf ungefähre Mengen- oder Zeitangaben (z. B. „ungefähr drei Uhr“) und kann kein Adjektiv wie „spät“ verstärken.",
+        "grammar_structure": "Gradpartikel + Adjektiv: ziemlich (Verstärkung)",
+        "grammar_example": "Der Test war ziemlich schwer, aber ich habe ihn bestanden.",
+        "grammar_translation": "كان الامتحان صعبًا نوعًا ما، لكنني نجحت فيه."
+      },
+      "25": {
+        "evidence_text": "Man braucht keine besondere Berufserfahrung; nur Englisch ist zwingende Voraussetzung, eine weitere Fremdsprache wäre noch besser.",
+        "keyword": "besondere",
+        "explanation_correct": "„Besondere Erfahrung“ ist eine feste Kollokation für „spezielle/außergewöhnliche Erfahrung“; in Verbindung mit der Verneinung „keine“ bedeutet es „keine spezielle Erfahrung nötig“. „Geringe“ (gering = wenig) würde mit „keine“ einen unlogischen doppelten Gegensatz erzeugen. „Gute“ passt inhaltlich nicht, da es nicht um die Qualität, sondern um den Umfang bzw. die Art der Erfahrung geht.",
+        "explanation_wrong": "„Besondere Erfahrung“ ist eine feste Kollokation für „spezielle/außergewöhnliche Erfahrung“; in Verbindung mit der Verneinung „keine“ bedeutet es „keine spezielle Erfahrung nötig“. „Geringe“ (gering = wenig) würde mit „keine“ einen unlogischen doppelten Gegensatz erzeugen. „Gute“ passt inhaltlich nicht, da es nicht um die Qualität, sondern um den Umfang bzw. die Art der Erfahrung geht.",
+        "grammar_structure": "Adjektiv-Kollokation: besondere Erfahrung/Kenntnisse",
+        "grammar_example": "Für diesen Job braucht man keine besonderen Vorkenntnisse.",
+        "grammar_translation": "لا حاجة إلى معرفة مسبقة خاصة لهذه الوظيفة."
+      },
+      "26": {
+        "evidence_text": "nur Englisch ist zwingende Voraussetzung, eine weitere Fremdsprache wäre noch besser.",
+        "keyword": "weitere",
+        "explanation_correct": "„Weitere“ bedeutet „zusätzliche, eine weitere von derselben Art“ und passt, da bereits Englisch genannt wurde und eine zweite (zusätzliche) Fremdsprache gemeint ist. „Künftige“ bedeutet „zukünftige“ und ergibt hier keinen Sinn. „Nächste“ bezieht sich auf eine Reihenfolge (die als Nächstes kommende), nicht auf eine Ergänzung.",
+        "explanation_wrong": "„Weitere“ bedeutet „zusätzliche, eine weitere von derselben Art“ und passt, da bereits Englisch genannt wurde und eine zweite (zusätzliche) Fremdsprache gemeint ist. „Künftige“ bedeutet „zukünftige“ und ergibt hier keinen Sinn. „Nächste“ bezieht sich auf eine Reihenfolge (die als Nächstes kommende), nicht auf eine Ergänzung.",
+        "grammar_structure": "Adjektiv: weitere (zusätzlich, eine/ein mehr)",
+        "grammar_example": "Neben Deutsch spricht sie noch eine weitere Sprache.",
+        "grammar_translation": "إلى جانب الألمانية، تتحدث لغة أخرى إضافية."
+      },
+      "27": {
+        "evidence_text": "Du musst dich allerdings sehr bald bewerben, am besten noch heute.",
+        "keyword": "bewerben",
+        "explanation_correct": "„Sich bewerben“ ist ein reflexives Verb und bedeutet „eine Bewerbung einreichen“; das vorangehende Reflexivpronomen „dich“ passt dazu. „Anwerben“ bedeutet „jemanden aktiv rekrutieren“ und wird nicht reflexiv verwendet. „Umwerben“ bedeutet „jemandem den Hof machen/um jemanden werben“ (z. B. romantisch) und passt inhaltlich nicht.",
+        "explanation_wrong": "„Sich bewerben“ ist ein reflexives Verb und bedeutet „eine Bewerbung einreichen“; das vorangehende Reflexivpronomen „dich“ passt dazu. „Anwerben“ bedeutet „jemanden aktiv rekrutieren“ und wird nicht reflexiv verwendet. „Umwerben“ bedeutet „jemandem den Hof machen/um jemanden werben“ (z. B. romantisch) und passt inhaltlich nicht.",
+        "grammar_structure": "Reflexives Verb: sich bewerben (um eine Stelle)",
+        "grammar_example": "Er hat sich letzte Woche bei drei Firmen beworben.",
+        "grammar_translation": "تقدم بطلب توظيف لدى ثلاث شركات الأسبوع الماضي."
+      },
+      "28": {
+        "evidence_text": "Leider kenne ich die Hotelbesitzer nicht persönlich, sonst hätte ich mich natürlich sofort für dich eingesetzt.",
+        "keyword": "sonst",
+        "explanation_correct": "„Sonst“ leitet hier einen irrealen Konsequenzsatz ein: „andernfalls, unter anderen Umständen hätte ich...“ und passt zum folgenden Konjunktiv II („hätte ich mich eingesetzt“). „Außerdem“ bedeutet „zusätzlich“ und drückt keine hypothetische Konsequenz aus. „Damals“ ist eine Zeitangabe für die Vergangenheit und passt weder grammatisch noch inhaltlich zu diesem hypothetischen Satz.",
+        "explanation_wrong": "„Sonst“ leitet hier einen irrealen Konsequenzsatz ein: „andernfalls, unter anderen Umständen hätte ich...“ und passt zum folgenden Konjunktiv II („hätte ich mich eingesetzt“). „Außerdem“ bedeutet „zusätzlich“ und drückt keine hypothetische Konsequenz aus. „Damals“ ist eine Zeitangabe für die Vergangenheit und passt weder grammatisch noch inhaltlich zu diesem hypothetischen Satz.",
+        "grammar_structure": "Konnektor: sonst (hypothetische Konsequenz + Konjunktiv II)",
+        "grammar_example": "Ich musste früh aufstehen, sonst hätte ich den Zug verpasst.",
+        "grammar_translation": "كان علي أن أستيقظ باكرًا، وإلا لكنت فوّت القطار."
+      },
+      "29": {
+        "evidence_text": "Ich werde übrigens wieder im Kinder-Feriencamp arbeiten.",
+        "keyword": "übrigens",
+        "explanation_correct": "„Übrigens“ leitet eine zusätzliche, beiläufige Information ein („nebenbei bemerkt“), was hier passt, da ein neues Thema angeschnitten wird. „Deshalb“ drückt eine Folge/einen Grund aus, der hier fehlt. „Trotzdem“ drückt einen Gegensatz aus, der hier ebenfalls nicht vorliegt.",
+        "explanation_wrong": "„Übrigens“ leitet eine zusätzliche, beiläufige Information ein („nebenbei bemerkt“), was hier passt, da ein neues Thema angeschnitten wird. „Deshalb“ drückt eine Folge/einen Grund aus, der hier fehlt. „Trotzdem“ drückt einen Gegensatz aus, der hier ebenfalls nicht vorliegt.",
+        "grammar_structure": "Adverb: übrigens (beiläufige Zusatzinformation)",
+        "grammar_example": "Ich fahre übrigens nächste Woche wieder nach Berlin.",
+        "grammar_translation": "بالمناسبة، سأسافر إلى برلين مرة أخرى الأسبوع المقبل."
+      },
+      "30": {
+        "evidence_text": "aber dann habe ich mich doch entschieden, hier zu bleiben.",
+        "keyword": "entschieden",
+        "explanation_correct": "„Sich entscheiden“ ist ein reflexives Verb; das bereits im Satz stehende Reflexivpronomen „mich“ verlangt genau diese Verbform. „Beschließen“ (beschlossen) wird nicht reflexiv gebraucht (man „beschließt etwas“, nicht „sich etwas“). „Ausmachen“ (ausgemacht) bedeutet in diesem Sinn „vereinbaren“ und passt weder grammatisch noch inhaltlich.",
+        "explanation_wrong": "„Sich entscheiden“ ist ein reflexives Verb; das bereits im Satz stehende Reflexivpronomen „mich“ verlangt genau diese Verbform. „Beschließen“ (beschlossen) wird nicht reflexiv gebraucht (man „beschließt etwas“, nicht „sich etwas“). „Ausmachen“ (ausgemacht) bedeutet in diesem Sinn „vereinbaren“ und passt weder grammatisch noch inhaltlich.",
+        "grammar_structure": "Reflexives Verb: sich entscheiden (für etwas / zu + Infinitiv)",
+        "grammar_example": "Nach langem Überlegen habe ich mich entschieden, den Job anzunehmen.",
+        "grammar_translation": "بعد تفكير طويل، قررت قبول الوظيفة."
+      }
+    }
+  },
+  "132d3413-e83b-4c41-9bed-5b3a6f081218": {
+    "translation": {
+      "text": "عزيزاتي وأعزائي الكتّاب،\n\nلم يعد عيد الميلاد بعيدًا، وقبل أن نودع جميعًا العطلة التي نستحقها، أود أن أذكّركم مرة أخرى بالموعد النهائي لتسليم المواد لمجلتنا النقابية، والذي حددناه بيوم 10 يناير. وكما تعلمون جميعًا، لا يمكن لكلوديا، مصممة الإخراج المجتهدة لدينا، أن تبدأ العمل إلا عندما تكون جميع النصوص والصور متوفرة لديها. يجب أن يكون الملف النهائي في المطبعة في موعد أقصاه 22 يناير، حتى تكون المجلة جاهزة في موعدها يوم 1 فبراير. الإخراج الجيد هو أيضًا في مصلحة الكتّاب والكاتبات. فإذا كان سيئًا، يحظى المقال تلقائيًا باهتمام أقل. لذا يرجى تسليم مساهماتكم في الوقت المناسب. المسؤول عن معالجة الصور كالعادة هو فلوريان. يرجى تسليم الصور بصيغة TIF أو JPG، ويرجى ذكر مصدر الصورة إذا لم تكن الصور من التقاطكم الخاص. بالنسبة لصوركم الخاصة، تبقى حقوق النشر بطبيعة الحال لكم. للأسف انخفضت أرقام مبيعات مجلتنا بشكل كبير في العام الماضي. لذلك نود أن نطلب منكم جميعًا مرة أخرى وبصدق اختيار مواضيع تخص أعضاء النقابة فقط وتثير اهتمامهم فعلًا. هذا لا يعني أنه لا يمكن تناول مواضيع كبرى مثل السياسة أو المجتمع، لكن يجب تقديمها بطريقة سهلة القراءة. نحن نعتبر أنفسنا صراحة صحيفة مستقلة ولا نريد أن يُكمَّم فمنا. ومع ذلك ينبغي أن تبقى المساهمات ضمن إطار التعبير الموضوعي عن الرأي. وبهذا المعنى تتطلع هيئة التحرير إلى استقبال العديد من المقالات!\n\nمع أطيب التحيات وأتمنى لكم النجاح\nهيئة التحرير"
+    },
+    "items": {
+      "21": {
+        "evidence_text": "Wie ihr alle wisst, kann Claudia, unsere fleißige Layouterin, sich erst dann an die Arbeit machen, wenn alle Texte und Bilder vorliegen.",
+        "keyword": "wie",
+        "explanation_correct": "„Wie“ leitet hier die feste Wendung „wie ihr/du wisst“ (= wie bekannt ist) ein, eine Art Modalsatz. „Was“ ist ein Relativ-/Fragepronomen für ein unbestimmtes Objekt und passt nicht zur festen Redewendung. „Wann“ fragt nach einem Zeitpunkt und ergibt hier keinen Sinn, da kein Zeitpunkt erfragt wird.",
+        "explanation_wrong": "„Wie“ leitet hier die feste Wendung „wie ihr/du wisst“ (= wie bekannt ist) ein, eine Art Modalsatz. „Was“ ist ein Relativ-/Fragepronomen für ein unbestimmtes Objekt und passt nicht zur festen Redewendung. „Wann“ fragt nach einem Zeitpunkt und ergibt hier keinen Sinn, da kein Zeitpunkt erfragt wird.",
+        "grammar_structure": "Feste Wendung: wie ihr/du wisst (Modalsatz)",
+        "grammar_example": "Wie du weißt, beginnt die Konferenz um neun Uhr.",
+        "grammar_translation": "كما تعلم، يبدأ المؤتمر في الساعة التاسعة."
+      },
+      "22": {
+        "evidence_text": "kann Claudia, unsere fleißige Layouterin, sich erst dann an die Arbeit machen, wenn alle Texte und Bilder vorliegen.",
+        "keyword": "vorliegen",
+        "explanation_correct": "„Vorliegen“ bedeutet „vorhanden/verfügbar sein“ und wird typischerweise für Unterlagen, Texte oder Dokumente verwendet, die eingereicht wurden. „Unterliegen“ (+ Dativ) bedeutet „einer Sache unterworfen sein“ (z. B. einem Irrtum unterliegen) und passt semantisch nicht. „Liegen lassen“ bedeutet „etwas vergessen/zurücklassen“ und widerspricht dem Sinn, dass die Materialien bereitstehen sollen.",
+        "explanation_wrong": "„Vorliegen“ bedeutet „vorhanden/verfügbar sein“ und wird typischerweise für Unterlagen, Texte oder Dokumente verwendet, die eingereicht wurden. „Unterliegen“ (+ Dativ) bedeutet „einer Sache unterworfen sein“ (z. B. einem Irrtum unterliegen) und passt semantisch nicht. „Liegen lassen“ bedeutet „etwas vergessen/zurücklassen“ und widerspricht dem Sinn, dass die Materialien bereitstehen sollen.",
+        "grammar_structure": "Verb: vorliegen (verfügbar/eingereicht sein)",
+        "grammar_example": "Die Ergebnisse der Untersuchung liegen noch nicht vor.",
+        "grammar_translation": "نتائج الفحص لم تصدر بعد."
+      },
+      "23": {
+        "evidence_text": "Ein gutes Layout ist auch im Interesse der Autorinnen und Autoren.",
+        "keyword": "im",
+        "explanation_correct": "„Im Interesse“ + Genitiv ist eine feste präpositionale Wendung und bedeutet „zum Vorteil von, im Sinne von“. „Von“ würde die andere feste Wendung „von Interesse sein“ ergeben, die hier nicht mit dem nachfolgenden Genitiv „der Autorinnen und Autoren“ kombinierbar ist. „Ohne Interesse“ bedeutet „uninteressant“ und widerspricht dem Satzsinn.",
+        "explanation_wrong": "„Im Interesse“ + Genitiv ist eine feste präpositionale Wendung und bedeutet „zum Vorteil von, im Sinne von“. „Von“ würde die andere feste Wendung „von Interesse sein“ ergeben, die hier nicht mit dem nachfolgenden Genitiv „der Autorinnen und Autoren“ kombinierbar ist. „Ohne Interesse“ bedeutet „uninteressant“ und widerspricht dem Satzsinn.",
+        "grammar_structure": "Feste Präpositionalphrase: im Interesse + Genitiv",
+        "grammar_example": "Eine schnelle Lösung ist im Interesse aller Beteiligten.",
+        "grammar_translation": "الحل السريع في مصلحة جميع الأطراف المعنية."
+      },
+      "24": {
+        "evidence_text": "Liefert also bitte eure Beiträge rechtzeitig ab.",
+        "keyword": "ab",
+        "explanation_correct": "„Ab“ ist das trennbare Präfix des Verbs „abliefern“ (= etwas fristgerecht einreichen/übergeben), das im Hauptsatz ans Satzende rückt. „Zu“ würde „zuliefern“ ergeben (= an einen Abnehmer liefern, meist im Handelskontext), was hier nicht passt. „Ein“ würde „einliefern“ ergeben (= jemanden in eine Einrichtung bringen, z. B. ins Krankenhaus), was inhaltlich falsch ist.",
+        "explanation_wrong": "„Ab“ ist das trennbare Präfix des Verbs „abliefern“ (= etwas fristgerecht einreichen/übergeben), das im Hauptsatz ans Satzende rückt. „Zu“ würde „zuliefern“ ergeben (= an einen Abnehmer liefern, meist im Handelskontext), was hier nicht passt. „Ein“ würde „einliefern“ ergeben (= jemanden in eine Einrichtung bringen, z. B. ins Krankenhaus), was inhaltlich falsch ist.",
+        "grammar_structure": "Trennbares Verb: abliefern (Präfix ab-)",
+        "grammar_example": "Bitte liefert eure Hausaufgaben bis Freitag ab.",
+        "grammar_translation": "يرجى تسليم واجباتكم المنزلية بحلول يوم الجمعة."
+      },
+      "25": {
+        "evidence_text": "Für eure eigenen Bilder liegt das Copyright natürlich bei euch.",
+        "keyword": "bei",
+        "explanation_correct": "„Das Copyright/Recht liegt bei jemandem“ ist eine feste Wendung mit der Präposition „bei“ + Dativ und bedeutet „gehört jemandem/liegt in dessen Verantwortung“. „Mit“ und „für“ sind in dieser festen Kollokation nicht möglich und würden die Bedeutung verfälschen oder den Satz ungrammatisch machen.",
+        "explanation_wrong": "„Das Copyright/Recht liegt bei jemandem“ ist eine feste Wendung mit der Präposition „bei“ + Dativ und bedeutet „gehört jemandem/liegt in dessen Verantwortung“. „Mit“ und „für“ sind in dieser festen Kollokation nicht möglich und würden die Bedeutung verfälschen oder den Satz ungrammatisch machen.",
+        "grammar_structure": "Feste Wendung: liegen bei + Dativ (gehören zu, zuständig sein)",
+        "grammar_example": "Die Entscheidung liegt letztendlich bei dir.",
+        "grammar_translation": "القرار في النهاية يعود إليك."
+      },
+      "26": {
+        "evidence_text": "Leider sind die Verkaufszahlen unserer Vereinszeitung im letzten Jahr stark zurückgegangen.",
+        "keyword": "stark",
+        "explanation_correct": "„Stark“ wird hier als Gradadverb verwendet, um das Ausmaß einer Veränderung zu verstärken (stark steigen/sinken/zurückgehen = deutlich, erheblich). „Unerschütterlich“ bedeutet „nicht zu erschüttern“ und wird für Überzeugungen oder Charaktereigenschaften verwendet, nicht für Zahlenveränderungen. „Fest“ bedeutet „stabil/nicht beweglich“ und passt nicht als Verstärkung eines Rückgangs.",
+        "explanation_wrong": "„Stark“ wird hier als Gradadverb verwendet, um das Ausmaß einer Veränderung zu verstärken (stark steigen/sinken/zurückgehen = deutlich, erheblich). „Unerschütterlich“ bedeutet „nicht zu erschüttern“ und wird für Überzeugungen oder Charaktereigenschaften verwendet, nicht für Zahlenveränderungen. „Fest“ bedeutet „stabil/nicht beweglich“ und passt nicht als Verstärkung eines Rückgangs.",
+        "grammar_structure": "Gradadverb bei Veränderungsverben: stark zurückgehen",
+        "grammar_example": "Die Preise sind im letzten Monat stark gestiegen.",
+        "grammar_translation": "ارتفعت الأسعار بشكل كبير في الشهر الماضي."
+      },
+      "27": {
+        "evidence_text": "Deshalb möchten wir euch alle noch einmal herzlich darum bitten, nur Themen zu wählen, die unsere Vereinsmitglieder betreffen und sie auch wirklich ansprechen.",
+        "keyword": "darum",
+        "explanation_correct": "Das Verb „bitten“ verlangt die Präposition „um“ (jemanden um etwas bitten); wird das „um“-Objekt durch einen folgenden „dass/zu“-Satz vorweggenommen, steht das Pronominaladverb „darum“. „Deswegen“ ist ein kausaler Konnektor (deshalb) und kein Pronominaladverb zu „bitten um“. „Dafür“ gehört zur Präposition „für“, die hier nicht zum Verb „bitten“ passt.",
+        "explanation_wrong": "Das Verb „bitten“ verlangt die Präposition „um“ (jemanden um etwas bitten); wird das „um“-Objekt durch einen folgenden „dass/zu“-Satz vorweggenommen, steht das Pronominaladverb „darum“. „Deswegen“ ist ein kausaler Konnektor (deshalb) und kein Pronominaladverb zu „bitten um“. „Dafür“ gehört zur Präposition „für“, die hier nicht zum Verb „bitten“ passt.",
+        "grammar_structure": "Pronominaladverb: darum (bitten um + dass-Satz)",
+        "grammar_example": "Ich möchte dich darum bitten, pünktlich zu kommen.",
+        "grammar_translation": "أود أن أطلب منك أن تأتي في الموعد المحدد."
+      },
+      "28": {
+        "evidence_text": "nur Themen zu wählen, die unsere Vereinsmitglieder betreffen und sie auch wirklich ansprechen.",
+        "keyword": "ansprechen",
+        "explanation_correct": "„Jemanden ansprechen“ bedeutet hier im übertragenen Sinn „jemandes Interesse wecken/bei jemandem Anklang finden“. „Besprechen“ bedeutet „über etwas reden/etwas diskutieren“ und verlangt als Objekt ein Thema, nicht Personen, die interessiert werden sollen. „Aussprechen“ bedeutet „artikulieren/äußern“ und passt inhaltlich nicht.",
+        "explanation_wrong": "„Jemanden ansprechen“ bedeutet hier im übertragenen Sinn „jemandes Interesse wecken/bei jemandem Anklang finden“. „Besprechen“ bedeutet „über etwas reden/etwas diskutieren“ und verlangt als Objekt ein Thema, nicht Personen, die interessiert werden sollen. „Aussprechen“ bedeutet „artikulieren/äußern“ und passt inhaltlich nicht.",
+        "grammar_structure": "Verb (übertragene Bedeutung): jemanden ansprechen (Interesse wecken)",
+        "grammar_example": "Dieses Thema spricht besonders junge Leser an.",
+        "grammar_translation": "هذا الموضوع يثير اهتمام القراء الشباب بشكل خاص."
+      },
+      "29": {
+        "evidence_text": "Das heißt nicht, dass man große Themen wie Politik oder Gesellschaft nicht behandeln kann, aber sie sollten leserfreundlich verpackt sein.",
+        "keyword": "dass",
+        "explanation_correct": "„Dass“ leitet einen Inhaltssatz (Objektsatz) ein, der eine Tatsache/Aussage ausdrückt – hier, was „das“ nicht bedeutet. „Ob“ leitet indirekte Fragesätze ein (Ungewissheit/Alternative), was hier nicht zutrifft, da keine Frage gestellt wird. „Damit“ leitet einen Finalsatz (Zweck) ein und passt inhaltlich nicht zur Aussage.",
+        "explanation_wrong": "„Dass“ leitet einen Inhaltssatz (Objektsatz) ein, der eine Tatsache/Aussage ausdrückt – hier, was „das“ nicht bedeutet. „Ob“ leitet indirekte Fragesätze ein (Ungewissheit/Alternative), was hier nicht zutrifft, da keine Frage gestellt wird. „Damit“ leitet einen Finalsatz (Zweck) ein und passt inhaltlich nicht zur Aussage.",
+        "grammar_structure": "Subordinierende Konjunktion: dass (Inhaltssatz nach ‚das heißt')",
+        "grammar_example": "Das bedeutet nicht, dass die Regel für alle gilt.",
+        "grammar_translation": "هذا لا يعني أن القاعدة تنطبق على الجميع."
+      },
+      "30": {
+        "evidence_text": "Wir verstehen uns ausdrücklich als unabhängige Zeitung und möchten uns keinen Maulkorb umhängen lassen.",
+        "keyword": "als",
+        "explanation_correct": "„Sich verstehen als“ ist eine feste Verbindung, die bedeutet „sich selbst in einer bestimmten Rolle sehen“; „als“ leitet hier eine Gleichsetzung ein. „Sowie“ bedeutet „sowie auch/und“ und dient der Aufzählung, nicht der Gleichsetzung. „Als ob“ leitet einen Satz mit eigenem Verb ein (irrealer Vergleich) und kann grammatisch keine bloße Nominalphrase anschließen.",
+        "explanation_wrong": "„Sich verstehen als“ ist eine feste Verbindung, die bedeutet „sich selbst in einer bestimmten Rolle sehen“; „als“ leitet hier eine Gleichsetzung ein. „Sowie“ bedeutet „sowie auch/und“ und dient der Aufzählung, nicht der Gleichsetzung. „Als ob“ leitet einen Satz mit eigenem Verb ein (irrealer Vergleich) und kann grammatisch keine bloße Nominalphrase anschließen.",
+        "grammar_structure": "Feste Wendung: sich verstehen als + Nomen (Gleichsetzung)",
+        "grammar_example": "Die Organisation versteht sich als Vermittlerin zwischen den Parteien.",
+        "grammar_translation": "تعتبر المنظمة نفسها وسيطًا بين الأطراف."
+      }
+    }
+  }
+}

@@ -1,0 +1,772 @@
+[
+  {
+    "id": "68455263-9383-484a-bb43-11e82b57fcfb",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "an",
+        "option_b": "für",
+        "option_c": "über",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "daher",
+        "option_b": "gar",
+        "option_c": "sicher",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "besonders",
+        "option_b": "einfach",
+        "option_c": "kaum",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "allerdings",
+        "option_b": "außerdem",
+        "option_c": "schließlich",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "steht",
+        "option_b": "abgerückt",
+        "option_c": "entfernt",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "ändern",
+        "option_b": "verwechseln",
+        "option_c": "wechseln",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "gesagt",
+        "option_b": "sagend",
+        "option_c": "zu sagen",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "kommende",
+        "option_b": "kommendem",
+        "option_c": "kommenden",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "als",
+        "option_b": "je",
+        "option_c": "weil",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "ist",
+        "option_b": "war",
+        "option_c": "wäre",
+        "gap_number": 30
+      }
+    ],
+    "title": "Justus oder Juhannas ( Original )",
+    "passage": "Lieber Justus, oder Juhannas\n\nvielen Dank für deine Urlaubskarte, {{21}} die ich mich wirklich sehr gefreut habe! Ich wusste {{22}} nicht, dass ihr gerne wandern geht. Oder habt ihr das jetzt zum ersten Mal gemacht? Als Kind war ich mit meinen Eltern mal wandern, aber mir hat das damals nicht {{23}} gefallen. Ich war auch noch klein und hatte keine Lust, so lange zu laufen. Heute fahre ich lieber an den Strand und mache einen schönen Badeurlaub. Den ganzen Tag lesen, in der Sonne liegen, ab und zu mal ins Wasser gehen - {{24}} habe ich schon im Alltag genug Stress. Dabei fällt mir ein: Wie ist eigentlich deine neue Stelle? Du arbeitest doch jetzt in dieser internationalen Baufirma, oder? Bist du jetzt schneller im Büro als früher oder ist die Firma sogar noch weiter {{25}} als deine alte? Du musstest ja immer ziemlich lange fahren, daran erinnere ich mich noch gut! Ich denke im Moment auch darüber nach, die Stelle zu {{26}}. Mein Chef und meine Kollegen sind zwar total nett und die Bezahlung ist auch gut, aber ich mache fast jeden Tag das Gleiche - und das jetzt schon seit über zehn Jahren. Ehrlich {{27}} langweile ich mich in den letzten Monaten immer häufiger und würde gerne noch mal etwas Neues ausprobieren. Deshalb mache ich ab dem {{28}} Monat erst mal eine Weiterbildung, sonst hätte ich wohl nicht so gute Chancen, eine neue Stelle zu bekommen. Schließlich wird es auch immer schwieriger, {{29}} älter man ist. Die meisten Arbeitgeber wollen doch lieber jüngere Angestellte. Wie {{30}} es, wenn wir uns demnächst treffen würden? Wir könnten in diesem neuen Restaurant in der Innenstadt essen gehen. Melde dich doch einfach mal wieder!\n\nViele Grüße\nRichard"
+  },
+  {
+    "id": "96e9c779-406b-4914-b581-7a726426e739",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "an",
+        "option_b": "für",
+        "option_c": "über",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "daher",
+        "option_b": "ersten",
+        "option_c": "sicher",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "besonders",
+        "option_b": "einfach",
+        "option_c": "kaum",
+        "gap_number": 23
+      },
+      {
+        "correct": "c",
+        "option_a": "allerdings",
+        "option_b": "außerdem",
+        "option_c": "schließlich",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "steht",
+        "option_b": "abgerückt",
+        "option_c": "entfernt",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "ändern",
+        "option_b": "verwechseln",
+        "option_c": "wechseln",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "gesagt",
+        "option_b": "sagend",
+        "option_c": "zu sagen",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "kommende",
+        "option_b": "kommendem",
+        "option_c": "kommenden",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "als",
+        "option_b": "je",
+        "option_c": "weil",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "ist",
+        "option_b": "war",
+        "option_c": "wäre",
+        "gap_number": 30
+      }
+    ],
+    "title": "Justus oder Juhannas (معدل)",
+    "passage": "Lieber Justus oder Juhannas,\n\nvielen Dank für deine Urlaubskarte, {{21}} die ich mich wirklich sehr gefreut habe! Ich wusste gar nicht, dass ihr gerne wandern geht. Oder habt ihr das jetzt zum {{22}} Mal gemacht?\n\nAls Kind war ich mit meinen Eltern mal wandern, aber mir hat das damals nicht {{23}} gefallen. Ich war auch noch klein und hatte keine Lust, so lange zu laufen.\n\nHeute fahre ich lieber an den Strand und mache einen schönen Badeurlaub. Den ganzen Tag lesen, in der Sonne liegen, ab und zu mal ins Wasser gehen – {{24}} habe ich schon im Alltag genug Stress.\n\nDabei fällt mir ein: Wie ist eigentlich deine neue Stelle? Du arbeitest doch jetzt in dieser internationalen Baufirma, oder? Bist du jetzt schneller im Büro als früher oder ist die Firma sogar noch weiter {{25}} als deine alte? Du musstest ja immer ziemlich lange fahren, daran erinnere ich mich noch gut!\n\nIch denke im Moment auch darüber nach, die Stelle zu {{26}}. Mein Chef und meine Kollegen sind zwar total nett und die Bezahlung ist auch gut, aber ich mache fast jeden Tag das Gleiche - und das jetzt schon seit über zehn Jahren. Ehrlich {{27}} langweile ich mich in den letzten Monaten immer häufiger und würde gerne noch mal etwas Neues ausprobieren. Deshalb mache ich ab dem {{28}} Monat erst mal eine Weiterbildung, sonst hätte ich wohl nicht so gute Chancen, eine neue Stelle zu bekommen. Schließlich wird es auch immer schwieriger, {{29}} älter man ist. Die meisten Arbeitgeber wollen doch lieber jüngere Angestellte.\n\nWie {{30}} es, wenn wir uns demnächst treffen würden? Wir könnten in diesem neuen Restaurant in der Innenstadt essen gehen. Melde dich doch einfach mal wieder!\n\nViele Grüße\nRichard"
+  },
+  {
+    "id": "b4ba366c-8317-4e21-b632-bf71e1194274",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "darauf",
+        "option_b": "dafür",
+        "option_c": "dazu",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "statt",
+        "option_b": "wegen",
+        "option_c": "während",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "verschieben",
+        "option_b": "verschiebten",
+        "option_c": "verschoben",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "nicht mehr",
+        "option_b": "sogar nicht",
+        "option_c": "noch nicht",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "geschicken",
+        "option_b": "eingewiesen",
+        "option_c": "nachgewiesen",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "Übergewicht",
+        "option_b": "Gleichgewicht",
+        "option_c": "Gleichgültigkeit",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "zur",
+        "option_b": "auf",
+        "option_c": "für",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "über",
+        "option_b": "vor",
+        "option_c": "hinter",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "vor allem",
+        "option_b": "unter anderem",
+        "option_c": "auf alle Fälle",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "eigentlich",
+        "option_b": "überhaupt",
+        "option_c": "gar nicht",
+        "gap_number": 30
+      }
+    ],
+    "title": "Jutta",
+    "passage": "Liebe Jutta,\n\nschon so lange habe ich dir nicht geschrieben, ich hatte aber {{21}} einen triftigen Grund. Ich habe das Schreiben {{22}} meiner Krankheit vernachlässigt. Ich hatte fürchterliche Rücken- und Kreuzschmerzen, ich habe aber die richtige Untersuchung immer wieder {{23}}. Ich habe immer nur einige Medikamente eingenommen, die für kurze Zeit zwar geholfen haben, aber die Schmerzen kamen immer zurück. Schließlich konnte ich {{24}} richtig schlafen und mich so natürlich auch bei der Arbeit nicht konzentrieren. Mein Arzt hat mich ins Krankenhaus zu einigen Untersuchungen {{25}}. Die sind anstrengend gewesen und haben ziemlich lange gedauert. Die Lage ist aber nicht so schlimm. Da ich zu viel bei der Arbeit sitze und dazu noch ein paar Kilo {{26}} habe, ist meine Wirbelsäule belastet. Zum Glück muss ich aber nicht operiert werden. Ich gehe jetzt einige Monate lang {{27}} Behandlung. Einige Behandlungen sind schon {{28}} mir und sie scheinen wirksam zu sein. Ich hoffe, dass sich mein Zustand auch weiterhin verbessern wird. Dann werde ich bald wieder gesund. Früher war ich bei einem Naturheilpraktiker, der {{29}} auch geraten hat, mich mehr zu bewegen. Ich glaube, es ist höchste Zeit, damit anzufangen. So könnte ich wenigstens auch etwas abnehmen, was mir {{30}} schaden würde. So weit für heute, schreib mir bald.\n\nHerzliche Grüße\ndeine Anna"
+  },
+  {
+    "id": "2986b502-1e12-4793-808a-117389892247",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "was",
+        "option_c": "welches",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "denn",
+        "option_b": "doch",
+        "option_c": "mal",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "dazu",
+        "option_b": "noch",
+        "option_c": "sogar",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "abnehmen",
+        "option_b": "annehmen",
+        "option_c": "nehmen",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "für",
+        "option_b": "über",
+        "option_c": "um",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "bevor",
+        "option_b": "bis",
+        "option_c": "sobald",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "wenn",
+        "option_b": "auch wenn",
+        "option_c": "wenn auch",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "für",
+        "option_c": "über",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "demnächst",
+        "option_b": "neulich",
+        "option_c": "noch nicht",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "müssen",
+        "option_b": "sollen",
+        "option_c": "wollen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Karin ( Original )",
+    "passage": "Liebe Karin,\n\nvielen Dank für deine letzte E-Mail! Ich habe mich wirklich sehr gefreut zu lesen, dass es dir in München so gut gefällt. Endlich kannst du auch das studieren, {{21}} du möchtest - das ist doch super! Wie ist es {{22}} so an der Uni dort? Hast du schon neue Leute kennengelernt? Und wie sieht deine Woche aus? Hast du viele Veranstaltungen? Musst du zuhause auch {{23}} viel lernen? Jobbst du eigentlich noch nebenbei?\n\nDu siehst, ich habe jede Menge Fragen an dich!\n\nDeshalb würde ich deine Einladung wirklich gerne {{24}} und dich demnächst in München besuchen kommen. Im Moment habe ich noch nicht so viel Zeit, weil ich mich viel {{25}} Jonas kümmern muss - er ist ja erst sechs Monate alt - und Thomas leider keinen Urlaub nehmen kann. Aber {{26}} er frei hat, komme ich mal für ein, zwei Tage zu dir. Ich bin ja so gespannt, wie du wohnst! In einer Wohngemeinschaft zu leben, ist bestimmt toll, {{27}} es mal Streit gibt. Aber du hast ja geschrieben, dass deine beiden Mitbewohnerinnen sehr nett sind und ihr euch alle gut versteht. Das freut mich wirklich {{28}} dich!\n\nBei mir gibt es gar nicht viel Neues. Wir hatten {{29}} mal überlegt, in eine größere Wohnung zu ziehen, aber die Mieten sind ja hier in Köln recht hoch und wir {{30}} uns nicht viel zumuten - also bleiben wir lieber erst mal in dieser Wohnung. Umziehen kann man ja auch später noch.\n\nAlso, meld' dich doch mal wieder!\n\nLiebe Grüße,\nHeike"
+  },
+  {
+    "id": "d31dcea7-19f0-40a4-98b8-125526b1b7be",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "was",
+        "option_c": "welches",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "denn",
+        "option_b": "doch",
+        "option_c": "mal",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "dazu",
+        "option_b": "noch",
+        "option_c": "sogar",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "dazu",
+        "option_b": "nebenbei",
+        "option_c": "sogar",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "abnehmen",
+        "option_b": "annehmen",
+        "option_c": "nehmen",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "bevor",
+        "option_b": "bis",
+        "option_c": "sobald",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "wenn",
+        "option_b": "auch wenn",
+        "option_c": "wenn auch",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "dich",
+        "option_b": "euch",
+        "option_c": "uns",
+        "gap_number": 28
+      },
+      {
+        "correct": "c",
+        "option_a": "müssen",
+        "option_b": "sollen",
+        "option_c": "wollen",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "nicht",
+        "option_b": "viel",
+        "option_c": "wenig",
+        "gap_number": 30
+      }
+    ],
+    "title": "Karin (معدل)",
+    "passage": "Liebe Karin,\n\nvielen Dank für deine letzte E-Mail! Ich habe mich wirklich sehr gefreut zu lesen, dass es dir in München so gut gefällt. Endlich kannst du auch das studieren, {{21}} du möchtest - das ist doch super! Wie ist es {{22}} so an der Uni dort? Hast du schon neue Leute kennengelernt? Und wie sieht deine Woche aus? Hast du viele Veranstaltungen? Musst du zuhause auch {{23}} viel lernen? Jobbst du eigentlich noch {{24}}?\n\nDu siehst, ich habe jede Menge Fragen an dich!\n\nDeshalb würde ich deine Einladung wirklich gerne {{25}} und dich demnächst in München besuchen kommen. Im Moment habe ich noch nicht so viel Zeit, weil ich mich viel um Jonas kümmern muss - er ist ja erst sechs Monate alt - und Thomas leider keinen Urlaub nehmen kann. Aber {{26}} er frei hat, komme ich mal für ein, zwei Tage zu dir. Ich bin ja so gespannt, wie du wohnst! In einer Wohngemeinschaft zu leben, ist bestimmt toll, {{27}} es mal Streit gibt. Aber du hast ja geschrieben, dass deine beiden Mitbewohnerinnen sehr nett sind und ihr euch alle gut versteht. Das freut mich wirklich für {{28}}!\n\nBei mir gibt es gar nicht viel Neues. Wir hatten neulich mal überlegt, in eine größere Wohnung zu ziehen, aber die Mieten sind ja hier in Köln recht hoch und wir {{29}} uns nicht {{30}} zumuten - also bleiben wir lieber erst mal in dieser Wohnung. Umziehen kann man ja auch später noch.\n\nAlso, meld' dich doch mal wieder!\n\nLiebe Grüße,\nHeike"
+  },
+  {
+    "id": "a626b2a8-ed0d-4e17-af74-bb34cc4ddf70",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "das",
+        "option_b": "was",
+        "option_c": "welches",
+        "gap_number": 21
+      },
+      {
+        "correct": "a",
+        "option_a": "denn",
+        "option_b": "doch",
+        "option_c": "mal",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "dazu",
+        "option_b": "noch",
+        "option_c": "sogar",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "neben",
+        "option_b": "nebenbei",
+        "option_c": "eben",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "abnehmen",
+        "option_b": "nehmen",
+        "option_c": "annehmen",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "bevor",
+        "option_b": "bis",
+        "option_c": "sobald",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "Wenn",
+        "option_b": "auch wenn",
+        "option_c": "wenn auch",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "euch",
+        "option_b": "Ihr",
+        "option_c": "Sich",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "demnächst",
+        "option_b": "neulich",
+        "option_c": "noch nicht",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "müssen",
+        "option_b": "sollen",
+        "option_c": "wollen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Karin (معدل)",
+    "passage": "Liebe Karin,\n\nvielen Dank für deine letzte E-Mail! Ich habe mich wirklich sehr gefreut zu lesen, dass es dir in München so gut gefällt. Endlich kannst du auch das studieren, {{21}} du möchtest - das ist doch super! Wie ist es {{22}} so an der Uni dort? Hast du schon neue Leute kennengelernt? Und wie sieht deine Woche aus? Hast du viele Veranstaltungen? Musst du zuhause auch {{23}} viel lernen? Jobbst du eigentlich noch {{24}}?\n\nDu siehst, ich habe jede Menge Fragen an dich!\n\nDeshalb würde ich deine Einladung wirklich gerne {{25}} und dich demnächst in München besuchen kommen. Im Moment habe ich noch nicht so viel Zeit, weil ich mich viel um Jonas kümmern muss - er ist ja erst sechs Monate alt - und Thomas leider keinen Urlaub nehmen kann. Aber {{26}} er frei hat, komme ich mal für ein, zwei Tage zu dir. Ich bin ja so gespannt, wie du wohnst! In einer Wohngemeinschaft zu leben, ist bestimmt toll, {{27}} es mal Streit gibt. Aber du hast ja geschrieben, dass deine beiden Mitbewohnerinnen sehr nett sind und {{28}} euch alle gut versteht. Das freut mich wirklich für dich!\n\nBei mir gibt es gar nicht viel Neues. Wir hatten {{29}} mal überlegt, in eine größere Wohnung zu ziehen, aber die Mieten sind ja hier in Köln recht hoch und wir {{30}} uns nicht viel zumuten - also bleiben wir lieber erst mal in dieser Wohnung. Umziehen kann man ja auch später noch.\n\nAlso, meld' dich doch mal wieder!\n\nLiebe Grüße,\nHeike"
+  },
+  {
+    "id": "138858b4-3836-4abc-99dc-6b1f224c654b",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "dafür",
+        "option_b": "daran",
+        "option_c": "dazu",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "Als",
+        "option_b": "Ob",
+        "option_c": "Wenn",
+        "gap_number": 22
+      },
+      {
+        "correct": "b",
+        "option_a": "an das",
+        "option_b": "beim",
+        "option_c": "zur",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "einige",
+        "option_b": "etwas",
+        "option_c": "keine",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "alsbald",
+        "option_b": "beizeiten",
+        "option_c": "spätestens",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "entlang",
+        "option_b": "von",
+        "option_c": "zwischen",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "euch",
+        "option_b": "ihn",
+        "option_c": "sich",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "übergeben",
+        "option_b": "übernehmen",
+        "option_c": "überprüfen",
+        "gap_number": 28
+      },
+      {
+        "correct": "a",
+        "option_a": "am",
+        "option_b": "beim",
+        "option_c": "zum",
+        "gap_number": 29
+      },
+      {
+        "correct": "b",
+        "option_a": "an",
+        "option_b": "auf",
+        "option_c": "mit",
+        "gap_number": 30
+      }
+    ],
+    "title": "Kolleginnen und Kollegen ( Neu )",
+    "passage": "Liebe Kolleginnen und Kollegen!\n\nVom 1. April bis zum 30. Oktober findet auch heuer wieder unsere beliebte Aktion „Mit dem Rad zur Arbeit“ statt. Wie jedes Jahr möchten wir Euch gerne {{21}} einladen, etwas für Eure Gesundheit zu tun.\nWie Ihr wisst, steigert schon eine halbe Stunde tägliches Fahrradfahren die Fitness. Damit wird auch das Krankheitsrisiko reduziert. Darum heißt es: Aufs Rad steigen und mitmachen! {{22}} Ihr den Arbeitsweg mit Bewegung verbindet, nützt das nicht nur Eurer Gesundheit. Ihr helft damit auch, den Verkehr und die Luftverschmutzung in unserem Stadtgebiet zu verringern. Als angenehme Nebenerscheinung hilft das Radfahren auch noch {{23}} Sparen.\nDieses Jahr gibt es zusätzlich noch die Möglichkeit, {{24}} zu gewinnen. Wir stellen Preise im Gesamtwert von 2500 Euro zur Verfügung. Was Ihr dafür tun sollt? Ganz einfach: Teams zu dritt bilden, gefahrene Kilometer in einen Pass eintragen und bis {{25}} 5. November im Sekretariat abgeben. Die drei Teams, die {{26}} Arbeit und Wohnung die meisten Kilometer zurückgelegt haben, bekommen am Ende einen Preis. Wer noch kein Team hat, kann {{27}} bei Frau Maier (Durchwahl 1245) melden. Wir bringen Euch gerne zusammen!\nIhr dürft uns auch Fotos und Berichte von Eurem Team schicken; diese veröffentlichen wir dann in der Betriebszeitung. Natürlich könnt Ihr auch heuer wieder Euer Rad kostenlos von unserem technischen Dienst {{28}} lassen. Eure Sicherheit liegt uns ganz besonders {{29}} Herzen!\nWir hoffen {{30}} eine rege Teilnahme und wünschen Euch jetzt schon alles Gute und viel Vergnügen beim Radeln!"
+  },
+  {
+    "id": "97593e7d-389c-4c4a-8b88-ac2f6c25205d",
+    "gaps": [
+      {
+        "correct": "c",
+        "option_a": "dein",
+        "option_b": "deine",
+        "option_c": "deinen",
+        "gap_number": 21
+      },
+      {
+        "correct": "c",
+        "option_a": "denn",
+        "option_b": "obwohl",
+        "option_c": "weil",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "noch",
+        "option_b": "schon",
+        "option_c": "weiterhin",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "Für",
+        "option_b": "Vor",
+        "option_c": "Zu",
+        "gap_number": 24
+      },
+      {
+        "correct": "b",
+        "option_a": "neue",
+        "option_b": "neuen",
+        "option_c": "neuer",
+        "gap_number": 25
+      },
+      {
+        "correct": "b",
+        "option_a": "bloß",
+        "option_b": "ja",
+        "option_c": "mal",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "Damit",
+        "option_b": "Darauf",
+        "option_c": "Darüber",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "ist",
+        "option_b": "wäre",
+        "option_c": "würde",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "aufgrund",
+        "option_b": "trotz",
+        "option_c": "wegen",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "können",
+        "option_b": "könnten",
+        "option_c": "konnten",
+        "gap_number": 30
+      }
+    ],
+    "title": "Lara",
+    "passage": "Liebe Lara,\n\nbitte verzeih mir, dass ich erst jetzt auf {{21}} Brief antworte. Ich hatte in den letzten Wochen praktisch keine freie Minute und kam einfach nicht dazu, dir zu schreiben. Jetzt aber tue ich es, {{22}} du wirklich tolle Neuigkeiten mitzuteilen hast.\nSchon immer hast du von großen Abenteuern und Reisen in die Ferne geträumt. Ich weiß {{23}} gut, wie wir uns als Gymnasiasten fremde Länder ausgemalt haben. Nun verschlägt es dich und deine Familie also nach Dubai - und du sagst unserem Land für einige Zeit Adieu. Ich weiß, dass mit dieser Versetzung für dich ein Traum in Erfüllung geht. {{24}} deinen Neubeginn wünschen Peter und ich dir alles Gute. Wir freuen uns auch sehr, dass ihr alle gesund und munter seid und hoffen, dass das so bleibt. Bei uns geht mehr oder weniger alles seinen gewohnten Gang. Robert gefällt es gut auf seiner {{25}} Stelle. Er muss sich einfach noch einarbeiten. Lorenz ist jetzt 15. Du weißt {{26}}, was das heißt. Er hält sich für den Größten und macht uns viele Schwierigkeiten. Aber irgendwann geht auch das vorüber. Sandra ist jetzt auch schon in der dritten Klasse und bringt gute Noten nach Hause. {{27}} sind wir natürlich stolz. Es {{28}} schön, wenn wir uns vor deiner Abreise noch einmal treffen würden. Vielleicht findet ihr {{29}} der Umzugsvorbereitungen noch Zeit. Wie wäre es mit einem gemeinsamen Sonntagsbrunch in unserem Garten? Bitte melde dich doch, damit wir etwas abmachen {{30}}\n\nLiebe Grüße\ndeine\nVanessa"
+  },
+  {
+    "id": "56307fa3-5d13-466e-bdfe-dcce91ea81ad",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "dem",
+        "option_b": "denen",
+        "option_c": "deren",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "man",
+        "option_b": "es",
+        "option_c": "-",
+        "gap_number": 22
+      },
+      {
+        "correct": "c",
+        "option_a": "darauf",
+        "option_b": "dazu",
+        "option_c": "daran",
+        "gap_number": 23
+      },
+      {
+        "correct": "a",
+        "option_a": "einen",
+        "option_b": "ein",
+        "option_c": "einer",
+        "gap_number": 24
+      },
+      {
+        "correct": "a",
+        "option_a": "müsse",
+        "option_b": "musste",
+        "option_c": "brauche",
+        "gap_number": 25
+      },
+      {
+        "correct": "c",
+        "option_a": "der Nähe",
+        "option_b": "die Nähe",
+        "option_c": "der Nähe von",
+        "gap_number": 26
+      },
+      {
+        "correct": "a",
+        "option_a": "den großen",
+        "option_b": "großem",
+        "option_c": "dem großen",
+        "gap_number": 27
+      },
+      {
+        "correct": "b",
+        "option_a": "den Schiffen",
+        "option_b": "die Schiffe",
+        "option_c": "die Schiffen",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "eins",
+        "option_b": "einem",
+        "option_c": "ein",
+        "gap_number": 29
+      },
+      {
+        "correct": "c",
+        "option_a": "wiederzusehen brauchen",
+        "option_b": "müssen wiedersehen",
+        "option_c": "wiedersehen müssen",
+        "gap_number": 30
+      }
+    ],
+    "title": "Laura",
+    "passage": "Liebe Laura,\n\nseit drei Wochen bin ich jetzt schon in Deutschland. Mein Praktikum bei der Firma Intermarketing macht mir großen Spaß und ich habe schon viele Dinge gelernt, von {{21}} man an der Berufsschule bestenfalls am Rande hört. Mein Chef ist sehr geduldig mit mir. Besonders in den ersten beiden Wochen war {{22}} mühevoll, an einem fremden Computer zu sitzen und mit all den neuen unbekannten Programmen zu arbeiten. Aber nun habe ich mich {{23}} gewöhnt und muss meinen Chef kaum noch um Rat fragen.\nAn das Wetter hier in Wilhelmshaven muss ich mich aber noch gewöhnen. Denn obwohl wir Sommer haben, bläst hier immer ein ordentlicher Wind – eine steife Brise, wie man hier sagt – von der Nordsee her. Man muss ständig {{24}} Pullover dabeihaben, sonst kann man hier auch im August eine Gänsehaut bekommen. Mein Chef sagt dann immer, gegen die steife Brise {{25}} man einen Grog trinken, das ist heißer Tee mit Rum, aber das mag ich nicht.\nIn der Firma habe ich Marion kennengelernt. Sie ist wie ich Praktikantin, aber sie ist Deutsche und kommt aus {{26}} Wilhelmshaven. Sie hat mir schon ein bisschen von der Gegend gezeigt und mir die Sehenswürdigkeiten der Stadt vorgestellt. Besonders der Hafen mit {{27}} Containerschiffen und den vielen Seemöwen, die unablässig um {{28}} herumkreisen, hat es mir angetan. Nach der Arbeit verbringen wir hier oft ein oder zwei Stunden in {{29}} der Cafés – oder Teehäuser, denn die Leute hier trinken viel mehr Tee als Kaffee.\nManchmal bekomme ich aber schon Heimweh. Dann denke ich auch an dich und daran, dass wir uns bald {{30}}. Es gibt so viel zu erzählen. Melde dich. Warte nicht so lange wie ich, bis du mir schreibst.\n\nHerzliche Grüße\nAlexandra"
+  },
+  {
+    "id": "3468ff05-d28d-41fe-85e0-7275df0ebe67",
+    "gaps": [
+      {
+        "correct": "b",
+        "option_a": "ab",
+        "option_b": "aus",
+        "option_c": "von",
+        "gap_number": 21
+      },
+      {
+        "correct": "b",
+        "option_a": "wann",
+        "option_b": "was",
+        "option_c": "wie",
+        "gap_number": 22
+      },
+      {
+        "correct": "a",
+        "option_a": "da",
+        "option_b": "indem",
+        "option_c": "obwohl",
+        "gap_number": 23
+      },
+      {
+        "correct": "b",
+        "option_a": "ist",
+        "option_b": "wird",
+        "option_c": "würde",
+        "gap_number": 24
+      },
+      {
+        "correct": "c",
+        "option_a": "bin",
+        "option_b": "war",
+        "option_c": "wäre",
+        "gap_number": 25
+      },
+      {
+        "correct": "a",
+        "option_a": "konnte",
+        "option_b": "musste",
+        "option_c": "sollte",
+        "gap_number": 26
+      },
+      {
+        "correct": "b",
+        "option_a": "aber",
+        "option_b": "denn",
+        "option_c": "sondern",
+        "gap_number": 27
+      },
+      {
+        "correct": "c",
+        "option_a": "Beide",
+        "option_b": "Beiden",
+        "option_c": "Beides",
+        "gap_number": 28
+      },
+      {
+        "correct": "b",
+        "option_a": "erst",
+        "option_b": "noch",
+        "option_c": "schon",
+        "gap_number": 29
+      },
+      {
+        "correct": "a",
+        "option_a": "auf",
+        "option_b": "für",
+        "option_c": "über",
+        "gap_number": 30
+      }
+    ],
+    "title": "Leon",
+    "passage": "Betreff: Grüße {{21}} Berlin\n\nHallo Leon,\n\nvielen Dank für deine letzte Mail aus Peking! Du arbeitest ja jetzt schon seit einem halben Jahr in China – unglaublich, wie schnell die Zeit vergeht.\n\nLeider hatte ich in den letzten drei Wochen keine Zeit, dir zu antworten, weil ich viel zu tun hatte. Aber jetzt berichte ich dir, {{22}} alles los war.\n\nAlso, im Büro haben wir derzeit viel Stress, {{23}} drei Kollegen im Urlaub sind und eine weitere Kollegin seit zwei Wochen krank ist. Jetzt müssen wir mit fünf Leuten die Arbeit erledigen, die sonst neun Leute machen. Ich weiß wirklich nicht, wer diese Urlaubsplanung gemacht hat. Hoffentlich {{24}} das in Zukunft besser organisiert.\n\nAbends waren Carmen und ich dann ein paarmal aus. Wir waren zum Beispiel bei einem Konzert von \"Belasco\". Kennst du die Band? Eigentlich war ich an dem Abend ganz schön kaputt und {{25}} am liebsten zuhause geblieben, aber ich hatte Carmen die Karten zum Geburtstag geschenkt. Da {{26}} ich ja schlecht auf dem Sofa sitzen bleiben! Im Nachhinein muss ich sagen: Ein Glück, dass wir zu dem Konzert gegangen sind, {{27}} es war einfach nur super!\n\nAn den letzten beiden Wochenenden hatten wir dann auch noch Familienfeiern: Erst hatte meine ältere Schwester Geburtstag und hat groß gefeiert, dann hat ein Cousin geheiratet und uns eingeladen, {{28}} war zwar schön, aber auch anstrengend. Ich bin froh, dass wir für die kommenden Wochenenden {{29}} keine Pläne haben.\n\nDas war's erst mal von mir. Melde dich doch wieder, ich freue mich {{30}} deine nächste E-Mail!\n\nViele Grüße sendet dir\nFabian"
+  }
+]

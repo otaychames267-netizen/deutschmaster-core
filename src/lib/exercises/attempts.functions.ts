@@ -13,12 +13,16 @@ export const submitAttempt = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: SubmitInput) => d)
   .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { assertNotRateLimited } = await import("@/lib/rate-limit.server");
+    await assertNotRateLimited(supabaseAdmin, { key: `submitAttempt:${context.userId}`, windowSeconds: 60, maxRequests: 30 });
+
     const { data: ex, error } = await context.supabase
       .from("exercises")
       .select("id,kind,correct,options,explanation,status")
       .eq("id", data.exerciseId)
       .maybeSingle();
-    if (error || !ex) throw new Error(error?.message ?? "Exercise not found");
+    if (error || !ex) { if (error) console.error("[submitAttempt] fetch exercise", error); throw new Error("Exercise not found"); }
     if (ex.status !== "published") throw new Error("Exercise is not available");
 
     const result = gradeAnswer(
@@ -39,7 +43,7 @@ export const submitAttempt = createServerFn({ method: "POST" })
       exam_session_id: data.examSessionId ?? null,
       completed_at: new Date().toISOString(),
     });
-    if (insErr) throw new Error(insErr.message);
+    if (insErr) { console.error("[submitAttempt] insert attempt", insErr); throw new Error("Could not save your attempt. Please try again."); }
 
     // For passage_mcq, expose the per-question correct map so the client can
     // mark every embedded item green/red on the review screen.
