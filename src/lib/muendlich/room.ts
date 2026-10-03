@@ -58,19 +58,28 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
   // client-side rather than pushing the state exclusion into the query (max
   // a couple of rows, and avoids relying on PostgREST's embedded-filter
   // syntax for a check that only needs to be approximately fast, not exact).
-  // Mirrors the trigger's own 15-minute staleness carve-out (see the
-  // 2026-09-30 migration) so this friendly pre-check never blocks a join the
-  // real DB-level insert would actually allow.
+  // Mirrors the trigger's own staleness carve-out (see the 2026-09-30
+  // migrations) so this friendly pre-check never blocks a join the real
+  // DB-level insert would actually allow. 'preparation' uses the room's own
+  // prep_started_at+prep_seconds instead of a flat updated_at threshold —
+  // two real candidates can legitimately sit in a 15-minute prep window
+  // without the room row changing again, so a flat threshold would
+  // incorrectly flag a genuinely-in-progress session as stale.
   const { data: otherRows } = await db
     .from("muendlich_participants")
-    .select("room_id, muendlich_rooms!inner(state, updated_at)")
+    .select("room_id, muendlich_rooms!inner(state, updated_at, prep_started_at, prep_seconds)")
     .eq("user_id", userId)
     .neq("room_id", room!.id);
-  const PRE_EXAM_STATES = ["waiting_for_partner", "both_connected", "ready_check"];
   const activeElsewhere = (otherRows ?? []).some((r: any) => {
-    const s = r.muendlich_rooms?.state;
+    const room = r.muendlich_rooms;
+    const s = room?.state;
     if (["finished", "abandoned"].includes(s)) return false;
-    if (PRE_EXAM_STATES.includes(s) && Date.now() - new Date(r.muendlich_rooms.updated_at).getTime() > 15 * 60_000) return false;
+    if (["waiting_for_partner", "both_connected", "ready_check"].includes(s) && Date.now() - new Date(room.updated_at).getTime() > 15 * 60_000) return false;
+    if (s === "preparation" && room.prep_started_at) {
+      const prepEndsAt = new Date(room.prep_started_at).getTime() + room.prep_seconds * 1000;
+      if (Date.now() - prepEndsAt > 5 * 60_000) return false;
+    }
+    if (["preparation_locked", "exam_room_ready"].includes(s) && Date.now() - new Date(room.updated_at).getTime() > 10 * 60_000) return false;
     return true;
   });
   if (activeElsewhere) {
@@ -164,12 +173,21 @@ export async function markDisconnected(roomId: string) {
  * connected:false, never the room's own state — so the trigger permanently
  * blocked them from ever creating or joining another room again, with zero
  * self-service recovery. Called from leave() below whenever the room hasn't
- * reached preparation yet (nothing exam-relevant has happened, so abandoning
- * is always safe here) — atomic state guard, same idiom as every other
+ * reached a real LIVE AI connection yet (exam_in_progress) — everything up
+ * to and including exam_room_ready is still local Supabase state with no
+ * relay session open, so abandoning on an explicit Leave is always safe.
+ * Extended the same day to cover preparation/preparation_locked/
+ * exam_room_ready too, not just the original three pre-prep states — found
+ * via HardwareCheck.tsx's own dead-end (a denied mic permission stranded a
+ * student at exam_room_ready with no recourse, hitting this identical
+ * lockout). exam_in_progress deliberately excluded: a real live exam has its
+ * own relay-side reconnect-grace-period handling, which must keep winning
+ * over an outright abandon. Atomic state guard, same idiom as every other
  * transition in this file, so a stale click can't clobber a room that
  * legitimately advanced in the meantime. */
 export async function abandonRoomIfIncomplete(roomId: string, currentState: RoomState) {
-  if (!(["waiting_for_partner", "both_connected", "ready_check"] as RoomState[]).includes(currentState)) return;
+  const ABANDONABLE: RoomState[] = ["waiting_for_partner", "both_connected", "ready_check", "preparation", "preparation_locked", "exam_room_ready"];
+  if (!ABANDONABLE.includes(currentState)) return;
   await db.from("muendlich_rooms").update({ state: "abandoned" }).eq("id", roomId).eq("state", currentState);
 }
 
