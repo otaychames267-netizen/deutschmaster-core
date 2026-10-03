@@ -240,12 +240,12 @@ const TUTOR_TEIL3_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEI
 // HARD_IDLE_CLOSE_MS (45s) was tuned against ITS answer windows (30s — see
 // TEIL1_ANSWER_WINDOW_SECONDS), leaving a comfortable 15s margin. The tutor's
 // windows are 40s (owner spec), which shared the SAME 45s ceiling — only 5s
-// of margin, too tight to survive normal TTS synthesis time for a long Teil
-// 2/3 topic announcement (some muendlich_materials rows embed a full
-// newspaper-article body_text, see MAX_ELEVENLABS_CHARS_PER_SESSION's
-// comment) plus any brief network hiccup, let alone a student who
-// legitimately takes close to the full window to respond. Own, more
-// generous threshold instead of reusing the exam's.
+// of margin, too tight to survive normal TTS synthesis time plus any brief
+// network hiccup, let alone a student who legitimately takes close to the
+// full window to respond. Own, more generous threshold instead of reusing
+// the exam's. (The Teil 2/3 topic-announcement line itself no longer risks
+// a long synthesis delay since 2026-10-03 — it now speaks the material's
+// TITLE only, not its full body_text; see resolveSelections()'s comment.)
 const TUTOR_HARD_IDLE_CLOSE_MS = Number(process.env.MUENDLICH_TUTOR_HARD_IDLE_MS ?? 90_000);
 
 interface Participant {
@@ -382,6 +382,11 @@ interface TutorSession {
   // through).
   teil2Topic: string;
   teil3Topic: string;
+  // Raw material titles (no body_text) — see server.ts's startTutorTeil2/
+  // startTutorTeil3 for why the SPOKEN transition line uses these instead of
+  // teil2Topic/teil3Topic above (which can embed a 2000+ character article).
+  teil2TopicTitle: string;
+  teil3TopicTitle: string;
   creditTick?: NodeJS.Timeout;
   mainTick?: NodeJS.Timeout; // Teil-1/2 phase machine + idle check, same TICK_MS cadence as the exam's tick()
   liveSessionStartedAt: number | null;
@@ -417,6 +422,13 @@ function formatTopic(title: string | undefined, materials: { title: string; body
   return m?.body_text ? `${title} (${m.body_text})` : title;
 }
 
+/** Just the title, no body_text — "(kein Thema ausgewählt)" when unset,
+ * matching formatTopic()'s own placeholder so callers never see an empty
+ * string on screen or in a spoken sentence. */
+function topicTitleOnly(title: string | undefined): string {
+  return title ?? "(kein Thema ausgewählt)";
+}
+
 /** Pure resolution of raw muendlich_selections rows into the per-Teil topic
  * strings the exam prompt needs — pulled out of fetchRoomContext() so it can
  * be exercised directly by a test without a live Supabase round trip. Mirrors
@@ -425,7 +437,7 @@ function formatTopic(title: string | undefined, materials: { title: string; body
 function resolveSelections(
   selections: { teil: number; slot: string | null; value: string }[] | null | undefined,
   materialsByTeil: Record<1 | 2 | 3, { title: string; body_text: string | null }[] | null | undefined>,
-): { teil1TopicA: string; teil1TopicB: string; teil2Topic: string; teil3Topic: string; teil1TopicATitle: string; teil1TopicBTitle: string } {
+): { teil1TopicA: string; teil1TopicB: string; teil2Topic: string; teil3Topic: string; teil1TopicATitle: string; teil1TopicBTitle: string; teil2TopicTitle: string; teil3TopicTitle: string } {
   const teil1A = selections?.find((s) => s.teil === 1 && s.slot === "A")?.value;
   const teil1B = selections?.find((s) => s.teil === 1 && s.slot === "B")?.value;
   const teil2 = selections?.find((s) => s.teil === 2)?.value;
@@ -441,6 +453,17 @@ function resolveSelections(
     // exact muendlich_materials.title strings, not the formatted string.
     teil1TopicATitle: teil1A ?? "",
     teil1TopicBTitle: teil1B ?? "",
+    // Same title/full split, extended to Teil 2/3: their body_text is a full
+    // newspaper article (up to ~2,900 chars, real DB-measured) or planning
+    // scenario (up to ~760 chars) meant for the EXAMINER'S OWN reasoning
+    // context (examinerBrain.ts still gets the full teil2Topic/teil3Topic
+    // above), never to be read aloud. Real bug found 2026-10-03: the spoken
+    // section-transition line was embedding this full text directly into a
+    // live ElevenLabs TTS call every single exam — a real TELC examiner
+    // announces the topic, the candidate reads any printed material
+    // themselves. Title-only here is what startStage() now actually speaks.
+    teil2TopicTitle: topicTitleOnly(teil2),
+    teil3TopicTitle: topicTitleOnly(teil3),
   };
 }
 
@@ -549,7 +572,7 @@ function logTranscript(room: RoomSession, speaker: string, teil: number, text: s
   }
 }
 
-async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil2Topic: string; teil3Topic: string }) {
+async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil2TopicTitle: string; teil3TopicTitle: string }) {
   room.examStage = stage;
   room.live?.setStage(stage);
   room.examStageStartedAt = Date.now();
@@ -608,16 +631,19 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
     room.teil1QuestionsAsked = { A: 0, B: 0 };
   }
 
-  // Teil 1 -> Teil 2. Skips Claude for the same reason as above.
+  // Teil 1 -> Teil 2. Skips Claude for the same reason as above. Speaks the
+  // TITLE only — teil2Topic's full body_text (the newspaper article itself,
+  // up to ~2,900 real chars) is for examinerBrain.ts's own reasoning
+  // context, never meant to be read aloud (see resolveSelections's comment).
   if (stage === 2 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
-    await room.live?.speakScriptedText(pickSectionTransition12({ teil2Topic: ctx.teil2Topic }, voiceId));
+    await room.live?.speakScriptedText(pickSectionTransition12({ teil2Topic: ctx.teil2TopicTitle }, voiceId));
   }
 
-  // Teil 2 -> Teil 3. Skips Claude for the same reason as above.
+  // Teil 2 -> Teil 3. Same title-only reasoning as above.
   if (stage === 3 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
-    await room.live?.speakScriptedText(pickSectionTransition23({ teil3Topic: ctx.teil3Topic }, voiceId));
+    await room.live?.speakScriptedText(pickSectionTransition23({ teil3Topic: ctx.teil3TopicTitle }, voiceId));
   }
 }
 
@@ -814,7 +840,7 @@ async function startRoomIfReady(room: RoomSession) {
   room.mainTick = setInterval(() => tick(room, ctx), TICK_MS);
 }
 
-async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil1TopicB: string; teil1TopicBTitle: string; teil2Topic: string; teil3Topic: string }) {
+async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil1TopicB: string; teil1TopicBTitle: string; teil2Topic: string; teil3Topic: string; teil2TopicTitle: string; teil3TopicTitle: string }) {
   if (room.finishing) return;
 
   // A stage's duration just elapsed -> we're on a 15s breather before the
@@ -1348,10 +1374,15 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
   session.live?.setStage(2, session.teil2Topic);
   send(session.ws, { type: "stage", stage: 2 });
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
-  const transitionText = pickTeil1ToTeil2({ teil2Topic: session.teil2Topic }, voiceId);
+  // Title only — session.teil2Topic (full, passed to setStage() above for
+  // tutorBrain's OWN reasoning context) can embed a 2000+ char newspaper
+  // article as body_text; a real TELC tutor announces the topic, the
+  // student reads any printed material themselves. Real bug fixed
+  // 2026-10-03 (see the exam room's matching resolveSelections() comment).
+  const transitionText = pickTeil1ToTeil2({ teil2Topic: session.teil2TopicTitle }, voiceId);
   await session.live?.speakScriptedText(transitionText);
   if (session.ended) return; // session could have been ended (cap/error) while the transition line was still playing
-  session.lastAudioAt = Date.now(); // reset so this line's own synthesis time (it embeds the full Teil 2 topic text, sometimes a long article — see MAX_ELEVENLABS_CHARS_PER_SESSION's comment) doesn't eat into Q1's idle budget, same reasoning as the session-opening line's identical reset
+  session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into Q1's idle budget, same reasoning as the session-opening line's identical reset
   session.questionIndex = 1;
   session.phaseStartedAt = Date.now();
   session.advancingStage = false; // only now is it safe for tutorTick() to evaluate Teil 2's timing — see the field's doc comment
@@ -1365,7 +1396,8 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
  * that method's own doc comment for why the order matters. */
 async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
-  const transitionText = pickTeil2ToTeil3({ teil3Topic: session.teil3Topic }, voiceId);
+  // Title only — same reasoning as startTutorTeil2's identical fix.
+  const transitionText = pickTeil2ToTeil3({ teil3Topic: session.teil3TopicTitle }, voiceId);
   await session.live?.speakScriptedText(transitionText);
   if (session.ended) return;
   session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into turn 1's idle budget — same reasoning as startTutorTeil2's identical reset
@@ -1553,12 +1585,17 @@ async function startTutorSession(
 
   const teil2Topic = formatTopic(sessionRow.teil2MaterialTitle, [{ title: sessionRow.teil2MaterialTitle, body_text: sessionRow.teil2MaterialBodyText }]);
   const teil3Topic = formatTopic(sessionRow.teil3MaterialTitle, [{ title: sessionRow.teil3MaterialTitle, body_text: sessionRow.teil3MaterialBodyText }]);
+  // Title-only, for the SPOKEN transition line only — see the matching
+  // comment on resolveSelections()/startStage() in the exam-room path for
+  // why teil2Topic/teil3Topic's full body_text must never reach TTS.
+  const teil2TopicTitle = sessionRow.teil2MaterialTitle ?? "(kein Thema ausgewählt)";
+  const teil3TopicTitle = sessionRow.teil3MaterialTitle ?? "(kein Thema ausgewählt)";
 
   const session: TutorSession = {
     sessionId: sessionRow.id, userId, accessToken, ws,
     level, lastAudioAt: Date.now(), teilStage: 1, advancingStage: false,
     teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0,
-    teil2Topic, teil3Topic,
+    teil2Topic, teil3Topic, teil2TopicTitle, teil3TopicTitle,
     liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
   };
   tutorSessions.set(session.sessionId, session);

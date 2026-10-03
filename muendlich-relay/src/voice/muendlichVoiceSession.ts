@@ -445,9 +445,14 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     // path — scripted text is sent as one complete sentence (not streamed
     // in pieces), so truncating it mid-word would produce a broken
     // utterance; skipping entirely is the safer failure mode for exact,
-    // grammatically-complete scripted text. Extremely rare in practice —
-    // real measured dynamic usage for a whole exam is ~2,467 chars, well
-    // under this ceiling — but enforced unconditionally, not just relied on.
+    // grammatically-complete scripted text. CORRECTED 2026-10-03: the old
+    // "~2,467 chars/exam, well under this ceiling" estimate here was based
+    // on simulateFullExam.mjs's synthetic short test topics, not real
+    // muendlich_materials rows — Teil 2's real body_text alone measures up
+    // to ~2,900 chars (DB-verified). That specific risk is now closed
+    // (server.ts's section-transition calls speak the material TITLE only,
+    // never body_text), but this ceiling check stays unconditional rather
+    // than relying on any specific "typical" usage figure.
     if (text.length > elevenLabsCharBudgetRemaining()) {
       console.warn(`[voice] ElevenLabs ${MAX_ELEVENLABS_CHARS_PER_EXAM_ROOM}-char/exam ceiling reached for session ${examSessionId} — skipping scripted utterance ("${text.slice(0, 40)}...") rather than exceeding it`);
       history.push({ speaker: "examiner", text });

@@ -154,5 +154,30 @@ headline("today's fallback (no library yet)", 2772);
 // = ~177 chars/exam(room) of live TTS that HEADLINE A's 2,162 baseline had
 // assumed would be $0 (it assumed ALL THREE categories cached, not two).
 const TEIL1_LIVE_CHARS_PER_ROOM = 2 * 88.6;
-console.log("\n=== HEADLINE C: ACTUAL current state (2026-10-03) -- welcome+exam_end cached, teil1_question deliberately kept live ===");
+console.log("\n=== HEADLINE C: ACTUAL current state (2026-10-03, before the section-transition fix below) -- welcome+exam_end cached, teil1_question deliberately kept live ===");
 headline("actual (teil1_question excluded from cache)", 2162 + TEIL1_LIVE_CHARS_PER_ROOM);
+
+// REAL BUG found + fixed 2026-10-03 (same session as HEADLINE C, a few
+// minutes later): HEADLINE A/B/C's 2,162/2,772 baseline came from
+// simulateFullExam.mjs, which uses SHORT SYNTHETIC teil2Topic/teil3Topic
+// strings (~85 chars each, see that file). Real muendlich_materials rows
+// are NOT that short -- Teil 2's body_text is a full newspaper article
+// (DB-measured: 121 real rows, full title+body median 992 chars, max 2892),
+// Teil 3's is a planning scenario (98 rows, median 295, max 783). Before
+// today's fix, server.ts's pickSectionTransition12/23 calls embedded this
+// FULL text directly into a live ElevenLabs TTS call every single real exam
+// -- the AI examiner was actually reading entire newspaper articles aloud
+// as a "transition," something no real TELC examiner does (the candidate
+// reads any printed material themselves) and a real, substantial,
+// previously-invisible cost spike HEADLINE C never accounted for. Fixed by
+// speaking the material's TITLE only (examinerBrain.ts's own Claude context
+// still gets the full text unchanged -- zero loss of follow-up-question
+// quality, pure TTS fix).
+const TEIL2_TRANSITION_FULL_MEDIAN = 992, TEIL2_TRANSITION_TITLE_MEDIAN = 22;
+const TEIL3_TRANSITION_FULL_MEDIAN = 295, TEIL3_TRANSITION_TITLE_MEDIAN = 43;
+const SECTION_TRANSITION_BUG_MEDIAN_EXTRA_CHARS =
+  (TEIL2_TRANSITION_FULL_MEDIAN - TEIL2_TRANSITION_TITLE_MEDIAN) + (TEIL3_TRANSITION_FULL_MEDIAN - TEIL3_TRANSITION_TITLE_MEDIAN);
+console.log("\n=== HEADLINE D1: what a REAL exam (median-length topics) actually cost BEFORE the section-transition fix -- the true prior cost HEADLINE C never saw ===");
+headline("real prior cost (median real topics, bug present)", 2162 + TEIL1_LIVE_CHARS_PER_ROOM + SECTION_TRANSITION_BUG_MEDIAN_EXTRA_CHARS);
+console.log("\n=== HEADLINE D2: ACTUAL current state AFTER the section-transition fix (title-only speech) -- the real number going forward ===");
+headline("actual post-fix (title-only section transitions)", 2162 + TEIL1_LIVE_CHARS_PER_ROOM);
