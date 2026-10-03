@@ -318,6 +318,17 @@ interface RoomSession {
   // finishExam() so the post-exam evaluator grades against the same CEFR
   // level the exam itself ran at, instead of a hardcoded standard.
   examLevel?: "B1" | "B2";
+  // Real gap found via a professional-experience audit (2026-10-03): the
+  // 'muendlich-recordings' bucket and recording_a_path/recording_b_path
+  // columns existed since the original 2026-07-08 build but nothing ever
+  // captured or uploaded anything. Raw 16kHz mono PCM16 chunks (the exact
+  // bytes already being forwarded to STT, see the "audio" message handler
+  // below) accumulated per slot here, WAV-encoded and uploaded to storage
+  // once the exam ends (see uploadRecordings()) — server-side the whole way,
+  // matching this schema's own documented intent ("signed URLs generated
+  // server-side per the owning participant") rather than adding any new
+  // client-side MediaRecorder/upload/RLS surface.
+  recordingChunks: Record<"A" | "B", Buffer[]>;
 }
 
 const rooms = new Map<string, RoomSession>();
@@ -1132,6 +1143,58 @@ async function finishExam(room: RoomSession) {
   endRoom(room, "completed");
 }
 
+/** Prepends a standard 44-byte PCM WAV header to raw PCM16 samples — the
+ * exact format every browser <audio> element and OS media player already
+ * knows how to play, no transcoding library needed. */
+function pcm16ToWav(pcm: Buffer, sampleRate = 16_000, channels = 1): Buffer {
+  const byteRate = sampleRate * channels * 2;
+  const blockAlign = channels * 2;
+  const header = Buffer.alloc(44);
+  header.write("RIFF", 0); header.writeUInt32LE(36 + pcm.length, 4); header.write("WAVE", 8);
+  header.write("fmt ", 12); header.writeUInt32LE(16, 16); header.writeUInt16LE(1, 20);
+  header.writeUInt16LE(channels, 22); header.writeUInt32LE(sampleRate, 24); header.writeUInt32LE(byteRate, 28);
+  header.writeUInt16LE(blockAlign, 32); header.writeUInt16LE(16, 34);
+  header.write("data", 36); header.writeUInt32LE(pcm.length, 40);
+  return Buffer.concat([header, pcm]);
+}
+
+/** Real gap found via a professional-experience audit (2026-10-03): the
+ * 'muendlich-recordings' bucket and recording_a_path/recording_b_path
+ * columns existed since the original 2026-07-08 build, but nothing ever
+ * captured or uploaded anything — grepped the whole codebase, zero
+ * MediaRecorder/storage usage anywhere. Fixed entirely server-side, matching
+ * this schema's own documented design intent ("signed URLs generated
+ * server-side per the owning participant") rather than adding a new
+ * client-side capture/upload/RLS surface: the raw PCM16 chunks already
+ * arriving for STT (see the "audio" message handler) are also accumulated
+ * per slot in room.recordingChunks, WAV-encoded, and uploaded here.
+ *
+ * Called from EVERY termination path via endRoom() below — not just natural
+ * completion — same "best effort" philosophy as attemptBestEffortEvaluation:
+ * a partial recording from an exam that ended early is still worth having.
+ * Fire-and-forget (doesn't block socket teardown): the in-memory buffers
+ * this reads don't depend on any socket staying open. */
+function uploadRecordings(room: RoomSession) {
+  if (!room.examSessionId) return;
+  const sessionId = room.examSessionId;
+  (async () => {
+    const updates: Record<string, string> = {};
+    for (const slot of ["A", "B"] as const) {
+      const chunks = room.recordingChunks[slot];
+      if (chunks.length === 0) continue;
+      const wav = pcm16ToWav(Buffer.concat(chunks));
+      const path = `${sessionId}/${slot}.wav`;
+      const { error } = await admin.storage.from("muendlich-recordings").upload(path, wav, { contentType: "audio/wav", upsert: true });
+      if (error) { console.error(`[room ${room.roomId}] recording upload failed for slot ${slot}:`, error.message); continue; }
+      updates[slot === "A" ? "recording_a_path" : "recording_b_path"] = path;
+    }
+    if (Object.keys(updates).length > 0) {
+      const { error } = await admin.from("muendlich_exam_sessions").update(updates).eq("id", sessionId);
+      if (error) console.error(`[room ${room.roomId}] failed to save recording path(s):`, error.message);
+    }
+  })().catch((e) => console.error(`[room ${room.roomId}] uploadRecordings failed unexpectedly:`, e));
+}
+
 function endRoom(room: RoomSession, endReason: string) {
   // Guard against re-entry: closing the participants' sockets below fires
   // each socket's own "close" handler, which (without this guard) would call
@@ -1140,6 +1203,8 @@ function endRoom(room: RoomSession, endReason: string) {
   // actually running the full exam lifecycle end to end, not by inspection.
   if (room.ended) return;
   room.ended = true;
+
+  uploadRecordings(room);
 
   // Approximate token usage for the global cost-cap ledger — see
   // GEMINI_AUDIO_TOKENS_PER_MINUTE's header comment for why this is an
@@ -1630,6 +1695,7 @@ wss.on("connection", async (ws, req) => {
         intermissionUntil: null, pendingNextStage: null,
         disconnectTimers: new Map(), finishing: false, ended: false,
         voiceBackendErrored: false, liveSessionStartedAt: null,
+        recordingChunks: { A: [], B: [] },
       };
       rooms.set(roomId, room);
     }
@@ -1650,6 +1716,10 @@ wss.on("connection", async (ws, req) => {
           room!.lastSenderSlot = participantRow.slot as "A" | "B";
           room!.lastAudioAt = Date.now();
           room!.lastAudioAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
+          // Captured unconditionally (including during an intermission breather
+          // — it's just a raw recording, not something sent to the AI) for the
+          // post-exam playback feature, see RoomSession.recordingChunks's own comment.
+          room!.recordingChunks[participantRow.slot as "A" | "B"].push(Buffer.from(msg.data, "base64"));
           // Don't forward mic audio to Gemini during the 15s inter-stage
           // breather — candidates chatting between Teile ("was kommt jetzt?")
           // would otherwise still reach Gemini's own VAD and could trigger an

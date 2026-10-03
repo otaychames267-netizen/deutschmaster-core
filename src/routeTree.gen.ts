@@ -48,6 +48,7 @@ import { Route as ApiSchreibenSubmitSimulationRouteImport } from './routes/api.s
 import { Route as ApiSchreibenGradeEssayRouteImport } from './routes/api.schreiben.grade-essay'
 import { Route as ApiPublicLemonsqueezyWebhookRouteImport } from './routes/api.public.lemonsqueezy-webhook'
 import { Route as ApiMuendlichTutorCorrectionRouteImport } from './routes/api.muendlich.tutor-correction'
+import { Route as ApiMuendlichRecordingUrlRouteImport } from './routes/api.muendlich.recording-url'
 import { Route as ApiAuthVerifyCodeRouteImport } from './routes/api.auth.verify-code'
 import { Route as ApiAuthResendCodeRouteImport } from './routes/api.auth.resend-code'
 import { Route as ApiAuthRegisterRouteImport } from './routes/api.auth.register'
@@ -330,6 +331,12 @@ const ApiMuendlichTutorCorrectionRoute =
   ApiMuendlichTutorCorrectionRouteImport.update({
     id: '/api/muendlich/tutor-correction',
     path: '/api/muendlich/tutor-correction',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiMuendlichRecordingUrlRoute =
+  ApiMuendlichRecordingUrlRouteImport.update({
+    id: '/api/muendlich/recording-url',
+    path: '/api/muendlich/recording-url',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiAuthVerifyCodeRoute = ApiAuthVerifyCodeRouteImport.update({
@@ -898,6 +905,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/auth/resend-code': typeof ApiAuthResendCodeRoute
   '/api/auth/verify-code': typeof ApiAuthVerifyCodeRoute
+  '/api/muendlich/recording-url': typeof ApiMuendlichRecordingUrlRoute
   '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
@@ -1016,6 +1024,7 @@ export interface FileRoutesByTo {
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/auth/resend-code': typeof ApiAuthResendCodeRoute
   '/api/auth/verify-code': typeof ApiAuthVerifyCodeRoute
+  '/api/muendlich/recording-url': typeof ApiMuendlichRecordingUrlRoute
   '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
@@ -1138,6 +1147,7 @@ export interface FileRoutesById {
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/auth/resend-code': typeof ApiAuthResendCodeRoute
   '/api/auth/verify-code': typeof ApiAuthVerifyCodeRoute
+  '/api/muendlich/recording-url': typeof ApiMuendlichRecordingUrlRoute
   '/api/muendlich/tutor-correction': typeof ApiMuendlichTutorCorrectionRoute
   '/api/public/lemonsqueezy-webhook': typeof ApiPublicLemonsqueezyWebhookRoute
   '/api/schreiben/grade-essay': typeof ApiSchreibenGradeEssayRoute
@@ -1262,6 +1272,7 @@ export interface FileRouteTypes {
     | '/api/auth/register'
     | '/api/auth/resend-code'
     | '/api/auth/verify-code'
+    | '/api/muendlich/recording-url'
     | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
@@ -1380,6 +1391,7 @@ export interface FileRouteTypes {
     | '/api/auth/register'
     | '/api/auth/resend-code'
     | '/api/auth/verify-code'
+    | '/api/muendlich/recording-url'
     | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
@@ -1501,6 +1513,7 @@ export interface FileRouteTypes {
     | '/api/auth/register'
     | '/api/auth/resend-code'
     | '/api/auth/verify-code'
+    | '/api/muendlich/recording-url'
     | '/api/muendlich/tutor-correction'
     | '/api/public/lemonsqueezy-webhook'
     | '/api/schreiben/grade-essay'
@@ -1569,6 +1582,7 @@ export interface RootRouteChildren {
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
   ApiAuthResendCodeRoute: typeof ApiAuthResendCodeRoute
   ApiAuthVerifyCodeRoute: typeof ApiAuthVerifyCodeRoute
+  ApiMuendlichRecordingUrlRoute: typeof ApiMuendlichRecordingUrlRoute
   ApiMuendlichTutorCorrectionRoute: typeof ApiMuendlichTutorCorrectionRoute
   ApiPublicLemonsqueezyWebhookRoute: typeof ApiPublicLemonsqueezyWebhookRoute
   ApiSchreibenGradeEssayRoute: typeof ApiSchreibenGradeEssayRoute
@@ -1848,6 +1862,13 @@ declare module '@tanstack/react-router' {
       path: '/api/muendlich/tutor-correction'
       fullPath: '/api/muendlich/tutor-correction'
       preLoaderRoute: typeof ApiMuendlichTutorCorrectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/muendlich/recording-url': {
+      id: '/api/muendlich/recording-url'
+      path: '/api/muendlich/recording-url'
+      fullPath: '/api/muendlich/recording-url'
+      preLoaderRoute: typeof ApiMuendlichRecordingUrlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/verify-code': {
@@ -2776,6 +2797,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,
   ApiAuthResendCodeRoute: ApiAuthResendCodeRoute,
   ApiAuthVerifyCodeRoute: ApiAuthVerifyCodeRoute,
+  ApiMuendlichRecordingUrlRoute: ApiMuendlichRecordingUrlRoute,
   ApiMuendlichTutorCorrectionRoute: ApiMuendlichTutorCorrectionRoute,
   ApiPublicLemonsqueezyWebhookRoute: ApiPublicLemonsqueezyWebhookRoute,
   ApiSchreibenGradeEssayRoute: ApiSchreibenGradeEssayRoute,
