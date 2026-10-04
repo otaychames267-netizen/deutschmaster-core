@@ -25,6 +25,7 @@ import { openBufferedStt } from "./whisperStt.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
 const MAX_ATTEMPTS = 3;
+const REQUEST_TIMEOUT_MS = 10_000;
 
 const STOCK_HALLUCINATIONS = [
   /untertitel(ung)?\s+(der|von|im auftrag)/i,
@@ -65,7 +66,20 @@ async function groqTranscribe(pcm: Buffer): Promise<string> {
     form.append("language", "de");
     form.append("response_format", "verbose_json");
     form.append("temperature", "0");
-    const res = await fetch(GROQ_URL, { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form });
+    let res: Response;
+    try {
+      // Per-request timeout: segments are transcribed through ONE ordered
+      // chain (whisperStt.ts), so a single hung request would otherwise block
+      // every later segment for the rest of the exam. Network errors (seen
+      // live: "fetch failed" on 1 of 8 sequential calls) are retried like a 5xx.
+      res = await fetch(GROQ_URL, { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+    } catch (e) {
+      lastErr = `groq request failed: ${e instanceof Error ? e.message : String(e)}`;
+      if (attempt === MAX_ATTEMPTS) break;
+      console.warn(`[groqStt] ${lastErr} (attempt ${attempt}/${MAX_ATTEMPTS}), retrying`);
+      await new Promise((r) => setTimeout(r, 400 * attempt));
+      continue;
+    }
     if (res.ok) return cleanTranscript(await res.json());
 
     const body = await res.text().catch(() => "");
@@ -74,6 +88,7 @@ async function groqTranscribe(pcm: Buffer): Promise<string> {
     if (!retryable || attempt === MAX_ATTEMPTS) break;
     const retryAfterS = Number(res.headers.get("retry-after"));
     const waitMs = Number.isFinite(retryAfterS) && retryAfterS > 0 ? Math.min(retryAfterS, 8) * 1000 : 800 * attempt;
+    console.warn(`[groqStt] ${res.status} on attempt ${attempt}/${MAX_ATTEMPTS}, retrying in ${waitMs}ms`);
     await new Promise((r) => setTimeout(r, waitMs));
   }
   throw new Error(lastErr);

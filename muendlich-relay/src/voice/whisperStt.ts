@@ -37,10 +37,53 @@ import type { SttCallbacks, SttSession } from "./elevenLabsStt.js";
 const FLUSH_DEBOUNCE_MS = 400;
 const SAMPLE_RATE = 16_000;
 const BYTES_PER_SAMPLE = 2; // PCM16
-const MIN_UTTERANCE_BYTES = SAMPLE_RATE * BYTES_PER_SAMPLE * 0.3; // ~0.3s — shorter than this isn't worth a real inference call
 const MAX_SEGMENT_BYTES = SAMPLE_RATE * BYTES_PER_SAMPLE * 12; // ~12s of continuous speech per request
+const WINDOW_BYTES = SAMPLE_RATE * BYTES_PER_SAMPLE * 0.05; // 50ms analysis window
+const VOICED_RMS = 0.02 * 32768; // same threshold as the upstream silence gate (muendlichVoiceSession.ts SILENCE_RMS_THRESHOLD)
+const MIN_VOICED_WINDOWS = 6; // ~0.3s of actual voiced audio — less isn't worth a real inference call
+const SPEECH_PAD_BEFORE_WINDOWS = 4; // keep 200ms of lead-in so a word onset isn't clipped
+const SPEECH_PAD_AFTER_WINDOWS = 6; // and 300ms of tail
 
 export type TranscribeFn = (pcm16: Buffer) => Promise<string>;
+
+function windowRms(buf: Buffer, offset: number): number {
+  const end = Math.min(offset + WINDOW_BYTES, buf.length);
+  let sum = 0, n = 0;
+  for (let i = offset; i + 1 < end; i += 2) { const v = buf.readInt16LE(i); sum += v * v; n++; }
+  return n ? Math.sqrt(sum / n) : 0;
+}
+
+/** Whisper-class models hallucinate stock phrases ("Vielen Dank.", "...") on
+ * near-silent audio, and the upstream gate's 1.5s hangover means every buffer
+ * ends in silence. Drop buffers with too little voiced audio outright, and
+ * trim the rest to the voiced span (plus a small pad) — fewer hallucination
+ * triggers, and less audio to send. Found by the live test
+ * (groqStt.live-test.mjs): digital silence -> "Vielen Dank.", noise -> "...". */
+function trimToSpeech(buf: Buffer): Buffer | null {
+  let first = -1, last = -1, voiced = 0;
+  const windows = Math.floor(buf.length / WINDOW_BYTES);
+  for (let w = 0; w < windows; w++) {
+    if (windowRms(buf, w * WINDOW_BYTES) >= VOICED_RMS) { voiced++; if (first < 0) first = w; last = w; }
+  }
+  if (voiced < MIN_VOICED_WINDOWS) return null;
+  const from = Math.max(0, first - SPEECH_PAD_BEFORE_WINDOWS) * WINDOW_BYTES;
+  const to = Math.min(windows, last + 1 + SPEECH_PAD_AFTER_WINDOWS) * WINDOW_BYTES;
+  return buf.subarray(from, to);
+}
+
+/** Where to cut a too-long continuous buffer: the quietest 50ms window in the
+ * last 4s (a gap between words) rather than a blind hard cut mid-word — the
+ * live test lost "Außerdem" at a hard cut. */
+function quietestSplitPoint(buf: Buffer): number {
+  const windows = Math.floor(buf.length / WINDOW_BYTES);
+  const firstCandidate = Math.max(1, windows - 80); // last 4s
+  let bestW = windows, bestRms = Infinity;
+  for (let w = firstCandidate; w < windows - 10; w++) { // not within the last 0.5s
+    const rms = windowRms(buf, w * WINDOW_BYTES);
+    if (rms <= bestRms) { bestRms = rms; bestW = w; }
+  }
+  return bestW >= windows ? buf.length : bestW * WINDOW_BYTES;
+}
 
 export function openBufferedStt(transcribe: TranscribeFn, callbacks: SttCallbacks): SttSession {
   let closed = false;
@@ -49,24 +92,40 @@ export function openBufferedStt(transcribe: TranscribeFn, callbacks: SttCallback
   let flushTimer: NodeJS.Timeout | null = null;
   let chain: Promise<void> = Promise.resolve();
 
+  function submit(buf: Buffer) {
+    const speech = trimToSpeech(buf);
+    if (!speech) return; // too little voiced audio: drop silently (matches ElevenLabs' VAD commit not firing on noise blips)
+    chain = chain.then(async () => {
+      try {
+        const text = (await transcribe(speech)).trim();
+        if (text && !closed) callbacks.onCommitted?.(text, Date.now());
+      } catch (e) {
+        callbacks.onError?.(e instanceof Error ? e.message : String(e));
+      }
+    });
+  }
+
   function flush(): Promise<void> {
     if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
     if (chunks.length > 0) {
       const buf = Buffer.concat(chunks);
       chunks = [];
       bufferedBytes = 0;
-      if (buf.length >= MIN_UTTERANCE_BYTES) { // too short to be real speech: drop silently (matches ElevenLabs' VAD commit not firing on noise blips)
-        chain = chain.then(async () => {
-          try {
-            const text = (await transcribe(buf)).trim();
-            if (text && !closed) callbacks.onCommitted?.(text, Date.now());
-          } catch (e) {
-            callbacks.onError?.(e instanceof Error ? e.message : String(e));
-          }
-        });
-      }
+      submit(buf);
     }
     return chain;
+  }
+
+  /** Continuous speech past MAX_SEGMENT_BYTES: submit up to the quietest point
+   * and keep the remainder buffered as the start of the next segment. */
+  function cutLongSegment() {
+    if (flushTimer) { clearTimeout(flushTimer); flushTimer = null; }
+    const buf = Buffer.concat(chunks);
+    const at = quietestSplitPoint(buf);
+    submit(buf.subarray(0, at));
+    const rest = Buffer.from(buf.subarray(at));
+    chunks = rest.length ? [rest] : [];
+    bufferedBytes = rest.length;
   }
 
   return {
@@ -75,7 +134,7 @@ export function openBufferedStt(transcribe: TranscribeFn, callbacks: SttCallback
       const chunk = Buffer.from(base64, "base64");
       chunks.push(chunk);
       bufferedBytes += chunk.length;
-      if (bufferedBytes >= MAX_SEGMENT_BYTES) { void flush(); return; }
+      if (bufferedBytes >= MAX_SEGMENT_BYTES) cutLongSegment();
       if (flushTimer) clearTimeout(flushTimer);
       flushTimer = setTimeout(() => { void flush(); }, FLUSH_DEBOUNCE_MS);
     },
