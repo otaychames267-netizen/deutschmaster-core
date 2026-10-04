@@ -1046,7 +1046,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
     if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
       room.teil3CompletionSignalSent = true;
       room.live?.sendSystemMessage(
-        `Die geplante freie Planungszeit nähert sich dem Ende. Werden Sie ab jetzt aktiver als Moderatorin: Identifizieren Sie noch offene Planungspunkte und stellen Sie gezielte Fragen, damit die Kandidaten zu einer konkreten gemeinsamen Entscheidung kommen. Die Kandidaten sollen weiterhin selbst planen und entscheiden — Sie moderieren, Sie planen nicht für sie. Kein abruptes Eingreifen: Wenn gerade aktiv verhandelt wird, lassen Sie das laufen und steigen Sie beim nächsten passenden Moment ein.`,
+        `Die geplante freie Planungszeit nähert sich dem Ende. Werden Sie ab jetzt aktiver als Moderatorin: Identifizieren Sie einen noch offenen Planungspunkt und stellen Sie dazu EINE kurze, gezielte Frage (ein Satz, keine Aufzählung mehrerer Punkte), damit die Kandidaten zu einer konkreten gemeinsamen Entscheidung kommen. Die Kandidaten sollen weiterhin selbst planen und entscheiden — Sie moderieren, Sie planen nicht für sie. Kein abruptes Eingreifen: Wenn gerade aktiv verhandelt wird, lassen Sie das laufen und steigen Sie beim nächsten passenden Moment ein.`,
       );
     }
   }
