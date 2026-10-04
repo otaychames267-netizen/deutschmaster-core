@@ -59,23 +59,57 @@ const TEILE = [
   },
 ];
 
+/** Shared visual shell for the three Mündlich nav entry points (Vorbereitung,
+ * Prüfungssimulation, AI 1:1) — a mini hero banner (gradient + decorative
+ * blur, matching MuendlichTopicCards.tsx's HeroCard language) over a label
+ * block, so these read as the same premium card family as every other
+ * Mündlich card instead of a plain bordered icon-in-a-circle tile. */
+function NavTileShell({ icon: Icon, title, subtitle, from, to, locked, chevron }: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  subtitle: string;
+  from: string;
+  to: string;
+  locked?: boolean;
+  chevron?: boolean;
+}) {
+  return (
+    <div className={`flex aspect-square w-full flex-col overflow-hidden rounded-3xl border shadow-sm transition-all duration-300 ${locked ? "cursor-not-allowed border-border" : "group-hover:-translate-y-1 group-hover:shadow-xl border-transparent"}`}>
+      <div
+        className="relative flex flex-1 items-center justify-center overflow-hidden"
+        style={{ background: locked ? "linear-gradient(150deg, #64748b, #cbd5e1)" : `linear-gradient(150deg, ${from}, ${to})` }}
+      >
+        {locked && <div className="absolute inset-0 bg-background/55" />}
+        <div className="pointer-events-none absolute -right-6 -top-8 h-28 w-28 rounded-full bg-white/15 blur-2xl" />
+        <div className="pointer-events-none absolute -left-6 bottom-0 h-20 w-20 rounded-full bg-black/10 blur-xl" />
+        {locked && (
+          <span className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-background/90 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-muted-foreground shadow-sm">
+            <Lock className="h-2.5 w-2.5" /> Bald
+          </span>
+        )}
+        <Icon className={`h-11 w-11 drop-shadow-lg transition-transform duration-300 ${locked ? "text-white/70" : "text-white/90 group-hover:scale-110 group-hover:rotate-6"}`} />
+      </div>
+      <div className="flex items-center justify-between gap-2 bg-card px-4 py-3">
+        <div className="min-w-0">
+          <p className={`truncate text-sm font-black ${locked ? "text-muted-foreground" : "text-foreground"}`}>{title}</p>
+          <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{subtitle}</p>
+        </div>
+        {chevron && !locked && (
+          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+        )}
+      </div>
+    </div>
+  );
+}
+
 /** A locked, non-interactive square tile — used for features that are
  * temporarily restricted to admin-only preview. Never an <a>/<Link>, so it
  * never navigates and never bounces through a route's own redirect-away
  * gate (which would look like a broken click to a regular user). */
-function LockedTile({ icon: Icon, title, subtitle }: { icon: React.ComponentType<{ className?: string }>; title: string; subtitle: string }) {
+function LockedTile({ icon, title, subtitle, from, to }: { icon: React.ComponentType<{ className?: string }>; title: string; subtitle: string; from: string; to: string }) {
   return (
-    <div className="relative flex aspect-square cursor-not-allowed select-none flex-col items-center justify-center gap-3 rounded-3xl border border-dashed border-border bg-muted/30 p-5 text-center opacity-70">
-      <span className="absolute right-3 top-3 flex items-center gap-1 rounded-full bg-muted px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-muted-foreground">
-        <Lock className="h-2.5 w-2.5" /> Bald
-      </span>
-      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted ring-1 ring-border">
-        <Icon className="h-7 w-7 text-muted-foreground" />
-      </div>
-      <div>
-        <p className="text-sm font-black text-muted-foreground">{title}</p>
-        <p className="mt-0.5 text-[11px] text-muted-foreground">{subtitle}</p>
-      </div>
+    <div className="select-none">
+      <NavTileShell icon={icon} title={title} subtitle={subtitle} from={from} to={to} locked />
     </div>
   );
 }
@@ -127,52 +161,28 @@ function MuendlichIndexPage() {
           <button
             type="button"
             onClick={() => document.getElementById("vorbereitung-teile")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-            className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
+            className="group text-left"
           >
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
-              <BookOpen className="h-7 w-7 text-rose-500" />
-            </div>
-            <div>
-              <p className="text-sm font-black text-foreground">Vorbereitung</p>
-              <p className="mt-0.5 text-[11px] text-muted-foreground">3 Teile einzeln üben</p>
-            </div>
+            <NavTileShell icon={BookOpen} title="Vorbereitung" subtitle="3 Teile einzeln üben" from="#e11d48" to="#fda4af" chevron />
           </button>
 
           {isAdmin ? (
-            <Link
-              to={`/${seg}/muendlich/pruefung` as never}
-              className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
-                <GraduationCap className="h-7 w-7 text-rose-500" />
-              </div>
-              <div>
-                <p className="text-sm font-black text-foreground">Prüfungssimulation</p>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">Alle 3 Teile · ~15 min</p>
-              </div>
+            <Link to={`/${seg}/muendlich/pruefung` as never} className="group">
+              <NavTileShell icon={GraduationCap} title="Prüfungssimulation" subtitle="Alle 3 Teile · ~15 min" from="#a21caf" to="#f0abfc" chevron />
             </Link>
           ) : (
-            <LockedTile icon={GraduationCap} title="Prüfungssimulation" subtitle="Alle 3 Teile · ~15 min" />
+            <LockedTile icon={GraduationCap} title="Prüfungssimulation" subtitle="Alle 3 Teile · ~15 min" from="#a21caf" to="#f0abfc" />
           )}
         </div>
 
         <div className="flex justify-center">
           <div className="w-[calc(50%-0.5rem)]">
             {isAdmin ? (
-              <Link
-                to={`/${seg}/muendlich/voice-tutor` as never}
-                className="group flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl border border-rose-500/20 bg-gradient-to-br from-rose-500/8 to-card p-5 text-center shadow-sm transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:shadow-lg"
-              >
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-rose-500/10 ring-1 ring-rose-500/20 transition-transform group-hover:scale-105">
-                  <Bot className="h-7 w-7 text-rose-500" />
-                </div>
-                <div>
-                  <p className="text-sm font-black text-foreground">AI 1:1</p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">KI-Sprachpartner · Admin-Vorschau</p>
-                </div>
+              <Link to={`/${seg}/muendlich/voice-tutor` as never} className="group">
+                <NavTileShell icon={Bot} title="AI 1:1" subtitle="KI-Sprachpartner · Admin-Vorschau" from="#4338ca" to="#a5b4fc" chevron />
               </Link>
             ) : (
-              <LockedTile icon={Bot} title="AI 1:1" subtitle="KI-Sprachpartner · demnächst" />
+              <LockedTile icon={Bot} title="AI 1:1" subtitle="KI-Sprachpartner · demnächst" from="#4338ca" to="#a5b4fc" />
             )}
           </div>
         </div>
