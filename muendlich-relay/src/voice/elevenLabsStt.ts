@@ -39,8 +39,27 @@ export interface SttCallbacks {
 
 export interface SttSession {
   sendPcm16(base64: string): void;
+  /** Utterance-buffering backends (whisperStt.ts) transcribe a whole buffered
+   * segment per request; this forces any currently buffered audio out and
+   * resolves once its transcript has been delivered (or failed). Streaming
+   * backends (ElevenLabs) commit continuously and don't implement it. */
+  flush?(): Promise<void>;
   close(): void;
 }
+
+// ROOT CAUSE of "STT connections close early in every real exam" (found
+// 2026-10-04 by an isolated experiment: connect, send NO audio, the server
+// closes it with code 1000 after exactly ~15s of inactivity). The exam relay
+// only forwards candidate audio during/just after speech (muendlichVoice
+// Session.shouldForwardToStt) and hard-suppresses it while the examiner is
+// speaking — the welcome + exam_start + first question alone is 15-20s of
+// NO audio forwarded — so both candidates' STT sockets died before the first
+// word and were never reopened ("organic triggers disabled for the rest of
+// the exam"), leaving candidate speech untranscribed for the whole exam.
+// A silent 100 ms frame every few seconds counts as activity; it is billed
+// as audio but is ~1% of a live second, i.e. negligible.
+const KEEPALIVE_INTERVAL_MS = 5_000;
+const SILENT_100MS_16K_B64 = Buffer.alloc(3200, 0).toString("base64");
 
 export function openRealtimeStt(callbacks: SttCallbacks): Promise<SttSession> {
   const key = process.env.ELEVENLABS_API_KEY;
@@ -57,17 +76,26 @@ export function openRealtimeStt(callbacks: SttCallbacks): Promise<SttSession> {
   return new Promise((resolve, reject) => {
     const ws = new WebSocket(url, { headers: { "xi-api-key": key } });
     let opened = false;
+    let lastSendAt = Date.now();
+    let keepalive: NodeJS.Timeout | null = null;
     ws.on("upgrade", (res: any) => { res.socket?.setNoDelay?.(true); });
+
+    const send = (base64: string) => {
+      if (ws.readyState === WebSocket.OPEN) {
+        lastSendAt = Date.now();
+        ws.send(JSON.stringify({ message_type: "input_audio_chunk", audio_base_64: base64, commit: false, sample_rate: 16000 }));
+      }
+    };
 
     ws.on("open", () => {
       opened = true;
+      // See KEEPALIVE_INTERVAL_MS's comment above for why this exists.
+      keepalive = setInterval(() => {
+        if (Date.now() - lastSendAt >= KEEPALIVE_INTERVAL_MS) send(SILENT_100MS_16K_B64);
+      }, KEEPALIVE_INTERVAL_MS);
       resolve({
-        sendPcm16(base64: string) {
-          if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify({ message_type: "input_audio_chunk", audio_base_64: base64, commit: false, sample_rate: 16000 }));
-          }
-        },
-        close() { ws.close(); },
+        sendPcm16: send,
+        close() { if (keepalive) clearInterval(keepalive); ws.close(); },
       });
     });
 
@@ -82,6 +110,7 @@ export function openRealtimeStt(callbacks: SttCallbacks): Promise<SttSession> {
     });
     ws.on("error", (err) => { callbacks.onError?.(err instanceof Error ? err.message : String(err)); if (!opened) reject(err); });
     ws.on("close", (code, reason) => {
+      if (keepalive) clearInterval(keepalive);
       // Real gap found 2026-10-04 while investigating repeated early STT
       // closes during live testing: this handler used to discard the actual
       // WebSocket close code/reason entirely, so an application-level

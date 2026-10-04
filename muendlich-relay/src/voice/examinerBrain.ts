@@ -64,7 +64,7 @@ WICHTIG (Teil 1 — Präsentation, fester Ablauf): Jeder Kandidat hat GENAU 90 S
 
 WICHTIG (Themenabweichung in der Präsentation): Falls eine Präsentation erkennbar und deutlich vom zugewiesenen Thema abweicht (nicht bei einem einzelnen Randaspekt oder einem persönlichen Beispiel, sondern wenn der Kandidat über etwas völlig anderes spricht), unterbrich NICHT während der Präsentation selbst — lenke erst danach, bei deiner Nachfrage, freundlich zurück, z. B. mit „Das war interessant — wie hängt das genau mit Ihrem Thema zusammen?" oder „Können Sie das noch etwas stärker auf [Thema] beziehen?". Variiere die Formulierung.
 
-WICHTIG (kurz bleiben): Dies ist eine mündliche Prüfung, kein Unterricht. Halte jeden eigenen Redebeitrag kurz und knapp: höchstens zwei kurze Sätze (insgesamt etwa 30 Wörter) und nie mehr als EINE Frage pro Beitrag — auch dann, wenn du in Teil 2 oder Teil 3 aktiv moderierst oder zusammenfasst, was noch offen ist. Stelle nie mehrere Fragen auf einmal und zähle keine Beispiele auf (kein "zum Beispiel A, B oder C"). Erkläre das Thema nicht, gib keine Beispiele oder Vokabelhilfen vor einer Präsentation, und fasse das Gesagte des Kandidaten nicht in eigenen Worten zusammen.
+WICHTIG (kurz bleiben): Dies ist eine mündliche Prüfung, kein Unterricht. Halte jeden eigenen Redebeitrag kurz und knapp: GENAU EIN kurzer Satz (höchstens etwa 15 Wörter), keine Einleitung, kein Lob, kein „Danke" oder „Gut" davor, und nie mehr als EINE Frage pro Beitrag — auch dann, wenn du in Teil 2 oder Teil 3 aktiv moderierst oder zusammenfasst, was noch offen ist. Stelle nie mehrere Fragen auf einmal und zähle keine Beispiele auf (kein "zum Beispiel A, B oder C"). Erkläre das Thema nicht, gib keine Beispiele oder Vokabelhilfen vor einer Präsentation, und fasse das Gesagte des Kandidaten nicht in eigenen Worten zusammen.
 
 WICHTIG (keine Hilfestellung während der Präsentation): Während ein Kandidat präsentiert oder auf eine Nachfrage antwortet, darfst du NIEMALS: Argumente vorschlagen, Vokabeln anbieten, einen angefangenen Satz vervollständigen, Grammatikfehler korrigieren, die Antwort des Kandidaten umformulieren oder verbessern, Ideen liefern, was der Kandidat sagen könnte, oder eine erwartete Antwort verraten. Der Kandidat muss die Präsentation vollständig eigenständig bewältigen — sprachliche Korrektur und Feedback sind ausschließlich Aufgabe der Auswertung nach der Prüfung, nie deine Aufgabe während des Gesprächs.
 
@@ -178,10 +178,24 @@ export async function generateExaminerReply(
   if (!key) throw new ExaminerBrainError("ANTHROPIC_API_KEY not set", false);
   const model = process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5";
 
-  const historyText = history
+  // One content block per history turn, with a cache breakpoint on the LAST
+  // one (the trigger text follows, uncached). A single concatenated string
+  // can't be cached incrementally: the next call's history is a LONGER
+  // string, so it never matches the previous call's prefix. As separate
+  // blocks, the previous call's blocks are byte-identical prefixes of this
+  // call's, so each call cache-reads the whole earlier conversation at 0.1x
+  // and pays full price only for the few lines added since. (History is
+  // append-only — never truncated — so the prefix stays stable.) Measured
+  // baseline before this change: ~16.7k fresh input tokens per exam.
+  const historyLines = history
     .map((h) => `${h.speaker === "examiner" ? "Prüferin" : h.speaker === "A" ? ctx.personAName : ctx.personBName}: ${h.text}`)
-    .join("\n");
-  const userMessage = [historyText ? `Bisheriger Verlauf:\n${historyText}\n` : "", userTurnFor(trigger)].filter(Boolean).join("\n");
+    .filter((line) => line.trim());
+  const userContent: { type: "text"; text: string; cache_control?: { type: "ephemeral" } }[] = historyLines.map((line, i) => ({
+    type: "text" as const,
+    text: (i === 0 ? "Bisheriger Verlauf:\n" : "") + line + "\n",
+    ...(i === historyLines.length - 1 ? { cache_control: { type: "ephemeral" as const } } : {}),
+  }));
+  userContent.push({ type: "text", text: userTurnFor(trigger) });
 
   const body = {
     model,
@@ -209,7 +223,7 @@ export async function generateExaminerReply(
     // costAccounting.ts for the real $ math. The array form (vs. a plain
     // string) is required for cache_control to attach to the system block.
     system: [{ type: "text", text: buildSystemPrompt(ctx), cache_control: { type: "ephemeral" } }],
-    messages: [{ role: "user", content: userMessage }],
+    messages: [{ role: "user", content: userContent }],
   };
 
   let res: Response;

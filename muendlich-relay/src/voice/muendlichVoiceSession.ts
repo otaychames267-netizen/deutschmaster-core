@@ -38,6 +38,7 @@
 import { readFile } from "node:fs/promises";
 import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openWhisperStt } from "./whisperStt.js";
+import { openGroqStt } from "./groqStt.js";
 import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
 import { generateExaminerReply, ExaminerBrainError, type ExamContext, type HistoryTurn } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
@@ -692,6 +693,11 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       if (process.env.MUENDLICH_STT_BACKEND === "whisper") {
         return await openWhisperStt(sttCallbacks);
       }
+      // MUENDLICH_STT_BACKEND=groq: Groq-hosted Whisper (~$0.04/hr) — the
+      // cheapest STT that needs no GPU infra of our own; see groqStt.ts.
+      if (process.env.MUENDLICH_STT_BACKEND === "groq") {
+        return await openGroqStt(sttCallbacks);
+      }
       // The underlying WebSocket can report success at the transport layer
       // (ws "open") before an application-level failure (auth_error, quota,
       // etc.) arrives as a separate message a moment later and closes the
@@ -745,11 +751,14 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // credits/dollars (computeExamCost bills sttMinutes at ElevenLabs'
       // rate unconditionally) — a real correctness bug this specifically
       // avoids, not a hypothetical one.
-      const usingWhisper = process.env.MUENDLICH_STT_BACKEND === "whisper";
+      const sttBackend = process.env.MUENDLICH_STT_BACKEND;
+      const usingWhisper = sttBackend === "whisper";
+      const usingGroq = sttBackend === "groq";
       return {
         ttsCharacters,
-        sttMinutes: usingWhisper ? 0 : sttMinutesTotal,
+        sttMinutes: usingWhisper || usingGroq ? 0 : sttMinutesTotal,
         selfHostedSttMinutes: usingWhisper ? sttMinutesTotal : 0,
+        groqSttMinutes: usingGroq ? sttMinutesTotal : 0,
         claudeInputTokens, claudeOutputTokens,
         claudeCacheCreationInputTokens, claudeCacheReadInputTokens,
       };
@@ -777,7 +786,16 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // voiceBackend.ts) pass PLAIN instruction text — the "[SYSTEM] "
       // wire-format prefix the prompt in examinerBrain.ts expects is added
       // here, not by the caller, so server.ts stays backend-agnostic.
-      void speak({ type: "system", text: `[SYSTEM] ${text}` });
+      //
+      // Utterance-buffering STT backends (Groq/Whisper) hold up to ~12s of the
+      // candidate's most recent speech un-transcribed; flush it first so the
+      // examiner's reply is grounded on what was JUST said (typically ~0.5-1s
+      // extra). Streaming ElevenLabs STT has no flush(), so that path stays
+      // synchronous exactly as before.
+      const pendingFlushes = [sttA, sttB].map((s) => s?.flush?.()).filter((f): f is Promise<void> => !!f);
+      const sendIt = () => { void speak({ type: "system", text: `[SYSTEM] ${text}` }); };
+      if (pendingFlushes.length === 0) sendIt();
+      else void Promise.allSettled(pendingFlushes).then(sendIt);
     },
     setStage(stage) { currentStage = stage; },
     close() {

@@ -99,6 +99,12 @@ export function selfHostedSttMinutesToUsd(minutes: number): number {
   return (minutes / 60) * SELF_HOSTED_STT_USD_PER_AUDIO_HOUR;
 }
 
+// Groq whisper-large-v3-turbo — published $0.04/hour of audio (console.groq.com/docs/speech-to-text).
+export const GROQ_STT_USD_PER_HOUR = 0.04;
+export function groqSttMinutesToUsd(minutes: number): number {
+  return (minutes / 60) * GROQ_STT_USD_PER_HOUR;
+}
+
 export function ttsCharactersToCredits(characters: number): number {
   return characters * TTS_CREDITS_PER_CHARACTER;
 }
@@ -143,6 +149,9 @@ export interface ExamUsage {
    * credits/dollars for audio ElevenLabs never touched. Contributes to
    * totalUsd at the near-zero self-hosted rate, ZERO ElevenLabs credits. */
   selfHostedSttMinutes?: number;
+  /** Real usage on the Groq-hosted Whisper path (MUENDLICH_STT_BACKEND=groq)
+   * — billed by Groq at GROQ_STT_USD_PER_HOUR, ZERO ElevenLabs credits. */
+  groqSttMinutes?: number;
 }
 
 export interface ExamCost {
@@ -155,7 +164,7 @@ export interface ExamCost {
   /** Google Cloud portion, $0 unless googleTtsCharacters/googleSttMinutes
    * were set on the input ExamUsage — see its doc comment. */
   googleUsd: number;
-  /** Self-hosted STT portion, $0 unless selfHostedSttMinutes was set. */
+  /** Self-hosted + Groq-hosted STT portion, $0 unless selfHostedSttMinutes/groqSttMinutes was set. */
   selfHostedUsd: number;
   /** ttsUsd + sttUsd + claudeUsd + googleUsd + selfHostedUsd — the REAL
    * total AI cost of the exam (what the business pays across every vendor
@@ -190,7 +199,7 @@ export function computeExamCost(usage: ExamUsage): ExamCost {
   const sttUsd = sttMinutesToUsd(usage.sttMinutes);
   const claudeUsd = claudeUsageToUsd(usage);
   const googleUsd = googleTtsCharactersToUsd(usage.googleTtsCharacters ?? 0) + googleSttMinutesToUsd(usage.googleSttMinutes ?? 0);
-  const selfHostedUsd = selfHostedSttMinutesToUsd(usage.selfHostedSttMinutes ?? 0);
+  const selfHostedUsd = selfHostedSttMinutesToUsd(usage.selfHostedSttMinutes ?? 0) + groqSttMinutesToUsd(usage.groqSttMinutes ?? 0);
   return {
     ttsCredits, sttCredits, totalCredits: ttsCredits + sttCredits,
     ttsUsd, sttUsd, claudeUsd, googleUsd, selfHostedUsd,

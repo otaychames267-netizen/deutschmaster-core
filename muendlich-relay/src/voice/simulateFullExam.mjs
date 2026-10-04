@@ -75,6 +75,7 @@ async function claudeSpeak(ctx, label, breakdown, usageTotal, history, trigger) 
     },
   });
   const finalChars = reply ? reply.length : 0;
+  if (process.env.SIM_PRINT) console.log(`      > [${label}] ${reply}`);
   breakdown.push({ label, chars: finalChars, silent: reply === null, kind: "claude" });
   return reply;
 }
