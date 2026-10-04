@@ -277,6 +277,12 @@ interface RoomSession {
   teil1Speaker: "A" | "B";
   teil1Phase: "presenting" | "q1" | "q2";
   teil1PhaseStartedAt: number;
+  // Snapshot of room.live.getSpokenChars(teil1Speaker) taken whenever
+  // teil1PhaseStartedAt resets — diffed against the current count right
+  // before opening the next question window, to detect a candidate whose
+  // just-finished turn produced no real committed speech (see
+  // openTeil1QuestionWindow's own comment for the bug this closes).
+  teil1PhaseStartChars: number;
   // QA tripwire, not exam logic: counts how many times openTeil1QuestionWindow
   // actually fired per candidate. The state machine's own phase enum
   // (presenting -> q1 -> q2, no other path) already makes >2 structurally
@@ -516,13 +522,26 @@ function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
  * per-answer time limit" prompt-only guidance. State (phase/timing) is
  * managed by the caller (tick()); this only crafts and sends the [SYSTEM]
  * cue — same division of labor as openTeil2TakeoverWindow below (question
- * WORDING stays with the live model, only WHO/WHEN is code-driven). */
-function openTeil1QuestionWindow(room: RoomSession, speakerName: string, questionNumber: 1 | 2) {
+ * WORDING stays with the live model, only WHO/WHEN is code-driven).
+ *
+ * `hasContent` (caller-computed from room.live.getSpokenChars — see that
+ * field's comment): real bug found and fixed 2026-10-04 — this used to
+ * unconditionally tell Claude to ask "based on what they ACTUALLY said" even
+ * when the candidate's just-finished turn produced ZERO committed
+ * transcript (silence, a mic glitch, STT failure). Verified live: Claude
+ * does not notice the gap and simply fabricates plausible-sounding content
+ * ("Sie haben gesagt, Erholung sei Ihnen wichtiger...") attributed to a
+ * candidate who said nothing — a real integrity problem for an exam
+ * specifically. When hasContent is false, the instruction below explicitly
+ * says so and asks for an open prompt instead of inventing specifics. */
+function openTeil1QuestionWindow(room: RoomSession, speakerName: string, questionNumber: 1 | 2, hasContent: boolean) {
   room.teil1QuestionsAsked[room.teil1Speaker]++; // QA tripwire — see the field's doc comment
   const framing = questionNumber === 1 ? `Die Präsentationszeit ist um.` : `Die Antwortzeit ist um.`;
-  const instruction = questionNumber === 1
-    ? `Stellen Sie ${speakerName} jetzt Ihre erste Frage zur Präsentation — konkret bezogen auf das, was ${speakerName} tatsächlich gesagt hat.`
-    : `Stellen Sie ${speakerName} jetzt Ihre zweite und letzte Frage zur Präsentation — eine andere Art von Frage als die erste (z. B. Meinung, Grund, Beispiel oder Vergleich statt einer Wiederholung derselben Frageart), ebenfalls konkret auf das Gesagte bezogen.`;
+  const instruction = !hasContent
+    ? `${speakerName} hat in dieser Zeit nichts Verständliches gesagt (Stille, Verbindungsproblem oder zu leise) — unterstellen Sie KEINEN Inhalt und zitieren Sie nichts, das ${speakerName} angeblich gesagt hat. Fordern Sie ${speakerName} stattdessen freundlich und offen auf, doch noch etwas zum Thema zu sagen (z. B. "Möchten Sie noch etwas zu Ihrem Thema sagen?"), ohne eine konkrete frühere Aussage vorauszusetzen.`
+    : questionNumber === 1
+      ? `Stellen Sie ${speakerName} jetzt Ihre erste Frage zur Präsentation — konkret bezogen auf das, was ${speakerName} tatsächlich gesagt hat.`
+      : `Stellen Sie ${speakerName} jetzt Ihre zweite und letzte Frage zur Präsentation — eine andere Art von Frage als die erste (z. B. Meinung, Grund, Beispiel oder Vergleich statt einer Wiederholung derselben Frageart), ebenfalls konkret auf das Gesagte bezogen.`;
   room.live?.sendSystemMessage(
     // Interpolated (not hardcoded "30") — matters whenever
     // MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS is overridden (e.g. shortened
@@ -558,8 +577,19 @@ function openTeil2TakeoverWindow(
       ? "Bedanken Sie sich kurz für die Antwort und wechseln Sie dann höflich das Wort."
       : "Der vorherige Kandidat hat nicht geantwortet — wechseln Sie ohne Kommentar dazu direkt weiter.";
 
+  // Same real bug/fix as openTeil1QuestionWindow's own comment: don't tell
+  // Claude to ground the question "on something already said" when the
+  // TARGET candidate (targetName, who's about to be asked) has no real
+  // committed speech anywhere in the exam yet — cumulative, not windowed,
+  // since a candidate who spoke earlier (even in Teil 1) is a safe thing to
+  // reference, only true silence-so-far is the fabrication risk.
+  const targetHasSpoken = (room.live?.getSpokenChars(candidate) ?? 0) > 0;
+  const grounding = targetHasSpoken
+    ? "und gründen Sie die Frage nach Möglichkeit auf etwas, das tatsächlich bereits gesagt wurde"
+    : `(${targetName} hat bisher noch nichts Verständliches gesagt — unterstellen Sie KEINEN Inhalt und stellen Sie eine offene Frage zum Thema, ohne eine frühere Aussage vorauszusetzen)`;
+
   room.live?.sendSystemMessage(
-    `${framing} Stellen Sie ${targetName} jetzt eine direkte Frage zum Thema. Wählen Sie eine andere Art von Frage als beim letzten Mal (Meinung, Grund, Beispiel, Vergleich, Reaktion auf ${otherName}s Beitrag, Gegenargument oder Konsequenz), und gründen Sie die Frage nach Möglichkeit auf etwas, das tatsächlich bereits gesagt wurde. ${targetName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
+    `${framing} Stellen Sie ${targetName} jetzt eine direkte Frage zum Thema. Wählen Sie eine andere Art von Frage als beim letzten Mal (Meinung, Grund, Beispiel, Vergleich, Reaktion auf ${otherName}s Beitrag, Gegenargument oder Konsequenz), ${grounding}. ${targetName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
   );
 }
 
@@ -628,6 +658,7 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
     room.teil1Speaker = "A";
     room.teil1Phase = "presenting";
     room.teil1PhaseStartedAt = Date.now();
+    room.teil1PhaseStartChars = room.live?.getSpokenChars("A") ?? 0;
     room.teil1QuestionsAsked = { A: 0, B: 0 };
   }
 
@@ -894,10 +925,12 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       // consistent with that existing principle.
       const finishedEarly = phaseElapsedMs >= 10_000 && room.lastAudioAt > room.teil1PhaseStartedAt && now - room.lastAudioAt >= SILENCE_THRESHOLD_MS[1];
       if (hitHardCap || finishedEarly) {
-        console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+        const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
+        console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
         room.teil1Phase = "q1";
         room.teil1PhaseStartedAt = now;
-        openTeil1QuestionWindow(room, speakerName, 1);
+        room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
+        openTeil1QuestionWindow(room, speakerName, 1, hasContent);
       }
     } else {
       // q1 or q2 — a 30s answer window is open. Same "looks finished /
@@ -910,10 +943,12 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       if (looksFinished || windowExpired) {
         const reason = looksFinished ? "looks finished" : "window expired";
         if (room.teil1Phase === "q1") {
-          console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} Q1 -> Q2 (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+          const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
+          console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} Q1 -> Q2 (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
           room.teil1Phase = "q2";
           room.teil1PhaseStartedAt = now;
-          openTeil1QuestionWindow(room, speakerName, 2);
+          room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
+          openTeil1QuestionWindow(room, speakerName, 2, hasContent);
         } else if (room.teil1Speaker === "A") {
           // A's presentation + 2 questions done -> hand off to B. Skips
           // Claude for the scripted transition, same reasoning as
@@ -922,6 +957,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
           room.teil1Speaker = "B";
           room.teil1Phase = "presenting";
           room.teil1PhaseStartedAt = now;
+          room.teil1PhaseStartChars = room.live?.getSpokenChars("B") ?? 0;
           const voiceId = room.live?.getVoiceId() ?? "gemini-default";
           // Chained via .then() (not awaited — tick() is sync) so the
           // handoff sentence finishes before the question starts: both
@@ -1725,6 +1761,7 @@ wss.on("connection", async (ws, req) => {
         roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
         lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastNudgeAt: 0,
         examStage: null, examStageStartedAt: 0, teil1Speaker: "A", teil1Phase: "presenting", teil1PhaseStartedAt: 0,
+        teil1PhaseStartChars: 0,
         teil1QuestionsAsked: { A: 0, B: 0 },
         teil2Mode: "natural", teil2TakeoverTurn: null, teil2TakeoverWindowOpenedAt: 0, teil2TakeoverWindowEndsAt: 0,
         teil3CompletionSignalSent: false,

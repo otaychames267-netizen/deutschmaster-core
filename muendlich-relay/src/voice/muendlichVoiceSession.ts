@@ -105,6 +105,12 @@ export interface MuendlichVoiceSession {
    * picking itself has to happen one level up (it needs the real candidate
    * name/topic for this exam, which the voice session doesn't have). */
   getVoiceId(): string;
+  /** Cumulative committed-STT character count for one slot, since the
+   * session began — server.ts snapshots this at a window's start and diffs
+   * at its end to detect "this candidate said (almost) nothing real this
+   * turn," rather than assuming content exists. See spokenChars's own
+   * comment for why room.lastAudioAt can't be used for this instead. */
+  getSpokenChars(slot: "A" | "B"): number;
   /** server.ts calls this from startStage() — lets the session gate
    * organic (Teil-1-only) triggers without server.ts needing to know
    * anything about how those triggers work internally. */
@@ -157,6 +163,19 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   let voice = await voiceManager.assignVoice(examSessionId, EXAMINER_POOL);
 
   const history: HistoryTurn[] = [];
+  // Cumulative committed-STT character count per slot — lets server.ts
+  // detect "this candidate's turn produced no real transcribed speech"
+  // (snapshot at a window's start, diff at its end) WITHOUT relying on
+  // room.lastAudioAt/lastSenderSlot, which update unconditionally on every
+  // raw "audio" websocket message (server.ts's own handler) regardless of
+  // whether the frame contains real speech or silence — a continuously-
+  // streaming mic (the real client's normal behavior) means that signal
+  // can't distinguish "spoke the whole time" from "silent the whole time."
+  // Real bug found 2026-10-04: without this, openTeil1QuestionWindow()
+  // unconditionally told Claude to ask "based on what they actually said"
+  // even for a candidate with zero committed transcript, and Claude
+  // fabricated plausible-sounding content rather than noticing the gap.
+  const spokenChars: Record<"A" | "B", number> = { A: 0, B: 0 };
   let currentStage: 1 | 2 | 3 = 1;
   let closed = false;
   let sttA: SttSession | null = null;
@@ -627,6 +646,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   function handleCommittedTranscript(slot: "A" | "B", text: string) {
     if (!text.trim()) return;
     history.push({ speaker: slot, text });
+    spokenChars[slot] += text.trim().length;
     callbacks.onInputTranscript?.(text, slot);
 
     // Organic follow-up trigger: PERMANENTLY DISABLED as of the Teil 1
@@ -736,6 +756,9 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     },
     getVoiceId() {
       return voice.voiceId;
+    },
+    getSpokenChars(slot) {
+      return spokenChars[slot];
     },
     playLibraryPhrase(category) {
       return playLibraryPhrase(category);

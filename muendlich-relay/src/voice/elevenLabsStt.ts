@@ -81,6 +81,16 @@ export function openRealtimeStt(callbacks: SttCallbacks): Promise<SttSession> {
       }
     });
     ws.on("error", (err) => { callbacks.onError?.(err instanceof Error ? err.message : String(err)); if (!opened) reject(err); });
-    ws.on("close", () => callbacks.onClose?.());
+    ws.on("close", (code, reason) => {
+      // Real gap found 2026-10-04 while investigating repeated early STT
+      // closes during live testing: this handler used to discard the actual
+      // WebSocket close code/reason entirely, so an application-level
+      // failure (auth_error, quota — see openRealtimeStt's own header
+      // comment, which already anticipated this) was indistinguishable in
+      // the logs from a normal end-of-session close. Surfacing it doesn't
+      // change behavior, only diagnosability.
+      console.warn(`[elevenLabsStt] connection closed, code=${code} reason="${reason?.toString?.() ?? ""}"`);
+      callbacks.onClose?.();
+    });
   });
 }

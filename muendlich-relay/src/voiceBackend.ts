@@ -56,6 +56,12 @@ export interface VoiceBackendSession {
    * but the interface stays honest either way rather than returning
    * something misleading. */
   getUsage(): ExamUsage;
+  /** Cumulative committed-STT character count for one slot since the
+   * session began. Real {0,0}-equivalent on the Gemini backend for the same
+   * reason getUsage() is — Gemini Live has no separate STT step to count,
+   * and server.ts's content-hallucination guard (see openTeil1QuestionWindow's
+   * comment) is gated on the ElevenLabs path same as the credit cap. */
+  getSpokenChars(slot: "A" | "B"): number;
   close(): void;
 }
 
@@ -135,6 +141,7 @@ export async function openVoiceBackend(ctx: RoomContext, examSessionId: string, 
     getVoiceId() { return "gemini-default"; }, // no real per-exam voice pool on this backend — see interface doc comment
     setStage() {}, // no-op — see interface doc comment
     getUsage() { return { ttsCharacters: 0, sttMinutes: 0 }; }, // no-op — see interface doc comment
+    getSpokenChars() { return 0; }, // no-op — see interface doc comment
     close() { gemini.close(); },
   };
 }
