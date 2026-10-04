@@ -39,6 +39,7 @@ import { readFile } from "node:fs/promises";
 import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openWhisperStt } from "./whisperStt.js";
 import { openGroqStt } from "./groqStt.js";
+import { openFailoverStt } from "./failoverStt.js";
 import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
 import { generateExaminerReply, ExaminerBrainError, type ExamContext, type HistoryTurn } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
@@ -112,6 +113,10 @@ export interface MuendlichVoiceSession {
    * turn," rather than assuming content exists. See spokenChars's own
    * comment for why room.lastAudioAt can't be used for this instead. */
   getSpokenChars(slot: "A" | "B"): number;
+  /** Forces buffered speech through STT and resolves when its transcripts have
+   * been delivered (see sendSystemMessage). server.ts awaits this before
+   * deciding whether a candidate's turn had any content. */
+  flushStt(): Promise<void>;
   /** server.ts calls this from startStage() — lets the session gate
    * organic (Teil-1-only) triggers without server.ts needing to know
    * anything about how those triggers work internally. */
@@ -230,6 +235,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   let ttsCharacters = 0;
   let sttBytesA = 0;
   let sttBytesB = 0;
+  let sttFallbackBytes = 0; // subset of the above that went to the ElevenLabs fallback after a Groq failover
   // Real Anthropic-reported token counts, accumulated across every Claude
   // call this session makes (speak() only — speakScriptedText/
   // playLibraryPhrase never call Claude at all, that's their entire point).
@@ -695,8 +701,12 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       }
       // MUENDLICH_STT_BACKEND=groq: Groq-hosted Whisper (~$0.04/hr) — the
       // cheapest STT that needs no GPU infra of our own; see groqStt.ts.
+      // Wrapped in failoverStt: if Groq starts failing (daily free-tier
+      // quota, outage, bad key) THIS candidate's stream switches to the
+      // ElevenLabs realtime STT for the rest of the exam instead of silently
+      // losing every transcript — see failoverStt.ts.
       if (process.env.MUENDLICH_STT_BACKEND === "groq") {
-        return await openGroqStt(sttCallbacks);
+        return await openFailoverStt(openGroqStt, openRealtimeStt, sttCallbacks, `slot ${slot}, session ${examSessionId}`);
       }
       // The underlying WebSocket can report success at the transport layer
       // (ws "open") before an application-level failure (auth_error, quota,
@@ -740,11 +750,17 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // PCM16 byte count, not an approximation from the string length.
       const bytes = Buffer.byteLength(base64, "base64");
       if (slot === "A") sttBytesA += bytes; else sttBytesB += bytes;
-      (slot === "A" ? sttA : sttB)?.sendPcm16(base64);
+      const slotStt = slot === "A" ? sttA : sttB;
+      // Audio that went to the ElevenLabs fallback after a Groq failover is
+      // billed at ElevenLabs' rate, not Groq's — tracked separately so
+      // getUsage() stays honest even in the degraded case.
+      if (slotStt && "failedOver" in slotStt && slotStt.failedOver) sttFallbackBytes += bytes;
+      slotStt?.sendPcm16(base64);
     },
     getUsage() {
       const totalSttBytes = sttBytesA + sttBytesB;
       const sttMinutesTotal = totalSttBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;
+      const fallbackMinutes = sttFallbackBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;
       // Route real STT minutes to whichever cost bucket actually billed
       // them: MUENDLICH_STT_BACKEND=whisper never touches ElevenLabs at
       // all, so those minutes must NOT be charged as ElevenLabs STT
@@ -756,9 +772,9 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       const usingGroq = sttBackend === "groq";
       return {
         ttsCharacters,
-        sttMinutes: usingWhisper || usingGroq ? 0 : sttMinutesTotal,
+        sttMinutes: usingWhisper ? 0 : usingGroq ? fallbackMinutes : sttMinutesTotal,
         selfHostedSttMinutes: usingWhisper ? sttMinutesTotal : 0,
-        groqSttMinutes: usingGroq ? sttMinutesTotal : 0,
+        groqSttMinutes: usingGroq ? sttMinutesTotal - fallbackMinutes : 0,
         claudeInputTokens, claudeOutputTokens,
         claudeCacheCreationInputTokens, claudeCacheReadInputTokens,
       };
@@ -768,6 +784,9 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     },
     getSpokenChars(slot) {
       return spokenChars[slot];
+    },
+    async flushStt() {
+      await Promise.allSettled([sttA, sttB].map((s) => s?.flush?.()).filter((p): p is Promise<void> => !!p));
     },
     playLibraryPhrase(category) {
       return playLibraryPhrase(category);

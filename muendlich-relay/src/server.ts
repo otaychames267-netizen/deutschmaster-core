@@ -266,6 +266,13 @@ interface RoomSession {
   // message name WHICH candidate has actually been quieter for longer,
   // instead of leaving that entirely to the model's own inference.
   lastAudioAtBySlot: Record<"A" | "B", number>;
+  // Per-slot time of the last frame that actually contained SPEECH (RMS above
+  // SPEECH_RMS_THRESHOLD) — unlike lastAudioAt*, which the browser's
+  // continuous mic stream (silence frames included) keeps permanently fresh.
+  // Drives Teil 1/2 "finished early" / "still mid-speech" decisions. With the
+  // threshold at 0 (default) every frame counts and this equals
+  // lastAudioAtBySlot, i.e. the pre-existing behavior.
+  lastSpeechAtBySlot: Record<"A" | "B", number>;
   lastNudgeAt: number;
   examStage: 1 | 2 | 3 | null;
   examStageStartedAt: number;
@@ -283,6 +290,9 @@ interface RoomSession {
   // just-finished turn produced no real committed speech (see
   // openTeil1QuestionWindow's own comment for the bug this closes).
   teil1PhaseStartChars: number;
+  // True while tick() is mid-transition (awaiting flushStt before deciding
+  // hasContent) so a second tick can't re-fire the same transition.
+  teil1Transitioning: boolean;
   // QA tripwire, not exam logic: counts how many times openTeil1QuestionWindow
   // actually fired per candidate. The state machine's own phase enum
   // (presenting -> q1 -> q2, no other path) already makes >2 structurally
@@ -512,6 +522,25 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
  * actively mid-utterance right now, rather than paused/finished. Pulled out
  * as a named, independently-testable function rather than an inline
  * condition — see muendlich-relay's own test suite for direct coverage. */
+// Speech-vs-silence for ONE incoming mic frame (base64 PCM16). FOUND by a
+// full-room live test (groqRoom.live-test.mjs): the real browser client sends
+// EVERY mic frame — silence included — so counting "a frame arrived" as
+// activity (lastAudioAt) means "finished early", "answer looks finished" and
+// the mid-speech grace can never trigger in a real room; every presentation
+// runs to cap+grace and every answer window to its full length. This detector
+// is OFF by default (MUENDLICH_SPEECH_RMS unset/0 => every frame counts =
+// identical to the old behavior) so enabling it is a deliberate, reversible
+// per-deploy switch. ~0.012 sits above typical room noise (<0.01) and below
+// normal speech (0.03+); the STT silence gate uses 0.02.
+const SPEECH_RMS_THRESHOLD = Number(process.env.MUENDLICH_SPEECH_RMS ?? 0);
+function isSpeechFrame(base64: string): boolean {
+  if (SPEECH_RMS_THRESHOLD <= 0) return true;
+  const buf = Buffer.from(base64, "base64");
+  let sum = 0, n = 0;
+  for (let i = 0; i + 1 < buf.length; i += 2) { const v = buf.readInt16LE(i) / 32768; sum += v * v; n++; }
+  return n > 0 && Math.sqrt(sum / n) > SPEECH_RMS_THRESHOLD;
+}
+
 function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
   return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
 }
@@ -898,7 +927,20 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   // hand off to the other candidate (after A) or end the Teil (after B).
   // Explicit product spec, replacing the old single wall-clock-midpoint
   // handoff (see TEIL1_PRESENTATION_SECONDS's comment for why).
-  if (room.examStage === 1) {
+  // Two guards, both found by a full-room live test with real speech
+  // (groqRoom.live-test.mjs, 2026-10-04):
+  //  - teil1PhaseStartedAt === 0: startStage(1) sets examStage=1 immediately
+  //    but then AWAITS the whole opening (welcome + exam_start + first
+  //    question: 15-20s of real TTS playback on the ElevenLabs backend) before
+  //    it sets the presentation clock. Without this guard the tick saw
+  //    phaseElapsed = now - 0 = "decades", fired a bogus "presentation -> Q1"
+  //    ~1s into the opening, and its [SYSTEM] trigger CUT OFF the opening to
+  //    ask "Möchten Sie noch etwas zu Ihrem Thema sagen?" before the candidate
+  //    had been given the topic. (On the old Gemini backend startStage didn't
+  //    wait for playback, so the window was ~0ms and it never showed.)
+  //  - teil1Transitioning: a transition awaits flushStt() (below), so a second
+  //    tick must not re-evaluate and double-fire the same transition meanwhile.
+  if (room.examStage === 1 && room.teil1PhaseStartedAt !== 0 && !room.teil1Transitioning) {
     const now = Date.now();
     const phaseElapsedMs = now - room.teil1PhaseStartedAt;
     const speakerName = room.teil1Speaker === "A" ? ctx.aName : ctx.bName;
@@ -906,7 +948,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
     if (room.teil1Phase === "presenting") {
       const capMs = TEIL1_PRESENTATION_SECONDS * 1000;
       const withinGraceCap = phaseElapsedMs < capMs + HANDOFF_MAX_GRACE_MS;
-      const hitHardCap = phaseElapsedMs >= capMs && !(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, now));
+      const hitHardCap = phaseElapsedMs >= capMs && !(withinGraceCap && isLikelyMidSpeech(room.lastSpeechAtBySlot[room.teil1Speaker], now));
       // Early-finish: candidate has spoken for a while, then gone quiet for
       // a normal "I'm done" pause — don't force them to sit out the rest of
       // their 90s in silence just because the clock hasn't hit the cap yet.
@@ -923,32 +965,52 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       // presentation and would have cut candidates off mid-presentation
       // into Q1 far too eagerly. Uses SILENCE_THRESHOLD_MS[1] (8s) instead,
       // consistent with that existing principle.
-      const finishedEarly = phaseElapsedMs >= 10_000 && room.lastAudioAt > room.teil1PhaseStartedAt && now - room.lastAudioAt >= SILENCE_THRESHOLD_MS[1];
+      const finishedEarly = phaseElapsedMs >= 10_000 && room.lastSpeechAtBySlot[room.teil1Speaker] > room.teil1PhaseStartedAt && now - room.lastSpeechAtBySlot[room.teil1Speaker] >= SILENCE_THRESHOLD_MS[1];
       if (hitHardCap || finishedEarly) {
-        const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
-        console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
-        room.teil1Phase = "q1";
-        room.teil1PhaseStartedAt = now;
-        room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
-        openTeil1QuestionWindow(room, speakerName, 1, hasContent);
+        room.teil1Transitioning = true;
+        try {
+          // Utterance-buffering STT backends (Groq) only commit a pause's worth
+          // of speech after a debounce + the upstream silence hangover (~2s
+          // plus a ~2s API call), so the candidate's LAST words are often not
+          // in getSpokenChars yet at this instant. Flush first, or hasContent
+          // is decided on stale data and the examiner is told "they said
+          // nothing" about someone who just finished talking (seen live).
+          await room.live?.flushStt();
+          if (room.ended || room.finishing || room.examStage !== 1 || room.teil1Phase !== "presenting") return;
+          const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
+          console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
+          room.teil1Phase = "q1";
+          room.teil1PhaseStartedAt = Date.now();
+          room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
+          openTeil1QuestionWindow(room, speakerName, 1, hasContent);
+        } finally {
+          room.teil1Transitioning = false;
+        }
       }
     } else {
       // q1 or q2 — a 30s answer window is open. Same "looks finished /
       // window expired" logic as Teil 2's takeover windows below.
       const windowMs = TEIL1_ANSWER_WINDOW_SECONDS * 1000;
-      const hasResponded = room.lastAudioAt > room.teil1PhaseStartedAt && room.lastSenderSlot === room.teil1Speaker;
-      const trailingSilenceMs = now - room.lastAudioAt;
+      const hasResponded = room.lastSpeechAtBySlot[room.teil1Speaker] > room.teil1PhaseStartedAt;
+      const trailingSilenceMs = now - room.lastSpeechAtBySlot[room.teil1Speaker];
       const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
       const windowExpired = phaseElapsedMs >= windowMs;
       if (looksFinished || windowExpired) {
         const reason = looksFinished ? "looks finished" : "window expired";
         if (room.teil1Phase === "q1") {
-          const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
-          console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} Q1 -> Q2 (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
-          room.teil1Phase = "q2";
-          room.teil1PhaseStartedAt = now;
-          room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
-          openTeil1QuestionWindow(room, speakerName, 2, hasContent);
+          room.teil1Transitioning = true;
+          try {
+            await room.live?.flushStt(); // see the presentation->Q1 transition above for why
+            if (room.ended || room.finishing || room.examStage !== 1 || room.teil1Phase !== "q1") return;
+            const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
+            console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} Q1 -> Q2 (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
+            room.teil1Phase = "q2";
+            room.teil1PhaseStartedAt = Date.now();
+            room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
+            openTeil1QuestionWindow(room, speakerName, 2, hasContent);
+          } finally {
+            room.teil1Transitioning = false;
+          }
         } else if (room.teil1Speaker === "A") {
           // A's presentation + 2 questions done -> hand off to B. Skips
           // Claude for the scripted transition, same reasoning as
@@ -956,7 +1018,12 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
           console.log(`[room ${room.roomId}] Teil 1: A Q2 done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> handing off to B`);
           room.teil1Speaker = "B";
           room.teil1Phase = "presenting";
-          room.teil1PhaseStartedAt = now;
+          // 0 = clock paused until the handoff sentence AND the topic question
+          // have finished playing (set in the .then() below) — the same rule
+          // startStage() applies to A's opening. Starting B's clock here
+          // instead silently charged ~10-15s of examiner speech against B's 90s
+          // presentation, so B got noticeably less time than A.
+          room.teil1PhaseStartedAt = 0;
           room.teil1PhaseStartChars = room.live?.getSpokenChars("B") ?? 0;
           const voiceId = room.live?.getVoiceId() ?? "gemini-default";
           // Chained via .then() (not awaited — tick() is sync) so the
@@ -965,7 +1032,13 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
           // firing them concurrently would let the question cancel the
           // handoff mid-word.
           void room.live?.speakScriptedText(pickTaskTransition({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
-            .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle));
+            .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle))
+            .catch(() => {}) // a failed utterance must never leave B's clock paused forever
+            .then(() => {
+              if (room.ended || room.finishing || room.teil1Speaker !== "B" || room.teil1Phase !== "presenting") return;
+              room.teil1PhaseStartedAt = Date.now();
+              room.teil1PhaseStartChars = room.live?.getSpokenChars("B") ?? 0;
+            });
         } else {
           // B's presentation + 2 questions done -> both candidates finished
           // -> Teil 1 is complete. Trigger the intermission directly here
@@ -1006,7 +1079,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       // Same mid-speech grace as the Teil 1 handoff — interrupting an ongoing
       // discussion to redirect it is normal for this Teil, but shouldn't land
       // literally mid-word if avoidable.
-      if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
+      if (!(withinGraceCap && isLikelyMidSpeech(Math.max(room.lastSpeechAtBySlot.A, room.lastSpeechAtBySlot.B), Date.now()))) {
         room.teil2Mode = "takeover";
         openTeil2TakeoverWindow(room, ctx, "A", { first: true, previousResponded: false });
       }
@@ -1016,8 +1089,8 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       // Has the addressed candidate actually spoken since this window opened?
       // (lastSenderSlot/lastAudioAt are the same signals the rest of this
       // file already relies on — no new speaker-detection mechanism.)
-      const hasResponded = room.lastAudioAt > room.teil2TakeoverWindowOpenedAt && room.lastSenderSlot === turn;
-      const trailingSilenceMs = now - room.lastAudioAt;
+      const hasResponded = room.lastSpeechAtBySlot[turn] > room.teil2TakeoverWindowOpenedAt;
+      const trailingSilenceMs = now - room.lastSpeechAtBySlot[turn];
       // Reusing HANDOFF_ACTIVE_SPEECH_MS here too, inverted: there it means
       // "recent audio -> still mid-thought, don't interrupt"; here it means
       // "answered, then this many ms of silence -> the answer looks finished,
@@ -1043,7 +1116,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
     // Same mid-speech grace as elsewhere — this is explicitly NOT meant to be
     // an abrupt takeover, so if they're actively mid-negotiation right at the
     // mark, let the moment pass rather than interrupting.
-    if (!(withinGraceCap && isLikelyMidSpeech(room.lastAudioAt, Date.now()))) {
+    if (!(withinGraceCap && isLikelyMidSpeech(Math.max(room.lastSpeechAtBySlot.A, room.lastSpeechAtBySlot.B), Date.now()))) {
       room.teil3CompletionSignalSent = true;
       room.live?.sendSystemMessage(
         `Die geplante freie Planungszeit nähert sich dem Ende. Werden Sie ab jetzt aktiver als Moderatorin: Identifizieren Sie einen noch offenen Planungspunkt und stellen Sie dazu EINE kurze, gezielte Frage (ein Satz, keine Aufzählung mehrerer Punkte), damit die Kandidaten zu einer konkreten gemeinsamen Entscheidung kommen. Die Kandidaten sollen weiterhin selbst planen und entscheiden — Sie moderieren, Sie planen nicht für sie. Kein abruptes Eingreifen: Wenn gerade aktiv verhandelt wird, lassen Sie das laufen und steigen Sie beim nächsten passenden Moment ein.`,
@@ -1759,9 +1832,9 @@ wss.on("connection", async (ws, req) => {
     if (!room) {
       room = {
         roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
-        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastNudgeAt: 0,
+        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastSpeechAtBySlot: { A: 0, B: 0 }, lastNudgeAt: 0,
         examStage: null, examStageStartedAt: 0, teil1Speaker: "A", teil1Phase: "presenting", teil1PhaseStartedAt: 0,
-        teil1PhaseStartChars: 0,
+        teil1PhaseStartChars: 0, teil1Transitioning: false,
         teil1QuestionsAsked: { A: 0, B: 0 },
         teil2Mode: "natural", teil2TakeoverTurn: null, teil2TakeoverWindowOpenedAt: 0, teil2TakeoverWindowEndsAt: 0,
         teil3CompletionSignalSent: false,
@@ -1790,6 +1863,7 @@ wss.on("connection", async (ws, req) => {
           room!.lastSenderSlot = participantRow.slot as "A" | "B";
           room!.lastAudioAt = Date.now();
           room!.lastAudioAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
+          if (isSpeechFrame(msg.data)) room!.lastSpeechAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
           // Captured unconditionally (including during an intermission breather
           // — it's just a raw recording, not something sent to the AI) for the
           // post-exam playback feature, see RoomSession.recordingChunks's own comment.

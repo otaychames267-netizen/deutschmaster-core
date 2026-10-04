@@ -62,6 +62,11 @@ export interface VoiceBackendSession {
    * and server.ts's content-hallucination guard (see openTeil1QuestionWindow's
    * comment) is gated on the ElevenLabs path same as the credit cap. */
   getSpokenChars(slot: "A" | "B"): number;
+  /** Forces any speech an utterance-buffering STT backend (Groq/Whisper) is
+   * still holding to be transcribed, and resolves once those transcripts are
+   * delivered — call BEFORE reading getSpokenChars to decide whether a
+   * candidate said anything. No-op on streaming/Gemini backends. */
+  flushStt(): Promise<void>;
   close(): void;
 }
 
@@ -142,6 +147,7 @@ export async function openVoiceBackend(ctx: RoomContext, examSessionId: string, 
     setStage() {}, // no-op — see interface doc comment
     getUsage() { return { ttsCharacters: 0, sttMinutes: 0 }; }, // no-op — see interface doc comment
     getSpokenChars() { return 0; }, // no-op — see interface doc comment
+    async flushStt() {}, // no-op — Gemini has no separate STT step
     close() { gemini.close(); },
   };
 }

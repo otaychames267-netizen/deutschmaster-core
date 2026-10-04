@@ -159,8 +159,29 @@ async function fetchWithTimeout(url: string, opts: RequestInit, ms: number, exte
   }
 }
 
+/** Leading pleasantry SENTENCES ("Danke der Antwort.", "Gut.", "Okay.") the
+ * prompt forbids but Haiku still adds to ~half of its turns (measured: 5 of 11
+ * in a simulated exam). They carry no information, an exam examiner doesn't
+ * chat, and every character is billed TTS — so drop them deterministically
+ * instead of relying on the prompt. Only a COMPLETE leading sentence ending in
+ * . or ! is removed ("Gut, dann fassen wir zusammen..." is kept: a comma means
+ * the sentence continues). */
+const LEADING_FILLER = /^\s*(?:(?:vielen\s+)?dank(?:e)?(?:\s+(?:sch(?:ö|oe)n|ihnen|dir|euch))?(?:\s+(?:für|fuer)\s+(?:ihre|die|der|diese)\s+(?:antwort|präsentation|praesentation|erkl(?:ä|ae)rung))?|danke\s+der\s+antwort|(?:sehr\s+)?gut|okay|ok|alles\s+klar|verstanden|genau|prima|schön|schoen)\s*[.!]\s*/i;
+export function stripLeadingFiller(text: string): string {
+  let out = text;
+  for (let i = 0; i < 3; i++) { // "Danke. Gut. Frage..." — at most a few stacked
+    const next = out.replace(LEADING_FILLER, "");
+    if (next === out) break;
+    out = next;
+  }
+  return out;
+}
+
 function userTurnFor(trigger: ExaminerTrigger): string {
-  return trigger.text;
+  // Language reminder at the point of generation (the system prompt's rule
+  // sits far above a long history; the cheap primary model drifted into French
+  // once in a live test). Part of the uncached tail, ~10 tokens.
+  return `${trigger.text}\n\n(Antworten Sie ausschließlich auf Deutsch.)`;
 }
 
 /** Streaming reply generation. Returns the full reply text — every trigger
@@ -174,9 +195,56 @@ export async function generateExaminerReply(
   callbacks: ExaminerReplyCallbacks,
   abortSignal?: AbortSignal,
 ): Promise<string> {
+  const primary = process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5";
+  const fallback = process.env.CLAUDE_EXAMINER_FALLBACK_MODEL ?? "claude-sonnet-5";
+  try {
+    return await generateExaminerReplyOnce(primary, ctx, history, trigger, callbacks, abortSignal);
+  } catch (e) {
+    // Found by a full-room live test: the cheap primary model (Haiku) answered
+    // in FRENCH once. An exam examiner must never speak anything but German, and
+    // the first sentence is checked BEFORE any audio is produced, so the bad
+    // reply is discarded silently and regenerated on the stronger model — the
+    // candidate never hears it. Costs a few cents only in this rare case.
+    if (e instanceof WrongLanguageError && fallback !== primary) {
+      console.warn(`[examinerBrain] ${primary} replied in the wrong language ("${e.sample}") — regenerating with ${fallback}`);
+      return await generateExaminerReplyOnce(fallback, ctx, history, trigger, callbacks, abortSignal);
+    }
+    throw e;
+  }
+}
+
+class WrongLanguageError extends ExaminerBrainError {
+  constructor(public sample: string) {
+    super("examiner reply was not German", true);
+  }
+}
+
+// Function-word tallies — deliberately tiny and conservative. "in", "an",
+// "was" (German "what" / English "was") and other cross-language words are
+// excluded so a German sentence can never be flagged.
+const DE_WORDS = new Set("der die das den dem des und ist sind sie ihr ihre ihren ihnen wie warum wo wann welche welcher welches haben hat habe ein eine einen einem nicht zu mit von auf für dass auch sich es ich wir im aber oder bitte noch dann wenn denn wer wem wen worüber woran dabei dazu".split(" "));
+const FR_WORDS = new Set("vous avez votre vos nous est êtes comment pourquoi quand dans avec une des les que qui pour pas sur mais être avoir était très aussi cette mentionné quel quelle quels ce ces donc alors".split(" "));
+const EN_WORDS = new Set("the you your what why how did is are with about that this have would could do does were can and which when where who they their".split(" "));
+export function looksNonGerman(text: string): boolean {
+  const words = text.toLowerCase().replace(/[^a-zäöüßéèêàçôû\s'-]/g, " ").split(/\s+/).filter(Boolean);
+  let de = 0, other = 0;
+  for (const w of words) {
+    if (DE_WORDS.has(w)) de++;
+    else if (FR_WORDS.has(w) || EN_WORDS.has(w)) other++;
+  }
+  return other >= 2 && other > de;
+}
+
+async function generateExaminerReplyOnce(
+  model: string,
+  ctx: ExamContext,
+  history: HistoryTurn[],
+  trigger: ExaminerTrigger,
+  callbacks: ExaminerReplyCallbacks,
+  abortSignal?: AbortSignal,
+): Promise<string> {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new ExaminerBrainError("ANTHROPIC_API_KEY not set", false);
-  const model = process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5";
 
   // One content block per history turn, with a cache breakpoint on the LAST
   // one (the trigger text follows, uncached). A single concatenated string
@@ -245,6 +313,23 @@ export async function generateExaminerReply(
     throw new ExaminerBrainError(`Claude ${res.status}: ${errText.slice(0, 300)}`, retryable);
   }
 
+  // Only the FIRST chunk can start with a pleasantry; if stripping empties it
+  // entirely (a standalone "Danke der Antwort." sentence), it is dropped and
+  // the next chunk is the real start.
+  let firstChunk = true;
+  const emit = (c: string) => {
+    if (firstChunk) {
+      firstChunk = false;
+      const stripped = stripLeadingFiller(c);
+      if (!stripped.trim()) { firstChunk = true; return; } // still looking for the first real chunk
+      c = stripped;
+      // Language guard on the very first spoken sentence, BEFORE anything
+      // reaches TTS — see generateExaminerReply's fallback.
+      if (looksNonGerman(c)) throw new WrongLanguageError(c.slice(0, 80));
+    }
+    callbacks.onChunk?.(c);
+  };
+
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let sseBuffer = "";
@@ -252,6 +337,7 @@ export async function generateExaminerReply(
   let fullReply = "";
   const usage: ClaudeUsage = { inputTokens: 0, outputTokens: 0, cacheCreationInputTokens: 0, cacheReadInputTokens: 0 };
 
+  try {
   for (;;) {
     if (abortSignal?.aborted) { await reader.cancel().catch(() => {}); throw new ExaminerBrainError("aborted", false); }
     const { done, value } = await reader.read();
@@ -281,18 +367,21 @@ export async function generateExaminerReply(
         textBuffer += text;
         const { chunks, rest } = extractReadyChunks(textBuffer, false);
         textBuffer = rest;
-        for (const c of chunks) {
-          callbacks.onChunk?.(c);
-        }
+        for (const c of chunks) emit(c);
       }
     }
   }
 
-  callbacks.onUsage?.(usage);
-
   const { chunks: finalChunks } = extractReadyChunks(textBuffer, true);
-  for (const c of finalChunks) {
-    callbacks.onChunk?.(c);
+  for (const c of finalChunks) emit(c);
+  } catch (e) {
+    if (e instanceof WrongLanguageError) {
+      await reader.cancel().catch(() => {});
+      callbacks.onUsage?.(usage); // the discarded call still cost real tokens (input is known from message_start)
+    }
+    throw e;
   }
-  return fullReply.trim();
+
+  callbacks.onUsage?.(usage);
+  return stripLeadingFiller(fullReply.trim()).trim();
 }

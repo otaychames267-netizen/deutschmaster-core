@@ -22,6 +22,7 @@
  */
 import type { SttCallbacks, SttSession } from "./elevenLabsStt.js";
 import { openBufferedStt } from "./whisperStt.js";
+import { PERMANENT_MARKER } from "./failoverStt.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
 const MAX_ATTEMPTS = 3;
@@ -84,9 +85,16 @@ async function groqTranscribe(pcm: Buffer): Promise<string> {
 
     const body = await res.text().catch(() => "");
     lastErr = `groq ${res.status}: ${body.slice(0, 200)}`;
+    const retryAfterS = Number(res.headers.get("retry-after"));
+    // Errors retrying cannot fix are flagged so failoverStt.ts switches this
+    // stream to the fallback backend IMMEDIATELY instead of after several
+    // doomed, slow attempts: a bad/revoked key, or a 429 that is the DAILY
+    // quota (Retry-After of minutes/hours, or a "per day" message) — not a
+    // momentary per-minute burst.
+    const dailyQuota = res.status === 429 && (retryAfterS > 10 || /per day|\b(RPD|TPD|ASD)\b/.test(body));
+    if (res.status === 401 || res.status === 403 || dailyQuota) throw new Error(`${PERMANENT_MARKER} ${lastErr}`);
     const retryable = res.status === 429 || res.status >= 500;
     if (!retryable || attempt === MAX_ATTEMPTS) break;
-    const retryAfterS = Number(res.headers.get("retry-after"));
     const waitMs = Number.isFinite(retryAfterS) && retryAfterS > 0 ? Math.min(retryAfterS, 8) * 1000 : 800 * attempt;
     console.warn(`[groqStt] ${res.status} on attempt ${attempt}/${MAX_ATTEMPTS}, retrying in ${waitMs}ms`);
     await new Promise((r) => setTimeout(r, waitMs));
