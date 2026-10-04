@@ -41,6 +41,19 @@ export function _resetManifestCacheForTests(): void {
   cachedManifest = null;
 }
 
+/** Exact lookup of one pre-generated clip by phrase id + voice (no random
+ * variant selection) — used for "scripted_lead" clips, where the variant was
+ * already chosen upstream (examinerPhrases.ts) and we need ITS lead audio. */
+export async function findLibraryAssetById(
+  category: LibraryCategory,
+  voiceId: string,
+  phraseId: string,
+): Promise<{ asset: PhraseAudioAsset; absolutePath: string } | null> {
+  const manifest = await loadManifest();
+  const asset = manifest.find((a) => a.category === category && a.voiceId === voiceId && a.phraseId === phraseId);
+  return asset ? { asset, absolutePath: path.join(LIBRARY_ROOT, asset.pcmPath) } : null;
+}
+
 export async function pickLibraryAsset(
   category: LibraryCategory,
   voiceId: string,

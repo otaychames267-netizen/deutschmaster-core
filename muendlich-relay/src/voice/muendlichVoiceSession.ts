@@ -46,7 +46,8 @@ import type { ExamUsage } from "./costAccounting.js";
 import { VoiceManager } from "./voiceManager.js";
 import { createSupabaseVoiceStore } from "./supabaseVoiceStore.js";
 import { getPool, EXAMINER_POOL } from "./voicePools.js";
-import { pickLibraryAsset } from "./phraseLibrary/libraryStore.js";
+import { pickLibraryAsset, findLibraryAssetById } from "./phraseLibrary/libraryStore.js";
+import type { ScriptedLine } from "../examinerPhrases.js";
 import { getFixedPool } from "./phraseLibrary/fixedPhrases.js";
 import { getTeil1QuestionPool } from "./phraseLibrary/teil1Questions.js";
 import { pickVariant } from "./phraseLibrary/phraseSelection.js";
@@ -100,6 +101,11 @@ export interface MuendlichVoiceSession {
    * examiner brain was pure overhead (extra latency, extra Claude cost, and
    * a small risk of the model paraphrasing instead of saying it exactly). */
   speakScriptedText(text: string): Promise<void>;
+  /** A scripted line split into a pre-generated fixed lead + a live rest (see
+   * examinerPhrases.ts's ScriptedLine): plays the lead from the audio library
+   * at $0 and synthesizes only the part carrying the candidate name / topic.
+   * Falls back to speaking the whole line live when no lead clip exists. */
+  speakScriptedLine(line: ScriptedLine): Promise<void>;
   /** The real ElevenLabs voice ID assigned to this exam session — server.ts
    * needs this to pick a style-consistent scripted-phrase variant
    * (examinerPhrases.ts's pickExamStart/pickTaskTransition/
@@ -602,6 +608,21 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     }
   }
 
+  async function speakScriptedLine(line: ScriptedLine): Promise<void> {
+    if (closed) return;
+    if (line.lead) {
+      const found = await findLibraryAssetById("scripted_lead", voice.voiceId, line.id);
+      if (found) {
+        // The lead clip is the same voice on the same Flash model as the live
+        // part, sent to the client first; the live remainder (name/topic) is
+        // queued right behind it on the client's gapless playback scheduler.
+        await playPcmFile(`speakScriptedLine(${line.id})`, found.absolutePath, found.asset.text);
+        return speakScriptedText(line.rest);
+      }
+    }
+    return speakScriptedText(line.full);
+  }
+
   async function playLibraryPhrase(category: FixedPhraseCategory): Promise<void> {
     if (closed) return;
     const found = await pickLibraryAsset(category, voice.voiceId);
@@ -796,6 +817,9 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     },
     speakScriptedText(text) {
       return speakScriptedText(text);
+    },
+    speakScriptedLine(line) {
+      return speakScriptedLine(line);
     },
     sendSystemMessage(text) {
       // A scheduled trigger (handoff, takeover, nudge) always wins over an

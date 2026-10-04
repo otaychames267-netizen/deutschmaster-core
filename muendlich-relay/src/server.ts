@@ -93,7 +93,7 @@ import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "
 import { openTutorVoiceSession, type TutorVoiceSession } from "./voice/tutorVoiceSession.js";
 import type { TutorContext } from "./voice/tutorBrain.js";
 import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
-import { pickExamStart, pickTaskTransition, pickSectionTransition12, pickSectionTransition23 } from "./examinerPhrases.js";
+import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line } from "./examinerPhrases.js";
 import { pickTeil1ToTeil2, pickTeil2ToTeil3, pickSessionEnd } from "./tutorPhrases.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
 
@@ -673,7 +673,7 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   if (stage === 1 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
     await room.live?.playLibraryPhrase("welcome");
-    await room.live?.speakScriptedText(pickExamStart({ aName: ctx.aName, topicA: ctx.teil1TopicA }, voiceId));
+    await room.live?.speakScriptedLine(pickExamStartLine({ aName: ctx.aName, topicA: ctx.teil1TopicA }, voiceId));
     // The actual presentation prompt — a real question from the 7-topic
     // library (teil1Questions.ts), not just a topic label. From here the
     // candidate does almost all of the talking; the examiner only speaks
@@ -697,13 +697,13 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   // context, never meant to be read aloud (see resolveSelections's comment).
   if (stage === 2 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
-    await room.live?.speakScriptedText(pickSectionTransition12({ teil2Topic: ctx.teil2TopicTitle }, voiceId));
+    await room.live?.speakScriptedLine(pickSectionTransition12Line({ teil2Topic: ctx.teil2TopicTitle }, voiceId));
   }
 
   // Teil 2 -> Teil 3. Same title-only reasoning as above.
   if (stage === 3 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
-    await room.live?.speakScriptedText(pickSectionTransition23({ teil3Topic: ctx.teil3TopicTitle }, voiceId));
+    await room.live?.speakScriptedLine(pickSectionTransition23Line({ teil3Topic: ctx.teil3TopicTitle }, voiceId));
   }
 }
 
@@ -1031,7 +1031,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
           // calls share the same generation-id supersession machinery,
           // firing them concurrently would let the question cancel the
           // handoff mid-word.
-          void room.live?.speakScriptedText(pickTaskTransition({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
+          void room.live?.speakScriptedLine(pickTaskTransitionLine({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
             .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle))
             .catch(() => {}) // a failed utterance must never leave B's clock paused forever
             .then(() => {

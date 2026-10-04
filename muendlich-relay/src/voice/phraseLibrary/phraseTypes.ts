@@ -41,7 +41,7 @@ export type PhraseCategory = FixedPhraseCategory | ScriptedPhraseCategory;
  * libraryStore.ts) can hold — broader than FixedPhraseCategory because it
  * also includes "teil1_question" (topic-keyed — see teil1Questions.ts's
  * header for why it can't just join FixedPhraseCategory). */
-export type LibraryCategory = FixedPhraseCategory | "teil1_question";
+export type LibraryCategory = FixedPhraseCategory | "teil1_question" | "scripted_lead";
 
 export interface FixedPhrase {
   id: string;

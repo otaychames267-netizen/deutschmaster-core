@@ -1,4 +1,4 @@
-import { looksNonGerman as f, looksInformal } from "./examinerBrain.ts";
+import { looksNonGerman as f, looksInformal, looksMeta } from "./examinerBrain.ts";
 
 // [text, expectedNonGerman]
 const cases = [
@@ -46,5 +46,22 @@ for (const [text, expected] of informal) {
   const ok = got === expected;
   if (!ok) bad++;
   console.log(ok ? "PASS" : "FAIL", expected ? "[informal]" : "[formal]  ", text.slice(0, 80));
+}
+const meta = [
+  ["Ich warte auf den bisherigen Gesprächsverlauf von Teil 3, um einen offenen Punkt zu identifizieren.", true],
+  ["Laut meiner Anweisung soll ich jetzt eine Frage stellen.", true],
+  ["[SYSTEM] Stellen Sie eine Frage.", true],
+  ["Ich bin bereit. Bitte teilen Sie mir mit, was die Kandidaten bisher gesagt haben.", true],
+  ["Ich warte noch auf Ihre Vorschläge.", true],
+  ["Wer übernimmt denn die Bestellung der Getränke?", false],
+  ["Ich finde Ihren Vorschlag interessant — wie würden Sie das umsetzen?", false],
+  ["Wie hat sich der Verlauf des Gesprächs für Sie angefühlt?", false],
+  ["Welche Anweisungen haben Sie im Büro am meisten gestört?", true],
+];
+for (const [text, expected] of meta) {
+  const got = looksMeta(text);
+  const ok = got === expected;
+  if (!ok) bad++;
+  console.log(ok ? "PASS" : "FAIL", expected ? "[meta]    " : "[no-meta] ", text.slice(0, 80));
 }
 process.exit(bad ? 1 : 0);

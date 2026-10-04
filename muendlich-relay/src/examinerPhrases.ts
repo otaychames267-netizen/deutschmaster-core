@@ -193,6 +193,74 @@ function pick<V>(category: string, variants: Variant<V>[], voiceId: string, vars
   return chosen.render(vars);
 }
 
+/** A scripted line split at a sentence boundary into a FIXED lead (no candidate
+ * name / topic in it -> can be pre-generated once per voice and replayed at $0)
+ * and a dynamic rest (carries the real name/topic -> synthesized live). `lead`
+ * is "" when the variant has no worthwhile fixed first sentence (e.g. it opens
+ * with the candidate's name) — then `full` is spoken live exactly as before. */
+export interface ScriptedLine { id: string; full: string; lead: string; rest: string }
+
+const PLACEHOLDER = "\u0001"; // never appears in real phrase text
+const MIN_LEAD_CHARS = 18; // below this the saved TTS isn't worth a separate clip
+
+/** Splits already-rendered text at the last sentence boundary ([.!?:] + space)
+ * that comes BEFORE the first placeholder. Colons count: "…folgendes Thema:" +
+ * [topic] is a natural pause point. */
+function splitAtLead(rendered: string): string {
+  const firstDynamic = rendered.indexOf(PLACEHOLDER);
+  if (firstDynamic < 0) return "";
+  const m = /^([\s\S]*[.!?:])\s+/.exec(rendered.slice(0, firstDynamic));
+  return m && m[1].length >= MIN_LEAD_CHARS ? m[1] : "";
+}
+
+function pickLine<V>(category: string, variants: Variant<V>[], voiceId: string, vars: V, placeholderVars: V): ScriptedLine {
+  const chosen = pickVariant(category, variants, assignPhraseStyle(voiceId));
+  const full = chosen.render(vars);
+  const lead = splitAtLead(chosen.render(placeholderVars));
+  // The lead has no dynamic text, so the real render must start with it — if it
+  // ever doesn't (a template edit that breaks the invariant), fall back to the
+  // whole line rather than speak something wrong.
+  if (!lead || !full.startsWith(lead)) return { id: chosen.id, full, lead: "", rest: full };
+  return { id: chosen.id, full, lead, rest: full.slice(lead.length).trimStart() };
+}
+
+const P = PLACEHOLDER;
+const PH_EXAM_START: ExamStartVars = { aName: P, topicA: P };
+const PH_TASK_TRANSITION: TaskTransitionVars = { bName: P, topicB: P };
+const PH_SECTION_12: SectionTransitionVars = { teil2Topic: P };
+const PH_SECTION_23: Teil3SectionTransitionVars = { teil3Topic: P };
+
+export function pickExamStartLine(v: ExamStartVars, voiceId: string): ScriptedLine {
+  return pickLine("exam_start", EXAM_START_VARIANTS, voiceId, { ...v, topicA: cleanTopic(v.topicA) }, PH_EXAM_START);
+}
+export function pickTaskTransitionLine(v: TaskTransitionVars, voiceId: string): ScriptedLine {
+  return pickLine("task_transition", TASK_TRANSITION_VARIANTS, voiceId, { ...v, topicB: cleanTopic(v.topicB) }, PH_TASK_TRANSITION);
+}
+export function pickSectionTransition12Line(v: SectionTransitionVars, voiceId: string): ScriptedLine {
+  return pickLine("section_transition_1_2", SECTION_TRANSITION_12_VARIANTS, voiceId, { ...v, teil2Topic: cleanTopic(v.teil2Topic) }, PH_SECTION_12);
+}
+export function pickSectionTransition23Line(v: Teil3SectionTransitionVars, voiceId: string): ScriptedLine {
+  return pickLine("section_transition_2_3", SECTION_TRANSITION_23_VARIANTS, voiceId, { ...v, teil3Topic: cleanTopic(v.teil3Topic) }, PH_SECTION_23);
+}
+
+/** Every fixed lead sentence that can be pre-generated, for
+ * phraseLibrary/generateScriptedLeads.ts and the library tests. Variants whose
+ * first sentence already contains the candidate name / topic have no lead. */
+export function getScriptedLeadPhrases(): { id: string; style: PhraseStyle; text: string }[] {
+  const out: { id: string; style: PhraseStyle; text: string }[] = [];
+  const add = <V,>(variants: Variant<V>[], placeholderVars: V) => {
+    for (const v of variants) {
+      const lead = splitAtLead(v.render(placeholderVars));
+      if (lead) out.push({ id: v.id, style: v.style, text: lead });
+    }
+  };
+  add(EXAM_START_VARIANTS, PH_EXAM_START);
+  add(TASK_TRANSITION_VARIANTS, PH_TASK_TRANSITION);
+  add(SECTION_TRANSITION_12_VARIANTS, PH_SECTION_12);
+  add(SECTION_TRANSITION_23_VARIANTS, PH_SECTION_23);
+  return out;
+}
+
 export function pickExamStart(v: ExamStartVars, voiceId: string): string {
   return pick("exam_start", EXAM_START_VARIANTS, voiceId, { ...v, topicA: cleanTopic(v.topicA) });
 }

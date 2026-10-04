@@ -226,7 +226,7 @@ export async function generateExaminerReply(
   throw new ExaminerBrainError("unreachable", false);
 }
 
-const RETRY_NOTE = "\n(Hinweis: Ihre vorige Antwort war unzulässig — sie war nicht auf Deutsch oder hat die Kandidaten geduzt. Antworten Sie jetzt ausschließlich auf Deutsch und siezen Sie die Kandidaten: „Sie\", niemals „ihr\" oder „du\".)";
+const RETRY_NOTE = "\n(Hinweis: Ihre vorige Antwort war unzulässig — sie war nicht auf Deutsch, hat die Kandidaten geduzt oder war ein Kommentar über Ihre Anweisungen. Sprechen Sie jetzt NUR als Prüferin, ausschließlich auf Deutsch, und siezen Sie die Kandidaten: „Sie\", niemals „ihr\" oder „du\".)";
 
 // Function-word tallies — deliberately tiny and conservative. "in", "an",
 // "was" (German "what" / English "was") and other cross-language words are
@@ -249,12 +249,22 @@ export function looksNonGerman(text: string): boolean {
 // "Ihr Thema"); the unambiguous forms are matched case-insensitively.
 const INFORMAL_ALWAYS = /\b(euch|euer|eure[mnrs]?|lasst|habt|seid|du|dich|dir|dein[emnrs]?)\b/i;
 const INFORMAL_IHR = /\bihr\b/; // case-sensitive: lowercase = "you (plural)" or "to her"; "Ihr…" = formal
+// The model "thinking out loud" about its own instructions instead of speaking
+// as the examiner — seen live when a Teil-3 closing prompt arrived with no
+// conversation to ground it in ("Ich warte auf den bisherigen Gesprächsverlauf
+// von Teil 3, um einen noch offenen Planungspunkt zu identifizieren …"). An
+// examiner never talks about transcripts, system signals or instructions.
+const META_RE = /\b(Gesprächsverlauf|Systemnachricht|Systemsignal|Anweisung(?:en)?|teilen Sie mir mit|damit ich (?:eine|die|den|das|einen))\b|\bIch (?:warte|bin bereit|sehe keinen|habe keinen|kann (?:noch )?keine)\b|\[SYSTEM\]/i;
+export function looksMeta(text: string): boolean {
+  return META_RE.test(text);
+}
+
 export function looksInformal(text: string): boolean {
   return INFORMAL_ALWAYS.test(text) || INFORMAL_IHR.test(text);
 }
 
 class ReplyGuardError extends ExaminerBrainError {
-  constructor(public reason: "language" | "informal", public sample: string) {
+  constructor(public reason: "language" | "informal" | "meta", public sample: string) {
     super(`examiner reply rejected: ${reason}`, true);
   }
 }
@@ -354,6 +364,7 @@ async function generateExaminerReplyOnce(
       if (enforceGuards) {
         if (looksNonGerman(c)) throw new ReplyGuardError("language", c.slice(0, 80));
         if (looksInformal(c)) throw new ReplyGuardError("informal", c.slice(0, 80));
+        if (looksMeta(c)) throw new ReplyGuardError("meta", c.slice(0, 80));
       }
     }
     callbacks.onChunk?.(c);

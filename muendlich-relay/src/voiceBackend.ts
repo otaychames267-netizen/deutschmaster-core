@@ -18,6 +18,7 @@ import type { ExamUsage } from "./voice/costAccounting.js";
 import type { FixedPhraseCategory } from "./voice/phraseLibrary/phraseTypes.js";
 import { getFixedPool } from "./voice/phraseLibrary/fixedPhrases.js";
 import { getTeil1QuestionPool } from "./voice/phraseLibrary/teil1Questions.js";
+import type { ScriptedLine } from "./examinerPhrases.js";
 
 export interface VoiceBackendSession {
   sendAudioChunk(slot: "A" | "B", base64: string): void;
@@ -40,6 +41,9 @@ export interface VoiceBackendSession {
    * this instructs it to say the text exactly, same as before this feature
    * existed. */
   speakScriptedText(text: string): Promise<void>;
+  /** Scripted line = pre-generated fixed lead + live rest (ElevenLabs); the
+   * Gemini backend has no clip library so it just says the whole line. */
+  speakScriptedLine(line: ScriptedLine): Promise<void>;
   /** Real ElevenLabs voice ID on that backend; a stable placeholder on
    * Gemini (which has no per-exam voice pool of its own) — used only to
    * pick a style-consistent scripted-phrase variant, see
@@ -134,6 +138,12 @@ export async function openVoiceBackend(ctx: RoomContext, examSessionId: string, 
       const chosen = pool[Math.floor(Math.random() * pool.length)];
       gemini.session.sendClientContent({
         turns: `[SYSTEM] Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${chosen.text}"`,
+        turnComplete: true,
+      });
+    },
+    async speakScriptedLine(line) {
+      gemini.session.sendClientContent({
+        turns: `[SYSTEM] Sagen Sie GENAU diesen Satz (nicht umformulieren, nichts hinzufügen): "${line.full}"`,
         turnComplete: true,
       });
     },
