@@ -1,4 +1,4 @@
-import { looksNonGerman as f } from "./examinerBrain.ts";
+import { looksNonGerman as f, looksInformal } from "./examinerBrain.ts";
 
 // [text, expectedNonGerman]
 const cases = [
@@ -29,4 +29,22 @@ for (const [text, expected] of cases) {
   console.log(ok ? "PASS" : "FAIL", expected ? "[non-German]" : "[German]    ", text.slice(0, 80));
 }
 console.log(bad ? `${bad} FAILED` : "ALL PASSED");
+const informal = [
+  ["Habt ihr auch überlegt, wie viele Kollegen ihr einladen werdet?", true],
+  ["Gut, dann lasst uns noch die wichtigsten Punkte klären.", true],
+  ["Wartet kurz — wir haben noch ein paar offene Punkte. Ihr habt Pizza erwähnt.", true],
+  ["Was denkst du darüber, Fatma?", true],
+  ["Wie viele Kollegen sollen denn eingeladen werden?", false],
+  ["Fatma, was halten Sie von Ihrem Vorschlag?", false],
+  ["Ihr Thema ist Reisen, bitte beginnen Sie.", false],
+  ["Haben Sie auch schon überlegt, wo die Feier stattfindet?", false],
+  ["Youssef, wie sehen Sie das Beispiel mit Ihrer Nichte?", false],
+  ["Seit wann arbeiten Sie von zu Hause aus?", false],
+];
+for (const [text, expected] of informal) {
+  const got = looksInformal(text);
+  const ok = got === expected;
+  if (!ok) bad++;
+  console.log(ok ? "PASS" : "FAIL", expected ? "[informal]" : "[formal]  ", text.slice(0, 80));
+}
 process.exit(bad ? 1 : 0);

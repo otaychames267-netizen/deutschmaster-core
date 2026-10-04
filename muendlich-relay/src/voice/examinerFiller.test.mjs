@@ -9,7 +9,10 @@ const cases = [
   ["Gutes Beispiel — wie lange waren Sie dort?", "Gutes Beispiel — wie lange waren Sie dort?"],
   ["Danke der Antwort.", ""],
   ["Okay. Und wer organisiert die Getränke?", "Und wer organisiert die Getränke?"],
-  ["Danke, Fatma. Wie sehen Sie das?", "Danke, Fatma. Wie sehen Sie das?"], // comma = sentence continues, left alone
+    ["Danke, Fatma. Youssef, wie sehen Sie das?", "Youssef, wie sehen Sie das?"],
+  ["Danke der Nachfrage. Fatma, warum?", "Fatma, warum?"],
+  ["Gute Idee. Haben Sie an die Gäste gedacht?", "Haben Sie an die Gäste gedacht?"],
+  ["Danke, dass Sie das so offen sagen. Warum?", "Danke, dass Sie das so offen sagen. Warum?"],
 ];
 let bad = 0;
 for (const [input, expected] of cases) {
