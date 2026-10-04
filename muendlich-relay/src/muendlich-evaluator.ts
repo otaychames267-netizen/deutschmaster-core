@@ -33,6 +33,7 @@
  * rendered all of that prose were removed with it.
  */
 const CLAUDE_MODEL = process.env.MUENDLICH_EVAL_MODEL ?? "claude-sonnet-5";
+export const EVALUATOR_MODEL = CLAUDE_MODEL;
 
 // ── Ported from src/lib/grading/sanitize-input.ts — same reasoning as above. ──
 const SUSPICIOUS_PATTERNS = [
@@ -67,10 +68,13 @@ async function fetchWithTimeout(url: string, opts: any, ms: number): Promise<Res
   const timer = setTimeout(() => ctrl.abort(), ms);
   try { return await fetch(url, { ...opts, signal: ctrl.signal }); } finally { clearTimeout(timer); }
 }
+/** Real token counts straight from Anthropic's usage block, for per-exam cost records. */
+export interface EvaluatorTokenUsage { inputTokens: number; outputTokens: number; cacheCreationInputTokens: number; cacheReadInputTokens: number }
+
 async function callClaudeTool<T = unknown>(params: {
   system: string; userBlocks: { text: string; cache?: boolean }[]; toolName: string; toolDescription: string;
   inputSchema: Record<string, unknown>; maxTokens?: number; timeoutMs?: number;
-}): Promise<{ data: T; model: string }> {
+}): Promise<{ data: T; model: string; usage: EvaluatorTokenUsage }> {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new Error("ANTHROPIC_API_KEY not set");
   const url = `${process.env.ANTHROPIC_BASE_URL ?? "https://api.anthropic.com"}/v1/messages`;
@@ -109,7 +113,14 @@ async function callClaudeTool<T = unknown>(params: {
       if (!toolUse) throw new ClaudeValidationError("model did not call the required tool — no structured output returned");
       const u = json.usage ?? {};
       console.log(`[muendlich-evaluator] usage in=${u.input_tokens ?? 0} out=${u.output_tokens ?? 0} cacheRead=${u.cache_read_input_tokens ?? 0} cacheWrite=${u.cache_creation_input_tokens ?? 0}`);
-      return { data: toolUse.input as T, model: CLAUDE_MODEL };
+      return {
+        data: toolUse.input as T,
+        model: CLAUDE_MODEL,
+        usage: {
+          inputTokens: Number(u.input_tokens ?? 0), outputTokens: Number(u.output_tokens ?? 0),
+          cacheCreationInputTokens: Number(u.cache_creation_input_tokens ?? 0), cacheReadInputTokens: Number(u.cache_read_input_tokens ?? 0),
+        },
+      };
     } catch (e) {
       lastErr = e;
       if (e instanceof ClaudeQuotaError || e instanceof ClaudeValidationError) throw e;
@@ -156,6 +167,8 @@ export interface MuendlichEvaluationResult {
    * written before 2026-10-04 still carry the full verbose structure. */
   feedback: Record<string, never>;
   model: string;
+  /** Tokens this evaluation call consumed (the successful attempt only). */
+  usage: EvaluatorTokenUsage;
 }
 
 const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1"];
@@ -188,7 +201,7 @@ export async function generateMuendlichEvaluation(transcriptText: string, candid
   let lastError: unknown = null;
   for (let attempt = 0; attempt < 2; attempt++) {
     try {
-      const { data, model } = await callClaudeTool<any>({
+      const { data, model, usage } = await callClaudeTool<any>({
         system: systemPrompt(level),
         userBlocks,
         toolName: "submit_evaluation",
@@ -207,6 +220,7 @@ export async function generateMuendlichEvaluation(transcriptText: string, candid
         passed: overall_score >= 45, // telc pass threshold, ~60% of 75
         model,
         feedback: {},
+        usage,
       };
     } catch (e) {
       lastError = e;

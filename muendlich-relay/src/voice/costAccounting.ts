@@ -152,6 +152,9 @@ export interface ExamUsage {
   /** Real usage on the Groq-hosted Whisper path (MUENDLICH_STT_BACKEND=groq)
    * — billed by Groq at GROQ_STT_USD_PER_HOUR, ZERO ElevenLabs credits. */
   groqSttMinutes?: number;
+  /** Informational (not billed): number of Groq requests, and the raw minutes of audio forwarded to STT. */
+  groqRequests?: number;
+  forwardedSttMinutes?: number;
 }
 
 export interface ExamCost {

@@ -53,7 +53,9 @@ function cleanTranscript(data: any): string {
   return STOCK_HALLUCINATIONS.some((re) => re.test(text)) ? "" : text;
 }
 
-async function groqTranscribe(pcm: Buffer): Promise<string> {
+const MIN_BILLED_SECONDS = 10; // Groq bills every request for at least 10s of audio
+
+async function groqTranscribe(pcm: Buffer, onBilled?: (seconds: number) => void): Promise<string> {
   const key = process.env.GROQ_API_KEY;
   if (!key) throw new Error("GROQ_API_KEY not set");
   const model = process.env.GROQ_STT_MODEL ?? "whisper-large-v3-turbo";
@@ -81,7 +83,10 @@ async function groqTranscribe(pcm: Buffer): Promise<string> {
       await new Promise((r) => setTimeout(r, 400 * attempt));
       continue;
     }
-    if (res.ok) return cleanTranscript(await res.json());
+    if (res.ok) {
+      onBilled?.(Math.max(MIN_BILLED_SECONDS, pcm.length / 2 / 16_000));
+      return cleanTranscript(await res.json());
+    }
 
     const body = await res.text().catch(() => "");
     lastErr = `groq ${res.status}: ${body.slice(0, 200)}`;
@@ -104,5 +109,7 @@ async function groqTranscribe(pcm: Buffer): Promise<string> {
 
 export function openGroqStt(callbacks: SttCallbacks): Promise<SttSession> {
   if (!process.env.GROQ_API_KEY) return Promise.reject(new Error("GROQ_API_KEY not set"));
-  return Promise.resolve(openBufferedStt(groqTranscribe, callbacks));
+  let requests = 0, billedSeconds = 0;
+  const session = openBufferedStt((pcm) => groqTranscribe(pcm, (s) => { requests++; billedSeconds += s; }), callbacks);
+  return Promise.resolve(Object.assign(session, { billing: () => ({ requests, billedSeconds }) }));
 }

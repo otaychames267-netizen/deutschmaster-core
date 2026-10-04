@@ -82,7 +82,9 @@ export interface RoomContext {
 
 export interface MuendlichVoiceSession {
   sendAudioChunk(slot: "A" | "B", base64: string): void;
-  sendSystemMessage(text: string): void;
+  sendSystemMessage(text: string): Promise<void>;
+  /** Milliseconds until everything sent so far has finished playing on the client. */
+  playbackRemainingMs(): number;
   /** Plays a fully fixed, pre-generated welcome/exam_end phrase for this
    * session's assigned voice — zero ElevenLabs TTS cost when the audio
    * library has actually been generated (see phraseLibrary/
@@ -361,7 +363,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; } // session closed or superseded while connecting
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
-        onAudioChunk: (b64) => { if (myId === currentGenerationId) callbacks.onAudioChunk?.(b64); },
+        onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[voice] TTS error for session ${examSessionId}:`, message);
           // Real voice-level failure (invalid/unavailable voice) — fall back
@@ -521,7 +523,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
-        onAudioChunk: (b64) => { if (myId === currentGenerationId) callbacks.onAudioChunk?.(b64); },
+        onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[voice] TTS error (scripted) for session ${examSessionId}:`, message);
           // Wrapped in try/catch — see speak()'s identical onVoiceError
@@ -589,7 +591,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       if (myId !== currentGenerationId) return; // superseded while reading the file
       for (let offset = 0; offset < pcm.length; offset += LIBRARY_CHUNK_BYTES) {
         if (myId !== currentGenerationId || closed) return; // superseded or session closed mid-playback
-        callbacks.onAudioChunk?.(pcm.subarray(offset, offset + LIBRARY_CHUNK_BYTES).toString("base64"));
+        emitAudio(pcm.subarray(offset, offset + LIBRARY_CHUNK_BYTES).toString("base64"));
       }
       // No ttsCharacters increment here — this is the entire point of the
       // fixed audio library: zero incremental ElevenLabs cost at runtime.
@@ -606,6 +608,20 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     } finally {
       if (myId === currentGenerationId) { aiSpeaking = false; aiSpeechEndedAt = Date.now(); }
     }
+  }
+
+  // When the audio sent so far will have finished PLAYING on the client. The
+  // relay sends audio far faster than real time (library clips are blasted in one
+  // loop; live TTS streams ahead of playback) and the browser queues it on a
+  // gapless scheduler, so "I finished sending" is NOT "the examiner finished
+  // speaking". Everything time-boxed for the candidate (presentation, answer
+  // windows) must start from here, not from the end of the send.
+  let playbackEndsAt = 0;
+  const PLAYBACK_BYTES_PER_SECOND = 24_000 * 2; // pcm16 mono @ 24kHz — the wire format of every audio chunk
+  function emitAudio(b64: string) {
+    const seconds = Buffer.byteLength(b64, "base64") / PLAYBACK_BYTES_PER_SECOND;
+    playbackEndsAt = Math.max(playbackEndsAt, Date.now()) + seconds * 1000;
+    callbacks.onAudioChunk?.(b64);
   }
 
   async function speakScriptedLine(line: ScriptedLine): Promise<void> {
@@ -782,6 +798,9 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       const totalSttBytes = sttBytesA + sttBytesB;
       const sttMinutesTotal = totalSttBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;
       const fallbackMinutes = sttFallbackBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;
+      const billings = [sttA, sttB].map((s) => s?.billing?.()).filter((b): b is { requests: number; billedSeconds: number } => !!b);
+      const groqBilledSeconds = billings.length ? billings.reduce((n, b) => n + b.billedSeconds, 0) : null;
+      const groqRequests = billings.length ? billings.reduce((n, b) => n + b.requests, 0) : null;
       // Route real STT minutes to whichever cost bucket actually billed
       // them: MUENDLICH_STT_BACKEND=whisper never touches ElevenLabs at
       // all, so those minutes must NOT be charged as ElevenLabs STT
@@ -795,7 +814,11 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
         ttsCharacters,
         sttMinutes: usingWhisper ? 0 : usingGroq ? fallbackMinutes : sttMinutesTotal,
         selfHostedSttMinutes: usingWhisper ? sttMinutesTotal : 0,
-        groqSttMinutes: usingGroq ? sttMinutesTotal - fallbackMinutes : 0,
+        // Real Groq billing (each request >= 10s) when the STT sessions report it,
+        // else the forwarded-audio estimate.
+        groqSttMinutes: usingGroq ? (groqBilledSeconds !== null ? groqBilledSeconds / 60 : sttMinutesTotal - fallbackMinutes) : 0,
+        groqRequests: groqRequests ?? undefined,
+        forwardedSttMinutes: sttMinutesTotal,
         claudeInputTokens, claudeOutputTokens,
         claudeCacheCreationInputTokens, claudeCacheReadInputTokens,
       };
@@ -836,9 +859,15 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // extra). Streaming ElevenLabs STT has no flush(), so that path stays
       // synchronous exactly as before.
       const pendingFlushes = [sttA, sttB].map((s) => s?.flush?.()).filter((f): f is Promise<void> => !!f);
-      const sendIt = () => { void speak({ type: "system", text: `[SYSTEM] ${text}` }); };
-      if (pendingFlushes.length === 0) sendIt();
-      else void Promise.allSettled(pendingFlushes).then(sendIt);
+      // Returns when the reply has been fully SENT (not played — see
+      // playbackRemainingMs), so server.ts can start a candidate's answer window
+      // only after the question has actually been heard.
+      const sendIt = (): Promise<void> => speak({ type: "system", text: `[SYSTEM] ${text}` }).catch(() => {});
+      if (pendingFlushes.length === 0) return sendIt();
+      return Promise.allSettled(pendingFlushes).then(sendIt);
+    },
+    playbackRemainingMs() {
+      return Math.max(0, playbackEndsAt - Date.now());
     },
     setStage(stage) { currentStage = stage; },
     close() {

@@ -85,6 +85,7 @@ export async function openFailoverStt(
       else if (switching) { if (queued.length < 600) queued.push(base64); } // ~60s of 100ms frames, bounded
       else primary.sendPcm16(base64);
     },
+    billing() { return primary.billing?.() ?? { requests: 0, billedSeconds: 0 }; },
     async flush() {
       if (failedOver && fallback) await fallback.flush?.();
       else await primary.flush?.();

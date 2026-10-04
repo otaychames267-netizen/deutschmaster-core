@@ -92,7 +92,8 @@ import { createClient } from "@supabase/supabase-js";
 import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "./voiceBackend.js";
 import { openTutorVoiceSession, type TutorVoiceSession } from "./voice/tutorVoiceSession.js";
 import type { TutorContext } from "./voice/tutorBrain.js";
-import { generateMuendlichEvaluation } from "./muendlich-evaluator.js";
+import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evaluator.js";
+import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line } from "./examinerPhrases.js";
 import { pickTeil1ToTeil2, pickTeil2ToTeil3, pickSessionEnd } from "./tutorPhrases.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
@@ -161,7 +162,13 @@ const TEIL1_PRESENTATION_SECONDS = Number(process.env.MUENDLICH_TEIL1_PRESENTATI
 const TEIL1_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS ?? 30);
 const TEIL1_QUESTIONS_PER_CANDIDATE = 2;
 const STAGE_SECONDS: Record<1 | 2 | 3, number> = {
-  1: Number(process.env.MUENDLICH_STAGE1_SECONDS ?? 2 * (TEIL1_PRESENTATION_SECONDS + TEIL1_QUESTIONS_PER_CANDIDATE * TEIL1_ANSWER_WINDOW_SECONDS)), // 300s = 2 x (90 + 2x30)
+  // Teil 1 is driven by its own per-candidate state machine (presenting -> q1 -> q2, each hard-capped); this
+  // stage budget is only the BACKSTOP behind it. It must therefore cover everything the machine can legitimately
+  // take: per candidate presentation (cap) + 15s mid-speech grace + the answer windows, PLUS all the examiner
+  // speech that sits on top of the candidates' clocks (opening ~40s, handoff ~25s, four questions). The old value
+  // (2 x (90 + 2x30) = 300s, i.e. the candidates' time alone) fired mid-way through candidate B's questions in a
+  // full-length test (B got 1 of 2 questions), so B was cut off. 480s = 2 x (90+15+60) + 150.
+  1: Number(process.env.MUENDLICH_STAGE1_SECONDS ?? 2 * (TEIL1_PRESENTATION_SECONDS + 15 + TEIL1_QUESTIONS_PER_CANDIDATE * TEIL1_ANSWER_WINDOW_SECONDS) + 150),
   2: Number(process.env.MUENDLICH_STAGE2_SECONDS ?? 360), // ~4min natural dialogue + ~2min AI-facilitated takeover
   3: Number(process.env.MUENDLICH_STAGE3_SECONDS ?? 360), // ~3:30-4:00 natural planning + ~2min AI-moderated completion
 };
@@ -293,6 +300,8 @@ interface RoomSession {
   // True while tick() is mid-transition (awaiting flushStt before deciding
   // hasContent) so a second tick can't re-fire the same transition.
   teil1Transitioning: boolean;
+  // Tokens the evaluation calls consumed (summed over both candidates) — feeds the measured per-exam cost record.
+  evalUsage: TokenUsage;
   // QA tripwire, not exam logic: counts how many times openTeil1QuestionWindow
   // actually fired per candidate. The state machine's own phase enum
   // (presenting -> q1 -> q2, no other path) already makes >2 structurally
@@ -545,6 +554,53 @@ function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
   return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
 }
 
+const sleepMs = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
+
+/** Resolves once the audio already sent to the clients has finished PLAYING.
+ * Found by a full-length test with realistic candidates: the relay sends audio
+ * far faster than real time and the browser queues it on a gapless scheduler,
+ * so awaiting playLibraryPhrase()/speakScriptedText()/sendSystemMessage()
+ * returns when the audio was SENT, not heard. Every candidate clock (90s
+ * presentation, 30s answer windows) was therefore started while the examiner
+ * was still talking: candidate A lost ~40s of the 90 to the welcome speech and
+ * was cut off by the first question after ~55s of actual speaking. Capped at 90s
+ * so a stuck playback estimate can never stall an exam. */
+async function waitForExaminerPlayback(room: RoomSession): Promise<void> {
+  const deadline = Date.now() + 90_000;
+  for (;;) {
+    const ms = room.live?.playbackRemainingMs() ?? 0;
+    if (ms <= 0 || room.ended || Date.now() >= deadline) return;
+    await sleepMs(Math.min(ms + 150, 5_000));
+  }
+}
+
+/** Starts a Teil 1 answer window's clock only after the examiner's question has
+ * been generated, sent AND played — the candidate's 30s are for answering, not
+ * for listening. The machine in tick() is paused (teil1PhaseStartedAt === 0)
+ * until then; a 20s cap on the "spoken" promise keeps a failed utterance from
+ * leaving the clock paused forever. */
+function startTeil1AnswerClockAfter(room: RoomSession, spoken: Promise<void> | void, phase: "q1" | "q2") {
+  void Promise.race([Promise.resolve(spoken).catch(() => {}), sleepMs(20_000)])
+    .then(() => waitForExaminerPlayback(room))
+    .then(() => {
+      if (room.ended || room.finishing || room.examStage !== 1 || room.teil1Phase !== phase) return;
+      room.teil1PhaseStartedAt = Date.now();
+      room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
+    });
+}
+
+/** Same idea for a Teil 2 takeover question: the response window opens when the question has been heard. */
+function startTeil2WindowClockAfter(room: RoomSession, spoken: Promise<void> | void, candidate: "A" | "B") {
+  void Promise.race([Promise.resolve(spoken).catch(() => {}), sleepMs(20_000)])
+    .then(() => waitForExaminerPlayback(room))
+    .then(() => {
+      if (room.ended || room.finishing || room.teil2Mode !== "takeover" || room.teil2TakeoverTurn !== candidate) return;
+      const t = Date.now();
+      room.teil2TakeoverWindowOpenedAt = t;
+      room.teil2TakeoverWindowEndsAt = t + TEIL2_RESPONSE_WINDOW_MS;
+    });
+}
+
 /** Teil 1's post-presentation Q&A: EXACTLY 2 questions per candidate, each
  * with a hard 30s answer window (TEIL1_ANSWER_WINDOW_SECONDS) — explicit
  * product spec, replacing the old "ask 1-2 questions, no enforced count or
@@ -563,7 +619,7 @@ function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
  * candidate who said nothing — a real integrity problem for an exam
  * specifically. When hasContent is false, the instruction below explicitly
  * says so and asks for an open prompt instead of inventing specifics. */
-function openTeil1QuestionWindow(room: RoomSession, speakerName: string, questionNumber: 1 | 2, hasContent: boolean) {
+function openTeil1QuestionWindow(room: RoomSession, speakerName: string, questionNumber: 1 | 2, hasContent: boolean): Promise<void> | void {
   room.teil1QuestionsAsked[room.teil1Speaker]++; // QA tripwire — see the field's doc comment
   const framing = questionNumber === 1 ? `Die Präsentationszeit ist um.` : `Die Antwortzeit ist um.`;
   const instruction = !hasContent
@@ -571,7 +627,7 @@ function openTeil1QuestionWindow(room: RoomSession, speakerName: string, questio
     : questionNumber === 1
       ? `Stellen Sie ${speakerName} jetzt Ihre erste Frage zur Präsentation — konkret bezogen auf das, was ${speakerName} tatsächlich gesagt hat.`
       : `Stellen Sie ${speakerName} jetzt Ihre zweite und letzte Frage zur Präsentation — eine andere Art von Frage als die erste (z. B. Meinung, Grund, Beispiel oder Vergleich statt einer Wiederholung derselben Frageart), ebenfalls konkret auf das Gesagte bezogen.`;
-  room.live?.sendSystemMessage(
+  return room.live?.sendSystemMessage(
     // Interpolated (not hardcoded "30") — matters whenever
     // MUENDLICH_TEIL1_ANSWER_WINDOW_SECONDS is overridden (e.g. shortened
     // for local/CI testing), so the model's own stated number always
@@ -595,7 +651,8 @@ function openTeil2TakeoverWindow(
   const now = Date.now();
   room.teil2TakeoverTurn = candidate;
   room.teil2TakeoverWindowOpenedAt = now;
-  room.teil2TakeoverWindowEndsAt = now + TEIL2_RESPONSE_WINDOW_MS;
+  // Provisional: startTeil2WindowClockAfter() re-opens the real window once the question has been heard.
+  room.teil2TakeoverWindowEndsAt = now + TEIL2_RESPONSE_WINDOW_MS + 30_000;
 
   const targetName = candidate === "A" ? ctx.aName : ctx.bName;
   const otherName = candidate === "A" ? ctx.bName : ctx.aName;
@@ -617,9 +674,10 @@ function openTeil2TakeoverWindow(
     ? "und gründen Sie die Frage nach Möglichkeit auf etwas, das tatsächlich bereits gesagt wurde"
     : `(${targetName} hat bisher noch nichts Verständliches gesagt — unterstellen Sie KEINEN Inhalt und stellen Sie eine offene Frage zum Thema, ohne eine frühere Aussage vorauszusetzen)`;
 
-  room.live?.sendSystemMessage(
+  const spoken = room.live?.sendSystemMessage(
     `${framing} Stellen Sie ${targetName} jetzt eine direkte Frage zum Thema. Wählen Sie eine andere Art von Frage als beim letzten Mal (Meinung, Grund, Beispiel, Vergleich, Reaktion auf ${otherName}s Beitrag, Gegenargument oder Konsequenz), ${grounding}. ${targetName} hat maximal 30 Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
   );
+  startTeil2WindowClockAfter(room, spoken, candidate);
 }
 
 function logTranscript(room: RoomSession, speaker: string, teil: number, text: string) {
@@ -680,6 +738,7 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
     // again once the deterministic 90s cap/early-finish detection opens Q1
     // (openTeil1QuestionWindow) or the scheduled handoff below.
     await room.live?.playTeil1Question(ctx.teil1TopicATitle);
+    await waitForExaminerPlayback(room); // the welcome + topic + question are ~40s of audio the candidate must hear before their clock starts
     // Presentation clock for Person A starts now (not at stage-start) — the
     // welcome + exam_start + question prompt above all take real wall-clock
     // seconds of TTS before the candidate can actually begin, and none of
@@ -980,9 +1039,9 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
           const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
           console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
           room.teil1Phase = "q1";
-          room.teil1PhaseStartedAt = Date.now();
+          room.teil1PhaseStartedAt = 0; // clock paused until the question has been asked AND heard
           room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
-          openTeil1QuestionWindow(room, speakerName, 1, hasContent);
+          startTeil1AnswerClockAfter(room, openTeil1QuestionWindow(room, speakerName, 1, hasContent), "q1");
         } finally {
           room.teil1Transitioning = false;
         }
@@ -1005,9 +1064,9 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
             const hasContent = (room.live?.getSpokenChars(room.teil1Speaker) ?? 0) - room.teil1PhaseStartChars > 0;
             console.log(`[room ${room.roomId}] Teil 1: ${room.teil1Speaker} Q1 -> Q2 (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s, hasContent=${hasContent})`);
             room.teil1Phase = "q2";
-            room.teil1PhaseStartedAt = Date.now();
+            room.teil1PhaseStartedAt = 0; // paused until the question has been asked AND heard
             room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
-            openTeil1QuestionWindow(room, speakerName, 2, hasContent);
+            startTeil1AnswerClockAfter(room, openTeil1QuestionWindow(room, speakerName, 2, hasContent), "q2");
           } finally {
             room.teil1Transitioning = false;
           }
@@ -1034,6 +1093,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
           void room.live?.speakScriptedLine(pickTaskTransitionLine({ bName: ctx.bName, topicB: ctx.teil1TopicB }, voiceId))
             .then(() => room.live?.playTeil1Question(ctx.teil1TopicBTitle))
             .catch(() => {}) // a failed utterance must never leave B's clock paused forever
+            .then(() => waitForExaminerPlayback(room))
             .then(() => {
               if (room.ended || room.finishing || room.teil1Speaker !== "B" || room.teil1Phase !== "presenting") return;
               room.teil1PhaseStartedAt = Date.now();
@@ -1255,6 +1315,7 @@ async function attemptBestEffortEvaluation(room: RoomSession, endReason: string)
       if (!p) continue;
       try {
         const evaluation = await generateMuendlichEvaluation(transcriptText, label, room.examLevel ?? "B2");
+        room.evalUsage = addTokens(room.evalUsage, evaluation.usage);
         await admin.from("muendlich_evaluations").insert({
           session_id: examSessionId, user_id: p.userId,
           teil1_score: evaluation.teil1_score, teil2_score: evaluation.teil2_score, teil3_score: evaluation.teil3_score,
@@ -1359,6 +1420,16 @@ function endRoom(room: RoomSession, endReason: string) {
     for (const p of room.participants.values()) {
       recordExamUsage(admin, p.userId, room.examSessionId, usage).catch(() => {});
     }
+  }
+
+  // Measured per-exam cost record (muendlich_exam_costs) — see examCostRecord.ts.
+  if (activeVoiceBackend() === "elevenlabs" && room.live && room.examSessionId) {
+    void recordExamCost(admin, {
+      sessionId: room.examSessionId, roomId: room.roomId, endReason,
+      durationSeconds: room.liveSessionStartedAt ? Math.round((Date.now() - room.liveSessionStartedAt) / 1000) : null,
+      usage: room.live.getUsage(),
+      examinerModel: process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5", evaluatorModel: EVALUATOR_MODEL, evaluatorUsage: room.evalUsage,
+    }).catch((e) => console.error(`[room ${room.roomId}] exam cost record failed:`, e));
   }
 
   room.live?.close();
@@ -1834,7 +1905,7 @@ wss.on("connection", async (ws, req) => {
         roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
         lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastSpeechAtBySlot: { A: 0, B: 0 }, lastNudgeAt: 0,
         examStage: null, examStageStartedAt: 0, teil1Speaker: "A", teil1Phase: "presenting", teil1PhaseStartedAt: 0,
-        teil1PhaseStartChars: 0, teil1Transitioning: false,
+        teil1PhaseStartChars: 0, teil1Transitioning: false, evalUsage: ZERO_TOKENS,
         teil1QuestionsAsked: { A: 0, B: 0 },
         teil2Mode: "natural", teil2TakeoverTurn: null, teil2TakeoverWindowOpenedAt: 0, teil2TakeoverWindowEndsAt: 0,
         teil3CompletionSignalSent: false,

@@ -22,7 +22,9 @@ import type { ScriptedLine } from "./examinerPhrases.js";
 
 export interface VoiceBackendSession {
   sendAudioChunk(slot: "A" | "B", base64: string): void;
-  sendSystemMessage(text: string): void;
+  sendSystemMessage(text: string): Promise<void>;
+  /** Milliseconds until the audio sent so far has finished playing on the client (Gemini: 0, unknown). */
+  playbackRemainingMs(): number;
   /** On the ElevenLabs backend: plays pre-generated audio (zero TTS cost)
    * with a dynamic-TTS fallback. On the Gemini backend, which has no
    * concept of a pre-generated library, this just speaks the same
@@ -116,9 +118,10 @@ export async function openVoiceBackend(ctx: RoomContext, examSessionId: string, 
       lastSenderSlot = slot;
       gemini.sendAudioChunk(base64);
     },
-    sendSystemMessage(text) {
+    async sendSystemMessage(text) {
       gemini.session.sendClientContent({ turns: `[SYSTEM] ${text}`, turnComplete: true });
     },
+    playbackRemainingMs() { return 0; },
     async playLibraryPhrase(category) {
       // Gemini Live has no pre-generated-audio concept — its reasoning and
       // voice are one inseparable call, so the only way to get an exact

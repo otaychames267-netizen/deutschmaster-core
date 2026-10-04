@@ -44,6 +44,11 @@ export interface SttSession {
    * resolves once its transcript has been delivered (or failed). Streaming
    * backends (ElevenLabs) commit continuously and don't implement it. */
   flush?(): Promise<void>;
+  /** Per-request-billed backends (Groq) report what they will actually be billed
+   * for: requests made and billed seconds (each request is billed for at least
+   * 10s). Lets the exam cost record use real billing instead of forwarded
+   * audio minutes. */
+  billing?(): { requests: number; billedSeconds: number };
   close(): void;
 }
 
