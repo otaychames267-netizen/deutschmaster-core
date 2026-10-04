@@ -26,7 +26,7 @@ import { PERMANENT_MARKER } from "./failoverStt.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
 const MAX_ATTEMPTS = 3;
-const REQUEST_TIMEOUT_MS = 10_000;
+const REQUEST_TIMEOUT_MS = 15_000; // was 10s: Groq latency spikes of 10-14s were seen live and each timeout cost a retry
 
 const STOCK_HALLUCINATIONS = [
   /untertitel(ung)?\s+(der|von|im auftrag)/i,

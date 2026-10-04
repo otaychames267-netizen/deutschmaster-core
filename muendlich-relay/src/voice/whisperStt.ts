@@ -39,7 +39,11 @@ const SAMPLE_RATE = 16_000;
 const BYTES_PER_SAMPLE = 2; // PCM16
 const MAX_SEGMENT_BYTES = SAMPLE_RATE * BYTES_PER_SAMPLE * 12; // ~12s of continuous speech per request
 const WINDOW_BYTES = SAMPLE_RATE * BYTES_PER_SAMPLE * 0.05; // 50ms analysis window
-const VOICED_RMS = 0.02 * 32768; // same threshold as the upstream silence gate (muendlichVoiceSession.ts SILENCE_RMS_THRESHOLD)
+// Deliberately LOW (was 0.02): a quiet speaker's word endings sit around 0.009-0.013 RMS, and trimming at 0.02
+// cut the last word off ("...feste Regeln vereinbaren" -> "...Regeln verarbeiten") — found by comparing Groq on the
+// raw vs the trimmed audio. The upstream gate (muendlichVoiceSession.ts) already handles room noise; this only
+// has to separate speech from digital silence / very faint noise (< 0.006).
+const VOICED_RMS = 0.006 * 32768;
 const MIN_VOICED_WINDOWS = 6; // ~0.3s of actual voiced audio — less isn't worth a real inference call
 const SPEECH_PAD_BEFORE_WINDOWS = 4; // keep 200ms of lead-in so a word onset isn't clipped
 const SPEECH_PAD_AFTER_WINDOWS = 6; // and 300ms of tail
@@ -59,7 +63,7 @@ function windowRms(buf: Buffer, offset: number): number {
  * trim the rest to the voiced span (plus a small pad) — fewer hallucination
  * triggers, and less audio to send. Found by the live test
  * (groqStt.live-test.mjs): digital silence -> "Vielen Dank.", noise -> "...". */
-function trimToSpeech(buf: Buffer): Buffer | null {
+export function trimToSpeech(buf: Buffer): Buffer | null {
   let first = -1, last = -1, voiced = 0;
   const windows = Math.floor(buf.length / WINDOW_BYTES);
   for (let w = 0; w < windows; w++) {

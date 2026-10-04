@@ -273,7 +273,26 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // Only silence BEYOND the hangover window (i.e. genuinely long dead air)
   // gets dropped. Same RMS-over-threshold value already proven in this
   // exact codebase's frontend (MIC_ACTIVITY_RMS=0.02 in useRelayAudio.ts).
-  const SILENCE_RMS_THRESHOLD = 0.02;
+  //
+  // The threshold is ADAPTIVE per candidate, not the fixed 0.02 it used to be.
+  // Found by a full-length exam with simulated learners: a quiet speaker
+  // (median speech-frame RMS 0.012 — ordinary for a laptop mic at low gain or a
+  // soft-spoken candidate) had only 18% of their frames above 0.02, so most of
+  // what they said never reached STT (only the 1.5s hangover after a rare loud
+  // frame got through): a patchy transcript, a low evaluation (A2 instead of
+  // B2) and examiner questions built on half of what they said. The loud
+  // reference voice had 87% of frames above 0.02, which is why nobody noticed.
+  // Now: threshold = 3x the running room-noise floor of THAT candidate's mic,
+  // clamped to [0.006, 0.02] — a quiet room lets quiet speech through, a noisy
+  // room is capped at the old value. MUENDLICH_STT_GATE_RMS pins a fixed value.
+  const SILENCE_RMS_FLOOR = 0.006;
+  const SILENCE_RMS_CEILING = 0.02;
+  const FIXED_GATE_RMS = Number(process.env.MUENDLICH_STT_GATE_RMS ?? 0);
+  const noiseFloor: Record<"A" | "B", number> = { A: 0.002, B: 0.002 };
+  function gateThreshold(slot: "A" | "B"): number {
+    if (FIXED_GATE_RMS > 0) return FIXED_GATE_RMS;
+    return Math.min(SILENCE_RMS_CEILING, Math.max(SILENCE_RMS_FLOOR, noiseFloor[slot] * 3));
+  }
   const SILENCE_HANGOVER_MS = 1_500;
   const lastActiveAt: Record<"A" | "B", number> = { A: 0, B: 0 };
   function frameRms(base64: string): number {
@@ -309,8 +328,12 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       return false;
     }
     if (lastSuppressLogState) { console.log(`[echo-suppress] session ${examSessionId}: resumed forwarding mic input`); lastSuppressLogState = false; }
-    if (frameRms(base64) > SILENCE_RMS_THRESHOLD) { lastActiveAt[slot] = now; return true; }
-    return now - lastActiveAt[slot] < SILENCE_HANGOVER_MS;
+    const rms = frameRms(base64);
+    if (rms > gateThreshold(slot)) { lastActiveAt[slot] = now; return true; }
+    const inHangover = now - lastActiveAt[slot] < SILENCE_HANGOVER_MS;
+    // Only genuine silence (outside the hangover, so word tails never count) feeds the noise-floor estimate.
+    if (!inHangover) noiseFloor[slot] = noiseFloor[slot] * 0.98 + rms * 0.02;
+    return inHangover;
   }
   // Tracked at this outer scope (not just local to speak()) so a new
   // speak() call can cancel the PREVIOUS handle synchronously, before it
@@ -624,6 +647,14 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     callbacks.onAudioChunk?.(b64);
   }
 
+  // Never let a slow STT provider hold up the examiner: waiting for the last words to be transcribed is worth a
+  // few seconds (the question is grounded on them), not a Groq latency spike. After the cap the reply goes ahead
+  // with the transcript as it stands; late segments still land in the history for later turns.
+  const FLUSH_WAIT_CAP_MS = 8_000;
+  function capFlush(p: Promise<unknown>): Promise<unknown> {
+    return Promise.race([p, new Promise((r) => setTimeout(r, FLUSH_WAIT_CAP_MS))]);
+  }
+
   async function speakScriptedLine(line: ScriptedLine): Promise<void> {
     if (closed) return;
     if (line.lead) {
@@ -830,7 +861,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       return spokenChars[slot];
     },
     async flushStt() {
-      await Promise.allSettled([sttA, sttB].map((s) => s?.flush?.()).filter((p): p is Promise<void> => !!p));
+      await capFlush(Promise.allSettled([sttA, sttB].map((s) => s?.flush?.()).filter((p): p is Promise<void> => !!p)));
     },
     playLibraryPhrase(category) {
       return playLibraryPhrase(category);
@@ -864,7 +895,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       // only after the question has actually been heard.
       const sendIt = (): Promise<void> => speak({ type: "system", text: `[SYSTEM] ${text}` }).catch(() => {});
       if (pendingFlushes.length === 0) return sendIt();
-      return Promise.allSettled(pendingFlushes).then(sendIt);
+      return capFlush(Promise.allSettled(pendingFlushes)).then(sendIt);
     },
     playbackRemainingMs() {
       return Math.max(0, playbackEndsAt - Date.now());
