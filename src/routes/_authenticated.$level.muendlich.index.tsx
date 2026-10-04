@@ -59,57 +59,111 @@ const TEILE = [
   },
 ];
 
-/** Shared visual shell for the three Mündlich nav entry points (Vorbereitung,
- * Prüfungssimulation, AI 1:1) — a mini hero banner (gradient + decorative
- * blur, matching MuendlichTopicCards.tsx's HeroCard language) over a label
- * block, so these read as the same premium card family as every other
- * Mündlich card instead of a plain bordered icon-in-a-circle tile. */
-function NavTileShell({ icon: Icon, title, subtitle, from, to, locked, chevron }: {
+/** Big action card — same shape, padding and content layout as Schriftlich's
+ * own Vorbereitung/Prüfungssimulation cards (_authenticated.$level.
+ * schriftlich.index.tsx): icon chip top-left, chevron top-right, title,
+ * description paragraph, then either a chip row or a duration/count line.
+ * `accent` is a Tailwind color stem (e.g. "rose") so every usage pulls real
+ * utility classes (bg-rose-500/10 etc.), never an interpolated class name
+ * Tailwind's build-time scanner wouldn't otherwise see. */
+function BigActionCard({ icon: Icon, accent, highlighted, title, description, meta, href, onClick }: {
   icon: React.ComponentType<{ className?: string }>;
+  accent: "rose" | "fuchsia" | "indigo";
+  highlighted?: boolean;
   title: string;
-  subtitle: string;
-  from: string;
-  to: string;
-  locked?: boolean;
-  chevron?: boolean;
+  description: string;
+  meta: { chips: string[] } | { duration: string; detail: string };
+  // Exactly one of these: `href` for a real sub-page (rendered as a Link,
+  // like Schriftlich's own cards), `onClick` for same-page behavior (the
+  // Mündlich "Vorbereitung" card scrolls to its section below instead of
+  // navigating, since Mündlich has no standalone Vorbereitung page).
+  href?: string;
+  onClick?: () => void;
 }) {
-  return (
-    <div className={`flex aspect-square w-full flex-col overflow-hidden rounded-3xl border shadow-sm transition-all duration-300 ${locked ? "cursor-not-allowed border-border" : "group-hover:-translate-y-1 group-hover:shadow-xl border-transparent"}`}>
-      <div
-        className="relative flex flex-1 items-center justify-center overflow-hidden"
-        style={{ background: locked ? "linear-gradient(150deg, #64748b, #cbd5e1)" : `linear-gradient(150deg, ${from}, ${to})` }}
-      >
-        {locked && <div className="absolute inset-0 bg-background/55" />}
-        <div className="pointer-events-none absolute -right-6 -top-8 h-28 w-28 rounded-full bg-white/15 blur-2xl" />
-        <div className="pointer-events-none absolute -left-6 bottom-0 h-20 w-20 rounded-full bg-black/10 blur-xl" />
-        {locked && (
-          <span className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-full bg-background/90 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-muted-foreground shadow-sm">
-            <Lock className="h-2.5 w-2.5" /> Bald
-          </span>
-        )}
-        <Icon className={`h-11 w-11 drop-shadow-lg transition-transform duration-300 ${locked ? "text-white/70" : "text-white/90 group-hover:scale-110 group-hover:rotate-6"}`} />
-      </div>
-      <div className="flex items-center justify-between gap-2 bg-card px-4 py-3">
-        <div className="min-w-0">
-          <p className={`truncate text-sm font-black ${locked ? "text-muted-foreground" : "text-foreground"}`}>{title}</p>
-          <p className="mt-0.5 truncate text-[11px] text-muted-foreground">{subtitle}</p>
+  const ring = { rose: "ring-rose-500/20 group-hover:ring-rose-500/30", fuchsia: "ring-fuchsia-500/20 group-hover:ring-fuchsia-500/30", indigo: "ring-indigo-500/20 group-hover:ring-indigo-500/30" }[accent];
+  const iconBg = { rose: "bg-rose-500/10 group-hover:bg-rose-500/15", fuchsia: "bg-fuchsia-500/10 group-hover:bg-fuchsia-500/15", indigo: "bg-indigo-500/10 group-hover:bg-indigo-500/15" }[accent];
+  const iconColor = { rose: "text-rose-500", fuchsia: "text-fuchsia-500", indigo: "text-indigo-500" }[accent];
+  const border = { rose: "hover:border-rose-500/30", fuchsia: "border-fuchsia-500/25 hover:border-fuchsia-500/50", indigo: "border-indigo-500/25 hover:border-indigo-500/50" }[accent];
+  const highlightBg = { rose: "bg-rose-500/15 group-hover:bg-rose-500/20", fuchsia: "bg-fuchsia-500/15 group-hover:bg-fuchsia-500/20", indigo: "bg-indigo-500/15 group-hover:bg-indigo-500/20" }[accent];
+  const chevronBg = { rose: "group-hover:bg-rose-500/10", fuchsia: "bg-fuchsia-500/10 group-hover:bg-fuchsia-500/20", indigo: "bg-indigo-500/10 group-hover:bg-indigo-500/20" }[accent];
+  const chevronColor = { rose: "group-hover:text-rose-500", fuchsia: "text-fuchsia-500", indigo: "text-indigo-500" }[accent];
+  const hoverGradient = { rose: "from-rose-500/4", fuchsia: "from-fuchsia-500/6", indigo: "from-indigo-500/6" }[accent];
+  const chipHover = { rose: "group-hover:bg-rose-500/10 group-hover:text-rose-600 dark:group-hover:text-rose-400", fuchsia: "", indigo: "" }[accent];
+  const highlightedCard = { rose: "border-rose-500/25 bg-gradient-to-br from-rose-500/8 to-card hover:shadow-rose-500/10", fuchsia: "border-fuchsia-500/25 bg-gradient-to-br from-fuchsia-500/8 to-card hover:shadow-fuchsia-500/10", indigo: "border-indigo-500/25 bg-gradient-to-br from-indigo-500/8 to-card hover:shadow-indigo-500/10" }[accent];
+
+  const className = `group relative flex w-full flex-col items-start gap-5 overflow-hidden rounded-2xl border p-7 text-left shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-xl ${highlighted ? `${highlightedCard} ${border}` : `border-border bg-card ${border}`}`;
+  const content = (
+    <>
+      {!highlighted && <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${hoverGradient} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />}
+      <div className="relative flex w-full items-start justify-between">
+        <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ring-1 transition-all ${highlighted ? highlightBg : iconBg} ${ring}`}>
+          <Icon className={`h-7 w-7 ${iconColor}`} />
         </div>
-        {chevron && !locked && (
-          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-        )}
+        <div className={`flex h-8 w-8 items-center justify-center rounded-full transition-all group-hover:translate-x-0.5 ${highlighted ? chevronBg : `bg-muted ${chevronBg}`}`}>
+          <ChevronRight className={`h-4 w-4 text-muted-foreground transition-colors ${chevronColor}`} />
+        </div>
       </div>
-    </div>
+      <div className="relative flex-1">
+        <p className="text-xl font-black text-foreground tracking-tight">{title}</p>
+        <p className="mt-1.5 text-sm text-muted-foreground leading-relaxed">{description}</p>
+      </div>
+      {"chips" in meta ? (
+        <div className="relative flex flex-wrap gap-1.5">
+          {meta.chips.map((c) => (
+            <span key={c} className={`rounded-lg bg-muted px-2.5 py-1 text-[10px] font-bold text-muted-foreground uppercase tracking-wide transition-colors ${chipHover}`}>{c}</span>
+          ))}
+        </div>
+      ) : (
+        <div className="relative flex items-center gap-4 text-xs text-muted-foreground">
+          <span className="flex items-center gap-1.5 font-medium"><Clock className={`h-3.5 w-3.5 ${iconColor}`} /> {meta.duration}</span>
+          <span className="h-1 w-1 rounded-full bg-muted-foreground/30" />
+          <span className="font-medium">{meta.detail}</span>
+        </div>
+      )}
+    </>
+  );
+  return href ? (
+    <Link to={href as never} className={className}>{content}</Link>
+  ) : (
+    <button type="button" onClick={onClick} className={className}>{content}</button>
   );
 }
 
-/** A locked, non-interactive square tile — used for features that are
- * temporarily restricted to admin-only preview. Never an <a>/<Link>, so it
- * never navigates and never bounces through a route's own redirect-away
- * gate (which would look like a broken click to a regular user). */
-function LockedTile({ icon, title, subtitle, from, to }: { icon: React.ComponentType<{ className?: string }>; title: string; subtitle: string; from: string; to: string }) {
+/** Locked variant of BigActionCard — same size/shape so the layout never
+ * shifts between admin and regular-user views, but a non-interactive `div`
+ * (never a Link) so it can't navigate into a route's own redirect-away gate,
+ * plus a muted palette and a "Bald" badge instead of the real CTA. */
+function LockedBigActionCard({ icon: Icon, title, description, meta }: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  description: string;
+  meta: { chips: string[] } | { duration: string; detail: string };
+}) {
   return (
-    <div className="select-none">
-      <NavTileShell icon={icon} title={title} subtitle={subtitle} from={from} to={to} locked />
+    <div className="relative flex cursor-not-allowed select-none flex-col items-start gap-5 overflow-hidden rounded-2xl border border-dashed border-border bg-muted/20 p-7 opacity-80">
+      <span className="absolute right-5 top-5 flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-muted-foreground">
+        <Lock className="h-3 w-3" /> Bald
+      </span>
+      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted ring-1 ring-border">
+        <Icon className="h-7 w-7 text-muted-foreground" />
+      </div>
+      <div className="flex-1">
+        <p className="text-xl font-black text-muted-foreground tracking-tight">{title}</p>
+        <p className="mt-1.5 text-sm text-muted-foreground/70 leading-relaxed">{description}</p>
+      </div>
+      {"chips" in meta ? (
+        <div className="flex flex-wrap gap-1.5">
+          {meta.chips.map((c) => (
+            <span key={c} className="rounded-lg bg-muted px-2.5 py-1 text-[10px] font-bold text-muted-foreground/70 uppercase tracking-wide">{c}</span>
+          ))}
+        </div>
+      ) : (
+        <div className="flex items-center gap-4 text-xs text-muted-foreground/70">
+          <span className="flex items-center gap-1.5 font-medium"><Clock className="h-3.5 w-3.5" /> {meta.duration}</span>
+          <span className="h-1 w-1 rounded-full bg-muted-foreground/30" />
+          <span className="font-medium">{meta.detail}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -155,37 +209,59 @@ function MuendlichIndexPage() {
         </div>
       </div>
 
-      {/* ── Triangle nav: Vorbereitung + Prüfungssimulation on top, AI 1:1 centered below ── */}
-      <div className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <button
-            type="button"
+      {/* ── Action cards: same shape/size as Schriftlich's own Vorbereitung
+          + Prüfungssimulation cards. AI 1:1 is a bonus/preview feature, not
+          one of the two core paths, so it gets its own full-width row below
+          rather than squeezing into the 2-up grid. ── */}
+      <div className="space-y-5">
+        <div className="grid gap-5 sm:grid-cols-2">
+          <BigActionCard
+            icon={BookOpen}
+            accent="rose"
+            title="Vorbereitung"
+            description="Practice each of the three speaking tasks individually. Build confidence task by task before the full exam."
+            meta={{ chips: ["Teil 1", "Teil 2", "Teil 3"] }}
             onClick={() => document.getElementById("vorbereitung-teile")?.scrollIntoView({ behavior: "smooth", block: "start" })}
-            className="group text-left"
-          >
-            <NavTileShell icon={BookOpen} title="Vorbereitung" subtitle="3 Teile einzeln üben" from="#e11d48" to="#fda4af" chevron />
-          </button>
+          />
 
           {isAdmin ? (
-            <Link to={`/${seg}/muendlich/pruefung` as never} className="group">
-              <NavTileShell icon={GraduationCap} title="Prüfungssimulation" subtitle="Alle 3 Teile · ~15 min" from="#a21caf" to="#f0abfc" chevron />
-            </Link>
+            <BigActionCard
+              icon={GraduationCap}
+              accent="fuchsia"
+              highlighted
+              title="Prüfungssimulation"
+              description="Full oral exam with a real exam partner, under timed, realistic conditions. All three tasks in sequence."
+              meta={{ duration: "~15 min", detail: "All 3 tasks" }}
+              href={`/${seg}/muendlich/pruefung`}
+            />
           ) : (
-            <LockedTile icon={GraduationCap} title="Prüfungssimulation" subtitle="Alle 3 Teile · ~15 min" from="#a21caf" to="#f0abfc" />
+            <LockedBigActionCard
+              icon={GraduationCap}
+              title="Prüfungssimulation"
+              description="Full oral exam with a real exam partner, under timed, realistic conditions. All three tasks in sequence."
+              meta={{ duration: "~15 min", detail: "All 3 tasks" }}
+            />
           )}
         </div>
 
-        <div className="flex justify-center">
-          <div className="w-[calc(50%-0.5rem)]">
-            {isAdmin ? (
-              <Link to={`/${seg}/muendlich/voice-tutor` as never} className="group">
-                <NavTileShell icon={Bot} title="AI 1:1" subtitle="KI-Sprachpartner · Admin-Vorschau" from="#4338ca" to="#a5b4fc" chevron />
-              </Link>
-            ) : (
-              <LockedTile icon={Bot} title="AI 1:1" subtitle="KI-Sprachpartner · demnächst" from="#4338ca" to="#a5b4fc" />
-            )}
-          </div>
-        </div>
+        {isAdmin ? (
+          <BigActionCard
+            icon={Bot}
+            accent="indigo"
+            highlighted
+            title="AI 1:1"
+            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Currently in admin preview."
+            meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
+            href={`/${seg}/muendlich/voice-tutor`}
+          />
+        ) : (
+          <LockedBigActionCard
+            icon={Bot}
+            title="AI 1:1"
+            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Coming soon."
+            meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
+          />
+        )}
       </div>
 
       {/* ── Study order tip ─────────────────────────────────── */}
