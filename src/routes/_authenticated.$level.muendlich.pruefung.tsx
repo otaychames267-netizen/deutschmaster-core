@@ -575,7 +575,7 @@ function ExamRoom({ room, participants, selections, slot, materials }: { room: R
   }
 
   if (audio.finished) {
-    return <ScoreRevealModal roomId={room.id} candidateName={`Person ${slot}`} roomCode={room.code} />;
+    return <ScoreRevealModal roomId={room.id} />;
   }
 
   const examinerState: ExaminerState = !audio.connected || !audio.ready ? "connecting" : audio.aiSpeaking ? "speaking" : audio.aiThinking ? "thinking" : "listening";
