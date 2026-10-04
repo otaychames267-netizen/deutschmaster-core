@@ -3,7 +3,7 @@ import confetti from "canvas-confetti";
 import { Loader2, PartyPopper, Play, Volume2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { EvaluationReport } from "./EvaluationReport";
-import type { MuendlichEvaluationResult } from "@/lib/grading/muendlich-evaluator";
+import type { MuendlichEvaluationResult } from "@/lib/muendlich/evaluation";
 
 const db = supabase as any;
 
@@ -65,9 +65,9 @@ function RecordingPlayback({ sessionId }: { sessionId: string }) {
 /** Shown once the exam finishes — resolves this room's exam session, then
  * polls for the caller's own evaluation row (own-eyes-only RLS: this can
  * never see the partner's evaluation), and reveals the score with a
- * confetti burst on a pass, alongside the transcript for self-review and
- * the existing PDF-export button. */
-export function ScoreRevealModal({ roomId, candidateName, roomCode }: { roomId: string; candidateName: string; roomCode: string }) {
+ * confetti burst on a pass, alongside the recording playback and the
+ * transcript for self-review. */
+export function ScoreRevealModal({ roomId }: { roomId: string }) {
   const [evaluation, setEvaluation] = useState<MuendlichEvaluationResult | null>(null);
   const [transcript, setTranscript] = useState<{ speaker: string; text: string }[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -92,13 +92,13 @@ export function ScoreRevealModal({ roomId, candidateName, roomCode }: { roomId: 
         setEvaluation({
           teil1_score: data.teil1_score, teil2_score: data.teil2_score, teil3_score: data.teil3_score,
           overall_score: data.overall_score, passed: data.passed, cefr_level: data.cefr_level,
-          feedback: data.feedback, model: data.model,
+          model: data.model,
         });
         return;
       }
       // evaluation generation runs 2 sequential Claude calls server-side
-      // (with its own internal retry on a malformed response), can take a
-      // while. Real bug found via live-testing a full exam (2026-09-30):
+      // (with its own internal retry on a malformed response). Real bug
+      // found via live-testing a full exam (2026-09-30):
       // this used to just stop silently once attempts ran out, leaving the
       // student staring at "wird erstellt…" forever with zero explanation —
       // now surfaces a real error state with a retry option instead.
@@ -145,7 +145,7 @@ export function ScoreRevealModal({ roomId, candidateName, roomCode }: { roomId: 
               <p className={`mt-1 text-sm font-bold ${evaluation.passed ? "text-emerald-600" : "text-destructive"}`}>{evaluation.passed ? "Bestanden" : "Nicht bestanden"} · {evaluation.cefr_level}</p>
             </div>
 
-            <EvaluationReport evaluation={evaluation} candidateName={candidateName} roomCode={roomCode} examDate={new Date()} />
+            <EvaluationReport evaluation={evaluation} />
 
             {sessionId && <RecordingPlayback sessionId={sessionId} />}
 
