@@ -8,7 +8,8 @@
  */
 import {
   HeartPulse, Cpu, Briefcase, GraduationCap, Users, ShoppingBag, Tv, Home,
-  Wallet, Plane, TreePalm, HandHeart, Sparkles, type LucideIcon,
+  Wallet, Plane, TreePalm, HandHeart, Sparkles, Camera, BookOpen, Clapperboard,
+  Trophy, Music, HeartHandshake, Compass, type LucideIcon,
 } from "lucide-react";
 
 export interface ThemeArt { icon: LucideIcon; from: string; to: string }
@@ -27,6 +28,19 @@ const THEME_ART: Record<string, ThemeArt> = {
   Reisen: { icon: Plane, from: "#0e7490", to: "#22d3ee" },
   Freizeit: { icon: TreePalm, from: "#4d7c0f", to: "#a3e635" },
   "Soziales Engagement": { icon: HandHeart, from: "#a21caf", to: "#e879f9" },
+  // Mündlich Teil 1's own 8 topics (1 B1 "Bildbeschreibung" + 7 B2
+  // Präsentation themes) — a separate, smaller fixed set from the Teil 2/3
+  // discussion categories above, so these never collided with any of them
+  // and theme_category was NULL for all 8 (real gap found 2026-10-04: every
+  // Teil 1 card silently fell back to the same generic grey/Sparkles art,
+  // looking repetitive/unpolished next to Teil 2/3's distinct cards).
+  Bildbeschreibung: { icon: Camera, from: "#334155", to: "#94a3b8" },
+  Buch: { icon: BookOpen, from: "#92400e", to: "#f59e0b" },
+  Film: { icon: Clapperboard, from: "#6b21a8", to: "#d8b4fe" },
+  Sportereignis: { icon: Trophy, from: "#b91c1c", to: "#fca5a5" },
+  Musikveranstaltung: { icon: Music, from: "#be185d", to: "#f9a8d4" },
+  "Wichtige Person im Leben": { icon: HeartHandshake, from: "#065f46", to: "#6ee7b7" },
+  "Wichtige Erfahrung": { icon: Compass, from: "#1e40af", to: "#93c5fd" },
 };
 
 const FALLBACK: ThemeArt = { icon: Sparkles, from: "#475569", to: "#94a3b8" };
