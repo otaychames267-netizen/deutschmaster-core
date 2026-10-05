@@ -29,7 +29,7 @@ const PLANS = [
     price: "30",
     period: " TND",
     desc: "Everything for the written exam",
-    descAr: "كل ما تحتاجه للامتحان الكتابي" as string | null,
+    descAr: null as string | null,
     features: [] as string[],
     benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
@@ -594,7 +594,7 @@ function Pricing() {
                 </div>
               )}
 
-              <div className="mb-6">
+              <div className={plan.benefits ? "mb-4" : "mb-6"}>
                 <p className={`text-xs font-semibold uppercase tracking-widest ${plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                   {plan.name}
                 </p>
@@ -622,7 +622,7 @@ function Pricing() {
               </div>
 
               {plan.benefits ? (
-                <div className="mb-7 flex-1">
+                <div className="mb-5 flex-1">
                   <PlanBenefits benefits={plan.benefits} onPrimary={plan.highlighted} />
                 </div>
               ) : (
