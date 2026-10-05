@@ -31,8 +31,12 @@ const PLANS = [
     features: [
       "Lesen — Teil 1, 2, 3",
       "Hören — Teil 1, 2, 3",
-      "Sprachbausteine — Teil 1, 2",
+      "Sprachbausteine — Teil 1, 2, with the grammar rule explained for every gap",
+      "Arabic translation + justification (Warum?) for every answer",
       "Schreiben — Beschwerde & Bitte",
+      "2 personal Schreiben Struktur cards (Produkt + Dienstleistung), unique to you",
+      "Prüfungssimulation — full timed mock exams all month, instant score",
+      "Mündlich — Vorbereitung cards (no AI exam)",
     ],
     highlighted: false,
     badge: null,
@@ -45,7 +49,7 @@ const PLANS = [
     period: " TND",
     desc: "Complete preparation for both written and spoken",
     features: [
-      "Lesen, Hören, Sprachbausteine & Schreiben",
+      "Everything in Schriftlich — incl. personal Struktur cards & Arabic explanations",
       "Mündlich — full preparation",
       "Full exam simulations",
       "Priority support",
@@ -574,7 +578,7 @@ function Pricing() {
 
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
             Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
-        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
           {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}

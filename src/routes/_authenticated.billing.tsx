@@ -33,8 +33,11 @@ const PLANS = [
     features: [
       "Lesen — Teil 1, 2, 3",
       "Hören — Teil 1, 2, 3",
-      "Sprachbausteine — Teil 1, 2",
+      "Sprachbausteine — Teil 1, 2, with the grammar rule explained for every gap",
+      "Arabic translation + justification (Warum?) for every answer",
       "Schreiben — Beschwerde & Bitte",
+      "2 personal Schreiben Struktur cards (Produkt + Dienstleistung), unique to you",
+      "Prüfungssimulation — full timed mock exams all month, instant score",
       "Mündlich — Vorbereitung cards (no AI exam)",
       "Progress analytics",
       "Practice exams (PDF library)",
@@ -53,7 +56,7 @@ const PLANS = [
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
     features: [
-      "Lesen, Hören, Sprachbausteine & Schreiben",
+      "Everything in Schriftlich — incl. personal Struktur cards & Arabic explanations",
       "Mündlich — full preparation",
       "Prüfungssimulation — full exam",
       "Priority support",
