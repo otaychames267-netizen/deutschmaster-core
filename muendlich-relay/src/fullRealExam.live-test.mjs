@@ -144,17 +144,34 @@ async function main() {
     }
   }, 100);
 
-  async function speakTurn(who, instruction, label) {
+  async function prepareTurn(who, instruction) {
+    const text = await brain(who, instruction, transcript);
+    const pcm = await synth(text, VOICES[who]);
+    return { who, text, pcm };
+  }
+  // Real conversation partners think while the other one is still talking — so the next reply is prepared during
+  // the current turn, which keeps the gaps between turns human-sized (~2s) instead of brain+TTS latency (~5s).
+  let prefetched = null;
+  const convInstruction = () => {
+    const topic = stage === 2 ? TEIL2 : TEIL3;
+    const role = stage === 2 ? `Ihr diskutiert zu zweit das Thema „${topic}“. Gib deine Meinung mit einem Grund oder Beispiel und reagiere auf deine Partnerin/deinen Partner.` : `Ihr plant zu zweit: „${topic}“. Mach einen konkreten Vorschlag (Termin, Ort, Essen, Budget, Aufgaben) oder reagiere auf den Vorschlag deines Partners und einigt euch.`;
+    return `${role} Sprich 2 bis 3 Sätze (etwa 12 Sekunden).`;
+  };
+
+  async function speakTurn(who, instruction, label, prepared) {
     speaking = true;
     try {
-      const text = await brain(who, instruction, transcript);
-      const pcm = await synth(text, VOICES[who]);
+      const { text, pcm } = prepared ?? (await prepareTurn(who, instruction));
       const secs = pcm.length / 32000;
       // The examiner may have started talking while we were thinking — a person would stop and wait.
       while (Date.now() < playbackEndsAt + 500 && !finished) await sleep(200);
       transcript.push({ who: NAMES[who], text });
       log(`${NAMES[who]} (${label}, ${secs.toFixed(0)}s): ${text.slice(0, 110)}${text.length > 110 ? "…" : ""}`);
       mic[who] = { pcm, pos: 0 };
+      if (label === "discussion" || label === "planning") {
+        const other = who === "A" ? "B" : "A";
+        prefetched = prepareTurn(other, convInstruction()).catch(() => null);
+      } else prefetched = null;
       while (mic[who] && !finished) await sleep(150);
       turns++;
       lastSpeaker = who;
@@ -187,10 +204,12 @@ async function main() {
     const ia = pending.indexOf("Fatma"), ib = pending.indexOf("Youssef");
     const addressed = ia >= 0 && (ib < 0 || ia < ib) ? "A" : ib >= 0 ? "B" : null;
     const topic = stage === 2 ? TEIL2 : TEIL3;
-    if (addressed && pending.includes("?")) return speakTurn(addressed, `Die Prüferin fragt (Thema: „${topic}“): „${pending}“. Antworte in 2 bis 3 Sätzen (etwa 12 Sekunden).`, "answers examiner");
+    if (addressed && pending.includes("?")) { prefetched = null; return speakTurn(addressed, `Die Prüferin fragt (Thema: „${topic}“): „${pending}“. Antworte in 2 bis 3 Sätzen (etwa 12 Sekunden).`, "answers examiner"); }
     const who = lastSpeaker === "A" ? "B" : "A";
-    const stageRole = stage === 2 ? `Ihr diskutiert zu zweit das Thema „${topic}“. Gib deine Meinung mit einem Grund oder Beispiel und reagiere auf deine Partnerin/deinen Partner.` : `Ihr plant zu zweit: „${topic}“. Mach einen konkreten Vorschlag (Termin, Ort, Essen, Budget, Aufgaben) oder reagiere auf den Vorschlag deines Partners und einigt euch.`;
-    return speakTurn(who, `${stageRole} Sprich 2 bis 3 Sätze (etwa 12 Sekunden).`, stage === 2 ? "discussion" : "planning");
+    const label = stage === 2 ? "discussion" : "planning";
+    let prep = null;
+    if (prefetched) { prep = await prefetched; prefetched = null; if (prep && prep.who !== who) prep = null; }
+    return speakTurn(who, convInstruction(), label, prep ?? undefined);
   }
 
   const deadline = Date.now() + 32 * 60_000;
@@ -198,21 +217,26 @@ async function main() {
     await sleep(400);
     if (speaking || stage === 0) continue;
     if (Date.now() < playbackEndsAt + 700) continue;               // examiner still talking
-    if (Date.now() < lastSpeechEndsAt + 1800) continue;            // natural gap between turns
+    if (Date.now() < lastSpeechEndsAt + 1200) continue;            // natural gap between turns
     try { await decide(); } catch (e) { log(`candidate turn failed: ${e.message}`); await sleep(2000); }
   }
   clearInterval(micTimer);
   log(`exam ${finished ? "FINISHED" : terminated ? "TERMINATED (" + terminated + ")" : anyClosed ? "socket closed" : "TIMED OUT"} after ${((Date.now() - t0) / 60000).toFixed(1)} min; candidate turns: ${turns}`);
 
   // ---- read the MEASURED cost the relay recorded, before cleanup deletes the session ----
-  await sleep(8000);
+  // The relay evaluates both candidates AFTER broadcasting "finished" (two sequential Claude calls) and only then
+  // writes the cost row — wait for all of it instead of racing it (and deleting the session under it).
   let session = null, cost = null, evals = [], nodes = [];
-  try {
-    [session] = await rest(`/rest/v1/muendlich_exam_sessions?select=id,end_reason,ended_at&room_id=eq.${roomId}&order=created_at.desc&limit=1`);
-    [cost] = await rest(`/rest/v1/muendlich_exam_costs?select=*&session_id=eq.${session.id}`);
-    evals = await rest(`/rest/v1/muendlich_evaluations?select=user_id,teil1_score,teil2_score,teil3_score,overall_score,cefr_level&session_id=eq.${session.id}`);
-    nodes = await rest(`/rest/v1/muendlich_transcript_nodes?select=speaker,teil&session_id=eq.${session.id}&limit=1000`);
-  } catch (e) { log(`could not read results: ${e.message}`); }
+  for (let i = 0; i < 40; i++) {
+    await sleep(3000);
+    try {
+      [session] = await rest(`/rest/v1/muendlich_exam_sessions?select=id,end_reason,ended_at&room_id=eq.${roomId}&order=created_at.desc&limit=1`);
+      [cost] = await rest(`/rest/v1/muendlich_exam_costs?select=*&session_id=eq.${session.id}`);
+      evals = await rest(`/rest/v1/muendlich_evaluations?select=user_id,teil1_score,teil2_score,teil3_score,overall_score,cefr_level&session_id=eq.${session.id}`);
+      nodes = await rest(`/rest/v1/muendlich_transcript_nodes?select=speaker,teil&session_id=eq.${session.id}&limit=1000`);
+      if (cost && evals.length >= 2) break;
+    } catch (e) { log(`waiting for results: ${e.message.slice(0, 80)}`); }
+  }
   console.log("\n=== RESULT ===");
   console.log("end_reason:", session?.end_reason);
   console.log("transcript nodes by speaker:", JSON.stringify(nodes.reduce((a, n) => { a[n.speaker] = (a[n.speaker] ?? 0) + 1; return a; }, {})), " by Teil:", JSON.stringify(nodes.reduce((a, n) => { a[n.teil] = (a[n.teil] ?? 0) + 1; return a; }, {})));

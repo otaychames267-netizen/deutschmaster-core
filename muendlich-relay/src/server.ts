@@ -93,6 +93,7 @@ import { openVoiceBackend, activeVoiceBackend, type VoiceBackendSession } from "
 import { openTutorVoiceSession, type TutorVoiceSession } from "./voice/tutorVoiceSession.js";
 import type { TutorContext } from "./voice/tutorBrain.js";
 import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evaluator.js";
+import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line } from "./examinerPhrases.js";
 import { pickTeil1ToTeil2, pickTeil2ToTeil3, pickSessionEnd } from "./tutorPhrases.js";
@@ -212,6 +213,7 @@ const MAX_REPEAT_USES = 2;
 // first — this only fires if the nudge(s) themselves also go unanswered for
 // the full window (both participants silent, not just one).
 const HARD_IDLE_CLOSE_MS = Number(process.env.MUENDLICH_HARD_IDLE_MS ?? 45_000);
+const HARD_IDLE_STRUCTURED_MS = Number(process.env.MUENDLICH_HARD_IDLE_STRUCTURED_MS ?? 90_000);
 // Rough Gemini Live audio-token estimate for the global cost cap — the Live
 // API doesn't expose per-request token counts the way REST generateContent
 // calls do, so usage is approximated at session-end from elapsed minutes.
@@ -280,6 +282,16 @@ interface RoomSession {
   // threshold at 0 (default) every frame counts and this equals
   // lastAudioAtBySlot, i.e. the pre-existing behavior.
   lastSpeechAtBySlot: Record<"A" | "B", number>;
+  // One adaptive speech/silence detector per candidate mic (speechActivity.ts) feeding lastSpeechAtBySlot.
+  speechDetectors: Record<"A" | "B", SpeechDetector>;
+  // When the examiner's audio sent so far will have finished PLAYING (monotonic, refreshed every tick): the
+  // candidates can't be expected to talk while the examiner does, so silence is measured from this too.
+  examinerPlayedUntil: number;
+  // Start of the current "the candidates' turn to speak" period: set when a STRUCTURAL examiner utterance (stage
+  // opening, section transition, Teil 1/2 question) has finished playing. The hard idle-close measures from here (or
+  // from the last real speech) — NOT from the examiner's anti-silence nudges, which would otherwise reset it forever
+  // and make a room full of silent candidates immortal.
+  idleBaselineAt: number;
   lastNudgeAt: number;
   examStage: 1 | 2 | 3 | null;
   examStageStartedAt: number;
@@ -531,25 +543,6 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
  * actively mid-utterance right now, rather than paused/finished. Pulled out
  * as a named, independently-testable function rather than an inline
  * condition — see muendlich-relay's own test suite for direct coverage. */
-// Speech-vs-silence for ONE incoming mic frame (base64 PCM16). FOUND by a
-// full-room live test (groqRoom.live-test.mjs): the real browser client sends
-// EVERY mic frame — silence included — so counting "a frame arrived" as
-// activity (lastAudioAt) means "finished early", "answer looks finished" and
-// the mid-speech grace can never trigger in a real room; every presentation
-// runs to cap+grace and every answer window to its full length. This detector
-// is OFF by default (MUENDLICH_SPEECH_RMS unset/0 => every frame counts =
-// identical to the old behavior) so enabling it is a deliberate, reversible
-// per-deploy switch. ~0.012 sits above typical room noise (<0.01) and below
-// normal speech (0.03+); the STT silence gate uses 0.02.
-const SPEECH_RMS_THRESHOLD = Number(process.env.MUENDLICH_SPEECH_RMS ?? 0);
-function isSpeechFrame(base64: string): boolean {
-  if (SPEECH_RMS_THRESHOLD <= 0) return true;
-  const buf = Buffer.from(base64, "base64");
-  let sum = 0, n = 0;
-  for (let i = 0; i + 1 < buf.length; i += 2) { const v = buf.readInt16LE(i) / 32768; sum += v * v; n++; }
-  return n > 0 && Math.sqrt(sum / n) > SPEECH_RMS_THRESHOLD;
-}
-
 function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
   return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
 }
@@ -585,6 +578,7 @@ function startTeil1AnswerClockAfter(room: RoomSession, spoken: Promise<void> | v
     .then(() => {
       if (room.ended || room.finishing || room.examStage !== 1 || room.teil1Phase !== phase) return;
       room.teil1PhaseStartedAt = Date.now();
+      room.idleBaselineAt = Date.now();
       room.teil1PhaseStartChars = room.live?.getSpokenChars(room.teil1Speaker) ?? 0;
     });
 }
@@ -598,6 +592,7 @@ function startTeil2WindowClockAfter(room: RoomSession, spoken: Promise<void> | v
       const t = Date.now();
       room.teil2TakeoverWindowOpenedAt = t;
       room.teil2TakeoverWindowEndsAt = t + TEIL2_RESPONSE_WINDOW_MS;
+      room.idleBaselineAt = t;
     });
 }
 
@@ -695,6 +690,8 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   room.examStageStartedAt = Date.now();
   room.lastAudioAt = Date.now(); // reset so setup/connection latency doesn't eat into the anti-silence budget
   room.lastAudioAtBySlot = { A: Date.now(), B: Date.now() };
+  room.lastSpeechAtBySlot = { A: Date.now(), B: Date.now() };
+  room.idleBaselineAt = Date.now();
   room.teil2Mode = "natural";
   room.teil2TakeoverTurn = null;
   room.teil3CompletionSignalSent = false;
@@ -739,6 +736,7 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
     // (openTeil1QuestionWindow) or the scheduled handoff below.
     await room.live?.playTeil1Question(ctx.teil1TopicATitle);
     await waitForExaminerPlayback(room); // the welcome + topic + question are ~40s of audio the candidate must hear before their clock starts
+    room.idleBaselineAt = Date.now();
     // Presentation clock for Person A starts now (not at stage-start) — the
     // welcome + exam_start + question prompt above all take real wall-clock
     // seconds of TTS before the candidate can actually begin, and none of
@@ -757,12 +755,16 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   if (stage === 2 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
     await room.live?.speakScriptedLine(pickSectionTransition12Line({ teil2Topic: ctx.teil2TopicTitle }, voiceId));
+    await waitForExaminerPlayback(room);
+    room.idleBaselineAt = Date.now();
   }
 
   // Teil 2 -> Teil 3. Same title-only reasoning as above.
   if (stage === 3 && ctx) {
     const voiceId = room.live?.getVoiceId() ?? "gemini-default";
     await room.live?.speakScriptedLine(pickSectionTransition23Line({ teil3Topic: ctx.teil3TopicTitle }, voiceId));
+    await waitForExaminerPlayback(room);
+    room.idleBaselineAt = Date.now();
   }
 }
 
@@ -962,6 +964,10 @@ async function startRoomIfReady(room: RoomSession) {
 async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil1TopicA: string; teil1TopicATitle: string; teil1TopicB: string; teil1TopicBTitle: string; teil2Topic: string; teil3Topic: string; teil2TopicTitle: string; teil3TopicTitle: string }) {
   if (room.finishing) return;
 
+  // Keep track of when the examiner's audio finishes PLAYING (see RoomSession.examinerPlayedUntil).
+  const playing = room.live?.playbackRemainingMs() ?? 0;
+  if (playing > 0) room.examinerPlayedUntil = Math.max(room.examinerPlayedUntil, Date.now() + playing);
+
   // A stage's duration just elapsed -> we're on a 15s breather before the
   // next Teil (or before finishing). No takeover/anti-silence checks apply
   // during this window; reuses the same 1s mainTick interval rather than a
@@ -1097,6 +1103,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
             .then(() => {
               if (room.ended || room.finishing || room.teil1Speaker !== "B" || room.teil1Phase !== "presenting") return;
               room.teil1PhaseStartedAt = Date.now();
+              room.idleBaselineAt = Date.now();
               room.teil1PhaseStartChars = room.live?.getSpokenChars("B") ?? 0;
             });
         } else {
@@ -1215,7 +1222,10 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   // guard is stage-agnostic and only changes behavior in that disconnect
   // edge case — the normal both-connected case (what Teil 1/2's already-
   // verified behavior was tested under) is completely unaffected.
-  const silenceMs = Date.now() - room.lastAudioAt;
+  // Silence = time since the last real SPEECH (either candidate) or the end of the examiner's own audio.
+  // (room.lastAudioAt is NOT used: the browser streams silence frames, so it is permanently fresh.)
+  const lastActivityAt = Math.max(room.lastSpeechAtBySlot.A, room.lastSpeechAtBySlot.B, room.examinerPlayedUntil);
+  const silenceMs = Date.now() - lastActivityAt;
   const structuredPhaseOwnsSilence = room.examStage === 1 || (room.examStage === 2 && room.teil2Mode === "takeover");
   const bothConnected = room.participants.size === 2;
   if (bothConnected && !structuredPhaseOwnsSilence && silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
@@ -1228,8 +1238,8 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
     const turns = room.examStage === 3
       ? (() => {
           const now = Date.now();
-          const aSilentMs = now - room.lastAudioAtBySlot.A;
-          const bSilentMs = now - room.lastAudioAtBySlot.B;
+          const aSilentMs = now - Math.max(room.lastSpeechAtBySlot.A, room.examinerPlayedUntil);
+          const bSilentMs = now - Math.max(room.lastSpeechAtBySlot.B, room.examinerPlayedUntil);
           const quieterName = aSilentMs >= bSilentMs ? ctx.aName : ctx.bName;
           const quieterSilentSec = Math.round(Math.max(aSilentMs, bSilentMs) / 1000);
           return `Es herrscht seit mehreren Sekunden absolute Stille. ${quieterName} hat davon am längsten nichts mehr gesagt (seit etwa ${quieterSilentSec} Sekunden) — beziehen Sie ${quieterName} bevorzugt aktiv mit ein, gegründet auf den bisherigen Gesprächsverlauf. Stellen Sie eine konkrete, auf die Planung bezogene Frage; treffen Sie die Entscheidung nicht selbst.`;
@@ -1241,8 +1251,12 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   // Hard idle-close: even the AI's own takeover attempt(s) above got no
   // response for the full HARD_IDLE_CLOSE_MS window — end the session
   // outright to protect the API budget rather than let it run unattended.
-  if (silenceMs > HARD_IDLE_CLOSE_MS) {
-    console.log(`[room ${room.roomId}] hard idle-close: ${silenceMs}ms of silence`);
+  // Where a structured phase owns silence (all of Teil 1, Teil 2's takeover) the nudge never fires, so the
+  // idle close must not undercut that phase's own windows (presentation 90s, answers 30s): longer threshold there.
+  const hardIdleMs = structuredPhaseOwnsSilence ? HARD_IDLE_STRUCTURED_MS : HARD_IDLE_CLOSE_MS;
+  const idleSilenceMs = Date.now() - Math.max(room.lastSpeechAtBySlot.A, room.lastSpeechAtBySlot.B, room.idleBaselineAt);
+  if (idleSilenceMs > hardIdleMs) {
+    console.log(`[room ${room.roomId}] hard idle-close: ${idleSilenceMs}ms without candidate speech`);
     // Guard against re-entry: tick() now awaits speakScriptedText() below,
     // and mainTick fires every TICK_MS regardless of whether the previous
     // invocation finished — without this, a second tick firing mid-speech
@@ -1903,7 +1917,7 @@ wss.on("connection", async (ws, req) => {
     if (!room) {
       room = {
         roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
-        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastSpeechAtBySlot: { A: 0, B: 0 }, lastNudgeAt: 0,
+        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastSpeechAtBySlot: { A: 0, B: 0 }, speechDetectors: { A: new SpeechDetector(), B: new SpeechDetector() }, examinerPlayedUntil: 0, idleBaselineAt: 0, lastNudgeAt: 0,
         examStage: null, examStageStartedAt: 0, teil1Speaker: "A", teil1Phase: "presenting", teil1PhaseStartedAt: 0,
         teil1PhaseStartChars: 0, teil1Transitioning: false, evalUsage: ZERO_TOKENS,
         teil1QuestionsAsked: { A: 0, B: 0 },
@@ -1934,7 +1948,7 @@ wss.on("connection", async (ws, req) => {
           room!.lastSenderSlot = participantRow.slot as "A" | "B";
           room!.lastAudioAt = Date.now();
           room!.lastAudioAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
-          if (isSpeechFrame(msg.data)) room!.lastSpeechAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
+          if (room!.speechDetectors[participantRow.slot as "A" | "B"].isSpeech(msg.data)) room!.lastSpeechAtBySlot[participantRow.slot as "A" | "B"] = Date.now();
           // Captured unconditionally (including during an intermission breather
           // — it's just a raw recording, not something sent to the AI) for the
           // post-exam playback feature, see RoomSession.recordingChunks's own comment.

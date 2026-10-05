@@ -40,6 +40,7 @@ import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openWhisperStt } from "./whisperStt.js";
 import { openGroqStt } from "./groqStt.js";
 import { openFailoverStt } from "./failoverStt.js";
+import { SpeechDetector } from "../speechActivity.js";
 import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
 import { generateExaminerReply, ExaminerBrainError, type ExamContext, type HistoryTurn } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
@@ -285,14 +286,9 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // Now: threshold = 3x the running room-noise floor of THAT candidate's mic,
   // clamped to [0.006, 0.02] — a quiet room lets quiet speech through, a noisy
   // room is capped at the old value. MUENDLICH_STT_GATE_RMS pins a fixed value.
-  const SILENCE_RMS_FLOOR = 0.006;
-  const SILENCE_RMS_CEILING = 0.02;
-  const FIXED_GATE_RMS = Number(process.env.MUENDLICH_STT_GATE_RMS ?? 0);
-  const noiseFloor: Record<"A" | "B", number> = { A: 0.002, B: 0.002 };
-  function gateThreshold(slot: "A" | "B"): number {
-    if (FIXED_GATE_RMS > 0) return FIXED_GATE_RMS;
-    return Math.min(SILENCE_RMS_CEILING, Math.max(SILENCE_RMS_FLOOR, noiseFloor[slot] * 3));
-  }
+  // One adaptive detector per candidate mic — the SAME implementation the room's silence logic uses
+  // (speechActivity.ts), so "silent" means the same thing everywhere. Pin a value with MUENDLICH_SPEECH_RMS.
+  const gateDetectors: Record<"A" | "B", SpeechDetector> = { A: new SpeechDetector(), B: new SpeechDetector() };
   const SILENCE_HANGOVER_MS = 1_500;
   const lastActiveAt: Record<"A" | "B", number> = { A: 0, B: 0 };
   function frameRms(base64: string): number {
@@ -328,12 +324,8 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
       return false;
     }
     if (lastSuppressLogState) { console.log(`[echo-suppress] session ${examSessionId}: resumed forwarding mic input`); lastSuppressLogState = false; }
-    const rms = frameRms(base64);
-    if (rms > gateThreshold(slot)) { lastActiveAt[slot] = now; return true; }
-    const inHangover = now - lastActiveAt[slot] < SILENCE_HANGOVER_MS;
-    // Only genuine silence (outside the hangover, so word tails never count) feeds the noise-floor estimate.
-    if (!inHangover) noiseFloor[slot] = noiseFloor[slot] * 0.98 + rms * 0.02;
-    return inHangover;
+    if (gateDetectors[slot].isSpeech(base64, now)) { lastActiveAt[slot] = now; return true; }
+    return now - lastActiveAt[slot] < SILENCE_HANGOVER_MS;
   }
   // Tracked at this outer scope (not just local to speak()) so a new
   // speak() call can cancel the PREVIOUS handle synchronously, before it
