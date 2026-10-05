@@ -7,6 +7,7 @@ import { useTheme } from "@/lib/theme";
 import { MUENDLICH_ENABLED, isPlanPurchasable, LEMONSQUEEZY_VISIBLE, CARD_PAYMENTS_ENABLED } from "@/lib/features";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
+import { PlanBenefits, SCHRIFTLICH_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import i18n from "@/lib/i18n";
 import {
   BookOpen, Headphones, PenLine, Mic,
@@ -27,19 +28,12 @@ const PLANS = [
     name: "Schriftlich",
     price: "30",
     period: " TND",
-    desc: "Master all written exam components",
-    features: [
-      "Lesen — Teil 1, 2, 3",
-      "Hören — Teil 1, 2, 3",
-      "Sprachbausteine — Teil 1, 2, with the grammar rule explained for every gap",
-      "Arabic translation + justification (Warum?) for every answer",
-      "Schreiben — Beschwerde & Bitte",
-      "2 personal Schreiben Struktur cards (Produkt + Dienstleistung), unique to you",
-      "Prüfungssimulation — full timed mock exams all month, instant score",
-      "Mündlich — Vorbereitung cards (no AI exam)",
-    ],
+    desc: "Everything for the written exam — plus the Mündlich preparation cards",
+    descAr: "كل ما تحتاجه للامتحان الكتابي، مع بطاقات التحضير للامتحان الشفوي." as string | null,
+    features: [] as string[],
+    benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
     highlighted: false,
-    badge: null,
+    badge: "Complete written prep" as string | null,
     save: null,
   },
   {
@@ -48,6 +42,8 @@ const PLANS = [
     price: "30",
     period: " TND",
     desc: "Complete preparation for both written and spoken",
+    descAr: null as string | null,
+    benefits: null as PlanBenefit[] | null,
     features: [
       "Everything in Schriftlich — incl. personal Struktur cards & Arabic explanations",
       "Mündlich — full preparation",
@@ -65,6 +61,8 @@ const PLANS = [
     price: "55",
     period: " TND",
     desc: "Perfect your speaking and oral skills",
+    descAr: null as string | null,
+    benefits: null as PlanBenefit[] | null,
     features: [
       "Präsentation practice",
       "Gespräch simulation",
@@ -578,14 +576,16 @@ function Pricing() {
 
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
             Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
-        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-md"}`}>
           {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
                 plan.highlighted
                   ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
-                  : "border-border bg-card"
+                  : plan.benefits
+                    ? "border-primary/30 bg-card shadow-xl shadow-primary/10 ring-1 ring-primary/15"
+                    : "border-border bg-card"
               }`}
             >
               {plan.badge && (
@@ -611,6 +611,11 @@ function Pricing() {
                 <p className={`mt-2 text-xs leading-relaxed ${plan.highlighted ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                   {plan.desc}
                 </p>
+                {plan.descAr && (
+                  <p dir="rtl" lang="ar" className="mt-1.5 text-sm font-medium leading-relaxed text-foreground/85">
+                    {plan.descAr}
+                  </p>
+                )}
                 {plan.save && (
                   <p className="mt-3 inline-flex items-center gap-1 rounded-md bg-white/15 px-2 py-1 text-xs font-semibold text-primary-foreground">
                     <Star className="h-3 w-3 fill-current" /> {plan.save}
@@ -618,16 +623,22 @@ function Pricing() {
                 )}
               </div>
 
-              <ul className="mb-7 flex-1 space-y-2.5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2.5 text-sm">
-                    <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.highlighted ? "text-primary-foreground" : "text-emerald-500"}`} />
-                    <span className={plan.highlighted ? "text-primary-foreground/90" : "text-foreground"}>
-                      {f}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              {plan.benefits ? (
+                <div className="mb-7 flex-1">
+                  <PlanBenefits benefits={plan.benefits} onPrimary={plan.highlighted} />
+                </div>
+              ) : (
+                <ul className="mb-7 flex-1 space-y-2.5">
+                  {plan.features.map((f) => (
+                    <li key={f} className="flex items-start gap-2.5 text-sm">
+                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.highlighted ? "text-primary-foreground" : "text-emerald-500"}`} />
+                      <span className={plan.highlighted ? "text-primary-foreground/90" : "text-foreground"}>
+                        {f}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <Link
                 to="/register"
