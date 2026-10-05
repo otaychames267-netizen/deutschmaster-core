@@ -25,29 +25,30 @@ export const Route = createFileRoute("/")({
 const PLANS = [
   {
     key: "schriftlich",
-    name: "Schriftlich",
+    name: "Schriftlich + Mündlich",
+    tag: "ohne KI" as string | null,
     price: "30",
     period: " TND",
-    desc: "Everything for the written exam",
+    desc: "Written exam + Mündlich preparation, no AI",
     descAr: null as string | null,
     features: [] as string[],
     benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
-    badge: "Complete written prep" as string | null,
+    badge: "TELC B2 preparation" as string | null,
     save: null,
   },
   {
     key: "komplett",
     name: "Komplett",
+    tag: null as string | null,
     price: "30",
     period: " TND",
     desc: "Complete preparation for both written and spoken",
     descAr: null as string | null,
     benefits: null as PlanBenefit[] | null,
     features: [
-      "Everything in Schriftlich — incl. personal Struktur cards & Arabic explanations",
-      "Mündlich — full preparation",
-      "Full exam simulations",
+      "Everything in Schriftlich + Mündlich",
+      "AI Mündlich — live exam room with an AI examiner",
       "Priority support",
       "Progress analytics",
     ],
@@ -58,6 +59,7 @@ const PLANS = [
   {
     key: "muendlich",
     name: "Mündlich",
+    tag: null as string | null,
     price: "55",
     period: " TND",
     desc: "Perfect your speaking and oral skills",
@@ -576,7 +578,7 @@ function Pricing() {
 
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
             Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
-        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-md"}`}>
           {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}
@@ -597,8 +599,11 @@ function Pricing() {
               )}
 
               <div className={plan.benefits ? "mb-4 border-b border-white/10 pb-4" : "mb-6"}>
-                <p className={`text-xs font-semibold uppercase tracking-widest ${plan.benefits ? "text-gold" : plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+                <p className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold uppercase tracking-widest ${plan.benefits ? "text-gold" : plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                   {plan.name}
+                  {plan.tag && (
+                    <span className="rounded-full border border-gold/50 px-2 py-0.5 text-[10px] font-bold normal-case tracking-wide text-gold">{plan.tag}</span>
+                  )}
                 </p>
                 <div className="mt-2 flex items-baseline gap-1">
                   <span className={`text-4xl font-bold tracking-tight ${plan.highlighted ? "text-primary-foreground" : "text-foreground"}`}>

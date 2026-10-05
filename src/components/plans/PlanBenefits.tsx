@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
-import { BarChart3, BookOpen, Headphones, Mic, PenLine, Puzzle, Sparkles, Timer } from "lucide-react";
+import { BarChart3, Bot, BookOpen, Headphones, Mic, PenLine, Puzzle, Sparkles, Timer } from "lucide-react";
 
 export interface PlanBenefit {
   icon: LucideIcon;
@@ -19,12 +19,13 @@ export interface PlanBenefit {
 export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
   { icon: BookOpen, title: "Lesen", ar: "كل المواضيع + ترجمة وتبرير الإجابات", highlight: true },
   { icon: Headphones, title: "Hören", ar: "كل المواضيع + ترجمة وتبرير الإجابات", highlight: true },
-  { icon: Puzzle, title: "Sprachbausteine", ar: "شرح القاعدة لكل فراغ", highlight: true },
+  { icon: Puzzle, title: "Sprachbausteine", ar: "كل المواضيع + شرح القاعدة لكل فراغ", highlight: true },
   { icon: PenLine, title: "Schreiben", ar: "تمارين Beschwerde و Bitte" },
+  { icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بالذكاء الاصطناعي بمعايير TELC B2، ولكل اشتراك 30 تصحيحاً", highlight: true },
   { icon: Sparkles, title: "2 Struktur Schreiben", ar: "خاصان بك وحدك", highlight: true },
   { icon: Timer, title: "Prüfungssimulation", ar: "امتحان بنظام TELC كما ستجتازه، وتتعلّم تقسيم وقتك", highlight: true },
-  { icon: Mic, title: "Mündlich", ar: "بطاقات التحضير (بدون AI)" },
-  { icon: BarChart3, title: "Extras", ar: "متابعة تقدّمك + مكتبة امتحانات PDF" },
+  { icon: Mic, title: "Mündlich", ar: "كل مواضيع الأجزاء الثلاثة + نصائح وعبارات، بدون AI", highlight: true },
+  { icon: BarChart3, title: "Extras", ar: "متابعة تقدّمك + مكتبة امتحانات تدريبية" },
 ];
 
 interface Accent { bg: string; text: string; ring: string }
