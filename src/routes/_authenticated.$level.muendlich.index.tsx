@@ -244,24 +244,15 @@ function MuendlichIndexPage() {
           )}
         </div>
 
-        {isAdmin ? (
-          <BigActionCard
-            icon={Bot}
-            accent="indigo"
-            highlighted
-            title="AI 1:1"
-            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Currently in admin preview."
-            meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
-            href={`/${seg}/muendlich/voice-tutor`}
-          />
-        ) : (
-          <LockedBigActionCard
-            icon={Bot}
-            title="AI 1:1"
-            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Coming soon."
-            meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
-          />
-        )}
+        {/* AI 1:1 is CLOSED for everyone, admins included (owner decision 2026-10-05) — reopen together with
+            VOICE_TUTOR_ENABLED in features.ts and the relay secret MUENDLICH_TUTOR_ENABLED. */}
+        <LockedBigActionCard
+          icon={Bot}
+          title="AI 1:1"
+          description="Practice solo with an AI speaking partner — no need to wait for another candidate. Coming soon."
+          meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
+        />
+
       </div>
 
       {/* ── Study order tip ─────────────────────────────────── */}

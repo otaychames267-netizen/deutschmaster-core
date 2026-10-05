@@ -2090,8 +2090,18 @@ wss.on("connection", async (ws, req) => {
 // `/tutor/` to the new `tutorWss`.
 // ============================================================
 const tutorWss = new WebSocketServer({ noServer: true });
+// The 1:1 AI Voice Tutor is CLOSED (owner decision 2026-10-05): the endpoint refuses every connection unless the Fly
+// secret MUENDLICH_TUTOR_ENABLED=true is set — so nobody can run (and bill) a tutor session by calling the WebSocket
+// directly while the UI is hidden. Reopen = that secret + VOICE_TUTOR_ENABLED in the app's features.ts.
+const TUTOR_ENABLED = (process.env.MUENDLICH_TUTOR_ENABLED ?? "").toLowerCase() === "true";
 httpServer.on("upgrade", (req, socket, head) => {
   const pathname = new URL(req.url ?? "", "http://localhost").pathname;
+  if (pathname.startsWith("/tutor/") && !TUTOR_ENABLED) {
+    console.warn("[tutor] connection refused: the 1:1 tutor is closed (MUENDLICH_TUTOR_ENABLED is not true)");
+    socket.write("HTTP/1.1 403 Forbidden\r\nConnection: close\r\n\r\n");
+    socket.destroy();
+    return;
+  }
   if (pathname.startsWith("/tutor/")) {
     tutorWss.handleUpgrade(req, socket, head, (ws) => tutorWss.emit("connection", ws, req));
   } else {
