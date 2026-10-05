@@ -178,7 +178,7 @@ export function EvidenceBlock({
           )}
 
           {explanation && (
-            <p dir="rtl" className="text-xs leading-relaxed text-foreground">
+            <p dir="rtl" className="whitespace-pre-line text-xs leading-relaxed text-foreground">
               <span className="font-bold not-italic text-violet-700 dark:text-violet-300">التفسير: </span>
               {renderBidiIsolatedQuotes(explanation)}
             </p>

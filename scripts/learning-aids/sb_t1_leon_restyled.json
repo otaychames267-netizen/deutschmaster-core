@@ -1,0 +1,119 @@
+{
+ "3468ff05-d28d-41fe-85e0-7275df0ebe67": {
+  "items": {
+   "21": {
+    "keyword": "Grüße aus + Ort",
+    "item_type": "fixed_expression",
+    "evidence_text": "Betreff: Grüße **aus** Berlin",
+    "grammar_example": "**Grüße aus** Tunis und liebe Grüße **von** meiner Familie!",
+    "explanation_wrong": "باش نبدّأو رسالة بتحيّة من مدينة، التعبير الثابت هو \"Grüße aus + مكان\".\n✓ \"aus\" = من مكان (التحية جاية من برلين).\n✗ \"von\" = من شخص: \"Grüße von Fabian\"، موش من مكان.\n✗ \"ab\" = اعتبارًا من، يتستعمل في الجداول والأسعار (\"ab Montag\"، \"Zug ab Berlin\")، موش في التحية.",
+    "grammar_structure": "Grüße aus + Ort  |  Grüße von + Person",
+    "explanation_correct": "باش نبدّأو رسالة بتحيّة من مدينة، التعبير الثابت هو \"Grüße aus + مكان\".\n✓ \"aus\" = من مكان (التحية جاية من برلين).\n✗ \"von\" = من شخص: \"Grüße von Fabian\"، موش من مكان.\n✗ \"ab\" = اعتبارًا من، يتستعمل في الجداول والأسعار (\"ab Montag\"، \"Zug ab Berlin\")، موش في التحية.",
+    "grammar_translation": "تحيّات من تونس وسلامات من عايلتي!",
+    "answer_translation": "تحيّات من برلين (من المكان اللي نكتب منو)"
+   },
+   "22": {
+    "keyword": "was alles los war",
+    "item_type": "pronoun",
+    "evidence_text": "Aber jetzt berichte ich dir, **was** alles los war.",
+    "grammar_example": "Erzähl mir, **was** gestern passiert ist!",
+    "explanation_wrong": "هنا نحكيو على حاجات صارت: \"berichten, was los war\" = نحكيلك شنوّة صار.\n✓ \"was\" = شنوّة، تسأل على الأحداث والأشياء، وهي اللي تتركّب مع التعبير \"los sein\" (\"Was ist los?\").\n✗ \"wann\" = إمتى؟ نسألو على الوقت، والجملة ما تحكيش إمتى صار الشي.\n✗ \"wie\" = كيفاش؟ نسألو على الطريقة أو الحالة، موش على الأحداث.",
+    "grammar_structure": "berichten / erzählen, was (alles) passiert ist — Nebensatz, Verb am Ende",
+    "explanation_correct": "هنا نحكيو على حاجات صارت: \"berichten, was los war\" = نحكيلك شنوّة صار.\n✓ \"was\" = شنوّة، تسأل على الأحداث والأشياء، وهي اللي تتركّب مع التعبير \"los sein\" (\"Was ist los?\").\n✗ \"wann\" = إمتى؟ نسألو على الوقت، والجملة ما تحكيش إمتى صار الشي.\n✗ \"wie\" = كيفاش؟ نسألو على الطريقة أو الحالة، موش على الأحداث.",
+    "grammar_translation": "احكيلي شنوّة صار البارح!",
+    "answer_translation": "شنوّة صار (كلّ اللي صار)"
+   },
+   "23": {
+    "keyword": "da = weil",
+    "item_type": "conjunction",
+    "evidence_text": "Also, im Büro haben wir derzeit viel Stress, **da** drei Kollegen im Urlaub sind und eine weitere Kollegin seit zwei Wochen krank ist.",
+    "grammar_example": "**Da** es regnet, bleibe ich zu Hause.",
+    "explanation_wrong": "الجملة تشرح علاش فما Stress في الخدمة: السبب معروف، 3 كولاغ في عطلة. والفعلين (\"sind\"، \"ist\") جاو في الآخر، يعني نحتاج رابط يفتح Nebensatz.\n✓ \"da\" = خاطر (سبب واضح ومعروف).\n✗ \"obwohl\" = رغم أنّ، تعطي تناقض. هنا العطلة هي سبب الضغط موش عكسو.\n✗ \"indem\" = بالطريقة اللي… (وسيلة). ما فماش حاجة تتعمل باش تصنع الضغط.",
+    "grammar_structure": "da + Nebensatz (Verb am Ende) = Grund",
+    "explanation_correct": "الجملة تشرح علاش فما Stress في الخدمة: السبب معروف، 3 كولاغ في عطلة. والفعلين (\"sind\"، \"ist\") جاو في الآخر، يعني نحتاج رابط يفتح Nebensatz.\n✓ \"da\" = خاطر (سبب واضح ومعروف).\n✗ \"obwohl\" = رغم أنّ، تعطي تناقض. هنا العطلة هي سبب الضغط موش عكسو.\n✗ \"indem\" = بالطريقة اللي… (وسيلة). ما فماش حاجة تتعمل باش تصنع الضغط.",
+    "grammar_translation": "خاطر الشتا تنزل، نقعد في الدار.",
+    "answer_translation": "خاطر / بما أنّو"
+   },
+   "24": {
+    "keyword": "wird + Partizip II",
+    "item_type": "grammar_structure",
+    "evidence_text": "Hoffentlich **wird** das in Zukunft besser organisiert.",
+    "grammar_example": "Das Problem **wird** hoffentlich bald **gelöst**.",
+    "explanation_wrong": "الجملة تتمنّى حاجة تتحسّن في المستقبل (\"Hoffentlich … in Zukunft\")، و\"organisiert\" Partizip II، يعني نحتاج Passiv.\n✓ \"wird organisiert\" = يتنظّم، عملية تتحسّن (Vorgangspassiv).\n✗ \"ist organisiert\" = حالة جاهزة توّا (راهو منظّم)، والجملة تتمنّى تغيير جاي.\n✗ \"würde organisiert\" = ناقصة: \"würde\" تحتاج Infinitiv (\"würde organisiert werden\")، وبالـ Partizip وحدو ما تكملش.",
+    "grammar_structure": "Vorgangspassiv: werden + Partizip II",
+    "explanation_correct": "الجملة تتمنّى حاجة تتحسّن في المستقبل (\"Hoffentlich … in Zukunft\")، و\"organisiert\" Partizip II، يعني نحتاج Passiv.\n✓ \"wird organisiert\" = يتنظّم، عملية تتحسّن (Vorgangspassiv).\n✗ \"ist organisiert\" = حالة جاهزة توّا (راهو منظّم)، والجملة تتمنّى تغيير جاي.\n✗ \"würde organisiert\" = ناقصة: \"würde\" تحتاج Infinitiv (\"würde organisiert werden\")، وبالـ Partizip وحدو ما تكملش.",
+    "grammar_translation": "إن شاء الله المشكل يتحلّ قريب.",
+    "answer_translation": "إن شاء الله يتنظّم أحسن في المستقبل"
+   },
+   "25": {
+    "keyword": "wäre … geblieben",
+    "item_type": "tense",
+    "evidence_text": "Kennst du die Band? Eigentlich war ich an dem Abend ganz schön kaputt und **wäre** am liebsten zuhause geblieben, aber ich hatte Carmen die Karten zum Geburtstag geschenkt.",
+    "grammar_example": "Ich **wäre** gern länger **geblieben**, aber mein Zug fuhr schon.",
+    "explanation_wrong": "\"Eigentlich\" و\"am liebsten\" يخلّو الجملة أمنية موش حقيقة. والجملة اللي بعد تقول إنو مشى للحفلة عشان كارمن، يعني الأمنية ما تحققتش.\n✓ \"wäre geblieben\" = كنت نحب نقعد (وما قعدتش).\n✗ \"bin geblieben\" = Perfekt عادي، يقول قعدت فعلاً، وهذا يتناقض مع الحفلة.\n✗ \"war geblieben\" = Plusquamperfekt (ماضي بعيد)، يحكي حاجة صارت قبل حاجة أخرى، موش أمنية.",
+    "grammar_structure": "Konjunktiv II der Vergangenheit: wäre / hätte + Partizip II",
+    "explanation_correct": "\"Eigentlich\" و\"am liebsten\" يخلّو الجملة أمنية موش حقيقة. والجملة اللي بعد تقول إنو مشى للحفلة عشان كارمن، يعني الأمنية ما تحققتش.\n✓ \"wäre geblieben\" = كنت نحب نقعد (وما قعدتش).\n✗ \"bin geblieben\" = Perfekt عادي، يقول قعدت فعلاً، وهذا يتناقض مع الحفلة.\n✗ \"war geblieben\" = Plusquamperfekt (ماضي بعيد)، يحكي حاجة صارت قبل حاجة أخرى، موش أمنية.",
+    "grammar_translation": "كنت نحب نقعد أكثر، بصح القطار كان توّا يمشي.",
+    "answer_translation": "كنت نحب نقعد (وما قعدتش)"
+   },
+   "26": {
+    "keyword": "konnte schlecht",
+    "item_type": "verb",
+    "evidence_text": "Da **konnte** ich ja schlecht auf dem Sofa sitzen bleiben! Im Nachhinein muss ich sagen: Ein Glück, dass wir zu dem Konzert gegangen sind, denn es war einfach nur super!",
+    "grammar_example": "Sie hatte mich eingeladen, also **konnte** ich **schlecht** absagen.",
+    "explanation_wrong": "الجملة تقول: خاطر هديت التذاكر لكارمن، ما كانش يصحّ نقعد في الدار. \"schlecht können\" = ما ينجّمش / ما يصحّش (نفي مخفّف).\n✓ \"konnte\" + \"schlecht\" = ما كنتش نجّم عملياً نقعد.\n✗ \"musste\" = كان لازم، فيه إلزام، و\"musste schlecht … bleiben\" ما يعطيش معنى.\n✗ \"sollte\" = كان مفروض (توقّع أو نصيحة)، وما يتركّبش مع \"schlecht\" هنا.",
+    "grammar_structure": "schlecht + können = kaum / nicht gut möglich",
+    "explanation_correct": "الجملة تقول: خاطر هديت التذاكر لكارمن، ما كانش يصحّ نقعد في الدار. \"schlecht können\" = ما ينجّمش / ما يصحّش (نفي مخفّف).\n✓ \"konnte\" + \"schlecht\" = ما كنتش نجّم عملياً نقعد.\n✗ \"musste\" = كان لازم، فيه إلزام، و\"musste schlecht … bleiben\" ما يعطيش معنى.\n✗ \"sollte\" = كان مفروض (توقّع أو نصيحة)، وما يتركّبش مع \"schlecht\" هنا.",
+    "grammar_translation": "هي عرضت عليّا، فما كانش يصحّ نرفض.",
+    "answer_translation": "ما كنتش نجّم / ما كانش يصحّ"
+   },
+   "27": {
+    "keyword": "denn + Hauptsatz",
+    "item_type": "conjunction",
+    "evidence_text": "Da konnte ich ja schlecht auf dem Sofa sitzen bleiben! Im Nachhinein muss ich sagen: Ein Glück, dass wir zu dem Konzert gegangen sind, **denn** es war einfach nur super!",
+    "grammar_example": "Ich bleibe zu Hause, **denn** ich bin müde.",
+    "explanation_wrong": "بعد الفاصلة جاي سبب الفرحة: \"الحفلة كانت رائعة\". والفعل \"war\" في بلاصتو العادية (الثاني)، موش في الآخر.\n✓ \"denn\" = خاطر، تربط بسبب وما تبدّل ترتيب الفعل.\n✗ \"aber\" = بصح، تعمل تعارض موش سبب.\n✗ \"sondern\" = بل، تجي بعد نفي (\"nicht …, sondern …\") وما فماش نفي هنا.",
+    "grammar_structure": "denn + Hauptsatz (Verb an Position 2)  ≠  weil + Nebensatz",
+    "explanation_correct": "بعد الفاصلة جاي سبب الفرحة: \"الحفلة كانت رائعة\". والفعل \"war\" في بلاصتو العادية (الثاني)، موش في الآخر.\n✓ \"denn\" = خاطر، تربط بسبب وما تبدّل ترتيب الفعل.\n✗ \"aber\" = بصح، تعمل تعارض موش سبب.\n✗ \"sondern\" = بل، تجي بعد نفي (\"nicht …, sondern …\") وما فماش نفي هنا.",
+    "grammar_translation": "نقعد في الدار خاطر تعبان.",
+    "answer_translation": "خاطر (سبب)"
+   },
+   "28": {
+    "keyword": "Beides → Singular",
+    "item_type": "pronoun",
+    "evidence_text": "An den letzten beiden Wochenenden hatten wir dann auch noch Familienfeiern: Erst hatte meine ältere Schwester Geburtstag und hat groß gefeiert, dann hat ein Cousin geheiratet und uns eingeladen, **Beides** war zwar schön, aber auch anstrengend.",
+    "grammar_example": "**Beides** war teuer: das Hotel und der Flug.",
+    "explanation_wrong": "الفعل \"war\" مفرد، و\"Beides\" يلمّ الحاجتين (عيد ميلاد الأخت + زواج ابن العم) كحاجة وحدة.\n✓ \"Beides\" = الاثنين معًا، ضمير محايد مفرد.\n✗ \"Beide\" = جمع، يحتاج فعل جمع (\"Beide waren schön\").\n✗ \"Beiden\" = Dativ جمع (\"mit den beiden\")، ما ينجّمش يكون Subjekt.",
+    "grammar_structure": "Beides + Verb im Singular  |  Beide + Verb im Plural",
+    "explanation_correct": "الفعل \"war\" مفرد، و\"Beides\" يلمّ الحاجتين (عيد ميلاد الأخت + زواج ابن العم) كحاجة وحدة.\n✓ \"Beides\" = الاثنين معًا، ضمير محايد مفرد.\n✗ \"Beide\" = جمع، يحتاج فعل جمع (\"Beide waren schön\").\n✗ \"Beiden\" = Dativ جمع (\"mit den beiden\")، ما ينجّمش يكون Subjekt.",
+    "grammar_translation": "الاثنين غالي: النزل والطيارة.",
+    "answer_translation": "الاثنين معًا كحاجة وحدة"
+   },
+   "29": {
+    "keyword": "noch + kein-",
+    "item_type": "adjective_adverb",
+    "evidence_text": "Ich bin froh, dass wir für die kommenden Wochenenden **noch** keine Pläne haben.",
+    "grammar_example": "Ich habe **noch keine** Antwort bekommen.",
+    "explanation_wrong": "\"noch + keine\" معناها الحاجة موش صايرة بعد.\n✓ \"noch\" = لسّا (حتى توّا ما عندناش مخططات).\n✗ \"schon\" = ديجا، تتخالف مع النفي \"keine\".\n✗ \"erst\" = للأرقام والتوقيت الإيجابي (\"erst um 5 Uhr\")، وما تتركّبش مع \"keine\".",
+    "grammar_structure": "noch + kein- / nicht = (bis jetzt) noch nicht",
+    "explanation_correct": "\"noch + keine\" معناها الحاجة موش صايرة بعد.\n✓ \"noch\" = لسّا (حتى توّا ما عندناش مخططات).\n✗ \"schon\" = ديجا، تتخالف مع النفي \"keine\".\n✗ \"erst\" = للأرقام والتوقيت الإيجابي (\"erst um 5 Uhr\")، وما تتركّبش مع \"keine\".",
+    "grammar_translation": "لِسّا ما جاتنيش إجابة.",
+    "answer_translation": "لسّا ما… / حتى توّا ما…"
+   },
+   "30": {
+    "keyword": "sich freuen auf",
+    "item_type": "verb_prep",
+    "evidence_text": "Melde dich doch wieder, ich freue mich **auf** deine nächste E-Mail!",
+    "grammar_example": "Ich freue mich **auf** den Urlaub.",
+    "explanation_wrong": "\"deine nächste E-Mail\" ما جاتش بعد، يعني فرح بحاجة في المستقبل.\n✓ \"auf\" = فرحان بحاجة جايّة (\"sich freuen auf + Akk.\").\n✗ \"über\" = فرحان بحاجة صارت أو وصلت (\"Ich freue mich über deine Mail\").\n✗ \"für\" = فرحان لأجل شخص (\"Ich freue mich für dich\")، موش بحاجة.",
+    "grammar_structure": "sich freuen AUF (جاي)  |  ÜBER (صار)  |  FÜR (لأجل شخص)",
+    "explanation_correct": "\"deine nächste E-Mail\" ما جاتش بعد، يعني فرح بحاجة في المستقبل.\n✓ \"auf\" = فرحان بحاجة جايّة (\"sich freuen auf + Akk.\").\n✗ \"über\" = فرحان بحاجة صارت أو وصلت (\"Ich freue mich über deine Mail\").\n✗ \"für\" = فرحان لأجل شخص (\"Ich freue mich für dich\")، موش بحاجة.",
+    "grammar_translation": "فرحان بالعطلة اللي جايّة.",
+    "answer_translation": "فرحان بحاجة جايّة"
+   }
+  },
+  "translation": {
+   "text": "الموضوع: تحيات من برلين\n\nمرحباً ليون،\n\nشكراً جزيلاً على رسالتك الأخيرة من بكين! أنت تعمل الآن منذ نصف عام في الصين - لا يُصدَّق كم يمر الوقت بسرعة.\n\nللأسف لم يكن لدي وقت في الأسابيع الثلاثة الماضية للرد عليك لأن لدي الكثير لأفعله. لكنني الآن سأخبرك بما كان يحدث.\n\nإذن، في المكتب لدينا حالياً ضغط كبير، لأن ثلاثة زملاء في إجازة وزميلة أخرى مريضة منذ أسبوعين. الآن يجب أن ننجز العمل بخمسة أشخاص، الذي عادة ينجزه تسعة أشخاص. لا أعرف حقاً من قام بتخطيط الإجازات هذا. آمل أن يُنظَّم ذلك بشكل أفضل في المستقبل.\n\nمساءً خرجنا أنا وكارمن عدة مرات. كنا مثلاً في حفلة لفرقة \"بيلاسكو\". هل تعرف الفرقة؟ في الواقع كنت متعبة جداً في تلك الليلة وكنت أفضل البقاء في المنزل، لكنني كنت قد أهديت كارمن التذاكر في عيد ميلادها. لم يكن بإمكاني حينها البقاء جالسة على الأريكة! بأثر رجعي يجب أن أقول: لحسن الحظ أننا ذهبنا للحفل، لأنه كان رائعاً ببساطة!\n\nفي عطلتي نهاية الأسبوع الأخيرتين كان لدينا أيضاً احتفالات عائلية: أولاً كان عيد ميلاد أختي الكبرى واحتفلت بشكل كبير، ثم تزوج ابن عم لي ودعانا. كلاهما كان جميلاً لكن مرهقاً أيضاً. أنا سعيدة أنه لا توجد لدينا حتى الآن خطط لعطلات نهاية الأسبوع القادمة.\n\nهذا كل شيء مني الآن. تواصل معي مرة أخرى، أتطلع لرسالتك الإلكترونية القادمة!\n\nتحياتي الكثيرة يرسلها لك\nفابيان"
+  }
+ }
+}
