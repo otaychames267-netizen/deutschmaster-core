@@ -13,7 +13,7 @@ import {
   BookOpen, Headphones, PenLine, Mic,
   Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
   Zap, Shield, Clock, TrendingUp, Award, Play,
-  ChevronDown, Menu, X, Landmark, CreditCard,
+  ChevronDown, Menu, X, Landmark, CreditCard, Wallet,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -157,7 +157,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is payment secure?",
-    a: "Yes. Students in Tunisia can pay via D17 mobile transfer, verified by our team — usually within moments, up to 8 working hours for manual review. Card payments via Lemon Squeezy are coming soon; your card details are never stored on our servers.",
+    a: "Yes. Students in Tunisia can pay via D17 mobile transfer, Virement Postal or Virement Bancaire, verified by our team — usually within moments, up to 8 working hours for manual review. Card payments via Lemon Squeezy are coming soon; your card details are never stored on our servers.",
   },
   {
     q: "Which languages is the interface available in?",
@@ -675,6 +675,12 @@ function Pricing() {
             <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
               <Landmark className="h-4 w-4 text-muted-foreground" /> D17 Mobile Transfer
             </div>
+            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+              <Landmark className="h-4 w-4 text-muted-foreground" /> Virement Postal
+            </div>
+            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
+              <Wallet className="h-4 w-4 text-muted-foreground" /> Virement Bancaire
+            </div>
             {LEMONSQUEEZY_VISIBLE && (
               <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
                 <CreditCard className="h-4 w-4 text-muted-foreground" /> Lemon Squeezy
@@ -843,7 +849,7 @@ function Footer() {
           </p>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Shield className="h-3 w-3" />
-            Secured by Supabase · Payments via D17 & Lemon Squeezy
+            Secured by Supabase · Payments via D17, Virement Postal & Bancaire, Lemon Squeezy
           </div>
         </div>
       </div>
