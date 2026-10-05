@@ -1,14 +1,29 @@
 {
-  "name": "AuraLingovia",
+  "id": "/",
+  "name": "AuraLingovia — TELC B1 & B2",
   "short_name": "AuraLingovia",
-  "description": "Professional German Exam Preparation — TELC B1 & B2",
-  "start_url": "/",
+  "description": "Professional German exam preparation — TELC B1 & B2: Lesen, Hören, Sprachbausteine, Schreiben and Mündlich.",
+  "lang": "en",
+  "start_url": "/dashboard?source=pwa",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0a0a0c",
   "theme_color": "#0a0a0c",
+  "categories": ["education"],
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "/pwa-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/pwa-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/pwa-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/pwa-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "/screenshots/shot-dashboard.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Dashboard" },
+    { "src": "/screenshots/shot-lesen-exercise.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Lesen exercise" },
+    { "src": "/screenshots/shot-pruefung.png", "sizes": "780x1688", "type": "image/png", "form_factor": "narrow", "label": "Prüfungssimulation" }
+  ],
+  "shortcuts": [
+    { "name": "Dashboard", "url": "/dashboard?source=pwa-shortcut", "icons": [{ "src": "/pwa-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Meine Wörter", "url": "/woerter?source=pwa-shortcut", "icons": [{ "src": "/pwa-icon-192.png", "sizes": "192x192" }] },
+    { "name": "Statistics", "url": "/statistik?source=pwa-shortcut", "icons": [{ "src": "/pwa-icon-192.png", "sizes": "192x192" }] }
   ]
 }
