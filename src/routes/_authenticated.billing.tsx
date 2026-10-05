@@ -28,7 +28,7 @@ const PLANS = [
     price_tnd: 30,
     period: "/month",
     tagline: "Everything for the written exam",
-    taglineAr: "كل ما تحتاجه للامتحان الكتابي",
+    taglineAr: null as string | null,
     color: "violet",
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
@@ -300,16 +300,20 @@ function BillingPage() {
                 </div>
 
                 {/* Features */}
-                <div className="mb-6 flex-1 space-y-3">
+                <div className="mb-5 flex-1 space-y-3">
                   {plan.benefits && <PlanBenefits benefits={plan.benefits} accent={c} />}
-                  <ul className={`space-y-2.5 ${plan.benefits ? "border-t border-border/60 px-2.5 pt-3" : ""}`}>
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-2.5 text-sm">
-                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
-                        <span className="text-foreground leading-snug">{f}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {plan.benefits ? (
+                    <p className="border-t border-border/60 pt-2.5 text-xs text-muted-foreground">+ {plan.features.join(" · ")}</p>
+                  ) : (
+                    <ul className="space-y-2.5">
+                      {plan.features.map((f) => (
+                        <li key={f} className="flex items-start gap-2.5 text-sm">
+                          <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                          <span className="text-foreground leading-snug">{f}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 {/* CTA */}
