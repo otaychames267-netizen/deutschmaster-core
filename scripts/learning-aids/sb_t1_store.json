@@ -5835,5 +5835,16 @@
   "exTr": "نتوقّعو إنّو تشتي.",
   "evidence": "Wir rechnen **damit**, dass unsere Veranstaltung von etwa 1000 Jugendlichen aus der gesamten Region besucht werden wird.",
   "from": "49#30"
+ },
+ {
+  "ok": "Anlässlich",
+  "type": "preposition",
+  "keyword": "anlässlich + Genitiv",
+  "bed": "بمناسبة",
+  "text": "الجملة تفتتح الرسالة بسبب / مناسبة المعالجة: الموضوع يتعالج في يوم مخصّص (المناسبة)، فحرف الجر الرسمي هو \"anlässlich\" (+ Genitiv).\n✓ \"Anlässlich\" = بمناسبة (حدث أو يوم خاصّ نربطو بيه الموضوع).\n✗ \"mithilfe\" = بمساعدة (وسيلة أو أداة)، موش مناسبة.\n✗ \"zwecks\" = بغرض (+ Genitiv): ممكنة نحويًّا، بصح تعبّر على هدف، والجملة هنا تفتح بمناسبة (الإجابة المعتمدة \"Anlässlich\").",
+  "rule": "anlässlich + Genitiv = bei Gelegenheit / zu einem Anlass  |  zwecks + Genitiv = zum Zweck",
+  "ex": "**Anlässlich** des Weltspartags bieten wir Sonderkonditionen an.",
+  "exTr": "بمناسبة اليوم العالمي للادخار نقدّم شروط خاصة.",
+  "from": "58#21"
  }
 ]
