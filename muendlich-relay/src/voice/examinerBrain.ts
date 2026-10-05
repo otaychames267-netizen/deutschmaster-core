@@ -254,7 +254,7 @@ const INFORMAL_IHR = /\bihr\b/; // case-sensitive: lowercase = "you (plural)" or
 // conversation to ground it in ("Ich warte auf den bisherigen Gesprächsverlauf
 // von Teil 3, um einen noch offenen Planungspunkt zu identifizieren …"). An
 // examiner never talks about transcripts, system signals or instructions.
-const META_RE = /\b(Gesprächsverlauf|Systemnachricht|Systemsignal|Anweisung(?:en)?|teilen Sie mir mit|damit ich (?:eine|die|den|das|einen))\b|\bIch (?:warte|bin bereit|sehe keinen|habe keinen|kann (?:noch )?keine)\b|\[SYSTEM\]/i;
+const META_RE = /\b(Gesprächsverlauf|Systemnachricht|Systemsignal|Anweisung(?:en)?|teilen Sie mir mit|damit ich (?:eine|die|den|das|einen)|sollen wir|sollten wir)\b|\bIch (?:warte|bin bereit|sehe keinen|habe keinen|kann (?:noch )?keine)\b|\[SYSTEM\]/i;
 export function looksMeta(text: string): boolean {
   return META_RE.test(text);
 }

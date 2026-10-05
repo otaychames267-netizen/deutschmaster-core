@@ -53,6 +53,8 @@ const meta = [
   ["[SYSTEM] Stellen Sie eine Frage.", true],
   ["Ich bin bereit. Bitte teilen Sie mir mit, was die Kandidaten bisher gesagt haben.", true],
   ["Ich warte noch auf Ihre Vorschläge.", true],
+  ["Fatma, wie stellen Sie sich vor — sollen wir die Feier drinnen oder draußen machen?", true],
+  ["Kommen wir noch einmal zu unserer gemeinsamen Planung zurück.", false],
   ["Wer übernimmt denn die Bestellung der Getränke?", false],
   ["Ich finde Ihren Vorschlag interessant — wie würden Sie das umsetzen?", false],
   ["Wie hat sich der Verlauf des Gesprächs für Sie angefühlt?", false],

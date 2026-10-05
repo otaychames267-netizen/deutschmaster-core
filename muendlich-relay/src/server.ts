@@ -205,7 +205,17 @@ const HANDOFF_MAX_GRACE_MS = Number(process.env.MUENDLICH_HANDOFF_GRACE_MS ?? 15
 // this same threshold stays the sole silence authority for the ENTIRE stage,
 // including the post-completion-mark moderation phase — never suppressed.
 const SILENCE_THRESHOLD_MS: Record<1 | 2 | 3, number> = { 1: 8_000, 2: 4_000, 3: 5_000 };
-const NUDGE_DEBOUNCE_MS = 8_000;
+// With real silence detection (it used to be permanently "audible" — the browser streams silence frames) a nudge
+// followed by a candidate who needs a few seconds to formulate an answer used to be nudged AGAIN a few seconds later
+// (a full-length test: 19 examiner interjections in Teil 2/3 instead of ~6, repeating the same question, doubling the
+// exam's cost). The nudge is meant as a lightweight one-shot re-engagement (see Teil 2's comment): after one, the
+// addressed candidate gets a real answer window, and each Teil gets a small cap.
+const NUDGE_DEBOUNCE_MS = Number(process.env.MUENDLICH_NUDGE_DEBOUNCE_MS ?? 20_000);
+// Right after the examiner announces a Teil's topic the candidates are reading/thinking: a full-length test showed the
+// nudge firing ~4s after the announcement, before anyone had had a chance to start (twice per exam). Until somebody has
+// actually spoken in the new Teil, give them this long before the first nudge.
+const NUDGE_START_GRACE_MS = Number(process.env.MUENDLICH_NUDGE_START_GRACE_MS ?? 15_000);
+const MAX_NUDGES_PER_STAGE = Number(process.env.MUENDLICH_MAX_NUDGES_PER_STAGE ?? 3);
 const INTERMISSION_SECONDS = Number(process.env.MUENDLICH_INTERMISSION_SECONDS ?? 15);
 const MAX_REPEAT_USES = 2;
 // Hard idle-close: intentionally longer than every SILENCE_THRESHOLD_MS above,
@@ -293,6 +303,7 @@ interface RoomSession {
   // and make a room full of silent candidates immortal.
   idleBaselineAt: number;
   lastNudgeAt: number;
+  nudgesThisStage: number;
   examStage: 1 | 2 | 3 | null;
   examStageStartedAt: number;
   // Teil 1's full deterministic state machine: which candidate is currently
@@ -692,6 +703,7 @@ async function startStage(room: RoomSession, stage: 1 | 2 | 3, ctx?: { aName: st
   room.lastAudioAtBySlot = { A: Date.now(), B: Date.now() };
   room.lastSpeechAtBySlot = { A: Date.now(), B: Date.now() };
   room.idleBaselineAt = Date.now();
+  room.nudgesThisStage = 0;
   room.teil2Mode = "natural";
   room.teil2TakeoverTurn = null;
   room.teil3CompletionSignalSent = false;
@@ -1228,8 +1240,10 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   const silenceMs = Date.now() - lastActivityAt;
   const structuredPhaseOwnsSilence = room.examStage === 1 || (room.examStage === 2 && room.teil2Mode === "takeover");
   const bothConnected = room.participants.size === 2;
-  if (bothConnected && !structuredPhaseOwnsSilence && silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS) {
+  if (bothConnected && !structuredPhaseOwnsSilence && silenceMs > SILENCE_THRESHOLD_MS[room.examStage] && Date.now() - room.lastNudgeAt > NUDGE_DEBOUNCE_MS && room.nudgesThisStage < MAX_NUDGES_PER_STAGE
+      && (Math.max(room.lastSpeechAtBySlot.A, room.lastSpeechAtBySlot.B) > room.idleBaselineAt || Date.now() - room.idleBaselineAt > NUDGE_START_GRACE_MS)) {
     room.lastNudgeAt = Date.now();
+    room.nudgesThisStage++;
     broadcast(room, { type: "nudge" }); // surfaces the AI's takeover to the client as a toast
     // Teil 3 gets a candidate-aware variant: which of A/B has actually been
     // quieter for longer, computed from real per-slot audio-arrival state
@@ -1917,7 +1931,7 @@ wss.on("connection", async (ws, req) => {
     if (!room) {
       room = {
         roomId, participants: new Map(), lastSenderSlot: null, lastAudioAt: Date.now(),
-        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastSpeechAtBySlot: { A: 0, B: 0 }, speechDetectors: { A: new SpeechDetector(), B: new SpeechDetector() }, examinerPlayedUntil: 0, idleBaselineAt: 0, lastNudgeAt: 0,
+        lastAudioAtBySlot: { A: Date.now(), B: Date.now() }, lastSpeechAtBySlot: { A: 0, B: 0 }, speechDetectors: { A: new SpeechDetector(), B: new SpeechDetector() }, examinerPlayedUntil: 0, idleBaselineAt: 0, lastNudgeAt: 0, nudgesThisStage: 0,
         examStage: null, examStageStartedAt: 0, teil1Speaker: "A", teil1Phase: "presenting", teil1PhaseStartedAt: 0,
         teil1PhaseStartChars: 0, teil1Transitioning: false, evalUsage: ZERO_TOKENS,
         teil1QuestionsAsked: { A: 0, B: 0 },
