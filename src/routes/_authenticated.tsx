@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { AppHeader } from "@/components/AppHeader";
 import { FloatingWhatsAppButton } from "@/components/FloatingWhatsAppButton";
+import { InstallAppBanner } from "@/components/InstallAppPrompt";
 
 export const Route = createFileRoute("/_authenticated")({
   component: AuthenticatedLayout,
@@ -226,6 +227,7 @@ function AuthenticatedLayout() {
       <SidebarInset className="flex min-h-screen flex-col overflow-hidden">
         <AppHeader />
         <main className="flex-1 overflow-auto p-5 sm:p-6">
+          <InstallAppBanner />
           <Outlet />
         </main>
         <FloatingWhatsAppButton />

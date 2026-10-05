@@ -14,6 +14,10 @@ import "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { initPwa, registerServiceWorker } from "@/lib/pwa";
+
+// Client only: must run at module load so a beforeinstallprompt that fires before hydration is not lost.
+initPwa();
 
 function NotFoundComponent() {
   return (
@@ -78,6 +82,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Prepare for the TELC B1 or B2 German exam with structured practice, realistic simulations, and a beautifully designed learning experience." },
       { name: "author", content: "AuraLingovia" },
       { name: "theme-color", content: "#0a0a0c" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "AuraLingovia" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" },
       { property: "og:site_name", content: "AuraLingovia" },
       { property: "og:title", content: "AuraLingovia — Test your German. Master every section." },
       { property: "og:description", content: "TELC B1 & B2 preparation, done properly — structured practice, realistic simulations, AI-powered feedback." },
@@ -94,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
-      { rel: "apple-touch-icon", href: "/icon-192.png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -123,6 +131,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => { registerServiceWorker(); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

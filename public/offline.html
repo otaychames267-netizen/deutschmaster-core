@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0a0a0c">
+<title>AuraLingovia — Offline</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px; background: #0a0a0c; color: #ece7da;
+         font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Arabic", sans-serif; }
+  main { width: 100%; max-width: 380px; text-align: center; }
+  img { width: 88px; height: 88px; border-radius: 22px; }
+  h1 { margin: 22px 0 6px; font-size: 22px; font-weight: 650; letter-spacing: -.01em; }
+  p { margin: 0 auto 6px; color: #a9a496; max-width: 32ch; }
+  .en { font-size: 14px; color: #837f73; margin-top: 14px; }
+  button { margin-top: 26px; appearance: none; border: 0; border-radius: 12px; padding: 13px 28px; font: inherit; font-weight: 600; cursor: pointer;
+           background: #c9a24a; color: #1a1406; }
+  button:focus-visible { outline: 2px solid #ece7da; outline-offset: 3px; }
+  .status { margin-top: 18px; font-size: 13px; color: #837f73; min-height: 1.5em; }
+</style>
+</head>
+<body>
+<main>
+  <img src="/pwa-icon-192.png" alt="" width="88" height="88">
+  <h1 dir="rtl">ما فماش إنترنت</h1>
+  <p dir="rtl">تأكّد من الاتصال بالإنترنت وعاود. تمارينك وتقدّمك محفوظين عندنا.</p>
+  <p class="en">You're offline. Check your connection and try again — your progress is safe.</p>
+  <button type="button" id="retry">Retry · عاود</button>
+  <div class="status" id="status" role="status"></div>
+</main>
+<script>
+  var status = document.getElementById("status");
+  document.getElementById("retry").addEventListener("click", function () {
+    status.textContent = navigator.onLine ? "…" : "Still offline · مازال ما فماش إنترنت";
+    if (navigator.onLine) location.reload();
+  });
+  window.addEventListener("online", function () { location.reload(); });
+</script>
+</body>
+</html>

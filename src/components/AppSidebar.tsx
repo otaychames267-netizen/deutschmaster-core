@@ -12,6 +12,7 @@ import {
   Presentation, Type, ShieldAlert, Mail, LogIn, UserCog,
 } from "lucide-react";
 import { BrandMark } from "@/components/BrandMark";
+import { InstallAppMenuItem } from "@/components/InstallAppPrompt";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment } from "@/lib/useActiveLevel";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
@@ -380,6 +381,7 @@ export function AppSidebar() {
             <NavItem to="/billing"       label="Billing"        icon={CreditCard}  active={isActive("/billing")}       />
             <NavItem to="/notifications" label="Notifications"  icon={Bell}        active={isActive("/notifications")} />
             <NavItem to="/security"      label="Security"       icon={Shield}      active={isActive("/security")}      />
+            <InstallAppMenuItem />
           </SidebarMenu>
         </SidebarGroup>
         </>
