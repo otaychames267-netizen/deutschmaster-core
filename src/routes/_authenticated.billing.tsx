@@ -13,6 +13,7 @@ import {
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
   Landmark, Sparkles, Wallet,
 } from "lucide-react";
+import { PlanBenefits, SCHRIFTLICH_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   component: BillingPage,
@@ -26,24 +27,15 @@ const PLANS = [
     icon: PenLine,
     price_tnd: 30,
     period: "/month",
-    tagline: "Master all written exam components",
+    tagline: "Everything for the written exam — plus the Mündlich preparation cards",
+    taglineAr: "كل ما تحتاجه للامتحان الكتابي، مع بطاقات التحضير للامتحان الشفوي.",
     color: "blue",
     gradientFrom: "#1d4ed8",
     gradientTo: "#3b82f6",
-    features: [
-      "Lesen — Teil 1, 2, 3",
-      "Hören — Teil 1, 2, 3",
-      "Sprachbausteine — Teil 1, 2, with the grammar rule explained for every gap",
-      "Arabic translation + justification (Warum?) for every answer",
-      "Schreiben — Beschwerde & Bitte",
-      "2 personal Schreiben Struktur cards (Produkt + Dienstleistung), unique to you",
-      "Prüfungssimulation — full timed mock exams all month, instant score",
-      "Mündlich — Vorbereitung cards (no AI exam)",
-      "Progress analytics",
-      "Practice exams (PDF library)",
-    ],
-    highlighted: false,
-    badge: null as string | null,
+    features: ["Progress analytics", "Practice exams (PDF library)"],
+    benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
+    highlighted: true,
+    badge: "Complete written prep" as string | null,
   },
   {
     code: "komplett",
@@ -52,6 +44,8 @@ const PLANS = [
     price_tnd: 30,
     period: "/month",
     tagline: "Everything — written and spoken",
+    taglineAr: null as string | null,
+    benefits: null as PlanBenefit[] | null,
     color: "violet",
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
@@ -73,6 +67,8 @@ const PLANS = [
     price_tnd: 55,
     period: "/month",
     tagline: "Perfect your speaking skills",
+    taglineAr: null as string | null,
+    benefits: null as PlanBenefit[] | null,
     color: "rose",
     gradientFrom: "#be123c",
     gradientTo: "#f43f5e",
@@ -298,17 +294,23 @@ function BillingPage() {
                     <span className="text-sm font-semibold text-muted-foreground">TND{plan.period}</span>
                   </div>
                   <p className="mt-1 text-xs text-muted-foreground">{plan.tagline}</p>
+                  {plan.taglineAr && (
+                    <p dir="rtl" lang="ar" className="mt-1 text-[13px] font-medium leading-relaxed text-foreground/80">{plan.taglineAr}</p>
+                  )}
                 </div>
 
                 {/* Features */}
-                <ul className="mb-6 flex-1 space-y-2.5">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
-                      <span className="text-foreground leading-snug">{f}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="mb-6 flex-1 space-y-3">
+                  {plan.benefits && <PlanBenefits benefits={plan.benefits} accent={c} />}
+                  <ul className={`space-y-2.5 ${plan.benefits ? "border-t border-border/60 px-2.5 pt-3" : ""}`}>
+                    {plan.features.map((f) => (
+                      <li key={f} className="flex items-start gap-2.5 text-sm">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                        <span className="text-foreground leading-snug">{f}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 {/* CTA */}
                 {isCurrent ? (
