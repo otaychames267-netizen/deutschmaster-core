@@ -48,7 +48,8 @@ function VoiceTutorPicker() {
   const b2OrAdmin = activeLevel === "TELC_B2" || isAdmin;
   // Admin always bypasses the launch flag (dev/preview access while the
   // feature ships dark to everyone else) — see VOICE_TUTOR_ENABLED's doc comment.
-  if ((!isAdmin && !VOICE_TUTOR_ENABLED) || !b2OrAdmin) {
+  // CLOSED for everyone, admins included (owner decision 2026-10-05) — reopen with VOICE_TUTOR_ENABLED=true.
+  if (!VOICE_TUTOR_ENABLED || !b2OrAdmin) {
     return <Navigate to="/$level/muendlich" params={{ level: activeLevel === "TELC_B1" ? "b1" : "b2" }} replace />;
   }
 
