@@ -1,12 +1,16 @@
 /**
  * Sprachbausteine Teil 2 — Lückentext mit gemeinsamer Wortliste
  *
- * TELC-authentic interaction (no radio buttons, no dropdowns, no typing):
- *   1. Click a gap  → it becomes the active (highlighted) gap.
- *   2. Click a word → it instantly fills the active gap and disappears
- *                     from the word list (each word can be used only once).
- *   3. Focus auto-advances to the next still-empty gap.
- *   4. Click a filled gap → its word returns to the list and the gap reopens.
+ * Interaction (mirrors Teil 1's gap popover, but with the shared word list):
+ *   1. Click a gap  → a popover opens right at the gap with ALL words of the
+ *                     list; words already used in another gap are struck
+ *                     through and disabled (each word can be used only once).
+ *   2. Click a word → it fills the gap and the popover closes. Focus moves to
+ *                     the next still-empty gap (highlighted, popover closed).
+ *   3. Click a filled gap → the popover reopens with its word marked; pick a
+ *                     different word to swap, or "Wort zurücklegen" to empty it.
+ *   The Wortliste beside/below the text still works as before (active gap +
+ *   click a word), so both ways lead to the same state.
  *
  * Security: correct answers are NEVER shipped in the student payload. Both
  * grading ("Auswertung") and the study reveal ("Lösung anzeigen") go through
@@ -22,8 +26,10 @@
  * Responsive: on desktop/tablet the word list is a sticky sidebar beside the
  * text; on mobile it stacks below the text (text stays on top).
  */
-import { useState, useCallback, useMemo, useEffect, useRef } from "react";
-import { CheckCircle2, XCircle, Loader2, RotateCcw, Eye, EyeOff, HelpCircle } from "lucide-react";
+import { useState, useCallback, useMemo, useEffect, useLayoutEffect, useRef } from "react";
+import { createPortal } from "react-dom";
+import { CheckCircle2, XCircle, Loader2, RotateCcw, Eye, EyeOff, HelpCircle, ChevronDown, Undo2 } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
 import { TranslateButton } from "@/components/learning/TranslateButton";
@@ -72,6 +78,144 @@ function parsePassage(passage: string): Array<string | number> {
   });
 }
 
+// ── Word popover ───────────────────────────────────────────────────────────────
+
+interface WordPopoverProps {
+  gapNum: number;
+  words: SBT2Word[];
+  current: string | undefined;
+  /** word → gap it already fills (those are disabled: each word only once) */
+  usedWords: Map<string, number>;
+  onSelect: (word: string) => void;
+  onClear: () => void;
+  onClose: () => void;
+  anchorEl: HTMLElement | null;
+}
+
+const WORD_POPOVER_MARGIN = 8;
+const WORD_POPOVER_WIDTH = 300;
+
+// Same placement approach as Teil 1's GapPopover: fixed + portal, clamped to the
+// viewport (a gap sits in flowing paragraph text, so absolute positioning inside
+// it would overlap the sentence); bottom sheet on phones.
+function WordPopover({ gapNum, words, current, usedWords, onSelect, onClear, onClose, anchorEl }: WordPopoverProps) {
+  const popRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const [style, setStyle] = useState<{ top: number; left: number; maxHeight: number } | null>(null);
+
+  useLayoutEffect(() => {
+    if (isMobile || !anchorEl) return;
+    function place() {
+      const rect = anchorEl!.getBoundingClientRect();
+      const width = Math.min(WORD_POPOVER_WIDTH, window.innerWidth - WORD_POPOVER_MARGIN * 2);
+      let left = rect.left + rect.width / 2 - width / 2;
+      left = Math.min(Math.max(left, WORD_POPOVER_MARGIN), window.innerWidth - width - WORD_POPOVER_MARGIN);
+      const popHeight = popRef.current?.offsetHeight ?? 0;
+      const spaceBelow = window.innerHeight - rect.bottom - WORD_POPOVER_MARGIN;
+      const spaceAbove = rect.top - WORD_POPOVER_MARGIN;
+      const openUpward = popHeight > spaceBelow && spaceAbove > spaceBelow;
+      const top = openUpward ? Math.max(rect.top - popHeight - 6, WORD_POPOVER_MARGIN) : rect.bottom + 6;
+      setStyle({ top, left, maxHeight: Math.max(openUpward ? spaceAbove : spaceBelow, 200) });
+    }
+    place();
+    window.addEventListener("scroll", place, true);
+    window.addEventListener("resize", place);
+    return () => {
+      window.removeEventListener("scroll", place, true);
+      window.removeEventListener("resize", place);
+    };
+  }, [anchorEl, isMobile]);
+
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      if (
+        popRef.current && !popRef.current.contains(e.target as Node) &&
+        anchorEl && !anchorEl.contains(e.target as Node)
+      ) onClose();
+    }
+    function onKey(e: KeyboardEvent) { if (e.key === "Escape") onClose(); }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [onClose, anchorEl]);
+
+  const freeCount = words.filter((w) => !usedWords.has(w.word)).length;
+  const body = (
+    <div className="p-3">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">Lücke {gapNum}</span>
+        <span className="text-[11px] text-muted-foreground">{freeCount} von {words.length} Wörtern frei</span>
+      </div>
+      <div role="listbox" className={`grid gap-1.5 ${isMobile ? "grid-cols-3" : "grid-cols-2"}`}>
+        {words.map((w) => {
+          const usedIn = usedWords.get(w.word);
+          const isCurrent = current === w.word;
+          const disabled = usedIn !== undefined && !isCurrent;
+          return (
+            <button
+              key={w.word_number}
+              role="option"
+              aria-selected={isCurrent}
+              disabled={disabled}
+              onClick={() => onSelect(w.word)}
+              className={`flex items-center justify-between gap-1.5 rounded-lg border px-2.5 py-2 text-left text-sm font-medium transition-colors ${
+                isCurrent
+                  ? "border-primary bg-primary/10 text-primary ring-1 ring-primary/30"
+                  : disabled
+                    ? "cursor-not-allowed border-border bg-muted/40 text-muted-foreground/45"
+                    : "border-border bg-background text-foreground hover:border-primary/50 hover:bg-primary/5"
+              }`}
+            >
+              <span className={disabled ? "line-through" : ""}>{w.word}</span>
+              {disabled && <span className="shrink-0 text-[10px] font-black opacity-70">{usedIn}</span>}
+            </button>
+          );
+        })}
+      </div>
+      {current && (
+        <button
+          onClick={onClear}
+          className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-lg border border-border bg-muted/50 px-3 py-2 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          <Undo2 className="h-3.5 w-3.5" /> Wort zurücklegen
+        </button>
+      )}
+    </div>
+  );
+
+  if (isMobile) {
+    return createPortal(
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+        <div
+          ref={popRef}
+          className="absolute inset-x-0 bottom-0 max-h-[75vh] overflow-y-auto rounded-t-2xl border-t border-border bg-card pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-2xl"
+        >
+          <div className="flex justify-center pt-2"><div className="h-1 w-10 rounded-full bg-muted-foreground/25" /></div>
+          {body}
+        </div>
+      </div>,
+      document.body,
+    );
+  }
+
+  return createPortal(
+    <div
+      ref={popRef}
+      className="fixed z-50 overflow-y-auto rounded-xl border border-border bg-card shadow-xl"
+      style={style
+        ? { top: style.top, left: style.left, width: WORD_POPOVER_WIDTH, maxHeight: style.maxHeight, maxWidth: `calc(100vw - ${WORD_POPOVER_MARGIN * 2}px)` }
+        : { visibility: "hidden", top: 0, left: 0, width: WORD_POPOVER_WIDTH }}
+    >
+      {body}
+    </div>,
+    document.body,
+  );
+}
+
 export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers, onAnswersChange }: Props) {
   const segments = useMemo(() => parsePassage(exercise.passage), [exercise.passage]);
   const gapNumbers = useMemo(
@@ -84,6 +228,10 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
     () => new Map(Object.entries(initialAnswers ?? {}).map(([k, v]) => [Number(k), v])),
   );
   const [activeGap, setActiveGap] = useState<number | null>(null);
+  // Gap whose word popover is open (separate from activeGap: after a pick the focus
+  // moves to the next empty gap WITHOUT opening a popover far from the viewport).
+  const [pickerGap, setPickerGap] = useState<number | null>(null);
+  const gapButtonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
 
   useEffect(() => {
     if (examMode) onAnswersChange?.(Object.fromEntries([...answers].map(([k, v]) => [String(k), v])));
@@ -126,7 +274,8 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
 
   function handleGapClick(gapNum: number) {
     if (locked) return;
-    setActiveGap((cur) => (cur === gapNum ? null : gapNum));
+    setActiveGap(gapNum);
+    setPickerGap((cur) => (cur === gapNum ? null : gapNum));
   }
 
   function handleClearGap(gapNum: number) {
@@ -137,10 +286,25 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
       return next;
     });
     setActiveGap(gapNum);
+    setPickerGap(null);
+  }
+
+  // Pick from the popover: fills (or swaps) exactly that gap; the word the gap held
+  // before simply returns to the list.
+  function handlePopoverPick(gapNum: number, word: string) {
+    if (locked) return;
+    const holder = usedWords.get(word);
+    if (holder !== undefined && holder !== gapNum) return; // each word only once
+    const next = new Map(answers);
+    next.set(gapNum, word);
+    setAnswers(next);
+    setActiveGap(nextEmptyGap(gapNum, next));
+    setPickerGap(null);
   }
 
   function handleWordClick(word: string) {
     if (locked || activeGap === null || usedWords.has(word)) return;
+    setPickerGap(null);
     // Compute the new answer map and next focus synchronously from current state —
     // NOT inside the setAnswers updater (that runs during reconciliation, so the
     // auto-advance target would still be stale when setActiveGap runs).
@@ -156,6 +320,7 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
     if (scoring || submitted || revealed) return;
     setScoring(true);
     setActiveGap(null);
+    setPickerGap(null);
     const payload: Record<string, string> = {};
     for (const [gap, word] of answers) payload[String(gap)] = word;
     try {
@@ -181,6 +346,7 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
     if (previewResults) { setPreviewResults(null); return; }
     setLoadingPreview(true);
     setActiveGap(null);
+    setPickerGap(null);
     try {
       const { data, error } = await (supabase as any).rpc("score_sb_t2", {
         p_exercise_id: exercise.id,
@@ -199,6 +365,7 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
   function reset() {
     setAnswers(new Map());
     setActiveGap(null);
+    setPickerGap(null);
     setSubmitted(false);
     setScoreResults(null);
     setScore(null);
@@ -298,38 +465,41 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
       );
     }
 
-    // Solving view
-    if (filled) {
-      return (
+    // Solving view — filled and empty gaps both open the word popover
+    const isOpen = pickerGap === gapNum;
+    return (
+      <span key={`gap-${gapNum}`} className="inline-block align-baseline">
         <button
-          key={`gap-${gapNum}`}
-          onClick={() => handleClearGap(gapNum)}
-          title="Klicken, um das Wort zurückzulegen"
-          className={`inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium align-baseline transition-all duration-150 ${
-            isActive
-              ? "border-primary bg-primary/10 text-primary ring-2 ring-primary/30"
-              : "border-primary/30 bg-primary/5 text-primary hover:border-primary/60 hover:bg-primary/10"
+          ref={(el) => { gapButtonRefs.current[gapNum] = el; }}
+          onClick={() => handleGapClick(gapNum)}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          title={filled ? "Klicken, um das Wort zu ändern" : "Klicken, um ein Wort zu wählen"}
+          className={`inline-flex items-center gap-1 mx-0.5 rounded-md border text-sm align-baseline transition-all duration-150 ${filled ? "px-2 py-0.5 font-medium" : "px-3 py-0.5"} ${
+            isActive || isOpen
+              ? `border-primary bg-primary/10 text-primary ring-2 ring-primary/30 ${filled ? "" : "scale-105"}`
+              : filled
+                ? "border-primary/30 bg-primary/5 text-primary hover:border-primary/60 hover:bg-primary/10"
+                : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/50 hover:text-foreground"
           }`}
         >
           <span className="text-[10px] font-black opacity-50">{gapNum}</span>
-          <span>{filled}</span>
+          {filled ? <span>{filled}</span> : <span className="italic opacity-50">＿＿＿</span>}
+          <ChevronDown className={`h-2.5 w-2.5 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`} />
         </button>
-      );
-    }
-
-    return (
-      <button
-        key={`gap-${gapNum}`}
-        onClick={() => handleGapClick(gapNum)}
-        className={`inline-flex items-center gap-1 mx-0.5 px-3 py-0.5 rounded-md border text-sm align-baseline transition-all duration-150 ${
-          isActive
-            ? "border-primary bg-primary/10 text-primary ring-2 ring-primary/30 scale-105"
-            : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/50 hover:text-foreground"
-        }`}
-      >
-        <span className="text-[10px] font-black opacity-50">{gapNum}</span>
-        <span className="italic opacity-50">＿＿＿</span>
-      </button>
+        {isOpen && (
+          <WordPopover
+            gapNum={gapNum}
+            words={exercise.words}
+            current={filled}
+            usedWords={usedWords}
+            onSelect={(w) => handlePopoverPick(gapNum, w)}
+            onClear={() => handleClearGap(gapNum)}
+            onClose={() => setPickerGap(null)}
+            anchorEl={gapButtonRefs.current[gapNum]}
+          />
+        )}
+      </span>
     );
   }
 
@@ -342,8 +512,8 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
           {!examMode && <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />}
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Lesen Sie den Text. Klicken Sie auf eine Lücke und wählen Sie das passende Wort
-          aus der Wortliste. Jedes Wort passt nur in <strong>eine</strong> Lücke und kann
+          Lesen Sie den Text. Klicken Sie auf eine Lücke — alle Wörter der Liste erscheinen
+          dort zur Auswahl. Jedes Wort passt nur in <strong>eine</strong> Lücke und kann
           nur <strong>einmal</strong> verwendet werden — es gibt mehr Wörter als Lücken.
         </p>
       </div>
@@ -400,7 +570,7 @@ export function SBTeil2Exercise({ exercise, onComplete, examMode, initialAnswers
             {!locked && (
               <p className="mt-3 text-[11px] text-muted-foreground text-center leading-snug">
                 {activeGap === null
-                  ? "Lücke anklicken, dann Wort wählen"
+                  ? "Lücke anklicken — alle Wörter erscheinen"
                   : `Wort für Lücke ${activeGap} wählen`}
               </p>
             )}
