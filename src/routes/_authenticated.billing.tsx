@@ -35,6 +35,7 @@ const PLANS = [
       "Hören — Teil 1, 2, 3",
       "Sprachbausteine — Teil 1, 2",
       "Schreiben — Beschwerde & Bitte",
+      "Mündlich — Vorbereitung cards (no AI exam)",
       "Progress analytics",
       "Practice exams (PDF library)",
     ],
