@@ -14,7 +14,7 @@ export const Route = createFileRoute("/_authenticated/paiement/$orderId")({
 });
 
 const PLAN_LABEL: Record<string, string> = {
-  schriftlich: "Schriftlich",
+  schriftlich: "Schriftlich + Mündlich (ohne KI)",
   muendlich: "Mündlich",
   komplett: "Komplett",
 };

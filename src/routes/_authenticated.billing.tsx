@@ -23,11 +23,12 @@ export const Route = createFileRoute("/_authenticated/billing")({
 const PLANS = [
   {
     code: "schriftlich",
-    name: "Schriftlich",
+    name: "Schriftlich + Mündlich",
+    tag: "ohne KI" as string | null,
     icon: PenLine,
     price_tnd: 30,
     period: "/month",
-    tagline: "Everything for the written exam",
+    tagline: "Written exam + Mündlich preparation, no AI",
     taglineAr: null as string | null,
     color: "violet",
     gradientFrom: "#6d28d9",
@@ -35,11 +36,12 @@ const PLANS = [
     features: [] as string[],
     benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
-    badge: "Complete written prep" as string | null,
+    badge: "TELC B2 preparation" as string | null,
   },
   {
     code: "komplett",
     name: "Komplett",
+    tag: null as string | null,
     icon: Crown,
     price_tnd: 30,
     period: "/month",
@@ -50,9 +52,8 @@ const PLANS = [
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
     features: [
-      "Everything in Schriftlich — incl. personal Struktur cards & Arabic explanations",
-      "Mündlich — full preparation",
-      "Prüfungssimulation — full exam",
+      "Everything in Schriftlich + Mündlich",
+      "AI Mündlich — live exam room with an AI examiner",
       "Priority support",
       "Advanced analytics",
       "All future content included",
@@ -63,6 +64,7 @@ const PLANS = [
   {
     code: "muendlich",
     name: "Mündlich",
+    tag: null as string | null,
     icon: Mic,
     price_tnd: 55,
     period: "/month",
@@ -259,49 +261,58 @@ function BillingPage() {
           <p className="text-sm text-muted-foreground">Choose the plan that fits your exam goals. Cancel anytime.</p>
         </div>
 
-        <div className={`grid gap-5 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "md:grid-cols-3"}`}>
+        <div className={`grid gap-5 pt-4 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "md:grid-cols-3"}`}>
           {visiblePlans.map((plan) => {
             const isCurrent = subscription?.plan_code === plan.code;
             const c = COLOR_CLASSES[plan.color];
+            const premium = !!plan.benefits;
             return (
               <div
                 key={plan.code}
-                className={`relative flex flex-col rounded-2xl border p-6 transition-all ${
-                  plan.highlighted
-                    ? `ring-2 ${c.ring} border-transparent ${c.bg} shadow-lg`
-                    : "border-border bg-card hover:border-border/80 hover:shadow-md"
+                className={`relative flex flex-col rounded-2xl border transition-all ${
+                  premium
+                    ? "border-gold/45 bg-card shadow-xl shadow-black/10"
+                    : `p-6 ${plan.highlighted
+                        ? `ring-2 ${c.ring} border-transparent ${c.bg} shadow-lg`
+                        : "border-border bg-card hover:border-border/80 hover:shadow-md"}`
                 }`}
               >
                 {plan.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-black text-white shadow-sm`}
-                      style={{ background: `linear-gradient(135deg, ${plan.gradientFrom}, ${plan.gradientTo})` }}>
+                    <span className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-black shadow-sm ${premium ? "bg-gold text-gold-foreground" : "text-white"}`}
+                      style={premium ? undefined : { background: `linear-gradient(135deg, ${plan.gradientFrom}, ${plan.gradientTo})` }}>
                       <Star className="h-2.5 w-2.5 fill-current" /> {plan.badge}
                     </span>
                   </div>
                 )}
 
+                <div className={premium ? "plan-premium plan-premium--top rounded-t-2xl p-6" : "flex flex-1 flex-col"}>
                 {/* Plan header */}
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-3">
-                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${c.bg} ring-1 ${c.ring}`}>
-                      <plan.icon className={`h-4.5 w-4.5 ${c.text}`} />
+                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-1 ${premium ? "bg-gold/20 text-gold ring-gold/40" : `${c.bg} ${c.ring}`}`}>
+                      <plan.icon className={`h-4.5 w-4.5 ${premium ? "" : c.text}`} />
                     </div>
-                    <p className={`text-sm font-black uppercase tracking-widest ${c.text}`}>{plan.name}</p>
+                    <p className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-black uppercase tracking-widest ${premium ? "text-gold" : c.text}`}>
+                      {plan.name}
+                      {plan.tag && (
+                        <span className="rounded-full border border-gold/50 px-2 py-0.5 text-[10px] font-bold normal-case tracking-wide text-gold">{plan.tag}</span>
+                      )}
+                    </p>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-black tracking-tight text-foreground">{plan.price_tnd}</span>
-                    <span className="text-sm font-semibold text-muted-foreground">TND{plan.period}</span>
+                    <span className={`text-4xl font-black tracking-tight ${premium ? "text-white" : "text-foreground"}`}>{plan.price_tnd}</span>
+                    <span className={`text-sm font-semibold ${premium ? "text-white/60" : "text-muted-foreground"}`}>TND{plan.period}</span>
                   </div>
-                  <p className="mt-1 text-xs text-muted-foreground">{plan.tagline}</p>
+                  <p className={`mt-1 text-xs ${premium ? "text-white/70" : "text-muted-foreground"}`}>{plan.tagline}</p>
                   {plan.taglineAr && (
                     <p dir="rtl" lang="ar" className="mt-1 text-[13px] font-medium leading-relaxed text-foreground/80">{plan.taglineAr}</p>
                   )}
                 </div>
 
                 {/* Features */}
-                <div className="mb-5 flex-1 space-y-3">
-                  {plan.benefits && <PlanBenefits benefits={plan.benefits} accent={c} />}
+                <div className={premium ? "space-y-3" : "mb-5 flex-1 space-y-3"}>
+                  {plan.benefits && <PlanBenefits benefits={plan.benefits} accent={c} onPrimary={premium} />}
                   {plan.benefits ? null : (
                     <ul className="space-y-2.5">
                       {plan.features.map((f) => (
@@ -313,8 +324,10 @@ function BillingPage() {
                     </ul>
                   )}
                 </div>
+                </div>
 
                 {/* CTA */}
+                <div className={premium ? "p-6" : ""}>
                 {isCurrent ? (
                   <div className="flex items-center justify-center gap-2 rounded-xl border border-border bg-muted px-4 py-3 text-sm font-semibold text-muted-foreground">
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
@@ -333,7 +346,7 @@ function BillingPage() {
                         <button
                           onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
                           disabled={checkoutPlan !== null || manualPlan !== null}
-                          className={`relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`}
+                          className={`relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${premium ? "bg-gold text-gold-foreground hover:brightness-105" : `text-white ${c.btn}`}`}
                         >
                           {checkoutPlan === plan.code ? (
                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -382,7 +395,7 @@ function BillingPage() {
                           className={
                             LEMONSQUEEZY_VISIBLE
                               ? "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
-                              : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed ${c.btn}`
+                              : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${premium ? "bg-gold text-gold-foreground hover:brightness-105" : `text-white ${c.btn}`}`
                           }
                         >
                           {manualPlan === plan.code ? (
@@ -417,6 +430,7 @@ function BillingPage() {
                     )}
                   </div>
                 )}
+                </div>
               </div>
             );
           })}
