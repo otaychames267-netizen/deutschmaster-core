@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { BrandMark } from "@/components/BrandMark";
 import { useAuth } from "@/lib/auth";
 import { useTheme } from "@/lib/theme";
-import { MUENDLICH_ENABLED, isPlanPurchasable, LEMONSQUEEZY_VISIBLE, CARD_PAYMENTS_ENABLED } from "@/lib/features";
+import { MUENDLICH_ENABLED, isPlanPurchasable } from "@/lib/features";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
@@ -13,7 +13,7 @@ import {
   BookOpen, Headphones, PenLine, Mic,
   Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
   Zap, Shield, Clock, TrendingUp, Award, Play,
-  ChevronDown, Menu, X, Landmark, CreditCard, Wallet,
+  ChevronDown, Menu, X, Landmark, Smartphone, Building2,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -75,6 +75,12 @@ const PLANS = [
     badge: null,
     save: null,
   },
+];
+
+const PAYMENT_METHODS = [
+  { name: "D17 Mobile Transfer", note: "Pay from your phone", icon: Smartphone },
+  { name: "Virement Postal", note: "La Poste Tunisienne", icon: Landmark },
+  { name: "Virement Bancaire", note: "Bank transfer (RIB)", icon: Building2 },
 ];
 
 const FEATURES = [
@@ -157,7 +163,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is payment secure?",
-    a: "Yes. Students in Tunisia can pay via D17 mobile transfer, Virement Postal or Virement Bancaire, verified by our team — usually within moments, up to 8 working hours for manual review. Card payments via Lemon Squeezy are coming soon; your card details are never stored on our servers.",
+    a: "Yes. Students in Tunisia can pay via D17 mobile transfer, Virement Postal or Virement Bancaire. Every payment is verified by our team before access is granted — usually within moments, up to 8 working hours for manual review. We never store your D17 PIN, card number or banking passwords.",
   },
   {
     q: "Which languages is the interface available in?",
@@ -667,31 +673,22 @@ function Pricing() {
         </p>
 
         {/* Accepted payment methods */}
-        <div className="mx-auto mt-6 flex max-w-md flex-col items-center gap-3 rounded-2xl border border-border bg-card/50 px-6 py-4">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
+        <div className="mx-auto mt-6 max-w-md rounded-2xl border border-border bg-card/50 px-5 py-4">
+          <p className="mb-3 text-center text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             Accepted payment methods
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-              <Landmark className="h-4 w-4 text-muted-foreground" /> D17 Mobile Transfer
-            </div>
-            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-              <Landmark className="h-4 w-4 text-muted-foreground" /> Virement Postal
-            </div>
-            <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-              <Wallet className="h-4 w-4 text-muted-foreground" /> Virement Bancaire
-            </div>
-            {LEMONSQUEEZY_VISIBLE && (
-              <div className="flex items-center gap-1.5 text-sm font-semibold text-foreground">
-                <CreditCard className="h-4 w-4 text-muted-foreground" /> Lemon Squeezy
-                {!CARD_PAYMENTS_ENABLED && (
-                  <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-amber-600 dark:text-amber-400">
-                    Coming soon
-                  </span>
-                )}
+          <div className="grid grid-cols-3 gap-2">
+            {PAYMENT_METHODS.map((m) => (
+              <div key={m.name} className="flex flex-col items-center gap-1.5 rounded-xl border border-border bg-background px-2 py-3 text-center">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <m.icon className="h-4 w-4" />
+                </span>
+                <span className="text-xs font-semibold leading-tight text-foreground">{m.name}</span>
+                <span className="text-[10px] leading-tight text-muted-foreground">{m.note}</span>
               </div>
-            )}
+            ))}
           </div>
+          <p className="mt-3 text-center text-[11px] text-muted-foreground">Every payment is verified by our team — usually within minutes.</p>
         </div>
       </div>
     </section>
@@ -849,7 +846,7 @@ function Footer() {
           </p>
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <Shield className="h-3 w-3" />
-            Secured by Supabase · Payments via D17, Virement Postal & Bancaire, Lemon Squeezy
+            Secured by Supabase · Payments via D17, Virement Postal & Bancaire
           </div>
         </div>
       </div>

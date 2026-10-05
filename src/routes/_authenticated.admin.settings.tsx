@@ -272,8 +272,8 @@ function AdminSettingsPage() {
           </div>
         )}
         <p className="text-xs text-muted-foreground">
-          Prices are read live by both Lemon Squeezy checkout and D17 order creation. Changing a price only affects
-          orders/checkouts created after the change — every existing order and subscription keeps the amount it was
+          Prices are read live when a payment order is created (D17, Virement Postal, Virement Bancaire). Changing a price only affects
+          orders created after the change — every existing order and subscription keeps the amount it was
           created with.
         </p>
       </Section>
@@ -313,8 +313,8 @@ function AdminSettingsPage() {
           <div>
             <p className="text-sm font-semibold text-foreground">Disable D17 manual payment</p>
             <p className="text-xs text-muted-foreground">
-              Hides the "Manual Payment (D17 Mobile Transfer)" button on /billing entirely — no new D17 orders can be
-              started. Lemon Squeezy card payment is unaffected, and any D17 order already in progress keeps working
+              Disables the "D17 Mobile Transfer" option on /billing — no new D17 orders can be
+              started from the app. Virement Postal and Virement Bancaire stay available, and any D17 order already in progress keeps working
               normally. Use this if the D17 destination number/IBAN needs to change or D17 itself is down.
             </p>
           </div>

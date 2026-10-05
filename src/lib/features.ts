@@ -46,22 +46,18 @@ export const MUENDLICH_ENABLED = true;
  */
 export const B1_ENABLED = true;
 
-/** Is real card checkout (Lemon Squeezy) live? Launch: false → D17 only. */
+/** Is real card checkout (Lemon Squeezy) live? false → no card payments anywhere (server refuses too, see checkout.functions.ts). */
 export const CARD_PAYMENTS_ENABLED = false;
 
 /**
- * Is the Lemon Squeezy payment option VISIBLE in the UI, independent of
- * whether it's actually live? Launch: true. This exists specifically so the
- * live production site shows a real "Pay with Lemon Squeezy" button (styled
- * identically to the D17 option) for Lemon Squeezy's merchant-verification
- * review team, while `CARD_PAYMENTS_ENABLED` stays false until real
- * credentials (LEMONSQUEEZY_API_KEY / STORE_ID / VARIANT_*) are added.
- * While visible-but-not-enabled, clicking it explains the account is
- * pending merchant approval instead of attempting a real checkout. The
- * moment `CARD_PAYMENTS_ENABLED` flips true (credentials present), the same
- * button starts creating real checkout sessions — no other UI change needed.
+ * Is the Lemon Squeezy payment option VISIBLE in the UI? Owner decision
+ * 2026-10-05: false — hidden everywhere, for admins too; the only payment
+ * methods shown are D17 Mobile Transfer, Virement Postal and Virement
+ * Bancaire. The Lemon Squeezy code (checkout.functions.ts, the webhook) is
+ * kept dormant. To bring it back: enable CARD_PAYMENTS_ENABLED with real
+ * credentials AND re-add the option to the billing page / landing / legal text.
  */
-export const LEMONSQUEEZY_VISIBLE = true;
+export const LEMONSQUEEZY_VISIBLE = false;
 
 /**
  * Are exercises flagged "not yet introduced in Tunisian exams" (the

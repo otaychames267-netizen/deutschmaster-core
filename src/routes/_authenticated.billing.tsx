@@ -2,16 +2,15 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
-import { createCheckoutSession } from "@/lib/billing/checkout.functions";
 import { createManualPaymentOrder, type ManualMethod } from "@/lib/payment/manual-orders.functions";
-import { isPlanPurchasable, CARD_PAYMENTS_ENABLED, LEMONSQUEEZY_VISIBLE } from "@/lib/features";
+import { isPlanPurchasable } from "@/lib/features";
 import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
   Check, Shield, Zap, Clock, RefreshCw,
   Crown, Calendar, TrendingUp, BookOpen,
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
-  Landmark, Sparkles, Wallet,
+  Landmark, Smartphone, Building2, ShieldCheck,
 } from "lucide-react";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 
@@ -87,6 +86,13 @@ const PLANS = [
   },
 ];
 
+/** The three ways a student can pay today — all manual transfers verified by our team (the order screen then shows the account details). */
+const PAYMENT_METHODS: { id: ManualMethod; name: string; note: string; icon: typeof Landmark }[] = [
+  { id: "d17", name: "D17 Mobile Transfer", note: "Pay from your phone", icon: Smartphone },
+  { id: "postal", name: "Virement Postal", note: "La Poste Tunisienne", icon: Landmark },
+  { id: "bancaire", name: "Virement Bancaire", note: "Bank transfer (RIB)", icon: Building2 },
+];
+
 const COLOR_CLASSES: Record<string, { ring: string; bg: string; text: string; btn: string }> = {
   blue:   { ring: "ring-blue-500/30",   bg: "bg-blue-500/5",   text: "text-blue-600 dark:text-blue-400",   btn: "bg-blue-600 hover:bg-blue-700"   },
   violet: { ring: "ring-violet-500/30", bg: "bg-violet-500/5", text: "text-violet-600 dark:text-violet-400", btn: "bg-violet-600 hover:bg-violet-700" },
@@ -108,36 +114,20 @@ function BillingPage() {
   const nav = useNavigate();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
-  const [checkoutPlan, setCheckoutPlan] = useState<string | null>(null);
   const [d17Disabled, setD17Disabled] = useState(false);
   const [manualPlan, setManualPlan] = useState<string | null>(null);
-
-  async function handleSubscribe(planCode: "schriftlich" | "muendlich" | "komplett") {
-    if (!CARD_PAYMENTS_ENABLED) {
-      toast.info(
-        "Lemon Squeezy card payments are pending merchant account approval. This button will activate automatically once approved — no action needed from you. Please use D17 Mobile Transfer for now.",
-        { duration: 8000 },
-      );
-      return;
-    }
-    setCheckoutPlan(planCode);
-    try {
-      const result = await createCheckoutSession({ data: { plan_code: planCode } });
-      window.location.href = result.checkoutUrl;
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not start checkout. Please try again.");
-      setCheckoutPlan(null);
-    }
-  }
+  const [manualMethod, setManualMethod] = useState<ManualMethod | null>(null);
 
   async function handleManualPayment(planCode: "schriftlich" | "muendlich" | "komplett", method: ManualMethod) {
     setManualPlan(planCode);
+    setManualMethod(method);
     try {
       const order = await createManualPaymentOrder({ data: { plan_code: planCode, method } });
       nav({ to: "/paiement/$orderId", params: { orderId: order.id } });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start payment. Please try again.");
       setManualPlan(null);
+      setManualMethod(null);
     }
   }
 
@@ -163,15 +153,6 @@ function BillingPage() {
         setLoading(false);
       });
   }, [user?.id]);
-
-  // Admin-only mock checkout redirects here with ?mock=success while real
-  // Lemon Squeezy credentials are pending — see checkout.functions.ts.
-  useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("mock") === "success") {
-      toast.success("Mock payment complete (test mode) — no real charge occurred.", { duration: 8000 });
-      window.history.replaceState({}, "", "/billing");
-    }
-  }, []);
 
   const isActive = subscription?.status === "active";
   // Launch gate: only sellable plans are shown. While Mündlich is disabled,
@@ -334,100 +315,41 @@ function BillingPage() {
                     Current plan
                   </div>
                 ) : (
-                  <div className="space-y-2">
-                    {/* Card checkout (Lemon Squeezy) is VISIBLE whenever
-                        LEMONSQUEEZY_VISIBLE is true, independent of whether
-                        it's actually live (CARD_PAYMENTS_ENABLED) — see
-                        features.ts for why. When not yet enabled, the button
-                        stays fully styled but explains it's pending merchant
-                        approval instead of erroring for students. */}
-                    {LEMONSQUEEZY_VISIBLE && (
-                      <>
-                        <button
-                          onClick={() => handleSubscribe(plan.code as "schriftlich" | "muendlich" | "komplett")}
-                          disabled={checkoutPlan !== null || manualPlan !== null}
-                          className={`relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${premium ? "bg-gold text-gold-foreground hover:brightness-105" : `text-white ${c.btn}`}`}
-                        >
-                          {checkoutPlan === plan.code ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Zap className="h-4 w-4" />
-                          )}
-                          Pay with Lemon Squeezy
-                          <ArrowUpRight className="h-3.5 w-3.5" />
-                          {!CARD_PAYMENTS_ENABLED && (
-                            <span className="absolute -top-2 -right-2 rounded-full bg-amber-500 px-2 py-0.5 text-[9px] font-black uppercase tracking-wide text-white shadow-sm">
-                              Pending approval
+                  <div>
+                    <p className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Choose how to pay</p>
+                    <div className="space-y-2">
+                      {PAYMENT_METHODS.map((m) => {
+                        const unavailable = m.id === "d17" && d17Disabled;
+                        const busy = manualPlan === plan.code && manualMethod === m.id;
+                        return (
+                          <button
+                            key={m.id}
+                            type="button"
+                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", m.id)}
+                            disabled={manualPlan !== null || unavailable}
+                            title={unavailable ? "D17 is temporarily unavailable — please use another method." : `Pay with ${m.name}, then send your receipt on WhatsApp.`}
+                            className={`group flex w-full items-center gap-3 rounded-xl border border-border bg-card px-3.5 py-3 text-left transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:shadow-none ${premium ? "hover:border-gold/60" : "hover:border-foreground/25"}`}
+                          >
+                            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${premium ? "bg-gold/15 text-amber-600 dark:text-amber-400" : `${c.bg} ${c.text}`}`}>
+                              <m.icon className="h-4.5 w-4.5" />
                             </span>
-                          )}
-                        </button>
-                        <p className="text-center text-[11px] font-medium text-muted-foreground">
-                          {CARD_PAYMENTS_ENABLED ? (
-                            <>
-                              <Sparkles className="mr-1 inline h-3 w-3 text-amber-500" />
-                              Recommended · Instant activation · Carte Technologique & international cards supported
-                            </>
-                          ) : (
-                            <>
-                              <Clock className="mr-1 inline h-3 w-3 text-amber-500" />
-                              Pending merchant approval — card payments launching soon
-                            </>
-                          )}
-                        </p>
-
-                        <div className="relative py-1 text-center">
-                          <span className="text-[10px] uppercase tracking-wider text-muted-foreground/60">or</span>
-                        </div>
-                      </>
-                    )}
-
-                    {d17Disabled ? (
-                      <div className="rounded-xl border border-dashed border-border bg-muted/30 px-4 py-3 text-center">
-                        <p className="text-xs font-semibold text-muted-foreground">Payment (D17) — temporarily unavailable</p>
-                        <p className="mt-0.5 text-[10px] text-muted-foreground">Manual payment is paused right now. Please check back shortly.</p>
-                      </div>
-                    ) : (
-                      <>
-                        <button
-                          onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "d17")}
-                          disabled={checkoutPlan !== null || manualPlan !== null}
-                          title="Pay via D17 mobile transfer, then send your receipt on WhatsApp."
-                          className={
-                            LEMONSQUEEZY_VISIBLE
-                              ? "flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-xs font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
-                              : `flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${premium ? "bg-gold text-gold-foreground hover:brightness-105" : `text-white ${c.btn}`}`
-                          }
-                        >
-                          {manualPlan === plan.code ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Landmark className="h-4 w-4" />
-                          )}
-                          Pay with D17 Mobile Transfer
-                        </button>
-
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "postal")}
-                            disabled={checkoutPlan !== null || manualPlan !== null}
-                            title="Pay via La Poste Tunisienne (Virement Postal), then send your receipt on WhatsApp."
-                            className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
-                          >
-                            {manualPlan === plan.code ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Landmark className="h-3.5 w-3.5" />}
-                            Virement Postal
+                            <span className="min-w-0 flex-1">
+                              <span className="block text-sm font-semibold leading-tight text-foreground">{m.name}</span>
+                              <span className="block text-xs text-muted-foreground">{unavailable ? "Temporarily unavailable" : m.note}</span>
+                            </span>
+                            {busy ? (
+                              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4 text-muted-foreground/60 transition-transform group-hover:translate-x-0.5 group-disabled:hidden" />
+                            )}
                           </button>
-                          <button
-                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", "bancaire")}
-                            disabled={checkoutPlan !== null || manualPlan !== null}
-                            title="Pay via bank transfer (Virement Bancaire), then send your receipt on WhatsApp."
-                            className="flex items-center justify-center gap-1.5 rounded-xl border border-border bg-card px-3 py-2.5 text-[11px] font-semibold text-muted-foreground transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted hover:text-foreground"
-                          >
-                            {manualPlan === plan.code ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Wallet className="h-3.5 w-3.5" />}
-                            Virement Bancaire
-                          </button>
-                        </div>
-                      </>
-                    )}
+                        );
+                      })}
+                    </div>
+                    <p className="mt-3 flex items-start justify-center gap-1.5 text-center text-[11px] leading-snug text-muted-foreground">
+                      <ShieldCheck className="mt-px h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                      <span>Verified by our team before access is granted — usually within minutes.</span>
+                    </p>
                   </div>
                 )}
                 </div>
@@ -468,9 +390,7 @@ function BillingPage() {
       </div>
 
       <p className="text-center text-xs text-muted-foreground">
-        {CARD_PAYMENTS_ENABLED
-          ? "Card payments are processed securely by Lemon Squeezy and activate instantly. D17 mobile-transfer payments are verified after you upload your confirmation — usually within moments, and within 8 working hours if a manual review is needed."
-          : "D17 mobile transfer is live today — upload your payment confirmation and most payments are verified automatically within moments (up to 8 working hours if a manual review is needed). Card payments via Lemon Squeezy are pending merchant approval and will activate soon."}
+        After you pay, send your receipt on WhatsApp — payments are verified by our team, usually within moments (up to 8 working hours if a manual review is needed).
       </p>
     </div>
   );
