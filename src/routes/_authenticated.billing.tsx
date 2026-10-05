@@ -32,7 +32,7 @@ const PLANS = [
     color: "violet",
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
-    features: ["Progress analytics", "Practice exams (PDF library)"],
+    features: [] as string[],
     benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
     badge: "Complete written prep" as string | null,
@@ -302,9 +302,7 @@ function BillingPage() {
                 {/* Features */}
                 <div className="mb-5 flex-1 space-y-3">
                   {plan.benefits && <PlanBenefits benefits={plan.benefits} accent={c} />}
-                  {plan.benefits ? (
-                    <p className="border-t border-border/60 pt-2.5 text-xs text-muted-foreground">+ {plan.features.join(" · ")}</p>
-                  ) : (
+                  {plan.benefits ? null : (
                     <ul className="space-y-2.5">
                       {plan.features.map((f) => (
                         <li key={f} className="flex items-start gap-2.5 text-sm">

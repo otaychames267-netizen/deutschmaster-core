@@ -337,3 +337,40 @@
   background-size: 200% auto;
   animation: shimmer 1.6s linear infinite;
 }
+
+/* ── Premium plan card (landing pricing) ───────────────────────────────
+   Fixed deep-navy + gold look in BOTH themes (the theme's --primary turns light blue in dark mode, so it can't be used
+   as the card ground). Slow ambient gold glow + staggered row reveal; all motion is off for prefers-reduced-motion. */
+.plan-premium {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(165deg, oklch(0.31 0.1 263) 0%, oklch(0.21 0.07 265) 100%);
+  color: oklch(0.98 0.004 240);
+  border: 1px solid oklch(0.78 0.14 82 / 0.45);
+  box-shadow: 0 28px 64px -28px oklch(0.2 0.09 263 / 0.6), inset 0 1px 0 oklch(1 0 0 / 0.08);
+}
+.plan-premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(70% 55% at 88% 0%, oklch(0.78 0.14 82 / 0.22), transparent 70%);
+  animation: plan-glow 9s ease-in-out infinite alternate;
+}
+@keyframes plan-glow {
+  from { opacity: 0.55; transform: translate3d(0, 0, 0); }
+  to { opacity: 1; transform: translate3d(-3%, 2%, 0); }
+}
+.plan-row-armed { opacity: 0; transform: translateY(6px); }
+.plan-row-show { animation: plan-row-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 70ms); }
+@keyframes plan-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plan-premium::before { animation: none; }
+  .plan-row-armed { opacity: 1; transform: none; }
+  .plan-row-show { animation: none; }
+}
