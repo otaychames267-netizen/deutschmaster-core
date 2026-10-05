@@ -5,7 +5,7 @@
  *   keyword Merke chip           bed   Bedeutung (Tunisian)         text  the ✓/✗ explanation (German words in "quotes")
  *   rule    grammar_structure (must differ from keyword)            ex    German example with **bold**      exTr  Tunisian translation
  * Safeguards: correct option vs DB; ALL THREE options named in the text; ≥1 ✓ and ≥2 ✗ lines; no recycled formula verbs; no duplicate explanation text;
- * evidence_text and every other field untouched; originals saved once to _backup_sb_t1_all.json.
+ * evidence_text and every other field untouched (unless an entry carries an optional `evidence` sentence, used only after a data fix made the old one wrong); originals saved once to _backup_sb_t1_all.json.
  * Identical gaps in other variants (same surrounding text + same options + same answer) are filled automatically from the store (sb_t1_store.json).
  * Usage: node scripts/learning-aids/sb-t1-apply.mjs <batchFile.mjs> [--apply]      |      node scripts/learning-aids/sb-t1-apply.mjs --seed-leon */
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
@@ -33,6 +33,7 @@ function validate(e, g, d) {
   need(d.text.includes("✓") && (d.text.match(/✗/g) ?? []).length >= 2, "text needs one ✓ line and two ✗ lines");
   need(!FORMULA.test(d.text), "recycled formula verb (يستدعي/يحدد/يستلزم/يستوجب)");
   for (const o of g.opts) need(d.text.toLowerCase().includes(`"${o.toLowerCase()}`), `option "${o}" is not named in the text`);
+  if (d.evidence !== undefined) need(typeof d.evidence === "string" && d.evidence.includes("**"), "evidence needs the full sentence with the **bold** key");
   return d;
 }
 
@@ -95,7 +96,7 @@ for (const e of targets) {
   for (const g of e.gaps) {
     const s = store[g.key]; const old = aids.items[String(g.n)];
     if (!old) throw new Error(`[${e.position}] gap ${g.n}: no existing item to keep evidence_text from`);
-    aids.items[String(g.n)] = { ...old, item_type: s.type, keyword: s.keyword, answer_translation: s.bed, explanation_correct: s.text, explanation_wrong: s.text, grammar_structure: s.rule, grammar_example: s.ex, grammar_translation: s.exTr };
+    aids.items[String(g.n)] = { ...old, item_type: s.type, keyword: s.keyword, answer_translation: s.bed, explanation_correct: s.text, explanation_wrong: s.text, grammar_structure: s.rule, grammar_example: s.ex, grammar_translation: s.exTr, ...(s.evidence ? { evidence_text: s.evidence } : {}) };
   }
   aids.restyle_v2 = true;
   merged[e.id] = aids;
