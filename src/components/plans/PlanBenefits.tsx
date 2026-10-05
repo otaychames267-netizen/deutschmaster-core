@@ -18,7 +18,7 @@ export interface PlanBenefit {
  * really does have to split their own time. */
 export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
   { icon: BookOpen, title: "Lesen", ar: "كل المواضيع + ترجمة وتبرير الإجابات", highlight: true },
-  { icon: Headphones, title: "Hören", ar: "كل المواضيع + ترجمة وتبرير الإجابات", highlight: true },
+  { icon: Headphones, title: "Hören", ar: "مواضيع الأجزاء الثلاثة + ترجمة وتلميح لكل إجابة", highlight: true },
   { icon: Puzzle, title: "Sprachbausteine", ar: "كل المواضيع + شرح القاعدة لكل فراغ", highlight: true },
   { icon: PenLine, title: "Schreiben", ar: "تمارين Beschwerde و Bitte" },
   { icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بالذكاء الاصطناعي بمعايير TELC B2، ولكل اشتراك 30 تصحيحاً", highlight: true },

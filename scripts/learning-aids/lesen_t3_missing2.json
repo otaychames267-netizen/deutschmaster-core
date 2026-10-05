@@ -1,0 +1,343 @@
+{
+ "bbb3c332-fec8-42ea-973e-8fe99f6903c0": {
+  "translation": {
+   "questions": {
+    "11": "تهتم ابنتك بقضاء سنة تبادل في مدرسة في الخارج.",
+    "12": "يفكر ابنك في القيام بتدريب مهني ليصبح نجاراً بعد المدرسة.",
+    "13": "شقتك في العلية باردة جداً في الشتاء وتريد توفير الطاقة.",
+    "14": "تريد الحصول على وجبات جاهزة وعدم الطبخ بنفسك.",
+    "15": "تريد صديقتك تحديث مطبخها وتبحث عن مساعدة مهنية.",
+    "16": "تريد أن تُوصَّل إليك الفاكهة والخضروات الطازجة إلى المنزل بانتظام.",
+    "17": "تريد حضور دورة لغة من أجل التقدم في عملك.",
+    "18": "ليس لديك وقت للتنظيف وتحتاج إلى مساعدة تنظيف منتظمة.",
+    "19": "يحتاج أحد معارفك بشكل عاجل إلى دعم في عملية انتقال.",
+    "20": "تبحث لطفلك في المرحلة الابتدائية عن رعاية مفيدة بعد الظهر.",
+    "A": "يخطط فريقنا ذو الخبرة معك تصوراً مفصّلاً على مقاسك لغرفك - من الأرضيات الحديثة والأبواب عالية الجودة وحتى حلول الإضاءة المبتكرة. نهتم بأعمال الدهان وتجديد الحمامات والتمديدات الكهربائية والتركيبات المصنوعة حسب الطلب. كل شيء من مصدر واحد: تخطيط ثلاثي الأبعاد، وفك احترافي، وتوريد موثوق، وتركيب دقيق. سواء تغييرات صغيرة أو تجديد كامل - نقدّم عروضاً شفافة وجداول زمنية ملزمة وضمان خمس سنوات.",
+    "B": "ارتح أكثر ببساطة: أجهزتنا المدمجة بخرطوم تصريف الهواء لا تحتاج سوى مقبس كهربائي واحد، وتوفر مناخاً مريحاً في الغرفة بشكل موثوق. وخاصة في شقق العلية أو المكاتب تحت السقف حيث يركد الهواء بسرعة، تجلب راحة ملموسة - محيط منعش دائم وهواء بارد لطيف. وعندما يصبح الجو أبرد مع اقتراب الشتاء، يمكن استخدام الأجهزة أيضاً كمدفأة. استشارة شخصية يومياً من 10 إلى 18.",
+    "C": "طبخ طازج بلا عناء التسوق؟ مع KochBoxPlus يصلك أسبوعياً صندوق مليء بالمكونات مع الوصفات إلى المنزل بكل راحة. جميع المواد الغذائية مختارة بعناية، ومقسّمة عملياً، وجاهزة للتحضير مباشرة. يمتد الاختيار من المطبخ العالمي إلى الأطباق الإقليمية الكلاسيكية. الصناديق قابلة للإلغاء بمرونة، وتناسب الأفراد والعائلات على حد سواء.",
+    "D": "هل لا تريد قضاء وقت فراغك في الأعمال المنزلية؟ يأتي مساعدونا المنزليون إليك ويعتنون بأجواء مرتبة. سواء المطبخ أو الحمام أو غرفة المعيشة: يعمل متخصصونا بعناية وثقة ووفق معايير النظافة الحالية. أنت تقرر بنفسك كم مرة وفي أي أوقات يعمل موظفونا. وعند الرغبة نتولى أيضاً مهام إضافية مثل الكي أو التسوق.",
+    "E": "شاحناتنا الصغيرة هي الحل الأمثل لكل من يريد أن يبقى مرناً: أسعار يومية مناسبة تشمل 200 كيلومتر مجاناً، وقضبان تثبيت عملية لنقل آمن، واختيارياً عربة يد وبطانيات ومواد تغليف. وخاصة للانتقالات داخل المدينة أو المخطط لها في وقت قصير، فإن المركبات الرشيقة مناسبة جداً. رخصة قيادة فئة B.",
+    "F": "هل تريد الاستعداد للدراسة أو للإقامة في الخارج أو ببساطة التواصل بشكل أفضل بلغة أجنبية؟ لدى Dialog ستجد دورات مكثفة في لغات أجنبية كثيرة. مجموعات صغيرة وأوقات مرنة ومحتوى عملي يضمن نجاحاً سريعاً في التعلم. كما نقدّم بشكل فردي تدريبات للأغراض المهنية - في الموقع أو عبر الإنترنت.",
+    "G": "هل أنت على وشك إنهاء المدرسة وتهتم بالتدريب المهني (Lehre)؟ يقدم مركز المعلومات المهنية لدينا ورش عمل مشوقة في تقنيات الخشب والمعادن والبناء والكهرباء. هنا يمكنك تجربة مهام بنفسك والتعرف على أدوات حديثة والحصول على لمحات عن مجالات عمل مختلفة. ستلتقي بمتدرّبين وتطرح الأسئلة وتبني علاقات مع الشركات. كما ستعرف كل شيء عن المسارات المهنية وإمكانيات الدخل وفرص التأهيل المتقدم.",
+    "H": "نظرة على ثقافة أخرى، وعلاقات جديدة، وأول ممارسة للغة في بلد اللغة المستهدفة - كل ذلك يقدمه برنامج التبادل الطلابي لدينا. يمكن للشباب استغلال عطلتهم الصيفية والإقامة حتى بداية العام الدراسي الجديد لدى أسر مضيفة مختارة بعناية. يحضرون مع أقرانهم برنامجاً للغة والترفيه. الوجهات المتاحة في أوروبا والولايات المتحدة وكندا.",
+    "I": "يقضي الأطفال الوقت بعد انتهاء الدروس في أجواء مريحة. وبعد وجبة صحية ينشغلون في مجموعات صغيرة بواجباتهم المنزلية بدعم من مختصين تربويين. بعد ذلك مشاريع إبداعية ورياضة وألعاب وطبخ جماعي أو وقت للقراءة والاسترخاء. مواعيد استلام مرنة وخصم للإخوة وتخفيض بقسيمة تعليمية ممكن.",
+    "J": "لا مزيد من البرد في بيتك: أنظمتنا الحديثة تمنح دفئاً لطيفاً حتى عندما يسود برد شديد في الخارج. بفضل التقنية المبتكرة تُستغل الطاقة المتوفرة على أفضل وجه، بحيث يمكنكم خفض تكاليف التدفئة بشكل ملحوظ. وخاصة للشقق التي تبرد بسرعة في الفصل البارد نقدم حلولاً مفصّلة على المقاس. تعمل الأجهزة بهدوء واستدامة وموثوقية.",
+    "K": "هل تريد قضاء وقت أقل عند الموقد لكنك تريد مع ذلك طعاماً متنوعاً؟ تتوفر يومياً وجبات جاهزة التحضير. من الشوربات الخفيفة والسلطات المقرمشة إلى الأطباق الرئيسية الدسمة - يُعاد تنسيق الاختيار أسبوعياً. كل شيء يأتي طازجاً من المطبخ ويُسلَّم في عبوات مستدامة.",
+    "L": "في HausErnte كل شيء يدور حول الفواكه والخضروات الطازجة مباشرة من حقول منطقتنا. في أكشاكنا يمكنك التسوق بعفوية أو الحجز المسبق لسلال ثابتة تكون جاهزة أسبوعياً. وهكذا تحصل على تشكيلة ثابتة من المنتجات الصحية. الأكثر شعبية الأطعمة الموسمية مثل التوت والهليون والقرع. وعند الرغبة، يمكن التوصيل المنتظم إلى باب المنزل."
+   }
+  },
+  "items": {
+   "12": {
+    "keyword": "Unser Berufsinformationszentrum bietet spannende Workshops in Holz-, Metall-, Bau- und Elektrotechnik.",
+    "keywords": [
+     "Ausbildung",
+     "Schreiner",
+     "Holz"
+    ],
+    "paraphrase": [
+     {
+      "text": "Unser Berufsinformationszentrum bietet spannende Workshops in Holz-, Metall-, Bau- und Elektrotechnik.",
+      "question": "Ihr Sohn überlegt, nach der Schule eine Ausbildung zum Schreiner zu machen."
+     }
+    ],
+    "evidence_text": "Unser Berufsinformationszentrum bietet spannende Workshops in Holz-, Metall-, Bau- und Elektrotechnik.",
+    "explanation_correct": "الإعلان (G) موجّه لمن يوشك على إنهاء المدرسة ويهتم بتعلّم مهنة (Lehre)، ويقدّم ورش عمل في تقنيات الخشب - أي تمهيد لمهنة النجارة (Schreiner) - فيطابق وضع الابن.",
+    "evidence_translation": "يقدّم مركزنا للمعلومات المهنية ورش عمل مشوّقة في تقنيات الخشب والمعادن والبناء والكهرباء."
+   },
+   "13": {
+    "keyword": "Dank innovativer Technik wird die vorhandene Energie optimal genutzt, sodass Sie Heizkosten deutlich senken können.",
+    "keywords": [
+     "Dachwohnung",
+     "kalt",
+     "Energie sparen"
+    ],
+    "paraphrase": [
+     {
+      "text": "Dank innovativer Technik wird die vorhandene Energie optimal genutzt, sodass Sie Heizkosten deutlich senken können.",
+      "question": "Ihre Dachwohnung ist im Winter sehr kalt und Sie wollen Energie sparen."
+     }
+    ],
+    "evidence_text": "Dank innovativer Technik wird die vorhandene Energie optimal genutzt, sodass Sie Heizkosten deutlich senken können.",
+    "explanation_correct": "الإعلان (J) يعد بدفء حتى في البرد القارس وبخفض واضح لتكاليف التدفئة، خاصة للشقق التي تبرد بسرعة - يطابق شقة العلية الباردة وتوفير الطاقة. أما الإعلان (B) فرغم ذكره شقق العلية فهو لأجهزة تبريد تُستخدم كمدفأة «بشكل إضافي» فقط.",
+    "evidence_translation": "بفضل التقنية المبتكرة تُستغل الطاقة المتوفرة على أفضل وجه، بحيث يمكنكم خفض تكاليف التدفئة بشكل ملحوظ."
+   },
+   "14": {
+    "keyword": "Täglich stehen fertig zubereitete Mahlzeiten zur Verfügung.",
+    "keywords": [
+     "fertige Mahlzeiten",
+     "nicht selbst kochen"
+    ],
+    "paraphrase": [
+     {
+      "text": "Täglich stehen fertig zubereitete Mahlzeiten zur Verfügung.",
+      "question": "Sie möchten fertige Mahlzeiten bekommen und nicht selbst kochen."
+     }
+    ],
+    "evidence_text": "Täglich stehen fertig zubereitete Mahlzeiten zur Verfügung.",
+    "explanation_correct": "الإعلان (K) يقدّم وجبات جاهزة محضّرة يومياً، أي دون طبخ. أما (C) فيوصل مكوّنات ووصفات لتطبخها بنفسك.",
+    "evidence_translation": "تتوفر يومياً وجبات جاهزة التحضير."
+   },
+   "15": {
+    "keyword": "Unser erfahrenes Team plant mit Ihnen ein maßgeschneidertes Konzept für Ihre Räume",
+    "keywords": [
+     "Küche",
+     "modernisieren",
+     "professionelle Hilfe"
+    ],
+    "paraphrase": [
+     {
+      "text": "Unser erfahrenes Team plant mit Ihnen ein maßgeschneidertes Konzept für Ihre Räume",
+      "question": "Ihre Freundin möchte ihre Küche modernisieren und sucht professionelle Hilfe."
+     }
+    ],
+    "evidence_text": "Unser erfahrenes Team plant mit Ihnen ein maßgeschneidertes Konzept für Ihre Räume",
+    "explanation_correct": "الإعلان (A) يقدّم فريقاً خبيراً يخطّط معك تصوراً مفصّلاً لغرفك مع أعمال التجديد والتركيبات الخاصة، أي مساعدة احترافية في تحديث المطبخ.",
+    "evidence_translation": "فريقنا الخبير يخطط معكم تصوراً مفصّلاً على مقاسكم لغرفكم"
+   },
+   "16": {
+    "keyword": "Auf Wunsch ist eine regelmäßige Lieferung frei Haus möglich.",
+    "keywords": [
+     "regelmäßig",
+     "Obst und Gemüse",
+     "zugestellt"
+    ],
+    "paraphrase": [
+     {
+      "text": "Auf Wunsch ist eine regelmäßige Lieferung frei Haus möglich.",
+      "question": "Sie möchten regelmäßig frisches Obst und Gemüse nach Hause zugestellt bekommen."
+     }
+    ],
+    "evidence_text": "Auf Wunsch ist eine regelmäßige Lieferung frei Haus möglich.",
+    "explanation_correct": "الإعلان (L) عن فواكه وخضروات طازجة من حقول المنطقة، مع إمكانية توصيل منتظم إلى المنزل عند الطلب - يطابق الوضع. أما (C) فيوصل مكوّنات طبخ لا فواكه وخضروات فقط.",
+    "evidence_translation": "عند الرغبة، يمكن التوصيل المنتظم إلى باب المنزل."
+   },
+   "17": {
+    "keyword": "Individuell bieten wir zudem Trainings für berufliche Zwecke an",
+    "keywords": [
+     "Sprachkurs",
+     "Job",
+     "voranzukommen"
+    ],
+    "paraphrase": [
+     {
+      "text": "Individuell bieten wir zudem Trainings für berufliche Zwecke an",
+      "question": "Sie möchten einen Sprachkurs besuchen, um im Job voranzukommen."
+     }
+    ],
+    "evidence_text": "Individuell bieten wir zudem Trainings für berufliche Zwecke an",
+    "explanation_correct": "الإعلان (F) يقدّم دورات لغات أجنبية مكثفة، إضافة إلى تدريبات فردية للأغراض المهنية - يطابق من يريد دورة لغة للتقدم في عمله.",
+    "evidence_translation": "كما نقدم بشكل فردي تدريبات للأغراض المهنية"
+   },
+   "18": {
+    "keyword": "Sie entscheiden selbst, wie oft und zu welchen Zeiten unsere Mitarbeiter eingesetzt werden.",
+    "keywords": [
+     "keine Zeit",
+     "Putzen",
+     "regelmäßige"
+    ],
+    "paraphrase": [
+     {
+      "text": "Sie entscheiden selbst, wie oft und zu welchen Zeiten unsere Mitarbeiter eingesetzt werden.",
+      "question": "Sie haben keine Zeit zum Putzen und brauchen eine regelmäßige Reinigungshilfe."
+     }
+    ],
+    "evidence_text": "Sie entscheiden selbst, wie oft und zu welchen Zeiten unsere Mitarbeiter eingesetzt werden.",
+    "explanation_correct": "الإعلان (D) عن مساعدين منزليين تحدد أنت عدد مرات مجيئهم وأوقاته، أي مساعدة تنظيف منتظمة دون أن يأخذ ذلك من وقتك.",
+    "evidence_translation": "أنتم تقررون بأنفسكم عدد مرات وأوقات عمل موظفينا."
+   },
+   "19": {
+    "keyword": "Besonders bei innerstädtischen oder kurzfristig geplanten Umzügen sind die wendigen Fahrzeuge bestens geeignet.",
+    "keywords": [
+     "kurzfristig",
+     "Unterstützung",
+     "Umzug"
+    ],
+    "paraphrase": [
+     {
+      "text": "Besonders bei innerstädtischen oder kurzfristig geplanten Umzügen sind die wendigen Fahrzeuge bestens geeignet.",
+      "question": "Ihr Bekannter benötigt kurzfristig Unterstützung bei einem Umzug."
+     }
+    ],
+    "evidence_text": "Besonders bei innerstädtischen oder kurzfristig geplanten Umzügen sind die wendigen Fahrzeuge bestens geeignet.",
+    "explanation_correct": "الإعلان (E) عن سيارات نقل صغيرة مناسبة خصوصاً للانتقال المخطَّط له في وقت قصير داخل المدينة - يطابق من يحتاج دعماً عاجلاً في نقل أثاثه.",
+    "evidence_translation": "السيارات الرشيقة مناسبة جداً خصوصاً للانتقالات داخل المدينة أو المخطَّط لها في وقت قصير."
+   },
+   "20": {
+    "keyword": "Kinder verbringen die Zeit nach dem Unterricht in einer angenehmen Atmosphäre.",
+    "keywords": [
+     "Grundschulkind",
+     "Betreuung",
+     "Nachmittag"
+    ],
+    "paraphrase": [
+     {
+      "text": "Kinder verbringen die Zeit nach dem Unterricht in einer angenehmen Atmosphäre.",
+      "question": "Sie suchen für Ihr Grundschulkind eine sinnvolle Betreuung am Nachmittag."
+     }
+    ],
+    "evidence_text": "Kinder verbringen die Zeit nach dem Unterricht in einer angenehmen Atmosphäre.",
+    "explanation_correct": "الإعلان (I) عن مركز رعاية (Hort) للأطفال بعد انتهاء الدروس: وجبة صحية وواجبات منزلية بإشراف مختصين وأنشطة - أي رعاية مفيدة بعد الظهر لطفل في المرحلة الابتدائية.",
+    "evidence_translation": "يقضي الأطفال الوقت بعد انتهاء الدروس في أجواء مريحة."
+   }
+  }
+ },
+ "ae65bfa3-a8ce-450f-99c0-a0b2fb34181a": {
+  "translation": {
+   "questions": {
+    "11": "تبحث عن هدية لابن أخيك ذي العشر سنوات المحب للقراءة.",
+    "12": "تريد معرفة المزيد عن تاريخ العصور القديمة.",
+    "13": "تتمنى صديقتك بداية احتفالية للعام الجديد.",
+    "14": "تريد الاطلاع على بحّارين ومستكشفين مشهورين.",
+    "15": "يحتاج أحد معارفك الذي يحب الحركة إلى عمل جانبي.",
+    "16": "تبحث عن أنشطة في الهواء الطلق لأيام الصيف الحارة.",
+    "17": "تجمع رئيستك أفكاراً لنشاط مخصص مع الفريق.",
+    "18": "تريد معارفتك رؤية مباني لمعماريين مشهورين.",
+    "19": "تريد أن تعيش الميناء من منظور جديد.",
+    "20": "يرغب صديقك في زيارة سفن قديمة.",
+    "A": "محاضرة عن حركة الباوهاوس والمواد الوظيفية وأمثلة معروفة مثل الباوهاوس وفيلا سافوا. الاثنين 15.11، الساعة 19، قاعة الفنون (Kunsthalle). الدخول مجاني.",
+    "B": "قراءة للأطفال بحكايات وأساطير من هامبورغ، شتورتيبيكر، ساحرات، عمالقة، شياطين وأميرات.",
+    "C": "القبطان يوهانس أيزن يحكي عن الحياة اليومية على متن السفينة والميناء والبحر والطاقم. 13 فبراير، الساعة 16، سفينة تراثية في ميناء الشحن. الدخول 8 يورو.",
+    "D": "برنامج سنوي من حفل رأس السنة الموسيقي مروراً بمهرجان المدينة وصولاً إلى عرض الليزر الكبير في ليلة رأس السنة في المدينة القديمة التاريخية.",
+    "E": "وظيفة بدوام جزئي في خدمة المعرض لقسم الأطفال؛ إشراف وصيانة ومشاركة في البرامج التربوية.",
+    "F": "التاريخ الثقافي للإغريق والإتروسكان والرومان؛ فن قديم وبورتريهات و«زمن الأبطال». الثلاثاء إلى الأحد 9-18.",
+    "G": "جولة بحرية مدتها ساعة في ميناء هامبورغ مع حكايات ومشروب ساخن. التذاكر عبر الإنترنت أو في الموقع.",
+    "H": "سفن تاريخية وحديثة، بينها سفن شراعية قديمة؛ إطلالة على الماضي البحري.",
+    "I": "جولة من «شتالهوف» التاريخي مروراً بـ«ميدينهافن» وحتى «كو-بوغن» الحديث.",
+    "J": "جولات فردية في المدينة وعلى الدراجات، ورحلات للشركات والدراسة؛ جولات بالإنجليزية أيضاً.",
+    "K": "معرض للرياضات المائية مع الغوص وركوب الأمواج والتجديف الواقف وقوارب الكانو وورش عمل وأنشطة تفاعلية.",
+    "L": "عمل جانبي للأشخاص المتواصلين والموثوقين الذين لديهم معرفة بلغات أجنبية. الأجر بالساعة 15 يورو."
+   }
+  },
+  "items": {
+   "11": {
+    "keyword": "Kinderlesung mit Hamburger Sagen und Legenden",
+    "keywords": [
+     "Geschenk",
+     "zehnjährigen Neffen",
+     "lesebegeisterten"
+    ],
+    "paraphrase": [
+     {
+      "text": "Kinderlesung mit Hamburger Sagen und Legenden",
+      "question": "Sie suchen ein Geschenk für Ihren zehnjährigen lesebegeisterten Neffen."
+     }
+    ],
+    "evidence_text": "Kinderlesung mit Hamburger Sagen und Legenden",
+    "explanation_correct": "الإعلان (B) عن قراءة للأطفال بحكايات وأساطير هامبورغية - مناسب كهدية لابن أخ في العاشرة يحب القراءة.",
+    "evidence_translation": "قراءة للأطفال بحكايات وأساطير من هامبورغ"
+   },
+   "12": {
+    "keyword": "Kulturgeschichte der Griechen, Etrusker und Römer",
+    "keywords": [
+     "Geschichte",
+     "Altertums"
+    ],
+    "paraphrase": [
+     {
+      "text": "Kulturgeschichte der Griechen, Etrusker und Römer",
+      "question": "Sie möchten etwas über die Geschichte des Altertums erfahren."
+     }
+    ],
+    "evidence_text": "Kulturgeschichte der Griechen, Etrusker und Römer",
+    "explanation_correct": "المعرض (F) عن تاريخ حضارات الإغريق والإتروسكان والرومان وفنون العصور القديمة (Antike) - يطابق الرغبة في معرفة تاريخ العصور القديمة.",
+    "evidence_translation": "التاريخ الثقافي للإغريق والإتروسكان والرومان"
+   },
+   "13": {
+    "keyword": "Jahresprogramm vom Neujahrskonzert über ein Stadtfest bis zur großen Silvester-Lasershow in der historischen Altstadt.",
+    "keywords": [
+     "festlichen Start",
+     "neue Jahr"
+    ],
+    "paraphrase": [
+     {
+      "text": "Jahresprogramm vom Neujahrskonzert über ein Stadtfest bis zur großen Silvester-Lasershow in der historischen Altstadt.",
+      "question": "Ihre Freundin wünscht sich einen festlichen Start ins neue Jahr."
+     }
+    ],
+    "evidence_text": "Jahresprogramm vom Neujahrskonzert über ein Stadtfest bis zur großen Silvester-Lasershow in der historischen Altstadt.",
+    "explanation_correct": "الإعلان (D) برنامج سنوي يبدأ بحفل رأس السنة الموسيقي ويشمل مهرجاناً ويختتم بعرض ليزر ليلة رأس السنة - يناسب من تتمنى بداية احتفالية للعام الجديد.",
+    "evidence_translation": "برنامج سنوي من حفل رأس السنة الموسيقي مروراً بمهرجان المدينة وصولاً إلى عرض الليزر الكبير في ليلة رأس السنة في المدينة القديمة التاريخية."
+   },
+   "15": {
+    "keyword": "Nebenjob für kommunikative, zuverlässige Menschen mit Fremdsprachenkenntnissen.",
+    "keywords": [
+     "bewegungsfreudiger",
+     "Nebenjob"
+    ],
+    "paraphrase": [
+     {
+      "text": "Nebenjob für kommunikative, zuverlässige Menschen mit Fremdsprachenkenntnissen.",
+      "question": "Ihr bewegungsfreudiger Bekannter braucht einen Nebenjob."
+     }
+    ],
+    "evidence_text": "Nebenjob für kommunikative, zuverlässige Menschen mit Fremdsprachenkenntnissen.",
+    "explanation_correct": "الإعلان (L) عن وظيفة جانبية (Nebenjob) كمرشد سياحي في هامبورغ بأجر 15 يورو للساعة، وإرشاد الجولات يقوم على التجوّل والحركة فيناسب شخصاً نشيطاً يحبها. أما (E) فعمل إشراف وصيانة في قسم الأطفال، و(J) عرض جولات لا وظيفة.",
+    "evidence_translation": "عمل جانبي للأشخاص المتواصلين والموثوقين الذين لديهم معرفة بلغات أجنبية."
+   },
+   "17": {
+    "keyword": "Individuelle Stadt- und Fahrradtouren, Betriebs- und Studienausflüge",
+    "keywords": [
+     "maßgeschneiderte Unternehmung",
+     "Team"
+    ],
+    "paraphrase": [
+     {
+      "text": "Individuelle Stadt- und Fahrradtouren, Betriebs- und Studienausflüge",
+      "question": "Ihre Chefin sammelt Ideen für eine maßgeschneiderte Unternehmung mit dem Team."
+     }
+    ],
+    "evidence_text": "Individuelle Stadt- und Fahrradtouren, Betriebs- und Studienausflüge",
+    "explanation_correct": "الإعلان (J) عن مرشدة سياحية في روستوك تقدّم جولات فردية في المدينة وعلى الدراجات ورحلات للشركات - يناسب مديرة تجمع أفكاراً لنشاط مخصص مع الفريق.",
+    "evidence_translation": "جولات فردية في المدينة وعلى الدراجات، ورحلات للشركات والدراسة"
+   },
+   "18": {
+    "keyword": "Führung vom historischen Stahlhof über den Medienhafen bis zum modernen Kö-Bogen.",
+    "keywords": [
+     "Gebäude",
+     "berühmter Architekten"
+    ],
+    "paraphrase": [
+     {
+      "text": "Führung vom historischen Stahlhof über den Medienhafen bis zum modernen Kö-Bogen.",
+      "question": "Ihre Bekannte möchte Gebäude berühmter Architekten sehen."
+     }
+    ],
+    "evidence_text": "Führung vom historischen Stahlhof über den Medienhafen bis zum modernen Kö-Bogen.",
+    "explanation_correct": "الإعلان (I) جولة تمر على «شتالهوف» التاريخي و«ميدينهافن» و«كو-بوغن» الحديث، أي مبانٍ معمارية شهيرة - يطابق من تريد رؤية مبانٍ لمعماريين مشهورين. أما (A) فمحاضرة عن الباوهاوس لا جولة لرؤية المباني.",
+    "evidence_translation": "جولة من «شتالهوف» التاريخي مروراً بـ«ميدينهافن» وحتى «كو-بوغن» الحديث."
+   },
+   "19": {
+    "keyword": "Einstündige Rundfahrt durch den Hamburger Hafen mit Geschichten und Heißgetränk.",
+    "keywords": [
+     "Hafen",
+     "neuen Perspektive"
+    ],
+    "paraphrase": [
+     {
+      "text": "Einstündige Rundfahrt durch den Hamburger Hafen mit Geschichten und Heißgetränk.",
+      "question": "Sie möchten den Hafen aus einer neuen Perspektive erleben."
+     }
+    ],
+    "evidence_text": "Einstündige Rundfahrt durch den Hamburger Hafen mit Geschichten und Heißgetränk.",
+    "explanation_correct": "الإعلان (G) جولة بحرية مدتها ساعة في ميناء هامبورغ مع قصص ومشروب ساخن - فرصة لرؤية الميناء من منظور جديد (من الماء).",
+    "evidence_translation": "جولة بحرية مدتها ساعة في ميناء هامبورغ مع حكايات ومشروب ساخن."
+   },
+   "20": {
+    "keyword": "Historische und moderne Schiffe, darunter alte Segelschiffe; Einblick in die maritime Vergangenheit.",
+    "keywords": [
+     "alte Schiffe",
+     "besichtigen"
+    ],
+    "paraphrase": [
+     {
+      "text": "Historische und moderne Schiffe, darunter alte Segelschiffe; Einblick in die maritime Vergangenheit.",
+      "question": "Ihr Freund möchte gern alte Schiffe besichtigen."
+     }
+    ],
+    "evidence_text": "Historische und moderne Schiffe, darunter alte Segelschiffe; Einblick in die maritime Vergangenheit.",
+    "explanation_correct": "الإعلان (H) يعرض سفناً تاريخية وحديثة منها سفن شراعية قديمة في ميناء المتحف - يطابق من يريد زيارة سفن قديمة. أما (C) فمحاضرة عن الحياة على سفن الشحن.",
+    "evidence_translation": "سفن تاريخية وحديثة، بينها سفن شراعية قديمة؛ إطلالة على الماضي البحري."
+   }
+  }
+ }
+}
