@@ -64,9 +64,11 @@ function TermsPage() {
           <h2>4. Payment Methods</h2>
           <p>We currently support the following payment methods; not all methods may be available in every country:</p>
           <ul>
-            <li><strong>D17 Mobile Transfer</strong> — available to students in Tunisia. You submit a payment confirmation screenshot, which our team (assisted by automated review tooling) verifies before activating your subscription — usually within moments, and within 8 working hours if manual review is required.</li>
-            <li><strong>Lemon Squeezy (card payments)</strong> — international card payments processed by Lemon Squeezy, a merchant of record for digital subscriptions. This method is being activated; where shown as "pending" or "coming soon" in the app, it is not yet available for real purchases.</li>
+            <li><strong>D17 Mobile Transfer</strong> — available to students in Tunisia.</li>
+            <li><strong>Virement Postal</strong> — transfer to our La Poste Tunisienne account.</li>
+            <li><strong>Virement Bancaire</strong> — bank transfer to our bank account (RIB).</li>
           </ul>
+          <p>For every method you send us your payment receipt, which our team verifies before activating your subscription — usually within moments, and within 8 working hours if manual review is required.</p>
           <p>We do not store your full card number or D17 PIN on our servers. See our <Link to="/privacy">Privacy Policy</Link> for details on payment-related data we do process.</p>
 
           <h2>5. Cancellation</h2>

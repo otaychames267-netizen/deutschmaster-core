@@ -38,11 +38,10 @@ function PrivacyPage() {
           <p><strong>Usage &amp; learning data</strong> — exercises you complete, answers you submit,
           scores, study streaks, XP/achievements, and essays or spoken responses you submit for AI-assisted
           feedback.</p>
-          <p><strong>Payment-related data</strong> — for D17 Mobile Transfer, the payment confirmation
-          screenshot(s) you upload and metadata we derive from them (amount, reference, timestamp) to
-          verify your payment; for Lemon Squeezy card payments, only high-level order and subscription
-          metadata (plan, status, renewal date) — your full card number is entered directly into Lemon
-          Squeezy's payment page and never reaches our servers.</p>
+          <p><strong>Payment-related data</strong> — for D17 Mobile Transfer, Virement Postal and Virement
+          Bancaire, the payment receipt or confirmation you send us (for example a screenshot) and the
+          details shown on it (amount, reference, timestamp), used only to verify your payment. We never
+          receive your D17 PIN, card number or banking passwords.</p>
           <p><strong>Device &amp; security data</strong> — IP address, a device fingerprint, and basic
           device/browser information, used to secure accounts and to detect fraudulent or duplicate
           payment attempts.</p>
@@ -72,7 +71,6 @@ function PrivacyPage() {
           <ul>
             <li><strong>Supabase</strong> — our database, authentication, and file-storage provider (EU-hosted infrastructure), which stores your account, learning, and payment-metadata records;</li>
             <li><strong>Anthropic (Claude) and Google (Gemini)</strong> — AI providers used to grade written essays and, where enabled, evaluate spoken exam responses. Only the specific submission being graded is sent, solely to generate your feedback;</li>
-            <li><strong>Lemon Squeezy</strong> — our card-payment processor and merchant of record, once card payments are active; they receive the billing details needed to process your payment directly;</li>
             <li><strong>Email and Telegram</strong> — used to deliver account, payment, and support notifications you trigger or that relate to your account; and</li>
             <li>Law enforcement or regulators, where we are legally required to disclose information.</li>
           </ul>

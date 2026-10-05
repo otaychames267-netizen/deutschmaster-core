@@ -159,7 +159,7 @@ function AdminMuendlichCreditsPage() {
           </div>
           <h1 className="text-xl font-black tracking-tight text-foreground">Mündlich Minutes</h1>
         </div>
-        <p className="text-sm text-muted-foreground ml-12">Grant students Room 2 (AI oral exam) minutes. Manual top-up, or force-activate a subscription if a Lemon Squeezy webhook needs reconciliation.</p>
+        <p className="text-sm text-muted-foreground ml-12">Grant students Room 2 (AI oral exam) minutes. Manual top-up, or force-activate a subscription if a payment needs manual reconciliation.</p>
       </div>
 
       {/* Stats */}
@@ -272,14 +272,14 @@ function AdminMuendlichCreditsPage() {
               </div>
             </div>
 
-            {/* Force-provision (hard-reset, mirrors what the Lemon Squeezy webhook does) */}
+            {/* Force-provision (hard-reset, mirrors what a normal activation does) */}
             <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
               <div className="flex items-center gap-2 mb-2">
                 <ShieldAlert className="h-4 w-4 text-amber-500" />
                 <p className="text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400">Force-provision from subscription</p>
               </div>
               <p className="text-xs text-muted-foreground mb-3">
-                Use only if a Lemon Squeezy webhook failed or needs manual reconciliation. Activates the subscription and hard-resets the
+                Use only if an activation failed or needs manual reconciliation. Activates the subscription and hard-resets the
                 wallet(s) to the plan's full per-cycle amount (300 min / 30 essay credits) — this OVERWRITES the current balance, it does not add to it.
               </p>
               <div className="flex flex-wrap items-center gap-2">

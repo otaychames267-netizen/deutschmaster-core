@@ -121,7 +121,11 @@ export async function createCheckoutSessionImpl(userId: string, planCode: PlanCo
     // sellable (Komplett and Mündlich both grant speaking access). Mirrors the
     // identical guard in src/lib/d17/orders.functions.ts so neither payment
     // path can open a Mündlich/Komplett order regardless of how it's called.
-    const { isPlanPurchasable } = await import("@/lib/features");
+    const { isPlanPurchasable, CARD_PAYMENTS_ENABLED } = await import("@/lib/features");
+    if (!CARD_PAYMENTS_ENABLED) {
+      // Card checkout is switched off for everyone, admins included (no mock checkout either).
+      throw new Error("Card payments are not available. Please pay with D17 Mobile Transfer, Virement Postal or Virement Bancaire.");
+    }
     if (!isPlanPurchasable(planCode)) {
       throw new Error("This plan is not available yet. Only the Schriftlich plan can be purchased at this time.");
     }

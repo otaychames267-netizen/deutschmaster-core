@@ -9,7 +9,7 @@ export const Route = createFileRoute("/refund")({
   head: () => ({
     meta: [
       { title: "Refund Policy — AuraLingovia" },
-      { name: "description", content: "AuraLingovia's refund policy — eligibility window, how to request a refund, and processing times for D17 and Lemon Squeezy payments." },
+      { name: "description", content: "AuraLingovia's refund policy — eligibility window, how to request a refund, and processing times for D17, Virement Postal and Virement Bancaire payments." },
     ],
   }),
   component: RefundPage,
@@ -28,8 +28,8 @@ function RefundPage() {
         <div className="prose prose-sm dark:prose-invert max-w-none prose-headings:font-bold prose-headings:tracking-tight prose-h2:text-xl prose-h2:mt-10 prose-h2:mb-3 prose-p:leading-relaxed prose-li:leading-relaxed">
           <p>
             We want you to be confident subscribing to AuraLingovia. This policy explains when you're
-            eligible for a refund, how to request one, and how long it takes — for both of our payment
-            methods, D17 Mobile Transfer and Lemon Squeezy.
+            eligible for a refund, how to request one, and how long it takes — for all of our payment
+            methods: D17 Mobile Transfer, Virement Postal and Virement Bancaire.
           </p>
 
           <h2>1. Eligibility Window</h2>
@@ -52,10 +52,9 @@ function RefundPage() {
 
           <h2>3. How Refunds Are Issued</h2>
           <ul>
-            <li><strong>D17 Mobile Transfer</strong> — since D17 payments are manual mobile transfers, refunds are processed manually by our team back to the mobile number or account you paid from. This typically takes a few business days.</li>
-            <li><strong>Lemon Squeezy (card payments)</strong> — refunds are issued to your original card via Lemon Squeezy. Processing time depends on your card issuer, typically 5–10 business days to appear on your statement.</li>
+            <li><strong>D17 Mobile Transfer, Virement Postal and Virement Bancaire</strong> — these are manual transfers, so refunds are processed manually by our team back to the mobile number or account you paid from. This typically takes a few business days.</li>
           </ul>
-          <p>In both cases, once we approve a refund your subscription access ends immediately, and no further renewal charges will occur.</p>
+          <p>Once we approve a refund your subscription access ends immediately, and no further renewal charges will occur.</p>
 
           <h2>4. Cancellation vs. Refund</h2>
           <p>
