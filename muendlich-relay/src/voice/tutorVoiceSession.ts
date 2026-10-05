@@ -26,6 +26,9 @@
  * mid-connection.
  */
 import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
+import { openGroqStt } from "./groqStt.js";
+import { openFailoverStt } from "./failoverStt.js";
+import { SpeechDetector } from "../speechActivity.js";
 import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
 import { generateTutorReply, type TutorContext, type TutorHistoryTurn, type TutorTrigger } from "./tutorBrain.js";
 import { ExaminerBrainError } from "./examinerBrain.js";
@@ -50,7 +53,10 @@ export interface TutorVoiceCallbacks {
 
 export interface TutorVoiceSession {
   sendAudioChunk(base64: string): void;
-  sendSystemMessage(text: string): void;
+  /** Resolves when the triggered reply has been fully SENT (not played — see playbackRemainingMs). */
+  sendSystemMessage(text: string): Promise<void>;
+  /** Milliseconds until everything sent so far has finished PLAYING on the client. */
+  playbackRemainingMs(): number;
   speakScriptedText(text: string): Promise<void>;
   /** Advances the session's stage (and, for stage 2, sets the shared topic)
    * — server.ts calls this exactly once, when Teil 1 completes and Teil 2
@@ -133,6 +139,25 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
   let ttsCharacters = 0;
   let sttBytes = 0;
+  let sttFallbackBytes = 0; // subset of sttBytes that went to the ElevenLabs fallback after a Groq failover
+
+  // When the audio sent so far will have finished PLAYING on the client. The relay sends audio far faster than real
+  // time and the browser queues it gaplessly, so "I finished sending" is NOT "the tutor finished speaking" — every
+  // student-facing clock (90s presentation, 40s answer windows) must start from here (found with the exam room's
+  // full-length test; the tutor had the identical bug). Also used to keep the tutor's own voice out of STT.
+  let playbackEndsAt = 0;
+  const PLAYBACK_BYTES_PER_SECOND = 24_000 * 2; // pcm16 mono @ 24kHz
+  function emitAudio(b64: string) {
+    const seconds = Buffer.byteLength(b64, "base64") / PLAYBACK_BYTES_PER_SECOND;
+    playbackEndsAt = Math.max(playbackEndsAt, Date.now()) + seconds * 1000;
+    callbacks.onAudioChunk?.(b64);
+  }
+  // One adaptive speech detector for the student's mic (speechActivity.ts) — the SAME one the exam room uses: forwards
+  // speech plus a short hangover to STT, drops long silence (was: ALL audio, ~$0.39/h of Scribe for silence too).
+  const sttGate = new SpeechDetector();
+  const STT_HANGOVER_MS = 1_500;
+  let sttLastActiveAt = 0;
+  const FLUSH_WAIT_CAP_MS = 8_000;
   let claudeInputTokens = 0, claudeOutputTokens = 0, claudeCacheCreationInputTokens = 0, claudeCacheReadInputTokens = 0;
   const STT_SAMPLE_RATE = 16_000, STT_BYTES_PER_SAMPLE = 2;
 
@@ -175,7 +200,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
-        onAudioChunk: (b64) => { if (myId === currentGenerationId) callbacks.onAudioChunk?.(b64); },
+        onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[tutor voice] TTS error for session ${sessionId}:`, message);
           try {
@@ -319,7 +344,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startStreamingSynthesis(conn, {
-        onAudioChunk: (b64) => { if (myId === currentGenerationId) callbacks.onAudioChunk?.(b64); },
+        onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[tutor voice] TTS error (scripted) for session ${sessionId}:`, message);
           try {
@@ -383,7 +408,10 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       onError: (msg: string) => console.error(`[tutor voice] STT error (session ${sessionId}):`, msg),
       onClose: () => console.warn(`[tutor voice] STT connection closed (session ${sessionId}) — organic input transcripts disabled for the rest of the session`),
     };
-    stt = await openRealtimeStt(sttCallbacks);
+    // Groq-hosted Whisper (~10x cheaper) with automatic failover to ElevenLabs Scribe, same as the exam room.
+    stt = process.env.MUENDLICH_STT_BACKEND === "groq"
+      ? await openFailoverStt(openGroqStt, openRealtimeStt, sttCallbacks, `tutor session ${sessionId}`)
+      : await openRealtimeStt(sttCallbacks);
   } catch (e) {
     console.error(`[tutor voice] failed to open STT for session ${sessionId}:`, e);
   }
@@ -392,12 +420,26 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
   return {
     sendAudioChunk(base64) {
+      const now = Date.now();
+      if (now < playbackEndsAt + 500) return; // the tutor is (still) audibly speaking — never feed its own voice back into STT
+      const speech = sttGate.isSpeech(base64, now);
+      if (speech) sttLastActiveAt = now;
+      else if (now - sttLastActiveAt >= STT_HANGOVER_MS) return; // genuine silence beyond the hangover
       const bytes = Buffer.byteLength(base64, "base64");
       sttBytes += bytes;
+      if (stt && "failedOver" in stt && (stt as { failedOver: boolean }).failedOver) sttFallbackBytes += bytes;
       stt?.sendPcm16(base64);
     },
     sendSystemMessage(text) {
-      void speak({ type: "system", text: `[SYSTEM] ${text}` });
+      // Utterance-buffering STT (Groq) holds the student's last words un-transcribed for up to a pause: flush first
+      // (capped) so the reply is grounded on what was JUST said, then speak. Resolves when the reply has been sent.
+      const sendIt = (): Promise<void> => speak({ type: "system", text: `[SYSTEM] ${text}` }).catch(() => {});
+      const flushing = stt?.flush?.();
+      if (!flushing) return sendIt();
+      return Promise.race([flushing.catch(() => {}), new Promise<void>((r) => setTimeout(r, FLUSH_WAIT_CAP_MS))]).then(sendIt);
+    },
+    playbackRemainingMs() {
+      return Math.max(0, playbackEndsAt - Date.now());
     },
     speakScriptedText(text) {
       return speakScriptedText(text);
@@ -420,8 +462,16 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     },
     getUsage() {
       const sttMinutes = sttBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;
+      const usingGroq = process.env.MUENDLICH_STT_BACKEND === "groq";
+      const fallbackMinutes = sttFallbackBytes / STT_BYTES_PER_SAMPLE / STT_SAMPLE_RATE / 60;
+      const billing = stt?.billing?.() ?? null;
       return {
-        ttsCharacters, sttMinutes,
+        ttsCharacters,
+        // Groq path: ElevenLabs STT minutes are only what failed over; Groq is billed per request (>= 10s each).
+        sttMinutes: usingGroq ? fallbackMinutes : sttMinutes,
+        groqSttMinutes: usingGroq ? (billing ? billing.billedSeconds / 60 : sttMinutes - fallbackMinutes) : 0,
+        groqRequests: billing?.requests,
+        forwardedSttMinutes: sttMinutes,
         claudeInputTokens, claudeOutputTokens, claudeCacheCreationInputTokens, claudeCacheReadInputTokens,
       } as ExamUsage;
     },

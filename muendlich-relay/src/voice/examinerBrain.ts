@@ -226,7 +226,7 @@ export async function generateExaminerReply(
   throw new ExaminerBrainError("unreachable", false);
 }
 
-const RETRY_NOTE = "\n(Hinweis: Ihre vorige Antwort war unzulässig — sie war nicht auf Deutsch, hat die Kandidaten geduzt oder war ein Kommentar über Ihre Anweisungen. Sprechen Sie jetzt NUR als Prüferin, ausschließlich auf Deutsch, und siezen Sie die Kandidaten: „Sie\", niemals „ihr\" oder „du\".)";
+export const RETRY_NOTE = "\n(Hinweis: Ihre vorige Antwort war unzulässig — sie war nicht auf Deutsch, hat die Kandidaten geduzt oder war ein Kommentar über Ihre Anweisungen. Sprechen Sie jetzt NUR als Prüferin, ausschließlich auf Deutsch, und siezen Sie die Kandidaten: „Sie\", niemals „ihr\" oder „du\".)";
 
 // Function-word tallies — deliberately tiny and conservative. "in", "an",
 // "was" (German "what" / English "was") and other cross-language words are
@@ -255,15 +255,16 @@ const INFORMAL_IHR = /\bihr\b/; // case-sensitive: lowercase = "you (plural)" or
 // von Teil 3, um einen noch offenen Planungspunkt zu identifizieren …"). An
 // examiner never talks about transcripts, system signals or instructions.
 const META_RE = /\b(Gesprächsverlauf|Systemnachricht|Systemsignal|Anweisung(?:en)?|teilen Sie mir mit|damit ich (?:eine|die|den|das|einen)|sollen wir|sollten wir)\b|\bIch (?:warte|bin bereit|sehe keinen|habe keinen|kann (?:noch )?keine)\b|\[SYSTEM\]/i;
-export function looksMeta(text: string): boolean {
-  return META_RE.test(text);
+export function looksMeta(text: string, opts?: { allowWe?: boolean }): boolean {
+  // A study PARTNER (1:1 tutor, Teil 3) legitimately says "sollen wir ..." — only the examiner role must not join the planning.
+  return META_RE.test(opts?.allowWe ? text.replace(/\b(?:sollen|sollten) wir\b/gi, "") : text);
 }
 
 export function looksInformal(text: string): boolean {
   return INFORMAL_ALWAYS.test(text) || INFORMAL_IHR.test(text);
 }
 
-class ReplyGuardError extends ExaminerBrainError {
+export class ReplyGuardError extends ExaminerBrainError {
   constructor(public reason: "language" | "informal" | "meta", public sample: string) {
     super(`examiner reply rejected: ${reason}`, true);
   }

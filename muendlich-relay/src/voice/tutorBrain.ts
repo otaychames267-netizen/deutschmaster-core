@@ -20,7 +20,7 @@
  * session progresses — see that file for why (Claude needs the CURRENT
  * stage's topic/instructions, not whatever the session opened with).
  */
-import { extractReadyChunks, ExaminerBrainError, type ClaudeUsage } from "./examinerBrain.js";
+import { extractReadyChunks, ExaminerBrainError, ReplyGuardError, looksNonGerman, looksInformal, looksMeta, stripLeadingFiller, type ClaudeUsage } from "./examinerBrain.js";
 
 export interface TutorContext {
   studentName: string;
@@ -160,6 +160,18 @@ export interface TutorReplyCallbacks {
   onUsage?: (usage: ClaudeUsage) => void;
 }
 
+/** The 1:1 tutor's reply generation. Same protections as the exam room's examiner (examinerBrain.ts):
+ *  - the history is ONE CONTENT BLOCK PER TURN with a cache breakpoint on the last (a single concatenated string
+ *    can never match the previous call's prefix, so it was re-billed in full every turn);
+ *  - the FIRST sentence is checked BEFORE anything reaches TTS: not German / informal address (examiner role) /
+ *    meta-commentary => discard silently, retry on the same cheap model with a correction note, then on the
+ *    stronger model, then accept (never dead air). Found on the exam room: Haiku answered once in French and
+ *    slipped into "ihr / lasst uns"; production switched the SHARED model secret to Haiku, so the tutor needs
+ *    the same net;
+ *  - a leading pleasantry sentence ("Danke der Antwort.") is stripped from the EXAMINER (billed TTS, not
+ *    exam-like) — but not from the Teil-3 partner, for whom "Gute Idee, ..." is natural. The partner is also
+ *    allowed to say "du" and "sollen wir" (a peer, not an examiner).
+ * Model: CLAUDE_TUTOR_MODEL, else the shared CLAUDE_EXAMINER_MODEL, else Sonnet. */
 export async function generateTutorReply(
   ctx: TutorContext,
   history: TutorHistoryTurn[],
@@ -167,32 +179,68 @@ export async function generateTutorReply(
   callbacks: TutorReplyCallbacks,
   abortSignal?: AbortSignal,
 ): Promise<string> {
+  const primary = process.env.CLAUDE_TUTOR_MODEL ?? process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5";
+  const fallback = process.env.CLAUDE_TUTOR_FALLBACK_MODEL ?? process.env.CLAUDE_EXAMINER_FALLBACK_MODEL ?? "claude-sonnet-5";
+  const note = ctx.stage === 3 ? PARTNER_RETRY_NOTE : EXAMINER_RETRY_NOTE;
+  const attempts: { model: string; note: string; guards: boolean }[] = [
+    { model: primary, note: "", guards: true },
+    { model: primary, note, guards: true },
+    { model: fallback, note, guards: false },
+  ];
+  for (let i = 0; i < attempts.length; i++) {
+    const at = attempts[i];
+    try {
+      return await generateTutorReplyOnce(at.model, ctx, history, trigger, callbacks, abortSignal, at.note, at.guards);
+    } catch (e) {
+      if (e instanceof ReplyGuardError && i < attempts.length - 1) {
+        console.warn(`[tutorBrain] ${at.model} reply rejected (${e.reason}: "${e.sample}") — retrying (${i + 1}/${attempts.length - 1})`);
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw new ExaminerBrainError("unreachable", false);
+}
+
+const EXAMINER_RETRY_NOTE = "\n(Hinweis: Ihre vorige Antwort war unzulässig — nicht auf Deutsch, geduzt oder ein Kommentar über Ihre Anweisungen. Sprechen Sie jetzt NUR als Prüferin, ausschließlich auf Deutsch, und siezen Sie die Übende: Sie, niemals ihr oder du.)";
+const PARTNER_RETRY_NOTE = "\n(Hinweis: Ihre vorige Antwort war unzulässig — nicht auf Deutsch oder ein Kommentar über Ihre Anweisungen. Sprechen Sie jetzt NUR als Übungspartner/in, ausschließlich auf Deutsch.)";
+
+async function generateTutorReplyOnce(
+  model: string,
+  ctx: TutorContext,
+  history: TutorHistoryTurn[],
+  trigger: TutorTrigger,
+  callbacks: TutorReplyCallbacks,
+  abortSignal: AbortSignal | undefined,
+  extraNote: string,
+  enforceGuards: boolean,
+): Promise<string> {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new ExaminerBrainError("ANTHROPIC_API_KEY not set", false);
-  const model = process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5";
+  const isPartner = ctx.stage === 3;
 
-  const speakerLabel = (s: TutorHistoryTurn["speaker"]) => (s === "student" ? ctx.studentName : s === "partner" ? "Übungspartner" : "Prüferin");
-  const historyText = history.map((h) => `${speakerLabel(h.speaker)}: ${h.text}`).join("\n");
-  const userMessage = [historyText ? `Bisheriger Verlauf:\n${historyText}\n` : "", trigger.text].filter(Boolean).join("\n");
+  const speakerLabel = (sp: TutorHistoryTurn["speaker"]) => (sp === "student" ? ctx.studentName : sp === "partner" ? "Übungspartner" : "Prüferin");
+  const historyLines = history.map((h) => `${speakerLabel(h.speaker)}: ${h.text}`).filter((line) => line.trim());
+  const userContent: { type: "text"; text: string; cache_control?: { type: "ephemeral" } }[] = historyLines.map((line, i) => ({
+    type: "text" as const,
+    text: (i === 0 ? "Bisheriger Verlauf:\n" : "") + line + "\n",
+    ...(i === historyLines.length - 1 ? { cache_control: { type: "ephemeral" as const } } : {}),
+  }));
+  const reminder = isPartner
+    ? "(Antworten Sie ausschließlich auf Deutsch.)"
+    : `(Antworten Sie ausschließlich auf Deutsch und siezen Sie ${ctx.studentName} — niemals ihr oder du.)`;
+  userContent.push({ type: "text", text: `${trigger.text}\n\n${reminder}${extraNote}` });
 
   const body = {
     model,
-    // Real bug found via live testing: Claude can spend its ENTIRE
-    // max_tokens budget on extended-thinking content blocks (thinking_delta/
-    // signature_delta) and hit stop_reason="max_tokens" before emitting a
-    // single text_delta — an empty spoken reply with no error anywhere in
-    // the pipeline. Raising max_tokens (tried 250 -> 1024 first) only lowers
-    // the ODDS of this, it doesn't remove the cause — confirmed live: it
-    // still recurred intermittently even at 1024. Explicitly disabling
-    // thinking is the real fix, verified directly against the API
-    // (usage.output_tokens_details.thinking_tokens: 0, HTTP 200) — this
-    // examiner/tutor task is a short, low-latency contextual question, not
-    // something that benefits from extended reasoning anyway.
+    // Real bug found via live testing: Claude can spend its ENTIRE max_tokens budget on extended-thinking
+    // content blocks and hit stop_reason="max_tokens" before emitting a single text_delta — an empty spoken
+    // reply with no error. Explicitly disabling thinking is the real fix (verified against the API).
     thinking: { type: "disabled" },
     max_tokens: 1024,
     stream: true,
     system: [{ type: "text", text: buildTutorSystemPrompt(ctx), cache_control: { type: "ephemeral" } }],
-    messages: [{ role: "user", content: userMessage }],
+    messages: [{ role: "user", content: userContent }],
   };
 
   let res: Response;
@@ -214,6 +262,26 @@ export async function generateTutorReply(
     throw new ExaminerBrainError(`Claude ${res.status}: ${errText.slice(0, 300)}`, retryable);
   }
 
+  // Only the FIRST chunk can start with a pleasantry (examiner only); a chunk that is nothing but filler is dropped
+  // and the next one is treated as the first.
+  let firstChunk = true;
+  const emit = (c: string) => {
+    if (firstChunk) {
+      firstChunk = false;
+      if (!isPartner) {
+        const stripped = stripLeadingFiller(c);
+        if (!stripped.trim()) { firstChunk = true; return; }
+        c = stripped;
+      }
+      if (enforceGuards) {
+        if (looksNonGerman(c)) throw new ReplyGuardError("language", c.slice(0, 80));
+        if (!isPartner && looksInformal(c)) throw new ReplyGuardError("informal", c.slice(0, 80));
+        if (looksMeta(c, { allowWe: isPartner })) throw new ReplyGuardError("meta", c.slice(0, 80));
+      }
+    }
+    callbacks.onChunk?.(c);
+  };
+
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let sseBuffer = "";
@@ -221,38 +289,46 @@ export async function generateTutorReply(
   let fullReply = "";
   const usage: ClaudeUsage = { inputTokens: 0, outputTokens: 0, cacheCreationInputTokens: 0, cacheReadInputTokens: 0 };
 
-  for (;;) {
-    if (abortSignal?.aborted) { await reader.cancel().catch(() => {}); throw new ExaminerBrainError("aborted", false); }
-    const { done, value } = await reader.read();
-    if (done) break;
-    sseBuffer += decoder.decode(value, { stream: true });
-    const lines = sseBuffer.split("\n");
-    sseBuffer = lines.pop() ?? "";
-    for (const line of lines) {
-      if (!line.startsWith("data: ")) continue;
-      let evt: any;
-      try { evt = JSON.parse(line.slice(6)); } catch { continue; }
-      if (evt.type === "message_start" && evt.message?.usage) {
-        usage.inputTokens = Number(evt.message.usage.input_tokens ?? 0);
-        usage.cacheCreationInputTokens = Number(evt.message.usage.cache_creation_input_tokens ?? 0);
-        usage.cacheReadInputTokens = Number(evt.message.usage.cache_read_input_tokens ?? 0);
-      }
-      if (evt.type === "message_delta" && evt.usage) {
-        usage.outputTokens = Number(evt.usage.output_tokens ?? 0);
-      }
-      if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta") {
-        const text = String(evt.delta.text);
-        fullReply += text;
-        textBuffer += text;
-        const { chunks, rest } = extractReadyChunks(textBuffer, false);
-        textBuffer = rest;
-        for (const c of chunks) callbacks.onChunk?.(c);
+  try {
+    for (;;) {
+      if (abortSignal?.aborted) { await reader.cancel().catch(() => {}); throw new ExaminerBrainError("aborted", false); }
+      const { done, value } = await reader.read();
+      if (done) break;
+      sseBuffer += decoder.decode(value, { stream: true });
+      const lines = sseBuffer.split("\n");
+      sseBuffer = lines.pop() ?? "";
+      for (const line of lines) {
+        if (!line.startsWith("data: ")) continue;
+        let evt: any;
+        try { evt = JSON.parse(line.slice(6)); } catch { continue; }
+        if (evt.type === "message_start" && evt.message?.usage) {
+          usage.inputTokens = Number(evt.message.usage.input_tokens ?? 0);
+          usage.cacheCreationInputTokens = Number(evt.message.usage.cache_creation_input_tokens ?? 0);
+          usage.cacheReadInputTokens = Number(evt.message.usage.cache_read_input_tokens ?? 0);
+        }
+        if (evt.type === "message_delta" && evt.usage) {
+          usage.outputTokens = Number(evt.usage.output_tokens ?? 0);
+        }
+        if (evt.type === "content_block_delta" && evt.delta?.type === "text_delta") {
+          const text = String(evt.delta.text);
+          fullReply += text;
+          textBuffer += text;
+          const { chunks, rest } = extractReadyChunks(textBuffer, false);
+          textBuffer = rest;
+          for (const c of chunks) emit(c);
+        }
       }
     }
+    const { chunks: finalChunks } = extractReadyChunks(textBuffer, true);
+    for (const c of finalChunks) emit(c);
+  } catch (e) {
+    if (e instanceof ReplyGuardError) {
+      await reader.cancel().catch(() => {});
+      callbacks.onUsage?.(usage); // the discarded call still cost real tokens
+    }
+    throw e;
   }
 
   callbacks.onUsage?.(usage);
-  const { chunks: finalChunks } = extractReadyChunks(textBuffer, true);
-  for (const c of finalChunks) callbacks.onChunk?.(c);
-  return fullReply.trim();
+  return (isPartner ? fullReply.trim() : stripLeadingFiller(fullReply.trim()).trim());
 }

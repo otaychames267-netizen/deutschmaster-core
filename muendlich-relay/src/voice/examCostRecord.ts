@@ -40,9 +40,9 @@ export function addTokens(a: TokenUsage, b: TokenUsage): TokenUsage {
 const round5 = (n: number) => Math.round(n * 1e5) / 1e5;
 
 export async function recordExamCost(admin: SupabaseClient, p: {
-  sessionId: string; roomId: string; endReason: string; durationSeconds: number | null;
+  sessionId: string; roomId: string | null; endReason: string; durationSeconds: number | null;
   usage: ExamUsage; examinerModel: string; evaluatorModel: string; evaluatorUsage: TokenUsage;
-}): Promise<void> {
+}, table: "muendlich_exam_costs" | "voice_tutor_costs" = "muendlich_exam_costs"): Promise<void> {
   const u = p.usage;
   const examiner: TokenUsage = {
     inputTokens: u.claudeInputTokens ?? 0, outputTokens: u.claudeOutputTokens ?? 0,
@@ -59,10 +59,10 @@ export async function recordExamCost(admin: SupabaseClient, p: {
   const usdTotal = usdTts + usdStt + usdExaminer + usdEvaluator;
 
   console.log(
-    `[exam-cost] session=${p.sessionId} total=$${usdTotal.toFixed(4)} tts=$${usdTts.toFixed(4)}(${u.ttsCharacters ?? 0} chars) stt=$${usdStt.toFixed(4)}(${sttProvider}, groq ${u.groqRequests ?? 0} req / ${((u.groqSttMinutes ?? 0) * 60).toFixed(0)}s billed, forwarded ${(u.forwardedSttMinutes ?? 0).toFixed(1)} min) examiner=$${usdExaminer.toFixed(4)}(${p.examinerModel}) evaluator=$${usdEvaluator.toFixed(4)}`,
+    `[${table === "voice_tutor_costs" ? "tutor-cost" : "exam-cost"}] session=${p.sessionId} total=$${usdTotal.toFixed(4)} tts=$${usdTts.toFixed(4)}(${u.ttsCharacters ?? 0} chars) stt=$${usdStt.toFixed(4)}(${sttProvider}, groq ${u.groqRequests ?? 0} req / ${((u.groqSttMinutes ?? 0) * 60).toFixed(0)}s billed, forwarded ${(u.forwardedSttMinutes ?? 0).toFixed(1)} min) examiner=$${usdExaminer.toFixed(4)}(${p.examinerModel}) evaluator=$${usdEvaluator.toFixed(4)}`,
   );
 
-  const { error } = await admin.from("muendlich_exam_costs").upsert({
+  const { error } = await admin.from(table).upsert({
     session_id: p.sessionId, room_id: p.roomId, end_reason: p.endReason, duration_seconds: p.durationSeconds,
     tts_characters: u.ttsCharacters ?? 0,
     stt_provider: sttProvider, stt_forwarded_minutes: u.forwardedSttMinutes ?? null,
@@ -76,5 +76,5 @@ export async function recordExamCost(admin: SupabaseClient, p: {
     evaluator_cache_write_tokens: p.evaluatorUsage.cacheCreationInputTokens, evaluator_cache_read_tokens: p.evaluatorUsage.cacheReadInputTokens,
     usd_tts: round5(usdTts), usd_stt: round5(usdStt), usd_examiner: round5(usdExaminer), usd_evaluator: round5(usdEvaluator), usd_total: round5(usdTotal),
   }, { onConflict: "session_id" });
-  if (error) console.error(`[exam-cost] failed to persist for session ${p.sessionId}:`, error.message);
+  if (error) console.error(`[exam-cost] failed to persist for session ${p.sessionId} (${table}):`, error.message);
 }

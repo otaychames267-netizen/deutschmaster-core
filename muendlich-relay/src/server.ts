@@ -414,6 +414,12 @@ interface TutorSession {
   // into the fixed-question phase. Teil 2/3 skip "presenting" entirely — they
   // start directly in the question/turn loop below.
   teil1Phase: "presenting" | "questions";
+  // Real speech detection for the student's mic (speechActivity.ts) — session.lastAudioAt below is now only refreshed by
+  // frames that actually contain speech (the browser streams silence frames too, which kept it permanently fresh).
+  speechDetector: SpeechDetector;
+  // Start of the student's current turn to speak (set when the clock of a presentation/answer window starts, i.e. once
+  // the tutor's prompt has been SENT AND HEARD) — the hard idle-close measures from here or the last real speech.
+  idleBaselineAt: number;
   // Generic across ALL THREE Teile once past Teil 1's presentation: which
   // question/turn number is currently open (1-based) and when ITS OWN answer
   // window started. Reset to 1/now at the start of each new Teil (see
@@ -1518,6 +1524,12 @@ function endTutorSession(session: TutorSession, endReason: string) {
   if (session.live) {
     const usage = session.live.getUsage();
     recordTutorUsage(admin, session.userId, session.sessionId, usage).catch(() => {});
+    // Measured per-session cost record (voice_tutor_costs) — same idea as the exam room's, see examCostRecord.ts.
+    void recordExamCost(admin, {
+      sessionId: session.sessionId, roomId: null, endReason,
+      durationSeconds: session.liveSessionStartedAt ? Math.round((Date.now() - session.liveSessionStartedAt) / 1000) : null,
+      usage, examinerModel: process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5", evaluatorModel: EVALUATOR_MODEL, evaluatorUsage: ZERO_TOKENS,
+    }, "voice_tutor_costs").catch((e) => console.error(`[tutor ${session.sessionId}] cost record failed:`, e));
   }
 
   session.live?.close();
@@ -1540,10 +1552,34 @@ function germanOrdinal(n: number): string {
   return GERMAN_ORDINALS[n - 1] ?? `${n}.`;
 }
 
+/** Resolves once the tutor's audio already sent has finished PLAYING on the client (capped at 90s) — see
+ * waitForExaminerPlayback() for why "sent" is not "heard". */
+async function waitForTutorPlayback(session: TutorSession): Promise<void> {
+  const deadline = Date.now() + 90_000;
+  for (;;) {
+    const ms = session.live?.playbackRemainingMs() ?? 0;
+    if (ms <= 0 || session.ended || Date.now() >= deadline) return;
+    await sleepMs(Math.min(ms + 150, 5_000));
+  }
+}
+
+/** Starts a student window's clock (phaseStartedAt) only after the tutor's question has been generated, sent AND
+ * played — the student's 40s are for answering, not listening (same fix as the exam room). The tick is paused while
+ * phaseStartedAt === 0; a 20s cap on the "spoken" promise keeps a failed utterance from pausing it forever. */
+function startTutorClockAfter(session: TutorSession, spoken: Promise<void> | void, stillCurrent: () => boolean) {
+  void Promise.race([Promise.resolve(spoken).catch(() => {}), sleepMs(20_000)])
+    .then(() => waitForTutorPlayback(session))
+    .then(() => {
+      if (session.ended || !stillCurrent()) return;
+      session.phaseStartedAt = Date.now();
+      session.idleBaselineAt = Date.now();
+    });
+}
+
 /** Teil 1's post-presentation Q&A for the tutor — GENAU TUTOR_TEIL1_QUESTIONS
  * questions (owner spec: 3, not the exam's 2), each with its own
  * TUTOR_TEIL1_ANSWER_WINDOW_SECONDS window (40s, not the exam's 30s). */
-function openTutorTeil1Question(session: TutorSession, ctx: TutorContext) {
+function openTutorTeil1Question(session: TutorSession, ctx: TutorContext): Promise<void> | void {
   const isFirst = session.questionIndex === 1;
   const isLast = session.questionIndex === TUTOR_TEIL1_QUESTIONS;
   const framing = isFirst ? `Die Präsentationszeit ist um.` : `Die Antwortzeit ist um.`;
@@ -1551,23 +1587,23 @@ function openTutorTeil1Question(session: TutorSession, ctx: TutorContext) {
   const instruction = isLast
     ? `Stellen Sie ${ctx.studentName} jetzt Ihre ${ordinal} und letzte Frage zur Präsentation — eine andere Art von Frage als die vorherigen, konkret bezogen auf das, was ${ctx.studentName} tatsächlich gesagt hat.`
     : `Stellen Sie ${ctx.studentName} jetzt Ihre ${ordinal} Frage zur Präsentation — konkret bezogen auf das, was ${ctx.studentName} tatsächlich gesagt hat${isFirst ? "" : ", und eine andere Art von Frage als die vorherige"}.`;
-  session.live?.sendSystemMessage(
+  return session.live?.sendSystemMessage(
     `${framing} ${instruction} ${ctx.studentName} hat maximal ${TUTOR_TEIL1_ANSWER_WINDOW_SECONDS} Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
   );
 }
 
 /** Teil 2's question-asking instruction — GENAU TUTOR_TEIL2_QUESTIONS
  * questions (fixed count, not time-boxed — see tutorTickTeil2()). */
-function openTutorTeil2Question(session: TutorSession, ctx: TutorContext) {
-  session.live?.sendSystemMessage(
+function openTutorTeil2Question(session: TutorSession, ctx: TutorContext): Promise<void> | void {
+  return session.live?.sendSystemMessage(
     `Stellen Sie ${ctx.studentName} jetzt die nächste Frage zum Thema (Frage ${session.questionIndex} von ${TUTOR_TEIL2_QUESTIONS}) — eine andere Art von Frage als zuletzt, nach Möglichkeit auf das bisher Gesagte bezogen. ${ctx.studentName} hat maximal ${TUTOR_TEIL2_ANSWER_WINDOW_SECONDS} Sekunden für die Antwort — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
   );
 }
 
 /** Teil 3's turn-taking instruction — the AI is now the PARTNER (see
  * tutorBrain.ts's buildTeil3Prompt), GENAU TUTOR_TEIL3_TURNS turns. */
-function openTutorTeil3Turn(session: TutorSession, ctx: TutorContext) {
-  session.live?.sendSystemMessage(
+function openTutorTeil3Turn(session: TutorSession, ctx: TutorContext): Promise<void> | void {
+  return session.live?.sendSystemMessage(
     `Bringen Sie jetzt Ihren nächsten Gesprächsbeitrag zur gemeinsamen Planung (Beitrag ${session.questionIndex} von ${TUTOR_TEIL3_TURNS}) — als Partner, nicht als Prüfer. ${ctx.studentName} hat maximal ${TUTOR_TEIL3_ANSWER_WINDOW_SECONDS} Sekunden Zeit zu reagieren — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.`,
   );
 }
@@ -1592,9 +1628,9 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
   if (session.ended) return; // session could have been ended (cap/error) while the transition line was still playing
   session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into Q1's idle budget, same reasoning as the session-opening line's identical reset
   session.questionIndex = 1;
-  session.phaseStartedAt = Date.now();
+  session.phaseStartedAt = 0; // clock paused until Q1 has been asked AND heard (startTutorClockAfter)
   session.advancingStage = false; // only now is it safe for tutorTick() to evaluate Teil 2's timing — see the field's doc comment
-  openTutorTeil2Question(session, ctx);
+  startTutorClockAfter(session, openTutorTeil2Question(session, ctx), () => session.teilStage === 2 && session.questionIndex === 1);
 }
 
 /** Teil 2 complete -> Teil 3 begins: scripted transition line, spoken AS
@@ -1613,9 +1649,9 @@ async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
   session.teilStage = 3;
   send(session.ws, { type: "stage", stage: 3 });
   session.questionIndex = 1;
-  session.phaseStartedAt = Date.now();
+  session.phaseStartedAt = 0; // paused until turn 1 has been spoken AND heard
   session.advancingStage = false;
-  openTutorTeil3Turn(session, ctx);
+  startTutorClockAfter(session, openTutorTeil3Turn(session, ctx), () => session.teilStage === 3 && session.questionIndex === 1);
 }
 
 /** Teil 1's deterministic phase machine for ONE student — presenting (90s
@@ -1638,8 +1674,8 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
       console.log(`[tutor ${session.sessionId}] Teil 1: presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
       session.teil1Phase = "questions";
       session.questionIndex = 1;
-      session.phaseStartedAt = now;
-      openTutorTeil1Question(session, ctx);
+      session.phaseStartedAt = 0; // paused until the question has been asked AND heard
+      startTutorClockAfter(session, openTutorTeil1Question(session, ctx), () => session.teilStage === 1 && session.teil1Phase === "questions" && session.questionIndex === 1);
     }
     return;
   }
@@ -1656,8 +1692,11 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
   if (session.questionIndex < TUTOR_TEIL1_QUESTIONS) {
     console.log(`[tutor ${session.sessionId}] Teil 1: Q${session.questionIndex} -> Q${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
     session.questionIndex++;
-    session.phaseStartedAt = now;
-    openTutorTeil1Question(session, ctx);
+    session.phaseStartedAt = 0;
+    {
+      const qi = session.questionIndex;
+      startTutorClockAfter(session, openTutorTeil1Question(session, ctx), () => session.teilStage === 1 && session.questionIndex === qi);
+    }
     return;
   }
 
@@ -1684,8 +1723,11 @@ function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
   if (session.questionIndex < TUTOR_TEIL2_QUESTIONS) {
     console.log(`[tutor ${session.sessionId}] Teil 2: Q${session.questionIndex} -> Q${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
     session.questionIndex++;
-    session.phaseStartedAt = now;
-    openTutorTeil2Question(session, ctx);
+    session.phaseStartedAt = 0;
+    {
+      const qi = session.questionIndex;
+      startTutorClockAfter(session, openTutorTeil2Question(session, ctx), () => session.teilStage === 2 && session.questionIndex === qi);
+    }
     return;
   }
 
@@ -1711,8 +1753,11 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
   if (session.questionIndex < TUTOR_TEIL3_TURNS) {
     console.log(`[tutor ${session.sessionId}] Teil 3: turn ${session.questionIndex} -> ${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
     session.questionIndex++;
-    session.phaseStartedAt = now;
-    openTutorTeil3Turn(session, ctx);
+    session.phaseStartedAt = 0;
+    {
+      const qi = session.questionIndex;
+      startTutorClockAfter(session, openTutorTeil3Turn(session, ctx), () => session.teilStage === 3 && session.questionIndex === qi);
+    }
     return;
   }
 
@@ -1737,7 +1782,7 @@ function tutorTick(session: TutorSession, ctx: TutorContext) {
   if (session.advancingStage) return; // a Teil handoff is in flight — see the field's doc comment
   const now = Date.now();
 
-  const idleSilenceMs = now - session.lastAudioAt;
+  const idleSilenceMs = now - Math.max(session.lastAudioAt, session.idleBaselineAt);
   if (idleSilenceMs > TUTOR_HARD_IDLE_CLOSE_MS) {
     console.log(`[tutor ${session.sessionId}] hard idle-close: ${idleSilenceMs}ms of silence`);
     send(session.ws, { type: "terminated", reason: "idle_timeout" });
@@ -1745,6 +1790,8 @@ function tutorTick(session: TutorSession, ctx: TutorContext) {
     return;
   }
 
+  // Clock paused: the tutor's prompt is still being generated / played (or the opening hasn't finished) — nothing to evaluate.
+  if (session.phaseStartedAt === 0) return;
   if (session.teilStage === 1) tutorTickTeil1(session, ctx, now);
   else if (session.teilStage === 2) tutorTickTeil2(session, ctx, now);
   else tutorTickTeil3(session, ctx, now);
@@ -1802,7 +1849,7 @@ async function startTutorSession(
   const session: TutorSession = {
     sessionId: sessionRow.id, userId, accessToken, ws,
     level, lastAudioAt: Date.now(), teilStage: 1, advancingStage: false,
-    teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0,
+    teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0, speechDetector: new SpeechDetector(), idleBaselineAt: 0,
     teil2Topic, teil3Topic, teil2TopicTitle, teil3TopicTitle,
     liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
   };
@@ -1844,8 +1891,10 @@ async function startTutorSession(
   await session.live.speakScriptedText(
     `Hallo ${studentName}, willkommen zu Ihrer Übung für Teil 1 der mündlichen Prüfung. Ihr Thema lautet: ${teil1Topic}. Sie haben etwa anderthalb Minuten Zeit — bitte beginnen Sie, wenn Sie bereit sind.`,
   );
+  await waitForTutorPlayback(session); // the welcome + topic are audio the student must HEAR before the 90s clock starts
   session.lastAudioAt = Date.now(); // reset so the opening's own TTS playback time doesn't eat into the 90s presentation budget
   session.phaseStartedAt = Date.now();
+  session.idleBaselineAt = Date.now();
 
   // Per-minute daily-cap deduction — same cadence as the exam's CREDIT_TICK_MS.
   session.creditTick = setInterval(async () => {
@@ -2113,7 +2162,7 @@ tutorWss.on("connection", async (ws, req) => {
         if (msg.type === "ping") {
           send(ws, { type: "pong", t: msg.t });
         } else if (msg.type === "audio" && session.live) {
-          session.lastAudioAt = Date.now();
+          if (session.speechDetector.isSpeech(msg.data)) session.lastAudioAt = Date.now();
           session.live.sendAudioChunk(msg.data);
         }
       } catch (e) { console.error(`[tutor ${session.sessionId}] bad client message:`, e); }
