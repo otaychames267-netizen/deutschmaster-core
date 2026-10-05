@@ -581,9 +581,11 @@ function Pricing() {
             <div
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
-                plan.highlighted
-                  ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
-                  : "border-border bg-card"
+                plan.benefits
+                  ? "plan-premium"
+                  : plan.highlighted
+                    ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
+                    : "border-border bg-card"
               }`}
             >
               {plan.badge && (
@@ -594,8 +596,8 @@ function Pricing() {
                 </div>
               )}
 
-              <div className={plan.benefits ? "mb-4" : "mb-6"}>
-                <p className={`text-xs font-semibold uppercase tracking-widest ${plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
+              <div className={plan.benefits ? "mb-4 border-b border-white/10 pb-4" : "mb-6"}>
+                <p className={`text-xs font-semibold uppercase tracking-widest ${plan.benefits ? "text-gold" : plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
                   {plan.name}
                 </p>
                 <div className="mt-2 flex items-baseline gap-1">
@@ -641,9 +643,11 @@ function Pricing() {
               <Link
                 to="/register"
                 className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-5 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-                  plan.highlighted
-                    ? "bg-white text-primary shadow-sm hover:bg-white/95"
-                    : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  plan.benefits
+                    ? "bg-gold text-gold-foreground shadow-md shadow-black/25 hover:brightness-105"
+                    : plan.highlighted
+                      ? "bg-white text-primary shadow-sm hover:bg-white/95"
+                      : "bg-primary text-primary-foreground hover:bg-primary/90"
                 }`}
               >
                 Get Started <ChevronRight className="h-3.5 w-3.5" />
