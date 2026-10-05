@@ -28,11 +28,11 @@ const PLANS = [
     name: "Schriftlich",
     price: "30",
     period: " TND",
-    desc: "Everything for the written exam — plus the Mündlich preparation cards",
-    descAr: "كل ما تحتاجه للامتحان الكتابي، مع بطاقات التحضير للامتحان الشفوي." as string | null,
+    desc: "Everything for the written exam",
+    descAr: "كل ما تحتاجه للامتحان الكتابي" as string | null,
     features: [] as string[],
     benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
-    highlighted: false,
+    highlighted: true,
     badge: "Complete written prep" as string | null,
     save: null,
   },
@@ -576,16 +576,14 @@ function Pricing() {
 
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
             Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
-        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-md"}`}>
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-sm"}`}>
           {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
                 plan.highlighted
                   ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
-                  : plan.benefits
-                    ? "border-primary/30 bg-card shadow-xl shadow-primary/10 ring-1 ring-primary/15"
-                    : "border-border bg-card"
+                  : "border-border bg-card"
               }`}
             >
               {plan.badge && (
@@ -612,7 +610,7 @@ function Pricing() {
                   {plan.desc}
                 </p>
                 {plan.descAr && (
-                  <p dir="rtl" lang="ar" className="mt-1.5 text-sm font-medium leading-relaxed text-foreground/85">
+                  <p dir="rtl" lang="ar" className={`mt-1 text-sm font-medium leading-relaxed ${plan.highlighted ? "text-primary-foreground/90" : "text-foreground/85"}`}>
                     {plan.descAr}
                   </p>
                 )}
