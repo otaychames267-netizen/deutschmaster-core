@@ -1,254 +1,324 @@
-// Sonja – lädt zu einem Musikfestival nach Rüdesheim ein (Zug oder ihr Auto, Übernachten auf dem Festplatz, jemanden mitbringen, weitere Wünsche). Points: wie zum Festival reisen · jemanden mitbringen · Übernachten: Reaktion auf Sonjas Vorschlag · was Sie sonst noch machen möchten.
+// v2 (B2-style): Sonja lädt zum Musikfestival nach Rüdesheim ein (ca. 50 km von Mainz, Open-Air, Zug oder Auto, Übernachten auf dem Festplatz, jemanden mitbringen, weitere Wünsche).
+// Points: Wie zum Festival reisen? · Jemanden mitbringen? · Übernachten: Reaktion auf Sonjas Vorschlag · Was sonst noch machen?
+export const kw = [/Zug|Auto|Bahn|fahren|reisen/i, /mitbring|mitkomm|jemand|Freund|Bruder|Schwester|Cousin|Kolleg|Mitbewohner/i, /übernacht|schlafen|Zelt|Festplatz/i, /Mainz|Schiff|Stadt|Burg|Wein|Rhein|besichtig|Ausflug|außerdem|noch/i];
 export default [
   // 1
-  { label: "Mit dem Zug, Freundin mitbringen, Zelt auf dem Festplatz ist okay, Rheinschifffahrt", t: `Liebe [[Name der Freundin|Sonja]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Sonja]],
 
-die Sommerferien kommen auch für mich immer näher, und ich freue mich sehr, dass ich dich besuchen kann! Deine Idee mit dem Musikfestival in Rüdesheim finde ich großartig. Open-Air-Konzerte mag ich auch sehr.
+vielen Dank für deinen Brief, ich habe mich riesig gefreut! Dass ich dich in den Sommerferien besuchen darf, ist für mich ein Highlight des Jahres, und die Einladung zum Festival ist eine wunderbare Überraschung.
 
-Zur Reise: [[Reise|Ich würde lieber mit dem Zug nach Rüdesheim fahren, weil man dort entspannt ankommt]]. Mit deinem Auto wäre es natürlich auch in Ordnung, aber ich möchte dir nicht so viel Arbeit machen.
+Zur Anreise: [[Reisemittel|Ich würde gern mit dem Zug fahren]], denn [[Grund für das Reisemittel|dann können wir uns unterwegs in Ruhe unterhalten]]. Mit dem Auto ist die Fahrt sicher bequemer, aber ich möchte dir keine Umstände machen.
 
-Ich möchte gern [[Begleitung|meine Freundin Salma]] mitbringen. Sie liebt Musik und würde sich sehr freuen.
+Ob ich jemanden mitbringen darf, fragst du: [[Mitbringen|Ja, meine Cousine Lina würde sich riesig freuen]]. Sie ist sehr nett und liebt Musik genauso wie ich.
 
-Das Übernachten auf dem Festplatz klingt für mich in Ordnung: [[Übernachtung|Ich bringe mein Zelt mit und schlafe gern dort]]. So sind wir mitten im Geschehen.
+Dein Vorschlag, auf dem Festplatz zu übernachten, gefällt mir. [[Reaktion auf das Übernachten|Ich habe schon ein Zelt und einen Schlafsack]], und die Atmosphäre ist bestimmt unvergesslich.
 
-Außerdem möchte ich noch [[Aktivität|eine Schifffahrt auf dem Rhein machen und die Burgen ansehen]].
+Außerdem habe ich noch einen Wunsch: [[Wunsch|Ich würde gern die Altstadt von Mainz sehen]].
 
-Erzähl mir gern bald mehr davon.
+Ich freue mich besonders auf [[Vorfreude|die friedliche Stimmung unter den Besuchern]], mit [[Vorstellung|Musik, Tanz und Sonne auf der Haut]]. Wenn das Wetter gut ist, [[Folge|sitzen wir abends auf einer Decke und hören zu]]. Solche Momente vergisst man nie, und ich bin dir sehr dankbar, dass du mich eingeladen hast.
 
-[[Grußformel|Liebe Grüße]]
-[[Dein Name|Lina]]` },
+Ich bringe außerdem [[Mitbringsel|Schokolade aus meiner Heimat]] als Gastgeschenk mit. Bei meiner Ankunft in Mainz [[Ankunft|rufe ich dich kurz vom Bahnhof aus an]], damit du mich abholen kannst. Dann haben wir noch Zeit, [[Plan|in Ruhe bei dir Kaffee zu trinken]], bevor es losgeht.
+
+Ich zähle schon die Tage, [[Vorfreude 2|bis ich dich endlich wiedersehe]].
+
+Schreib mir bald, ob das möglich ist.
+
+[[Grußformel|Herzliche Grüße]]
+[[Dein Name|Samira]]` },
 
   // 2
-  { label: "Mit deinem Auto, allein kommen, lieber ein Zimmer in einer Pension, Mainz erkunden", t: `Hallo [[Name der Freundin|Sonja]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Sonja]],
 
-wie schön, dass bald die Ferien beginnen! Ich freue mich riesig auf den Besuch bei dir und auf das Festival. Dass dort die besten internationalen Gruppen spielen, macht mich neugierig.
+cool, ein Musikfestival in Rüdesheim, da bin ich sofort dabei! [[Reaktion auf die Einladung|Das wird bestimmt der Hammer]].
 
-Zur Anreise: [[Reise|Ich würde gern in deinem Auto mitfahren, wenn das für dich in Ordnung ist]]. Dann teilen wir die Kosten für das Benzin, und wir können im Auto reden.
+Übernachten auf dem Festplatz? [[Reaktion auf das Übernachten|Klar, das ist doch Teil vom Abenteuer, ich nehme mein Zelt mit]]. Hauptsache, es regnet nicht die ganze Zeit.
 
-Mitbringen möchte ich [[Begleitung|niemanden, ich komme allein]]. So kann ich mich ganz auf dich konzentrieren.
+Zur Anreise: Zug oder Auto? [[Reisemittel|Ich wäre für den Zug]], dann können wir unterwegs schon etwas trinken. Du fährst ja sonst und kannst gar nichts genießen.
 
-Zum Übernachten habe ich eine andere Idee als du: [[Übernachtung|Ich würde lieber in einer kleinen Pension ein Zimmer nehmen]], weil ich auf dem Festplatz schlecht schlafe. Das kostet nicht viel.
+Mitbringen? [[Mitbringen|Ich frage meinen Kumpel Ben, der steht total auf Rockmusik]]. Ist das okay für dich?
 
-Sonst möchte ich noch [[Aktivität|Mainz besichtigen, besonders die Altstadt und das Gutenberg-Museum]].
+Und was machen wir sonst noch? [[Wunsch|Ich würde gern den Rhein runterfahren, mit dem Schiff]].
 
-Ich bin gespannt auf deine Meinung dazu, also schreib mir bald.
+Übrigens, was soll ich zum Festival anziehen? [[Frage|Reichen Turnschuhe, oder brauche ich Gummistiefel]]? Ich will nicht im Matsch stehen, [[Grund|falls es doch regnet]]. Und Ohrstöpsel [[Hinweis|packe ich auch ein, die Boxen sind ja manchmal richtig laut]].
+
+Die Tickets bezahle ich selbst, sag mir einfach, [[Kosten|wie viel ich dir überweisen soll]]. Ich freue mich echt auf die Zeit mit dir, [[Gefühl|wir haben uns ewig nicht gesehen]], und auf die Bands, [[Vorstellung|die ich bisher nur von Videos kenne]]. Das wird ein richtig guter Sommer, das spüre ich jetzt schon.
+
+Ich packe [[Mitbringsel 2|meine kleine Bluetooth-Box]] ein, falls wir abends am Zelt noch Musik hören wollen.
+
+Schreib mir bald!
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Lea]]` },
 
   // 3
-  { label: "Mit dem Bus, Bruder mitbringen, Campingplatz neben dem Festival, Wanderung durch die Weinberge", t: `Liebe [[Name der Freundin|Sonja]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Sonja]],
 
-deine Einladung hat mich sehr gefreut! Ein Festival mit guten Bands, das ist genau, was ich im Sommer brauche. Vielen Dank, dass du an mich gedacht hast.
+das ist die beste Idee aller Zeiten! Open-Air-Konzerte mit den besten Bands, [[Reaktion auf die Einladung|ich kann es kaum erwarten]]. Ich zähle schon die Tage bis zu den Sommerferien.
 
-Für die Fahrt wäre [[Reise|der Fernbus bis Mainz und dann der Zug nach Rüdesheim]] für mich am günstigsten. Ich habe keinen Führerschein, und der Bus ist billig.
+Beim Reisen bin ich flexibel. [[Reisemittel|Mit dem Zug zu fahren, finde ich spannend]], weil [[Grund für das Reisemittel|wir die Landschaft am Rhein sehen]]. Aber dein Auto ist auch super, wenn es dir lieber ist.
 
-Ich möchte gern [[Begleitung|meinen Bruder Aymen]] mitbringen, wenn du nichts dagegen hast. Er ist 19 und liebt Rockmusik.
+Und wen bringe ich mit? [[Mitbringen|Meine Freundin Mia, sie liebt Musik und ist total locker]]. Sie kann gar nicht glauben, dass wir zusammen zu einem Festival fahren!
 
-Zum Übernachten: [[Übernachtung|Ein Campingplatz in der Nähe des Festivals wäre gut, dann haben wir Duschen und Toiletten]]. Ich suche schon einen im Internet.
+Zum Übernachten: [[Reaktion auf das Übernachten|Auf dem Festplatz zu schlafen, ist doch das Beste daran]]!
 
-Außerdem möchte ich [[Aktivität|eine Wanderung durch die Weinberge machen, mit Blick auf den Rhein]]. Das stelle ich mir schön vor.
+Ich habe schon [[Vorbereitung|eine Playlist mit allen Liedern der Bands erstellt]], damit ich mitsingen kann! Wenn das Wetter gut ist, [[Vorstellung|tanzen wir bis tief in die Nacht]], und ich bin sicher, dass [[Folge|wir viele schöne Momente erleben]]. Ich bin schon so aufgeregt, dass ich kaum schlafen kann.
 
-Ich freue mich darauf, bald von dir zu hören!
+In Mainz würde ich gern [[Wunsch 2|auch den Dom und die Altstadt sehen]], wenn wir Zeit haben. Du kennst bestimmt [[Tipp|ein gutes Café, in dem wir Kuchen essen können]]. Ich freue mich einfach auf alles, [[Gefühl|was wir zusammen erleben]]!
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Außerdem würde ich gern [[Wunsch|das Weindorf in Rüdesheim besichtigen]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Mina]]` },
 
   // 4
-  { label: "Mit dem Zug und einem Mietwagen, Freund mitbringen, Jugendherberge, Seilbahn und Drosselgasse", t: `Hallo [[Name der Freundin|Sonja]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Sonja]],
 
-wie schön, dass du mich zu einem Festival einlädst! Rüdesheim kenne ich nur von Fotos, und ich freue mich schon auf die Bands und auf die frische Luft. Die Ferien sind genau richtig dafür.
+vielen Dank für deine Einladung. Ich beantworte deine vier Fragen der Reihe nach.
 
-Zur Anreise: [[Reise|Ich fahre mit dem Zug nach Mainz, und wir leihen dort ein Auto]]. Das ist praktisch, wenn wir noch Ausflüge machen wollen.
+Anreise: [[Reisemittel|Ich bevorzuge den Zug]], weil [[Grund für das Reisemittel|er schneller und günstiger ist]]. Bitte teile mir die Abfahrtszeit mit.
 
-Wenn es passt, bringe ich [[Begleitung|meinen Freund Youssef]] mit. Er ist ein sehr netter Mensch und lernt gern Leute kennen.
+Begleitung: [[Mitbringen|Ich würde gern meine Schwester Dalia mitbringen]], sofern es für dich in Ordnung ist.
 
-Beim Übernachten würde ich [[Übernachtung|lieber in einer Jugendherberge schlafen, weil ich nachts Ruhe brauche]]. Sie ist nicht teuer und sauber.
+Unterkunft: [[Reaktion auf das Übernachten|Das Übernachten auf dem Festplatz finde ich in Ordnung]], wenn [[Bedingung|es dort Duschen und sichere Plätze für das Gepäck gibt]].
 
-Sonst würde ich gern [[Aktivität|mit der Seilbahn in Rüdesheim fahren und durch die Drosselgasse spazieren]]. Das ist doch ein Highlight.
+Zusätzliche Wünsche: [[Wunsch|Ich möchte gern eine Schifffahrt auf dem Rhein machen]].
 
-Lass mich bitte wissen, ob das für dich in Ordnung ist.
+Zur Organisation möchte ich einige Punkte ergänzen. Die Kosten für die Tickets [[Kosten|übernehme ich selbst]], sofern du mir den Preis nennst. Ich schlage vor, dass wir [[Vorschlag|eine gemeinsame Packliste erstellen]], damit [[Grund|niemand etwas Wichtiges vergisst]]. Dazu gehören [[Packliste|Regenjacke, Taschenlampe und Powerbank]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Bitte teile mir außerdem mit, [[Frage|an welchem Tag die Gruppen auftreten]], die du am liebsten hörst. Mein Ziel ist es, [[Plan|alle Konzerte, die dir wichtig sind, zu besuchen]]. Ich bin ab Anfang August verfügbar und kann [[Zeitraum|zwei Wochen bei dir bleiben]].
+
+Außerdem habe ich vor, [[Plan 2|vor dem Festival einen Tag in Mainz zu verbringen]], damit ich die Stadt ein wenig kennenlerne. Dafür müsste ich nur wissen, wann es bei dir zeitlich passt und wo ich meine Tasche abstellen kann.
+
+Ich freue mich auf deine Antwort.
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Daria]]` },
 
   // 5
-  { label: "Mit dem Zug und Fahrrad, Cousine mitbringen, Schlafsack auf dem Festplatz, Burg Ehrenfels", t: `Liebe [[Name der Freundin|Sonja]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Sonja]],
 
-vielen Dank für deine Einladung zum Musikfestival! Open-Air-Konzerte sind für mich das Schönste im Sommer, und ich freue mich schon sehr. Ich habe lange nicht mehr live Musik gehört.
+danke für die tolle Einladung! Ich helfe dir gern bei allem, was zu organisieren ist.
 
-Zur Reise: [[Reise|Ich fahre mit dem Zug und nehme mein Fahrrad mit]]. Dann bin ich vor Ort beweglich und kann auch Ausflüge machen.
+Zur Anreise: [[Reisemittel|Ich komme mit dem Zug nach Mainz]], und wir fahren von dort gemeinsam weiter. [[Hilfsangebot|Ich kaufe die Tickets für uns beide, wenn du mir die Zeiten schickst]].
 
-Ich möchte gern [[Begleitung|meine Cousine Houda]] mitbringen. Sie tanzt gern und mag Konzerte sehr.
+Mitbringen: [[Mitbringen|Mein Bruder Karim möchte gern mitkommen]], und er hat einen großen Rucksack für Zelt und Essen.
 
-Zum Übernachten auf dem Festplatz sage ich ja: [[Übernachtung|Ich bringe einen Schlafsack und eine Isomatte mit]]. Das reicht mir völlig.
+Zum Übernachten: [[Reaktion auf das Übernachten|Ich bringe Schlafsack und Isomatte mit]], dann brauchst du dir keine Sorgen zu machen. Falls du ein zweites Zelt brauchst, [[Zweites Hilfsangebot|leihe ich eins von meinem Onkel]].
 
-Noch möchte ich [[Aktivität|die Burg Ehrenfels am Rhein besichtigen und ein Foto machen]]. Die Aussicht soll toll sein.
+Wenn du möchtest, [[Hilfsangebot 3|übernehme ich einen Teil der Einkäufe]], zum Beispiel [[Einkauf|Wasser, Brot, Obst und Snacks für den Festplatz]]. Ich habe auch [[Hilfsmittel|eine Kühltasche und ein paar Campinglampen]], die ich gern mitbringe. Dann sind wir gut vorbereitet.
 
-Melde dich bitte, sobald du etwas weißt.
+Falls du am Festivaltag früh aufstehen musst, [[Angebot|decke ich schon morgens den Frühstückstisch]]. Wenn du mir sagst, [[Frage|welche Dinge ich für dich besorgen soll]], schreibe ich es mir auf. So sparen wir Zeit und kommen entspannt in Rüdesheim an.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Ich schicke dir meine Ankunftszeit, [[Hinweis|sobald ich die Fahrkarte gekauft habe]], und warte dann auf deine Antwort.
+
+Außerdem möchte ich noch [[Wunsch|die Burgen am Rhein ansehen]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Ayse]]` },
 
   // 6
-  { label: "Mit deinem Auto, Kollegin mitbringen, Ferienwohnung teilen, Gutenberg-Museum", t: `Hallo [[Name der Freundin|Sonja]],
+  { label: "begründend, argumentativ", t: `Liebe [[Name der Freundin|Sonja]],
 
-wie toll, dass wir wieder in Kontakt sind! Ein Festival mit internationalen Bands ist eine wunderbare Idee, und ich komme gern. Die Ferien beginnen bei mir in zwei Wochen.
+ich freue mich sehr über deine Einladung, weil [[Grund für die Zusage|ich Musik liebe und noch nie auf einem Festival war]]. Deshalb sage ich gern zu.
 
-Für die Anreise würde ich [[Reise|mit dir im Auto fahren, weil das praktisch ist, wenn man Gepäck hat]]. Wenn du mir sagst, wie viel Benzin kostet, übernehme ich die Hälfte.
+Ich würde mit dem Zug fahren, weil [[Grund für das Reisemittel|ich so entspannt ankomme und nicht auf den Verkehr achten muss]]. Und außerdem [[Zusatzgrund|ist es besser für die Umwelt]].
 
-Ich möchte [[Begleitung|meine Kollegin Ines]] mitbringen, die Musik liebt. Ich glaube, ihr versteht euch gut.
+Ich möchte gern jemanden mitbringen, denn [[Grund fürs Mitbringen|allein ist ein Festival nur halb so schön]]. [[Mitbringen|Mein Freund Tarek ist ein großer Fan der Bands]].
 
-Zur Übernachtung habe ich eine Idee: [[Übernachtung|Wir mieten zu dritt eine kleine Ferienwohnung in der Nähe]]. Das ist nicht viel teurer als ein Hotelzimmer.
+Das Übernachten auf dem Festplatz finde ich gut, weil [[Grund für das Übernachten|man so die ganze Zeit mitten im Geschehen ist]]. [[Reaktion auf das Übernachten|Ich bringe ein Zelt mit]].
 
-Außerdem möchte ich [[Aktivität|das Gutenberg-Museum in Mainz besuchen]], wenn wir Zeit haben.
+Ich habe auch einen Wunsch für unseren Aufenthalt in Mainz, weil [[Grund|ich die Stadt noch nicht kenne]]. Wenn wir Zeit haben, würde ich gern [[Wunsch 2|ein Museum besuchen, in dem es um die Geschichte des Buchdrucks geht]]. Das interessiert mich, [[Begründung|weil ich gerade Deutsch lerne und gern etwas über die Kultur erfahre]].
 
-Ich hoffe, du schreibst mir bald zurück.
+Wenn das Wetter gut ist, [[Folge|machen wir danach einen Spaziergang am Rheinufer]], denn [[Grund 2|Bewegung tut nach dem langen Sitzen gut]]. Ich hoffe, dass dir das gefällt.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Nour]]` },
+Du siehst, ich freue mich auf jede Minute, und ich habe schon angefangen, meine Sachen zu sortieren. Wenn du noch Tipps zur Vorbereitung hast, nehme ich sie sehr gern an, denn ich möchte nichts falsch machen.
+
+Zum Schluss ein Wunsch: [[Wunsch|ein Besuch im Weinmuseum]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Mit dem Zug, allein, Festplatz akzeptieren, Weinprobe mit Traubensaft", t: `Liebe [[Name der Freundin|Sonja]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Sonja]],
 
-wie super, von dir zu hören! Dein Vorschlag mit dem Festival in Rüdesheim begeistert mich, und ich freue mich schon sehr. Open-Air-Konzerte sind für mich besonders schön, wenn das Wetter mitspielt.
+danke für deine Einladung, hier meine Antworten.
 
-Zur Fahrt: [[Reise|Ich nehme den Zug, denn er fährt direkt bis zum Bahnhof in Rüdesheim]]. Mit deinem Auto müsstest du mich zuerst abholen.
+Anreise: [[Reisemittel|Mit dem Zug]]. Das ist praktisch und günstig.
 
-Mitbringen möchte ich [[Begleitung|keine Begleitung, aber ich lerne gern neue Leute auf dem Festival kennen]]. Ich komme also allein.
+Begleitung: [[Mitbringen|Ja, ich bringe meine Freundin Nour mit]].
 
-Zum Übernachten auf dem Festplatz: [[Übernachtung|Das ist für mich völlig in Ordnung, ich war schon einmal bei einem Festival im Zelt]]. Das macht mir nichts aus.
+Übernachten: [[Reaktion auf das Übernachten|Auf dem Festplatz im Zelt, das gefällt mir]].
 
-Sonst möchte ich noch [[Aktivität|eine Weinprobe mitmachen, aber mit Traubensaft, weil ich keinen Alkohol trinke]]. Das ist sicher auch schön.
+Außerdem: [[Wunsch|ein Spaziergang durch Mainz]].
 
-Erzähl mir gern wenn du Zeit hast mehr davon.
+Zum Programm: [[Wunsch 2|Am liebsten höre ich die internationalen Bands am Samstag]]. Open-Air-Konzerte mag ich sehr, denn [[Grund|die Stimmung ist friedlich und die Musik gut]]. Wenn das Wetter gut ist, [[Folge|bleiben wir bis zum letzten Lied]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Salma]]` },
+Zum Packen: Ich bringe [[Packliste|Zelt, Schlafsack, Regenjacke und Sonnencreme]] mit. Das Gepäck ist nicht schwer, [[Hinweis|und ich trage es allein]]. Für das Essen schlage ich vor, [[Vorschlag|dass jeder etwas Kleines kauft]].
+
+Zu den Kosten: Ich komme [[Ankunft|am ersten Ferientag]] und bezahle [[Kosten|mein Ticket und die Bahnfahrt selbst]]. Schick mir bitte einfach alle Informationen, die ich brauche.
+
+Falls du noch Fragen hast, schreib mir einfach. Ich bin die ganze Woche erreichbar, [[Hinweis 2|am besten abends nach der Arbeit]]. Ich möchte, dass du dir keine Sorgen machst, denn [[Beruhigung|ich bin sehr unkompliziert und mit allem einverstanden]]. Ich freue mich einfach darauf, dich zu sehen, und der Rest findet sich bestimmt von selbst.
+
+Wir sehen uns bald, und ich freue mich schon sehr darauf. Schreib mir bitte kurz, ob alles klappt.
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Elif]]` },
 
   // 8
-  { label: "Mit dem Regionalzug, Schwester mitbringen, Hotel in Rüdesheim, Stadtbummel in Mainz", t: `Hallo [[Name der Freundin|Sonja]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Sonja]],
 
-danke für deine Einladung zum Festival! Ich kann es kaum erwarten, dich zu sehen und mit dir Musik zu hören. Die besten internationalen Gruppen, das hört sich großartig an.
+Musikfestival, Zelt und Open-Air, das klingt nach einem Wochenende ohne Dusche! [[Reaktion auf die Einladung|Aber ich bin dabei, für gute Musik tue ich fast alles]].
 
-Für die Anreise passt mir [[Reise|der Regionalzug von meiner Stadt über Frankfurt nach Rüdesheim]]. Er fährt jede Stunde, und ich kann unterwegs lesen.
+Zur Anreise: [[Reisemittel|Ich schlage den Zug vor]], denn bei deinem Fahrstil [[Scherz|hätte ich lieber einen Lokführer]]. Das war ein Scherz!
 
-Ich möchte gern [[Begleitung|meine Schwester Rim]] mitbringen. Sie ist 17, aber sehr vernünftig.
+Mitbringen? [[Mitbringen|Meinen Cousin Omar, er trägt alles, was wir brauchen]]. Dafür bezahle ich ihm ein Eis.
 
-Zum Übernachten: [[Übernachtung|Ein günstiges Hotel in Rüdesheim wäre mir lieber als ein Festplatz]], weil meine Schwester noch jung ist. Meine Eltern bestehen darauf.
+Zum Übernachten: [[Reaktion auf das Übernachten|Zelt auf dem Festplatz ist okay, wenn mich niemand weckt]]. Ich schnarche leise, versprochen.
 
-Noch möchte ich [[Aktivität|einen Stadtbummel in Mainz machen und dort etwas Schönes kaufen]]. Das ist in der Nähe.
+Ich habe mir schon überlegt, was ich einpacke: [[Packliste|Regenjacke, Sonnenbrille und genug Taschentücher für die Rührung]]. Falls es regnet, [[Scherz|tanzen wir einfach im Schlamm weiter]]. Wenn das Wetter gut ist, kann man das genießen, wie du schreibst, [[Folge|und ich hoffe auf Sonne]].
 
-Ich bin neugierig auf deinen Plan, also schreib mir bald.
+In Mainz hätte ich gern eine kleine Stadtführung, [[Wunsch 2|aber nur, wenn wir danach ein Eis bekommen]]. Und weil ich neugierig bin: [[Frage|Hast du schon Lieblingsbands, die ich kennen muss]]? Ich verspreche, mich [[Versprechen|vorher gut vorzubereiten]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Rim]]` },
+Und falls du dir Sorgen machst: Ich esse alles, ich schlafe überall, und ich beschwere mich höchstens über das Wetter. Das ist doch ein gutes Angebot für eine Besucherin, oder?
+
+Und was machen wir sonst noch? [[Wunsch|Ein Eis am Rhein und eine Burg besichtigen]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Fatma]]` },
 
   // 9
-  { label: "Mit dem Auto meines Vaters, Freundin und Freund mitbringen, Zelt und Pension, Rheinschiff", t: `Liebe [[Name der Freundin|Sonja]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Sonja]],
 
-deine E-Mail hat mich zum Lächeln gebracht! Dass du mich zum Festival nach Rüdesheim einlädst, ist eine tolle Idee, und ich freue mich riesig. Das Wetter soll im Sommer schön werden.
+als ich deinen Brief gelesen habe, habe ich sofort an unser letztes Konzert gedacht. [[Erinnerung|Wir haben damals bis Mitternacht getanzt]]. Deshalb freue ich mich so auf Rüdesheim.
 
-Zur Anreise: [[Reise|Ich kann das Auto meines Vaters nehmen, und wir fahren zu zweit oder zu dritt]]. So sind wir unabhängig und können dein Auto bei dir lassen.
+Zur Anreise: [[Reisemittel|Ich fahre gern mit dem Zug]], das habe ich schon als Kind geliebt. Damals sind wir mit meinen Eltern oft in die Berge gefahren.
 
-Ich möchte [[Begleitung|meine Freundin und meinen Freund]] mitbringen, die sich gut verstehen. Sie heißen Ines und Aymen.
+Jemanden mitbringen? [[Mitbringen|Meine Mitbewohnerin Lara fragt schon, ob sie mitkommen darf]]. Sie liebt Livemusik.
 
-Zum Übernachten habe ich einen Mischvorschlag: [[Übernachtung|Die Jungs schlafen im Zelt, wir Mädchen nehmen ein Zimmer in einer Pension]]. Ist das in Ordnung für dich?
+Das Übernachten auf dem Festplatz klingt für mich nach Abenteuer. [[Reaktion auf das Übernachten|Ich habe ein kleines Zelt von meinem Vater geerbt]].
 
-Außerdem möchte ich [[Aktivität|mit dem Schiff auf dem Rhein fahren und die Landschaft genießen]].
+Ich muss dir noch etwas erzählen: [[Neuigkeit|Ich habe vor Kurzem angefangen, Gitarre zu spielen]]. Seitdem höre ich Musik ganz anders. Ich bin [[Gefühl|ganz gespannt]], [[Folge|was die Bands auf dem Festival zeigen]]. Vielleicht spiele ich dir etwas vor, [[Angebot|wenn wir abends am Zelt sitzen]].
 
-Ich freue mich auf deine Mail.
+Ich erinnere mich an unser erstes Treffen, [[Erinnerung|damals haben wir stundenlang über Musik gesprochen]]. Seit diesem Tag weiß ich, dass wir uns gut verstehen. Deshalb freue ich mich auf [[Vorfreude|die Tage mit dir und viele schöne Momente]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Ines]]` },
+Ich schreibe dir noch, [[Ankunft|an welchem Tag ich genau komme]], sobald ich meine Termine kenne.
+
+Und noch ein Wunsch: [[Wunsch|ein ruhiger Abend am Rhein]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Sophie]]` },
 
   // 10
-  { label: "Mit dem Zug zum Festival, allein, bei dir im Wohnzimmer schlafen, Wanderung mit Picknick", t: `Hallo [[Name der Freundin|Sonja]],
+  { label: "vorschlagsorientiert", t: `Liebe [[Name der Freundin|Sonja]],
 
-ich habe mich riesig über deine Zeilen gefreut! Ich freue mich schon sehr auf die Ferien und auf das Festival. Dass du mich einlädst, ist sehr lieb von dir.
+danke für deine Einladung, ich komme sehr gern! [[Reaktion auf die Einladung|Das Festival klingt wunderbar]]. Ich habe dazu ein paar Vorschläge.
 
-Zur Fahrt: [[Reise|Ich möchte mit dem Zug zum Festival fahren, und wir treffen uns am Bahnhof]]. Du musst mich nicht abholen.
+Mein Vorschlag zur Anreise: [[Reisemittel|Wir fahren mit dem Zug und nehmen dein Auto nur für den Rückweg]]. So sparen wir Benzin.
 
-Ich komme [[Begleitung|allein, denn meine Freunde haben leider keine Zeit]]. Dafür kann ich viel Zeit mit dir verbringen.
+Mein Vorschlag zur Begleitung: [[Mitbringen|Wir laden meine Freundin Mia und deine Kollegin ein]]. Dann sind wir eine größere Gruppe.
 
-Zur Übernachtung habe ich eine Frage: [[Übernachtung|Dürfte ich an den anderen Tagen bei dir im Wohnzimmer schlafen]], und nur zwei Nächte im Zelt auf dem Festplatz? Das wäre perfekt für mich.
+Mein Vorschlag zum Übernachten: [[Reaktion auf das Übernachten|Wir bauen unsere Zelte nebeneinander auf]], damit wir zusammenbleiben.
 
-Sonst möchte ich noch [[Aktivität|eine kleine Wanderung mit Picknick machen, am besten an einem Tag ohne Konzert]].
+Außerdem schlage ich vor, [[Wunsch|dass wir einen Tag in Mainz verbringen]].
 
-Lass mich bitte wissen, ob du Lust darauf hast.
+Ein weiterer Vorschlag: [[Vorschlag|Wir fahren einen Tag früher, damit wir in Ruhe ankommen]]. Dann bauen wir die Zelte [[Zeit|bei Tageslicht]] auf. Und noch einer: [[Vorschlag 2|Wir packen einen großen Picknickkorb für das Konzert]], mit Sandwiches und Obst.
+
+Ein dritter Vorschlag: [[Vorschlag 3|Wir besuchen am Sonntag die Weinberge oberhalb von Rüdesheim]], wenn wir noch Kraft haben. Der Ausblick auf den Rhein ist bestimmt wunderschön, und du kannst mir erzählen, [[Information|was die Stadt zu bieten hat]].
+
+Dazu kann ich [[Beitrag|die Getränke und die Snacks]] besorgen, wenn du dich um [[Aufgabe|die Zeltplätze und die Tickets]] kümmerst. So teilen wir die Arbeit gerecht auf, und niemand muss allein planen.
+
+Was hältst du davon?
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Aymen]]` },
+[[Dein Name|Paula]]` },
 
   // 11
-  { label: "Mit dem Zug, Bruder und Schwester mitbringen, Jugendherberge, Museum und Eis", t: `Liebe [[Name der Freundin|Sonja]],
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Sonja]],
 
-ich habe mich ehrlich über deine Nachricht gefreut! Ein Open-Air-Festival mit den besten Bands, das ist genau mein Ding. Ich freue mich sehr auf die Zeit mit dir.
+vielen Dank für deine Einladung. Ich würde sehr gern kommen, [[Bedingung|wenn ich mir die Tage freinehmen kann]].
 
-Für die Fahrt nehme ich [[Reise|den Zug von meiner Stadt, mit einem Sparticket]]. Das ist billig, und ich komme pünktlich an.
+Bei der Anreise bin ich unsicher. Mit dem Zug ist es entspannter, mit dem Auto bequemer. [[Reisemittel|Ich glaube, der Zug ist die bessere Wahl]], weil [[Grund für das Reisemittel|wir beide dann trinken dürfen]].
 
-Ich möchte gern [[Begleitung|meinen Bruder und meine Schwester]] mitbringen, wenn das für dich in Ordnung ist. Wir hören alle gern Musik.
+Ob ich jemanden mitbringe, ist noch offen. [[Mitbringen|Vielleicht kommt meine Freundin Nora mit, aber sie muss noch ihren Dienstplan prüfen]]. Ich sage dir bald Bescheid.
 
-Zum Übernachten: [[Übernachtung|In einer Jugendherberge in Rüdesheim sind wir bequemer als im Zelt]]. Ich buche schon einmal vor.
+Das Übernachten auf dem Festplatz finde ich einerseits spannend, andererseits [[Bedenken|etwas unbequem, wenn es regnet]]. [[Reaktion auf das Übernachten|Ich bin aber bereit, es auszuprobieren]].
 
-Außerdem möchte ich [[Aktivität|ein Museum besuchen und danach ein Eis essen]]. Wir müssen nur noch planen.
+Ich möchte noch etwas zum Wetter sagen: [[Sorge|Wenn es stark regnet, ist ein Zelt nicht ideal]]. Andererseits gehört das zu einem Festival dazu. Deshalb schlage ich vor, [[Vorschlag|dass wir uns eine Regenjacke und gute Schuhe besorgen]], dann kann uns nichts passieren.
 
-Melde dich bitte, wenn es bei dir ruhiger wird.
+Ich weiß noch nicht genau, [[Unsicherheit|wie lange ich bei dir bleiben kann]]. Wenn es klappt, [[Plan|bleibe ich eine Woche]], [[Folge|und wir können alles in Ruhe planen]]. Aber ich möchte dir nichts versprechen, was ich nicht halten kann. Dein Vorschlag mit dem Festival ist trotzdem [[Wertung|eine wunderbare Idee, die ich nicht verpassen möchte]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Emna]]` },
+Für den Rest habe ich [[Wunsch|noch keine festen Wünsche]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
 
   // 12
-  { label: "Mit der Mitfahrgelegenheit, Freundin mitbringen, Campingplatz, Burg und Wein", t: `Hallo [[Name der Freundin|Sonja]],
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Sonja]],
 
-deine Einladung freut mich sehr! Ein Festival in Rüdesheim ist eine tolle Idee, und ich habe große Lust auf Live-Musik. Ich freue mich auf dich.
+danke für deine Einladung! Ich gehe der Reihe nach auf deine Fragen ein.
 
-Zur Reise: [[Reise|Ich fahre mit einer Mitfahrgelegenheit bis nach Mainz und dann mit dem Bus weiter]]. Das ist schnell und billig.
+Erstens zur Anreise: [[Reisemittel|Ich würde gern mit dem Zug fahren]]. Zweitens zur Begleitung: [[Mitbringen|Ich bringe meinen Freund Jonas mit]].
 
-Ich möchte [[Begleitung|meine Freundin Sana]] mitbringen. Sie ist sehr nett und tanzt gern.
+Drittens zum Übernachten: [[Reaktion auf das Übernachten|Das Zelt auf dem Festplatz ist für mich in Ordnung]]. Viertens zu meinen Wünschen: [[Wunsch|Ich möchte gern das Schloss in Mainz besichtigen]].
 
-Beim Übernachten: [[Übernachtung|Ein Campingplatz in der Nähe des Rheins wäre schön, weil wir dort Strom und Duschen haben]]. Ich recherchiere gern Preise.
+Als Nächstes zu den Kosten: Ich bezahle [[Kosten|mein Ticket und die Zugfahrt selbst]]. Dann zum Packen: [[Packliste|Zelt, Schlafsack, Regenjacke und Taschenlampe]] habe ich schon. Danach zum Wetter: Wenn das Wetter gut ist, [[Folge|bleiben wir bis spät in die Nacht]].
 
-Sonst würde ich gern [[Aktivität|eine Burg besichtigen und eine Weinprobe mit Traubensaft machen]]. Das gehört zu Rüdesheim.
+Zum Schluss ein paar Wünsche. Erstens: [[Wunsch 2|Wir machen eine Schifffahrt auf dem Rhein]]. Zweitens: [[Wunsch 3|Wir besichtigen die Altstadt von Mainz]]. Drittens: [[Wunsch 4|Wir kochen einmal zusammen bei dir zu Hause]]. Dann habe ich alles aufgeschrieben, und wir können in Ruhe planen.
 
-Ich hoffe, wir sehen uns bald wieder.
+Ich komme [[Ankunft|am ersten Ferientag]], wenn dir das passt. Gib mir bitte rechtzeitig Bescheid, damit ich meine Tickets kaufen kann und nichts schiefgeht.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Walid]]` },
+Falls du mir vorher noch [[Wunsch 5|die Karte von Rüdesheim schicken kannst]], wäre ich sehr dankbar, denn dann kann ich schon einmal alles ansehen.
 
-  // 13
-  { label: "Mit dem Auto und Zug, Kollege mitbringen, Pension am Rhein, Stadt Mainz und Altstadt", t: `Liebe [[Name der Freundin|Sonja]],
-
-lieben Dank für deine netten Zeilen! Ein Festival ist eine großartige Idee für die Ferien, und ich freue mich, dass du an mich denkst. Ich habe lange darauf gewartet.
-
-Zur Anreise: [[Reise|Ich fahre mit dem Auto bis zu deiner Stadt]], und wir nehmen dann zusammen den Zug nach Rüdesheim. So haben wir kein Parkproblem.
-
-Ich möchte gern [[Begleitung|einen Kollegen mitbringen, der auch gern Musik hört]]. Er heißt Anis und ist sehr unkompliziert.
-
-Zur Übernachtung schlage ich vor: [[Übernachtung|Wir mieten in einer Pension am Rhein zwei Zimmer]]. Das ist angenehmer als ein Zelt.
-
-Sonst möchte ich noch [[Aktivität|die Stadt Mainz und die Altstadt besichtigen]]. Danach essen wir etwas.
-
-Bis bald, und schreib mir, wie es dir geht.
-
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Anis]]` },
-
-  // 14
-  { label: "Mit dem Zug, Freundin mitbringen, Hotelzimmer zu zweit, Rhein-Wanderung", t: `Hallo [[Name der Freundin|Sonja]],
-
-vielen Dank für die schöne Einladung! Das Festival in Rüdesheim klingt toll, und ich freue mich auf die Ferien mit dir. Die Bands sollen international sein, das gefällt mir.
-
-Zur Fahrt: [[Reise|Ich würde den Zug nehmen und in Mainz umsteigen]]. Ich schaue mir noch die Fahrzeiten an.
-
-Wenn es für dich passt, bringe ich [[Begleitung|meine Freundin Mariem]] mit. Sie ist sportlich und freut sich auf alles.
-
-Zum Übernachten würde ich [[Übernachtung|gern ein Hotelzimmer zu zweit buchen, wenn der Preis in Ordnung ist]]. Mir ist ein bequemes Bett wichtig.
-
-Sonst möchte ich [[Aktivität|eine Wanderung am Rhein machen und dabei fotografieren]]. Ich nehme meine Kamera mit.
-
-Ich bin gespannt auf deinen Plan, also schreib mir bald.
+Wenn du mir antwortest, plane ich alles Weitere.
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Sana]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Sonja]],
+
+dein Brief hat mich sehr gefreut. [[Reaktion auf die Einladung|Danke, dass du dir so viel Mühe machst]]. Ich komme gern und freue mich darauf, dich nach so langer Zeit zu sehen.
+
+Zur Anreise: [[Reisemittel|Ich nehme den Zug]], dann musst du mich nicht abholen. Du hast bestimmt schon genug zu tun.
+
+Wenn du möchtest, bringe ich jemanden mit: [[Mitbringen|meine Schwester Nadia, sie würde sich freuen]]. Sag mir einfach, ob das für dich passt.
+
+Zum Übernachten: [[Reaktion auf das Übernachten|Ich übernachte gern auf dem Festplatz, Hauptsache du bist dabei]].
+
+Du bist [[Lob|wirklich eine tolle Gastgeberin]]. Ich hoffe sehr, dass du dich [[Wunsch 0|nicht stresst]]. Du musst nicht alles allein organisieren, [[Angebot|ich helfe dir bei jedem Schritt]]. Für mich ist das Wichtigste, [[Wunsch|dass wir Zeit füreinander haben]]. Das Festival ist nur der schöne Rahmen.
+
+Ich bringe dir [[Geschenk|eine kleine Überraschung aus meiner Stadt]] mit, weil du so lieb zu mir bist. Wenn das Wetter gut ist, [[Vorstellung|sitzen wir abends nebeneinander und lauschen der Musik]]. Das wird sicher ein [[Gefühl|unvergessliches Erlebnis]], das uns noch näherbringt.
+
+Du bedeutest mir sehr viel, und ich möchte, dass du das weißt. Danke für alles, was du für mich tust.
+
+Wenn du Lust hast, [[Wunsch|zeig mir deine Lieblingsorte in Mainz]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Sonja]],
+
+klar, ich bin dabei! [[Reaktion auf die Einladung|Ein Festival ist genau das, was ich brauche]].
+
+Zug, würde ich sagen. [[Reisemittel|Mit dem Zug kann ich schon unterwegs Musik hören]].
+
+Mitbringen? [[Mitbringen|Ich frage Ben, vielleicht hat er Zeit]].
+
+Zelt auf dem Festplatz? [[Reaktion auf das Übernachten|Klingt gut, ich nehme meinen Schlafsack mit]].
+
+Sonst noch etwas? [[Wunsch|Ein Ausflug in die Weinberge wäre cool]].
+
+Ach ja, noch was: [[Frage|Brauchen wir Bargeld für die Getränke]]? Ich bringe [[Mitbringsel|eine Powerbank und gute Laune]] mit. Und wenn das Wetter gut ist, kann man alles so richtig genießen, [[Folge|dann tanzen wir die ganze Nacht]].
+
+Ich habe gerade Ferien, und ich bin [[Gefühl|echt gespannt auf alles]]. Wir hatten ja [[Erinnerung|damals schon so viel Spaß zusammen]], das kann nur gut werden. Du kannst mir gern erzählen, [[Information|wie es bei dir gerade läuft]].
+
+Ich sage dir noch, [[Ankunft|wann mein Zug ankommt]], sobald ich die Fahrkarte habe. Hol mich einfach am Bahnhof ab, dann gehen wir gleich etwas essen. Das wird ein richtig guter Sommer, ich spüre das schon jetzt. Das ist ein guter Plan, oder?
+
+Und falls ich dich mit meinen Fragen nerve: Sag es einfach, ich bin da nicht empfindlich, und wir lachen darüber.
+
+Schreib mir bald!
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];
