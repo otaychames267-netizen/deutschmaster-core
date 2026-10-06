@@ -62,10 +62,18 @@ interface AttemptRow {
   schreiben_exam_id: string;
 }
 
+/** Points of ONE Teil, each scored against its own fixed maximum (Lesen/Hören 25 per Teil, Sprachbausteine 15 per Teil) —
+ * written by score_simulation_sections. Absent on attempts finished before per-Teil scoring existed. */
+type TeilScores = Record<string, { points: number; max: number; correct: number; items: number }>;
+
 interface ResultShape {
   score_lesen: number; score_sb: number; score_hoeren: number; score_schreiben: number;
   score_total: number; passed: boolean;
+  teil_scores?: TeilScores | null;
 }
+
+/** Half points exist (telc: 2.5 per item), shown with a German decimal comma. */
+const fmtPts = (n: number) => (Number.isInteger(n) ? String(n) : n.toFixed(1).replace(".", ","));
 
 /* ─── Content loaders — one per section, whitelisted columns only (never the answer key) ─── */
 
@@ -252,11 +260,18 @@ function useFehleranalyse(attempt: AttemptRow, essayGradingId: string | null): {
 const SECTION_GROUP_LABEL: Record<string, string> = { Lesen: "Lesen", Sprachbausteine: "Sprachbausteine", Hören: "Hören" };
 
 function ResultsScreen({ result, attempt, essayGradingId }: { result: ResultShape; attempt: AttemptRow; essayGradingId: string | null }) {
+  const teilScores = result.teil_scores ?? null;
+  const teile = (group: string) => teilScores
+    ? SECTIONS.filter((s) => s.group === group && teilScores[s.key]).map((s) => ({
+        label: s.label.split("— ")[1] ?? s.label, score: teilScores[s.key].points, max: teilScores[s.key].max,
+        detail: `${teilScores[s.key].correct} / ${teilScores[s.key].items} richtig`,
+      }))
+    : [];
   const rows = [
-    { label: "Lesen", score: result.score_lesen, max: 75 },
-    { label: "Sprachbausteine", score: result.score_sb, max: 30 },
-    { label: "Hören", score: result.score_hoeren, max: 75 },
-    { label: "Schreiben", score: result.score_schreiben, max: 45 },
+    { label: "Lesen", score: result.score_lesen, max: 75, teile: teile("Lesen") },
+    { label: "Sprachbausteine", score: result.score_sb, max: 30, teile: teile("Sprachbausteine") },
+    { label: "Hören", score: result.score_hoeren, max: 75, teile: teile("Hören") },
+    { label: "Schreiben", score: result.score_schreiben, max: 45, teile: [] as { label: string; score: number; max: number; detail: string }[] },
   ];
   const { data: fehler, loading: fehlerLoading } = useFehleranalyse(attempt, essayGradingId);
 
@@ -277,7 +292,7 @@ function ResultsScreen({ result, attempt, essayGradingId }: { result: ResultShap
           {result.passed ? <CheckCircle2 className="h-12 w-12 text-emerald-500" /> : <AlertCircle className="h-12 w-12 text-destructive" />}
         </div>
         <div>
-          <p className="text-4xl font-bold text-foreground">{result.score_total} / 225</p>
+          <p className="text-4xl font-bold text-foreground">{fmtPts(result.score_total)} / 225</p>
           <p className={`mt-2 font-semibold ${result.passed ? "text-emerald-500" : "text-destructive"}`}>
             {result.passed ? "BESTANDEN" : "NICHT BESTANDEN"}
           </p>
@@ -287,11 +302,21 @@ function ResultsScreen({ result, attempt, essayGradingId }: { result: ResultShap
             <div key={r.label}>
               <div className="mb-1 flex items-center justify-between text-sm">
                 <span className="font-medium text-foreground">{r.label}</span>
-                <span className="text-muted-foreground">{r.score} / {r.max}</span>
+                <span className="text-muted-foreground">{fmtPts(r.score)} / {r.max}</span>
               </div>
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
                 <div className="h-full rounded-full bg-primary" style={{ width: `${(r.score / r.max) * 100}%` }} />
               </div>
+              {r.teile.length > 0 && (
+                <div className="mt-2 space-y-1 border-l-2 border-border pl-3">
+                  {r.teile.map((t) => (
+                    <div key={t.label} className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{t.label} <span className="opacity-70">({t.detail})</span></span>
+                      <span className="tabular-nums">{fmtPts(t.score)} / {t.max}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>
