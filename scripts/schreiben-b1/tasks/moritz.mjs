@@ -1,254 +1,370 @@
-// Moritz – Grüße aus San Diego (Mietwagen, Architektur, Strände, Club mit toller Musik), fliegt in zwei Tagen zurück; fragt nach Lieblingsland. Points: Ihr Lieblingsland · was Sie an fremden Orten interessiert · welche Musik Sie gern hören · ein Vorschlag für ein Treffen mit Moritz.
+// v2 (B2-style): Moritz schickt Urlaubsgrüße aus San Diego (Mietwagen, Architektur, Strände, Club, in zwei Tagen zurück, Treffen nächste Woche?). Points: Ihr Lieblingsland · was Sie an fremden Orten interessiert ·
+// welche Musik Sie gern hören · ein Vorschlag für ein Treffen mit Moritz — plus: Reaktion auf die Grüße ("Du weißt ja, wie sehr ich Kalifornien mag"), "Welches Land ist dein Lieblingsland?".
+export const kw = [/Lieblingsland|Land/i, /interessier|fremd|Orten|Kultur|Essen|Menschen|Architektur|Sehenswürdig|Natur|Sprache/i, /Musik|Lieder|Band|Rock|Pop|Konzert|Jazz|Klassik|Songs|Playlist|DJ/i, /treff/i, /San Diego|Kalifornien|Grüße|Strand|Urlaub/i];
 export default [
   // 1
-  { label: "Lieblingsland Tunesien, Essen und Menschen, arabische Popmusik, Treffen im Café", t: `Lieber [[Name des Freundes|Moritz]],
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Moritz]],
 
-vielen Dank für die Grüße aus Kalifornien! Dass du mit einem Mietwagen unterwegs bist und die Strände siehst, klingt nach einem wunderbaren Urlaub. Ich bin gespannt auf deine Geschichten.
+vielen Dank für deine Grüße aus San Diego, ich habe mich sehr gefreut! [[Reaktion auf die Grüße|Mietwagen, Architektur und Strände klingen nach einem wunderbaren Urlaub]].
 
-Mein Lieblingsland ist [[Lieblingsland|Tunesien, weil dort meine Familie lebt und das Meer so schön ist]]. Dort fühle ich mich einfach zu Hause.
+Du fragst nach meinem Lieblingsland: [[Lieblingsland|Das ist für mich Italien]], weil [[Grund für das Lieblingsland|das Essen, die Städte und die Menschen so herzlich sind]].
 
-An fremden Orten interessieren mich [[Interesse|vor allem das Essen und die Menschen]], denn man lernt viel über ein Land, wenn man mit Einheimischen spricht.
+An fremden Orten interessieren mich besonders [[Interesse 1|die Menschen und ihre Geschichten]] und [[Interesse 2|die Küche und die Märkte]]. Ich probiere gern etwas Neues.
 
-Musik höre ich gern, [[Musik|besonders arabische Popmusik und manchmal Rock]]. Dein Club in San Diego klingt toll.
+Musik höre ich am liebsten [[Musikstil|Pop und Soul]], und für Partys [[Party-Musik|elektronische Musik]]. Deine Club-Musik würde mich auch reizen.
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir treffen uns nächste Woche in einem Café in der Stadt]]. Dann erzählst du mir alles.
+Für ein Treffen schlage ich vor, [[Treffvorschlag|dass wir uns am Dienstag in der Stadt auf einen Kaffee treffen]]. Dann erzählst du mir alles genauer.
 
-Ich warte gespannt auf deine Nachricht.
+Dass du dir ein Auto gemietet hast, finde ich eine gute Idee: [[Kommentar|So ist man flexibel und kann an jedem Strand halten]]. In Kalifornien sind die Straßen breit und die Aussicht grandios. Ich habe davon [[Quelle|in Filmen und Reiseberichten]] gehört, und es klingt nach einem Abenteuer.
+
+An fremden Orten gefällt mir auch, [[Vorliebe|abends durch die Straßen zu gehen und das Leben zu beobachten]]. Das sagt mehr über eine Stadt als jede Sehenswürdigkeit. Außerdem [[Zweite Vorliebe|probiere ich gern die Spezialitäten der Region]], und ich lerne ein paar Wörter der Sprache.
+
+Zur Musik: Ich höre gern, [[Anlass|beim Kochen, beim Joggen und abends zum Entspannen]]. Mein Lieblingskünstler ist [[Künstler|ein Soulsänger aus den Siebzigern]], dessen Lieder mir immer gute Laune machen. Vielleicht erzähle ich dir beim Treffen mehr, [[Folge|und wir tauschen Playlists]].
+
+Dein Vorschlag, uns nächste Woche zu treffen, gefällt mir sehr. [[Wunsch|Ich freue mich darauf, deine Geschichten zu hören]], und ich bringe [[Mitbringsel|etwas zu trinken]] mit. Das wird ein schöner Abend.
+
+Schreib mir bitte, [[Frage an den Freund|wann du wieder in Deutschland landest]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
   // 2
-  { label: "Lieblingsland Italien, Geschichte und Märkte, Pop und Klassik, Treffen zum Abendessen", t: `Hallo [[Name des Freundes|Moritz]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Moritz]],
 
-danke für deine Nachricht aus San Diego! Ich freue mich, dass du Kalifornien so magst, und die Hochhäuser und Strände kann ich mir gut vorstellen. Ein Mietwagen ist bei so viel Strecke praktisch.
+danke für die Grüße aus San Diego! [[Reaktion auf die Grüße|Auto, Strand, Hochhäuser und Club, das klingt nach einem krassen Urlaub]]. Ich bin ein bisschen neidisch.
 
-Mein Lieblingsland ist [[Lieblingsland|Italien, wegen der Kunst, der Städte und des guten Essens]]. Ich war schon fünfmal dort und möchte immer wieder hin.
+Mein Lieblingsland? [[Lieblingsland|Spanien]], [[Grund für das Lieblingsland|wegen Sonne, Meer und Tapas]].
 
-An fremden Orten interessiert mich [[Interesse|die Geschichte und ich besuche gern lokale Märkte, wo man echte Produkte findet]]. Das zeigt mir den Alltag der Menschen.
+An fremden Orten interessiert mich [[Interesse 1|das Essen]] und [[Interesse 2|wie die Leute leben]].
 
-Ich höre gern [[Musik|Pop und manchmal klassische Musik, vor allem abends]]. Dein Club-Abend klingt lustig.
+Musik: [[Musikstil|Ich höre alles Mögliche, Hip-Hop, Pop und Indie]].
 
-Vorschlag für ein Treffen: [[Vorschlag|Wir gehen nächste Woche zusammen zum Abendessen und du erzählst alles]].
+Treffen? Klar! [[Treffvorschlag|Wie wäre es am Mittwochabend auf ein Bier]]?
 
-Antworte mir gern, so bald es dir passt.
+Zu den Hochhäusern und der Architektur: [[Frage|Welches Gebäude hat dich am meisten beeindruckt]]? Ich mag moderne Architektur, [[Vorliebe|vor allem Glas und Stahl am Meer]]. Wenn du Fotos gemacht hast, zeig sie mir unbedingt.
+
+Besonders interessieren mich [[Interesse|die Märkte und kleinen Läden]], denn dort spürt man das echte Leben. In einem großen Einkaufszentrum ist überall dasselbe. Deshalb suche ich [[Ziel|immer die Orte, an denen auch Einheimische einkaufen]].
+
+Musik gehört für mich zum Alltag: [[Beschreibung|Im Bus höre ich Podcasts, zu Hause Musik]]. Gern gehe ich auch auf Konzerte. Dein Club klingt spannend, [[Frage|was für eine Musik wurde dort gespielt, House, Hip-Hop oder etwas anderes]]?
+
+Wenn wir uns treffen, könnten wir [[Idee|in meiner Lieblingspizzeria essen und danach noch spazieren gehen]]. Das ist gemütlich, und du kannst erzählen, ohne Lärm im Hintergrund. Ich freue mich schon darauf, [[Folge|dich wiederzusehen]].
+
+Meld dich, [[Frage an den Freund|wann du zurück bist]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Lieblingsland Kanada, Natur und Tiere, Rock und Country, Treffen bei einer Wanderung", t: `Lieber [[Name des Freundes|Moritz]],
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Moritz]],
 
-danke für deine E-Mail aus Kalifornien! Dass du die Architektur und die Strände so lobst, macht mich neugierig auf deine Fotos. Mit dem Mietwagen kannst du viel sehen.
+wow, Grüße aus San Diego, wie toll! [[Reaktion auf die Grüße|Kalifornien mit Strand, Architektur und Mietwagen, das ist ein Traum]]. Ich freue mich riesig für dich.
 
-Mein Lieblingsland ist [[Lieblingsland|Kanada, denn die Natur dort ist riesig und wild]]. Ich war einmal im Urlaub dort und habe Bären und Elche gesehen.
+Mein Lieblingsland: [[Lieblingsland|Kanada]], weil [[Grund für das Lieblingsland|die Natur so riesig und die Menschen so freundlich sind]].
 
-An fremden Orten interessiert mich [[Interesse|vor allem die Natur und die Tiere, die man zu Hause nicht sieht]]. Städte sind für mich zweitrangig.
+An fremden Orten interessiert mich [[Interesse 1|die Natur]], [[Interesse 2|die Kultur und die Sprache]].
 
-Meine Musik ist [[Musik|Rock und manchmal Country, besonders beim Autofahren]]. Dein Konzert muss sehr gut gewesen sein.
+Musik: Ich liebe [[Musikstil|Rock und Pop]], und [[Party-Musik|auf Partys auch Tanzmusik]].
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir machen nächste Woche eine kleine Wanderung im Wald und essen danach etwas]].
+Ein Treffen? Unbedingt! [[Treffvorschlag|Ich schlage Dienstagabend vor, wir gehen essen]].
 
-Schreib mir bitte bald, ob dir das passt.
+Die Strände in Kalifornien sind berühmt: [[Wissen|lange Sandstrände, Surfer und Sonnenuntergänge]]. Ich war noch nie dort, aber es steht auf meiner Liste. Vielleicht [[Plan|reise ich in zwei Jahren selbst dorthin]], und dann kannst du mir Tipps geben.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Mich fasziniert, [[Interesse|wie unterschiedlich Menschen leben und feiern]]. Wenn ich verreise, besuche ich gern ein lokales Fest, [[Beispiel|zum Beispiel ein Straßenfest oder ein Konzert im Park]]. Das ist für mich der beste Weg, ein Land zu verstehen.
+
+Ich liebe Musik, die [[Eigenschaft|Geschichten erzählt und Emotionen weckt]]. Deshalb höre ich oft Singer-Songwriter. Für den Urlaub habe ich eine eigene Playlist, [[Folge|damit ich unterwegs gute Stimmung habe]].
+
+Für das Treffen hätte ich [[Idee|Lust auf einen Abend mit Fotos und Musik]], bei dem du deine Bilder zeigst. Ich spiele dazu deine Lieder. So kommt Kalifornien zu uns, [[Folge|ganz ohne Flug]].
+
+Schreib mir bald, [[Frage an den Freund|wann dein Flug landet]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Lieblingsland Japan, Kultur und Technik, Elektro und J-Pop, Treffen im Kino", t: `Hallo [[Name des Freundes|Moritz]],
+  { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Moritz]],
 
-wie schön, dass du mir aus San Diego schreibst! Dein Urlaub klingt fantastisch, und die Hochhäuser, Strände und der Club müssen ein Erlebnis sein. Danke für die Grüße!
+vielen Dank für deine Grüße. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
-Mein Lieblingsland ist [[Lieblingsland|Japan, weil ich die Kultur und die Technik dort so spannend finde]]. Ich war noch nie dort, aber ich träume schon lange davon.
+Erstens, dein Urlaub: [[Reaktion auf die Grüße|Ich freue mich, dass dir Kalifornien so gut gefällt]].
 
-An fremden Orten interessiert mich [[Interesse|die Kultur, zum Beispiel Feste, Kleidung und alte Traditionen]]. Das macht mir Spaß, und ich lerne viel dabei.
+Zweitens, mein Lieblingsland: [[Lieblingsland|Italien]], weil [[Grund für das Lieblingsland|es Kultur und Natur verbindet]].
 
-Ich höre gern [[Musik|elektronische Musik und manchmal J-Pop]]. Dein Club in San Diego hat bestimmt gute Musik gespielt.
+Drittens, was mich an fremden Orten interessiert: [[Interesse 1|Kultur und Architektur]].
 
-Mein Vorschlag: [[Vorschlag|Wir treffen uns nach deiner Rückkehr im Kino, und ich lade dich ein]].
+Viertens, die Musik: [[Musikstil|Ich höre Pop und Jazz]].
 
-Erzähl mir gern in deiner Antwort mehr davon.
+Fünftens, ein Treffen: Ich schlage [[Treffvorschlag|Dienstag, 18 Uhr in einem Café]] vor.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Ergänzend interessiert mich, [[Frage|wie die Menschen in San Diego sind, eher locker oder eher reserviert]]. Ich habe gehört, [[Vorurteil|dass Kalifornier sehr entspannt sind]]. Stimmt das, oder ist das nur ein Klischee?
+
+Ergänzend interessiert mich [[Interesse|die Geschichte eines Ortes]], etwa alte Gebäude und Museen. Ich lese vorher viel darüber, [[Folge|damit ich vor Ort mehr verstehe]]. Auf diese Weise bleibt die Reise länger im Gedächtnis.
+
+Ergänzend höre ich gern [[Musikstil|Gitarrenmusik und alte Rocksongs]], besonders auf Autofahrten. Du hast bestimmt im Mietwagen Radio gehört, [[Frage|welcher Sender war gut]]? Ich suche immer nach neuen Entdeckungen.
+
+Ergänzend schlage ich vor, das Treffen [[Terminvorschlag|am Mittwochabend um 19 Uhr]] zu machen, weil [[Grund|du dann ausgeruht bist und noch viel zu erzählen hast]]. Ich reserviere, [[Angebot|wenn du magst, einen Tisch in einem schönen Lokal]].
+
+Bitte teile mir mit, [[Frage an den Freund|ob dir der Termin passt]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Lieblingsland Spanien, Sprache und Essen, Flamenco und Pop, Treffen am Strand", t: `Lieber [[Name des Freundes|Moritz]],
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Moritz]],
 
-vielen Dank für deine Grüße! San Diego klingt wunderbar, und ich freue mich, dass du so viel erlebst. Strände und Hochhäuser zusammen sind eine spannende Mischung.
+danke für deine Grüße aus San Diego! [[Reaktion auf die Grüße|Schön, dass du so viel erlebst, und ich helfe dir gern bei der Rückreise]].
 
-Mein Lieblingsland ist [[Lieblingsland|Spanien, wegen der Sonne, der Sprache und der Lebensfreude]]. Ich habe dort einen Sprachkurs gemacht und viele Freunde gefunden.
+Mein Lieblingsland: [[Lieblingsland|Portugal]], [[Grund für das Lieblingsland|wegen Meer und Menschen]].
 
-An fremden Orten interessieren mich [[Interesse|die Sprache und das Essen, ich probiere gern neue Gerichte]]. Das ist für mich der beste Weg, ein Land kennenzulernen.
+An fremden Orten interessiert mich [[Interesse 1|Geschichte]], und ich sammle [[Interesse 2|gern Karten und Reiseführer]]. Wenn du magst, [[Praktische Hilfe|leihe ich dir meine Reiseführer für deine nächste Reise]].
 
-Ich höre gern [[Musik|Flamenco und Popmusik]]. Die Gitarren berühren mich sehr, und der Rhythmus macht gute Laune.
+Musik: [[Musikstil|Pop und Soul]].
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir gehen am Wochenende zusammen an einen Strand in der Nähe und grillen]].
+Ein Treffen? Gern! [[Treffvorschlag|Ich hole dich am Flughafen ab, dann gehen wir essen]].
 
-Schreib mir bitte zurück.
+Praktisch wäre es, wenn du mir ein paar Tipps aufschreibst: [[Wunsch|die besten Restaurants, Strände und Orte, die man gesehen haben muss]]. Ich sammle solche Tipps für später, [[Folge|und ich revanchiere mich mit Tipps für Deutschland]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Praktisch gesagt interessiere ich mich für [[Interesse|Verkehrsmittel, Preise und gute Unterkünfte]], denn das macht eine Reise einfach. Ich schreibe mir alles auf, [[Folge|und das hilft mir bei der nächsten Reise]]. Wenn du magst, gebe ich dir meine Liste.
+
+Ich kann dir gern eine Playlist zusammenstellen: [[Angebot|mit zwanzig Liedern, die gut zu Reisen passen]]. Das mache ich sehr gern, und du kannst sie für deine nächste Fahrt nutzen. [[Hinweis|Schick mir einfach deine Lieblingsrichtung]].
+
+Ich helfe dir gern, [[Hilfsangebot|nach der Landung nach Hause zu kommen]], wenn du magst. Ich hole dich am Flughafen ab, das ist kein Problem. Danach können wir kurz essen, [[Folge|und du kannst alles erzählen]].
+
+Sag mir bitte, [[Frage an den Freund|wann du landest]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Lieblingsland Schweiz, Berge und Sauberkeit, Jodeln und Pop, Treffen auf einer Hütte", t: `Hallo [[Name des Freundes|Moritz]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Moritz]],
 
-herzlichen Dank für deine schnelle Antwort! Dass du mit einem Auto durch Kalifornien fährst, finde ich spannend, und die Strände und Hochhäuser sind sicher beeindruckend. Ich beneide dich ein bisschen.
+ich danke dir für deine Grüße, denn [[Begründung für die Freude|ich habe lange nichts von dir gehört]]. [[Reaktion auf die Grüße|San Diego ist ein toller Ort für einen Urlaub]].
 
-Mein Lieblingsland ist [[Lieblingsland|die Schweiz, wegen der Berge, der Seen und der Sauberkeit]]. Ich habe dort einen Sommer verbracht.
+Mein Lieblingsland ist [[Lieblingsland|Griechenland]], weil [[Grund für das Lieblingsland|man dort Meer, Geschichte und gutes Essen hat]].
 
-An fremden Orten interessieren mich [[Interesse|die Natur und die Ruhe, denn ich liebe schöne Landschaften]]. Große Städte sind mir manchmal zu laut.
+An fremden Orten interessiert mich [[Interesse 1|die Kultur]], da [[Grund für das Interesse|man dort viel lernt]].
 
-Musik höre ich gern, [[Musik|zum Beispiel Pop und Volkslieder, auch ein bisschen Jodeln]]. Das klingt vielleicht komisch, aber ich mag es.
+Ich höre [[Musikstil|Rock und Pop]], weil [[Grund für die Musik|sie mich motivieren]].
 
-Ein Vorschlag für ein Treffen: [[Vorschlag|Wir fahren nächstes Wochenende zusammen in die Berge und essen auf einer Hütte]].
+Ich schlage ein Treffen vor, weil [[Grund für das Treffen|wir uns lange nicht gesehen haben]]: [[Treffvorschlag|Dienstagabend]].
 
-Erzähl mir gern wenn du Zeit hast mehr davon.
+Dass du nach zwei Tagen zurückfliegst, tut mir leid, denn [[Grund|man will immer länger bleiben, wenn es schön ist]]. Aber vielleicht ist es gut, dass es bei diesem schönen Eindruck bleibt, [[Folge|und du freust dich auf die nächste Reise]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+Fremde Orte interessieren mich, weil [[Grund|ich gern über den Tellerrand schaue und andere Sichtweisen kennenlerne]]. Das macht mich offener und gelassener. Außerdem [[Zweiter Grund|lerne ich dabei immer etwas über mich selbst]].
+
+Ich höre Pop und Soul, weil [[Grund|sie gute Laune machen und meinen Alltag leichter machen]]. Und manchmal höre ich Klassik, [[Zweiter Grund|zum Beispiel beim Lesen oder Lernen]]. Beides hat seinen Platz in meinem Leben.
+
+Ich schlage ein Treffen vor, weil [[Grund|ich neugierig auf deine Erlebnisse bin und wir viel zu bereden haben]]. Außerdem [[Zweiter Grund|habe ich eine Überraschung für dich]]. Das wird ein guter Abend, da bin ich sicher.
+
+Schreib mir, [[Frage an den Freund|ob dir das passt]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Lieblingsland Griechenland, Meer und Geschichte, Sirtaki und Pop, Treffen im Restaurant", t: `Lieber [[Name des Freundes|Moritz]],
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Moritz]],
 
-herzlichen Dank für die Grüße aus San Diego! Es klingt, als hättest du die schönste Zeit, und ich freue mich für dich. Dein Konzert muss ein tolles Erlebnis gewesen sein.
+danke für deine Grüße, hier kurz meine Antworten.
 
-Mein Lieblingsland ist [[Lieblingsland|Griechenland, wegen der Inseln, des Meeres und der alten Geschichte]]. Ich war dort schon zweimal, und es war traumhaft.
+San Diego: [[Reaktion auf die Grüße|Klingt toll]].
 
-An fremden Orten interessiert mich [[Interesse|die Geschichte, vor allem alte Ruinen und Museen]]. Ich gehe immer zuerst zu den Sehenswürdigkeiten.
+Lieblingsland: [[Lieblingsland|Italien]].
 
-Ich höre gern [[Musik|Sirtaki-Musik und griechischen Pop]]. Beim Zuhören denke ich an den Strand.
+Fremde Orte: [[Interesse 1|Essen und Menschen]].
 
-Ein Vorschlag für ein Treffen: [[Vorschlag|Wir treffen uns in einem griechischen Restaurant, essen zusammen und hören Musik]].
+Musik: [[Musikstil|Pop und Jazz]].
 
-Schreib mir bitte bald.
+Treffen: [[Treffvorschlag|Dienstag, Café]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Nour]]` },
+Beim Fliegen empfehle ich dir, [[Tipp|viel zu trinken und dir vorher Kopfhörer einzupacken]]. So ist der lange Flug erträglich. Ich habe das bei meiner letzten Reise gemerkt, [[Erfahrung|nachdem ich zehn Stunden nicht schlafen konnte]].
+
+Ich bin gern an Orten, an denen [[Beschreibung|Natur und Stadt zusammentreffen]], wie in San Diego. Dort kann man am Morgen am Strand laufen und am Nachmittag ins Museum gehen. Diese Mischung gefällt mir, [[Folge|und ich kann mich gut erholen]].
+
+Mein letztes Konzert war [[Konzert|ein kleines Open-Air in einem Park]], und es war wunderbar. Die Stimmung war entspannt, und alle haben mitgesungen. Ich denke, du wirst in San Diego ähnliche Erlebnisse gehabt haben, [[Folge|vielleicht mit lauteren Bässen]].
+
+Das Treffen muss nicht lang sein: [[Hinweis|Eine Stunde reicht, wenn du müde bist]]. Hauptsache, wir sehen uns. Ich bin da flexibel, [[Folge|und passe mich deinem Rhythmus an]].
+
+Ich freue mich auf deine Geschichten und hoffe, dass du gut nach Hause kommst und dich schnell wieder einlebst. Gib mir bitte kurz Bescheid, [[Frage an den Freund|wann du landest]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Lieblingsland Norwegen, Natur und Ruhe, Rock und Metal, Treffen am See", t: `Hallo [[Name des Freundes|Moritz]],
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Moritz]],
 
-wie nett, dass du dich gemeldet hast! Die Beschreibung von San Diego hat mich sehr neugierig gemacht. Kalifornien muss großartig sein, und der Club mit der tollen Musik klingt nach einem lustigen Abend.
+Strand, Mietwagen und Club in Kalifornien, und ich sitze hier im Regen! [[Reaktion auf die Grüße|Ich bin neidisch, aber ich verzeihe dir]].
 
-Mein Lieblingsland ist [[Lieblingsland|Norwegen, denn die Fjorde und die Natur sind einzigartig]]. Ich habe Fotos davon gesehen und möchte unbedingt hin.
+Mein Lieblingsland: [[Lieblingsland|Italien, wegen der Pizza und der Eisdielen]].
 
-An fremden Orten interessiert mich [[Interesse|die Natur und das ruhige Leben auf dem Land]]. Das Leben in kleinen Dörfern fasziniert mich.
+An fremden Orten interessiert mich [[Interesse 1|das Essen, ich bin eine Touristen-Spürnase für Bäckereien]].
 
-Ich höre gern [[Musik|Rock, manchmal auch Metal]]. Skandinavische Bands finde ich besonders spannend.
+Musik: [[Musikstil|Ich höre alles, nur nicht um sechs Uhr morgens]].
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir fahren zusammen an einen See und sitzen am Ufer]]. Dort können wir ungestört reden.
+Treffen? [[Treffvorschlag|Gern, wenn du Souvenirs mitbringst]].
 
-Antworte mir gern, sobald du kannst.
+San Diego ist für sein Wetter bekannt: [[Wissen|fast immer Sonne und milde Temperaturen]]. Ich beneide dich um das Klima. Bei uns ist es gerade [[Wetter|kalt und nass]], und ich hätte auch gern etwas Sonne.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Fares]]` },
+In fremden Ländern achte ich besonders auf [[Beobachtung|Kleinigkeiten, wie Menschen sich begrüßen oder was sie zum Frühstück essen]]. Das sind spannende Unterschiede. Ich schreibe sie manchmal in ein kleines Heft, [[Folge|und lese sie später gern wieder]].
+
+Musik ist für mich auch ein Weg, Menschen kennenzulernen: [[Beobachtung|Auf Konzerten kommt man schnell ins Gespräch]]. Das schätze ich sehr. Deshalb freue ich mich, wenn wir bald ein Konzert besuchen, [[Idee|vielleicht gleich nächsten Monat]].
+
+Wir können uns auch [[Idee|in einem Café mit Blick auf den Fluss treffen]], dort ist es entspannt. Du erzählst mir von San Diego, ich zeige dir meine neuen Bilder, [[Folge|und wir lachen viel]].
+
+Schreib bald, [[Frage an den Freund|ob der Jetlag schon zuschlägt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Lieblingsland Frankreich, Essen und Kunst, Chansons, Treffen im Museum", t: `Lieber [[Name des Freundes|Moritz]],
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Moritz]],
 
-wie lieb, dass du dich gemeldet hast! Kalifornien klingt wunderbar, und ich freue mich, dass du in einem Club so schöne Musik gehört hast. Dein Urlaub geht leider schnell vorbei.
+als ich deine Grüße gelesen habe, musste ich an unseren Roadtrip denken. [[Erinnerung an früher|Wir sind damals durch die Berge gefahren und haben laut Musik gehört]]. Kalifornien passt zu dir.
 
-Mein Lieblingsland ist [[Lieblingsland|Frankreich, wegen der Küche, der Kunst und der Sprache]]. Ich habe dort einen Sommer verbracht und viel gelernt.
+Mein Lieblingsland: [[Lieblingsland|Schweden]], weil [[Grund für das Lieblingsland|ich dort die schönsten Sommer erlebt habe]].
 
-An fremden Orten interessiert mich [[Interesse|das Essen und die Kunst, ich besuche gern Museen und kleine Galerien]]. Ich suche immer das Besondere.
+Fremde Orte: [[Interesse 1|Ich liebe es, kleine Cafés zu entdecken]].
 
-Ich höre gern [[Musik|französische Chansons, besonders am Abend]]. Die Texte sind poetisch.
+Musik: [[Musikstil|Ich höre gern Lieder, die mich an früher erinnern]].
 
-Als Vorschlag für ein Treffen: [[Vorschlag|Wir gehen zusammen in ein Museum, und danach essen wir etwas Französisches]].
+Ein Treffen? [[Treffvorschlag|Sehr gern, vielleicht beim Italiener]].
 
-Schreib mir ausführlich zurück.
+Ich erinnere mich an unsere gemeinsame Reise: [[Erinnerung|Wir haben nachts an einem Strand gesessen und den Sternenhimmel angeschaut]]. Das war einer der schönsten Abende. Ich denke, du hast Ähnliches erlebt, [[Folge|und das macht deinen Urlaub so besonders]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Ines]]` },
+Ich habe als Kind einmal [[Erinnerung|eine Reise nach Frankreich gemacht, und seitdem liebe ich Reisen]]. Damals habe ich zum ersten Mal ein fremdes Land erlebt. Dieses Gefühl suche ich bis heute, [[Folge|bei jeder neuen Reise]].
+
+Als Kind habe ich Klavier gespielt: [[Erinnerung|Meine Mutter hat mich jeden Tag zum Üben ermahnt]]. Heute bin ich ihr dankbar, denn [[Folge|ich verstehe Musik viel besser]]. Ich spiele manchmal noch, wenn ich allein bin.
+
+Ich erinnere mich an unser letztes Treffen: [[Erinnerung|Wir haben bis nach Mitternacht geredet]]. So einen Abend wünsche ich uns wieder, [[Wunsch|mit vielen Geschichten und noch mehr Humor]].
+
+Erzähl mir, [[Frage an den Freund|wie der Club war]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Lieblingsland Brasilien, Menschen und Feste, Samba und Pop, Treffen auf einem Fest", t: `Hallo [[Name des Freundes|Moritz]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Moritz]],
 
-vielen Dank für deine Grüße! Kalifornien muss herrlich sein, und deine Beschreibung der Architektur und der Strände hat mir sehr gefallen. Ich beneide dich um das warme Wetter.
+danke für deine Grüße. [[Reaktion auf die Grüße|Schön, dass dir Kalifornien gefällt]]. Ich habe gleich mehrere Vorschläge.
 
-Mein Lieblingsland ist [[Lieblingsland|Brasilien, wegen der Lebensfreude und der Strände]]. Ich war noch nicht dort, aber ich habe viele Freunde von dort.
+Mein Lieblingsland: [[Lieblingsland|Italien]]. Mein erster Vorschlag: Wir reisen [[Vorschlag|nächstes Jahr zusammen dorthin]].
 
-An fremden Orten interessieren mich [[Interesse|die Menschen und ihre Feste, denn ich möchte sehen, wie sie feiern]]. Das sagt viel über ein Land aus.
+Fremde Orte: [[Interesse 1|Kultur und Essen]]. Musik: [[Musikstil|Pop und Rock]].
 
-Ich höre gern [[Musik|Samba und brasilianischen Pop]]. Bei dieser Musik muss man einfach tanzen.
+Mein zweiter Vorschlag: [[Treffvorschlag|Wir treffen uns nächste Woche zum Abendessen]]. Mein dritter: [[Vorschlag 2|Du zeigst mir deine Fotos]].
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir gehen nach deiner Rückkehr zu einem Stadtfest und tanzen zusammen]].
+Mein vierter Vorschlag: [[Vorschlag|Wir planen irgendwann zusammen eine Reise in die USA]]. Mein fünfter: [[Vorschlag 2|Wir fangen schon einmal an, Geld zu sparen]]. Das wäre ein schönes Ziel für uns beide.
 
-Bis bald, und schreib mir, wie es dir geht.
+Mein sechster Vorschlag: [[Vorschlag|Wir machen ein Reisebuch mit allem, was wir an fremden Orten entdecken]]. Mein siebter: [[Vorschlag 2|Wir verabreden uns zu einem Reiseabend, an dem jeder Fotos zeigt]]. Das wäre schön.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Aymen]]` },
+Mein achter Vorschlag: [[Vorschlag|Wir gehen nach deiner Rückkehr zusammen auf ein Konzert]]. Mein neunter: [[Vorschlag 2|Wir erstellen gemeinsam eine Playlist für unsere nächste Reise]]. Das macht Spaß und verbindet.
 
-  // 11
-  { label: "Lieblingsland Marokko, Märkte und Gewürze, Gnawa und Rap, Treffen auf dem Markt", t: `Lieber [[Name des Freundes|Moritz]],
+Mein zehnter Vorschlag: [[Vorschlag|Wir kochen zusammen etwas Kalifornisches, zum Beispiel Fischtacos]]. Mein elfter: [[Vorschlag 2|Du bringst ein Souvenir mit, ich bringe den Nachtisch]]. Das wäre ein schöner Abend.
 
-danke für deine Nachricht aus San Diego! Die Strände und Hochhäuser dort klingen faszinierend, und ich freue mich für dich. Mit dem Mietwagen hast du bestimmt viel gesehen.
-
-Mein Lieblingsland ist [[Lieblingsland|Marokko, wegen der Farben, der Düfte und der Gastfreundschaft]]. Ich war dort mit meinen Eltern und habe die Märkte geliebt.
-
-An fremden Orten interessiert mich [[Interesse|der Alltag, die Märkte, die Gerüche und die Menschen]]. Ich beobachte gern, wie andere Leute leben.
-
-Ich höre gern [[Musik|Gnawa-Musik und deutschen Rap]]. Beides ist ganz verschieden, aber ich mag es.
-
-Als Vorschlag für ein Treffen: [[Vorschlag|Wir gehen zusammen auf einen Markt in unserer Stadt und kaufen frisches Obst]].
-
-Ich würde mich über eine schnelle Antwort von dir freuen.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Emna]]` },
-
-  // 12
-  { label: "Lieblingsland Portugal, Meer und Sprache, Fado und Pop, Treffen am Fluss", t: `Hallo [[Name des Freundes|Moritz]],
-
-wie schön, dass du mir aus Kalifornien geschrieben hast! Dein Urlaub klingt perfekt, und ich freue mich, dass es dir dort so gut gefällt. Die Architektur und die Strände muss ich einmal selbst sehen.
-
-Mein Lieblingsland ist [[Lieblingsland|Portugal, wegen des Meeres, der freundlichen Menschen und des guten Wetters]]. Ich war dort zweimal im Urlaub.
-
-An fremden Orten interessiert mich [[Interesse|die Sprache, ich lerne gern ein paar Sätze und spreche mit den Leuten]]. Das öffnet viele Türen.
-
-Ich höre gern [[Musik|Fado und manchmal Popmusik]]. Fado ist traurig, aber sehr schön.
-
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir sitzen am Fluss in der Stadt und trinken etwas]]. Das Wetter ist bald wieder gut.
-
-Bis bald, und melde dich, wenn du Neuigkeiten hast.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Walid]]` },
-
-  // 13
-  { label: "Lieblingsland Deutschland, Ordnung und Kultur, Schlager und Rock, Treffen beim Fußball", t: `Lieber [[Name des Freundes|Moritz]],
-
-danke für deine Grüße aus San Diego! Es freut mich, dass du so viel Spaß hast, und ich bin gespannt auf deine Erzählungen. Mietwagen, Strände und Clubs, das ist ein schöner Urlaub.
-
-Mein Lieblingsland ist [[Lieblingsland|Deutschland, weil ich hier lerne und die Kultur und die Menschen mag]]. Ich fühle mich hier wohl.
-
-An fremden Orten interessiert mich [[Interesse|die Kultur und wie die Leute den Alltag organisieren, zum Beispiel Verkehr und Ordnung]]. Das finde ich spannend.
-
-Ich höre gern [[Musik|deutsche Schlager und Rock, weil ich dabei Deutsch lerne]]. Die Texte sind oft einfach.
-
-Als Vorschlag für ein Treffen: [[Vorschlag|Wir schauen zusammen ein Fußballspiel im Fernsehen und essen Pizza]].
-
-Schreib mir bitte bald!
+Was hältst du davon? Ich freue mich auf deine Antwort und auf ein baldiges Wiedersehen mit dir, denn es gibt bestimmt viel zu erzählen. Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Lieblingsland Türkei, Gastfreundschaft und Essen, türkischer Pop, Treffen zum Frühstück", t: `Hallo [[Name des Freundes|Moritz]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Moritz]],
 
-ich habe mich sehr über deine Grüße aus San Diego gefreut! Kalifornien klingt wunderbar, und der Club mit der guten Musik war bestimmt ein Highlight. Ich bin neugierig auf deine Fotos.
+danke für deine Grüße. [[Reaktion auf die Grüße|Kalifornien klingt wunderbar, auch wenn der Urlaub bald endet]].
 
-Mein Lieblingsland ist [[Lieblingsland|die Türkei, wegen der Gastfreundschaft und des Essens]]. Ich war zwei Wochen dort, und die Leute waren sehr freundlich.
+Mein Lieblingsland zu nennen, ist schwer. Einerseits [[Vorteil eines Landes|mag ich Italien wegen der Kultur]], andererseits [[Vorteil eines anderen Landes|liebe ich Kanada wegen der Natur]]. Ich sage [[Lieblingsland|Italien]].
 
-An fremden Orten interessieren mich [[Interesse|die Menschen und ihre Gastfreundschaft, ich möchte sie wirklich kennenlernen]]. Reisen heißt für mich, Leute zu treffen.
+An fremden Orten interessiert mich [[Interesse 1|vieles, vor allem Menschen]].
 
-Ich höre gern [[Musik|türkischen Pop und manchmal Rock]]. Beim Autofahren läuft das fast immer.
+Musik: [[Musikstil|Je nach Stimmung Pop oder Klassik]].
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir frühstücken zusammen am Sonntagmorgen in einem Café]]. Ich lade dich ein.
+Ein Treffen finde ich schön, [[Treffvorschlag|vielleicht am Wochenende]].
 
-Ich bin neugierig auf deine Antwort darauf, also schreib mir bald.
+Ich verstehe, dass der Urlaub dich erschöpft hat: [[Hinweis|Viele Eindrücke, viel Autofahren und kurze Nächte]]. Plane am besten einen Tag zum Ausruhen ein, [[Folge|bevor die Arbeit wieder beginnt]]. Das tut gut.
+
+Ich bin an fremden Orten eher vorsichtig, [[Einschränkung|weil ich mich zuerst orientieren möchte]]. Aber nach einigen Stunden werde ich mutiger. Das ist mein Rhythmus, [[Folge|und er hat sich bewährt]].
+
+Bei der Musik bin ich nicht kompromisslos: [[Einschränkung|Ich mag nicht alles, aber ich probiere gern Neues]]. Wenn du mir etwas empfiehlst, höre ich es mir an, [[Folge|und sage dir ehrlich, was ich davon halte]].
+
+Ich würde mich freuen, wenn wir uns treffen, [[Bedingung|sobald du dich vom Jetlag erholt hast]]. Es hat keine Eile, [[Folge|wir haben Zeit]]. Hauptsache, du kommst gesund nach Hause.
+
+Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Moritz]],
+
+danke für deine Grüße, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Grüße|Schön, dass dir Kalifornien gefällt]].
+
+Als Nächstes zu meinem Lieblingsland: [[Lieblingsland|Italien]].
+
+Dann zu fremden Orten: [[Interesse 1|Menschen und Essen]].
+
+Danach zur Musik: [[Musikstil|Pop, Jazz]].
+
+Zuletzt zum Treffen: [[Treffvorschlag|Dienstag im Café]].
+
+Als ersten Schritt nach deiner Rückkehr empfehle ich, [[Schritt|die Fotos zu sortieren und die besten auszusuchen]]. Dann können wir sie beim Treffen anschauen. Ich bringe [[Mitbringsel|etwas zu trinken und Snacks]] mit, damit wir es uns gemütlich machen.
+
+Als zweiten Schritt auf Reisen nehme ich mir vor, [[Schritt|jeden Tag ein neues Wort der Landessprache zu lernen]]. Das macht Spaß, und die Leute freuen sich darüber. Mit der Zeit [[Folge|wird aus den Wörtern ein kleiner Wortschatz]].
+
+Als dritten Schritt schlage ich vor, [[Schritt|dass wir einander jeden Monat drei Lieder empfehlen]]. So entdecken wir Neues, ohne viel Aufwand. Das ist ein einfaches Ritual, [[Folge|und es hält die Freundschaft lebendig]].
+
+Als vierten Schritt schlage ich vor, [[Schritt|dass du mir nach der Landung kurz schreibst]]. Dann weiß ich, dass alles gut ist, [[Folge|und wir können den Termin festlegen]]. Das ist einfach und entspannt.
+
+Wie geht es weiter? Schreib mir, [[Frage an den Freund|wann du zurück bist]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Sana]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Moritz]],
+
+deine Grüße haben mich sehr gefreut. [[Reaktion auf die Grüße|Ich freue mich, dass du so einen schönen Urlaub hast, du hast ihn verdient]].
+
+Mein Lieblingsland: [[Lieblingsland|Italien]], [[Grund für das Lieblingsland|weil ich mich dort zu Hause fühle]].
+
+An fremden Orten interessieren mich [[Interesse 1|die Herzlichkeit der Menschen]].
+
+Musik: [[Musikstil|Ich höre gern ruhige Lieder]].
+
+Ich würde mich freuen, dich zu treffen: [[Treffvorschlag|am Wochenende bei einem Spaziergang]].
+
+Ich freue mich, dass du an mich gedacht hast, [[Gefühl|obwohl du viel erlebt hast]]. Das zeigt, wie viel dir unsere Freundschaft bedeutet. Und ich bin sicher, [[Folge|dass du viel zu erzählen hast]].
+
+Ich mag es, wenn Menschen mich willkommen heißen: [[Gefühl|Ein Lächeln und eine freundliche Geste reichen]]. In vielen Ländern habe ich das erlebt, und es hat mich berührt. Das macht eine Reise für mich wertvoll, [[Folge|mehr als jede Sehenswürdigkeit]].
+
+Musik tut mir gut, [[Wirkung|besonders nach einem langen Tag]]. Ein ruhiges Lied, ein Tee und ein bisschen Ruhe, mehr brauche ich nicht. Vielleicht kennst du das auch, [[Frage|oder bist du eher der Typ für laute Clubs]]?
+
+Ich freue mich so auf unser Treffen: [[Gefühl|Du fehlst mir, und ich bin gespannt auf deine Erzählungen]]. Komm gut heim, und genieße die letzten Tage. Danach sehen wir uns, [[Folge|bei einem schönen Abendessen]].
+
+Erzähl mir, [[Frage an den Freund|wie es dir geht]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Moritz]],
+
+San Diego, krass! [[Reaktion auf die Grüße|Klingt nach Sonne pur]].
+
+Lieblingsland: [[Lieblingsland|Spanien]].
+
+Fremde Orte: [[Interesse 1|Essen und Leute]].
+
+Musik: [[Musikstil|Alles, Hauptsache laut]].
+
+Treffen? [[Treffvorschlag|Klar, nächste Woche]].
+
+Ein kurzer Wunsch: [[Wunsch|Bring mir ein Souvenir mit, ein T-Shirt oder einen Magneten]]. Das muss nicht teuer sein. Es soll nur eine Erinnerung an deine Reise sein, [[Folge|und ich freue mich darüber]].
+
+An fremden Orten gefällt mir [[Beschreibung|alles, was anders ist]]. Auch wenn nicht alles einfach ist, es macht Spaß. Und die schönsten Geschichten entstehen, [[Folge|wenn etwas schiefgeht]].
+
+Musik: Ich höre alles, [[Beschreibung|was Rhythmus hat und mich bewegt]]. Und wenn mir etwas gefällt, tanze ich auch allein in der Küche. Das ist mein kleines Geheimnis, [[Folge|aber dir verrate ich es]].
+
+Ein Treffen nächste Woche? [[Zusage|Klar, ich bin dabei]]. Sag mir einfach, wann du Zeit hast. Ich freue mich riesig, [[Folge|dich zu sehen und alles zu hören]]. Bis dahin gute Reise!
+
+Ich freue mich echt auf dein Wiedersehen und deine Geschichten aus Kalifornien, denn das klingt nach einem tollen Urlaub. Bring gern ein paar Fotos mit, dann schauen wir sie zusammen an und trinken etwas Kühles dazu. Bis bald und guten Flug! Meld dich, [[Frage an den Freund|wann du zurück bist]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

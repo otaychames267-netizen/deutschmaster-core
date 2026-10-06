@@ -287,7 +287,7 @@ Als vierten Schritt will ich [[Schritt|im Juni entscheiden, wohin ich fahre]], u
 
 Als fünften Schritt schreibe ich dir [[Schritt|kurz vorher, wo wir uns treffen und wann]]. Dann gibt es keine Missverständnisse. Und ich erinnere dich an deine Liste, [[Hinweis|damit du nichts vergisst]].
 
-Ich freue mich sehr auf den Sommer, auf deinen Urlaub und auf den gemeinsamen Einkaufstag, und ich bin sicher, dass wir gemeinsam schöne Sachen für die warmen Tage finden, die dir gut stehen und die du lange tragen kannst, auch noch im nächsten Jahr. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|ob das passt]].
+Ich freue mich sehr auf den Sommer, auf deinen Urlaub und auf den gemeinsamen Einkaufstag, und ich bin sicher, dass wir gemeinsam schöne Sachen für die warmen Tage finden, die dir gut stehen und die du lange tragen kannst, auch noch im nächsten Jahr, ohne dass sie aus der Mode kommen. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|ob das passt]].
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Leyla]]` },
