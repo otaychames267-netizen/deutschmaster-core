@@ -7,7 +7,7 @@ import { useActiveLevel } from "@/lib/useActiveLevel";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { PersonalStrukturNotice } from "@/components/schreiben/PersonalStrukturNotice";
 import { PersonalStrukturPairB1 } from "@/components/schreiben/PersonalStrukturCard";
-import { StrukturCatalog } from "@/components/schreiben/StrukturCatalog";
+import { AdminStrukturOverview } from "@/components/schreiben/StrukturCatalog";
 import type { CatalogItem } from "@/lib/useContentAccess";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/schreiben/meine-struktur")({
@@ -49,22 +49,13 @@ function MeineStrukturPage() {
 
   if (isAdmin && adminView === "all") {
     return (
-      <div className="mx-auto max-w-4xl space-y-5 pb-24">
-        <div>
-          <h1 className="text-2xl font-black tracking-tight text-foreground">Schreiben — Alle Strukturen (Admin)</h1>
-          <p className="mt-0.5 text-sm text-muted-foreground">
-            Alle 500 Strukturen des informellen Briefs, wie viele noch frei sind und wie viele schon an Abonnenten vergeben wurden. Eine vergebene Struktur ist geschlossen (🔒) und nicht mehr abrufbar.
-          </p>
-          <p dir="rtl" className="mt-0.5 text-sm text-muted-foreground">كل الـ 500 Struktur، كم بقى منهم وكم ذهب لمشتركين. الـ Struktur اللي تتعطى لمشترك تولّي مغلقة.</p>
-          <button
-            onClick={() => setAdminView("mine")}
-            className="mt-3 rounded-xl bg-muted px-3.5 py-2 text-xs font-bold text-muted-foreground hover:bg-muted/70"
-          >
-            Student-Ansicht anzeigen (so sehen es Abonnenten)
-          </button>
-        </div>
-        <StrukturCatalog sets={["b1all", "b1a", "b1b"]} lockClosed />
-      </div>
+      <AdminStrukturOverview
+        title="Schreiben — Alle Strukturen (Admin)"
+        description="Alle 500 Strukturen des informellen Briefs (Brief A und Brief B, je 250), wie viele noch frei sind und wie viele schon an Abonnenten vergeben wurden. Eine vergebene Struktur ist rot markiert, geschlossen und nicht mehr abrufbar."
+        descriptionAr="كل الـ 500 Struktur (Brief A و Brief B، 250 لكل واحدة)، كم بقى وكم ذهب لمشتركين. الـ Struktur اللي تتعطى لمشترك تولّي حمراء ومغلقة."
+        sets={["b1all", "b1a", "b1b"]}
+        onStudentView={() => setAdminView("mine")}
+      />
     );
   }
 
