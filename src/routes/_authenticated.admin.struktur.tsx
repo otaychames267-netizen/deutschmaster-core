@@ -149,6 +149,7 @@ function StrukturCapacityPage() {
   const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
   const [refreshing, setRefreshing] = useState(false);
   const [tick, setTick] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
   const cfg = SETS[setKey];
 
   // switching the set clears the view; the 30 s poll / refresh button reload in place (no spinner flash, open topics stay open)
@@ -183,6 +184,14 @@ function StrukturCapacityPage() {
     return () => { cancelled = true; };
   }, [setKey, cfg.level, cfg.category, cfg.pool, cfg.kind, cfg.b2col, tick]);
 
+  // the app scrolls the document (not an inner pane), so a sticky header cannot pin here; a small floating pill keeps remaining / gone in view instead
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 360);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     const id = window.setInterval(() => setTick((n) => n + 1), POLL_MS);
     return () => window.clearInterval(id);
@@ -214,7 +223,7 @@ function StrukturCapacityPage() {
   const subscribersLeft = b1Pools.length === 2 ? Math.min(...b1Pools.map((g) => g.total - g.closed)) : null;
 
   return (
-    <div className="mx-auto max-w-4xl space-y-5 pb-10">
+    <div className="mx-auto max-w-4xl space-y-5 pb-24">
       <div>
         <div className="flex items-center gap-2">
           <PenLine className="h-5 w-5 text-amber-500" />
@@ -226,8 +235,7 @@ function StrukturCapacityPage() {
         <p dir="rtl" className="mt-0.5 text-sm text-muted-foreground">كل الـ Struktur، كم بقى في كل موضوع وكم ذهب — كلّ بطاقة تتعطى لمشارك تولّي مغلقة. افتح موضوع واضغط على رقم باش تقرا الرسالة.</p>
       </div>
 
-      {/* tabs + counters stay pinned while scrolling, so remaining / gone is always in view */}
-      <div className="sticky top-0 z-20 -mx-1 space-y-3 bg-background/95 px-1 pb-3 pt-1 backdrop-blur">
+      <div className="space-y-3">
         <div className="flex flex-wrap gap-2">
           {(Object.keys(SETS) as SetKey[]).map((k) => (
             <button
@@ -319,6 +327,18 @@ function StrukturCapacityPage() {
             })}
           </div>
         </>
+      )}
+
+      {!error && cards && scrolled && (
+        <div
+          role="status"
+          className="fixed bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-3 rounded-full border border-border bg-card/95 px-4 py-2 text-xs font-bold tabular-nums shadow-lg backdrop-blur"
+        >
+          <span className="text-muted-foreground">{cfg.label.split(" · ")[0]}</span>
+          <span className="text-emerald-600 dark:text-emerald-400">{remaining} left · باقي</span>
+          <span className="text-muted-foreground">{closed} gone · ذهبت</span>
+          <span className="text-muted-foreground">of {total}</span>
+        </div>
       )}
     </div>
   );
