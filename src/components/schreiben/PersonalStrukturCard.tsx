@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { BookOpen, ChevronDown, ClipboardList, Loader2, Lightbulb } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { REDEMITTEL } from "@/components/schreiben/redemittel";
+import { REDEMITTEL_B1 } from "@/components/schreiben/redemittel-b1";
+import type { RedemittelGroup } from "@/components/schreiben/redemittel";
 
 interface StrukturRow {
   produkt_card_id: string;
@@ -25,6 +27,15 @@ interface StrukturRow {
   dienstleistung_theme_title: string;
   dienstleistung_template_text: string;
   dienstleistung_example_text: string;
+}
+
+interface B1Row {
+  card_id: string;
+  card_title: string;
+  theme_title: string;
+  topic_group: string;
+  template_text: string;
+  example_text: string;
 }
 
 /** Turns [placeholder] tokens into amber pills so the fixed German text
@@ -46,16 +57,12 @@ function renderParagraph(text: string) {
 
 /** The connected letter, rendered as a single letter-style card. `withPills`
  * highlights [placeholders] (Struktur); without it the text is plain (Beispiel). */
-function LetterView({ text, withPills }: { text: string; withPills: boolean }) {
+function LetterView({ text, withPills, intro }: { text: string; withPills: boolean; intro: React.ReactNode }) {
   const paras = text.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
   return (
     <div className="mx-auto max-w-2xl">
       {withPills && (
-        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">
-          Deine vollständige Beschwerde von Anfang bis Ende. Der professionelle Text bleibt gleich —
-          nur die <span className="rounded bg-amber-600/15 px-1 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">markierten Stellen</span> passen
-          Sie an Ihr Thema an.
-        </p>
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground">{intro}</p>
       )}
       <div className="rounded-xl border border-border bg-card px-5 py-5 shadow-sm sm:px-6 sm:py-6">
         <div className="space-y-4 text-sm leading-[1.85] text-foreground">
@@ -73,7 +80,7 @@ function LetterView({ text, withPills }: { text: string; withPills: boolean }) {
 /** Collapsed by default — a reference of phrase alternatives for each beat
  * of the letter, kept strictly outside the letter text itself. Shown only
  * on the Struktur tab, directly below the connected-letter card. */
-function RedemittelPanel() {
+function RedemittelPanel({ groups }: { groups: RedemittelGroup[] }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="mx-auto mt-5 max-w-2xl rounded-xl border border-border bg-muted/20">
@@ -89,7 +96,7 @@ function RedemittelPanel() {
       </button>
       {open && (
         <div className="grid gap-4 border-t border-border px-5 py-4 sm:grid-cols-2">
-          {REDEMITTEL.map((group) => (
+          {groups.map((group) => (
             <div key={group.title}>
               <h4 className="mb-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400">
                 {group.title}
@@ -119,15 +126,24 @@ export function PersonalStrukturCard({
   category,
 }: {
   level: string;
-  category: "produkt" | "dienstleistung";
+  category: "produkt" | "dienstleistung" | "informell";
 }) {
   const [row, setRow] = useState<StrukturRow | null>(null);
+  const [b1, setB1] = useState<B1Row | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<(typeof TABS)[number]["key"]>("struktur");
 
   useEffect(() => {
     (async () => {
+      if (category === "informell") {
+        // B1: one exclusive informal-letter card per subscriber (see get_or_assign_my_struktur_b1)
+        const { data, error: rpcError } = await (supabase as any).rpc("get_or_assign_my_struktur_b1");
+        if (rpcError) setError(rpcError.message ?? "UNKNOWN_ERROR");
+        else setB1((data?.[0] ?? null) as B1Row | null);
+        setLoading(false);
+        return;
+      }
       const { data, error: rpcError } = await (supabase as any).rpc("get_or_assign_my_struktur", {
         p_level: level,
       });
@@ -139,7 +155,7 @@ export function PersonalStrukturCard({
       setRow((data?.[0] ?? null) as StrukturRow | null);
       setLoading(false);
     })();
-  }, [level]);
+  }, [level, category]);
 
   if (loading) {
     return (
@@ -149,7 +165,7 @@ export function PersonalStrukturCard({
     );
   }
 
-  if (error?.includes("STRUKTUR_POOL_EXHAUSTED") || !row) {
+  if (error?.includes("STRUKTUR_POOL_EXHAUSTED") || (category === "informell" ? !b1 : !row)) {
     return (
       <div className="rounded-2xl border border-dashed border-border bg-muted/20 py-14 text-center text-sm text-muted-foreground">
         Deine persönliche Struktur wird gerade vorbereitet. Bitte versuche es in Kürze erneut.
@@ -157,10 +173,24 @@ export function PersonalStrukturCard({
     );
   }
 
-  const title = category === "produkt" ? row.produkt_card_title : row.dienstleistung_card_title;
-  const theme = category === "produkt" ? row.produkt_theme_title : row.dienstleistung_theme_title;
-  const template = category === "produkt" ? row.produkt_template_text : row.dienstleistung_template_text;
-  const example = category === "produkt" ? row.produkt_example_text : row.dienstleistung_example_text;
+  const informell = category === "informell";
+  const title = informell ? b1!.card_title : category === "produkt" ? row!.produkt_card_title : row!.dienstleistung_card_title;
+  const theme = informell ? b1!.theme_title : category === "produkt" ? row!.produkt_theme_title : row!.dienstleistung_theme_title;
+  const template = informell ? b1!.template_text : category === "produkt" ? row!.produkt_template_text : row!.dienstleistung_template_text;
+  const example = informell ? b1!.example_text : category === "produkt" ? row!.produkt_example_text : row!.dienstleistung_example_text;
+  const intro = informell ? (
+    <>
+      Dein vollständiger Antwortbrief von Anfang bis Ende. Der Text bleibt gleich — nur die{" "}
+      <span className="rounded bg-amber-600/15 px-1 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">markierten Stellen</span>{" "}
+      ergänzt du mit deinen eigenen Ideen und passt sie an die vier Punkte der Aufgabe an.
+    </>
+  ) : (
+    <>
+      Deine vollständige Beschwerde von Anfang bis Ende. Der professionelle Text bleibt gleich —
+      nur die <span className="rounded bg-amber-600/15 px-1 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">markierten Stellen</span> passen
+      Sie an Ihr Thema an.
+    </>
+  );
 
   return (
     <div className="space-y-5">
@@ -191,11 +221,11 @@ export function PersonalStrukturCard({
 
       {page === "struktur" && (
         <>
-          <LetterView text={template} withPills />
-          <RedemittelPanel />
+          <LetterView text={template} withPills intro={intro} />
+          <RedemittelPanel groups={informell ? REDEMITTEL_B1 : REDEMITTEL} />
         </>
       )}
-      {page === "beispiel" && <LetterView text={example} withPills={false} />}
+      {page === "beispiel" && <LetterView text={example} withPills={false} intro={null} />}
     </div>
   );
 }

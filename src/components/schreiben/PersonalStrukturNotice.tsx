@@ -6,13 +6,20 @@
  */
 import { Lock } from "lucide-react";
 
+const HIGHLIGHTS_SINGLE = [
+  "Persönlich für dich",
+  "Nur für deine eigene Prüfungsvorbereitung",
+  "Jeder Nutzer erhält eine andere Struktur",
+];
+
 const HIGHLIGHTS = [
   "Persönlich für dich",
   "Nur für deine eigene Prüfungsvorbereitung",
   "Jeder Nutzer erhält unterschiedliche Strukturen",
 ];
 
-export function PersonalStrukturNotice() {
+export function PersonalStrukturNotice({ variant = "pair" }: { variant?: "pair" | "single" }) {
+  const single = variant === "single";
   return (
     <div className="rounded-2xl border border-amber-600/25 bg-amber-600/5 px-5 py-4">
       <div className="flex items-start gap-3">
@@ -20,14 +27,13 @@ export function PersonalStrukturNotice() {
           <Lock className="h-4 w-4 text-amber-700 dark:text-amber-400" />
         </div>
         <p className="text-sm leading-relaxed text-foreground">
-          Diese beiden Strukturen wurden ausschließlich für dich persönlich bereitgestellt und sind nur für
-          deine eigene Prüfungsvorbereitung bestimmt. Bitte teile sie nicht mit anderen Personen und
-          veröffentliche oder verbreite sie nicht. Jeder Nutzer der Plattform erhält eigene, individuelle
-          Strukturen.
+          {single
+            ? "Diese Struktur wurde ausschließlich für dich persönlich bereitgestellt und ist nur für deine eigene Prüfungsvorbereitung bestimmt. Bitte teile sie nicht mit anderen Personen und veröffentliche oder verbreite sie nicht. Jeder Nutzer der Plattform erhält eine eigene, individuelle Struktur."
+            : "Diese beiden Strukturen wurden ausschließlich für dich persönlich bereitgestellt und sind nur für deine eigene Prüfungsvorbereitung bestimmt. Bitte teile sie nicht mit anderen Personen und veröffentliche oder verbreite sie nicht. Jeder Nutzer der Plattform erhält eigene, individuelle Strukturen."}
         </p>
       </div>
       <div className="mt-3 flex flex-wrap gap-2 pl-11">
-        {HIGHLIGHTS.map((h) => (
+        {(single ? HIGHLIGHTS_SINGLE : HIGHLIGHTS).map((h) => (
           <span
             key={h}
             className="inline-flex items-center gap-1.5 rounded-full bg-amber-600/10 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-400"

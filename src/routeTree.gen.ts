@@ -74,6 +74,7 @@ import { Route as AuthenticatedAdminReconciliationRouteImport } from './routes/_
 import { Route as AuthenticatedAdminReportsRouteImport } from './routes/_authenticated.admin.reports'
 import { Route as AuthenticatedAdminRolesRouteImport } from './routes/_authenticated.admin.roles'
 import { Route as AuthenticatedAdminSettingsRouteImport } from './routes/_authenticated.admin.settings'
+import { Route as AuthenticatedAdminStrukturRouteImport } from './routes/_authenticated.admin.struktur'
 import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_authenticated.admin.subscriptions'
 import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated.admin.users'
 import { Route as AuthenticatedExamIdRouteImport } from './routes/_authenticated.exam.$id'
@@ -127,6 +128,7 @@ import { Route as AuthenticatedLevelSchriftlichVorbereitungLesenTeil3RouteImport
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.beschwerde'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.bitte'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.informell'
+import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.meine-struktur'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.produkt-karten'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.schreiben.service-karten'
 import { Route as AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1RouteImport } from './routes/_authenticated.$level.schriftlich.vorbereitung.sprachbausteine.teil-1'
@@ -486,6 +488,12 @@ const AuthenticatedAdminSettingsRoute =
     path: '/settings',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const AuthenticatedAdminStrukturRoute =
+  AuthenticatedAdminStrukturRouteImport.update({
+    id: '/struktur',
+    path: '/struktur',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminSubscriptionsRoute =
   AuthenticatedAdminSubscriptionsRouteImport.update({
     id: '/subscriptions',
@@ -798,6 +806,14 @@ const AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute =
       getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
     } as any,
   )
+const AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute =
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRouteImport.update(
+    {
+      id: '/schreiben/meine-struktur',
+      path: '/schreiben/meine-struktur',
+      getParentRoute: () => AuthenticatedLevelSchriftlichVorbereitungRoute,
+    } as any,
+  )
 const AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute =
   AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRouteImport.update(
     {
@@ -895,6 +911,7 @@ export interface FileRoutesByFullPath {
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/struktur': typeof AuthenticatedAdminStrukturRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
@@ -949,6 +966,7 @@ export interface FileRoutesByFullPath {
   '/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   '/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
   '/$level/schriftlich/vorbereitung/schreiben/informell': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
+  '/$level/schriftlich/vorbereitung/schreiben/meine-struktur': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute
   '/$level/schriftlich/vorbereitung/schreiben/produkt-karten': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute
   '/$level/schriftlich/vorbereitung/schreiben/service-karten': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRoute
   '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
@@ -1014,6 +1032,7 @@ export interface FileRoutesByTo {
   '/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/admin/struktur': typeof AuthenticatedAdminStrukturRoute
   '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/admin/users': typeof AuthenticatedAdminUsersRoute
   '/exam/$id': typeof AuthenticatedExamIdRoute
@@ -1066,6 +1085,7 @@ export interface FileRoutesByTo {
   '/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   '/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
   '/$level/schriftlich/vorbereitung/schreiben/informell': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
+  '/$level/schriftlich/vorbereitung/schreiben/meine-struktur': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute
   '/$level/schriftlich/vorbereitung/schreiben/produkt-karten': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute
   '/$level/schriftlich/vorbereitung/schreiben/service-karten': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRoute
   '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
@@ -1137,6 +1157,7 @@ export interface FileRoutesById {
   '/_authenticated/admin/reports': typeof AuthenticatedAdminReportsRoute
   '/_authenticated/admin/roles': typeof AuthenticatedAdminRolesRoute
   '/_authenticated/admin/settings': typeof AuthenticatedAdminSettingsRoute
+  '/_authenticated/admin/struktur': typeof AuthenticatedAdminStrukturRoute
   '/_authenticated/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
   '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
   '/_authenticated/exam/$id': typeof AuthenticatedExamIdRoute
@@ -1191,6 +1212,7 @@ export interface FileRoutesById {
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/informell': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
+  '/_authenticated/$level/schriftlich/vorbereitung/schreiben/meine-struktur': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/produkt-karten': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute
   '/_authenticated/$level/schriftlich/vorbereitung/schreiben/service-karten': typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRoute
   '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1': typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
@@ -1262,6 +1284,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/roles'
     | '/admin/settings'
+    | '/admin/struktur'
     | '/admin/subscriptions'
     | '/admin/users'
     | '/exam/$id'
@@ -1316,6 +1339,7 @@ export interface FileRouteTypes {
     | '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
     | '/$level/schriftlich/vorbereitung/schreiben/bitte'
     | '/$level/schriftlich/vorbereitung/schreiben/informell'
+    | '/$level/schriftlich/vorbereitung/schreiben/meine-struktur'
     | '/$level/schriftlich/vorbereitung/schreiben/produkt-karten'
     | '/$level/schriftlich/vorbereitung/schreiben/service-karten'
     | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
@@ -1381,6 +1405,7 @@ export interface FileRouteTypes {
     | '/admin/reports'
     | '/admin/roles'
     | '/admin/settings'
+    | '/admin/struktur'
     | '/admin/subscriptions'
     | '/admin/users'
     | '/exam/$id'
@@ -1433,6 +1458,7 @@ export interface FileRouteTypes {
     | '/$level/schriftlich/vorbereitung/schreiben/beschwerde'
     | '/$level/schriftlich/vorbereitung/schreiben/bitte'
     | '/$level/schriftlich/vorbereitung/schreiben/informell'
+    | '/$level/schriftlich/vorbereitung/schreiben/meine-struktur'
     | '/$level/schriftlich/vorbereitung/schreiben/produkt-karten'
     | '/$level/schriftlich/vorbereitung/schreiben/service-karten'
     | '/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
@@ -1503,6 +1529,7 @@ export interface FileRouteTypes {
     | '/_authenticated/admin/reports'
     | '/_authenticated/admin/roles'
     | '/_authenticated/admin/settings'
+    | '/_authenticated/admin/struktur'
     | '/_authenticated/admin/subscriptions'
     | '/_authenticated/admin/users'
     | '/_authenticated/exam/$id'
@@ -1557,6 +1584,7 @@ export interface FileRouteTypes {
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/beschwerde'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/bitte'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/informell'
+    | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/meine-struktur'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/produkt-karten'
     | '/_authenticated/$level/schriftlich/vorbereitung/schreiben/service-karten'
     | '/_authenticated/$level/schriftlich/vorbereitung/sprachbausteine/teil-1'
@@ -2046,6 +2074,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminSettingsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/_authenticated/admin/struktur': {
+      id: '/_authenticated/admin/struktur'
+      path: '/struktur'
+      fullPath: '/admin/struktur'
+      preLoaderRoute: typeof AuthenticatedAdminStrukturRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/subscriptions': {
       id: '/_authenticated/admin/subscriptions'
       path: '/subscriptions'
@@ -2417,6 +2452,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRouteImport
       parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
     }
+    '/_authenticated/$level/schriftlich/vorbereitung/schreiben/meine-struktur': {
+      id: '/_authenticated/$level/schriftlich/vorbereitung/schreiben/meine-struktur'
+      path: '/schreiben/meine-struktur'
+      fullPath: '/$level/schriftlich/vorbereitung/schreiben/meine-struktur'
+      preLoaderRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRouteImport
+      parentRoute: typeof AuthenticatedLevelSchriftlichVorbereitungRoute
+    }
     '/_authenticated/$level/schriftlich/vorbereitung/schreiben/produkt-karten': {
       id: '/_authenticated/$level/schriftlich/vorbereitung/schreiben/produkt-karten'
       path: '/schreiben/produkt-karten'
@@ -2510,6 +2552,7 @@ interface AuthenticatedLevelSchriftlichVorbereitungRouteChildren {
   AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBeschwerdeRoute
   AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute
   AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute
+  AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute
   AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute
   AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRoute: typeof AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRoute
   AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route: typeof AuthenticatedLevelSchriftlichVorbereitungSprachbausteineTeil1Route
@@ -2538,6 +2581,8 @@ const AuthenticatedLevelSchriftlichVorbereitungRouteChildren: AuthenticatedLevel
       AuthenticatedLevelSchriftlichVorbereitungSchreibenBitteRoute,
     AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute:
       AuthenticatedLevelSchriftlichVorbereitungSchreibenInformellRoute,
+    AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute:
+      AuthenticatedLevelSchriftlichVorbereitungSchreibenMeineStrukturRoute,
     AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute:
       AuthenticatedLevelSchriftlichVorbereitungSchreibenProduktKartenRoute,
     AuthenticatedLevelSchriftlichVorbereitungSchreibenServiceKartenRoute:
@@ -2637,6 +2682,7 @@ interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminReportsRoute: typeof AuthenticatedAdminReportsRoute
   AuthenticatedAdminRolesRoute: typeof AuthenticatedAdminRolesRoute
   AuthenticatedAdminSettingsRoute: typeof AuthenticatedAdminSettingsRoute
+  AuthenticatedAdminStrukturRoute: typeof AuthenticatedAdminStrukturRoute
   AuthenticatedAdminSubscriptionsRoute: typeof AuthenticatedAdminSubscriptionsRoute
   AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
   AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
@@ -2683,6 +2729,7 @@ const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminReportsRoute: AuthenticatedAdminReportsRoute,
   AuthenticatedAdminRolesRoute: AuthenticatedAdminRolesRoute,
   AuthenticatedAdminSettingsRoute: AuthenticatedAdminSettingsRoute,
+  AuthenticatedAdminStrukturRoute: AuthenticatedAdminStrukturRoute,
   AuthenticatedAdminSubscriptionsRoute: AuthenticatedAdminSubscriptionsRoute,
   AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
   AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,

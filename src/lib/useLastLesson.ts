@@ -22,6 +22,7 @@ const LESSON_LABELS: Record<string, { label: string; section: string }> = {
   "/schriftlich/vorbereitung/schreiben/beschwerde":   { label: "Schreiben — Beschwerde",   section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/bitte":        { label: "Schreiben — Bitte",         section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/informell":    { label: "Schreiben — Informeller Brief", section: "Schriftlich" },
+  "/schriftlich/vorbereitung/schreiben/meine-struktur": { label: "Schreiben — Meine Struktur (Informeller Brief)", section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/produkt-karten": { label: "Schreiben — Produkt-Karten", section: "Schriftlich" },
   "/schriftlich/vorbereitung/schreiben/service-karten": { label: "Schreiben — Dienstleistungs-Karten", section: "Schriftlich" },
   "/schriftlich/pruefung":                            { label: "Prüfungssimulation",         section: "Schriftlich" },
