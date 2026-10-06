@@ -9,13 +9,15 @@ export const Route = createFileRoute("/_authenticated/admin/struktur")({
 
 /**
  * Struktur capacity — how many personal Struktur cards each topic still has. Every subscriber is permanently assigned exactly
- * one card (B1) or one Produkt + one Service card (B2); an assigned card is "closed" for everybody else. Read-only: admins read the
+ * one card from each of two pools (B1: Brief A + Brief B; B2: Produkt + Service); an assigned card is "closed" for everybody else. Read-only: admins read the
  * pools directly through the existing staff SELECT policies, nothing here writes.
  */
 
-type SetKey = "b1" | "b2p" | "b2d";
-const SETS: Record<SetKey, { label: string; level: string; category: string; warnAt: number }> = {
-  b1: { label: "B1 · Informeller Brief", level: "TELC_B1", category: "informell", warnAt: 50 },
+type SetKey = "b1a" | "b1b" | "b2p" | "b2d";
+// B1 has two pools (A = Einladung/Planung, B = Neuigkeiten/Rat/Bitte); every B1 subscriber is assigned one card from each, like B2's two pools.
+const SETS: Record<SetKey, { label: string; level: string; category: string; warnAt: number; pool?: "A" | "B" }> = {
+  b1a: { label: "B1 · Brief A · Einladung & Planung", level: "TELC_B1", category: "informell", warnAt: 25, pool: "A" },
+  b1b: { label: "B1 · Brief B · Neuigkeiten, Rat & Bitte", level: "TELC_B1", category: "informell", warnAt: 25, pool: "B" },
   b2p: { label: "B2 · Produkt-Beschwerde", level: "TELC_B2", category: "produkt", warnAt: 20 },
   b2d: { label: "B2 · Dienstleistung", level: "TELC_B2", category: "dienstleistung", warnAt: 20 },
 };
@@ -76,7 +78,7 @@ function ThemeRow({ stat }: { stat: ThemeStat }) {
 }
 
 function StrukturCapacityPage() {
-  const [setKey, setSetKey] = useState<SetKey>("b1");
+  const [setKey, setSetKey] = useState<SetKey>("b1a");
   const [cards, setCards] = useState<CardRow[] | null>(null);
   const [closedIds, setClosedIds] = useState<Set<string>>(new Set());
   const [error, setError] = useState<string | null>(null);
@@ -88,20 +90,22 @@ function StrukturCapacityPage() {
     setError(null);
     (async () => {
       const db = supabase as any;
-      const cardsRes = await db.from("schreiben_produkt_cards")
+      let cardsQuery = db.from("schreiben_produkt_cards")
         .select("id, theme_title, topic_group, card_title, sort_order")
-        .eq("level", cfg.level).eq("category", cfg.category).order("sort_order");
-      const assignedRes = setKey === "b1"
-        ? await db.from("user_schreiben_struktur_b1").select("card_id")
+        .eq("level", cfg.level).eq("category", cfg.category);
+      if (cfg.pool) cardsQuery = cardsQuery.like("topic_group", cfg.pool + "%");
+      const cardsRes = await cardsQuery.order("sort_order");
+      const assignedRes = cfg.pool
+        ? await db.from("user_schreiben_struktur_b1").select("card_id").eq("pool", cfg.pool)
         : await db.from("user_schreiben_struktur").select(setKey === "b2p" ? "produkt_card_id" : "dienstleistung_card_id");
       if (cancelled) return;
       if (cardsRes.error || assignedRes.error) { setError((cardsRes.error ?? assignedRes.error).message); return; }
-      const col = setKey === "b1" ? "card_id" : setKey === "b2p" ? "produkt_card_id" : "dienstleistung_card_id";
+      const col = cfg.pool ? "card_id" : setKey === "b2p" ? "produkt_card_id" : "dienstleistung_card_id";
       setClosedIds(new Set((assignedRes.data as Record<string, string>[]).map((r) => r[col])));
       setCards(cardsRes.data as CardRow[]);
     })();
     return () => { cancelled = true; };
-  }, [setKey, cfg.level, cfg.category]);
+  }, [setKey, cfg.level, cfg.category, cfg.pool]);
 
   const { groups, total, closed } = useMemo(() => {
     const byGroup = new Map<string, Map<string, ThemeStat>>();

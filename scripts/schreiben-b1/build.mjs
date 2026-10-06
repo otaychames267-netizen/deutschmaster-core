@@ -11,7 +11,7 @@
  * Put sentence-final punctuation OUTSIDE the marker so the Struktur keeps it. */
 import { existsSync, writeFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
-import { TASKS } from "./manifest.mjs";
+import { TASKS, POOLS } from "./manifest.mjs";
 
 const DIR = new URL(".", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
 const MARK = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
@@ -92,7 +92,7 @@ if (process.argv[1].replace(/\\/g, "/").endsWith("schreiben-b1/build.mjs")) {
     const avg = Math.round(parsed.reduce((s, c) => s + words(c.example).length, 0) / parsed.length);
     console.log(`  ok  ${task.key}: ${parsed.length} cards, avg ${avg} words`);
     parsed.forEach((c) => rows.push({
-      level: "TELC_B1", category: "informell", topic_group: task.group, theme_title: task.theme, theme_source: task.exam,
+      level: "TELC_B1", category: "informell", topic_group: POOLS[task.pool], theme_title: task.theme, theme_source: task.exam,
       card_title: `${task.exam} – Brief ${c.i}: ${c.label}`, template_text: c.template, example_text: c.example, sort_order: task.sortBase + c.i,
     }));
   }

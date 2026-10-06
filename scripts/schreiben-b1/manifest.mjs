@@ -104,8 +104,16 @@ export const GROUPS = [
   ] },
 ];
 
-/** Flat list with group, card count and sort_order band (101…3515). */
+// The 10 groups above are only the authoring sections. What students and admins see are TWO pools (owner decision 2026-10-06, like
+// B2's Produkt/Dienstleistung): every B1 subscriber is permanently assigned one letter from EACH pool, split by what the friend's
+// e-mail asks of you —  A: the friend proposes / invites / plans something together (you decide, offer logistics),
+//                       B: the friend shares news or a problem and asks for advice or help (you react, advise, tell about yourself).
+// `topic_group` in the DB is POOLS[pool]; the assignment RPC derives the pool letter from its first character.
+export const POOLS = { A: "A · Einladung, Vorschlag & Planung", B: "B · Neuigkeiten, Rat & Bitte" };
+const POOL_A = new Set(["alicia", "anne", "cora_alex", "claudia", "clara", "corinna", "emilia", "jennifer", "mara", "nadja", "paul", "petra", "sonja", "thomas", "tobias", "tamara", "annika"]);
+
+/** Flat list with group, pool, card count and sort_order band (101…3515). */
 export const TASKS = GROUPS.flatMap((g, gi) => g.tasks.map((t, ti) => ({ ...t, group: g.name, groupIndex: gi, n: ti === 0 ? 15 : 14 })))
-  .map((t, i) => ({ ...t, index: i + 1, sortBase: (i + 1) * 100 }));
+  .map((t, i) => ({ ...t, index: i + 1, sortBase: (i + 1) * 100, pool: POOL_A.has(t.key) ? "A" : "B" }));
 
 export const TOTAL = TASKS.reduce((s, t) => s + t.n, 0); // 500

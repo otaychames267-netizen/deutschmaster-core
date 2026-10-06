@@ -22,7 +22,7 @@ function schreibenParts(seg: "b1" | "b2" | undefined) {
   if (seg === "b1") {
     return [
       { label: "Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/informell" },
-      { label: "Meine Struktur — Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/meine-struktur" },
+      { label: "Meine Strukturen — Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/meine-struktur" },
     ];
   }
   return [

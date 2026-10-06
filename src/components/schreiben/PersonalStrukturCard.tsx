@@ -6,7 +6,11 @@
  * which both assigns (on first visit) and returns the caller's permanent
  * pair — this component renders only the half matching `category`.
  *
- * No modal, no grid, no theme picker: with exactly one card, showing it
+ * PersonalStrukturPairB1 is the B1 counterpart: a B1 subscriber owns one
+ * informal-letter Struktur from each of two pools (A: Einladung/Planung,
+ * B: Neuigkeiten/Rat/Bitte), both returned by one get_or_assign_my_struktur_b1 call.
+ *
+ * No modal, no grid, no theme picker: with exactly one card per pool, showing it
  * inline is simpler than a "click to open" catalog interaction.
  */
 import { useEffect, useState } from "react";
@@ -30,6 +34,7 @@ interface StrukturRow {
 }
 
 interface B1Row {
+  pool: "A" | "B";
   card_id: string;
   card_title: string;
   theme_title: string;
@@ -121,77 +126,39 @@ const TABS = [
   { key: "beispiel" as const, label: "Beispiel", icon: BookOpen },
 ];
 
-export function PersonalStrukturCard({
-  level,
-  category,
+const Spinner = () => (
+  <div className="flex justify-center py-16">
+    <Loader2 className="h-7 w-7 animate-spin text-muted-foreground" />
+  </div>
+);
+
+const NotReady = () => (
+  <div className="rounded-2xl border border-dashed border-border bg-muted/20 py-14 text-center text-sm text-muted-foreground">
+    Deine persönliche Struktur wird gerade vorbereitet. Bitte versuche es in Kürze erneut.
+  </div>
+);
+
+const Pill = ({ children }: { children: React.ReactNode }) => (
+  <span className="rounded bg-amber-600/15 px-1 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">{children}</span>
+);
+
+/** One letter: header (topic + title), Struktur / Beispiel tabs, and the Redemittel reference. */
+function StrukturView({
+  theme,
+  title,
+  template,
+  example,
+  intro,
+  groups,
 }: {
-  level: string;
-  category: "produkt" | "dienstleistung" | "informell";
+  theme: string;
+  title: string;
+  template: string;
+  example: string;
+  intro: React.ReactNode;
+  groups: RedemittelGroup[];
 }) {
-  const [row, setRow] = useState<StrukturRow | null>(null);
-  const [b1, setB1] = useState<B1Row | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState<(typeof TABS)[number]["key"]>("struktur");
-
-  useEffect(() => {
-    (async () => {
-      if (category === "informell") {
-        // B1: one exclusive informal-letter card per subscriber (see get_or_assign_my_struktur_b1)
-        const { data, error: rpcError } = await (supabase as any).rpc("get_or_assign_my_struktur_b1");
-        if (rpcError) setError(rpcError.message ?? "UNKNOWN_ERROR");
-        else setB1((data?.[0] ?? null) as B1Row | null);
-        setLoading(false);
-        return;
-      }
-      const { data, error: rpcError } = await (supabase as any).rpc("get_or_assign_my_struktur", {
-        p_level: level,
-      });
-      if (rpcError) {
-        setError(rpcError.message ?? "UNKNOWN_ERROR");
-        setLoading(false);
-        return;
-      }
-      setRow((data?.[0] ?? null) as StrukturRow | null);
-      setLoading(false);
-    })();
-  }, [level, category]);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-16">
-        <Loader2 className="h-7 w-7 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
-
-  if (error?.includes("STRUKTUR_POOL_EXHAUSTED") || (category === "informell" ? !b1 : !row)) {
-    return (
-      <div className="rounded-2xl border border-dashed border-border bg-muted/20 py-14 text-center text-sm text-muted-foreground">
-        Deine persönliche Struktur wird gerade vorbereitet. Bitte versuche es in Kürze erneut.
-      </div>
-    );
-  }
-
-  const informell = category === "informell";
-  const title = informell ? b1!.card_title : category === "produkt" ? row!.produkt_card_title : row!.dienstleistung_card_title;
-  const theme = informell ? b1!.theme_title : category === "produkt" ? row!.produkt_theme_title : row!.dienstleistung_theme_title;
-  const template = informell ? b1!.template_text : category === "produkt" ? row!.produkt_template_text : row!.dienstleistung_template_text;
-  const example = informell ? b1!.example_text : category === "produkt" ? row!.produkt_example_text : row!.dienstleistung_example_text;
-  const intro = informell ? (
-    <>
-      Dein vollständiger Antwortbrief von Anfang bis Ende. Der Text bleibt gleich — nur die{" "}
-      <span className="rounded bg-amber-600/15 px-1 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">markierten Stellen</span>{" "}
-      ergänzt du mit deinen eigenen Ideen und passt sie an die vier Punkte der Aufgabe an.
-    </>
-  ) : (
-    <>
-      Deine vollständige Beschwerde von Anfang bis Ende. Der professionelle Text bleibt gleich —
-      nur die <span className="rounded bg-amber-600/15 px-1 py-0.5 text-xs font-semibold text-amber-700 dark:text-amber-400">markierten Stellen</span> passen
-      Sie an Ihr Thema an.
-    </>
-  );
-
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-border bg-card p-1.5 shadow-sm">
@@ -222,10 +189,125 @@ export function PersonalStrukturCard({
       {page === "struktur" && (
         <>
           <LetterView text={template} withPills intro={intro} />
-          <RedemittelPanel groups={informell ? REDEMITTEL_B1 : REDEMITTEL} />
+          <RedemittelPanel groups={groups} />
         </>
       )}
       {page === "beispiel" && <LetterView text={example} withPills={false} intro={null} />}
+    </div>
+  );
+}
+
+export function PersonalStrukturCard({
+  level,
+  category,
+}: {
+  level: string;
+  category: "produkt" | "dienstleistung";
+}) {
+  const [row, setRow] = useState<StrukturRow | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data, error: rpcError } = await (supabase as any).rpc("get_or_assign_my_struktur", {
+        p_level: level,
+      });
+      if (rpcError) {
+        setError(rpcError.message ?? "UNKNOWN_ERROR");
+        setLoading(false);
+        return;
+      }
+      setRow((data?.[0] ?? null) as StrukturRow | null);
+      setLoading(false);
+    })();
+  }, [level, category]);
+
+  if (loading) return <Spinner />;
+  if (error?.includes("STRUKTUR_POOL_EXHAUSTED") || !row) return <NotReady />;
+
+  const produkt = category === "produkt";
+  return (
+    <StrukturView
+      theme={produkt ? row.produkt_theme_title : row.dienstleistung_theme_title}
+      title={produkt ? row.produkt_card_title : row.dienstleistung_card_title}
+      template={produkt ? row.produkt_template_text : row.dienstleistung_template_text}
+      example={produkt ? row.produkt_example_text : row.dienstleistung_example_text}
+      intro={
+        <>
+          Deine vollständige Beschwerde von Anfang bis Ende. Der professionelle Text bleibt gleich —
+          nur die <Pill>markierten Stellen</Pill> passen
+          Sie an Ihr Thema an.
+        </>
+      }
+      groups={REDEMITTEL}
+    />
+  );
+}
+
+/** The two B1 pools. A B1 subscriber owns exactly one letter from each (see get_or_assign_my_struktur_b1). */
+const B1_POOLS = [
+  { key: "A", label: "Brief A", title: "Einladung, Vorschlag & Planung", hint: "Dein Freund oder deine Freundin schlägt etwas vor, lädt dich ein oder plant etwas mit dir." },
+  { key: "B", label: "Brief B", title: "Neuigkeiten, Rat & Bitte", hint: "Er oder sie erzählt Neuigkeiten, hat ein Problem oder bittet dich um Hilfe oder einen Tipp." },
+] as const;
+
+export function PersonalStrukturPairB1() {
+  const [rows, setRows] = useState<B1Row[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [pool, setPool] = useState<"A" | "B">("A");
+
+  useEffect(() => {
+    (async () => {
+      // one call assigns whatever is missing and returns both letters; staff without a subscription only get a preview
+      const { data, error: rpcError } = await (supabase as any).rpc("get_or_assign_my_struktur_b1");
+      if (rpcError) setError(rpcError.message ?? "UNKNOWN_ERROR");
+      else setRows((data ?? []) as B1Row[]);
+    })();
+  }, []);
+
+  if (!rows && !error) return <Spinner />;
+  const current = rows?.find((r) => r.pool === pool);
+  if (error?.includes("STRUKTUR_POOL_EXHAUSTED") || !rows?.length) return <NotReady />;
+
+  const meta = B1_POOLS.find((p) => p.key === pool)!;
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-2 sm:grid-cols-2" role="tablist" aria-label="Deine zwei Briefe">
+        {B1_POOLS.map((p) => (
+          <button
+            key={p.key}
+            role="tab"
+            aria-selected={pool === p.key}
+            onClick={() => setPool(p.key)}
+            className={`rounded-2xl border px-4 py-3 text-left transition-colors ${
+              pool === p.key ? "border-amber-600 bg-amber-600/10" : "border-border bg-card hover:bg-muted/40"
+            }`}
+          >
+            <span className="block text-[10px] font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400">{p.label}</span>
+            <span className="block text-sm font-black text-foreground">{p.title}</span>
+          </button>
+        ))}
+      </div>
+      <p className="text-xs leading-relaxed text-muted-foreground">{meta.hint}</p>
+
+      {current ? (
+        <StrukturView
+          key={current.pool}
+          theme={current.theme_title}
+          title={current.card_title}
+          template={current.template_text}
+          example={current.example_text}
+          intro={
+            <>
+              Dein vollständiger Antwortbrief von Anfang bis Ende. Der Text bleibt gleich — nur die <Pill>markierten Stellen</Pill>{" "}
+              ergänzt du mit deinen eigenen Ideen und passt sie an die vier Punkte der Aufgabe an.
+            </>
+          }
+          groups={REDEMITTEL_B1}
+        />
+      ) : (
+        <NotReady />
+      )}
     </div>
   );
 }
