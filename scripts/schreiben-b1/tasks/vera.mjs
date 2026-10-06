@@ -1,226 +1,344 @@
-// Vera – neue Stelle, Arbeitsweg zu weit, Bus nur alle 30 Minuten, Sohn Daniel in den Kindergarten bringen; fragt nach Ihrem Weg zur Arbeit/zum Kurs. Points: was es bei Ihnen Neues gibt · wie Sie zur Arbeit kommen · was Sie über Veras neue Stelle wissen wollen · Vorschlag für eine gemeinsame Unternehmung.
+// v2 (B2-style): Vera hat eine neue Arbeitsstelle, aber einen schwierigen Arbeitsweg (zu weit zu Fuß, Bus alle 30 Minuten, keine Radwege, Sohn Daniel im Kindergarten) und fragt, wie Sie zur Arbeit/zum Deutschkurs kommen. Points: was es bei Ihnen Neues gibt ·
+// was Sie zur Arbeit kommen · was Sie über Veras neue Stelle wissen wollen · Vorschlag für eine gemeinsame Unternehmung — plus: "Wie geht es dir und deiner Familie?", "Wollen wir uns mal wiedersehen und alle zusammen etwas unternehmen?"
+export const kw = [/Neues|Neuigkeit|erlebt|passiert|in letzter Zeit|bei mir/i, /Bus|Bahn|Fahrrad|Auto|U-Bahn|zu Fuß|fahre|Straßenbahn/i, /Stelle|Arbeit|Firma|Job/i, /vorschlagen|treffen|unternehmen|Kino|Café|Ausflug|Wochenende|Picknick|Park|Vorschlag/i, /Daniel|Familie|Kindergarten/i, /\?/];
 export default [
   // 1
-  { label: "Neuer Kurs, mit der U-Bahn, Frage nach den Arbeitszeiten, Picknick im Park", t: `Liebe [[Name der Freundin|Vera]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Vera]],
 
-wie schön, dass du eine neue Arbeitsstelle gefunden hast, ich gratuliere dir ganz herzlich! Dass der Weg zur Arbeit schwierig ist, kann ich gut verstehen.
+vielen Dank für deinen Brief, ich habe mich sehr gefreut! Uns geht es gut, auch meiner Familie. Herzlichen Glückwunsch zur neuen Arbeitsstelle! [[Reaktion auf die neue Stelle|Nach der langen Suche hast du das wirklich verdient]]. Ich bin sicher, dass du das gut machst.
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe einen Intensivkurs Deutsch angefangen]]. Zu meinem Weg: [[Arbeitsweg|Ich fahre jeden Morgen mit der U-Bahn, das dauert eine halbe Stunde]]. Sie kommt alle fünf Minuten, deshalb ist das sehr bequem.
+Bei mir gibt es folgende Neuigkeit: [[Neuigkeit|Ich habe mit einem Fotokurs angefangen und mache am Wochenende viele Ausflüge]].
 
-Zu deiner Stelle habe ich eine Frage: [[Frage|Wie sind deine Arbeitszeiten, und kannst du pünktlich Daniel abholen]]?
+Du fragst, wie ich zur Arbeit komme: [[Arbeitsweg|Ich fahre jeden Tag mit der Straßenbahn, das dauert etwa 25 Minuten]]. Das ist bequem, weil [[Grund für das Verkehrsmittel|die Bahn alle zehn Minuten fährt]].
 
-Mein Vorschlag für ein Treffen: [[Vorschlag|Wir machen am Sonntag ein Picknick im Park, und Daniel kann dort spielen]]. Ich bringe etwas zu essen mit.
+Zu deiner neuen Stelle habe ich eine Frage: [[Frage zur Stelle|Was genau machst du dort, und wie sind deine Arbeitszeiten]]?
 
-Sag mir bitte bald, was du denkst.
+Dein Vorschlag, dass wir uns wiedersehen, gefällt mir sehr. Ich schlage vor, [[Gemeinsame Unternehmung|dass wir mit Daniel in den Zoo gehen]].
+
+Zu deinem Arbeitsweg habe ich noch einen Gedanken: Wenn es keine Radwege gibt, [[Idee|könntest du mit der Firma sprechen, ob sie einen Pendlerbus oder ein Jobrad anbietet]]. Viele Firmen helfen heute bei so etwas. Und wenn der Bus nur alle dreißig Minuten fährt, [[Tipp|plane die Zeit so, dass du nie in Hektik gerätst]].
+
+Mich interessiert an deiner neuen Stelle auch noch: [[Frage 1|Wie groß ist die Firma, und gibt es einen Betriebskindergarten]]? Und [[Frage 2|wie lange hast du dich beworben, bis es geklappt hat]]? Ich frage, weil ich selbst manchmal über einen Wechsel nachdenke und gern von deinen Erfahrungen lerne.
+
+Für unser Treffen schlage ich auch einen Plan B vor: [[Regenplan|Falls es regnet, gehen wir ins Kinderkino und danach in ein Café]]. So wird der Tag auf jeden Fall schön. Und ich bringe [[Mitbringsel|ein kleines Spiel für Daniel und die Kinder]] mit, damit niemand sich langweilt.
+
+Schreib mir bitte, [[Frage an die Freundin|welcher Tag dir am besten passt]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Samir]]` },
 
   // 2
-  { label: "Neue Wohnung, zu Fuß, Frage nach den Aufgaben, Café am Samstag", t: `Hallo [[Name der Freundin|Vera]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Vera]],
 
-deine neue Stelle freut mich riesig, und ich gratuliere dir zum Neuanfang! Mit dem Bus alle 30 Minuten ist es wirklich nicht leicht.
+schön, von dir zu hören! Bei uns ist alles gut. Glückwunsch zum neuen Job! [[Reaktion auf die neue Stelle|Endlich hat es geklappt, und die Firma neben dem Kindergarten ist ein Glücksfall]].
 
-Bei mir ist viel passiert: [[Neuigkeit|Ich bin in eine neue Wohnung gezogen, die näher an meiner Schule liegt]]. Deshalb gehe ich jetzt [[Arbeitsweg|zu Fuß zur Arbeit, nur zehn Minuten]]. Das ist ein großer Vorteil.
+Neues bei mir? [[Neuigkeit|Ich habe angefangen zu klettern, und ich bin schon halbwegs fit]]. Sonst läuft alles normal.
 
-Eine Frage zu deiner neuen Arbeit: [[Frage|Welche Aufgaben hast du genau, und gefällt dir die Arbeit]]?
+Mein Arbeitsweg: [[Arbeitsweg|Ich fahre mit dem Rad, zwanzig Minuten durch den Park]]. Ich weiß, du hast keine Radwege, [[Tipp zum Arbeitsweg|vielleicht hilft dir ein E-Bike oder eine Fahrgemeinschaft]].
 
-Ich schlage vor, dass wir uns [[Vorschlag|am Samstag in einem Café treffen]]. Bring doch Daniel mit, ich habe Spielzeug für ihn.
+Zu deinem neuen Job: [[Frage zur Stelle|Was machst du da genau, und gibt es nette Kollegen]]? Das würde mich interessieren.
 
-Bis dahin, und schreib mir, wie es dir geht.
+Wir sollten uns wirklich mal wieder treffen! [[Gemeinsame Unternehmung|Wie wäre es mit einem Grillnachmittag am See, mit Daniel und allen Kindern]]?
+
+Wegen Daniel noch eine Idee: Du könntest [[Vorschlag|morgens mit ihm zum Kindergarten laufen und dann mit dem Bus weiterfahren]]. So ist alles zeitlich gut verbunden. Vielleicht gibt es auch [[Alternative|Eltern in der Nähe, mit denen du dich bei der Fahrt abwechseln kannst]].
+
+Zur neuen Firma möchte ich gern wissen: [[Frage|Welche Branche ist es, und wie gefällt dir das Team]]? Wenn du magst, erzähl mir auch, [[Frage 2|wie dein erster Tag war]]. Neue Stellen sind immer aufregend, und ich bin neugierig auf alles, was du erlebst.
+
+Wenn ihr Lust habt, könnten wir auch [[Idee|gemeinsam grillen, bei mir im Garten]]. Dann können die Kinder spielen, und wir haben Zeit zum Reden. Ich kümmere mich um [[Aufgabe|Fleisch, Salate und Getränke]], und ihr bringt nur gute Laune mit.
+
+Meld dich, [[Frage an die Freundin|wann es bei dir klappt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Prüfung bestanden, mit dem Fahrrad, Frage nach den Kollegen, Ausflug zum See", t: `Liebe [[Name der Freundin|Vera]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Vera]],
 
-ich habe mich sehr über deine E-Mail gefreut und gratuliere dir zur neuen Stelle! Dass es einen Kindergarten direkt neben deiner Firma gibt, ist ein großes Glück.
+wow, was für eine tolle Nachricht! Mir und meiner Familie geht es sehr gut. Herzlichen Glückwunsch zur neuen Stelle! [[Reaktion auf die neue Stelle|Ich habe mich so für dich gefreut, du hast so lange gesucht]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe meine Sprachprüfung bestanden]]. Zu deiner Frage: [[Arbeitsweg|Ich fahre mit dem Fahrrad, und bei mir gibt es zum Glück gute Radwege]]. Das ist gesund und kostet nichts.
+Bei mir gibt es tolle Neuigkeiten: [[Neuigkeit|Ich habe eine neue Wohnung gefunden, mit Balkon und Blick auf den Fluss]].
 
-Ich habe eine Frage zu deinem Job: [[Frage|Wie sind deine neuen Kollegen, und wie wurdest du aufgenommen]]?
+Mein Weg zur Arbeit: [[Arbeitsweg|Ich nehme die U-Bahn, das sind zwanzig Minuten]]. Das ist herrlich, weil [[Grund für das Verkehrsmittel|ich dort lesen kann]].
 
-Mein Vorschlag für eine gemeinsame Unternehmung: [[Vorschlag|Wir machen am Wochenende einen Ausflug zum See]]. Dort kann Daniel im Sand spielen, und wir sitzen im Schatten.
+Zu deiner Stelle habe ich eine Frage: [[Frage zur Stelle|Was ist deine Aufgabe, und was gefällt dir am meisten]]?
 
-Schreib mir bald, ob dir das gefällt.
+Dein Vorschlag, uns zu treffen, ist wunderbar! [[Gemeinsame Unternehmung|Wir könnten gemeinsam einen Ausflug in den Wildpark machen, mit Daniel und meinen Kindern]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Bei so einem langen Weg hilft ein guter Plan: [[Plan|Stell dir den Wecker zehn Minuten früher und mache am Vorabend schon alles fertig]]. Ich habe das auch so gemacht, als ich einen Job hatte, bei dem ich [[Erfahrung|jeden Tag eine Stunde pendeln musste]]. Es war anstrengend, aber es hat funktioniert.
+
+Ich bin gespannt, wie dein Alltag jetzt aussieht: [[Neugier|Arbeitest du Vollzeit oder Teilzeit, und wie klappt das mit Daniel]]? Ich weiß, dass das eine Herausforderung sein kann, aber ich bin sicher, [[Zuversicht|dass du alles gut organisierst]].
+
+Was meine Familie betrifft: Wir freuen uns auf ein Wiedersehen, [[Gefühl|meine Kinder fragen schon nach Daniel]]. Sie haben euch nicht vergessen. Es wird ein fröhlicher Tag werden, davon bin ich überzeugt, [[Wunsch|mit viel Lachen und Eis]].
+
+Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Praktikum, mit dem Bus, Frage nach dem Gehalt, Kino am Abend", t: `Hallo [[Name der Freundin|Vera]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Vera]],
 
-deine Neuigkeit hat mich sehr gefreut! Eine neue Arbeit zu finden, ist nicht leicht, und ich gratuliere dir. Dass der Weg so weit ist, ist natürlich lästig.
+vielen Dank für deinen Brief. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich mache ein Praktikum in einer Firma für Software]]. Zum Weg: [[Arbeitsweg|Ich fahre mit dem Bus, aber bei uns kommt er alle zehn Minuten]]. Das ist praktisch, und ich verpasse ihn nie.
+Erstens, deine Stelle: Ich gratuliere dir herzlich. [[Reaktion auf die neue Stelle|Das ist eine gute Nachricht für dich und Daniel]].
 
-Ich möchte noch etwas über deine Stelle wissen: [[Frage|Verdienst du dort mehr als früher, und gibt es einen Zuschuss für den Kindergarten]]?
+Zweitens, meine Neuigkeiten: [[Neuigkeit|Ich bin im Büro befördert worden]].
 
-Wie wäre es mit [[Vorschlag|einem Kinobesuch an einem Abend, wenn Daniel bei seinem Vater ist]]? Danach können wir noch etwas essen.
+Drittens, mein Arbeitsweg: [[Arbeitsweg|Ich fahre mit dem Bus, etwa 30 Minuten]].
 
-Ich freue mich darauf, bald von dir zu hören.
+Viertens, meine Fragen zu deiner Stelle: [[Frage zur Stelle|Welche Aufgaben hast du, und wie lange arbeitest du pro Tag]]?
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Fünftens, ein Vorschlag: Ich schlage [[Gemeinsame Unternehmung|einen Ausflug an den See am Samstag vor, mit allen Familien]].
+
+Ergänzend empfehle ich, [[Empfehlung|die Fahrzeiten der Busse genau aufzuschreiben und mit den Arbeitszeiten zu vergleichen]]. Dann siehst du, ob du flexible Zeiten verhandeln kannst. Das ist bei neuen Stellen nicht immer einfach, aber [[Folge|ein höfliches Gespräch mit dem Chef lohnt sich fast immer]].
+
+Weitere Fragen zur Stelle: [[Frage|Wie sind die Pausenzeiten, und gibt es eine Kantine]]? Außerdem [[Frage 2|ob du auch Weiterbildungen machen kannst]]. Das ist wichtig für die Zukunft, und viele Firmen bieten es an.
+
+Ich schlage vor, dass wir den Termin [[Terminvorschlag|am Samstag um 14 Uhr]] machen, weil [[Grund|dann die Kinder nach dem Mittagsschlaf ausgeruht sind]]. Ich reserviere gern [[Reservierung|einen Tisch im Café am Spielplatz]], wenn du einverstanden bist.
+
+Bitte teile mir mit, [[Frage an die Freundin|ob dir der Samstag passt]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Neuer Job, mit dem Auto, Frage zum Chef, Spielplatz mit Daniel", t: `Liebe [[Name der Freundin|Vera]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Vera]],
 
-herzlichen Glückwunsch zu deiner neuen Arbeitsstelle! Ich freue mich für dich. Der Bus alle 30 Minuten klingt anstrengend, und ohne Radwege ist es schwer.
+danke für deinen Brief! [[Reaktion auf die neue Stelle|Glückwunsch zur neuen Arbeit, ich helfe dir gern bei dem Arbeitsweg]].
 
-Bei mir ist Neues passiert: [[Neuigkeit|Ich habe einen neuen Job in einem Büro bekommen]]. Ich fahre jetzt [[Arbeitsweg|mit dem Auto zur Arbeit, aber leider gibt es morgens viel Stau]]. Deshalb stehe ich oft sehr früh auf.
+Bei mir gibt es [[Neuigkeit|eine kleine Veränderung, ich habe mein Auto verkauft]].
 
-Zu deiner Stelle habe ich eine Frage: [[Frage|Wie ist dein neuer Chef, und hast du dich schon eingelebt]]?
+Mein Arbeitsweg: [[Arbeitsweg|Ich fahre mit dem Fahrrad, eine halbe Stunde]]. Praktische Tipps für dich: [[Tipp 1|Prüfe, ob es einen Fahrradanhänger für Daniel gibt]]. Außerdem [[Tipp 2|frag die Firma nach einem Jobticket]].
 
-Ich schlage vor, dass wir uns [[Vorschlag|am Wochenende auf einem Spielplatz treffen, damit Daniel mit anderen Kindern spielen kann]]. Wir haben dann Zeit zum Reden.
+Zu deiner Stelle: [[Frage zur Stelle|Gibt es flexible Arbeitszeiten, und bietet die Firma Hilfe für Eltern an]]?
 
-Ich freue mich auf deine Nachricht.
+Mein Vorschlag: [[Gemeinsame Unternehmung|Wir treffen uns am Sonntag im Park, die Kinder können spielen]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Praktisch wäre auch [[Idee|ein Elterntreffen im Kindergarten]], bei dem man Fahrgemeinschaften bilden kann. Ich habe das einmal organisiert, und [[Ergebnis|sechs Familien haben sich beteiligt]]. Das spart Zeit und Geld, und die Kinder lernen sich besser kennen.
+
+Wie ist dein Chef? [[Frage|Ist er freundlich, oder eher streng]]? Das beeinflusst den Alltag stark. Ich habe selbst [[Erfahrung|einmal einen sehr strengen Chef gehabt]] und weiß, wie viel das ausmacht. Hoffentlich hast du Glück gehabt.
+
+Wenn wir uns treffen, hilft es, [[Hinweis|dass wir gleich einen Spielplatz in der Nähe haben]], damit die Kinder sich austoben können. Ich kenne einen schönen Platz, [[Beschreibung|mit Rutsche, Schaukel und einem kleinen Café]]. Das wäre perfekt für uns alle.
+
+Sag mir bitte, [[Frage an die Freundin|ob ich dir noch helfen kann]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Neue Freundin, mit der Straßenbahn, Frage nach Home-Office, Zoo mit Daniel", t: `Hallo [[Name der Freundin|Vera]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Vera]],
 
-wie schön, von dir zu hören, und herzlichen Glückwunsch zur neuen Stelle! Ich bin gespannt, wie es dir dort gefällt.
+ich gratuliere dir zur neuen Stelle, denn [[Begründung für den Glückwunsch|du hast lange gesucht und viel dafür getan]]. Das Problem mit dem Arbeitsweg lässt sich bestimmt lösen.
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe eine neue Freundin kennengelernt, sie kommt aus Spanien]]. Zu deinem Weg-Thema: [[Arbeitsweg|Ich fahre mit der Straßenbahn zum Kurs, und sie kommt alle sieben Minuten]]. Das geht schnell.
+Bei mir gibt es [[Neuigkeit|eine Veränderung im Beruf]].
 
-Eine Frage zu deiner Arbeit: [[Frage|Kannst du auch einmal von zu Hause aus arbeiten, damit du nicht jeden Tag fahren musst]]?
+Mein Weg zur Arbeit: [[Arbeitsweg|Ich fahre mit der Bahn]], weil [[Grund für die Bahn|ich im Zug entspannen kann]].
 
-Mein Vorschlag: [[Vorschlag|Wir gehen mit Daniel in den Zoo, am Sonntag, wenn das Wetter schön ist]]. Er mag bestimmt die Affen.
+Zu deiner Stelle habe ich Fragen, weil [[Grund für die Fragen|ich neugierig bin und dich gut unterstützen möchte]]: [[Frage zur Stelle|Was machst du, und wie viele Kollegen hast du]]?
 
-Antworte mir gern, in Ruhe.
+Als Unternehmung schlage ich [[Gemeinsame Unternehmung|einen Ausflug mit den Kindern an den See]] vor, weil [[Grund für den Vorschlag|Daniel dort gut spielen kann]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+Dass du den Weg zu Fuß nicht schaffst, ist verständlich. Aber vielleicht [[Idee|ist ein Elektroroller eine Lösung]], wenn du ihn im Bus mitnehmen darfst. Das ist natürlich nur ein Gedanke, und ich weiß nicht, ob es [[Einschränkung|Regeln dagegen gibt]]. Du kennst die Lage besser.
+
+Ich würde gern erfahren, [[Frage|ob du neue Kollegen schon kennengelernt hast]]. Kontakte am Arbeitsplatz machen vieles leichter. Und [[Wunsch|vielleicht lerne ich sie auch einmal kennen, wenn wir uns treffen]].
+
+Falls ihr lieber zu mir kommt, bin ich auch damit einverstanden: [[Angebot|Ich koche, und ihr müsst nur kommen]]. Das ist für dich nach der Arbeit bestimmt angenehmer als ein langer Ausflug. Wir können es ruhig angehen und [[Wunsch|viel reden, während die Kinder spielen]].
+
+Schreib mir, [[Frage an die Freundin|ob dir der Vorschlag gefällt]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Prüfungsstress, Mitfahrgelegenheit, Frage nach der Branche, Schwimmbad", t: `Liebe [[Name der Freundin|Vera]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Vera]],
 
-ich gratuliere dir ganz herzlich zu deiner neuen Arbeitsstelle! Der Weg zur Arbeit ist weit, aber vielleicht findest du eine Lösung.
+danke für deinen Brief, hier kurz meine Antworten.
 
-Bei mir ist viel los: [[Neuigkeit|Ich habe bald eine wichtige Prüfung und lerne jeden Tag]]. Ich fahre [[Arbeitsweg|mit einer Kollegin im Auto zur Arbeit]], wir teilen uns die Kosten. Vielleicht kennst du auch jemanden, der in deiner Nähe wohnt.
+Stelle: [[Reaktion auf die neue Stelle|Glückwunsch zur neuen Arbeit]].
 
-Ich möchte noch etwas über deine Stelle wissen: [[Frage|In welcher Branche arbeitet die Firma, und was verkauft ihr]]?
+Neues: [[Neuigkeit|Neue Stelle]].
 
-Wie wäre es mit [[Vorschlag|einem Besuch im Schwimmbad am Wochenende]]? Daniel kann im Kinderbecken spielen, und wir gehen danach ein Eis essen.
+Mein Arbeitsweg: [[Arbeitsweg|Straßenbahn, 25 Minuten]].
 
-Ich hoffe, du schreibst mir bald zurück.
+Frage zur Stelle: [[Frage zur Stelle|Welche Aufgaben hast du]]?
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Nour]]` },
+Unternehmung: [[Gemeinsame Unternehmung|Zoo mit Daniel]].
+
+Mich interessiert noch, ob du in der neuen Firma [[Frage|Kolleginnen und Kollegen in deiner Nähe hast]], die auch mit dem Bus kommen. Dann könntet ihr zusammen fahren, und der Weg würde schneller vergehen. Das hat bei mir den Arbeitsweg richtig verändert.
+
+Ich bin neugierig: Was war das Besondere bei deinem Vorstellungsgespräch? [[Frage|Welche Fragen hat man dir gestellt, und was hat den Ausschlag gegeben]]? Das hilft mir, wenn ich einmal wieder eines habe, [[Folge|und ich kann von deiner Erfahrung profitieren]].
+
+Mein Vorschlag ist vielleicht kein großes Abenteuer, aber [[Beschreibung|ein Nachmittag im Park mit Decke und Picknick ist einfach schön]]. Das kostet wenig, und die Kinder lieben es. Ich bringe [[Mitbringsel|Obst, Brote und Saft]] mit, und du kannst etwas zu essen mitbringen.
+
+Ich freue mich sehr auf ein Wiedersehen mit dir und Daniel, auf [[Vorfreude|einen schönen Nachmittag im Zoo]] und darauf, endlich wieder in Ruhe mit dir zu reden. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|wann es dir passt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Reise geplant, mit dem Zug, Frage nach den Arbeitsaufgaben, Grillen im Garten", t: `Hallo [[Name der Freundin|Vera]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Vera]],
 
-es freut mich sehr, dass du eine neue Stelle hast! Ich gratuliere dir, und ich verstehe, dass du dir Gedanken über den Weg machst.
+eine Firma direkt neben dem Kindergarten, wer hat sich das ausgedacht? [[Reaktion auf die neue Stelle|Glückwunsch, nur der Bus alle dreißig Minuten ist ein Abenteuer]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich plane eine Reise nach Italien]]. Zu deiner Frage: [[Arbeitsweg|Ich fahre mit dem Zug, er kommt jede halbe Stunde und ist immer pünktlich]]. Das ist mein Lieblingsweg.
+Neues bei mir: [[Neuigkeit|Ich habe versucht, ein Regal aufzubauen, es steht, aber schief]].
 
-Zu deiner Stelle habe ich noch eine Frage: [[Frage|Wie lange hast du Probezeit, und wie sind die Aufgaben]]?
+Mein Arbeitsweg: [[Arbeitsweg|Ich nehme das Fahrrad und fluche über Schlaglöcher]]. Dein Vorschlag, [[Tipp zum Arbeitsweg|Daniel in einen Anhänger zu setzen, könnte die Lösung sein]].
 
-Ich habe einen Vorschlag: [[Vorschlag|Komm mit Daniel zu mir zum Grillen, wenn das Wetter schön ist]]. Ich habe einen kleinen Garten, in dem er spielen kann.
+Zu deiner Stelle: [[Frage zur Stelle|Gibt es Kaffee gratis, und wie ist die Kantine]]?
 
-Erzähl mir bitte in deiner Antwort mehr davon.
+Unternehmung: [[Gemeinsame Unternehmung|Ein Eis-Nachmittag im Park mit allen Kindern, Eltern dürfen mit]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Fares]]` },
+Vielleicht ist die Lösung auch ganz einfach: [[Idee|Du ziehst irgendwann näher an die Firma]]. Aber das ist natürlich eine große Entscheidung, die man nicht nebenbei trifft. Ich wollte es nur sagen, [[Folge|falls du ohnehin einen Umzug planst]].
+
+Zu deiner Stelle noch eine Frage: [[Frage|Gibt es die Möglichkeit, ab und zu von zu Hause zu arbeiten]]? Das würde dir den langen Weg erleichtern. Viele Firmen haben so etwas, [[Hinweis|besonders seit der Pandemie]]. Es lohnt sich zu fragen.
+
+Ein weiterer Gedanke: Weil Daniel noch klein ist, [[Hinweis|sollten wir nicht zu viel planen]]. Ein Ausflug mit Pausen ist besser. Ich habe schon überlegt, [[Plan|nach dem Spielplatz Eis zu essen und dann nach Hause zu gehen]]. Das klingt entspannt, oder?
+
+Schreib bald, [[Frage an die Freundin|wann du Zeit hast]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Neues Hobby, mit dem Roller, Frage nach der Kinderbetreuung, Stadtbummel", t: `Liebe [[Name der Freundin|Vera]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Vera]],
 
-ich habe mich total über deine E-Mail gefreut! Dass du eine neue Stelle gefunden hast, ist eine tolle Nachricht, und ich gratuliere dir.
+als ich deinen Brief gelesen habe, musste ich an unsere Spaziergänge mit den Kindern denken. [[Erinnerung an früher|Daniel war damals noch ein Baby]]. Glückwunsch zur neuen Stelle!
 
-Bei mir ist Neues passiert: [[Neuigkeit|Ich habe mit Yoga angefangen]]. Zum Weg: [[Arbeitsweg|Ich fahre mit dem Roller zur Arbeit, und das dauert nur 15 Minuten]]. Bei gutem Wetter macht das richtig Spaß.
+Bei mir gibt es [[Neuigkeit|eine Veränderung im Beruf]].
 
-Zu deiner Stelle habe ich eine Frage: [[Frage|Hat die Firma eine eigene Kinderbetreuung, oder wirst du den Kindergarten selbst bezahlen]]?
+Mein Arbeitsweg: [[Arbeitsweg|Ich laufe zu Fuß, zwanzig Minuten durch die Stadt]]. Das ist angenehm, [[Folge|ich komme ausgeruht an]].
 
-Ich schlage vor, dass wir [[Vorschlag|am Samstag zusammen einen Stadtbummel machen und danach in einem Café sitzen]]. Daniel darf natürlich mitkommen.
+Zu deiner Stelle: [[Frage zur Stelle|Was gefällt dir an der Firma, und wie sind die Kollegen]]?
 
-Antworte mir bald! Ich freue mich schon auf einen schönen Tag mit euch beiden.
+Mein Vorschlag: [[Gemeinsame Unternehmung|Ein Wochenende mit Spaziergang und Kaffee in unserem alten Café]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Salma]]` },
+Ich erinnere mich, dass du immer gern Fahrrad gefahren bist: [[Erinnerung|Du bist früher sogar bei Regen gefahren]]. Vielleicht gibt es doch einen Weg, [[Idee|über Seitenstraßen oder Parks ohne Radwege auszuweichen]]. Frag doch in der Nachbarschaft, die kennen die besten Strecken.
+
+Als wir uns zuletzt gesehen haben, hast du erzählt, [[Erinnerung|dass du dir eine Stelle mit festen Zeiten wünschst]]. Ist das jetzt der Fall? Ich frage, weil das für dich und Daniel sehr wichtig ist, [[Folge|und ich hoffe, dass es so ist]].
+
+Weißt du noch, wie wir früher einmal [[Erinnerung|einen ganzen Tag am Fluss verbracht haben]]? Das war einer meiner schönsten Tage. Vielleicht können wir das wiederholen, [[Idee|mit den Kindern und viel Obst]]. Es wäre schön, die Tradition fortzusetzen.
+
+Erzähl mir, [[Frage an die Freundin|wie es euch geht]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Neuer Mitbewohner, zu Fuß und Bus, Frage nach der Probezeit, Wanderung", t: `Hallo [[Name der Freundin|Vera]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Vera]],
 
-ich gratuliere dir ganz herzlich zur neuen Arbeitsstelle! Das ist eine große Veränderung, und ich bin sicher, dass du das gut machst.
+danke für deinen Brief und Glückwunsch zur neuen Stelle! [[Reaktion auf die neue Stelle|Das ist toll]]. Ich habe gleich mehrere Vorschläge.
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ein neuer Mitbewohner ist bei mir eingezogen]]. Zum Weg: [[Arbeitsweg|Ich gehe zehn Minuten zu Fuß zur Haltestelle und fahre dann mit dem Bus]]. Der Bus fährt bei uns alle zehn Minuten.
+Zum Arbeitsweg: Mein erster Vorschlag: [[Vorschlag 1|Frag Kollegen nach einer Fahrgemeinschaft]]. Mein zweiter: [[Vorschlag 2|Prüfe, ob es einen Shuttle-Bus der Firma gibt]].
 
-Ich möchte noch etwas über deine Stelle wissen: [[Frage|Wie lange dauert die Probezeit, und wie viel Urlaub hast du]]?
+Mein Arbeitsweg: [[Arbeitsweg|Straßenbahn, 25 Minuten]]. Bei mir gibt es [[Neuigkeit|eine neue Hobbygruppe]].
 
-Mein Vorschlag: [[Vorschlag|Wir machen am Wochenende eine kleine Wanderung mit Daniel, nicht zu lang]]. Danach essen wir etwas zusammen.
+Frage zu deiner Stelle: [[Frage zur Stelle|Wie viele Stunden arbeitest du]]?
 
-Ich hoffe auf eine baldige Antwort von dir.
+Mein dritter Vorschlag: [[Gemeinsame Unternehmung|Wir treffen uns am Samstag im Zoo]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Aymen]]` },
+Mein dritter Vorschlag zum Arbeitsweg: [[Vorschlag|Kauf dir ein Monatsticket, wenn sich der Bus für dich lohnt]]. Das ist oft billiger als Einzelfahrten. Mein vierter: [[Vorschlag 2|Frag bei der Stadt nach, ob eine zusätzliche Buslinie geplant ist]].
 
-  // 11
-  { label: "Gartenarbeit begonnen, mit dem Fahrrad und Zug, Frage nach den Aufstiegsmöglichkeiten, Museum", t: `Liebe [[Name der Freundin|Vera]],
+Mein fünfter Vorschlag zum Thema Arbeit: [[Vorschlag|Mach dir eine kleine Notiz mit allen Fragen, die du im Büro stellen möchtest]]. Am Anfang vergisst man vieles. Und ich frage dich auch gern später, [[Frage|wie es dir nach drei Monaten geht]].
 
-danke für deine Nachricht und herzlichen Glückwunsch zur Stelle! Ein Kindergarten neben der Firma ist wirklich praktisch.
+Mein vierter Vorschlag für die Unternehmung: [[Vorschlag|Wir fahren zusammen mit der Bahn zu einem Ausflugsziel]], dann ist auch dein Arbeitsweg kein Thema. Mein fünfter: [[Vorschlag 2|Wir bleiben in der Stadt und machen eine kleine Entdeckungstour]].
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe angefangen, auf meinem Balkon Gemüse anzubauen]]. Ich fahre [[Arbeitsweg|mit dem Fahrrad zum Bahnhof und dann mit dem Zug zur Arbeit]]. Das ist ein guter Mix, und ich bin dabei fit.
-
-Zu deinem Job habe ich eine Frage: [[Frage|Gibt es Aufstiegsmöglichkeiten, und wie sehen die ersten Wochen aus]]?
-
-Wie wäre es mit [[Vorschlag|einem Besuch im Museum, in dem es etwas für Kinder gibt]]? Daniel hat bestimmt Spaß, und wir können danach in einem Café Kaffee trinken.
-
-Ich bin gespannt auf deine Meinung.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Rim]]` },
-
-  // 12
-  { label: "Kochkurs besucht, mit dem Auto der Eltern, Frage nach den Kollegen, Bootsfahrt", t: `Hallo [[Name der Freundin|Vera]],
-
-wie schön, dass du eine neue Stelle gefunden hast, und ich gratuliere dir von Herzen! Dass es dir dort gefällt, ist das Wichtigste.
-
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe einen Kochkurs besucht und lerne jetzt neue Rezepte]]. Zu deiner Frage: [[Arbeitsweg|Ich fahre manchmal mit dem Auto meiner Eltern, wenn es regnet, sonst mit dem Bus]]. So komme ich überall pünktlich an.
-
-Ich möchte noch etwas zu deiner Stelle wissen: [[Frage|Wie viele Leute arbeiten dort, und sind die Kollegen in deinem Alter]]?
-
-Mein Vorschlag: [[Vorschlag|Wir machen am Wochenende eine Bootsfahrt auf dem Fluss]]. Daniel mag Boote bestimmt.
-
-Ich warte gespannt auf deine Antwort.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Ines]]` },
-
-  // 13
-  { label: "Neue Freunde im Kurs, mit der S-Bahn, Frage nach dem Arbeitsvertrag, Ausflug auf den Bauernhof", t: `Liebe [[Name der Freundin|Vera]],
-
-ich habe mich sehr über deine E-Mail gefreut, und ich gratuliere dir zur neuen Arbeitsstelle! Ein neuer Anfang ist immer aufregend.
-
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe neue Freunde in meinem Kurs gefunden]]. Zum Weg: [[Arbeitsweg|Ich nehme die S-Bahn, sie fährt alle zehn Minuten direkt zu meiner Schule]]. Das ist sehr bequem.
-
-Zu deinem Job habe ich eine Frage: [[Frage|Hast du einen festen Vertrag bekommen, oder arbeitest du zuerst befristet]]?
-
-Mein Vorschlag für eine Unternehmung: [[Vorschlag|Wir fahren am Wochenende auf einen Bauernhof, wo Daniel Tiere streicheln kann]]. Ich kenne einen schönen Hof.
-
-Schreib mir bald zurück. Ich freue mich darauf, dich und Daniel bald zu sehen.
+Was hältst du davon? Grüß Daniel von mir. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Walid]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Familienbesuch, mit dem Fahrrad, Frage zur Entfernung, Eis essen und Spielplatz", t: `Hallo [[Name der Freundin|Vera]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Vera]],
 
-wie toll, dass du mich nicht vergessen hast! Ich gratuliere dir ganz herzlich zur neuen Stelle, und ich bin froh, dass Daniel in der Nähe in den Kindergarten gehen kann.
+danke für deinen Brief. [[Reaktion auf die neue Stelle|Ich freue mich über die neue Stelle, auch wenn der Weg ein Problem ist]].
 
-Bei mir gibt es Neues: [[Neuigkeit|Meine Familie war zu Besuch, und wir haben viel unternommen]]. Zu deiner Frage: [[Arbeitsweg|Ich fahre mit dem Fahrrad zur Arbeit, es sind nur drei Kilometer]]. Bei uns gibt es gute Radwege.
+Bei mir [[Neuigkeit|hat sich nicht viel verändert]].
 
-Ich möchte noch etwas zu deiner Arbeit wissen: [[Frage|Wie weit ist die Firma von deiner Wohnung entfernt, und wie lange brauchst du morgens]]?
+Mein Arbeitsweg: Einerseits [[Vorteil des Arbeitswegs|fahre ich bequem mit der Bahn]], andererseits [[Nachteil des Arbeitswegs|brauche ich lange]].
 
-Mein Vorschlag: Wie wäre es mit [[Vorschlag|einem Nachmittag auf dem Spielplatz und danach einem Eis]]? Ich würde mich freuen, Daniel einmal zu sehen.
+Zu deiner Stelle: [[Frage zur Stelle|Ist die Arbeit nicht zu anstrengend mit Daniel]]?
 
-Sag mir bitte kurz Bescheid.
+Ich würde mich über ein Treffen freuen, [[Gemeinsame Unternehmung|vielleicht ein ruhiger Nachmittag im Park]].
+
+Ich möchte nicht zu viel raten, aber vielleicht [[Idee|reicht schon eine kleine Verbesserung, zum Beispiel ein früherer Bus]]. Es kann sein, dass die Stadtwerke Verbesserungen für Berufstätige planen. Ein Anruf kostet nichts, [[Folge|und du erfährst vielleicht Neues]].
+
+Ich würde gern wissen, [[Frage|ob du dich in der Firma schon eingelebt hast]]. Das braucht manchmal Zeit, und ich verstehe, wenn du noch unsicher bist. Wichtig ist, dass du dich wohlfühlst, [[Wunsch|und ich hoffe, dass das bald der Fall ist]].
+
+Falls es Terminprobleme gibt, bin ich flexibel: [[Alternative|Wir können uns auch an einem Sonntag treffen]], wenn dir das lieber ist. Oder [[Alternative 2|an einem Abend unter der Woche für ein Abendessen]]. Hauptsache, wir sehen uns bald, und ich verspreche, mich anzupassen.
+
+Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Vera]],
+
+danke für deinen Brief, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die neue Stelle|Glückwunsch zur neuen Stelle]].
+
+Als Nächstes zu den Neuigkeiten bei mir: [[Neuigkeit|Neue Aufgabe]].
+
+Dann zum Arbeitsweg: [[Arbeitsweg|Straßenbahn]].
+
+Danach zu deiner Stelle: [[Frage zur Stelle|Was machst du dort]]?
+
+Zuletzt zu deiner Idee: [[Gemeinsame Unternehmung|Ein Ausflug mit den Kindern]].
+
+Zum Schluss ein Schritt: [[Schritt|Sprich mit dem Personalbüro über deine Situation]]. Viele Firmen haben Lösungen, von Homeoffice-Tagen bis zu angepassten Arbeitszeiten. Das macht dir das Leben leichter, und [[Folge|die Firma gewinnt eine zufriedene Mitarbeiterin]].
+
+Als dritten Schritt interessiert mich: [[Frage|Welche Aufgaben sind dir am liebsten, und welche eher nicht]]? So kann ich mir ein Bild von deinem Alltag machen. Und ich kann dir vielleicht sogar Tipps geben, [[Angebot|wenn du Schwierigkeiten hast]].
+
+Als letzten Schritt schlage ich vor, [[Schritt|dass wir uns telefonisch noch einmal abstimmen]], sobald du deinen Dienstplan kennst. Dann können wir den Termin festlegen und alles planen. Ich rufe dich gern an, [[Angebot|am Abend, wenn Daniel schläft]].
+
+Ich freue mich sehr auf unser Treffen und auf Daniel, und ich hoffe, dass wir bald einen Termin finden, der für alle passt, damit wir uns in Ruhe unterhalten können. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Vera]],
+
+dein Brief hat mich sehr gefreut. [[Reaktion auf die neue Stelle|Ich freue mich so für dich, du hast hart gearbeitet]]. Dass der Arbeitsweg schwierig ist, tut mir leid, aber es lässt sich bestimmt lösen.
+
+Bei mir gibt es [[Neuigkeit|ein neues Hobby, das mir Freude macht]].
+
+Mein Arbeitsweg: [[Arbeitsweg|Ich fahre mit der Bahn]].
+
+Zu deiner Stelle: [[Frage zur Stelle|Fühlst du dich wohl, und sind die Kollegen nett zu dir]]?
+
+Dein Vorschlag, uns zu treffen, rührt mich. [[Gemeinsame Unternehmung|Ein gemütlicher Nachmittag mit Kuchen und Spielen für die Kinder]].
+
+Ich weiß, dass das für dich eine stressige Zeit ist: [[Mitgefühl|Neue Stelle, kleines Kind und ein langer Weg]]. Aber du schaffst das, weil [[Eigenschaft|du organisiert und stark bist]]. Wenn du mal Hilfe brauchst, [[Angebot|ruf mich an, ich bin immer für dich da]].
+
+Ich möchte gern mehr über dich und deine Arbeit hören: [[Frage|Wie fühlst du dich, wenn du abends nach Hause kommst]]? Bist du müde oder zufrieden? Ich mache mir manchmal Sorgen, [[Sorge|dass du dich überforderst]], deshalb frage ich.
+
+Ich möchte, dass du dich wohlfühlst: [[Wunsch|kein Stress, keine große Planung, nur Zeit zusammen]]. Das ist mir wichtig, weil du gerade so viel schaffst. Ich bin sicher, dass ein ruhiger Tag dir und Daniel guttut, [[Folge|und uns allen]].
+
+Erzähl mir, [[Frage an die Freundin|wie ich dich unterstützen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Vera]],
+
+Glückwunsch zum Job! [[Reaktion auf die neue Stelle|Endlich]].
+
+Neues: [[Neuigkeit|Nichts Besonderes]].
+
+Arbeitsweg: [[Arbeitsweg|Bahn, passt]].
+
+Dein Job: [[Frage zur Stelle|Was machst du, und wie sind die Kollegen]]?
+
+Treffen? [[Gemeinsame Unternehmung|Gern, am Wochenende im Park]].
+
+Noch ein schneller Tipp: [[Tipp|Fahr eine Woche lang mit dem Bus und notiere, wie lange alles wirklich dauert]]. Dann hast du Zahlen für ein Gespräch. Und vielleicht [[Folge|ist es gar nicht so schlimm, wie du jetzt denkst]].
+
+Eine schnelle Frage: [[Frage|Was ist das Beste an deiner neuen Stelle]]? Und [[Frage 2|was nervt dich am meisten]]? Ich bin neugierig und freue mich, wenn du mir ehrlich antwortest. Dann können wir beim Treffen darüber reden.
+
+Ich habe auch noch eine kleine Überraschung: [[Überraschung|Ich bringe für Daniel ein kleines Geschenk zum Start deines Jobs mit]]. Es ist nichts Großes, aber ich freue mich schon darauf, [[Wunsch|sein Gesicht zu sehen]]. Und für dich habe ich auch etwas, das bleibt aber geheim.
+
+Ich freue mich echt auf ein Wiedersehen mit dir und Daniel und hoffe, dass wir bald einen schönen Tag zusammen verbringen, denn es gibt bestimmt viel zu erzählen. Wenn der Arbeitsweg zu anstrengend ist, ruf einfach an, ich höre gern zu. Meld dich, [[Frage an die Freundin|wann es passt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

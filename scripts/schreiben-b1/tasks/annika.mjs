@@ -1,226 +1,318 @@
-// Annika – gemeinsame Sommerreise, mag Meer und Städtereisen, Sport, wenig Geld (Autoreparatur). Points: was Sie am Wochenende unternommen haben · wohin Sie gern reisen würden · was Sie im Urlaub gern machen · wie man beim Reisen Geld sparen kann.
+// v2 (B2-style): Annika (Wochenende verregnet, zuhause geblieben) will im Sommer mit Ihnen verreisen: Meer oder Städtereise, etwas Sport, nicht zu teuer. Points: was Sie am Wochenende unternommen haben ·
+// wohin Sie gerne reisen würden · was Sie im Urlaub gerne machen · wie man beim Reisen Geld sparen kann — plus: "Hattest du ein schönes Wochenende?", "An welches Reiseziel denkst du?", kein Luxushotel.
+export const kw = [/Wochenende/, /Meer|Stadt|reisen|Reise|Italien|Spanien|Türkei|Berlin|Urlaub|Ziel/i, /gern|Schwimmen|Wandern|Sport|besichtigen|Museum|Strand|Essen|entspannen/i, /sparen|günstig|billig|Preis|Jugendherberge|Camping|Sonderangebot|Ferienwohnung|Bus|Zug/i];
 export default [
   // 1
-  { label: "Fußball am Wochenende, Spanien am Meer, schwimmen und essen, Zug-Sparpreis", t: `Liebe [[Name der Freundin|Annika]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Annika]],
 
-dein Brief hat mir viel Freude gemacht, und ich freue mich, dass du mit mir verreisen möchtest! Bei uns hat es am Wochenende zum Glück nicht geregnet.
+vielen Dank für deinen Brief, ich habe mich sehr gefreut! Mir geht es gut. Schade, dass es bei dir am Wochenende so geregnet hat. [[Mein Wochenende|Am Samstag war ich im Schwimmbad, am Sonntag bei meiner Familie]].
 
-Ich habe am Wochenende [[Wochenende|mit meinen Freunden Fußball gespielt und danach gegrillt]]. Das war ein schöner Tag.
+Dass du meine Idee mit der gemeinsamen Reise gut findest, freut mich sehr. Ich würde gern [[Reiseziel|an die Adria nach Italien]] fahren, weil [[Grund für das Reiseziel|man dort Meer, Städte und gutes Essen verbinden kann]].
 
-Wohin ich gern reisen würde? [[Reiseziel|An die Küste in Spanien, dort ist das Meer warm und alles nicht so teuer]]. Im Urlaub möchte ich vor allem [[Aktivitäten|schwimmen, gut essen und abends am Strand spazieren gehen]].
+Im Urlaub mache ich gern [[Aktivität 1|schwimmen und lange Spaziergänge]], und ich besichtige auch gern [[Aktivität 2|alte Gebäude und kleine Museen]]. Für den Sport findest du bestimmt etwas, [[Sportangebot|zum Beispiel Radfahren oder Joggen am Strand]].
 
-Zum Sparen habe ich einen Tipp: [[Spartipp|Wir können einen Zug mit Sparpreis nehmen und bei der Buchung früh sein]]. Das spart viel Geld.
+Wie wir Geld sparen können? Ich habe mehrere Ideen: [[Spartipp 1|Wir übernachten in einer Jugendherberge oder in einer günstigen Ferienwohnung]]. Außerdem [[Spartipp 2|fahren wir mit dem Zug oder mit dem Bus statt mit dem Auto]]. Und [[Spartipp 3|wir kochen manchmal selbst, statt immer im Restaurant zu essen]].
 
-Schreib mir bald, was du davon hältst.
+Dass du vor Kurzem viel Geld für die Autoreparatur ausgeben musstest, tut mir leid: [[Mitgefühl|Das ist ärgerlich, aber es passiert jedem einmal]]. Deshalb ist es klug, dass wir günstig verreisen. Mit etwas Planung [[Zuversicht|wird der Urlaub trotzdem schön und bezahlbar]].
+
+Wenn es um das Reiseziel geht, möchte ich noch hinzufügen: [[Wunsch|Ich wollte schon immer das Meer im Sonnenaufgang sehen]]. Vielleicht [[Idee|buchen wir ein Zimmer mit Blick aufs Wasser]], falls das Budget es erlaubt. Auch ein kleines Zimmer reicht, Hauptsache, wir sind zusammen.
+
+Zu meinem Wochenende noch eine Ergänzung: [[Detail|Am Sonntag habe ich eine Liste mit Reisezielen geschrieben]]. Das hat Spaß gemacht, und ich bin bereit, die Liste mit dir zu vergleichen. Vielleicht haben wir [[Folge|mehr gemeinsame Wünsche, als wir denken]].
+
+Schreib mir bitte, [[Frage an die Freundin|wann du Zeit hast, damit wir planen können]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Samir]]` },
 
   // 2
-  { label: "Eltern besucht, Italien an der Adria, Strand und Museen, Jugendherberge", t: `Hallo [[Name der Freundin|Annika]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Annika]],
 
-wie schön, dass du an eine gemeinsame Reise denkst! Dass es bei dir geregnet hat, tut mir leid. Hoffentlich war es zu Hause wenigstens gemütlich.
+schön, von dir zu hören! Bei mir war das Wochenende okay, [[Mein Wochenende|ich war joggen, habe Freunde getroffen und abends Serie geguckt]]. Bei dir hat es nur geregnet? Schade!
 
-Am Wochenende habe ich [[Wochenende|meine Eltern besucht und ihnen im Garten geholfen]]. Es war ruhig und schön.
+Eure Reise? Unbedingt! Ich wäre für [[Reiseziel|Spanien, irgendwo an der Küste]], weil [[Grund für das Reiseziel|es dort warm und günstig ist]]. Städtereise wäre auch cool, zum Beispiel [[Zweites Reiseziel|Lissabon]].
 
-Wenn ich wählen darf, würde ich [[Reiseziel|nach Italien an die Adria fahren, dort gibt es Strand und viele kleine Städte]]. Im Urlaub gehe ich gern [[Aktivitäten|in Museen und danach an den Strand, um mich zu entspannen]].
+Im Urlaub liebe ich [[Aktivität 1|Strand, Eis und Faulenzen]], aber [[Aktivität 2|ein bisschen Sport muss auch sein, zum Beispiel Volleyball]].
 
-Beim Geldsparen hilft es, wenn wir [[Spartipp|in einer Jugendherberge schlafen, denn das ist viel billiger als ein Hotel]]. Dort gibt es oft auch ein einfaches Frühstück.
+Geld sparen: [[Spartipp 1|Hostel statt Hotel, Mehrbettzimmer sind super günstig]]. [[Spartipp 2|Flug oder Fernbus früh buchen]]. Und [[Spartipp 3|Supermarkt statt Restaurant, mit Picknick am Strand]].
 
-Melde dich bitte, sobald du etwas weißt.
+Wenn wir ein Budget festlegen, [[Idee|zum Beispiel höchstens 500 Euro pro Person]], haben wir ein klares Ziel. Dann suchen wir alles danach aus. Das ist ein Trick, der sich bewährt hat, [[Erfahrung|bei meiner letzten Reise war ich damit sehr zufrieden]].
+
+Für mich ist wichtig, dass der Urlaub [[Wunsch|abwechslungsreich ist, ein Tag am Strand, ein Tag in der Stadt]]. Dazu passt Italien, aber auch Spanien oder Kroatien. Du hast doch schon [[Frage|an ein bestimmtes Land gedacht]]? Wenn nicht, finden wir sicher etwas, das uns beiden gefällt.
+
+Am Wochenende habe ich auch [[Aktivität|meinen Rucksack geprüft und neue Wanderschuhe gekauft]], falls wir wandern. Das war schon eine kleine Vorfreude. Und du? Hast du am regnerischen Wochenende [[Frage|etwas Schönes zu Hause gemacht]]?
+
+Meld dich, [[Frage an die Freundin|wann du verreisen kannst]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Film geschaut, Kroatien, Wandern und Baden, Camping", t: `Liebe [[Name der Freundin|Annika]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Annika]],
 
-vielen Dank für deine Neuigkeiten! Ich freue mich sehr, dass wir im Sommer zusammen verreisen. Eine Autoreparatur ist natürlich ärgerlich, aber wir finden bestimmt etwas Günstiges.
+wow, schön, von dir zu lesen! Mir geht es richtig gut. [[Mein Wochenende|Am Wochenende war ich wandern und habe abends mit Freunden gegrillt]]. Dass es bei dir nur geregnet hat, tut mir leid!
 
-Mein Wochenende war ruhig: [[Wochenende|Ich habe einen langen Film gesehen und am Abend gekocht]]. Ich war ziemlich müde von der Woche.
+Die gemeinsame Reise ist eine großartige Idee! Ich träume von [[Reiseziel|der Türkei, mit Strand und Städten]], weil [[Grund für das Reiseziel|dort alles zusammenkommt und es nicht teuer ist]]. Auch [[Zweites Reiseziel|Barcelona]] würde mir gefallen.
 
-Mein Wunschziel ist [[Reiseziel|Kroatien, wegen des klaren Meeres und der schönen Inseln]]. Im Urlaub mache ich gern [[Aktivitäten|Wanderungen am Meer und gehe baden]]. Dazu passt auch ein bisschen Sport.
+Im Urlaub liebe ich [[Aktivität 1|schwimmen, tauchen und Sonne]], und [[Aktivität 2|abends bummeln und lecker essen]]. Sport kommt nicht zu kurz, [[Sportangebot|wir können jeden Morgen laufen oder Kajak fahren]].
 
-Zum Sparen: [[Spartipp|Wir könnten auf einem Campingplatz übernachten und unser Essen selbst kochen]]. Das ist nicht teuer und macht Spaß.
+Geld sparen: [[Spartipp 1|Wir buchen eine Ferienwohnung zusammen, dann teilen wir die Kosten]]. [[Spartipp 2|Wir reisen in der Nebensaison]]. Und [[Spartipp 3|wir nutzen Sonderangebote]].
 
-Schreib mir bald, ob das für dich passt.
+Wegen des Sports habe ich noch eine Idee: [[Idee|Wir buchen eine Unterkunft in der Nähe eines Fahrradverleihs]], dann können wir Touren machen. Radfahren ist günstig und gesund. Oder [[Alternative|wir suchen einen kostenlosen Yogakurs am Strand]], wenn es sowas gibt.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Als Reisezeit schlage ich [[Zeitraum|Anfang September]] vor, weil [[Grund|es dann günstiger ist und das Meer noch warm]]. Wenn du lieber im Juli oder August fahren möchtest, [[Alternative|passe ich mich an]], aber es wird dann teurer. Sag mir, was für dich möglich ist.
+
+Mein Wochenende war ereignisreich: [[Detail|Samstag Schwimmbad, Sonntag Familientreffen mit Grillen]]. Das hat mir gutgetan. Ich hoffe, du hattest wenigstens [[Wunsch|ein gutes Buch oder einen schönen Film]], als es geregnet hat.
+
+Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Wanderung am Wochenende, Türkei, Strand und Sport, Frühbucher", t: `Hallo [[Name der Freundin|Annika]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Annika]],
 
-ich habe mich total über dein Lebenszeichen gefreut! Bei mir war das Wetter am Wochenende gemischt, aber ich bin trotzdem rausgegangen. Dein Vorschlag für eine Reise ist eine tolle Idee.
+vielen Dank für deinen Brief. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
-Am Wochenende habe ich [[Wochenende|eine lange Wanderung im Wald gemacht, vier Stunden]]. Danach habe ich mich ausgeruht.
+Erstens, mein Wochenende: [[Mein Wochenende|Ich habe eine Radtour gemacht und am Sonntag meine Wohnung aufgeräumt]]. Dein Wochenende war leider verregnet.
 
-Ich würde gern [[Reiseziel|in die Türkei fahren, zum Beispiel nach Antalya]]. Das Meer ist warm, und man kann viele Sportarten ausprobieren. Im Urlaub schwimme ich gern und mache [[Aktivitäten|Beachvolleyball mit anderen Gästen]].
+Zweitens, das Reiseziel: Ich würde gern [[Reiseziel|nach Kroatien an die Küste]] reisen, weil [[Grund für das Reiseziel|es dort Meer und Städte gibt]].
 
-Ein Tipp zum Sparen: [[Spartipp|Wir buchen früh, als Frühbucher, und fahren nicht in der Hauptsaison]]. Dann sind Flüge und Hotels viel billiger.
+Drittens, was ich im Urlaub gern mache: [[Aktivität 1|Schwimmen, wandern und besichtigen]].
 
-Erzähl mir doch gern bald mehr davon.
+Viertens, Spartipps: [[Spartipp 1|Günstige Unterkunft, zum Beispiel Camping]], [[Spartipp 2|Zug statt Flug]] und [[Spartipp 3|Selbstverpflegung]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Ergänzend schlage ich vor, [[Vorschlag|die Reise in der Nebensaison zu machen, zum Beispiel Anfang Juni oder September]]. Dann sind Unterkünfte billiger und die Strände weniger voll. Wir hätten mehr Ruhe, [[Folge|und das Wetter ist oft noch sehr schön]].
+
+Ich bin gespannt, ob wir uns bei dem Ziel einig werden: [[Neugier|Du magst ja Meer und Städte, ich auch]]. Das macht es einfach. Eine Küstenstadt wäre vielleicht ideal, zum Beispiel [[Beispiel|Triest, Split oder Valencia]]. Dort gibt es beides und man kann viel zu Fuß erreichen.
+
+Zum Wochenende kann ich sagen, dass es [[Beschreibung|ruhig und erholsam]] war. Ich habe viel geschlafen und ein bisschen aufgeräumt. Danach fühlte ich mich bereit für neue Pläne, [[Folge|zum Beispiel für unsere gemeinsame Reise]].
+
+Bitte teile mir mit, [[Frage an die Freundin|wann du Urlaub nehmen kannst]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Flohmarkt besucht, Prag, Museen und Cafés, Fernbus", t: `Liebe [[Name der Freundin|Annika]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Annika]],
 
-ich habe mich sehr über deine Nachricht gefreut! Eine gemeinsame Reise im Sommer finde ich großartig, und ich bin sicher, dass wir gut zusammen planen können.
+danke für deinen Brief! [[Mein Wochenende|Ich war am Wochenende bei meiner Schwester und habe ihr beim Umzug geholfen]]. Schade, dass es bei dir geregnet hat. Bei der Reiseplanung helfe ich dir gern.
 
-Mein Wochenende war schön: [[Wochenende|Ich war auf einem Flohmarkt und habe ein altes Buch und eine Lampe gekauft]]. Danach habe ich mit einer Freundin Kaffee getrunken.
+Mein Vorschlag: [[Reiseziel|eine Woche an der Ostsee]], weil [[Grund für das Reiseziel|es dort Meer, Sport und kleine Städte gibt, und alles ist günstig]]. Ich kann [[Praktische Hilfe|passende Angebote im Internet heraussuchen]].
 
-Reisen möchte ich gern [[Reiseziel|nach Prag, denn die Stadt ist schön und nicht so teuer]]. Im Urlaub besichtige ich gern [[Aktivitäten|Museen und sitze in kleinen Cafés]]. Für etwas Sport kann man dort viel zu Fuß gehen.
+Im Urlaub mache ich gern [[Aktivität 1|Radfahren und Schwimmen]].
 
-Zum Geldsparen: [[Spartipp|Wir können mit dem Fernbus fahren, der ist viel billiger als der Zug]]. Außerdem finden wir bestimmt eine günstige Pension.
+Spartipps: [[Spartipp 1|Vergleiche Preise auf mehreren Seiten]], [[Spartipp 2|buche früh]] und [[Spartipp 3|nimm Proviant mit]].
 
-Ich freue mich auf deine Mail!
+Praktisch ist auch, [[Tipp|eine Reiseapp zu nutzen, die Preise vergleicht]]. Ich nutze eine, und sie hat mir schon viel Geld gespart. Wenn du willst, [[Hilfsangebot|zeige ich dir, wie das geht, und wir suchen zusammen]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Wenn du magst, mache ich einen Vorschlag für die Route: [[Route|Hinfahrt mit dem Zug, drei Tage in einer Stadt, dann eine Woche am Meer]]. Das ist abwechslungsreich und gut zu bezahlen. Ich lasse mich aber gern von deinen Ideen überzeugen, [[Offenheit|denn dein Wunsch zählt genauso]].
+
+Am Wochenende war ich [[Ort|bei einer Freundin, die gerade umgezogen ist]]. Ich habe ihr geholfen und dabei gemerkt, wie schön es ist, Freunden zu helfen. Das gilt auch für dich, [[Angebot|bei der Planung unserer Reise stehe ich gern bereit]].
+
+Sag mir bitte, [[Frage an die Freundin|ob ich schon etwas buchen soll]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Radtour, Berlin, Sightseeing und Sport, günstige Ferienwohnung", t: `Hallo [[Name der Freundin|Annika]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Annika]],
 
-danke für deinen Brief! Es tut mir leid, dass du am Wochenende wegen des Regens zu Hause bleiben musstest. Ich freue mich aber sehr, dass wir zusammen verreisen wollen.
+ich freue mich über deinen Brief, denn [[Begründung für die Freude|ich habe Lust auf eine gemeinsame Reise]]. Schade, dass das Wetter bei dir schlecht war. [[Mein Wochenende|Bei mir war ich viel draußen und habe Sport gemacht]].
 
-Ich habe am Wochenende [[Wochenende|eine Radtour am Fluss gemacht und im Biergarten gegessen]]. Es war warm und sonnig.
+Als Reiseziel schlage ich [[Reiseziel|Italien]] vor, weil [[Grund für das Reiseziel|man dort Meer und Städte kombinieren kann]].
 
-Mein Wunschziel ist [[Reiseziel|Berlin, weil es dort so viel zu sehen gibt und man billig essen kann]]. Im Urlaub mache ich gern [[Aktivitäten|Sightseeing und gehe oft laufen oder Rad fahren]]. So verbinde ich beides.
+Im Urlaub mache ich gern [[Aktivität 1|schwimmen und besichtigen]], weil [[Grund für die Aktivität|ich dabei entspanne und Neues sehe]].
 
-Ich habe einen Tipp zum Sparen: [[Spartipp|Wir mieten eine kleine Ferienwohnung mit Küche und kochen oft selbst]]. Das ist viel günstiger als jeden Tag im Restaurant.
+Sparen können wir, indem wir [[Spartipp 1|eine günstige Unterkunft buchen]], da [[Grund für den Tipp|das den größten Teil der Kosten ausmacht]]. Außerdem [[Spartipp 2|reisen wir mit dem Bus]].
 
-Ich freue mich auf ein Lebenszeichen von dir.
+Die Wahl zwischen Meer und Stadt ist schwierig. Wenn wir [[Idee|einige Tage am Meer und zwei Tage in einer Stadt]] verbringen, haben wir beides. Das ist nicht teurer, solange wir [[Hinweis|die Fahrten günstig halten]]. Was meinst du dazu?
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+Ich habe schon überlegt, welche Sehenswürdigkeiten mich interessieren: [[Interesse|alte Kirchen, Altstädte und kleine Märkte]]. Dafür muss man kein Geld ausgeben, und es ist oft das Schönste. Aber natürlich [[Hinweis|wollen wir auch Zeit zum Ausruhen haben]].
+
+Mein Wochenende begann mit [[Aktivität|einem langen Spaziergang]], und das Wetter war schön. Ich dachte an dich, weil bei dir der Regen so lange gedauert hat. Dafür sind wir jetzt im Sommer bestimmt [[Hoffnung|doppelt so sonnig unterwegs]].
+
+Schreib mir, [[Frage an die Freundin|ob dir meine Gründe einleuchten]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Geburtstag gefeiert, Lissabon, Strand und Stadtbummel, Nebensaison", t: `Liebe [[Name der Freundin|Annika]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Annika]],
 
-wie schön, dass wir wieder in Kontakt sind! Die Idee mit der gemeinsamen Reise freut mich sehr, und ich bin sicher, dass wir etwas Schönes finden.
+danke für deinen Brief, hier kurz meine Antworten.
 
-Mein Wochenende war lustig: [[Wochenende|Ich habe den Geburtstag meiner Schwester gefeiert, mit Kuchen und Spielen]]. Wir waren viele Leute.
+Wochenende: [[Mein Wochenende|Schwimmbad und Freunde]].
 
-Wohin? Ich würde gern [[Reiseziel|nach Lissabon fahren, wo man die Stadt und den Strand an einem Ort hat]]. Im Urlaub schlendere ich gern durch die Stadt und [[Aktivitäten|gehe abends am Strand spazieren]].
+Reiseziel: [[Reiseziel|Italien, Küste]].
 
-Zum Sparen: [[Spartipp|Wir reisen in der Nebensaison, zum Beispiel im September, dann sind Flüge und Unterkünfte günstiger]]. Das Wetter ist dann noch gut.
+Im Urlaub: [[Aktivität 1|Schwimmen, Spazieren, Museum]].
 
-Schreib mir bald, ob dir die Idee gefällt.
+Sparen: [[Spartipp 1|Jugendherberge]], [[Spartipp 2|Zug]], [[Spartipp 3|Selbstverpflegung]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Nour]]` },
+Bei den Mahlzeiten können wir viel sparen: [[Tipp|Frühstück in der Unterkunft und mittags ein Picknick]], und abends essen wir in einem einfachen Lokal. So haben wir trotzdem etwas Besonderes, [[Folge|ohne dass das Budget leidet]].
+
+Zum Thema Unterkunft: Es muss kein Luxushotel sein, [[Wunsch|ein sauberes Zimmer mit Bad reicht mir völlig]]. Ich bin da nicht anspruchsvoll. Wichtig ist nur, dass [[Bedingung|wir in der Nähe von Strand oder Altstadt wohnen]], damit wir nicht viel fahren müssen.
+
+Am Wochenende habe ich [[Aktivität|Freunde besucht und alte Fotos von Reisen angeschaut]]. Das hat mich auf die Reise mit dir eingestimmt. Wenn du magst, zeige ich dir die Fotos, [[Idee|vielleicht gibt es Orte, die dir auch gefallen]].
+
+Ich freue mich sehr auf unsere Reise und hoffe, dass wir ein schönes Ziel finden, das auch für dich bezahlbar ist, denn Urlaub soll Spaß machen und keine Sorgen bringen. Ich bin offen für alle deine Ideen und lasse mich gern überraschen. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|wann du Zeit hast]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Aufgeräumt, Barcelona, Strand und Tapas, Mitfahrgelegenheit", t: `Hallo [[Name der Freundin|Annika]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Annika]],
 
-wie lieb, dass du mir geschrieben hast! Der Regen hat dich am Wochenende zu Hause gehalten, dafür kann man sich dort wenigstens ausruhen. Ich freue mich auf unsere Reise.
+bei dir hat es die ganze Zeit geregnet? Dann brauchst du dringend Sonne! [[Mein Wochenende|Ich war bei meinen Eltern und habe zu viel Kuchen gegessen]]. Die Reise ist die beste Idee des Jahres.
 
-Ich habe am Wochenende [[Wochenende|meine Wohnung aufgeräumt und viel Wäsche gewaschen]]. Das war nötig, aber nicht besonders schön.
+Als Reiseziel schlage ich [[Reiseziel|Spanien]] vor, [[Grund für das Reiseziel|dort scheint die Sonne mehr, als man verträgt]].
 
-Reisen möchte ich gern [[Reiseziel|nach Barcelona, dort gibt es Strand, Kultur und gutes Essen]]. Im Urlaub esse ich gern [[Aktivitäten|Tapas und schwimme im Meer]]. Sport mache ich morgens am Strand.
+Im Urlaub mache ich gern [[Aktivität 1|schwimmen, essen und noch einmal essen]]. Sport? [[Sportangebot|Ich tue so, als würde ich joggen]].
 
-Für das Geldsparen: [[Spartipp|Wir nehmen eine Mitfahrgelegenheit bis zum Flughafen und buchen Billigflüge]]. Das spart viel.
+Geld sparen: [[Spartipp 1|Wir schlafen in einem Zelt, das spart Geld und Komfort]]. [[Spartipp 2|Wir nehmen Bus statt Taxi]]. Und [[Spartipp 3|Eis nur einmal am Tag]], zumindest theoretisch.
 
-Schreib mir bald zurück. Ich freue mich schon darauf, mit dir die Stadt zu erkunden.
+Wenn es regnet wie am letzten Wochenende bei dir, [[Hinweis|brauchen wir einen Plan B]]. Zum Beispiel Museen mit günstigem Eintritt oder ein Besuch in einer Therme. Das kostet wenig und macht Spaß, [[Folge|und der Urlaub ist trotzdem gerettet]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Fares]]` },
+Beim Strand mag ich es, wenn [[Wunsch|er sauber ist und nicht zu überfüllt]]. Deshalb wäre die Nebensaison für mich ideal. Aber auch im Hochsommer gibt es ruhige Plätze, [[Hinweis|man muss sie nur kennen]]. Wir suchen zusammen im Internet nach Tipps.
+
+Wochenende war okay, [[Beschreibung|ich bin zu Hause geblieben, bei mir schien aber die Sonne]]. Ich habe gekocht und gelesen. Schade, dass wir uns nicht gesehen haben, [[Wunsch|vielleicht klappt es nächstes Mal]].
+
+Schreib bald, [[Frage an die Freundin|wann wir packen]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Schwimmbad besucht, Ostsee, Radfahren und Baden, Last-Minute", t: `Liebe [[Name der Freundin|Annika]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Annika]],
 
-ich habe mich sehr über deine Nachricht gefreut! Dass du über unsere Reise nachdenkst, finde ich schön, und ich bin mit der Idee einverstanden.
+als ich deinen Brief gelesen habe, musste ich an unseren letzten Urlaub denken. [[Erinnerung an die letzte Reise|Wir sind damals im Regen am Strand spazieren gegangen und haben gelacht]]. Dein Wochenende klingt ruhig.
 
-Mein Wochenende war sportlich: [[Wochenende|Ich war zwei Stunden im Schwimmbad und danach mit Freunden Eis essen]]. Das tat gut.
+[[Mein Wochenende|Ich habe am Wochenende gekocht und eine Freundin besucht]].
 
-Mein Vorschlag für ein Ziel ist [[Reiseziel|die Ostsee, dort kann man baden und Rad fahren]]. Im Urlaub fahre ich gern [[Aktivitäten|Rad und liege am Strand, wenn die Sonne scheint]]. Das passt zu deinem Wunsch nach Sport.
+Als Reiseziel schlage ich [[Reiseziel|Portugal]] vor, weil [[Grund für das Reiseziel|ich dort schon einmal war und mich verliebt habe]].
 
-Zum Sparen: [[Spartipp|Wir buchen kurzfristig, last minute, denn dann gibt es oft Sonderangebote]]. Man muss nur flexibel sein.
+Im Urlaub mache ich gern [[Aktivität 1|lange Strandspaziergänge]].
 
-Schreib mir bitte bald zurück!
+Spartipps: [[Spartipp 1|Ich übernachte gern in kleinen Pensionen]], [[Spartipp 2|fahre mit dem Zug]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Aymen]]` },
+Ich erinnere mich an unsere erste gemeinsame Fahrt: [[Erinnerung|Wir haben nur Brot und Käse gegessen und waren trotzdem glücklich]]. So ein Urlaub ist oft der schönste. Deshalb sehe ich der Reise sehr positiv entgegen, [[Folge|auch wenn wir nicht viel Geld haben]].
+
+Ich erinnere mich an einen schönen Urlaub in meiner Kindheit: [[Erinnerung|Wir waren in einem kleinen Haus am Meer]]. Seitdem liebe ich das Meer. Es wäre schön, dieses Gefühl mit dir zu teilen.
+
+Mein Wochenende erinnerte mich an unseren Urlaub: [[Erinnerung|Ich habe Eis gegessen und am See gesessen]]. Es war herrlich ruhig. So ein Gefühl wünsche ich uns auch im Sommer, [[Wunsch|ohne Hektik und mit viel Zeit füreinander]].
+
+Ich freue mich sehr auf unseren Sommer und auf viele schöne Tage mit dir. Erzähl mir, [[Frage an die Freundin|woran du bei dem Wort Urlaub zuerst denkst]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Familienbesuch, Griechenland, Schnorcheln und Essen, Picknick statt Restaurant", t: `Hallo [[Name der Freundin|Annika]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Annika]],
 
-danke, dass du mir geschrieben hast! Der Regen bei dir war sicher lästig, aber ich verstehe, dass du lieber zu Hause geblieben bist. Unsere Reise im Sommer ist eine gute Idee.
+danke für deinen Brief. [[Mein Wochenende|Mein Wochenende war ruhig, ich habe Freunde getroffen]]. Ich habe gleich mehrere Vorschläge für unsere Reise.
 
-Am Wochenende habe ich [[Wochenende|Verwandte besucht und mit ihnen gegessen und Karten gespielt]]. Es war sehr gemütlich.
+Mein erster Vorschlag: Wir fahren [[Reiseziel|an die Küste nach Kroatien]]. Mein zweiter: [[Zweites Reiseziel|Wir verbinden das mit einem Tag in einer Stadt]].
 
-Wohin ich gern fahren würde? [[Reiseziel|Nach Griechenland auf eine kleine Insel, wo es schön ruhig ist]]. Dort möchte ich [[Aktivitäten|schnorcheln, Fisch essen und am Abend spazieren gehen]].
+Mein dritter Vorschlag: Im Urlaub machen wir [[Aktivität 1|Sport am Morgen und Besichtigungen am Nachmittag]].
 
-Ein Spartipp: [[Spartipp|Wir machen ein Picknick statt jeden Tag ins Restaurant zu gehen]]. Das schmeckt gut, und es ist viel günstiger.
+Mein vierter Vorschlag zum Sparen: [[Spartipp 1|Wir buchen eine Ferienwohnung zu zweit]]. Mein fünfter: [[Spartipp 2|Wir reisen im Juni, wenn es günstiger ist]].
 
-Ich hoffe, wir sehen uns bald wieder.
+Mein sechster Vorschlag: [[Vorschlag|Wir fahren mit dem Zug und kaufen ein Sparticket für zwei]]. Mein siebter: [[Vorschlag 2|Wir packen nur Handgepäck, dann sparen wir die Gebühren]]. So bleibt alles einfach und günstig.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Rim]]` },
+Mein achter Vorschlag: [[Vorschlag|Wir machen jeden Abend einen kleinen Spaziergang am Wasser]]. Das ist umsonst, entspannend und gesund. Mein neunter: [[Vorschlag 2|Wir suchen uns jeden Tag ein anderes Eis aus]], das gehört zum Urlaub.
 
-  // 11
-  { label: "Lernen am Wochenende, Danzig, Museum und Meer, Stadtkarte", t: `Liebe [[Name der Freundin|Annika]],
+Zu meinem Wochenende ein kurzer Vorschlag: [[Vorschlag|Nächstes Wochenende könnten wir uns treffen und gemeinsam Reiseführer durchblättern]]. Das ist günstig und macht Spaß. Dabei finden wir bestimmt ein Ziel, [[Folge|das uns beiden gefällt]].
 
-deine E-Mail hat mir den Tag verschönert! Ich bin froh, dass du an eine gemeinsame Reise denkst, und ich denke, dass wir viel Spaß haben werden.
-
-Am Wochenende habe ich [[Wochenende|für meine Prüfung gelernt und nur kurz einen Spaziergang gemacht]]. Ich war ziemlich müde danach.
-
-Mein Reiseziel wäre [[Reiseziel|Danzig in Polen, wegen der schönen Altstadt und der Nähe zum Meer]]. Im Urlaub mag ich gern [[Aktivitäten|Museen besuchen und zwischendurch baden gehen]]. So habe ich Kultur und Erholung.
-
-Zum Sparen: [[Spartipp|Wir kaufen eine Stadtkarte, mit der man Bus und Museen billiger nutzen kann]]. Das hat sich bei mir schon einmal bewährt.
-
-Ich freue mich auf deine Zeilen.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Emna]]` },
-
-  // 12
-  { label: "Kinobesuch, Budapest, Thermalbad und Spaziergänge, günstige Pension", t: `Hallo [[Name der Freundin|Annika]],
-
-danke, dass du mir so schnell geschrieben hast! Dass es bei dir am Wochenende nur geregnet hat, tut mir leid. Mich freut vor allem, dass du an unsere Sommerreise denkst.
-
-Ich war am Wochenende [[Wochenende|im Kino und habe danach noch eine Pizza gegessen]]. Es war ein schöner Abend.
-
-Mein Ziel ist [[Reiseziel|Budapest, denn die Stadt ist schön und im Vergleich nicht teuer]]. Im Urlaub gehe ich gern [[Aktivitäten|in ein Thermalbad und mache lange Spaziergänge an der Donau]]. Das ist angenehm.
-
-Ein Tipp zum Sparen: [[Spartipp|Wir suchen eine einfache Pension am Stadtrand und fahren mit der Straßenbahn in die Stadt]]. Das ist viel billiger.
-
-Mach es gut, und melde dich bald bei mir.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Walid]]` },
-
-  // 13
-  { label: "Ausflug zum See, Nordsee, Wattwandern und Sport, Gutscheine nutzen", t: `Liebe [[Name der Freundin|Annika]],
-
-herzlichen Dank für deine Mail! Eine gemeinsame Reise ist eine schöne Idee, und ich bin sicher, dass wir ein günstiges Ziel finden.
-
-Am Wochenende habe ich [[Wochenende|einen Ausflug zum See gemacht und dort gebadet]]. Das Wetter war warm, und ich habe mich gut erholt.
-
-Ich würde gern [[Reiseziel|an die Nordsee fahren, weil es dort nicht so heiß ist und die Luft frisch ist]]. Im Urlaub mag ich [[Aktivitäten|Wattwandern und Radtouren]]. Das ist gesund und macht Spaß.
-
-Zum Sparen: [[Spartipp|Wir können Gutscheine und Rabattkarten nutzen und früh buchen]]. Es gibt oft Angebote für Gruppen.
-
-Schreib mir bald, wie du darüber denkst. Ich freue mich schon sehr auf unsere gemeinsame Zeit.
+Was hältst du davon? Ich freue mich auf deine Antwort. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Besuch bei Freunden, Bodensee, Radfahren und Baden, selbst kochen", t: `Hallo [[Name der Freundin|Annika]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Annika]],
 
-herzlichen Dank für deine lange Nachricht! Ich freue mich auf die Reise mit dir, und ich verstehe, dass die Autoreparatur dein Budget belastet.
+danke für deinen Brief. [[Mein Wochenende|Mein Wochenende war ruhig, ich war spazieren und habe gelesen]]. Zur Reise möchte ich vorsichtig antworten.
 
-Mein Wochenende war schön: [[Wochenende|Ich habe Freunde in einer anderen Stadt besucht und wir sind durch die Altstadt gegangen]]. Danach haben wir lange geredet.
+Einerseits [[Vorteil des Meeres|ist das Meer entspannend]], andererseits [[Vorteil einer Städtereise|bieten Städte mehr Kultur]]. Ich würde eher [[Reiseziel|eine Küstenstadt]] vorschlagen, damit beides möglich ist.
 
-Als Ziel schlage ich [[Reiseziel|den Bodensee vor, dort gibt es viele Radwege und Strände]]. Im Urlaub fahre ich gern [[Aktivitäten|Rad, gehe schwimmen und sitze am Abend am Wasser]].
+Im Urlaub mache ich gern [[Aktivität 1|ruhige Dinge, Lesen und Schwimmen]].
 
-Ein Tipp zum Sparen: [[Spartipp|Wir kaufen im Supermarkt ein und kochen abends selbst, statt jeden Abend im Restaurant zu essen]]. So geben wir weniger aus.
+Beim Geld wäre ich vorsichtig und würde sparen: [[Spartipp 1|Eine einfache, günstige Unterkunft reicht]], und [[Spartipp 2|wir sollten früh buchen]].
 
-Schreib mir bitte, was du davon hältst.
+Wir sollten auch an eine Reserve denken: [[Hinweis|Ein bisschen Geld für unvorhergesehene Ausgaben]]. Nach deiner Autoreparatur wissen wir, wie wichtig das ist. Aber das ist kein Grund, auf den Urlaub zu verzichten, [[Folge|sondern nur, ihn gut zu planen]].
+
+Ich möchte noch erwähnen, dass ich bei Reisen gern [[Eigenschaft|flexibel und ohne Stress]] bin. Wenn etwas nicht klappt, finden wir eine Lösung. Das hat auf meinen Reisen bisher immer geholfen, [[Folge|und die meisten Pannen wurden zu guten Geschichten]].
+
+Mein Wochenende war ganz in Ordnung, [[Beschreibung|ein bisschen Arbeit, ein bisschen Erholung]]. Ich war nicht so aktiv wie sonst, aber das war gut. Für die Reise will ich fit sein, [[Folge|und ich werde bald wieder mehr Sport machen]].
+
+Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Annika]],
+
+danke für deinen Brief, ich antworte Schritt für Schritt. Als Erstes: [[Mein Wochenende|Mein Wochenende war schön, ich war bei Freunden]].
+
+Als Nächstes zum Reiseziel: [[Reiseziel|Italien, an der Küste]].
+
+Dann zu meinen Urlaubswünschen: [[Aktivität 1|Schwimmen und Städte ansehen]].
+
+Danach zum Sparen: Erstens [[Spartipp 1|Hostel]], zweitens [[Spartipp 2|Zug]], drittens [[Spartipp 3|Picknick]].
+
+Zum Schluss ein Schritt: [[Schritt|Wir legen zusammen fest, wie viel wir ausgeben wollen, und schreiben es auf]]. Dann gibt es später keinen Streit. Das ist ein einfacher, aber wirkungsvoller Plan, [[Folge|und er hat bei mir immer geholfen]].
+
+Als zweiten Schritt sollten wir ein Datum festlegen: [[Schritt|Wir suchen eine Woche, in der wir beide frei haben]]. Danach buchen wir. Je früher wir das tun, desto günstiger wird es, [[Folge|und desto mehr Auswahl haben wir]].
+
+Ich habe am Wochenende [[Aktivität|zwei Stunden an unserer Reiseplanung gesessen]]. Das war ein erster Schritt. Ich schicke dir meine Notizen, wenn du magst, [[Angebot|und wir besprechen alles am Telefon]].
+
+Ich freue mich sehr auf die Reise mit dir und hoffe, dass wir ein Ziel finden, das uns beiden gefällt und nicht zu teuer ist, denn Urlaub soll vor allem Freude machen. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Sana]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Annika]],
+
+dein Brief hat mich sehr gefreut. Es tut mir leid, dass es bei dir so geregnet hat. [[Mein Wochenende|Ich habe an dich gedacht und mir mit Freunden einen gemütlichen Abend gemacht]].
+
+Die gemeinsame Reise wird bestimmt schön. Ich wünsche mir [[Reiseziel|ein ruhiges Küstendorf]], weil [[Grund für das Reiseziel|wir dort Zeit füreinander haben]].
+
+Im Urlaub mache ich gern [[Aktivität 1|Spaziergänge und gemeinsames Kochen]].
+
+Wegen deiner Autoreparatur verstehe ich, dass du sparen musst. [[Spartipp 1|Ich helfe dir gern, eine günstige Unterkunft zu finden]], und [[Spartipp 2|wir teilen uns alles fair]].
+
+Es freut mich besonders, dass wir zusammen verreisen: [[Gefühl|Mit dir macht jeder Urlaub Spaß, auch ein einfacher]]. Du bist eine tolle Reisebegleiterin, und deshalb bin ich zuversichtlich. Ich zahle auch gern mal [[Angebot|ein Eis oder einen Kaffee]], wenn das Geld knapp ist.
+
+Mit dir zu verreisen, ist für mich ein Highlight: [[Gefühl|Wir verstehen uns gut und können über alles lachen]]. Das ist die beste Voraussetzung für einen schönen Urlaub, [[Folge|egal, wohin wir fahren]]. Ich freue mich riesig darauf.
+
+Am Wochenende habe ich oft an dich gedacht: [[Gefühl|Ich hoffe, dass du dich bei dem Regen nicht gelangweilt hast]]. Wenn es dir schlecht ging, tut mir das leid. Du kannst mich jederzeit anrufen, [[Angebot|ich höre gern zu]].
+
+Erzähl mir, [[Frage an die Freundin|wie ich dich bei der Planung unterstützen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Annika]],
+
+Wochenende? [[Mein Wochenende|Chillen, Freunde, Eis]]. Bei dir Regen, schade!
+
+Reiseziel: [[Reiseziel|Italien]].
+
+Im Urlaub: [[Aktivität 1|Strand, Sport, Essen]].
+
+Sparen: [[Spartipp 1|Hostel]], [[Spartipp 2|Bus]].
+
+Ein Spartipp noch: [[Tipp|Wasserflasche mitnehmen und kostenlos auffüllen]]. Das spart viel Geld im Lauf des Urlaubs. Und [[Tipp 2|Sehenswürdigkeiten ohne Eintritt anschauen]], zum Beispiel Parks, Strände, Plätze. Das sind oft die schönsten Orte.
+
+Wenn du lieber in die Berge möchtest statt ans Meer, [[Alternative|sage es einfach]], ich bin offen. Hauptsache, wir verbringen eine schöne Zeit. Und vielleicht [[Idee|können wir auch zwei Orte verbinden]], das wäre abwechslungsreich.
+
+Wochenende kurz: [[Beschreibung|Sonne, Eis, Freunde]]. Bei dir Regen, schade. Aber wir holen das im Sommer nach, [[Folge|mit viel Sonne am Strand]]. Ich freue mich schon sehr auf unsere gemeinsame Reise.
+
+Ich freue mich echt auf unsere Reise und bin für fast alles offen, Hauptsache, es ist nicht zu teuer und wir haben genug Zeit zum Entspannen. Wir finden bestimmt etwas, das uns beiden gefällt, und wenn nicht, suchen wir einfach weiter, bis wir ein schönes Ziel haben. Ich schicke dir gern ein paar Ideen zum Anschauen, dann können wir zusammen entscheiden, und bald buchen. Meld dich, [[Frage an die Freundin|wann es passt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];
