@@ -10,7 +10,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AlertTriangle, Loader2, Lock, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { LetterView } from "@/components/schreiben/PersonalStrukturCard";
+import { ArabicGuideView, LetterView, type ArabicGuide } from "@/components/schreiben/PersonalStrukturCard";
 
 export type SetKey = "b1all" | "b1a" | "b1b" | "b2p" | "b2d";
 // B1 has two pools (A = Einladung/Planung, B = Neuigkeiten/Rat/Bitte); every B1 subscriber is assigned one card from each, like B2's two pools.
@@ -45,14 +45,14 @@ function Bar({ closed, total }: { closed: number; total: number }) {
 
 /** Reads ONE card (Struktur with amber blanks / Beispiel filled in). Fetched lazily, only when an admin clicks the card. */
 function CardReader({ card, closed }: { card: CardRow; closed: boolean }) {
-  const [row, setRow] = useState<{ template_text: string; example_text: string } | null>(null);
+  const [row, setRow] = useState<{ template_text: string; example_text: string; arabic_guide: ArabicGuide | null } | null>(null);
   const [failed, setFailed] = useState(false);
-  const [page, setPage] = useState<"struktur" | "beispiel">("struktur");
+  const [page, setPage] = useState<"struktur" | "beispiel" | "arabisch">("struktur");
   useEffect(() => {
     let cancelled = false;
     setRow(null); setFailed(false); setPage("struktur");
     (async () => {
-      const { data, error } = await (supabase as any).from("schreiben_produkt_cards").select("template_text, example_text").eq("id", card.id).maybeSingle();
+      const { data, error } = await (supabase as any).from("schreiben_produkt_cards").select("template_text, example_text, arabic_guide").eq("id", card.id).maybeSingle();
       if (cancelled) return;
       if (error || !data) setFailed(true); else setRow(data);
     })();
@@ -66,20 +66,21 @@ function CardReader({ card, closed }: { card: CardRow; closed: boolean }) {
           {closed ? "gone · ذهبت" : "open · متوفّرة"}
         </span>
         <div className="ml-auto flex gap-1">
-          {(["struktur", "beispiel"] as const).map((k) => (
+          {(row?.arabic_guide ? (["struktur", "beispiel", "arabisch"] as const) : (["struktur", "beispiel"] as const)).map((k) => (
             <button
               key={k}
               onClick={() => setPage(k)}
               className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-colors ${page === k ? "bg-amber-600 text-white" : "bg-muted text-muted-foreground hover:bg-muted/70"}`}
             >
-              {k === "struktur" ? "Struktur" : "Beispiel"}
+              {k === "struktur" ? "Struktur" : k === "beispiel" ? "Beispiel" : "بالعربية"}
             </button>
           ))}
         </div>
       </div>
       {!row && !failed && <div className="flex justify-center py-8"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div>}
       {failed && <p className="py-6 text-center text-sm text-rose-600 dark:text-rose-400">Could not load this card.</p>}
-      {row && (
+      {row && page === "arabisch" && row.arabic_guide && <ArabicGuideView example={row.example_text} guide={row.arabic_guide} />}
+      {row && page !== "arabisch" && (
         <LetterView
           key={`${card.id}-${page}`}
           text={page === "struktur" ? row.template_text : row.example_text}
