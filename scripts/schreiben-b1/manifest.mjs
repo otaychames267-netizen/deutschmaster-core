@@ -113,8 +113,12 @@ export const GROUPS = [
 export const POOLS = { A: "A · Einladung, Vorschlag & Planung", B: "B · Neuigkeiten, Rat & Bitte" };
 const POOL_A = new Set(["alicia", "anne", "cora_alex", "claudia", "clara", "corinna", "emilia", "jennifer", "mara", "nadja", "paul", "petra", "sonja", "thomas", "tobias", "tamara", "annika"]);
 
+// Owner decision 2026-10-06 (2nd correction): exactly 250 + 250 letters, no "15 per topic" view. The pools were 243 (A) / 257 (B), so seven
+// letters of one topic are filed under pool A at CARD level (the pool is derived from each card's topic_group, not from its task).
+export const MOVE_TO_A = { iris: [2, 4, 6, 8, 10, 12, 14] };
+
 /** Flat list with group, pool, card count and sort_order band (101…3515). */
 export const TASKS = GROUPS.flatMap((g, gi) => g.tasks.map((t, ti) => ({ ...t, group: g.name, groupIndex: gi, n: ti === 0 ? 15 : 14 })))
-  .map((t, i) => ({ ...t, index: i + 1, sortBase: (i + 1) * 100, pool: POOL_A.has(t.key) ? "A" : "B" }));
+  .map((t, i) => ({ ...t, index: i + 1, sortBase: (i + 1) * 100, pool: POOL_A.has(t.key) ? "A" : "B", moveToA: MOVE_TO_A[t.key] ?? [] }));
 
 export const TOTAL = TASKS.reduce((s, t) => s + t.n, 0); // 500

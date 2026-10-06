@@ -26,7 +26,7 @@ const POLL_MS = 30_000;
 
 interface CardRow { id: string; theme_title: string; topic_group: string | null; card_title: string; sort_order: number }
 interface ThemeStat { theme: string; cards: (CardRow & { closed: boolean })[]; total: number; closed: number }
-interface GroupStat { name: string; themes: ThemeStat[]; total: number; closed: number }
+interface GroupStat { name: string; themes: ThemeStat[]; flat: (CardRow & { closed: boolean })[]; total: number; closed: number }
 
 function tone(remaining: number, total: number) {
   if (remaining === 0) return { bar: "bg-rose-500", text: "text-rose-600 dark:text-rose-400", pill: "bg-rose-500/12 text-rose-700 dark:text-rose-300" };
@@ -91,12 +91,61 @@ function CardReader({ card, closed }: { card: CardRow; closed: boolean }) {
   );
 }
 
+/** The numbered chips of a list of cards (green = open, struck-through lock = given to a subscriber) and the reader of the selected one. */
+function CardChips({ cards, lockClosed }: { cards: (CardRow & { closed: boolean })[]; lockClosed: boolean }) {
+  const [sel, setSel] = useState<string | null>(null);
+  const selected = cards.find((c) => c.id === sel) ?? null;
+  return (
+    <>
+      <p className="mb-2 text-[11px] text-muted-foreground">
+        {lockClosed
+          ? <>Click a green number to read that letter. <Lock className="inline h-3 w-3" /> = already given to a subscriber, closed.</>
+          : <>Click a number to read that letter. <Lock className="inline h-3 w-3" /> = already given to a subscriber.</>}
+      </p>
+      <div className="flex flex-wrap gap-1.5">
+        {cards.map((c, i) => {
+          const locked = lockClosed && c.closed;
+          return (
+            <button
+              key={c.id}
+              onClick={() => !locked && setSel((v) => (v === c.id ? null : c.id))}
+              disabled={locked}
+              aria-pressed={sel === c.id}
+              title={`${c.card_title} — ${c.closed ? (locked ? "closed: given to a subscriber" : "closed (assigned)") : "open"}`}
+              className={`inline-flex h-7 min-w-[2.25rem] items-center justify-center gap-1 rounded-md px-1.5 text-[11px] font-bold tabular-nums transition-colors ${
+                sel === c.id ? "ring-2 ring-amber-500 " : ""
+              }${c.closed ? `bg-muted text-muted-foreground line-through decoration-muted-foreground/60 ${locked ? "cursor-not-allowed" : ""}` : "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300"}`}
+            >
+              {c.closed && <Lock className="h-3 w-3 no-underline" />}
+              {i + 1}
+            </button>
+          );
+        })}
+      </div>
+      {selected && <CardReader card={selected} closed={selected.closed} />}
+    </>
+  );
+}
+
+/** B1: no topic list — a pool is simply its letters numbered 1…N (the 35 exam topics only decide what each letter answers). */
+function FlatGroup({ g, lockClosed }: { g: GroupStat; lockClosed: boolean }) {
+  const t = tone(g.total - g.closed, g.total);
+  return (
+    <section className="rounded-2xl border border-border bg-card p-4 sm:p-5">
+      <div className="flex items-end justify-between gap-3">
+        <h2 className="text-sm font-black text-foreground">{g.name}</h2>
+        <span className={`shrink-0 text-xs font-bold tabular-nums ${t.text}`}>{g.total - g.closed} / {g.total} left · {g.closed} gone · ذهبت</span>
+      </div>
+      <div className="mb-4 mt-2"><Bar closed={g.closed} total={g.total} /></div>
+      <CardChips cards={g.flat} lockClosed={lockClosed} />
+    </section>
+  );
+}
+
 function ThemeRow({ stat, lockClosed }: { stat: ThemeStat; lockClosed: boolean }) {
   const [open, setOpen] = useState(false);
-  const [sel, setSel] = useState<string | null>(null);
   const remaining = stat.total - stat.closed;
   const t = tone(remaining, stat.total);
-  const selected = stat.cards.find((c) => c.id === sel) ?? null;
   return (
     <div className="rounded-xl border border-border bg-card">
       <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 px-4 py-3 text-left" aria-expanded={open}>
@@ -114,32 +163,7 @@ function ThemeRow({ stat, lockClosed }: { stat: ThemeStat; lockClosed: boolean }
       </button>
       {open && (
         <div className="border-t border-border px-4 py-3">
-          <p className="mb-2 text-[11px] text-muted-foreground">
-            {lockClosed
-              ? <>Click a green number to read that letter. <Lock className="inline h-3 w-3" /> = already given to a subscriber, closed.</>
-              : <>Click a number to read that letter. <Lock className="inline h-3 w-3" /> = already given to a subscriber.</>}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {stat.cards.map((c, i) => {
-              const locked = lockClosed && c.closed;
-              return (
-                <button
-                  key={c.id}
-                  onClick={() => !locked && setSel((v) => (v === c.id ? null : c.id))}
-                  disabled={locked}
-                  aria-pressed={sel === c.id}
-                  title={`${c.card_title} — ${c.closed ? (locked ? "closed: given to a subscriber" : "closed (assigned)") : "open"}`}
-                  className={`inline-flex h-7 min-w-[2.25rem] items-center justify-center gap-1 rounded-md px-1.5 text-[11px] font-bold tabular-nums transition-colors ${
-                    sel === c.id ? "ring-2 ring-amber-500 " : ""
-                  }${c.closed ? `bg-muted text-muted-foreground line-through decoration-muted-foreground/60 ${locked ? "cursor-not-allowed" : ""}` : "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300"}`}
-                >
-                  {c.closed && <Lock className="h-3 w-3 no-underline" />}
-                  {i + 1}
-                </button>
-              );
-            })}
-          </div>
-          {selected && <CardReader card={selected} closed={selected.closed} />}
+          <CardChips cards={stat.cards} lockClosed={lockClosed} />
         </div>
       )}
     </div>
@@ -217,7 +241,8 @@ export function StrukturCatalog({ sets, lockClosed = false }: { sets: SetKey[]; 
     }
     const groups: GroupStat[] = [...byGroup].map(([name, themes]) => {
       const list = [...themes.values()];
-      return { name, themes: list, total: list.reduce((s, t) => s + t.total, 0), closed: list.reduce((s, t) => s + t.closed, 0) };
+      const flat = list.flatMap((t) => t.cards).sort((x, y) => x.sort_order - y.sort_order);
+      return { name, themes: list, flat, total: list.reduce((s, t) => s + t.total, 0), closed: list.reduce((s, t) => s + t.closed, 0) };
     });
     return { groups, total: (cards ?? []).length, closed: (cards ?? []).filter((c) => closedIds.has(c.id)).length };
   }, [cards, closedIds]);
@@ -309,18 +334,20 @@ export function StrukturCatalog({ sets, lockClosed = false }: { sets: SetKey[]; 
           )}
 
           <div className="space-y-6">
-            {groups.map((g) => {
-              const t = tone(g.total - g.closed, g.total);
-              return (
-                <section key={g.name} className="space-y-2.5">
-                  <div className="flex items-end justify-between gap-3">
-                    <h2 className="text-sm font-black text-foreground">{g.name}</h2>
-                    <span className={`text-xs font-bold tabular-nums ${t.text}`}>{g.total - g.closed} / {g.total} left · {g.closed} gone</span>
-                  </div>
-                  <div className="space-y-2">{g.themes.map((th) => <ThemeRow key={th.theme} stat={th} lockClosed={lockClosed} />)}</div>
-                </section>
-              );
-            })}
+            {cfg.kind === "b1"
+              ? groups.map((g) => <FlatGroup key={g.name} g={g} lockClosed={lockClosed} />)
+              : groups.map((g) => {
+                  const t = tone(g.total - g.closed, g.total);
+                  return (
+                    <section key={g.name} className="space-y-2.5">
+                      <div className="flex items-end justify-between gap-3">
+                        <h2 className="text-sm font-black text-foreground">{g.name}</h2>
+                        <span className={`text-xs font-bold tabular-nums ${t.text}`}>{g.total - g.closed} / {g.total} left · {g.closed} gone</span>
+                      </div>
+                      <div className="space-y-2">{g.themes.map((th) => <ThemeRow key={th.theme} stat={th} lockClosed={lockClosed} />)}</div>
+                    </section>
+                  );
+                })}
           </div>
         </>
       )}
