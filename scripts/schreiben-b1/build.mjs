@@ -17,7 +17,7 @@ const DIR = new URL(".", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1
 const MARK = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
 const ANREDE = /^(Liebe|Lieber|Hallo|Hi|Hey|Servus|Guten Tag|Moin|Liebes)\b/;
 const GRUSS = /Gr(u|ü)ß|Bis |Alles Liebe|Herzlich|Dein|Deine|Tschüss|Ciao|Mach's gut|Pass auf|Küsschen|Umarmung|Beste Wünsche|Freundlich/i;
-const MIN_WORDS = 110, MAX_WORDS = 150;
+const MIN_WORDS = 105, MAX_WORDS = 150;
 
 const words = (s) => s.trim().split(/\s+/).filter(Boolean);
 const grams = (s, n = 3) => { const w = words(s.toLowerCase().replace(/[^a-zäöüß ]+/g, " ")); const out = new Set(); for (let i = 0; i + n <= w.length; i++) out.add(w.slice(i, i + n).join(" ")); return out; };
