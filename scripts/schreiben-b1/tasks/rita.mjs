@@ -1,156 +1,310 @@
-// Rita – Hochzeit und Hochzeitsreise (Rita & Karl). Points: Ihre neue Arbeitsstelle · wie man in Ihrem Land heiratet · Vorschlag für Ritas Hochzeitsreise · ob Sie Rita und Karl besuchen möchten.
+// v2 (B2-style): Rita erzählt von ihrer Hochzeit mit Karl. Points: Ihre neue Arbeitsstelle · wie man in Ihrem Land heiratet · ein Vorschlag für Ritas Hochzeitsreise ·
+// ob Sie Rita und Karl besuchen möchten — plus: "Schade, dass du nicht dabei sein konntest", Kleid/Anzug/Festessen, Geschenke/Geld, "Wie läuft's bei dir?".
+export const kw = [/Arbeit|Stelle|Job|Kollegen|Firma|Chef/i, /bei uns|in meinem Land|Heimat|Brauch|Bräuche|Tradition|traditionell/i, /Hochzeitsreise|Insel|Meer|Reise|Urlaub|Flitter/i, /besuch/i, /Hochzeit|gratul|Glückwunsch/i, /Karl/, /schade|leider|konnte|Entschuldig|tut mir leid|verpasst/i, /Kleid|Anzug|Festessen|Essen|Tanz|getanzt|Geschenk/i];
 export default [
-  { label: "Krankenpfleger, Henna-Abend, Venedig, Besuch im Sommer", t: `Liebe [[Name der Freundin|Rita]],
+  // 1
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Rita]],
 
-es war schön, von dir zu hören! Es tut mir sehr leid, dass ich bei eurer Hochzeit nicht dabei sein konnte. Ich habe mir die Beschreibung mit dem weißen Kleid und dem schwarzen Anzug gleich vorgestellt.
+vielen Dank für deine Mail, ich habe mich sehr darüber gefreut! Zuerst herzlichen Glückwunsch zur Hochzeit, dir und Karl. [[Bedauern über die Abwesenheit|Es tut mir leid, dass ich nicht kommen konnte, ich musste arbeiten]]. Ich hätte euch so gern gesehen.
 
-Meine neue Arbeit gefällt mir sehr gut. Ich arbeite jetzt [[Stelle|als Krankenpfleger in einem großen Krankenhaus]], und meine Kollegen sind sehr nett. Bei uns in Tunesien feiert man [[Hochzeitsbrauch|oft drei Tage lang, und am Abend vorher gibt es einen Henna-Abend mit viel Musik]]. Für eure Hochzeitsreise schlage ich [[Reiseziel|Venedig]] vor, weil es dort so romantisch ist.
+Dein Hochzeitskleid stelle ich mir wunderschön vor, und Karl im schwarzen Anzug, das hätte ich zu gern gesehen. [[Reaktion auf die Beschreibung|Dass es ein Festessen und Tanz gab, klingt nach einem unvergesslichen Tag]].
 
-Ich würde euch sehr gern im Sommer besuchen. Passt euch Juli?
+Du fragst nach meiner Arbeit: Ich habe [[Neue Stelle|vor drei Monaten als Verkäuferin in einem Modegeschäft angefangen]]. Die Arbeit gefällt mir, weil [[Grund für die Zufriedenheit|die Kollegen nett sind und ich viel mit Kunden spreche]].
+
+In meinem Land feiert man Hochzeiten so: [[Hochzeitsbrauch|Die Feier dauert drei Tage, und die Familie tanzt und isst gemeinsam]]. Besonders schön ist [[Besonderer Brauch|die Henna-Nacht vor der Hochzeit]].
+
+Für eure Hochzeitsreise schlage ich [[Reiseziel|eine Woche auf Mallorca]] vor, weil [[Grund für das Reiseziel|man dort Strand, Natur und gutes Essen hat]].
+
+Euch zu besuchen, wäre wunderbar. Ich komme gern [[Zeitpunkt des Besuchs|im Frühjahr für ein langes Wochenende]].
+
+Zu den Geschenken habe ich noch eine Frage: [[Frage zu den Geschenken|Was hat euch am meisten gefreut?]] Ich möchte euch auch etwas schenken, vielleicht [[Geschenkidee|ein Fotoalbum oder einen Gutschein für ein schönes Abendessen]]. Das bringe ich mit, wenn ich euch besuche.
+
+Schreib mir bitte, [[Frage an die Freundin|wann es euch am besten passt]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Nabil]]` },
+[[Dein Name|Samira]]` },
 
-  { label: "Verkäuferin, große Familienfeier, Insel in Griechenland, Besuch im Herbst", t: `Hallo [[Name der Freundin|Rita]],
+  // 2
+  { label: "locker, freundschaftlich", t: `Hallo [[Name der Freundin|Rita]],
 
-danke für deine Nachricht und für die schöne Beschreibung eurer Hochzeit! Ich wäre so gern dabei gewesen, aber es ging leider nicht. Ich hoffe, ihr habt viele schöne Fotos gemacht.
+na, du Frischverheiratete! Glückwunsch zur Hochzeit mit Karl, das ist ja toll. [[Bedauern über die Abwesenheit|Ich wäre so gern gekommen, aber leider hatte ich genau an dem Wochenende Dienst]]. Das tut mir echt leid.
 
-Über meine neue Stelle erzähle ich dir gern: Ich arbeite [[Stelle|als Verkäuferin in einer Bäckerei]]. Das macht mir Spaß, auch wenn ich früh aufstehen muss. In meiner Heimat ist eine Hochzeit [[Hochzeitsbrauch|ein riesiges Familienfest mit mehr als 200 Gästen, die alle mitessen und tanzen]]. Für die Hochzeitsreise empfehle ich [[Reiseziel|eine griechische Insel wie Kreta]]. Dort ist das Meer warm und das Essen gut.
+Karl im Anzug statt in Jeans, das hätte ich zu gern gesehen! [[Reaktion auf die Beschreibung|Festessen, Tanz und viele Geschenke klingen nach einem super Tag]].
 
-Wir möchten euch im Herbst besuchen, wenn das für euch passt.
+Meine neue Stelle? [[Neue Stelle|Ich arbeite jetzt in einer Werbeagentur und mache Grafiken]]. Es gefällt mir richtig gut, denn [[Grund für die Zufriedenheit|die Aufgaben sind abwechslungsreich und mein Chef ist locker]].
+
+Bei uns heiratet man so: [[Hochzeitsbrauch|Erst eine kleine Zeremonie, dann feiert die ganze Familie bis in die Nacht]]. Was bei euch üblich ist, kenne ich ja jetzt auch.
+
+Zur Hochzeitsreise: Fahrt doch [[Reiseziel|nach Kroatien, an die Adria]]! Da gibt es [[Grund für das Reiseziel|Sonne, Meer und kleine Inseln]].
+
+Besuchen komme ich euch gern, vielleicht [[Zeitpunkt des Besuchs|im Sommer, wenn ich Urlaub habe]].
+
+Und noch ein Gedanke: Ich schicke euch als Nachträgliches [[Geschenkidee|ein kleines Hochzeitsgeschenk aus meinem Land]], und ich schreibe [[Karte|eine ganz persönliche Karte dazu]]. Ich freue mich schon darauf, [[Fotos|Bilder von der Feier zu sehen]].
+
+Ich freue mich schon sehr auf ein Wiedersehen mit euch beiden. Melde dich, [[Frage an die Freundin|ob ihr dann Zeit habt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Jonas]]` },
 
-  { label: "Büroassistent, traditionelle Kleidung, Kroatien, Besuch zu Ostern", t: `Liebe [[Name der Freundin|Rita]],
+  // 3
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Rita]],
 
-schön, wieder von dir zu hören! Ich gratuliere euch noch einmal zur Hochzeit, auch wenn ich sie verpasst habe. Das Fest klingt wie ein Traum.
+wow, eine Hochzeit mit über fünfzig Gästen, wie wunderbar! Herzlichen Glückwunsch dir und Karl. [[Bedauern über die Abwesenheit|Ich bin traurig, dass ich nicht dabei sein konnte]].
 
-Zu meinem Job: Ich arbeite seit drei Wochen [[Stelle|als Büroassistent in einer kleinen Firma]]. Die Arbeit ist interessant, und der Chef erklärt mir alles geduldig. Bei uns heiratet man [[Hochzeitsbrauch|in traditioneller Kleidung, und die Braut trägt oft ein Kleid mit Gold]]. Als Hochzeitsreise würde ich [[Reiseziel|die Küste von Kroatien]] empfehlen. Man kann baden und alte Städte ansehen.
+Dein langes weißes Kleid und Karls schwarzer Anzug, das muss großartig ausgesehen haben! [[Reaktion auf die Beschreibung|Festessen, Tanz und viele Geschenke, das klingt wie ein Märchen]].
 
-Ich möchte euch sehr gern besuchen, vielleicht schon zu Ostern. Habt ihr dann Zeit? Ich freue mich schon darauf, euch endlich wiederzusehen und alles von der Hochzeit zu hören.
+Bei mir gibt es auch Neuigkeiten: Ich habe eine neue Arbeit! [[Neue Stelle|Ich arbeite jetzt als Krankenschwester in einem großen Krankenhaus]]. Sie gefällt mir sehr, weil [[Grund für die Zufriedenheit|ich Menschen helfen kann und tolle Kollegen habe]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Karim]]` },
+In meinem Land wird so geheiratet: [[Hochzeitsbrauch|Mit Musik, Umzug durch die Straßen und einem riesigen Buffet]]. Besonders [[Besonderer Brauch|der Tanz der Braut mit allen Gästen]] ist wunderschön.
 
-  { label: "Köchin im Restaurant, Zaffa-Musik, Barcelona, Besuch im Frühling", t: `Hallo [[Name der Freundin|Rita]],
+Für eure Hochzeitsreise habe ich einen Traum: [[Reiseziel|Italien, Rom und die Amalfiküste]]! Dort [[Grund für das Reiseziel|gibt es Kultur, Meer und das beste Eis]].
 
-vielen Dank für deine lange E-Mail! Es tut mir leid, dass ich nicht kommen konnte. Ich habe an euch gedacht und euch alles Gute gewünscht.
+Besuchen möchte ich euch auf jeden Fall, [[Zeitpunkt des Besuchs|am liebsten im Herbst]].
 
-Ich habe eine neue Arbeitsstelle: [[Stelle|Ich koche jetzt in einem italienischen Restaurant]]. Die Arbeit ist anstrengend, aber ich lerne viel. Wie heiratet man bei uns? [[Hochzeitsbrauch|Die Gäste begleiten das Paar mit Trommeln und Musik zum Festsaal, und alle tanzen]]. Für eure Hochzeitsreise passt [[Reiseziel|Barcelona]] sehr gut, denn es gibt Strand, Kultur und gutes Essen.
+Ich möchte euch außerdem sagen, wie sehr ich mich für euch freue: [[Wunsch an das Paar|Ich wünsche euch Gesundheit, Glück und viel Liebe]]. Zur Erinnerung an diesen Tag schicke ich euch [[Geschenkidee|eine kleine Silberkette für Rita]]. Karl bekommt [[Geschenk für Karl|ein schönes Buch über Reisen]].
 
-Ich möchte euch gern im Frühling besuchen. Dann ist das Wetter schon schön. Ich bringe euch auch etwas Leckeres aus meiner Küche mit.
+Ich freue mich so sehr für euch. Erzähl mir, [[Frage an die Freundin|wie ihr die Hochzeitsreise plant]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Amira]]` },
+[[Dein Name|Marie]]` },
 
-  { label: "Informatiker, Familie kocht gemeinsam, Lissabon, Besuch im Sommer", t: `Liebe [[Name der Freundin|Rita]],
+  // 4
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Rita]],
 
-ich freue mich sehr über deine Nachricht und gratuliere euch noch einmal zur Hochzeit! Schade, dass ich nicht dabei sein konnte, aber ich war in Gedanken bei euch.
+vielen Dank für deine Nachricht und herzlichen Glückwunsch zur Hochzeit. [[Bedauern über die Abwesenheit|Ich bedaure sehr, dass ich nicht teilnehmen konnte, da ich beruflich verhindert war]]. Auf deine Fragen antworte ich der Reihe nach, und ich wünsche euch beiden, dir und Karl, viel Glück für die gemeinsame Zukunft.
 
-Mein neuer Job ist toll: Ich arbeite [[Stelle|als Informatiker in einer Softwarefirma]]. Meine Kollegen helfen mir, und die Arbeitszeiten sind gut. Bei uns zu Hause kochen vor einer Hochzeit [[Hochzeitsbrauch|alle Frauen der Familie zusammen und bereiten das Festessen vor]]. Für eure Hochzeitsreise schlage ich [[Reiseziel|Lissabon]] vor, wegen der schönen Altstadt und des Meeres.
+Erstens, meine Arbeit: [[Neue Stelle|Ich arbeite seit zwei Monaten als Sachbearbeiterin in einer Versicherung]]. Die Stelle gefällt mir, weil [[Grund für die Zufriedenheit|sie gut organisiert ist und ich Verantwortung habe]].
 
-Ich würde euch sehr gern besuchen. Ich habe im Sommer drei Wochen Urlaub. Dann können wir endlich wieder zusammen reden und lachen.
+Zweitens, die Hochzeit in meinem Land: [[Hochzeitsbrauch|Zuerst gibt es eine standesamtliche Trauung, danach feiert die Familie mit einem Festessen]]. Üblich ist außerdem, dass [[Besonderer Brauch|die Gäste Geld oder Gold schenken]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Mehdi]]` },
+Drittens, die Hochzeitsreise: Ich empfehle [[Reiseziel|eine Rundreise durch die Toskana]]. Dafür spricht, dass [[Grund für das Reiseziel|sie romantisch ist und das Geld gut reicht]].
 
-  { label: "Praktikantin im Hotel, Hochzeitstage, Schwarzwald, Besuch nach der Prüfung", t: `Hallo [[Name der Freundin|Rita]],
+Viertens, der Besuch: Ich komme euch gern besuchen, [[Zeitpunkt des Besuchs|am besten im Mai]].
 
-danke für deine E-Mail! Ich habe mich sehr gefreut, und ich gratuliere euch von Herzen. Dass ihr 50 Gäste hattet, klingt nach einem schönen Fest.
+Außerdem finde ich es schön, dass ihr das Geld der Gäste für die Hochzeitsreise nutzt. Mein Tipp für die Planung: [[Reisetipp|Bucht früh, dann ist es günstiger]]. Und für das Wetter empfehle ich [[Reisezeit|den Frühling oder den Herbst]], weil [[Grund für die Reisezeit|es dann nicht zu heiß und nicht zu voll ist]].
 
-Meine neue Arbeit ist ein Praktikum: [[Stelle|Ich arbeite an der Rezeption in einem Hotel]]. Ich spreche mit vielen Gästen und übe dabei mein Deutsch. In meiner Heimat [[Hochzeitsbrauch|dauert die Hochzeit manchmal eine ganze Woche, und es gibt jeden Abend eine andere Feier]]. Für eure Hochzeitsreise empfehle ich [[Reiseziel|den Schwarzwald]], weil man dort wandern und sich erholen kann.
+Bitte teile mir mit, [[Frage an die Freundin|ob dir dieser Zeitpunkt passt]].
 
-Nach meiner Prüfung möchte ich euch gern besuchen. Wann hättet ihr Zeit? Ich freue mich schon sehr auf ein Wiedersehen mit euch beiden.
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Ines]]` },
+  // 5
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Rita]],
 
-  { label: "Friseurin, Brautkleid mit Stickerei, Paris, Besuch im Oktober", t: `Liebe [[Name der Freundin|Rita]],
+danke für deine Mail und herzlichen Glückwunsch zur Hochzeit! [[Bedauern über die Abwesenheit|Es tut mir leid, dass ich nicht kommen konnte, ich hatte keinen Urlaub]]. Dafür helfe ich dir und Karl jetzt gern bei der Planung der Hochzeitsreise.
 
-vielen Dank, dass du mir so schön von der Hochzeit erzählt hast! Ich hätte Karl gern im schwarzen Anzug gesehen, denn er trägt sonst wirklich immer nur Jeans.
+Das Fest mit Festessen und Tanz klingt wunderbar. [[Reaktion auf die Beschreibung|Ich hoffe, ihr habt viele schöne Fotos gemacht]].
 
-Ich habe eine neue Stelle: [[Stelle|Ich arbeite jetzt als Friseurin in einem Salon im Stadtzentrum]]. Die Kunden sind freundlich, und ich lerne jeden Tag etwas Neues. Bei uns trägt die Braut [[Hochzeitsbrauch|ein Kleid mit Stickerei und viel Schmuck, den ihre Mutter ihr schenkt]]. Für die Hochzeitsreise würde ich euch [[Reiseziel|Paris]] vorschlagen, denn das ist die Stadt der Liebe.
+Zu meiner Arbeit: [[Neue Stelle|Ich arbeite jetzt in einem Hotel an der Rezeption]]. Das ist praktisch, denn [[Grund für die Zufriedenheit|ich kann euch gute Hotel-Tipps für die Reise geben]].
 
-Ich möchte euch im Oktober besuchen. Passt euch das? Dann zeigt ihr mir bestimmt eure neue Wohnung und die schönen Hochzeitsfotos.
+In meinem Land heiratet man [[Hochzeitsbrauch|mit einer großen Familienfeier und einem langen Festessen]]. Wenn ihr wollt, [[Hilfsangebot|schicke ich euch Fotos von unserem Hochzeitsfest zum Vergleichen]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Yasmine]]` },
+Für die Hochzeitsreise empfehle ich [[Reiseziel|eine Woche in Portugal]], weil [[Grund für das Reiseziel|es günstig ist und tolle Strände hat]]. Ich suche euch gern [[Praktische Hilfe|passende Unterkünfte im Internet heraus]].
 
-  { label: "Lagerarbeiter, Hochzeitsgäste bringen Geld, Wien, Besuch am Wochenende", t: `Hallo [[Name der Freundin|Rita]],
+Zum Besuch: Ich komme gern, [[Zeitpunkt des Besuchs|vielleicht im Oktober]].
 
-deine E-Mail hat mich sehr gefreut, und ich gratuliere euch zur Hochzeit! Es tut mir leid, dass ich bei der Feier gefehlt habe.
+Zum Gegenbesuch habe ich noch einen Gedanken: Wenn ihr zu mir kommt, [[Programm für den Besuch|zeige ich euch meine Stadt und koche für euch]]. Platz habe ich [[Übernachtung|in meinem Gästezimmer]], und ich freue mich schon sehr darauf, euch [[Wiedersehen|nach so langer Zeit wiederzusehen]].
 
-Seit zwei Wochen habe ich einen neuen Job. Ich arbeite [[Stelle|als Lagerarbeiter in einer Firma für Möbel]]. Die Arbeit ist körperlich schwer, aber das Team ist nett. Bei uns ist es Tradition, dass [[Hochzeitsbrauch|die Gäste dem Paar Geld in einem Umschlag geben und das Paar damit die Wohnung einrichtet]]. Als Ziel für eure Hochzeitsreise empfehle ich [[Reiseziel|Wien]], weil man dort Musik, Museen und Kaffeehäuser genießen kann.
+Sag mir bitte, [[Frage an die Freundin|ob ich euch bei der Reise helfen kann]].
 
-Ich besuche euch gern an einem Wochenende, wenn ihr Zeit habt.
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Omar]]` },
+  // 6
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Rita]],
 
-  { label: "Altenpflegerin, mehrtägiges Fest, Ostsee, Besuch im Sommer", t: `Liebe [[Name der Freundin|Rita]],
+ich gratuliere dir herzlich zur Hochzeit, denn [[Begründung für den Glückwunsch|ihr zwei passt wirklich gut zusammen]]. [[Bedauern über die Abwesenheit|Ich bedaure sehr, dass ich nicht dabei sein konnte, ich musste verreisen]].
 
-ich habe mich über deine Nachricht sehr gefreut und gratuliere euch! Vielen Dank, dass du mir von der Hochzeit erzählt hast, und entschuldige bitte, dass ich nicht dabei war.
+Dein Bericht über das Fest gefällt mir, weil [[Grund für die Freude|man spürt, wie glücklich ihr wart]]. Karl in einem schwarzen Anzug hätte ich gern gesehen.
 
-Zu meiner Arbeit: Ich habe eine Stelle bekommen [[Stelle|als Altenpflegerin in einem Heim in der Nähe]]. Die Arbeit ist wichtig, und ich bin gern bei den Menschen. In meiner Heimat [[Hochzeitsbrauch|feiern Braut und Bräutigam oft mit der ganzen Nachbarschaft, und es gibt viele Süßigkeiten]]. Für die Hochzeitsreise passt [[Reiseziel|die Ostsee]], da kann man spazieren gehen und frischen Fisch essen.
+Meine neue Stelle gefällt mir, weil [[Grund für die Zufriedenheit|ich selbstständig arbeiten kann]]. [[Neue Stelle|Ich bin jetzt Buchhalterin in einer kleinen Firma]], und die Kollegen sind sehr nett.
 
-Ich besuche euch sehr gern im Sommer. Wie wäre es mit August?
+Hochzeiten in meinem Land laufen so ab: [[Hochzeitsbrauch|Eine große Feier mit Familie und Nachbarn, bei der alle mittanzen]]. Das ist wichtig, da [[Grund für den Brauch|die Gemeinschaft bei uns einen hohen Stellenwert hat]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Rim]]` },
+Als Hochzeitsreise empfehle ich [[Reiseziel|eine Kreuzfahrt im Mittelmeer]], weil [[Grund für das Reiseziel|ihr dann mehrere Länder sehen könnt]].
 
-  { label: "Bäcker, Familienbräuche, Prag, Besuch über Pfingsten", t: `Hallo [[Name der Freundin|Rita]],
+Besuchen würde ich euch gern, [[Zeitpunkt des Besuchs|im Herbst, da habe ich Urlaub]]. Ich freue mich sehr für euch beide und für Karl, denn er ist ein sehr netter Mann.
 
-danke für deine Zeilen! Ich gratuliere euch noch einmal zur Hochzeit und entschuldige mich, dass ich nicht kommen konnte.
+Ein Wort noch zu den Kollegen: Mit ihnen verstehe ich mich [[Verhältnis zu den Kollegen|sehr gut, wir gehen oft zusammen Mittag essen]]. Das ist mir wichtig, denn [[Grund für die Zufriedenheit|ein gutes Team macht die Arbeit leichter]]. Mein Chef ist [[Eindruck vom Chef|freundlich und fair]].
 
-Ich arbeite jetzt [[Stelle|als Bäcker in einer Bäckerei am Marktplatz]]. Die Arbeit beginnt um vier Uhr morgens, aber ich liebe frisches Brot. In meiner Heimat [[Hochzeitsbrauch|heiratet man oft im Sommer, und die Familien laden alle Verwandten zu einem großen Essen ein]]. Ich schlage euch für die Hochzeitsreise [[Reiseziel|Prag]] vor. Es ist nicht zu weit, und man sieht dort viele alte Häuser und Brücken.
-
-Ich möchte euch gern über Pfingsten besuchen, wenn ihr Zeit habt. Ich bringe frisches Brot mit, das ich selbst gebacken habe.
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Hamza]]` },
-
-  { label: "Sprachkurs und Nebenjob, Henna und Tanz, Mallorca, Besuch im Frühling", t: `Liebe [[Name der Freundin|Rita]],
-
-vielen Dank für deine E-Mail! Ich bin traurig, dass ich eure Hochzeit verpasst habe, aber ich freue mich sehr für euch beide.
-
-Zu meiner Arbeit: Ich besuche einen Sprachkurs und arbeite [[Stelle|nebenbei in einem Supermarkt]]. Das ist anstrengend, aber ich verdiene etwas Geld. Wie man bei uns heiratet? [[Hochzeitsbrauch|Am Abend vorher malt man der Braut Henna auf die Hände]]. Die Frauen singen und tanzen dabei die ganze Nacht. Für eure Hochzeitsreise schlage ich [[Reiseziel|Mallorca]] vor, weil es dort so schön warm ist.
-
-Ich möchte euch im Frühling besuchen, wenn ich Kursferien habe. Ich freue mich sehr darauf, euch endlich wiederzusehen.
+Schreib mir, [[Frage an die Freundin|ob ihr meine Reiseidee gut findet]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Sarra]]` },
+[[Dein Name|Selin]]` },
 
-  { label: "Lehrerassistent, Hochzeit mit Trommeln, Bodensee, Besuch im Winter", t: `Hallo [[Name der Freundin|Rita]],
+  // 7
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Rita]],
 
-wie schön, dass du mir geschrieben hast! Ich gratuliere euch von ganzem Herzen zur Hochzeit, auch wenn ich nicht dabei sein konnte.
+danke für deine Mail, hier kurz meine Antworten. Glückwunsch zur Hochzeit! [[Bedauern über die Abwesenheit|Schade, dass ich nicht dabei sein konnte, ich musste arbeiten]].
 
-Meine neue Stelle gefällt mir sehr: Ich arbeite [[Stelle|als Assistent in einer Schule und helfe den Kindern bei den Hausaufgaben]]. Die Kinder sind lustig, und ich lerne viel. In meiner Heimat [[Hochzeitsbrauch|kommen oft Musiker mit Trommeln, und die Gäste tanzen auf der Straße]]. Für die Hochzeitsreise würde ich [[Reiseziel|den Bodensee]] vorschlagen, denn dort kann man Schiff fahren und Rad fahren.
+Hochzeit: [[Reaktion auf die Beschreibung|Dein Kleid, Karls Anzug und das Festessen klingen wundervoll]].
 
-Ich besuche euch gern, vielleicht schon im Winter. Habt ihr dann Zeit? Ich bringe euch auch ein kleines Geschenk aus meiner Heimat mit.
+Neue Arbeit: [[Neue Stelle|Ich arbeite jetzt als Lehrerin an einer Grundschule]]. Sie gefällt mir, [[Grund für die Zufriedenheit|weil die Kinder lebendig sind]].
+
+Heiraten in meinem Land: [[Hochzeitsbrauch|Große Feier mit der ganzen Familie, Musik und traditionellem Essen]].
+
+Hochzeitsreise: Mein Vorschlag ist [[Reiseziel|Griechenland mit den Inseln]], weil [[Grund für das Reiseziel|es dort warm und romantisch ist]].
+
+Besuch: Ich komme gern, [[Zeitpunkt des Besuchs|im Sommer]].
+
+Dazu noch eine Frage an euch: Wo möchtet ihr nach der Reise wohnen, und [[Frage zur Wohnung|habt ihr schon eine Wohnung gefunden?]] Ich helfe euch gern, wenn ihr [[Hilfsangebot|Möbel tragen oder streichen müsst]]. Das mache ich wirklich gern.
+
+Ich freue mich sehr für euch beide. Karl ist ein netter Mann, und ich glaube, dass ihr [[Wunsch an das Paar|sehr glücklich miteinander werdet]]. Denkt bitte daran, [[Bitte an das Paar|mir ein paar Fotos zu schicken]]. Ich bin schon neugierig auf alle Geschichten von dem Fest und werde mir viel Zeit nehmen, sie zu lesen. Ich freue mich, bald von euch zu hören. Gib mir kurz Bescheid, [[Frage an die Freundin|wann ihr Zeit habt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
+
+  // 8
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Rita]],
+
+Glückwunsch zur Hochzeit! Karl im Anzug, das ist ja fast ein Wunder, und ich hätte Beweisfotos gebraucht. [[Bedauern über die Abwesenheit|Ich konnte leider nicht kommen, mein Chef hatte kein Herz]].
+
+Dein Kleid klingt wie aus dem Märchen, und das Festessen [[Reaktion auf die Beschreibung|hätte ich gern probiert, das gehört zur Hochzeit]].
+
+Meine Arbeit: [[Neue Stelle|Ich arbeite jetzt in einem Restaurant als Kellnerin und trage täglich fünf Teller]]. Es gefällt mir, denn [[Grund für die Zufriedenheit|ich bekomme viel Trinkgeld und lerne nette Leute kennen]].
+
+In meinem Land heiratet man mit [[Hochzeitsbrauch|vierhundert Gästen und Musik, die man noch drei Straßen weiter hört]]. Ihr hattet fünfzig, das ist fast intim.
+
+Für die Hochzeitsreise empfehle ich [[Reiseziel|eine Insel ohne Handyempfang]], weil [[Grund für das Reiseziel|man dort endlich Zeit füreinander hat]].
+
+Besuchen komme ich euch gern, [[Zeitpunkt des Besuchs|sobald ihr Platz für einen Gast habt]].
+
+Ein kleiner Tipp noch, falls ihr eine Reise plant: [[Reisetipp|Nehmt ein Reisebuch mit Karten mit]], damit ihr unterwegs nichts verpasst. Und vergesst nicht, [[Reiseaufgabe|ganz viele Fotos zu machen und sie mir zu schicken]]. Ich bin schon neugierig darauf.
+
+Ich bin schon gespannt auf [[Vorfreude|eure Fotos]] und freue mich auf eure Geschichten. Schreib mir bald, [[Frage an die Freundin|ob ich Karl in Jeans oder im Anzug erwarten soll]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
+
+  // 9
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Rita]],
+
+als ich deine Mail gelesen habe, musste ich an unsere gemeinsame Zeit denken. [[Bedauern über die Abwesenheit|Ich wäre so gern gekommen, aber leider lag ich mit Grippe im Bett]]. Dafür gratuliere ich dir jetzt von ganzem Herzen.
+
+Ich kann mir dein Kleid und Karls Anzug gut vorstellen. [[Reaktion auf die Beschreibung|Ich habe sofort das Festessen und die Musik vor Augen gehabt]].
+
+Du fragst, wie es bei mir läuft: [[Neue Stelle|Ich habe vor kurzem in einem Verlag angefangen]]. Die Arbeit gefällt mir, weil [[Grund für die Zufriedenheit|ich den ganzen Tag mit Büchern zu tun habe]].
+
+Bei meiner Schwester gab es eine Hochzeit nach den Bräuchen meines Landes: [[Hochzeitsbrauch|Sie hat drei Tage gefeiert, mit Tanz und viel Essen]]. Ich erinnere mich gern daran.
+
+Für eure Hochzeitsreise hätte ich einen Vorschlag: [[Reiseziel|Nordspanien mit Meer und Bergen]]. Ich war selbst dort, [[Grund für das Reiseziel|und es war traumhaft]].
+
+Besuchen möchte ich euch gern, [[Zeitpunkt des Besuchs|am liebsten im Frühling]].
+
+Mit meiner Familie war es bei meiner eigenen Feier anders: [[Eigene Erfahrung|Wir haben zu Hause gefeiert und das Essen selbst gekocht]]. Ich erinnere mich gern daran, denn [[Grund für die Erinnerung|alle haben mitgeholfen und es war sehr herzlich]]. So eine Feier wünsche ich euch auch.
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen mit euch beiden]]. Erzähl mir, [[Frage an die Freundin|ob ihr schon Pläne für die Reise habt]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
+
+  // 10
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Rita]],
+
+danke für deine Mail und Glückwunsch zur Hochzeit mit Karl! [[Bedauern über die Abwesenheit|Schade, dass ich nicht kommen konnte, aber ich hatte einen wichtigen Termin]]. Ich habe gleich mehrere Vorschläge für euch.
+
+Mein erster Vorschlag betrifft die Hochzeitsreise: [[Reiseziel|Fahrt nach Sizilien]], denn [[Grund für das Reiseziel|dort gibt es Strand, Kultur und gutes Essen]]. Mein zweiter Vorschlag: [[Reisezeit|Fahrt im September, wenn es nicht mehr so heiß ist]].
+
+Mein dritter Vorschlag: Besucht mich! Ich lade euch ein, [[Zeitpunkt des Besuchs|im Frühling für eine Woche zu kommen]].
+
+Zu meiner Arbeit: [[Neue Stelle|Ich arbeite jetzt als Ingenieurin bei einer Baufirma]]. Das gefällt mir, [[Grund für die Zufriedenheit|weil ich viel draußen bin]].
+
+Und wie man in meinem Land heiratet? [[Hochzeitsbrauch|Mit einem langen Fest und vielen Gästen]]. Mein vierter Vorschlag: Wenn ihr Lust habt, [[Vorschlag für eine Feier|feiern wir bei meinem Besuch noch einmal im kleinen Kreis]].
+
+Außerdem möchte ich noch erwähnen, dass ich euch beim nächsten Treffen [[Mitbringsel|eine Spezialität aus meiner Heimat]] mitbringe. Und ich zeige euch [[Fotos aus der Heimat|Fotos von Hochzeiten in meinem Land]], damit ihr die Unterschiede seht. Das wird bestimmt spannend für euch beide.
+
+Was hältst du davon? Ich freue mich auf deine Antwort und auf ein Wiedersehen mit dir und Karl. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Paula]]` },
+
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Rita]],
+
+danke für deine Mail und herzlichen Glückwunsch zur Hochzeit! [[Bedauern über die Abwesenheit|Dass ich nicht dabei sein konnte, tut mir leid, es ging leider nicht anders]]. Ich möchte einiges antworten, damit du alles weißt.
+
+Das Fest klingt wunderbar. [[Reaktion auf die Beschreibung|Das Kleid sah bestimmt wunderschön aus]].
+
+Meine neue Arbeit: [[Neue Stelle|Ich arbeite jetzt als Pflegerin in einem Altenheim]]. Einerseits [[Vorteil der Stelle|macht sie mir viel Freude]], andererseits [[Nachteil der Stelle|ist sie manchmal anstrengend]]. Insgesamt bin ich zufrieden.
+
+In meinem Land feiert man Hochzeiten [[Hochzeitsbrauch|meist sehr groß und mit viel Tradition]], aber das ist von Familie zu Familie verschieden.
+
+Für die Hochzeitsreise wäre vielleicht [[Reiseziel|ein ruhiger Ort am Meer]] gut, wenn ihr Erholung sucht. Ihr könnt natürlich auch [[Alternative Reiseidee|eine Städtereise machen]].
+
+Ich würde euch gern besuchen, [[Zeitpunkt des Besuchs|aber ich muss noch klären, wann ich Urlaub bekomme]].
+
+Zum Schluss noch eine Bitte: Schick mir [[Bitte um Fotos|ein paar Fotos von der Hochzeit]], wenn du Zeit hast. Ich möchte [[Wunsch|dein Kleid und Karls Anzug endlich sehen]]. Und erzähl mir doch, [[Frage zur Feier|wer alles getanzt hat und welche Musik gespielt wurde]].
+
+Ich freue mich sehr für euch beide und wünsche euch einen guten Start in die Ehe, auch wenn wir uns länger nicht gesehen haben. Schreib mir bitte, [[Frage an die Freundin|ob dir meine Gedanken helfen]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Rita]],
+
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: Herzlichen Glückwunsch zur Hochzeit! [[Bedauern über die Abwesenheit|Es tut mir leid, dass ich nicht dabei sein konnte]].
+
+Als Nächstes zu deinem Bericht: [[Reaktion auf die Beschreibung|Dein Kleid, das Festessen und der Tanz klingen toll]].
+
+Dann zu meiner Arbeit: [[Neue Stelle|Ich arbeite jetzt als Köchin in einem Hotel]]. Sie gefällt mir, [[Grund für die Zufriedenheit|weil ich kreativ sein darf]].
+
+Danach zum Heiraten in meinem Land: [[Hochzeitsbrauch|Zuerst die Trauung, dann ein Festessen und am Abend ein großes Tanzfest]].
+
+Dann zur Hochzeitsreise: Ich schlage [[Reiseziel|die Türkei vor, am besten die Südküste]], weil [[Grund für das Reiseziel|das Wetter schön ist und es nicht teuer ist]].
+
+Zuletzt zum Besuch: Ich komme gern, [[Zeitpunkt des Besuchs|im Juni]].
+
+Falls ihr noch eine Wohnung sucht oder umziehen wollt, sage ich Bescheid, [[Hilfsangebot|wenn ich einen Tipp für euch habe]]. Ich arbeite ja jetzt in der Nähe, und [[Hilfe vor Ort|ich kenne einige Vermieter]]. Das ist vielleicht eine Hilfe für euch zwei.
+
+Ich freue mich sehr für dich und Karl. Das war bestimmt ein schöner Tag, und ich wünsche euch viel Glück. Ich denke oft an [[Erinnerung|unsere gemeinsame Zeit damals]] zurück und bin gespannt auf [[Vorfreude|eure Fotos und Geschichten]]. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|ob dieser Plan passt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Fares]]` },
+[[Dein Name|Leyla]]` },
 
-  { label: "Fahrer, Festessen mit Couscous, Dänemark, Besuch im Mai", t: `Liebe [[Name der Freundin|Rita]],
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Rita]],
 
-ich habe mich riesig über deine E-Mail gefreut und gratuliere euch! Dass ihr getanzt und gegessen habt, klingt wunderbar.
+deine Mail hat mich sehr gefreut, und von Herzen: Glückwunsch zur Hochzeit! [[Bedauern über die Abwesenheit|Ich bin traurig, dass ich nicht dabei sein konnte]]. Ich habe an euch gedacht.
 
-Ich habe eine neue Arbeit: [[Stelle|Ich fahre Pakete für eine Firma in unserer Stadt]]. Ich bin den ganzen Tag unterwegs und lerne die Stadt gut kennen. Bei uns gibt es nach der Trauung [[Hochzeitsbrauch|ein Festessen mit Couscous und Lamm, und alle Verwandten sitzen an langen Tischen]]. Für die Hochzeitsreise empfehle ich [[Reiseziel|Dänemark und die Strände dort]]. Es ist ruhig, und man kann viel Rad fahren.
+Das Fest hat sich so schön angehört. [[Reaktion auf die Beschreibung|Ich wünsche Karl und dir ein glückliches Leben, das Kleid war sicher traumhaft]].
 
-Ich möchte euch im Mai besuchen, wenn das passt. Ich komme mit dem Zug und bleibe zwei Tage, wenn ihr einverstanden seid.
+Du fragst nach meiner Arbeit: [[Neue Stelle|Ich arbeite jetzt als Erzieherin in einem Kindergarten]]. Ich fühle mich dort wohl, denn [[Grund für die Zufriedenheit|die Kinder sind herzlich und die Kolleginnen unterstützen mich]].
+
+Wie man bei uns heiratet? [[Hochzeitsbrauch|Mit vielen Segenswünschen der Familie und einem Fest, an dem alle teilnehmen]]. Das ist uns sehr wichtig.
+
+Für eure Hochzeitsreise wünsche ich euch [[Reiseziel|eine ruhige Insel mit Sonne und Zeit füreinander]]. Ich denke, [[Grund für das Reiseziel|dort könnt ihr euch richtig erholen]].
+
+Euch zu besuchen, würde mich freuen, [[Zeitpunkt des Besuchs|gern im Herbst]].
+
+Und wenn ich euch besuche, möchte ich [[Wunsch beim Besuch|mit euch einen langen Spaziergang machen]], und ich möchte [[Plan beim Besuch|euer neues Zuhause sehen]]. Für diesen Besuch spare ich schon [[Sparplan|ein paar Euro jeden Monat]], damit ich euch nicht mit leeren Händen besuche.
+
+Ich denke oft an euch und freue mich auf ein Wiedersehen. Erzähl mir, [[Frage an die Freundin|wie es euch als Ehepaar geht]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Walid]]` },
+[[Dein Name|Sarah]]` },
 
-  { label: "Kassiererin, Feier bis zum Morgen, Toskana, Besuch im September", t: `Hallo [[Name der Freundin|Rita]],
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Rita]],
 
-danke für deine E-Mail und für alles, was du von der Hochzeit erzählt hast! Ich freue mich, dass es ein so schöner Tag für euch war, und ich bin traurig, dass ich nicht dabei sein konnte.
+Glückwunsch zur Hochzeit! [[Bedauern über die Abwesenheit|Schade, dass ich nicht dabei war, ich hatte keine Chance freizubekommen]]. Dafür gibt es jetzt viele Fragen von mir.
 
-Meine neue Stelle ist [[Stelle|an der Kasse in einem Supermarkt]]. Die Arbeit ist nicht schwer, und die Kollegen helfen mir bei Fragen. Wie heiratet man bei uns? [[Hochzeitsbrauch|Die Feier geht oft bis zum Morgen, und die Braut wechselt mehrmals das Kleid]]. Für eure Hochzeitsreise empfehle ich [[Reiseziel|die Toskana in Italien]], denn dort gibt es Sonne, gutes Essen und kleine Städte.
+Kleid, Anzug, Festessen, Tanz: [[Reaktion auf die Beschreibung|Das klingt nach einem perfekten Tag]]. Karl in Schwarz, ich hätte lachen müssen.
 
-Ich würde euch gern im September besuchen. Ich bringe euch Datteln und Olivenöl mit, wenn ich komme.
+Meine Arbeit: [[Neue Stelle|Ich bin jetzt in einem Büro und mache Terminplanung]]. Mir gefällt's, [[Grund für die Zufriedenheit|weil die Kollegen locker sind]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Sana]]` },
+Heiraten bei uns: [[Hochzeitsbrauch|Viel Essen, viel Musik, viele Gäste]]. Mehr braucht man nicht.
+
+Hochzeitsreise: Macht doch [[Reiseziel|eine Städtereise nach Lissabon]], weil [[Grund für das Reiseziel|es dort günstig und schön ist]].
+
+Besuch: Klar, [[Zeitpunkt des Besuchs|irgendwann im Sommer]].
+
+Ach ja, noch etwas zum Fest: Habt ihr [[Frage zur Feier|ein Hochzeitsvideo gemacht?]] Das würde ich gern sehen. Ich freue mich auch auf [[Vorfreude|Bilder von Karl im Anzug]], denn das ist bestimmt ein seltener Anblick. Und ich schicke euch [[Gruß|zwei liebe Grüße von meiner ganzen Familie]].
+
+Ich freue mich so für dich und Karl und denke gern an unsere gemeinsame Zeit zurück. Wenn ihr zurück seid, erzählt ihr mir bestimmt alles ganz genau, und ich kann es kaum erwarten, eure Fotos zu sehen. Das wird bestimmt ein richtig toller Abend für uns.
+
+Meld dich, [[Frage an die Freundin|sobald ihr wisst, wohin ihr fahrt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

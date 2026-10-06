@@ -1,184 +1,284 @@
-// Iris – Abschlussparty für den Deutschkurs. Points: Reaktion auf die bestandene Prüfung · Meinung: im Restaurant feiern? · welche Musik geeignet · Ihre Urlaubspläne.
+// v2 (B2-style): Iris hat die Deutschprüfung hinter sich und plant die Abschlussparty. Points: Reaktion auf die bestandene Prüfung · Meinung: im Restaurant feiern? ·
+// welche Musik geeignet ist · Ihre Urlaubspläne — plus: Tipps aus eigener Erfahrung (Abschlussfest) und die Frage "Was schlägst du vor?".
+export const kw = [/Prüfung|bestanden|gratul|Glückwunsch/i, /Restaurant/, /Musik|Lieder|Playlist|Band|DJ/i, /Urlaub|Ferien|Reise|verreis|fahre|fliege/i, /Tipp|Erfahrung|Abschlussfest|Abschlussfeier|organisiert/i, /Essen|kochen|bestellen|trinken|Küche/i, /Party|Fest|Feier/i];
 export default [
-  { label: "Glückwunsch, italienisches Lokal, Popmusik, Familie in Tunesien", t: `Liebe [[Name der Freundin|Iris]],
+  // 1
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Iris]],
 
-herzlichen Glückwunsch zur bestandenen Prüfung! Ich freue mich so für dich, du hast wirklich fleißig gelernt. Jetzt hast du dir eine schöne Feier verdient.
+herzlichen Glückwunsch zur bestandenen Prüfung! [[Reaktion auf die Prüfung|Ich habe oft an dich gedacht, du hast so fleißig gelernt]]. Ich bin sicher, dass dein Ergebnis wirklich gut ausfällt, und du kannst jetzt endlich aufatmen.
 
-Ein Restaurant finde ich eine gute Idee, denn [[Grund|dann muss niemand kochen und danach aufräumen]]. Ich würde [[Vorschlag zum Lokal|ein italienisches Lokal in der Innenstadt]] vorschlagen, weil dort alle etwas Passendes finden. Als Musik passt [[Musikart|leise Musik beim Essen und später beliebte Popsongs zum Tanzen]]. Von unserer Feier habe ich noch einen Tipp: [[Tipp|Wir haben vorher Geld gesammelt, damit jeder gleich viel zahlt]].
+Dass euer Kurs eine Party organisieren möchte, finde ich wunderbar. Ein Restaurant halte ich für [[Meinung zum Restaurant|eine sehr gute Lösung]], weil [[Grund für die Meinung|jeder selbst bestellen kann, was ihm schmeckt]]. Außerdem [[Vorteil des Restaurants|muss niemand stundenlang in der Küche stehen]], und das spart euch viel Arbeit.
 
-In den Ferien fahre ich [[Urlaubsplan|im August zu meiner Familie nach Tunesien]]. Ich habe sie lange nicht gesehen und freue mich sehr darauf. Hast du auch schon Pläne?
+Bei der Musik würde ich [[Musikstil|ruhige Popmusik zum Essen und später Tanzmusik]] empfehlen. Eine schöne Überraschung wäre [[Musikidee|eine Playlist mit Liedern aus den Heimatländern aller Kursteilnehmer]], denn so fühlt sich jeder willkommen.
 
-Melde dich bald bei mir, und sag mir, wann die Party stattfindet!
+Ein Tipp aus meiner Erfahrung: [[Tipp aus eigener Erfahrung|Fragt früh nach den Wünschen, damit am Ende alle zufrieden sind]]. Bei unserer Abschlussfeier hat uns das sehr viel Stress erspart.
 
-[[Grußformel|Liebe Grüße]]
-[[Dein Name|Sami]]` },
+Ich selbst habe für den Sommer schon Pläne: [[Urlaubsziel|Ich fahre mit meiner Familie für zwei Wochen nach Italien]], und dort möchte ich [[Urlaubsaktivität|viel schwimmen und alte Städte besuchen]]. Danach [[Zeit nach dem Urlaub|habe ich im September wieder Zeit für ein Treffen]].
 
-  { label: "Prüfung geschafft, lieber im Kursraum feiern, Lieder aus allen Ländern, Spanien", t: `Hallo [[Name der Freundin|Iris]],
+Beim Essen empfehle ich, dass ihr [[Menüvorschlag|ein gemeinsames Menü mit mehreren Vorspeisen]] wählt, und für die Getränke [[Getränkevorschlag|eine Runde Saft und Wasser für alle]]. Den Preis könnte [[Preisregelung|jeder selbst zahlen]].
 
-das sind tolle Neuigkeiten! Gratulation, dass du die Prüfung geschafft hast. Ich habe dir die ganze Zeit die Daumen gedrückt.
-
-Ein Restaurant ist nett, aber ich würde lieber [[Ort für die Feier|im Kursraum]] feiern. [[Begründung|Das ist viel billiger, und wir können so lange bleiben, wie wir wollen]]. Außerdem könnten wir [[Idee zum Essen|selbst gekochtes Essen und Getränke mitbringen]]. Zur Musik habe ich eine Idee: [[Musikidee|Jeder bringt ein Lied aus seinem Heimatland mit, und wir hören alle Lieder zusammen]]. So lernen wir auch etwas voneinander.
-
-Nach der Prüfung brauche ich unbedingt Urlaub. Ich möchte [[Urlaubsplan|eine Woche ans Meer nach Spanien fahren]], weil ich dort am besten entspannen kann. Vielleicht kommt auch eine Freundin mit.
-
-Schreib mir bald, was du darüber denkst!
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
-
-  { label: "Glückwunsch, Tisch reservieren, vegetarisch, Gitarre, Alpen", t: `Liebe [[Name der Freundin|Iris]],
-
-was für eine gute Nachricht! Ich gratuliere dir zur bestandenen Prüfung ganz herzlich. Das Lernen hat sich wirklich gelohnt.
-
-Wenn ihr im Restaurant feiern wollt, solltet ihr [[Tipp zur Planung|den Tisch früh reservieren, weil viele am Wochenende essen gehen]]. Denkt auch an die Kursteilnehmer, die [[Hinweis zum Essen|kein Fleisch essen]], und fragt das Lokal nach passenden Gerichten. Als Musik schlage ich [[Musikvorschlag|Live-Musik vor. Ein Kursfreund spielt sehr gut Gitarre]]. Das wäre persönlicher als Musik vom Handy.
-
-Für meinen Urlaub plane ich im Sommer [[Urlaubsplan|eine Wanderwoche in den Alpen]]. Berge sind für mich die beste Erholung nach einem langen Lernjahr, und ich brauche frische Luft.
-
-Ich bin gespannt, wie die Party wird, und freue mich auf deine Antwort.
-
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Karim]]` },
-
-  { label: "Zertifikat feiern, Buffet im Restaurant, internationale Hits, Ausflüge zu Hause", t: `Hi [[Name der Freundin|Iris]],
-
-wie schön, dass es mit der Prüfung geklappt hat! Du hast es dir wirklich verdient, und ich gratuliere dir von Herzen.
-
-Ich schlage vor, dass wir [[Programmpunkt|nach dem Essen die Zertifikate feierlich übergeben]]. Ein Restaurant mit Buffet finde ich dafür ideal, denn [[Grund|jeder kann essen, was er mag, und niemand wartet lange]]. Als Musik passen [[Musikart|internationale Hits, die alle kennen]]. Dann können wir bestimmt gut tanzen, und die Stimmung wird sofort besser.
-
-Zu meinen Urlaubsplänen: Ich bleibe diesen Sommer zu Hause und mache [[Urlaubsplan|viele Ausflüge in unserer Stadt]]. Das ist günstig und trotzdem schön, und ich entdecke Orte, die ich noch nicht kenne.
-
-Sag mir bitte, wann ihr feiern wollt, damit ich mir den Termin freihalte.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Amira]]` },
-
-  { label: "Prüfung hinter dir, Dachterrasse statt Restaurant, ruhige Musik, Wanderung in Tunesien", t: `Liebe [[Name der Freundin|Iris]],
-
-ich bin so froh, dass die Prüfung hinter dir liegt! Du hast bestimmt ein sehr gutes Ergebnis, und ich gratuliere dir.
-
-Im Restaurant ist es oft laut und teuer. Meine Meinung: Wir sollten lieber [[Alternative zum Restaurant|auf einer Dachterrasse oder im Park feiern]]. [[Begründung|Dort können wir uns frei bewegen und lange reden]]. Wenn es abends kühler wird, bringt jeder eine Jacke mit. Als Musik schlage ich [[Musikart|entspannte Musik mit Gitarre oder Klavier]] vor, denn bei der Party wollen die meisten sich vor allem unterhalten.
-
-Im Urlaub möchte ich [[Urlaubsplan|zwei Wochen in den Bergen im Norden Tunesiens wandern]]. Dort ist es im Sommer angenehm kühl, und die Natur ist wunderschön.
-
-Ich freue mich auf deine Antwort und auf die Party!
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Youssef]]` },
-
-  { label: "Gratulation, Restaurant mit Garten, Salsa und Pop, Ferien bei Freunden", t: `Hallo [[Name der Freundin|Iris]],
-
-ich gratuliere dir ganz herzlich zur bestandenen Deutschprüfung! Das hast du dir wirklich verdient, du hast jeden Tag geübt, und es hat sich gelohnt.
-
-Ein Restaurant ist für unsere Party genau richtig, besonders eines [[Wunsch an das Lokal|mit einem Garten, falls das Wetter schön ist]]. Dort können alle in Ruhe essen und trinken, und niemand muss sich um die Küche kümmern. Als Musik gefallen mir [[Musikart|Salsa und Popmusik]], weil man dazu gut tanzen kann. [[Tipp|Frag doch vorher in der Gruppe, welche Musik die anderen mögen]].
-
-In den Ferien besuche ich [[Urlaubsplan|zwei Wochen lang Freunde in Hamburg]]. Wir wollen viel in der Stadt unternehmen.
-
-Meld dich, wenn du bei der Planung Hilfe brauchst.
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Nour]]` },
-
-  { label: "Prüfung bestanden, Restaurant mit Gruppentisch, deutsche Schlager, Radtour", t: `Liebe [[Name der Freundin|Iris]],
-
-ich freue mich riesig, dass du die Prüfung bestanden hast! Das müssen wir unbedingt feiern, und zwar bald.
-
-Das Restaurant halte ich für eine gute Lösung, vor allem wenn [[Wunsch an das Lokal|das Lokal einen großen Gruppentisch hat]]. [[Begründung|So sitzen alle zusammen und niemand fühlt sich allein]]. Beim Thema Musik würde ich [[Musikvorschlag|auch ein paar deutsche Schlager spielen]], weil wir im Kurs viele davon gehört haben. Dazu kann man mitsingen und dabei noch Deutsch üben. Das macht allen bestimmt Spaß.
-
-Mein Urlaubsplan ist ganz einfach: Ich mache [[Urlaubsplan|eine Radtour am Fluss entlang, drei Tage lang]]. Ich schlafe in kleinen Pensionen und lerne nette Leute kennen.
-
-Bitte schreib mir, wann die Party stattfindet, dann kaufe ich schon mal ein Geschenk für unsere Lehrerin.
-
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Mehdi]]` },
-
-  { label: "Glückwunsch, Restaurant zu teuer, Grillfest, Karaoke, Zuhause bleiben", t: `Hallo [[Name der Freundin|Iris]],
-
-herzlichen Glückwunsch, das hast du super gemacht! Ich war sicher, dass du die Prüfung schaffst, weil du so viel gelernt hast.
-
-Zum Restaurant habe ich eine andere Meinung. Für viele im Kurs ist es [[Problem|zu teuer, besonders für Studenten]]. Ich würde daher [[Alternative|ein Grillfest im Park]] vorschlagen. Dort kann jeder etwas mitbringen, und wir müssen nichts bezahlen. Als Musik wäre [[Musikidee|Karaoke ein Highlight, weil alle mitmachen können]]. Ich organisiere gern ein Mikrofon und eine Box.
-
-Im Sommer fahre ich nicht weg. Ich möchte [[Urlaubsplan|noch ein bisschen Deutsch üben und meine Wohnung streichen]]. Vielleicht gehen wir zwischendurch einmal schwimmen.
-
-Was meinst du zu meinen Ideen? Schreib mir bald!
+Melde dich bitte bald und erzähl mir, [[Frage an die Freundin|wann die Party stattfinden soll]]. Ich helfe dir bei den Vorbereitungen sehr gern.
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Lena]]` },
 
-  { label: "Prüfung hinter sich, Pizzeria, Tanzmusik aus den 80ern, Camping", t: `Liebe [[Name der Freundin|Iris]],
+  // 2
+  { label: "locker, freundschaftlich", t: `Hallo [[Name der Freundin|Iris]],
 
-wie schön, dass du die Prüfung hinter dir hast! Ich glaube dir, dass du jetzt sehr erleichtert bist. Herzlichen Glückwunsch zum Bestehen!
+na endlich, die Prüfung ist vorbei! [[Reaktion auf die Prüfung|Dass es gut gelaufen ist, freut mich riesig, du hast es dir verdient]]. Jetzt kannst du mal richtig durchatmen und die Füße hochlegen.
 
-Im Restaurant zu feiern, finde ich sehr praktisch. Wie wäre es mit [[Vorschlag zum Lokal|einer Pizzeria]]? Dort schmeckt es fast jedem, und die Preise sind fair. Für die Musik denke ich an [[Musikart|Tanzmusik aus den Achtzigern]]. Diese Lieder kennen die meisten, und sie machen gute Laune. Wer keine Lust auf Tanzen hat, kann sich in Ruhe unterhalten.
+Ein Restaurant für die Party? Ich bin dafür, denn [[Grund für die Meinung|dann müssen wir nichts schleppen und nichts abwaschen]]. Es kann nur [[Einschränkung zum Restaurant|ein bisschen teuer werden, wenn ihr viele seid]]. Vielleicht [[Lösung für das Geld|sucht ihr ein einfaches Lokal mit günstigen Gerichten]], damit jeder mitmachen kann und niemand zu viel zahlt.
 
-Danach brauchen wir alle Erholung. Ich gehe im Juli [[Urlaubsplan|mit Freunden eine Woche zelten, am See]]. Das wird sicher lustig, auch wenn wir dort kein warmes Wasser haben.
+Zur Musik: Ich würde [[Musikstil|Rock und Pop aus den letzten Jahren]] auflegen, damit alle tanzen. Und wie wäre es, wenn [[Musikidee|jeder sich ein Lied wünschen darf]]? Das macht gute Laune, und keiner langweilt sich.
 
-Schreib mir doch, ob dir die Pizzeria gefällt, dann reserviere ich einen Tisch.
+Mein Tipp von unserer Feier damals: [[Tipp aus eigener Erfahrung|Reserviert den Tisch früh und sagt dem Wirt genau, wie viele Leute kommen]]. Sonst wird es schnell eng, und alle müssen stehen.
+
+Bei mir steht im Sommer was Schönes an: [[Urlaubsziel|Eine Woche Kroatien mit meinem Bruder]]. Dort wollen wir [[Urlaubsaktivität|viel am Strand liegen und Boot fahren]], und danach bin ich bestimmt total erholt.
+
+Und beim Essen: Wählt am besten [[Menüvorschlag|zwei Hauptgerichte und ein vegetarisches Gericht]], dann sind alle zufrieden. Die Rechnung [[Preisregelung|teilt ihr am Ende durch die Zahl der Gäste]], und ich finde, [[Meinung zum Preis|das ist fair für alle]].
+
+Schreib mir bald, [[Frage an die Freundin|wer noch alles mitfeiert]]. Ich bin schon gespannt auf den Abend.
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Jonas]]` },
+
+  // 3
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Iris]],
+
+wow, Glückwunsch, du hast die Prüfung geschafft! [[Reaktion auf die Prüfung|Ich habe sofort Luftsprünge gemacht, als ich deine Mail gelesen habe]]. Du hast so lange dafür gekämpft, und jetzt hast du es endlich in der Tasche.
+
+Eine Party für euren Kurs ist die perfekte Belohnung. Im Restaurant zu feiern, finde ich [[Meinung zum Restaurant|eine fantastische Idee]], denn [[Grund für die Meinung|jeder kann essen, was er liebt, und die Stimmung ist gleich toll]]. Außerdem [[Vorteil des Restaurants|bedient euch das Personal, und ihr könnt einfach genießen]].
+
+Ohne die richtige Musik geht es aber nicht! Ich würde [[Musikstil|Tanzmusik mit lateinamerikanischen Rhythmen]] spielen, weil [[Grund für die Musikwahl|die ganz bestimmt jeden zum Tanzen bringt]]. Für den Anfang wäre [[Musikidee|ruhiger Jazz beim Essen]] richtig schön.
+
+Mein Tipp von meiner Abschlussparty: [[Tipp aus eigener Erfahrung|Macht ein kleines Programm mit lustigen Spielen und einer Rede für die Lehrerin]]. Das hat uns damals sehr verbunden.
+
+Für meinen Urlaub plane ich [[Urlaubsziel|zwei Wochen Spanien mit Freunden]], und ich freue mich schon auf [[Urlaubsaktivität|Tapas, Meer und lange Abende]]. Ich erzähle dir danach alles ganz genau.
+
+Zum Essen: Ich würde [[Menüvorschlag|ein großes Buffet mit Pasta, Salat und Nachtisch]] bestellen, weil [[Grund für das Buffet|dann jeder genug bekommt]]. Das Beste wäre noch [[Zusatzidee|eine Torte zur Feier der bestandenen Prüfung]].
+
+Erzähl mir bald, [[Frage an die Freundin|wo ihr feiern wollt und wer alles kommt]]. Ich freue mich riesig auf deine Antwort.
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Omar]]` },
+[[Dein Name|Marie]]` },
 
-  { label: "Gratulation, Restaurant am Abend, Playlist vom Kurs, Sprachreise", t: `Hallo [[Name der Freundin|Iris]],
+  // 4
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Iris]],
 
-deine Nachricht hat mich sehr gefreut, und ich gratuliere dir zur bestandenen Prüfung! Du kannst wirklich stolz auf dich sein, denn die Prüfung war nicht leicht.
+zuerst möchte ich dir zur bestandenen Prüfung gratulieren. [[Reaktion auf die Prüfung|Nach so viel Arbeit hast du dieses Ergebnis wirklich verdient]]. Zu deinen Fragen nehme ich nun der Reihe nach Stellung, damit du alles gut überblickst.
 
-Ein Restaurant ist eine gute Idee. Ich würde [[Zeitvorschlag|am Abend nach dem Unterricht]] feiern, damit alle kommen können, auch die, die tagsüber arbeiten. Zum Thema Musik habe ich einen Vorschlag: [[Musikidee|Wir machen eine gemeinsame Playlist. Jeder Teilnehmer sucht zwei Lieder aus]]. So gefällt allen etwas, und niemand muss etwas hören, das er nicht mag.
+Erstens, der Ort der Feier: Für ein Restaurant spricht, [[Argument für das Restaurant|dass niemand kochen und aufräumen muss]]. Dagegen spricht nur [[Argument gegen das Restaurant|der höhere Preis für jeden Einzelnen]]. Insgesamt halte ich ein Restaurant für [[Meinung zum Restaurant|die beste Lösung bei einer großen Gruppe]].
 
-Was ich im Urlaub mache? Ich möchte [[Urlaubsplan|eine Sprachreise nach Wien machen, um noch besser Deutsch zu sprechen]].
+Zweitens, die Musik: Ich empfehle [[Musikstil|leise Musik beim Essen und danach bekannte Tanzlieder]]. Dazu passt [[Musikidee|eine Playlist, die alle zusammen vorher bestimmen]], weil sich dann niemand übergangen fühlt.
 
-Ich bin gespannt auf deine Antwort und auf den Abend mit allen.
+Drittens, meine Erfahrung mit dem Abschlussfest: Es hat sich bewährt, [[Tipp aus eigener Erfahrung|einen Termin am Wochenende zu wählen und die Gäste früh einzuladen]]. So konnten fast alle kommen.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Ines]]` },
+Viertens, meine Pläne: Im Sommer fahre ich [[Urlaubsziel|an die Ostsee]], wo ich [[Urlaubsaktivität|wandern und Rad fahren]] möchte. Mein Urlaub beginnt [[Zeit des Urlaubs|Anfang August]].
 
-  { label: "Prüfung bestanden, Restaurant plus Spiele, Rock und Pop, Verwandte besuchen", t: `Liebe [[Name der Freundin|Iris]],
+Ergänzend schlage ich vor, [[Menüvorschlag|ein Drei-Gänge-Menü für alle]] zu bestellen. Die Kosten teilt ihr [[Preisregelung|gleichmäßig auf alle auf]], und die Lehrerin [[Einladung der Lehrerin|wird als Gast eingeladen]].
 
-das ist eine tolle Nachricht, ich gratuliere dir zur bestandenen Prüfung! Jetzt kannst du dich endlich erholen und einmal nicht an Grammatik denken.
+Bitte gib mir Bescheid, [[Frage an die Freundin|ob ich bei der Planung helfen kann]]. Ich unterstütze dich gern und bin gespannt auf deinen Bericht von der Party.
 
-Dein Vorschlag mit dem Restaurant gefällt mir. Noch schöner wäre es, wenn wir danach [[Programmidee|ein paar Spiele spielen, zum Beispiel ein Quiz über unseren Deutschkurs]]. Als Musik passen [[Musikart|Rock und Pop aus den letzten Jahren]]. Die hört fast jeder gern, und die Lieder sind nicht zu laut zum Reden. Ich kann auch eine kleine Box mitbringen.
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
-In meinem Urlaub besuche ich [[Urlaubsplan|meine Verwandten auf dem Land]]. Dort helfe ich ein bisschen bei der Arbeit, aber ich habe auch viel Zeit zum Ausruhen.
+  // 5
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Iris]],
 
-Schreib mir bitte bald, wie die Planung läuft.
+schön, von dir zu hören, und vor allem: Glückwunsch zur bestandenen Prüfung! [[Reaktion auf die Prüfung|Du hast so viel geübt, und jetzt kannst du dich endlich erholen]]. Die Party hast du dir wirklich verdient.
+
+Bei der Organisation helfe ich gern, so gut ich kann. Zum Restaurant: Ich finde, [[Meinung zum Restaurant|das ist eine gute Idee]], weil [[Grund für die Meinung|man keinen Aufwand hat und alles schnell geht]]. Ich kann [[Praktische Hilfe|dir ein paar Restaurants mit Preisen und Öffnungszeiten heraussuchen]], damit ihr schnell vergleichen könnt.
+
+Bei der Musik habe ich einen praktischen Vorschlag: [[Musikidee|Wir erstellen eine Playlist im Internet, zu der alle Lieder hinzufügen können]]. Dabei passt [[Musikstil|ein Mix aus Pop, Salsa und Schlagern]] für jeden Geschmack, und niemand muss etwas mitbringen.
+
+Aus meiner Erfahrung rate ich dir: [[Tipp aus eigener Erfahrung|Plant nicht zu viel Programm und lasst genug Zeit zum Reden]]. Außerdem [[Weiterer Tipp|fragt die Lehrerin, ob sie auch kommt und ein paar Worte sagen möchte]].
+
+Mein Urlaub: [[Urlaubsziel|Ich verbringe zwei Wochen in Portugal]], und dort [[Urlaubsaktivität|will ich viel am Meer spazieren gehen]]. Vorher habe ich noch Zeit, dir bei der Planung zu helfen.
+
+Falls es um das Essen geht: [[Menüvorschlag|Bestellt Gerichte zum Teilen, dann probiert jeder alles]]. Bei den Getränken helfe ich dir mit [[Getränkevorschlag|einer Liste mit alkoholfreien Cocktails]], damit auch alle mit Auto gut nach Hause kommen.
+
+Sag mir doch, [[Frage an die Freundin|bis wann du die Zusagen brauchst]]. Dann kümmere ich mich darum.
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
+
+  // 6
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Iris]],
+
+ich gratuliere dir zur bestandenen Prüfung, denn [[Begründung für den Glückwunsch|du hast monatelang jeden Tag gelernt, und das merkt man]]. Deshalb ist es nur richtig, dass ihr zusammen feiert, und ich freue mich schon auf deinen Bericht.
+
+Zum Restaurant sage ich ja, und zwar aus mehreren Gründen. Erstens [[Argument 1|müsst ihr nichts vorbereiten]], zweitens [[Argument 2|kann jeder wählen, was er isst und trinkt]]. Weil Kochen für viele Leute sehr viel Arbeit ist, finde ich [[Meinung zum Restaurant|ein Restaurant deutlich besser]].
+
+Bei der Musik würde ich [[Musikstil|etwas Internationales spielen]], da [[Grund für die Musikwahl|in eurem Kurs Leute aus vielen Ländern sind]]. Gut wäre auch [[Musikidee|ein Lied aus jedem Land]], weil [[Begründung für die Idee|sich dann alle gesehen fühlen]].
+
+Meine Erfahrung bei unserem Abschlussfest war: [[Tipp aus eigener Erfahrung|Je früher man alles bucht, desto weniger Stress hat man]]. Deshalb empfehle ich dir, schon jetzt zu reservieren.
+
+Im Sommer verreise ich, weil [[Grund für den Urlaub|ich nach dem Stress Ruhe brauche]]. Ich fahre [[Urlaubsziel|in die Berge nach Österreich]] und [[Urlaubsaktivität|will dort lange wandern]].
+
+Das Essen wäre mein nächster Punkt: [[Menüvorschlag|Eine Auswahl an Fisch, Fleisch und Gemüse]] passt zu jedem Geschmack, weil [[Grund für die Auswahl|man auf alle Wünsche Rücksicht nehmen sollte]]. Der Preis liegt bei [[Preisvorstellung|etwa fünfzehn Euro pro Person]].
+
+Wie siehst du das? Schreib mir, [[Frage an die Freundin|ob dir meine Vorschläge gefallen]]. Ich bin gespannt auf deine Meinung.
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+[[Dein Name|Selin]]` },
 
-  { label: "Glückwunsch, Restaurant mit Nebenraum, Jazz, Inselurlaub", t: `Hallo [[Name der Freundin|Iris]],
+  // 7
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Iris]],
 
-herzlichen Glückwunsch zur bestandenen Prüfung! Ich habe mich sehr gefreut, als ich deine E-Mail gelesen habe, und ich bin stolz auf dich.
+Glückwunsch zur bestandenen Prüfung! [[Reaktion auf die Prüfung|Das hast du dir wirklich verdient, und ich freue mich für dich]]. Danke, dass du mich nach meiner Meinung zur Party fragst, hier sind meine Antworten. Ich hoffe, sie helfen dir bei der Planung des Abends.
 
-Im Restaurant zu feiern, ist für mich die beste Lösung. Sucht ein Lokal [[Wunsch an das Lokal|mit einem Nebenraum für unsere Gruppe]], damit wir niemanden stören. Beim Thema Musik bin ich für [[Musikart|Jazz oder Bossa Nova]]. Das ist stilvoll, und man kann dabei gut reden. [[Tipp|Fragt vorher den Wirt, ob er die Musik erlaubt]]. Wenn nicht, bringen wir einfach eine kleine Box mit.
+Restaurant: [[Meinung zum Restaurant|Ja, das ist eine gute Idee]]. Der Grund: [[Grund für die Meinung|Niemand muss kochen, und alle haben Zeit zum Feiern]]. Wichtig ist nur, [[Hinweis zur Reservierung|dass ihr früh einen Tisch für alle reserviert]], damit es nicht zu voll wird.
 
-Mein Urlaub ist schon geplant: Ich fahre [[Urlaubsplan|im September auf eine Insel in Griechenland]]. Ich möchte dort schwimmen, lesen und gar nichts tun.
+Musik: Ich empfehle [[Musikstil|Popmusik mit deutschen und englischen Texten]]. Als Extra [[Musikidee|könnte jeder ein Lieblingslied mitbringen]], und ihr hört alle Lieder nacheinander an.
 
-Ich wünsche dir viel Spaß bei der Planung!
+Tipp: [[Tipp aus eigener Erfahrung|Fangt mit dem Essen an, und tanzt erst danach]]. So bleibt die Stimmung den ganzen Abend gut. Außerdem [[Weiterer Tipp|bittet jemanden, Fotos für den ganzen Kurs zu machen]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Yasmine]]` },
+Mein Urlaub: [[Urlaubsziel|Ich fahre im August nach Griechenland]]. Dort [[Urlaubsaktivität|möchte ich schwimmen und Inseln besuchen]]. Wenn ich zurück bin, [[Zeit nach dem Urlaub|erzähle ich dir alles bei einem Kaffee]].
 
-  { label: "Prüfung geschafft, Café statt Restaurant, Akustik-Musik, Besuch bei der Schwester", t: `Liebe [[Name der Freundin|Iris]],
+Essen: [[Menüvorschlag|Bestellt ein Menü für alle, dann geht es schnell]]. Preis: [[Preisvorstellung|ungefähr zwanzig Euro pro Person]]. Termin: [[Terminvorschlag|ein Samstagabend im Juli]], weil [[Grund für den Termin|dann die meisten Zeit haben]].
 
-du hast die Prüfung bestanden, das ist wunderbar! Ich gratuliere dir von Herzen und bin sehr stolz auf dich.
+Gib mir bitte kurz Bescheid, [[Frage an die Freundin|ob ihr schon einen Termin habt]]. Dann kann ich meine Woche planen und mir den Abend schon freihalten.
 
-Zu deiner Frage: Ich würde lieber [[Ort für die Feier|in einem gemütlichen Café]] feiern. [[Begründung|Dort kann man den ganzen Nachmittag sitzen, und es ist nicht so teuer wie ein Restaurant]]. Die Musik sollte nicht zu laut sein, deshalb schlage ich [[Musikart|Akustikmusik und ruhige Lieder]] vor. Wer tanzen möchte, kann später noch in einen Club gehen.
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
-In meinem Urlaub will ich [[Urlaubsplan|meine Schwester in Frankreich besuchen]]. Wir haben uns seit zwei Jahren nicht gesehen, und ich vermisse sie sehr. Sie wohnt in der Nähe von Lyon.
+  // 8
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Iris]],
 
-Schreib mir bald, wie du die Idee findest.
+na, wer hätte gedacht, dass du die Prüfung schaffst? Ich natürlich, schon immer! [[Reaktion auf die Prüfung|Glückwunsch, jetzt darfst du offiziell nie wieder Vokabeln lernen]]. Zumindest bis zur nächsten Prüfung, versteht sich.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Aymen]]` },
+Dein Vorschlag mit dem Restaurant ist genial, denn [[Grund für die Meinung|kochen müssen dann nur die Profis]]. Ich finde, [[Meinung zum Restaurant|das ist die einzige vernünftige Lösung]], schon aus Sicherheitsgründen für unseren Kursraum und für die Nachbarn.
 
-  { label: "Gratulation, Restaurant mit Terrasse, Musik der Kursteilnehmer, Strandurlaub", t: `Hi [[Name der Freundin|Iris]],
+Zur Musik: Spielt bitte [[Musikstil|etwas, bei dem man nicht einschläft und trotzdem noch reden kann]]. Und wenn der Kurs tanzen will, [[Musikidee|dann am besten mit Liedern, die alle mitsingen können]], sonst tanzt nur der Lehrer.
 
-ich gratuliere dir zu deinem Erfolg bei der Prüfung! Ich habe gleich meiner Mutter von dir erzählt, und sie hat sich auch gefreut.
+Mein Tipp aus der Praxis: [[Tipp aus eigener Erfahrung|Kein Kuchenbuffet, wenn jemand Diät macht, sonst gibt es Streit]]. Außerdem [[Weiterer Tipp|sollte jemand das Geld einsammeln, der gut rechnen kann]].
 
-Zum Restaurant sage ich ja, wenn [[Wunsch an das Lokal|das Lokal eine Terrasse hat]]. Bei gutem Wetter können wir dort draußen sitzen und den Abend genießen. Die Musik soll [[Musikwunsch|fröhlich sein, zum Beispiel Latin-Pop und Hits aus dem Radio]]. Dazu lässt sich leicht tanzen. [[Tipp|Wenn jemand Musik spielen kann, sollte er ein Lied vorspielen]]. Das wäre eine schöne Überraschung für alle.
+Mein Sommer? [[Urlaubsziel|Ich fliege auf eine kleine Insel im Mittelmeer]], und dort [[Urlaubsaktivität|mache ich vor allem Urlaub von allem]]. Eine Postkarte bekommst du natürlich.
 
-Meine Urlaubspläne sind einfach: Ich will [[Urlaubsplan|zehn Tage am Strand liegen, schwimmen und gut essen]].
+Zum Essen noch ein Gedanke: [[Menüvorschlag|Bestellt Pizza für alle, die kleinste Sorge der Welt]]. Als Dessert [[Dessert|ein riesiges Eis zum Teilen]], und für die Stimmung [[Stimmungsmacher|ein Foto von jedem mit der Urkunde]].
 
-Ich freue mich schon auf unsere Party und warte auf deine Antwort!
+Melde dich bald, [[Frage an die Freundin|damit ich weiß, wann ich meine Tanzschuhe polieren soll]]. Ich bin bereit für die Party!
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
+
+  // 9
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Iris]],
+
+als ich deine Mail gelesen habe, saß ich gerade beim Kaffee und musste laut lachen vor Freude. [[Reaktion auf die Prüfung|Du hast die Prüfung bestanden, und ich erinnere mich an deine Sorgen]]. Jetzt ist alles gut, und ich gratuliere dir von Herzen.
+
+Vor einem Jahr haben wir unser Abschlussfest in einem Restaurant gefeiert, und ich finde, [[Meinung zum Restaurant|das war das Beste, was wir machen konnten]]. Weißt du noch? [[Erinnerung an die Feier|Wir haben bis nach Mitternacht getanzt, und niemand musste aufräumen]]. Das spricht für ein Restaurant, auch weil keiner kochen muss.
+
+Die Musik hat uns damals besonders gut gefallen. Wir haben [[Musikstil|Lieder aus allen Ländern der Gruppe]] gehört, und [[Musikidee|am Ende haben alle gemeinsam gesungen]]. Das würde ich euch auch empfehlen.
+
+Mein Tipp: [[Tipp aus eigener Erfahrung|Schreibt eine kleine Rede und dankt dem Team für die Arbeit]]. Das war bei uns der schönste Moment des Abends.
+
+Und mein Sommer? Ich habe [[Urlaubsziel|eine Reise nach Frankreich]] gebucht und werde [[Urlaubsaktivität|Freunde besuchen und das Meer genießen]]. Im Urlaub denke ich bestimmt an euch.
+
+Beim Essen damals gab es [[Erinnerung an das Essen|Suppe, Braten und einen riesigen Kuchen]], und alle waren satt und froh. Ich würde euch [[Menüvorschlag|etwas Ähnliches]] empfehlen, und [[Zusatzidee|ein Foto des ganzen Kurses]] gehört unbedingt dazu. Den Termin würde ich [[Terminvorschlag|an einen Samstag]] legen.
+
+Schreib mir, [[Frage an die Freundin|wie die Planung vorangeht]]. Ich freue mich auf eine Nachricht von dir.
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
+
+  // 10
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Iris]],
+
+zuerst die gute Nachricht: Ich gratuliere dir zur bestandenen Prüfung! [[Reaktion auf die Prüfung|Du hast dafür so viel getan, und das Ergebnis passt]]. Ich habe gleich mehrere Vorschläge für eure Party, falls du sie hören möchtest.
+
+Mein erster Vorschlag: Feiert im Restaurant. Das ist [[Meinung zum Restaurant|bequem und für viele Leute geeignet]], weil [[Grund für die Meinung|niemand eine Küche braucht]]. Mein zweiter Vorschlag: [[Vorschlag zum Lokal|Sucht ein Lokal mit einem eigenen Raum, damit ihr ungestört seid]].
+
+Mein dritter Vorschlag betrifft die Musik. Ich würde [[Musikstil|eine Mischung aus ruhigen und schnellen Liedern]] wählen und [[Musikidee|einen Freiwilligen als DJ bestimmen]], der die Wünsche der Gäste sammelt.
+
+Mein vierter Vorschlag ist ein Tipp aus meiner Erfahrung: [[Tipp aus eigener Erfahrung|Plant ein kleines Quiz über den Kurs als Programm]]. Das lockert den Abend auf und verbindet die Gruppe.
+
+Ein Wort zu meinem Urlaub: Im Sommer [[Urlaubsziel|besuche ich meine Eltern am Meer]] und [[Urlaubsaktivität|will viel lesen und schwimmen]]. Danach habe ich Zeit für ein Treffen mit dir.
+
+Als fünften Vorschlag empfehle ich [[Menüvorschlag|ein festes Menü mit Vorspeise, Hauptgang und Dessert]]. Außerdem könnt ihr [[Terminvorschlag|einen Samstagabend im Juni]] wählen, damit [[Grund für den Termin|alle Zeit zum Feiern haben]].
+
+Was hältst du von diesen Ideen? Ich freue mich auf deine Meinung dazu. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir am besten gefällt]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Paula]]` },
+
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Iris]],
+
+danke für deine Mail und herzlichen Glückwunsch zur bestandenen Prüfung! [[Reaktion auf die Prüfung|Ich denke, dass du allen Grund hast, stolz zu sein]]. Nun zur Party, bei der ich mir einiges überlegt habe und gern meine Gedanken teile.
+
+Ein Restaurant hat Vor- und Nachteile. Einerseits [[Vorteil des Restaurants|spart ihr euch die Arbeit mit dem Kochen]], andererseits [[Nachteil des Restaurants|kann es für manche zu teuer werden]]. Insgesamt würde ich eher [[Meinung zum Restaurant|für das Restaurant stimmen, wenn der Preis fair ist]].
+
+Bei der Musik bin ich vorsichtig, weil jeder einen anderen Geschmack hat. Vielleicht [[Musikstil|ist ruhige Hintergrundmusik am Anfang gut]], und später [[Musikidee|könnt ihr abstimmen, was gespielt wird]]. So bleibt niemand außen vor.
+
+Aus meiner Erfahrung würde ich dir raten, [[Tipp aus eigener Erfahrung|nicht zu spät mit der Planung zu beginnen]]. Aber vielleicht siehst du das anders, und dann ist das auch völlig in Ordnung.
+
+Für mich selbst ist im Sommer noch nichts sicher. Vielleicht [[Urlaubsziel|fahre ich zwei Wochen nach Norwegen]] und [[Urlaubsaktivität|gehe dort wandern]], aber das hängt von der Arbeit ab.
+
+Beim Essen wäre es vielleicht klug, [[Menüvorschlag|ein einfaches Menü zu wählen]], weil [[Grund für das Menü|nicht jeder viel Geld ausgeben möchte]]. Zudem könntet ihr [[Zusatzidee|vorher alle nach Allergien fragen]].
+
+Schreib mir bitte, [[Frage an die Freundin|was du von meinen Gedanken hältst]]. Ich bin offen für deine Ideen.
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Iris]],
+
+danke für deine Nachricht, ich beantworte sie Schritt für Schritt. Als Erstes: Herzlichen Glückwunsch zur bestandenen Prüfung! [[Reaktion auf die Prüfung|Ich bin sehr stolz auf dich]]. Du hast alle Aufgaben gut gemeistert, und jetzt beginnt der schöne Teil.
+
+Als Nächstes zum Restaurant: Ich schlage vor, [[Meinung zum Restaurant|dass ihr dort feiert]], denn [[Grund für die Meinung|das ist einfacher als selbst zu kochen]]. Dann solltet ihr [[Planung des Restaurants|einen Tisch für alle reservieren und das Menü vorher auswählen]], damit am Abend alles schnell geht.
+
+Danach zur Musik: Zuerst [[Musikstil|spielt ihr ruhige Lieder zum Essen]], dann [[Musikidee|wechselt ihr zu Tanzmusik, die alle kennen]]. Am Ende kann der Kurs noch ein gemeinsames Lied singen.
+
+Dann mein Tipp aus eigener Erfahrung: [[Tipp aus eigener Erfahrung|Bestimmt eine Person, die alles koordiniert und die Rechnung bezahlt]]. So gibt es hinterher keinen Streit ums Geld.
+
+Und zuletzt zu meinem Urlaub: [[Urlaubsziel|Im Sommer bin ich zwei Wochen in Italien]], und ich werde [[Urlaubsaktivität|Städte besichtigen und viel Eis essen]]. Bis dahin bin ich für Fragen erreichbar.
+
+Zum Essen noch ein Schritt: [[Menüvorschlag|Sammelt vorher die Wünsche aller Gäste]], dann [[Weiterer Schritt|bestellt ihr das Menü gemeinsam]]. Zuletzt [[Abschluss|bedankt ihr euch bei der Lehrerin mit einem kleinen Geschenk]].
+
+Wie geht es bei dir weiter? Schreib mir, [[Frage an die Freundin|ob du nach der Party Zeit für ein Treffen hast]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Walid]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Iris]],
+
+ich freue mich so für dich, dass die Prüfung geschafft ist! [[Reaktion auf die Prüfung|Du hast so hart gearbeitet, und ich weiß, wie sehr du es wolltest]]. Von Herzen: Glückwunsch! Du darfst richtig stolz auf dich sein.
+
+Dass ihr zusammen feiern wollt, finde ich schön, denn [[Grund für die Feier|ein Kurs lebt von der Gemeinschaft]]. Ein Restaurant ist [[Meinung zum Restaurant|dafür genau richtig]], weil [[Grund für die Meinung|man dort entspannt zusammensitzen kann]]. Niemand muss kochen, und jeder findet etwas Passendes.
+
+Wegen der Musik mach dir keine Sorgen. Ich würde [[Musikstil|etwas Fröhliches und nicht zu Lautes]] wählen, damit man sich noch unterhalten kann. Wenn jemand ein Instrument spielt, [[Musikidee|könnte er ein kleines Lied vortragen]].
+
+Mein Tipp von Herzen: [[Tipp aus eigener Erfahrung|Denkt an die Leute, die sich schwer tun, und setzt sie zu netten Nachbarn]]. So fühlt sich jeder willkommen und vergisst seine Aufregung.
+
+Auch ich habe Pläne: [[Urlaubsziel|Ich fahre im Sommer zu meiner Familie in die Türkei]], und ich möchte [[Urlaubsaktivität|viel Zeit mit meinen Nichten verbringen]]. Danach melde ich mich sofort bei dir.
+
+Beim Essen denke ich an [[Menüvorschlag|etwas Leichtes mit Salaten und Suppe]], weil [[Grund für das Menü|sich dann niemand zu schwer fühlt]]. Und vergiss nicht, [[Zusatzidee|der Lehrerin eine kleine Karte zu schreiben]].
+
+Erzähl mir, [[Frage an die Freundin|wie du dich nach der Prüfung fühlst]]. Ich denke an dich.
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Iris]],
+
+Prüfung bestanden, Glückwunsch! [[Reaktion auf die Prüfung|Super gemacht, ich hab's ja gewusst]]. Jetzt wird gefeiert, und ich hab ein paar Ideen für eure Party, die dir hoffentlich helfen.
+
+Restaurant? Klar, [[Meinung zum Restaurant|total gute Idee]]. [[Grund für die Meinung|Da muss keiner kochen und keiner spülen]]. Such einfach etwas Gemütliches in der Mitte der Stadt, damit alle gut hinkommen und niemand lange fahren muss.
+
+Musik: Nicht zu laut, nicht zu leise. [[Musikstil|Ein bisschen Pop und was Lateinamerikanisches]] geht immer. Oder [[Musikidee|ihr nehmt eine fertige Party-Playlist aus dem Internet]], dann habt ihr keine Arbeit damit.
+
+Tipp: [[Tipp aus eigener Erfahrung|Macht Fotos und schickt sie danach an alle]]. Das war bei uns das Schönste, und man erinnert sich gern daran.
+
+Ich selbst? Sommer, Sonne, [[Urlaubsziel|ein Zelt am See in Bayern]], [[Urlaubsaktivität|Schwimmen und Grillen mit Freunden]]. Ich freue mich schon sehr darauf und hoffe auf gutes Wetter. Und du erzählst mir dann alles über die Party, versprochen?
+
+Essen: [[Menüvorschlag|Pizza und Pasta zum Teilen]], dazu [[Getränkevorschlag|Limo und Wasser]] und als Dessert [[Dessert|Tiramisu für alle]]. Das reicht völlig aus, finde ich, denn Hauptsache, es schmeckt. Den Termin legt ihr am besten auf [[Terminvorschlag|einen Freitagabend]], dann kann jeder am Wochenende ausschlafen.
+
+Meld dich, [[Frage an die Freundin|sobald der Termin feststeht]]. Dann kann ich mir den Abend freihalten, und wir können zusammen feiern gehen.
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

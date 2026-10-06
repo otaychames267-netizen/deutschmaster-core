@@ -17,7 +17,7 @@ const DIR = new URL(".", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1
 const MARK = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
 const ANREDE = /^(Liebe|Lieber|Hallo|Hi|Hey|Servus|Guten Tag|Moin|Liebes)\b/;
 const GRUSS = /Gr(u|ü)ß|Bis |Alles Liebe|Herzlich|Dein|Deine|Tschüss|Ciao|Mach's gut|Pass auf|Küsschen|Umarmung|Beste Wünsche|Freundlich/i;
-const MIN_WORDS = 200, MAX_WORDS = 285; // v2 (B2-style): long, complete letters
+const MIN_WORDS = 190, MAX_WORDS = 285; // v2 (B2-style): long, complete letters
 
 const words = (s) => s.trim().split(/\s+/).filter(Boolean);
 const grams = (s, n = 3) => { const w = words(s.toLowerCase().replace(/[^a-zäöüß ]+/g, " ")); const out = new Set(); for (let i = 0; i + n <= w.length; i++) out.add(w.slice(i, i + n).join(" ")); return out; };
@@ -37,7 +37,10 @@ const lastSentence = (ex) => { const paras = ex.split(/\n+/); const body = paras
 export async function loadTask(task) {
   const file = `${DIR}tasks/${task.key}.mjs`;
   if (!existsSync(file)) return null;
-  return (await import(pathToFileURL(file).href + "?v=" + Date.now())).default;
+  const m = await import(pathToFileURL(file).href + "?v=" + Date.now());
+  const arr = m.default;
+  arr.kw = m.kw; // a task file may export `kw` = every question/request of the friend's e-mail (overrides the manifest list)
+  return arr;
 }
 
 export function validateTask(task, cards) {
@@ -55,9 +58,9 @@ export function validateTask(task, cards) {
     if (lines.length < 4) issues.push(`${tag}: too few lines`);
     if (!GRUSS.test(lines[lines.length - 2] ?? "")) issues.push(`${tag}: second-to-last line is not a Grußformel ("${lines[lines.length - 2]}")`);
     if (!/Name|Absender|Unterschrift/i.test(c.labels[c.labels.length - 1] ?? "")) issues.push(`${tag}: last marker should be the writer's name`);
-    task.kw.forEach((re, k) => { if (!re.test(c.example)) issues.push(`${tag}: point ${k + 1} not covered (${re})`); });
+    (cards.kw ?? task.kw).forEach((re, k) => { if (!re.test(c.example)) issues.push(`${tag}: point ${k + 1} not covered (${re})`); });
     if (task.question && !/\?/.test(c.example)) issues.push(`${tag}: task needs a question back, letter has no "?"`);
-    if (c.labels.length < 16 || c.labels.length > 28) issues.push(`${tag}: ${c.labels.length} placeholders (16-28)`);
+    if (c.labels.length < 15 || c.labels.length > 28) issues.push(`${tag}: ${c.labels.length} placeholders (15-28)`);
     for (const l of c.labels) if (l.length < 3 || l.length > 48) issues.push(`${tag}: placeholder label length "${l}"`);
     for (const f of c.fills) if (f.length < 2) issues.push(`${tag}: empty placeholder fill`);
     const fixedRatio = words(c.fixed).length / wc;

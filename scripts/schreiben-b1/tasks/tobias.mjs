@@ -1,183 +1,316 @@
-// Tobias – Einzugsparty in Wien (Samstag, 5. September). Points: gern kommen · jemanden mitbringen · was mitbringen (Musik? Sonst etwas?) · wie auf den Besuch in Wien vorbereiten.
+// v2 (B2-style): Tobias (Wien) lädt zur Einzugsparty am Samstag, 5. September, ein. Points: dass Sie gern kommen · ob Sie jemanden mitbringen können ·
+// was Sie mitbringen (Musik? Sonst etwas?) · wie Sie sich auf einen Besuch in Wien vorbereiten — plus: Glückwunsch (Studium, Wohnung), länger bleiben/Schlafen/Sonntag, Bodensee.
+export const kw = [/Wohnung|Studium|gratul|Glückwunsch/i, /komm/, /mitbring|Begleit|mitkomm|Freund|Freundin|Bruder|Schwester|allein/i, /Musik|Lieder|CD|Playlist/i, /Wien/, /Samstag|September|5\./, /Sonntag|länger|bleiben|übernacht|schlafen|Platz/i, /Bodensee|Urlaub|erinner/i, /vorbereit|bereite|Reiseführer|informier|Stadtplan|Sehenswürdig|recherch|lesen|anschau|Internet/i];
 export default [
-  { label: "Zusage, Schwester mitbringen, tunesische Musik, Reiseführer lesen", t: `Lieber [[Name des Freundes|Tobias]],
+  // 1
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Tobias]],
 
-vielen Dank für deine Einladung! Ich komme sehr gern zu deiner Einzugsparty und freue mich schon darauf, deine neue Wohnung zu sehen.
+herzlichen Glückwunsch zum Studienabschluss und zur neuen Wohnung! [[Reaktion auf die Neuigkeiten|Ich freue mich sehr für dich, du hast so lange darauf hingearbeitet]]. Ich bin sicher, dass du bald eine passende Arbeit findest.
 
-Ich möchte gern [[Begleitung|meine Schwester Amal]] mitbringen. Sie war noch nie in Österreich und möchte Wien kennenlernen. Ist das für dich in Ordnung? Aus meiner Heimat bringe ich [[Mitbringsel|eine CD mit tunesischer Musik]] mit, denn du hast ja gesagt, dass wir tanzen wollen. Dazu bekommst du [[Geschenk|eine Packung Datteln und Süßigkeiten]].
+Natürlich komme ich gern zu deiner Party am Samstag, dem 5. September. [[Grund für die Zusage|Ich habe dich schon so lange nicht mehr gesehen]], und ein Wiedersehen in Wien ist eine tolle Gelegenheit. Ich habe mir [[Zeitraum für den Besuch|das ganze Wochenende]] freigehalten.
 
-Auf den Besuch bereite ich mich so vor: [[Vorbereitung|Ich lese einen Reiseführer über Wien und schreibe die wichtigsten Sehenswürdigkeiten auf]].
+Du fragst nach Musik aus meinem Land: Ich bringe [[Musik aus meinem Land|ein paar CDs mit traditionellen Liedern und moderner Popmusik]] mit. Außerdem habe ich [[Mitbringsel|eine Packung Gebäck aus meiner Heimatstadt]] für euch.
 
-Schreib mir bitte noch, wann die Party beginnt.
+Darf ich noch jemanden mitbringen? [[Begleitung|Meine Schwester ist gerade bei mir zu Besuch]], und sie würde sich sehr über die Einladung freuen. Sie ist [[Eigenschaft der Begleitung|sehr nett und tanzt für ihr Leben gern]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Nabil]]` },
+Auf den Besuch bereite ich mich gut vor: [[Vorbereitung auf Wien|Ich lese einen Reiseführer und suche im Internet nach Sehenswürdigkeiten]]. So kann ich am Sonntag [[Wunsch für den Sonntag|das Schloss Schönbrunn und den Prater]] besuchen.
 
-  { label: "Zusage, allein kommen, Blumen und Kuchen, Stadtplan im Internet", t: `Hallo [[Name des Freundes|Tobias]],
+Dein Angebot zu übernachten nehme ich gern an, denn [[Grund für die Übernachtung|dann können wir bis spät in die Nacht reden]]. Bis dahin denke ich oft an unseren Urlaub am Bodensee zurück.
 
-deine Einladung hat mich sehr gefreut! Natürlich komme ich gern, und ich bleibe auch ein paar Tage in Wien, wenn das für dich passt.
+Zur Anreise: Ich komme [[Anreise|mit dem Nachtzug und bin um acht Uhr am Westbahnhof]]. Deine Adresse in der Linzer Straße finde ich bestimmt, aber [[Frage zur Anreise|schreibst du mir noch die Straßenbahnlinie]]? Danach gehe ich [[Plan nach der Ankunft|zuerst frühstücken und dann zu dir]].
 
-Ich komme [[Begleitung|allein]], denn meine Freunde haben an dem Wochenende leider keine Zeit. Ich bringe dir [[Mitbringsel|Blumen für die neue Wohnung und einen selbst gebackenen Kuchen]] mit. Musik kann ich leider nicht mitbringen, weil ich keine große Sammlung habe, aber ich schicke dir vorher ein paar Lieder.
-
-Vor der Reise möchte ich mich gut informieren. [[Vorbereitung|Im Internet suche ich einen Stadtplan und ein paar Tipps für den Sonntag]].
-
-Ich freue mich schon sehr darauf, dich nach so langer Zeit wiederzusehen!
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
-
-  { label: "Zusage, Freund mitbringen, Orangensaft und Musik, Wörter lernen", t: `Lieber [[Name des Freundes|Tobias]],
-
-ich habe mich riesig über deine E-Mail gefreut! Ja, ich komme sehr gern zu deiner Party am Samstag, dem 5. September.
-
-Darf ich [[Begleitung|meinen Freund Karim]] mitbringen? Er studiert auch in Deutschland, und ihr versteht euch bestimmt gut. Zum Trinken bringen wir [[Mitbringsel|einen großen Orangensaft]] mit, weil ich keinen Alkohol trinke. Außerdem bekommst du [[Geschenk|ein kleines Geschenk für die neue Wohnung]]. Musik bringe ich auch mit: [[Musikidee|Ich stelle eine Playlist mit Liedern aus meinem Land zusammen]].
-
-Ich bereite mich vor, indem ich [[Vorbereitung|ein paar Wörter im Wiener Dialekt lerne]]. Dann verstehe ich die Leute besser. Ich informiere mich auch über das Wetter.
-
-Bis bald in Wien!
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Mehdi]]` },
-
-  { label: "Zusage, Freundin mitbringen, Gebäck, Stadtführung vorab", t: `Liebe [[Name des Freundes|Tobias]],
-
-danke für die Einladung zu deiner Party! Ich komme gern und bleibe auch bis Montag, wenn du Platz für mich hast.
-
-Ich möchte [[Begleitung|meine Freundin Salma]] mitbringen, wenn das geht. Sie hat Wien noch nie gesehen. Als Mitbringsel habe ich [[Mitbringsel|eine Tüte Gebäck aus meiner Heimat]] für dich. Das backt meine Mutter, und es schmeckt allen. Musik bringen wir nicht mit, aber [[Alternative|wir helfen dir gern beim Aufbauen und Aufräumen]].
-
-Zur Vorbereitung buche ich [[Vorbereitung|eine Stadtführung für den Sonntag und lese schon ein bisschen über die Sehenswürdigkeiten]]. So sehe ich mehr, als wenn ich nur durch die Straßen laufe.
-
-Schreib mir bitte deine Telefonnummer, falls wir uns am Bahnhof nicht finden!
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Yasmine]]` },
-
-  { label: "Zusage, allein kommen, Wein und Schokolade, Reiseführer aus der Bibliothek", t: `Hallo [[Name des Freundes|Tobias]],
-
-wie schön, dass du eine Party machst! Ich komme gern, denn ich habe dich schon lange nicht gesehen.
-
-Ich komme [[Begleitung|allein]], aber ich würde mich freuen, wenn du mir ein paar deiner Freunde vorstellst. Ich bringe [[Mitbringsel|Schokolade und eine Flasche Saft]] mit. Wenn du magst, mache ich auch [[Musikidee|die Musik: Ich nehme meinen Laptop mit und spiele Lieder aus meinem Land]].
-
-Bevor ich nach Wien fahre, [[Vorbereitung|leihe ich einen Reiseführer in der Bibliothek aus und suche im Internet nach Cafés und Museen]]. Dann können wir am Sonntag gleich losgehen.
-
-Ich freue mich sehr auf das Wiedersehen und auf deine neue Wohnung!
+Schreib mir bitte, [[Frage an den Freund|wie ich am besten zu deiner Wohnung komme]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Omar]]` },
+[[Dein Name|Samir]]` },
 
-  { label: "Zusage, Bruder mitbringen, Tee und Musik, Straßenbahn-Plan studieren", t: `Lieber [[Name des Freundes|Tobias]],
+  // 2
+  { label: "locker, freundschaftlich", t: `Hallo [[Name des Freundes|Tobias]],
 
-deine Einladung kommt genau richtig! Ich komme sehr gern, und ich freue mich schon auf den Samstagabend.
+na klar erinnere ich mich an den Bodensee, das war [[Erinnerung an den Bodensee|der schönste Urlaub seit Jahren]]! Schön, dass du dich meldest. Mir geht es [[Wie es mir geht|richtig gut, nur etwas gestresst bei der Arbeit]].
 
-Ich habe eine Frage: Kann ich [[Begleitung|meinen Bruder Aymen]] mitbringen? Er wohnt in Graz und kann gut mit dem Zug nach Wien kommen. Wir bringen [[Mitbringsel|grünen Tee mit Minze und eine kleine Teekanne]] mit, das ist ein Geschenk für deine Wohnung. Für die Stimmung nehme ich [[Musikidee|meine Gitarre mit und spiele ein paar Lieder]].
+Glückwunsch zum Studium und zur größeren Wohnung! [[Reaktion auf die Neuigkeiten|Das muss natürlich gefeiert werden, und ich bin dabei]]. Ich komme am Samstag, dem 5. September, und bleibe [[Aufenthaltsdauer|bis Montagfrüh]].
 
-Auf den Besuch bereite ich mich so vor: [[Vorbereitung|Ich studiere den Plan der Straßenbahn und der U-Bahn, damit ich mich nicht verfahre]]. Dazu nehme ich auch einen Stadtplan mit.
+Musik aus meinem Land? Aber sicher, ich bringe [[Musik aus meinem Land|meine Lieblingsplaylist mit Salsa und Hip-Hop]] mit. Dann wird auf jeden Fall getanzt! Sonst brauche ich laut dir nichts mitzubringen, aber [[Mitbringsel|eine kleine Pflanze für die neue Wohnung]] geht immer.
 
-Danke, dass du mir Platz zum Schlafen anbietest!
+Kann ich einen Freund mitbringen? [[Begleitung|Mein Kumpel Ali wohnt in Graz und würde gern kommen]]. Er ist [[Eigenschaft der Begleitung|echt lustig und kann super tanzen]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Hamza]]` },
+Zur Vorbereitung: Ich [[Vorbereitung auf Wien|schaue mir Videos über Wien an und lade mir einen Stadtplan]]. Dann finde ich alles.
 
-  { label: "Zusage, Kollegin mitbringen, Früchte, Wien im Internet ansehen", t: `Liebe [[Name des Freundes|Tobias]],
+Das Angebot mit dem Schlafplatz bei dir nehme ich gern an. Und am Sonntag [[Wunsch für den Sonntag|zeigst du mir die Altstadt und das beste Eis]], oder?
 
-ich habe mich sehr über deine E-Mail gefreut, und ich komme gern zu deiner Party! Dein Umzug ist ein guter Grund zum Feiern.
+Und noch was: Ich komme [[Anreise|mit dem Bus, das ist günstiger]], und am Samstag [[Plan am Samstag|helfe ich dir beim Aufräumen, bevor die Gäste kommen]]. Danach [[Plan nach der Party|bleibe ich noch eine Weile bei dir sitzen]], wenn es dir recht ist. Das wird ein schönes Wochenende.
 
-Ich möchte gern [[Begleitung|meine Kollegin Sarra]] mitbringen. Sie interessiert sich sehr für Architektur und Kultur. Wenn du nichts dagegen hast, kommen wir gemeinsam mit dem Zug. Zum Essen bringe ich [[Mitbringsel|eine große Schale mit frischem Obst]] mit, dazu ein Geschenk für die Wohnung. Musik kann ich leider nicht mitbringen, aber ich kann dir [[Alternative|beim Kochen helfen, wenn du Hilfe brauchst]].
-
-Ich bereite mich vor, indem ich [[Vorbereitung|im Internet Fotos von Wien ansehe und die bekanntesten Sehenswürdigkeiten heraussuche]].
-
-Gib mir bitte deine neue Adresse noch einmal!
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Rim]]` },
-
-  { label: "Zusage, Nachbarin mitbringen, Pralinen, Hotelzimmer und Apps", t: `Hallo [[Name des Freundes|Tobias]],
-
-danke für die Einladung! Ich komme sehr gern und möchte auch am Sonntag in Wien bleiben.
-
-Ich frage dich, ob ich [[Begleitung|meine Nachbarin Frau Becker]] mitbringen darf. Sie ist 60 Jahre alt, aber sehr nett und tanzt gern. Als Geschenk bringe ich [[Mitbringsel|Pralinen und einen kleinen Blumenstrauß]] mit. Zur Musik habe ich leider keine Idee, aber [[Alternative|ich kann Gläser und Geschirr von mir mitbringen]]. Dann hast du für alle genug.
-
-Für die Reise lade ich [[Vorbereitung|eine App mit Stadtplan und Öffnungszeiten der Museen auf mein Handy]]. Dann kann ich die Stadt gut allein entdecken.
-
-Ich freue mich schon sehr auf ein schönes Wochenende mit dir!
-
-[[Grußformel|Liebe Grüße]]
-[[Dein Name|Anis]]` },
-
-  { label: "Zusage, Cousine mitbringen, Gewürze und Lieder, Sehenswürdigkeiten lesen", t: `Lieber [[Name des Freundes|Tobias]],
-
-deine Einladung ist eine schöne Überraschung! Ich komme gern, und ich bleibe das ganze Wochenende, wenn es dir recht ist.
-
-Ich möchte gern [[Begleitung|meine Cousine Houda]] mitbringen. Sie lebt in Linz und kennt Wien schon ein bisschen. Als Geschenk gibt es [[Mitbringsel|ein Päckchen Gewürze für die neue Küche]]. Außerdem bringen wir [[Musikidee|CDs mit arabischer und französischer Musik]] mit, damit wir tanzen können.
-
-Auf den Besuch bereite ich mich so vor: [[Vorbereitung|Ich lese über die Sehenswürdigkeiten und schreibe mir drei Orte auf, die ich unbedingt sehen möchte]].
-
-Sag mir bitte, ob wir etwas zu essen mitbringen sollen! Wir freuen uns schon sehr auf das Wochenende in Wien.
-
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Slim]]` },
-
-  { label: "Zusage, Freund und Freundin mitbringen, Kuchen und Spiele, Dialekt und Wetter", t: `Hallo [[Name des Freundes|Tobias]],
-
-vielen Dank für deine Einladung! Ich komme gern zur Party und freue mich auf ein Wochenende in Wien.
-
-Darf ich [[Begleitung|zwei Freunde, Ali und Mariem,]] mitbringen? Beide sind Deutschlernende wie ich, und sie möchten gern deine Freunde kennenlernen. Wir bringen [[Mitbringsel|einen Kuchen und ein lustiges Kartenspiel]] mit. Musik haben wir auch dabei: [[Musikidee|Wir bringen einen kleinen Lautsprecher mit]].
-
-Zur Vorbereitung [[Vorbereitung|sehe ich mir im Internet den Wetterbericht an und lese Tipps für Touristen]]. So packe ich die richtige Kleidung ein und weiß, was ich am Wochenende anziehen kann.
-
-Bis bald, und viele Grüße an deine Mitbewohner! Ich bin sehr gespannt auf deine neue Wohnung.
+Schreib bald, [[Frage an den Freund|ob ich vorher noch etwas besorgen soll]].
 
 [[Grußformel|Bis dann]]
-[[Dein Name|Fares]]` },
+[[Dein Name|Jonas]]` },
 
-  { label: "Zusage, Mutter nicht mitbringen, allein, Spezialität, Wörterbuch und Reiseführer", t: `Liebe [[Name des Freundes|Tobias]],
+  // 3
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Tobias]],
 
-deine E-Mail hat mich sehr glücklich gemacht, und ich sage gern zu! Es ist schön, dass du mich eingeladen hast.
+wow, was für tolle Neuigkeiten! [[Reaktion auf die Neuigkeiten|Studium fertig, größere Wohnung, das ist wirklich ein Grund zum Feiern]]. Ich habe beim Lesen deiner Mail laut gejubelt und gratuliere dir von ganzem Herzen.
 
-Ich komme [[Begleitung|allein]], denn meine Freunde müssen arbeiten. Aber ich bringe dir [[Mitbringsel|eine Spezialität aus meiner Stadt, nämlich süße Mandeln]] mit. Musik hast du bestimmt genug, deshalb schenke ich dir lieber [[Geschenk|ein schönes Bild für deine Wand]].
+Natürlich komme ich zu deiner Party am Samstag, dem 5. September! [[Grund für die Zusage|Ich vermisse unsere gemeinsamen Abende]], und eine Reise nach Wien wollte ich schon lange machen. Ich freue mich [[Freude auf das Wiedersehen|riesig darauf, dich und deine neue Wohnung zu sehen]].
 
-Ich bereite mich so vor: [[Vorbereitung|Ich nehme ein Wörterbuch und einen Reiseführer mit und lese schon im Zug über die Stadt]].
+Musik aus meinem Land bringe ich selbstverständlich mit: [[Musik aus meinem Land|schnelle Lieder zum Tanzen und ein paar romantische Balladen]]. Dazu [[Mitbringsel|ein Gastgeschenk aus meiner Heimat]], als Dankeschön für die Einladung.
 
-Meine Eltern wissen schon von deiner Einladung und lassen dich herzlich grüßen. Auf deine neue Wohnung bin ich sehr gespannt. Ich hoffe, dass wir am Sonntag zusammen die Altstadt ansehen können.
+Darf ich jemanden mitbringen? [[Begleitung|Mein Bruder hätte große Lust, mit nach Wien zu kommen]]. Er [[Eigenschaft der Begleitung|spielt Gitarre und bringt gute Laune mit]].
+
+Auf Wien bereite ich mich mit großer Vorfreude vor: [[Vorbereitung auf Wien|Ich lese Blogs und kaufe mir einen Reiseführer mit Tipps]]. Auf meiner Liste steht [[Wunsch für den Sonntag|ein Spaziergang durch den Stadtpark am Sonntag]].
+
+Schlafen bei dir ist perfekt, [[Grund für die Übernachtung|dann sparen wir uns die Heimfahrt]]. Ich bleibe sehr gern länger.
+
+Ach ja, an den Bodensee denke ich auch sofort: [[Erinnerung an den Bodensee|Die Fahrt mit dem Fahrrad um den See war traumhaft]]. Zur Anreise: [[Anreise|Ich nehme den Zug und komme am Freitagabend an]], und am Sonntag [[Plan für die Rückfahrt|fahre ich mit schönen Erinnerungen im Gepäck zurück]].
+
+Sag mir bitte, [[Frage an den Freund|ob du Pläne für Sonntag hast]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Emna]]` },
+[[Dein Name|Marie]]` },
 
-  { label: "Zusage, Mitbewohner mitbringen, Getränke, Karte und Zugfahrplan", t: `Hallo [[Name des Freundes|Tobias]],
+  // 4
+  { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Tobias]],
 
-danke für deine Einladung! Das ist eine tolle Idee, und ich komme sehr gern zu deiner Einzugsparty.
+vielen Dank für deine Einladung und für die Neuigkeiten. [[Reaktion auf die Neuigkeiten|Zum Studienabschluss und zur größeren Wohnung gratuliere ich dir herzlich]]. Zu deinen Fragen nehme ich der Reihe nach Stellung.
 
-Mein Mitbewohner [[Begleitung|Bilel]] würde gern mitkommen. Er kennt Wien nicht und hat schon lange keinen Ausflug gemacht. Ist das in Ordnung? Wir bringen [[Mitbringsel|Getränke für alle und etwas zum Knabbern]] mit, damit du nicht so viel einkaufen musst. Musik können wir auch mitbringen, denn [[Musikidee|Bilel hat eine große Sammlung auf seinem Handy]].
+Erstens, die Zusage: Ich komme gern zur Party am Samstag, dem 5. September. [[Zeitraum für den Besuch|Ich reise am Freitagabend an und fahre am Montag zurück]].
 
-Vor der Fahrt [[Vorbereitung|suche ich eine Karte von Wien und den Fahrplan der Züge heraus]]. Außerdem lese ich einen kleinen Reiseführer. So komme ich pünktlich an.
+Zweitens, die Begleitung: Ich möchte [[Begleitung|meine Freundin Laila]] gern mitbringen, wenn das für dich in Ordnung ist. Sie [[Eigenschaft der Begleitung|ist sehr zuverlässig und kommt gut mit neuen Menschen aus]].
 
-Schreib mir bitte, ob wir Schlafsäcke mitbringen sollen, oder ob du schon genug hast!
+Drittens, die Mitbringsel: Ich nehme [[Musik aus meinem Land|zwei Musik-CDs aus meiner Heimat]] mit, damit wir tanzen können. Zusätzlich bringe ich [[Mitbringsel|eine Kleinigkeit für die Wohnung]] mit.
+
+Viertens, die Vorbereitung auf Wien: Ich [[Vorbereitung auf Wien|informiere mich im Internet über Sehenswürdigkeiten und die öffentlichen Verkehrsmittel]]. Am Sonntag würde ich gern [[Wunsch für den Sonntag|das Naschmarkt-Viertel besuchen]].
+
+Fünftens, die Anreise: Ich [[Anreise|fahre mit dem Zug und komme am Freitag um 18 Uhr an]]. Sechstens, die Kleidung: Ich bringe [[Kleidung|ein schickes Hemd und bequeme Schuhe zum Tanzen]] mit. Siebtens, die Erinnerung: Wir haben [[Erinnerung an den Bodensee|am Bodensee viel erlebt und gelacht]], und ich freue mich auf neue Erlebnisse in Wien.
+
+Die Übernachtung bei dir nehme ich dankend an. Bitte teile mir noch mit, [[Frage an den Freund|ab wann ich am Freitag bei dir sein darf]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
+
+  // 5
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Tobias]],
+
+schön, von dir zu hören, und Glückwunsch zur größeren Wohnung und zum Studium! [[Reaktion auf die Neuigkeiten|Ich helfe dir gern bei der Suche nach der passenden Stelle]].
+
+Zu deiner Party am Samstag, dem 5. September: Ich komme sehr gern! Wenn du möchtest, [[Hilfsangebot|helfe ich dir schon am Freitag beim Aufbauen und beim Einkaufen]]. Dafür [[Zeitraum für den Besuch|reise ich einen Tag früher an]].
+
+Bei der Musik habe ich eine Idee: Ich bringe [[Musik aus meinem Land|einen USB-Stick mit Liedern aus meiner Heimat]] mit und kann [[Musikaufgabe|den DJ für den Abend spielen]]. Praktisch ist auch, dass ich [[Mitbringsel|ein paar Gläser und Servietten]] mitbringen kann.
+
+Kann ich jemanden mitbringen? [[Begleitung|Mein Mitbewohner Karim kann gut Möbel tragen]] und würde gern helfen. Er ist [[Eigenschaft der Begleitung|handwerklich begabt und sehr hilfsbereit]].
+
+Zur Vorbereitung auf Wien: Ich [[Vorbereitung auf Wien|kaufe mir ein Ticket und lerne die wichtigsten Stationen der U-Bahn kennen]]. Am Sonntag [[Wunsch für den Sonntag|machen wir einen Spaziergang an der Donau]], wenn du Zeit hast.
+
+Außerdem kann ich [[Weitere Hilfe|das Geschirr spülen und die Gäste an der Tür begrüßen]]. Wenn du willst, bringe ich [[Zusätzliches Mitbringsel|zwei Sitzkissen und eine Lichterkette]] mit. Mit der Anreise habe ich [[Anreise|keine Probleme, ich nehme den Frühzug]].
+
+Schlafen bei dir klingt super, und ich denke noch oft an unseren Bodensee-Urlaub.
+
+Sag mir bitte, [[Frage an den Freund|ob ich dir noch etwas mitbringen kann]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
+
+  // 6
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Tobias]],
+
+deine Neuigkeiten freuen mich, und zwar aus gutem Grund: [[Begründung für die Freude|Du hast das Studium geschafft und eine größere Wohnung gefunden]]. Dafür gratuliere ich dir herzlich.
+
+Ich komme gern zur Party am Samstag, dem 5. September, denn [[Grund für die Zusage|ich möchte dich wiedersehen und deine neue Wohnung kennenlernen]]. Außerdem [[Zusätzlicher Grund|habe ich schon lange nicht mehr gefeiert]].
+
+Weil du dir Musik aus meinem Land wünschst, bringe ich [[Musik aus meinem Land|ein paar Lieder aus meiner Heimat auf einem USB-Stick]] mit. Das passt, da [[Grund für die Musikwahl|man zu diesen Rhythmen sehr gut tanzen kann]]. Zusätzlich nehme ich [[Mitbringsel|ein kleines Geschenk]] mit.
+
+Ich möchte gern jemanden mitbringen, weil [[Grund für die Begleitung|ich dir meine neue Freundin vorstellen möchte]]. Sie [[Eigenschaft der Begleitung|ist freundlich und neugierig auf Wien]].
+
+Damit ich Wien gut kennenlerne, [[Vorbereitung auf Wien|lese ich einen Stadtführer und informiere mich über die Sehenswürdigkeiten]]. Am Sonntag [[Wunsch für den Sonntag|würde ich gern das Museumsquartier besuchen]].
+
+Zur Anreise: Ich [[Anreise|fahre mit dem Zug, weil das am bequemsten ist]]. Ich erinnere mich übrigens noch gut an den Bodensee, [[Erinnerung an den Bodensee|da haben wir viel über unsere Zukunft gesprochen]]. Dieses Gespräch möchte ich in Wien fortsetzen.
+
+Ich übernachte gern bei dir, weil [[Grund für die Übernachtung|das praktisch ist und wir mehr Zeit haben]]. Erinnerst du dich an den Bodensee? Das war eine tolle Zeit.
+
+Gib mir bitte Bescheid, [[Frage an den Freund|ob du meine Vorschläge gut findest]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Selin]]` },
 
-  { label: "Zusage, Verlobte mitbringen, Blumenstrauß und Lieder, Spaziergänge planen", t: `Lieber [[Name des Freundes|Tobias]],
+  // 7
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Tobias]],
 
-wie nett, dass du mich zu deiner Party einlädst! Ich komme sehr gern, und ich freue mich auf das Wiedersehen.
+Glückwunsch zu Studium und Wohnung! [[Reaktion auf die Neuigkeiten|Das ist eine tolle Nachricht für dich]]. Danke für die Einladung, hier meine Antworten.
 
-Ich möchte gern [[Begleitung|meine Verlobte Sonia]] mitbringen. Ihr habt euch noch nicht kennengelernt, und sie ist sehr neugierig. Als Geschenk für die Wohnung bringen wir [[Mitbringsel|einen großen Blumenstrauß]] mit. Für die Musik bringe ich [[Musikidee|ein paar Lieder aus meiner Heimat auf einem USB-Stick]] mit.
+Zusage: Ich komme gern zur Party am Samstag, dem 5. September. [[Zeitraum für den Besuch|Ich bleibe bis Sonntagabend]].
 
-Zur Vorbereitung [[Vorbereitung|plane ich ein paar Spaziergänge durch die Stadt und lese Tipps für das Wochenende]]. Am liebsten möchte ich den Prater und das Schloss Schönbrunn ansehen.
+Begleitung: Ich bringe [[Begleitung|meinen Bruder Yusuf]] mit, wenn es für dich passt. Er [[Eigenschaft der Begleitung|ist ruhig und ein guter Tänzer]].
 
-Ich freue mich schon sehr auf die Party und auf das Wiedersehen mit dir!
+Mitbringsel: Ich nehme [[Musik aus meinem Land|Musik aus meiner Heimat]] mit, außerdem [[Mitbringsel|selbstgebackene Süßigkeiten]]. Mehr brauchst du nicht zu besorgen.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Karim]]` },
-  { label: "Zusage, Cousins mitbringen, Baklava und Lieder, Museumsplan", t: `Hallo [[Name des Freundes|Tobias]],
+Vorbereitung: Ich [[Vorbereitung auf Wien|suche mir im Internet die wichtigsten Sehenswürdigkeiten heraus]]. Am Sonntag möchte ich gern [[Wunsch für den Sonntag|das Rathaus und den Stephansdom sehen]].
 
-deine Party klingt super, und ich komme sehr gern! Danke, dass du an mich gedacht hast. Ich habe mir den 5. September schon im Kalender markiert.
+Wien kenne ich noch nicht, deshalb freue ich mich besonders auf die Stadt und auf ein Wochenende mit dir. Ankunft: [[Anreise|Mit dem Zug am Freitagabend]]. Kleidung: [[Kleidung|etwas Bequemes zum Tanzen]].
 
-Ich möchte gern [[Begleitung|meine Cousins Sana und Wassim]] mitbringen, die gerade bei mir zu Besuch sind. Sie sprechen schon ein bisschen Deutsch und lernen gern neue Leute kennen. Wir backen [[Mitbringsel|ein Blech Baklava als Geschenk]] und nehmen [[Musikidee|ein paar Lieder aus unseren Ländern]] mit.
+Schlafen bei dir ist perfekt, danke für das Angebot. Wir haben uns seit dem Bodensee nicht mehr gesehen, das wird ein schönes Wochenende.
 
-Zur Vorbereitung [[Vorbereitung|suche ich im Internet nach Museen mit kostenlosem Eintritt und mache einen Plan für den Sonntag]]. So sehen wir viel, ohne viel Geld auszugeben.
+Ich freue mich besonders auf die Party, weil [[Grund für die Vorfreude|ich endlich deine neuen Freunde kennenlernen kann]]. Außerdem [[Wunsch an den Abend|möchte ich mit dir bis spät in die Nacht tanzen]].
 
-Ich freue mich schon sehr auf das Wiedersehen!
+Gib mir bitte kurz Bescheid, [[Frage an den Freund|wann ich bei dir ankommen kann]]. Dann plane ich meine Reise.
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
+
+  // 8
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Tobias]],
+
+na, wer hätte gedacht, dass du das Studium doch noch schaffst? Ich natürlich! [[Reaktion auf die Neuigkeiten|Glückwunsch, und jetzt eine größere Wohnung, da sind ja endlich alle meine Besuche möglich]]. Eine Party? Da sage ich nie nein.
+
+Ich komme also am Samstag, dem 5. September, [[Zeitraum für den Besuch|mit meiner Reisetasche und viel Hunger]]. An den Bodensee erinnere ich mich noch gut, besonders an [[Erinnerung an den Bodensee|deinen Sonnenbrand und den verlorenen Schuh]].
+
+Musik aus meinem Land? Ich bringe [[Musik aus meinem Land|ein paar Lieder mit, bei denen sogar Tischlampen tanzen]]. Sonst nehme ich nur [[Mitbringsel|meine gute Laune]] mit, das reicht.
+
+Darf ich jemanden mitbringen? [[Begleitung|Meinen Nachbarn, er ist ein exzellenter Tänzer]]. Ich verspreche, er [[Eigenschaft der Begleitung|stolpert nur selten über die Möbel]].
+
+Als Vorbereitung auf Wien [[Vorbereitung auf Wien|lese ich einen Stadtführer und lerne drei Wörter Wienerisch]]. Am Sonntag will ich dann [[Wunsch für den Sonntag|Kaffee, Kuchen und Kultur, in genau dieser Reihenfolge]].
+
+Anreise: [[Anreise|per Zug, mit sehr viel Reiselust]]. Und Wien? Wien wird mich lieben, und ich Wien. Außerdem bringe ich [[Zusätzliches Mitbringsel|eine Flasche Saft und Chips für die Party]], damit wir nie Hunger haben.
+
+Schlafen bei dir ist ein Traum, danke! Hast du ein Sofa oder gleich ein Bett?
+
+Schreib bald, [[Frage an den Freund|ob der Kühlschrank für alle Gäste reicht]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
+
+  // 9
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Tobias]],
+
+als ich deine Mail gelesen habe, musste ich sofort an den Bodensee denken. [[Erinnerung an den Bodensee|Wir sind jeden Morgen schwimmen gegangen und abends lange am Ufer gesessen]]. Schön, dass du dich meldest!
+
+Dass du mit dem Studium fertig bist und eine größere Wohnung hast, freut mich sehr. [[Reaktion auf die Neuigkeiten|Ich habe mich gleich gefragt, wann wir das gemeinsam feiern können]]. Ich gratuliere dir!
+
+Deine Party am Samstag, dem 5. September, möchte ich nicht verpassen. [[Zeitraum für den Besuch|Ich nehme mir den Freitag frei und komme mit dem Zug]]. Dann haben wir viel Zeit zum Reden.
+
+Die Musik aus meinem Land habe ich schon im Kopf: [[Musik aus meinem Land|die Lieder, die wir damals im Auto gehört haben]]. Ich bringe sie auf einem USB-Stick mit, dazu [[Mitbringsel|eine Kleinigkeit zum Essen]].
+
+Eine Person möchte ich gern mitbringen: [[Begleitung|meine Cousine, die in Salzburg studiert]]. Sie [[Eigenschaft der Begleitung|kennt Wien ein bisschen und kann mir viel zeigen]].
+
+Zur Vorbereitung auf Wien [[Vorbereitung auf Wien|suche ich im Netz nach Cafés und schaue mir einen Stadtplan an]]. Am Sonntag [[Wunsch für den Sonntag|würde ich gern mit dir durch den Prater spazieren]].
+
+Zur Anreise: [[Anreise|Ich komme mit dem Zug und lese unterwegs ein Buch]]. Dazu habe ich mir [[Plan für die Fahrt|Kopfhörer und einen langen Podcast]] eingepackt, damit die Fahrt schnell vergeht. Ich freue mich darauf, bei dir anzukommen.
+
+Bei dir zu schlafen, nehme ich gern an.
+
+Erzähl mir doch, [[Frage an den Freund|wie lange deine Wohnungssuche gedauert hat]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
+
+  // 10
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Tobias]],
+
+danke für deine Einladung und herzlichen Glückwunsch zum Studium und zur Wohnung! [[Reaktion auf die Neuigkeiten|Das sind zwei Gründe zum Feiern auf einmal]]. Ich habe gleich mehrere Vorschläge für dich.
+
+Mein erster Vorschlag: Ich komme am Samstag, dem 5. September, schon [[Zeitraum für den Besuch|am Vormittag und helfe dir bei den letzten Vorbereitungen]]. Mein zweiter Vorschlag: Ich bringe [[Musik aus meinem Land|zwei Playlists mit, eine zum Tanzen und eine zum Zuhören]].
+
+Mein dritter Vorschlag: Ich bringe jemanden mit, wenn du erlaubst. [[Begleitung|Meine Freundin Sofia macht tolle Fotos von der Party]]. Sie [[Eigenschaft der Begleitung|ist sehr unterhaltsam und hilft gern]].
+
+Mein vierter Vorschlag: Wir überlegen schon heute, wie ich mich auf Wien vorbereite. Ich würde [[Vorbereitung auf Wien|einen Reiseführer lesen und eine Liste mit Sehenswürdigkeiten machen]].
+
+Mein fünfter Vorschlag: Am Sonntag [[Wunsch für den Sonntag|fahren wir gemeinsam mit der Straßenbahn durch die Stadt]]. Dazu bringe ich [[Mitbringsel|ein kleines Picknick]] mit.
+
+Mein sechster Vorschlag: Wir erinnern uns bei einem Fotoabend an den Bodensee, ich bringe [[Fotos vom Bodensee|ein paar alte Bilder]] mit. Bei der Anreise [[Anreise|komme ich mit dem Zug und rufe dich an]]. Und mein siebter Vorschlag: [[Plan für den Montag|Am Montag frühstücken wir noch gemütlich zusammen]].
+
+Bei dir schlafe ich sehr gern. Das spart Zeit.
+
+Was hältst du von diesen Ideen? Schreib mir, [[Frage an den Freund|ob dir das alles recht ist]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Paula]]` },
+
+  // 11
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Tobias]],
+
+danke für deine Mail und herzlichen Glückwunsch zum Studium und zur Wohnung! [[Reaktion auf die Neuigkeiten|Ich glaube, dass du dir das alles wirklich verdient hast]]. Zur Party möchte ich einiges klären, damit alles gut klappt.
+
+Ich komme sehr gern am Samstag, dem 5. September. Einerseits [[Vorteil des Besuchs|freue ich mich auf unser Wiedersehen]], andererseits [[Einschränkung|muss ich am Montag früh wieder arbeiten]]. Deshalb [[Lösung für den Zeitplan|fahre ich am Sonntagabend zurück]].
+
+Bei der Musik bin ich unsicher, was dir gefällt. Ich würde [[Musik aus meinem Land|ein paar Lieder aus meiner Heimat auf einem Stick]] mitbringen, aber du sagst mir, wenn du etwas anderes magst. Sonst bringe ich [[Mitbringsel|nur etwas Kleines zum Essen]] mit.
+
+Darf ich jemanden mitbringen? [[Begleitung|Meine Freundin Dina würde sich freuen, aber nur, wenn du genug Platz hast]]. Sie [[Eigenschaft der Begleitung|ist unkompliziert und höflich]].
+
+Auf Wien bereite ich mich so vor: [[Vorbereitung auf Wien|Ich lese ein paar Artikel und schaue mir einen Plan der Innenstadt an]]. Falls du am Sonntag Zeit hast, [[Wunsch für den Sonntag|würde ich gern das Belvedere sehen]].
+
+Bei der Anreise [[Anreise|nehme ich lieber den Zug, weil er zuverlässig ist]]. Falls ich zu früh komme, [[Alternative bei früher Ankunft|warte ich in einem Café in deiner Nähe]]. Gern erinnere ich mich auch an den Bodensee.
+
+Dein Schlafplatz wäre wunderbar, aber ich möchte dir keine Umstände machen.
+
+Schreib mir bitte, [[Frage an den Freund|ob das alles für dich passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Tobias]],
+
+danke für deine Nachricht, ich beantworte sie Schritt für Schritt. Als Erstes: Glückwunsch zum Studium und zur größeren Wohnung! [[Reaktion auf die Neuigkeiten|Ich freue mich sehr und bin stolz auf dich]].
+
+Danach zur Einladung: Ich komme gern zur Party am Samstag, dem 5. September. [[Zeitraum für den Besuch|Ich fahre am Freitagmittag los und bin abends bei dir]].
+
+Dann zur Begleitung: [[Begleitung|Ich würde gern meinen Freund Hasan mitbringen]], wenn das für dich okay ist. Er [[Eigenschaft der Begleitung|ist sehr offen und mag Partys]].
+
+Dann zu den Mitbringseln: [[Musik aus meinem Land|Ich bringe Lieder aus meiner Heimat mit]], und zusätzlich [[Mitbringsel|eine Süßigkeit für alle Gäste]].
+
+Als Nächstes zur Vorbereitung auf Wien: [[Vorbereitung auf Wien|Ich lade einen Stadtplan herunter und suche Sehenswürdigkeiten im Internet]]. Zum Schluss mein Plan für Sonntag: [[Wunsch für den Sonntag|ich möchte die Altstadt zu Fuß erkunden]].
+
+Zuletzt zur Anreise: [[Anreise|Ich komme mit dem Zug und rufe dich vom Bahnhof an]]. Danach die Frage, was ich anziehen soll: [[Kleidung|etwas Schickes, aber Bequemes]]. Und vom Bodensee erinnere ich mich besonders an [[Erinnerung an den Bodensee|die Abende am Ufer]]. Das waren richtig schöne Stunden.
+
+Das Angebot, bei dir zu schlafen, nehme ich dankend an. An den Bodensee denke ich gern zurück.
+
+Wie gehen wir weiter vor? Schreib mir, [[Frage an den Freund|ab wann ich am Freitag kommen kann]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Aziz]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Tobias]],
+
+deine Mail hat mich sehr gefreut, und von Herzen: Glückwunsch zum Studium und zur Wohnung! [[Reaktion auf die Neuigkeiten|Du hast so viel dafür getan, und jetzt wird alles gut]]. Ich glaube fest daran, dass du bald eine Arbeit findest.
+
+Natürlich komme ich zu deiner Party am Samstag, dem 5. September. [[Grund für die Zusage|Du bist ein wichtiger Freund für mich]], und ich möchte diesen Tag mit dir teilen. Es ist schön, dass du [[Grund für die Freude|mich nach so langer Zeit wieder einlädst]].
+
+Musik aus meinem Land bringe ich gern mit: [[Musik aus meinem Land|sanfte Lieder zum Zuhören und fröhliche zum Tanzen]]. Dazu [[Mitbringsel|ein kleines Geschenk für deine neue Wohnung]], weil man eine Wohnung immer segnen sollte.
+
+Darf ich jemanden mitbringen? [[Begleitung|Meine Mutter ist gerade zu Besuch und würde dich gern kennenlernen]]. Sie [[Eigenschaft der Begleitung|ist herzlich und ruhig]].
+
+Für Wien bereite ich mich vor, indem ich [[Vorbereitung auf Wien|mir Bücher über die Stadt aus der Bibliothek hole]]. Am Sonntag [[Wunsch für den Sonntag|möchte ich mir mit dir ein ruhiges Café suchen]].
+
+Zur Anreise: [[Anreise|Ich nehme den Zug und melde mich bei dir, sobald ich ankomme]]. Und an den Bodensee denke ich mit warmen Gefühlen, [[Erinnerung an den Bodensee|wir haben uns dort so gut verstanden]]. Ich hoffe, dass das in Wien genauso wird.
+
+Dein Angebot, bei dir zu schlafen, rührt mich. Ich nehme es gern an.
+
+Erzähl mir, [[Frage an den Freund|wie du dich in der neuen Wohnung fühlst]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Tobias]],
+
+Studium fertig, neue Wohnung, Glückwunsch! [[Reaktion auf die Neuigkeiten|Das ist ja großartig, ich freue mich total für dich]]. Klar komme ich zur Party, Samstag, der 5. September, steht schon im Kalender.
+
+Wann ich ankomme? [[Zeitraum für den Besuch|Freitagabend mit dem Zug, und bleiben tue ich bis Sonntag]]. Schlafen bei dir passt perfekt, danke!
+
+Musik: Ich bringe [[Musik aus meinem Land|meine besten Lieder von zu Hause]] mit. Dazu [[Mitbringsel|ein paar Snacks und eine Flasche]].
+
+Kann ich jemanden mitbringen? [[Begleitung|Meine Freundin Nora hat Lust auf Wien]]. Sie ist [[Eigenschaft der Begleitung|entspannt und kann gut zuhören]].
+
+Zur Vorbereitung: [[Vorbereitung auf Wien|Ich google ein bisschen, was man in Wien machen muss]]. Mein Sonntagswunsch: [[Wunsch für den Sonntag|ein gemütlicher Stadtbummel und danach Kaffee]].
+
+Anreise: [[Anreise|Zug, Freitagabend]]. Kleidung: [[Kleidung|Jeans und ein schickes Hemd]]. Mehr brauche ich nicht, oder? Ach ja, ich freue mich auf deine Nachbarn und auf die neue Straße, wenn du sie mir zeigst.
+
+An den Bodensee denke ich auch oft, das war eine super Zeit. Damals haben wir [[Erinnerung an den Bodensee|jede Nacht am See gesessen und geredet]].
+
+Und weißt du was? Ich freue mich besonders auf [[Vorfreude|die Wohnung, die Leute und die Musik]] und auf [[Weitere Vorfreude|ein langes Gespräch auf dem Balkon]]. Das wird richtig gut.
+
+Schreib mir kurz, [[Frage an den Freund|ob ich vorher anrufen soll]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

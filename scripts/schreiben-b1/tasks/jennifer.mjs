@@ -1,197 +1,336 @@
-// Jennifer – Hochzeit der Schwester (Janine & Eddi, Oktober). Points: Reaktion auf die Neuigkeit · Übernachtungsmöglichkeit · dass Sie zur Hochzeit kommen möchten · ein Hochzeitsgeschenk.
+// v2 (B2-style): Jennifer kündigt die Hochzeit ihrer Schwester Janine (Oktober) an. Points: Reaktion auf die Neuigkeit · Übernachtungsmöglichkeit ·
+// dass Sie zur Hochzeit kommen möchten · ein Hochzeitsgeschenk — plus: Entschuldigung ("erst jetzt gemeldet"), Eddi (Koch im Hotel), "ob du kommst und mit wem".
+export const kw = [/Entschuldig|kein Problem|macht nichts|melde|schreib|Zeit/i, /Janine|Schwester|Hochzeit|heirat/i, /Oktober/, /Eddi|Koch|Hotel|Bräutigam|Mann/i, /komm/, /mit wem|mitbring|bringe|Begleit|allein|Partner|Freund|Freundin|Mann|Frau/i, /übernacht|schlafen|Hotel|Unterkunft|Zimmer|Pension|Platz/i, /Geschenk|schenk/i, /gratul|Glückwunsch|freu/i];
 export default [
-  { label: "Glückwunsch, allein kommen, Hotel nah an der Kirche, Gutschein fürs Restaurant", t: `Liebe [[Name der Freundin|Jennifer]],
+  // 1
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Jennifer]],
 
-herzlichen Glückwunsch zur Hochzeit deiner Schwester! Das ist eine wunderschöne Neuigkeit, und ich freue mich sehr für Janine und Eddi.
+vielen Dank für deine Nachricht, und mach dir wegen der späten Antwort bitte keine Gedanken. [[Reaktion auf die Verspätung|Ich weiß, wie viel im Leben manchmal los ist, mir geht es genauso]]. Umso mehr freue ich mich, von dir zu hören.
 
-Ich komme sehr gern zur Hochzeit und [[Begleitung|bringe niemanden mit]]. Für die Nacht suche ich [[Übernachtung|ein kleines Hotel in der Nähe der Kirche]]. Kannst du mir eines empfehlen? Dann muss ich nach der Feier nicht weit laufen.
+Die Neuigkeit über die Hochzeit deiner Schwester Janine hat mich riesig gefreut. [[Reaktion auf die Neuigkeit|Bitte gratuliere ihr und Eddi ganz herzlich von mir]]. Dass Eddi Koch in einem Hotel ist, finde ich [[Eindruck von Eddi|spannend und passt bestimmt gut zu eurer Familie]].
 
-Zum Hochzeitsgeschenk habe ich schon eine Idee: [[Geschenkidee|Ich schenke den beiden einen Gutschein für ein schönes Restaurant]]. Eddi ist ja Koch, und sie können sich einen Abend lang bedienen lassen.
+Natürlich komme ich gern zur Hochzeit im Oktober. [[Grund für die Zusage|Ich habe Janine schon lange nicht gesehen und freue mich auf euch alle]]. Ich reise [[Anreise|mit dem Zug am Freitagabend]] an.
 
-Schreib mir bitte bald, wann die offizielle Einladung kommt! Ich freue mich schon sehr auf die Hochzeit und auf ein Wiedersehen mit euch allen.
+Zu deiner Frage, mit wem ich komme: [[Begleitung|Ich bringe meinen Freund Daniel mit, wenn das für euch in Ordnung ist]]. Er [[Eigenschaft der Begleitung|ist sehr nett und tanzt gern]].
 
-[[Grußformel|Liebe Grüße]]
-[[Dein Name|Nour]]` },
+Wegen der Übernachtung habe ich eine Frage: [[Frage zur Übernachtung|Kennst du ein günstiges Hotel oder eine Pension in der Nähe der Feier]]? Wenn nicht, suche ich selbst eine und buche früh.
 
-  { label: "Überraschung, mit meinem Mann kommen, Gästezimmer anfragen, Fotoalbum", t: `Hallo [[Name der Freundin|Jennifer]],
+Als Geschenk denke ich an [[Geschenkidee|ein gemeinsames Fotoalbum und etwas für den Haushalt]]. Ich möchte gern wissen, [[Frage zum Geschenk|ob sich die beiden etwas Bestimmtes wünschen]].
 
-was für eine Überraschung! Ich gratuliere dir und deiner ganzen Familie zu dieser tollen Nachricht. Deine kleine Schwester heiratet schon, das ist unglaublich.
+Für den Tag selbst habe ich noch zwei Ideen: Ich schreibe [[Kartenidee|eine persönliche Glückwunschkarte, die alle Gäste unterschreiben können]], und ich trage [[Kleidung|ein festliches Kleid in Blau]]. Ich freue mich schon auf das Wiedersehen mit [[Wiedersehen|deiner ganzen Familie]].
 
-Natürlich komme ich zur Hochzeit, und ich möchte gern [[Begleitung|meinen Mann Ahmed]] mitbringen. Wir würden gern bei euch in der Nähe übernachten. Gibt es [[Übernachtung|ein Gästezimmer bei dir oder einer Verwandten]]? Wenn nicht, buchen wir selbst eine Pension, damit du keine Mühe mit uns hast.
-
-Als Geschenk bastle ich [[Geschenkidee|ein Fotoalbum mit Bildern aus Janines Kindheit]]. Ich habe viele Fotos von unseren gemeinsamen Ferien gefunden.
-
-Gib mir Bescheid, ob dir das gefällt. Ich freue mich auf Oktober und auf das Wiedersehen mit euch allen!
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Salma]]` },
-
-  { label: "Freude über die Nachricht, mit meiner Schwester, Jugendherberge, Gewürzset für Eddi", t: `Liebe [[Name der Freundin|Jennifer]],
-
-vielen Dank für deine Nachricht! Ich habe mich riesig gefreut, und ich wünsche Janine und Eddi alles Gute. Eddi scheint wirklich ein netter Mann zu sein.
-
-Ich möchte sehr gern zur Hochzeit kommen. Ich bringe [[Begleitung|meine Schwester Rim]] mit, wenn das in Ordnung ist. Weil wir nicht viel Geld haben, suchen wir zum Schlafen [[Übernachtung|zwei Betten in einer Jugendherberge in eurer Stadt]]. Hast du eine Adresse?
-
-Weil Eddi gern kocht, schenke ich ihm [[Geschenkidee|ein Set mit Gewürzen aus Tunesien und ein kleines Kochbuch]]. Janine bekommt dazu einen Blumenstrauß.
-
-Ich bin sehr gespannt auf die Feier und freue mich auf euch alle. Grüß bitte auch deine Eltern von mir.
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Amira]]` },
-
-  { label: "Glückwunsch, mit Freund, bei dir im Wohnzimmer schlafen, Geld für die Hochzeitsreise", t: `Hallo [[Name der Freundin|Jennifer]],
-
-das ist ja eine schöne Neuigkeit, ich gratuliere euch allen herzlich! Du hast mir sofort ein Lächeln ins Gesicht gezaubert.
-
-Ich komme gern zur Hochzeit und würde [[Begleitung|meinen Freund Karim]] mitbringen. Zum Übernachten brauchen wir nicht viel Platz. [[Übernachtung|Dürfen wir bei dir im Wohnzimmer schlafen?]] Wir haben Schlafsäcke und stören bestimmt nicht.
-
-Zum Geschenk: Ich möchte [[Geschenkidee|Geld für die Hochzeitsreise schenken, in einer schönen Karte]]. Dann können Janine und Eddi selbst entscheiden, wohin sie fahren möchten.
-
-Schreib mir bitte noch, wie viele Gäste kommen und wann wir ankommen sollen. Wir kommen am Freitagabend an. Ich freue mich schon sehr auf die Hochzeit und darauf, euch alle wiederzusehen!
-
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Mehdi]]` },
-
-  { label: "Gratulation, mit den Eltern, Ferienwohnung teilen, Teeservice", t: `Liebe [[Name der Freundin|Jennifer]],
-
-herzlichen Dank für deine Nachricht! Ich gratuliere dir und Janine von Herzen. Eine Hochzeit im Oktober ist bestimmt wunderschön, wenn die Blätter bunt sind.
-
-Ich komme sehr gern, und meine Eltern möchten auch kommen. [[Begleitung|Sie freuen sich schon, euch endlich kennenzulernen]]. Wir brauchen drei Betten zum Schlafen, deshalb suchen wir [[Übernachtung|eine Ferienwohnung, die wir mit den anderen Gästen teilen können]]. Weißt du, ob es so etwas in der Nähe gibt?
-
-Mein Hochzeitsgeschenk ist [[Geschenkidee|ein schönes Teeservice aus Keramik, das ich in Tunesien gekauft habe]]. Es passt sicher gut in eine neue Wohnung.
-
-Ich bin sehr gespannt auf den großen Tag und freue mich darauf, deine Familie wiederzusehen.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
-
-  { label: "Überraschende Neuigkeit, mit Kollegin, Pension, Fotobuch", t: `Hallo [[Name der Freundin|Jennifer]],
-
-das ist eine große Überraschung, und ich gratuliere deiner Schwester zur Verlobung! Ich freue mich, dass du mir als Erste Bescheid sagst.
-
-Zur Hochzeit komme ich gern. Wenn du nichts dagegen hast, bringe ich [[Begleitung|meine Kollegin Sarra]] mit, die dich auch kennt. Für die Nacht möchten wir [[Übernachtung|ein Zimmer in einer kleinen Pension reservieren]]. Gibt es eine Pension in der Nähe des Hotels, in dem Eddi arbeitet?
-
-Das Hochzeitsgeschenk möchte ich selbst machen: [[Geschenkidee|ein Fotobuch mit Bildern von der Verlobung und von den Familien]]. Dafür brauche ich ein paar Fotos von dir.
-
-Schick mir sie bitte bald. Ich freue mich auf Oktober!
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Ines]]` },
-
-  { label: "Glückwunsch, mit Frau und Kind, Hotel mit Kinderbett, Spielzeug und Blumen", t: `Liebe [[Name der Freundin|Jennifer]],
-
-ich habe mich sehr über deine Nachricht gefreut, und ich gratuliere dir zur Hochzeit deiner Schwester. Grüß Janine bitte herzlich von mir.
-
-Ich komme gern zur Feier und bringe [[Begleitung|meine Frau Lila und unseren kleinen Sohn]] mit. Wir brauchen ein Zimmer mit Platz für drei Personen. Weißt du, ob es [[Übernachtung|ein Hotel mit einem Kinderbett gibt]]? Unser Sohn ist erst zwei Jahre alt.
-
-Zum Hochzeitsgeschenk haben wir [[Geschenkidee|einen großen Blumenstrauß und eine Vase aus Glas]] ausgesucht. Unser Sohn möchte auch etwas schenken und malt ein Bild für die beiden.
-
-Bitte schreib mir, wann die Trauung beginnt und wie lange das Fest dauert. Wir freuen uns sehr auf euch alle.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Hamza]]` },
-
-  { label: "Glückwunsch, ohne Begleitung, bei Freunden in der Stadt schlafen, Bilderrahmen", t: `Hallo [[Name der Freundin|Jennifer]],
-
-vielen Dank für die gute Nachricht! Ich gratuliere dir ganz herzlich, und ich bin sicher, dass es eine wunderbare Hochzeit wird. Eddi hört sich wirklich nett an.
-
-Ich komme gern, aber [[Begleitung|leider ohne meinen Mann, denn er muss arbeiten]]. Bei der Übernachtung brauche ich keine Hilfe, denn [[Übernachtung|ich kann bei Freunden in eurer Stadt schlafen, sie haben ein Zimmer für mich]]. Danke für dein liebes Angebot, das ist sehr nett von dir!
-
-Als Geschenk habe ich [[Geschenkidee|einen schönen Bilderrahmen für das Hochzeitsfoto]] gekauft. Ich schenke ihn, wenn wir uns sehen.
-
-Ich freue mich schon sehr darauf, dich und deine Familie wiederzusehen. Grüß Janine und Eddi bitte von mir.
+Gib mir bitte Bescheid, [[Frage an die Freundin|wann und wo die Feier genau stattfindet]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Emna]]` },
+[[Dein Name|Samir]]` },
 
-  { label: "Freude, mit Cousin, Campingplatz, selbst gemachtes Olivenöl-Set", t: `Liebe [[Name der Freundin|Jennifer]],
+  // 2
+  { label: "locker, freundschaftlich", t: `Hallo [[Name der Freundin|Jennifer]],
 
-deine Neuigkeit hat mich sehr gefreut, und ich gratuliere Janine und Eddi zur Hochzeit! Das ist ein großes Fest für eure ganze Familie.
+na, du Verschwundene! Keine Sorge, ich habe auch lange nicht geschrieben. [[Reaktion auf die Verspätung|Hauptsache, wir hören jetzt wieder voneinander]]. Schön, dass du dich meldest.
 
-Ich möchte natürlich kommen. Darf ich [[Begleitung|meinen Cousin Walid]] mitbringen? Er wohnt in Stuttgart und kennt Eddi schon. Zum Schlafen hätten wir gern [[Übernachtung|einen Platz auf einem Campingplatz oder ein günstiges Zimmer]]. Gibt es in der Nähe etwas Günstiges?
+Eine Hochzeit im Oktober, wie toll! [[Reaktion auf die Neuigkeit|Sag Janine, dass ich mich riesig für sie freue und ihr alles Gute wünsche]]. Eddi ist Koch? Dann [[Eindruck von Eddi|gibt es bei der Feier bestimmt ein Super-Essen]].
 
-Zum Geschenk: Meine Mutter macht [[Geschenkidee|ein Olivenöl-Set mit vier kleinen Flaschen für die Küche]]. Sie schickt es mir aus Tunesien, und ich schenke es den beiden.
+Ich komme gern zur Hochzeit, das ist doch klar. [[Anreise|Ich nehme das Auto und fahre schon am Freitag]]. Dann haben wir Zeit zum Quatschen.
 
-Ich bin sehr gespannt auf das Fest und warte auf die Einladung.
+Mit wem? [[Begleitung|Ich komme allein, aber vielleicht lerne ich dort jemanden kennen]]. Falls sich das ändert, sage ich dir sofort Bescheid, versprochen.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Fares]]` },
+Schlafen: [[Übernachtung|Ich suche mir ein Zimmer in einer Pension, ein Sofa wäre noch besser]]. Sag mir ruhig, was möglich ist, ich bin da flexibel.
 
-  { label: "Glückwunsch, mit Bruder, Hotel buchen, Kochkurs", t: `Hallo [[Name der Freundin|Jennifer]],
+Geschenk: [[Geschenkidee|Ich denke an einen schönen Kochkurs für die beiden, weil Eddi doch Koch ist]]. Was meinst du dazu?
 
-herzlichen Glückwunsch zur bevorstehenden Hochzeit! Deine Nachricht war eine große Freude für mich, und ich wünsche der ganzen Familie viel Glück.
+Und noch was: Ich nehme mir [[Urlaubstage|den Freitag und den Montag]] frei, dann müssen wir nicht hetzen. Falls ihr Hilfe braucht, [[Hilfsangebot|schleppe ich Stühle, hänge Girlanden auf und fahre Gäste zum Bahnhof]]. Das mache ich wirklich gern für euch.
 
-Ich komme sehr gern, und mein Bruder [[Begleitung|Aymen]] würde gern mitkommen. Er kennt dich ja auch. Für die Nacht buchen wir [[Übernachtung|ein Hotel in der Altstadt, das nicht weit von der Kirche entfernt ist]]. Du musst dich also nicht um uns kümmern.
+Ich freue mich auf [[Vorfreude|ein richtig tolles Fest mit viel Tanz]] und auf [[Wiedersehen|ein Wiedersehen mit allen]]. Meld dich bald, [[Frage an die Freundin|wann wir telefonieren können]].
 
-Weil Eddi im Hotel kocht, schenken wir ihm [[Geschenkidee|einen Gutschein für einen Kochkurs mit einem berühmten Koch]]. So lernt er noch etwas Neues.
+[[Grußformel|Bis dann]]
+[[Dein Name|Jonas]]` },
 
-Wenn ihr noch Hilfe braucht, sagt mir einfach Bescheid. Ich helfe gern beim Dekorieren oder beim Fahren.
+  // 3
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Jennifer]],
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Anis]]` },
+wow, was für eine tolle Nachricht! Mach dir bitte keine Gedanken wegen der späten Meldung. [[Reaktion auf die Verspätung|Ich freue mich einfach, dass du an mich denkst]]. Deine Mail hat mir den Tag verschönert.
 
-  { label: "Glückwunsch, mit Freundin, Zimmer bei deiner Tante, Küchenmesser", t: `Liebe [[Name der Freundin|Jennifer]],
+Deine Schwester heiratet im Oktober, das ist wunderbar! [[Reaktion auf die Neuigkeit|Ich gratuliere Janine und Eddi von ganzem Herzen und freue mich mit euch]]. Dass Eddi Koch ist, [[Eindruck von Eddi|klingt nach köstlichen Hochzeitsmenüs]].
 
-ich gratuliere deiner Schwester ganz herzlich! Deine Nachricht hat mir viel Freude gemacht, und ich bin gespannt, wie Eddi aussieht.
+Ich komme sehr gern zur Hochzeit! [[Grund für die Zusage|Das möchte ich um keinen Preis verpassen, schon wegen der Stimmung]]. Ich reise [[Anreise|mit dem Flugzeug und miete mir ein Auto]].
 
-Ich komme gern zur Hochzeit und bringe [[Begleitung|meine Freundin Mariem]] mit, wenn das geht. Zum Übernachten fragen wir dich, ob [[Übernachtung|deine Tante ein Zimmer für uns hat, wie du letztes Jahr gesagt hast]]. Wir bezahlen natürlich gern dafür.
+Und mit wem ich komme? [[Begleitung|Meine Schwester Lina ist dabei, sie liebt Hochzeiten]]. Sie [[Eigenschaft der Begleitung|bringt immer gute Laune mit]].
 
-Als Geschenk habe ich an [[Geschenkidee|ein gutes Küchenmesser-Set gedacht]], weil Eddi Koch ist. Ich hoffe, dass er sich darüber freut.
+Für die Übernachtung hätte ich gern [[Übernachtung|zwei Betten in einem kleinen Hotel in eurer Nähe]]. Hast du einen Tipp?
 
-Schreib mir bitte, ob das eine gute Idee ist! Ich freue mich schon sehr auf die Feier und darauf, Janine und Eddi persönlich zu gratulieren.
+Als Geschenk habe ich schon eine Idee: [[Geschenkidee|ein Wochenende in einem Wellness-Hotel für das Brautpaar]]. Ich finde, das passt wunderbar.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Sarra]]` },
+Für die Feier habe ich mir schon Gedanken gemacht: Ich ziehe [[Kleidung|mein bestes Kleid und neue Schuhe]] an und lerne [[Tanzvorbereitung|vorher ein paar Tanzschritte, damit ich auf der Tanzfläche gut aussehe]]. Ich freue mich so sehr auf dieses [[Vorfreude|wunderbare Fest]].
 
-  { label: "Überraschung, mit Eltern der Braut, Hotel, Bettwäsche", t: `Hallo [[Name der Freundin|Jennifer]],
-
-das sind wunderbare Neuigkeiten, und ich gratuliere deiner Familie von Herzen! Ich habe mich gefreut, dass du an mich gedacht hast.
-
-Ich möchte zur Hochzeit kommen und [[Begleitung|meinen Verlobten Bilel]] mitbringen. Er hat Urlaub bekommen, und wir können das ganze Wochenende bleiben. Als Unterkunft hätten wir gern [[Übernachtung|ein ruhiges Hotelzimmer mit Frühstück]]. Hast du einen Tipp, welches Hotel gut ist?
-
-Das Hochzeitsgeschenk soll praktisch sein. Wir schenken [[Geschenkidee|schöne Bettwäsche und zwei Handtücher mit Namen]]. Das kann das Paar bestimmt gut brauchen.
-
-Ich freue mich schon sehr auf die Feier und auf ein Wiedersehen mit dir. Ich hoffe, dass wir an dem Abend lange miteinander reden können.
+Schreib mir bald, [[Frage an die Freundin|ob ich bei den Vorbereitungen helfen kann]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Houda]]` },
+[[Dein Name|Marie]]` },
 
-  { label: "Glückwunsch, allein, Hotel in der Stadtmitte, Hochzeitsreise-Zuschuss", t: `Liebe [[Name der Freundin|Jennifer]],
+  // 4
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Jennifer]],
 
-deine Nachricht hat mich glücklich gemacht, und ich gratuliere dir und Janine herzlich zur Hochzeit! Ich wünsche den beiden, dass sie lange zusammen glücklich sind.
+vielen Dank für deine Mail. [[Reaktion auf die Verspätung|Es ist kein Problem, dass du dich erst jetzt meldest]]. Auf deine Fragen antworte ich der Reihe nach.
 
-Natürlich komme ich gern und fahre [[Begleitung|allein mit dem Zug]]. Dafür brauche ich [[Übernachtung|ein Zimmer in der Stadtmitte, damit ich zu Fuß zum Fest gehen kann]]. Weißt du, ob es eines mit gutem Preis gibt? Ich habe nicht viel Geld, aber ich möchte unbedingt dabei sein.
+Erstens, die Neuigkeit: Zur Hochzeit deiner Schwester Janine im Oktober gratuliere ich herzlich. [[Eindruck von Eddi|Dass Eddi Koch in einem Hotel ist, hört sich sehr interessant an]].
 
-Mein Geschenk ist [[Geschenkidee|ein Beitrag zur Hochzeitsreise]]. Wohin wollen sie eigentlich fahren? Vielleicht kann ich ihnen einen Tipp geben, denn ich kenne ein paar schöne Orte am Meer.
+Zweitens, die Zusage: Ich komme gern zur Hochzeit. [[Anreise|Ich reise am Freitag mit dem Zug an und fahre am Sonntag zurück]].
 
-Schreib mir bald! Ich freue mich schon sehr auf das Wiedersehen mit euch.
+Drittens, die Begleitung: [[Begleitung|Ich komme mit meiner Frau Nadia]]. Wir bitten dich, das bei der Planung zu berücksichtigen.
+
+Viertens, die Übernachtung: Wir würden gern [[Übernachtung|in einem Hotel in der Nähe übernachten]]. Bitte nenne uns [[Frage zur Übernachtung|zwei oder drei Hotels mit fairen Preisen]].
+
+Fünftens, das Geschenk: Ich schlage [[Geschenkidee|einen Gutschein für ein Restaurant und ein Fotobuch]] vor. Bitte sag mir, [[Frage zum Geschenk|ob dir das gefällt]].
+
+Dazu noch einige Hinweise: Als Dresscode nehme ich [[Kleidung|einen dunklen Anzug und eine Krawatte]], und ich besorge noch [[Blumen|einen schönen Strauß für die Braut]]. Bitte sag mir, [[Frage zum Dresscode|ob ich etwas Bestimmtes anziehen soll]].
+
+Ich danke dir für die Einladung und freue mich auf ein Wiedersehen mit euch allen. Gib mir bitte Bescheid, [[Frage an die Freundin|bis wann ich die Hotelbuchung machen sollte]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
+
+  // 5
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Jennifer]],
+
+danke für deine Nachricht, und keine Sorge wegen der späten Antwort. [[Reaktion auf die Verspätung|Ich weiß, wie stressig die Planung einer Hochzeit ist]]. Wenn ich dir helfen kann, sag Bescheid.
+
+Zur Hochzeit deiner Schwester Janine gratuliere ich herzlich! [[Reaktion auf die Neuigkeit|Das sind wunderbare Nachrichten für die ganze Familie]]. Dass Eddi Koch ist, finde ich [[Eindruck von Eddi|großartig, dann ist das Essen in guten Händen]].
+
+Ich komme natürlich im Oktober. [[Anreise|Ich fahre mit dem Auto und kann andere Gäste mitnehmen]]. Praktisch ist, dass ich [[Praktische Hilfe|eine Anfahrtsbeschreibung für alle Freunde zusammenstellen kann]].
+
+Mitbringen möchte ich [[Begleitung|meinen Bruder Karim]], er kann beim Aufbauen helfen. Er [[Eigenschaft der Begleitung|ist handwerklich begabt und sehr hilfsbereit]].
+
+Wegen der Übernachtung: [[Übernachtung|Ich suche mir ein Hotel und teile das Zimmer mit meinem Bruder]]. Hast du eine Liste mit Hotels in der Nähe?
+
+Mein Geschenk: [[Geschenkidee|Ich schenke einen Gutschein für ein schönes Abendessen]]. Wenn du möchtest, [[Hilfe beim Geschenk|organisiere ich ein gemeinsames Geschenk aller Freunde]].
+
+Ich helfe dir gern vor der Hochzeit: Ich kann [[Hilfsangebot|Einladungen verpacken, Tischkarten schreiben oder Dekoration besorgen]]. Auch bei der Feier selbst [[Hilfe bei der Feier|passe ich auf die Kinder auf, wenn ihr das möchtet]]. Sag einfach, was dir am meisten hilft.
+
+Sag mir bitte, [[Frage an die Freundin|was ich vor der Hochzeit noch vorbereiten soll]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
+
+  // 6
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Jennifer]],
+
+ich danke dir für deine Mail, und die späte Antwort verstehe ich gut, weil [[Begründung für das Verständnis|auch bei mir in letzter Zeit viel los war]]. Deshalb ist alles in Ordnung.
+
+Zur Hochzeit deiner Schwester Janine im Oktober gratuliere ich dir. [[Reaktion auf die Neuigkeit|Ich freue mich, weil ich weiß, wie wichtig euch die Familie ist]]. Dass Eddi Koch ist, [[Eindruck von Eddi|ist ein gutes Zeichen, denn er versteht etwas von Gastfreundschaft]].
+
+Ich komme gern zur Hochzeit, denn [[Grund für die Zusage|ich möchte dabei sein, wenn ein so wichtiger Tag gefeiert wird]]. Ich reise [[Anreise|mit dem Zug, weil das umweltfreundlich und entspannt ist]].
+
+Ich möchte jemanden mitbringen, weil [[Grund für die Begleitung|ich meine Freundin Sofia gern vorstellen würde]]. Sie [[Eigenschaft der Begleitung|ist freundlich und passt gut zu der Gesellschaft]].
+
+Bei der Übernachtung wäre ein Hotel für uns am besten, da [[Grund für das Hotel|wir nach der Feier lange wach sind und niemanden stören wollen]]. [[Frage zur Übernachtung|Kannst du uns eines empfehlen]]?
+
+Als Geschenk schlage ich [[Geschenkidee|ein Kochbuch mit persönlicher Widmung]] vor, weil [[Grund für das Geschenk|Eddi ja Koch ist und es bestimmt benutzt]].
+
+Außerdem sollten wir nicht vergessen, dass Anfang Oktober [[Wetter im Oktober|das Wetter schon kühl sein kann]]. Deshalb packe ich [[Kleidung|eine warme Jacke und feste Schuhe]] ein. Falls es etwas im Freien gibt, [[Wunsch für die Feier|hoffe ich auf einen sonnigen Tag]].
+
+Ich bin sehr gespannt auf deine Meinung und danke dir noch einmal für die Einladung zu diesem schönen Fest. Teile mir bitte mit, [[Frage an die Freundin|ob du mit meinen Vorschlägen einverstanden bist]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Slim]]` },
+[[Dein Name|Selin]]` },
 
-  { label: "Freude, mit Nachbarin, Gästehaus, Keramikschale", t: `Hallo [[Name der Freundin|Jennifer]],
+  // 7
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Jennifer]],
 
-vielen Dank für deine tolle Nachricht! Ich freue mich so sehr für Janine und gratuliere ihr und Eddi herzlich. Eine Hochzeit im Herbst ist eine schöne Idee.
+danke für deine Mail, hier kurz meine Antworten. [[Reaktion auf die Verspätung|Kein Problem, dass du dich erst jetzt meldest]].
 
-Ich komme gern und möchte [[Begleitung|meine Nachbarin Frau Weber]] mitnehmen, die die Familie von früher kennt. Zum Übernachten suchen wir [[Übernachtung|ein kleines Gästehaus oder ein Zimmer bei einer Familie]]. Hast du eine Adresse oder eine Telefonnummer?
+Neuigkeit: [[Reaktion auf die Neuigkeit|Glückwunsch zur Hochzeit deiner Schwester Janine, ich freue mich sehr]]. Eddi als Koch im Hotel [[Eindruck von Eddi|klingt vielversprechend]].
 
-Zum Geschenk möchte ich [[Geschenkidee|eine handgemachte Keramikschale aus Nabeul]] mitbringen. Die Schale ist bunt und passt in jede Küche.
+Zusage: Ich komme gern im Oktober. [[Anreise|Ich nehme den Zug und bin am Freitagabend da]].
 
-Gib mir Bescheid, wann die Einladung kommt und was ich noch mitbringen soll. Ich freue mich auf die Feier und auf Janine.
+Begleitung: [[Begleitung|Ich komme allein]], vielleicht bringe ich eine Freundin mit. Das sage ich dir rechtzeitig.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Olfa]]` },
+Übernachtung: [[Übernachtung|Ich suche ein einfaches Hotel in der Nähe]]. Falls du eine Idee hast, [[Frage zur Übernachtung|schreib mir bitte die Adresse]].
 
-  { label: "Glückwunsch, mit Mitbewohnerin, Zimmer bei dir, Spiel für das Brautpaar", t: `Liebe [[Name der Freundin|Jennifer]],
+Geschenk: [[Geschenkidee|Ich schenke eine Reise für zwei und etwas Persönliches]]. Gibt es einen Wunschzettel?
 
-das ist eine wunderbare Neuigkeit, und ich gratuliere dir und Janine von ganzem Herzen! Eddi ist ein Glückspilz.
+Ich freue mich besonders auf [[Vorfreude|den Moment, wenn Janine ihr Kleid trägt und alle strahlen]]. Dazu bringe ich [[Kleinigkeit|ein paar Taschentücher und eine Kamera]] mit. Und ich möchte [[Redewunsch|ein paar nette Worte für das Brautpaar sagen]], wenn es passt.
 
-Ich komme sehr gern zur Hochzeit und möchte [[Begleitung|meine Mitbewohnerin Sana]] mitbringen. Wir würden gern bei dir übernachten, wenn [[Übernachtung|noch ein Zimmer oder ein Sofa frei ist]]. Wenn nicht, ist das auch kein Problem. Wir finden bestimmt eine andere Lösung.
+Ich freue mich auf die Feier und auf ein Wiedersehen mit dir. Außerdem habe ich mir schon überlegt, wie ich dir helfen kann, denn bei einer Hochzeit gibt es immer viel zu tun, und ich bin gern dabei. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|ob du noch Helfer für den Tag brauchst]].
 
-Als Geschenk bringe ich [[Geschenkidee|ein lustiges Spiel für die Hochzeitsfeier]] mit. Alle Gäste können mitmachen, und das Brautpaar bekommt nachher alle Karten mit Wünschen.
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
-Ich freue mich sehr auf Oktober und darauf, mit euch zu tanzen und zu lachen. Wir werden bestimmt einen schönen Abend haben!
+  // 8
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Jennifer]],
+
+kein Problem mit der späten Antwort, ich habe schon befürchtet, du hast mich vergessen! [[Reaktion auf die Verspätung|Zum Glück war es nur der Alltag, der uns beide im Griff hat]]. Schön, dass du schreibst.
+
+Deine Schwester heiratet, und ein Koch kommt in die Familie, was für eine Kombination! [[Reaktion auf die Neuigkeit|Ich gratuliere und melde mich freiwillig als Hochzeitstester]]. Eddi, [[Eindruck von Eddi|ich hoffe, du kochst auch für die Gäste ein Vier-Gänge-Menü]].
+
+Natürlich komme ich im Oktober, mit [[Anreise|dem Zug, dem Koffer und großem Hunger]]. Ich lasse mir doch diese Feier nicht entgehen.
+
+Mit wem? [[Begleitung|Mit meiner Tante Gisela, die jede Hochzeit mit Tränen und Tanz feiert]]. Du siehst, es wird nicht langweilig.
+
+Schlafen: [[Übernachtung|Ein Zimmer in einem Hotel, mit Frühstück und ohne Wecker]]. Ich bin da genügsam. Hast du einen Tipp?
+
+Geschenk: [[Geschenkidee|Ein Set Kochlöffel mit eingravierten Namen, damit Eddi sich nicht streiten muss]]. Alternativ [[Alternative Geschenkidee|ein Gutschein für eine Hochzeitsreise]].
+
+Ein paar praktische Dinge: Ich kann [[Fahrangebot|zwei weitere Gäste im Auto mitnehmen]], falls jemand ohne Auto kommt. Außerdem bringe ich [[Mitbringsel|Süßigkeiten für den Tisch der Kinder]] mit, damit die Kleinen beschäftigt sind. Das erleichtert euch den Tag bestimmt.
+
+Ich bin schon gespannt auf [[Vorfreude|Eddis berühmtes Dessert]]. Schreib mir bald, [[Frage an die Freundin|ob es einen Dresscode gibt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
+
+  // 9
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Jennifer]],
+
+als ich deine Mail gelesen habe, musste ich lächeln, weil ich gerade an dich gedacht hatte. [[Reaktion auf die Verspätung|Mach dir keine Sorgen wegen der späten Antwort, wir haben beide viel zu tun]]. Es tut gut, wieder von dir zu hören.
+
+Dass Janine im Oktober heiratet, hat mich sehr bewegt. [[Reaktion auf die Neuigkeit|Ich erinnere mich, wie sie als kleines Mädchen mit Puppen Hochzeit gespielt hat]]. Eddi als Koch im Hotel [[Eindruck von Eddi|ist bestimmt ein toller Mann]].
+
+Selbstverständlich komme ich zur Hochzeit. [[Anreise|Ich nehme den Zug und lese unterwegs ein Buch]]. Ich freue mich schon sehr.
+
+Mitbringen möchte ich [[Begleitung|meinen Mann Ali]], er kennt Janine noch nicht. Er [[Eigenschaft der Begleitung|ist sehr herzlich und wird sich gut verstehen]].
+
+Zur Übernachtung: [[Übernachtung|Wir nehmen ein Hotelzimmer, wenn du uns eines empfehlen kannst]]. Sonst suche ich im Internet.
+
+Mein Geschenk ist ein besonderes: [[Geschenkidee|Ein Album mit Fotos aus Janines Kindheit, das ich zusammenstelle]]. Ich hoffe, es gefällt ihr.
+
+Zur Vorbereitung auf die Feier: Ich lerne [[Vorbereitung|das Lied, das Janine so gern mag, damit ich mitsingen kann]]. Zur Hochzeit trage ich [[Kleidung|einen eleganten Anzug]], und ich freue mich schon darauf, [[Wiedersehen|alte Freunde wiederzusehen]].
+
+Erzähl mir, [[Frage an die Freundin|wie die Vorbereitungen laufen]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
+
+  // 10
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Jennifer]],
+
+danke für deine Mail, und mach dir keine Sorgen wegen der späten Antwort. [[Reaktion auf die Verspätung|Das passiert uns allen]]. Ich habe gleich mehrere Vorschläge für die Hochzeit.
+
+Zuerst gratuliere ich dir und Janine zur Hochzeit im Oktober! [[Reaktion auf die Neuigkeit|Ich freue mich schon sehr auf den großen Tag]]. Mein erster Vorschlag: [[Eindruck von Eddi|Eddi kocht doch im Hotel, vielleicht kann das Brautpaar dort feiern]].
+
+Mein zweiter Vorschlag betrifft die Anreise: [[Anreise|Wir bilden eine Fahrgemeinschaft ab dem Hauptbahnhof]]. Ich komme auf jeden Fall.
+
+Mein dritter Vorschlag: Ich bringe [[Begleitung|meine Freundin Mia]] mit. Sie [[Eigenschaft der Begleitung|ist sehr hilfsbereit und schreibt gern Karten]].
+
+Mein vierter Vorschlag ist die Übernachtung: [[Übernachtung|Wir buchen zusammen mit anderen Gästen ein Gruppenzimmer im Hotel]]. Das spart Geld.
+
+Mein fünfter Vorschlag: Als Geschenk [[Geschenkidee|sammeln wir alle gemeinsam für eine Hochzeitsreise]]. Bitte sag mir, [[Frage zum Geschenk|wie viel jeder ungefähr geben soll]].
+
+Auch an die Planung habe ich gedacht: Ich würde gern [[Hilfsangebot|die Fahrgemeinschaften der Gäste organisieren]], weil das viel Stress spart. Für den Abend schlage ich [[Programmpunkt|eine kleine Fotoshow mit Bildern aus Janines Leben]] vor. Das kommt bestimmt gut an.
+
+Ich bin gespannt, wie dir das gefällt, und freue mich auf die Feier. Schreib mir, [[Frage an die Freundin|welche Vorschläge du gut findest]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Paula]]` },
+
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Jennifer]],
+
+danke für deine Mail. [[Reaktion auf die Verspätung|Du brauchst dich nicht zu entschuldigen, ich verstehe das gut]]. Zur Hochzeit deiner Schwester Janine möchte ich einiges klären, damit alles passt.
+
+Zuerst: Ich gratuliere herzlich zur Hochzeit im Oktober. [[Reaktion auf die Neuigkeit|Ich bin gespannt, wie die Feier wird]]. Dass Eddi Koch ist, [[Eindruck von Eddi|stimmt mich zuversichtlich, was das Essen betrifft]].
+
+Ich würde sehr gern kommen, möchte aber vorher sicher sein, dass es klappt. [[Voraussetzung für die Zusage|Ich muss noch meinen Urlaub einreichen, rechne aber fest damit]]. Die Anreise [[Anreise|plane ich mit dem Zug]].
+
+Ob ich jemanden mitbringe, hängt davon ab, [[Bedingung für die Begleitung|ob mein Freund Zeit hat]]. Das sage ich dir bald.
+
+Bei der Übernachtung wäre ich froh über einen Rat. Einerseits [[Vorteil einer Pension|ist eine Pension günstiger]], andererseits [[Vorteil eines Hotels|ist ein Hotel bequemer]]. Was würdest du empfehlen?
+
+Beim Geschenk bin ich unsicher, was dem Paar gefällt. Vielleicht [[Geschenkidee|ein Gutschein, über den sie selbst entscheiden können]]?
+
+Zur Feier selbst möchte ich noch sagen: Ich komme [[Ankunftszeit|am Freitagabend und bleibe bis Sonntagmittag]]. Falls ihr am Samstag früh Hilfe braucht, [[Hilfsangebot|stehe ich ab acht Uhr bereit]]. Bitte zögere nicht, mich zu fragen.
+
+Ich freue mich sehr auf die Feier und auf dich. Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Jennifer]],
+
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Verspätung|Du musst dich nicht entschuldigen, ich verstehe das]].
+
+Als Nächstes zur Neuigkeit: Herzlichen Glückwunsch zur Hochzeit deiner Schwester Janine im Oktober! [[Reaktion auf die Neuigkeit|Das ist eine wunderbare Nachricht]]. Dass Eddi Koch ist, [[Eindruck von Eddi|finde ich toll]].
+
+Dann zur Zusage: Ich komme gern zur Hochzeit. [[Anreise|Ich fahre mit dem Zug und komme am Freitag an]].
+
+Danach zur Begleitung: [[Begleitung|Ich bringe meinen Freund Hasan mit]]. Er [[Eigenschaft der Begleitung|ist sehr freundlich und mag Hochzeiten]].
+
+Dann zur Übernachtung: [[Übernachtung|Wir würden gern in einem Hotel schlafen]]. Bitte nenne uns [[Frage zur Übernachtung|ein paar Namen mit den Preisen]].
+
+Zuletzt zum Geschenk: [[Geschenkidee|Ich schenke ein Fotobuch und einen Gutschein]]. Möchtest du lieber etwas anderes?
+
+Ich überlege außerdem, was ich anziehe: Vielleicht [[Kleidung|ein helles Kleid mit passenden Schuhen]], aber ich möchte nicht heller als die Braut sein. Darum frage ich dich: [[Frage zur Kleidung|Welche Farbe trägt Janine?]] Zum Schluss [[Vorfreude|freue ich mich einfach auf einen schönen Tag]].
+
+Ich freue mich sehr auf die Feier und auf das Wiedersehen mit dir. Danke noch einmal für deine Einladung, sie bedeutet mir viel, und ich helfe dir gern bei allem, was noch zu tun ist. Wie geht es nun weiter? Schreib mir, [[Frage an die Freundin|wann die offizielle Einladung kommt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Rim]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Jennifer]],
+
+deine Nachricht hat mich sehr berührt, und mach dir keine Gedanken wegen der späten Antwort. [[Reaktion auf die Verspätung|Ich weiß, dass du für alle da bist und selten Zeit für dich hast]]. Schön, dass du dich gemeldet hast.
+
+Dass deine Schwester Janine im Oktober heiratet, freut mich von Herzen. [[Reaktion auf die Neuigkeit|Ich wünsche den beiden ein langes, glückliches Leben]]. Eddi klingt wie ein [[Eindruck von Eddi|herzlicher Mensch, der gut in die Familie passt]].
+
+Ich komme sehr gern zur Hochzeit. [[Grund für die Zusage|Du bist mir wichtig, und ich möchte diesen Tag mit euch teilen]]. Ich reise [[Anreise|mit dem Zug an]].
+
+Ich bringe [[Begleitung|meine Mutter]] mit, wenn es dir recht ist. Sie [[Eigenschaft der Begleitung|ist herzlich und freut sich auf die Feier]].
+
+Zur Übernachtung wären wir dankbar für [[Übernachtung|ein ruhiges Hotelzimmer in der Nähe]]. Mach dir bitte keinen Stress damit.
+
+Als Geschenk wünsche ich mir, [[Geschenkidee|etwas Persönliches zu schenken, vielleicht ein Bild von den beiden]]. Sag mir, wenn das nicht passt.
+
+Außerdem möchte ich dir etwas versprechen: Ich helfe [[Hilfsangebot|beim Aufbauen und Aufräumen]], damit du den Tag ohne Stress genießen kannst. Ich trage [[Kleidung|ein festliches, aber bequemes Kleid]], und ich lerne [[Vorbereitung|vorher ein bisschen Walzer]]. Das wird bestimmt lustig.
+
+Erzähl mir, [[Frage an die Freundin|wie ich euch bei der Planung helfen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Jennifer]],
+
+alles gut, kein Problem mit der späten Antwort! [[Reaktion auf die Verspätung|Hauptsache, wir schreiben jetzt wieder]]. Hochzeit im Oktober, Glückwunsch! Das ist wirklich eine tolle Nachricht für eure ganze Familie, und ich freue mich riesig für euch alle.
+
+Zu Janine: [[Reaktion auf die Neuigkeit|Richte ihr bitte liebe Grüße aus und sag, dass ich mich riesig freue]]. Eddi ist Koch? [[Eindruck von Eddi|Cool, dann gibt es sicher was Leckeres]].
+
+Ich komme natürlich. [[Anreise|Zug oder Auto, ich schaue noch]]. Das lasse ich mir nicht entgehen.
+
+Begleitung? [[Begleitung|Ich bringe vielleicht meine Freundin Nora mit]]. Ich sage dir rechtzeitig Bescheid.
+
+Schlafen: [[Übernachtung|Hotel oder Pension, ich suche selbst, aber eine Empfehlung ist willkommen]]. Gibt es etwas in der Nähe?
+
+Geschenk: [[Geschenkidee|Ein schönes Fotoalbum und ein kleiner Gutschein]]. Reicht das?
+
+Ich freue mich schon sehr auf die Feier und auf das Wiedersehen mit dir und deiner Familie, und ich helfe auch gern, wenn ihr noch Hände braucht, zum Beispiel [[Hilfsangebot|beim Dekorieren oder Fahren]].
+
+Kurz noch zur Organisation: Ich komme [[Ankunftszeit|am Freitag um 17 Uhr]], und ich trage [[Kleidung|Jeans und ein schickes Hemd]], falls ihr nichts Besonderes wollt. Und weißt du was? Ich freue mich [[Vorfreude|auf ein langes Wochenende mit der ganzen Familie]].
+
+Melde dich, [[Frage an die Freundin|sobald die Einladung fertig ist]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
+
+  // 15
+  { label: "dankbar, wertschätzend", t: `Liebe [[Name der Freundin|Jennifer]],
+
+ich danke dir von Herzen für deine Mail. [[Reaktion auf die Verspätung|Natürlich ist alles in Ordnung, ich schätze es sehr, dass du dich meldest]]. Du bist eine wunderbare Freundin.
+
+Danke, dass du mir die Hochzeit deiner Schwester Janine im Oktober als Erstes erzählst. [[Reaktion auf die Neuigkeit|Ich fühle mich geehrt und gratuliere allen herzlich]]. Dass Eddi Koch in einem Hotel ist, [[Eindruck von Eddi|finde ich bewundernswert]].
+
+Ich komme mit großer Freude. [[Grund für die Zusage|Eine Einladung zu so einem Fest ist ein großes Geschenk für mich]]. Ich reise [[Anreise|mit dem Zug an]].
+
+Dankbar nehme ich auch an, jemanden mitzubringen: [[Begleitung|meinen Freund Daniel]]. Er [[Eigenschaft der Begleitung|ist sehr dankbar für die Einladung]].
+
+Für die Übernachtung bin ich dir dankbar, wenn du mir [[Übernachtung|ein Hotel oder eine Pension empfehlen kannst]]. Du musst dich nicht um mehr kümmern.
+
+Als Dank für die Einladung möchte ich [[Geschenkidee|dem Brautpaar ein schönes Geschenk machen, zum Beispiel ein gemeinsames Fotobuch]]. Hast du eine Idee?
+
+Auch die Anreise habe ich schon geplant: Ich komme [[Ankunftszeit|am Freitagabend]], und ich bringe [[Kleinigkeit|eine Kleinigkeit für die Familie]] mit. Außerdem trage ich [[Kleidung|ein schönes Kleid, das ich extra gekauft habe]]. Das freut mich so sehr, und es zeigt, wie wichtig mir euer Fest ist.
+
+Danke für alles, schreib mir bald, [[Frage an die Freundin|wann ich die Einladung erwarten kann]].
+
+[[Grußformel|Dankbare Grüße]]
+[[Dein Name|Nina]]` },
 ];
