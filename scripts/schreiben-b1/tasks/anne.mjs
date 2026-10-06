@@ -1,198 +1,290 @@
-// Anne – Laras 30. Geburtstag in Garmisch-Partenkirchen. Points: ein Geschenk für Lara · ob Sie gemeinsam länger bleiben möchten · Zug oder Auto? · was Sie in letzter Zeit erlebt haben.
+// v2 (B2-style): Anne fragt, ob man gemeinsam zu Laras 30. Geburtstag nach Garmisch-Partenkirchen fährt. Points: ein Geschenk für Lara · ob Sie gemeinsam länger bleiben möchten ·
+// Zug oder Auto? · was Sie in letzter Zeit erlebt haben — plus: "wollen wir zusammen hinfahren?", der weite Weg, Urlaub nach der Feier.
+export const kw = [/Geschenk|schenk/i, /bleiben|länger|Urlaub|Tage|Nächte/i, /Zug|Auto|Bahn/, /erlebt|passiert|in letzter Zeit|Neues|Neuigkeit/i, /Lara/, /Garmisch|weit|Strecke|Stunden|Entfernung/i, /zusammen|gemeinsam|hinfahren|mitfahren/i, /30|Geburtstag/];
 export default [
   // 1
-  { label: "Zug mit Bayern-Ticket, drei Tage bleiben, Fotobuch, neuer Job", t: `Liebe [[Name der Freundin|Anne]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Anne]],
 
-wie schön, dass du an mich denkst! Ich freue mich sehr, dass wir zu Laras Geburtstag zusammen fahren können. Ich war schon lange nicht mehr in den Bergen.
+vielen Dank für deine Mail, ich habe mich sehr gefreut! Mir geht es gut, und ich erzähle dir gern, was ich in letzter Zeit erlebt habe: [[Erlebnisse der letzten Zeit|Ich habe einen Tanzkurs angefangen und zwei Wochenendausflüge gemacht]]. Das hat mir richtig gutgetan.
 
-Ich würde lieber [[Verkehrsmittel|mit dem Zug]] fahren, weil [[Grund|wir mit dem Bayern-Ticket viel Geld sparen]]. Nach der Feier bleibe ich gern noch [[Dauer|drei Tage]] mit dir in Garmisch. Wir können wandern und die Zugspitze ansehen. Als Geschenk schlage ich [[Geschenkidee|ein Fotobuch mit Bildern von unseren gemeinsamen Jahren]] vor, denn zum 30. Geburtstag sollte es etwas Persönliches sein.
+Dass wir zusammen zu Laras 30. Geburtstag fahren, finde ich eine wunderbare Idee. Garmisch-Partenkirchen ist weit weg, und [[Vorteil der gemeinsamen Fahrt|zu zweit vergeht die Fahrt viel schneller]]. Ich würde am liebsten mit [[Verkehrsmittel|dem Zug]] fahren, weil [[Grund für das Verkehrsmittel|man unterwegs lesen und plaudern kann]].
 
-In letzter Zeit habe ich [[Erlebnis|einen neuen Job in einem Büro angefangen]]. Das ist anstrengend, aber sehr interessant.
+Auch dein Vorschlag, nach der Feier länger zu bleiben, gefällt mir. Ich hätte Lust auf [[Dauer des Aufenthalts|drei zusätzliche Tage]], denn [[Grund für den Aufenthalt|ich möchte die Berge und den See kennenlernen]]. Wir könnten [[Programm vor Ort|wandern und die Partnachklamm besuchen]].
 
-Schreib mir bitte bald, ob dir der Zug recht ist. Ich freue mich schon auf die Reise mit dir!
+Beim Geschenk für Lara denke ich an etwas Besonderes: [[Geschenkidee|ein Fotobuch mit Bildern aus ihrem Leben]]. Wir könnten die Kosten [[Kostenteilung|zu gleichen Teilen übernehmen]].
+
+Für die Feier selbst habe ich noch ein paar Gedanken: Ich ziehe [[Kleidung|ein festliches Kleid in Grün]] an, und ich schreibe [[Karte|eine Karte mit lustigen Erinnerungen an Lara]]. Wenn wir ankommen, [[Plan nach der Ankunft|gehen wir zuerst zu Lara und gratulieren ihr]]. Das wird bestimmt ein schöner Abend.
+
+Ich freue mich besonders auf Lara selbst: Wir haben uns [[Zeit seit dem letzten Treffen|seit über einem Jahr nicht mehr gesehen]], und ich bin gespannt, [[Neugier|wie sie ihren Dreißigsten feiern möchte]]. Vielleicht können wir ihr [[Zusatzidee|ein Lied oder ein Gedicht vortragen]], das macht den Abend noch persönlicher.
+
+Schreib mir bitte, [[Frage an die Freundin|ob dir diese Ideen gefallen]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Lina]]` },
+[[Dein Name|Samir]]` },
 
   // 2
-  { label: "Auto, Benzin teilen, nur Wochenende, Wanderrucksack, Prüfung bestanden", t: `Hallo [[Name der Freundin|Anne]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Anne]],
 
-schön, von dir zu hören! Dass Lara schon 30 wird, kann ich kaum glauben. Natürlich komme ich gern zu ihrer Feier.
+na, was für eine Frage: Klar fahre ich mit dir zu Laras Party! Was bei mir los war? [[Erlebnisse der letzten Zeit|Viel Arbeit, ein Umzug und endlich mal wieder Urlaub am Meer]]. Und bei dir?
 
-Ich schlage vor, dass wir [[Verkehrsmittel|mit dem Auto]] fahren. Dann sind wir flexibel, und wir können [[Grund|die Benzinkosten teilen]]. Länger zu bleiben ist für mich leider schwierig, denn [[Absage|ich muss am Montag wieder arbeiten]]. Vielleicht können wir aber ein Wochenende später noch einmal einen Ausflug machen. Als Geschenk finde ich [[Geschenkidee|einen guten Wanderrucksack]] passend, weil Lara in den Bergen wohnt und gern draußen ist.
+Garmisch ist ganz schön weit, deshalb ist Zug oder Auto die große Frage. Ich wäre für [[Verkehrsmittel|das Auto]], denn [[Grund für das Verkehrsmittel|wir sind flexibel und können unterwegs anhalten]]. Das Benzin teilen wir uns einfach.
 
-Bei mir ist in letzter Zeit viel passiert: [[Erlebnis|Ich habe meine Deutschprüfung bestanden]]. Ich bin sehr froh darüber.
+Länger bleiben? Super Idee! Ich hätte Zeit für [[Dauer des Aufenthalts|vier Tage]], weil [[Grund für den Aufenthalt|ich noch Urlaub übrig habe]]. Dort können wir [[Programm vor Ort|Seilbahn fahren und im See baden]].
 
-Schreib mir bitte, was du von meinen Ideen hältst.
+Beim Geschenk für Lara: [[Geschenkidee|ein Gutschein für ein Wellness-Wochenende]], denn ein Dreißigster verdient was Besonderes. Teilen wir uns die Kosten?
+
+Und noch was zur Planung: Wir sollten [[Unterkunft|eine günstige Pension mit Frühstück]] suchen, weil Garmisch teuer sein kann. Ich schaue [[Suche|im Internet nach Angeboten]], und du kannst [[Aufgabe der Freundin|die Fahrkarten oder das Auto organisieren]]. Dann teilen wir die Arbeit auf.
+
+In letzter Zeit ist bei mir auch einiges passiert, was ich dir gern bei der Fahrt erzähle: [[Neuigkeit|Ich habe eine neue Wohnung gefunden und streiche gerade die Wände]]. Zusammen zum Geburtstag zu fahren, ist ein schöner Anlass, damit wir uns wieder einmal in Ruhe unterhalten, und ich freue mich schon darauf, [[Vorfreude|mit dir lange zu reden]].
+
+Meld dich, [[Frage an die Freundin|wann du fahren möchtest]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Zug und Fahrrad, eine Woche bleiben, Wellness-Gutschein, Umzug", t: `Liebe [[Name der Freundin|Anne]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Anne]],
 
-ich habe mich riesig über deine Nachricht gefreut! Die Einladung von Lara ist eine schöne Gelegenheit, uns nach langer Zeit wieder zu sehen.
+wow, Laras 30. Geburtstag, darauf freue ich mich riesig! Danke für deine Einladung zum gemeinsamen Hinfahren. Was ich in letzter Zeit erlebt habe? [[Erlebnisse der letzten Zeit|Ich war auf einem Konzert und habe einen Kochkurs besucht]]. Es war wunderbar!
 
-Ich würde gern [[Verkehrsmittel|mit dem Zug]] fahren und dort ein Fahrrad leihen. Das passt zu den Bergen und ist gut für die Umwelt. Wenn du auch Lust hast, bleibe ich nach der Feier [[Dauer|eine ganze Woche]]. Ich nehme mir extra Urlaub. Zum Geschenk habe ich [[Geschenkidee|einen Gutschein für einen Wellness-Tag in einem Hotel]] ausgesucht. Nach 30 Jahren hat sie sich eine Pause verdient.
+Zug oder Auto? Ich bin für [[Verkehrsmittel|den Zug]], weil [[Grund für das Verkehrsmittel|man die Landschaft sieht und sich nicht ums Fahren kümmern muss]]. Der Weg nach Garmisch-Partenkirchen ist weit, da ist das ideal.
 
-Bei mir gibt es Neuigkeiten: [[Erlebnis|Ich bin gerade in eine neue Wohnung gezogen]]. Es gab viel zu tun, aber jetzt ist alles gut.
+Dein Plan, danach länger zu bleiben, begeistert mich! Ich würde gern [[Dauer des Aufenthalts|eine ganze Woche]] bleiben, denn [[Grund für den Aufenthalt|die Berge dort sind einfach traumhaft]]. Wir könnten [[Programm vor Ort|auf die Zugspitze fahren und im Eibsee schwimmen]].
 
-Ich freue mich sehr auf die Zeit mit dir und Lara.
+Als Geschenk für Lara habe ich eine tolle Idee: [[Geschenkidee|eine Heißluftballonfahrt über den Alpen]]. Das wäre unvergesslich.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Ich freue mich besonders auf die Feier selbst: [[Vorfreude|Tanzen, Torte und viele alte Freunde wiedersehen]]. Außerdem möchte ich [[Wunsch|gern Fotos von allen Gästen machen]]. Das Geschenk können wir [[Geschenkübergabe|am Nachmittag übergeben, bevor die Party beginnt]].
+
+Wenn wir länger bleiben, würde ich gern [[Wunsch für den Aufenthalt|eine Bergwanderung und einen Tag im Thermalbad]] einplanen. Für die Unterkunft bevorzuge ich [[Unterkunft|ein einfaches Zimmer mit Frühstück]], denn Hauptsache, wir sind zusammen und können viel erleben. Das Wetter soll [[Wetter|im Gebirge schon kühl sein]], deshalb packe ich warme Sachen ein.
+
+Schreib mir bald, [[Frage an die Freundin|was du davon hältst]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Fernbus, zwei Tage, Kochbuch, Praktikum", t: `Hallo [[Name der Freundin|Anne]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Anne]],
 
-danke für deine E-Mail, und danke, dass du mich gefragt hast! Ich fahre sehr gern mit dir zu Laras Geburtstag, denn ich habe sie lange nicht gesehen.
+vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
 
-Weil ich nicht viel Geld habe, würde ich [[Verkehrsmittel|mit dem Fernbus]] fahren. Das ist billiger als der Zug, und die Fahrt dauert nur ein bisschen länger. Nach der Party kann ich noch [[Dauer|zwei Tage]] bleiben, mehr geht leider nicht. Als Geschenk würde ich [[Geschenkidee|ein Kochbuch mit bayerischen und tunesischen Rezepten]] vorschlagen. Lara kocht doch so gern und probiert immer etwas Neues.
+Erstens, was ich in letzter Zeit erlebt habe: [[Erlebnisse der letzten Zeit|Ich hatte viel zu tun im Büro und war zweimal beim Wandern]].
 
-In letzter Zeit habe ich [[Erlebnis|ein Praktikum in einem Hotel gemacht]]. Das war eine tolle Erfahrung, und ich habe viel gelernt.
+Zweitens, die gemeinsame Fahrt zu Laras Geburtstag: Ich bin einverstanden. Die Strecke nach Garmisch-Partenkirchen ist weit. Ich schlage [[Verkehrsmittel|den Zug]] vor, weil [[Grund für das Verkehrsmittel|er pünktlich ist und wir uns die Parkplatzsuche sparen]].
 
-Ich wünsche uns eine schöne Reise.
+Drittens, ob wir länger bleiben: Ich würde gern [[Dauer des Aufenthalts|zwei Tage]] anhängen. Der Grund ist, dass [[Grund für den Aufenthalt|ich die Gegend noch nicht kenne]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Sami]]` },
+Viertens, das Geschenk: Ich empfehle [[Geschenkidee|ein persönliches Fotoalbum mit einem Gutschein für ein Abendessen]]. Wir teilen uns [[Kostenteilung|die Kosten fifty-fifty]].
+
+Zur Organisation: Ich besorge [[Besorgung|Reiseproviant für den Weg und eine Karte für Lara]]. Du kannst [[Aufgabe der Freundin|das Geschenk einpacken]], wenn du willst. Und wenn es regnet, nehmen wir [[Regenschutz|Schirme und feste Schuhe]] mit, damit wir im Gebirge nicht nass werden.
+
+Vorschlag zur Aufgabenverteilung: Du kümmerst dich um [[Aufgabe der Freundin|die Fahrkarten und die Unterkunft]], und ich besorge [[Aufgabe von mir|das Geschenk und eine Karte für alle Unterschriften]]. So haben wir beide gleich viel zu tun. Für den Abend der Feier plane ich [[Plan für die Feier|eine kleine Rede mit Anekdoten aus unserer Studienzeit]].
+
+Bitte teile mir noch mit, [[Frage an die Freundin|ab wann du Zeit für die Planung hast]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Mitfahrgelegenheit, vier Tage in einer Ferienwohnung, Armband, Konzert", t: `Liebe [[Name der Freundin|Anne]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Anne]],
 
-wie schön, dass du an mich gedacht hast! Ich freue mich auf Laras Feier und auf die Zeit mit dir.
+danke für deine Mail! Dass wir gemeinsam zu Laras 30. Geburtstag fahren, finde ich praktisch und schön. In letzter Zeit habe ich [[Erlebnisse der letzten Zeit|viel gearbeitet und einen neuen Hobbykurs angefangen]], aber jetzt freue ich mich auf die Reise.
 
-Ich habe keinen Führerschein und kein Auto. Deshalb würde ich [[Verkehrsmittel|mit dem Zug oder einer Mitfahrgelegenheit]] fahren. Wenn du mit dem Auto fährst, übernehme ich gern die Hälfte vom Benzin. Dein Vorschlag, noch länger zu bleiben, gefällt mir. [[Dauer|Vier Tage in einer Ferienwohnung]] wären perfekt, und wir können sie teilen. Als Geschenk schlage ich [[Geschenkidee|ein silbernes Armband mit ihrem Namen]] vor. So etwas trägt man jeden Tag.
+Zur Fahrt: Garmisch-Partenkirchen ist weit, deshalb schlage ich [[Verkehrsmittel|das Auto]] vor, weil [[Grund für das Verkehrsmittel|wir dann unser Gepäck und das Geschenk bequem mitnehmen können]]. Ich kann [[Praktische Hilfe|die Route planen und das Auto vorher checken lassen]].
 
-Bei mir ist in letzter Zeit [[Erlebnis|ein tolles Konzert in unserer Stadt gewesen. Ich war zum ersten Mal bei einem Open-Air]].
+Nach der Feier möchte ich gern länger bleiben, [[Dauer des Aufenthalts|am liebsten vier Tage]]. Ich kümmere mich um [[Aufgabe bei der Planung|eine günstige Unterkunft und ein Wanderprogramm]].
 
-Ich bin gespannt auf deine Antwort.
+Beim Geschenk für Lara: [[Geschenkidee|ein Gutschein für eine Massage mit einer persönlichen Karte]]. Ich besorge die Karte und das Papier.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Nour]]` },
+Für die Reise habe ich mir überlegt: Ich bringe [[Reiseproviant|belegte Brote und Obst]] mit, damit wir unterwegs nicht hungrig sind. Wenn wir ankommen, [[Programm bei der Ankunft|gehen wir erst einen Spaziergang durch das Dorf machen]]. Dann sind wir am Abend frisch für die Feier.
+
+Wenn Lara mich fragt, was ich ihr wünsche, würde ich sagen: [[Wunsch an Lara|Gesundheit, Glück und noch viele schöne Jahre]]. Ich werde [[Plan für die Feier|ein kleines Gedicht aufschreiben]] und ihr bei der Feier vorlesen. Zusammen zu reisen und gemeinsam zu feiern, ist für mich ein schöner Gedanke, und ich bringe [[Mitbringsel|eine Flasche Sekt]] mit.
+
+Sag mir bitte, [[Frage an die Freundin|wann du Zeit zum Planen hast]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Zug, ein Tag länger, Bilderrahmen mit Fotos, Schwimmkurs", t: `Hallo [[Name der Freundin|Anne]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Anne]],
 
-deine E-Mail hat mich glücklich gemacht, und ich komme sehr gern mit! Garmisch-Partenkirchen kenne ich nur von Fotos.
+ich fahre gern mit dir zusammen zu Laras Geburtstag, denn [[Grund für die Zusage|wir haben uns lange nicht gesehen und können unterwegs viel erzählen]]. Zu deiner Frage, was ich in letzter Zeit erlebt habe: [[Erlebnisse der letzten Zeit|Ich habe eine neue Stelle bekommen und bin umgezogen]].
 
-Zug oder Auto? [[Verkehrsmittel|Ich bin für den Zug]], weil man dort entspannt Zeit zum Lesen und Reden hat. Ich möchte nach der Feier [[Dauer|nur einen Tag länger]] bleiben, denn ich habe nächste Woche eine Prüfung. Zum Geschenk habe ich eine Idee: [[Geschenkidee|ein Bilderrahmen mit drei Fotos von uns dreien]]. Das ist nicht teuer und trotzdem etwas Besonderes.
+Zug oder Auto? Weil Garmisch-Partenkirchen so weit weg ist, plädiere ich für [[Verkehrsmittel|den Zug]]. Erstens [[Argument 1|sind wir entspannter]], zweitens [[Argument 2|ist es umweltfreundlicher]].
 
-In letzter Zeit habe ich [[Erlebnis|einen Schwimmkurs angefangen]]. Ich habe früher nie schwimmen gelernt, und jetzt macht es mir viel Spaß.
+Nach der Feier bleibe ich gern länger, nämlich [[Dauer des Aufenthalts|drei Tage]], weil [[Grund für den Aufenthalt|man für die weite Fahrt belohnt werden muss]]. Wir könnten [[Programm vor Ort|im Gebirge wandern]].
 
-Schreib mir, wie du die Reise planst!
+Als Geschenk finde ich [[Geschenkidee|ein Wochenende zum Wandern]] gut, denn [[Grund für das Geschenk|Lara liebt die Natur]]. Zum 30. sollte es etwas Besonderes sein.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Yasmine]]` },
+Außerdem finde ich es schön, dass wir Lara überraschen können: Wir [[Überraschung|schreiben ihr heimlich einen Brief und bringen einen Kuchen mit]]. Ich [[Aufgabe bei der Überraschung|kümmere mich um den Kuchen]], und du kannst [[Aufgabe der Freundin|die Kerzen und die Servietten mitbringen]]. Das ist eine tolle Idee.
+
+Für die Reise habe ich noch eine kleine Liste gemacht: [[Gepäckliste|Regenjacke, Wanderschuhe, Sonnencreme und ein schickes Kleid]]. Außerdem lade ich [[Musik|eine Playlist mit unseren Lieblingsliedern]] auf mein Handy, damit wir unterwegs Musik hören. Und zum Geburtstag gehört natürlich [[Kleinigkeit|ein kleiner Kuchen mit einer Kerze]].
+
+Wie siehst du das? Schreib mir, [[Frage an die Freundin|ob du mit meinen Gründen einverstanden bist]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Auto, vier Nächte bleiben, Silberkette aus Tunesien, Hochzeit der Cousine", t: `Liebe [[Name der Freundin|Anne]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Anne]],
 
-was für eine schöne Einladung! Die Idee, zusammen zu Laras 30. Geburtstag zu fahren, finde ich toll.
+danke für deine Mail, hier kurz meine Antworten.
 
-Ich bin für das Auto, denn [[Grund|dann können wir Koffer und Geschenke leicht mitnehmen]]. Ich fahre gern und kann dich abholen. Wenn du noch ein paar Tage Urlaub machen möchtest, bleibe ich auch länger. [[Dauer|Ein verlängertes Wochenende mit vier Nächten]] würde mir gut passen. Als Geschenk bringe ich [[Geschenkidee|eine silberne Kette aus Tunesien]] mit. Ich habe sie letzten Sommer gekauft und noch nicht verschenkt.
+In letzter Zeit: [[Erlebnisse der letzten Zeit|Viel Arbeit, aber auch ein schönes Wochenende am See]].
 
-In letzter Zeit habe ich [[Erlebnis|die Hochzeit meiner Cousine gefeiert]]. Es war ein riesiges Fest mit vielen Gästen.
+Gemeinsame Fahrt: Ja, gern, die Strecke nach Garmisch ist ja weit. Ich bin für [[Verkehrsmittel|den Zug]], weil [[Grund für das Verkehrsmittel|das bequemer ist]].
 
-Ich freue mich sehr auf die Reise!
+Länger bleiben: Ja, ich hätte Lust auf [[Dauer des Aufenthalts|drei Tage]], um [[Programm vor Ort|die Berge zu genießen]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Houda]]` },
+Geschenk für Lara: [[Geschenkidee|ein Fotobuch und ein kleiner Gutschein]]. Das passt zum 30. Geburtstag.
+
+Ich überlege schon, was ich einpacken muss: [[Gepäck|warme Kleidung, Wanderschuhe und ein festliches Outfit]]. Und ich hoffe auf [[Wetterwunsch|schönes Wetter]], damit wir beim Wandern viel sehen. Garmisch ist bestimmt ein toller Ort für einen Kurzurlaub.
+
+Ich hoffe, dass wir genug Zeit für Lara haben, denn [[Wunsch|wir haben uns so viel zu erzählen]]. Zusammen möchten wir [[Plan|einen Abend nur für uns drei einplanen]], am besten mit einem guten Essen. Ich kümmere mich um [[Reservierung|einen Tisch in einem schönen Restaurant]].
+
+Ich freue mich auf die Reise mit dir und auf das Wiedersehen mit Lara. Sie wird sich bestimmt über unseren Besuch freuen, denn wir haben uns lange nicht mehr gesehen. Gib mir bitte Bescheid, [[Frage an die Freundin|wann wir uns am Bahnhof treffen]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Regionalzug, drei Tage bleiben, Theaterkarten, neue Kollegen", t: `Hallo [[Name der Freundin|Anne]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Anne]],
 
-ich freue mich, dass du mich gefragt hast, und ich komme gern zu Laras Fest! Schon lange wollte ich einmal die Berge sehen.
+Garmisch-Partenkirchen liegt ja gefühlt am anderen Ende der Welt! Aber für Lara fahre ich überallhin. Was ich in letzter Zeit erlebt habe? [[Erlebnisse der letzten Zeit|Ich habe versucht, Pizza zu backen, und die Küche musste renoviert werden]].
 
-Ich würde [[Verkehrsmittel|mit dem Regionalzug]] fahren. Die Strecke ist schön, und wir sehen viel von der Landschaft. Nach der Feier möchte ich [[Dauer|gern drei Tage bleiben und mit dir auf die Zugspitze fahren]]. Als Geschenk für Lara denke ich an [[Geschenkidee|Karten für ein Theater in München]], weil sie Kultur mag. Vielleicht gehen wir danach zusammen hin.
+Zug oder Auto? Ich wähle [[Verkehrsmittel|den Zug]], weil [[Grund für das Verkehrsmittel|ich im Auto schnell einschlafe und du dann alleine reden musst]].
 
-Zu meinem Leben: In letzter Zeit habe ich [[Erlebnis|neue Kollegen in der Firma kennengelernt]]. Wir verstehen uns gut und gehen oft zusammen essen.
+Länger bleiben? Natürlich, [[Dauer des Aufenthalts|bis die Berge uns rauswerfen]]. Ich schlage [[Programm vor Ort|Wandern mit Hüttenessen]] vor, dann sind wir müde und glücklich.
 
-Ich bin gespannt, was du dazu sagst.
+Beim Geschenk für Lara: Zum 30. sollte es etwas Besonderes sein, also [[Geschenkidee|ein Gutschein für ein Abenteuer, damit sie nicht älter wirkt]]. Vielleicht auch [[Kleines Zusatzgeschenk|eine Torte mit dreißig Kerzen]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Omar]]` },
+Weißt du noch, wie wir zusammen verreist sind? [[Erinnerung an eine Reise|Damals haben wir den letzten Zug verpasst und mussten im Wartesaal schlafen]]. Das passiert uns diesmal nicht, ich habe [[Vorbereitung|die Abfahrtszeiten schon aufgeschrieben]]. Und ich werde [[Weitere Vorbereitung|rechtzeitig am Bahnhof sein]].
+
+Außerdem habe ich schon im Internet nachgeschaut, was man in Garmisch-Partenkirchen machen kann: [[Ausflugsidee|die Partnachklamm und eine Fahrt mit der Zugspitzbahn]] sind beliebt. Wir könnten uns [[Plan für die Tage|zwei Ausflüge aussuchen und einen Ruhetag einplanen]]. Dann ist der Aufenthalt nicht zu anstrengend, und wir genießen die Tage.
+
+Schreib mir, [[Frage an die Freundin|ob wir schon eine Playlist für die Fahrt haben]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Zug mit Reservierung, ein Wochenende länger, Kamerataschen, Sprachkurs", t: `Liebe [[Name der Freundin|Anne]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Anne]],
 
-danke für deine lange E-Mail! Ich freue mich, dass wir zusammen zu Lara fahren, und ich gratuliere ihr schon jetzt zum 30. Geburtstag.
+als ich deine Mail gelesen habe, musste ich an Laras letzten Geburtstag denken. [[Erinnerung an Lara|Damals haben wir bis spät in die Nacht getanzt]]. Dass sie jetzt dreißig wird, kann ich kaum glauben.
 
-Für die Fahrt schlage ich [[Verkehrsmittel|den Zug mit Platzreservierung]] vor, damit wir nebeneinander sitzen können. Dann haben wir während der langen Fahrt Zeit zum Reden. Ich möchte nach der Feier gern länger bleiben, [[Dauer|ein ganzes Wochenende]]. Als Geschenk finde ich [[Geschenkidee|eine kleine Kamera]] schön, denn Lara macht so gern Fotos in den Bergen.
+Was ich in letzter Zeit erlebt habe: [[Erlebnisse der letzten Zeit|Ich war bei meiner Familie und habe viele Fotos mitgebracht]]. Es war eine schöne, ruhige Zeit.
 
-In letzter Zeit habe ich [[Erlebnis|einen Sprachkurs für Fortgeschrittene begonnen]]. Mein Lehrer ist nett, und die Gruppe ist klein.
+Zur Fahrt: Garmisch-Partenkirchen ist weit weg, aber ich fahre gern mit dir. Ich würde [[Verkehrsmittel|den Zug]] nehmen, weil [[Grund für das Verkehrsmittel|wir dort gemütlich zusammensitzen können]].
 
-Schreib mir bald, ob dir die Idee mit dem Zug gefällt.
+Länger bleiben möchte ich auch, am liebsten [[Dauer des Aufenthalts|vier Tage]]. Ich war als Kind einmal dort und [[Erinnerung an den Ort|habe die Berge nie vergessen]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Rim]]` },
+Und das Geschenk? [[Geschenkidee|Ein Bilderrahmen mit unseren besten Fotos]] wäre persönlich.
+
+Zur Planung habe ich noch einen Gedanken: Wir können das Geschenk [[Geschenkübergabe|mit den anderen Gästen zusammen überreichen]]. Außerdem [[Vorschlag|reservieren wir einen Tisch für den Abend]], wenn Lara das möchte. Ich [[Aufgabe bei der Reservierung|rufe im Restaurant an]], dann klappt es sicher.
+
+Ich bin schon ganz gespannt auf die Feier: [[Vorfreude|Es gibt bestimmt Live-Musik und ein großes Buffet]]. Zum 30. Geburtstag gehört auch [[Tradition|ein lustiger Spaß, bei dem die Freunde alle etwas vorbereiten]]. Wenn du Ideen hast, [[Aufforderung|schick sie mir einfach, dann bereiten wir alles zusammen vor]].
+
+Erzähl mir, [[Frage an die Freundin|wie du die Reise planen möchtest]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Auto, nur zwei Nächte, Pralinen und Blumen, Umzug der Schwester", t: `Hallo [[Name der Freundin|Anne]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Anne]],
 
-vielen Dank für deine Nachricht! Natürlich möchte ich zu Laras Geburtstag, denn wir haben uns schon lange nicht mehr gesehen.
+danke für deine Mail! Ich habe gleich mehrere Vorschläge für die Reise zu Laras 30. Geburtstag. Zu deiner Frage, was ich in letzter Zeit erlebt habe: [[Erlebnisse der letzten Zeit|Ich war viel unterwegs und habe neue Leute kennengelernt]].
 
-Ich bin eher für [[Verkehrsmittel|das Auto]], weil [[Grund|wir damit direkt vor dem Haus ankommen]]. Das ist praktisch, besonders wenn wir viel Gepäck haben. Länger als [[Dauer|zwei Nächte]] kann ich leider nicht bleiben. Mein Chef möchte mich am Montag wieder im Büro sehen. Als Geschenk finde ich [[Geschenkidee|Pralinen und einen schönen Blumenstrauß]] gut. Das mag fast jeder.
+Mein erster Vorschlag: Wir fahren zusammen. Garmisch-Partenkirchen ist weit weg, darum nehmen wir [[Verkehrsmittel|den Zug]]. Mein zweiter Vorschlag: Wir kaufen [[Fahrkarte|ein Sparpreis-Ticket für zwei Personen]].
 
-Bei mir ist in der letzten Zeit viel los gewesen: [[Erlebnis|Ich habe meiner Schwester beim Umzug geholfen]]. Wir haben drei Tage Kisten getragen.
+Mein dritter Vorschlag: Wir bleiben länger, [[Dauer des Aufenthalts|vier Tage]] zum Beispiel. Mein vierter Vorschlag für das Programm: [[Programm vor Ort|eine Wanderung zum Eibsee und ein Besuch der Zugspitze]].
 
-Schreib mir bitte, wann wir abfahren wollen.
+Mein fünfter Vorschlag ist das Geschenk: [[Geschenkidee|ein Fotobuch mit einem Gutschein für ein Konzert]]. Das wäre besonders.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Hamza]]` },
+Auch an das Wetter denke ich: Im Gebirge ist es oft kühl, deshalb nehme ich [[Kleidung|eine warme Jacke und eine Mütze]] mit. Du solltest [[Rat an die Freundin|auch feste Schuhe einpacken]], falls wir wandern. Und ich bringe [[Mitbringsel|eine Thermoskanne mit Tee]] mit, damit wir unterwegs etwas Warmes trinken.
 
-  // 11
-  { label: "Zug und Bus, fünf Tage Urlaub, Gutschein für eine Ballonfahrt, Ausflug nach Hamburg", t: `Liebe [[Name der Freundin|Anne]],
+Falls du lieber mit dem Auto fahren möchtest, bin ich nicht dagegen, denn [[Kompromiss|auch das hat Vorteile bei so viel Gepäck]]. Wir könnten die Fahrer abwechseln und [[Pausen|alle zwei Stunden eine Pause machen]]. Gemeinsam entscheiden wir, was am besten für uns passt, und ich freue mich auf [[Vorfreude|einen guten Plan]].
 
-ich habe mich sehr über deine E-Mail gefreut! Laras Geburtstag ist ein schöner Anlass, und ich fahre gern mit dir hin.
-
-Ich würde [[Verkehrsmittel|mit dem Zug und dem Bus]] fahren, denn ich kenne mich in München mit dem Nahverkehr gut aus. Wenn du magst, bleiben wir nach der Feier [[Dauer|fünf Tage]] und machen Urlaub. Ich habe noch freie Tage. Zum Geschenk fällt mir [[Geschenkidee|ein Gutschein für eine Ballonfahrt über den Bergen]] ein. Das ist etwas Besonderes für den 30. Geburtstag, und wir können ihn zu mehreren bezahlen.
-
-In letzter Zeit habe ich viel erlebt: [[Erlebnis|Ich habe einen Ausflug nach Hamburg gemacht]]. Der Hafen war beeindruckend, und das Wetter war gut.
-
-Ich bin gespannt auf deine Antwort.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Ines]]` },
-
-  // 12
-  { label: "Auto, eine Nacht, Kochschürze, neuer Mitbewohner", t: `Hallo [[Name der Freundin|Anne]],
-
-schön, dass du mir geschrieben hast! Die Einladung nach Garmisch-Partenkirchen nehme ich gern an.
-
-Mit [[Verkehrsmittel|dem Auto]] kommen wir am schnellsten hin, deshalb schlage ich vor, dass wir früh am Morgen losfahren. Nach der Feier kann ich leider nicht länger bleiben, denn [[Absage|ich habe am Sonntag einen Termin]]. [[Dauer|Eine Nacht]] ist alles, was ich schaffe. Als Geschenk würde ich [[Geschenkidee|eine schöne Kochschürze mit ihrem Namen]] vorschlagen. Lara hat sicher Spaß daran.
-
-In letzter Zeit ist [[Erlebnis|ein neuer Mitbewohner bei mir eingezogen. Er kommt aus Spanien und kocht sehr gut]]. Wir verstehen uns prima.
-
-Schreib mir bitte, ob wir uns am Bahnhof oder bei dir treffen.
+Was meinst du dazu? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir am besten gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Fares]]` },
+[[Dein Name|Paula]]` },
 
-  // 13
-  { label: "Zug, Wanderwoche, Buch über die Alpen, Fahrradunfall", t: `Liebe [[Name der Freundin|Anne]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Anne]],
 
-danke für deine E-Mail, ich habe sie mit großer Freude gelesen! Dass Lara 30 wird, müssen wir groß feiern.
+danke für deine Mail. Zu Laras 30. Geburtstag fahre ich sehr gern mit, möchte aber einiges klären. In letzter Zeit habe ich [[Erlebnisse der letzten Zeit|viel gearbeitet und kaum Freizeit gehabt]].
 
-Ich bin für [[Verkehrsmittel|den Zug]], weil ich in den Bergen die schöne Landschaft sehen möchte. Nach der Feier würde ich gern [[Dauer|bei einer Wanderwoche in der Gegend bleiben]]. Mit dir zusammen macht das bestimmt Spaß. Als Geschenk habe ich [[Geschenkidee|ein Buch mit den schönsten Wanderwegen der Alpen]] ausgesucht. Lara wohnt ja dort und kennt vielleicht noch nicht alle Wege.
+Zug oder Auto? Einerseits [[Vorteil des Zugs|ist der Zug entspannter]], andererseits [[Vorteil des Autos|hat man mit dem Auto mehr Freiheit]]. Weil Garmisch-Partenkirchen weit weg ist, würde ich eher [[Verkehrsmittel|den Zug]] nehmen.
 
-Ich muss dir erzählen, was mir passiert ist: [[Erlebnis|Ich bin mit dem Fahrrad gestürzt und habe mir den Arm gebrochen]]. Jetzt geht es mir wieder gut.
+Ob ich länger bleiben kann, weiß ich noch nicht sicher. [[Bedingung für den Aufenthalt|Ich muss erst meinen Chef fragen, ob ich Urlaub bekomme]]. Wenn ja, würde ich gern [[Dauer des Aufenthalts|zwei bis drei Tage]] bleiben.
 
-Ich freue mich auf dich und auf die Reise!
+Beim Geschenk wäre ich vorsichtig mit dem Preis. Vielleicht [[Geschenkidee|ein schönes Buch mit einer persönlichen Widmung]]. Zum 30. sollte es etwas Besonderes sein.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Salma]]` },
+Mir ist noch etwas eingefallen: Wir können Lara [[Überraschungsidee|ein Lied vorsingen, das wir damals gern gehört haben]]. Ich [[Aufgabe bei der Überraschung|schreibe den Text auf]], und du [[Aufgabe der Freundin|singst die erste Stimme]]. Das macht den Abend noch persönlicher und lustiger.
 
-  // 14
-  { label: "Mietwagen, zwei Tage am See, Reisekoffer-Anhänger, Sprachprüfung", t: `Hallo [[Name der Freundin|Anne]],
+Ich würde mich außerdem sehr freuen, wenn wir zusammen [[Gemeinsame Aktivität|einen Abend im Biergarten verbringen]] und uns über die letzten Jahre unterhalten. Ich möchte auch hören, [[Frage|wie es bei dir im Beruf läuft]]. Wir haben so viele gemeinsame Erinnerungen, [[Erinnerung|vom Studium bis zu unseren Reisen]].
 
-wie nett von dir, mich zu fragen! Ich komme gern, und ich wünsche Lara schon jetzt alles Gute zum Geburtstag.
+Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
 
-Für die Reise schlage ich [[Verkehrsmittel|ein gemietetes Auto]] vor, das wir uns teilen. So kostet es nicht viel, und wir sind unabhängig. Nach der Party möchte ich [[Dauer|zwei Tage an einem See in der Nähe]] verbringen. Wenn du Lust hast, mach mit. Als Geschenk finde ich [[Geschenkidee|einen schönen Anhänger für ihren Koffer]] gut, weil Lara viel reist.
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
 
-In letzter Zeit habe ich [[Erlebnis|für meine Sprachprüfung gelernt]]. Sie war schwer, aber ich bin zufrieden.
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Anne]],
 
-Ich freue mich sehr auf unser Wiedersehen, und ich bin gespannt, was Lara zu unseren Plänen sagt.
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: Was ich in letzter Zeit erlebt habe? [[Erlebnisse der letzten Zeit|Ich habe viel gelesen und einen Ausflug gemacht]].
+
+Als Nächstes zur Fahrt zu Laras 30. Geburtstag: Ja, wir fahren zusammen. Die Strecke ist weit, also schlage ich [[Verkehrsmittel|den Zug]] vor.
+
+Dann zum Bleiben: [[Dauer des Aufenthalts|Ich würde gern drei Tage länger in Garmisch-Partenkirchen bleiben]], wenn du auch Lust hast.
+
+Danach zum Geschenk: [[Geschenkidee|Ein Gutschein für ein Wellness-Wochenende]] gefällt mir. Zuletzt zur Verteilung der Kosten: [[Kostenteilung|Wir teilen alles durch zwei]].
+
+Zum Schluss noch eine Kleinigkeit: Ich lade [[Fotos|alle Fotos von unserer Reise auf dein Handy]], und wir machen [[Fotoplan|ein gemeinsames Bild vor den Bergen]]. Danach schicken wir es Lara, als kleine Erinnerung. Ich bin sicher, dass sie sich freut.
+
+Was das Wetter angeht, hoffe ich auf [[Wunschwetter|Sonne und milde Temperaturen]]. Falls es regnet, haben wir [[Plan B|ein Spa und ein Museum]] als Alternative. Ich packe außerdem [[Packliste|eine Regenjacke und einen kleinen Schirm]] ein und freue mich, dass wir so gut vorbereitet sind.
+
+Ich freue mich auf [[Vorfreude|die Berge und das Wiedersehen mit Lara]], und ich bin sicher, dass es ein schönes Wochenende wird. Wie geht es nun weiter? Schreib mir, [[Frage an die Freundin|wann wir die Fahrkarten kaufen]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Aymen]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Anne]],
+
+deine Mail hat mich sehr gefreut, und danke für die schöne Einladung. Was ich erlebt habe? [[Erlebnisse der letzten Zeit|Ich war viel mit meiner Familie zusammen und habe mich erholt]]. Ich hoffe, dir geht es auch gut.
+
+Zu Laras Geburtstag fahre ich gern mit dir. Die Reise nach Garmisch-Partenkirchen ist weit, aber [[Vorteil der gemeinsamen Fahrt|mit dir wird sie bestimmt schön]]. Ich würde [[Verkehrsmittel|den Zug]] nehmen, damit du dich ausruhen kannst.
+
+Länger zu bleiben, finde ich eine herzliche Idee. Ich hätte Zeit für [[Dauer des Aufenthalts|drei Tage]], denn [[Grund für den Aufenthalt|wir brauchen mal wieder Zeit für uns]].
+
+Als Geschenk für Lara denke ich an [[Geschenkidee|einen Brief voller guter Wünsche und ein kleines Schmuckstück]]. Das ist persönlich und wird sie berühren.
+
+Ich überlege noch, ob wir ein bisschen früher losfahren sollten: [[Abfahrtszeit|Am Donnerstagabend, dann sind wir am Freitag ausgeruht]]. Dafür nehme ich mir [[Urlaub|zwei Tage frei]]. Was meinst du? Dann hätten wir noch Zeit, [[Programm vor der Feier|den Ort in Ruhe anzuschauen]].
+
+Zum Schluss möchte ich dir danken, dass du mich gefragt hast: [[Dank|Es ist schön, dass wir gemeinsam zu Lara fahren]]. Ich glaube, dass es eine tolle Zeit wird, [[Zukunftswunsch|in der wir viel lachen und neue Fotos machen]]. Und ich bringe dir [[Mitbringsel für die Freundin|ein kleines Dankeschön für die Planung]] mit.
+
+Erzähl mir, [[Frage an die Freundin|wie ich dir bei der Planung helfen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Anne]],
+
+Lara wird dreißig, wie cool! Klar, wir fahren zusammen. Was bei mir passiert ist? [[Erlebnisse der letzten Zeit|Nichts Besonderes, Arbeit, Sport und Serien]].
+
+Zug oder Auto? Ich bin für [[Verkehrsmittel|den Zug]], weil [[Grund für das Verkehrsmittel|Garmisch so weit weg ist und ich lieber chillen will]].
+
+Länger bleiben? Gern, [[Dauer des Aufenthalts|zwei, drei Tage]], mal schauen. Ich bin da flexibel. Und für Laras Geburtstag bringe ich natürlich gute Laune mit, denn so einen runden Geburtstag feiert man nur einmal im Leben, und wir wollen ihn gemeinsam schön machen.
+
+Geschenk: [[Geschenkidee|ein Gutschein für ein Abenteuer]]. Ich kümmere mich um die Karte.
+
+Ein praktischer Hinweis noch: Ich lade [[App|die Fahrplan-App auf mein Handy]], damit wir keine Verbindung verpassen. Außerdem packe ich [[Gepäck|nur einen kleinen Koffer und eine Tasche]] ein, damit wir bequem reisen. Und ich freue mich schon auf [[Vorfreude|die Berge, die frische Luft und Laras Gesicht beim Auspacken]].
+
+Ich sage dir schon jetzt, dass ich mich auf die Fahrt freue. Wir können unterwegs [[Fahrtidee|ein Hörbuch hören oder Karten spielen]], und ich bringe [[Proviant|Obst, Nüsse und Schokolade]] mit. Wenn wir ankommen, sind wir schon in Urlaubsstimmung und können [[Plan nach der Ankunft|gleich einen Spaziergang machen]].
+
+Meld dich, [[Frage an die Freundin|sobald du mehr weißt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

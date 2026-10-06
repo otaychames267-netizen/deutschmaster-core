@@ -1,198 +1,294 @@
-// Mara – Autoreise mit dem neuen Freund. Points: warum Sie so lange nicht geschrieben haben · Reaktion auf Maras neuen Freund · Vorschlag zur Übernachtung (Hotel, Homestay …) · Vorschlag für ein Treffen, oder warum es nicht geht.
+// v2 (B2-style): Mara will mit ihrem neuen Freund eine Autoreise machen und dich treffen. Points: warum Sie so lange nicht geschrieben haben · Reaktion auf Maras neuen Freund ·
+// ein Vorschlag zur Übernachtung (Hotel, Homestay …) · ein Vorschlag für ein Treffen, oder warum es nicht geht — plus: "Idee, wo wir uns treffen", "schönes Hotel in der Nähe".
+export const kw = [/geschrieben|gemeldet|leider|Entschuldig|tut mir leid|viel zu tun|Funkstille/i, /Freund/, /Hotel|übernacht|Homestay|Gästezimmer|Pension|schlafen|Zimmer|Wohnung|Campingplatz/i, /treff/i, /Urlaub|Reise|Auto/i, /vorstell|kennenlern|gratul|freu/i];
 export default [
   // 1
-  { label: "Prüfungsstress, Glückwunsch, Hotel am Marktplatz, Treffen im Café", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Mara]],
 
-entschuldige bitte, dass ich so lange nichts von mir hören ließ! Ich hatte [[Grund für die Pause|in den letzten Wochen viel Prüfungsstress und kaum Zeit für Briefe]]. Jetzt habe ich es endlich geschafft.
+vielen Dank für deine Mail, ich habe mich riesig gefreut! Du hast recht, ich habe lange nicht geschrieben, und das tut mir sehr leid. [[Grund für die Pause|Ich hatte in den letzten Wochen viel Arbeit und kaum Zeit für private Briefe]].
 
-Ich freue mich riesig, dass du einen neuen Freund hast! [[Reaktion auf den Freund|Er klingt sehr nett, und ich bin gespannt, wie er ist]]. Natürlich möchte ich euch beide treffen.
+Dass du einen neuen Freund hast, freut mich wirklich. [[Reaktion auf den neuen Freund|Du klingst so glücklich, und ich bin schon gespannt, ihn kennenzulernen]]. Er muss ein besonderer Mensch sein.
 
-Für die Übernachtung kann ich [[Hotel|das kleine Hotel am Marktplatz]] empfehlen. Es ist sauber, nicht teuer und liegt mitten in der Stadt. Wir können uns [[Treffpunkt|am ersten Abend im Café neben dem Hotel]] treffen und alles besprechen.
+Zur Übernachtung habe ich einen Vorschlag: Ich empfehle euch [[Unterkunft|ein kleines Hotel in der Altstadt, nur zehn Minuten von meiner Wohnung entfernt]]. Es ist [[Eigenschaft des Hotels|gemütlich, günstig und hat ein gutes Frühstück]].
 
-Schreib mir bitte, wann ihr ungefähr ankommt!
+Für unser Treffen schlage ich vor, dass wir uns [[Treffpunkt|am Samstagabend in einem Restaurant am Marktplatz]] treffen. Danach können wir [[Programm nach dem Essen|noch einen Spaziergang am Fluss machen]].
+
+Ich freue mich sehr auf eure Autoreise und auf das Wiedersehen mit dir. Wenn ihr länger bleiben wollt, [[Weiteres Angebot|zeige ich euch gern die Stadt]].
+
+Für eure Autoreise habe ich noch einen Tipp: Es gibt bei mir [[Parkmöglichkeit|einen großen Parkplatz hinter dem Hotel]], damit ihr nicht lange suchen müsst. Und wenn ihr aus dem Süden kommt, lohnt sich [[Zwischenstopp|ein Halt an einem schönen See auf halbem Weg]]. Da könnt ihr euch die Beine vertreten.
+
+Weißt du, ich habe dich in letzter Zeit sehr vermisst, und ich freue mich, dass unser Treffen jetzt wirklich klappt. [[Wunsch an den Abend|Wir haben so viel nachzuholen, dass eine Nacht kaum reicht]]. Dein Freund soll sich bei uns [[Wunsch für den Freund|sofort wie zu Hause fühlen]].
+
+Schreib mir bitte, [[Frage an die Freundin|an welchem Tag ihr ungefähr ankommt]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Samir]]` },
 
   // 2
-  { label: "Neuer Job, neugierig auf den Freund, Gästezimmer bei mir, Spaziergang am Fluss", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "locker, freundschaftlich", t: `Hallo [[Name der Freundin|Mara]],
 
-wie schön, dass du mir geschrieben hast, und es tut mir leid, dass ich mich nicht gemeldet habe. [[Grund für die Pause|Ich habe vor einem Monat einen neuen Job angefangen und bin abends immer sehr müde]]. Das ist keine Ausrede, aber es war wirklich viel zu tun.
+oh je, du hast recht, ich habe leider lange nicht geschrieben und war total abgetaucht! Sorry. [[Grund für die Pause|Ich hatte einen Haufen Arbeit und danach keine Lust mehr auf den Computer]]. Schön, dass du dich meldest.
 
-Dass du einen neuen Freund hast, freut mich sehr für dich. [[Reaktion auf den Freund|Erzähl mir bitte mehr, wie heißt er, und was macht er beruflich]]?
+Du hast einen neuen Freund? Wie toll! [[Reaktion auf den neuen Freund|Ich will alles wissen, wie ihr euch kennengelernt habt und wie er ist]].
 
-Zur Übernachtung habe ich eine Idee: [[Übernachtung|Ihr könnt bei mir im Gästezimmer schlafen]]. Das Bett ist groß genug für zwei, und ihr spart Geld. Ich möchte euch [[Treffpunkt|bei einem Spaziergang am Fluss]] treffen und euch danach zum Abendessen einladen.
+Hotel? Ganz in meiner Nähe gibt es [[Unterkunft|eine kleine Pension mit netten Zimmern und Garten]]. Sie ist [[Eigenschaft der Pension|günstig, und die Besitzerin ist total freundlich]]. Alternativ [[Alternative zur Pension|könnt ihr auch bei mir auf dem Sofa schlafen]].
 
-Ich freue mich schon sehr auf euch beide!
+Treffen? Unbedingt! Ich würde sagen, wir [[Treffpunkt|gehen abends in mein Lieblingscafé und quatschen]]. Danach [[Programm nach dem Essen|zeige ich euch die Stadt bei Nacht]].
+
+Eine Autoreise ist eine super Idee. Freut mich, euch zu sehen!
+
+Außerdem möchte ich euch gern etwas von meiner Stadt zeigen: [[Sehenswürdigkeit|den Dom, den alten Markt und den Park am Fluss]]. Das schaffen wir an einem Nachmittag, und danach [[Abschluss|trinken wir einen Kaffee in meiner Lieblingsbäckerei]]. Ich bin sicher, dass euch das gefällt.
+
+Ich bin schon gespannt, wie dein Freund aussieht und was er arbeitet: [[Neugier|ob er auch gern wandert, tanzt oder kocht]]. Bei unserem Treffen möchte ich [[Wunsch|viel über euch beide erfahren]]. Dann können wir bestimmt schnell Freunde werden.
+
+Melde dich, [[Frage an die Freundin|wann genau ihr kommt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Handy kaputt, Freude über den Freund, Pension, Treffen am Bahnhof", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Mara]],
 
-dein Brief hat mich sehr glücklich gemacht, auch wenn ich ein schlechtes Gewissen habe. Ich habe so lange nicht geschrieben, weil [[Grund für die Pause|mein Handy kaputt war und ich alle Nummern verloren hatte]]. Erst heute habe ich ein neues bekommen.
+wow, was für eine tolle Nachricht! Es tut mir wirklich leid, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Die letzten Wochen waren so stressig, dass ich kaum zum Atmen kam]]. Umso mehr freue ich mich über deine Mail.
 
-Du hast einen neuen Freund, das ist eine tolle Nachricht! [[Reaktion auf den Freund|Ich wünsche euch beiden alles Gute und freue mich darauf, ihn kennenzulernen]].
+Du hast einen neuen Freund, das ist wunderbar! [[Reaktion auf den neuen Freund|Ich freue mich riesig für dich und kann es kaum erwarten, ihn zu treffen]].
 
-Für eure Reise empfehle ich [[Pension|eine kleine Pension am Stadtrand]]. Dort gibt es ein gutes Frühstück, und die Besitzerin ist sehr freundlich. Ich schlage vor, dass wir uns [[Treffpunkt|direkt am Bahnhof treffen, und ich zeige euch den Weg]].
+Für die Übernachtung kann ich euch [[Unterkunft|ein wunderschönes Hotel am See]] empfehlen. Es hat [[Eigenschaft des Hotels|große Zimmer, einen Pool und ein tolles Frühstück]]. Das wird euch gefallen.
 
-Schreib mir bitte noch, an welchem Tag ihr kommt.
+Mein Vorschlag für das Treffen: Wir verabreden uns [[Treffpunkt|an einem Sonntagnachmittag in einem Biergarten]], und danach [[Programm nach dem Essen|machen wir eine Bootsfahrt auf dem See]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Eure Autoreise klingt nach einem Abenteuer! Ich freue mich so auf euch beide.
+
+Ich überlege schon, was ich euch kochen könnte: Vielleicht [[Gericht|ein einfaches Gericht aus meiner Heimat mit Reis und Gemüse]]. Wenn ihr etwas nicht esst, [[Frage zum Essen|sagt es mir einfach vorher]]. Zum Nachtisch [[Dessert|gibt es etwas Süßes]], das ich selbst backe.
+
+Wenn ihr zwei Tage Zeit habt, schlage ich vor, [[Zeitvorschlag|dass wir den Samstag für die Stadt und den Sonntag für die Natur nehmen]]. Dann habt ihr beides, und niemand muss hetzen. Ich plane auch [[Pause|genug Zeit zum Ausruhen und Quatschen]] ein.
+
+Schreib mir bald, [[Frage an die Freundin|wo ihr unterwegs noch Halt macht]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Umzug, Glückwunsch zur Verliebtheit, Ferienwohnung, Grillabend", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Mara]],
 
-es tut mir sehr leid, dass ich so lange nicht geantwortet habe. [[Grund für die Pause|Ich bin umgezogen und habe wochenlang Kisten gepackt und getragen]]. Jetzt ist endlich alles fertig, und ich habe wieder Zeit zum Schreiben.
+vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
 
-Ich gratuliere dir zu deinem neuen Freund! [[Reaktion auf den Freund|Du schreibst so glücklich, das hört man sofort]]. Ich möchte ihn unbedingt kennenlernen.
+Erstens, die Pause: Es stimmt, dass ich länger nicht geschrieben habe. [[Grund für die Pause|Ich hatte beruflich viel zu tun und wenig Freizeit]]. Das tut mir leid.
 
-Wegen der Übernachtung: [[Ferienwohnung|In meiner Nachbarschaft gibt es eine schöne Ferienwohnung, die man für wenige Tage mieten kann]]. Sie hat eine eigene Küche und ist günstiger als ein Hotel. Wir könnten uns [[Treffpunkt|am Samstag zum Grillen im Park]] treffen.
+Zweitens, dein neuer Freund: [[Reaktion auf den neuen Freund|Ich freue mich sehr für dich und möchte ihn gern kennenlernen]].
 
-Ich freue mich sehr auf euren Besuch.
+Drittens, die Übernachtung: Ich empfehle [[Unterkunft|ein Hotel in der Innenstadt, das zentral und preiswert ist]]. Es gibt [[Eigenschaft des Hotels|Einzel- und Doppelzimmer mit Frühstück]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Viertens, das Treffen: Ich schlage vor, uns [[Treffpunkt|am Freitagabend im Restaurant am Bahnhof]] zu treffen. Danach [[Programm nach dem Essen|können wir einen kurzen Rundgang machen]].
+
+Zur Zeit habe ich noch ein kleines Anliegen: [[Wunsch|Bringt bitte ein paar Fotos von eurer Reise mit]], damit ich sehe, wo ihr überall wart. Ich freue mich auch darauf, [[Neugier|deinen Freund beim Erzählen zu erleben]]. Das ist für mich die beste Art, jemanden kennenzulernen.
+
+Vielleicht möchtet ihr auch einmal [[Besonderes Erlebnis|bei mir zu Hause die Spezialitäten meiner Heimat probieren]], bevor ihr weiterfahrt. Ich zeige euch [[Besonderheit|meine Lieblingsorte, die kein Reiseführer kennt]]. Das ist meine Art, Gäste zu begrüßen.
+
+Ich freue mich sehr auf [[Vorfreude|ein Wiedersehen nach so langer Zeit]]. Bitte teile mir mit, [[Frage an die Freundin|an welchem Tag ihr bei mir vorbeikommt]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Krank gewesen, Neugier, Jugendherberge, Treffen zum Essen", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Mara]],
 
-danke für deine Nachricht und die Frage, warum ich so lange still war! [[Grund für die Pause|Ich war zwei Wochen krank und habe viel im Bett gelegen]]. Jetzt geht es mir wieder gut, und ich möchte alles nachholen.
+danke für deine Mail! Entschuldige, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte eine stressige Zeit und war oft unterwegs]]. Dafür helfe ich euch jetzt gern bei der Planung der Reise.
 
-Dein neuer Freund interessiert mich sehr! [[Reaktion auf den Freund|Ich hoffe, dass er so nett ist, wie du ihn beschreibst]]. Bringt ihm ruhig einen Gruß von mir mit.
+Dein neuer Freund interessiert mich sehr. [[Reaktion auf den neuen Freund|Ich freue mich für euch beide und hoffe, dass wir uns gut verstehen]].
 
-Zur Übernachtung schlage ich [[Jugendherberge|die Jugendherberge in der Altstadt]] vor. Sie ist günstig, sauber und hat Doppelzimmer. Wir könnten uns [[Treffpunkt|am Abend in einem Restaurant treffen]], in dem es typisches Essen aus unserer Region gibt.
+Bei der Übernachtung kann ich helfen: Ich habe [[Unterkunft|ein Hotel mit Parkplatz für euer Auto]] gefunden. Es liegt [[Lage des Hotels|nur zehn Minuten von mir entfernt]]. Ich kann [[Praktische Hilfe|das Zimmer für euch reservieren]], wenn ihr möchtet.
 
-Ich bin sehr gespannt auf euch beide.
+Für ein Treffen schlage ich vor, [[Treffpunkt|dass wir uns am Samstagmittag im Café neben dem Hotel treffen]]. Danach [[Programm nach dem Essen|zeige ich euch die Stadt mit dem Auto]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Lina]]` },
+Wenn ihr Hilfe bei der Reiseplanung braucht, melde ich mich gern: Ich kenne [[Wissen|die Straßen und Staus in unserer Gegend sehr gut]], und ich kann [[Hilfe|euch eine Route ohne Baustellen heraussuchen]]. Das spart euch bestimmt Zeit und Nerven.
+
+Wenn ihr mit dem Auto unterwegs seid, bleibt am besten [[Reisetipp|nicht länger als vier Stunden am Stück im Auto]], denn [[Grund|das ist anstrengend und gefährlich]]. Ich mache mir immer Sorgen, wenn Freunde lange fahren, deshalb meldet euch bitte [[Bitte|kurz, wenn ihr angekommen seid]].
+
+Sagt mir bitte, [[Frage an die Freundin|ob ich noch etwas vorbereiten soll]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Besuch aus der Heimat, Freude, Homestay bei meiner Nachbarin, Wanderung", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Mara]],
 
-wie schön, von dir zu hören! Dass ich nicht geschrieben habe, tut mir leid. [[Grund für die Pause|Meine Eltern waren drei Wochen zu Besuch, und ich habe jeden Tag etwas mit ihnen unternommen]]. Dabei habe ich leider alle anderen vergessen.
+ich habe lange nicht geschrieben, weil [[Grund für die Pause|ich bei der Arbeit sehr beschäftigt war und abends müde war]]. Das tut mir leid. Dafür freue ich mich jetzt über deine Mail.
 
-Ich freue mich sehr über deine Neuigkeit mit dem neuen Freund. [[Reaktion auf den Freund|Er muss ein toller Mann sein, wenn er dich so glücklich macht]].
+Dass du einen neuen Freund hast, finde ich gut, denn [[Begründung für die Freude|du hast schon lange jemanden gesucht, der zu dir passt]]. Ich möchte ihn bald kennenlernen.
 
-Wenn ihr Lust habt, könnt ihr [[Homestay|bei meiner Nachbarin zu Hause übernachten. Sie vermietet ein Zimmer und kocht sehr gut]]. Das ist ein bisschen wie Homestay. Für ein Treffen schlage ich [[Treffpunkt|eine kleine Wanderung am Samstagmorgen]] vor.
+Bei der Übernachtung empfehle ich [[Unterkunft|ein kleines Hotel in meiner Nähe]], weil [[Grund für das Hotel|es günstig ist und ihr euch dort wohlfühlt]]. Ein Homestay [[Einschränkung beim Homestay|wäre bei mir leider nicht möglich, weil mein Zimmer sehr klein ist]].
 
-Schreib mir bitte zurück!
+Als Treffen schlage ich [[Treffpunkt|ein gemeinsames Abendessen]] vor, denn [[Grund für das Treffen|dabei können wir in Ruhe reden und uns kennenlernen]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Hamza]]` },
+Ein Gedanke noch zur Reise: Weil ihr mit dem Auto kommt, [[Hinweis|achtet bitte auf den Berufsverkehr am Freitagnachmittag]]. Am besten fahrt ihr [[Reisetipp|vormittags los oder erst am Abend]]. Dann seid ihr entspannter, wenn ihr bei mir ankommt.
+
+Ihr beide werdet meine Gäste sein, und deshalb möchte ich [[Wunsch|ein kleines Willkommensfest für euch geben]]. Ich lade [[Weitere Gäste|zwei oder drei gemeinsame Freunde]] ein, damit der Abend noch schöner wird. Natürlich nur, wenn ihr das möchtet.
+
+Schreib mir, [[Frage an die Freundin|ob dir mein Vorschlag gefällt]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Praktikum, Gratulation, Hotel mit Frühstück, Mittagessen in der Stadt", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Mara]],
 
-vielen Dank, dass du mir geschrieben hast! Ich hatte ein schlechtes Gewissen, denn ich habe lange nichts von mir hören lassen. [[Grund für die Pause|Ich mache ein Praktikum in einer Firma und komme erst spät nach Hause]]. Am Wochenende bin ich meistens zu müde zum Schreiben.
+danke für deine Mail, hier kurz meine Antworten.
 
-Dein neuer Freund klingt sympathisch, und ich gratuliere dir ganz herzlich! [[Reaktion auf den Freund|Ich freue mich auf einen netten Abend zu dritt]].
+Pause: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte viel zu tun]].
 
-Als Hotel empfehle ich euch [[Hotel|ein kleines Haus mit Frühstück direkt in der Fußgängerzone]]. Vielleicht können wir uns [[Treffpunkt|zum Mittagessen treffen und danach durch die Stadt gehen]].
+Dein Freund: [[Reaktion auf den neuen Freund|Ich freue mich für dich und freue mich auf das Kennenlernen]].
 
-Gib mir bitte Bescheid, wann ihr ankommt. Ich freue mich schon darauf, euch beide endlich zu sehen.
+Übernachtung: [[Unterkunft|Hotel am Marktplatz]], [[Eigenschaft des Hotels|günstig und sauber]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Nour]]` },
+Treffen: [[Treffpunkt|Samstagabend im Restaurant am Fluss]].
+
+Wenn das Wetter schön ist, könnten wir [[Ausflugsidee|ein Picknick im Park machen]], und ich bringe [[Mitbringsel|eine Decke und kalte Getränke]] mit. Falls es regnet, haben wir [[Regenplan|das Museum und das Kino]] als Alternative. So ist für jedes Wetter gesorgt.
+
+Zu eurer Reise fällt mir noch ein: [[Reisetipp|Nehmt unterwegs auch kleine Straßen, nicht nur die Autobahn]], dann seht ihr mehr vom Land. Ich kann euch [[Empfehlung|ein paar schöne Dörfer auf der Strecke nennen]]. Das wäre ein schöner Umweg für einen Urlaub.
+
+Ich habe in den letzten Wochen oft an dich gedacht und mich gefragt, wie es dir geht, und ich freue mich, dass du wieder von dir hören lässt. Euer Besuch ist für mich [[Bedeutung des Besuchs|eine schöne Abwechslung im Alltag]]. Ich freue mich sehr auf eure Reise und auf einen schönen gemeinsamen Abend mit euch beiden. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|wann ihr ankommt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Absage: Ich bin in den Ferien weg, Freude, Hotel trotzdem empfehlen, späteres Treffen", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Mara]],
 
-es tut mir sehr leid, dass ich nicht früher geschrieben habe. [[Grund für die Pause|Ich hatte viel zu tun in der Firma und war abends oft unterwegs]]. Deine E-Mail hat mich aber sehr gefreut.
+du fragst, warum ich so lange nicht geschrieben habe? Gute Frage! [[Grund für die Pause|Ich war so beschäftigt, dass ich fast vergessen hätte, wie man Briefe schreibt]]. Verzeih mir bitte.
 
-Ich gratuliere dir zu deinem neuen Freund! [[Reaktion auf den Freund|Ich bin sicher, dass ihr ein schönes Paar seid]].
+Du hast einen neuen Freund, und ich erfahre es erst jetzt? [[Reaktion auf den neuen Freund|Ich bin gespannt, ob er so nett ist, wie du schreibst]].
 
-Leider kann ich euch in zwei Wochen nicht treffen, denn [[Grund für die Absage|ich fahre selbst eine Woche zu meiner Familie nach Tunesien]]. Das ist sehr schade. Für die Übernachtung kann ich euch [[Hotel|das Hotel am Bahnhof]] empfehlen. Vielleicht können wir uns [[Alternativvorschlag|im Herbst für ein ganzes Wochenende treffen]].
+Übernachten könnt ihr [[Unterkunft|in einem Hotel mit dem besten Frühstücksbuffet der Stadt]]. Das ist [[Eigenschaft des Hotels|so gut, dass ihr nie wieder abreisen wollt]]. Ein Homestay bei mir wäre zu laut, denn [[Einschränkung beim Homestay|mein Nachbar übt Trompete]].
 
-Ich wünsche euch eine schöne Reise und viel Sonne. Schick mir bitte ein Foto von euch beiden!
+Treffen wir uns doch [[Treffpunkt|an einem Abend in meiner Lieblingspizzeria]], damit ich deinen Freund gleich auf Herz und Pizza prüfen kann.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Aymen]]` },
+Ich freue mich besonders darauf, dass wir uns nach so langer Zeit wiedersehen: [[Gefühl|Ich habe dich wirklich vermisst]]. Und dein Freund ist willkommen, [[Einladung|auch wenn er etwas schüchtern ist]]. Bei mir gibt es keinen Stress, nur gute Gespräche.
+
+Weil du mich nach einem schönen Hotel gefragt hast, habe ich zwei Möglichkeiten: [[Möglichkeit 1|ein Hotel am Fluss mit Frühstück]] oder [[Möglichkeit 2|eine Pension mitten in der Altstadt]]. Beide sind ruhig und gut. Sag mir, welche Art euch lieber ist.
+
+Ich freue mich auf [[Vorfreude|ein langes Wochenende voller Lachen]]. Schreib bald, [[Frage an die Freundin|wann ihr die Hauptstadt erreicht]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Deutschkurs, Glückwunsch, Campingplatz am See, Grillen am Abend", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Mara]],
 
-wie schön, dass du an mich gedacht hast! Entschuldige bitte, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich besuche einen intensiven Deutschkurs und lerne jeden Tag mehrere Stunden]]. Danach habe ich nicht mehr viel Energie.
+als ich deine Mail gelesen habe, musste ich an unsere letzte Reise denken. [[Erinnerung an die gemeinsame Zeit|Wir haben damals im Auto gesungen und uns tausendmal verfahren]]. Dass wir uns so lange nicht gesehen haben, tut mir leid.
 
-Ich freue mich sehr, dass du einen neuen Freund hast! [[Reaktion auf den Freund|Ich bin neugierig, wie ihr euch kennengelernt habt]].
+Warum ich nicht geschrieben habe? [[Grund für die Pause|Ich war ein paar Wochen krank und danach mit Nachholen beschäftigt]]. Jetzt geht es mir wieder gut.
 
-Wenn ihr nicht viel Geld ausgeben wollt, schlage ich [[Campingplatz|einen Campingplatz am See in der Nähe]] vor. Er ist schön, und man kann im Sommer baden. Für ein Treffen passt [[Treffpunkt|ein Grillabend direkt am See]] sehr gut.
+Dass du einen neuen Freund hast, freut mich. [[Reaktion auf den neuen Freund|Ich habe sofort gedacht, dass es endlich jemand Passendes ist]].
 
-Schreib mir bald, was ihr davon haltet. Ich freue mich sehr auf ein Wiedersehen mit dir und deinem Freund.
+Für die Übernachtung kenne ich [[Unterkunft|ein Hotel mit Garten]], in dem [[Erinnerung an das Hotel|meine Eltern früher oft Gäste untergebracht haben]]. Es liegt in meiner Nähe.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Ines]]` },
+Wir können uns [[Treffpunkt|an einem Nachmittag im Café treffen, wo wir früher oft saßen]].
+
+Falls ihr länger bleiben möchtet, sagt mir bitte Bescheid: Ich habe [[Verfügbarkeit|am Montag und Dienstag frei]], und wir könnten [[Programm|einen Ausflug in die Berge machen]]. Dann hättet ihr noch mehr von eurem Urlaub, und ich eine Gelegenheit, euch besser kennenzulernen.
+
+Ich möchte euch auch von meinem Leben erzählen: [[Thema|von meiner Arbeit, meinen Plänen und meinen Hobbys]]. Außerdem [[Weiteres Thema|habe ich viele Fotos aus dieser Zeit, die ich euch zeigen möchte]]. Ich glaube, wir haben viel Spaß zusammen.
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen mit euch beiden]]. Erzähl mir, [[Frage an die Freundin|wo ihr schon überall wart]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Fußballturnier, Neugier, Gästebett bei meinem Bruder, Stadtrundgang", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Mara]],
 
-danke für deine E-Mail! Dass ich nicht geschrieben habe, tut mir leid. [[Grund für die Pause|Ich habe an einem Fußballturnier teilgenommen und jedes Wochenende gespielt]]. Wir haben sogar den zweiten Platz gewonnen.
+danke für deine Mail, und entschuldige meine lange Pause. [[Grund für die Pause|Ich hatte viel Arbeit]]. Ich habe gleich mehrere Vorschläge für euer Treffen.
 
-Zu deinem neuen Freund: [[Reaktion auf den Freund|Ich freue mich, dass du jemanden gefunden hast, mit dem du lachen kannst]]. Ich möchte ihn bald kennenlernen.
+Zuerst zu deinem Freund: [[Reaktion auf den neuen Freund|Ich freue mich, dass du jemanden gefunden hast]]. Mein erster Vorschlag: Ihr kommt [[Zeitpunkt des Besuchs|am Wochenende]], dann habe ich Zeit.
 
-Zur Übernachtung habe ich einen Vorschlag: [[Übernachtung|Mein Bruder wohnt in der Stadt und hat ein Gästebett]]. Er freut sich, wenn ihr bei ihm schlaft, und er kocht gern. Wenn ihr mögt, wollen wir uns [[Treffpunkt|zu einem Stadtrundgang treffen]].
+Mein zweiter Vorschlag betrifft die Übernachtung: [[Unterkunft|Ein Hotel in der Nähe des Bahnhofs]] ist praktisch und [[Eigenschaft des Hotels|hat einen eigenen Parkplatz]]. Mein dritter Vorschlag: Falls ihr lieber privat schlafen möchtet, [[Alternative Unterkunft|frage ich meine Nachbarn nach einem Gästezimmer]].
 
-Antworte mir bitte bald! Ich freue mich schon darauf, deinen Freund und dich bei mir zu sehen.
+Mein vierter Vorschlag: Wir treffen uns [[Treffpunkt|zum Abendessen in einem schönen Lokal]].
+
+Zur Planung noch eine praktische Sache: Schickt mir [[Information|eure Handynummern und die ungefähre Ankunftszeit]], dann kann ich euch am Hotel begrüßen. Ich werde [[Begrüßung|mit einem kleinen Willkommensgeschenk da sein]]. Das ist nicht viel, aber es kommt von Herzen.
+
+Bei der Gelegenheit könnten wir [[Idee|einen gemeinsamen Ausflug in die Natur machen]], wenn ihr Lust habt. Mein Auto ist leider [[Einschränkung|in der Werkstatt]], aber [[Alternative|wir fahren mit dem Bus oder mit eurem Wagen]]. Ihr seht also, ich habe an alles gedacht.
+
+Was haltet ihr davon? Ich freue mich sehr auf euch beide. Schreib mir, [[Frage an die Freundin|welcher Vorschlag euch gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Walid]]` },
+[[Dein Name|Paula]]` },
 
   // 11
-  { label: "Absage wegen Arbeit, Gratulation, Pension, Treffen später im Sommer", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Mara]],
 
-vielen Dank für deine Zeilen, und entschuldige, dass ich mich nicht gemeldet habe. [[Grund für die Pause|Mein Chef hat mir viele Überstunden gegeben, und ich bin kaum zum Schreiben gekommen]].
+danke für deine Mail, und es tut mir leid, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Es lag nicht an dir, ich hatte nur sehr viel zu tun]].
 
-Ich freue mich sehr für dich, dass du einen neuen Freund hast. [[Reaktion auf den Freund|Ich wünsche euch eine schöne gemeinsame Zeit]].
+Dass du einen neuen Freund hast, freut mich. [[Reaktion auf den neuen Freund|Ich hoffe, dass er so gut zu dir passt, wie du es dir wünschst]]. Ich lerne ihn gern kennen.
 
-Leider kann ich euch in zwei Wochen nicht sehen, denn [[Grund für die Absage|ich muss an einer wichtigen Schulung teilnehmen und habe keinen Urlaub]]. Das tut mir wirklich leid. Ihr könnt aber in [[Pension|einer netten Pension im Zentrum]] übernachten, ich schicke euch die Adresse. Wir könnten uns [[Alternativvorschlag|gegen Ende des Sommers treffen]].
+Bei der Übernachtung auf eurer Reise bin ich unsicher. Einerseits [[Vorteil des Hotels|ist ein Hotel bequem]], andererseits [[Nachteil des Hotels|kann es teuer sein]]. Ich würde eher [[Unterkunft|eine einfache Pension in meiner Nähe]] empfehlen.
 
-Ich hoffe, dass das für euch in Ordnung ist.
+Ein Treffen finde ich sehr schön, aber ich muss prüfen, ob es klappt. [[Voraussetzung für das Treffen|Ich habe in zwei Wochen vielleicht einen Termin]]. Wenn es geht, schlage ich [[Treffpunkt|ein Treffen am Abend im Restaurant]] vor.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Emna]]` },
+Für den Abend könnte ich einen Tisch reservieren: [[Restaurantidee|in einem kleinen italienischen Restaurant mit gutem Essen]]. Wenn ihr lieber etwas anderes möchtet, [[Alternative|suche ich ein Lokal mit vegetarischer Küche]]. Sagt mir einfach, was euch lieber ist.
+
+Und noch etwas: Ich bringe [[Mitbringsel|ein kleines Geschenk für euch beide]] mit, als Willkommensgruß. Du darfst gespannt sein, [[Neugier|was ich ausgesucht habe]]. Das ist nicht viel, aber es zeigt, wie sehr ich mich freue, euch endlich zu treffen.
+
+Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
 
   // 12
-  { label: "Verliebt, Hotel am Fluss, Picknick im Park, neue Wohnung", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Mara]],
 
-was für eine schöne Nachricht, und was für ein schlechtes Gewissen! [[Grund für die Pause|Ich habe eine neue Wohnung gefunden und war wochenlang mit Renovieren beschäftigt]]. Daher habe ich dir nicht geschrieben.
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
 
-Ich gratuliere dir zu deinem Freund! [[Reaktion auf den Freund|Er scheint wirklich zu dir zu passen]]. Ich freue mich, wenn ich ihn bald treffen kann.
+Als Nächstes zu deinem Freund: [[Reaktion auf den neuen Freund|Ich freue mich für dich und möchte ihn kennenlernen]].
 
-Für die Übernachtung kann ich euch [[Hotel|ein Hotel direkt am Fluss]] empfehlen, in dem ich letztes Jahr Gäste untergebracht habe. Ich schlage vor, dass wir uns [[Treffpunkt|zu einem Picknick im Park treffen]]. Das Wetter soll gut werden.
+Dann zur Übernachtung: Ich empfehle [[Unterkunft|ein Hotel mit Frühstück]]. Zuletzt zum Treffen: Wir treffen uns [[Treffpunkt|am Samstag um 19 Uhr im Restaurant]].
 
-Ich bin sehr gespannt auf euch beide. Wir haben bestimmt viel zu erzählen, und ich koche etwas Leckeres für euch.
+Ein kleiner Wunsch noch: Erzählt mir bitte beim Treffen von eurer ganzen Reise, besonders [[Reisethema|von den Orten, die euch am besten gefallen haben]]. Ich möchte auch hören, [[Frage|wie ihr euch kennengelernt habt]]. Das ist bestimmt eine schöne Geschichte.
+
+Zum Schluss möchte ich dir sagen, dass ich wirklich froh bin, dass du dich meldest. [[Dank|Ohne deine Mail hätte ich so lange nichts von dir gehört]]. Ich verspreche, dass ich in Zukunft öfter schreibe, und [[Versprechen|rufe dich auch zwischendurch an]].
+
+Ich freue mich sehr auf euer Kommen und auf ein langes, schönes Wochenende mit euch. Bei der Reise [[Reisehinweis|achtet bitte auf die Baustellen]], und für den Abend plane ich [[Abendplan|ein gemeinsames Essen mit Wein]]. Ich bin gespannt auf [[Vorfreude|deinen Freund und eure Geschichten]]. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|ob dir das gefällt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Rim]]` },
+[[Dein Name|Leyla]]` },
 
   // 13
-  { label: "Familienfest, Neugier, Zimmer bei einer Familie, Abendessen bei mir", t: `Liebe [[Name der Freundin|Mara]],
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Mara]],
 
-danke, dass du mir geschrieben hast! Ich war so lange still, weil [[Grund für die Pause|wir ein großes Familienfest zu organisieren hatten und alle Hände voll zu tun hatten]]. Jetzt ist alles vorbei, und ich habe wieder Zeit.
+deine Mail hat mich sehr gefreut. Es tut mir leid, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich wollte oft schreiben, aber die Tage vergingen so schnell]]. Ich hoffe, du verzeihst mir.
 
-Ich freue mich riesig, dass du einen neuen Freund hast. [[Reaktion auf den Freund|Ich bin gespannt, ob er eher ruhig oder lustig ist]].
+Dass du einen neuen Freund hast, freut mich von Herzen. [[Reaktion auf den neuen Freund|Ich wünsche euch beiden viel Glück und freue mich auf das Kennenlernen]].
 
-Wenn ihr in meiner Gegend übernachten wollt, kann ich [[Übernachtung|ein Zimmer bei einer netten Familie in der Nähe]] empfehlen. Man nennt das hier manchmal Homestay. Ich möchte mich mit euch [[Treffpunkt|an einem Abend zum Essen treffen und euch zu mir einladen]].
+Für euch beide habe ich [[Unterkunft|ein gemütliches Hotel ausgesucht, in dem ihr euch wohlfühlt]]. Wenn ihr möchtet, [[Hilfsangebot|reserviere ich es für euch]].
 
-Schreib mir bitte, wann ihr kommt. Ich freue mich schon sehr, deinen Freund kennenzulernen.
+Für unser Treffen wünsche ich mir [[Treffpunkt|einen ruhigen Abend in einem netten Restaurant]], damit wir in Ruhe reden können.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Anis]]` },
+Falls ihr etwas Besonderes braucht, etwa [[Besonderer Bedarf|ein ruhiges Zimmer oder ein Bett für zwei]], sagt es mir bitte rechtzeitig. Ich frage dann im Hotel nach. Ich möchte, dass ihr euch bei uns wohlfühlt und die Reise genießt.
+
+Falls es doch nicht klappt, wegen des Wetters oder weil [[Möglicher Grund|ihr zu spät ankommt]], können wir uns auch kurz an einem Rastplatz treffen. Das wäre dann [[Alternative|ein schneller Kaffee, aber ein wunderbares Wiedersehen]]. Ich bin da flexibel und freue mich sehr.
+
+Ich freue mich auf [[Vorfreude|ein langes Gespräch]], auf [[Weitere Vorfreude|eure Fotos]] und auf [[Dritte Vorfreude|einen schönen Abend]]. Erzähl mir, [[Frage an die Freundin|wie ihr zueinander gefunden habt]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
 
   // 14
-  { label: "Prüfung bestanden, Gratulation, Hotel am See, Wanderung", t: `Hallo [[Name der Freundin|Mara]],
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Mara]],
 
-wie schön, von dir zu hören! Dass ich nicht geschrieben habe, tut mir leid. [[Grund für die Pause|Ich habe viel für meine Prüfung gelernt, und jetzt habe ich sie endlich bestanden]]. Darüber freue ich mich sehr.
+ja, ich war ewig weg und habe leider nicht geschrieben, sorry! [[Grund für die Pause|Ich hatte viel um die Ohren]].
 
-Ich gratuliere dir zu deinem neuen Freund! [[Reaktion auf den Freund|Du erzählst so schön von ihm, und ich bin gespannt]]. Ich hoffe, wir verstehen uns auch.
+Dein neuer Freund? [[Reaktion auf den neuen Freund|Cool, ich freue mich und will ihn unbedingt kennenlernen]].
 
-Zur Übernachtung: [[Hotel|Ich kenne ein kleines Hotel an einem See, nicht weit von meiner Stadt]]. Es ist schön ruhig und hat gute Preise. Als Treffen schlage ich [[Treffpunkt|eine kleine Wanderung um den See]] vor, und danach essen wir zusammen.
+Hotel: [[Unterkunft|Es gibt eins in meiner Straße, günstig und nett]]. Oder [[Alternative Unterkunft|ihr schlaft bei mir, wenn es euch nicht stört]].
 
-Ich freue mich schon sehr auf euch.
+Treffen: [[Treffpunkt|Abends ein Bier oder Eis in der Stadt]], das passt.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Fares]]` },
+Zuletzt noch ein praktischer Hinweis zum Treffen: Ich komme [[Ankunftszeit|pünktlich um sieben Uhr]] und warte [[Treffpunkt|vor dem Eingang]], damit wir uns nicht verpassen. Mein Handy habe ich dabei, und ich freue mich schon auf [[Vorfreude|euer Gesicht, wenn ihr mich seht]].
+
+Ach ja, bitte sag deinem Freund viele Grüße von mir: [[Gruß|Ich freue mich darauf, ihn kennenzulernen und mit euch beiden zu lachen]]. Ich hoffe, dass wir uns schnell verstehen, denn [[Grund|Freunde von Freunden sind für mich immer willkommen]].
+
+Ich freue mich echt auf euch beide und auf [[Vorfreude|eure Reise und eure Geschichten]], das wird richtig schön. Das wird bestimmt ein toller Abend mit vielen Geschichten, und ich hoffe, dass euer Auto gut durchhält, damit ihr gut bei mir ankommt. Meld dich, [[Frage an die Freundin|wann ihr da seid]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

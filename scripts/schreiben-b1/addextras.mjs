@@ -1,7 +1,8 @@
 /** node scripts/schreiben-b1/addextras.mjs <task> <extras.json>
  * Inserts one extra paragraph per card (extras[i] -> card i) right BEFORE the closing paragraph (the paragraph that precedes the Grußformel block).
  * extras.json = ["paragraph with [[Label|fill]] markers", ...] — one entry per card, same order as the task file. Used to bring first drafts up to length. */
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
+import { writeRetry } from "./fsretry.mjs";
 
 const DIR = new URL("./tasks/", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
 const [task, extrasFile] = process.argv.slice(2);
@@ -26,5 +27,5 @@ while ((m = re.exec(src))) {
 }
 if (idx !== extras.length) throw new Error(`${idx} cards but ${extras.length} extras`);
 out += src.slice(pos);
-writeFileSync(path, out);
+writeRetry(path, out);
 console.log(`inserted ${idx} extra paragraphs into ${task}.mjs`);
