@@ -1,242 +1,368 @@
-// Naco – neue Wohnung nahe der Firma, einsam, will Nachbarn kennenlernen, lädt zum Besuch ein. Points: Reaktion auf den Vorschlag (Besuch) · etwas über Ihre Wohnung · Tipps, wie Naco Nachbarn kennenlernen kann · was es bei Ihnen Neues gibt.
+// v2 (B2-style): Naco hat eine neue Wohnung in einer neuen Stadt, ist manchmal einsam und fragt nach Tipps, wie er Nachbarn kennenlernen kann. Points: Reaktion auf den Vorschlag (ob Sie Naco besuchen möchten) ·
+// etwas über Ihre Wohnung · Tipps für Naco, wie er Nachbarn kennenlernen kann · was es bei Ihnen Neues gibt — plus: "Hattest du schon mal dieses Problem? Was würdest du tun?"
+export const kw = [/besuch/i, /Wohnung|Zimmer|Küche|Balkon|Miete|wohne/i, /Nachbar/i, /Neues|Neuigkeit|erlebt|passiert|in letzter Zeit|bei mir/i, /Tipp|Verein|Kurs|Gruppe|Fest|vorstellen|klingeln|Kuchen|Sport|Chor|Hausflur/i];
 export default [
   // 1
-  { label: "Gern besuchen im Juli, kleine Altbauwohnung, Kuchen für die Nachbarn, neuer Kurs", t: `Lieber [[Name des Freundes|Naco]],
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Naco]],
 
-es freut mich sehr, dass du eine schöne Wohnung gefunden hast und zu Fuß zur Arbeit gehen kannst! Deine Einladung nehme ich gern an, und ich möchte dich [[Zeitpunkt des Besuchs|im Juli für ein langes Wochenende]] besuchen.
+vielen Dank für deine Mail, ich habe mich sehr gefreut! Schön, dass du eine Wohnung nahe an deiner Firma gefunden hast. [[Reaktion auf die Wohnung|Der Weg zu Fuß zur Arbeit ist ein großes Plus]].
 
-Du fragst nach meiner Wohnung: [[Wohnung|Ich wohne in einer kleinen Altbauwohnung mit hohen Decken und einem Balkon zum Hof]]. Sie ist nicht groß, aber gemütlich.
+Dein Vorschlag, dich zu besuchen, gefällt mir sehr. Ich komme gern [[Zeitpunkt des Besuchs|im Frühjahr für ein langes Wochenende]], und wir entdecken zusammen die Stadt. [[Anreise|Ich fahre mit dem Zug]], das ist bequem.
 
-Zu den Nachbarn habe ich einen Tipp: [[Tipp|Backe einen Kuchen und klingle bei den Leuten im Haus. So kommst du schnell ins Gespräch]]. Das habe ich auch gemacht.
+Meine eigene Wohnung hat [[Größe der Wohnung|zwei Zimmer und eine kleine Küche]]. Am liebsten mag ich [[Lieblingsplatz|das Fensterbrett mit meinen Pflanzen]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe einen neuen Sprachkurs angefangen]]. Er macht mir sehr viel Spaß.
+Zu deinem Problem mit den Nachbarn: Ich hatte das auch, als ich neu in die Stadt kam. Mein Tipp ist, [[Tipp 1|sich im Treppenhaus vorzustellen und ein paar Worte zu wechseln]]. Außerdem [[Tipp 2|kannst du an einem Sportverein oder an einem Chor teilnehmen]].
 
-Schreib mir bald, welches Wochenende dir am besten passt.
+Bei mir gibt es folgende Neuigkeit: [[Neuigkeit|Ich habe angefangen, Gitarre zu lernen]].
 
-[[Grußformel|Bis bald]]
+Zur Stadt selbst habe ich auch eine Frage: Wie gefällt dir [[Eindruck von der Stadt|das Essen und die Altstadt]]? Du schreibst, dass sie schön ist, und ich bin neugierig. Zusammen können wir [[Programm bei meinem Besuch|am Samstag auf den Markt gehen und abends in ein Lokal]], das du empfiehlst.
+
+Was bei mir sonst noch so passiert ist: [[Weitere Neuigkeit|Ich habe mit einem Freund einen Ausflug in die Berge gemacht]], und danach [[Folge|war ich eine ganze Woche entspannt]]. Das hat mir gezeigt, wie wichtig Pausen sind. Du solltest dir das auch gönnen, besonders in der neuen Umgebung.
+
+Zum Besuch noch eine Frage: Wo kann ich bei dir [[Übernachtung|schlafen, im Arbeitszimmer oder auf dem Sofa]]? Ich bringe [[Mitbringsel|einen Schlafsack und ein kleines Geschenk]] mit, damit es für dich einfach ist. Sag mir einfach, was dir am liebsten ist.
+
+Schreib mir bitte, [[Frage an den Freund|wann dir mein Besuch am besten passt]].
+
+[[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
   // 2
-  { label: "Besuch im Frühling, helle Dachwohnung, Hausflur grüßen, Praktikum", t: `Hallo [[Name des Freundes|Naco]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Naco]],
 
-wie schön, dass es dir in deiner neuen Wohnung gefällt! Dass du jetzt zu Fuß zur Arbeit gehen kannst, ist ein großer Vorteil. Ich komme dich gern besuchen, am besten [[Zeitpunkt des Besuchs|im Frühling, wenn es draußen wärmer ist]].
+schön, von dir zu hören! Glückwunsch zur neuen Wohnung! [[Reaktion auf die Wohnung|Drei Zimmer, Balkon und zu Fuß zur Arbeit, das klingt perfekt]]. Umzüge sind der Horror, aber danach fühlt man sich super.
 
-Meine eigene Wohnung ist [[Wohnung|eine helle Dachwohnung mit zwei Zimmern und einem kleinen Fenster zum Himmel]]. Im Sommer wird es zwar warm, aber ich fühle mich sehr wohl.
+Besuch? Klar, gern! [[Zeitpunkt des Besuchs|Ich könnte im Sommer für ein Wochenende kommen]]. Wir erkunden die Stadt und probieren das Essen.
 
-Wie du deine Nachbarn kennenlernen kannst? [[Tipp|Grüße sie immer freundlich im Hausflur]] und frag sie nach einer Kleinigkeit, zum Beispiel nach Salz oder dem Weg. Dann beginnen die Gespräche von selbst.
+Meine Wohnung? Ziemlich klein: [[Größe der Wohnung|ein Zimmer, Bad und eine Mini-Küche]]. Aber [[Besonderheit der Wohnung|der Balkon ist toll und die Lage super]].
 
-Bei mir ist in letzter Zeit viel los: [[Neuigkeit|Ich mache ein Praktikum in einer Firma]]. Es ist anstrengend, aber ich lerne viel.
+Zu den Nachbarn, mein Tipp: [[Tipp 1|Klingel einfach mal und bring einen Kuchen mit]]. Das klappt fast immer! Oder [[Tipp 2|geh in ein Café in deiner Straße und komm mit Leuten ins Gespräch]].
 
-Schreib mir, wann es dir passt!
+Was bei mir los ist? [[Neuigkeit|Ich habe eine neue Kollegin und wir verstehen uns gut]].
 
-[[Grußformel|Liebe Grüße]]
-[[Dein Name|Lina]]` },
+Noch ein Gedanke zu deinem Arbeitsweg: Es ist ein Luxus, [[Vorteil des Arbeitswegs|zu Fuß zur Arbeit zu gehen und die frische Luft zu genießen]]. Ich fahre jeden Tag [[Mein Arbeitsweg|dreißig Minuten mit der Bahn]] und wünsche mir deine Lage. Das spart viel Zeit und Stress.
+
+Übrigens habe ich in letzter Zeit [[Hobby|wieder angefangen zu kochen]], und ich probiere jedes Wochenende ein neues Rezept aus. Bei deinem Besuch bei mir, [[Gegenbesuch|wenn du einmal kommst]], koche ich für dich. Dann zeige ich dir auch meine kleine Küche und die Nachbarn im Haus.
+
+Wenn ich zu dir komme, möchte ich [[Wunsch|das beste Café und den schönsten Park der Stadt sehen]]. Du kennst sicher schon [[Vermutung|ein paar tolle Ecken]], oder? Ich lasse mich von dir gern überraschen und nehme mir viel Zeit dafür.
+
+Meld dich, [[Frage an den Freund|wann es bei dir passt]].
+
+[[Grußformel|Bis bald]]
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Zusage fürs Wochenende, Erdgeschosswohnung mit Garten, Hausfest organisieren, Prüfung bestanden", t: `Lieber [[Name des Freundes|Naco]],
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Naco]],
 
-deine Nachricht hat mich sehr gefreut! Ich gratuliere dir zur neuen Wohnung, und natürlich möchte ich dich besuchen. [[Zeitpunkt des Besuchs|Am übernächsten Wochenende]] hätte ich Zeit, wenn es für dich passt.
+wow, eine neue Wohnung! [[Reaktion auf die Wohnung|Ich freue mich riesig für dich, besonders über den Balkon und das Arbeitszimmer]]. Dass du zu Fuß zur Arbeit gehen kannst, ist traumhaft.
 
-Zu meiner Wohnung: [[Wohnung|Ich wohne im Erdgeschoss, und wir haben einen kleinen Garten hinter dem Haus]]. Im Sommer sitze ich oft dort und lese. Ein Garten ist für mich das Schönste.
+Dein Vorschlag, dich zu besuchen, macht mich glücklich! [[Zeitpunkt des Besuchs|Ich komme am liebsten im Herbst]], und wir erkunden zusammen die ganze Stadt.
 
-Ich schlage vor, dass du [[Tipp|ein kleines Hausfest für die Nachbarn organisierst]]. Hänge einen Zettel im Treppenhaus auf und lade alle ein. So lernt man sich gut kennen.
+Meine Wohnung? [[Größe der Wohnung|Zwei Zimmer mit einer sonnigen Küche]]. Ich liebe [[Besonderheit der Wohnung|die hohen Decken und die große Fensterfront]].
 
-Neuigkeiten habe ich auch: [[Neuigkeit|Ich habe meine Prüfung bestanden]]. Das hat mich sehr gefreut.
+Die Nachbarn kennenzulernen, ist einfacher, als du denkst! Mein Tipp: [[Tipp 1|Lade sie zu einem kleinen Einweihungsfest ein]]. Außerdem [[Tipp 2|tritt einem Verein bei, zum Beispiel einem Lesekreis]].
 
-Ich freue mich schon darauf, deine neue Stadt zu entdecken!
+Bei mir gibt es tolle Neuigkeiten: [[Neuigkeit|Ich habe beim Marathon in unserer Stadt mitgemacht]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Karim]]` },
+Dein Arbeitszimmer mit den Lieblingsbüchern finde ich wunderbar. Ich möchte es bei meinem Besuch gern sehen und [[Wunsch|ein Buch ausleihen, das du empfiehlst]]. Bei mir stehen [[Meine Bücher|zwei Regale mit Krimis und Reiseführern]], und ich zeige dir gern, was ich lese.
+
+Wegen deines Besuchs habe ich schon Pläne: Wir könnten [[Programmpunkt 1|das Museum der Stadt besuchen]] und [[Programmpunkt 2|abends am Fluss spazieren gehen]]. Wenn das Wetter schön ist, setzen wir uns auf deinen Balkon und reden. Ich freue mich darauf, deine Wohnung zu sehen.
+
+Um die Nachbarn kennenzulernen, könntest du auch [[Idee|beim nächsten Straßenfest helfen]], wenn es eines gibt. Dann siehst du viele Leute auf einmal. Ich war einmal bei so einem Fest und habe [[Erfahrung|gleich drei neue Freunde gefunden]]. Das hat mir sehr geholfen.
+
+Schreib mir bald, [[Frage an den Freund|wann du Zeit hast]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Besuch im Herbst, Studio in der Stadt, Verein beitreten, neuer Mitbewohner", t: `Hallo [[Name des Freundes|Naco]],
+  { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Naco]],
 
-wie schön, dass du dich so wohl fühlst! Die Idee, dich zu besuchen, gefällt mir sehr. Ich möchte [[Zeitpunkt des Besuchs|im Herbst einmal eine Woche kommen]], wenn du Zeit hast.
+vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
 
-Meine Wohnung ist ganz anders als deine: [[Wohnung|ein Einzimmerapartment in der Stadtmitte mit einer kleinen Küche]]. Ich brauche nicht viel Platz, und ich habe alles in der Nähe. Der Weg zur Arbeit dauert nur zehn Minuten.
+Erstens, deine Wohnung: [[Reaktion auf die Wohnung|Ich freue mich, dass sie nah an der Firma liegt und ein Arbeitszimmer hat]].
 
-Wenn du neue Nachbarn kennenlernen willst, [[Tipp|tritt einem Sportverein oder einer Gruppe in deinem Stadtteil bei]]. Dort triffst du viele Leute aus der Nähe und findest bestimmt Freunde.
+Zweitens, dein Vorschlag: Ich besuche dich gern, [[Zeitpunkt des Besuchs|am liebsten im Mai]].
 
-Bei mir gibt es etwas Neues: [[Neuigkeit|Ein neuer Mitbewohner ist in die Nachbarwohnung gezogen, und wir spielen abends oft Karten]].
+Drittens, meine Wohnung: Sie hat [[Größe der Wohnung|drei Zimmer und einen Balkon]], und [[Besonderheit der Wohnung|sie liegt in einer ruhigen Straße]].
 
-Ich freue mich auf deine Antwort!
+Viertens, die Nachbarn: Ich empfehle, [[Tipp 1|sich freundlich im Haus vorzustellen]] und [[Tipp 2|an Hausgemeinschaftsfesten teilzunehmen]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Hamza]]` },
+Fünftens, mein Alltag: [[Neuigkeit|Ich habe eine neue Aufgabe im Büro übernommen]].
+
+Auch zum Balkon habe ich einen Tipp: Wenn du [[Balkonidee|ein paar Blumen und zwei Stühle hinstellst]], kannst du dort Nachbarn auf einen Tee einladen. So kommt man leicht ins Gespräch, [[Vorteil|ohne dass es zu förmlich wird]]. Ich habe das selbst ausprobiert.
+
+Bei mir gibt es auch Veränderungen im Alltag: [[Veränderung|Ich stehe jetzt früher auf und gehe vor der Arbeit eine Runde laufen]]. Das tut mir gut, und ich habe [[Ergebnis|schon zwei Kilo abgenommen]]. Vielleicht können wir bei deinem Besuch morgens zusammen laufen.
+
+Dein Satz über das Essen in der Stadt hat mich überzeugt: [[Wunsch|Ich möchte unbedingt deine Lieblingsspeise probieren]]. Danach laden wir [[Gäste|ein paar Nachbarn zu einem Dessert ein]], dann hast du gleich eine Gelegenheit, Leute kennenzulernen. Was hältst du davon?
+
+Bitte teile mir mit, [[Frage an den Freund|ob dir mein Besuch im Mai passt]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Gern zu Besuch, WG mit drei Zimmern, Aushang im Treppenhaus, Reise nach Hamburg", t: `Lieber [[Name des Freundes|Naco]],
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Naco]],
 
-vielen Dank für deine Einladung! Ich komme dich sehr gern besuchen, vielleicht schon [[Zeitpunkt des Besuchs|im nächsten Monat an einem Samstag]]. Deine Stadt muss wunderschön sein.
+danke für deine Mail! [[Reaktion auf die Wohnung|Ich freue mich über deine neue Wohnung und helfe dir gern beim Einrichten]]. Wenn du Hilfe brauchst, sag Bescheid.
 
-Ich wohne seit einem Jahr [[Wohnung|in einer WG mit drei Zimmern und einer großen Küche, in der wir oft gemeinsam kochen]]. Das ist praktisch, und ich bin nie allein.
+Dein Besuch-Vorschlag gefällt mir. [[Zeitpunkt des Besuchs|Ich komme gern im Juni]], und ich bringe [[Mitbringsel|ein Regal-Set für deine Bücher]] mit.
 
-Für deine Nachbarn habe ich einen Tipp: [[Tipp|Schreibe einen kleinen Zettel, in dem du dich vorstellst, und hänge ihn im Treppenhaus auf]]. Vielleicht melden sich einige und laden dich ein.
+Meine Wohnung hat [[Größe der Wohnung|zwei Zimmer]], und [[Besonderheit der Wohnung|ich habe viele praktische Möbel gekauft]]. Ich kann dir Tipps geben.
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe eine Reise nach Hamburg gemacht und viele schöne Fotos mitgebracht]]. Ich zeige sie dir beim Besuch.
+Bei den Nachbarn helfen meist kleine Dinge: [[Tipp 1|Ein Zettel im Hausflur mit deinem Namen und einer Einladung zum Kaffee]]. Dazu [[Tipp 2|kannst du eine App für die Nachbarschaft nutzen]].
 
-Sag mir bitte, welcher Termin für dich gut ist.
+Bei mir gibt es [[Neuigkeit|eine kleine Veränderung, ich habe das Büro gewechselt]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Youssef]]` },
+Zur Einsamkeit noch etwas: Du bist nicht der Einzige, dem es so geht, [[Beruhigung|viele Menschen fühlen sich in den ersten Monaten fremd]]. Wichtig ist, [[Rat|nicht aufzugeben und regelmäßig rauszugehen]]. Bei mir hat es etwa [[Zeitraum|ein halbes Jahr]] gedauert, bis ich mich heimisch gefühlt habe.
+
+Ein bisschen Neues gibt es auch aus meiner Familie: [[Familiennachricht|Meine Schwester hat ein Baby bekommen]], und ich bin jetzt Onkel. Das ist ein schönes Gefühl, und ich besuche sie oft. Ich erzähle dir bei einem Treffen alles ganz genau, mit vielen Fotos.
+
+Zur Wohnung noch eine Idee: Hänge [[Dekoration|Bilder und Pflanzen auf]], dann wird sie gemütlich. Das gibt auch Gesprächsstoff, wenn Nachbarn zu Besuch kommen. Ich helfe dir [[Hilfsangebot|gern beim Einrichten, wenn ich komme]], das mache ich wirklich gern.
+
+Sag mir bitte, [[Frage an den Freund|ob ich dir noch beim Umzug helfen kann]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Besuch zu Ostern, Wohnung mit Balkon, Café-Stammgast werden, neuer Job", t: `Hallo [[Name des Freundes|Naco]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Naco]],
 
-ich freue mich sehr, dass du dich eingelebt hast! Dein Vorschlag mit dem Besuch ist eine tolle Idee. Zu [[Zeitpunkt des Besuchs|Ostern habe ich vier Tage frei]], dann würde ich gern kommen.
+ich freue mich über deine neue Wohnung, denn [[Begründung für die Freude|sie hat alles, was du dir gewünscht hast]]. Dass der Umzug dich müde macht, verstehe ich gut.
 
-Meine eigene Wohnung hat [[Wohnung|zwei Zimmer und einen schönen Balkon, auf dem ich im Sommer frühstücke]]. Ich habe dort viele Pflanzen. Der Balkon ist mein Lieblingsplatz.
+Ich besuche dich gern, weil [[Grund für den Besuch|wir uns lange nicht gesehen haben und ich deine Stadt kennenlernen möchte]]. [[Zeitpunkt des Besuchs|Der Spätsommer passt mir am besten]].
 
-Wenn du Menschen in deiner Nähe kennenlernen willst, [[Tipp|werde Stammgast in einem Café um die Ecke]]. Nach einer Woche kennt dich der Besitzer, und du triffst dort andere Nachbarn. So habe ich es auch gemacht.
+Meine Wohnung ist [[Größe der Wohnung|klein, aber gemütlich]], weil [[Grund für die Gemütlichkeit|ich sie selbst eingerichtet habe]].
 
-Zu meinen Neuigkeiten: [[Neuigkeit|Ich habe einen neuen Job in einem Reisebüro]]. Die Kollegen sind nett.
+Um Nachbarn kennenzulernen, rate ich, [[Tipp 1|freundlich zu grüßen]], denn [[Grund für den Tipp 1|dann kommen schnell Gespräche zustande]]. Außerdem [[Tipp 2|hilft ein Sportverein]].
 
-Schreib mir bald, was du vom Termin hältst.
+Bei mir gibt es [[Neuigkeit|eine neue Hobbygruppe, in der ich mitmache]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Amira]]` },
+Eine weitere Idee: In vielen Städten gibt es [[Angebot|Sprachcafés, Spieleabende oder Wandergruppen]], bei denen man leicht Leute trifft. Schau am besten [[Suchort|im Internet oder am schwarzen Brett im Supermarkt]] nach. Ich bin sicher, dass du dort nette Menschen kennenlernst.
+
+Seit einigen Wochen habe ich auch [[Neue Aufgabe|einen neuen Kollegen im Team]], der aus deiner Gegend kommt. Wir verstehen uns gut, und ich habe ihm von dir erzählt. Vielleicht kannst du ihn bei deiner Suche nach neuen Kontakten kennenlernen, wenn du magst.
+
+Ich überlege, ob wir gemeinsam [[Idee|ein Wochenende in der Umgebung verbringen]] können, zum Beispiel [[Ausflug|an einem See oder in den Bergen]]. Das wäre ein schöner Anlass, wieder viel zu reden. Dein Arbeitsweg zu Fuß macht dich bestimmt fit für lange Wanderungen.
+
+Schreib mir, [[Frage an den Freund|ob du meine Tipps gut findest]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Nach den Prüfungen besuchen, Hochhauswohnung mit Aussicht, Hund als Gesprächsanlass, Praktikum", t: `Lieber [[Name des Freundes|Naco]],
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Naco]],
 
-wie schön, von dir zu lesen! Deine Wohnung klingt toll, und ich möchte dich sehr gern besuchen, am liebsten [[Zeitpunkt des Besuchs|nach meinen Prüfungen im Juni]].
+danke für deine Mail, hier kurz meine Antworten.
 
-Zu meiner Wohnung: [[Wohnung|Ich wohne im zehnten Stock eines Hochhauses und habe eine fantastische Aussicht über die Stadt]]. Am Abend sehe ich die Lichter.
+Wohnung: [[Reaktion auf die Wohnung|Glückwunsch, die Lage klingt perfekt]].
 
-Wegen deiner Nachbarn: [[Tipp|Wenn du einen Hund hast oder dir einen anschaffst]], kommst du beim Spazierengehen schnell mit den Leuten ins Gespräch. Viele Hundebesitzer sind sehr freundlich.
+Besuch: Ja, gern. [[Zeitpunkt des Besuchs|Im Frühling]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe ein Praktikum in einer Klinik bekommen]]. Das ist eine tolle Chance.
+Meine Wohnung: [[Größe der Wohnung|Zwei Zimmer, Balkon]].
 
-Ich freue mich sehr auf deine Antwort und auf unser Wiedersehen.
+Tipps zu den Nachbarn: [[Tipp 1|Hallo sagen und sich vorstellen]]. [[Tipp 2|Verein oder Kurs besuchen]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Salma]]` },
+Neues bei mir: [[Neuigkeit|Ich habe eine neue Stelle]].
+
+Wenn du Kollegen hast, kannst du mit ihnen [[Vorschlag|mittags einen Spaziergang machen oder zusammen essen gehen]]. So entstehen auch Freundschaften außerhalb der Arbeit. Ich habe das bei meiner Firma so gemacht, und [[Ergebnis|heute treffe ich zwei Kollegen jedes Wochenende]].
+
+Eine Sache war in letzter Zeit besonders schön: [[Schönes Erlebnis|Ich habe ein altes Buch wiedergefunden und es noch einmal gelesen]]. Das hat mich an dich erinnert, denn [[Grund|du hast mir es einmal empfohlen]]. Ich bringe es dir bei meinem Besuch mit, wenn du magst.
+
+Eine Sache möchte ich noch klarstellen: Du musst dich nicht schämen, [[Hinweis|dass du manchmal einsam bist]], das passiert vielen Menschen. Wichtig ist, dass du [[Rat|darüber sprichst und Hilfe annimmst]]. Ich bin immer für dich da, auch wenn wir weit auseinander wohnen.
+
+Ich freue mich auf deine Antwort und auf unser Wiedersehen. Gib mir bitte kurz Bescheid, [[Frage an den Freund|wann du Zeit hast]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Besuch im August, Wohnung mit Garten, Gemeinschaftsgarten, Hochzeit der Schwester", t: `Hallo [[Name des Freundes|Naco]],
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Naco]],
 
-deine E-Mail hat mich sehr gefreut, und ich gratuliere dir zur neuen Wohnung! Ich komme dich gern besuchen, und ich schlage [[Zeitpunkt des Besuchs|die erste Augustwoche]] vor.
+zu Fuß zur Arbeit, Balkon und Arbeitszimmer, du lebst ja fast wie ein Minister! [[Reaktion auf die Wohnung|Glückwunsch, ich bin ein bisschen neidisch]]. Dass der Umzug müde macht, ist der Preis für den Luxus.
 
-Du hast nach meiner Wohnung gefragt: [[Wohnung|Ich habe drei Zimmer, eine große Küche und einen kleinen Garten, in dem ich Tomaten anbaue]]. Ich bin dort sehr gern.
+Besuchen? Aber sofort! [[Zeitpunkt des Besuchs|Im Sommer, wenn dein Balkon nicht zu voll ist]].
 
-Als Tipp für deine Nachbarn: [[Tipp|Schau, ob es in deinem Stadtteil einen Gemeinschaftsgarten gibt, und arbeite dort mit]]. Dort lernt man schnell nette Menschen kennen.
+Meine Wohnung: [[Größe der Wohnung|Ein Zimmer, ein Bad und ein sprechender Kühlschrank]]. Sie [[Besonderheit der Wohnung|ist klein, aber meine]].
 
-Neuigkeiten gibt es auch bei mir: [[Neuigkeit|Meine Schwester hat geheiratet, und wir haben drei Tage gefeiert]]. Es war ein tolles Fest.
+Nachbarn kennenlernen: [[Tipp 1|Backe einen Kuchen und klingle bei allen]], danach kennen dich alle. Oder [[Tipp 2|verliere regelmäßig deine Post, dann bringen sie dir sie]].
 
-Schreib mir bitte, ob der Termin für dich passt.
+Neues bei mir: [[Neuigkeit|Ich habe versucht zu kochen, und der Rauchmelder kennt mich jetzt]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Fares]]` },
+Zum Umzug noch ein Hinweis: Packe zuerst [[Rat zum Umzug|die Dinge aus, die du jeden Tag brauchst]], und lasse den Rest etwas liegen. Dann fühlst du dich schneller wohl. Wenn du magst, helfe ich dir [[Hilfsangebot|beim Streichen oder beim Aufbauen der Regale]], wenn ich komme.
+
+In letzter Zeit habe ich auch gespart: [[Sparziel|Ich möchte im nächsten Jahr eine längere Reise machen]]. Vielleicht kann ich einen Teil davon mit deinem Besuch verbinden und länger bleiben. Dann hätten wir mehr Zeit für die Stadt und unsere Gespräche.
+
+Neben dem Besuch könnten wir auch [[Idee|regelmäßig telefonieren, zum Beispiel am Sonntagabend]]. Das ist ein fester Termin, auf den du dich freuen kannst. Und [[Zusatzidee|wenn du magst, schicke ich dir Fotos von meinem Alltag]], damit du dich nicht allein fühlst.
+
+Schreib bald, [[Frage an den Freund|ob du Sofa oder Luxus-Bett hast]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Absage für jetzt, später besuchen, Zimmer im Studentenheim, App für Nachbarn, Umzug", t: `Lieber [[Name des Freundes|Naco]],
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Naco]],
 
-was für eine nette Überraschung, deine E-Mail! Deine Einladung freut mich sehr, aber ich muss dir leider sagen, dass ich dich [[Zeitpunkt des Besuchs|in den nächsten zwei Monaten nicht besuchen kann]]. Ich habe zu viel Arbeit. Im Herbst komme ich bestimmt!
+als ich deine Mail gelesen habe, musste ich an meinen ersten Umzug denken. [[Erinnerung an den eigenen Umzug|Ich war damals auch erschöpft und glücklich zugleich]]. Deine neue Wohnung klingt wunderbar.
 
-Du fragst nach meiner Wohnung: [[Wohnung|Ich wohne in einem Studentenheim und habe ein Zimmer mit eigenem Bad]]. Es ist klein, aber ich habe viele Freunde im Haus.
+Ein Besuch bei dir? [[Zeitpunkt des Besuchs|Ich komme gern im Herbst]]. Ich war lange nicht mehr in deiner Stadt.
 
-Zu deinen Nachbarn: [[Tipp|Es gibt Apps, in denen sich Nachbarn vernetzen]]. Dort kannst du fragen, ob jemand zusammen etwas unternehmen möchte. Das ist eine einfache Möglichkeit.
+Meine Wohnung: [[Größe der Wohnung|zwei Zimmer in einem alten Haus]], und [[Besonderheit der Wohnung|ich habe viele Erinnerungsstücke darin]].
 
-In letzter Zeit ist bei mir viel passiert: [[Neuigkeit|Ich bin selbst gerade umgezogen, nur ins Nachbarhaus]]. Die Kisten sind jetzt fast alle ausgepackt.
+Einsamkeit kenne ich selbst: [[Eigene Erfahrung|Nach meinem Umzug habe ich Monate lang niemanden gekannt]]. Geholfen hat mir, [[Tipp 1|jeden Abend im Hof einen Tee zu trinken]] und [[Tipp 2|in einen Lesekreis zu gehen]].
 
-Ich melde mich bald wieder.
+Bei mir gibt es [[Neuigkeit|eine Veränderung im Beruf]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Omar]]` },
+Eine Sache möchte ich noch sagen: Ich bewundere, dass du so offen darüber schreibst, wie es dir geht. [[Anerkennung|Das ist nicht selbstverständlich]], und es zeigt, dass du dein Leben aktiv gestaltest. Ich bin sicher, dass es bald besser wird, und [[Wunsch|du wirst viele neue Freunde finden]].
+
+Meine Nachbarn haben mich letzte Woche zu einem Grillabend eingeladen: [[Erlebnis mit den Nachbarn|Es war nett, wir haben viel gelacht und Salate geteilt]]. Seitdem grüßen wir uns jeden Tag. Das zeigt, wie schnell sich ein Kontakt ergeben kann, wenn man offen ist.
+
+Wenn du neue Leute treffen willst, schau doch mal, ob es [[Angebot|in deiner Nähe einen Deutschkurs oder einen Computerkurs]] gibt, den du gern machen möchtest. Dort sitzen oft Menschen in deiner Situation. Ich habe selbst [[Erfahrung|in einem Kurs meine besten Freunde gefunden]].
+
+Erzähl mir, [[Frage an den Freund|wie dir die Stadt gefällt]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Gern besuchen am langen Wochenende, Neubauwohnung mit Aufzug, Hausverwaltung fragen, Führerschein", t: `Hallo [[Name des Freundes|Naco]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Naco]],
 
-wie schön, dass du eine Wohnung gefunden hast, die dir so gefällt! Dein Vorschlag, dich zu besuchen, ist eine wunderbare Idee. Ich hätte [[Zeitpunkt des Besuchs|am langen Wochenende im Mai]] Zeit, wenn es dir passt.
+danke für deine Mail, und Glückwunsch zur neuen Wohnung! [[Reaktion auf die Wohnung|Ein Balkon und ein Arbeitszimmer, das klingt prima]]. Ich habe gleich mehrere Vorschläge.
 
-Meine Wohnung ist [[Wohnung|eine Neubauwohnung mit Aufzug, Fußbodenheizung und einem schönen Bad]]. Ich bin sehr zufrieden, denn alles funktioniert.
+Mein erster Vorschlag: Ich besuche dich [[Zeitpunkt des Besuchs|im Juli]], und wir entdecken zusammen die Stadt. Mein zweiter Vorschlag: Du besuchst mich auch, [[Gegenbesuch|damit du meine Wohnung siehst]].
 
-Dein Problem mit den Nachbarn kenne ich. [[Tipp|Frag bei der Hausverwaltung, ob es eine Hausversammlung gibt. Dort lernst du alle auf einmal kennen]]. Das hat bei mir sehr gut geklappt.
+Meine Wohnung hat [[Größe der Wohnung|drei Zimmer]].
 
-In letzter Zeit habe ich [[Neuigkeit|endlich meinen Führerschein bestanden]]. Ich bin sehr stolz darauf.
+Mein dritter Vorschlag für die Nachbarn: [[Tipp 1|Lade zwei oder drei von ihnen zum Kaffee ein]]. Mein vierter Vorschlag: [[Tipp 2|Tritt einer Hausgemeinschaft oder einem Verein bei]].
 
-Ich bin gespannt auf deine Antwort!
+Bei mir gibt es [[Neuigkeit|eine neue Radtour-Gruppe]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Ines]]` },
+Bei den Nachbarn kannst du auch einmal [[Idee|einen Zettel an die Haustür hängen, auf dem du dich vorstellst]]. Das ist eine freundliche Geste, und [[Wirkung|viele freuen sich darüber und kommen vorbei]]. Ich habe das in meinem Haus gemacht, und seither grüßen mich alle.
 
-  // 11
-  { label: "Besuch im September, Wohnung mit Arbeitsplatz, Sprachtandem, Konzert", t: `Lieber [[Name des Freundes|Naco]],
+Bei der Arbeit habe ich jetzt [[Arbeitsänderung|mehr Verantwortung und ein größeres Büro]], und das macht mir Freude. Es ist anstrengend, aber ich lerne viel. Ich erzähle dir bei deinem Besuch ausführlich davon und freue mich auf deine Meinung dazu.
 
-ich habe mich sehr über deine Nachricht gefreut, und ich komme dich sehr gern besuchen! Passt es dir [[Zeitpunkt des Besuchs|im September an einem Wochenende]]?
+Zu den Nachbarn gehört auch der Hausmeister, den du freundlich ansprechen solltest: [[Tipp|Er kennt alle im Haus und kann dir viel erzählen]]. Außerdem [[Zusatztipp|hilft es, kleine Dienste anzubieten, zum Beispiel Blumen gießen]]. So entsteht Vertrauen, und die Leute lernen dich schätzen.
 
-Meine Wohnung ist [[Wohnung|klein, hat aber einen eigenen Arbeitsplatz am Fenster mit Blick auf einen Park]]. Dort lerne ich jeden Abend Deutsch. Ich habe auch ein Sofa für Besucher, falls du mal vorbeikommst.
-
-Um deine Nachbarn kennenzulernen, hilft vielleicht [[Tipp|ein Sprachtandem: Such im Internet jemanden aus deiner Stadt, der deine Sprache lernen möchte]]. So findest du schnell einen neuen Freund.
-
-Bei mir gibt es Neues: [[Neuigkeit|Ich war auf einem tollen Konzert in unserer Stadt]]. Es war mein erstes Konzert in Deutschland.
-
-Ich freue mich schon sehr darauf, dich wiederzusehen.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Rim]]` },
-
-  // 12
-  { label: "Zusage zum Besuch, Zimmer bei meiner Tante, Kochen mit Nachbarn, Auto gekauft", t: `Hallo [[Name des Freundes|Naco]],
-
-danke für deine Einladung, ich freue mich riesig! Natürlich besuche ich dich gern, und ich habe [[Zeitpunkt des Besuchs|im Oktober eine Woche Urlaub]], die ich dafür nutzen kann.
-
-Zu meiner Wohnung: [[Wohnung|Ich wohne zurzeit in einem Zimmer bei meiner Tante, aber ich suche etwas Eigenes]]. Sie ist sehr lieb, aber ich möchte unabhängig sein.
-
-Meine Idee für deine Nachbarn: [[Tipp|Lade sie zu einem gemeinsamen Kochabend ein, und jeder bringt ein Gericht aus seiner Heimat mit]]. So lernt man Menschen gut kennen.
-
-Ich habe in letzter Zeit [[Neuigkeit|ein gebrauchtes Auto gekauft]]. Damit komme ich dich wahrscheinlich sogar besuchen.
-
-Gib mir bitte bald Bescheid, wann es dir passt.
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Anis]]` },
-
-  // 13
-  { label: "Wenn ich Urlaub habe, Wohnung mit Terrasse, Straßenfest besuchen, Sportclub", t: `Lieber [[Name des Freundes|Naco]],
-
-wie schön, dass du an mich gedacht hast! Dein Vorschlag gefällt mir, und ich besuche dich gern, sobald [[Zeitpunkt des Besuchs|ich Urlaub bekomme, wahrscheinlich im Juli]].
-
-Du fragst nach meiner Wohnung: [[Wohnung|Ich habe zwei Zimmer und eine große Terrasse, auf der ich im Sommer grille]]. Dort feiern wir oft mit Freunden.
-
-Dein Nachbarproblem lässt sich leicht lösen. [[Tipp|Besuche ein Straßenfest in deinem Viertel. Dort sind fast alle Nachbarn und sprechen gern mit Neuen]]. Frag auch im Rathaus, wann es so etwas gibt.
-
-Neuigkeiten: [[Neuigkeit|Ich bin einem Sportclub beigetreten und spiele jetzt zweimal pro Woche Volleyball]].
-
-Schreib mir bitte, wie du den Termin findest.
+Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Nour]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Besuch in den Ferien, Wohnung mit Mitbewohner, Stammtisch, neue Brille", t: `Hallo [[Name des Freundes|Naco]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Naco]],
 
-es tut gut, von dir zu hören! Wenn du mich einlädst, besuche ich dich sehr gern, am besten [[Zeitpunkt des Besuchs|in den Sommerferien, wenn ich keine Termine habe]].
+danke für deine Mail. [[Reaktion auf die Wohnung|Ich freue mich über deine Wohnung, auch wenn der Umzug dich müde gemacht hat]]. Einsamkeit in einer neuen Stadt ist normal, das braucht Zeit.
 
-Zu meiner Wohnung: [[Wohnung|Ich teile mir eine Wohnung mit einem Mitbewohner]], und wir haben ein Wohnzimmer mit einem großen Fernseher. Das Zusammenleben klappt gut.
+Einen Besuch finde ich schön, aber ich muss prüfen, ob es klappt. [[Zeitpunkt des Besuchs|Vielleicht im Frühjahr, wenn ich Urlaub bekomme]].
 
-Wenn du mit den Nachbarn in Kontakt kommen willst, [[Tipp|geh zu einem Stammtisch in einer Gaststätte in der Nähe. Dort sitzen oft Nachbarn zusammen]]. Das ist leicht und kostet nicht viel.
+Meine Wohnung ist [[Größe der Wohnung|ziemlich klein]], aber [[Besonderheit der Wohnung|ich fühle mich wohl]].
 
-Bei mir gibt es nicht viel Neues, nur [[Neuigkeit|eine neue Brille, mit der ich viel besser sehe]]. Ich bin ganz glücklich damit.
+Bei den Nachbarn bin ich mit meinem Tipp vorsichtig: Einerseits [[Vorteil von Kontakt|hilft Kontakt gegen Einsamkeit]], andererseits [[Nachteil von Kontakt|braucht man Geduld]]. Ich würde [[Tipp 1|zuerst freundlich grüßen]] und später [[Tipp 2|zu einem Kaffee einladen]].
 
-Ich freue mich auf deine Antwort und auf einen Besuch bei dir.
+Bei mir [[Neuigkeit|hat sich nicht viel verändert]].
+
+Ich würde mich freuen, wenn wir uns bald sehen: [[Wunsch|Wir haben uns so lange nicht getroffen, und ich vermisse unsere Gespräche]]. Bei meinem Besuch bringe ich [[Mitbringsel|etwas Leckeres aus meiner Heimatstadt]] mit. Das gibt uns einen Anlass für ein schönes Essen.
+
+In meiner Freizeit gehe ich gern [[Freizeitaktivität|in ein kleines Kino in der Nähe]], wo man alte Filme sieht. Das ist eine gute Möglichkeit, Leute zu treffen, falls du so etwas auch in deiner Stadt findest. Vielleicht gibt es dort [[Möglichkeit|Filmabende mit Diskussion]].
+
+Ich freue mich auch darauf, mit dir über alte Zeiten zu reden: [[Erinnerung|über die Schulzeit, unsere Reisen und die lustigen Streiche]]. Das wird ein schöner Abend, und vielleicht [[Plan|schauen wir alte Fotos an]]. Ich bringe die Fotos mit, die ich noch habe.
+
+Schreib mir bitte, [[Frage an den Freund|ob dir das hilft]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Naco]],
+
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Wohnung|Glückwunsch zur Wohnung]].
+
+Als Nächstes zum Besuch: Ja, gern, [[Zeitpunkt des Besuchs|im Frühling]].
+
+Dann zu meiner Wohnung: [[Größe der Wohnung|Zwei Zimmer]].
+
+Dann zu den Nachbarn: Erstens [[Tipp 1|grüßen]], zweitens [[Tipp 2|zum Kaffee einladen]].
+
+Zuletzt zu meinen Neuigkeiten: [[Neuigkeit|Neue Arbeit]].
+
+Dein Satz, dass das Essen in der Stadt lecker ist, hat mich neugierig gemacht: [[Neugier|Welche Spezialität soll ich unbedingt probieren]]? Ich esse gern [[Vorliebe|regionale Gerichte und frisches Brot]]. Vielleicht kochen wir zusammen, wenn ich bei dir bin.
+
+Ich überlege außerdem, [[Plan|im Herbst einen Kurs für Fotografie zu belegen]]. Dort lernt man bestimmt viele Leute kennen, und ich kann dir später Fotos von meinem Besuch bei dir schicken. Vielleicht hast du auch Lust, so etwas zu machen, wenn du magst.
+
+Falls du magst, könnten wir auch beim Besuch [[Idee|dein Arbeitszimmer neu einrichten]], damit du dort noch lieber sitzt. Du hast bestimmt viele Bücher, die einen schönen Platz verdienen. Ich helfe gern, [[Hilfsangebot|ein paar Regale aufzubauen]], wenn du das möchtest.
+
+Ich freue mich sehr auf deine Antwort und auf unser Wiedersehen in deiner neuen Stadt. Wie geht es weiter? Schreib mir, [[Frage an den Freund|wann du Zeit hast]].
+
+[[Grußformel|Bis bald]]
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Naco]],
+
+deine Mail hat mich sehr berührt. [[Reaktion auf die Wohnung|Ich freue mich so für dich und wünsche dir viel Glück]]. Dass du manchmal einsam bist, verstehe ich gut.
+
+Ich besuche dich sehr gern, [[Zeitpunkt des Besuchs|am liebsten im Herbst]], und wir verbringen Zeit zusammen.
+
+Meine Wohnung ist [[Größe der Wohnung|klein und gemütlich]].
+
+Mein Tipp für die Nachbarn: [[Tipp 1|Lächle und sag Hallo, jeder freut sich darüber]]. Und [[Tipp 2|geh in einen Kurs, dort lernt man Menschen kennen]]. Du bist nicht allein.
+
+Bei mir gibt es [[Neuigkeit|ein neues Hobby, das mir Freude macht]].
+
+Noch ein Tipp für den Alltag: Schreib dir auf, [[Aufgabe|an welchem Tag du welche Aktivität machst]], dann bist du abends nicht so oft allein. Das mache ich auch so, und [[Wirkung|es hilft, die Woche zu strukturieren]]. Plane auch kleine Pausen und Treffen mit ein.
+
+Eine kleine Neuigkeit noch: [[Neuigkeit|Ich habe meinen Führerschein gemacht]]. Dadurch bin ich viel flexibler und könnte dich auch mit dem Auto besuchen. Ich wollte dir das schon lange erzählen, aber ich bin nicht dazu gekommen, und nun freue ich mich über die Gelegenheit.
+
+Wenn dich die Stadt zu sehr müde macht, nimm dir [[Rat|jeden Tag zehn Minuten Pause auf dem Balkon]]. Das klingt klein, aber es hilft. Ich mache das auch, und [[Wirkung|danach bin ich viel entspannter]]. Und du hast einen so schönen Balkon, nutze ihn!
+
+Erzähl mir, [[Frage an den Freund|wie ich dich unterstützen kann]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Walid]]` },
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Naco]],
+
+neue Wohnung, cool! [[Reaktion auf die Wohnung|Klingt gemütlich und praktisch]].
+
+Besuch? Gern! [[Zeitpunkt des Besuchs|Im Sommer]].
+
+Meine Wohnung: [[Größe der Wohnung|klein, aber fein]].
+
+Nachbarn: [[Tipp 1|Einfach Hallo sagen]], [[Tipp 2|Kuchen mitbringen]].
+
+Neues: [[Neuigkeit|Nichts Besonderes]].
+
+Wenn dir die Wohnung noch leer vorkommt, hilft es, [[Wohnidee|Fotos, Pflanzen und Musik zu nutzen]], damit sie wohnlich wird. Meine Wohnung habe ich auch langsam eingerichtet, und [[Erfahrung|nach einem Monat fühlte ich mich schon zu Hause]]. Du schaffst das, da bin ich sicher.
+
+Zuletzt noch etwas Schönes: [[Schönes Ereignis|Ich habe in meiner Straße einen kleinen Flohmarkt entdeckt]], der jeden Sonntag stattfindet. Dort habe ich [[Fund|ein hübsches Bild für meine Wand]] gekauft. Bei deinem Besuch gehen wir gemeinsam hin, wenn du magst.
+
+Zum Schluss: Ich freue mich wirklich auf [[Vorfreude|den Besuch bei dir, das gute Essen und die Gespräche]]. Du bist ein guter Freund, und ich möchte, dass es dir gut geht. Schreib mir bitte regelmäßig, damit ich weiß, [[Bitte|wie es dir in der neuen Wohnung geht]].
+
+Ich freue mich echt auf deinen Besuch und auf alles, was wir zusammen machen können, denn wir haben uns viel zu lange nicht gesehen und hatten bestimmt beide viel zu erzählen. Meld dich, [[Frage an den Freund|wann du Zeit hast]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 
   // 15
-  { label: "Besuch nach dem Umzug, Wohnung mit Gästezimmer, Treppenhaus-Café, Fahrradtour", t: `Lieber [[Name des Freundes|Naco]],
+  { label: "dankbar, wertschätzend", t: `Lieber [[Name des Freundes|Naco]],
 
-deine Nachricht war eine schöne Überraschung! Ich gratuliere dir zur neuen Wohnung und komme dich besuchen, sobald [[Zeitpunkt des Besuchs|der Umzug bei mir vorbei ist, vielleicht Ende nächsten Monats]].
+ich danke dir für deine Mail. [[Reaktion auf die Wohnung|Ich freue mich sehr für dich, deine Wohnung klingt wunderbar]]. Danke, dass du mir davon erzählst.
 
-Meine Wohnung ist [[Wohnung|ziemlich groß, und ich habe sogar ein Gästezimmer]], in dem du übernachten kannst, wenn du mich besuchst. Du bist jederzeit willkommen.
+Für deine Einladung zum Besuch bin ich dankbar. [[Zeitpunkt des Besuchs|Ich komme gern im Spätsommer]].
 
-Für deine Nachbarn habe ich folgenden Tipp: [[Tipp|Mach doch ein kleines Treppenhaus-Café und stelle Kaffee und Kekse vor deine Tür]]. Das ist eine freundliche Idee, und viele Leute reden dann mit dir.
+Meine Wohnung ist [[Größe der Wohnung|klein und freundlich]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe angefangen, mit dem Fahrrad zur Arbeit zu fahren, und fühle mich viel fitter]].
+Dein Vertrauen, mir von deiner Einsamkeit zu erzählen, schätze ich sehr. Mein Tipp: [[Tipp 1|Sag den Nachbarn freundlich Hallo]], und [[Tipp 2|geh zu Veranstaltungen im Viertel]].
 
-Schreib mir bald, wie dir der Termin passt!
+Bei mir gibt es [[Neuigkeit|eine schöne Nachricht aus der Familie]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Aymen]]` },
+Noch ein Wort zu den Menschen in deiner Stadt: [[Beobachtung|Viele Leute sind freundlich, wenn man sie zuerst anspricht]]. Du kannst zum Beispiel [[Tipp|im Bus oder beim Bäcker ein paar Worte wechseln]], das macht den Alltag leichter. Ich habe das ausprobiert, und [[Ergebnis|nach zwei Wochen kannte mich die ganze Straße]].
+
+Auch beruflich bewegt sich etwas: [[Berufliche Neuigkeit|Ich soll im nächsten Jahr ein kleines Team leiten]]. Das freut mich, ist aber auch eine große Aufgabe. Ich werde [[Plan|einen Kurs zur Mitarbeiterführung besuchen]], und ich erzähle dir gern mehr, wenn wir uns sehen oder telefonieren.
+
+Falls du dich einmal ganz allein fühlst, ruf mich einfach an: [[Angebot|Ich habe fast jeden Abend ab acht Uhr Zeit]]. Wir können [[Plan|über alles reden, was dich beschäftigt]]. Das ist kein Problem für mich, denn Freunde sind mir wichtig, auch wenn wir weit voneinander entfernt wohnen.
+
+Danke für alles, schreib mir bald, [[Frage an den Freund|wann du Zeit hast]].
+
+[[Grußformel|Dankbare Grüße]]
+[[Dein Name|Nina]]` },
 ];

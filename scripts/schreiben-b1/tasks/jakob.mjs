@@ -1,226 +1,342 @@
-// Jakob – lauter Nachbar, will wissen wie die Wohnung/Nachbarn des Freundes sind. Points: ein Problem mit dem Nachbarn – ein Tipp · etwas über Ihre Wohnung · ein Vorschlag für ein Treffen · wie Ihre Nachbarn sind.
+// v2 (B2-style): Jakob hat Ärger mit einem lauten Nachbarn, fragt nach Tipps und will sich treffen. Points: ein Problem mit dem Nachbarn – ein Tipp · etwas über Ihre Wohnung ·
+// ein Vorschlag für ein Treffen · wie Ihre Nachbarn sind — plus: "Hattest du auch schon mal solche Schwierigkeiten?", "Worauf hast du Lust?".
+export const kw = [/Nachbar/, /Tipp|Rat|vorschlagen|sprich|Gespräch|Vermieter|Hausverwaltung|Zettel|Ohrstöpsel|Lärm|laut|Ruhezeit/i, /Wohnung|Zimmer|wohne|Haus/i, /treff|unternehmen|Kino|Café|Wochenende|Zeit/i, /schlage|Lust|Vorschlag|Idee|Treffen|treffen/i];
 export default [
   // 1
-  { label: "Freundliches Gespräch, helle Zweizimmerwohnung, Kino am Wochenende, ruhige Nachbarn", t: `Lieber [[Name des Freundes|Jakob]],
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Jakob]],
 
-schön, endlich wieder von dir zu hören! Dass du nach dem Urlaub viel zu tun hattest, kann ich gut verstehen. Das laute Radio deines Nachbarn ist wirklich ärgerlich.
+vielen Dank für deine Mail, ich habe mich sehr gefreut! Mach dir keine Gedanken, dass du länger nicht geschrieben hast. [[Reaktion auf die Pause|Nach dem Urlaub liegt immer viel Arbeit auf dem Tisch]]. Es tut mir leid, dass dich dein Nachbar so stört.
 
-Mein Tipp: [[Tipp|Sprich ihn freundlich an und erkläre ihm, dass du abends Ruhe brauchst]]. Oft merken die Leute gar nicht, dass es zu laut ist. Wenn das nicht hilft, kannst du auch mit dem Vermieter reden.
+Mein Tipp zum Lärm: [[Tipp 1|Sprich ihn freundlich an und erkläre, dass die Musik dich stört]]. Wenn das nicht hilft, [[Tipp 2|schreib einen kurzen Zettel oder sprich mit dem Vermieter]]. Ich hatte vor Jahren ein ähnliches Problem und habe [[Eigene Erfahrung|mit einem netten Gespräch alles gelöst]].
 
-Du fragst nach meiner Wohnung: [[Wohnung|Ich habe zwei helle Zimmer, eine kleine Küche und einen Balkon zur Straße]]. Meine Nachbarn sind [[Nachbarn|sehr ruhig und grüßen immer freundlich]].
+Meine Nachbarn sind [[Beschreibung der Nachbarn|ruhig und freundlich, wir grüßen uns jeden Tag]]. Mit der Nachbarin im ersten Stock [[Verhältnis zu einer Nachbarin|trinke ich manchmal Kaffee]].
 
-Ich schlage vor, dass wir uns [[Treffen|am Wochenende im Kino treffen]]. Danach können wir noch ein Eis essen.
+Meine Wohnung hat [[Größe der Wohnung|zwei Zimmer und einen kleinen Balkon]]. Ich mag [[Lieblingsplatz|das Sofa am Fenster, wo ich lese]].
 
-Melde dich bald bei mir!
+Für ein Treffen schlage ich vor, dass wir [[Treffpunkt|am Samstag ins Kino gehen]]. Danach [[Programm nach dem Kino|essen wir etwas in meinem Lieblingsrestaurant]].
+
+Beim Lärm kommt es auch auf die Uhrzeit an: In Deutschland gelten [[Ruhezeiten|ab 22 Uhr und mittags zwischen 13 und 15 Uhr]] meist Ruhezeiten, auf die du dich berufen kannst. Du kannst auch [[Protokoll|ein kleines Lärmprotokoll mit Datum und Uhrzeit führen]], falls es später Streit gibt.
+
+Ich lade dich gern zu mir ein, damit du meine Wohnung selbst siehst: [[Einladung|Komm zum Abendessen, ich koche etwas Einfaches]]. Du kannst auch [[Übernachtung|bei mir schlafen]], wenn es spät wird. Und vielleicht [[Zusatzidee|spielen wir ein paar Runden Karten]], das entspannt dich nach dem Ärger.
+
+Ich hoffe wirklich, dass sich das Problem bald löst: [[Wunsch|Du verdienst Ruhe und einen guten Schlaf]]. Wenn du mir berichtest, wie das Gespräch gelaufen ist, [[Bitte|freue ich mich über eine kurze Nachricht]]. Ich drücke dir die Daumen.
+
+Schreib mir bitte, [[Frage an den Freund|ob dir der Samstag passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
   // 2
-  { label: "Zettel schreiben, Dachwohnung, Café am Samstag, älteres Ehepaar im Haus", t: `Hallo [[Name des Freundes|Jakob]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Jakob]],
 
-wie nett, dass ich von dir höre! Es ist schön, dass du dich meldest, und dein Problem tut mir leid. Wenn jemand abends laut Musik hört, kann man kaum schlafen.
+schön, dass du dich meldest! Kein Stress wegen der Pause, [[Reaktion auf die Pause|nach dem Urlaub ist immer Chaos]]. Dein lauter Nachbar nervt, das kenne ich.
 
-Ich habe einen Tipp: [[Tipp|Schreib einen höflichen Zettel und stecke ihn in den Briefkasten deines Nachbarn]]. So kann er in Ruhe darüber nachdenken, und es gibt keinen Streit. Solche Zettel helfen oft.
+Mein Tipp: [[Tipp 1|Klingel einfach bei ihm und sag locker, dass du abends Ruhe brauchst]]. Und wenn das nichts bringt, [[Tipp 2|rede mit der Hausverwaltung oder kauf dir gute Ohrstöpsel]]. Ich hatte auch mal [[Eigene Erfahrung|einen Nachbarn, der um Mitternacht Gitarre gespielt hat]].
 
-Mein Zuhause ist [[Wohnung|eine kleine Dachwohnung mit schrägen Wänden und einem großen Fenster]]. Im Haus wohnen auch [[Nachbarn|ein älteres Ehepaar, das mir manchmal Kuchen bringt, und eine junge Familie]]. Sie sind alle nett.
+Meine Nachbarn? [[Beschreibung der Nachbarn|Eigentlich total entspannt, nur der Hund unten bellt manchmal]].
 
-Wie wäre es, wenn wir uns [[Treffen|am Samstag im Café am Markt treffen]]? Dann zeige ich dir ein Foto von meiner Wohnung.
+Meine Wohnung: [[Größe der Wohnung|ein Zimmer mit Küche, nicht groß, aber gemütlich]]. Die Lage ist [[Lage der Wohnung|super, direkt am Park]].
 
-Ich freue mich auf deine Antwort!
+Treffen? Klar! [[Treffpunkt|Wie wäre es mit einem Abend im Biergarten]]? Ich hätte Lust auf [[Programmidee|ein bisschen Quatschen und ein kaltes Getränk]].
+
+Wenn du Musik magst, könntest du vielleicht ein Angebot machen: [[Kompromiss|Er darf bis zehn Uhr abends laut hören, danach nur noch leise]]. Das ist ein fairer Vorschlag, und viele Nachbarn sind dafür offen. Wichtig ist, [[Ton|ruhig und höflich zu bleiben, auch wenn du genervt bist]].
+
+Wenn du magst, zeige ich dir meine Wohnung bei einem Videoanruf: [[Idee|Ich gehe mit dem Handy durch alle Zimmer und zeige dir die schönsten Ecken]]. Dann siehst du, wie ich wohne, und wir können gleich [[Plan|ein Treffen für das Wochenende planen]]. Ich freue mich darauf.
+
+Du kannst dich gern jederzeit bei mir melden: [[Angebot|Ich habe fast jeden Abend ab acht Uhr Zeit]]. Zwischen Arbeit und Freizeit gibt es immer Gelegenheit zu reden. Und wenn du lieber schreibst, [[Alternative|antworte ich gern per E-Mail]].
+
+Meld dich, [[Frage an den Freund|wann es bei dir klappt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Mit dem Vermieter sprechen, Altbauwohnung, Wanderung am Sonntag, hilfsbereite Nachbarn", t: `Lieber [[Name des Freundes|Jakob]],
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Jakob]],
 
-wie schön, von dir zu lesen! Es tut mir leid, dass du Probleme mit deinem Nachbarn hast. Laute Musik am Abend ist wirklich nicht schön.
+wow, schön, von dir zu hören! Mach dir keine Sorgen wegen der Pause. [[Reaktion auf die Pause|Hauptsache, du hast einen schönen Urlaub gehabt]]. Dass dein Nachbar so laut Musik hört, tut mir leid.
 
-Ich würde dir raten: [[Tipp|Sprich mit deinem Vermieter oder der Hausverwaltung, wenn ein Gespräch nichts bringt]]. In der Hausordnung stehen meistens Ruhezeiten. Das gilt auch für deinen Nachbarn.
+Ich habe einen Tipp: [[Tipp 1|Gehe zu ihm, stell dich freundlich vor und bitte ihn, abends leiser zu sein]]. Das funktioniert oft besser, als man denkt. [[Tipp 2|Wenn nicht, zeig ihm die Hausordnung mit den Ruhezeiten]]. Ich hatte auch einmal [[Eigene Erfahrung|einen sehr lauten Nachbarn und habe ihn zum Kaffee eingeladen]].
 
-Meine Wohnung ist [[Wohnung|eine Altbauwohnung mit Holzboden und hohen Decken]]. Sie ist größer, als sie aussieht. Meine Nachbarn sind [[Nachbarn|sehr hilfsbereit, und wir helfen uns oft gegenseitig mit Einkäufen]].
+Meine Nachbarn sind [[Beschreibung der Nachbarn|wunderbar, wir feiern manchmal zusammen im Hof]].
 
-Ich schlage vor, dass wir uns [[Treffen|am Sonntag zu einer Wanderung treffen]]. Das tut gut nach einer langen Woche.
+Meine Wohnung ist [[Größe der Wohnung|hell und hat zwei Zimmer]], und [[Besonderheit der Wohnung|ich habe einen kleinen Garten]].
 
-Schreib mir, was du davon hältst.
+Ein Treffen? Super! [[Treffpunkt|Wir könnten am Wochenende wandern gehen]], und danach [[Programm danach|grillen wir bei mir im Garten]]. Ich habe richtig Lust darauf!
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Karim]]` },
+Ein Vorschlag aus meiner Erfahrung: Lade ihn [[Einladung|zu einem Kaffee oder zu einem kleinen Grillabend ein]], dann lernt ihr euch kennen. Wer sich kennt, [[Wirkung|nimmt viel mehr Rücksicht aufeinander]]. Bei mir hat das schon einmal geklappt, und es war überraschend einfach.
+
+Meine Wohnung liegt [[Lage|im dritten Stock, mit Blick auf einen kleinen Park]]. Es ist ruhig, weil [[Grund|die Straße nicht stark befahren ist]]. Im Sommer sitze ich auf dem Balkon und lese. Wenn du kommst, [[Angebot|trinken wir dort einen Tee, und du kannst dich ausruhen]].
+
+Übrigens habe ich auch gute Nachrichten: [[Neuigkeit|Ich habe nächsten Monat eine Woche Urlaub und könnte dich besuchen]]. Dann hätten wir viel Zeit zum Reden und Unternehmen. Das ist eine Idee, über die du nachdenken kannst, wenn es dir passt.
+
+Schreib mir bald, [[Frage an den Freund|wann du Zeit hast]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Ohrstöpsel ausprobieren, Neubauwohnung, Fußballabend, laute Studenten im Haus", t: `Hallo [[Name des Freundes|Jakob]],
+  { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine Nachricht, und schön, dass du nach dem Urlaub wieder Zeit zum Schreiben hast! Dass dein Nachbar laut Musik hört, klingt wirklich anstrengend.
+vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
 
-Ein kleiner Tipp von mir: [[Tipp|Kauf dir Ohrstöpsel für den Abend, bis das Problem gelöst ist]]. Das ist nicht teuer, und du schläfst besser. Und natürlich solltest du ihn auch einmal ansprechen.
+Erstens, die Pause: [[Reaktion auf die Pause|Du musst dich nicht entschuldigen, nach dem Urlaub ist viel zu tun]].
 
-Meine Wohnung ist [[Wohnung|eine moderne Neubauwohnung im vierten Stock mit Fahrstuhl]]. Bei mir im Haus wohnen viele Studenten, und [[Nachbarn|meine Nachbarn sind manchmal auch ziemlich laut, besonders am Wochenende]]. Deshalb kenne ich dein Problem gut.
+Zweitens, dein Problem: Ich empfehle, [[Tipp 1|zuerst freundlich mit deinem Nachbarn zu sprechen]]. Falls das nicht hilft, [[Tipp 2|solltest du den Vermieter oder die Hausverwaltung informieren]]. Ich selbst hatte [[Eigene Erfahrung|einmal Probleme mit nächtlichem Lärm]].
 
-Wollen wir uns [[Treffen|am Freitagabend zum Fußballschauen treffen]]? Dann können wir ganz in Ruhe reden.
+Drittens, meine Nachbarn: [[Beschreibung der Nachbarn|Sie sind ruhig und hilfsbereit]].
 
-Ich freue mich auf deine Antwort!
+Viertens, meine Wohnung: Sie hat [[Größe der Wohnung|zwei Zimmer und einen Balkon]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Fünftens, ein Treffen: Ich schlage [[Treffpunkt|Samstag, 15 Uhr in einem Café in der Innenstadt]] vor.
+
+Sollte der Lärm bis nachts anhalten, rate ich dir, [[Schritt|Datum, Uhrzeit und Dauer aufzuschreiben]] und dem Vermieter eine kurze E-Mail zu senden. Bleib dabei [[Ton|sachlich und höflich]], dann wird die Beschwerde ernst genommen. Mit einem Anwalt musst du erst bei großen Problemen rechnen.
+
+Zur Wohnung noch ein Detail: Sie ist [[Zustand|frisch gestrichen und mit wenigen Möbeln eingerichtet]]. Ich mag es einfach und hell. Das wirkt auf mich beruhigend, und das empfehle ich auch dir, [[Rat|falls du dein Zuhause gemütlicher machen möchtest]].
+
+Zum Thema Treffen: Ich finde es gut, wenn wir [[Vorschlag|uns regelmäßig sehen, zum Beispiel einmal im Monat]]. Das gibt uns beiden Halt. Wir könnten abwechselnd [[Plan|bei dir und bei mir treffen]], dann lernt jeder die Umgebung des anderen kennen.
+
+Bitte teile mir mit, [[Frage an den Freund|ob dir der Termin passt]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Lärmprotokoll führen, Wohnung mit Garten, Spaziergang am Fluss, freundliche Familie nebenan", t: `Lieber [[Name des Freundes|Jakob]],
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Jakob]],
 
-deine Zeilen haben mich gefreut, und ich verstehe, dass der Lärm dich stört. Ich hoffe, dass sich das bald ändert.
+danke für deine Mail! [[Reaktion auf die Pause|Es ist ganz in Ordnung, dass du länger nicht geschrieben hast]]. Zu deinem Problem helfe ich dir gern.
 
-Mein Rat: [[Tipp|Schreib auf, wann der Nachbar laut ist, mit Datum und Uhrzeit]]. Mit so einem Protokoll kannst du später mit dem Vermieter reden. Aber probier zuerst ein freundliches Gespräch.
+Praktische Tipps gegen den Lärm: [[Tipp 1|Sprich den Nachbarn freundlich an und bitte ihn, nach 22 Uhr leiser zu sein]]. Außerdem [[Tipp 2|hilft ein Zettel im Hausflur und notfalls ein Gespräch mit dem Vermieter]]. Wenn du willst, [[Praktische Hilfe|formuliere ich mit dir einen höflichen Brief]].
 
-Zu meiner Wohnung: [[Wohnung|Ich wohne im Erdgeschoss und habe einen kleinen Garten mit einem Apfelbaum]]. Nebenan wohnen meine Nachbarn, [[Nachbarn|eine freundliche Familie mit zwei Kindern, die oft über den Zaun mit mir plaudert]]. Ich kenne sie gut.
+Meine Nachbarn sind [[Beschreibung der Nachbarn|nett, wir helfen uns gegenseitig]].
 
-Als Treffen schlage ich [[Treffen|einen Spaziergang am Fluss am Sonntagnachmittag]] vor. Dann können wir in Ruhe erzählen.
+Meine Wohnung hat [[Größe der Wohnung|zwei Zimmer]], und [[Besonderheit der Wohnung|ich habe einiges selbst gebaut]].
 
-Schreib mir bitte bald, ob dir das gefällt.
+Zum Treffen: Ich schlage [[Treffpunkt|ein gemeinsames Mittagessen am Sonntag]] vor.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Amira]]` },
+Ich kann dir auch einen kleinen Brief vorschlagen: [[Textidee|Lieber Nachbar, könntest du bitte nach 22 Uhr etwas leiser sein?]] Das klingt freundlich und klar. Du kannst ihn unter seine Tür legen, wenn du ihn nicht persönlich treffen magst.
+
+Ich habe vor einiger Zeit [[Veränderung|ein neues Regal gebaut und ein paar Pflanzen aufgestellt]], seitdem fühle ich mich noch wohler. Wenn du Ideen für deine Wohnung brauchst, [[Hilfsangebot|helfe ich dir gern beim Einrichten]]. Das wäre eine schöne Beschäftigung, wenn wir uns treffen.
+
+Wenn du noch weitere Fragen zu meiner Wohnung oder zu meinem Wohnort hast, [[Angebot|schicke ich dir gern ein paar Fotos]]. Ich mache gern Bilder von den schönsten Ecken, und vielleicht [[Idee|bekommst du eine Idee für deine eigene Wohnung]]. Das wäre ein schöner Nebeneffekt.
+
+Sag mir bitte, [[Frage an den Freund|ob ich noch helfen kann]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Hausordnung zeigen, Zweizimmerwohnung im Zentrum, Billard, laute Hunde nebenan", t: `Hallo [[Name des Freundes|Jakob]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Jakob]],
 
-wie schön, dass du mir geschrieben hast! Es tut mir leid, dass du Ärger mit der Musik deines Nachbarn hast. Du bist ja ein ruhiger Typ und brauchst abends deinen Schlaf.
+du brauchst dich nicht zu entschuldigen, denn [[Begründung für die Nachsicht|nach einem Urlaub hat jeder viel zu tun]]. Dein lauter Nachbar ist ein echtes Problem, deshalb helfe ich dir gern.
 
-Ich habe einen Tipp: [[Tipp|Schau in die Hausordnung]]. Dort steht meistens, ab wann Ruhe sein muss. Zeig sie deinem Nachbarn freundlich. Dann siehst du, dass er sich nicht an die Regeln hält.
+Mein Tipp: Sprich zuerst mit ihm, denn [[Grund für das Gespräch|oft weiß er gar nicht, dass er stört]]. [[Tipp 1|Bitte ihn freundlich, abends leiser zu sein]]. Wenn das nicht hilft, [[Tipp 2|wende dich an die Hausverwaltung]], weil [[Grund für die Hausverwaltung|sie für Ruhezeiten zuständig ist]].
 
-Meine Wohnung liegt [[Wohnung|mitten im Zentrum und hat zwei Zimmer mit Blick auf einen Park]]. Meine Nachbarn sind [[Nachbarn|meistens nett, aber im Erdgeschoss wohnt jemand mit zwei lauten Hunden]]. Auch bei mir gibt es also kleine Probleme.
+Meine Nachbarn sind [[Beschreibung der Nachbarn|angenehm und rücksichtsvoll]], weil [[Grund|im Haus klare Regeln gelten]].
 
-Wie wäre es, wenn wir uns [[Treffen|zu einem Billardabend treffen]]? Ich kenne eine nette Bar.
+Meine Wohnung ist [[Größe der Wohnung|klein, aber praktisch]].
 
-Ich freue mich schon auf deine Antwort.
+Ich schlage ein Treffen [[Treffpunkt|am Samstag im Café]] vor, weil [[Grund für das Treffen|wir uns lange nicht gesehen haben]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Youssef]]` },
+Außerdem würde ich überlegen, [[Überlegung|ob du selbst etwas gegen den Lärm tun kannst, zum Beispiel mit Ohrstöpseln]]. Das ist keine Lösung, aber es hilft zwischendurch. Das Wichtigste ist, dass du dich in deiner Wohnung wohlfühlst und gut schläfst.
+
+Mit meinen Nachbarn habe ich eine besondere Regel: [[Hausregel|Wir grüßen uns immer und helfen einander, zum Beispiel beim Tragen von Einkäufen]]. Das schafft Vertrauen, und Probleme lassen sich so leichter lösen. Vielleicht gibt es bei dir auch [[Idee|jemanden im Haus, mit dem du dich gut verstehst]].
+
+Ich muss noch erwähnen, dass ich im Moment [[Beschäftigung|viel Sport mache und abends müde bin]], deshalb melde ich mich vielleicht etwas später. Aber ich antworte immer, versprochen. Du kannst dich auf mich verlassen, auch wenn es mal ein paar Tage dauert.
+
+Schreib mir, [[Frage an den Freund|ob dir der Samstag passt]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Nachbarn zum Kaffee einladen, kleine Studiowohnung, Minigolf, Rentner im Erdgeschoss", t: `Lieber [[Name des Freundes|Jakob]],
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine E-Mail, ich habe mich sehr gefreut! Dass du Probleme mit deinem Nachbarn hast, tut mir leid. Aber vielleicht lässt sich das einfach lösen.
+danke für deine Mail, hier kurz meine Antworten.
 
-Mein Vorschlag: [[Tipp|Lade ihn auf einen Kaffee ein und sprich dabei über die Musik]]. Bei einer Tasse Tee lässt sich vieles leichter besprechen. Das habe ich auch schon einmal gemacht, und danach war alles gut.
+Pause: [[Reaktion auf die Pause|Kein Problem]].
 
-Meine eigene Wohnung ist [[Wohnung|ein kleines Studio mit einer Küchenzeile und einem Schlafsofa]]. Meine Nachbarn sind [[Nachbarn|sehr nett, besonders ein Rentner im Erdgeschoss, der mir oft Gemüse aus seinem Garten schenkt]].
+Tipp: [[Tipp 1|Freundlich mit dem Nachbarn sprechen]]. [[Tipp 2|Sonst Hausverwaltung informieren]].
 
-Ich schlage vor, dass wir uns [[Treffen|am Wochenende zum Minigolf treffen]]. Das wird lustig.
+Meine Nachbarn: [[Beschreibung der Nachbarn|Ruhig und nett]].
 
-Schreib mir bald!
+Meine Wohnung: [[Größe der Wohnung|Zwei Zimmer, Balkon]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Salma]]` },
+Treffen: [[Treffpunkt|Samstag im Café]].
+
+Falls du Lust auf ein Gespräch mit jemandem hast, der dasselbe erlebt hat: [[Angebot|Ruf mich einfach abends an]]. Ich höre gern zu, und manchmal tut es gut, sich auszusprechen. Wir können auch gemeinsam überlegen, [[Plan|was du als Nächstes machst]].
+
+Für unser Treffen schlage ich außerdem vor, [[Programm|dass wir nach dem Kino noch einen Spaziergang am Fluss machen]]. Dann können wir in Ruhe reden und alles besprechen, was dich beschäftigt. Das tut dir bestimmt gut, und mir macht es Freude, dich wiederzusehen.
+
+Was du in deiner Wohnung auch tun kannst, um dich wohler zu fühlen: [[Tipp|Hänge dicke Vorhänge auf und stelle Möbel an die Wand zum Nachbarn]]. Das dämpft den Schall ein bisschen. Es ist keine perfekte Lösung, aber es hilft schon etwas.
+
+Ich freue mich sehr auf unser Wiedersehen und auf [[Vorfreude|einen entspannten gemeinsamen Nachmittag]], denn wir haben uns lange nicht gesehen und bestimmt viel zu erzählen. Gib mir bitte kurz Bescheid, [[Frage an den Freund|ob das passt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Hausmeister einschalten, Wohnung mit Balkon, Stadtfest, ruhige Familie", t: `Hallo [[Name des Freundes|Jakob]],
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Jakob]],
 
-schön, dass du dich wieder meldest! Du hast viel zu tun gehabt, und dann auch noch dein Problem mit der lauten Musik. Das tut mir leid.
+nach dem Urlaub ist man ja erst mal erschöpft, [[Reaktion auf die Pause|deshalb verzeihe ich dir die Funkstille]]. Dass dein Nachbar laut Musik hört, finde ich nicht lustig, aber ich helfe dir.
 
-Mein Tipp: [[Tipp|Sprich mit dem Hausmeister. Er kennt meistens alle Leute im Haus und kann vermitteln]]. Oft reicht ein kurzes Gespräch. Wenn das nicht klappt, kannst du dich an die Hausverwaltung wenden.
+Mein Tipp: [[Tipp 1|Lade ihn zum Kaffee ein und lass die Musik leiser drehen]]. Oder [[Tipp 2|spiel zurück und höre abends deine Lieblingsoper in voller Lautstärke]]. Ich hatte mal [[Eigene Erfahrung|einen Nachbarn mit Schlagzeug, und ich habe geweint]].
 
-Meine Wohnung hat [[Wohnung|zwei Zimmer und einen großen Balkon, auf dem ich viele Blumen habe]]. Meine Nachbarn sind [[Nachbarn|eine ruhige Familie mit einem kleinen Baby und eine alte Dame, die oft lächelt]]. Wir grüßen uns immer.
+Meine Nachbarn: [[Beschreibung der Nachbarn|Der Mann unten spricht nur mit seiner Katze]].
 
-Ich habe eine Idee für ein Treffen: [[Treffen|Wir besuchen am Samstag zusammen das Stadtfest]]. Dort gibt es Musik und Essen.
+Meine Wohnung: [[Größe der Wohnung|zwei Zimmer und ein sprechender Kühlschrank]].
 
-Ich freue mich auf deine Antwort!
+Treffen? [[Treffpunkt|Gern bei einem Pizza-Abend mit viel Käse]]. Ich habe Lust auf alles, [[Programmidee|was keine Nachbarn stört]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Ines]]` },
+Du hast gefragt, ob ich auch schon solche Schwierigkeiten hatte: Ja, [[Eigene Erfahrung|vor drei Jahren, als über mir jemand eingezogen ist, der abends getanzt hat]]. Damals habe ich [[Lösung|nach zwei Wochen mit ihm gesprochen]], und es wurde besser. Seitdem sage ich lieber früh etwas.
+
+Falls du am Wochenende keine Zeit hast, passt mir auch [[Alternative|ein Abend unter der Woche]]. Ich bin da flexibel und freue mich, wenn wir uns bald sehen. Du kannst auch [[Vorschlag|zu mir kommen, ich koche gern für dich]], dann musst du nicht lange planen.
+
+Ich überlege außerdem, [[Plan|im Sommer einen kleinen Ausflug mit Freunden zu organisieren]]. Wenn du Lust hast, bist du natürlich herzlich eingeladen. Dann hast du Abstand vom Alltag, und wir können gemeinsam lachen und entspannen.
+
+Schreib bald, [[Frage an den Freund|wann du kommst]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Absprache über Musikzeiten, Wohnung im dritten Stock, Café-Besuch, Nachbarn mit Kindern", t: `Lieber [[Name des Freundes|Jakob]],
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine Zeilen, und schön, dass du zurück bist! Ich verstehe gut, dass dich die Musik deines Nachbarn nervt, besonders am Abend.
+als ich deine Mail gelesen habe, musste ich an meine erste Wohnung denken. [[Erinnerung an die erste Wohnung|Ich hatte damals einen Nachbarn, der morgens um sechs Staub gesaugt hat]]. Dass du länger nicht geschrieben hast, ist nicht schlimm.
 
-Hier mein Tipp: [[Tipp|Schlag ihm vor, dass er nach 20 Uhr Kopfhörer benutzt]], und biete ihm im Gegenzug an, dass du am Tag nichts sagst. Eine klare Absprache ist oft besser als Streit.
+Mein Tipp zu deinem Nachbarn: [[Tipp 1|Rede ruhig mit ihm, ohne Vorwurf]]. Bei mir hat damals [[Eigene Erfahrung|ein freundliches Gespräch im Treppenhaus geholfen]].
 
-Zu meiner Wohnung: [[Wohnung|Sie liegt im dritten Stock eines schönen Hauses, mit Blick auf einen Spielplatz]]. Meine Nachbarn sind [[Nachbarn|freundlich, und es wohnen viele Familien mit Kindern im Haus]]. Manchmal sind die Kinder laut, aber das stört mich nicht.
+Meine Nachbarn heute sind [[Beschreibung der Nachbarn|sehr nett, wir haben ein Haustreffen im Sommer]].
 
-Wir könnten uns [[Treffen|am Dienstagabend in einem Café treffen]]. Dann hast du Zeit zum Erzählen.
+Meine Wohnung: [[Größe der Wohnung|zwei Zimmer in einem alten Haus]].
 
-Schreib mir bald, ob dir das passt.
+Ein Treffen schlage ich [[Treffpunkt|am Wochenende in meinem Lieblingscafé]] vor.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Fares]]` },
+Ich würde dir raten, nicht zu lange zu warten, denn [[Grund|der Ärger wird sonst größer]]. Ein kurzes, freundliches Gespräch ist meist das Beste. Falls du dich nicht traust, [[Hilfsangebot|komme ich gern vorbei und wir klingeln zusammen]]. Dann bist du nicht allein.
+
+Worauf ich Lust habe? [[Lust|Auf alles, wo man sich unterhalten kann, ein Café, ein Spaziergang, ein Kinofilm]]. Hauptsache, wir haben Zeit für uns. Und ich bringe [[Mitbringsel|eine kleine Überraschung]] mit, damit der Tag etwas Besonderes wird.
+
+Weil du nach meinen Nachbarn gefragt hast: Mit einer Nachbarin habe ich [[Verhältnis|oft kleine Gespräche am Gartenzaun]], und mit einem anderen Nachbarn [[Weiteres Verhältnis|tausche ich manchmal Bücher]]. So fühlt man sich im Haus zu Hause und nicht allein.
+
+Erzähl mir, [[Frage an den Freund|wie du den Lärm aushältst]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Polizei nur als letzte Lösung, Wohnung mit Gästezimmer, Grillen im Park, Nachbarin backt Kuchen", t: `Hallo [[Name des Freundes|Jakob]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Jakob]],
 
-vielen Dank für deine Mail! Dass du ein Problem mit einem lauten Nachbarn hast, tut mir leid. Ich hoffe, dass wir eine Lösung finden.
+danke für deine Mail. [[Reaktion auf die Pause|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dein Nachbar-Problem.
 
-Mein Rat: [[Tipp|Sprich zuerst mit ihm, dann mit dem Vermieter. Die Polizei kannst du als letzte Lösung anrufen]]. Aber meistens ist ein freundliches Gespräch genug. Versuche es noch einmal mit Ruhe.
+Mein erster Vorschlag: [[Tipp 1|Sprich freundlich mit ihm]]. Mein zweiter Vorschlag: [[Tipp 2|Schreib einen kurzen Zettel mit den Ruhezeiten]]. Mein dritter Vorschlag: [[Tipp 3|Wende dich an die Hausverwaltung, falls es nicht besser wird]].
 
-Meine Wohnung hat [[Wohnung|drei Zimmer und sogar ein kleines Gästezimmer]]. Du kannst gern bei mir übernachten, wenn du kommst. Meine Nachbarn sind [[Nachbarn|sehr sympathisch, und die Frau neben mir backt manchmal Kuchen für alle im Haus]].
+Meine Nachbarn sind [[Beschreibung der Nachbarn|angenehm]]. Meine Wohnung hat [[Größe der Wohnung|zwei Zimmer]].
 
-Wie wäre es, wenn wir uns [[Treffen|im Park zum Grillen treffen]]? Das Wetter wird bald besser.
+Mein vierter Vorschlag: Wir treffen uns [[Treffpunkt|am Wochenende zum Wandern]], damit du abschalten kannst.
 
-Antworte mir bitte bald.
+Für den Fall, dass er schwerhörig ist oder es nicht merkt, [[Tipp|bring ihm freundlich ein kleines Geschenk, zum Beispiel Kopfhörer]]. Das klingt lustig, aber es zeigt, dass du es nett meinst. Ich glaube, das hilft mehr als jeder ernste Brief und löst die Situation entspannt.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Emna]]` },
+Ich habe noch eine Idee für das Wochenende: [[Idee|ein Ausflug mit dem Fahrrad zu einem See]]. Wir können [[Programm|dort baden und grillen]], das lenkt dich vom Ärger ab. Und wir lernen auf dem Weg die Gegend kennen, wenn du magst.
 
-  // 11
-  { label: "Gemeinsames Gespräch mit Zeugen, Wohnung am Stadtrand, Fahrradtour, Hausbewohner mit Hund", t: `Lieber [[Name des Freundes|Jakob]],
+Ich bin sicher, dass du das Problem bald im Griff hast. Du bist [[Eigenschaft|ein geduldiger und freundlicher Mensch]], das hilft. Und falls du noch Unterstützung brauchst, [[Hilfsangebot|sprechen wir am Telefon darüber]]. Du bist nicht allein, das möchte ich dir sagen.
 
-deine Nachricht hat mich gefreut, auch wenn dein Problem mir leid tut. Laute Musik ist besonders am Abend sehr unangenehm.
-
-Einen Tipp habe ich: [[Tipp|Geh nicht allein zu ihm, sondern nimm einen anderen Nachbarn mit, der auch gestört wird]]. Dann merkt er, dass es mehrere Leute stört. Danach ändert sich oft etwas.
-
-Meine Wohnung liegt [[Wohnung|am Stadtrand, hat zwei Zimmer und ist ziemlich ruhig]]. Dort wohnen [[Nachbarn|meistens ältere Leute, die früh schlafen gehen, und ein Mann, der mit seinem Hund spazieren geht]]. Mit denen komme ich gut aus.
-
-Ich schlage [[Treffen|eine Fahrradtour am Wochenende]] vor. Wir treffen uns bei mir und fahren dann zum See.
-
-Schreib mir bald zurück!
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Aymen]]` },
-
-  // 12
-  { label: "Selbst Musik einladen, kleine Wohnung mit Katze, Museumsbesuch, Nachbar spielt Gitarre", t: `Hallo [[Name des Freundes|Jakob]],
-
-wie schön, dass du schreibst! Dass du Ärger mit dem Nachbarn hast, tut mir leid. Aber ich glaube, dass sich das lösen lässt.
-
-Mein Tipp: [[Tipp|Frag ihn, ob er dir einmal vorspielt, was er hört. Vielleicht gefällt dir die Musik sogar]]. So kommt ihr ins Gespräch, und er merkt, dass dich der Lärm stört. Danach kannst du ihn freundlich bitten, leiser zu sein.
-
-Meine Wohnung ist [[Wohnung|klein, aber gemütlich, und ich wohne dort mit meiner Katze]]. Mein Nachbar ist [[Nachbarn|ein junger Mann, der abends Gitarre spielt. Das gefällt mir, weil er sehr gut ist]].
-
-Wie wäre es, wenn wir uns [[Treffen|am Wochenende zu einem Museumsbesuch treffen]]?
-
-Ich bin gespannt auf deine Antwort.
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Walid]]` },
-
-  // 13
-  { label: "Lärmschutz ins Fenster, Wohnung mit Terrasse, Eis essen, nette Nachbarn mit Spielabend", t: `Lieber [[Name des Freundes|Jakob]],
-
-danke für deinen Brief! Ich freue mich, dass es dir sonst gut geht, aber die laute Musik tut mir leid. Das kenne ich von früher.
-
-Ein Tipp: [[Tipp|Du kannst dir dichte Vorhänge oder Dichtungen für das Fenster besorgen, damit weniger Lärm hereinkommt]]. Das ist eine einfache Hilfe, bis ihr eine Lösung gefunden habt. Und ein ruhiges Wort an den Nachbarn schadet nicht.
-
-Meine Wohnung hat [[Wohnung|zwei Zimmer und eine große Terrasse, auf der ich im Sommer esse]]. Meine Nachbarn sind [[Nachbarn|nett, und wir machen manchmal einen gemeinsamen Spielabend im Hof]].
-
-Hast du Lust, dich [[Treffen|nächste Woche mit mir auf ein Eis zu treffen]]? Dann erzähle ich dir mehr.
-
-Schreib mir bitte, wann es passt.
+Was hältst du davon? Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Ruhe-Zeiten besprechen, Wohnung über einer Bäckerei, Konzertbesuch, Nachbarn mit Hund", t: `Hallo [[Name des Freundes|Jakob]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Jakob]],
 
-deine E-Mail hat mich gefreut, und ich bin froh, dass du dich nach dem Urlaub endlich meldest! Dein Problem mit der Musik ist unangenehm, aber du kannst bestimmt etwas tun.
+danke für deine Mail. [[Reaktion auf die Pause|Du brauchst dich nicht zu entschuldigen]]. Zu deinem Problem möchte ich vorsichtig antworten.
 
-Mein Rat: [[Tipp|Sag deinem Nachbarn freundlich, welche Zeiten du als Ruhezeit brauchst, zum Beispiel nach 21 Uhr]]. Wenn er das hört, passt er sich vielleicht an.
+Einerseits [[Vorteil des Gesprächs|kann ein freundliches Gespräch helfen]], andererseits [[Nachteil des Gesprächs|kann es zu Streit führen]]. Ich würde zuerst [[Tipp 1|einen höflichen Zettel schreiben]] und danach [[Tipp 2|die Hausverwaltung fragen]].
 
-Zu meiner Wohnung: [[Wohnung|Ich wohne über einer Bäckerei, und morgens duftet es im ganzen Haus nach Brot]]. Meine Nachbarn sind [[Nachbarn|ruhig, und im Nachbarhaus wohnt ein Mann mit einem sehr netten alten Hund]].
+Meine Nachbarn sind [[Beschreibung der Nachbarn|meist ruhig, aber nicht immer]].
 
-Ich schlage vor, dass wir uns [[Treffen|bald zu einem Konzert in der Stadt treffen]]. Am Wochenende läuft eines.
+Meine Wohnung ist [[Größe der Wohnung|nicht groß]].
 
-Ich freue mich auf deine Antwort.
+Ein Treffen finde ich schön. [[Treffpunkt|Vielleicht am Samstag, wenn es bei dir passt]].
+
+Ich verstehe gut, dass dich das stört, [[Mitgefühl|besonders, wenn man nach der Arbeit Ruhe braucht]]. Wichtig ist, dass du nicht wütend wirst. Ein ruhiger Ton bringt dich weiter, [[Rat|auch wenn es dir schwerfällt]]. Du hast das Recht auf Ruhe und kannst darauf bestehen.
+
+Zu deiner Frage nach meiner Wohnung: Sie ist [[Beschreibung|klein, aber ich habe alles, was ich brauche]]. Besonders wichtig sind mir [[Wichtiges|ein bequemes Bett und ein Schreibtisch am Fenster]]. Mehr brauche ich nicht, und ich bin froh damit.
+
+Ich bin gespannt, wie dein Gespräch mit dem Nachbarn verläuft: [[Neugier|Wirst du ihn heute noch ansprechen oder wartest du bis zum Wochenende]]? Egal, wie du dich entscheidest, ich unterstütze dich. Und wenn es nicht klappt, überlegen wir zusammen weiter, ohne Druck.
+
+Schreib mir bitte, [[Frage an den Freund|ob dir das hilft]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Jakob]],
+
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Pause|Entschuldige dich nicht]].
+
+Als Nächstes zu deinem Problem: [[Tipp 1|Sprich zuerst freundlich mit dem Nachbarn]]. Dann [[Tipp 2|schreib einen Zettel]]. Zuletzt [[Tipp 3|informiere die Hausverwaltung]].
+
+Dann zu meinen Nachbarn: [[Beschreibung der Nachbarn|Sie sind nett]].
+
+Danach zu meiner Wohnung: [[Größe der Wohnung|zwei Zimmer]].
+
+Zuletzt zum Treffen: [[Treffpunkt|Samstag im Café]].
+
+Wenn dein Nachbar sich nicht ändert, kannst du auch [[Alternative|deine Wohnung mit einer Schallschutzdecke etwas ruhiger machen]]. Das ist zwar nur eine Notlösung, aber es hilft. Vielleicht fragst du auch im Haus, [[Frage|ob andere Nachbarn dasselbe Problem haben]], dann habt ihr mehr Gewicht.
+
+Die Nachbarn bei mir sind insgesamt [[Eindruck|rücksichtsvoll und freundlich]], und deshalb ist es so ruhig. Natürlich gibt es auch mal [[Kleines Problem|ein Baby, das nachts schreit]], aber das gehört dazu. Man gewöhnt sich daran, wenn man verständnisvoll bleibt.
+
+Wie du siehst, habe ich viele Gedanken zu deinem Problem. Das zeigt, dass es mir nicht egal ist, wie es dir geht. [[Gefühl|Ich mache mir ein bisschen Sorgen, weil du so gestresst klingst]]. Gib bitte Bescheid, wenn du Hilfe brauchst oder einfach reden möchtest.
+
+Wie geht es weiter? Schreib mir, [[Frage an den Freund|ob das klappt]].
+
+[[Grußformel|Bis bald]]
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Jakob]],
+
+deine Mail hat mich gefreut, und mach dir keine Gedanken wegen der Pause. [[Reaktion auf die Pause|Nach dem Urlaub braucht man Zeit]]. Es tut mir leid, dass dich der Lärm stört, das ist wirklich belastend.
+
+Ich wünsche dir, dass du [[Tipp 1|in Ruhe mit deinem Nachbarn sprechen kannst]]. Ich glaube, das hilft. Falls nicht, [[Tipp 2|bist du nicht allein, die Hausverwaltung hilft dir]].
+
+Meine Nachbarn sind [[Beschreibung der Nachbarn|freundlich und rücksichtsvoll]].
+
+Meine Wohnung ist [[Größe der Wohnung|klein und gemütlich]].
+
+Ich würde mich freuen, wenn wir uns [[Treffpunkt|bald auf einen Kaffee treffen]].
+
+Du solltest dir auch etwas Gutes tun: [[Tipp|Geh abends spazieren oder höre selbst Musik mit Kopfhörern]]. Das beruhigt und gibt dir Abstand von dem Lärm. Ich weiß, dass das keine Lösung ist, aber es erleichtert dir den Alltag, bis sich alles geklärt hat.
+
+Für ein Treffen empfehle ich auch [[Alternative|ein Picknick im Park]], falls das Wetter gut ist. Ich bringe [[Mitbringsel|Brot, Käse und Obst]] mit. So können wir lange draußen sitzen und reden, und du kommst auf andere Gedanken. Das wird dir bestimmt guttun.
+
+Ich wünsche dir viel Erfolg und gute Nerven: [[Wunsch|Hoffentlich versteht dein Nachbar dich schnell]]. Und wenn alles geregelt ist, [[Plan|feiern wir das mit einem schönen Essen]]. Das haben wir uns dann verdient, und ich freue mich schon darauf.
+
+Erzähl mir, [[Frage an den Freund|wie es dir gerade geht]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Rim]]` },
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Jakob]],
+
+kein Stress wegen der Pause. [[Reaktion auf die Pause|Nach dem Urlaub ist immer viel los]].
+
+Laute Musik, nervig! Mein Tipp: [[Tipp 1|Sprich ihn an, locker und freundlich]]. Wenn nicht, [[Tipp 2|Hausverwaltung]].
+
+Meine Nachbarn: [[Beschreibung der Nachbarn|entspannt]].
+
+Meine Wohnung: [[Größe der Wohnung|klein, aber fein]].
+
+Treffen: [[Treffpunkt|Samstag, Café]].
+
+Falls es hilft, schreibe ich dir gern ein paar Sätze auf, [[Hilfsangebot|die du deinem Nachbarn sagen kannst]]. Du musst sie nur ablesen, wenn du unsicher bist. Es ist wichtig, dass du freundlich bleibst und klar sagst, was dich stört. So hast du die besten Chancen.
+
+Ich freue mich besonders auf unser Treffen, weil [[Grund|wir uns schon so lange nicht gesehen haben]]. Du kannst mir alles in Ruhe erzählen, [[Wunsch|auch das, was dich sonst bedrückt]]. Ich höre dir gern zu und hoffe, dass dir das hilft. Dafür sind Freunde da.
+
+Zum Abschluss möchte ich dir sagen: Du kannst dich immer auf mich verlassen. [[Zusage|Wenn du Hilfe beim Umziehen, Streiten oder Zuhören brauchst, bin ich da]]. Das ist für mich selbstverständlich, denn Freundschaft heißt, auch in schwierigen Zeiten füreinander da zu sein.
+
+Ich freue mich echt auf [[Vorfreude|ein Wiedersehen mit dir]] und hoffe, dass wir bald [[Wunsch|einen schönen Abend zusammen verbringen]]. Meld dich, [[Frage an den Freund|wann es klappt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

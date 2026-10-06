@@ -1,198 +1,318 @@
-// Tamara – Treffen auf der Dienstreise. Points: Vorschlag zum Treffen · jemanden mitbringen · Frage zur neuen Arbeitsstelle · warum Sie nicht geschrieben haben.
+// v2 (B2-style): Tamara hat die Stelle gewechselt, muss bald in Ihre Gegend reisen und möchte sich abends treffen (und Ihre Familie kennenlernen). Points: Vorschlag zum Treffen ·
+// jemanden mitbringen · Frage zur neuen Arbeitsstelle · warum Sie nicht geschrieben haben — plus: "Sorgen gemacht", "Wie findest du meine Idee?" (Frage zurück).
+export const kw = [/treff/i, /mitbring|Familie|Mann|Frau|Freund|Freundin|Kinder|Partner|Begleit/i, /Stelle|Arbeit|Job|Firma|Kollegen|Chef|anstrengend/i, /geschrieben|gemeldet|leider|Entschuldig|tut mir leid|Sorgen/i, /Abend|Gegend|unternehmen|Restaurant|Kino|Essen/i];
 export default [
   // 1
-  { label: "Abendessen im Restaurant, Mann und Kinder, Reisen im Job, Überstunden", t: `Liebe [[Name der Freundin|Tamara]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Tamara]],
 
-dass du dir Sorgen um mich machst, finde ich sehr lieb, und es tut mir leid, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Ich hatte in den letzten Monaten viele Überstunden und war abends immer müde]]. Es ist nichts Schlimmes passiert.
+vielen Dank für deinen Brief, ich habe mich riesig gefreut! Es tut mir wirklich leid, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Bei uns war viel los, ich kam kaum zum Schreiben]]. Bei uns ist aber alles in Ordnung.
 
-Dein Vorschlag zum Treffen gefällt mir sehr. Wir könnten uns [[Treffen|an einem Abend in einem netten Restaurant in meiner Stadt]] sehen und lange erzählen. Ich möchte [[Begleitung|meinen Mann und unsere zwei Kinder]] mitbringen, die dich gern kennenlernen.
+Dein Vorschlag, dass wir uns bei deinem Besuch am Abend treffen, gefällt mir sehr. Ich würde vorschlagen, [[Treffpunkt und Zeit|dass wir am Freitag um 19 Uhr in dem kleinen Restaurant am Marktplatz essen]]. Danach können wir [[Programm nach dem Essen|noch einen Spaziergang durch die Altstadt machen]].
 
-Ich habe noch eine Frage zu deiner neuen Stelle: [[Frage|Wie viele Reisen musst du pro Monat machen, und gefällt dir das]]?
+Gern bringe ich jemanden mit: [[Begleitung|Meinen Mann und unsere beiden Kinder]] würden dich gern kennenlernen. Sie [[Eigenschaft der Familie|sind neugierig und freuen sich schon sehr auf dich]].
 
-Schreib mir bitte, an welchem Tag du Zeit hast.
+Du schreibst, dass deine neue Stelle interessant, aber anstrengend ist. [[Frage zur Arbeit|Was genau machst du dort, und wie sind deine Kollegen]]? Ich bin gespannt, wie es dir bei der Arbeit geht.
+
+Ich freue mich besonders darauf, dass wir uns nach so langer Zeit wiedersehen: Wir haben uns [[Zeit seit dem letzten Treffen|über ein Jahr nicht mehr gesehen]], und es gibt bestimmt viel zu erzählen. Ich bin gespannt, [[Neugier|wie dein Alltag jetzt aussieht und wie du dich verändert hast]]. Bei mir ist auch einiges passiert.
+
+Bei mir gibt es übrigens auch Neuigkeiten, über die ich gern persönlich erzähle: [[Neuigkeit|Ich habe in diesem Jahr einen Sprachkurs angefangen und neue Freunde gefunden]]. Außerdem [[Weitere Neuigkeit|haben wir einen kleinen Hund bekommen]], den du unbedingt kennenlernen musst. Er freut sich auf jeden Gast.
+
+Treffen werden wir uns [[Treffpunkt|direkt vor dem Restaurant]], und ich warte dort auf dich, wenn du [[Ankunft|pünktlich um 19 Uhr kommst]]. Ich trage [[Erkennungszeichen|eine rote Jacke]], damit du mich sofort siehst.
+
+Schreib mir bitte, [[Frage an die Freundin|an welchem Tag du genau bei uns bist]]. Wie findest du meine Idee mit dem Abendessen?
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Samir]]` },
 
   // 2
-  { label: "Spaziergang am Fluss, allein kommen, Aufgaben im neuen Job, Handy kaputt", t: `Hallo [[Name der Freundin|Tamara]],
+  { label: "locker, freundschaftlich", t: `Hallo [[Name der Freundin|Tamara]],
 
-danke für deine Nachricht! Es tut mir wirklich leid, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Mein Handy war kaputt, und ich habe lange keine Zeit gehabt, ein neues zu kaufen]]. Jetzt ist alles wieder in Ordnung.
+oh je, tut mir leid, dass du dir Sorgen gemacht hast! [[Grund für die Pause|Ich bin einfach nicht zum Schreiben gekommen, der Alltag hat mich total geschluckt]]. Bei uns ist alles gut.
 
-Ich freue mich sehr auf ein Treffen mit dir! Wie wäre es mit [[Treffen|einem Spaziergang am Fluss am Abend]]? Danach können wir noch ein Eis essen. Ich komme [[Begleitung|gern allein, damit wir in Ruhe reden können]]. Meine Familie lernst du beim nächsten Mal kennen.
+Ein Treffen am Abend? Unbedingt! Wie wäre es [[Treffpunkt und Zeit|mit einem Abendessen am Donnerstag in meiner Lieblingspizzeria]]? Danach [[Programm nach dem Essen|gehen wir noch auf ein Eis in die Stadt]].
 
-Zu deinem neuen Job habe ich eine Frage: [[Frage|Was machst du dort genau, und wie sind deine neuen Kollegen]]?
+Ich bringe gern jemanden mit: [[Begleitung|Meine Freundin Lena und mein Bruder]] sind dabei. Und meine Familie lernst du auch kennen, [[Plan mit der Familie|am Wochenende, wenn du noch da bist]].
 
-Gib mir bitte bald Bescheid, wann du kommst.
+Deine neue Stelle klingt spannend! [[Frage zur Arbeit|Wie viele Stunden arbeitest du, und reist du gern]]? Erzähl mir alles beim Essen.
+
+Für den Abend selbst habe ich schon etwas im Kopf: Wir könnten [[Programmidee|zuerst gemütlich essen und danach in einem Café noch lange reden]]. Wenn du möchtest, [[Zusatzidee|zeige ich dir meine neue Wohnung]], sie liegt ganz in der Nähe. Dann lernst du auch meine Nachbarn kennen.
+
+Ich schlage vor, dass wir uns schon vor dem Abend kurz telefonieren: [[Telefonvorschlag|am Sonntag um 18 Uhr, wenn du Zeit hast]]. Dann können wir die Details besprechen und [[Planung|noch einmal alles genau abstimmen]]. So gibt es keine Überraschungen, außer den schönen.
+
+Wenn du Lust hast, treffen wir uns schon [[Zeit|eine Stunde früher auf einen Kaffee]], bevor die anderen kommen. Dann haben wir Zeit, [[Gesprächsthema|über die alten Zeiten zu reden]], nur wir zwei. Das fände ich sehr schön.
+
+Meld dich, [[Frage an die Freundin|wann genau du kommst]]. Wie findest du meinen Plan?
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Kino am Abend, Freundin mitbringen, Gehalt und Zeiten, Umzug", t: `Liebe [[Name der Freundin|Tamara]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Tamara]],
 
-ich war so froh über deine E-Mail, und ich entschuldige mich, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Ich bin vor kurzem umgezogen und musste viel organisieren]]. Es war eine anstrengende Zeit.
+wow, was für eine tolle Überraschung! Entschuldige bitte, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich hatte so viel um die Ohren, dass ich ganz vergessen habe zu schreiben]]. Bei uns ist alles wunderbar.
 
-Zum Treffen habe ich einen Vorschlag: [[Treffen|Wir gehen am Abend zusammen ins Kino und essen danach eine Pizza]]. Ich würde gern [[Begleitung|meine beste Freundin Amira]] mitbringen. Sie kennt dich aus meinen Erzählungen und freut sich schon.
+Dass du in unsere Gegend kommst, ist großartig! Wir treffen uns [[Treffpunkt und Zeit|am Mittwochabend in einem schönen Restaurant am Fluss]], und danach [[Programm nach dem Essen|gehen wir ins Kino oder auf eine Bar]]. Das wird ein toller Abend!
 
-Über deine neue Arbeitsstelle würde ich gern mehr wissen: [[Frage|Wie sind die Arbeitszeiten, und verdienst du jetzt mehr]]?
+Ich bringe [[Begleitung|meinen Freund Jan und meine Schwester]] mit, sie wollen dich unbedingt kennenlernen. Meine Familie ist [[Eigenschaft der Familie|herzlich und lebendig]].
 
-Ich hoffe, dass wir uns bald sehen. Ich freue mich schon sehr darauf, dich nach so langer Zeit wieder zu umarmen.
+Deine neue Stelle klingt spannend! [[Frage zur Arbeit|Welche Aufgaben hast du, und gefällt dir das Reisen]]? Ich bin so neugierig.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Lina]]` },
+Falls es regnet, habe ich einen Plan B: Wir gehen [[Regenplan|ins Kino und danach auf einen heißen Tee]], oder wir bleiben in einem Café, wo es warm ist. So wird der Abend auf jeden Fall schön. Ich [[Vorbereitung|reserviere vorher einen Tisch, damit wir nicht warten müssen]].
+
+Wenn du magst, lade ich noch [[Gäste|zwei alte Freunde aus unserer Studienzeit]] ein, damit der Abend noch lustiger wird. Natürlich nur, wenn dir das recht ist. Ich weiß, dass du [[Eigenschaft|gern in kleiner Runde sitzt]], deshalb frage ich vorher.
+
+Zur Verabredung noch ein Hinweis: Das Lokal liegt [[Lage|nur zehn Minuten vom Hauptbahnhof entfernt]], du kannst es zu Fuß erreichen. Falls du dich verirrst, [[Hilfe|ruf mich einfach an]], ich komme dir entgegen. Ein Treffen mit dir ist mir wichtig.
+
+Schreib mir bald, [[Frage an die Freundin|wann du ankommst]]. Wie findest du meine Idee?
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Café nach der Arbeit, Sohn mitbringen, Firma und Branche, krank gewesen", t: `Hallo [[Name der Freundin|Tamara]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Tamara]],
 
-vielen Dank, dass du an mich denkst! Ich muss mich entschuldigen, denn ich habe lange nicht geschrieben. [[Grund für die Pause|Ich war zwei Wochen krank und habe danach viel nachholen müssen]]. Jetzt geht es mir wieder gut.
+vielen Dank für deinen Brief. Zu deinen Fragen nehme ich der Reihe nach Stellung.
 
-Dass du in meine Gegend kommst, ist toll! Ich würde mich gern [[Treffen|nach deiner Arbeit in einem Café in der Innenstadt mit dir treffen]]. Bring ruhig Zeit mit. Ich möchte [[Begleitung|meinen kleinen Sohn]] mitbringen, wenn das für dich in Ordnung ist. Er ist sehr lieb.
+Erstens, die Pause: Es tut mir leid, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich hatte beruflich viel zu tun und wenig Freizeit]].
 
-Eine Frage zur neuen Stelle: [[Frage|Für welche Firma arbeitest du jetzt, und was verkauft sie]]?
+Zweitens, dein Vorschlag: Ein Treffen am Abend finde ich gut. Ich schlage [[Treffpunkt und Zeit|Donnerstag um 19.30 Uhr im Restaurant am Bahnhof]] vor.
 
-Antworte mir bald, ich freue mich.
+Drittens, die Begleitung: Ich bringe [[Begleitung|meine Frau und meinen Sohn]] mit, damit du unsere Familie kennenlernst.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Youssef]]` },
+Viertens, deine Stelle: [[Frage zur Arbeit|Welche Aufgaben hast du, und wie viel bist du unterwegs]]?
+
+Ich kann dich gern vom Hotel oder vom Bahnhof abholen: [[Abholung|Ich komme mit dem Auto und warte vor dem Eingang]]. Dann sparst du Zeit und musst dich nicht um den Weg kümmern. Gib mir einfach [[Information|deine Ankunftszeit und die Adresse]], dann klappt alles.
+
+Für deine Arbeit wünsche ich dir viel Erfolg, und ich hoffe, dass du [[Wunsch|bald weniger Stress hast und mehr Zeit für dich]]. Ich weiß, wie schwer es ist, wenn man den Job wechselt und sich alles neu einrichten muss. Wenn du darüber reden möchtest, [[Angebot|bin ich jederzeit für dich da]].
+
+Beim Treffen möchte ich dir auch [[Mitbringsel|ein kleines Geschenk überreichen]], damit du dich willkommen fühlst. Wenn du etwas Bestimmtes brauchst, [[Hilfsangebot|besorge ich es vorher gern für dich]]. Sag mir einfach Bescheid.
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen nach so langer Zeit]]. Bitte teile mir mit, [[Frage an die Freundin|ob dir der Termin passt]]. Wie findest du meinen Vorschlag?
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Eis essen und Stadtbummel, Bruder mitbringen, Kollegen im Team, Lernstress", t: `Liebe [[Name der Freundin|Tamara]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Tamara]],
 
-deine Nachricht hat mich sehr gefreut, und es tut mir leid, dass ich lange nichts von mir hören ließ. [[Grund für die Pause|Ich hatte viel Lernstress für meine Sprachprüfung]]. Dabei habe ich leider alles andere vergessen.
+danke für deinen Brief! Entschuldige, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich hatte eine stressige Zeit und bin nicht zum Schreiben gekommen]]. Jetzt helfe ich dir gern bei der Planung.
 
-Ein Treffen in meiner Stadt ist eine wunderbare Idee! Ich schlage [[Treffen|einen Stadtbummel am Abend vor, mit einem Eis in der Altstadt]]. Ich möchte [[Begleitung|meinen Bruder Aymen]] mitbringen, wenn das passt. Er würde dich gern kennenlernen.
+Für unser Treffen schlage ich [[Treffpunkt und Zeit|Dienstag um 19 Uhr in einem Restaurant in der Nähe deines Hotels]] vor. Ich kann [[Praktische Hilfe|einen Tisch reservieren und dich vom Hotel abholen]].
 
-Über deine neue Arbeit interessiert mich: [[Frage|Arbeitest du in einem großen Team, und sind deine Kollegen nett]]?
+Ich bringe [[Begleitung|meine Frau und meine Tochter]] mit. Wenn du magst, [[Weitere Hilfe|zeigen wir dir danach die Stadt]].
 
-Schreib mir bitte, wann genau du in meine Stadt kommst. Ich freue mich sehr auf unseren gemeinsamen Abend.
+Zu deiner Arbeit: [[Frage zur Arbeit|Brauchst du in Deutschland ein Auto, oder reist du mit dem Zug]]? Ich helfe dir gern, falls du Tipps brauchst.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Hamza]]` },
+Zu deiner neuen Stelle habe ich noch eine Idee: Wenn du viel reist, ist es wichtig, [[Rat|genug zu schlafen und regelmäßig zu essen]]. Ich habe selbst [[Eigene Erfahrung|einmal viel Stress im Job gehabt]] und weiß, wie anstrengend das ist. Wir können beim Essen darüber reden, wenn du magst.
+
+Ich möchte dir noch sagen, dass du dir wirklich keine Sorgen um uns machen musst: [[Beruhigung|Wir sind alle gesund und gut gelaunt]]. Die Kinder gehen gern in die Schule, mein Mann arbeitet viel, aber es geht ihm gut. Ich freue mich, dass du an uns denkst.
+
+Ich schlage vor, dass wir uns nach dem Essen [[Programm|noch ein Stück durch die Altstadt treiben lassen]], weil es abends dort besonders schön ist. Wir können dabei [[Gesprächsthema|über Familie und Arbeit sprechen]], wie früher. Dann wird es ein richtiger Treffen-Abend.
+
+Schreib mir, [[Frage an die Freundin|wann du ankommst]]. Wie findest du meinen Plan?
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Abendessen bei mir zu Hause, Eltern mitbringen, Urlaub und Gehalt, Besuch von Verwandten", t: `Hallo [[Name der Freundin|Tamara]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Tamara]],
 
-danke für deine Zeilen! Dass ich so lange nichts geschrieben habe, tut mir leid. [[Grund für die Pause|Meine Verwandten waren einen Monat zu Besuch, und ich habe jeden Tag mit ihnen verbracht]]. Das war schön, aber auch anstrengend.
+es tut mir leid, dass du dir Sorgen gemacht hast, denn [[Grund für die Pause|ich habe so viel gearbeitet, dass ich abends nur noch müde war]]. Das war keine Absicht.
 
-Zum Treffen schlage ich [[Treffen|ein Abendessen bei mir zu Hause]] vor. Ich koche gern und zeige dir meine Familie. Wenn du möchtest, [[Begleitung|bring deinen Mann oder einen Kollegen mit]]. Es ist genug Platz für alle.
+Dein Vorschlag, dass wir uns am Abend treffen, ist gut, weil [[Grund für den Abend|wir dann in Ruhe reden können]]. Ich schlage [[Treffpunkt und Zeit|Mittwoch um 19 Uhr in einem ruhigen Restaurant]] vor.
 
-Zu deinem neuen Job habe ich eine Frage: [[Frage|Hast du jetzt mehr Urlaub, und wie viel Zeit hast du für deine Familie]]?
+Ich bringe [[Begleitung|meine Familie]] mit, weil [[Grund für die Begleitung|du sie unbedingt kennenlernen sollst]].
 
-Schreib mir bald, ob dir der Termin passt.
+Deine neue Stelle interessiert mich, deshalb frage ich: [[Frage zur Arbeit|Was gefällt dir an der Arbeit und was ist anstrengend]]?
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Nour]]` },
+Weißt du, ich habe dich in den letzten Monaten oft vermisst: [[Gefühl|Mir fehlen unsere Gespräche und dein Humor]]. Deshalb freue ich mich besonders auf unser Treffen. Wenn du länger bleiben kannst, [[Angebot|bist du bei uns jederzeit zum Kaffee willkommen]].
+
+Falls du abends müde bist, können wir auch früher aufhören: [[Alternative|Wir treffen uns schon um 17 Uhr und essen früh zu Abend]]. Das ist für dich vielleicht angenehmer, wenn du den ganzen Tag gearbeitet hast. Sag mir einfach, was dir lieber ist, ich bin flexibel.
+
+Falls du lieber zu uns nach Hause kommst, ist das auch möglich: [[Alternative|Wir kochen zusammen und essen gemütlich im Wohnzimmer]]. So lernst du meine Familie gleich besser kennen. Ein Treffen im kleinen Kreis hat auch seinen Reiz, das finde ich.
+
+Schreib mir, [[Frage an die Freundin|ob dir mein Vorschlag gefällt]]. Ich freue mich auf [[Vorfreude|einen schönen Abend]]. Wie findest du meine Gründe?
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Konzert im Park, Freund mitbringen, Alltag im Job, neues Baby", t: `Liebe [[Name der Freundin|Tamara]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Tamara]],
 
-was für eine Freude, von dir zu lesen! Es tut mir leid, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Wir haben ein Baby bekommen, und seitdem schlafe ich wenig]]. Aber wir sind sehr glücklich.
+danke für deinen Brief, hier kurz meine Antworten.
 
-Dein Treffen mit mir ist eine tolle Idee. Ich schlage vor, dass wir [[Treffen|an einem Abend ein Konzert im Park besuchen]], wenn eines stattfindet. Ich würde gern [[Begleitung|meinen Freund Anis]] mitbringen. Er spielt selbst Musik und freut sich auf das Treffen mit dir.
+Pause: Entschuldige, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich hatte viel zu tun]].
 
-Zu deiner neuen Arbeitsstelle noch eine Frage: [[Frage|Wie sieht ein normaler Tag bei dir aus, und was machst du am liebsten]]?
+Treffen: [[Treffpunkt und Zeit|Donnerstag um 19 Uhr im Restaurant am Markt]].
 
-Ich freue mich schon sehr auf dich.
+Begleitung: [[Begleitung|Ich bringe meine Frau und meine Kinder mit]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Emna]]` },
+Frage zur Arbeit: [[Frage zur Arbeit|Wie viele Kollegen hast du, und wie ist dein Chef]]?
+
+Meine Familie kennt dich schon aus meinen Erzählungen: [[Erzählung|Ich habe oft erzählt, wie wir uns kennengelernt haben]]. Deshalb sind sie sehr neugierig auf dich. Besonders [[Person|meine kleine Nichte]] freut sich darauf, dich zu sehen.
+
+Ich habe schon überlegt, was wir essen: Vielleicht [[Essensidee|etwas Leichtes wie Salat und Fisch]], falls du nach der Reise nicht zu schwer essen möchtest. Wenn du lieber [[Alternative|etwas Warmes und Herzhaftes]] möchtest, finden wir das auch. Hauptsache, es schmeckt dir und wir haben Spaß.
+
+Zur Uhrzeit: Mir passt [[Zeit|alles ab 18 Uhr]], weil ich bis dahin im Büro bin. Wenn du früher Zeit hast, [[Alternative Zeit|nehme ich mir frei]]. Das ist kein Problem, denn mir bedeutet ein Treffen mit dir viel.
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen]]. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|ob das passt]]. Wie findest du die Idee?
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Kochabend zu zweit, ohne Begleitung, Chef und Aufgaben, Überstunden", t: `Hallo [[Name der Freundin|Tamara]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Tamara]],
 
-endlich habe ich wieder etwas von dir gehört! Mir tut es leid, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Mein Chef hat mir ein großes Projekt gegeben, und ich habe jeden Tag spät Feierabend gemacht]]. Deshalb war ich kaum erreichbar.
+du hast dir Sorgen gemacht? Keine Sorge, ich lebe noch! [[Grund für die Pause|Ich war so beschäftigt, dass ich fast keinen Stift mehr fand]]. Verzeih mir bitte.
 
-Ich freue mich sehr, dass du in meine Stadt kommst. Wie wäre es, wenn wir uns [[Treffen|zu einem Kochabend bei mir treffen]]? Jeder kocht ein Gericht, und wir können ganz lange erzählen. Ich möchte niemanden mitbringen und komme [[Begleitung|allein, denn ich möchte dich ganz für mich haben]].
+Ein Abend mit dir? Aber gern! Ich schlage [[Treffpunkt und Zeit|Freitag um 20 Uhr in einem Restaurant mit gutem Nachtisch]] vor, und danach [[Programm nach dem Essen|ein Spaziergang, bei dem wir uns alles erzählen]].
 
-Zu deiner neuen Stelle: [[Frage|Hast du einen netten Chef, und was ist deine größte Aufgabe]]?
+Ich bringe [[Begleitung|meine Familie]] mit, aber ich warne dich: [[Warnung|Mein Sohn stellt zehn Fragen pro Minute]].
 
-Antworte mir bitte bald.
+Deine neue Stelle klingt anstrengend, aber spannend. [[Frage zur Arbeit|Ist dein Chef so streng wie meiner]]?
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Walid]]` },
+Als Geschenk bringe ich dir [[Geschenk|eine Kleinigkeit aus unserer Gegend]] mit, weil du so weit gereist bist. Ich hoffe, dass dir [[Wunsch|der Abend gefällt und du dich bei uns wohlfühlst]]. Das ist für mich das Wichtigste, wenn Freunde zu Besuch kommen.
+
+Ein Wort zu meiner Familie: Mein Mann [[Eigenschaft des Mannes|ist ruhig und hat viel Humor]], und meine Kinder [[Eigenschaft der Kinder|spielen gern Fußball und Karten]]. Ich glaube, ihr werdet euch alle sofort verstehen. Mach dir keine Gedanken, dass du dich fremd fühlen könntest.
+
+Ich freue mich auch darauf, dir zu erzählen, [[Thema|wie wir die Wohnung eingerichtet haben]]. Außerdem möchte ich [[Wunsch|ein Treffen mit euch allen am Sonntag planen]], wenn du noch bleiben kannst. Das wäre ein schöner Abschluss.
+
+Schreib mir, [[Frage an die Freundin|wann du eintriffst]]. Wie findest du meine Idee?
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Besuch im Museum und Abendessen, Schwester mitbringen, Reiseziele im Job, Praktikum", t: `Liebe [[Name der Freundin|Tamara]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Tamara]],
 
-ich habe mich sehr über deine E-Mail gefreut! Es tut mir leid, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Ich mache ein Praktikum und habe nach der Arbeit kaum Energie für Briefe]]. Danke, dass du dir Sorgen gemacht hast.
+als ich deinen Brief gelesen habe, musste ich an unsere gemeinsame Zeit denken. [[Erinnerung an früher|Wir haben damals jeden Abend zusammen gekocht und gelacht]]. Dass du dir Sorgen gemacht hast, tut mir leid.
 
-Als Treffen schlage ich [[Treffen|einen Besuch im Stadtmuseum und danach ein Abendessen]] vor. Ich möchte [[Begleitung|meine Schwester Rim]] mitbringen. Sie studiert Geschichte und freut sich auf das Museum.
+Warum ich nicht geschrieben habe? [[Grund für die Pause|Ich hatte eine schwere Zeit mit einer Erkältung und viel Arbeit]]. Jetzt geht es mir wieder gut.
 
-Mich interessiert noch etwas über deinen Job: [[Frage|In welche Städte reist du am meisten, und fährst du mit dem Zug oder dem Auto]]?
+Ein Treffen am Abend finde ich schön. [[Treffpunkt und Zeit|Wir könnten uns am Dienstag in dem kleinen Café treffen, wo wir früher saßen]].
 
-Ich bin gespannt auf deine Antwort. Ich hoffe, dass wir viel Zeit zum Reden haben.
+Ich bringe [[Begleitung|meinen Mann und meine Tochter]] mit, du wirst sie mögen.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Ines]]` },
+Erzähl mir von deiner neuen Stelle: [[Frage zur Arbeit|Was machst du genau, und wie läuft der Alltag]]?
+
+Weil du mich nach meiner Familie gefragt hast: [[Familie|Meine Kinder sind jetzt sechs und neun Jahre alt und gehen in die Schule]]. Sie sind [[Eigenschaft der Kinder|lebhaft, höflich und sehr neugierig]]. Ich glaube, sie werden dich mit vielen Fragen löchern.
+
+Ich würde dir auch gern [[Wunsch|unsere Stadt bei Nacht zeigen, mit den schönsten Plätzen und Lichtern]]. Wenn das Wetter gut ist, ist das ein besonderes Erlebnis. Danach [[Abschluss|setzen wir uns noch auf eine Bank und reden über früher]]. Das wäre ein schöner Abschluss.
+
+Wenn dir der Abend zu spät ist, können wir uns auch [[Alternative Zeit|am Nachmittag in einem Café treffen]]. Dort gibt es [[Besonderheit|den besten Apfelkuchen der Stadt]]. Das wäre eine entspannte Alternative und ein ebenso schönes Treffen.
+
+Schreib mir, [[Frage an die Freundin|wie du den Abend findest]]. Wie findest du meine Idee?
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Bowling am Wochenende, Familie mitbringen, Kunden im Job, Familienfest", t: `Hallo [[Name der Freundin|Tamara]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Tamara]],
 
-danke für deine Nachricht! Entschuldige bitte, dass ich nicht früher geantwortet habe. [[Grund für die Pause|Wir hatten ein großes Familienfest zu organisieren, und ich war wochenlang beschäftigt]]. Jetzt ist es vorbei, und ich habe endlich wieder Zeit.
+danke für deinen Brief, und entschuldige bitte, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich hatte viel Arbeit]]. Ich habe gleich mehrere Vorschläge für unser Treffen.
 
-Ich schlage vor, dass wir uns [[Treffen|am Wochenende zum Bowling treffen]]. Das macht Spaß, und danach können wir etwas essen. Ich möchte [[Begleitung|meine ganze Familie, also meine Frau und meine Eltern,]] mitbringen. Sie freuen sich schon auf dich.
+Mein erster Vorschlag: Wir treffen uns [[Treffpunkt und Zeit|am Mittwochabend in einem Restaurant in der Stadtmitte]]. Mein zweiter Vorschlag: Danach [[Programm nach dem Essen|besuchen wir eine Bar oder gehen noch spazieren]].
 
-Zu deiner neuen Arbeit habe ich eine Frage: [[Frage|Hast du viel mit Kunden zu tun, und wie ist das für dich]]?
+Mein dritter Vorschlag: Ich bringe [[Begleitung|meine Familie]] mit, damit du sie kennenlernst. Mein vierter Vorschlag: Wenn du Zeit hast, [[Zusatzvorschlag|laden wir dich am nächsten Tag zum Kaffee zu uns ein]].
 
-Schreib mir bald, ob dir Samstag passt.
+Zu deiner Stelle: [[Frage zur Arbeit|Wie oft musst du reisen, und wie gefällt dir das]]?
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Aymen]]` },
+Wenn du magst, können wir auch am Tag danach etwas unternehmen: Ich kenne [[Ausflugsziel|einen schönen See in der Nähe]], an dem man gut spazieren gehen kann. Danach [[Programm|essen wir ein Eis und fahren nach Hause]]. Das wäre ein schöner Abschluss deines Besuchs.
 
-  // 11
-  { label: "Marktbesuch und Mittagessen, Nachbarin mitbringen, Homeoffice, viel zu tun", t: `Liebe [[Name der Freundin|Tamara]],
+Wenn du das nächste Mal in der Gegend bist, bleibst du am besten länger: [[Einladung|Bei uns gibt es ein Gästezimmer, das auf dich wartet]]. Ich würde mich freuen, wenn wir uns dann mehrere Tage sehen könnten. Das Treffen am Abend ist nur der Anfang.
 
-ich bin sehr froh, dass du mir geschrieben hast, und ich entschuldige mich für meine lange Pause. [[Grund für die Pause|Ich hatte so viel zu tun, dass ich nicht einmal Zeit zum Antworten fand]]. Jetzt habe ich mir einen Abend freigenommen, um dir ausführlich zu schreiben.
+Wegen deiner vielen Termine plane ich flexibel: [[Planung|Du sagst mir einfach den Tag, und ich richte mich nach dir]]. Notfalls treffen wir uns [[Notfallplan|nur auf einen kurzen Kaffee]], aber ich möchte dich auf jeden Fall sehen. Ein Treffen ist mir wichtig.
 
-Ein Treffen finde ich schön! Ich würde [[Treffen|mit dir auf den Markt gehen und danach in einem kleinen Restaurant zu Mittag essen]]. Ich möchte [[Begleitung|meine Nachbarin Frau Müller]] mitbringen. Sie ist 70, aber sehr lustig.
-
-Eine Frage zu deinem Job: [[Frage|Arbeitest du jetzt oft von zu Hause aus, oder bist du meistens im Büro]]?
-
-Ich hoffe, dass du dich bald meldest.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Sana]]` },
-
-  // 12
-  { label: "Schiffsfahrt, Cousine mitbringen, Gehalt und Karriere, Prüfungen", t: `Hallo [[Name der Freundin|Tamara]],
-
-wie schön, dass du an mich denkst! Es tut mir sehr leid, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Ich hatte Prüfungen und musste jeden Tag lernen]]. Jetzt habe ich zum Glück Ferien.
-
-Zum Treffen habe ich eine Idee: [[Treffen|Wir machen eine Schifffahrt auf dem Fluss und essen danach etwas Leckeres]]. Das ist am Abend besonders schön. Wenn du magst, möchte ich [[Begleitung|meine Cousine Houda]] mitbringen. Sie ist in deinem Alter und sehr nett.
-
-Zu deiner neuen Stelle noch eine Frage: [[Frage|Hast du dort gute Aufstiegsmöglichkeiten, und macht dir die Arbeit Spaß]]?
-
-Schreib mir bitte, wann du genau in meiner Stadt bist.
+Was hältst du von meinen Vorschlägen? Schreib mir, [[Frage an die Freundin|welcher dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Fares]]` },
+[[Dein Name|Paula]]` },
 
-  // 13
-  { label: "Abendessen in der Altstadt, mit Freundin und Kind, Projekte im Job, Handy weg", t: `Liebe [[Name der Freundin|Tamara]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Tamara]],
 
-danke, dass du mir geschrieben hast! Dass ich nicht geantwortet habe, tut mir leid. [[Grund für die Pause|Mein Handy wurde gestohlen, und ich habe alle Nummern verloren]]. Jetzt habe ich endlich ein neues.
+danke für deinen Brief, und es tut mir leid, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Es lag nicht an dir, ich hatte nur sehr viel zu tun]].
 
-Ich freue mich riesig, dich bald zu sehen. Ich schlage vor, dass wir uns [[Treffen|zu einem Abendessen in der Altstadt treffen]], in einem Restaurant, das ich dir zeigen möchte. [[Begleitung|Meine Freundin Sarra und ihre kleine Tochter]] möchten gern mitkommen, wenn das in Ordnung ist.
+Ein Treffen am Abend finde ich schön, aber ich muss prüfen, ob es klappt. Einerseits [[Vorteil des Abends|haben wir dann am meisten Zeit zum Reden]], andererseits [[Nachteil des Abends|müssen einige von uns am nächsten Morgen früh raus]]. Ich würde [[Treffpunkt und Zeit|Donnerstag um 19 Uhr in einem ruhigen Restaurant]] vorschlagen.
 
-Zu deiner neuen Arbeit habe ich eine Frage: [[Frage|An welchen Projekten arbeitest du im Moment, und was gefällt dir am besten]]?
+Ob ich jemanden mitbringe, entscheide ich noch. [[Begleitung|Meine Familie würde dich gern kennenlernen, aber vielleicht ist es zu viel]].
 
-Ich freue mich auf deine Nachricht. Bis dahin wünsche ich dir viel Erfolg in deinem neuen Job.
+Zu deiner Stelle: [[Frage zur Arbeit|Ist die Arbeit körperlich oder geistig anstrengend]]?
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Anis]]` },
+Ich hoffe sehr, dass es dir gesundheitlich gut geht: [[Frage|Hast du dich mit der vielen Arbeit nicht übernommen]]? Du hast dir vorher Sorgen um mich gemacht, jetzt mache ich mir ein bisschen Sorgen um dich. Aber beim Treffen reden wir in Ruhe darüber.
 
-  // 14
-  { label: "Picknick im Park, allein, Arbeitsweg und Kollegen, neuer Mitbewohner", t: `Hallo [[Name der Freundin|Tamara]],
+Was deine Frage zu meiner Familie angeht: Alle freuen sich auf dich, und [[Reaktion der Familie|meine Mutter hat sogar gefragt, ob du Kuchen magst]]. Ich glaube, sie backt dir einen. Das zeigt, wie sehr du bei uns geschätzt wirst, auch nach so langer Zeit.
 
-vielen Dank für deine freundliche Nachricht! Es tut mir leid, dass ich nicht geschrieben habe. [[Grund für die Pause|Ein neuer Mitbewohner ist bei mir eingezogen, und ich habe ihm alles gezeigt]]. Dabei verging die Zeit sehr schnell.
+Falls du mit Kollegen unterwegs bist, bring sie gern mit: [[Einladung|Wir haben genug Platz und freuen uns über neue Gesichter]]. Ein gemeinsamer Abend mit allen wäre auch ein tolles Treffen, [[Wunsch|und wir lernen gleich deine Kollegen kennen]].
 
-Dein Besuch freut mich sehr! Wie wäre es, wenn wir uns [[Treffen|zu einem Picknick im Park am frühen Abend treffen]]? Ich bringe etwas zu essen mit. Ich komme [[Begleitung|diesmal allein, aber beim nächsten Mal bringe ich gern meine Familie mit]].
+Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]]. Ich freue mich auf [[Vorfreude|ein Wiedersehen]]. Wie findest du meine Gedanken?
 
-Eine Frage zu deinem neuen Job: [[Frage|Wie lang ist dein Arbeitsweg, und wie verstehst du dich mit deinen Kollegen]]?
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
 
-Schreib mir bitte bald, welcher Tag dir passt. Ich freue mich sehr auf deinen Besuch in meiner Stadt.
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Tamara]],
+
+danke für deinen Brief, ich antworte Schritt für Schritt. Als Erstes: Entschuldige, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich war beruflich eingespannt]].
+
+Als Nächstes zu deinem Vorschlag: Wir treffen uns [[Treffpunkt und Zeit|am Freitag um 19 Uhr in einem Restaurant]].
+
+Dann zur Begleitung: [[Begleitung|Ich bringe meine Familie mit]].
+
+Zuletzt zu deiner Arbeit: [[Frage zur Arbeit|Was gefällt dir an der neuen Stelle]]?
+
+Falls du Hilfe bei der Organisation brauchst, sag es mir: Ich kann [[Hilfsangebot|dir ein Hotel empfehlen oder die Fahrt vom Bahnhof planen]]. Das mache ich gern, denn ich möchte, dass du dich bei uns wohlfühlst. Außerdem [[Zusatzhilfe|kenne ich gute Restaurants mit fairen Preisen]].
+
+Ich wollte dir noch sagen, wie stolz ich auf dich bin, dass du den Mut hattest, [[Anerkennung|die Stelle zu wechseln und etwas Neues zu wagen]]. Das ist nicht leicht, besonders wenn man [[Besonderheit|viel unterwegs ist]]. Ich bewundere das und freue mich auf deine Geschichten.
+
+Ich möchte dir noch sagen, wie sehr ich mich freue: [[Gefühl|Du bist eine meiner ältesten Freundinnen]], und ein Treffen nach so langer Zeit ist etwas Besonderes. Wir müssen [[Versprechen|unbedingt öfter voneinander hören]], das nehme ich mir fest vor.
+
+Wie geht es weiter? Ich freue mich auf [[Vorfreude|ein Wiedersehen]]. Schreib mir, [[Frage an die Freundin|ob dir das gefällt]]. Wie findest du meinen Plan?
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Omar]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Tamara]],
+
+dein Brief hat mich sehr berührt, und es tut mir leid, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich habe oft an dich gedacht, aber der Alltag war stärker]]. Bei uns ist alles in Ordnung.
+
+Ein Treffen am Abend wünsche ich mir sehr. [[Treffpunkt und Zeit|Wir könnten uns am Samstag in einem gemütlichen Restaurant treffen]], damit wir in Ruhe reden können.
+
+Ich bringe [[Begleitung|meine Familie]] mit, denn sie freut sich schon auf dich. Sie ist [[Eigenschaft der Familie|herzlich und offen]].
+
+Zu deiner neuen Stelle: [[Frage zur Arbeit|Wie geht es dir mit dem vielen Reisen, brauchst du Ruhe]]? Ich möchte, dass es dir gut geht.
+
+Ich überlege schon, was ich anziehe und ob ich dir etwas Besonderes mitbringen soll: [[Idee|vielleicht ein kleines Foto aus unserer Studienzeit]]. Ich habe es noch gefunden, und es hat mich zum Lachen gebracht. Du erinnerst dich bestimmt an den Tag, [[Erinnerung|als wir im Regen nach Hause gelaufen sind]].
+
+Ein kleiner praktischer Hinweis: Das Wetter ist hier [[Wetter|im Moment ziemlich wechselhaft]], also pack am besten [[Kleidung|eine warme Jacke und einen kleinen Schirm]] ein. Dann bist du für alles gewappnet, und wir können auch bei Regen draußen sein, wenn du magst.
+
+Bring bitte [[Wunsch|ein paar Fotos von deinen Reisen]] mit, ich möchte alles sehen. Ich zeige dir dafür [[Gegenleistung|Fotos von den Kindern und unserem Urlaub]]. So gibt es beim Treffen auch etwas zum Anschauen und viel zu lachen.
+
+Erzähl mir, [[Frage an die Freundin|ob dir der Abend gefällt]]. Wie findest du meine Idee?
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Tamara]],
+
+sorry, dass du dir Sorgen gemacht hast! [[Grund für die Pause|Ich hatte total viel um die Ohren]]. Alles gut bei uns.
+
+Treffen am Abend? Klar! [[Treffpunkt und Zeit|Donnerstag, 19 Uhr, Pizzeria am Markt]].
+
+Ich bring [[Begleitung|meine Familie]] mit.
+
+Deine neue Stelle? [[Frage zur Arbeit|Wie ist es so, und was machst du den ganzen Tag]]?
+
+Zum Schluss möchte ich dir sagen, dass ich wirklich froh bin, dass du dich gemeldet hast: [[Dank|Dein Brief hat mir den Tag verschönert]]. Und ich verspreche, dass ich in Zukunft öfter schreibe, damit du dir keine Sorgen mehr machen musst. [[Versprechen|Ich rufe dich auch zwischendurch an]].
+
+Und noch etwas: Wenn du Zeit hast, zeige ich dir gern das neue Einkaufszentrum und [[Ort|das Café, das gerade eröffnet hat]]. Dort gibt es [[Besonderheit|das beste Eis der Stadt]]. Das ist auf jeden Fall einen Besuch wert, und danach sind wir alle glücklich.
+
+Zum Schluss noch eine Bitte: Gib mir [[Bitte|deine Handynummer und deine Ankunftszeit]], dann plane ich alles genau. Das Treffen soll [[Wunsch|ein ruhiger, schöner Abend werden]], ohne Stress und mit viel Zeit zum Reden. Ich bin schon sehr gespannt.
+
+Ich freue mich echt auf [[Vorfreude|einen entspannten Abend mit dir und einem guten Essen]]. Meld dich, [[Frage an die Freundin|wann du kommst]]. Wie findest du die Idee?
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];
