@@ -14,7 +14,7 @@
  * inline is simpler than a "click to open" catalog interaction.
  */
 import { useEffect, useState } from "react";
-import { BookOpen, ChevronDown, ClipboardList, Loader2, Lightbulb } from "lucide-react";
+import { BookOpen, ChevronDown, ClipboardList, Languages, Loader2, Lightbulb } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { REDEMITTEL } from "@/components/schreiben/redemittel";
 import { REDEMITTEL_B1 } from "@/components/schreiben/redemittel-b1";
@@ -41,7 +41,11 @@ interface B1Row {
   topic_group: string;
   template_text: string;
   example_text: string;
+  arabic_guide?: ArabicGuide | null;
 }
+
+/** Tunisian-Arabic explanation of a letter: what the e-mail asks + one explanation per body paragraph (see scripts/schreiben-b1/arabic-guide.mjs). */
+export interface ArabicGuide { summary: string; paragraphs: string[] }
 
 /** Turns [placeholder] tokens into amber pills so the fixed German text
  * stays fully readable and only the fill-in parts stand out. */
@@ -124,7 +128,27 @@ function RedemittelPanel({ groups }: { groups: RedemittelGroup[] }) {
 const TABS = [
   { key: "struktur" as const, label: "Struktur", icon: ClipboardList },
   { key: "beispiel" as const, label: "Beispiel", icon: BookOpen },
+  { key: "arabisch" as const, label: "بالعربية", icon: Languages },
 ];
+
+/** The Arabic tab: summary of the task, then every body paragraph of the Beispiel with its Arabic explanation right below it. */
+export function ArabicGuideView({ example, guide }: { example: string; guide: ArabicGuide }) {
+  const body = example.split(/\n{2,}/).map((x) => x.trim()).filter(Boolean).slice(1, -1); // without "Liebe …," and the Gruß / Name block
+  return (
+    <div className="mx-auto max-w-2xl space-y-4">
+      <div dir="rtl" className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4">
+        <p className="mb-1 text-xs font-bold text-amber-700 dark:text-amber-400">شنوّة المطلوب في هذا الجواب</p>
+        <p className="whitespace-pre-line text-sm leading-[1.95] text-foreground">{guide.summary}</p>
+      </div>
+      {body.map((para, i) => (
+        <div key={i} className="rounded-xl border border-border bg-card p-4 shadow-sm sm:p-5">
+          <p dir="ltr" className="mb-3 whitespace-pre-line border-b border-border pb-3 text-xs leading-relaxed text-muted-foreground">{para}</p>
+          <p dir="rtl" className="whitespace-pre-line text-sm leading-[1.95] text-foreground">{renderParagraph(guide.paragraphs[i] ?? "")}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const Spinner = () => (
   <div className="flex justify-center py-16">
@@ -150,6 +174,7 @@ function StrukturView({
   example,
   intro,
   groups,
+  guide,
 }: {
   theme: string;
   title: string;
@@ -157,8 +182,10 @@ function StrukturView({
   example: string;
   intro: React.ReactNode;
   groups: RedemittelGroup[];
+  guide?: ArabicGuide | null;
 }) {
   const [page, setPage] = useState<(typeof TABS)[number]["key"]>("struktur");
+  const tabs = guide ? TABS : TABS.filter((t) => t.key !== "arabisch"); // the Arabic tab only exists for letters that have a guide
   return (
     <div className="space-y-5">
       <div className="rounded-2xl border border-border bg-card p-1.5 shadow-sm">
@@ -169,7 +196,7 @@ function StrukturView({
           <span className="text-sm font-black text-foreground">{title}</span>
         </div>
         <div className="flex gap-1 border-t border-border px-1.5 pt-1.5">
-          {TABS.map((t) => (
+          {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setPage(t.key)}
@@ -193,6 +220,7 @@ function StrukturView({
         </>
       )}
       {page === "beispiel" && <LetterView text={example} withPills={false} intro={null} />}
+      {page === "arabisch" && guide && <ArabicGuideView example={example} guide={guide} />}
     </div>
   );
 }
@@ -304,6 +332,7 @@ export function PersonalStrukturPairB1() {
             </>
           }
           groups={REDEMITTEL_B1}
+          guide={current.arabic_guide}
         />
       ) : (
         <NotReady />
