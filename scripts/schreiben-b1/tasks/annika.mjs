@@ -311,7 +311,7 @@ Wenn du lieber in die Berge möchtest statt ans Meer, [[Alternative|sage es einf
 
 Wochenende kurz: [[Beschreibung|Sonne, Eis, Freunde]]. Bei dir Regen, schade. Aber wir holen das im Sommer nach, [[Folge|mit viel Sonne am Strand]]. Ich freue mich schon sehr auf unsere gemeinsame Reise.
 
-Ich freue mich echt auf unsere Reise und bin für fast alles offen, Hauptsache, es ist nicht zu teuer und wir haben genug Zeit zum Entspannen. Wir finden bestimmt etwas, das uns beiden gefällt, und wenn nicht, suchen wir einfach weiter, bis wir ein schönes Ziel haben. Ich schicke dir gern ein paar Ideen zum Anschauen, dann können wir zusammen entscheiden, und bald buchen. Meld dich, [[Frage an die Freundin|wann es passt]].
+Ich freue mich echt auf unsere Reise und bin für fast alles offen, Hauptsache, es ist nicht zu teuer und wir haben genug Zeit zum Entspannen. Wir finden bestimmt etwas, das uns beiden gefällt, und wenn nicht, suchen wir einfach weiter, bis wir ein schönes Ziel haben. Ich schicke dir gern ein paar Ideen zum Anschauen, dann können wir zusammen entscheiden, und danach bald buchen, bevor die Preise steigen. Meld dich, [[Frage an die Freundin|wann es passt]].
 
 [[Grußformel|Bis dann]]
 [[Dein Name|Max]]` },

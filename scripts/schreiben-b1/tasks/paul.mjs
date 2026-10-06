@@ -1,226 +1,338 @@
-// Paul – schlägt Wanderurlaub in Südtirol vor, Anfang Juni, vielleicht jemanden mitbringen. Points: ob der Termin für Sie in Ordnung ist · Reaktion auf Pauls Vorschlag · ob Sie jemanden mitbringen möchten · was Sie noch von Paul wissen wollen.
+// v2 (B2-style): Paul schlägt einen mehrtägigen Wanderausflug nach Südtirol vor (Anfang Juni) und fragt nach Meinung, Termin, Begleitung. Points: ob der Termin für Sie in Ordnung ist · Reaktion auf Pauls Vorschlag ·
+// ob Sie jemanden mitbringen möchten · was Sie noch von Paul wissen wollen — plus: "Was hältst du davon?", Anfang Juni wegen der Hitze, Berge wunderschön.
+export const kw = [/Termin|Juni|Zeit|passt/i, /Südtirol|Vorschlag|Idee|Wandern|Berge/i, /mitbring|mitkomm|jemand|allein|Freund|Bruder|Schwester/i, /Unterkunft|Hütte|Hotel|Wetter|Ausrüstung|Schuhe|kosten|Kosten|Route|wie viele|wie lange|Anreise/i, /\?/];
 export default [
   // 1
-  { label: "Termin passt, begeistert von Südtirol, Bruder mitbringen, Frage nach den Hütten", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Paul]],
 
-dass du dich über mein Interesse an einem gemeinsamen Ausflug freust, macht mich glücklich! Dein Vorschlag, nach Südtirol zu fahren, begeistert mich, denn ich habe viel Schönes über die Berge dort gehört.
+vielen Dank für deine Mail, ich habe mich sehr gefreut! Dein Vorschlag, nach Südtirol zu fahren, gefällt mir. [[Reaktion auf den Vorschlag|Die Berge dort sind wunderschön, mehrere Tage wandern ist mein Wunsch]]. Ich bin sofort dabei.
 
-Der Termin passt mir gut: [[Termin|Anfang Juni habe ich zwei Wochen Urlaub]]. Außerdem ist es dann nicht zu heiß, wie du sagst, und das Wandern macht mehr Spaß.
+Der Termin Anfang Juni ist für mich in Ordnung. [[Grund für den Termin|Ich habe in der ersten Juniwoche Urlaub, und das Wetter ist dann noch angenehm]]. Wenn es dir lieber ist, passt mir auch [[Alternativtermin|das Wochenende danach]].
 
-Ich würde gern [[Begleitung|meinen Bruder Aymen]] mitbringen, wenn das für dich in Ordnung ist. Er wandert auch gern und ist sehr nett.
+Du fragst, ob ich jemanden mitbringe: [[Begleitung|Ja, meine Schwester würde gern mitkommen, sie wandert sehr gern]]. Ich hoffe, das ist für dich in Ordnung.
 
-Ich möchte noch etwas wissen: [[Frage|Wo übernachten wir, in Hütten oder in einem Hotel]]?
+Ich habe noch einige Fragen: [[Frage zur Unterkunft|Wo übernachten wir, in Hütten oder in einem Hotel]]? Und [[Frage zu den Kosten|wie viel kostet das ungefähr pro Person]]? Außerdem möchte ich wissen, [[Frage zur Route|wie lang die Tagesetappen sind und wie anstrengend die Strecken]].
 
-Schreib mir bitte bald, wie du das planst.
+Zur Vorbereitung [[Vorbereitung|laufe ich schon jetzt jeden Abend eine Stunde und kaufe mir feste Wanderschuhe]].
+
+Zur Ausrüstung habe ich noch eine Frage: [[Frage zur Ausrüstung|Was packen wir ein, und brauchen wir Stöcke oder Regenkleidung]]? Ich besitze [[Besitz|Wanderschuhe und einen kleinen Rucksack]], aber vielleicht fehlt noch etwas. Wenn du mir eine Liste schickst, besorge ich alles rechtzeitig und gehe nichts vergessen.
+
+Dass du Südtirol vorschlägst, ist mutig und gut: [[Lob|Du hast sicher schon viel gelesen und die richtigen Orte im Kopf]]. Ich vertraue deiner Wahl, und ich freue mich, [[Gefühl|dass wir wieder gemeinsam etwas erleben]]. Es ist lange her, dass wir zuletzt gewandert sind.
+
+Zum Termin noch ein Gedanke: [[Hinweis|Anfang Juni sind Feiertage, deshalb sollten wir schnell buchen]]. Falls du die Reise etwas verschieben möchtest, [[Alternative|passe ich mich an, ich habe flexible Arbeitszeiten]]. Aber der erste Termin gefällt mir am besten.
+
+Schreib mir bitte, [[Frage an den Freund|ob du die Unterkünfte schon reserviert hast]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
   // 2
-  { label: "Termin nur im Juli möglich, tolle Idee, allein kommen, Frage nach der Ausrüstung", t: `Hallo [[Name des Freundes|Paul]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Paul]],
 
-danke für deine Antwort und für den schönen Vorschlag! Südtirol hört sich wunderbar an, und ich freue mich schon auf die Berge. Mehrere Tage zu wandern, ist genau das, was ich suche.
+cool, dass du dich meldest! Südtirol? Mega Idee! [[Reaktion auf den Vorschlag|Berge, frische Luft und mehrere Tage wandern, da bin ich sofort dabei]].
 
-Beim Termin habe ich leider ein Problem: [[Termin|Anfang Juni kann ich nicht, weil ich noch Prüfungen habe]]. Ich könnte aber [[Alternativtermin|Mitte oder Ende Juni]]. Passt dir das auch?
+Anfang Juni passt super, [[Grund für den Termin|dann ist es nicht zu heiß und der Chef ist gnädig]]. Falls nicht, [[Alternativtermin|geht auch Mitte Juni]].
 
-Ich möchte niemanden mitbringen und komme [[Begleitung|gern allein]], damit wir zu zweit viel reden können.
+Mitbringen? [[Begleitung|Ich komme allein, vielleicht bringe ich meinen Bruder mit, ich frage ihn noch]]. Ist das okay?
 
-Eine Frage habe ich noch: [[Frage|Welche Ausrüstung brauchen wir, und muss ich alles selbst mitbringen]]?
+Was ich noch wissen will: [[Frage zur Unterkunft|Schlafen wir in Berghütten, und gibt es Frühstück]]? [[Frage zu den Kosten|Wie teuer wird der Spaß]]? [[Frage zur Route|Wie viele Kilometer laufen wir pro Tag]]?
 
-Ich freue mich auf deine Antwort. Wenn der Juni nicht klappt, finden wir bestimmt einen anderen Termin im Sommer.
+Vorbereitung: [[Vorbereitung|Ich besorge mir neue Schuhe und gehe vorher ein paarmal wandern]].
+
+Ich wollte noch fragen, [[Frage|wie wir hinkommen und was wir mit dem Gepäck machen]]. Mit dem Zug nach Bozen ist bequem, und von dort geht es [[Anreise|mit dem Bus weiter]]. Wenn du ein Auto hast, [[Alternative|können wir uns die Kosten teilen]].
+
+Ich weiß, dass Südtirol für seine Dolomiten bekannt ist: [[Wissen|schroffe Felsen, grüne Almen und kleine Dörfer mit Kirchen]]. Das macht die Gegend so besonders. Ich würde gern [[Wunsch|einmal den Sonnenaufgang auf einer Hütte erleben]], falls das möglich ist.
+
+Falls Anfang Juni doch nicht klappt, wäre [[Alternativtermin|die zweite Juniwoche eine gute Alternative]]. Dann sind die Hütten ebenfalls offen, und das Wetter ist ähnlich. Sag mir bitte, ob du lieber früher oder später fährst, [[Frage|damit ich meinen Urlaub rechtzeitig einreiche]].
+
+Meld dich, [[Frage an den Freund|wann wir die Route planen]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Termin passt perfekt, tolle Idee, Schwester mitbringen, Frage nach den Kosten", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Paul]],
 
-ich habe mich ehrlich über deine E-Mail gefreut! Wandern in Südtirol, das ist eine Idee, die mir sofort gefällt, und ich bin sehr motiviert.
+wow, was für ein toller Vorschlag! Südtirol ist ein Traum. [[Reaktion auf den Vorschlag|Ich freue mich riesig auf die Berge, die Hütten und das gemeinsame Wandern]]. Danke, dass du an mich gedacht hast.
 
-Der Termin ist für mich in Ordnung: [[Termin|Anfang Juni ist ideal, weil ich dann Ferien habe]]. Das Wetter ist da noch angenehm, und die Wege sind nicht überfüllt.
+Anfang Juni ist perfekt, [[Grund für den Termin|dann blühen die Wiesen, und es ist angenehm kühl]]. Ich habe schon [[Urlaubsplan|zwei Wochen vorher freigenommen]].
 
-Ich möchte [[Begleitung|meine Schwester Lina]] mitbringen. Sie ist sportlich und freut sich schon auf die Berge. Ist das in Ordnung für dich?
+Mitbringen möchte ich [[Begleitung|meine Freundin Lea, sie liebt Berge und ist sehr nett]].
 
-Ich möchte gern noch wissen: [[Frage|Wie hoch sind ungefähr die Kosten für Unterkunft und Essen]]? Ich muss mein Budget planen.
+Ich habe noch Fragen: [[Frage zur Unterkunft|Gibt es schon eine Unterkunft, vielleicht eine Hütte mit Aussicht]]? [[Frage zu den Kosten|Wie hoch sind die Kosten]]? [[Frage zur Route|Welche Tour planst du für den ersten Tag]]?
 
-Schreib mir bitte bald zurück. Ich freue mich schon sehr auf die frische Luft und die schöne Landschaft.
+Ich bereite mich vor mit [[Vorbereitung|langen Spaziergängen und einem neuen Rucksack]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Mich interessiert auch das Wetter: [[Frage|Ist es Anfang Juni in den Bergen noch kalt]]? Davon hängt ab, was ich einpacke. Ich lese vorher die Wettervorhersage und [[Plan|packe zur Sicherheit eine warme Jacke ein]].
+
+Mehrere Tage zu wandern, [[Gedanke|ist für mich eine Gelegenheit, abzuschalten]]. Im Alltag ist so viel los, dass ich oft vergesse, durchzuatmen. Mit dir und den Bergen wird das gelingen, da bin ich sicher, [[Folge|und ich komme erholt zurück]].
+
+Ich habe in meinem Kalender nachgesehen: [[Termin|In der ersten Juniwoche habe ich keine Termine]]. Das passt also bestens. Wenn du mir sagst, welche Tage genau du meinst, [[Folge|trage ich sie sofort ein und halte sie frei]].
+
+Schreib mir bald, [[Frage an den Freund|wann wir buchen]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Termin passt, begeistert von den Bergen, Freund mitbringen, Frage nach der Route", t: `Hallo [[Name des Freundes|Paul]],
+  { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Paul]],
 
-wie schön, dass du dich über meine Nachricht freust! Ein Ausflug in die Berge ist genau das, was ich brauche, und Südtirol ist eine tolle Wahl.
+vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
-Zum Termin: [[Termin|Anfang Juni passt mir sehr gut, denn dann habe ich keine Termine]]. Ich werde mir die Tage freihalten.
+Erstens, der Termin: Anfang Juni ist für mich in Ordnung. [[Grund für den Termin|Ich habe in dieser Zeit Urlaub]].
 
-Ich würde gern [[Begleitung|meinen Freund Karim]] mitbringen. Er wandert viel und kennt die Berge von Tunesien. Er kann bestimmt viel erzählen.
+Zweitens, dein Vorschlag: [[Reaktion auf den Vorschlag|Ich finde die Idee gut, Südtirol ist ein beliebtes Wandergebiet]].
 
-Ich habe noch eine Frage: [[Frage|Wie sieht die Route aus, und wie lange gehen wir jeden Tag]]?
+Drittens, die Begleitung: [[Begleitung|Ich bringe meinen Bruder mit, wenn das für dich passt]].
 
-Ich freue mich schon auf deine Antwort! Wir können am Telefon alle Einzelheiten besprechen, wenn du Zeit hast.
+Viertens, meine Fragen: [[Frage zur Unterkunft|Welche Unterkünfte hast du geplant]]? [[Frage zu den Kosten|Mit welchen Kosten müssen wir rechnen]]? [[Frage zur Route|Wie viele Tage und Kilometer sind vorgesehen]]?
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Fünftens, die Vorbereitung: [[Vorbereitung|Ich besorge Wanderschuhe und trainiere vorher]].
+
+Ergänzend frage ich mich, [[Frage|ob wir einen Ruhetag einplanen, falls jemand Blasen bekommt oder müde ist]]. Das ist bei mehrtägigen Touren sinnvoll. Ich habe selbst [[Erfahrung|einmal eine Wanderung abbrechen müssen, weil ich zu schnell los bin]]. Das möchte ich vermeiden.
+
+Dein Vorschlag passt zu meinen Plänen: [[Plan|Ich wollte dieses Jahr ohnehin etwas Aktives machen]]. Eine Bergtour ist ideal, [[Grund|weil sie Körper und Kopf guttut]]. Ich bin gespannt, welche Route du aussuchst, und freue mich auf deine Ideen.
+
+Der Termin Anfang Juni ist auch deshalb gut, weil [[Grund|die Wege nach dem Winter meist schon frei von Schnee sind]]. Das hilft bei der Planung. Allerdings [[Einschränkung|sollte man auf Hochwasser achten]], also auf Bäche, die im Frühling viel Wasser führen.
+
+Bitte teile mir mit, [[Frage an den Freund|ob du eine Route schon ausgesucht hast]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Termin etwas später, tolle Idee, Kollegin mitbringen, Frage nach den Schuhen", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Paul]],
 
-tausend Dank für dein Lebenszeichen! Südtirol klingt für mich wie ein Traum, und die Idee, mehrere Tage zu wandern, finde ich großartig.
+danke für deine Mail! [[Reaktion auf den Vorschlag|Südtirol ist eine tolle Idee, und ich helfe dir gern bei der Planung]]. Mehrere Tage wandern, das möchte ich schon lange.
 
-Mit dem Termin habe ich eine Bitte: [[Termin|Mitte Juni wäre für mich besser, weil ich Anfang Juni noch arbeiten muss]]. Geht das für dich auch?
+Der Termin Anfang Juni passt mir. [[Grund für den Termin|Ich kann mir die Woche freihalten]].
 
-Ich möchte gern [[Begleitung|meine Kollegin Salma]] mitnehmen, wenn das möglich ist. Sie ist schon oft gewandert und kennt sich gut aus.
+Mitbringen möchte ich [[Begleitung|einen Freund, der Erfahrung mit Bergtouren hat]]. Er kann [[Praktische Hilfe|uns bei der Navigation helfen]].
 
-Wissen möchte ich noch: [[Frage|Welche Schuhe brauche ich, und soll ich Stöcke mitbringen]]?
+Fragen: [[Frage zur Unterkunft|Brauchen wir Reservierungen für die Hütten]]? [[Frage zu den Kosten|Was kosten Übernachtung und Verpflegung]]? [[Frage zur Route|Welche Strecke ist geplant]]?
 
-Schreib mir bitte bald zurück. Ich bin sicher, dass wir einen Termin finden, der für alle passt, und ich freue mich schon sehr auf die Berge.
+Praktisch: [[Vorbereitung|Ich kann eine Packliste schreiben und Wanderkarten besorgen]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Praktisch wäre es, wenn wir [[Idee|eine gemeinsame Packliste erstellen]], damit nicht jeder alles doppelt mitnimmt. Ich kann [[Hilfsangebot|ein Dokument anlegen, das wir beide bearbeiten]]. So bleibt der Rucksack leicht, und wir vergessen nichts Wichtiges.
+
+Ich finde, dass Südtirol [[Meinung|ein ideales Ziel für alle Sinne ist: gutes Essen, tolle Aussichten und freundliche Menschen]]. Ich habe schon viel Positives gehört, [[Quelle|von Kollegen und aus Reiseberichten]]. Jetzt möchte ich es endlich selbst erleben.
+
+Praktisch ist, dass ich zu Hause schon [[Vorrat|Landkarten von Südtirol habe]], die ich dir gern leihe oder fotografiere. Wir können [[Plan|die Route gemeinsam auf der Karte durchgehen]], bevor wir buchen. So sehen wir, welche Tour passt.
+
+Sag mir bitte, [[Frage an den Freund|was ich noch vorbereiten soll]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Termin ist in Ordnung, Vorfreude auf Südtirol, allein reisen, Frage nach dem Wetter", t: `Hallo [[Name des Freundes|Paul]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Paul]],
 
-ich habe mich sehr über deinen Vorschlag gefreut! Eine Wanderung in Südtirol ist eine tolle Idee, und ich sage gern zu.
+dein Vorschlag gefällt mir, weil [[Grund für die Zustimmung|ich gern in den Bergen bin und mehrere Tage am Stück Zeit brauche]]. [[Reaktion auf den Vorschlag|Südtirol ist ein perfektes Ziel]].
 
-Der Termin ist für mich in Ordnung: [[Termin|Anfang Juni passt, ich nehme mir extra frei]]. Ich bin froh, dass es dann nicht so heiß ist.
+Der Termin passt mir, denn [[Grund für den Termin|Anfang Juni habe ich Urlaub, und es ist nicht zu heiß]].
 
-Ich komme [[Begleitung|gern allein, ich muss niemanden mitbringen]]. Vielleicht lernen wir unterwegs neue Leute kennen.
+Ich bringe [[Begleitung|meine Schwester]] mit, weil [[Grund für die Begleitung|sie gern wandert und gute Laune mitbringt]].
 
-Eine Frage zum Wetter: [[Frage|Wie ist das Wetter in den Bergen im Juni, und brauchen wir Regenkleidung]]?
+Ich habe Fragen, weil ich gut vorbereitet sein möchte: [[Frage zur Unterkunft|Wo übernachten wir]]? [[Frage zu den Kosten|Was kostet es]]? [[Frage zur Route|Wie lang sind die Etappen]]?
 
-Ich freue mich auf deine Antwort. Bis dahin kaufe ich mir schon einmal gute Wanderschuhe und trainiere ein bisschen, damit ich fit bin.
+Zur Vorbereitung [[Vorbereitung|trainiere ich meine Kondition]], da [[Grund für das Training|die Berge anstrengend sein können]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+Mich würde interessieren, [[Frage|wie viele Leute noch mitkommen]]. Das beeinflusst die Unterkunft und die Kosten. Ich bin mir sicher, dass je mehr, desto lustiger, aber [[Hinweis|in den Hütten braucht man früh Reservierungen]]. Es lohnt sich, bald zu planen.
+
+Die Frage, was ich von deinem Vorschlag halte, ist leicht zu beantworten: [[Antwort|Ich halte ihn für ausgezeichnet]]. Er ist nicht zu teuer, nicht zu weit und trotzdem ein Abenteuer. Ich glaube, [[Erwartung|dass wir viel Spaß haben werden]].
+
+Zum Begleiter: Ich frage noch [[Frage|bei zwei Freunden nach, ob sie Zeit haben]]. Wenn mehrere mitkommen, wird es günstiger und lustiger. Aber es ist deine Reise, und [[Hinweis|du entscheidest, wie groß die Gruppe sein soll]].
+
+Schreib mir, [[Frage an den Freund|ob meine Gründe für dich nachvollziehbar sind]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Termin passt nicht ganz, Idee gut, Nachbar mitbringen, Frage nach der Anreise", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Paul]],
 
-wie lieb, von dir zu hören! Dein Vorschlag mit den Bergen in Südtirol gefällt mir sehr, und ich bin gern dabei.
+danke für deine Mail, hier kurz meine Antworten.
 
-Beim Termin muss ich dir leider sagen, dass [[Termin|Anfang Juni für mich schwierig ist, weil meine Schwester Geburtstag hat]]. Wäre auch Ende Mai möglich?
+Termin: Anfang Juni passt. [[Grund für den Termin|Ich habe Urlaub]].
 
-Ich würde gern [[Begleitung|meinen Nachbarn Herrn Weber]] mitbringen. Er ist 55, aber noch sehr fit und wandert jedes Wochenende.
+Vorschlag: [[Reaktion auf den Vorschlag|Südtirol, gute Idee]].
 
-Wie wollen wir hinfahren? [[Frage|Fährst du mit dem Auto, oder nehmen wir den Zug und holen dort ein Auto]]? Ich kann auch bei der Fahrt helfen.
+Begleitung: [[Begleitung|Ich bringe meinen Bruder mit]].
 
-Ich bin gespannt auf deine Antwort. Und wie lange dauert die Fahrt ungefähr, wenn wir mit dem Zug fahren?
+Fragen: [[Frage zur Unterkunft|Unterkunft]]? [[Frage zu den Kosten|Kosten]]? [[Frage zur Route|Route]]?
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Nour]]` },
+Eine weitere Frage: [[Frage|Gibt es auf der Strecke Einkehrmöglichkeiten oder müssen wir Proviant mitnehmen]]? Ich esse gern warm, [[Vorliebe|vor allem Suppe und Knödel nach einem langen Tag]]. Das gehört für mich zu einer Wanderung in Südtirol.
+
+Gern würde ich auch mit dir über [[Thema|unsere Ziele für die nächsten Jahre]] sprechen, wenn wir abends auf der Hütte sitzen. Solche Gespräche sind in den Bergen besonders gut möglich. Ich freue mich darauf, [[Wunsch|dich wieder einmal richtig kennenzulernen]].
+
+Zum Thema Kosten möchte ich sagen, [[Budget|dass ich bis zu 400 Euro für die Reise einplane]]. Das sollte für Übernachtung, Essen und Bahnfahrt reichen. Wenn es mehr wird, [[Anpassung|überlege ich, wo ich sparen kann]]. Sag mir einfach, mit welcher Summe du rechnest.
+
+Ich freue mich sehr auf die Tage in Südtirol und hoffe, dass wir eine schöne Route finden, die nicht zu schwer ist und trotzdem schöne Aussichten bietet. Ich passe mich gern deinen Wünschen an. Gib mir bitte kurz Bescheid, [[Frage an den Freund|wann wir buchen]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Termin ok, Berge als Wunsch, Cousin mitbringen, Frage nach dem Schwierigkeitsgrad", t: `Hallo [[Name des Freundes|Paul]],
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Paul]],
 
-wie wunderbar, dass du mir geschrieben hast! Südtirol ist ein Ziel, von dem ich lange geträumt habe. Dein Vorschlag macht mich glücklich.
+mehrere Tage wandern in Südtirol, ich bin begeistert, meine Waden weniger! [[Reaktion auf den Vorschlag|Aber die Aussicht ist es wert, ich komme gern mit]].
 
-Der Termin passt mir: [[Termin|Anfang Juni habe ich Zeit, und ich kann bis zu zehn Tage bleiben]]. Das reicht für eine schöne Tour.
+Anfang Juni passt, [[Grund für den Termin|dann ist es noch nicht so heiß, dass ich auf halber Strecke aufgebe]].
 
-Ich möchte gern [[Begleitung|meinen Cousin Walid]] mitbringen, wenn das geht. Er liebt die Berge und hat viel Kondition.
+Mitbringen? [[Begleitung|Meinen Cousin, er trägt gern Rucksäcke, ich frage ihn noch]].
 
-Ich habe eine Frage: [[Frage|Wie schwer sind die Wege, und müssen wir klettern]]? Ich bin sportlich, aber kein Profi.
+Meine Fragen: [[Frage zur Unterkunft|Gibt es Betten, oder schlafen wir auf Steinen]]? [[Frage zu den Kosten|Was kostet der Spaß]]? [[Frage zur Route|Wie viele Berge sind es, und wie hoch]]?
 
-Schreib mir bitte, was du davon hältst. Ich möchte auch wissen, wie hoch die Kosten für die Hütten ungefähr sind, damit ich sparen kann.
+Vorbereitung: [[Vorbereitung|Ich gehe jetzt täglich Treppen steigen und tue so, als wäre es der Berg]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Fares]]` },
+Ich bin neugierig, [[Frage|ob es auf der Tour Gipfel gibt, auf die wir steigen]]. Ich liebe den Blick von oben, auch wenn der Weg anstrengend ist. Ich könnte [[Idee|am letzten Tag einen kleinen Gipfel als Belohnung einplanen]]. Wie siehst du das?
+
+Ich habe mir überlegt, dass wir [[Idee|jeden Abend ein kleines Ritual machen, zum Beispiel einen Kräutertee oder ein Kartenspiel]]. Das gibt dem Tag einen schönen Abschluss. Wenn du magst, bringe ich [[Mitbringsel|ein Kartenspiel]] mit.
+
+Bei der Anreise [[Vorschlag|wäre eine Fahrt am Vorabend praktisch]], dann starten wir am ersten Tag früh. Ich könnte [[Plan|am Freitagabend schon in Bozen ankommen]] und eine Pension nehmen. Dann sind wir am Samstag rechtzeitig am Start.
+
+Ich freue mich trotz aller Scherze wirklich auf die Tage mit dir und werde alles tun, damit wir einen schönen Urlaub haben. Schreib bald, [[Frage an den Freund|ob es dort Kuchen gibt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Termin später im Juni, gute Idee, Freundin mitbringen, Frage nach der Versicherung", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine freundliche Nachricht! Die Idee mit der Wanderung in Südtirol gefällt mir, und ich freue mich, dass du schon geplant hast.
+als ich deine Mail gelesen habe, musste ich an unsere erste Wanderung denken. [[Erinnerung an die erste Wanderung|Wir hatten damals falsche Schuhe und haben trotzdem viel gelacht]]. Südtirol klingt wunderbar.
 
-Zum Termin: [[Termin|Anfang Juni geht bei mir leider nicht, aber ab Mitte Juni habe ich Zeit]]. Ich hoffe, dass es dir auch passt.
+[[Reaktion auf den Vorschlag|Ich habe schon lange davon geträumt, einmal dort zu wandern]]. Anfang Juni passt, [[Grund für den Termin|ich habe dann Urlaub]].
 
-Ich möchte [[Begleitung|meine Freundin Ines]] mitbringen, wenn du nichts dagegen hast. Sie ist eine gute Wanderin.
+Ich möchte meine [[Begleitung|Freundin Julia]] mitbringen, wenn du nichts dagegen hast.
 
-Ich habe noch eine Frage: [[Frage|Brauchen wir eine besondere Versicherung für die Berge, und wer kümmert sich darum]]?
+Fragen: [[Frage zur Unterkunft|Wie übernachten wir]]? [[Frage zu den Kosten|Was wird es kosten]]? [[Frage zur Route|Wie lang geht jede Etappe]]?
 
-Ich freue mich auf deine Antwort. Außerdem interessiert mich die Route, und ich würde gern wissen, wo wir übernachten. Ich bin schon sehr gespannt.
+Vorbereitung: [[Vorbereitung|Ich will vorher ein paar Tagestouren machen]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Ines]]` },
+Ich erinnere mich, wie schön es auf unserer letzten Tour war: [[Erinnerung|Wir haben auf einer Almwiese Brotzeit gemacht und die Kühe beobachtet]]. Das war einer der schönsten Tage. Ich hoffe, in Südtirol wird es genauso, [[Wunsch|nur mit besseren Schuhen]].
+
+Weißt du noch, wie wir vor Jahren auf dem Gipfel standen? [[Erinnerung|Du hast gesagt, das sei der schönste Moment deines Jahres]]. Ich hoffe, dass wir diesen Moment wieder erleben, [[Wunsch|diesmal in Südtirol mit Blick auf die Dolomiten]].
+
+Ich erinnere mich, dass du gern früh aufstehst: [[Erinnerung|Bei unserer letzten Tour hast du mich um fünf Uhr geweckt]]. Das war damals anstrengend, aber der Sonnenaufgang war es wert. Ich bin bereit, es wieder zu versuchen, [[Bedingung|wenn wir danach Kaffee bekommen]].
+
+Erzähl mir, [[Frage an den Freund|wie du auf Südtirol gekommen bist]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Termin ist gut, Vorfreude, alleine, Frage nach den Wanderkarten", t: `Hallo [[Name des Freundes|Paul]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Paul]],
 
-deine Nachricht ist eine schöne Überraschung! Ich freue mich, dass du an Südtirol denkst, und ich sage sofort zu. Es klingt nach einem Abenteuer.
+danke für deine Mail. [[Reaktion auf den Vorschlag|Südtirol ist ein tolles Ziel]]. Ich habe gleich mehrere Ergänzungen.
 
-Beim Termin habe ich kein Problem: [[Termin|Anfang Juni ist für mich ideal]]. Ich kann mir freinehmen, und das Wetter ist angenehm.
+Mein erster Vorschlag: Wir fahren [[Anreise|mit dem Zug nach Bozen]]. Mein zweiter: Wir starten [[Termin|am Montag der ersten Juniwoche]]. Mein dritter: Ich bringe [[Begleitung|noch eine Freundin mit]].
 
-Mitbringen möchte ich [[Begleitung|niemanden, ich komme allein]]. Das ist für mich entspannter, und wir können uns besser unterhalten.
+Meine Fragen: [[Frage zur Unterkunft|Welche Unterkunft hast du im Kopf]]? [[Frage zu den Kosten|Wie teuer wird es]]? [[Frage zur Route|Welche Route planst du]]?
 
-Eine Frage zur Planung: [[Frage|Hast du schon Wanderkarten, oder soll ich welche besorgen]]?
+Vorbereitung: [[Vorbereitung|Wir trainieren vorher zusammen]].
 
-Ich bin gespannt auf deine Antwort. Ich kann auch Brote und Obst für die erste Tour mitbringen, wenn du möchtest. Das Wetter soll in den Bergen im Juni oft schön sein.
+Mein vierter Vorschlag: [[Vorschlag|Wir machen eine Fotoliste mit allen Orten, die wir sehen wollen]]. Mein fünfter: [[Vorschlag 2|Wir führen ein kleines Reisetagebuch]]. Das ist eine schöne Erinnerung, und wir können später darin blättern.
+
+Mein sechster Vorschlag: [[Vorschlag|Wir lernen vorher ein paar Wörter Italienisch]]. Das ist nett für die Wirte. Mein siebter: [[Vorschlag 2|Wir bringen den Gastgebern ein kleines Geschenk mit]].
+
+Mein achter Vorschlag: [[Vorschlag|Wir treffen uns eine Woche vorher kurz und gehen die Packliste durch]]. Mein neunter: [[Vorschlag 2|Wir machen eine kleine Probe-Wanderung in der Nähe, um die Schuhe zu testen]].
+
+Was hältst du davon? Ich freue mich auf deine Antwort und auf viele gemeinsame Pläne für diese Tage in den Bergen, denn ich glaube, dass wir eine Menge Spaß haben werden. Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Aymen]]` },
+[[Dein Name|Paula]]` },
 
   // 11
-  { label: "Termin passt gut, tolle Idee, Mitbewohner mitbringen, Frage nach der Anreise mit dem Zug", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Paul]],
 
-ich habe mich wirklich über deine Nachricht gefreut! Ich freue mich, dass du Südtirol vorschlägst, denn ich habe viel über die Berge gelesen. Das passt gut.
+danke für deine Mail. [[Reaktion auf den Vorschlag|Südtirol klingt schön, aber ich möchte vorher einiges klären]].
 
-Der Termin ist in Ordnung: [[Termin|Anfang Juni habe ich Ferien, und mein Chef hat schon zugesagt]]. Ich bin sehr froh darüber.
+Anfang Juni ist einerseits [[Vorteil des Termins|angenehm kühl]], andererseits [[Nachteil des Termins|kann es in den Bergen noch Schnee geben]]. Ich bin trotzdem dafür, [[Grund für den Termin|wenn ich den Urlaub bekomme]].
 
-Ich möchte gern [[Begleitung|meinen Mitbewohner Bilel]] mitbringen. Er hat noch nie in den Alpen gewandert und ist sehr neugierig.
+Ob ich jemanden mitbringe, entscheide ich noch. [[Begleitung|Vielleicht meine Schwester, aber sie hat noch keine feste Zusage gegeben]].
 
-Eine Frage zur Reise: [[Frage|Wie fahren wir hin? Ich würde mit dem Zug fahren, wie lange dauert das]]?
+Fragen: [[Frage zur Unterkunft|Gibt es Alternativen, falls das Wetter schlecht ist]]? [[Frage zu den Kosten|Mit welchen Kosten rechnest du]]? [[Frage zur Route|Ist die Strecke für Anfänger geeignet]]?
 
-Schreib mir bald zurück. Ich habe schon angefangen, Tipps für die Berge im Internet zu suchen, und ich freue mich riesig.
+Ich möchte vorsichtig fragen, [[Frage|wie fit du im Moment bist und ob du Erfahrung mit Bergtouren hast]]. Ich bin nicht der Schnellste, [[Hinweis|aber ich halte durch]]. Gemeinsam finden wir bestimmt ein Tempo, das für uns beide passt.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Rim]]` },
+Bei aller Vorfreude denke ich auch an die Sicherheit: [[Hinweis|Wir sollten den Wetterbericht beachten und nicht zu spät aufbrechen]]. Berge sind schön, aber auch gefährlich, wenn man leichtsinnig ist. Deshalb [[Vorschlag|schlage ich vor, dass wir immer vorsichtig planen]].
+
+Ich bin gespannt, ob der Termin für dich auch fest ist: [[Frage|Hast du schon frei genommen, oder musst du erst fragen]]? Ich denke, dass es gut wäre, bald Bescheid zu wissen. Aber ich verstehe, wenn [[Hinweis|du erst noch klären musst, was möglich ist]].
+
+Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
 
   // 12
-  { label: "Termin passt, begeisterte Antwort, Kollege mitbringen, Frage nach dem Proviant", t: `Hallo [[Name des Freundes|Paul]],
+  { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine Zeilen, ich freue mich riesig! Dein Vorschlag für Südtirol ist eine wunderbare Idee, und ich bin sicher, dass wir eine tolle Zeit haben.
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf den Vorschlag|Südtirol ist eine gute Idee]].
 
-Zum Termin: [[Termin|Anfang Juni passt mir sehr gut, ich habe dann keine Termine]]. Ich schreibe es mir gleich in den Kalender.
+Als Nächstes zum Termin: [[Grund für den Termin|Anfang Juni passt]].
 
-Wenn du nichts dagegen hast, möchte ich [[Begleitung|einen Kollegen mitbringen, der auch gern wandert]]. Er heißt Anis und ist sehr nett.
+Dann zur Begleitung: [[Begleitung|Ich bringe meine Schwester mit]].
 
-Ich habe eine Frage: [[Frage|Müssen wir selbst für Essen und Trinken sorgen, oder gibt es das in den Hütten]]?
+Danach zu meinen Fragen: [[Frage zur Unterkunft|Unterkunft]]? [[Frage zu den Kosten|Kosten]]? [[Frage zur Route|Route]]?
 
-Ich bin gespannt auf deine Antwort. Bis dahin suche ich gute Wanderschuhe und prüfe, was ich schon habe.
+Zuletzt zur Vorbereitung: [[Vorbereitung|Schuhe und Training]].
+
+Zuletzt noch ein Schritt: [[Schritt|Wir sollten schnell die Hütten buchen, weil sie im Juni oft ausgebucht sind]]. Ich helfe dir gern beim Recherchieren, [[Angebot|ich suche heute Abend im Internet nach Angeboten]]. Dann haben wir bald Klarheit.
+
+Als dritten Schritt sollten wir uns [[Schritt|noch einmal telefonisch absprechen]], sobald du weißt, welche Hütten frei sind. Dann können wir den Zeitplan genau festlegen. Ich bin da sehr flexibel und richte mich nach den Verfügbarkeiten.
+
+Als vierten Schritt schlage ich vor, [[Schritt|dass wir einen genauen Tagesplan erstellen, mit Start, Pause und Ziel]]. Das gibt Sicherheit, und wir können flexibel reagieren, falls etwas anders kommt. Ich schicke dir gern einen Entwurf, [[Angebot|wenn du magst]].
+
+Ich freue mich sehr auf die gemeinsame Reise und bin sicher, dass wir gut zusammen planen können, damit nichts schiefgeht und wir den Urlaub richtig genießen. Wie geht es weiter? Schreib mir, [[Frage an den Freund|wann wir planen]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Emna]]` },
+[[Dein Name|Leyla]]` },
 
   // 13
-  { label: "Termin geht in Ordnung, Idee super, Freundin der Schwester mitbringen, Frage nach den Tagen", t: `Lieber [[Name des Freundes|Paul]],
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Paul]],
 
-herzlichen Dank für dein Lebenszeichen! Ich freue mich über deinen Vorschlag und finde Südtirol als Ziel sehr schön. Die Berge dort muss man einmal gesehen haben.
+deine Mail hat mich sehr gefreut. [[Reaktion auf den Vorschlag|Es ist schön, dass du an mich gedacht hast, und Südtirol klingt wunderbar]].
 
-Der Termin ist für mich in Ordnung: [[Termin|Anfang Juni habe ich frei, und ich freue mich auf die Auszeit]]. Wenn es regnet, planen wir einfach um.
+Anfang Juni passt, [[Grund für den Termin|und ich freue mich auf die gemeinsame Zeit]].
 
-Ich möchte gern [[Begleitung|eine Freundin meiner Schwester]] mitbringen, die du sicher magst. Sie hat Erfahrung im Wandern.
+Ich bringe [[Begleitung|meine Mutter mit, sie wandert gern und ist sehr herzlich]], wenn es dir recht ist.
 
-Eine Frage habe ich noch: [[Frage|Wie lange dauert die Reise insgesamt, und wie viele Tage wandern wir]]?
+Fragen: [[Frage zur Unterkunft|Wo ist unsere Unterkunft]]? [[Frage zu den Kosten|Was kostet es]]? [[Frage zur Route|Ist die Strecke auch für ältere Wanderer machbar]]?
 
-Antworte mir bitte bald. Ich bereite mich schon vor und kaufe noch einen Rucksack, denn der alte ist leider kaputt.
+Vorbereitung: [[Vorbereitung|Ich gehe jeden Tag spazieren, um fit zu werden]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Walid]]` },
+Ich freue mich besonders darauf, mit dir [[Wunsch|in Ruhe zu reden, während wir wandern]]. Das ist für mich die beste Art, Zeit zu verbringen. Wir haben uns lange nicht gesehen, [[Folge|und eine Wanderung ist ideal zum Nachholen]].
 
-  // 14
-  { label: "Termin passt, Freude über Südtirol, allein, Frage nach dem Proviant und dem Gepäck", t: `Hallo [[Name des Freundes|Paul]],
+Ich freue mich wirklich auf diese Reise: [[Gefühl|Seit langer Zeit habe ich mich auf nichts so gefreut]]. Ich glaube, dass uns die Berge guttun werden. Und ich bin froh, dass ich nicht allein fahre, [[Dank|sondern mit einem Freund wie dir]].
 
-wie schön, dass du mir antwortest! Südtirol ist ein tolles Ziel für eine Wanderung, und ich bin sehr dabei.
+Es wäre schön, wenn wir uns vor der Reise noch einmal sehen: [[Vorschlag|Bei einem gemeinsamen Abendessen könnten wir alles besprechen]]. Das ist entspannter als Telefonate. Ich lade dich gern ein, [[Angebot|bei mir zu Hause, ich koche etwas Leckeres]].
 
-Der Termin passt mir perfekt: [[Termin|Anfang Juni ist in Ordnung, ich habe keine Verpflichtungen]]. Dann ist es auch noch nicht so voll auf den Wegen.
-
-Ich möchte gern [[Begleitung|allein mitkommen]], damit wir uns gut unterhalten können. Vielleicht lerne ich in den Hütten neue Leute kennen.
-
-Ich habe noch eine Frage: [[Frage|Wie viel Gepäck dürfen wir mitnehmen, und was packt man für fünf Tage ein]]?
-
-Ich freue mich schon sehr auf deine Antwort. Bis zum Juni trainiere ich jede Woche, damit ich mit dir mithalten kann.
+Erzähl mir, [[Frage an den Freund|wie ich dich unterstützen kann]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Paul]],
+
+Südtirol, cool! [[Reaktion auf den Vorschlag|Klingt super]].
+
+Termin: [[Grund für den Termin|Anfang Juni passt]].
+
+Mitbringen: [[Begleitung|Vielleicht meinen Bruder]].
+
+Fragen: [[Frage zur Unterkunft|Unterkunft]]? [[Frage zu den Kosten|Kosten]]? [[Frage zur Route|Route]]?
+
+Vorbereitung: [[Vorbereitung|Schuhe kaufen]].
+
+Eine kurze Frage: [[Frage|Welche Kamera nimmst du mit, oder reicht das Handy]]? Ich mache gern Fotos von Blumen und Bergen. Ich bringe auch [[Mitbringsel|eine kleine Powerbank]] mit, falls wir keinen Strom haben.
+
+Eine Kleinigkeit noch: Ich nehme [[Mitbringsel|ein paar Müsliriegel und Schokolade]] mit, damit wir immer Energie haben. Wenn du magst, packe ich etwas für dich mit ein. Das ist keine große Sache, aber es macht den Weg bergauf leichter.
+
+Wenn ich ehrlich bin, kann ich es kaum erwarten: [[Gefühl|Ich zähle die Tage bis Anfang Juni]]. Ich packe schon jetzt meinen Rucksack in Gedanken. Danke für den tollen Vorschlag, [[Dank|er hat meine Laune sofort verbessert]].
+
+Ich freue mich echt auf Südtirol und auf die Tage mit dir, das wird bestimmt super. Wir müssen nur noch klären, wo wir schlafen und wie viel das alles kostet, aber das kriegen wir hin. Ich bin flexibel und lasse mich gern von deinen Ideen überraschen, Hauptsache, wir wandern zusammen und haben Spaß, das ist alles, was zählt. Meld dich, [[Frage an den Freund|wann wir planen]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];
