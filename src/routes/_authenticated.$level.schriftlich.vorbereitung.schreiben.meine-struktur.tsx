@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { useAuth } from "@/lib/auth";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
 import { useActiveLevel } from "@/lib/useActiveLevel";
 import { LockedExerciseOverview } from "@/components/LockedExerciseOverview";
 import { PersonalStrukturNotice } from "@/components/schreiben/PersonalStrukturNotice";
 import { PersonalStrukturPairB1 } from "@/components/schreiben/PersonalStrukturCard";
+import { StrukturCatalog } from "@/components/schreiben/StrukturCatalog";
 import type { CatalogItem } from "@/lib/useContentAccess";
 
 export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbereitung/schreiben/meine-struktur")({
@@ -22,7 +25,10 @@ const LOCKED_PREVIEW: CatalogItem[] = [
 
 function MeineStrukturPage() {
   const level = useActiveLevel();
+  const { isAdmin } = useAuth();
   const { hasAccess, loading: accessLoading } = useHasPlanAccess("schriftlich");
+  // an admin opens this page to see ALL 500 letters (and how many are left); the student view is one click away
+  const [adminView, setAdminView] = useState<"all" | "mine">("all");
 
   if (accessLoading || !level) {
     return (
@@ -37,6 +43,27 @@ function MeineStrukturPage() {
       <div className="mx-auto max-w-2xl rounded-2xl border border-dashed border-border bg-muted/20 py-14 text-center text-sm text-muted-foreground">
         Die persönliche Struktur für den informellen Brief gibt es nur im B1-Kurs. Im B2-Kurs findest du deine Strukturen unter
         „Meine Struktur — Produkt-Beschwerde“ und „Meine Struktur — Service-Beschwerde“.
+      </div>
+    );
+  }
+
+  if (isAdmin && adminView === "all") {
+    return (
+      <div className="mx-auto max-w-4xl space-y-5 pb-24">
+        <div>
+          <h1 className="text-2xl font-black tracking-tight text-foreground">Schreiben — Alle Strukturen (Admin)</h1>
+          <p className="mt-0.5 text-sm text-muted-foreground">
+            Alle 500 Strukturen des informellen Briefs, wie viele noch frei sind und wie viele schon an Abonnenten vergeben wurden. Eine vergebene Struktur ist geschlossen (🔒) und nicht mehr abrufbar.
+          </p>
+          <p dir="rtl" className="mt-0.5 text-sm text-muted-foreground">كل الـ 500 Struktur، كم بقى منهم وكم ذهب لمشتركين. الـ Struktur اللي تتعطى لمشترك تولّي مغلقة.</p>
+          <button
+            onClick={() => setAdminView("mine")}
+            className="mt-3 rounded-xl bg-muted px-3.5 py-2 text-xs font-bold text-muted-foreground hover:bg-muted/70"
+          >
+            Student-Ansicht anzeigen (so sehen es Abonnenten)
+          </button>
+        </div>
+        <StrukturCatalog sets={["b1all", "b1a", "b1b"]} lockClosed />
       </div>
     );
   }
@@ -60,6 +87,14 @@ function MeineStrukturPage() {
           für dich: einer zu „Einladung, Vorschlag &amp; Planung“, einer zu „Neuigkeiten, Rat &amp; Bitte“.
         </p>
       </div>
+      {isAdmin && (
+        <button
+          onClick={() => setAdminView("all")}
+          className="rounded-xl bg-amber-600 px-3.5 py-2 text-xs font-bold text-white hover:bg-amber-700"
+        >
+          Zurück zur Admin-Übersicht (alle 500)
+        </button>
+      )}
       <PersonalStrukturNotice variant="pair" />
       <PersonalStrukturPairB1 />
     </div>
