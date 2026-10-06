@@ -18,6 +18,7 @@ import {
 import { COMMUNITY_WHATSAPP_URL } from "@/lib/features";
 import { getLastLesson, type LastLesson } from "@/lib/useLastLesson";
 import { AnnouncementBanner } from "@/components/AnnouncementBanner";
+import { ExamDateCard } from "@/components/ExamDateCard";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
@@ -357,6 +358,15 @@ function DashboardPage() {
           </div>
         );
       })()}
+
+      {/* ── Exam date — nearly nobody had set one, which left the countdown and the exam-aware messaging above dead ── */}
+      {user && (
+        <ExamDateCard
+          userId={user.id}
+          examDate={profile?.exam_date ?? null}
+          onSaved={(d) => setProfile((p) => (p ? { ...p, exam_date: d } : p))}
+        />
+      )}
 
       {/* ── Continue Learning ────────────────────────────────── */}
       {lastLesson && (
