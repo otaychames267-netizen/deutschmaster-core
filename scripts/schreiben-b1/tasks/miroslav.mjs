@@ -31,7 +31,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich bin in eine neue Wohnung gezogen]].
 
 Zu deinen Kunden habe ich eine Frage: [[Frage|Sind es meistens Privatleute oder auch Firmen]]?
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, wir können bald telefonieren.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -39,7 +39,7 @@ Ich freue mich auf deine Antwort.
   // 3
   { label: "Pflegekraft im Krankenhaus, großer Respekt, Prüfung bestanden, Frage nach Stammkunden", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine Nachricht! Ich habe mich sehr gefreut und gratuliere dir ganz herzlich zu deiner Firma. Das hört sich nach viel Arbeit, aber auch nach viel Freude an.
+wie nett, deine Zeilen zu lesen! Ich habe mich sehr gefreut und gratuliere dir ganz herzlich zu deiner Firma. Das hört sich nach viel Arbeit, aber auch nach viel Freude an.
 
 Meine Arbeit ist [[Arbeit|im Krankenhaus als Pflegekraft, mit Frühdienst und Spätdienst]]. Ich helfe Menschen, und das macht mich zufrieden.
 
@@ -57,7 +57,7 @@ Schreib mir bitte, wie es dir geht.
   // 4
   { label: "Student mit Nebenjob, schöne Idee, Reise geplant, Frage nach Preisen", t: `Hallo [[Name des Freundes|Miroslav]],
 
-wie schön, dass du dich meldest! Ich gratuliere dir zur neuen Firma, und ich bin sicher, dass es klappt.
+wie lieb, von dir zu lesen! Ich gratuliere dir zur neuen Firma, und ich bin sicher, dass es klappt.
 
 Ich suche zurzeit [[Arbeit|einen Nebenjob neben dem Studium, am liebsten in einem Büro oder einer Bibliothek]]. Mit dem Geld möchte ich meine Miete bezahlen.
 
@@ -85,7 +85,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein neues Fahrrad gekauft]
 
 Zu deinen Kunden eine Frage: [[Frage|Wie viele Aufträge hast du pro Woche, und kannst du alle allein schaffen]]?
 
-Ich freue mich auf deine Antwort.
+Lass uns bald wieder Kontakt haben.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Hamza]]` },
@@ -93,7 +93,7 @@ Ich freue mich auf deine Antwort.
   // 6
   { label: "Verkäuferin im Supermarkt, tolle Entscheidung, Hochzeit besucht, Frage nach schwierigen Kunden", t: `Hallo [[Name des Freundes|Miroslav]],
 
-wie schön, von dir zu lesen! Ich gratuliere dir zu deiner Firma, und ich freue mich, dass du endlich dein eigener Chef bist.
+deine Mail kam genau zur richtigen Zeit! Ich gratuliere dir zu deiner Firma, und ich freue mich, dass du endlich dein eigener Chef bist.
 
 Meine Arbeit: [[Arbeit|Ich arbeite als Verkäuferin in einem Supermarkt und stehe viel an der Kasse]]. Das ist anstrengend, aber ich verstehe mich gut mit den Kollegen.
 
@@ -121,7 +121,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe einen Deutschkurs angefangen, 
 
 Zu deinen Kunden habe ich eine Frage: [[Frage|Hast du Werbung gemacht, oder haben dich die Kunden durch Freunde gefunden]]?
 
-Ich freue mich auf deine Antwort.
+Gib mir bitte noch diese Woche Bescheid.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Walid]]` },
@@ -129,7 +129,7 @@ Ich freue mich auf deine Antwort.
   // 8
   { label: "Praktikum im Büro, bewundernswert, neue Frisur, Frage nach Gartenhäuschen", t: `Hallo [[Name des Freundes|Miroslav]],
 
-danke für deine E-Mail! Ich freue mich sehr, dass es dir gut geht, und ich gratuliere dir zu deiner Firma. Das war bestimmt viel Arbeit am Anfang.
+danke für deine Neuigkeiten! Ich freue mich sehr, dass es dir gut geht, und ich gratuliere dir zu deiner Firma. Das war bestimmt viel Arbeit am Anfang.
 
 Ich mache zurzeit [[Arbeit|ein Praktikum in einem Büro und lerne die Abläufe kennen]]. Es macht mir Spaß, aber ich würde gern mehr Verantwortung haben.
 
@@ -139,7 +139,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Ich habe eine neue Frisur und fühle mich wie
 
 Eine Frage zu deinen Kunden: [[Frage|Wollen viele Kunden, dass du auch ihr Gartenhäuschen putzt, oder ist das selten]]?
 
-Schreib mir bald zurück.
+Schreib mir kurz zurück.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Ines]]` },
@@ -147,7 +147,7 @@ Schreib mir bald zurück.
   // 9
   { label: "Elektriker in Ausbildung, tolles Unternehmen, Autokauf, Frage nach Preisen und Zufriedenheit", t: `Lieber [[Name des Freundes|Miroslav]],
 
-wie schön, von dir zu hören! Dass du eine Firma gegründet hast, finde ich großartig, und ich gratuliere dir herzlich.
+ich habe mich ehrlich über deine Mail gefreut! Dass du eine Firma gegründet hast, finde ich großartig, und ich gratuliere dir herzlich.
 
 Ich arbeite [[Arbeit|als Elektriker in der Ausbildung und lerne gerade, Kabel zu verlegen]]. Es ist praktisch, und ich liebe die Arbeit mit den Händen. Nach der Ausbildung möchte ich vielleicht auch selbstständig sein.
 
@@ -157,7 +157,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein gebrauchtes Auto gekau
 
 Zu deinen Kunden: [[Frage|Rufen sie dich selbst an, oder organisierst du die Termine über eine Webseite]]?
 
-Ich freue mich auf deine Antwort.
+Sag mir bitte bald Bescheid.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Aymen]]` },
@@ -193,7 +193,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mit Malen angefangen]].
 
 Eine Frage zu deinen Kunden: [[Frage|Fragen die Leute dich auch nach anderen Reparaturen, zum Beispiel am Dach oder an der Tür]]?
 
-Ich freue mich auf deine Antwort.
+Ich bin schon neugierig auf deine Antwort.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -211,7 +211,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Ich habe am Wochenende eine lange Wanderung g
 
 Zu deinen Kunden habe ich eine Frage: [[Frage|Wann rufen sie meistens an, am Wochenende oder unter der Woche]], und wie planst du die Termine?
 
-Schreib mir bald zurück!
+Ich freue mich auf deine Mail.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -219,7 +219,7 @@ Schreib mir bald zurück!
   // 13
   { label: "Bäckerei, hohe Anerkennung, Konzert, Frage nach Dankbarkeit der Kunden", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine E-Mail! Ich gratuliere dir zu deiner Firma, und ich bin sicher, dass du viel Erfolg haben wirst.
+wie toll, deine Zeilen zu lesen! Ich gratuliere dir zu deiner Firma, und ich bin sicher, dass du viel Erfolg haben wirst.
 
 Meine Arbeit: [[Arbeit|Ich arbeite in einer Bäckerei und stehe morgens um vier Uhr auf]]. Die Arbeit ist hart, aber das frische Brot macht alles wieder gut.
 
@@ -229,7 +229,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich war auf einem tollen Konzert]].
 
 Zu deinen Kunden habe ich noch eine Frage: [[Frage|Sind sie meist dankbar, und gibt es manchmal ein Trinkgeld]]?
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, was du dazu sagst.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },
@@ -237,7 +237,7 @@ Ich freue mich auf deine Antwort.
   // 14
   { label: "Büroarbeit mit Plänen, gute Wahl, Fahrrad repariert, Frage nach den Hausbesitzern", t: `Hallo [[Name des Freundes|Miroslav]],
 
-wie schön, von dir zu hören! Ich gratuliere dir zu deiner Firma, und ich bin gespannt, wie sie sich entwickelt.
+wie super, dass du dich bei mir meldest! Ich gratuliere dir zu deiner Firma, und ich bin gespannt, wie sie sich entwickelt.
 
 Ich arbeite [[Arbeit|im Büro einer Baufirma, wo ich Pläne ausdrucke und Termine organisiere]]. Es ist nicht aufregend, aber sicher. Manchmal wünsche ich mir mehr Bewegung.
 
@@ -247,7 +247,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mein altes Fahrrad repariert u
 
 Eine Frage zu deinen Kunden: [[Frage|Sind es meistens Hausbesitzer, oder rufen auch Mieter bei dir an]]?
 
-Ich freue mich auf deine Antwort.
+Melde dich bitte, gleich nach den Ferien.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Nour]]` },

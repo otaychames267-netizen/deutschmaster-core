@@ -131,7 +131,7 @@ Schreib mir bitte, ob der Termin für dich passt.
   // 9
   { label: "Absage für jetzt, später besuchen, Zimmer im Studentenheim, App für Nachbarn, Umzug", t: `Lieber [[Name des Freundes|Naco]],
 
-danke für deine Nachricht! Deine Einladung freut mich sehr, aber ich muss dir leider sagen, dass ich dich [[Zeitpunkt des Besuchs|in den nächsten zwei Monaten nicht besuchen kann]]. Ich habe zu viel Arbeit. Im Herbst komme ich bestimmt!
+was für eine nette Überraschung, deine E-Mail! Deine Einladung freut mich sehr, aber ich muss dir leider sagen, dass ich dich [[Zeitpunkt des Besuchs|in den nächsten zwei Monaten nicht besuchen kann]]. Ich habe zu viel Arbeit. Im Herbst komme ich bestimmt!
 
 Du fragst nach meiner Wohnung: [[Wohnung|Ich wohne in einem Studentenheim und habe ein Zimmer mit eigenem Bad]]. Es ist klein, aber ich habe viele Freunde im Haus.
 

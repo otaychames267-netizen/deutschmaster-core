@@ -13,7 +13,7 @@ Musik höre ich gern, [[Musik|besonders arabische Popmusik und manchmal Rock]]. 
 
 Mein Vorschlag für ein Treffen: [[Vorschlag|Wir treffen uns nächste Woche in einem Café in der Stadt]]. Dann erzählst du mir alles.
 
-Schreib mir bald zurück.
+Ich warte gespannt auf deine Nachricht.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
@@ -31,7 +31,7 @@ Ich höre gern [[Musik|Pop und manchmal klassische Musik, vor allem abends]]. De
 
 Vorschlag für ein Treffen: [[Vorschlag|Wir gehen nächste Woche zusammen zum Abendessen und du erzählst alles]].
 
-Ich freue mich auf deine Antwort.
+Antworte mir gern, so bald es dir passt.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -67,7 +67,7 @@ Ich höre gern [[Musik|elektronische Musik und manchmal J-Pop]]. Dein Club in Sa
 
 Mein Vorschlag: [[Vorschlag|Wir treffen uns nach deiner Rückkehr im Kino, und ich lade dich ein]].
 
-Ich freue mich auf deine Antwort.
+Erzähl mir gern in deiner Antwort mehr davon.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -93,7 +93,7 @@ Schreib mir bitte zurück.
   // 6
   { label: "Lieblingsland Schweiz, Berge und Sauberkeit, Jodeln und Pop, Treffen auf einer Hütte", t: `Hallo [[Name des Freundes|Moritz]],
 
-danke für deine Nachricht! Dass du mit einem Auto durch Kalifornien fährst, finde ich spannend, und die Strände und Hochhäuser sind sicher beeindruckend. Ich beneide dich ein bisschen.
+herzlichen Dank für deine schnelle Antwort! Dass du mit einem Auto durch Kalifornien fährst, finde ich spannend, und die Strände und Hochhäuser sind sicher beeindruckend. Ich beneide dich ein bisschen.
 
 Mein Lieblingsland ist [[Lieblingsland|die Schweiz, wegen der Berge, der Seen und der Sauberkeit]]. Ich habe dort einen Sommer verbracht.
 
@@ -103,7 +103,7 @@ Musik höre ich gern, [[Musik|zum Beispiel Pop und Volkslieder, auch ein bissche
 
 Ein Vorschlag für ein Treffen: [[Vorschlag|Wir fahren nächstes Wochenende zusammen in die Berge und essen auf einer Hütte]].
 
-Ich freue mich auf deine Antwort.
+Erzähl mir gern wenn du Zeit hast mehr davon.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -129,7 +129,7 @@ Schreib mir bitte bald.
   // 8
   { label: "Lieblingsland Norwegen, Natur und Ruhe, Rock und Metal, Treffen am See", t: `Hallo [[Name des Freundes|Moritz]],
 
-wie schön, von dir zu hören! Die Beschreibung von San Diego hat mich sehr neugierig gemacht. Kalifornien muss großartig sein, und der Club mit der tollen Musik klingt nach einem lustigen Abend.
+wie nett, dass du dich gemeldet hast! Die Beschreibung von San Diego hat mich sehr neugierig gemacht. Kalifornien muss großartig sein, und der Club mit der tollen Musik klingt nach einem lustigen Abend.
 
 Mein Lieblingsland ist [[Lieblingsland|Norwegen, denn die Fjorde und die Natur sind einzigartig]]. Ich habe Fotos davon gesehen und möchte unbedingt hin.
 
@@ -139,7 +139,7 @@ Ich höre gern [[Musik|Rock, manchmal auch Metal]]. Skandinavische Bands finde i
 
 Mein Vorschlag für ein Treffen: [[Vorschlag|Wir fahren zusammen an einen See und sitzen am Ufer]]. Dort können wir ungestört reden.
 
-Ich freue mich auf deine Antwort.
+Antworte mir gern, sobald du kannst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -147,7 +147,7 @@ Ich freue mich auf deine Antwort.
   // 9
   { label: "Lieblingsland Frankreich, Essen und Kunst, Chansons, Treffen im Museum", t: `Lieber [[Name des Freundes|Moritz]],
 
-danke für deine E-Mail! Kalifornien klingt wunderbar, und ich freue mich, dass du in einem Club so schöne Musik gehört hast. Dein Urlaub geht leider schnell vorbei.
+wie lieb, dass du dich gemeldet hast! Kalifornien klingt wunderbar, und ich freue mich, dass du in einem Club so schöne Musik gehört hast. Dein Urlaub geht leider schnell vorbei.
 
 Mein Lieblingsland ist [[Lieblingsland|Frankreich, wegen der Küche, der Kunst und der Sprache]]. Ich habe dort einen Sommer verbracht und viel gelernt.
 
@@ -157,7 +157,7 @@ Ich höre gern [[Musik|französische Chansons, besonders am Abend]]. Die Texte s
 
 Als Vorschlag für ein Treffen: [[Vorschlag|Wir gehen zusammen in ein Museum, und danach essen wir etwas Französisches]].
 
-Schreib mir bald zurück.
+Schreib mir ausführlich zurück.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Ines]]` },
@@ -175,7 +175,7 @@ Ich höre gern [[Musik|Samba und brasilianischen Pop]]. Bei dieser Musik muss ma
 
 Mein Vorschlag für ein Treffen: [[Vorschlag|Wir gehen nach deiner Rückkehr zu einem Stadtfest und tanzen zusammen]].
 
-Ich freue mich auf deine Antwort.
+Bis bald, und schreib mir, wie es dir geht.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Aymen]]` },
@@ -193,7 +193,7 @@ Ich höre gern [[Musik|Gnawa-Musik und deutschen Rap]]. Beides ist ganz verschie
 
 Als Vorschlag für ein Treffen: [[Vorschlag|Wir gehen zusammen auf einen Markt in unserer Stadt und kaufen frisches Obst]].
 
-Schreib mir bald zurück.
+Ich würde mich über eine schnelle Antwort von dir freuen.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -211,7 +211,7 @@ Ich höre gern [[Musik|Fado und manchmal Popmusik]]. Fado ist traurig, aber sehr
 
 Mein Vorschlag für ein Treffen: [[Vorschlag|Wir sitzen am Fluss in der Stadt und trinken etwas]]. Das Wetter ist bald wieder gut.
 
-Ich freue mich auf deine Antwort.
+Bis bald, und melde dich, wenn du Neuigkeiten hast.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -247,7 +247,7 @@ Ich höre gern [[Musik|türkischen Pop und manchmal Rock]]. Beim Autofahren läu
 
 Mein Vorschlag für ein Treffen: [[Vorschlag|Wir frühstücken zusammen am Sonntagmorgen in einem Café]]. Ich lade dich ein.
 
-Schreib mir bald zurück.
+Ich bin neugierig auf deine Antwort darauf, also schreib mir bald.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Sana]]` },

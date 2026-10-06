@@ -19,7 +19,7 @@ Schreib mir bald, wann dir ein Besuch passt!
   // 2
   { label: "Computer bei der Arbeit, Altbauwohnung mit Holzboden, Besuch im Juli, Reise", t: `Hallo [[Name des Freundes|Andreas]],
 
-wie schön, von dir zu hören! Du brauchst dich nicht zu entschuldigen, mir geht es genauso, wenn viel los ist. Die neue Wohnung gefällt dir, das freut mich sehr, und ich möchte dich [[Zeitpunkt des Besuchs|im Juli für ein langes Wochenende]] besuchen.
+deine Zeilen kam genau zur richtigen Zeit! Du brauchst dich nicht zu entschuldigen, mir geht es genauso, wenn viel los ist. Die neue Wohnung gefällt dir, das freut mich sehr, und ich möchte dich [[Zeitpunkt des Besuchs|im Juli für ein langes Wochenende]] besuchen.
 
 Mit dem Computer arbeite ich viel: [[Erfahrung mit dem Computer|In meinem Büro sitze ich acht Stunden am Computer und schreibe E-Mails und Berichte]]. Zu Hause nutze ich ihn nur selten.
 
@@ -67,7 +67,7 @@ Gib mir bitte Bescheid, wann dir mein Besuch passt!
   // 5
   { label: "Computerspiele und Fotos, Neubauwohnung, Besuch am Wochenende, Fahrradkauf", t: `Lieber [[Name des Freundes|Andreas]],
 
-danke für deine Nachricht! Eine neue Wohnung ist immer aufregend, und ich freue mich für dich. Ich komme dich gern besuchen, vielleicht [[Zeitpunkt des Besuchs|schon an einem Wochenende im Juni]].
+danke für deine lange Nachricht! Eine neue Wohnung ist immer aufregend, und ich freue mich für dich. Ich komme dich gern besuchen, vielleicht [[Zeitpunkt des Besuchs|schon an einem Wochenende im Juni]].
 
 Beim Computer habe ich viele Erfahrungen: [[Erfahrung mit dem Computer|Ich bearbeite gern Fotos und spiele am Wochenende manchmal Spiele]]. In letzter Zeit habe ich auch ein bisschen programmiert.
 

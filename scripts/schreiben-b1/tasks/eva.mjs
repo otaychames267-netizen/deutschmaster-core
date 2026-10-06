@@ -203,7 +203,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Ich plane im Sommer eine Reise nach Wien]].
 
 Mein Traumberuf ist [[Traumberuf|Krankenpfleger]]. Ich möchte Menschen helfen, wenn sie krank sind, und ich finde die Arbeit sehr wichtig. Vielleicht kann ich nach meiner Ausbildung in einem Krankenhaus in Deutschland arbeiten.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, du hast bald Zeit für eine Antwort.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Walid]]` },
@@ -211,7 +211,7 @@ Ich freue mich auf deine Antwort.
   // 14
   { label: "Glückwunsch, Fortschritte beim Sprechen mit Freunden, Hund gekauft, Traumberuf Tierpfleger", t: `Hallo [[Name der Freundin|Eva]],
 
-ich habe mich sehr über deine E-Mail gefreut! Eine neue Stelle bei VIA ist ein großer Erfolg, und ich gratuliere dir ganz herzlich.
+wie schön, dass du dich gemeldet hast! Eine neue Stelle bei VIA ist ein großer Erfolg, und ich gratuliere dir ganz herzlich.
 
 Wie es mit meinem Deutsch läuft? [[Fortschritte|Ich treffe mich jede Woche mit Freunden und spreche nur Deutsch mit ihnen]]. Das tut mir gut. Ich bin viel mutiger geworden und schäme mich nicht mehr für Fehler.
 

@@ -13,7 +13,7 @@ Für meinen nächsten Urlaub plane ich [[Urlaubsplan|eine Reise nach Griechenlan
 
 Wir sollten uns bald treffen. [[Vorschlag|Komm doch an einem Samstag bei uns vorbei, und wir kochen zusammen]]?
 
-Ich freue mich auf deine Antwort.
+Bis bald, und lass bald von dir hören.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
@@ -31,7 +31,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|eine Woche in den Bergen, mit 
 
 Treffen wir uns doch! [[Vorschlag|Wie wäre es mit einem Café am Sonntagnachmittag]]? Dann zeigst du mir deine Fotos.
 
-Ich bin gespannt auf deine Antwort.
+Bis dahin, und lass bald von dir hören.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -49,7 +49,7 @@ Meinen nächsten Urlaub plane ich [[Urlaubsplan|als Städtereise nach Wien]]. Ic
 
 Wir sollten uns treffen, wenn du zurück bist. [[Vorschlag|Wir könnten zusammen an den See fahren und schwimmen]].
 
-Ich freue mich auf deine Antwort.
+Bis bald, und pass gut auf dich auf.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -67,7 +67,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|zehn Tage am Meer, zusammen mi
 
 Wann treffen wir uns? [[Vorschlag|Wir könnten ein Museum besuchen und danach zusammen essen]].
 
-Ich bin gespannt auf deine Antwort.
+Bis dahin, und pass gut auf dich auf.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -85,7 +85,7 @@ Für meinen nächsten Urlaub habe ich [[Urlaubsplan|eine Wanderwoche in den Alpe
 
 Wir sollten uns treffen. [[Vorschlag|Ich lade dich in den Park ein, zum Picknick und zur Gitarrenmusik]].
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, ob das für dich in Ordnung ist.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -103,7 +103,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|eine Reise nach Italien, mit d
 
 Treffen möchte ich dich gern. [[Vorschlag|Wir könnten zusammen eine Radtour machen, wenn du zurück bist]]. Das wäre ein schöner Tag.
 
-Ich bin gespannt auf deine Antwort.
+Ich würde mich über eine schnelle Antwort von dir sehr freuen.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -121,7 +121,7 @@ Meinen nächsten Urlaub verbringe ich [[Urlaubsplan|an der Ostsee, eine Woche la
 
 Wollen wir uns treffen? [[Vorschlag|Ich lade dich zu einer Partie Schach in einem Café ein]].
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine baldige Antwort von dir freuen.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Nour]]` },
@@ -139,7 +139,7 @@ Mein nächster Urlaub: [[Urlaubsplan|Ich fahre im August nach Spanien, um dort e
 
 Treffen wir uns doch bald. [[Vorschlag|Komm doch einmal mit zu meinem Tanzkurs, es macht viel Spaß]].
 
-Ich bin gespannt auf deine Antwort.
+Erzähl mir doch gern wenn du Zeit hast mehr davon.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -147,7 +147,7 @@ Ich bin gespannt auf deine Antwort.
   // 9
   { label: "Hobby Wandern, Dank für das Buch, Urlaub in Norwegen, Treffen im Wald", t: `Lieber [[Name des Freundes|Viktor]],
 
-ich habe mich sehr über deine Nachricht gefreut! Malta klingt wunderbar, und ich bin sicher, dass ihr eine schöne Zeit habt. Die Fotos möchte ich bald sehen.
+wie lieb, dass wir wieder in Kontakt sind! Malta klingt wunderbar, und ich bin sicher, dass ihr eine schöne Zeit habt. Die Fotos möchte ich bald sehen.
 
 Zu meinen Hobbys: [[Hobbys|Ich wandere gern in den Bergen und im Wald, jedes Wochenende ein paar Stunden]]. Das ist meine beste Erholung.
 
@@ -175,7 +175,7 @@ Für meinen nächsten Urlaub plane ich [[Urlaubsplan|eine Woche bei meinen Elter
 
 Wir sollten uns treffen. [[Vorschlag|Ich lade dich zum Kaffee und zu selbstgebackenem Kuchen zu mir ein]].
 
-Ich bin gespannt auf deine Antwort.
+Ich bin neugierig auf deine Idee, also schreib mir bald.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Emna]]` },
@@ -183,7 +183,7 @@ Ich bin gespannt auf deine Antwort.
   // 11
   { label: "Hobby Gärtnern, Dank für das Buch, Urlaub zu Hause, Treffen im Garten", t: `Lieber [[Name des Freundes|Viktor]],
 
-wie schön, dass du mir schreibst! Malta klingt wunderbar, und ich freue mich, dass ihr so viel erlebt. Du hast bestimmt viele Fotos gemacht, ich bin sehr neugierig.
+deine Mail hat mir den Tag verschönert! Malta klingt wunderbar, und ich freue mich, dass ihr so viel erlebt. Du hast bestimmt viele Fotos gemacht, ich bin sehr neugierig.
 
 Zu meinen Hobbys: [[Hobbys|Ich gärtnere gern auf meinem Balkon und ziehe Tomaten und Kräuter]]. Das gibt mir Ruhe nach einem langen Tag.
 
@@ -193,7 +193,7 @@ Mein nächster Urlaub: [[Urlaubsplan|Ich bleibe zu Hause und mache viele Ausflü
 
 Treffen möchte ich dich gern. [[Vorschlag|Komm doch einmal auf meinen Balkon, und wir trinken zusammen Tee]].
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine baldige Antwort von dir sehr freuen.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Walid]]` },
@@ -211,7 +211,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|eine Reise in meine Heimat, wo
 
 Treffen wir uns, wenn du zurück bist. [[Vorschlag|Wir könnten am Wochenende zusammen essen gehen]].
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine ausführliche Antwort von dir freuen.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Anis]]` },
@@ -229,7 +229,7 @@ Meinen nächsten Urlaub plane ich [[Urlaubsplan|am Bodensee, mit Radfahren und B
 
 Wir sollten uns treffen. [[Vorschlag|Ich koche für dich, und du erzählst mir von Malta]].
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine ausführliche Antwort von dir sehr freuen.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Salma]]` },
@@ -247,7 +247,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|eine Reise nach Portugal, an d
 
 Treffen wir uns bald? [[Vorschlag|Wir könnten zusammen ins Schwimmbad gehen und danach ein Eis essen]].
 
-Ich bin gespannt auf deine Antwort.
+Ich würde mich über eine kurze Antwort von dir sehr freuen.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },

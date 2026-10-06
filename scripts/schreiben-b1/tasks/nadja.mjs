@@ -11,7 +11,7 @@ Zum Weg: [[Weg zum Garten|Ich komme mit dem Bus, wenn es eine Haltestelle in der
 
 Bei mir gibt es auch Neues: [[Neuigkeit|Ich habe einen neuen Job in einem Reisebüro]]. Die Arbeit gefällt mir sehr.
 
-Ich freue mich auf deine Antwort.
+Melde dich bitte, in den nächsten Tagen.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Salma]]` },
@@ -19,7 +19,7 @@ Ich freue mich auf deine Antwort.
   // 2
   { label: "Gern dabei, Frage zur Miete und Regeln, Weg mit dem Fahrrad, bestandene Prüfung", t: `Hallo [[Name der Freundin|Nadja]],
 
-wie schön, dass du an mich gedacht hast! Ein großer Garten am Stadtrand ist ein Traum, und dein Vorschlag, ihn zu teilen, begeistert mich. Salat und Gemüse selbst anzubauen, wollte ich schon lange.
+ich habe mich riesig über deine Mail gefreut! Ein großer Garten am Stadtrand ist ein Traum, und dein Vorschlag, ihn zu teilen, begeistert mich. Salat und Gemüse selbst anzubauen, wollte ich schon lange.
 
 Ich habe ein paar Fragen: [[Fragen zum Garten|Wie hoch ist die Miete genau, und gibt es Regeln, die wir beachten müssen]]? Vielleicht gibt es einen Gartenverein.
 
@@ -27,7 +27,7 @@ Den Weg zum Garten könnte ich [[Weg zum Garten|mit dem Fahrrad fahren, wenn es 
 
 Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe meine Prüfung bestanden]]. Ich bin sehr froh und freue mich auf die Zeit im Garten.
 
-Schreib mir bitte bald zurück.
+Ich hoffe, wir können bald telefonieren.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -35,7 +35,7 @@ Schreib mir bitte bald zurück.
   // 3
   { label: "Tolle Idee, Frage zu den Obstbäumen, Weg mit dem Auto, neue Wohnung", t: `Liebe [[Name der Freundin|Nadja]],
 
-deine Nachricht hat mich sehr gefreut! Ein Garten mit Obstbäumen und einer großen Wiese klingt wunderbar, und ich würde gern mit euch teilen. Das ist eine tolle Idee, und ich sage grundsätzlich ja.
+ich habe mich so sehr über deine E-Mail gefreut! Ein Garten mit Obstbäumen und einer großen Wiese klingt wunderbar, und ich würde gern mit euch teilen. Das ist eine tolle Idee, und ich sage grundsätzlich ja.
 
 Ich habe ein paar Fragen zum Garten: [[Fragen zum Garten|Welche Obstbäume gibt es dort, und wann trägt der Garten Früchte]]? Vielleicht kann ich im Herbst schon Äpfel ernten.
 
@@ -43,7 +43,7 @@ Den Weg zum Garten fahre ich [[Weg zum Garten|am liebsten mit dem Auto, denn ich
 
 Bei mir ist Neues passiert: [[Neuigkeit|Ich bin in eine neue Wohnung gezogen, die näher am Stadtrand liegt]]. So bin ich bald fast im Garten.
 
-Ich freue mich auf deine Antwort.
+Erzähl mir gern in deiner Antwort mehr davon.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -75,7 +75,7 @@ Den Weg zum Garten möchte ich [[Weg zum Garten|mit der Bahn fahren, und dann bi
 
 Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich mache ein Praktikum in einer Firma und lerne viel]]. Am Wochenende habe ich meistens frei.
 
-Schreib mir bitte bald zurück.
+Ich freue mich auf deine Nachricht!
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -99,7 +99,7 @@ Ich freue mich auf deine Antwort und auf das erste Wochenende im Garten.
   // 7
   { label: "Gern, Frage zur Grillstelle, Weg mit dem Auto der Eltern, Umzug der Schwester", t: `Liebe [[Name der Freundin|Nadja]],
 
-danke für deine Nachricht! Dein Garten klingt traumhaft, und deine Idee, ihn zu teilen, gefällt mir sehr. Auch die Möglichkeit zu grillen finde ich toll.
+wie toll, dass du an mich denkst! Dein Garten klingt traumhaft, und deine Idee, ihn zu teilen, gefällt mir sehr. Auch die Möglichkeit zu grillen finde ich toll.
 
 Zum Garten habe ich eine Frage: [[Fragen zum Garten|Gibt es eine feste Grillstelle, und dürfen wir dort auch abends noch sitzen]]? Ich lade gern Freunde ein.
 
@@ -139,7 +139,7 @@ Den Weg würde ich [[Weg zum Garten|mit dem Moped fahren, es dauert nur zwanzig 
 
 Bei mir gibt es Neues: [[Neuigkeit|Ich habe eine neue Frisur und fühle mich wie neu]]. Ich zeige dir gern ein Foto.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, du hast bald Zeit für eine Antwort.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Ines]]` },
@@ -171,7 +171,7 @@ Den Weg zum Garten fahre ich [[Weg zum Garten|mit einer Kollegin im Auto, die in
 
 Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein Fahrrad gekauft]]. Damit komme ich dann im Sommer auch zum Garten.
 
-Ich freue mich auf deine Antwort.
+Bis bald, und pass gut auf dich auf.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -179,7 +179,7 @@ Ich freue mich auf deine Antwort.
   // 12
   { label: "Gute Idee mit Bedenken, Frage zum Vertrag, Weg mit dem Zug, Sprachkurs", t: `Hallo [[Name der Freundin|Nadja]],
 
-danke für deine Zeilen! Ich gratuliere dir zum Garten, und dein Vorschlag ist eine gute Idee. Ich habe nur ein paar Bedenken, weil ich noch nie einen Garten hatte.
+lieben Dank für dein Lebenszeichen! Ich gratuliere dir zum Garten, und dein Vorschlag ist eine gute Idee. Ich habe nur ein paar Bedenken, weil ich noch nie einen Garten hatte.
 
 Ich habe eine Frage: [[Fragen zum Garten|Gibt es einen Pachtvertrag, und wer ist dafür verantwortlich]]? Ich möchte wissen, was ich unterschreiben muss.
 
@@ -195,7 +195,7 @@ Ich freue mich auf deine Antwort und auf den ersten Besuch bei dir im Garten.
   // 13
   { label: "Vorfreude, Frage nach dem Salat, Weg mit dem Roller, Reise nach Hamburg", t: `Liebe [[Name der Freundin|Nadja]],
 
-wie schön, von dir zu hören! Dein Garten klingt wie ein Paradies, und dein Vorschlag macht mir große Lust. Ich komme sehr gern, und ich bin gespannt auf alles.
+ich habe mich so sehr über deine Zeilen gefreut! Dein Garten klingt wie ein Paradies, und dein Vorschlag macht mir große Lust. Ich komme sehr gern, und ich bin gespannt auf alles.
 
 Ich habe eine Frage: [[Fragen zum Garten|Wann kann man den Salat pflanzen, und wann ist der beste Zeitpunkt für Tomaten]]? Ich möchte gleich im Frühling anfangen.
 
@@ -219,7 +219,7 @@ Zum Weg: [[Weg zum Garten|Ich fahre mit dem Bus bis zur Endhaltestelle]], und we
 
 Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe einen Kochkurs angefangen und lerne neue Gerichte]]. Vielleicht koche ich im Garten für euch.
 
-Ich freue mich auf deine Antwort.
+Gib mir bitte noch diese Woche Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },

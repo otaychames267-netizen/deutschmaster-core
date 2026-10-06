@@ -19,7 +19,7 @@ Melde dich bald bei mir!
   // 2
   { label: "Zettel schreiben, Dachwohnung, Café am Samstag, älteres Ehepaar im Haus", t: `Hallo [[Name des Freundes|Jakob]],
 
-danke für deine E-Mail! Es ist schön, dass du dich meldest, und dein Problem tut mir leid. Wenn jemand abends laut Musik hört, kann man kaum schlafen.
+wie nett, dass ich von dir höre! Es ist schön, dass du dich meldest, und dein Problem tut mir leid. Wenn jemand abends laut Musik hört, kann man kaum schlafen.
 
 Ich habe einen Tipp: [[Tipp|Schreib einen höflichen Zettel und stecke ihn in den Briefkasten deines Nachbarn]]. So kann er in Ruhe darüber nachdenken, und es gibt keinen Streit. Solche Zettel helfen oft.
 
@@ -147,7 +147,7 @@ Schreib mir bald, ob dir das passt.
   // 10
   { label: "Polizei nur als letzte Lösung, Wohnung mit Gästezimmer, Grillen im Park, Nachbarin backt Kuchen", t: `Hallo [[Name des Freundes|Jakob]],
 
-wie schön, von dir zu hören! Dass du ein Problem mit einem lauten Nachbarn hast, tut mir leid. Ich hoffe, dass wir eine Lösung finden.
+vielen Dank für deine Mail! Dass du ein Problem mit einem lauten Nachbarn hast, tut mir leid. Ich hoffe, dass wir eine Lösung finden.
 
 Mein Rat: [[Tipp|Sprich zuerst mit ihm, dann mit dem Vermieter. Die Polizei kannst du als letzte Lösung anrufen]]. Aber meistens ist ein freundliches Gespräch genug. Versuche es noch einmal mit Ruhe.
 

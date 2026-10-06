@@ -193,7 +193,7 @@ Mein Vorschlag: [[Treffen|Wir treffen uns zu einer kleinen Gartenparty, sobald d
 
 Bei mir gibt es Neuigkeiten: [[Neuigkeit|Mein Praktikum ist zu Ende, und ich habe eine Zusage für einen Job bekommen]].
 
-Ich freue mich auf deine Antwort.
+Sag mir doch bald, was du denkst.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Walid]]` },
@@ -229,7 +229,7 @@ Mein Vorschlag zum Treffen: [[Treffen|Wir gehen an einem Samstag in der Stadt zu
 
 Bei mir gibt es eine schöne Neuigkeit: [[Neuigkeit|Meine Schwester hat ein Baby bekommen, und ich bin jetzt Tante]]. Ich bin sehr glücklich.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, wir hören bald voneinander.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Rim]]` },

@@ -11,7 +11,7 @@ Zu deiner Stelle habe ich eine Frage: [[Frage|Wie sind deine Arbeitszeiten, und 
 
 Mein Vorschlag für ein Treffen: [[Vorschlag|Wir machen am Sonntag ein Picknick im Park, und Daniel kann dort spielen]]. Ich bringe etwas zu essen mit.
 
-Schreib mir bald zurück!
+Sag mir bitte bald, was du denkst.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Salma]]` },
@@ -27,7 +27,7 @@ Eine Frage zu deiner neuen Arbeit: [[Frage|Welche Aufgaben hast du genau, und ge
 
 Ich schlage vor, dass wir uns [[Vorschlag|am Samstag in einem Café treffen]]. Bring doch Daniel mit, ich habe Spielzeug für ihn.
 
-Ich freue mich auf deine Antwort.
+Bis dahin, und schreib mir, wie es dir geht.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -59,7 +59,7 @@ Ich möchte noch etwas über deine Stelle wissen: [[Frage|Verdienst du dort mehr
 
 Wie wäre es mit [[Vorschlag|einem Kinobesuch an einem Abend, wenn Daniel bei seinem Vater ist]]? Danach können wir noch etwas essen.
 
-Ich freue mich auf deine Antwort.
+Ich freue mich darauf, bald von dir zu hören.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -91,7 +91,7 @@ Eine Frage zu deiner Arbeit: [[Frage|Kannst du auch einmal von zu Hause aus arbe
 
 Mein Vorschlag: [[Vorschlag|Wir gehen mit Daniel in den Zoo, am Sonntag, wenn das Wetter schön ist]]. Er mag bestimmt die Affen.
 
-Schreib mir bald zurück.
+Antworte mir gern, in Ruhe.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -107,7 +107,7 @@ Ich möchte noch etwas über deine Stelle wissen: [[Frage|In welcher Branche arb
 
 Wie wäre es mit [[Vorschlag|einem Besuch im Schwimmbad am Wochenende]]? Daniel kann im Kinderbecken spielen, und wir gehen danach ein Eis essen.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, du schreibst mir bald zurück.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Nour]]` },
@@ -123,7 +123,7 @@ Zu deiner Stelle habe ich noch eine Frage: [[Frage|Wie lange hast du Probezeit, 
 
 Ich habe einen Vorschlag: [[Vorschlag|Komm mit Daniel zu mir zum Grillen, wenn das Wetter schön ist]]. Ich habe einen kleinen Garten, in dem er spielen kann.
 
-Ich bin gespannt auf deine Antwort.
+Erzähl mir bitte in deiner Antwort mehr davon.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -131,7 +131,7 @@ Ich bin gespannt auf deine Antwort.
   // 9
   { label: "Neues Hobby, mit dem Roller, Frage nach der Kinderbetreuung, Stadtbummel", t: `Liebe [[Name der Freundin|Vera]],
 
-wie schön, dass du mir schreibst! Dass du eine neue Stelle gefunden hast, ist eine tolle Nachricht, und ich gratuliere dir.
+ich habe mich total über deine E-Mail gefreut! Dass du eine neue Stelle gefunden hast, ist eine tolle Nachricht, und ich gratuliere dir.
 
 Bei mir ist Neues passiert: [[Neuigkeit|Ich habe mit Yoga angefangen]]. Zum Weg: [[Arbeitsweg|Ich fahre mit dem Roller zur Arbeit, und das dauert nur 15 Minuten]]. Bei gutem Wetter macht das richtig Spaß.
 
@@ -155,7 +155,7 @@ Ich möchte noch etwas über deine Stelle wissen: [[Frage|Wie lange dauert die P
 
 Mein Vorschlag: [[Vorschlag|Wir machen am Wochenende eine kleine Wanderung mit Daniel, nicht zu lang]]. Danach essen wir etwas zusammen.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe auf eine baldige Antwort von dir.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Aymen]]` },
@@ -171,7 +171,7 @@ Zu deinem Job habe ich eine Frage: [[Frage|Gibt es Aufstiegsmöglichkeiten, und 
 
 Wie wäre es mit [[Vorschlag|einem Besuch im Museum, in dem es etwas für Kinder gibt]]? Daniel hat bestimmt Spaß, und wir können danach in einem Café Kaffee trinken.
 
-Schreib mir bald zurück.
+Ich bin gespannt auf deine Meinung.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Rim]]` },
@@ -187,7 +187,7 @@ Ich möchte noch etwas zu deiner Stelle wissen: [[Frage|Wie viele Leute arbeiten
 
 Mein Vorschlag: [[Vorschlag|Wir machen am Wochenende eine Bootsfahrt auf dem Fluss]]. Daniel mag Boote bestimmt.
 
-Ich freue mich auf deine Antwort.
+Ich warte gespannt auf deine Antwort.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Ines]]` },
@@ -211,7 +211,7 @@ Schreib mir bald zurück. Ich freue mich darauf, dich und Daniel bald zu sehen.
   // 14
   { label: "Familienbesuch, mit dem Fahrrad, Frage zur Entfernung, Eis essen und Spielplatz", t: `Hallo [[Name der Freundin|Vera]],
 
-wie schön, dass du mir geschrieben hast! Ich gratuliere dir ganz herzlich zur neuen Stelle, und ich bin froh, dass Daniel in der Nähe in den Kindergarten gehen kann.
+wie toll, dass du mich nicht vergessen hast! Ich gratuliere dir ganz herzlich zur neuen Stelle, und ich bin froh, dass Daniel in der Nähe in den Kindergarten gehen kann.
 
 Bei mir gibt es Neues: [[Neuigkeit|Meine Familie war zu Besuch, und wir haben viel unternommen]]. Zu deiner Frage: [[Arbeitsweg|Ich fahre mit dem Fahrrad zur Arbeit, es sind nur drei Kilometer]]. Bei uns gibt es gute Radwege.
 
@@ -219,7 +219,7 @@ Ich möchte noch etwas zu deiner Arbeit wissen: [[Frage|Wie weit ist die Firma v
 
 Mein Vorschlag: Wie wäre es mit [[Vorschlag|einem Nachmittag auf dem Spielplatz und danach einem Eis]]? Ich würde mich freuen, Daniel einmal zu sehen.
 
-Ich bin gespannt auf deine Antwort.
+Sag mir bitte kurz Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Anis]]` },

@@ -3,7 +3,7 @@ export default [
   // 1
   { label: "Ende Juli, Karteikarten und Pausen, Stadtbummel, Gästezimmer", t: `Liebe [[Name der Freundin|Emilia]],
 
-wie schön, dass du an mich denkst! Ich drücke dir die Daumen für deine Uni-Prüfungen, du hast ja so fleißig gelernt. Und ich freue mich sehr, dass du mich besuchen möchtest.
+wie toll, dass du dich bei mir meldest! Ich drücke dir die Daumen für deine Uni-Prüfungen, du hast ja so fleißig gelernt. Und ich freue mich sehr, dass du mich besuchen möchtest.
 
 Zeit habe ich [[Zeit|Ende Juli, ab dem 25., für ungefähr eine Woche]]. Das passt gut, weil ich dann Urlaub habe.
 
@@ -13,7 +13,7 @@ Für die Zeit bei mir schlage ich vor: [[Unternehmung|Wir machen einen langen St
 
 Bei der Übernachtung habe ich [[Übernachtung|ein kleines Gästezimmer mit einem bequemen Bett für dich]]. Du musst also kein Hotel suchen.
 
-Schreib mir bitte bald zurück.
+Ich freue mich auf deine Zeilen!
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Salma]]` },
@@ -21,7 +21,7 @@ Schreib mir bitte bald zurück.
   // 2
   { label: "Anfang August, Lernplan, Ausflug zum See, Sofa im Wohnzimmer", t: `Hallo [[Name der Freundin|Emilia]],
 
-danke für deine Nachricht! Dass du abends so viel lernst, bewundere ich, und ich wünsche dir viel Erfolg bei den Prüfungen. Dein Besuch freut mich sehr.
+wie lieb, deine Zeilen zu lesen! Dass du abends so viel lernst, bewundere ich, und ich wünsche dir viel Erfolg bei den Prüfungen. Dein Besuch freut mich sehr.
 
 Zeit habe ich [[Zeit|Anfang August, in der ersten Woche, wenn dein Semester vorbei ist]]. Dann bin ich nicht im Büro.
 
@@ -31,7 +31,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|einen Ausflug zum See vor
 
 Zur Übernachtung: [[Übernachtung|Du kannst auf dem Sofa in meinem Wohnzimmer schlafen, es ist sehr bequem]]. Ich habe auch eine Decke und ein Kissen.
 
-Ich freue mich auf deine Antwort.
+Gib mir bitte in den nächsten Tagen Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -39,7 +39,7 @@ Ich freue mich auf deine Antwort.
   // 3
   { label: "Mitte August, Lerngruppe und Wiederholung, Café und Park, Matratze auf dem Boden", t: `Liebe [[Name der Freundin|Emilia]],
 
-deine Nachricht hat mich sehr gefreut! Mit den Prüfungen hast du viel Arbeit, aber ich bin sicher, dass du alles gut schaffst. Dass du mich besuchen willst, macht mich glücklich.
+wie wunderbar, dass du mich nicht vergessen hast! Mit den Prüfungen hast du viel Arbeit, aber ich bin sicher, dass du alles gut schaffst. Dass du mich besuchen willst, macht mich glücklich.
 
 Zeit habe ich [[Zeit|Mitte August, ungefähr vom 10. bis zum 20.]]. Da passt es mir sehr gut.
 
@@ -49,7 +49,7 @@ Als gemeinsame Unternehmung würde ich [[Unternehmung|in ein schönes Café gehe
 
 Zur Übernachtung: [[Übernachtung|Ich habe leider nur wenig Platz, aber eine Matratze auf dem Boden ist kein Problem]]. Ich lege sie in mein Wohnzimmer.
 
-Schreib mir bald zurück.
+Schreib mir ausführlich zurück.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -57,7 +57,7 @@ Schreib mir bald zurück.
   // 4
   { label: "Ende Juli, Schlaf und Bewegung, Wanderung, Hotel in der Nähe", t: `Hallo [[Name der Freundin|Emilia]],
 
-wie schön, von dir zu hören! Ich wünsche dir viel Glück für deine Prüfungen, und ich freue mich schon auf deinen Besuch. Du hast bestimmt viel zu tun.
+deine Zeilen hat mir den Tag verschönert! Ich wünsche dir viel Glück für deine Prüfungen, und ich freue mich schon auf deinen Besuch. Du hast bestimmt viel zu tun.
 
 Zeit habe ich [[Zeit|am Wochenende Ende Juli, vom 28. bis zum 30.]]. Wenn du länger bleiben möchtest, geht auch eine Woche im August.
 
@@ -67,7 +67,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|eine Wanderung in den Ber
 
 Wegen der Übernachtung: [[Übernachtung|Ich habe nicht genug Platz, aber ein kleines Hotel in meiner Straße ist günstig und gut]]. Ich kann für dich reservieren.
 
-Ich freue mich auf deine Antwort.
+Sag mir bitte bald, was du denkst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -85,7 +85,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|einen Kinoabend mit einem
 
 Zur Übernachtung: [[Übernachtung|Du kannst bei mir im Wohnzimmer auf einer Isomatte schlafen]]. Es ist nicht luxuriös, aber gemütlich.
 
-Ich bin gespannt auf deine Antwort.
+Bis bald, und melde dich, wenn du Neuigkeiten hast.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -93,7 +93,7 @@ Ich bin gespannt auf deine Antwort.
   // 6
   { label: "Ende Juli, Lernen am Morgen, Besuch im Schwimmbad, Zimmer meiner Schwester", t: `Hallo [[Name der Freundin|Emilia]],
 
-danke für deine Nachricht! Mit deinen Prüfungen hast du sicher viel Stress, aber du schaffst das. Dein Besuch ist eine schöne Aussicht für uns beide.
+lieben Dank für deine schnelle Antwort! Mit deinen Prüfungen hast du sicher viel Stress, aber du schaffst das. Dein Besuch ist eine schöne Aussicht für uns beide.
 
 Zeit habe ich [[Zeit|Ende Juli, da hat mein Chef mir zwei Tage freigegeben]]. Im August habe ich dafür mehr Zeit.
 
@@ -103,7 +103,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|einen Tag im Schwimmbad v
 
 Zur Übernachtung: [[Übernachtung|Meine Schwester ist im August verreist, und du kannst in ihrem Zimmer schlafen]]. Das ist kostenlos und gemütlich.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, wir hören bald voneinander.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -111,7 +111,7 @@ Ich freue mich auf deine Antwort.
   // 7
   { label: "Erste Augustwoche, Lernen mit Pausen, Museum, Gästebett", t: `Liebe [[Name der Freundin|Emilia]],
 
-wie schön, dass du mir geschrieben hast! Ich habe mich sehr über deine Nachricht gefreut. Viel Erfolg bei deinen Prüfungen, du wirst sie bestimmt bestehen.
+tausend Dank für deine lange Nachricht! Ich habe mich sehr über deine Nachricht gefreut. Viel Erfolg bei deinen Prüfungen, du wirst sie bestimmt bestehen.
 
 Zeit habe ich [[Zeit|in der ersten Augustwoche, vom 1. bis zum 7.]]. Das passt sicher auch zu deinem Plan.
 
@@ -121,7 +121,7 @@ Für eine gemeinsame Unternehmung schlage ich [[Unternehmung|einen Museumsbesuch
 
 Zur Übernachtung: [[Übernachtung|Ich habe ein Gästebett im Arbeitszimmer, das für dich frei ist]]. Du hast also deine Ruhe.
 
-Schreib mir bald zurück.
+Ich freue mich auf deine Rückmeldung.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Nour]]` },
@@ -129,7 +129,7 @@ Schreib mir bald zurück.
   // 8
   { label: "Zweite Julihälfte, Lernen mit alten Prüfungen, Stadtführung, Zimmer bei Nachbarn", t: `Hallo [[Name der Freundin|Emilia]],
 
-deine E-Mail hat mich sehr gefreut! Viel Erfolg für deine Uni-Prüfungen, ich weiß, wie stressig das ist. Ich freue mich, dass du mich besuchen willst.
+tausend Dank für deine Mail! Viel Erfolg für deine Uni-Prüfungen, ich weiß, wie stressig das ist. Ich freue mich, dass du mich besuchen willst.
 
 Zeit habe ich [[Zeit|in der zweiten Julihälfte, ab dem 20.]]. Dann kann ich dir die Stadt zeigen.
 
@@ -139,7 +139,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|eine Stadtführung am Nac
 
 Zur Übernachtung: [[Übernachtung|Meine Nachbarn vermieten ein kleines Zimmer, und ich frage sie gern für dich]]. Es ist nicht teuer.
 
-Ich bin gespannt auf deine Antwort.
+Gib mir bitte so schnell du kannst Bescheid.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -157,7 +157,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|ein Picknick am Fluss vor
 
 Zur Übernachtung: [[Übernachtung|Ich habe ein Schlafsofa im Wohnzimmer, das sehr bequem ist]]. Du kannst es für deine ganze Zeit haben.
 
-Schreib mir bitte zurück.
+Schreib mir ganz in Ruhe zurück.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Aymen]]` },
@@ -165,7 +165,7 @@ Schreib mir bitte zurück.
   // 10
   { label: "Wochenende im Juli, Lerngruppe, Radtour, Hotel mit Frühstück", t: `Hallo [[Name der Freundin|Emilia]],
 
-wie schön, von dir zu hören! Viel Erfolg bei den Prüfungen, du bist so fleißig, und das zahlt sich aus. Dein Besuch freut mich sehr.
+wie lieb, dass du dich bei mir meldest! Viel Erfolg bei den Prüfungen, du bist so fleißig, und das zahlt sich aus. Dein Besuch freut mich sehr.
 
 Zeit habe ich [[Zeit|an einem Wochenende im Juli, am besten am dritten]]. Wenn es nicht passt, finden wir einen anderen Termin.
 
@@ -175,7 +175,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|eine Radtour am Fluss ent
 
 Zur Übernachtung: [[Übernachtung|Ein kleines Hotel mit Frühstück in meiner Nähe ist günstig]], und ich helfe dir bei der Buchung. Mein Platz reicht leider nicht.
 
-Ich freue mich auf deine Antwort.
+Sag mir bitte kurz Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },
@@ -193,7 +193,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|einen Konzertbesuch vor, 
 
 Zur Übernachtung: [[Übernachtung|Ich kann dir eine Matratze im Arbeitszimmer anbieten, dort hast du Ruhe]]. Bettwäsche habe ich auch.
 
-Ich freue mich auf deine Antwort.
+Bis dahin, und melde dich, wenn du Neuigkeiten hast.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -201,7 +201,7 @@ Ich freue mich auf deine Antwort.
   // 12
   { label: "Anfang August, Lernen mit Musik, Eis und Spaziergang, Bett bei meiner Mutter", t: `Hallo [[Name der Freundin|Emilia]],
 
-wie schön, dass du mir geschrieben hast! Ich wünsche dir viel Erfolg bei den Prüfungen und freue mich, dass du mich besuchen willst. Es ist schade, dass wir uns so lange nicht gesehen haben.
+deine Nachricht kam genau zur richtigen Zeit! Ich wünsche dir viel Erfolg bei den Prüfungen und freue mich, dass du mich besuchen willst. Es ist schade, dass wir uns so lange nicht gesehen haben.
 
 Zeit habe ich [[Zeit|Anfang August, vom 3. bis zum 10.]]. Da bin ich flexibel.
 
@@ -211,7 +211,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|einen Spaziergang in der 
 
 Zur Übernachtung: [[Übernachtung|Meine Mutter hat ein freies Bett, und du kannst dort schlafen]]. Sie freut sich über Gäste und kocht sehr gut.
 
-Schreib mir bald zurück.
+Ich bin schon neugierig auf deine Antwort.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -219,7 +219,7 @@ Schreib mir bald zurück.
   // 13
   { label: "Ende Juli und August, Lernen am Schreibtisch, Besuch im Zoo, Zelt im Garten", t: `Liebe [[Name der Freundin|Emilia]],
 
-danke für deine Nachricht! Mit so vielen Prüfungen hast du sicher gerade wenig Freizeit, aber ich bin sicher, dass du es schaffst. Ich freue mich sehr auf deinen Besuch.
+deine Zeilen hat mich zum Lächeln gebracht! Mit so vielen Prüfungen hast du sicher gerade wenig Freizeit, aber ich bin sicher, dass du es schaffst. Ich freue mich sehr auf deinen Besuch.
 
 Zeit habe ich [[Zeit|sowohl Ende Juli als auch im August]]. Wähl einfach den Termin, der dir am besten passt.
 
@@ -229,7 +229,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|einen Besuch im Zoo vor, 
 
 Zur Übernachtung: [[Übernachtung|Wenn es warm ist, können wir ein Zelt im Garten aufstellen, und du schläfst dort]]. Sonst bekommst du ein Zimmer im Haus.
 
-Ich bin gespannt auf deine Antwort.
+Ich freue mich auf deine Rückmeldung!
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },
@@ -247,7 +247,7 @@ Als gemeinsame Unternehmung schlage ich [[Unternehmung|eine Wanderung am Meer vo
 
 Zur Übernachtung: [[Übernachtung|Eine Freundin von mir hat ein freies Zimmer und vermietet es günstig]]. Ich frage sie gern für dich.
 
-Ich freue mich auf deine Antwort.
+Gib mir bitte bis zum Wochenende Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Sana]]` },

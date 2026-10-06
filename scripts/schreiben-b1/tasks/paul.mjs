@@ -35,7 +35,7 @@ Ich freue mich auf deine Antwort. Wenn der Juni nicht klappt, finden wir bestimm
   // 3
   { label: "Termin passt perfekt, tolle Idee, Schwester mitbringen, Frage nach den Kosten", t: `Lieber [[Name des Freundes|Paul]],
 
-deine Nachricht hat mich sehr gefreut! Wandern in Südtirol, das ist eine Idee, die mir sofort gefällt, und ich bin sehr motiviert.
+ich habe mich ehrlich über deine E-Mail gefreut! Wandern in Südtirol, das ist eine Idee, die mir sofort gefällt, und ich bin sehr motiviert.
 
 Der Termin ist für mich in Ordnung: [[Termin|Anfang Juni ist ideal, weil ich dann Ferien habe]]. Das Wetter ist da noch angenehm, und die Wege sind nicht überfüllt.
 
@@ -67,7 +67,7 @@ Ich freue mich schon auf deine Antwort! Wir können am Telefon alle Einzelheiten
   // 5
   { label: "Termin etwas später, tolle Idee, Kollegin mitbringen, Frage nach den Schuhen", t: `Lieber [[Name des Freundes|Paul]],
 
-vielen Dank für deine Nachricht! Südtirol klingt für mich wie ein Traum, und die Idee, mehrere Tage zu wandern, finde ich großartig.
+tausend Dank für dein Lebenszeichen! Südtirol klingt für mich wie ein Traum, und die Idee, mehrere Tage zu wandern, finde ich großartig.
 
 Mit dem Termin habe ich eine Bitte: [[Termin|Mitte Juni wäre für mich besser, weil ich Anfang Juni noch arbeiten muss]]. Geht das für dich auch?
 
@@ -99,7 +99,7 @@ Ich freue mich auf deine Antwort. Bis dahin kaufe ich mir schon einmal gute Wand
   // 7
   { label: "Termin passt nicht ganz, Idee gut, Nachbar mitbringen, Frage nach der Anreise", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine E-Mail! Dein Vorschlag mit den Bergen in Südtirol gefällt mir sehr, und ich bin gern dabei.
+wie lieb, von dir zu hören! Dein Vorschlag mit den Bergen in Südtirol gefällt mir sehr, und ich bin gern dabei.
 
 Beim Termin muss ich dir leider sagen, dass [[Termin|Anfang Juni für mich schwierig ist, weil meine Schwester Geburtstag hat]]. Wäre auch Ende Mai möglich?
 
@@ -115,7 +115,7 @@ Ich bin gespannt auf deine Antwort. Und wie lange dauert die Fahrt ungefähr, we
   // 8
   { label: "Termin ok, Berge als Wunsch, Cousin mitbringen, Frage nach dem Schwierigkeitsgrad", t: `Hallo [[Name des Freundes|Paul]],
 
-wie schön, dass du dich meldest! Südtirol ist ein Ziel, von dem ich lange geträumt habe. Dein Vorschlag macht mich glücklich.
+wie wunderbar, dass du mir geschrieben hast! Südtirol ist ein Ziel, von dem ich lange geträumt habe. Dein Vorschlag macht mich glücklich.
 
 Der Termin passt mir: [[Termin|Anfang Juni habe ich Zeit, und ich kann bis zu zehn Tage bleiben]]. Das reicht für eine schöne Tour.
 
@@ -163,7 +163,7 @@ Ich bin gespannt auf deine Antwort. Ich kann auch Brote und Obst für die erste 
   // 11
   { label: "Termin passt gut, tolle Idee, Mitbewohner mitbringen, Frage nach der Anreise mit dem Zug", t: `Lieber [[Name des Freundes|Paul]],
 
-wie schön, von dir zu hören! Ich freue mich, dass du Südtirol vorschlägst, denn ich habe viel über die Berge gelesen. Das passt gut.
+ich habe mich wirklich über deine Nachricht gefreut! Ich freue mich, dass du Südtirol vorschlägst, denn ich habe viel über die Berge gelesen. Das passt gut.
 
 Der Termin ist in Ordnung: [[Termin|Anfang Juni habe ich Ferien, und mein Chef hat schon zugesagt]]. Ich bin sehr froh darüber.
 
@@ -195,7 +195,7 @@ Ich bin gespannt auf deine Antwort. Bis dahin suche ich gute Wanderschuhe und pr
   // 13
   { label: "Termin geht in Ordnung, Idee super, Freundin der Schwester mitbringen, Frage nach den Tagen", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine E-Mail! Ich freue mich über deinen Vorschlag und finde Südtirol als Ziel sehr schön. Die Berge dort muss man einmal gesehen haben.
+herzlichen Dank für dein Lebenszeichen! Ich freue mich über deinen Vorschlag und finde Südtirol als Ziel sehr schön. Die Berge dort muss man einmal gesehen haben.
 
 Der Termin ist für mich in Ordnung: [[Termin|Anfang Juni habe ich frei, und ich freue mich auf die Auszeit]]. Wenn es regnet, planen wir einfach um.
 

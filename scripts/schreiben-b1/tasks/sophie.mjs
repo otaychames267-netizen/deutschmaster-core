@@ -35,7 +35,7 @@ Ich freue mich schon auf die Reise!
   // 3
   { label: "Umzug in eine neue Wohnung, Schwimmen und Musik, Tipp Sprachtandem, Besuch im Juni", t: `Liebe [[Name der Freundin|Sophie]],
 
-wie schön, dass du mir geschrieben hast! Zwei Monate in einer neuen Stadt sind eine lange Zeit, und ich verstehe, dass du manchmal allein bist. Dein Job klingt aber toll.
+deine E-Mail kam genau zur richtigen Zeit! Zwei Monate in einer neuen Stadt sind eine lange Zeit, und ich verstehe, dass du manchmal allein bist. Dein Job klingt aber toll.
 
 Bei mir ist viel passiert: [[Neuigkeit|Ich bin in eine neue Wohnung gezogen und habe jetzt einen kleinen Balkon]]. In meiner Freizeit [[Freizeit|gehe ich oft schwimmen und höre viel Musik]]. Beides macht mich glücklich.
 
@@ -59,7 +59,7 @@ Mein Tipp für dich: [[Tipp|Schau, ob es in Würzburg eine Wandergruppe gibt]]. 
 
 Zu deinem Vorschlag: Ich besuche dich gern, am besten [[Besuch|zu Pfingsten, wenn ich vier Tage frei habe]].
 
-Ich freue mich auf deine Antwort!
+Bitte schreib mir, was du davon hältst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Karim]]` },
@@ -99,7 +99,7 @@ Ich freue mich schon auf unser Wiedersehen.
   // 7
   { label: "Sprachprüfung geschrieben, Gitarre spielen, Tipp Musikgruppe, Besuch im August", t: `Liebe [[Name der Freundin|Sophie]],
 
-wie schön, von dir zu hören! Ein neuer Job in Würzburg, das klingt aufregend, und ich freue mich für dich. Dass du anfangs allein bist, ist ganz normal.
+vielen Dank für deine netten Zeilen! Ein neuer Job in Würzburg, das klingt aufregend, und ich freue mich für dich. Dass du anfangs allein bist, ist ganz normal.
 
 Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe letzte Woche meine Sprachprüfung geschrieben und warte auf das Ergebnis]]. Zur Freizeit: [[Freizeit|Ich spiele Gitarre und übe jeden Abend ein bisschen]]. Das beruhigt mich.
 
@@ -115,7 +115,7 @@ Ich freue mich schon sehr auf Würzburg!
   // 8
   { label: "Hochzeit der Cousine, Yoga und Lesen, Tipp Kurs, Besuch im Frühling", t: `Hallo [[Name der Freundin|Sophie]],
 
-danke für deine Nachricht! Dein neuer Job in Würzburg klingt toll, und es freut mich, dass du dich in der Firma wohlfühlst.
+tausend Dank für deine netten Zeilen! Dein neuer Job in Würzburg klingt toll, und es freut mich, dass du dich in der Firma wohlfühlst.
 
 Bei mir gibt es Neues: [[Neuigkeit|Meine Cousine hat geheiratet, und ich war auf dem Fest]]. Es war wunderschön. In meiner Freizeit [[Freizeit|mache ich Yoga und lese gern Romane]]. Das gibt mir Ruhe.
 
@@ -139,7 +139,7 @@ Mein Tipp: [[Tipp|Lade deine Kollegen einmal zu einem Essen oder zu einem Spiele
 
 Ich komme dich sehr gern besuchen, am besten [[Besuch|schon an einem Wochenende im nächsten Monat]]. Ich helfe dir auch beim Kochen!
 
-Ich freue mich auf deine Antwort.
+Erzähl mir bitte bald mehr davon.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Walid]]` },
@@ -171,7 +171,7 @@ Ein Tipp für dich: [[Tipp|Frag, ob du Kurse an der Uni besuchen darfst, zum Bei
 
 Ich besuche dich sehr gern, und zwar [[Besuch|am langen Wochenende im Oktober]]. Wenn du dann Zeit hast, zeigst du mir die Stadt.
 
-Ich freue mich auf deine Antwort!
+Ich freue mich über jede Nachricht von dir.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Nour]]` },
@@ -187,7 +187,7 @@ Mein Tipp: [[Tipp|Sprich mit deinen Nachbarn]]. Frag nach dem Weg oder nach eine
 
 Ich komme dich sehr gern besuchen, am besten [[Besuch|Anfang Mai, an einem Wochenende]]. Vielleicht scheint die Sonne.
 
-Ich freue mich auf deine Antwort!
+Ich freue mich auf eine Antwort von dir.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Rim]]` },
@@ -219,7 +219,7 @@ Mein Tipp: [[Tipp|Melde dich bei einem Tanzkurs an]]. Beim Tanzen wechselt man d
 
 Ich besuche dich sehr gern, am liebsten [[Besuch|in den Sommerferien]]. Dann habe ich zwei Wochen frei.
 
-Ich freue mich auf deine Antwort.
+Melde dich bitte, wenn es bei dir ruhiger wird.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },

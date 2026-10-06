@@ -13,7 +13,7 @@ Das Übernachten auf dem Festplatz klingt für mich in Ordnung: [[Übernachtung|
 
 Außerdem möchte ich noch [[Aktivität|eine Schifffahrt auf dem Rhein machen und die Burgen ansehen]].
 
-Schreib mir bitte bald zurück.
+Erzähl mir gern bald mehr davon.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Lina]]` },
@@ -31,7 +31,7 @@ Zum Übernachten habe ich eine andere Idee als du: [[Übernachtung|Ich würde li
 
 Sonst möchte ich noch [[Aktivität|Mainz besichtigen, besonders die Altstadt und das Gutenberg-Museum]].
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deine Meinung dazu, also schreib mir bald.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -49,7 +49,7 @@ Zum Übernachten: [[Übernachtung|Ein Campingplatz in der Nähe des Festivals w�
 
 Außerdem möchte ich [[Aktivität|eine Wanderung durch die Weinberge machen, mit Blick auf den Rhein]]. Das stelle ich mir schön vor.
 
-Schreib mir bitte zurück.
+Ich freue mich darauf, bald von dir zu hören!
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -67,7 +67,7 @@ Beim Übernachten würde ich [[Übernachtung|lieber in einer Jugendherberge schl
 
 Sonst würde ich gern [[Aktivität|mit der Seilbahn in Rüdesheim fahren und durch die Drosselgasse spazieren]]. Das ist doch ein Highlight.
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, ob das für dich in Ordnung ist.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -85,7 +85,7 @@ Zum Übernachten auf dem Festplatz sage ich ja: [[Übernachtung|Ich bringe einen
 
 Noch möchte ich [[Aktivität|die Burg Ehrenfels am Rhein besichtigen und ein Foto machen]]. Die Aussicht soll toll sein.
 
-Schreib mir bitte bald zurück.
+Melde dich bitte, sobald du etwas weißt.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -93,7 +93,7 @@ Schreib mir bitte bald zurück.
   // 6
   { label: "Mit deinem Auto, Kollegin mitbringen, Ferienwohnung teilen, Gutenberg-Museum", t: `Hallo [[Name der Freundin|Sonja]],
 
-deine Nachricht hat mich sehr gefreut! Ein Festival mit internationalen Bands ist eine wunderbare Idee, und ich komme gern. Die Ferien beginnen bei mir in zwei Wochen.
+wie toll, dass wir wieder in Kontakt sind! Ein Festival mit internationalen Bands ist eine wunderbare Idee, und ich komme gern. Die Ferien beginnen bei mir in zwei Wochen.
 
 Für die Anreise würde ich [[Reise|mit dir im Auto fahren, weil das praktisch ist, wenn man Gepäck hat]]. Wenn du mir sagst, wie viel Benzin kostet, übernehme ich die Hälfte.
 
@@ -103,7 +103,7 @@ Zur Übernachtung habe ich eine Idee: [[Übernachtung|Wir mieten zu dritt eine k
 
 Außerdem möchte ich [[Aktivität|das Gutenberg-Museum in Mainz besuchen]], wenn wir Zeit haben.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, du schreibst mir bald zurück.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Nour]]` },
@@ -111,7 +111,7 @@ Ich freue mich auf deine Antwort.
   // 7
   { label: "Mit dem Zug, allein, Festplatz akzeptieren, Weinprobe mit Traubensaft", t: `Liebe [[Name der Freundin|Sonja]],
 
-wie schön, von dir zu hören! Dein Vorschlag mit dem Festival in Rüdesheim begeistert mich, und ich freue mich schon sehr. Open-Air-Konzerte sind für mich besonders schön, wenn das Wetter mitspielt.
+wie super, von dir zu hören! Dein Vorschlag mit dem Festival in Rüdesheim begeistert mich, und ich freue mich schon sehr. Open-Air-Konzerte sind für mich besonders schön, wenn das Wetter mitspielt.
 
 Zur Fahrt: [[Reise|Ich nehme den Zug, denn er fährt direkt bis zum Bahnhof in Rüdesheim]]. Mit deinem Auto müsstest du mich zuerst abholen.
 
@@ -121,7 +121,7 @@ Zum Übernachten auf dem Festplatz: [[Übernachtung|Das ist für mich völlig in
 
 Sonst möchte ich noch [[Aktivität|eine Weinprobe mitmachen, aber mit Traubensaft, weil ich keinen Alkohol trinke]]. Das ist sicher auch schön.
 
-Schreib mir bitte zurück.
+Erzähl mir gern wenn du Zeit hast mehr davon.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Salma]]` },
@@ -139,7 +139,7 @@ Zum Übernachten: [[Übernachtung|Ein günstiges Hotel in Rüdesheim wäre mir l
 
 Noch möchte ich [[Aktivität|einen Stadtbummel in Mainz machen und dort etwas Schönes kaufen]]. Das ist in der Nähe.
 
-Ich freue mich auf deine Antwort.
+Ich bin neugierig auf deinen Plan, also schreib mir bald.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Rim]]` },
@@ -147,7 +147,7 @@ Ich freue mich auf deine Antwort.
   // 9
   { label: "Mit dem Auto meines Vaters, Freundin und Freund mitbringen, Zelt und Pension, Rheinschiff", t: `Liebe [[Name der Freundin|Sonja]],
 
-deine E-Mail hat mich sehr gefreut! Dass du mich zum Festival nach Rüdesheim einlädst, ist eine tolle Idee, und ich freue mich riesig. Das Wetter soll im Sommer schön werden.
+deine E-Mail hat mich zum Lächeln gebracht! Dass du mich zum Festival nach Rüdesheim einlädst, ist eine tolle Idee, und ich freue mich riesig. Das Wetter soll im Sommer schön werden.
 
 Zur Anreise: [[Reise|Ich kann das Auto meines Vaters nehmen, und wir fahren zu zweit oder zu dritt]]. So sind wir unabhängig und können dein Auto bei dir lassen.
 
@@ -157,7 +157,7 @@ Zum Übernachten habe ich einen Mischvorschlag: [[Übernachtung|Die Jungs schlaf
 
 Außerdem möchte ich [[Aktivität|mit dem Schiff auf dem Rhein fahren und die Landschaft genießen]].
 
-Schreib mir bitte zurück.
+Ich freue mich auf deine Mail.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Ines]]` },
@@ -165,7 +165,7 @@ Schreib mir bitte zurück.
   // 10
   { label: "Mit dem Zug zum Festival, allein, bei dir im Wohnzimmer schlafen, Wanderung mit Picknick", t: `Hallo [[Name der Freundin|Sonja]],
 
-wie schön, dass du an mich gedacht hast! Ich freue mich schon sehr auf die Ferien und auf das Festival. Dass du mich einlädst, ist sehr lieb von dir.
+ich habe mich riesig über deine Zeilen gefreut! Ich freue mich schon sehr auf die Ferien und auf das Festival. Dass du mich einlädst, ist sehr lieb von dir.
 
 Zur Fahrt: [[Reise|Ich möchte mit dem Zug zum Festival fahren, und wir treffen uns am Bahnhof]]. Du musst mich nicht abholen.
 
@@ -175,7 +175,7 @@ Zur Übernachtung habe ich eine Frage: [[Übernachtung|Dürfte ich an den andere
 
 Sonst möchte ich noch [[Aktivität|eine kleine Wanderung mit Picknick machen, am besten an einem Tag ohne Konzert]].
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, ob du Lust darauf hast.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Aymen]]` },
@@ -183,7 +183,7 @@ Ich freue mich auf deine Antwort.
   // 11
   { label: "Mit dem Zug, Bruder und Schwester mitbringen, Jugendherberge, Museum und Eis", t: `Liebe [[Name der Freundin|Sonja]],
 
-vielen Dank für deine Nachricht! Ein Open-Air-Festival mit den besten Bands, das ist genau mein Ding. Ich freue mich sehr auf die Zeit mit dir.
+ich habe mich ehrlich über deine Nachricht gefreut! Ein Open-Air-Festival mit den besten Bands, das ist genau mein Ding. Ich freue mich sehr auf die Zeit mit dir.
 
 Für die Fahrt nehme ich [[Reise|den Zug von meiner Stadt, mit einem Sparticket]]. Das ist billig, und ich komme pünktlich an.
 
@@ -193,7 +193,7 @@ Zum Übernachten: [[Übernachtung|In einer Jugendherberge in Rüdesheim sind wir
 
 Außerdem möchte ich [[Aktivität|ein Museum besuchen und danach ein Eis essen]]. Wir müssen nur noch planen.
 
-Antworte mir bitte bald.
+Melde dich bitte, wenn es bei dir ruhiger wird.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -211,7 +211,7 @@ Beim Übernachten: [[Übernachtung|Ein Campingplatz in der Nähe des Rheins wär
 
 Sonst würde ich gern [[Aktivität|eine Burg besichtigen und eine Weinprobe mit Traubensaft machen]]. Das gehört zu Rüdesheim.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, wir sehen uns bald wieder.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -219,7 +219,7 @@ Ich freue mich auf deine Antwort.
   // 13
   { label: "Mit dem Auto und Zug, Kollege mitbringen, Pension am Rhein, Stadt Mainz und Altstadt", t: `Liebe [[Name der Freundin|Sonja]],
 
-wie schön, dass du mir geschrieben hast! Ein Festival ist eine großartige Idee für die Ferien, und ich freue mich, dass du an mich denkst. Ich habe lange darauf gewartet.
+lieben Dank für deine netten Zeilen! Ein Festival ist eine großartige Idee für die Ferien, und ich freue mich, dass du an mich denkst. Ich habe lange darauf gewartet.
 
 Zur Anreise: [[Reise|Ich fahre mit dem Auto bis zu deiner Stadt]], und wir nehmen dann zusammen den Zug nach Rüdesheim. So haben wir kein Parkproblem.
 
@@ -229,7 +229,7 @@ Zur Übernachtung schlage ich vor: [[Übernachtung|Wir mieten in einer Pension a
 
 Sonst möchte ich noch [[Aktivität|die Stadt Mainz und die Altstadt besichtigen]]. Danach essen wir etwas.
 
-Schreib mir bitte zurück.
+Bis bald, und schreib mir, wie es dir geht.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },
@@ -247,7 +247,7 @@ Zum Übernachten würde ich [[Übernachtung|gern ein Hotelzimmer zu zweit buchen
 
 Sonst möchte ich [[Aktivität|eine Wanderung am Rhein machen und dabei fotografieren]]. Ich nehme meine Kamera mit.
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deinen Plan, also schreib mir bald.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Sana]]` },

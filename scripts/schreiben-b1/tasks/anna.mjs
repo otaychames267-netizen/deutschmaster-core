@@ -19,7 +19,7 @@ Das Abendessen beim Italiener nehme ich gern an.
   // 2
   { label: "Natürlich kümmern, Reise nach Wien, Umzug, Frage nach dem Namen und Alter", t: `Hallo [[Name der Freundin|Anna]],
 
-wie schön, dass du an mich denkst! Ich hoffe, dass es dir gut geht. Deine Bitte erfülle ich gern, denn ich kann im Juli [[Reaktion auf die Bitte|täglich nach deiner Katze und den Blumen sehen]]. Das ist kein Problem.
+wie toll, dass du mir geschrieben hast! Ich hoffe, dass es dir gut geht. Deine Bitte erfülle ich gern, denn ich kann im Juli [[Reaktion auf die Bitte|täglich nach deiner Katze und den Blumen sehen]]. Das ist kein Problem.
 
 Dass ich mich so lange nicht gemeldet habe, tut mir leid. [[Grund für die Pause|Ich bin umgezogen und musste viel organisieren]]. Zum Glück ist jetzt alles fertig.
 
@@ -51,7 +51,7 @@ Ich freue mich schon auf unser Essen beim Italiener.
   // 4
   { label: "Kein Problem, Wanderurlaub, neuer Job, Frage nach dem Katzenklo", t: `Hallo [[Name der Freundin|Anna]],
 
-wie schön, von dir zu lesen! Die Katze versorge ich gern, und die Blumen gieße ich auch. Dass du für eine Woche nach Dänemark fährst, freut mich für dich.
+wie wunderbar, dass du dich gemeldet hast! Die Katze versorge ich gern, und die Blumen gieße ich auch. Dass du für eine Woche nach Dänemark fährst, freut mich für dich.
 
 Es tut mir leid, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Ich habe einen neuen Job angefangen und war abends meistens müde]]. Aber ich habe oft an dich gedacht.
 
@@ -59,7 +59,7 @@ Ich plane im Sommer [[Sommerpläne|eine Wanderwoche in den Bergen, Ende August]]
 
 Eine Frage zur Katze: [[Frage zur Katze|Wo steht das Katzenklo, und wie oft muss ich es sauber machen]]?
 
-Ich freue mich auf deine Antwort.
+Schreib mir ganz in Ruhe zurück.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -67,7 +67,7 @@ Ich freue mich auf deine Antwort.
   // 5
   { label: "Gern einspringen, Sprachkurs im Sommer, viel Arbeit, Frage nach den Spielsachen", t: `Liebe [[Name der Freundin|Anna]],
 
-ich habe mich sehr über deine E-Mail gefreut! Natürlich helfe ich dir im Juli, denn ich mag Katzen und Pflanzen. Du kannst dich auf mich verlassen.
+deine Mail hat mich zum Lächeln gebracht! Natürlich helfe ich dir im Juli, denn ich mag Katzen und Pflanzen. Du kannst dich auf mich verlassen.
 
 Dass ich so lange nichts von mir hören ließ, tut mir leid. [[Grund für die Pause|Ich hatte so viel zu tun bei der Arbeit, dass ich kaum Zeit für Briefe hatte]]. Jetzt schreibe ich dir ganz in Ruhe.
 
@@ -99,7 +99,7 @@ Ich freue mich auf unser Treffen. Das Abendessen beim Italiener nehme ich sehr g
   // 7
   { label: "Selbstverständlich, Ferien zu Hause, Fahrradunfall, Frage nach Medikamenten", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine Nachricht! Ich hoffe, dass du dich auf die Reise freust. Für deine Katze und die Blumen sorge ich im Juli gern, selbstverständlich.
+vielen Dank für dein Lebenszeichen! Ich hoffe, dass du dich auf die Reise freust. Für deine Katze und die Blumen sorge ich im Juli gern, selbstverständlich.
 
 Dass ich nichts von mir hören ließ, tut mir leid. [[Grund für die Pause|Ich hatte einen Fahrradunfall und konnte zwei Wochen nicht richtig laufen]]. Aber ich bin schon fast wieder gesund.
 
@@ -115,7 +115,7 @@ Ich bin gespannt auf deine Antwort. Das Essen beim Italiener ist eine schöne Id
   // 8
   { label: "Ja, gern, Reise nach Italien, Handy kaputt, Frage nach den Fütterungszeiten", t: `Hallo [[Name der Freundin|Anna]],
 
-wie schön, von dir zu hören! Natürlich passe ich im Juli auf deine Katze auf, und ich gieße auch die Blumen. Dänemark ist sicher schön im Sommer.
+vielen Dank für deine schnelle Antwort! Natürlich passe ich im Juli auf deine Katze auf, und ich gieße auch die Blumen. Dänemark ist sicher schön im Sommer.
 
 Dass ich so lange nicht geschrieben habe, tut mir leid. [[Grund für die Pause|Mein Handy war kaputt, und ich hatte keine Nummern mehr]]. Jetzt habe ich ein neues.
 
@@ -131,7 +131,7 @@ Das Essen beim Italiener freut mich besonders. Ich komme gern zu eurem Lieblings
   // 9
   { label: "Kein Problem, Besuch bei Freunden, Prüfung, Frage nach Freigang", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine Zeilen! Ich helfe dir sehr gern, denn ich mag deine Katze sehr. Die Blumen versorge ich auch, kein Problem.
+lieben Dank für deine lange Nachricht! Ich helfe dir sehr gern, denn ich mag deine Katze sehr. Die Blumen versorge ich auch, kein Problem.
 
 Entschuldige, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Ich habe eine wichtige Prüfung geschrieben und habe fast jeden Tag gelernt]]. Jetzt habe ich Ruhe.
 
@@ -163,7 +163,7 @@ Ich freue mich schon auf das Abendessen. Bis dahin wünsche ich dir eine gute Vo
   // 11
   { label: "Gern, Sommer bei den Eltern, Familienbesuch, Frage nach dem Haustürschlüssel", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine E-Mail! Ich helfe dir sehr gern, die Katze und die Blumen werden bei mir gut versorgt sein. Die Woche in Dänemark wird dir bestimmt guttun.
+wie toll, von dir zu lesen! Ich helfe dir sehr gern, die Katze und die Blumen werden bei mir gut versorgt sein. Die Woche in Dänemark wird dir bestimmt guttun.
 
 Es tut mir leid, dass ich lange nichts von mir hören ließ. [[Grund für die Pause|Meine Cousins waren zwei Wochen bei mir zu Besuch]]. Wir haben viel gemacht, aber ich habe dabei alle anderen vergessen.
 
@@ -171,7 +171,7 @@ Meine Pläne: [[Sommerpläne|Ich fahre im Sommer zu meinen Eltern aufs Land und 
 
 Ich habe eine Frage: [[Frage zur Katze|Soll ich bei dir übernachten oder nur zum Füttern kommen]]?
 
-Ich freue mich auf deine Antwort.
+Ich warte gespannt auf deine Mail.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Rim]]` },
@@ -211,7 +211,7 @@ Ich lade dich im Herbst zum Essen ein.
   // 14
   { label: "Gern, Ausflug in die Berge, Besuch von Freunden, Frage nach Spielzeit", t: `Hallo [[Name der Freundin|Anna]],
 
-wie schön, dass du dich meldest! Natürlich helfe ich dir im Juli und kümmere mich um deine Katze und die Blumen. Genieße die Woche in Dänemark!
+deine Mail war eine große Überraschung für mich! Natürlich helfe ich dir im Juli und kümmere mich um deine Katze und die Blumen. Genieße die Woche in Dänemark!
 
 Dass ich nicht geschrieben habe, tut mir leid. [[Grund für die Pause|Ich hatte Freunde zu Besuch und habe mit ihnen viel unternommen]]. Das war schön, aber ich habe dabei andere Dinge vergessen.
 

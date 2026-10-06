@@ -3,7 +3,7 @@ export default [
   // 1
   { label: "Prag, Lernen mit Kurs und Apps, neuer Job, Frage nach Corinnas Urlaubszeit", t: `Liebe [[Name der Freundin|Corinna]],
 
-wie schön, dass du mir schreibst! Es tut mir leid, dass ich so lange nicht von mir hören ließ, aber die Prüfung nimmt fast meine ganze Zeit. Deine E-Mail war eine große Freude für mich.
+tausend Dank für deine Neuigkeiten! Es tut mir leid, dass ich so lange nicht von mir hören ließ, aber die Prüfung nimmt fast meine ganze Zeit. Deine E-Mail war eine große Freude für mich.
 
 Dein Vorschlag, nach der Prüfung etwas zusammen zu machen, gefällt mir sehr. Am liebsten würde ich [[Reiseziel|nach Prag fahren, denn ich habe viel über die Stadt gehört]]. Die Altstadt muss wunderschön sein.
 
@@ -31,7 +31,7 @@ Bei mir ist viel passiert: [[Neuigkeit|Ich bin in eine neue Wohnung gezogen]]. E
 
 Eine Frage habe ich: [[Frage|Wie viel Geld möchtest du ungefähr für die Reise ausgeben, und sollen wir günstig reisen]]?
 
-Ich freue mich auf deine Antwort.
+Sag mir doch bald Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -49,7 +49,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich mache ein Praktikum in einem Kranke
 
 Ich möchte gern wissen: [[Frage|Wo möchtest du übernachten, im Hotel oder lieber in einer Jugendherberge]]?
 
-Ich freue mich auf deine Antwort.
+Bis dahin, und erzähl mir bald, was es Neues gibt.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -57,7 +57,7 @@ Ich freue mich auf deine Antwort.
   // 4
   { label: "Schwarzwald, Lernen mit einem Tandempartner, Umzug der Eltern, Frage nach der Anreise", t: `Hallo [[Name der Freundin|Corinna]],
 
-wie schön, dass du an mich denkst! Ich habe mich über deine E-Mail sehr gefreut, und ich entschuldige mich, dass ich lange nicht geschrieben habe. Die Prüfung ist bald, und ich lerne fast jeden Tag.
+wie super, deine Zeilen zu lesen! Ich habe mich über deine E-Mail sehr gefreut, und ich entschuldige mich, dass ich lange nicht geschrieben habe. Die Prüfung ist bald, und ich lerne fast jeden Tag.
 
 Dein Vorschlag mit der Tour gefällt mir. Ich würde am liebsten [[Reiseziel|in den Schwarzwald fahren, um zu wandern und frische Luft zu atmen]]. Nach der Prüfung brauche ich Natur.
 
@@ -67,7 +67,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Meine Eltern sind umgezogen, und ich habe bei
 
 Ich habe noch eine Frage: [[Frage|Wie wollen wir hinfahren, mit dem Zug oder mit dem Auto]]?
 
-Ich freue mich auf deine Antwort.
+Ich freue mich über jede Nachricht von dir.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -85,7 +85,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein neues Fahrrad gekauft]
 
 Und ich möchte wissen: [[Frage|Wie bereitest du dich selbst auf deine Arbeit vor]], und hast du genug Zeit für unsere Reise?
 
-Ich freue mich auf deine Antwort.
+Ich freue mich auf eine Antwort von dir!
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -93,7 +93,7 @@ Ich freue mich auf deine Antwort.
   // 6
   { label: "Amsterdam, Lernen mit Grammatikübungen, Hochzeit besucht, Frage nach dem Wetter", t: `Hallo [[Name der Freundin|Corinna]],
 
-danke für deine Zeilen! Ich war so lange still, weil ich so viel lerne, und ich bin froh, dass du an mich gedacht hast. Du hast es sehr nett geschrieben.
+deine Zeilen hat mich richtig froh gemacht! Ich war so lange still, weil ich so viel lerne, und ich bin froh, dass du an mich gedacht hast. Du hast es sehr nett geschrieben.
 
 Wohin ich fahren möchte? [[Reiseziel|Ich würde gern nach Amsterdam fahren, weil ich noch nie in den Niederlanden war]]. Ich möchte ein Museum besuchen und mit dem Rad durch die Stadt fahren.
 
@@ -103,7 +103,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Ich war auf einer Hochzeit und habe viele alt
 
 Ich habe noch eine Frage: [[Frage|Wie ist das Wetter in den Niederlanden im Sommer, und brauchen wir Regenjacken]]?
 
-Ich freue mich auf deine Antwort.
+Ich warte gespannt auf dein Lebenszeichen.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -121,7 +121,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich war für ein Wochenende in Wien und
 
 Ich möchte noch fragen: [[Frage|Was kostet ein Zimmer an der Nordsee ungefähr, und ist es in der Hauptsaison teuer]]?
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine schnelle Antwort von dir sehr freuen.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Nour]]` },
@@ -129,7 +129,7 @@ Ich freue mich auf deine Antwort.
   // 8
   { label: "Schwarzwald, Lernen mit Liedern, Prüfung geschrieben, Frage nach der Gruppengröße", t: `Hallo [[Name der Freundin|Corinna]],
 
-wie schön, dass du mir geschrieben hast! Es stimmt, dass ich im Moment wenig Zeit für andere Dinge habe, aber ich freue mich sehr über deine Idee. Danke auch für deine Wünsche!
+ich habe mich so sehr über deine Mail gefreut! Es stimmt, dass ich im Moment wenig Zeit für andere Dinge habe, aber ich freue mich sehr über deine Idee. Danke auch für deine Wünsche!
 
 Nach der Prüfung würde ich gern [[Reiseziel|in den Schwarzwald fahren, wo man wandern und Kuchen essen kann]]. Ich habe schon so viel über die Gegend gehört.
 
@@ -139,7 +139,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Ich habe schon einen Test geschrieben, der gu
 
 Eine Frage habe ich: [[Frage|Wer kommt noch mit, und wie viele Leute sind wir]]?
 
-Schreib mir bitte zurück.
+Sag mir doch bald, was du denkst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -157,7 +157,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein gebrauchtes Auto gekau
 
 Ich möchte gern wissen: [[Frage|Was interessiert dich am meisten, Natur, Kultur oder Essen]]? Dann können wir das Programm besser planen.
 
-Schreib mir bitte bald zurück.
+Bis bald, und gib mir bitte kurz Bescheid.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Aymen]]` },
@@ -175,7 +175,7 @@ Bei mir ist Neues passiert: [[Neuigkeit|Ich habe mir beim Fußball den Fuß verl
 
 Eine Frage habe ich: [[Frage|Wie viele Tage möchtest du reisen, ein Wochenende oder eine ganze Woche]]?
 
-Ich freue mich auf deine Antwort.
+Lass uns bald wieder Kontakt haben.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },
@@ -193,7 +193,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Meine Schwester ist für einen Monat in
 
 Ich habe noch eine Frage: [[Frage|Wie viel Gepäck dürfen wir mitnehmen, wenn wir mit dem Zug fahren]]?
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deine Meinung.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -211,7 +211,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Ich mache ein Praktikum bei einer Zeitung und
 
 Ich möchte gern wissen: [[Frage|Wie lange dauert die Tour, und was kostet sie ungefähr]]?
 
-Schreib mir bitte bald zurück.
+Ich warte gespannt auf deine Antwort.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -229,7 +229,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe eine neue Brille und sehe viel
 
 Eine Frage: [[Frage|In welcher Jahreszeit möchtest du am liebsten reisen, im Sommer oder im Herbst]]?
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine baldige Antwort von dir freuen.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },
@@ -237,7 +237,7 @@ Ich freue mich auf deine Antwort.
   // 14
   { label: "Amsterdam, Lernen mit Videos, Reise mit der Familie, Frage nach Hobbys auf Reisen", t: `Hallo [[Name der Freundin|Corinna]],
 
-danke für deine Nachricht! Dass du mir viel Erfolg wünschst, macht mich sehr glücklich. Ich habe lange nicht geantwortet, weil ich mich auf die Prüfung konzentriere.
+wie wunderbar, dass du an mich denkst! Dass du mir viel Erfolg wünschst, macht mich sehr glücklich. Ich habe lange nicht geantwortet, weil ich mich auf die Prüfung konzentriere.
 
 Zu deiner Frage nach der Reise: [[Reiseziel|Am liebsten würde ich nach Amsterdam fahren, ich liebe Städte mit Wasser]]. Wir könnten mit dem Zug dorthin fahren.
 
@@ -247,7 +247,7 @@ Bei mir gibt es Neues: [[Neuigkeit|Meine Familie war zwei Wochen bei mir zu Besu
 
 Ich möchte wissen: [[Frage|Was machst du gern im Urlaub, eher Sport oder Kultur]]?
 
-Schreib mir bitte zurück.
+Sag mir doch kurz Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Sana]]` },
@@ -265,7 +265,7 @@ Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mein altes Fahrrad repariert u
 
 Eine Frage hätte ich noch: [[Frage|Wo treffen wir uns, bei dir oder am Bahnhof]]?
 
-Ich freue mich auf deine Antwort.
+Bis dahin, und gib mir bitte kurz Bescheid.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Ines]]` },

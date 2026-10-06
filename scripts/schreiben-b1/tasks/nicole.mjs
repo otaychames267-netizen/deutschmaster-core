@@ -27,7 +27,7 @@ Ich glaube, dass [[Meinung|Sport für deinen Bruder eine Leidenschaft ist, und e
 
 Gern gemeinsam mache ich [[gemeinsame Aktivität|Wanderungen mit Freunden, weil man dabei viel reden kann]].
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, ob dir das passt.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -59,7 +59,7 @@ Ich glaube, dass dein Bruder [[Meinung|im Fernsehen ein Stück seiner Heimat suc
 
 Gern mache ich [[gemeinsame Aktivität|Radtouren mit meinen Freunden, besonders am Sonntag]].
 
-Ich bin gespannt auf deine Antwort.
+Ich hoffe, du antwortest mir bald.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -67,7 +67,7 @@ Ich bin gespannt auf deine Antwort.
   // 5
   { label: "Freund mit Fußballfimmel, Tagesausflug planen, Bruder braucht Erholung, Kino mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
 
-wie schön, von dir zu hören! Dein Bruder und der Sport im Fernsehen, das kenne ich von einem Freund.
+lieben Dank für deine Mail! Dein Bruder und der Sport im Fernsehen, das kenne ich von einem Freund.
 
 Mein Freund Aymen [[Erfahrung|hat genauso gern jedes Spiel gesehen und alles andere vergessen]]. Mein Tipp, der bei uns geklappt hat: [[Tipp|Plane einen Tagesausflug und sag deinem Bruder rechtzeitig Bescheid, damit er sich darauf einstellen kann]]. Ein Ziel wie ein See oder ein Park macht Lust auf Bewegung.
 
@@ -83,7 +83,7 @@ Schreib mir bald zurück.
   // 6
   { label: "Mit dem Bruder früher Streit, Spiel gemeinsam kommentieren, Bruder liebt sein Team, Fußball mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
 
-danke für deine E-Mail! Ich kann gut verstehen, dass du mit deinem Bruder Zeit verbringen willst, bevor er wieder abreist.
+wie nett, dass du mir geschrieben hast! Ich kann gut verstehen, dass du mit deinem Bruder Zeit verbringen willst, bevor er wieder abreist.
 
 Zu meinen Erfahrungen: [[Erfahrung|Ich habe mich früher oft mit meinem Bruder über den Fernseher gestritten]]. Heute verstehen wir uns gut. Mein Tipp: [[Tipp|Schau ein Spiel mit ihm und stell Fragen zum Sport. Das zeigt Interesse]]. Danach kannst du leicht sagen, dass du Lust auf einen Spaziergang hast.
 
@@ -123,7 +123,7 @@ Ich denke, dass dein Bruder [[Meinung|stolz auf seine Mannschaft ist und deshalb
 
 Gern gemeinsam mache ich [[gemeinsame Aktivität|Tanzen mit meinen Freunden, besonders am Wochenende]].
 
-Ich freue mich auf deine Antwort.
+Ich freue mich auf deine Nachricht!
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Nour]]` },
@@ -131,7 +131,7 @@ Ich freue mich auf deine Antwort.
   // 9
   { label: "Ich und mein Bruder haben Streit gelöst, gemeinsames Kochen vorschlagen, Bruder will sich entspannen, Schwimmen mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine Zeilen! Es ist schön, dass dein Bruder so lange bei euch ist, und trotzdem verstehe ich, dass du dich ärgerst.
+wie wunderbar, dass ich von dir höre! Es ist schön, dass dein Bruder so lange bei euch ist, und trotzdem verstehe ich, dass du dich ärgerst.
 
 Ich habe mit meinem Bruder [[Erfahrung|einmal ein ähnliches Problem gehabt]], als er bei mir wohnte und jeden Abend ein Spiel sehen wollte. Wir haben es durch Reden gelöst. Mein Tipp: [[Tipp|Schlag ihm vor, dass ihr nach dem Spiel gemeinsam kocht, jeder einen Teil]]. Beim Kochen redet man ganz natürlich.
 
@@ -147,7 +147,7 @@ Schreib mir bald zurück.
   // 10
   { label: "Streit mit Freund früher, gemeinsames Wochenende planen, Bruder genießt Daheimsein, Gitarre mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
 
-wie schön, von dir zu lesen! Auch wenn dein Bruder viel fernsieht, ist es bestimmt schön, dass er da ist. Vielleicht kannst du etwas an der Situation ändern.
+deine E-Mail war eine große Überraschung für mich! Auch wenn dein Bruder viel fernsieht, ist es bestimmt schön, dass er da ist. Vielleicht kannst du etwas an der Situation ändern.
 
 Ich hatte früher [[Erfahrung|einen Freund, der bei Besuchen immer stundenlang sein Handy benutzte, und ich war oft böse]]. Mein Tipp: [[Tipp|Plane ein ganzes Wochenende zusammen, mit einem festen Programm, damit er etwas zu erwarten hat]]. Dann denkt er auch nicht nur an den Fernseher.
 
@@ -155,7 +155,7 @@ Ich meine, dass dein Bruder [[Meinung|sich bei euch einfach zu Hause fühlt und 
 
 Gern gemeinsam mache ich [[gemeinsame Aktivität|Musik mit Freunden, ich spiele Gitarre]].
 
-Ich freue mich auf deine Antwort.
+Ich warte gespannt auf dein Lebenszeichen.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Aymen]]` },
@@ -195,7 +195,7 @@ Antworte mir bitte bald.
   // 13
   { label: "Cousin zu Besuch gehabt, Ausflug als Überraschung, Bruder will plaudern, Eis essen mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine E-Mail! Ich wünsche dir viel Spaß mit deinem Bruder, auch wenn der Fernseher manchmal stört.
+danke für deine schnelle Antwort! Ich wünsche dir viel Spaß mit deinem Bruder, auch wenn der Fernseher manchmal stört.
 
 Ich hatte [[Erfahrung|im letzten Jahr meinen Cousin zu Besuch, und er hat fast nur geschlafen und ferngesehen]]. Mein Tipp: [[Tipp|Plane einen Ausflug als Überraschung und sag nicht, wohin es geht]]. Neugier hilft oft mehr als jede Bitte.
 
@@ -211,7 +211,7 @@ Ich freue mich auf deine Antwort und hoffe, dass ihr noch viele schöne Tage hab
   // 14
   { label: "Beste Freundin mit Handy-Sucht, gemeinsames Spiel vorschlagen, Bruder will Zeit für sich, Wandern in der Gruppe", t: `Hallo [[Name der Freundin|Nicole]],
 
-wie schön, von dir zu hören! Dass dein Bruder noch zwei Monate da ist, ist eine lange Zeit, und du solltest sie gut nutzen.
+herzlichen Dank für deine Neuigkeiten! Dass dein Bruder noch zwei Monate da ist, ist eine lange Zeit, und du solltest sie gut nutzen.
 
 Ich kenne dein Problem von [[Erfahrung|meiner besten Freundin, die immer nur am Handy war]]. Mein Tipp: [[Tipp|Schlag vor, dass ihr gemeinsam ein Spiel spielt, zum Beispiel Karten oder Tischfußball]]. Ein Wettbewerb weckt Interesse bei Sportfans.
 

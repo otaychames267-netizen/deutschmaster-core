@@ -11,7 +11,7 @@ Wenn das Wetter schlecht wird, habe ich einen Vorschlag: [[Alternative bei Regen
 
 Ich habe noch eine Frage: [[Frage|Wohin geht es denn, und wie lange dauert der Ausflug]]? Ich bin sehr neugierig auf die Überraschung.
 
-Ich freue mich auf deine Antwort.
+Ich würde mich über eine kurze Antwort von dir freuen.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
@@ -43,7 +43,7 @@ Wenn es regnet, habe ich eine Idee: [[Alternative bei Regen|Wir gehen zusammen i
 
 Eine Frage habe ich: [[Frage|Wann sind wir ungefähr wieder zurück, damit ich am Abend etwas planen kann]]?
 
-Ich freue mich auf deine Antwort.
+Bis bald, und erzähl mir bald, was es Neues gibt.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -59,7 +59,7 @@ Falls das Wetter nicht mitspielt, schlage ich vor: [[Alternative bei Regen|Wir g
 
 Ich möchte noch wissen: [[Frage|Was soll ich anziehen, und brauche ich eine Jacke für das Schiff]]?
 
-Schreib mir bitte bald zurück.
+Bis dahin, und erzähl mir bald, was es Neues gibt.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -75,7 +75,7 @@ Falls das Wetter schlecht ist, schlage ich vor: [[Alternative bei Regen|Wir fahr
 
 Eine Frage habe ich noch: [[Frage|Was kostet der Ausflug ungefähr, und soll ich das Geld vorher überweisen]]?
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deine Idee, also schreib mir bald.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -107,7 +107,7 @@ Bei schlechtem Wetter schlage ich vor: [[Alternative bei Regen|Wir verbringen de
 
 Ich möchte noch wissen: [[Frage|Soll ich Rucksack und Verpflegung mitbringen, oder bekommen wir etwas an Bord]]?
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deinen Plan, also schreib mir bald.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Nour]]` },
@@ -139,7 +139,7 @@ Falls es regnet, habe ich einen Vorschlag: [[Alternative bei Regen|Wir besuchen 
 
 Ich habe eine Frage: [[Frage|Wie lange dauert die Fahrt mit dem Bus, und wie lange sind wir auf dem Schiff]]?
 
-Schreib mir bitte zurück.
+Ich bin neugierig auf deine Meinung dazu, also schreib mir bald.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Aymen]]` },
@@ -155,7 +155,7 @@ Wenn das Wetter schlecht wird, kann ich mir gut vorstellen: [[Alternative bei Re
 
 Eine Frage habe ich noch: [[Frage|Gibt es ein Mittagessen unterwegs, und wo essen wir]]?
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deine Meinung dazu, also schreib mir bald.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },
@@ -171,7 +171,7 @@ Falls das Wetter schlecht ist, habe ich einen Vorschlag: [[Alternative bei Regen
 
 Ich habe noch eine Frage: [[Frage|Wie ist der Fahrplan, und wann fährt das Schiff zurück]]?
 
-Antworte mir bitte bald.
+Ich bin neugierig auf deinen Plan, also schreib mir bald.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -187,7 +187,7 @@ Falls das Wetter schlecht ist, schlage ich vor: [[Alternative bei Regen|Wir mach
 
 Eine Frage habe ich noch: [[Frage|Brauchen wir besondere Schuhe, und müssen wir viel laufen]]?
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deine Antwort darauf, also schreib mir bald.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -219,7 +219,7 @@ Falls das Wetter schlecht wird, schlage ich vor: [[Alternative bei Regen|Wir geh
 
 Eine Frage: [[Frage|Gibt es unterwegs etwas zu essen, und treffen wir uns um halb zehn direkt bei dir]]?
 
-Ich freue mich auf deine Antwort.
+Mach es gut, und melde dich bald bei mir.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Anis]]` },

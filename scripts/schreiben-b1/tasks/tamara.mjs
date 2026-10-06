@@ -101,7 +101,7 @@ Ich freue mich schon sehr auf dich.
   // 8
   { label: "Kochabend zu zweit, ohne Begleitung, Chef und Aufgaben, Überstunden", t: `Hallo [[Name der Freundin|Tamara]],
 
-vielen Dank für deine Nachricht! Mir tut es leid, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Mein Chef hat mir ein großes Projekt gegeben, und ich habe jeden Tag spät Feierabend gemacht]]. Deshalb war ich kaum erreichbar.
+endlich habe ich wieder etwas von dir gehört! Mir tut es leid, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Mein Chef hat mir ein großes Projekt gegeben, und ich habe jeden Tag spät Feierabend gemacht]]. Deshalb war ich kaum erreichbar.
 
 Ich freue mich sehr, dass du in meine Stadt kommst. Wie wäre es, wenn wir uns [[Treffen|zu einem Kochabend bei mir treffen]]? Jeder kocht ein Gericht, und wir können ganz lange erzählen. Ich möchte niemanden mitbringen und komme [[Begleitung|allein, denn ich möchte dich ganz für mich haben]].
 

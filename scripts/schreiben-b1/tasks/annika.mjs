@@ -27,7 +27,7 @@ Wenn ich wählen darf, würde ich [[Reiseziel|nach Italien an die Adria fahren, 
 
 Beim Geldsparen hilft es, wenn wir [[Spartipp|in einer Jugendherberge schlafen, denn das ist viel billiger als ein Hotel]]. Dort gibt es oft auch ein einfaches Frühstück.
 
-Ich freue mich auf deine Antwort.
+Melde dich bitte, sobald du etwas weißt.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -35,7 +35,7 @@ Ich freue mich auf deine Antwort.
   // 3
   { label: "Film geschaut, Kroatien, Wandern und Baden, Camping", t: `Liebe [[Name der Freundin|Annika]],
 
-danke für deine E-Mail! Ich freue mich sehr, dass wir im Sommer zusammen verreisen. Eine Autoreparatur ist natürlich ärgerlich, aber wir finden bestimmt etwas Günstiges.
+vielen Dank für deine Neuigkeiten! Ich freue mich sehr, dass wir im Sommer zusammen verreisen. Eine Autoreparatur ist natürlich ärgerlich, aber wir finden bestimmt etwas Günstiges.
 
 Mein Wochenende war ruhig: [[Wochenende|Ich habe einen langen Film gesehen und am Abend gekocht]]. Ich war ziemlich müde von der Woche.
 
@@ -51,7 +51,7 @@ Schreib mir bald, ob das für dich passt.
   // 4
   { label: "Wanderung am Wochenende, Türkei, Strand und Sport, Frühbucher", t: `Hallo [[Name der Freundin|Annika]],
 
-wie schön, von dir zu hören! Bei mir war das Wetter am Wochenende gemischt, aber ich bin trotzdem rausgegangen. Dein Vorschlag für eine Reise ist eine tolle Idee.
+ich habe mich total über dein Lebenszeichen gefreut! Bei mir war das Wetter am Wochenende gemischt, aber ich bin trotzdem rausgegangen. Dein Vorschlag für eine Reise ist eine tolle Idee.
 
 Am Wochenende habe ich [[Wochenende|eine lange Wanderung im Wald gemacht, vier Stunden]]. Danach habe ich mich ausgeruht.
 
@@ -59,7 +59,7 @@ Ich würde gern [[Reiseziel|in die Türkei fahren, zum Beispiel nach Antalya]]. 
 
 Ein Tipp zum Sparen: [[Spartipp|Wir buchen früh, als Frühbucher, und fahren nicht in der Hauptsaison]]. Dann sind Flüge und Hotels viel billiger.
 
-Ich freue mich auf deine Antwort.
+Erzähl mir doch gern bald mehr davon.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -75,7 +75,7 @@ Reisen möchte ich gern [[Reiseziel|nach Prag, denn die Stadt ist schön und nic
 
 Zum Geldsparen: [[Spartipp|Wir können mit dem Fernbus fahren, der ist viel billiger als der Zug]]. Außerdem finden wir bestimmt eine günstige Pension.
 
-Schreib mir bald zurück!
+Ich freue mich auf deine Mail!
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Hamza]]` },
@@ -91,7 +91,7 @@ Mein Wunschziel ist [[Reiseziel|Berlin, weil es dort so viel zu sehen gibt und m
 
 Ich habe einen Tipp zum Sparen: [[Spartipp|Wir mieten eine kleine Ferienwohnung mit Küche und kochen oft selbst]]. Das ist viel günstiger als jeden Tag im Restaurant.
 
-Ich bin gespannt auf deine Antwort.
+Ich freue mich auf ein Lebenszeichen von dir.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -99,7 +99,7 @@ Ich bin gespannt auf deine Antwort.
   // 7
   { label: "Geburtstag gefeiert, Lissabon, Strand und Stadtbummel, Nebensaison", t: `Liebe [[Name der Freundin|Annika]],
 
-wie schön, dass du mir geschrieben hast! Die Idee mit der gemeinsamen Reise freut mich sehr, und ich bin sicher, dass wir etwas Schönes finden.
+wie schön, dass wir wieder in Kontakt sind! Die Idee mit der gemeinsamen Reise freut mich sehr, und ich bin sicher, dass wir etwas Schönes finden.
 
 Mein Wochenende war lustig: [[Wochenende|Ich habe den Geburtstag meiner Schwester gefeiert, mit Kuchen und Spielen]]. Wir waren viele Leute.
 
@@ -115,7 +115,7 @@ Schreib mir bald, ob dir die Idee gefällt.
   // 8
   { label: "Aufgeräumt, Barcelona, Strand und Tapas, Mitfahrgelegenheit", t: `Hallo [[Name der Freundin|Annika]],
 
-danke für deine E-Mail! Der Regen hat dich am Wochenende zu Hause gehalten, dafür kann man sich dort wenigstens ausruhen. Ich freue mich auf unsere Reise.
+wie lieb, dass du mir geschrieben hast! Der Regen hat dich am Wochenende zu Hause gehalten, dafür kann man sich dort wenigstens ausruhen. Ich freue mich auf unsere Reise.
 
 Ich habe am Wochenende [[Wochenende|meine Wohnung aufgeräumt und viel Wäsche gewaschen]]. Das war nötig, aber nicht besonders schön.
 
@@ -155,7 +155,7 @@ Wohin ich gern fahren würde? [[Reiseziel|Nach Griechenland auf eine kleine Inse
 
 Ein Spartipp: [[Spartipp|Wir machen ein Picknick statt jeden Tag ins Restaurant zu gehen]]. Das schmeckt gut, und es ist viel günstiger.
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, wir sehen uns bald wieder.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },
@@ -163,7 +163,7 @@ Ich freue mich auf deine Antwort.
   // 11
   { label: "Lernen am Wochenende, Danzig, Museum und Meer, Stadtkarte", t: `Liebe [[Name der Freundin|Annika]],
 
-deine E-Mail hat mich sehr gefreut! Ich bin froh, dass du an eine gemeinsame Reise denkst, und ich denke, dass wir viel Spaß haben werden.
+deine E-Mail hat mir den Tag verschönert! Ich bin froh, dass du an eine gemeinsame Reise denkst, und ich denke, dass wir viel Spaß haben werden.
 
 Am Wochenende habe ich [[Wochenende|für meine Prüfung gelernt und nur kurz einen Spaziergang gemacht]]. Ich war ziemlich müde danach.
 
@@ -171,7 +171,7 @@ Mein Reiseziel wäre [[Reiseziel|Danzig in Polen, wegen der schönen Altstadt un
 
 Zum Sparen: [[Spartipp|Wir kaufen eine Stadtkarte, mit der man Bus und Museen billiger nutzen kann]]. Das hat sich bei mir schon einmal bewährt.
 
-Schreib mir bald zurück.
+Ich freue mich auf deine Zeilen.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -179,7 +179,7 @@ Schreib mir bald zurück.
   // 12
   { label: "Kinobesuch, Budapest, Thermalbad und Spaziergänge, günstige Pension", t: `Hallo [[Name der Freundin|Annika]],
 
-wie schön, von dir zu lesen! Dass es bei dir am Wochenende nur geregnet hat, tut mir leid. Mich freut vor allem, dass du an unsere Sommerreise denkst.
+danke, dass du mir so schnell geschrieben hast! Dass es bei dir am Wochenende nur geregnet hat, tut mir leid. Mich freut vor allem, dass du an unsere Sommerreise denkst.
 
 Ich war am Wochenende [[Wochenende|im Kino und habe danach noch eine Pizza gegessen]]. Es war ein schöner Abend.
 
@@ -187,7 +187,7 @@ Mein Ziel ist [[Reiseziel|Budapest, denn die Stadt ist schön und im Vergleich n
 
 Ein Tipp zum Sparen: [[Spartipp|Wir suchen eine einfache Pension am Stadtrand und fahren mit der Straßenbahn in die Stadt]]. Das ist viel billiger.
 
-Ich freue mich auf deine Antwort.
+Mach es gut, und melde dich bald bei mir.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -195,7 +195,7 @@ Ich freue mich auf deine Antwort.
   // 13
   { label: "Ausflug zum See, Nordsee, Wattwandern und Sport, Gutscheine nutzen", t: `Liebe [[Name der Freundin|Annika]],
 
-danke für deine Nachricht! Eine gemeinsame Reise ist eine schöne Idee, und ich bin sicher, dass wir ein günstiges Ziel finden.
+herzlichen Dank für deine Mail! Eine gemeinsame Reise ist eine schöne Idee, und ich bin sicher, dass wir ein günstiges Ziel finden.
 
 Am Wochenende habe ich [[Wochenende|einen Ausflug zum See gemacht und dort gebadet]]. Das Wetter war warm, und ich habe mich gut erholt.
 
@@ -211,7 +211,7 @@ Schreib mir bald, wie du darüber denkst. Ich freue mich schon sehr auf unsere g
   // 14
   { label: "Besuch bei Freunden, Bodensee, Radfahren und Baden, selbst kochen", t: `Hallo [[Name der Freundin|Annika]],
 
-wie schön, dass du mir geschrieben hast! Ich freue mich auf die Reise mit dir, und ich verstehe, dass die Autoreparatur dein Budget belastet.
+herzlichen Dank für deine lange Nachricht! Ich freue mich auf die Reise mit dir, und ich verstehe, dass die Autoreparatur dein Budget belastet.
 
 Mein Wochenende war schön: [[Wochenende|Ich habe Freunde in einer anderen Stadt besucht und wir sind durch die Altstadt gegangen]]. Danach haben wir lange geredet.
 

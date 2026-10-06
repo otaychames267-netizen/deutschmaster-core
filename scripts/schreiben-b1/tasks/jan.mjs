@@ -13,7 +13,7 @@ Meine Pläne für den nächsten Urlaub: [[Urlaubsplan|Ich möchte im August eine
 
 Wenn du wieder zurück bist, treffen wir uns gern. [[Vorschlag|Wie wäre es mit einem Kaffee am Samstagnachmittag]]?
 
-Ich freue mich auf deine Antwort.
+Ich freue mich auf deine Rückmeldung.
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
@@ -31,7 +31,7 @@ Für meinen nächsten Urlaub plane ich [[Urlaubsplan|eine Woche in den Bergen, m
 
 Ich würde mich gern mit dir treffen, [[Vorschlag|am Wochenende nach deiner Rückkehr zum Essen]]. Dann erzählst du mir alles.
 
-Schreib mir bald zurück.
+Gib mir bitte bis zum Wochenende Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
@@ -49,7 +49,7 @@ Meinen nächsten Urlaub möchte ich [[Urlaubsplan|an einem See verbringen, mit B
 
 Wollen wir uns nach deiner Rückkehr treffen? [[Vorschlag|Ich schlage einen Spaziergang im Park mit einem Eis vor]].
 
-Ich freue mich auf deine Antwort.
+Sag mir doch bald Bescheid.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -67,7 +67,7 @@ Für den nächsten Urlaub habe ich [[Urlaubsplan|eine Städtereise nach Prag im 
 
 Treffen möchte ich dich sehr gern, [[Vorschlag|zum Beispiel bei unserem Lieblingsitaliener am Freitagabend]]. Dort bekommst du dann gleich dein Eis.
 
-Ich freue mich auf deine Antwort.
+Sag mir doch kurz, was du denkst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Youssef]]` },
@@ -85,7 +85,7 @@ Meinen nächsten Urlaub möchte ich [[Urlaubsplan|am Meer verbringen, zehn Tage 
 
 Wenn du zurück bist, würde ich mich gern mit dir treffen. [[Vorschlag|Wir könnten uns am Fluss auf eine Bank setzen und Kaffee trinken]].
 
-Schreib mir bald!
+Ich freue mich auf deine Rückmeldung!
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Hamza]]` },
@@ -103,7 +103,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|eine Wanderwoche in den Alpen]
 
 Treffen möchte ich dich gern: [[Vorschlag|Wir gehen nach deiner Rückkehr zusammen ins Kino]]. Dann erzählst du mir von Rom.
 
-Ich freue mich auf deine Antwort.
+Ich freue mich darauf, bald von dir zu hören!
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Lina]]` },
@@ -111,7 +111,7 @@ Ich freue mich auf deine Antwort.
   // 7
   { label: "Lieblingsstadt Lissabon, Jazz, Urlaub in Griechenland, Treffen auf dem Markt", t: `Lieber [[Name des Freundes|Jan]],
 
-danke für deine Zeilen! Rom ist eine fantastische Stadt, und ich freue mich, dass es dir dort so gut gefällt. Dein Konzert muss ein unvergesslicher Abend gewesen sein.
+herzlichen Dank für deine netten Zeilen! Rom ist eine fantastische Stadt, und ich freue mich, dass es dir dort so gut gefällt. Dein Konzert muss ein unvergesslicher Abend gewesen sein.
 
 Meine Lieblingsstadt ist [[Lieblingsstadt|Lissabon mit den bunten Häusern, den Straßenbahnen und dem Blick auf den Fluss]]. Ich war dort im Frühling und habe viele Fotos gemacht.
 
@@ -129,7 +129,7 @@ Schreib mir bitte zurück.
   // 8
   { label: "Lieblingsstadt Hamburg, Reggae, Camping in Dänemark, Treffen im Museum", t: `Hallo [[Name des Freundes|Jan]],
 
-wie schön, von dir zu hören! Deine Beschreibung von Rom klingt toll, und ich hoffe, dass du die letzten Tage noch genießt. Ein Rockkonzert zu besuchen, ist immer ein Erlebnis.
+ich habe mich ehrlich über deine Neuigkeiten gefreut! Deine Beschreibung von Rom klingt toll, und ich hoffe, dass du die letzten Tage noch genießt. Ein Rockkonzert zu besuchen, ist immer ein Erlebnis.
 
 Meine Lieblingsstadt ist [[Lieblingsstadt|Hamburg, denn ich liebe den Hafen und den Geruch von Meer und Fisch]]. Die Stadt hat Charakter, und die Menschen sind freundlich.
 
@@ -139,7 +139,7 @@ Im nächsten Urlaub möchte ich [[Urlaubsplan|zelten in Dänemark, an der Küste
 
 Treffen möchte ich dich auch, [[Vorschlag|zum Beispiel im Museum, wenn du magst]]. Danach gehen wir ein Eis essen.
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, wie du das siehst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -157,7 +157,7 @@ Für meinen nächsten Urlaub plane ich [[Urlaubsplan|eine Reise in die Türkei, 
 
 Treffen können wir uns gern, [[Vorschlag|zum Beispiel bei mir im Garten bei einem kleinen Grillen]].
 
-Schreib mir bald zurück.
+Melde dich bitte, wenn du Lust hast.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },
@@ -165,7 +165,7 @@ Schreib mir bald zurück.
   // 10
   { label: "Lieblingsstadt Amsterdam, Indie-Musik, Radurlaub, Treffen auf einer Brücke", t: `Hallo [[Name des Freundes|Jan]],
 
-ich habe mich sehr über deine Nachricht gefreut! Rom ist wunderbar, und es klingt, als hättest du einen perfekten Urlaub. Drei Tage sind nicht mehr lang, aber du kannst sie noch genießen.
+wie schön, dass du dich bei mir meldest! Rom ist wunderbar, und es klingt, als hättest du einen perfekten Urlaub. Drei Tage sind nicht mehr lang, aber du kannst sie noch genießen.
 
 Meine Lieblingsstadt ist [[Lieblingsstadt|Amsterdam, denn dort gibt es Grachten, Fahrräder und nette Cafés]]. Ich habe dort drei Tage verbracht und bin kaum zu Fuß gegangen, sondern immer mit dem Rad gefahren.
 
@@ -175,7 +175,7 @@ Mein Urlaubsplan: [[Urlaubsplan|eine Radreise von meiner Stadt bis an die Küste
 
 Treffen möchte ich dich, [[Vorschlag|zum Beispiel an einem Abend auf der Brücke in der Altstadt, wo es schöne Straßenmusik gibt]].
 
-Ich freue mich auf deine Antwort.
+Erzähl mir doch gern in deiner Antwort mehr davon.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Aymen]]` },
@@ -193,7 +193,7 @@ Im nächsten Urlaub möchte ich [[Urlaubsplan|meine Familie in Tunesien besuchen
 
 Wir können uns gern treffen, [[Vorschlag|zum Beispiel bei einem Tee in einem gemütlichen Café]].
 
-Schreib mir bald zurück!
+Ich bin gespannt auf deine Pläne.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Emna]]` },
@@ -201,7 +201,7 @@ Schreib mir bald zurück!
   // 12
   { label: "Lieblingsstadt Prag, Folk, Ferien in der Heimat, Treffen beim Fußballspiel", t: `Hallo [[Name des Freundes|Jan]],
 
-wie schön, dass du mir schreibst! Dein Urlaub in Rom klingt nach einem Traum, und ich freue mich für dich. Ein Rockkonzert in der Stadt ist sicher unvergesslich.
+wie lieb, dass du an mich denkst! Dein Urlaub in Rom klingt nach einem Traum, und ich freue mich für dich. Ein Rockkonzert in der Stadt ist sicher unvergesslich.
 
 Meine Lieblingsstadt ist [[Lieblingsstadt|Prag, denn die Altstadt ist wie ein Märchen und nicht zu teuer]]. Ich war vor einem Jahr dort und bin den ganzen Tag gelaufen.
 
@@ -211,7 +211,7 @@ Für den Urlaub im Sommer habe ich [[Urlaubsplan|vor, meine Heimat zu besuchen u
 
 Wollen wir uns nach deinem Urlaub sehen? [[Vorschlag|Wir könnten zusammen ein Fußballspiel anschauen, wenn eines stattfindet]].
 
-Ich freue mich auf deine Antwort.
+Ich bin gespannt auf deine Rückmeldung.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -229,7 +229,7 @@ Meinen nächsten Urlaub plane ich [[Urlaubsplan|in den Alpen, mit Wanderungen un
 
 Wollen wir uns treffen, wenn du zurück bist? [[Vorschlag|Ich lade dich in mein Lieblingseiscafé ein]]. Dort gibt es das beste Eis der Stadt.
 
-Ich bin gespannt auf deine Antwort.
+Gib mir bitte in den nächsten Tagen Bescheid.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Salma]]` },
@@ -247,7 +247,7 @@ Im Urlaub plane ich [[Urlaubsplan|eine Reise nach Portugal, an die Atlantikküst
 
 Treffen wir uns, wenn du wieder da bist? [[Vorschlag|Gern auf der Terrasse eines Cafés, wenn das Wetter schön ist]].
 
-Ich freue mich auf deine Antwort.
+Gib mir bitte so schnell du kannst Bescheid.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Rim]]` },
@@ -265,7 +265,7 @@ Für den nächsten Urlaub plane ich [[Urlaubsplan|eine Reise nach Norwegen mit v
 
 Treffen können wir uns gern, [[Vorschlag|zum Beispiel für einen Spaziergang im Wald am Wochenende]].
 
-Ich freue mich auf deine Antwort.
+Melde dich bitte, wenn du dazu kommst.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Sana]]` },

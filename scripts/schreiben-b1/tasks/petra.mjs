@@ -91,7 +91,7 @@ Schreib mir bitte bald zurück.
   // 6
   { label: "Frische Berge, mit dem Auto und Zug, Wanderung und Sauna, Freund mitbringen", t: `Hallo [[Name der Freundin|Petra]],
 
-wie schön, von dir zu hören! Dein Onkel hat ein Ferienhaus im Schwarzwald, das ist ein tolles Geschenk, und ich komme sehr gern zu euch.
+wie super, dass ich von dir höre! Dein Onkel hat ein Ferienhaus im Schwarzwald, das ist ein tolles Geschenk, und ich komme sehr gern zu euch.
 
 Ich freue mich besonders, weil [[Grund|ich noch nie im Schwarzwald war und viel über die Berge und Seen gehört habe]]. Ich bin schon sehr neugierig.
 
@@ -137,7 +137,7 @@ Gemeinsam könnten wir [[Aktivitäten|mehrere Radtouren machen, auch zu kleinen 
 
 Ich möchte [[Begleitung|zwei Kollegen aus meiner Firma]] mitbringen, die auch gern Rad fahren. Sie heißen Anis und Fares.
 
-Ich freue mich auf deine Antwort.
+Melde dich bitte, in den nächsten Tagen.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Rim]]` },
@@ -163,7 +163,7 @@ Schreib mir bald, wann wir uns sehen.
   // 10
   { label: "Sehenswürdigkeiten, mit dem Auto, Ausflüge und Eisessen, Freund und Freundin mitbringen", t: `Hallo [[Name der Freundin|Petra]],
 
-wie schön, von dir zu lesen! Das Angebot deines Onkels ist eine tolle Gelegenheit, und ich komme gern in den Schwarzwald. Danke für die Einladung!
+ich habe mich total über deine Zeilen gefreut! Das Angebot deines Onkels ist eine tolle Gelegenheit, und ich komme gern in den Schwarzwald. Danke für die Einladung!
 
 Ich möchte kommen, weil [[Grund|ich viele Sehenswürdigkeiten dort sehen möchte, zum Beispiel die Wasserfälle und die alten Dörfer]]. Ich habe darüber viel gelesen.
 
@@ -173,7 +173,7 @@ Gemeinsam könnten wir [[Aktivitäten|jeden Tag einen Ausflug machen und dabei E
 
 Ich möchte [[Begleitung|einen Freund und eine Freundin]] mitbringen. Sie heißen Aymen und Sana und sind beide sehr nett.
 
-Ich freue mich auf deine Antwort.
+Erzähl mir bitte wenn du Zeit hast mehr davon.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Aymen]]` },
@@ -209,7 +209,7 @@ Gemeinsam könnten wir [[Aktivitäten|eine Fotowanderung machen und danach die B
 
 Wenn es passt, bringe ich [[Begleitung|meinen Bruder und meine Schwester]] mit. Wir waren schon lange nicht mehr zusammen im Urlaub.
 
-Ich freue mich auf deine Antwort.
+Bis zu deiner Antwort denke ich oft an dich.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Fares]]` },
@@ -227,7 +227,7 @@ Gemeinsam könnten wir [[Aktivitäten|am Abend ein Lagerfeuer machen und tagsüb
 
 Ich möchte [[Begleitung|zwei Freunde aus meinem Deutschkurs]] mitbringen. Sie heißen Bilel und Sarra und sind sehr nett.
 
-Schreib mir bitte bald zurück.
+Ich bin gespannt auf deine Ideen.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Anis]]` },
@@ -235,7 +235,7 @@ Schreib mir bitte bald zurück.
   // 14
   { label: "Familienwiedersehen, mit dem Zug und Taxi, Wandern und gemeinsames Frühstück, Onkel und Tante mitbringen", t: `Hallo [[Name der Freundin|Petra]],
 
-wie schön, dass du mir schreibst! Dein Onkel macht uns ein großes Geschenk mit dem Haus im Schwarzwald, und ich komme sehr gern.
+wie nett, dass du mich nicht vergessen hast! Dein Onkel macht uns ein großes Geschenk mit dem Haus im Schwarzwald, und ich komme sehr gern.
 
 Ich freue mich besonders, weil [[Grund|ich meine Familie und dich nach langer Zeit wiedersehen kann]]. Ein gemeinsamer Urlaub ist eine seltene Gelegenheit.
 
@@ -245,7 +245,7 @@ Gemeinsam könnten wir [[Aktivitäten|jeden Morgen zusammen frühstücken und da
 
 Ich möchte [[Begleitung|meinen Onkel und meine Tante]] mitbringen, wenn das für dich in Ordnung ist. Sie sind sehr gesellig.
 
-Ich freue mich auf deine Antwort.
+Antworte mir gern, wenn du Zeit hast.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Sana]]` },

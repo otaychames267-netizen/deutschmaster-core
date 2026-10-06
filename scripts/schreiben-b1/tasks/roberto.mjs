@@ -35,7 +35,7 @@ Schreib mir bitte, wie es weitergeht.
   // 3
   { label: "Mittagessen zusammen, gemischte Arbeitsweise, viel gearbeitet, Prüfung", t: `Lieber [[Name des Bekannten|Andreas]],
 
-danke für deine E-Mail! Es freut mich, dass dir die Arbeit trotz der vielen Aufgaben Spaß macht. Und dass du einen netten Kollegen hast, ist ein Gewinn.
+danke für dein Lebenszeichen! Es freut mich, dass dir die Arbeit trotz der vielen Aufgaben Spaß macht. Und dass du einen netten Kollegen hast, ist ein Gewinn.
 
 Mein Rat zu Roberto: [[Vorschlag|Geh in der Mittagspause mit ihm und zwei anderen Kollegen essen]]. Das ist nicht viel Aufwand, und er wird sich schnell wohlfühlen. Danach kannst du ihn zu mehr einladen.
 
@@ -43,7 +43,7 @@ Du fragst nach meiner Arbeitsweise: [[Arbeitsweise|Ich arbeite gern für mich, a
 
 Nach dem Urlaub habe ich [[Nach dem Urlaub|sehr viel gearbeitet, auch am Wochenende]]. Bei mir gibt es Neues: [[Neuigkeit|Ich habe meine Prüfung bestanden]].
 
-Ich freue mich auf deine Antwort.
+Lass mich bitte wissen, was du davon hältst.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Amira]]` },
@@ -67,7 +67,7 @@ Schreib mir bald, was du mit Roberto vorhast.
   // 5
   { label: "Kaffeepause einführen, allein arbeiten, Familienbesuch, neue Wohnung", t: `Lieber [[Name des Bekannten|Andreas]],
 
-wie schön, von dir zu lesen! Dass du dich gleich mit deinem neuen Kollegen angefreundet hast, finde ich toll. Dein Büro wird jetzt bestimmt netter.
+vielen Dank für deine lange Nachricht! Dass du dich gleich mit deinem neuen Kollegen angefreundet hast, finde ich toll. Dein Büro wird jetzt bestimmt netter.
 
 Ein Vorschlag für Roberto: [[Vorschlag|Mach jeden Tag mit ihm gemeinsam eine Kaffeepause und stell ihm dabei andere Kollegen vor]]. So kommt er langsam in Kontakt, ohne dass es schwer wird.
 
@@ -83,7 +83,7 @@ Ich freue mich auf deine Nachricht.
   // 6
   { label: "Ausflug am Wochenende, Teamarbeit, Sport gemacht, neuer Job", t: `Hallo [[Name des Bekannten|Andreas]],
 
-danke für deine Nachricht! Es tut gut, nach dem Urlaub von dir zu hören. Ich hoffe, dass du dich wieder gut eingelebt hast.
+lieben Dank für deine Neuigkeiten! Es tut gut, nach dem Urlaub von dir zu hören. Ich hoffe, dass du dich wieder gut eingelebt hast.
 
 Roberto braucht Anschluss, das glaube ich auch. Ich würde ihm [[Vorschlag|einen Ausflug am Wochenende mit mehreren Kollegen vorschlagen, zum Beispiel an einen See]]. Dort kann man viel reden und lernt sich schnell kennen.
 
@@ -107,7 +107,7 @@ Du fragst, wie ich am liebsten arbeite: [[Arbeitsweise|Ich bin lieber allein im 
 
 Nach dem Urlaub habe ich [[Nach dem Urlaub|allen Freunden meine Fotos gezeigt]]. Bei mir gibt es Neues: [[Neuigkeit|Ich habe ein gebrauchtes Auto gekauft]].
 
-Ich freue mich auf deine Antwort.
+Erzähl mir gern bald mehr davon.
 
 [[Grußformel|Herzliche Grüße]]
 [[Dein Name|Salma]]` },
@@ -147,7 +147,7 @@ Ich freue mich auf deine nächste Nachricht.
   // 10
   { label: "Gemeinsames Frühstück im Büro, allein arbeiten, Fotobuch, neues Hobby", t: `Hallo [[Name des Bekannten|Andreas]],
 
-wie schön, dass du mir geschrieben hast! Nach dem Urlaub ist es oft schwer, wieder anzufangen, aber ein netter Kollege hilft dabei.
+wie wunderbar, dass wir wieder in Kontakt sind! Nach dem Urlaub ist es oft schwer, wieder anzufangen, aber ein netter Kollege hilft dabei.
 
 Dein Kollege Roberto braucht Freunde, das sehe ich auch so. Ich würde [[Vorschlag|ein gemeinsames Frühstück im Büro organisieren und alle Kollegen dazu einladen]]. Jeder bringt etwas mit, und ihr lernt euch kennen. Es ist ein guter Anlass.
 
@@ -155,7 +155,7 @@ Zu deiner Frage: [[Arbeitsweise|Ich arbeite am liebsten allein, aber mit Musik i
 
 Nach dem Urlaub habe ich [[Nach dem Urlaub|ein Fotobuch gemacht, mit den schönsten Bildern]]. Bei mir ist Neues passiert: [[Neuigkeit|Ich habe mit Malen angefangen]].
 
-Ich bin gespannt auf deine Antwort.
+Ich freue mich auf eine Antwort von dir!
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Ines]]` },
@@ -203,7 +203,7 @@ Zu deiner Frage: [[Arbeitsweise|Ich arbeite gerne zusammen mit Kollegen, weil ma
 
 Nach dem Urlaub habe ich [[Nach dem Urlaub|zwei Bücher gelesen, die ich lange liegen gelassen hatte]]. Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ein neuer Nachbar ist eingezogen, und wir verstehen uns gut]].
 
-Ich freue mich auf deine Antwort.
+Ich hoffe, du meldest dich bald.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Walid]]` },
@@ -211,7 +211,7 @@ Ich freue mich auf deine Antwort.
   // 14
   { label: "Roberto in den Verein mitnehmen, gemischte Arbeitsweise, Arbeit nachgeholt, Wettkampf", t: `Hallo [[Name des Bekannten|Andreas]],
 
-danke für deine E-Mail! Ich freue mich, dass du dich bei der Arbeit wohlfühlst, auch wenn der Urlaub vorbei ist.
+danke für deine netten Zeilen! Ich freue mich, dass du dich bei der Arbeit wohlfühlst, auch wenn der Urlaub vorbei ist.
 
 Zu Roberto habe ich eine Idee: [[Vorschlag|Nimm ihn doch zum Training in deinem Verein mit und stell ihm deine Freunde vor]]. So hat er gleich neue Kontakte, und ihr habt ein gemeinsames Hobby.
 

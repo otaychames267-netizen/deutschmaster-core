@@ -19,7 +19,7 @@ Schreib mir bald, wann du Zeit hast.
   // 2
   { label: "Kleinstadt im Norden, Altbauwohnung, Besuch im Herbst, Frage zu den Arbeitszeiten", t: `Hallo [[Name der Freundin|Karla]],
 
-danke für deine E-Mail! Ich freue mich, dass es dir in Bamberg gefällt und dass du deine Arbeit so gern magst. Jeden Tag Überraschungen zu erleben, ist sicher spannend.
+wie toll, dass ich von dir höre! Ich freue mich, dass es dir in Bamberg gefällt und dass du deine Arbeit so gern magst. Jeden Tag Überraschungen zu erleben, ist sicher spannend.
 
 Über meinen Wohnort: [[Wohnort|Ich wohne in einer Kleinstadt im Norden des Landes]], in der es ruhig ist und alle sich kennen. Meine Wohnung ist [[Wohnung|eine Altbauwohnung mit hohen Fenstern und Holzboden]].
 
@@ -51,7 +51,7 @@ Ich freue mich schon sehr auf unser Wiedersehen.
   // 4
   { label: "Dorf in den Bergen, Haus mit Garten, Besuch im Frühling, Frage zu den Sprachen", t: `Hallo [[Name der Freundin|Karla]],
 
-wie schön, von dir zu hören! Es freut mich sehr, dass du dich in der Altstadt so wohl fühlst. Mit dem Fahrrad zur Arbeit zu fahren, ist sicher wunderbar.
+wie wunderbar, dass du dich bei mir meldest! Es freut mich sehr, dass du dich in der Altstadt so wohl fühlst. Mit dem Fahrrad zur Arbeit zu fahren, ist sicher wunderbar.
 
 Du fragst nach meinem Wohnort: [[Wohnort|Ich lebe in einem kleinen Dorf in den Bergen, in dem es nur wenige Häuser gibt]]. Meine Wohnung ist [[Wohnung|ein kleines Haus mit einem Garten und einem Apfelbaum]]. Hier ist es sehr ruhig.
 
@@ -91,7 +91,7 @@ Dein Vorschlag, dich zu besuchen, ist sehr schön. Ich komme [[Zeitpunkt des Bes
 
 Eine Frage zu deiner Arbeit: [[Frage|Wie sind deine Kollegen an der Rezeption, und arbeitet ihr im Team]]?
 
-Ich freue mich auf deine Antwort!
+Hoffentlich schreibst du mir bald wieder.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Hamza]]` },
@@ -115,7 +115,7 @@ Schreib mir bitte, ob Pfingsten passt.
   // 8
   { label: "Vorort, Reihenhaus, Besuch im Oktober, Frage zur Nachtschicht", t: `Hallo [[Name der Freundin|Karla]],
 
-danke für deine E-Mail! Es freut mich sehr, dass es dir in deinem neuen Leben so gut geht und dass dir die Arbeit Spaß macht.
+danke für deine Mail! Es freut mich sehr, dass es dir in deinem neuen Leben so gut geht und dass dir die Arbeit Spaß macht.
 
 Du hast nach meinem Wohnort gefragt: [[Wohnort|Ich wohne in einem Vorort, der etwa 20 Minuten von der Stadtmitte entfernt ist]]. Hier ist es grün, und es gibt viele Parks. Meine Wohnung ist [[Wohnung|ein Reihenhaus mit drei Zimmern und einem kleinen Hof]].
 
@@ -123,7 +123,7 @@ Deine Einladung nehme ich gern an. Ich möchte dich [[Zeitpunkt des Besuchs|im O
 
 Zu deinem Job habe ich eine Frage: [[Frage|Musst du manchmal Nachtschicht machen, und wie ist das für dich]]?
 
-Ich bin gespannt auf deine Antwort.
+Gib mir bitte bald Bescheid.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Salma]]` },
@@ -187,7 +187,7 @@ Deinen Vorschlag, dich zu besuchen, finde ich großartig! Ich komme [[Zeitpunkt 
 
 Zu deiner Arbeit eine Frage: [[Frage|Hast du viel mit freundlichen oder mit schwierigen Kunden zu tun]]?
 
-Ich bin gespannt auf deine Antwort.
+Bis dahin, und melde dich, wenn du Neuigkeiten hast.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Walid]]` },
@@ -195,7 +195,7 @@ Ich bin gespannt auf deine Antwort.
   // 13
   { label: "Hauptstadt, Wohnung mit Mitbewohnerin, Besuch im September, Frage zur Bezahlung", t: `Liebe [[Name der Freundin|Karla]],
 
-danke für deine Nachricht! Ich freue mich für dich, und ich kann gut verstehen, dass du die Altstadt liebst.
+wie super, dass du mir geschrieben hast! Ich freue mich für dich, und ich kann gut verstehen, dass du die Altstadt liebst.
 
 Ich wohne [[Wohnort|in der Hauptstadt, wo es viele Cafés und Museen gibt, aber auch viel Lärm]]. Meine Wohnung teile ich [[Wohnung|mit einer Mitbewohnerin, und wir haben zwei Zimmer und eine kleine Terrasse]]. Wir verstehen uns gut.
 
@@ -211,7 +211,7 @@ Schreib mir bitte bald zurück. Ich freue mich schon auf deine Stadt.
   // 14
   { label: "Stadt im Süden, Haus mit Dachterrasse, Besuch im Frühjahr, Frage nach dem Chef", t: `Hallo [[Name der Freundin|Karla]],
 
-danke für deine E-Mail! Ich freue mich über deine guten Nachrichten und deine Einladung. Du scheinst dort wirklich ein neues Zuhause gefunden zu haben.
+wie wunderbar, deine Zeilen zu lesen! Ich freue mich über deine guten Nachrichten und deine Einladung. Du scheinst dort wirklich ein neues Zuhause gefunden zu haben.
 
 Über meinen Wohnort: [[Wohnort|Ich lebe in einer Stadt im Süden, in der es fast das ganze Jahr warm ist]]. Meine Wohnung ist [[Wohnung|das obere Stockwerk eines Hauses mit einer großen Dachterrasse]]. Dort sitze ich abends gern.
 
