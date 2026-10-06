@@ -8,7 +8,7 @@
  * Read-only: admins read the pools through the existing staff SELECT policies, nothing here writes. Counts refresh every 30 s.
  */
 import { useEffect, useMemo, useState } from "react";
-import { AlertTriangle, ChevronDown, Loader2, Lock, RefreshCw } from "lucide-react";
+import { AlertTriangle, Loader2, Lock, RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { LetterView } from "@/components/schreiben/PersonalStrukturCard";
 
@@ -142,34 +142,6 @@ function FlatGroup({ g, lockClosed }: { g: GroupStat; lockClosed: boolean }) {
   );
 }
 
-function ThemeRow({ stat, lockClosed }: { stat: ThemeStat; lockClosed: boolean }) {
-  const [open, setOpen] = useState(false);
-  const remaining = stat.total - stat.closed;
-  const t = tone(remaining, stat.total);
-  return (
-    <div className="rounded-xl border border-border bg-card">
-      <button onClick={() => setOpen((v) => !v)} className="flex w-full items-center gap-3 px-4 py-3 text-left" aria-expanded={open}>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-foreground">{stat.theme}</p>
-          <div className="mt-2"><Bar closed={stat.closed} total={stat.total} /></div>
-        </div>
-        <span className="hidden shrink-0 text-xs font-semibold tabular-nums text-muted-foreground sm:inline">
-          {stat.closed} gone · ذهبت
-        </span>
-        <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold tabular-nums ${t.pill}`}>
-          {remaining} / {stat.total} <span className="font-medium opacity-80">left</span>
-        </span>
-        <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`} />
-      </button>
-      {open && (
-        <div className="border-t border-border px-4 py-3">
-          <CardChips cards={stat.cards} lockClosed={lockClosed} />
-        </div>
-      )}
-    </div>
-  );
-}
-
 export function StrukturCatalog({ sets, lockClosed = false }: { sets: SetKey[]; lockClosed?: boolean }) {
   const [setKey, setSetKey] = useState<SetKey>(sets[0]);
   const [cards, setCards] = useState<CardRow[] | null>(null);
@@ -244,8 +216,12 @@ export function StrukturCatalog({ sets, lockClosed = false }: { sets: SetKey[]; 
       const flat = list.flatMap((t) => t.cards).sort((x, y) => x.sort_order - y.sort_order);
       return { name, themes: list, flat, total: list.reduce((s, t) => s + t.total, 0), closed: list.reduce((s, t) => s + t.closed, 0) };
     });
-    return { groups, total: (cards ?? []).length, closed: (cards ?? []).filter((c) => closedIds.has(c.id)).length };
-  }, [cards, closedIds]);
+    // B2: a set is ONE group of 150 numbered letters (the topics are not shown); B1 keeps its two pools A / B
+    const shown: GroupStat[] = cfg.kind === "b2" && groups.length
+      ? (() => { const flat = groups.flatMap((g) => g.flat).sort((x, y) => x.sort_order - y.sort_order); return [{ name: cfg.label, themes: [], flat, total: flat.length, closed: flat.filter((c) => c.closed).length }]; })()
+      : groups;
+    return { groups: shown, total: (cards ?? []).length, closed: (cards ?? []).filter((c) => closedIds.has(c.id)).length };
+  }, [cards, closedIds, cfg.kind, cfg.label]);
 
   const remaining = total - closed;
   // B1: every subscriber consumes one card from EACH pool, so the pool with fewer cards left decides how many more subscribers fit.
@@ -334,20 +310,7 @@ export function StrukturCatalog({ sets, lockClosed = false }: { sets: SetKey[]; 
           )}
 
           <div className="space-y-6">
-            {cfg.kind === "b1"
-              ? groups.map((g) => <FlatGroup key={g.name} g={g} lockClosed={lockClosed} />)
-              : groups.map((g) => {
-                  const t = tone(g.total - g.closed, g.total);
-                  return (
-                    <section key={g.name} className="space-y-2.5">
-                      <div className="flex items-end justify-between gap-3">
-                        <h2 className="text-sm font-black text-foreground">{g.name}</h2>
-                        <span className={`text-xs font-bold tabular-nums ${t.text}`}>{g.total - g.closed} / {g.total} left · {g.closed} gone</span>
-                      </div>
-                      <div className="space-y-2">{g.themes.map((th) => <ThemeRow key={th.theme} stat={th} lockClosed={lockClosed} />)}</div>
-                    </section>
-                  );
-                })}
+            {groups.map((g) => <FlatGroup key={g.name} g={g} lockClosed={lockClosed} />)}
           </div>
         </>
       )}
@@ -363,6 +326,23 @@ export function StrukturCatalog({ sets, lockClosed = false }: { sets: SetKey[]; 
           <span className="text-muted-foreground">of {total}</span>
         </div>
       )}
+    </div>
+  );
+}
+
+/** What an admin sees instead of the single personal letter on a Struktur page: the whole catalog of that set + a switch to the student view. */
+export function AdminStrukturOverview({ title, description, descriptionAr, sets, onStudentView }: { title: string; description: string; descriptionAr: string; sets: SetKey[]; onStudentView: () => void }) {
+  return (
+    <div className="mx-auto max-w-4xl space-y-5 pb-24">
+      <div>
+        <h1 className="text-2xl font-black tracking-tight text-foreground">{title}</h1>
+        <p className="mt-0.5 text-sm text-muted-foreground">{description}</p>
+        <p dir="rtl" className="mt-0.5 text-sm text-muted-foreground">{descriptionAr}</p>
+        <button onClick={onStudentView} className="mt-3 rounded-xl bg-muted px-3.5 py-2 text-xs font-bold text-muted-foreground hover:bg-muted/70">
+          Student-Ansicht anzeigen (so sehen es Abonnenten)
+        </button>
+      </div>
+      <StrukturCatalog sets={sets} lockClosed />
     </div>
   );
 }
