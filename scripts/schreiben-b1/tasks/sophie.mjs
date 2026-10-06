@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Sophie]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Es tut mir leid, dass wir so lange nichts voneinander gehört haben. [[Reaktion auf Sophies Nachricht|Schön, dass dir der Job in Würzburg gefällt]].
+wie schön, von dir zu lesen! Es tut mir leid, dass wir so lange nichts voneinander gehört haben. [[Reaktion auf Sophies Nachricht|Schön, dass dir der Job in Würzburg gefällt]].
 
 Bei mir gibt es folgende Neuigkeiten: [[Neuigkeit|Ich habe in meiner Firma eine neue Aufgabe bekommen und lerne gerade viel Neues]]. Das macht mir Spaß.
 
@@ -29,7 +29,7 @@ Schreib mir bitte, [[Frage an die Freundin|welches Wochenende dir am besten pass
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Sophie]],
 
-schön, von dir zu hören! Ja, wir haben uns ewig nicht geschrieben. [[Reaktion auf Sophies Nachricht|Klasse, dass dir der Job und die Kollegen gefallen]].
+wie nett, dass ich von dir höre! Ja, wir haben uns ewig nicht geschrieben. [[Reaktion auf Sophies Nachricht|Klasse, dass dir der Job und die Kollegen gefallen]].
 
 Neues bei mir? [[Neuigkeit|Ich habe angefangen, Gitarre zu lernen, und war zweimal wandern]]. Sonst alles beim Alten.
 
@@ -69,7 +69,7 @@ Bei mir hat sich im Beruf etwas getan: [[Neuigkeit|Ich arbeite jetzt in einem kl
 
 Falls du am Besuchswochenende noch etwas vorhast, sag es mir bitte früh: [[Hinweis|Dann ändere ich meinen Plan und komme einfach eine Woche später]]. Ich bin da sehr flexibel. Wichtig ist nur, dass wir uns sehen und genug Zeit zum Reden haben.
 
-Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
+Ich bin gespannt, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Marie]]` },
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Sophie]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+danke für deine ausführliche Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
 Erstens, meine Neuigkeiten: [[Neuigkeit|Ich habe beruflich eine neue Aufgabe übernommen]].
 
@@ -101,7 +101,7 @@ Bitte teile mir mit, [[Frage an die Freundin|welches Wochenende dir passt]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Sophie]],
 
-danke für deine Mail! [[Reaktion auf Sophies Nachricht|Ich freue mich, dass dir der Job gefällt]].
+besten Dank für deine Mail. [[Reaktion auf Sophies Nachricht|Ich freue mich, dass dir der Job gefällt]].
 
 Bei mir gibt es [[Neuigkeit|eine neue Stelle in einer größeren Abteilung]].
 
@@ -149,7 +149,7 @@ Schreib mir, [[Frage an die Freundin|ob dir der September passt]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Sophie]],
 
-danke für deine Mail, hier kurz meine Antworten.
+tausend Dank für deine Nachricht, hier die wichtigsten Punkte.
 
 Neues: [[Neuigkeit|Neue Aufgabe im Job]].
 
@@ -221,7 +221,7 @@ Erzähl mir, [[Frage an die Freundin|wie dir Würzburg gefällt]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Sophie]],
 
-danke für deine Mail. [[Reaktion auf Sophies Nachricht|Ich freue mich, dass dir der Job gefällt]]. Ich habe gleich mehrere Vorschläge für dich.
+deine Mail kam genau zur richtigen Zeit! [[Reaktion auf Sophies Nachricht|Ich freue mich, dass dir der Job gefällt]]. Ich habe gleich mehrere Vorschläge für dich.
 
 Mein erster Vorschlag: [[Tipp 1|Tritt einem Sportverein bei]]. Mein zweiter: [[Tipp 2|Besuche einen Kochkurs]]. Mein dritter: [[Tipp 3|Lade zwei Kollegen zum Grillen ein]].
 
@@ -235,7 +235,7 @@ Ich habe vor Kurzem [[Erlebnis|bei einem Straßenfest mitgeholfen und viele neue
 
 Mein sechster Vorschlag: Ich komme [[Zeitpunkt|an einem Wochenende, an dem es ein Fest in der Stadt gibt]]. Dann sind viele Leute da, und wir haben Programm. Schau doch bitte nach, [[Bitte|welche Veranstaltungen im Sommer stattfinden]], und schick mir die Termine.
 
-Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich würde gern erfahren, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -243,7 +243,7 @@ Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Sophie]],
 
-danke für deine Mail. [[Reaktion auf Sophies Nachricht|Ich freue mich, dass dir der Job gefällt]]. Neue Kontakte in einer neuen Stadt brauchen Zeit.
+besten Dank für deine ausführliche Nachricht. [[Reaktion auf Sophies Nachricht|Ich freue mich, dass dir der Job gefällt]]. Neue Kontakte in einer neuen Stadt brauchen Zeit.
 
 Bei mir [[Neuigkeit|hat sich nicht viel verändert]].
 
@@ -267,7 +267,7 @@ Ich freue mich auf ein Wiedersehen und hoffe, dass wir bald einen Termin finden.
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Sophie]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf Sophies Nachricht|Glückwunsch zum neuen Job]].
+danke für deine Mail, ich beantworte sie so, wie du sie geschrieben hast. Als Erstes: [[Reaktion auf Sophies Nachricht|Glückwunsch zum neuen Job]].
 
 Als Nächstes zu den Neuigkeiten bei mir: [[Neuigkeit|Neue Aufgabe im Büro]].
 
@@ -315,7 +315,7 @@ Es freut mich, dass dir der Job gefällt, und ich bin sicher, dass der Rest bald
   // 14
   { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Sophie]],
 
-schön, von dir zu hören! [[Reaktion auf Sophies Nachricht|Freut mich, dass der Job passt]].
+ich habe mich total über deine Nachricht gefreut! [[Reaktion auf Sophies Nachricht|Freut mich, dass der Job passt]].
 
 Neues bei mir: [[Neuigkeit|Nichts Besonderes]].
 

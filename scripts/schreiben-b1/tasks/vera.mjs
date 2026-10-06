@@ -29,7 +29,7 @@ Schreib mir bitte, [[Frage an die Freundin|welcher Tag dir am besten passt]].
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Vera]],
 
-schön, von dir zu hören! Bei uns ist alles gut. Glückwunsch zum neuen Job! [[Reaktion auf die neue Stelle|Endlich hat es geklappt, und die Firma neben dem Kindergarten ist ein Glücksfall]].
+ich habe mich so sehr über dein Lebenszeichen gefreut! Bei uns ist alles gut. Glückwunsch zum neuen Job! [[Reaktion auf die neue Stelle|Endlich hat es geklappt, und die Firma neben dem Kindergarten ist ein Glücksfall]].
 
 Neues bei mir? [[Neuigkeit|Ich habe angefangen zu klettern, und ich bin schon halbwegs fit]]. Sonst läuft alles normal.
 
@@ -53,7 +53,7 @@ Meld dich, [[Frage an die Freundin|wann es bei dir klappt]].
   // 3
   { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Vera]],
 
-wow, was für eine tolle Nachricht! Mir und meiner Familie geht es sehr gut. Herzlichen Glückwunsch zur neuen Stelle! [[Reaktion auf die neue Stelle|Ich habe mich so für dich gefreut, du hast so lange gesucht]].
+wie nett, dass du an mich denkst! Mir und meiner Familie geht es sehr gut. Herzlichen Glückwunsch zur neuen Stelle! [[Reaktion auf die neue Stelle|Ich habe mich so für dich gefreut, du hast so lange gesucht]].
 
 Bei mir gibt es tolle Neuigkeiten: [[Neuigkeit|Ich habe eine neue Wohnung gefunden, mit Balkon und Blick auf den Fluss]].
 
@@ -69,7 +69,7 @@ Ich bin gespannt, wie dein Alltag jetzt aussieht: [[Neugier|Arbeitest du Vollzei
 
 Was meine Familie betrifft: Wir freuen uns auf ein Wiedersehen, [[Gefühl|meine Kinder fragen schon nach Daniel]]. Sie haben euch nicht vergessen. Es wird ein fröhlicher Tag werden, davon bin ich überzeugt, [[Wunsch|mit viel Lachen und Eis]].
 
-Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
+Ich möchte gern wissen, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Marie]]` },
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Vera]],
 
-vielen Dank für deinen Brief. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+vielen Dank für deinen Brief. Ich nehme mir deine Punkte einzeln vor.
 
 Erstens, deine Stelle: Ich gratuliere dir herzlich. [[Reaktion auf die neue Stelle|Das ist eine gute Nachricht für dich und Daniel]].
 
@@ -225,7 +225,7 @@ Erzähl mir, [[Frage an die Freundin|wie es euch geht]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Vera]],
 
-danke für deinen Brief und Glückwunsch zur neuen Stelle! [[Reaktion auf die neue Stelle|Das ist toll]]. Ich habe gleich mehrere Vorschläge.
+danke für deinen Brief und Glückwunsch zur neuen Stelle! [[Reaktion auf die neue Stelle|Das ist toll]]. Dazu habe ich mehrere Ideen.
 
 Zum Arbeitsweg: Mein erster Vorschlag: [[Vorschlag 1|Frag Kollegen nach einer Fahrgemeinschaft]]. Mein zweiter: [[Vorschlag 2|Prüfe, ob es einen Shuttle-Bus der Firma gibt]].
 
@@ -241,7 +241,7 @@ Mein fünfter Vorschlag zum Thema Arbeit: [[Vorschlag|Mach dir eine kleine Notiz
 
 Mein vierter Vorschlag für die Unternehmung: [[Vorschlag|Wir fahren zusammen mit der Bahn zu einem Ausflugsziel]], dann ist auch dein Arbeitsweg kein Thema. Mein fünfter: [[Vorschlag 2|Wir bleiben in der Stadt und machen eine kleine Entdeckungstour]].
 
-Was hältst du davon? Grüß Daniel von mir. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Grüß Daniel von mir. Ich freue mich auf deine Antwort und möchte wissen, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -265,7 +265,7 @@ Ich würde gern wissen, [[Frage|ob du dich in der Firma schon eingelebt hast]]. 
 
 Falls es Terminprobleme gibt, bin ich flexibel: [[Alternative|Wir können uns auch an einem Sonntag treffen]], wenn dir das lieber ist. Oder [[Alternative 2|an einem Abend unter der Woche für ein Abendessen]]. Hauptsache, wir sehen uns bald, und ich verspreche, mich anzupassen.
 
-Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+Lass mich einfach wissen, [[Frage an die Freundin|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -289,7 +289,7 @@ Als dritten Schritt interessiert mich: [[Frage|Welche Aufgaben sind dir am liebs
 
 Als letzten Schritt schlage ich vor, [[Schritt|dass wir uns telefonisch noch einmal abstimmen]], sobald du deinen Dienstplan kennst. Dann können wir den Termin festlegen und alles planen. Ich rufe dich gern an, [[Angebot|am Abend, wenn Daniel schläft]].
 
-Ich freue mich sehr auf unser Treffen und auf Daniel, und ich hoffe, dass wir bald einen Termin finden, der für alle passt, damit wir uns in Ruhe unterhalten können. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|wann du Zeit hast]].
+Ich freue mich sehr auf unser Treffen und auf Daniel, und ich hoffe, dass wir bald einen Termin finden, der für alle passt, damit wir uns in Ruhe unterhalten können. Wie geht es weiter? Erzähl mir doch, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Leyla]]` },
@@ -313,7 +313,7 @@ Ich möchte gern mehr über dich und deine Arbeit hören: [[Frage|Wie fühlst du
 
 Ich möchte, dass du dich wohlfühlst: [[Wunsch|kein Stress, keine große Planung, nur Zeit zusammen]]. Das ist mir wichtig, weil du gerade so viel schaffst. Ich bin sicher, dass ein ruhiger Tag dir und Daniel guttut, [[Folge|und uns allen]].
 
-Erzähl mir, [[Frage an die Freundin|wie ich dich unterstützen kann]].
+Sag mir bitte, [[Frage an die Freundin|wie ich dich unterstützen kann]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Sarah]]` },
@@ -337,7 +337,7 @@ Eine schnelle Frage: [[Frage|Was ist das Beste an deiner neuen Stelle]]? Und [[F
 
 Ich habe auch noch eine kleine Überraschung: [[Überraschung|Ich bringe für Daniel ein kleines Geschenk zum Start deines Jobs mit]]. Es ist nichts Großes, aber ich freue mich schon darauf, [[Wunsch|sein Gesicht zu sehen]]. Und für dich habe ich auch etwas, das bleibt aber geheim.
 
-Ich freue mich echt auf ein Wiedersehen mit dir und Daniel und hoffe, dass wir bald einen schönen Tag zusammen verbringen, denn es gibt bestimmt viel zu erzählen. Wenn der Arbeitsweg zu anstrengend ist, ruf einfach an, ich höre gern zu. Meld dich, [[Frage an die Freundin|wann es passt]].
+Ich freue mich echt auf ein Wiedersehen mit dir und Daniel und hoffe, dass wir bald einen schönen Tag zusammen verbringen, denn es gibt bestimmt viel zu erzählen. Wenn der Arbeitsweg zu anstrengend ist, ruf einfach an, ich höre gern zu. Sag mir bitte kurz, [[Frage an die Freundin|wann es passt]].
 
 [[Grußformel|Bis dann]]
 [[Dein Name|Max]]` },

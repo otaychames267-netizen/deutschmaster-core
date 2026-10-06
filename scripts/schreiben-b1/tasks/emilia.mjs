@@ -19,7 +19,7 @@ Zu deiner Anreise: Du kannst [[Anreise|mit dem Zug bis zum Hauptbahnhof]] fahren
 
 Ich schicke dir rechtzeitig vor deiner Reise noch einen kleinen Plan für die Tage, die du bei mir verbringst, damit du dich schon jetzt darauf freuen kannst. Es wird bestimmt sehr schön, und wir beide haben uns lange nicht gesehen.
 
-Schreib mir bald!
+Lass mich bitte wissen, was du davon hältst.
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Samira]]` },
@@ -89,7 +89,7 @@ Zum Lernen noch ein Hinweis: [[Lerntipp 3|Löse alte Prüfungsaufgaben unter Zei
 
 Ich helfe dir gern bei allen Vorbereitungen, die du brauchst, und freue mich schon darauf, dich wiederzusehen.
 
-Ich freue mich auf deine Antwort.
+Deine Antwort erwarte ich mit Vorfreude.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Daria]]` },
@@ -233,7 +233,7 @@ Was hältst du davon?
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Emilia]],
 
-vielen Dank für deine E-Mail. Ich würde mich sehr freuen, wenn du mich besuchst, [[Bedingung|wenn deine Prüfungen gut verlaufen]].
+besten Dank für deine E-Mail. Ich würde mich sehr freuen, wenn du mich besuchst, [[Bedingung|wenn deine Prüfungen gut verlaufen]].
 
 Für das Lernen habe ich einige Tipps, aber jeder lernt anders. [[Lerntipp 1|Mir hilft ein fester Zeitplan]], andererseits [[Lerntipp 2|brauchst du vielleicht mehr Abwechslung]]. Probiere aus, was für dich passt.
 

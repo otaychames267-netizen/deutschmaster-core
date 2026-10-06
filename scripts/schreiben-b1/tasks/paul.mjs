@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Paul]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Dein Vorschlag, nach Südtirol zu fahren, gefällt mir. [[Reaktion auf den Vorschlag|Die Berge dort sind wunderschön, mehrere Tage wandern ist mein Wunsch]]. Ich bin sofort dabei.
+endlich habe ich wieder etwas von dir gehört! Dein Vorschlag, nach Südtirol zu fahren, gefällt mir. [[Reaktion auf den Vorschlag|Die Berge dort sind wunderschön, mehrere Tage wandern ist mein Wunsch]]. Ich bin sofort dabei.
 
 Der Termin Anfang Juni ist für mich in Ordnung. [[Grund für den Termin|Ich habe in der ersten Juniwoche Urlaub, und das Wetter ist dann noch angenehm]]. Wenn es dir lieber ist, passt mir auch [[Alternativtermin|das Wochenende danach]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an den Freund|wann wir buchen]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Paul]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+danke dir für deine schnelle Antwort. Ich antworte dir auf jeden Punkt einzeln.
 
 Erstens, der Termin: Anfang Juni ist für mich in Ordnung. [[Grund für den Termin|Ich habe in dieser Zeit Urlaub]].
 
@@ -103,7 +103,7 @@ Bitte teile mir mit, [[Frage an den Freund|ob du eine Route schon ausgesucht has
   // 5
   { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine Mail! [[Reaktion auf den Vorschlag|Südtirol ist eine tolle Idee, und ich helfe dir gern bei der Planung]]. Mehrere Tage wandern, das möchte ich schon lange.
+ich habe dein Schreiben gelesen und antworte dir gern. [[Reaktion auf den Vorschlag|Südtirol ist eine tolle Idee, und ich helfe dir gern bei der Planung]]. Mehrere Tage wandern, das möchte ich schon lange.
 
 Der Termin Anfang Juni passt mir. [[Grund für den Termin|Ich kann mir die Woche freihalten]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an den Freund|ob meine Gründe für dich nachvollziehbar si
   // 7
   { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine Mail, hier kurz meine Antworten.
+herzlichen Dank für deine E-Mail, meine Antworten findest du unten.
 
 Termin: Anfang Juni passt. [[Grund für den Termin|Ich habe Urlaub]].
 
@@ -223,7 +223,7 @@ Erzähl mir, [[Frage an den Freund|wie du auf Südtirol gekommen bist]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Paul]],
 
-danke für deine Mail. [[Reaktion auf den Vorschlag|Südtirol ist ein tolles Ziel]]. Ich habe gleich mehrere Ergänzungen.
+wie toll, von dir zu lesen! [[Reaktion auf den Vorschlag|Südtirol ist ein tolles Ziel]]. Ich habe gleich mehrere Ergänzungen.
 
 Mein erster Vorschlag: Wir fahren [[Anreise|mit dem Zug nach Bozen]]. Mein zweiter: Wir starten [[Termin|am Montag der ersten Juniwoche]]. Mein dritter: Ich bringe [[Begleitung|noch eine Freundin mit]].
 
@@ -237,7 +237,7 @@ Mein sechster Vorschlag: [[Vorschlag|Wir lernen vorher ein paar Wörter Italieni
 
 Mein achter Vorschlag: [[Vorschlag|Wir treffen uns eine Woche vorher kurz und gehen die Packliste durch]]. Mein neunter: [[Vorschlag 2|Wir machen eine kleine Probe-Wanderung in der Nähe, um die Schuhe zu testen]].
 
-Was hältst du davon? Ich freue mich auf deine Antwort und auf viele gemeinsame Pläne für diese Tage in den Bergen, denn ich glaube, dass wir eine Menge Spaß haben werden. Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf deine Antwort und auf viele gemeinsame Pläne für diese Tage in den Bergen, denn ich glaube, dass wir eine Menge Spaß haben werden. Ich freue mich auf deine Antwort und möchte wissen, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -245,7 +245,7 @@ Was hältst du davon? Ich freue mich auf deine Antwort und auf viele gemeinsame 
   // 11
   { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine Mail. [[Reaktion auf den Vorschlag|Südtirol klingt schön, aber ich möchte vorher einiges klären]].
+besten Dank für deine Nachricht. [[Reaktion auf den Vorschlag|Südtirol klingt schön, aber ich möchte vorher einiges klären]].
 
 Anfang Juni ist einerseits [[Vorteil des Termins|angenehm kühl]], andererseits [[Nachteil des Termins|kann es in den Bergen noch Schnee geben]]. Ich bin trotzdem dafür, [[Grund für den Termin|wenn ich den Urlaub bekomme]].
 
@@ -259,7 +259,7 @@ Bei aller Vorfreude denke ich auch an die Sicherheit: [[Hinweis|Wir sollten den 
 
 Ich bin gespannt, ob der Termin für dich auch fest ist: [[Frage|Hast du schon frei genommen, oder musst du erst fragen]]? Ich denke, dass es gut wäre, bald Bescheid zu wissen. Aber ich verstehe, wenn [[Hinweis|du erst noch klären musst, was möglich ist]].
 
-Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
+Lass mich einfach wissen, [[Frage an den Freund|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -267,7 +267,7 @@ Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
   // 12
   { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Paul]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf den Vorschlag|Südtirol ist eine gute Idee]].
+herzlichen Dank für deine Nachricht, ich antworte dir ordentlich der Reihe nach. Als Erstes: [[Reaktion auf den Vorschlag|Südtirol ist eine gute Idee]].
 
 Als Nächstes zum Termin: [[Grund für den Termin|Anfang Juni passt]].
 
@@ -291,7 +291,7 @@ Ich freue mich sehr auf die gemeinsame Reise und bin sicher, dass wir gut zusamm
   // 13
   { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Paul]],
 
-deine Mail hat mich sehr gefreut. [[Reaktion auf den Vorschlag|Es ist schön, dass du an mich gedacht hast, und Südtirol klingt wunderbar]].
+danke, dass du mir so schnell geschrieben hast! [[Reaktion auf den Vorschlag|Es ist schön, dass du an mich gedacht hast, und Südtirol klingt wunderbar]].
 
 Anfang Juni passt, [[Grund für den Termin|und ich freue mich auf die gemeinsame Zeit]].
 
@@ -307,7 +307,7 @@ Ich freue mich wirklich auf diese Reise: [[Gefühl|Seit langer Zeit habe ich mic
 
 Es wäre schön, wenn wir uns vor der Reise noch einmal sehen: [[Vorschlag|Bei einem gemeinsamen Abendessen könnten wir alles besprechen]]. Das ist entspannter als Telefonate. Ich lade dich gern ein, [[Angebot|bei mir zu Hause, ich koche etwas Leckeres]].
 
-Erzähl mir, [[Frage an den Freund|wie ich dich unterstützen kann]].
+Schreib mir einfach, [[Frage an den Freund|wie ich dich unterstützen kann]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Sarah]]` },

@@ -71,7 +71,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du ankommst]]. Wie findest du mei
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Tamara]],
 
-vielen Dank für deinen Brief. Zu deinen Fragen nehme ich der Reihe nach Stellung.
+vielen Dank für deinen Brief. Auf deine Fragen gehe ich der Reihe nach ein.
 
 Erstens, die Pause: Es tut mir leid, dass du dir Sorgen gemacht hast. [[Grund für die Pause|Ich hatte beruflich viel zu tun und wenig Freizeit]].
 
@@ -187,7 +187,7 @@ Schreib mir, [[Frage an die Freundin|wann du eintriffst]]. Wie findest du meine 
 
 als ich deinen Brief gelesen habe, musste ich an unsere gemeinsame Zeit denken. [[Erinnerung an früher|Wir haben damals jeden Abend zusammen gekocht und gelacht]]. Dass du dir Sorgen gemacht hast, tut mir leid.
 
-Warum ich nicht geschrieben habe? [[Grund für die Pause|Ich hatte eine schwere Zeit mit einer Erkältung und viel Arbeit]]. Jetzt geht es mir wieder gut.
+Warum ich nicht geschrieben habe? [[Grund für die Pause|Ich hatte eine schwere Zeit mit einer Erkältung und viel Arbeit]]. Inzwischen geht es mir wieder besser.
 
 Ein Treffen am Abend finde ich schön. [[Treffpunkt und Zeit|Wir könnten uns am Dienstag in dem kleinen Café treffen, wo wir früher saßen]].
 

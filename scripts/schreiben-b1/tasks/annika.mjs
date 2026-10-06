@@ -27,7 +27,7 @@ Schreib mir bitte, [[Frage an die Freundin|wann du Zeit hast, damit wir planen k
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Annika]],
 
-schön, von dir zu hören! Bei mir war das Wochenende okay, [[Mein Wochenende|ich war joggen, habe Freunde getroffen und abends Serie geguckt]]. Bei dir hat es nur geregnet? Schade!
+ich habe mich wirklich über dein Lebenszeichen gefreut! Bei mir war das Wochenende okay, [[Mein Wochenende|ich war joggen, habe Freunde getroffen und abends Serie geguckt]]. Bei dir hat es nur geregnet? Schade!
 
 Eure Reise? Unbedingt! Ich wäre für [[Reiseziel|Spanien, irgendwo an der Küste]], weil [[Grund für das Reiseziel|es dort warm und günstig ist]]. Städtereise wäre auch cool, zum Beispiel [[Zweites Reiseziel|Lissabon]].
 
@@ -49,7 +49,7 @@ Meld dich, [[Frage an die Freundin|wann du verreisen kannst]].
   // 3
   { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Annika]],
 
-wow, schön, von dir zu lesen! Mir geht es richtig gut. [[Mein Wochenende|Am Wochenende war ich wandern und habe abends mit Freunden gegrillt]]. Dass es bei dir nur geregnet hat, tut mir leid!
+wie schön, dass ich von dir höre! Mir geht es richtig gut. [[Mein Wochenende|Am Wochenende war ich wandern und habe abends mit Freunden gegrillt]]. Dass es bei dir nur geregnet hat, tut mir leid!
 
 Die gemeinsame Reise ist eine großartige Idee! Ich träume von [[Reiseziel|der Türkei, mit Strand und Städten]], weil [[Grund für das Reiseziel|dort alles zusammenkommt und es nicht teuer ist]]. Auch [[Zweites Reiseziel|Barcelona]] würde mir gefallen.
 
@@ -63,7 +63,7 @@ Als Reisezeit schlage ich [[Zeitraum|Anfang September]] vor, weil [[Grund|es dan
 
 Mein Wochenende war ereignisreich: [[Detail|Samstag Schwimmbad, Sonntag Familientreffen mit Grillen]]. Das hat mir gutgetan. Ich hoffe, du hattest wenigstens [[Wunsch|ein gutes Buch oder einen schönen Film]], als es geregnet hat.
 
-Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
+Lass mich einfach wissen, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Marie]]` },
@@ -71,7 +71,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Annika]],
 
-vielen Dank für deinen Brief. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+vielen Dank für deinen Brief. Zu allem, was du angesprochen hast, äußere ich mich nacheinander.
 
 Erstens, mein Wochenende: [[Mein Wochenende|Ich habe eine Radtour gemacht und am Sonntag meine Wohnung aufgeräumt]]. Dein Wochenende war leider verregnet.
 
@@ -223,7 +223,7 @@ Mein achter Vorschlag: [[Vorschlag|Wir machen jeden Abend einen kleinen Spazierg
 
 Zu meinem Wochenende ein kurzer Vorschlag: [[Vorschlag|Nächstes Wochenende könnten wir uns treffen und gemeinsam Reiseführer durchblättern]]. Das ist günstig und macht Spaß. Dabei finden wir bestimmt ein Ziel, [[Folge|das uns beiden gefällt]].
 
-Was hältst du davon? Ich freue mich auf deine Antwort. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf deine Antwort. Erzähl mir doch, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -245,7 +245,7 @@ Ich möchte noch erwähnen, dass ich bei Reisen gern [[Eigenschaft|flexibel und 
 
 Mein Wochenende war ganz in Ordnung, [[Beschreibung|ein bisschen Arbeit, ein bisschen Erholung]]. Ich war nicht so aktiv wie sonst, aber das war gut. Für die Reise will ich fit sein, [[Folge|und ich werde bald wieder mehr Sport machen]].
 
-Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+Ich freue mich auf deine Antwort und möchte wissen, [[Frage an die Freundin|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -267,7 +267,7 @@ Als zweiten Schritt sollten wir ein Datum festlegen: [[Schritt|Wir suchen eine W
 
 Ich habe am Wochenende [[Aktivität|zwei Stunden an unserer Reiseplanung gesessen]]. Das war ein erster Schritt. Ich schicke dir meine Notizen, wenn du magst, [[Angebot|und wir besprechen alles am Telefon]].
 
-Ich freue mich sehr auf die Reise mit dir und hoffe, dass wir ein Ziel finden, das uns beiden gefällt und nicht zu teuer ist, denn Urlaub soll vor allem Freude machen. Wie geht es weiter? Schreib mir, [[Frage an die Freundin|wann du Zeit hast]].
+Ich freue mich sehr auf die Reise mit dir und hoffe, dass wir ein Ziel finden, das uns beiden gefällt und nicht zu teuer ist, denn Urlaub soll vor allem Freude machen. Wie geht es weiter? Gib mir einfach Bescheid, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Leyla]]` },
@@ -311,7 +311,7 @@ Wenn du lieber in die Berge möchtest statt ans Meer, [[Alternative|sage es einf
 
 Wochenende kurz: [[Beschreibung|Sonne, Eis, Freunde]]. Bei dir Regen, schade. Aber wir holen das im Sommer nach, [[Folge|mit viel Sonne am Strand]]. Ich freue mich schon sehr auf unsere gemeinsame Reise.
 
-Ich freue mich echt auf unsere Reise und bin für fast alles offen, Hauptsache, es ist nicht zu teuer und wir haben genug Zeit zum Entspannen. Wir finden bestimmt etwas, das uns beiden gefällt, und wenn nicht, suchen wir einfach weiter, bis wir ein schönes Ziel haben. Ich schicke dir gern ein paar Ideen zum Anschauen, dann können wir zusammen entscheiden, und danach bald buchen, bevor die Preise steigen. Meld dich, [[Frage an die Freundin|wann es passt]].
+Ich freue mich echt auf unsere Reise und bin für fast alles offen, Hauptsache, es ist nicht zu teuer und wir haben genug Zeit zum Entspannen. Wir finden bestimmt etwas, das uns beiden gefällt, und wenn nicht, suchen wir einfach weiter, bis wir ein schönes Ziel haben. Ich schicke dir gern ein paar Ideen zum Anschauen, dann können wir zusammen entscheiden, und danach bald buchen, bevor die Preise steigen. Lass mich einfach wissen, [[Frage an die Freundin|wann es passt]].
 
 [[Grußformel|Bis dann]]
 [[Dein Name|Max]]` },

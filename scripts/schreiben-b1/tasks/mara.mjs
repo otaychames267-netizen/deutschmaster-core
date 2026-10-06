@@ -133,7 +133,7 @@ Schreib mir, [[Frage an die Freundin|ob dir mein Vorschlag gefällt]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Mara]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke für deine Mail, ich antworte dir kurz und der Reihe nach.
 
 Pause: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte viel zu tun]].
 
@@ -237,7 +237,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Mara]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
+danke fürs Schreiben, ich arbeite deine Fragen nacheinander ab. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
 
 Als Nächstes zu deinem Freund: [[Reaktion auf den neuen Freund|Ich freue mich für dich und möchte ihn kennenlernen]].
 

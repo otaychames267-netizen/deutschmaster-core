@@ -25,7 +25,7 @@ Schreib mir bald!
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Corinna]],
 
-schön, von dir zu hören! Danke für die Daumen, [[Reaktion auf die Prüfung|ich kann sie gut gebrauchen]].
+wie wunderbar, dass du dich gemeldet hast! Danke für die Daumen, [[Reaktion auf die Prüfung|ich kann sie gut gebrauchen]].
 
 Eine Tour nach der Prüfung? Klar! [[Reiseziel|Ich wäre für Amsterdam]], da war ich noch nie, und [[Grund für das Reiseziel|die Grachten und die Museen reizen mich total]]. Prag wäre aber auch cool, wenn es günstig ist.
 
@@ -87,7 +87,7 @@ Zu den Kosten: Ich möchte nicht mehr als [[Budget|vierhundert Euro]] ausgeben. 
 
 Außerdem möchte ich dir sagen, dass ich gern gut vorbereitet reise. Deshalb würde ich vorher die Unterkunft und die Fahrkarten festlegen, damit es später keinen Stress gibt. Ich schicke dir dazu gern eine Übersicht, wenn du das möchtest.
 
-Ich freue mich auf deine Antwort.
+Auf deine Antwort bin ich schon gespannt.
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Daria]]` },

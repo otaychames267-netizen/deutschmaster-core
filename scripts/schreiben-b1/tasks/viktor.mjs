@@ -82,7 +82,7 @@ Schreib mir bald, [[Frage an den Freund|wann ihr landet]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Viktor]],
 
-vielen Dank für deine Grüße und das Buch. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+vielen Dank für deine Grüße und das Buch. Dazu nehme ich Punkt für Punkt Stellung.
 
 Erstens, deine Grüße: [[Reaktion auf die Grüße|Ich freue mich, dass es euch auf Malta gut geht]].
 
@@ -102,7 +102,7 @@ Ergänzend plane ich im Herbst [[Plan|einen Kurzurlaub in Berlin]], mit Museen u
 
 Ergänzend lade ich euch [[Einladung|zu einem Abendessen in unserer Wohnung]] ein, mit etwas, das ihr auf Malta vielleicht vermisst habt. Das ist unkompliziert, [[Folge|und ihr müsst nicht ausgehen]].
 
-Bitte teile mir mit, [[Frage an den Freund|ob dir der Termin passt]].
+Ich möchte gern wissen, [[Frage an den Freund|ob dir der Termin passt]].
 
 [[Grußformel|Mit freundlichen Grüßen]]
 [[Dein Name|Daniel]]` },
@@ -244,7 +244,7 @@ Erzähl mir, [[Frage an den Freund|wie es auf Malta weitergeht]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Viktor]],
 
-danke für deine Grüße und das Buch. [[Reaktion auf die Grüße|Malta klingt wunderbar]]. Ich habe gleich mehrere Vorschläge.
+danke für deine Grüße und das Buch. [[Reaktion auf die Grüße|Malta klingt wunderbar]]. Mir sind dazu mehrere Ideen gekommen.
 
 Das Buch: [[Reaktion auf das Buch|Es ist toll]]. Mein erster Vorschlag: Wir lesen [[Vorschlag|einzelne Kapitel zusammen und reden darüber]].
 
@@ -262,7 +262,7 @@ Mein achter Vorschlag: [[Vorschlag|Wir planen irgendwann einen gemeinsamen Urlau
 
 Mein zehnter Vorschlag: [[Vorschlag|Wir treffen uns im nächsten Monat zu einem Fotoabend]], an dem jeder seine besten Urlaubsbilder zeigt. Mein elfter: [[Vorschlag 2|Wir kochen etwas Maltesisches]]. Das passt zu eurem Urlaub.
 
-Was hältst du davon? Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Bitte sag mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -288,7 +288,7 @@ Mein nächster Urlaub ist noch nicht ganz sicher, [[Unsicherheit|weil ich noch a
 
 Ich würde mich freuen, wenn wir uns treffen, [[Bedingung|sobald ihr euch vom Urlaub erholt habt]]. Es hat keine Eile. Wichtig ist, dass ihr gut heimkommt, [[Folge|und dann sehen wir weiter]].
 
-Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
+Gib mir einfach Bescheid, [[Frage an den Freund|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },

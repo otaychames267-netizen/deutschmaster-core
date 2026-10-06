@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Miroslav]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Du musst dich nicht entschuldigen, dass du dich lange nicht gemeldet hast. [[Reaktion auf die Entschuldigung|Wenn man eine Firma gründet, hat man kaum Zeit für Briefe]]. Herzlichen Glückwunsch, dass du jetzt dein eigener Chef bist!
+ich habe mich so sehr über deine Mail gefreut! Du musst dich nicht entschuldigen, dass du dich lange nicht gemeldet hast. [[Reaktion auf die Entschuldigung|Wenn man eine Firma gründet, hat man kaum Zeit für Briefe]]. Herzlichen Glückwunsch, dass du jetzt dein eigener Chef bist!
 
 Zu deiner Frage nach meiner Arbeit: [[Eigene Arbeit|Ich arbeite seit zwei Jahren in einem Büro und mache die Buchhaltung]]. Das gefällt mir, weil [[Grund für die Zufriedenheit|die Kollegen nett sind und ich selbstständig arbeiten kann]].
 
@@ -29,7 +29,7 @@ Schreib mir bitte, [[Frage an den Freund|wie dein erster Sommer als Chef läuft]
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Miroslav]],
 
-schön, von dir zu hören! Kein Stress wegen der Pause, [[Reaktion auf die Entschuldigung|bei mir meldet sich auch keiner pünktlich]]. Eine eigene Firma, Respekt!
+wie schön, deine Zeilen zu lesen! Kein Stress wegen der Pause, [[Reaktion auf die Entschuldigung|bei mir meldet sich auch keiner pünktlich]]. Eine eigene Firma, Respekt!
 
 Meine Arbeit? [[Eigene Arbeit|Ich arbeite im Verkauf in einem Möbelhaus]]. Passt gut, [[Grund für die Zufriedenheit|die Kollegen sind locker]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an den Freund|wie viele Kunden du schon hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Miroslav]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+ich habe deine E-Mail gelesen und antworte dir gern. Auf deine Punkte gehe ich der Reihe nach ein.
 
 Erstens, die Pause: [[Reaktion auf die Entschuldigung|Du musst dich nicht entschuldigen, die Gründung hat dich sicher gefordert]]. Ich gratuliere dir herzlich zur Firma.
 
@@ -103,7 +103,7 @@ Ich freue mich auf [[Vorfreude|deine nächste Mail]] und auf [[Wunsch|ein Treffe
   // 5
   { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine Mail! [[Reaktion auf die Entschuldigung|Es ist völlig in Ordnung, dass du lange nicht geschrieben hast]]. Glückwunsch zur Firma, und wenn ich dir helfen kann, sag Bescheid.
+ich habe deine Nachricht gelesen und antworte dir gern. [[Reaktion auf die Entschuldigung|Es ist völlig in Ordnung, dass du lange nicht geschrieben hast]]. Glückwunsch zur Firma, und wenn ich dir helfen kann, sag Bescheid.
 
 Meine Arbeit: [[Eigene Arbeit|Ich arbeite als Technikerin in einer Werkstatt]]. Das ist praktisch, denn [[Praktische Hilfe|ich kann dir bei Fragen zu Werkzeug und Reparaturen helfen]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an den Freund|wie du den Erfolg erklärst]].
   // 7
   { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke dir für die Nachricht, meine Antworten kommen gleich.
 
 Pause: [[Reaktion auf die Entschuldigung|Kein Problem]]. Glückwunsch zur Firma!
 
@@ -225,7 +225,7 @@ Erzähl mir, [[Frage an den Freund|wie dein Alltag jetzt aussieht]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Miroslav]],
 
-danke für deine Mail, und Glückwunsch zur Firma! [[Reaktion auf die Entschuldigung|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dich.
+danke für deine Mail, und Glückwunsch zur Firma! [[Reaktion auf die Entschuldigung|Die Pause ist kein Problem]]. Ich habe dir ein paar Vorschläge mitgebracht.
 
 Mein erster Vorschlag: [[Vorschlag 1|Mach eine kleine Internetseite mit Fotos deiner Arbeit]]. Mein zweiter: [[Vorschlag 2|Frag deine Kunden nach Empfehlungen]]. Mein dritter: [[Vorschlag 3|Biete im Winter Schneeräumen an]].
 
@@ -239,7 +239,7 @@ Zu meiner Arbeit noch ein Vorschlag: Wenn du Hilfe bei den Finanzen brauchst, [[
 
 Bei mir gibt es nur kleine Veränderungen, [[Veränderung|zum Beispiel ein neues Sofa im Wohnzimmer]]. Aber ich freue mich darüber. Manchmal sind es die kleinen Dinge, die den Alltag schöner machen, und ich hoffe, dir geht es genauso.
 
-Was hältst du davon? Ich freue mich auf deine Antwort. Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf deine Antwort. Ich würde gern erfahren, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -247,7 +247,7 @@ Was hältst du davon? Ich freue mich auf deine Antwort. Schreib mir, [[Frage an 
   // 11
   { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine Mail. [[Reaktion auf die Entschuldigung|Du brauchst dich nicht zu entschuldigen]]. Zu deiner Firma möchte ich vorsichtig antworten.
+herzlichen Dank für deine schnelle Antwort. [[Reaktion auf die Entschuldigung|Du brauchst dich nicht zu entschuldigen]]. Zu deiner Firma möchte ich vorsichtig antworten.
 
 Einerseits [[Vorteil der Selbstständigkeit|bist du frei und dein eigener Chef]], andererseits [[Nachteil der Selbstständigkeit|trägst du das ganze Risiko]]. Ich finde deine Idee gut, [[Meinung zur Firma|solange du dich nicht überlastest]].
 
@@ -271,7 +271,7 @@ Schreib mir bitte, [[Frage an den Freund|wie du dich fühlst]].
   // 12
   { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Entschuldigung|Entschuldige dich nicht]]. Glückwunsch zur Firma.
+vielen Dank für deine Zeilen, hier meine Antwort Stück für Stück. Als Erstes: [[Reaktion auf die Entschuldigung|Entschuldige dich nicht]]. Glückwunsch zur Firma.
 
 Als Nächstes zu meiner Arbeit: [[Eigene Arbeit|Büro, Buchhaltung]].
 
@@ -295,7 +295,7 @@ Ich freue mich auf [[Vorfreude|ein Wiedersehen]] und wünsche dir viel Erfolg be
   // 13
   { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Miroslav]],
 
-deine Mail hat mich sehr gefreut. [[Reaktion auf die Entschuldigung|Mach dir keine Gedanken wegen der Pause, Hauptsache, es geht dir gut]]. Ich freue mich so für dich, dass du jetzt dein eigener Chef bist.
+heute früh lag deine Mail in meinem Postfach, danke dafür! [[Reaktion auf die Entschuldigung|Mach dir keine Gedanken wegen der Pause, Hauptsache, es geht dir gut]]. Ich freue mich so für dich, dass du jetzt dein eigener Chef bist.
 
 Meine Arbeit: [[Eigene Arbeit|Ich arbeite in einem kleinen Büro, mit netten Kollegen]].
 
@@ -311,7 +311,7 @@ Ich bin mit meiner Arbeit zufrieden, [[Grund|weil ich nette Kollegen habe und me
 
 Neues von mir: [[Neuigkeit|Ich habe angefangen, Spanisch zu lernen]], weil ich im nächsten Jahr verreisen möchte. Es macht Spaß, und ich komme gut voran. Wenn du magst, übe ich bei einem Treffen mit dir, [[Idee|vielleicht über Gartenbegriffe]].
 
-Ich freue mich auf [[Vorfreude|ein Wiedersehen]]. Erzähl mir, [[Frage an den Freund|wie ich dich unterstützen kann]].
+Ich freue mich auf [[Vorfreude|ein Wiedersehen]]. Ich bin gespannt, [[Frage an den Freund|wie ich dich unterstützen kann]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Sarah]]` },

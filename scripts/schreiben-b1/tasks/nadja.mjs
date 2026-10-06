@@ -65,7 +65,7 @@ Schreib mir bald!
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Nadja]],
 
-vielen Dank für deine Nachricht. Ich möchte dir der Reihe nach antworten.
+herzlichen Dank für deine E-Mail. Ich möchte dir der Reihe nach antworten.
 
 Zu deinem Vorschlag: [[Reaktion auf den Vorschlag|Ich finde die Idee gut und würde den Garten gern mit euch teilen]]. Ich möchte nur vorher einiges klären.
 

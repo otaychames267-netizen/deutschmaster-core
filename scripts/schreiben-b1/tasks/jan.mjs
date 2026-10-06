@@ -83,7 +83,7 @@ Schreib mir bald, [[Frage an den Freund|wann du landest]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Jan]],
 
-vielen Dank für deine Grüße. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+vielen Dank für deine Grüße. Jeden deiner Punkte beantworte ich in der Reihenfolge, in der du ihn genannt hast.
 
 Erstens, Rom: [[Reaktion auf die Grüße|Ich freue mich, dass dir der Urlaub gefällt und dass du so viel erlebst]].
 
@@ -243,7 +243,7 @@ Erzähl mir, [[Frage an den Freund|wie das Konzert war]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Jan]],
 
-danke für deine Grüße. [[Reaktion auf die Grüße|Schön, dass dir Rom so gefällt]]. Ich habe gleich mehrere Vorschläge.
+danke für deine Grüße. [[Reaktion auf die Grüße|Schön, dass dir Rom so gefällt]]. Dazu hätte ich einige Vorschläge.
 
 Meine Lieblingsstadt: [[Lieblingsstadt|Hamburg]]. Mein erster Vorschlag: Wir fahren [[Vorschlag|zusammen für ein Wochenende dorthin]].
 
@@ -261,7 +261,7 @@ Mein achter Vorschlag: [[Vorschlag|Wir treffen uns zu einem gemeinsamen Kochaben
 
 Ich habe schon überlegt, [[Idee|ob wir nächstes Jahr eine Städtereise zu zweit planen]]. Es muss nicht Rom sein, aber eine Stadt mit Musik und gutem Essen. Das wäre ein schönes Ziel für uns, [[Folge|und wir hätten viel Freude]].
 
-Was hältst du davon? Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Sag mir bitte kurz, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -287,7 +287,7 @@ Ich würde mich über ein Treffen freuen, [[Bedingung|wenn du nach der Reise nic
 
 Ich möchte dich nicht drängen, aber [[Hinweis|wenn es dir nach dem Urlaub zu viel wird, sag es ehrlich]]. Dann verschieben wir das Treffen einfach. Wichtig ist, [[Folge|dass du dich erholst]], danach sehen wir uns.
 
-Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
+Sag mir bitte, [[Frage an den Freund|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },

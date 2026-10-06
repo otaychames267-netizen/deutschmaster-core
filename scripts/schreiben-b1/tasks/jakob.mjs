@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an den Freund|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Jakob]],
 
-vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
+besten Dank für deine Zeilen. Deine Fragen gehe ich jetzt der Reihe nach durch.
 
 Erstens, die Pause: [[Reaktion auf die Pause|Du musst dich nicht entschuldigen, nach dem Urlaub ist viel zu tun]].
 
@@ -103,7 +103,7 @@ Bitte teile mir mit, [[Frage an den Freund|ob dir der Termin passt]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine Mail! [[Reaktion auf die Pause|Es ist ganz in Ordnung, dass du länger nicht geschrieben hast]]. Zu deinem Problem helfe ich dir gern.
+danke dir für deine ausführliche Nachricht. [[Reaktion auf die Pause|Es ist ganz in Ordnung, dass du länger nicht geschrieben hast]]. Zu deinem Problem helfe ich dir gern.
 
 Praktische Tipps gegen den Lärm: [[Tipp 1|Sprich den Nachbarn freundlich an und bitte ihn, nach 22 Uhr leiser zu sein]]. Außerdem [[Tipp 2|hilft ein Zettel im Hausflur und notfalls ein Gespräch mit dem Vermieter]]. Wenn du willst, [[Praktische Hilfe|formuliere ich mit dir einen höflichen Brief]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an den Freund|ob dir der Samstag passt]].
   // 7
   { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine Mail, hier kurz meine Antworten.
+ich danke dir für deine Zeilen und antworte dir kurz.
 
 Pause: [[Reaktion auf die Pause|Kein Problem]].
 
@@ -225,7 +225,7 @@ Erzähl mir, [[Frage an den Freund|wie du den Lärm aushältst]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Jakob]],
 
-danke für deine Mail. [[Reaktion auf die Pause|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dein Nachbar-Problem.
+deine E-Mail hat mir den Tag verschönert! [[Reaktion auf die Pause|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dein Nachbar-Problem.
 
 Mein erster Vorschlag: [[Tipp 1|Sprich freundlich mit ihm]]. Mein zweiter Vorschlag: [[Tipp 2|Schreib einen kurzen Zettel mit den Ruhezeiten]]. Mein dritter Vorschlag: [[Tipp 3|Wende dich an die Hausverwaltung, falls es nicht besser wird]].
 
@@ -247,7 +247,7 @@ Was hältst du davon? Schreib mir, [[Frage an den Freund|welcher Vorschlag dir g
   // 11
   { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine Mail. [[Reaktion auf die Pause|Du brauchst dich nicht zu entschuldigen]]. Zu deinem Problem möchte ich vorsichtig antworten.
+vielen Dank für deine Rückmeldung. [[Reaktion auf die Pause|Du brauchst dich nicht zu entschuldigen]]. Zu deinem Problem möchte ich vorsichtig antworten.
 
 Einerseits [[Vorteil des Gesprächs|kann ein freundliches Gespräch helfen]], andererseits [[Nachteil des Gesprächs|kann es zu Streit führen]]. Ich würde zuerst [[Tipp 1|einen höflichen Zettel schreiben]] und danach [[Tipp 2|die Hausverwaltung fragen]].
 
@@ -271,7 +271,7 @@ Schreib mir bitte, [[Frage an den Freund|ob dir das hilft]].
   // 12
   { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Jakob]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Pause|Entschuldige dich nicht]].
+danke für deine Zeilen, ich antworte dir in der richtigen Reihenfolge. Als Erstes: [[Reaktion auf die Pause|Entschuldige dich nicht]].
 
 Als Nächstes zu deinem Problem: [[Tipp 1|Sprich zuerst freundlich mit dem Nachbarn]]. Dann [[Tipp 2|schreib einen Zettel]]. Zuletzt [[Tipp 3|informiere die Hausverwaltung]].
 

@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Nicole]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Du musst dich nicht entschuldigen, dass du lange nicht geschrieben hast. [[Reaktion auf die Entschuldigung|Mit deinem Bruder zu Besuch hast du bestimmt viel zu tun]]. Es freut mich, dass ihr so viel unternehmt.
+wie super, von dir zu hören! Du musst dich nicht entschuldigen, dass du lange nicht geschrieben hast. [[Reaktion auf die Entschuldigung|Mit deinem Bruder zu Besuch hast du bestimmt viel zu tun]]. Es freut mich, dass ihr so viel unternehmt.
 
 Zu deinem Problem: Ich kenne es von meiner Schwester. [[Eigene Erfahrung|Sie hat als Teenager auch stundenlang Fußball geschaut, während ich raus wollte]]. Mein Tipp: [[Tipp 1|Sprich ruhig und freundlich mit ihm und sag, was dir wichtig ist]]. Außerdem [[Tipp 2|schlag ihm vor, dass ihr einen Ausflug macht, bevor das Spiel beginnt]]. Streiten würde ich nicht.
 
@@ -27,7 +27,7 @@ Schreib mir bitte, [[Frage an die Freundin|wie ihr das gelöst habt]].
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Nicole]],
 
-schön, von dir zu hören! Kein Stress wegen der Pause, [[Reaktion auf die Entschuldigung|dein Bruder ist doch zu Besuch]]. Klingt nach einer schönen Zeit mit Schwimmbad und Kino.
+wie wunderbar, dass ich von dir höre! Kein Stress wegen der Pause, [[Reaktion auf die Entschuldigung|dein Bruder ist doch zu Besuch]]. Klingt nach einer schönen Zeit mit Schwimmbad und Kino.
 
 Fernseher und Sport, das kenn ich! [[Eigene Erfahrung|Mein Kumpel hat bei der Fußball-WM nur noch auf dem Sofa gesessen]]. Mein Tipp: [[Tipp 1|Sag ihm ganz locker, dass du mit ihm rausgehen willst]]. Oder [[Tipp 2|schau das Spiel einfach mit, dann hast du Zeit mit ihm]]. Streiten bringt nichts.
 
@@ -71,7 +71,7 @@ Schreib mir bald, [[Frage an die Freundin|ob mein Tipp geholfen hat]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Nicole]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+danke für deine schnelle Antwort. Deine Punkte beantworte ich nacheinander.
 
 Erstens, die Pause: [[Reaktion auf die Entschuldigung|Du musst dich nicht entschuldigen, dein Bruder ist ja zu Besuch]].
 
@@ -97,7 +97,7 @@ Bitte teile mir mit, [[Frage an die Freundin|ob dir das hilft]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine Mail! [[Reaktion auf die Entschuldigung|Es ist völlig in Ordnung, dass du länger nicht geschrieben hast]]. Zu deinem Problem helfe ich dir gern.
+danke dir für deine Rückmeldung. [[Reaktion auf die Entschuldigung|Es ist völlig in Ordnung, dass du länger nicht geschrieben hast]]. Zu deinem Problem helfe ich dir gern.
 
 Praktische Tipps: [[Tipp 1|Plan mit ihm feste Ausflüge, zum Beispiel jeden Nachmittag eine Stunde]]. Außerdem [[Tipp 2|kauf Tickets für etwas, das er mag, zum Beispiel ein Fußballspiel im Stadion]]. Ich kann [[Praktische Hilfe|dir einen Plan für die zwei Monate zusammenstellen]].
 
@@ -145,7 +145,7 @@ Schreib mir, [[Frage an die Freundin|ob dir meine Gründe einleuchten]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine Mail, hier kurz meine Antworten.
+ich habe deine Mail gelesen, hier ist meine knappe Antwort.
 
 Pause: [[Reaktion auf die Entschuldigung|Kein Problem]].
 
@@ -215,7 +215,7 @@ Erzähl mir, [[Frage an die Freundin|wie es euch geht]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Nicole]],
 
-danke für deine Mail. [[Reaktion auf die Entschuldigung|Die Pause ist kein Problem]]. Ich habe gleich mehrere Tipps und Vorschläge für dich.
+ich habe mich wirklich über deine Nachricht gefreut! [[Reaktion auf die Entschuldigung|Die Pause ist kein Problem]]. Ich habe gleich mehrere Tipps und Vorschläge für dich.
 
 Mein erster Vorschlag: [[Tipp 1|Sprich freundlich mit ihm]]. Mein zweiter: [[Tipp 2|Plane gemeinsame Ausflüge für die Zeiten ohne Sport]]. Mein dritter: [[Tipp 3|Schaut zusammen ein Spiel an und macht danach etwas Gemeinsames]].
 
@@ -231,7 +231,7 @@ Mein fünfter Vorschlag nach meiner Erfahrung mit Geschwistern: [[Vorschlag|Mach
 
 Mein sechster Vorschlag: Macht [[Idee|einen Familienabend mit Spielen und Snacks]], an dem alle mitmachen. Das ist oft besser als jeder Streit, und [[Folge|am Ende lachen alle zusammen]]. Ich habe das mit meiner Familie schon oft gemacht.
 
-Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Gib mir einfach Bescheid, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -239,7 +239,7 @@ Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine Mail. [[Reaktion auf die Entschuldigung|Du brauchst dich nicht zu entschuldigen]]. Zu deinem Problem möchte ich vorsichtig antworten.
+danke für deine Rückmeldung. [[Reaktion auf die Entschuldigung|Du brauchst dich nicht zu entschuldigen]]. Zu deinem Problem möchte ich vorsichtig antworten.
 
 Einerseits [[Vorteil eines Gesprächs|kann ein ruhiges Gespräch helfen]], andererseits [[Nachteil eines Gesprächs|könnte er sich angegriffen fühlen]]. Ich würde [[Tipp 1|zuerst einen kleinen Vorschlag machen]] und danach [[Tipp 2|offen mit ihm reden]].
 
@@ -255,7 +255,7 @@ Bei Streit unter Geschwistern habe ich gelernt, [[Lehre|nicht sofort zu reagiere
 
 Ich kann mir vorstellen, dass ihr gemeinsam [[Aktivität|Rad fahren oder schwimmen]] könnt, das habt ihr ja schon. Nutzt diese Dinge, denn sie tun gut. Und [[Idee|plant lieber mehr kleine Ausflüge als wenige große]], dann bleibt er in Bewegung.
 
-Schreib mir bitte, [[Frage an die Freundin|ob dir das hilft]].
+Schreib mir doch kurz, [[Frage an die Freundin|ob dir das hilft]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -263,7 +263,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob dir das hilft]].
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Entschuldigung|Entschuldige dich nicht]].
+danke für deine E-Mail, ich nehme mir deine Punkte nacheinander vor. Als Erstes: [[Reaktion auf die Entschuldigung|Entschuldige dich nicht]].
 
 Als Nächstes zu meiner Erfahrung: [[Eigene Erfahrung|Ähnliches mit meiner Schwester]].
 

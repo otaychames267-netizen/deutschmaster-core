@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Clara]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Schön, dass du bald Urlaub hast. [[Reaktion auf den Urlaub|Nach den zwei Wochen Arbeit hast du dir die Erholung wirklich verdient]]. Ich wünsche dir viel Kraft für die Arbeitstage.
+deine E-Mail kam genau zur richtigen Zeit! Schön, dass du bald Urlaub hast. [[Reaktion auf den Urlaub|Nach den zwei Wochen Arbeit hast du dir die Erholung wirklich verdient]]. Ich wünsche dir viel Kraft für die Arbeitstage.
 
 Du fragst nach Online-Shopping: [[Erfahrung mit Online-Shopping|Ich habe schon oft Kleidung im Internet bestellt, meistens war ich zufrieden]]. Der Vorteil ist, dass [[Vorteil des Online-Kaufs|man in Ruhe vergleichen kann und die Auswahl riesig ist]]. Ein Nachteil ist, dass [[Nachteil des Online-Kaufs|die Größen manchmal nicht passen und man zurückschicken muss]].
 
@@ -29,7 +29,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob dir der Termin passt]].
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Clara]],
 
-schön, von dir zu hören! Urlaub, juhu! [[Reaktion auf den Urlaub|Die zwei Wochen Arbeit gehen schnell rum, dann kannst du chillen]].
+ich habe mich total über deine Zeilen gefreut! Urlaub, juhu! [[Reaktion auf den Urlaub|Die zwei Wochen Arbeit gehen schnell rum, dann kannst du chillen]].
 
 Online-Shopping? Klar, [[Erfahrung mit Online-Shopping|ich bestelle ständig was, Hosen, Schuhe, alles]]. Praktisch ist, [[Vorteil des Online-Kaufs|dass man nicht aus dem Haus muss]]. Nervig ist, [[Nachteil des Online-Kaufs|wenn man alles zurückschicken muss]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|ob wir uns um zehn treffen]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Clara]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+ich habe deine Zeilen gelesen und antworte dir gern. Hier meine Stellungnahme zu deinen Punkten, schön geordnet.
 
 Erstens, dein Urlaub: [[Reaktion auf den Urlaub|Ich freue mich, dass du bald frei hast, und wünsche dir eine gute Erholung]].
 
@@ -103,7 +103,7 @@ Bitte teile mir mit, [[Frage an die Freundin|ob der Termin passt]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Clara]],
 
-danke für deine Mail! [[Reaktion auf den Urlaub|Schön, dass dein Urlaub bald beginnt, und ich helfe dir gern beim Einkaufen]].
+ich danke dir für dein Schreiben. [[Reaktion auf den Urlaub|Schön, dass dein Urlaub bald beginnt, und ich helfe dir gern beim Einkaufen]].
 
 Zu Online-Shopping: [[Erfahrung mit Online-Shopping|Ich habe viel Erfahrung, vor allem mit Rückgabe und Größentabellen]]. Praktische Tipps: [[Tipp zum Online-Kauf|Lies Bewertungen und prüfe die Rückgabefrist]]. Ich kann dir [[Praktische Hilfe|helfen, die richtige Größe zu finden]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an die Freundin|ob dir meine Gründe einleuchten]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Clara]],
 
-danke für deine Mail, hier kurz meine Antworten.
+vielen Dank für deine Zeilen, ich fasse mich kurz.
 
 Urlaub: [[Reaktion auf den Urlaub|Schön, viel Erholung]].
 
@@ -225,7 +225,7 @@ Ich freue mich auf einen schönen Tag mit dir. Erzähl mir, [[Frage an die Freun
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Clara]],
 
-danke für deine Mail. [[Reaktion auf den Urlaub|Schön, dass dein Urlaub bald beginnt]]. Ich habe gleich mehrere Vorschläge.
+wie wunderbar, dass du dich bei mir meldest! [[Reaktion auf den Urlaub|Schön, dass dein Urlaub bald beginnt]]. Ich möchte dir ein paar Vorschläge machen.
 
 Zum Online-Shopping: [[Erfahrung mit Online-Shopping|Ich habe gute und schlechte Erfahrungen]]. Mein erster Vorschlag: [[Tipp zum Online-Kauf|Bestell nur bei Shops mit kostenloser Rücksendung]]. Mein zweiter: [[Tipp 2|Prüfe die Größentabelle]].
 
@@ -239,7 +239,7 @@ Mein fünfter Vorschlag: [[Vorschlag|Wir planen im Sommer einen gemeinsamen Tag 
 
 Mein siebter Vorschlag: [[Vorschlag|Wir machen vor dem Einkauf ein Foto von jedem Outfit, das wir anprobieren]]. Mein achter: [[Vorschlag 2|Wir entscheiden erst am Ende, was wir kaufen]]. So bleiben wir ruhig und treffen gute Entscheidungen.
 
-Was hältst du davon? Ich freue mich auf deine Antwort und auf einen schönen gemeinsamen Tag in der Stadt. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf deine Antwort und auf einen schönen gemeinsamen Tag in der Stadt. Teile mir bitte mit, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -247,7 +247,7 @@ Was hältst du davon? Ich freue mich auf deine Antwort und auf einen schönen ge
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Clara]],
 
-danke für deine Mail. [[Reaktion auf den Urlaub|Ich freue mich über deinen Urlaub, auch wenn die Arbeit davor anstrengend ist]].
+danke, dass du mir geschrieben hast. [[Reaktion auf den Urlaub|Ich freue mich über deinen Urlaub, auch wenn die Arbeit davor anstrengend ist]].
 
 Beim Online-Shopping bin ich vorsichtig: Einerseits [[Vorteil des Online-Kaufs|ist es bequem]], andererseits [[Nachteil des Online-Kaufs|passt nicht alles]]. [[Erfahrung mit Online-Shopping|Ich habe gemischte Erfahrungen]].
 
@@ -263,7 +263,7 @@ Mein Sommer ist noch nicht ganz klar: [[Unsicherheit|Ich muss erst meinen Urlaub
 
 Ich komme gern mit, [[Bedingung|wenn der Einkauf nicht zu lange dauert]]. Ich werde schnell müde in Geschäften, besonders wenn es voll ist. Aber mit dir ist es immer unterhaltsam, [[Folge|und ich nehme mir extra Zeit]].
 
-Ich freue mich auf einen schönen Sommer mit viel Sonne und guten Gesprächen. Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+Ich freue mich auf einen schönen Sommer mit viel Sonne und guten Gesprächen. Sag mir bitte, [[Frage an die Freundin|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -271,7 +271,7 @@ Ich freue mich auf einen schönen Sommer mit viel Sonne und guten Gesprächen. S
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Clara]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf den Urlaub|Schön, dass du bald Urlaub hast]].
+schön, von dir zu lesen, ich antworte dir Punkt für Punkt. Als Erstes: [[Reaktion auf den Urlaub|Schön, dass du bald Urlaub hast]].
 
 Als Nächstes zum Online-Shopping: [[Erfahrung mit Online-Shopping|Gute Erfahrungen]].
 
@@ -295,7 +295,7 @@ Ich freue mich sehr auf den Sommer, auf deinen Urlaub und auf den gemeinsamen Ei
   // 13
   { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Clara]],
 
-deine Mail hat mich sehr gefreut. [[Reaktion auf den Urlaub|Ich wünsche dir einen erholsamen Urlaub, du hast ihn dir verdient]].
+wie toll, von dir zu hören! [[Reaktion auf den Urlaub|Ich wünsche dir einen erholsamen Urlaub, du hast ihn dir verdient]].
 
 Zum Online-Shopping: [[Erfahrung mit Online-Shopping|Ich habe gute Erfahrungen, wenn man sich Zeit nimmt]].
 
@@ -335,7 +335,7 @@ Mein Sommer ist [[Beschreibung|ruhig, sonnig und voller kleiner Ausflüge]]. Ich
 
 Wir brauchen nur [[Bedarf|gute Laune, bequeme Schuhe und Geld]]. Alles andere ergibt sich. Ich freue mich schon darauf, dich wiederzusehen, [[Wunsch|und mit dir einen schönen Tag zu verbringen]]. Das wird toll.
 
-Ich freue mich echt auf den Einkaufstag mit dir und hoffe, dass wir schöne Sachen für deinen Urlaub finden. Online bestelle ich viel, aber im Laden macht es mehr Spaß, besonders zu zweit, und wir können zwischendurch einen Kaffee trinken und über alles reden. Bring einfach gute Laune mit, den Rest regeln wir schon, versprochen, und nach dem Einkauf gehen wir noch etwas essen. Meld dich, [[Frage an die Freundin|wann es passt]].
+Ich freue mich echt auf den Einkaufstag mit dir und hoffe, dass wir schöne Sachen für deinen Urlaub finden. Online bestelle ich viel, aber im Laden macht es mehr Spaß, besonders zu zweit, und wir können zwischendurch einen Kaffee trinken und über alles reden. Bring einfach gute Laune mit, den Rest regeln wir schon, versprochen, und nach dem Einkauf gehen wir noch etwas essen. Ich freue mich auf deine Antwort und möchte wissen, [[Frage an die Freundin|wann es passt]].
 
 [[Grußformel|Bis dann]]
 [[Dein Name|Max]]` },

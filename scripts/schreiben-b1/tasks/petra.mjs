@@ -53,7 +53,7 @@ Meld dich, [[Frage an die Freundin|wann es losgehen soll]].
   // 3
   { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Petra]],
 
-wow, was für eine tolle Nachricht! [[Reaktion auf die Überraschung|Ein Ferienhaus im Schwarzwald für uns alle, ich kann es kaum glauben]]. Danke, dass du mich einlädst!
+wie nett, von dir zu lesen! [[Reaktion auf die Überraschung|Ein Ferienhaus im Schwarzwald für uns alle, ich kann es kaum glauben]]. Danke, dass du mich einlädst!
 
 Ich komme total gern, weil [[Grund 1|der Schwarzwald mein Lieblingsort in Deutschland ist]]. Und [[Grund 2|ich liebe es, wenn viele Freunde zusammen sind]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|wie viele Betten es gibt]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Petra]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+herzlichen Dank für deine Nachricht. Zu deinen Anliegen nehme ich nacheinander Stellung.
 
 Erstens, dein Vorschlag: [[Reaktion auf die Überraschung|Ich halte das Angebot deines Onkels für großzügig und danke dir für die Einladung]].
 
@@ -103,7 +103,7 @@ Ich freue mich auf den Schwarzwald und auf eine schöne Zeit mit allen. Bitte te
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Petra]],
 
-danke für deine Mail! [[Reaktion auf die Überraschung|Das Angebot deines Onkels ist wunderbar, und ich helfe dir gern bei der Planung]].
+danke dir für deine Mail. [[Reaktion auf die Überraschung|Das Angebot deines Onkels ist wunderbar, und ich helfe dir gern bei der Planung]].
 
 Ich komme gern, weil [[Grund 1|ich Erholung in der Natur brauche]].
 
@@ -127,7 +127,7 @@ Sag mir bitte, [[Frage an die Freundin|was ich noch vorbereiten soll]].
   // 6
   { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Petra]],
 
-ich danke dir für deine Mail. [[Reaktion auf die Überraschung|Das Angebot ist großartig, weil es kostenlos ist und alle zusammenkommen können]].
+herzlichen Dank für deine Mail. [[Reaktion auf die Überraschung|Das Angebot ist großartig, weil es kostenlos ist und alle zusammenkommen können]].
 
 Ich komme gern in den Schwarzwald, weil [[Grund 1|ich Ruhe und Natur brauche]], und weil [[Grund 2|ich meine Freunde lange nicht gesehen habe]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an die Freundin|ob meine Gründe für dich passen]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Petra]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke fürs Schreiben, ich beantworte alles in Stichpunkten.
 
 Überraschung: [[Reaktion auf die Überraschung|Tolles Angebot, danke]].
 
@@ -225,7 +225,7 @@ Erzähl mir, [[Frage an die Freundin|wie groß das Haus ist]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Petra]],
 
-danke für deine Mail. [[Reaktion auf die Überraschung|Das Angebot ist toll]]. Ich habe gleich mehrere Vorschläge.
+ich habe schon auf eine Nachricht von dir gewartet! [[Reaktion auf die Überraschung|Das Angebot ist toll]]. Mir fallen gleich einige Vorschläge ein.
 
 Mein erster Vorschlag: Wir fahren [[Verkehrsmittel|mit Fahrgemeinschaften, das spart Geld]]. Mein zweiter: Wir bringen [[Begleitung|alle Freunde und Familien mit]]. Mein dritter: [[Aktivität 1|Wir planen jeden Tag etwas anderes, Wanderung, See, Spiele]].
 
@@ -239,7 +239,7 @@ Mein siebter Vorschlag: [[Vorschlag|Wir nutzen für die Anreise eine gemeinsame 
 
 Mein neunter Vorschlag: [[Vorschlag|Wir besuchen eine Kuckucksuhrenwerkstatt und lernen, wie sie gebaut werden]]. Mein zehnter: [[Vorschlag 2|Wir probieren die echte Schwarzwälder Kirschtorte in einem Café]]. Das gehört dazu, und es ist eine schöne Erinnerung.
 
-Was hältst du davon? Ich freue mich auf den Schwarzwald und auf eine schöne Zeit mit dir, denn so ein Ferienhaus ist ein Geschenk. Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf den Schwarzwald und auf eine schöne Zeit mit dir, denn so ein Ferienhaus ist ein Geschenk. Lass mich bitte wissen, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -247,7 +247,7 @@ Was hältst du davon? Ich freue mich auf den Schwarzwald und auf eine schöne Ze
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Petra]],
 
-danke für deine Mail. [[Reaktion auf die Überraschung|Das Angebot ist großartig, aber ich möchte einiges klären]].
+danke für dein Schreiben. [[Reaktion auf die Überraschung|Das Angebot ist großartig, aber ich möchte einiges klären]].
 
 Einerseits [[Vorteil des Hauses|ist ein kostenloses Haus ein Geschenk]], andererseits [[Nachteil der Planung|braucht eine große Gruppe gute Organisation]]. Ich komme sehr gern, [[Grund 1|wenn es für alle passt]].
 
@@ -263,7 +263,7 @@ Bei der Anreise bin ich flexibel, aber [[Einschränkung|ich habe Freitag bis 15 
 
 Bei der Planung sollten wir Rücksicht auf alle nehmen: [[Hinweis|Nicht jeder kann lange laufen, und nicht jeder mag Gruppen]]. Deshalb schlage ich vor, [[Vorschlag|dass jeder frei wählen darf, an welchem Programmpunkt er teilnimmt]]. So bleibt der Urlaub entspannt.
 
-Ich freue mich auf den Schwarzwald. Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+Ich freue mich auf den Schwarzwald. Ich würde gern erfahren, [[Frage an die Freundin|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -271,7 +271,7 @@ Ich freue mich auf den Schwarzwald. Schreib mir bitte, [[Frage an die Freundin|o
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Petra]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Überraschung|Danke für das tolle Angebot]].
+danke für deine E-Mail, ich beantworte sie am besten der Reihe nach. Als Erstes: [[Reaktion auf die Überraschung|Danke für das tolle Angebot]].
 
 Als Nächstes zu meinem Grund: [[Grund 1|Ich liebe den Schwarzwald]].
 
@@ -295,7 +295,7 @@ Ich freue mich sehr auf das Ferienhaus deines Onkels und auf eine schöne gemein
   // 13
   { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Petra]],
 
-deine Mail hat mich sehr gefreut. [[Reaktion auf die Überraschung|Es ist lieb von dir, an uns alle zu denken]].
+wie super, von dir zu lesen! [[Reaktion auf die Überraschung|Es ist lieb von dir, an uns alle zu denken]].
 
 Ich komme von Herzen gern, [[Grund 1|weil ich mich auf die Gemeinschaft freue]].
 

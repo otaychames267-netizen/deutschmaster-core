@@ -77,7 +77,7 @@ Ich freue mich auf [[Vorfreude|ein Wiedersehen mit dir]]. Schreib mir bald, [[Fr
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Bekannten|Andreas]],
 
-vielen Dank für deinen Brief. Zu deinen Fragen nehme ich der Reihe nach Stellung.
+vielen Dank für deinen Brief. Zu jeder deiner Fragen sage ich etwas.
 
 Erstens, die Pause: [[Reaktion auf die Entschuldigung|Du musst dich nicht entschuldigen, bei einem Umzug hat man viel zu tun]]. Ich gratuliere dir zur neuen Wohnung.
 

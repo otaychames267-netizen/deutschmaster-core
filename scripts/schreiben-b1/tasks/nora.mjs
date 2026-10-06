@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Nora]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Mir geht es gut, es ist alles in Ordnung bei mir. Mach dir keine Gedanken, dass du erst jetzt schreibst. [[Reaktion auf die Pause|Nach einem Umzug hat man viel zu tun]], und es freut mich, dass du dich in der neuen Wohnung wohlfühlst.
+wie super, dass du dich bei mir meldest! Mir geht es gut, es ist alles in Ordnung bei mir. Mach dir keine Gedanken, dass du erst jetzt schreibst. [[Reaktion auf die Pause|Nach einem Umzug hat man viel zu tun]], und es freut mich, dass du dich in der neuen Wohnung wohlfühlst.
 
 Zu deinem Problem, neue Leute kennenzulernen, habe ich einen Tipp: [[Tipp 1|Melde dich in einem Verein an, zum Beispiel im Chor]]. Dort triffst du regelmäßig dieselben Menschen. Außerdem kannst du [[Tipp 2|deine netten Nachbarn zu einem Kaffee in deinem Garten einladen]].
 
@@ -69,7 +69,7 @@ Bei deiner Wohnung interessiert mich besonders, [[Frage|wie du sie eingerichtet 
 
 Außerdem habe ich vor Kurzem [[Erlebnis|bei einem Straßenfest mitgeholfen]], und es war toll. Ich habe viele neue Gesichter gesehen, und manche davon sind jetzt Bekannte. Vielleicht gibt es auch in deiner Straße so etwas, frag mal [[Frage|bei deinen Nachbarn oder im Rathaus]].
 
-Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
+Lass es mich wissen, [[Frage an die Freundin|wann du Zeit hast]].
 
 [[Grußformel|Alles Liebe]]
 [[Dein Name|Marie]]` },
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Nora]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+danke dir für deine E-Mail. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
 Erstens, deine Wohnung: [[Reaktion auf die Wohnung|Ich freue mich, dass du dich wohlfühlst, ein Garten ist ein großer Vorteil]]. Dazu habe ich eine Frage: [[Frage zur Wohnung|Wie viele Zimmer hat die Wohnung, und wie lange ist der Weg zur Arbeit]]?
 
@@ -101,7 +101,7 @@ Ich freue mich auf ein Wiedersehen und hoffe, dass du dich bald richtig wohlfüh
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Nora]],
 
-danke für deine Mail! [[Reaktion auf die Pause|Es ist völlig in Ordnung, dass du erst jetzt schreibst]]. Zu deinem Wunsch, neue Leute kennenzulernen, helfe ich dir gern.
+danke, dass du dich gemeldet hast. [[Reaktion auf die Pause|Es ist völlig in Ordnung, dass du erst jetzt schreibst]]. Zu deinem Wunsch, neue Leute kennenzulernen, helfe ich dir gern.
 
 Praktische Tipps: [[Tipp 1|Schau im Internet nach Vereinen und Kursen in deiner Stadt]]. Ich kann [[Praktische Hilfe|dir eine Liste mit Ideen zusammenstellen]]. Und [[Tipp 2|nutze die Nachbarschaft, ein Zettel im Hausflur mit einer Einladung hilft]].
 
@@ -149,7 +149,7 @@ Schreib mir, [[Frage an die Freundin|ob dir der Samstag passt]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Nora]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke für die Nachricht, hier sind meine Antworten auf deine Punkte.
 
 Pause: [[Reaktion auf die Pause|Kein Problem]].
 
@@ -223,7 +223,7 @@ Ich bin sicher, dass du bald Freunde findest, und freue mich auf unser Treffen. 
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Nora]],
 
-danke für deine Mail. [[Reaktion auf die Pause|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dich.
+toll, dass du dich gemeldet hast, ich habe oft an dich gedacht! [[Reaktion auf die Pause|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dich.
 
 Mein erster Vorschlag, um neue Leute kennenzulernen: [[Tipp 1|Tritt einem Verein bei]]. Mein zweiter Vorschlag: [[Tipp 2|Besuche einen Kurs, zum Beispiel Kochen oder Fotografie]]. Mein dritter: [[Tipp 3|Lade deine Nachbarn zu einem kleinen Gartenfest ein]].
 
@@ -239,7 +239,7 @@ Mein sechster Vorschlag ist: Bei meinem Besuch bringe ich [[Mitbringsel|ein klei
 
 Bei mir gibt es auch eine Veränderung: [[Neuigkeit|Ich habe meine Wohnung neu gestrichen]], und jetzt ist sie viel heller. Wenn du uns besuchst oder ich dich besuche, [[Wunsch|zeige ich dir Fotos davon]]. Eine neue Farbe hat mich auch glücklicher gemacht.
 
-Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Sag mir einfach, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -247,7 +247,7 @@ Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Nora]],
 
-danke für deine Mail. [[Reaktion auf die Pause|Du brauchst dich nicht zu entschuldigen]]. Neue Freunde zu finden braucht Zeit, das ist normal.
+ich danke dir für deine Zeilen. [[Reaktion auf die Pause|Du brauchst dich nicht zu entschuldigen]]. Neue Freunde zu finden braucht Zeit, das ist normal.
 
 Einerseits [[Vorteil von Vereinen|kann ein Verein viele Kontakte bringen]], andererseits [[Nachteil von Vereinen|braucht man Geduld]]. Ich würde [[Tipp 1|einen Kurs besuchen]] und [[Tipp 2|die Nachbarn freundlich ansprechen]].
 
@@ -271,7 +271,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob dir das hilft]].
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Nora]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Pause|Entschuldige dich nicht für die Pause]].
+danke für deine Nachricht, ich gliedere meine Antwort in einzelne Schritte. Als Erstes: [[Reaktion auf die Pause|Entschuldige dich nicht für die Pause]].
 
 Als Nächstes zu neuen Leuten: [[Tipp 1|Melde dich in einem Verein an]]. Dann [[Tipp 2|besuche einen Kurs]]. Zuletzt [[Tipp 3|lade die Nachbarn ein]].
 

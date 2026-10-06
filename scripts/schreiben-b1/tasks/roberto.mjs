@@ -29,7 +29,7 @@ Melde dich bald, [[Frage an den Bekannten|wie das Treffen mit Roberto gelaufen i
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name des Bekannten|Andreas]],
 
-schön, von dir zu hören! Dass der Urlaub schön war, freut mich. [[Reaktion auf die Arbeit nach dem Urlaub|Das Büro nach dem Urlaub kenne ich, da hilft nur Kaffee]].
+ich habe mich ehrlich über deine E-Mail gefreut! Dass der Urlaub schön war, freut mich. [[Reaktion auf die Arbeit nach dem Urlaub|Das Büro nach dem Urlaub kenne ich, da hilft nur Kaffee]].
 
 Zu Roberto: Lad ihn doch ein! [[Vorschlag 1|Mach einen Grillabend mit ein paar Kollegen im Garten]]. Oder [[Vorschlag 2|geh mit ihm mittags essen und zeig ihm die besten Läden in der Stadt]]. Ich würde das sofort machen.
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an den Bekannten|ob Roberto Lust hat]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Bekannten|Andreas]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+danke dir für deine Zeilen. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
 Erstens, Roberto: Ich empfehle, [[Vorschlag 1|ihn mit zwei oder drei Kollegen zum Essen einzuladen]]. Zusätzlich [[Vorschlag 2|kannst du ihm einen Verein oder einen Sprachkurs empfehlen]].
 
@@ -199,7 +199,7 @@ Schreib bald, [[Frage an den Bekannten|was Roberto zum Essen sagt]].
   // 9
   { label: "persönlich, erzählend", t: `Lieber [[Name des Bekannten|Andreas]],
 
-als ich deine Zeilen gelesen habe, musste ich an unseren Urlaub denken. [[Erinnerung an den Urlaub|Wir haben damals bis spät in die Nacht geredet]]. Schön, dass du dich meldest.
+als ich deine Zeilen gelesen habe, musste ich an unseren Urlaub denken. [[Erinnerung an den Urlaub|Wir haben damals bis spät in die Nacht geredet]]. Wie schön, von dir zu hören.
 
 Zu Roberto: Ich war auch einmal der Neue in einer Firma, [[Eigene Erfahrung|und ich war froh, als mich ein Kollege zum Mittagessen mitgenommen hat]]. Das würde ich dir raten: [[Vorschlag 1|Lade ihn zum Essen ein]], und [[Vorschlag 2|zeig ihm die Stadt]].
 
@@ -237,7 +237,7 @@ Mein fünfter Vorschlag: Besprecht gemeinsam [[Idee|einmal pro Woche in Ruhe, wa
 
 Nach dem Urlaub habe ich [[Tätigkeit|mich bei einem Sportverein angemeldet]], damit ich mehr Bewegung habe. Das ist auch ein guter Tipp für Roberto, [[Folge|dort lernt man Leute kennen, ohne viel reden zu müssen]].
 
-Was hältst du davon? Ich freue mich auf deine Meinung. Schreib mir, [[Frage an den Bekannten|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf deine Meinung. Lass mich einfach wissen, [[Frage an den Bekannten|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -317,7 +317,7 @@ Ich freue mich auf [[Vorfreude|deine nächste Nachricht]]. Erzähl mir, [[Frage 
   // 14
   { label: "spontan, entspannt", t: `Hi [[Name des Bekannten|Andreas]],
 
-schön, von dir zu hören! [[Reaktion auf die Arbeit nach dem Urlaub|Urlaub vorbei, Büro läuft, kenn ich]].
+wie toll, deine Zeilen zu lesen! [[Reaktion auf die Arbeit nach dem Urlaub|Urlaub vorbei, Büro läuft, kenn ich]].
 
 Roberto: [[Vorschlag 1|Lade ihn zum Essen ein]], [[Vorschlag 2|zeig ihm die Stadt]].
 

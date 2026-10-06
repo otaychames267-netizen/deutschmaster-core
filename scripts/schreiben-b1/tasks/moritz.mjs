@@ -83,7 +83,7 @@ Schreib mir bald, [[Frage an den Freund|wann dein Flug landet]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Moritz]],
 
-vielen Dank für deine Grüße. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+vielen Dank für deine Grüße. Ich gehe auf alle deine Punkte der Reihe nach ein.
 
 Erstens, dein Urlaub: [[Reaktion auf die Grüße|Ich freue mich, dass dir Kalifornien so gut gefällt]].
 
@@ -243,7 +243,7 @@ Erzähl mir, [[Frage an den Freund|wie der Club war]].
   // 10
   { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Moritz]],
 
-danke für deine Grüße. [[Reaktion auf die Grüße|Schön, dass dir Kalifornien gefällt]]. Ich habe gleich mehrere Vorschläge.
+danke für deine Grüße. [[Reaktion auf die Grüße|Schön, dass dir Kalifornien gefällt]]. Ich habe mir dazu schon Gedanken gemacht.
 
 Mein Lieblingsland: [[Lieblingsland|Italien]]. Mein erster Vorschlag: Wir reisen [[Vorschlag|nächstes Jahr zusammen dorthin]].
 
@@ -259,7 +259,7 @@ Mein achter Vorschlag: [[Vorschlag|Wir gehen nach deiner Rückkehr zusammen auf 
 
 Mein zehnter Vorschlag: [[Vorschlag|Wir kochen zusammen etwas Kalifornisches, zum Beispiel Fischtacos]]. Mein elfter: [[Vorschlag 2|Du bringst ein Souvenir mit, ich bringe den Nachtisch]]. Das wäre ein schöner Abend.
 
-Was hältst du davon? Ich freue mich auf deine Antwort und auf ein baldiges Wiedersehen mit dir, denn es gibt bestimmt viel zu erzählen. Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich freue mich auf deine Antwort und auf ein baldiges Wiedersehen mit dir, denn es gibt bestimmt viel zu erzählen. Teile mir bitte mit, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -285,7 +285,7 @@ Bei der Musik bin ich nicht kompromisslos: [[Einschränkung|Ich mag nicht alles,
 
 Ich würde mich freuen, wenn wir uns treffen, [[Bedingung|sobald du dich vom Jetlag erholt hast]]. Es hat keine Eile, [[Folge|wir haben Zeit]]. Hauptsache, du kommst gesund nach Hause.
 
-Schreib mir bitte, [[Frage an den Freund|ob dir das passt]].
+Erzähl mir doch, [[Frage an den Freund|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },

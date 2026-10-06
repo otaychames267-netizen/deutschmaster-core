@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Anna]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Entschuldige bitte, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Ich hatte viel zu tun, aber bei mir ist alles in Ordnung]]. Schön, dass du dich gemeldet hast.
+ich habe mich riesig über deine Nachricht gefreut! Entschuldige bitte, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Ich hatte viel zu tun, aber bei mir ist alles in Ordnung]]. Schön, dass du dich gemeldet hast.
 
 Deine Bitte erfülle ich sehr gern. Ich kümmere mich im Juli eine Woche um deine Katze und deine Blumen. [[Reaktion auf die Bitte|Das ist für mich kein Problem, und ich freue mich, dir helfen zu können]].
 
@@ -29,7 +29,7 @@ Schreib mir bitte, [[Frage an die Freundin|wann ich den Schlüssel bekomme]].
   // 2
   { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Anna]],
 
-schön, von dir zu hören! Sorry, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Die Arbeit hat mich total gefressen]], aber bei mir ist alles okay.
+ich habe mich ehrlich über deine Mail gefreut! Sorry, dass ich mich so lange nicht gemeldet habe. [[Grund für die Pause|Die Arbeit hat mich total gefressen]], aber bei mir ist alles okay.
 
 Katze und Blumen? Klar, mache ich! [[Reaktion auf die Bitte|Eine Woche im Juli passt super, und ich mag deine Katze]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du abreist]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Anna]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+besten Dank für deine schnelle Antwort. Deine Punkte gehe ich jetzt der Reihe nach durch.
 
 Erstens, die Pause: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte beruflich viel zu tun]]. Bei mir ist alles in Ordnung.
 
@@ -103,7 +103,7 @@ Bitte teile mir mit, [[Frage an die Freundin|wann ich den Schlüssel bekomme]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine Mail! Entschuldige, dass ich mich lange nicht gemeldet habe. [[Grund für die Pause|Ich hatte eine stressige Zeit]], aber jetzt helfe ich dir gern.
+vielen Dank für deine Zeilen. Entschuldige, dass ich mich lange nicht gemeldet habe. [[Grund für die Pause|Ich hatte eine stressige Zeit]], aber jetzt helfe ich dir gern.
 
 Deine Bitte erfülle ich: [[Reaktion auf die Bitte|Ich kümmere mich im Juli um deine Katze und die Blumen, ganz zuverlässig]]. Ich komme [[Praktischer Plan|jeden Tag morgens und abends vorbei]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an die Freundin|wann ich den Schlüssel bekomme]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke für deine E-Mail, ich antworte dir ohne Umschweife.
 
 Pause: Entschuldige, [[Grund für die Pause|ich hatte viel zu tun]].
 
@@ -203,7 +203,7 @@ Schreib bald, [[Frage an die Freundin|wann ich den Schlüssel abholen kann]].
 
 als ich deine Mail gelesen habe, musste ich an unsere Studienzeit denken. [[Erinnerung an früher|Damals haben wir zusammen deine erste Katze gefüttert]]. Entschuldige, dass ich mich lange nicht gemeldet habe.
 
-Warum ich nicht geschrieben habe? [[Grund für die Pause|Ich war eine Weile krank und musste mich erholen]]. Jetzt geht es mir wieder gut.
+Warum ich so lange still war? [[Grund für die Pause|Ich war eine Weile krank und musste mich erholen]]. Mittlerweile bin ich wieder fit.
 
 Deine Bitte erfülle ich mit Freude: [[Reaktion auf die Bitte|Ich passe im Juli gern auf deine Katze und die Blumen auf]].
 
@@ -243,7 +243,7 @@ Als dritte Frage zur Katze: [[Frage|Wo sind das Futter und der Dosenöffner]]? U
 
 Mein sechster Vorschlag zu deiner Reise: [[Vorschlag|Bring mir ein kleines Souvenir aus Dänemark mit]], wenn du magst. Ich bin nicht anspruchsvoll, [[Wunsch|ein Magnet oder eine Postkarte reicht völlig]]. Ich freue mich über jede Kleinigkeit.
 
-Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Lass es mich wissen, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -251,7 +251,7 @@ Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine Mail. Es tut mir leid, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Es lag nicht an dir, ich hatte nur sehr viel zu tun]].
+herzlichen Dank für deine ausführliche Nachricht. Es tut mir leid, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Es lag nicht an dir, ich hatte nur sehr viel zu tun]].
 
 Deine Bitte würde ich gern erfüllen, möchte aber vorher klären, ob alles klappt. [[Reaktion auf die Bitte|Ich habe im Juli einen Termin, aber das lässt sich organisieren]].
 
@@ -275,7 +275,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob das passt]].
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Anna]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
+danke für deine Mail, ich gehe alles in Ruhe durch, eins nach dem anderen. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
 
 Als Nächstes zu deiner Bitte: [[Reaktion auf die Bitte|Ich kümmere mich gern um Katze und Blumen]].
 
@@ -299,7 +299,7 @@ Ich freue mich auf [[Vorfreude|unser Abendessen]] und wünsche dir eine gute Rei
   // 13
   { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Anna]],
 
-deine Mail hat mich sehr gefreut. Es tut mir leid, dass ich mich lange nicht gemeldet habe. [[Grund für die Pause|Ich habe oft an dich gedacht, aber der Alltag war stärker]]. Bei mir ist alles in Ordnung, danke der Nachfrage.
+deine Zeilen hat mich richtig froh gemacht! Es tut mir leid, dass ich mich lange nicht gemeldet habe. [[Grund für die Pause|Ich habe oft an dich gedacht, aber der Alltag war stärker]]. Bei mir ist alles in Ordnung, danke der Nachfrage.
 
 Deine Bitte erfülle ich von Herzen gern. [[Reaktion auf die Bitte|Deine Katze und deine Blumen sind bei mir in guten Händen]]. Mach dir keine Sorgen.
 

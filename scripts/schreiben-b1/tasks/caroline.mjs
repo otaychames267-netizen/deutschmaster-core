@@ -71,7 +71,7 @@ Schreib mir bald, [[Frage an die Bekannte|wann sie ankommt]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Bekannten|Caroline]],
 
-vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
+vielen Dank für deine Nachricht. Deine Fragen beantworte ich nacheinander.
 
 Erstens, die Pause: Es stimmt, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte beruflich viel zu tun]]. Das tut mir leid.
 
@@ -95,7 +95,7 @@ Bitte teile mir mit, [[Frage an die Bekannte|ob dir das weiterhilft]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Bekannten|Caroline]],
 
-danke für deine Mail! Entschuldige, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte eine stressige Zeit]], aber ich helfe euch jetzt gern bei der Vorbereitung.
+herzlichen Dank für dein Schreiben. Entschuldige, dass ich so lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte eine stressige Zeit]], aber ich helfe euch jetzt gern bei der Vorbereitung.
 
 Die Schülerin aus meinem Land bei euch zu Besuch, das ist toll. [[Reaktion auf den Besuch|Ihr bekommt bestimmt eine sehr nette Besucherin]]. Hier meine praktischen Tipps.
 
@@ -139,7 +139,7 @@ Schreib mir, [[Frage an die Bekannte|ob meine Gründe nachvollziehbar sind]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Bekannten|Caroline]],
 
-danke für deine Mail, hier kurz meine Antworten.
+deine Nachricht war klar, deshalb antworte ich genauso klar.
 
 Pause: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich hatte viel zu tun]].
 
@@ -251,7 +251,7 @@ Ich freue mich auf eure Nachricht. Schreib mir bitte, [[Frage an die Bekannte|ob
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Bekannten|Caroline]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
+danke für deine Nachricht, ich gehe der Reihe nach darauf ein. Als Erstes: Entschuldige, dass ich lange nicht geschrieben habe. [[Grund für die Pause|Ich war beruflich eingespannt]].
 
 Als Nächstes zum Besuch: [[Reaktion auf den Besuch|Ich freue mich sehr, dass die Schülerin zu euch kommt]].
 

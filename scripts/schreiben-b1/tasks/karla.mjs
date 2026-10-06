@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Karla]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Mir geht es gut, danke der Nachfrage. Es freut mich, dass du dich in Bamberg schon gut eingelebt hast. [[Reaktion auf die Neuigkeiten|Altstadt und Hotelrezeption klingen nach einem tollen Neuanfang]].
+ich habe mich riesig über dein Lebenszeichen gefreut! Mir geht es gut, danke der Nachfrage. Es freut mich, dass du dich in Bamberg schon gut eingelebt hast. [[Reaktion auf die Neuigkeiten|Altstadt und Hotelrezeption klingen nach einem tollen Neuanfang]].
 
 Über meinen Wohnort kann ich dir erzählen: Ich wohne in [[Wohnort|einer mittelgroßen Stadt am Fluss]], und [[Besonderheit des Wohnorts|es gibt viele Parks und eine schöne Fußgängerzone]]. Ein Auto brauche ich auch nicht, weil [[Verkehr|der Bus alle zehn Minuten fährt]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Karla]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+ich danke dir für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
 Erstens, dein Neuanfang: [[Reaktion auf die Neuigkeiten|Ich freue mich, dass du dich gut eingelebt hast]].
 
@@ -103,7 +103,7 @@ Bitte teile mir mit, [[Frage an die Freundin|welcher Termin dir passt]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Karla]],
 
-danke für deine Mail! [[Reaktion auf die Neuigkeiten|Ich freue mich, dass du dich in Bamberg eingelebt hast]].
+danke, dass du an mich gedacht hast. [[Reaktion auf die Neuigkeiten|Ich freue mich, dass du dich in Bamberg eingelebt hast]].
 
 Zu meinem Wohnort: Ich wohne in [[Wohnort|einer ruhigen Stadt]], und [[Besonderheit des Wohnorts|alles ist gut zu Fuß erreichbar]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an die Freundin|ob dir der September passt]].
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Karla]],
 
-danke für deine Mail, hier kurz meine Antworten.
+schön, dass du schreibst, hier meine kurzen Antworten.
 
 Neuanfang: [[Reaktion auf die Neuigkeiten|Glückwunsch, Bamberg klingt schön]].
 
@@ -241,7 +241,7 @@ Das Beste an deinem Angebot ist [[Lieblingsgrund|dass wir endlich wieder lange r
 
 Zum Schluss ein Gedanke: Dein neues Leben in Bamberg klingt [[Eindruck|abwechslungsreich, lebendig und glücklich]]. Ich hoffe, dass es so bleibt. Und wenn dir irgendwann einmal etwas zu viel wird, [[Angebot|ruf mich an, ich bin immer für dich da]]. Das verspreche ich dir.
 
-Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Melde dich bitte bei mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -249,7 +249,7 @@ Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
   // 11
   { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Karla]],
 
-danke für deine Mail. [[Reaktion auf die Neuigkeiten|Ich freue mich, dass du dich in Bamberg eingelebt hast]].
+danke dir für deine Nachricht. [[Reaktion auf die Neuigkeiten|Ich freue mich, dass du dich in Bamberg eingelebt hast]].
 
 Ich wünsche dir, dass die Arbeit dich nicht zu sehr anstrengt. Mein Wohnort ist [[Wohnort|eine mittelgroße Stadt]], die einerseits [[Vorteil des Wohnorts|gut erreichbar ist]], andererseits [[Nachteil des Wohnorts|etwas teuer]].
 
@@ -265,7 +265,7 @@ Wenn ich komme, bringe ich dir [[Mitbringsel|ein kleines Stück Heimat mit, zum 
 
 Wenn ich mich in deinem Viertel umsehe, hoffe ich, [[Wunsch|ein nettes kleines Café zu finden, in dem wir lange sitzen können]]. Ich mag kleine Läden und alte Gassen. Wir können dort eine Kleinigkeit essen, und ich lade dich [[Einladung|zum Frühstück ein]], als Dankeschön für die Einladung.
 
-Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
+Sag mir bitte kurz, [[Frage an die Freundin|ob dir das passt]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Hannah]]` },
@@ -273,7 +273,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob dir das passt]].
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Karla]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Neuigkeiten|Glückwunsch zum Neuanfang in Bamberg]].
+vielen Dank für deine Mail, ich beantworte alles Schritt für Schritt. Als Erstes: [[Reaktion auf die Neuigkeiten|Glückwunsch zum Neuanfang in Bamberg]].
 
 Als Nächstes zu meinem Wohnort: [[Wohnort|Eine mittelgroße Stadt am Fluss]].
 

@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an den Freund|wann du Zeit hast]].
   // 4
   { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Naco]],
 
-vielen Dank für deine Nachricht. Zu deinen Fragen nehme ich der Reihe nach Stellung.
+ich danke dir für deine E-Mail. Ich beantworte deine Fragen einzeln.
 
 Erstens, deine Wohnung: [[Reaktion auf die Wohnung|Ich freue mich, dass sie nah an der Firma liegt und ein Arbeitszimmer hat]].
 
@@ -103,7 +103,7 @@ Bitte teile mir mit, [[Frage an den Freund|ob dir mein Besuch im Mai passt]].
   // 5
   { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Naco]],
 
-danke für deine Mail! [[Reaktion auf die Wohnung|Ich freue mich über deine neue Wohnung und helfe dir gern beim Einrichten]]. Wenn du Hilfe brauchst, sag Bescheid.
+danke für deine Zeilen und deine guten Worte. [[Reaktion auf die Wohnung|Ich freue mich über deine neue Wohnung und helfe dir gern beim Einrichten]]. Wenn du Hilfe brauchst, sag Bescheid.
 
 Dein Besuch-Vorschlag gefällt mir. [[Zeitpunkt des Besuchs|Ich komme gern im Juni]], und ich bringe [[Mitbringsel|ein Regal-Set für deine Bücher]] mit.
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an den Freund|ob du meine Tipps gut findest]].
   // 7
   { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Naco]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke für deine Mail, ich halte mich kurz und beantworte alles.
 
 Wohnung: [[Reaktion auf die Wohnung|Glückwunsch, die Lage klingt perfekt]].
 
@@ -273,7 +273,7 @@ Schreib mir bitte, [[Frage an den Freund|ob dir das hilft]].
   // 12
   { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Naco]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Wohnung|Glückwunsch zur Wohnung]].
+danke für deine Mail, hier meine Antwort in mehreren Schritten. Als Erstes: [[Reaktion auf die Wohnung|Glückwunsch zur Wohnung]].
 
 Als Nächstes zum Besuch: Ja, gern, [[Zeitpunkt des Besuchs|im Frühling]].
 

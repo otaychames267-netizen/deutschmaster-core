@@ -5,7 +5,7 @@ export default [
   // 1
   { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Eva]],
 
-vielen Dank für deine Mail, ich habe mich sehr gefreut! Herzlichen Glückwunsch zur neuen Stelle bei VIA! [[Reaktion auf Evas Stelle|Journalistin war immer dein Traumberuf, und ich freue mich riesig für dich]]. Das hast du dir verdient.
+wie lieb, dass du dich gemeldet hast! Herzlichen Glückwunsch zur neuen Stelle bei VIA! [[Reaktion auf Evas Stelle|Journalistin war immer dein Traumberuf, und ich freue mich riesig für dich]]. Das hast du dir verdient.
 
 Du fragst nach meinem Deutsch: Ich komme gut voran. [[Fortschritte beim Deutschlernen|Ich besuche zweimal pro Woche einen Kurs und kann schon kleine Texte schreiben]]. Am schwierigsten finde ich [[Schwierigkeit beim Deutschlernen|die Artikel und die Wortstellung]].
 
@@ -77,7 +77,7 @@ Schreib mir bald, [[Frage an die Freundin|was dein erstes Thema ist]].
   // 4
   { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Eva]],
 
-vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
+besten Dank für dein Schreiben. Zu jedem deiner Punkte sage ich kurz etwas.
 
 Erstens, deine Stelle: Ich gratuliere dir herzlich zur Stelle bei VIA. [[Reaktion auf Evas Stelle|Das ist ein großer Erfolg für dich]].
 
@@ -103,7 +103,7 @@ Ich freue mich auf [[Vorfreude|dein Heft und deine Serie]]. Bitte teile mir mit,
   // 5
   { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Eva]],
 
-danke für deine Mail! Glückwunsch zur neuen Stelle bei VIA! [[Reaktion auf Evas Stelle|Ich freue mich, dass du deinen Traumberuf gefunden hast]].
+herzlichen Dank für deine Zeilen. Glückwunsch zur neuen Stelle bei VIA! [[Reaktion auf Evas Stelle|Ich freue mich, dass du deinen Traumberuf gefunden hast]].
 
 Mein Deutsch: [[Fortschritte beim Deutschlernen|Ich übe jeden Tag und lese kurze Zeitungsartikel]]. Wenn du Ideen für junge Leser brauchst, [[Hilfsangebot|erzähle ich dir gern, was Lerner interessiert]].
 
@@ -151,7 +151,7 @@ Schreib mir, [[Frage an die Freundin|worüber VIA in der nächsten Serie bericht
   // 7
   { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Eva]],
 
-danke für deine Mail, hier kurz meine Antworten.
+danke für deine Nachricht, hier knapp meine Antworten.
 
 Stelle: [[Reaktion auf Evas Stelle|Glückwunsch, das ist dein Traumberuf]].
 
@@ -239,7 +239,7 @@ Mein sechster Vorschlag für deine Serie: [[Vorschlag|Schreib einen Beitrag übe
 
 Mein siebter Vorschlag für die Serie: [[Vorschlag|Veröffentliche auch kurze Porträts von Leserinnen und Lesern mit ihren Wünschen]]. Dann fühlen sich die Leute persönlich angesprochen. Ich schicke dir gern ein Foto und ein paar Sätze, [[Angebot|wenn das für deine Redaktion passt]].
 
-Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
+Was hältst du davon? Ich möchte gern wissen, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
 [[Dein Name|Paula]]` },
@@ -271,7 +271,7 @@ Schreib mir bitte, [[Frage an die Freundin|ob ich dir bei der Serie helfen kann]
   // 12
   { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Eva]],
 
-danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf Evas Stelle|Herzlichen Glückwunsch zur Stelle bei VIA]].
+deine Nachricht hat mich erreicht, ich gehe sie Punkt für Punkt durch. Als Erstes: [[Reaktion auf Evas Stelle|Herzlichen Glückwunsch zur Stelle bei VIA]].
 
 Als Nächstes zu meinem Deutsch: [[Fortschritte beim Deutschlernen|Ich lerne regelmäßig und mache Fortschritte]].
 
@@ -295,7 +295,7 @@ Ich freue mich auf [[Vorfreude|dein erstes Heft]], auf [[Weitere Vorfreude|deine
   // 13
   { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Eva]],
 
-deine Mail hat mich sehr gefreut. [[Reaktion auf Evas Stelle|Ich freue mich so für dich, du hast es verdient]]. Von Herzen: Glückwunsch zur Stelle bei VIA!
+ich habe mich riesig über deine E-Mail gefreut! [[Reaktion auf Evas Stelle|Ich freue mich so für dich, du hast es verdient]]. Von Herzen: Glückwunsch zur Stelle bei VIA!
 
 Mein Deutsch: [[Fortschritte beim Deutschlernen|Ich werde jeden Tag ein bisschen sicherer]]. Danke, dass du dich danach erkundigst.
 
