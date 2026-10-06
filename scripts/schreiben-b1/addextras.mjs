@@ -21,9 +21,10 @@ while ((m = re.exec(src))) {
   if (p < 0) throw new Error(`card ${idx + 1}: no paragraph before the closing`);
   if (idx >= extras.length) throw new Error(`more cards than extras (card ${idx + 1})`);
   // an extra may start with "#7 " (its card number): checked against the card, then stripped — makes miscounted lists visible
-  const tag = /^#(\d+)\s+/.exec(extras[idx].trim());
+  const tag = /^#(\d+)(\s|$)/.exec(extras[idx].trim());
   if (tag && +tag[1] !== idx + 1) throw new Error(`extra tagged #${tag[1]} sits at card ${idx + 1} — the list is miscounted`);
-  const nb = body.slice(0, p + 2) + extras[idx].trim().replace(/^#\d+\s+/, "") + "\n\n" + body.slice(p + 2);
+  const extra = extras[idx].trim().replace(/^#\d+\s*/, "");
+  const nb = extra ? body.slice(0, p + 2) + extra + "\n\n" + body.slice(p + 2) : body; // "#n" alone (empty extra) = leave this card as it is
   out += src.slice(pos, m.index) + "t: `" + nb + "` }";
   pos = m.index + m[0].length;
   idx++;

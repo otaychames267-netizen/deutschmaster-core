@@ -1,242 +1,302 @@
-// Thomas – organisiert wieder einen Ausflug mit Bus und Schiff (Ziel geheim, übernächster Samstag, 9:30 Uhr bei ihm); er hat sich beim Basketball das Bein gebrochen. Points: Alternativvorschlag für schlechtes Wetter · Einladung annehmen · was Sie noch über den Ausflug wissen wollen · auf den Sportunfall reagieren.
+// v2 (B2-style): Thomas organisiert wieder einen Ausflug mit Bus und Schiff (Ziel geheim, übernächster Samstag, 9:30 Uhr bei ihm); er hat sich beim Basketball das Bein gebrochen.
+// Points: Alternativvorschlag für schlechtes Wetter · Einladung annehmen · was Sie noch über den Ausflug wissen wollen · auf den Sportunfall reagieren.
+export const kw = [/Wetter|Regen|regnet/i, /komm|dabei|zusage|gern/i, /\?/, /Bein|Unfall|gebrochen|Besserung|Basketball/i, /Samstag|9[:.]30|halb zehn|Treffpunkt/i];
 export default [
   // 1
-  { label: "Gute Besserung, Museum bei Regen, Zusage, Frage nach dem Ziel", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Thomas]],
 
-dass du dir beim Basketball das Bein gebrochen hast, tut mir sehr leid! [[Reaktion auf den Unfall|Gute Besserung, ich hoffe, dass es dir schon besser geht]] und dass du keine zu großen Schmerzen mehr hast.
+vielen Dank für deine Einladung, ich habe mich riesig darüber gefreut! Dass du dir beim Basketball das Bein gebrochen hast, tut mir aufrichtig leid. [[Wunsch für die Genesung|Gute Besserung]], und [[Hoffnung|ich hoffe, die Schmerzen sind nicht mehr so stark]]. Du musst dich jetzt viel ausruhen und geduldig sein.
 
-Die Einladung zum Ausflug nehme ich sehr gern an, und ich freue mich schon darauf, euch alle wiederzusehen. Der Termin am übernächsten Samstag passt mir gut.
+Natürlich komme ich gern mit. [[Zusage|Ich freue mich schon sehr auf den Ausflug]], denn es ist lange her, dass wir alle zusammen unterwegs waren. Um [[Uhrzeit|9:30 Uhr]] bin ich pünktlich bei dir, [[Treffpunkt|mit Rucksack und guter Laune]].
 
-Wenn das Wetter schlecht wird, habe ich einen Vorschlag: [[Alternative bei Regen|Wir besuchen ein Museum, in dem man sitzen kann, und trinken danach etwas im Café]]. Das ist für dein Bein auch bequemer.
+Falls das Wetter schlecht wird, habe ich einen Vorschlag: [[Alternative bei Regen|Wir besuchen das Schifffahrtsmuseum, dort kannst du bequem sitzen]]. Danach könnten wir [[Zweite Idee|in einem Café Kaffee trinken und Kuchen essen]]. Das ist für dein Bein sicher angenehmer, [[Begründung|weil du kaum laufen musst]]. Ich drücke die Daumen, dass [[Wetterwunsch|die Sonne scheint]], damit die Schifffahrt klappt.
 
-Ich habe noch eine Frage: [[Frage|Wohin geht es denn, und wie lange dauert der Ausflug]]? Ich bin sehr neugierig auf die Überraschung.
+Eine Frage habe ich noch: [[Frage zum Ausflug|Wie lange dauert die Schifffahrt]]? Außerdem möchte ich wissen, [[Zweite Frage|wann wir am Abend wieder zurück sind]]. Ich bin sehr gespannt auf die Überraschung und rate schon seit Tagen, [[Vermutung zum Ziel|wohin es wohl gehen wird]].
 
-Ich würde mich über eine kurze Antwort von dir freuen.
+Ich muss auch sagen, dass [[Erinnerung|unser Ausflug im letzten Jahr einer der schönsten Tage war]]. Wir haben so viel gelacht, und ich habe die Fotos noch immer auf meinem Handy. Ich freue mich darauf, [[Wiedersehen|alle anderen endlich wiederzusehen]], besonders [[Person|Anna und Jakob]].
+
+Schreib mir bitte kurz, [[Bitte an den Freund|ob ich dir vorher beim Einkaufen helfen kann]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
   // 2
-  { label: "Schreck über den Unfall, Schwimmbad bei Regen, Zusage, Frage nach dem Essen", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Thomas]],
 
-oje, was für eine schlechte Nachricht mit deinem Bein! [[Reaktion auf den Unfall|Ich bin erschrocken und wünsche dir eine schnelle Heilung]]. Ruh dich gut aus.
+hey, danke für die Einladung! Aua, das mit deinem Bein klingt echt übel. [[Reaktion auf den Unfall|Basketball ist eben gefährlich, aber du bist bald wieder fit]]. Wie kommst du mit den Krücken klar, nerven die schon? Ich hoffe, [[Wunsch|dir fällt zu Hause nicht die Decke auf den Kopf]].
 
-Zu deinem Ausflug sage ich gern zu. Eine Fahrt mit Bus und Schiff ist genau richtig, wenn man nicht so gut zu Fuß ist. Dass es eine Überraschung wird, macht mich besonders neugierig.
+Klar bin ich beim Ausflug dabei, [[Zusage|bei Bus und Schiff kann ich mich gleich mal entspannen]]. Übernächsten Samstag um [[Uhrzeit|halb zehn]] bei dir, das kriege ich locker hin. Ich bringe [[Mitbringsel|ein paar Snacks und gute Musik]] mit, versprochen.
 
-Falls das Wetter schlecht ist, schlage ich vor: [[Alternative bei Regen|Wir gehen in ein Schwimmbad mit Sauna, wo man auch im Regen Spaß hat]]. Dein Bein darfst du dann natürlich schonen.
+Und wenn es regnet? Dann hätte ich eine Idee: [[Alternative bei Regen|Wir gehen zusammen ins Kino]] und danach [[Zweite Idee|essen wir eine große Pizza]]. Da sitzt du sowieso bequem, und wir können in Ruhe quatschen.
 
-Ich möchte noch wissen: [[Frage|Gibt es unterwegs etwas zu essen, oder sollen wir selbst etwas mitbringen]]?
+Verrätst du mir wenigstens einen Tipp: [[Frage zum Ausflug|Welche Kleidung soll ich mitnehmen, falls es auf dem Schiff windig wird]]? Und was kostet der Spaß ungefähr, [[Zweite Frage|brauche ich Bargeld für die Tickets]]?
 
-Schreib mir bitte zurück.
+Übrigens, bei mir ist gerade [[Neuigkeit|ziemlich viel los auf der Arbeit]], da kommt ein freier Tag wie dieser genau richtig. Letztes Mal war ich nach dem Ausflug so müde, dass ich [[Folge|schon im Bus eingeschlafen bin]]. Diesmal bleibe ich wach, [[Versprechen|und ich passe auf dich auf]].
+
+Sag einfach Bescheid, wenn ich noch etwas besorgen soll.
 
 [[Grußformel|Bis bald]]
 [[Dein Name|Karim]]` },
 
   // 3
-  { label: "Mitgefühl, Kino bei schlechtem Wetter, Zusage, Frage nach der Rückkehr", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Thomas]],
 
-danke für deine Einladung! Dass du dir beim Basketball das Bein gebrochen hast, tut mir sehr leid. [[Reaktion auf den Unfall|Ich hoffe, dass du bald wieder gesund bist, und ich wünsche dir viel Geduld]].
+wow, was für eine tolle Idee, schon wieder ein gemeinsamer Ausflug! Ich habe mich beim Lesen sofort gefreut, [[Erinnerung an letztes Jahr|an unseren Tag am See denke ich noch heute gern]]. Natürlich bin ich dabei, [[Zusage|ich trage mir den Termin gleich in den Kalender ein]]. Samstag, [[Uhrzeit|halb zehn]], bei dir!
 
-Natürlich komme ich gern mit. Der Ausflug klingt nach einem schönen Tag, und ich freue mich besonders auf die Schifffahrt. Ich schreibe mir den Termin gleich in den Kalender.
+Dass du dir das Bein gebrochen hast, ist allerdings ein Schock. [[Reaktion auf den Unfall|Der arme Kerl, drei Wochen sind lang, aber es wird bald besser]]! Ein gemütlicher Ausflug ist da die perfekte Lösung, [[Lob|das ist wirklich eine super Idee von dir]].
 
-Wenn es regnet, habe ich eine Idee: [[Alternative bei Regen|Wir gehen zusammen ins Kino und sehen einen schönen Film]]. Danach können wir noch irgendwo essen.
+Die Überraschung macht mich ganz kribbelig! Ich rate mal: [[Tipp zum Ziel|vielleicht fahren wir auf eine kleine Insel mit Schloss]]? Verrätst du mir nur, [[Erste Frage|wie lange die Fahrt dauert]] und [[Zweite Frage|ob es unterwegs ein Restaurant gibt]]?
 
-Eine Frage habe ich: [[Frage|Wann sind wir ungefähr wieder zurück, damit ich am Abend etwas planen kann]]?
+Sollte das Wetter nicht mitspielen, dann [[Alternative bei Regen|bauen wir bei dir ein riesiges Spieleturnier mit Brettspielen auf]] und [[Zweite Idee|bestellen Pizza für alle]]. Das wäre auch ein super Tag!
 
-Bis bald, und erzähl mir bald, was es Neues gibt.
+Ich liebe Überraschungen, und noch mehr liebe ich Schiffe! Als Kind habe ich [[Kindheitserinnerung|jeden Sommer auf einem Boot am Fluss verbracht]], deshalb freue ich mich so. Ich packe [[Mitbringsel|meine Kamera und einen großen Hut]] ein, [[Ziel des Mitbringsels|damit wir tolle Fotos machen können]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Schreib mir bald, [[Bitte an den Freund|ob ich etwas Leckeres mitbringen soll]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Arztbesuch angesprochen, Café bei Regen, Zusage, Frage nach der Kleidung", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "sachlich-strukturiert", t: `Hallo [[Name des Freundes|Thomas]],
 
-wie schön, dass du wieder einen Ausflug planst, aber leider tut mir dein Unfall sehr leid! [[Reaktion auf den Unfall|Warst du schon beim Arzt, und wie lange musst du den Gips tragen]]? Ich hoffe, dass es dir bald besser geht.
+vielen Dank für deine E-Mail. Ich antworte dir in der Reihenfolge deiner Fragen.
 
-Ich nehme die Einladung sehr gern an, und ich freue mich auf den Samstag. Bus und Schiff sind für dich bestimmt gut, wenn du nicht viel laufen kannst.
+Zum Unfall: Es tut mir leid, dass du dir beim Basketball das Bein gebrochen hast. [[Reaktion auf den Unfall|Ich wünsche dir eine schnelle Genesung und viel Geduld]]. Bitte schone dich, [[Rat|auch wenn es schwerfällt]].
 
-Falls das Wetter nicht mitspielt, schlage ich vor: [[Alternative bei Regen|Wir gehen in ein gemütliches Café in der Stadt und spielen Karten]]. Das ist unkompliziert.
+Zur Einladung: [[Zusage|Ich nehme sie gern an und komme am übernächsten Samstag]]. Ich bin um [[Uhrzeit|9:30 Uhr]] bei dir, und [[Begleitung|ich bringe meine Schwester mit, wenn das in Ordnung ist]].
 
-Ich möchte noch wissen: [[Frage|Was soll ich anziehen, und brauche ich eine Jacke für das Schiff]]?
+Zum Wetter: Für den Fall von Regen schlage ich eine Alternative vor. [[Alternative bei Regen|Wir besuchen das Stadtmuseum]] und essen anschließend [[Zweite Idee|gemeinsam in einem Restaurant zu Mittag]]. Das ist gut erreichbar, und du kannst oft sitzen.
 
-Bis dahin, und erzähl mir bald, was es Neues gibt.
+Zu meinen Fragen: [[Erste Frage|Welche Kosten entstehen pro Person]]? [[Zweite Frage|Wann kommen wir am Abend voraussichtlich zurück]]? Eine kurze Antwort genügt mir, denn die Überraschung möchte ich dir nicht verderben.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Zur Organisation weise ich noch auf Folgendes hin: [[Hinweis|Ich habe seit Kurzem ein Monatsticket für den Bus]], sodass für mich keine Extrakosten entstehen. Außerdem [[Zusatzinfo|habe ich am Samstag keine anderen Termine]], und ich kann den ganzen Tag bleiben, [[Folge|auch wenn es etwas später wird]].
+
+Ich freue mich auf deine Nachricht.
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Hilfe anbieten, Therme bei Regen, Zusage, Frage nach den Kosten", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Thomas]],
 
-danke, dass du uns wieder einlädst! Dass du dir das Bein gebrochen hast, finde ich sehr schade. [[Reaktion auf den Unfall|Wenn du Hilfe beim Einkaufen brauchst, sag mir einfach Bescheid, ich helfe dir gern]]. Gute Besserung!
+danke für deine Einladung, ich komme sehr gern mit! [[Zusage|Samstag um 9:30 Uhr bei dir passt mir gut]].
 
-Zum Ausflug sage ich sofort zu. Es freut mich, dass du trotz des gebrochenen Beins etwas planst, und ich bin gespannt auf die Überraschung.
+Das mit deinem Bein tut mir leid. [[Reaktion auf den Unfall|Gute Besserung, und sag mir, wenn du etwas brauchst]]. Ich kann zum Beispiel für dich [[Hilfsangebot|einkaufen gehen oder deinen Rucksack am Samstag tragen]]. Beim Einsteigen in Bus und Schiff helfe ich dir selbstverständlich auch.
 
-Falls das Wetter schlecht ist, schlage ich vor: [[Alternative bei Regen|Wir fahren in eine Therme und entspannen im warmen Wasser]]. Das ist gut für alle, und dein Bein ist dabei kein Problem.
+Falls es regnet, wäre es praktisch, einen Plan B zu haben: [[Alternative bei Regen|Wir fahren mit dem Bus in die Therme]] und [[Zweite Idee|entspannen im warmen Wasser]]. Dort gibt es bestimmt Liegen, auf denen du dein Bein ausruhen kannst.
 
-Eine Frage habe ich noch: [[Frage|Was kostet der Ausflug ungefähr, und soll ich das Geld vorher überweisen]]?
+Noch ein paar praktische Fragen: [[Erste Frage|Müssen wir die Tickets vorher kaufen]]? Und [[Zweite Frage|brauchen wir Regenjacken und etwas zu trinken]]? Ich kann auch [[Mitbringsel|Brötchen und Obst für alle]] einpacken.
 
-Ich bin gespannt auf deine Idee, also schreib mir bald.
+Wenn du möchtest, [[Hilfe|rufe ich dir vorher ein Taxi zum Bahnhof]], damit du nicht so weit laufen musst. Ich habe außerdem [[Hilfsmittel|eine kleine Tasche mit Pflastern und Wasser]] zu Hause, die ich gern mitnehme. Dann sind wir für alle Fälle vorbereitet, [[Folge|und du musst dir keine Sorgen machen]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Ich schaue außerdem noch einmal in den Fahrplan, [[Hinweis|damit wir den richtigen Bus erwischen]], und schicke dir die Abfahrtszeiten per Nachricht. Wenn du Fragen zur Strecke hast, sage ich dir gern Bescheid.
+
+Schreib mir, [[Bitte an den Freund|was ich sonst noch übernehmen soll]].
+
+[[Grußformel|Bis Samstag]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Besuch angeboten, Brunch bei Regen, Zusage, Frage nach dem Treffpunkt", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Thomas]],
 
-deine Nachricht hat mich gefreut, aber der Unfall tut mir leid! [[Reaktion auf den Unfall|Ich möchte dich bald besuchen, wenn du das möchtest, und etwas Schönes mitbringen]]. Gute Besserung!
+ich sage sehr gern zu, denn [[Grund für die Zusage|ein Ausflug mit Freunden ist genau das, was ich gerade brauche]]. Außerdem finde ich es gut, dass du ihn trotz deines Beins organisierst. [[Reaktion auf den Unfall|Gute Besserung, ich hoffe, du bist bald wieder fit]].
 
-Zum Ausflug sage ich gern zu: Ich komme sehr gern mit, und ich freue mich schon auf den Samstag. Eine Überraschung als Ziel macht es noch spannender.
+Dass du Bus und Schiff gewählt hast, ist vernünftig, weil [[Begründung|du dich so kaum anstrengen musst]]. Wenn das Wetter schlecht ist, würde ich vorschlagen: [[Alternative bei Regen|Wir gehen ins Kino und sehen uns einen guten Film an]]. Das passt, weil [[Grund für die Alternative|man dort trocken und bequem sitzen kann]].
 
-Falls das Wetter schlecht wird, habe ich einen Alternativvorschlag: [[Alternative bei Regen|Wir machen einen gemeinsamen Brunch bei dir zu Hause oder in einem Lokal]]. Dann musst du nicht so viel laufen.
+Ich habe noch zwei Fragen, weil ich mich gut vorbereiten will: [[Erste Frage|Wie lange sind wir insgesamt unterwegs]]? [[Zweite Frage|Soll ich Essen mitbringen oder essen wir unterwegs]]? Danach kann ich planen, was ich einpacke, und ich komme pünktlich um [[Uhrzeit|9:30 Uhr]].
 
-Eine Frage: [[Frage|Treffen wir uns um 9:30 Uhr bei dir, oder sollen wir direkt zur Haltestelle kommen]]?
+Ich bin sicher, dass es ein schöner Tag wird, weil [[Grund für die Vorfreude|wir alle zusammen sind und die Überraschung spannend ist]].
 
-Schreib mir bitte kurz zurück.
+Ich nenne dir noch einen Grund, warum ich mich so freue: [[Grund|Ich war in den letzten Wochen kaum draußen]]. Frische Luft und Wasser tun mir gut, [[Folge|und mit netten Menschen macht es doppelt Spaß]]. Deshalb ist dein Ausflug die richtige Idee zur richtigen Zeit.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+Schreib mir bitte kurz zurück, [[Bitte an den Freund|ob du noch Hilfe beim Planen brauchst]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Sorge um das Bein, Spieleabend bei Regen, Zusage, Frage nach dem Gepäck", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Thomas]],
 
-ich habe mich über deine Einladung sehr gefreut, aber ich mache mir auch Sorgen um dein Bein! [[Reaktion auf den Unfall|Hoffentlich hast du nicht zu viele Schmerzen, und ich wünsche dir, dass es schnell heilt]]. Ein gebrochenes Bein ist wirklich lästig.
+danke für deine E-Mail, hier meine Antworten.
 
-Ich komme sehr gern zum Ausflug. Bus und Schiff sind eine tolle Idee, und das Datum passt mir hervorragend. Ich freue mich auf die Überraschung.
+Dein Bein: [[Reaktion auf den Unfall|Das tut mir sehr leid, gute Besserung]]! Ruh dich aus und [[Rat|schone das Bein, so gut du kannst]].
 
-Bei schlechtem Wetter schlage ich vor: [[Alternative bei Regen|Wir verbringen den Tag bei dir und machen einen Spieleabend mit Essen]]. Das ist für dich am bequemsten.
+Der Ausflug: [[Zusage|Ich bin gern dabei]]. Ich komme am übernächsten Samstag um [[Uhrzeit|9:30 Uhr]] zu dir und freue mich schon auf alle anderen.
 
-Ich möchte noch wissen: [[Frage|Soll ich Rucksack und Verpflegung mitbringen, oder bekommen wir etwas an Bord]]?
+Schlechtes Wetter: [[Alternative bei Regen|Dann gehen wir in das Technikmuseum]]. Das ist trocken, interessant und hat [[Begründung|Sitzplätze für dich]]. Danach essen wir etwas zusammen.
 
-Ich bin gespannt auf deinen Plan, also schreib mir bald.
+Meine Fragen: [[Erste Frage|Wie hoch sind die Kosten]]? [[Zweite Frage|Wann sind wir zurück]]? [[Dritte Frage|Muss ich etwas mitbringen]]? Mehr will ich nicht wissen, denn die Überraschung soll ja eine bleiben.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Nour]]` },
+Noch ein Punkt: Meine Kamera [[Mitbringsel|nehme ich selbstverständlich mit]]. Außerdem [[Hinweis|bringe ich eine Decke und Wasser für alle]] mit, falls wir irgendwo Pause machen. Wir sehen uns [[Zeit|am übernächsten Samstag]], und ich freue mich schon sehr darauf.
+
+Falls du Hilfe beim Packen brauchst, [[Angebot|komme ich am Freitag kurz vorbei]]. Das ist kein Problem für mich, denn dein Haus liegt auf meinem Weg, und ich sehe dich gern. Ich bringe auch [[Mitbringsel|ein kleines Gesellschaftsspiel]] für die Fahrt mit.
+
+Ich hoffe, dass dir die Fahrt mit dem Bus nicht zu unbequem wird. Beim Einsteigen helfe ich dir gern, und wir finden bestimmt einen guten Platz für dein Bein. Melde dich einfach, wenn sich etwas ändert.
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Gute Besserung und Krücken, Bowling bei Regen, Zusage, Frage nach Mitreisenden", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Thomas]],
 
-danke für deine Zeilen und deine Einladung! Dass du dich verletzt hast, tut mir leid. [[Reaktion auf den Unfall|Mit Krücken zu gehen, ist bestimmt anstrengend, ich wünsche dir viel Kraft und Gute Besserung]].
+Basketball und Bein gebrochen, das klingt nach einem Fall für die Sportschau! [[Reaktion auf den Unfall|Im Ernst, gute Besserung, ich hoffe, es tut nicht mehr so weh]]. Dass du trotzdem einen Ausflug planst, nenne ich echte Sportlerehre.
 
-Zu deinem Ausflug: Ich komme sehr gern, und ich bin gespannt, wohin die Reise geht. Dein Plan mit Bus und Schiff ist sehr vernünftig.
+Natürlich komme ich mit. [[Zusage|Ein Tag mit Bus, Schiff und euch klingt wunderbar]], und mit dir als Reiseleiter auf einem Bein wird es bestimmt nie langweilig. Samstag, [[Uhrzeit|9:30 Uhr]] bei dir, ich komme pünktlich, versprochen.
 
-Falls das Wetter schlecht ist, schlage ich vor: [[Alternative bei Regen|Wir gehen zusammen Bowling spielen, da bleibst du sitzen und siehst zu]]. Danach können wir etwas essen.
+Sollte das Wetter schlecht sein, hätte ich diesen Vorschlag: [[Alternative bei Regen|Wir besuchen ein Schokoladenmuseum]] und [[Zweite Idee|probieren alles, was dort herumsteht]]. Dann haben wir wenigstens trockene Füße und volle Bäuche.
 
-Ich möchte noch wissen: [[Frage|Wer kommt noch mit, und kenne ich die anderen schon]]?
+Zwei Fragen habe ich noch: [[Erste Frage|Fährt ein Kapitän, der schon einmal ein Schiff gesteuert hat]]? Und [[Zweite Frage|gibt es auf dem Schiff genug Platz für uns alle und dein Bein]]?
 
-Antworte mir bitte bald. Ich freue mich schon auf den Samstag und auf die Überraschung.
+Ich verspreche dir außerdem, [[Versprechen|keine Witze über dein Gipsbein zu machen]]. Na gut, höchstens zwei. Und [[Scherz|ich trage deine Krücken, wenn du mir dafür die Überraschung verrätst]]. Das ist doch ein fairer Deal, oder?
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Fares]]` },
+Und falls du dich fragst, warum ich so viele Fragen habe: [[Grund|Ich plane gern, und Überraschungen machen mich nervös]]. Ich werde bis Samstag [[Gefühl|vor Neugier kaum schlafen können]], das garantiere ich dir. Aber ich halte durch, [[Folge|für dich und die Überraschung]].
+
+Schreib mir bitte, [[Bitte an den Freund|was ich für die Überraschung anziehen soll]], damit ich nicht im Bademantel erscheine.
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Mitgefühl, Schlossführung bei Regen, Zusage, Frage nach der Fahrzeit", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Thomas]],
 
-wie schön, dass du wieder einen Ausflug organisierst! Aber dein Beinbruch tut mir sehr leid. [[Reaktion auf den Unfall|Ich hoffe, dass die Heilung gut verläuft, und ich wünsche dir viel Geduld]].
+als ich deine E-Mail gelesen habe, musste ich sofort an unseren Ausflug im letzten Jahr denken. [[Erinnerung an letztes Jahr|Wir saßen den ganzen Nachmittag am Wasser und haben nur gelacht]]. Deshalb sage ich ohne Zögern zu, ich komme sehr gern mit.
 
-Die Einladung nehme ich sehr gern an. Der Samstag passt mir perfekt, und ich freue mich schon auf die Überraschung. Ein Ausflug mit Bus und Schiff ist ruhig und entspannt.
+Dass du dir das Bein gebrochen hast, hat mich traurig gemacht. Ich habe gestern erst meiner Mutter davon erzählt. [[Reaktion auf den Unfall|Sie lässt dich grüßen und wünscht dir gute Besserung]]. Ich hoffe, dass du dich nicht zu sehr langweilst.
 
-Falls es regnet, habe ich einen Vorschlag: [[Alternative bei Regen|Wir besuchen ein Schloss mit Führung, dort sind wir im Trockenen]]. Das ist interessant und nicht anstrengend.
+Für den Fall, dass es regnet, habe ich schon nachgedacht. [[Alternative bei Regen|Wir könnten bei mir zu Hause kochen]] und danach [[Zweite Idee|einen Film schauen]]. Meine Wohnung hat einen Aufzug, das wäre also für dein Bein bequem.
 
-Ich habe eine Frage: [[Frage|Wie lange dauert die Fahrt mit dem Bus, und wie lange sind wir auf dem Schiff]]?
+Was ich noch wissen möchte: [[Erste Frage|Wie viele Leute kommen eigentlich mit]]? Ich kenne nicht alle, und ich bin neugierig, [[Zweite Frage|ob auch Jakob und seine Freundin dabei sind]]. Der Samstag um [[Uhrzeit|9:30 Uhr]] ist für mich fest eingeplant.
 
-Ich bin neugierig auf deine Meinung dazu, also schreib mir bald.
+Ich selbst habe mir mit zwölf auch einmal den Arm gebrochen. [[Erinnerung|Damals durfte ich zwei Monate nicht Fußball spielen]], und ich war so unglücklich. Aber meine Freunde haben mich oft besucht, [[Folge|und das hat mir sehr geholfen]]. Vielleicht besuche ich dich deshalb bald einmal, [[Angebot|mit Kuchen und einem guten Buch]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Aymen]]` },
+Ich schreibe dir das alles, weil [[Grund|du mir wirklich wichtig bist]], auch wenn wir uns zuletzt nur selten sehen konnten. Dafür freue ich mich jetzt umso mehr, [[Vorfreude|dich bald wieder in den Arm zu nehmen]], natürlich vorsichtig wegen deines Beins.
+
+Ich freue mich auf dich und auf die Überraschung.
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Gute Besserung, Minigolf in der Halle, Zusage, Frage nach dem Mittagessen", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Thomas]],
 
-danke für deine E-Mail und die Einladung! Der Unfall beim Basketball tut mir sehr leid. [[Reaktion auf den Unfall|Gute Besserung, Thomas, ich hoffe, dass du bald wieder ohne Schmerzen laufen kannst]].
+danke für die Einladung, ich bin dabei! Zuerst aber eine Bitte: [[Reaktion auf den Unfall|Schone dein Bein und werde schnell gesund]]. Ich habe zu deinem Ausflug gleich mehrere Vorschläge.
 
-Ich nehme die Einladung gern an und freue mich auf den Ausflug. Bus und Schiff, das klingt nach einem gemütlichen Tag. Auch ich bin gespannt auf die Überraschung.
+Mein erster Vorschlag: [[Vorschlag zur Anfahrt|Wir treffen uns schon um 9:15 Uhr, damit du in Ruhe einsteigen kannst]]. Dann haben wir keinen Stress, und niemand muss rennen.
 
-Wenn das Wetter schlecht wird, kann ich mir gut vorstellen: [[Alternative bei Regen|Wir spielen in einer Halle Minigolf, das geht auch mit einem gebrochenen Bein]]. Es macht auch bei Regen Spaß.
+Mein zweiter Vorschlag betrifft das Wetter. Wenn es richtig regnet, [[Alternative bei Regen|besuchen wir ein Aquarium]], denn [[Begründung|dort ist es trocken und man kann viel sitzen]]. Und wenn es nur etwas nass ist, [[Zweite Alternative|nehmen wir Regenschirme und fahren trotzdem mit dem Schiff]].
 
-Eine Frage habe ich noch: [[Frage|Gibt es ein Mittagessen unterwegs, und wo essen wir]]?
+Mein dritter Vorschlag: [[Vorschlag für den Tag|Wir machen unterwegs ein Gruppenfoto]] und [[Zweiter Vorschlag für den Tag|kochen abends gemeinsam bei mir]]. Was hältst du davon?
 
-Ich bin gespannt auf deine Meinung dazu, also schreib mir bald.
+Ich hätte nur eine Frage: [[Frage zum Ausflug|Wie lange dauert die Schifffahrt, und gibt es dort ein Café]]? Dann weiß ich, wie ich den Samstag plane.
+
+Mein vierter Vorschlag: [[Vorschlag|Jeder bringt eine Kleinigkeit zum Essen mit]], dann müssen wir kein Restaurant suchen. Ich übernehme [[Aufgabe|die Getränke und das Obst]]. Und wenn du magst, [[Angebot|trage ich dein Gepäck und halte im Bus einen Platz frei]].
+
+Mein letzter Vorschlag: [[Vorschlag|Wir sammeln schon vorher Ideen für den nächsten Ausflug]], damit es eine kleine Tradition wird. Wenn jeder einen Wunsch nennt, [[Folge|findet sich bestimmt etwas für alle]]. Das fände ich schön, und du hättest [[Vorteil|schon eine Liste für das nächste Mal]].
+
+Antworte mir gern bald.
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Rim]]` },
+[[Dein Name|Paula]]` },
 
   // 11
-  { label: "Schmerzen gewünscht weg, Therme und Café, Zusage, Frage nach dem Fahrplan", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Thomas]],
 
-deine Nachricht hat mich sehr gefreut, aber dein Unfall macht mich traurig. [[Reaktion auf den Unfall|Ich wünsche dir, dass die Schmerzen bald weggehen, und ich denke an dich]]. Gute Besserung!
+vielen Dank für deine Einladung. Ich würde sehr gern mitkommen, [[Zusage mit Bedingung|wenn ich den Termin mit meiner Arbeit vereinbaren kann]]. Ich glaube aber, dass das klappt, und sage dir spätestens morgen endgültig zu.
 
-Ich komme sehr gern zum Ausflug, und ich bin gespannt auf das geheime Ziel. Dass du an uns denkst, obwohl du das Bein gebrochen hast, ist sehr nett.
+Das mit deinem Bein tut mir leid. [[Reaktion auf den Unfall|Hoffentlich heilt es gut, und die Schmerzen lassen bald nach]]. Einerseits ist ein ruhiger Ausflug sicher gut für dich, andererseits solltest du dich nicht überanstrengen.
 
-Falls das Wetter schlecht ist, habe ich einen Vorschlag: [[Alternative bei Regen|Wir gehen in ein Thermalbad und danach in ein Café]]. Dort können wir lange sitzen und reden.
+Beim Wetter bin ich noch unsicher. Einerseits ist eine Schifffahrt bei Sonne schön, andererseits ist sie bei starkem Regen unangenehm. Als Alternative würde ich vorschlagen: [[Alternative bei Regen|Wir besuchen ein Museum]] und gehen danach [[Zweite Idee|in ein Restaurant]]. Vielleicht gefällt das aber nicht allen.
 
-Ich habe noch eine Frage: [[Frage|Wie ist der Fahrplan, und wann fährt das Schiff zurück]]?
+Ich hätte noch eine Frage, falls das nicht zu viel verrät: [[Frage zum Ausflug|Müssen wir viel laufen, oder ist alles gut erreichbar]]? Das wäre für dein Bein wichtig. Treffpunkt ist doch [[Treffpunkt|bei dir um 9:30 Uhr]], oder?
 
-Ich bin neugierig auf deinen Plan, also schreib mir bald.
+Ich möchte dich auch nicht drängen. Wenn dir der Ausflug zu anstrengend wird, [[Alternative|können wir ihn um eine Woche verschieben]], und ich hätte volles Verständnis. Andererseits bin ich überzeugt, dass [[Überzeugung|du dich über den Tag mit uns freuen wirst]]. Es kommt eben darauf an, [[Bedingung|wie du dich am Samstag fühlst]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Emna]]` },
+Ich wollte das nur ehrlich sagen, [[Grund|damit du weißt, woran du bist]]. Wenn du mir bis Donnerstag Bescheid gibst, [[Plan|kann ich mir den Samstag freihalten]]. Und falls mir doch etwas dazwischenkommt, [[Folge|rufe ich dich sofort an]].
+
+Sag mir bitte, [[Bitte an den Freund|ob du bis Samstag noch jemanden brauchst, der dich fährt]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
 
   // 12
-  { label: "Gute Besserung, Stadtrundfahrt bei Regen, Zusage, Frage zur Kleidung und Schuhen", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "Schritt für Schritt", t: `Hallo [[Name des Freundes|Thomas]],
 
-wie nett, dass du uns einlädst! Dass du dir beim Basketball das Bein gebrochen hast, tut mir sehr leid. [[Reaktion auf den Unfall|Ich hoffe, dass du keine bleibenden Schäden hast, und wünsche dir schnelle Besserung]].
+danke für deine Einladung! Ich gehe der Reihe nach auf deine E-Mail ein.
 
-Zu deinem Ausflug: Ich komme sehr gern. Der Plan klingt gemütlich, und ich freue mich besonders auf die Fahrt mit dem Schiff. Das Ziel soll ja eine Überraschung sein.
+Zuerst zu deinem Bein: [[Reaktion auf den Unfall|Das tut mir sehr leid, ich wünsche dir gute Besserung]]. Dann zur Einladung: [[Zusage|Ich komme natürlich gern mit]]. Der Samstag ist frei, und um [[Uhrzeit|9:30 Uhr]] bin ich bei dir.
 
-Falls das Wetter schlecht ist, schlage ich vor: [[Alternative bei Regen|Wir machen eine Stadtrundfahrt im Bus und halten bei einem Café]]. So bleiben wir trocken.
+Als Nächstes zum Wetter. Falls es regnet, [[Alternative bei Regen|gehen wir ins Kino]] und danach [[Zweite Idee|in eine Pizzeria]]. Dann kommen wir trocken durch den Tag, und du sitzt bequem.
 
-Eine Frage habe ich noch: [[Frage|Brauchen wir besondere Schuhe, und müssen wir viel laufen]]?
+Zum Schluss meine Fragen. Erstens: [[Erste Frage|Was soll die Fahrt ungefähr kosten]]? Zweitens: [[Zweite Frage|Wo genau fährt der Bus ab]]? Drittens: [[Dritte Frage|Bleiben wir den ganzen Tag zusammen]]? Eine Antwort auf alle drei würde mir schon reichen.
 
-Ich bin gespannt auf deine Antwort darauf, also schreib mir bald.
+Noch ein letzter Schritt, bevor ich Schluss mache: [[Plan|Ich packe meinen Rucksack schon am Freitag]]. Das mache ich, [[Grund|damit ich am Samstag nichts vergesse]]. Danach lege ich mich früh ins Bett, [[Folge|um morgens fit zu sein]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Walid]]` },
+Zum Abschluss fasse ich es noch einmal zusammen: Ich komme am Samstag, ich bringe [[Mitbringsel|Obst und Wasser]] mit, und ich helfe dir, wenn du Hilfe brauchst. Falls sich etwas ändert, [[Rückmeldung|schreibe ich dir sofort eine kurze Nachricht]]. So hast du alles Wichtige auf einen Blick.
+
+Wenn du alles beantwortet hast, plane ich meinen Tag und komme pünktlich, [[Hinweis|auch wenn ich vorher noch einkaufen muss]].
+
+[[Grußformel|Bis Samstag]]
+[[Dein Name|Leyla]]` },
 
   // 13
-  { label: "Mitleid, Einkaufszentrum bei Regen, Zusage, Frage nach dem Wetterbericht", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Thomas]],
 
-danke für deine Einladung, ich freue mich sehr! Dass du dich beim Basketball verletzt hast, tut mir leid. [[Reaktion auf den Unfall|Ich hoffe, dass du dich gut erholst, und wünsche dir viel Geduld]].
+deine E-Mail hat mich gefreut und gleichzeitig traurig gemacht. [[Reaktion auf den Unfall|Du Armer, ein gebrochenes Bein ist wirklich nicht schön]]. Ich denke an dich und wünsche dir von Herzen, dass alles gut verheilt. Wenn du Gesellschaft brauchst, komme ich gern vorbei.
 
-Ich nehme die Einladung gern an und komme am Samstag mit. Dein Plan mit Bus und Schiff klingt gut, und ich bin gespannt auf die Überraschung.
+Dass du uns trotzdem einlädst, finde ich lieb. [[Zusage|Natürlich komme ich mit, ich freue mich auf alle]]. Mach dir bitte keine Sorgen um mich, ich bin am Samstag [[Uhrzeit|um halb zehn]] bei dir.
 
-Wenn es regnet, könnten wir [[Alternative bei Regen|ein großes Einkaufszentrum besuchen und dort essen]]. Das ist trocken und warm.
+Falls das Wetter nicht gut ist, mach dir bitte keinen Stress. [[Alternative bei Regen|Wir können auch bei dir zu Hause bleiben]] und [[Zweite Idee|zusammen kochen]]. Hauptsache, wir sind zusammen und du fühlst dich wohl.
 
-Ich möchte noch wissen: [[Frage|Hast du schon den Wetterbericht gesehen, und was passiert, wenn es nur ein bisschen regnet]]?
+Ich bin neugierig, aber ich möchte dir nicht die Überraschung verderben. Nur eine Frage: [[Frage zum Ausflug|Sollen wir etwas mitbringen, damit du weniger Arbeit hast]]?
 
-Schreib mir bitte zurück. Ich freue mich auf einen schönen Tag mit euch allen.
+Ich weiß, wie schwer es ist, still zu sitzen, wenn man eigentlich Sport machen möchte. [[Mitgefühl|Du bist sonst so aktiv, das fehlt dir bestimmt]]. Ich bewundere, dass du trotzdem [[Lob|so positiv bleibst und an uns denkst]]. Das zeigt, was für ein Mensch du bist.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Sana]]` },
+Ich habe auch ein kleines Geschenk für dich: [[Geschenk|ein neues Buch und deine Lieblingsschokolade]]. Es ist nichts Großes, aber ich möchte, dass du dich [[Wunsch|gesehen und gut aufgehoben fühlst]]. Du musst nicht danken, [[Folge|es kommt von Herzen]].
+
+Schone dich bitte und denk daran, dass du nichts allein organisieren musst, [[Angebot|ich helfe dir sehr gern dabei]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
 
   // 14
-  { label: "Gute Besserung, Zoohaus bei Regen, Zusage, Frage nach dem Essen und dem Treffpunkt", t: `Hallo [[Name des Freundes|Thomas]],
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Thomas]],
 
-ich habe mich über deine Einladung gefreut! Dein Unfall beim Basketball tut mir leid. [[Reaktion auf den Unfall|Gute Besserung und viel Ruhe, ich hoffe, dass du bald wieder fit bist]].
+danke für die Mail! Klar bin ich dabei. [[Zusage|Samstag, halb zehn bei dir, das passt]]. Ich freue mich schon auf alle, [[Reaktion auf die Einladung|das wird bestimmt wieder ein richtig schöner Tag]].
 
-Ich komme sehr gern zum Ausflug. Ein gemütlicher Tag mit Bus und Schiff ist genau das, was ich mag, und das Datum passt mir sehr gut. Ich bin gespannt auf deine Überraschung.
+Oh Mann, dein Bein! [[Reaktion auf den Unfall|Das ist echt Pech, aber du kriegst das hin]]. Mach langsam und gönn dir Ruhe, [[Rat|der Ausflug läuft ja nicht weg]].
 
-Falls das Wetter schlecht wird, schlage ich vor: [[Alternative bei Regen|Wir gehen ins Tropenhaus im Zoo und sehen Tiere in der Wärme]]. Das ist für alle schön.
+Und wenn das Wetter schlecht ist? Ganz einfach: [[Alternative bei Regen|Wir gehen in die Bowlinghalle]], da kannst du sogar sitzen. Danach [[Zweite Idee|essen wir einen Burger]]. Das wäre auch lustig.
 
-Eine Frage: [[Frage|Gibt es unterwegs etwas zu essen, und treffen wir uns um halb zehn direkt bei dir]]?
+Eine kleine Frage hätte ich noch: [[Frage zum Ausflug|Wie lange dauert das Ganze, und wann sind wir zurück]]? Dann kann ich abends noch etwas planen. Ich bin schon so gespannt auf deine Überraschung!
 
-Mach es gut, und melde dich bald bei mir.
+Bei mir ist übrigens [[Neuigkeit|alles ruhig, nur etwas viel Arbeit]]. Ich freue mich echt auf den freien Tag. Wir haben uns ja [[Zeit|lange nicht gesehen]], da gibt es bestimmt viel zu erzählen, [[Folge|und ich bin gespannt auf alles]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Anis]]` },
+Ach ja, bevor ich es vergesse: [[Hinweis|Ich bringe auch Sonnencreme mit]], falls es doch warm wird. Und ein paar Ersatzbatterien für die Kamera, [[Zusatz|man weiß ja nie]]. Das wird ein cooler Tag, ich spüre es schon jetzt.
+
+Ich bringe [[Mitbringsel|gute Laune und Musik]] mit. Sag Bescheid, wenn du noch etwas brauchst.
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 
   // 15
-  { label: "Mitgefühl, Kochabend bei Regen, Zusage, Frage zur Kamera und Ausrüstung", t: `Lieber [[Name des Freundes|Thomas]],
+  { label: "dankbar, wertschätzend", t: `Lieber [[Name des Freundes|Thomas]],
 
-vielen Dank für die Einladung! Dass du das Bein gebrochen hast, tut mir leid. [[Reaktion auf den Unfall|Ich wünsche dir eine schnelle Heilung, und ich hoffe, dass der Gips bald wieder ab ist]]. Gute Besserung!
+ich danke dir von Herzen für deine Einladung. [[Dank für die Einladung|Es bedeutet mir viel, dass du uns wieder zusammenbringst]]. Und dass du das trotz deines gebrochenen Beins organisierst, bewundere ich.
 
-Ich komme sehr gern zum Ausflug und freue mich auf die Fahrt mit Bus und Schiff. Es ist schön, dass du trotzdem alles organisierst, und ich bin gespannt, wohin es geht.
+[[Reaktion auf den Unfall|Gute Besserung, ich hoffe, du hast nicht zu viele Schmerzen]]. Du bist ein guter Freund und denkst immer an alle.
 
-Falls es regnet, habe ich einen Vorschlag: [[Alternative bei Regen|Wir machen einen Kochabend bei dir zu Hause, und jeder bringt etwas mit]]. Dann kannst du dein Bein hochlegen.
+Ich nehme deine Einladung sehr gern an. [[Zusage|Der übernächste Samstag um 9:30 Uhr ist für mich fest eingeplant]]. Ich freue mich auf Bus, Schiff und vor allem auf [[Vorfreude|euch alle]].
 
-Ich habe noch eine Frage: [[Frage|Soll ich meine Kamera mitnehmen, und gibt es auf dem Schiff schöne Plätze zum Fotografieren]]?
+Beim Wetter habe ich eine kleine Idee: Sollte es regnen, [[Alternative bei Regen|besuchen wir das Naturkundemuseum]] und trinken danach [[Zweite Idee|heiße Schokolade]]. So bleibt es trotzdem ein schöner Tag, und du kannst dich zwischendurch hinsetzen.
 
-Schreib mir bitte bald.
+Mich würde noch interessieren: [[Frage zum Ausflug|Wie viele Stunden sind wir unterwegs, und was sollen wir anziehen]]? Dann bereite ich mich gut vor.
+
+Ich bin dankbar, dass es solche Freunde gibt. [[Dank|Du organisierst immer alles so liebevoll]], und man merkt, dass dir die Gemeinschaft wichtig ist. Ich werde [[Beitrag|einen kleinen Kuchen backen]], [[Folge|als Dankeschön für den schönen Tag]].
+
+Auch deshalb freue ich mich so auf den Tag: [[Grund|Man fühlt sich bei euch einfach aufgehoben]]. Danke, dass es dich gibt, und dass du uns immer wieder zusammenbringst.
+
+Vielen Dank noch einmal für alles, was du für uns tust, [[Zusatz|ich weiß das wirklich zu schätzen]].
 
 [[Grußformel|Herzliche Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Nina]]` },
 ];
