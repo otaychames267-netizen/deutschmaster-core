@@ -62,7 +62,7 @@ function renderParagraph(text: string) {
 
 /** The connected letter, rendered as a single letter-style card. `withPills`
  * highlights [placeholders] (Struktur); without it the text is plain (Beispiel). */
-function LetterView({ text, withPills, intro }: { text: string; withPills: boolean; intro: React.ReactNode }) {
+export function LetterView({ text, withPills, intro }: { text: string; withPills: boolean; intro: React.ReactNode }) {
   const paras = text.split(/\n{2,}/).map((p) => p.trim()).filter(Boolean);
   return (
     <div className="mx-auto max-w-2xl">
