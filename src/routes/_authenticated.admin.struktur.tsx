@@ -20,9 +20,9 @@ function StrukturCapacityPage() {
           <h1 className="text-2xl font-black tracking-tight text-foreground">Struktur capacity</h1>
         </div>
         <p className="mt-1 text-sm text-muted-foreground">
-          Every personal Struktur card, how many each topic still has, and how many already went to students. A card given to a student is closed for everyone else. Open a topic and click a number to read that letter.
+          Every personal Struktur card and how many are left / already went to students. B1: two groups of 250 letters (Brief A and Brief B), every letter is one number. B2: grouped by topic. A card given to a student is closed for everyone else. Click a number to read that letter.
         </p>
-        <p dir="rtl" className="mt-0.5 text-sm text-muted-foreground">كل الـ Struktur، كم بقى في كل موضوع وكم ذهب — كلّ بطاقة تتعطى لمشارك تولّي مغلقة. افتح موضوع واضغط على رقم باش تقرا الرسالة.</p>
+        <p dir="rtl" className="mt-0.5 text-sm text-muted-foreground">كل الـ Struktur وكم بقى وكم ذهب. B1: مجموعتين 250 + 250، كل رسالة رقم. الـ Struktur اللي تتعطى لمشارك تولّي مغلقة. اضغط على رقم باش تقرا الرسالة.</p>
       </div>
       <StrukturCatalog sets={["b1all", "b1a", "b1b", "b2p", "b2d"]} />
     </div>
