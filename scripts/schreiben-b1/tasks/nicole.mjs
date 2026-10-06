@@ -1,226 +1,332 @@
-// Nicole – der ältere Bruder (zwei Monate zu Besuch) sitzt stundenlang vor dem Sport im Fernsehen. Points: eigene Erfahrungen mit Geschwistern oder Freunden · Tipps für Nicole · was Sie über den Bruder denken · was Sie selbst gern gemeinsam mit anderen machen.
+// v2 (B2-style): Nicoles Bruder ist zwei Monate zu Besuch und sitzt stundenlang vor Sportsendungen; sie fragt "Was würdest du machen?" und will Tipps. Points: eigene Erfahrungen mit Geschwistern oder Freunden ·
+// Tipps für Nicole · was Sie über den Bruder denken · was Sie selbst gern gemeinsam mit anderen machen — plus: Entschuldigung ("so lange nicht geschrieben"), "Überhaupt nichts sagen oder streiten?".
+export const kw = [/Bruder/, /Tipp|Rat|solltest|könntest|vorschlagen|Gespräch|reden|sprechen/i, /Geschwister|Schwester|Freund|Freunden|Erfahrung/i, /gern|gemeinsam|zusammen|mit Freunden|mit meiner|mit meinem/i, /Fernseher|Sport|Sendung/i, /Schwimmbad|Kino|Ausflug|Wetter|draußen|Spaziergang|Spiel/i];
 export default [
   // 1
-  { label: "Ich kenne das von meiner Schwester, Absprache über Fernsehzeit, Verständnis für den Bruder, kochen mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Nicole]],
 
-keine Sorge, du musst dich nicht entschuldigen, ich verstehe das gut! Dass dein Bruder zwei Monate bei euch ist, ist sicher eine schöne, aber auch anstrengende Zeit.
+vielen Dank für deine Mail, ich habe mich sehr gefreut! Du musst dich nicht entschuldigen, dass du lange nicht geschrieben hast. [[Reaktion auf die Entschuldigung|Mit deinem Bruder zu Besuch hast du bestimmt viel zu tun]]. Es freut mich, dass ihr so viel unternehmt.
 
-Ein ähnliches Problem hatte ich mit [[Erfahrung|meiner jüngeren Schwester, die ständig Serien sehen wollte]]. Mein Tipp: [[Tipp|Mach mit ihm eine klare Absprache, zum Beispiel eine Stunde Fernsehen und danach etwas zusammen unternehmen]]. Das klappt oft ohne Streit.
+Zu deinem Problem: Ich kenne es von meiner Schwester. [[Eigene Erfahrung|Sie hat als Teenager auch stundenlang Fußball geschaut, während ich raus wollte]]. Mein Tipp: [[Tipp 1|Sprich ruhig und freundlich mit ihm und sag, was dir wichtig ist]]. Außerdem [[Tipp 2|schlag ihm vor, dass ihr einen Ausflug macht, bevor das Spiel beginnt]]. Streiten würde ich nicht.
 
-Ich denke, dass dein Bruder [[Meinung|einfach seinen Lieblingssport sehen will, weil er im Ausland nicht alles zeigen kann]]. Das ist menschlich, und er meint es nicht böse.
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er liebt Sport und will wohl nach der langen Zeit im Ausland abschalten]].
 
-Ich selbst koche gern [[gemeinsame Aktivität|mit meinen Freunden, und wir essen danach zusammen]].
+Ich selbst mache gern gemeinsam mit anderen [[Gemeinsame Aktivität|Wanderungen, Kochabende und Spieleabende]], weil [[Grund für die Aktivität|ich dabei viel lache und mich wohlfühle]].
 
-Schreib mir, wie es weitergeht.
+Wenn dein Bruder erst in zwei Monaten wieder wegfährt, [[Hinweis|solltest du die Zeit mit ihm bewusst nutzen]]. Ihr könnt zum Beispiel [[Idee|jeden Samstag einen besonderen Ausflug planen]], an den er sich später gern erinnert. Das ist für Geschwister, die weit voneinander leben, doppelt wertvoll.
+
+Von meinen Geschwistern habe ich gelernt: [[Lehre|Man muss sich Zeit füreinander ausdrücklich nehmen, sonst vergeht sie]]. Als meine Schwester im Ausland lebte, haben wir [[Gewohnheit|jeden Sonntag eine Stunde telefoniert]]. Das war uns beiden wichtig, und es hat unsere Beziehung gestärkt.
+
+Was ich selbst gern gemeinsam mache, möchte ich noch ergänzen: [[Aktivität|Ich gehe am Sonntag oft mit meiner Familie wandern und koche abends zusammen]]. Das schafft Nähe, und niemand schaut aufs Handy. Ich glaube, das wäre auch für dich und deinen Bruder ideal, [[Idee|ein gemeinsames Kochen mit seiner Lieblingsspeise]].
+
+Schreib mir bitte, [[Frage an die Freundin|wie ihr das gelöst habt]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Salma]]` },
+[[Dein Name|Samir]]` },
 
   // 2
-  { label: "Mit meinem Bruder gestritten, gemeinsam Sport schauen und dann rausgehen, Sport ist seine Leidenschaft, Wandern mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name der Freundin|Nicole]],
 
-wie schön, dass du mir schreibst! Dein Bruder und der Fernseher, das klingt wirklich nach einem Problem, besonders im Sommer.
+schön, von dir zu hören! Kein Stress wegen der Pause, [[Reaktion auf die Entschuldigung|dein Bruder ist doch zu Besuch]]. Klingt nach einer schönen Zeit mit Schwimmbad und Kino.
 
-Ich habe selbst einen älteren Bruder, und wir haben oft gestritten, [[Erfahrung|wenn er stundenlang Computerspiele gespielt hat]]. Heute lachen wir darüber. Mein Tipp: [[Tipp|Setz dich einmal mit ihm hin und schau ein Spiel zusammen]], danach fragst du ihn, ob ihr zusammen spazieren geht. So spürt er, dass du ihn magst.
+Fernseher und Sport, das kenn ich! [[Eigene Erfahrung|Mein Kumpel hat bei der Fußball-WM nur noch auf dem Sofa gesessen]]. Mein Tipp: [[Tipp 1|Sag ihm ganz locker, dass du mit ihm rausgehen willst]]. Oder [[Tipp 2|schau das Spiel einfach mit, dann hast du Zeit mit ihm]]. Streiten bringt nichts.
 
-Ich glaube, dass [[Meinung|Sport für deinen Bruder eine Leidenschaft ist, und er fühlt sich beim Zuschauen zu Hause]]. Er will sich bestimmt auch entspannen.
+Was ich über ihn denke? [[Meinung über den Bruder|Er ist wohl ein großer Sportfan, nett, aber ein bisschen sturköpfig]].
 
-Gern gemeinsam mache ich [[gemeinsame Aktivität|Wanderungen mit Freunden, weil man dabei viel reden kann]].
+Gemeinsam mit anderen mache ich gern [[Gemeinsame Aktivität|Grillen, Radfahren und Brettspiele]].
 
-Lass mich bitte wissen, ob dir das passt.
+Ich würde ihm ehrlich sagen, [[Gefühl|dass du dich manchmal übergangen fühlst]]. Meistens merken Männer das gar nicht. Wenn du es ruhig und ohne Vorwurf sagst, [[Folge|wird er bestimmt zuhören]]. Das habe ich selbst erlebt, und es hat besser funktioniert als alles andere.
+
+Mit Freunden habe ich Ähnliches erlebt: [[Erlebnis|Einer von ihnen hat jedes Wochenende nur gespielt]]. Wir haben ihm offen gesagt, dass wir ihn vermissen, und [[Folge|er hat seine Gewohnheiten geändert]]. Ehrlichkeit hilft fast immer, wenn sie freundlich vorgetragen wird.
+
+Gemeinsam mit anderen spiele ich gern [[Spiel|Volleyball im Park oder Karten am Abend]]. Das ist unkompliziert und macht gute Laune. Vielleicht kannst du deinen Bruder zu einem Spiel mitnehmen, [[Folge|Sport ist ja sein Thema]], und er macht sicher gern mit.
+
+Meld dich, [[Frage an die Freundin|was er dazu gesagt hat]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Eine Freundin mit dem gleichen Problem, Vorschlag Café mit Bildschirm, Bruder ist müde, Brettspiele mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Nicole]],
 
-danke für deine Nachricht und kein Problem, dass du nicht früher geschrieben hast! Ich hoffe, dass du die Zeit mit deinem Bruder trotzdem genießt.
+wow, dein Bruder ist zwei Monate bei euch, das ist wunderbar! Entschuldige dich bitte nicht für die Pause. [[Reaktion auf die Entschuldigung|Ich freue mich einfach, dass es euch gut geht]]. Schwimmbad und Kino klingen nach einem tollen Sommer.
 
-Eine Freundin von mir hatte genau das gleiche Problem: [[Erfahrung|Ihr Freund wollte jeden Samstag Fußball im Fernsehen sehen]]. Ihr Tipp, den sie später erzählt hat: [[Tipp|Geht gemeinsam in ein Café, in dem das Spiel auf einem großen Bildschirm läuft]], und trinkt dabei etwas. Dann sitzt ihr draußen und schaut doch das Spiel.
+Dein Problem kenne ich: [[Eigene Erfahrung|Mein Bruder ist bei jedem Spiel wie versteinert]]. Mein Tipp: [[Tipp 1|Mach ihm einen Vorschlag, der ihn reizt, zum Beispiel eine Radtour mit anschließendem Eis]]. Oder [[Tipp 2|schau mit ihm ein Spiel an und frag ihn danach etwas über die Regeln]]. So habt ihr beide etwas davon.
 
-Dein Bruder ist vielleicht [[Meinung|einfach müde von der Reise und will sich ausruhen, das verstehe ich]].
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er ist bestimmt ein toller Mensch, der nur Sport liebt]].
 
-Ich selbst spiele gern [[gemeinsame Aktivität|Brettspiele mit Freunden und lache dabei viel]].
+Gemeinsam mit anderen mache ich am liebsten [[Gemeinsame Aktivität|Tanzen, Wandern und Picknicken]].
 
-Schreib mir bald!
+Du kannst ihm auch einen kleinen Deal vorschlagen: [[Deal|Eine Stunde Sport, danach eine Stunde mit dir]]. Das ist fair, und er kann beides genießen. Wenn er ein guter Bruder ist, [[Folge|wird er sich darauf einlassen]]. Ich glaube, dass ihr einen guten Kompromiss findet.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Mit meinem Bruder hatte ich als Kind viel Streit, [[Erinnerung|meist über das Fernsehprogramm]]. Heute lache ich darüber. Wir haben gelernt, [[Lehre|Absprachen zu treffen, wer wann bestimmen darf]]. Das klingt streng, aber es funktioniert.
+
+In meiner Freizeit gehe ich gern [[Aktivität|mit Freunden ins Schwimmbad und danach ein Eis essen]]. Das ist ein einfacher Plan, den fast jeder mag. Dein Bruder und du macht das ja auch schon, [[Wunsch|ich hoffe, ihr habt dabei viel Spaß]].
+
+Schreib mir bald, [[Frage an die Freundin|ob mein Tipp geholfen hat]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Mit meiner Schwester alles geteilt, Gespräch in Ruhe, Bruder will Heimat spüren, Radtouren mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Nicole]],
 
-es freut mich, dass du mir schreibst! Dass dein älterer Bruder zu Besuch ist, ist schön, und ich verstehe, dass du Zeit mit ihm verbringen möchtest.
+vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
-Ich habe selbst zwei Geschwister, und [[Erfahrung|wir haben als Kinder oft um die Fernbedienung gestritten]]. Mein Tipp für dich: [[Tipp|Sprich in Ruhe mit ihm]] und erkläre ihm, dass du ihn vermisst hast und dass du Zeit mit ihm verbringen möchtest. Brüder verstehen das oft, wenn man freundlich ist.
+Erstens, die Pause: [[Reaktion auf die Entschuldigung|Du musst dich nicht entschuldigen, dein Bruder ist ja zu Besuch]].
 
-Ich glaube, dass dein Bruder [[Meinung|im Fernsehen ein Stück seiner Heimat sucht, weil er lange im Ausland war]]. Das ist nicht gegen dich.
+Zweitens, meine Erfahrung: [[Eigene Erfahrung|Ich hatte ein ähnliches Problem mit einem Freund, der nur Sportsendungen sah]].
 
-Gern mache ich [[gemeinsame Aktivität|Radtouren mit meinen Freunden, besonders am Sonntag]].
+Drittens, meine Tipps: Ich empfehle, [[Tipp 1|ihn freundlich anzusprechen und einen Kompromiss zu finden]]. Außerdem [[Tipp 2|solltet ihr feste Zeiten für Fernsehen und Ausflüge vereinbaren]].
 
-Ich hoffe, du antwortest mir bald.
+Viertens, dein Bruder: [[Meinung über den Bruder|Ich finde, er ist wahrscheinlich entspannt, aber vielleicht nicht aufmerksam genug]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Youssef]]` },
+Fünftens, gemeinsame Aktivitäten: Ich mache gern [[Gemeinsame Aktivität|Sport und Spieleabende mit anderen]].
+
+Ein Gespräch am besten [[Zeitpunkt|am Abend bei einem gemütlichen Essen]], nicht während eines Spiels. Dann ist er entspannt und hört dir besser zu. Sag ihm, [[Aussage|dass du gern mehr Zeit mit ihm hättest]], und frage, was er sich wünscht. Das zeigt, dass du ihn ernst nimmst.
+
+In meiner Familie war es ähnlich: [[Erlebnis|Mein Vater saß jeden Samstag vor der Sportschau]]. Meine Mutter hat dann einfach [[Reaktion|einen Kaffee gebracht und sich dazugesetzt]]. Das war ihr Weg, Zeit mit ihm zu verbringen, ohne zu streiten, und es hat funktioniert.
+
+Gemeinsam mit anderen mache ich am liebsten [[Aktivität|Kochen und Musik hören]]. Es entsteht eine schöne Stimmung, und man kann sich unterhalten. Ihr könntet [[Idee|einen Abend lang zusammen kochen]], während im Hintergrund ein Spiel läuft, das ist ein guter Kompromiss.
+
+Bitte teile mir mit, [[Frage an die Freundin|ob dir das hilft]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Freund mit Fußballfimmel, Tagesausflug planen, Bruder braucht Erholung, Kino mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Nicole]],
 
-lieben Dank für deine Mail! Dein Bruder und der Sport im Fernsehen, das kenne ich von einem Freund.
+danke für deine Mail! [[Reaktion auf die Entschuldigung|Es ist völlig in Ordnung, dass du länger nicht geschrieben hast]]. Zu deinem Problem helfe ich dir gern.
 
-Mein Freund Aymen [[Erfahrung|hat genauso gern jedes Spiel gesehen und alles andere vergessen]]. Mein Tipp, der bei uns geklappt hat: [[Tipp|Plane einen Tagesausflug und sag deinem Bruder rechtzeitig Bescheid, damit er sich darauf einstellen kann]]. Ein Ziel wie ein See oder ein Park macht Lust auf Bewegung.
+Praktische Tipps: [[Tipp 1|Plan mit ihm feste Ausflüge, zum Beispiel jeden Nachmittag eine Stunde]]. Außerdem [[Tipp 2|kauf Tickets für etwas, das er mag, zum Beispiel ein Fußballspiel im Stadion]]. Ich kann [[Praktische Hilfe|dir einen Plan für die zwei Monate zusammenstellen]].
 
-Ich denke, dass dein Bruder [[Meinung|nach langer Arbeit im Ausland einfach Erholung braucht]]. Das heißt nicht, dass er dich nicht mag.
+Meine Erfahrung: [[Eigene Erfahrung|Ich habe mit meiner Schwester feste Zeiten für Fernsehen und Spaziergänge vereinbart]].
 
-Ich gehe gern [[gemeinsame Aktivität|mit Freunden ins Kino und danach noch etwas essen]].
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er liebt Sport und kann das wohl nicht abstellen]].
 
-Schreib mir bald zurück.
+Ich mache gern gemeinsam mit anderen [[Gemeinsame Aktivität|Kochen und Wandern]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Hamza]]` },
+Praktisch wäre auch, [[Idee|einen gemeinsamen Kalender für seine Besuchszeit zu machen]], in dem ihr Termine für Sport und für Ausflüge eintragt. So gibt es keine Überraschungen, und er weiß, was ihn erwartet. Das hilft vielen Menschen, besonders wenn sie aus dem Ausland kommen.
+
+Mit meiner besten Freundin habe ich auch Erfahrungen: [[Erlebnis|Sie ist ein Serienfan, ich bin lieber draußen]]. Wir haben einen Rhythmus gefunden, [[Lösung|ein Abend Serie, ein Abend Spaziergang]]. Seitdem gibt es keinen Streit mehr, und beide sind zufrieden.
+
+Ich mag [[Aktivität|Gesellschaftsspiele mit der ganzen Familie]], besonders [[Spiel|ein Quiz oder ein Kartenspiel]]. Das ist spannend, und niemand sitzt vor dem Fernseher. Vielleicht gefällt das auch deinem Bruder, [[Folge|er ist ja bestimmt wettbewerbsfreudig]].
+
+Sag mir bitte, [[Frage an die Freundin|ob ich noch etwas tun kann]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Mit dem Bruder früher Streit, Spiel gemeinsam kommentieren, Bruder liebt sein Team, Fußball mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Nicole]],
 
-wie nett, dass du mir geschrieben hast! Ich kann gut verstehen, dass du mit deinem Bruder Zeit verbringen willst, bevor er wieder abreist.
+du brauchst dich nicht zu entschuldigen, denn [[Begründung für die Nachsicht|dein Bruder ist zu Besuch, und das braucht Zeit]]. Zu deinem Problem habe ich eine klare Meinung.
 
-Zu meinen Erfahrungen: [[Erfahrung|Ich habe mich früher oft mit meinem Bruder über den Fernseher gestritten]]. Heute verstehen wir uns gut. Mein Tipp: [[Tipp|Schau ein Spiel mit ihm und stell Fragen zum Sport. Das zeigt Interesse]]. Danach kannst du leicht sagen, dass du Lust auf einen Spaziergang hast.
+Ich würde nicht streiten, weil [[Grund gegen Streit|das die kurze Zeit mit ihm belasten würde]]. Mein Tipp: [[Tipp 1|Sprich ihn freundlich an und erkläre, was dir wichtig ist]]. Außerdem [[Tipp 2|biete ihm Alternativen an, die ihm auch Spaß machen]], da [[Grund für Alternativen|er dann eher mitkommt]].
 
-Ich denke, dass dein Bruder [[Meinung|sein Lieblingsteam sehr liebt, und das Spiel ist für ihn wie ein Fest]]. Er will einfach dabei sein.
+Eigene Erfahrung: [[Eigene Erfahrung|Mit meinem Freund hat ein ruhiges Gespräch alles gelöst]].
 
-Gern gemeinsam mache ich [[gemeinsame Aktivität|Fußball spielen mit Freunden im Park]].
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er ist sicher kein schlechter Mensch, er hat nur eine Leidenschaft]].
 
-Ich bin sehr gespannt, wie es weitergeht.
+Ich mache gern gemeinsam mit anderen [[Gemeinsame Aktivität|Sport und Musik]], weil [[Grund|man dabei Gemeinschaft erlebt]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Lina]]` },
+Falls das Wetter schön ist, [[Idee|hole ihn vor dem Spiel ab und sag, dass er es später sehen kann]]. Heute gibt es Wiederholungen und Zusammenfassungen. Das ist ein starkes Argument, denn [[Begründung|so verpasst er nichts und hat trotzdem Zeit für dich]].
+
+Als Kind habe ich oft allein gespielt, weil meine Geschwister [[Grund|nur Bildschirmspiele mochten]]. Ich habe damals nichts gesagt, und das war ein Fehler. Heute rate ich dir, [[Rat|offen zu sprechen]], damit du nicht später bereust, nichts getan zu haben.
+
+Zusammen mit anderen fotografiere ich gern, [[Aktivität|vor allem auf Ausflügen und Festen]]. Das ist eine schöne Aktivität, weil jeder seinen Teil beiträgt. Ihr könntet [[Idee|gemeinsam ein Fotoalbum von seinem Besuch machen]], das wäre ein schönes Andenken.
+
+Schreib mir, [[Frage an die Freundin|ob dir meine Gründe einleuchten]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Cousine mit demselben Verhalten, Wettervorhersage nutzen, Bruder kennt Deutschland kaum, Picknick mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Nicole]],
 
-wie schön, dass du mir schreibst! Du hast zwei Monate mit deinem Bruder, das ist eine Chance, und ich wünsche dir viele schöne Tage.
+danke für deine Mail, hier kurz meine Antworten.
 
-Meine Cousine war [[Erfahrung|bei uns zu Besuch und hat jeden Abend ihre Serie gesehen, auch wenn wir etwas vorhatten]]. Mein Tipp: [[Tipp|Plane die Tage nach dem Wetter und nach dem Fernsehprogramm]] und lass ihm das Wichtigste. Du kannst zum Beispiel am Morgen etwas unternehmen und am Abend zusammen Fernsehen.
+Pause: [[Reaktion auf die Entschuldigung|Kein Problem]].
 
-Ich glaube, dass dein Bruder [[Meinung|dein Land und eure Stadt kaum kennt, nur das Programm im Fernsehen]]. Zeig ihm, was es zu sehen gibt.
+Erfahrung: [[Eigene Erfahrung|Ähnliches mit meiner Schwester erlebt]].
 
-Ich mache gern [[gemeinsame Aktivität|ein Picknick mit Freunden im Park]].
+Tipps: [[Tipp 1|Freundlich reden]]. [[Tipp 2|Ausflüge vorschlagen]].
 
-Schreib mir bald!
+Dein Bruder: [[Meinung über den Bruder|Sportfan, vermutlich entspannt]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Salma]]` },
+Gemeinsam mache ich gern: [[Gemeinsame Aktivität|Wandern, Kochen]].
+
+Ich würde auch überlegen, ob du [[Idee|nicht selbst ein bisschen Interesse an seinem Sport zeigst]]. Frag ihn, was daran so spannend ist. Vielleicht [[Folge|erzählt er dir gern mehr und freut sich über dein Interesse]]. So habt ihr ein gemeinsames Thema, und der Fernseher stört weniger.
+
+Von Freunden weiß ich: [[Beobachtung|Wenn man sich länger nicht sieht, verändern sich die Gewohnheiten]]. Dein Bruder hat im Ausland vielleicht neue Vorlieben bekommen. Deshalb ist Verständnis wichtig, [[Rat|und ein Gespräch, in dem jeder erzählt]].
+
+Mit Freunden gehe ich oft [[Aktivität|zum Fußball im Park]], als Zuschauerin und manchmal als Spielerin. Dort verstehe ich, warum Sport so fesselt. Vielleicht verstehst du deinen Bruder besser, wenn du [[Idee|einmal mit ihm ein Spiel live anschaust]].
+
+Ich wünsche dir viel Erfolg bei dem Gespräch und hoffe, dass ihr einen guten Weg findet, denn die Zeit mit deinem Bruder ist kostbar und sollte nicht im Streit enden. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|was er sagt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Mein Freund und seine Spielkonsole, Kompromiss anbieten, Bruder ist stolz auf seine Mannschaft, Tanzen mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Nicole]],
 
-deine Nachricht hat mich gefreut, und ich verstehe dein Problem gut! Ein Besuch ist schön, wenn man die Zeit auch richtig teilen kann.
+dein Bruder und der Fernseher, das ist wohl eine Liebesgeschichte! [[Reaktion auf die Entschuldigung|Entschuldigung angenommen, du hattest ja Besuch]]. Mein Tipp: Nicht streiten, sonst gewinnt am Ende der Sport.
 
-Ich kenne das von [[Erfahrung|einem Freund, der den ganzen Tag an der Spielkonsole sitzen konnte]]. Mein Tipp: [[Tipp|Biete ihm einen Kompromiss an]], zum Beispiel zwei Stunden Fernsehen am Tag und den Rest gemeinsame Zeit. So fühlt sich keiner zu etwas gezwungen.
+Meine Erfahrung: [[Eigene Erfahrung|Mein Onkel hat bei der Weltmeisterschaft drei Wochen nicht mit uns geredet]]. Ich schlage vor: [[Tipp 1|Bring Snacks und setz dich mit hin, dann wird es zum Familienabend]]. Oder [[Tipp 2|schlag eine Wette vor: Wer das Spiel verliert, geht mit spazieren]].
 
-Ich denke, dass dein Bruder [[Meinung|stolz auf seine Mannschaft ist und deshalb jedes Spiel sehen möchte]]. Das ist sein Hobby, und das darf er haben.
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er ist offenbar der geborene Kommentator]].
 
-Gern gemeinsam mache ich [[gemeinsame Aktivität|Tanzen mit meinen Freunden, besonders am Wochenende]].
+Ich mache gern gemeinsam mit anderen [[Gemeinsame Aktivität|Karten spielen und Grillen]].
 
-Ich freue mich auf deine Nachricht!
+Zwei Monate sind lang, aber auch schnell vorbei: [[Hinweis|Nutze jede Woche, um etwas Besonderes zu zweit zu machen]]. Wenn er wieder weg ist, sind es diese Erinnerungen, die zählen. Ich bin sicher, dass ihr es schafft, die Zeit zu genießen, trotz Fernseher.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Nour]]` },
+Bei einem Besuch meines Cousins habe ich Folgendes gemacht: [[Idee|Ich habe ihn jeden Morgen zum Frühstücken in ein Café mitgenommen]]. Dort war der Fernseher kein Thema, und wir haben viel geredet. Vielleicht ist das für dich ein Vorbild, [[Folge|einfach neue Orte für gemeinsame Zeit zu finden]].
+
+In meiner Familie machen wir gern [[Aktivität|jedes Jahr einen Ausflug in die Berge]], das ist unser Ritual. Es verbindet uns, auch wenn wir weit auseinander wohnen. Das wäre vielleicht ein Plan für euch beide, [[Idee|ein Ausflug, bevor er wieder abreist]].
+
+Schreib bald, [[Frage an die Freundin|wer das Spiel gewonnen hat]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Ich und mein Bruder haben Streit gelöst, gemeinsames Kochen vorschlagen, Bruder will sich entspannen, Schwimmen mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Nicole]],
 
-wie wunderbar, dass ich von dir höre! Es ist schön, dass dein Bruder so lange bei euch ist, und trotzdem verstehe ich, dass du dich ärgerst.
+als ich deine Mail gelesen habe, musste ich an meinen Bruder denken. [[Erinnerung an den Bruder|Er war früher auch nur vor dem Fernseher zu finden]]. Dass du lange nicht geschrieben hast, ist nicht schlimm.
 
-Ich habe mit meinem Bruder [[Erfahrung|einmal ein ähnliches Problem gehabt]], als er bei mir wohnte und jeden Abend ein Spiel sehen wollte. Wir haben es durch Reden gelöst. Mein Tipp: [[Tipp|Schlag ihm vor, dass ihr nach dem Spiel gemeinsam kocht, jeder einen Teil]]. Beim Kochen redet man ganz natürlich.
+Meine Erfahrung: [[Eigene Erfahrung|Ich habe ihn eines Tages einfach zu einem Spaziergang abgeholt, und er kam mit]]. Mein Tipp: [[Tipp 1|Lade ihn zu etwas ein, das er liebt, ohne Fernsehen]]. Und [[Tipp 2|sprich ehrlich mit ihm, ohne Vorwurf]].
 
-Ich glaube, dass dein Bruder [[Meinung|sich einfach entspannen möchte, vielleicht ist seine Arbeit im Ausland sehr stressig]]. Gib ihm dafür ein bisschen Zeit.
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er freut sich bestimmt auch auf die Zeit mit dir]].
 
-Gern gehe ich [[gemeinsame Aktivität|mit Freunden schwimmen, besonders am Abend]].
+Ich mache am liebsten gemeinsam mit anderen [[Gemeinsame Aktivität|lange Spaziergänge und Abendessen]].
 
-Schreib mir bald zurück.
+Wenn du magst, rufe ich euch an und lade euch beide zu mir ein: [[Angebot|Ein Wochenende bei mir, mit Grillen und einem Ausflug an den See]]. Dann hat er einen Anlass, vom Fernseher wegzukommen, und ihr habt Zeit zu dritt. Ich freue mich, euch beide wiederzusehen.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Ines]]` },
+Mit meiner Schwester habe ich ein Ritual: [[Ritual|Jeden Abend ein kurzer Spaziergang nach dem Essen]]. Das ist unsere Zeit, und niemand darf Fernseher oder Handy anmachen. Vielleicht kannst du so etwas auch mit deinem Bruder vereinbaren, [[Folge|dann habt ihr einen festen Moment]].
+
+Ich bin gern mit anderen [[Aktivität|beim Tanzen oder bei Konzerten]], weil Musik Menschen zusammenbringt. Ich glaube, dass dein Bruder auch Musik mag. Vielleicht gibt es ein Konzert, [[Idee|zu dem ihr beide gehen könnt]], das wäre eine schöne Abwechslung.
+
+Erzähl mir, [[Frage an die Freundin|wie es euch geht]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Streit mit Freund früher, gemeinsames Wochenende planen, Bruder genießt Daheimsein, Gitarre mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Nicole]],
 
-deine E-Mail war eine große Überraschung für mich! Auch wenn dein Bruder viel fernsieht, ist es bestimmt schön, dass er da ist. Vielleicht kannst du etwas an der Situation ändern.
+danke für deine Mail. [[Reaktion auf die Entschuldigung|Die Pause ist kein Problem]]. Ich habe gleich mehrere Tipps und Vorschläge für dich.
 
-Ich hatte früher [[Erfahrung|einen Freund, der bei Besuchen immer stundenlang sein Handy benutzte, und ich war oft böse]]. Mein Tipp: [[Tipp|Plane ein ganzes Wochenende zusammen, mit einem festen Programm, damit er etwas zu erwarten hat]]. Dann denkt er auch nicht nur an den Fernseher.
+Mein erster Vorschlag: [[Tipp 1|Sprich freundlich mit ihm]]. Mein zweiter: [[Tipp 2|Plane gemeinsame Ausflüge für die Zeiten ohne Sport]]. Mein dritter: [[Tipp 3|Schaut zusammen ein Spiel an und macht danach etwas Gemeinsames]].
 
-Ich meine, dass dein Bruder [[Meinung|sich bei euch einfach zu Hause fühlt und das Daheimsein genießt]]. Das ist ein gutes Zeichen.
+Meine Erfahrung: [[Eigene Erfahrung|Ein Kompromiss hat bei uns immer geholfen]].
 
-Gern gemeinsam mache ich [[gemeinsame Aktivität|Musik mit Freunden, ich spiele Gitarre]].
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er ist ein Sportfan, aber kein schlechter Mensch]].
 
-Ich warte gespannt auf dein Lebenszeichen.
+Mein vierter Vorschlag: Mach [[Gemeinsame Aktivität|einen Spieleabend mit Freunden]], da kann er auch mitmachen.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Aymen]]` },
+Als vierten Vorschlag empfehle ich, [[Vorschlag|ihn mit Freunden bekannt zu machen]]. Er ist lange weg gewesen und kennt vielleicht kaum noch jemanden. Wenn er neue Leute trifft, [[Folge|vergisst er den Fernseher von selbst]]. Und du hast mehr Zeit für schöne Abende.
 
-  // 11
-  { label: "Schwester als Spielerin, Fernseher nach draußen, Bruder vermisst Heimatsport, Basketball mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
+Mein fünfter Vorschlag nach meiner Erfahrung mit Geschwistern: [[Vorschlag|Mach ein kleines Fotoprojekt mit ihm, zum Beispiel ein Album über seine Zeit hier]]. Das macht Spaß und bringt euch zusammen. Außerdem [[Folge|hast du später ein schönes Andenken]].
 
-deine Nachricht hat mich sehr gefreut! Dass dein Bruder lange im Ausland gelebt hat, erklärt vielleicht, warum er so gern fernsieht.
+Mein sechster Vorschlag: Macht [[Idee|einen Familienabend mit Spielen und Snacks]], an dem alle mitmachen. Das ist oft besser als jeder Streit, und [[Folge|am Ende lachen alle zusammen]]. Ich habe das mit meiner Familie schon oft gemacht.
 
-Meine Schwester [[Erfahrung|wollte als Kind immer nur Fußball im Fernsehen sehen und hat sogar Pausen vergessen]]. Mein Tipp: [[Tipp|Stell vielleicht den Fernseher nach draußen auf den Balkon oder in den Garten, wenn das geht]]. So sitzt ihr beide an der frischen Luft.
-
-Ich denke, dass dein Bruder [[Meinung|den Sport aus seiner Heimat vermisst, den er im Ausland nicht sehen kann]]. Das ist verständlich.
-
-Gern mache ich [[gemeinsame Aktivität|Basketball mit meinen Freunden, mindestens einmal pro Woche]].
-
-Schreib mir bald, ob dir mein Rat hilft.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Walid]]` },
-
-  // 12
-  { label: "Zimmergenosse mit Fernsehsucht, Aufnahme von Spielen, Bruder mag Gesellschaft, Kartenspielen mit Freunden", t: `Hallo [[Name der Freundin|Nicole]],
-
-wie schön, dass du dich meldest! Dein Bruder scheint ein richtiger Sportfan zu sein, und ich kann dein Problem gut nachvollziehen.
-
-Ich hatte [[Erfahrung|einen Zimmergenossen, der jeden Tag Sport im Fernsehen sehen wollte]]. Mein Tipp: [[Tipp|Nimm die Spiele auf und schaut sie abends zusammen, damit ihr tagsüber Zeit habt]]. Das haben wir damals gemacht, und es hat super funktioniert.
-
-Ich glaube, dass dein Bruder [[Meinung|eigentlich gern mit dir zusammen ist, aber der Fernseher ist bequem]]. Du musst ihm nur eine gute Alternative zeigen.
-
-Ich spiele gern [[gemeinsame Aktivität|Karten mit Freunden und lade sie oft zu mir ein]].
-
-Antworte mir bitte bald.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Rim]]` },
-
-  // 13
-  { label: "Cousin zu Besuch gehabt, Ausflug als Überraschung, Bruder will plaudern, Eis essen mit Freunden", t: `Liebe [[Name der Freundin|Nicole]],
-
-danke für deine schnelle Antwort! Ich wünsche dir viel Spaß mit deinem Bruder, auch wenn der Fernseher manchmal stört.
-
-Ich hatte [[Erfahrung|im letzten Jahr meinen Cousin zu Besuch, und er hat fast nur geschlafen und ferngesehen]]. Mein Tipp: [[Tipp|Plane einen Ausflug als Überraschung und sag nicht, wohin es geht]]. Neugier hilft oft mehr als jede Bitte.
-
-Ich glaube, dass dein Bruder [[Meinung|gern mit dir plaudern würde, aber er weiß nicht, wie er anfangen soll]]. Frag ihn einfach, wie sein Leben im Ausland ist.
-
-Gern gehe ich [[gemeinsame Aktivität|mit meinen Freunden Eis essen, besonders im Sommer]].
-
-Ich freue mich auf deine Antwort und hoffe, dass ihr noch viele schöne Tage habt.
+Was hältst du davon? Schreib mir, [[Frage an die Freundin|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Fares]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Beste Freundin mit Handy-Sucht, gemeinsames Spiel vorschlagen, Bruder will Zeit für sich, Wandern in der Gruppe", t: `Hallo [[Name der Freundin|Nicole]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Nicole]],
 
-herzlichen Dank für deine Neuigkeiten! Dass dein Bruder noch zwei Monate da ist, ist eine lange Zeit, und du solltest sie gut nutzen.
+danke für deine Mail. [[Reaktion auf die Entschuldigung|Du brauchst dich nicht zu entschuldigen]]. Zu deinem Problem möchte ich vorsichtig antworten.
 
-Ich kenne dein Problem von [[Erfahrung|meiner besten Freundin, die immer nur am Handy war]]. Mein Tipp: [[Tipp|Schlag vor, dass ihr gemeinsam ein Spiel spielt, zum Beispiel Karten oder Tischfußball]]. Ein Wettbewerb weckt Interesse bei Sportfans.
+Einerseits [[Vorteil eines Gesprächs|kann ein ruhiges Gespräch helfen]], andererseits [[Nachteil eines Gesprächs|könnte er sich angegriffen fühlen]]. Ich würde [[Tipp 1|zuerst einen kleinen Vorschlag machen]] und danach [[Tipp 2|offen mit ihm reden]].
 
-Ich denke, dass dein Bruder [[Meinung|ein bisschen Zeit für sich braucht, nach so langer Zeit im Ausland]]. Gib ihm das, aber mach klar, dass du auch Zeit mit ihm möchtest.
+Meine Erfahrung: [[Eigene Erfahrung|Mit meinem Cousin hat das so geklappt]].
 
-Ich wandere gern [[gemeinsame Aktivität|in der Gruppe mit Freunden und genieße die Natur]].
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er will sich wahrscheinlich entspannen]].
 
-Schreib mir bald zurück!
+Ich mache gern gemeinsam mit anderen [[Gemeinsame Aktivität|ruhige Spiele und Spaziergänge]].
+
+Man muss aber auch Geduld haben: [[Hinweis|Er braucht nach der langen Reise vielleicht erst einmal Ruhe]]. Der Fernseher ist für ihn ein Stück Zuhause. Gib ihm ein paar Tage, [[Folge|dann will er bestimmt rausgehen]]. Und wenn nicht, sprichst du es an.
+
+Bei Streit unter Geschwistern habe ich gelernt, [[Lehre|nicht sofort zu reagieren, wenn man sich ärgert]]. Ich schlafe eine Nacht darüber und sage am nächsten Tag etwas. Dann ist der Ton ruhiger, und [[Folge|man findet leichter eine Lösung]].
+
+Ich kann mir vorstellen, dass ihr gemeinsam [[Aktivität|Rad fahren oder schwimmen]] könnt, das habt ihr ja schon. Nutzt diese Dinge, denn sie tun gut. Und [[Idee|plant lieber mehr kleine Ausflüge als wenige große]], dann bleibt er in Bewegung.
+
+Schreib mir bitte, [[Frage an die Freundin|ob dir das hilft]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Nicole]],
+
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Entschuldigung|Entschuldige dich nicht]].
+
+Als Nächstes zu meiner Erfahrung: [[Eigene Erfahrung|Ähnliches mit meiner Schwester]].
+
+Dann zu den Tipps: Erstens [[Tipp 1|freundlich reden]], zweitens [[Tipp 2|Ausflüge anbieten]], drittens [[Tipp 3|gemeinsam schauen]].
+
+Danach zu deinem Bruder: [[Meinung über den Bruder|Er liebt Sport]].
+
+Zuletzt zu mir: Ich mache gern [[Gemeinsame Aktivität|Spaziergänge und Spiele]].
+
+Zum Schluss ein Schritt für dich: [[Schritt|Schreib auf, was du dir von der gemeinsamen Zeit wünschst]]. Dann weißt du genau, was du sagen willst, und kannst es ihm ruhig erklären. Ein Plan hilft, wenn Gefühle im Spiel sind, und deine Bitte klingt dann klar.
+
+Als ich meinen Freund lange nicht gesehen hatte, [[Erlebnis|war er zuerst sehr müde und wollte nur fernsehen]]. Nach drei Tagen wurde er wieder aktiv, und wir haben viel unternommen. Vielleicht ist es bei deinem Bruder genauso, [[Hoffnung|und die ersten Tage sind nur eine Eingewöhnung]].
+
+Zum Schluss noch eine Idee: [[Idee|Macht eine kleine Liste mit zehn Dingen, die ihr zusammen erleben wollt]], bevor er abreist. Jeder darf fünf Wünsche aufschreiben. So kommt jeder zu seinem Recht, und ihr habt eine schöne Aufgabe, [[Folge|die euch verbindet]].
+
+Wie geht es weiter? Schreib mir, [[Frage an die Freundin|was er sagt]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Nicole]],
+
+deine Mail hat mich berührt, und mach dir keine Gedanken wegen der Pause. [[Reaktion auf die Entschuldigung|Die Zeit mit deinem Bruder ist kostbar]]. Ich verstehe, dass dich der Fernseher stört, du möchtest ja Zeit mit ihm verbringen.
+
+Meine Erfahrung: [[Eigene Erfahrung|Ich war einmal in derselben Lage und habe mit meiner Schwester gesprochen]]. Mein Tipp: [[Tipp 1|Sag ihm, dass du ihn vermisst und gern mehr Zeit mit ihm hättest]]. Und [[Tipp 2|schlag eine kleine gemeinsame Aktivität vor]].
+
+Über deinen Bruder denke ich: [[Meinung über den Bruder|Er hat dich lieb, auch wenn er es nicht zeigt]].
+
+Ich mache gern gemeinsam mit anderen [[Gemeinsame Aktivität|Kochen und Spazierengehen]].
+
+Du bist eine liebe Schwester, und dein Bruder kann froh sein, dich zu haben: [[Anerkennung|Du denkst an die gemeinsame Zeit, nicht nur an dich]]. Das ist nicht selbstverständlich. Ich bin sicher, dass er das irgendwann auch merkt und sich bedankt, [[Folge|spätestens beim Abschied]].
+
+Mit Geschwistern ist es oft so, dass man [[Beobachtung|einander gern hat, aber nicht weiß, wie man es zeigt]]. Ich habe das bei mir und meinem Bruder erlebt. Ein kleines Zeichen reicht, [[Beispiel|zum Beispiel ein Brief oder ein gemeinsames Foto]].
+
+Wenn ich Zeit mit meinen Liebsten verbringe, mag ich es [[Vorliebe|ruhig und ohne Hektik]]. Ein Tee, ein Gespräch und ein Spaziergang reichen mir. Das wäre auch ein gutes Angebot für deinen Bruder, [[Folge|er kann dabei sicher gut abschalten]].
+
+Erzähl mir, [[Frage an die Freundin|wie ich dich unterstützen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Nicole]],
+
+kein Stress wegen der Pause. [[Reaktion auf die Entschuldigung|Dein Bruder ist ja da]].
+
+Erfahrung: [[Eigene Erfahrung|Mein Kumpel war genauso]].
+
+Tipps: [[Tipp 1|Locker mit ihm reden]]. [[Tipp 2|Ausflug vorschlagen]].
+
+Dein Bruder: [[Meinung über den Bruder|Sportfan, ganz nett]].
+
+Gemeinsam mache ich gern: [[Gemeinsame Aktivität|Grillen, Kino]].
+
+Ein schneller Tipp noch: [[Tipp|Bring ihm einen Kaffee und frag, ob er mit raus kommt]]. Fünfzehn Minuten reichen oft schon, und er fühlt sich nicht gedrängt. [[Folge|Oft wird daraus ein längerer Spaziergang]], und der Fernseher ist vergessen.
+
+Aus meiner Erfahrung hilft auch Humor: [[Idee|Schlag ihm vor, dass ihr gegeneinander wetten, wer mehr Elfmeter hält]]. Wenn man lacht, ist der Fernseher plötzlich nicht mehr so wichtig. Es entsteht Nähe, [[Folge|ganz ohne Streit]].
+
+Gemeinsam mit anderen mache ich am liebsten [[Aktivität|Unternehmungen, die spontan entstehen]]. Das ist oft schöner als geplante Termine. Vielleicht [[Idee|klopfst du einfach an seine Tür und sagst: Komm mit auf ein Eis]]. Das wirkt oft Wunder.
+
+Ich drücke dir die Daumen, dass ihr noch viele schöne Tage zusammen habt, denn so eine Zeit mit dem Bruder ist selten und wertvoll, und er fährt ja bald wieder weg. Ich glaube fest an euch beide und freue mich, wenn du mir erzählst, wie es weitergeht. Meld dich, [[Frage an die Freundin|wie es lief]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];

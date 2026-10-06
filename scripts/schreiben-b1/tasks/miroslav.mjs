@@ -1,254 +1,342 @@
-// Miroslav – hat eine kleine Firma für Gartenarbeiten und Reparaturen gegründet. Points: welche Arbeit Sie machen oder suchen · was Sie von Miroslavs Tätigkeit halten · was es bei Ihnen Neues gibt · eine Frage zu Miroslavs Kunden.
+// v2 (B2-style): Miroslav hat eine kleine Firma gegründet (Gartenarbeiten, Reparaturen rund ums Haus, Lieferwagen, viele Kunden, eigener Chef). Points: welche Arbeit Sie machen oder suchen ·
+// was Sie von Miroslavs Tätigkeit halten · was es bei Ihnen Neues gibt · eine Frage zu Miroslavs Kunden — plus: Entschuldigung ("lange nicht gemeldet"), "endlich mein eigener Chef".
+export const kw = [/Arbeit|arbeite|Job|Stelle|suche|Beruf/i, /Firma|Idee|Tätigkeit|toll|mutig|gratul|Garten|Chef/i, /Neues|Neuigkeit|erlebt|passiert|in letzter Zeit|bei mir/i, /Kunden/, /\?/];
 export default [
   // 1
-  { label: "Arbeit in einer Bank, mutiger Schritt, neuer Sprachkurs, Frage nach der Kundenwerbung", t: `Lieber [[Name des Freundes|Miroslav]],
+  { label: "herzlich, ausführlich", t: `Lieber [[Name des Freundes|Miroslav]],
 
-du musst dich nicht entschuldigen, mir geht es oft genauso! Ich habe mich sehr über deine Nachricht gefreut, und ich gratuliere dir zu deiner eigenen Firma.
+vielen Dank für deine Mail, ich habe mich sehr gefreut! Du musst dich nicht entschuldigen, dass du dich lange nicht gemeldet hast. [[Reaktion auf die Entschuldigung|Wenn man eine Firma gründet, hat man kaum Zeit für Briefe]]. Herzlichen Glückwunsch, dass du jetzt dein eigener Chef bist!
 
-Du fragst nach meiner Arbeit: [[Arbeit|Ich arbeite in einer Bank und berate Kunden am Schalter]]. Die Arbeit gefällt mir, aber sie ist nicht so frei wie deine.
+Zu deiner Frage nach meiner Arbeit: [[Eigene Arbeit|Ich arbeite seit zwei Jahren in einem Büro und mache die Buchhaltung]]. Das gefällt mir, weil [[Grund für die Zufriedenheit|die Kollegen nett sind und ich selbstständig arbeiten kann]].
 
-Deine Idee finde ich [[Meinung|sehr mutig und gleichzeitig vernünftig. Gartenarbeit wird immer gebraucht]]. Ich bewundere, dass du alles allein aufgebaut hast.
+Deine Tätigkeit finde ich großartig und mutig. [[Meinung zur Firma|Gartenarbeit und Reparaturen sind gefragt, und du bist bestimmt schnell erfolgreich]]. Dass du schon viele Kunden hast, beeindruckt mich.
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe einen neuen Sprachkurs angefangen]].
+Bei mir gibt es folgende Neuigkeit: [[Neuigkeit|Ich habe eine Weiterbildung zur Bilanzbuchhalterin begonnen]].
 
-Eine Frage zu deinen Kunden: [[Frage|Wie hast du die ersten Kunden gefunden, und machst du Werbung]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Wie hast du sie gefunden, und was wünschen sich die meisten]]?
 
-Schreib mir bald wieder.
+Dass du Blumen pflanzt und Bäume schneidest, finde ich schön, weil [[Begründung|man am Ende des Tages sieht, was man geschafft hat]]. In meinem Büro sehe ich nur Zahlen. Ich beneide dich ein wenig, [[Gefühl|auch wenn die Arbeit körperlich anstrengend ist]]. Hast du schon Hilfe, oder machst du alles allein?
+
+Zu meiner eigenen Arbeit möchte ich noch hinzufügen: [[Aufgabe|Ich plane Termine, schreibe Berichte und telefoniere viel]]. Das ist nicht aufregend, aber sicher. Wenn ich ehrlich bin, [[Gedanke|träume ich manchmal von einem Beruf an der frischen Luft]], so wie deinem.
+
+Bei mir gibt es noch eine Neuigkeit: [[Weitere Neuigkeit|Ich habe angefangen, Gitarre zu lernen]]. Jeden Abend übe ich eine halbe Stunde, und es macht mir Spaß. Vielleicht spiele ich dir etwas vor, [[Plan|wenn ich dich einmal besuche]].
+
+Schreib mir bitte, [[Frage an den Freund|wie dein erster Sommer als Chef läuft]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
   // 2
-  { label: "Kellner im Hotel, tolle Tätigkeit, Umzug, Frage nach Privatkunden", t: `Hallo [[Name des Freundes|Miroslav]],
+  { label: "locker, freundschaftlich", t: `Hi [[Name des Freundes|Miroslav]],
 
-wie schön, von dir zu hören, und herzlichen Glückwunsch zur Firma! Ein eigener Chef zu sein, ist ein großer Schritt, und ich freue mich für dich.
+schön, von dir zu hören! Kein Stress wegen der Pause, [[Reaktion auf die Entschuldigung|bei mir meldet sich auch keiner pünktlich]]. Eine eigene Firma, Respekt!
 
-Ich arbeite zurzeit [[Arbeit|als Kellner in einem Hotelrestaurant]]. Die Arbeit ist anstrengend, besonders am Wochenende, aber ich lerne viele Leute kennen.
+Meine Arbeit? [[Eigene Arbeit|Ich arbeite im Verkauf in einem Möbelhaus]]. Passt gut, [[Grund für die Zufriedenheit|die Kollegen sind locker]].
 
-Deine Tätigkeit finde ich [[Meinung|toll, weil du draußen an der frischen Luft arbeitest und sofort siehst, was du geschafft hast]]. Das gefällt mir sehr.
+Deine Gartenarbeit finde ich cool. [[Meinung zur Firma|Draußen arbeiten, eigener Chef und Lieferwagen, das ist ein Traum]]. Kein Wunder, dass die Kunden dich anrufen.
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich bin in eine neue Wohnung gezogen]].
+Neues bei mir? [[Neuigkeit|Ich habe angefangen zu laufen und trainiere für einen Zehn-Kilometer-Lauf]].
 
-Zu deinen Kunden habe ich eine Frage: [[Frage|Sind es meistens Privatleute oder auch Firmen]]?
+Frage zu deinen Kunden: [[Frage zu den Kunden|Gibt es Stammkunden, und wer ist der netteste]]?
 
-Ich hoffe, wir können bald telefonieren.
+Ein eigener Lieferwagen ist ein großer Schritt: [[Kommentar|Er kostet viel, aber er macht dich flexibel]]. Ich habe selbst überlegt, [[Überlegung|mir ein Auto zu kaufen]], aber noch nicht den Mut gehabt. Du bist da schon weiter, und das beeindruckt mich sehr.
+
+Ich suche gerade [[Suche|eine neue Herausforderung im Beruf]], aber ich weiß noch nicht, wohin. Deine Mail hat mich inspiriert. Vielleicht [[Idee|probiere ich ein Praktikum bei einem Handwerker aus]], nur um zu sehen, ob das etwas für mich wäre.
+
+Seit einigen Wochen [[Veränderung|treffe ich mich regelmäßig mit alten Freunden zum Kochen]]. Das tut gut nach einem langen Arbeitstag. Es wäre schön, wenn du auch einmal dabei wärst, [[Einladung|wenn dein Terminkalender es erlaubt]].
+
+Meld dich, [[Frage an den Freund|wie es weitergeht]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Karim]]` },
+[[Dein Name|Jonas]]` },
 
   // 3
-  { label: "Pflegekraft im Krankenhaus, großer Respekt, Prüfung bestanden, Frage nach Stammkunden", t: `Lieber [[Name des Freundes|Miroslav]],
+  { label: "begeistert, lebendig", t: `Lieber [[Name des Freundes|Miroslav]],
 
-wie nett, deine Zeilen zu lesen! Ich habe mich sehr gefreut und gratuliere dir ganz herzlich zu deiner Firma. Das hört sich nach viel Arbeit, aber auch nach viel Freude an.
+wow, was für eine tolle Nachricht! Entschuldige dich nicht, [[Reaktion auf die Entschuldigung|ich weiß ja, wie viel Arbeit eine Gründung macht]]. Herzlichen Glückwunsch zur eigenen Firma!
 
-Meine Arbeit ist [[Arbeit|im Krankenhaus als Pflegekraft, mit Frühdienst und Spätdienst]]. Ich helfe Menschen, und das macht mich zufrieden.
+Meine Arbeit: [[Eigene Arbeit|Ich bin Krankenpflegerin und arbeite im Schichtdienst]]. Ich liebe sie, weil [[Grund für die Zufriedenheit|ich Menschen helfen kann]].
 
-Ich habe großen Respekt vor deiner Idee: [[Meinung|Dass du so mutig warst und alles allein gekauft hast, ist bewundernswert]]. Viele hätten diesen Schritt nicht gewagt.
+Deine Idee finde ich genial. [[Meinung zur Firma|Gartenarbeit, Reparaturen und ein eigener Lieferwagen, das ist mutig und klug]]. Ich bin stolz auf dich.
 
-Bei mir ist Neues passiert: [[Neuigkeit|Ich habe meine Prüfung bestanden]].
+Bei mir gibt es tolle Neuigkeiten: [[Neuigkeit|Ich fahre im Sommer drei Wochen nach Griechenland]].
 
-Eine Frage zu deinen Kunden: [[Frage|Hast du auch Stammkunden, die regelmäßig anrufen]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Was war dein ungewöhnlichster Auftrag]]?
 
-Schreib mir bitte, wie es dir geht.
+Eine Firma zu gründen, [[Einschätzung|ist ein Traum vieler Menschen, aber nur wenige trauen sich]]. Du hast es getan, und das verdient Respekt. Ich wünsche dir, dass du [[Wunsch|viele zufriedene Kunden und genug Zeit für dich]] hast.
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Amira]]` },
+Ich liebe meine Arbeit, weil [[Grund|jeder Tag anders ist und ich viele Menschen treffe]]. Manchmal ist es stressig, aber [[Folge|am Abend bin ich zufrieden]]. Das wünsche ich jedem, und ich hoffe, du hast dieses Gefühl bei deiner Firma auch jeden Tag.
+
+Zum Thema Neuigkeiten: [[Neuigkeit|Ich habe eine neue Wohnung gefunden und ziehe im Herbst um]]. Ich bin schon ganz aufgeregt und freue mich auf mehr Platz. Wenn du Zeit hast, [[Bitte|hilfst du mir vielleicht beim Umzug mit deinem Lieferwagen]]?
+
+Schreib mir bald, [[Frage an den Freund|wie viele Kunden du schon hast]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Marie]]` },
 
   // 4
-  { label: "Student mit Nebenjob, schöne Idee, Reise geplant, Frage nach Preisen", t: `Hallo [[Name des Freundes|Miroslav]],
+  { label: "sachlich-strukturiert", t: `Lieber [[Name des Freundes|Miroslav]],
 
-wie lieb, von dir zu lesen! Ich gratuliere dir zur neuen Firma, und ich bin sicher, dass es klappt.
+vielen Dank für deine Nachricht. Zu deinen Punkten nehme ich der Reihe nach Stellung.
 
-Ich suche zurzeit [[Arbeit|einen Nebenjob neben dem Studium, am liebsten in einem Büro oder einer Bibliothek]]. Mit dem Geld möchte ich meine Miete bezahlen.
+Erstens, die Pause: [[Reaktion auf die Entschuldigung|Du musst dich nicht entschuldigen, die Gründung hat dich sicher gefordert]]. Ich gratuliere dir herzlich zur Firma.
 
-Deine Idee ist wirklich [[Meinung|gut. Viele Leute haben keine Zeit für den Garten und brauchen Hilfe]]. Damit kannst du bestimmt gut verdienen.
+Zweitens, meine Arbeit: [[Eigene Arbeit|Ich arbeite als Sachbearbeiter in einer Versicherung]].
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich plane im Sommer eine Reise mit meinen Freunden]].
+Drittens, deine Tätigkeit: [[Meinung zur Firma|Ich halte sie für sinnvoll, weil der Bedarf an Garten- und Reparaturarbeiten hoch ist]].
 
-Mich interessiert noch etwas zu deinen Kunden: [[Frage|Wie viel verlangst du pro Stunde, und sind die Leute zufrieden mit dem Preis]]?
+Viertens, meine Neuigkeiten: [[Neuigkeit|Ich bin im Büro befördert worden]].
 
-Schreib mir bald zurück.
+Fünftens, eine Frage zu deinen Kunden: [[Frage zu den Kunden|Wie gewinnst du neue Kunden, durch Empfehlung oder Werbung]]?
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Youssef]]` },
+Ergänzend empfehle ich dir, [[Empfehlung|von Anfang an Rechnungen und Belege ordentlich zu sortieren]]. Das erspart dir später viel Ärger mit dem Finanzamt. Ich kenne mich damit aus, [[Hilfsangebot|und kann dir bei Fragen gern helfen]].
+
+Im Büro habe ich [[Aufgabe|Verantwortung für ein kleines Team übernommen]]. Das ist neu für mich, aber ich lerne schnell. Deine Mail zeigt mir, dass man mit Mut viel erreichen kann, und das motiviert mich sehr.
+
+Bei mir hat sich auch etwas geändert: [[Veränderung|Ich mache jetzt dreimal pro Woche Sport]]. Das hat meine Laune sehr verbessert. Dir als Gärtner und Handwerker bleibt das wohl erspart, denn du bist den ganzen Tag in Bewegung.
+
+Ich freue mich auf [[Vorfreude|deine nächste Mail]] und auf [[Wunsch|ein Treffen im Sommer]]. Bitte teile mir mit, [[Frage an den Freund|wie es weitergeht]].
+
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
   // 5
-  { label: "Programmierer in einer Firma, spannende Tätigkeit, Fahrradkauf, Frage nach Aufträgen", t: `Lieber [[Name des Freundes|Miroslav]],
+  { label: "hilfsbereit, praktisch", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine E-Mail, und herzlichen Glückwunsch! Eine eigene Firma zu gründen, ist eine tolle Leistung, und du hast sicher viele Ideen.
+danke für deine Mail! [[Reaktion auf die Entschuldigung|Es ist völlig in Ordnung, dass du lange nicht geschrieben hast]]. Glückwunsch zur Firma, und wenn ich dir helfen kann, sag Bescheid.
 
-Ich arbeite [[Arbeit|als Programmierer in einer kleinen Softwarefirma]]. Den ganzen Tag sitze ich am Computer, deshalb bewundere ich dein Leben an der frischen Luft.
+Meine Arbeit: [[Eigene Arbeit|Ich arbeite als Technikerin in einer Werkstatt]]. Das ist praktisch, denn [[Praktische Hilfe|ich kann dir bei Fragen zu Werkzeug und Reparaturen helfen]].
 
-Deine Tätigkeit ist [[Meinung|spannend und abwechslungsreich, jeder Tag ist anders]]. Das hört sich für mich viel interessanter an als mein Büro.
+Deine Tätigkeit finde ich toll. [[Meinung zur Firma|Mit Lieferwagen und Werkzeug bist du gut aufgestellt]]. Ich kann [[Hilfsangebot|dir gern eine Internetseite oder Visitenkarten gestalten]], wenn du magst.
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein neues Fahrrad gekauft]].
+Bei mir gibt es [[Neuigkeit|eine neue Kollegin, die mich entlastet]].
 
-Zu deinen Kunden eine Frage: [[Frage|Wie viele Aufträge hast du pro Woche, und kannst du alle allein schaffen]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Brauchst du Hilfe bei den Rechnungen oder der Terminplanung]]?
 
-Lass uns bald wieder Kontakt haben.
+Wenn du Hilfe bei der Werbung brauchst, [[Hilfsangebot|gestalte ich dir einen Flyer und eine kleine Seite im Internet]]. Das mache ich gern. Ich schlage vor, dass du [[Idee|Fotos von deiner Arbeit machst, vorher und nachher]], das wirkt sehr gut.
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Hamza]]` },
+Mein Job ist [[Beschreibung|praktisch und gut organisiert]], und ich verstehe mich mit allen. Ich habe Glück, [[Folge|dass ich mich auf die Arbeit freue]]. Wenn ich dir bei etwas aus dem Büro helfen kann, sag es bitte, ich bin da.
+
+Eine Kleinigkeit noch aus meinem Leben: [[Neuigkeit|Ich habe einen kleinen Hund aus dem Tierheim geholt]], er heißt Rex. Er hält mich auf Trab, aber ich liebe ihn. Vielleicht kannst du ihn bei Gelegenheit einmal in deinem Garten toben lassen.
+
+Sag mir bitte, [[Frage an den Freund|ob ich dir sonst noch helfen kann]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Kerem]]` },
 
   // 6
-  { label: "Verkäuferin im Supermarkt, tolle Entscheidung, Hochzeit besucht, Frage nach schwierigen Kunden", t: `Hallo [[Name des Freundes|Miroslav]],
+  { label: "begründend, argumentativ", t: `Hallo [[Name des Freundes|Miroslav]],
 
-deine Mail kam genau zur richtigen Zeit! Ich gratuliere dir zu deiner Firma, und ich freue mich, dass du endlich dein eigener Chef bist.
+du brauchst dich nicht zu entschuldigen, denn [[Begründung für die Nachsicht|eine Firmengründung braucht viel Zeit]]. Ich gratuliere dir herzlich.
 
-Meine Arbeit: [[Arbeit|Ich arbeite als Verkäuferin in einem Supermarkt und stehe viel an der Kasse]]. Das ist anstrengend, aber ich verstehe mich gut mit den Kollegen.
+Meine Arbeit: [[Eigene Arbeit|Ich arbeite als Lehrerin an einer Grundschule]], weil [[Grund für den Beruf|ich gern mit Kindern arbeite]].
 
-Ich finde deine Entscheidung [[Meinung|großartig, weil du endlich das machst, was du gern tust. Das ist ein großes Glück]].
+Deine Tätigkeit halte ich für eine gute Idee, weil [[Begründung zur Firma|Garten- und Reparaturarbeiten immer gebraucht werden]]. [[Meinung zur Firma|Du hast Mut bewiesen]].
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich war auf der Hochzeit meiner Cousine]].
+Bei mir gibt es [[Neuigkeit|eine Veränderung im Beruf]].
 
-Eine Frage zu deinen Kunden: [[Frage|Gibt es auch Kunden, die sehr schwierig sind, und wie gehst du mit ihnen um]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Warum rufen sie dich immer wieder an, und was machst du besser als andere]]?
 
-Schreib mir bitte bald.
+Du hast bewiesen, dass du [[Eigenschaft|ein guter Handwerker und ein mutiger Unternehmer bist]]. Das ist eine seltene Kombination. Deshalb bin ich sicher, [[Folge|dass deine Firma wachsen wird]]. Ich drücke dir die Daumen, und ich glaube fest an dich.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Salma]]` },
+Ich habe mich für meinen Beruf entschieden, weil [[Grund|ich gern mit Zahlen und Menschen arbeite]]. Deine Entscheidung ist mutiger, aber ich verstehe sie. Beide Wege haben Vor- und Nachteile, [[Folge|und wichtig ist, dass man zufrieden ist]].
+
+Meine Neuigkeit ist ein bisschen traurig und schön zugleich: [[Neuigkeit|Meine Oma ist ins Altersheim gezogen, aber sie fühlt sich dort wohl]]. Ich besuche sie jede Woche. Familie ist mir wichtig, und ich denke, dir auch.
+
+Schreib mir, [[Frage an den Freund|wie du den Erfolg erklärst]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
   // 7
-  { label: "Arbeitssuchend, gute Geschäftsidee, Deutschkurs begonnen, Frage nach Werbung", t: `Lieber [[Name des Freundes|Miroslav]],
+  { label: "klar und kompakt", t: `Lieber [[Name des Freundes|Miroslav]],
 
-herzlichen Dank für deine Nachricht! Ich freue mich über deine eigene Firma und gratuliere dir von Herzen. Du hast viel Mut bewiesen.
+danke für deine Mail, hier kurz meine Antworten.
 
-Ich suche zurzeit [[Arbeit|eine Stelle als Fahrer oder Lagerarbeiter]]. Es ist nicht einfach, aber ich gebe nicht auf. Vielleicht gründe ich auch einmal selbst eine Firma.
+Pause: [[Reaktion auf die Entschuldigung|Kein Problem]]. Glückwunsch zur Firma!
 
-Deine Geschäftsidee finde ich [[Meinung|sehr gut, weil man Gärten immer pflegen muss]]. Mit dem Lieferwagen bist du außerdem flexibel.
+Meine Arbeit: [[Eigene Arbeit|Büro, Buchhaltung]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe einen Deutschkurs angefangen, der drei Mal pro Woche stattfindet]].
+Deine Tätigkeit: [[Meinung zur Firma|Toll und mutig]].
 
-Zu deinen Kunden habe ich eine Frage: [[Frage|Hast du Werbung gemacht, oder haben dich die Kunden durch Freunde gefunden]]?
+Neues bei mir: [[Neuigkeit|Neue Aufgabe im Büro]].
 
-Gib mir bitte noch diese Woche Bescheid.
+Frage zu deinen Kunden: [[Frage zu den Kunden|Wie viele hast du schon]]?
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Walid]]` },
+Mich interessiert noch: Wie findest du die Arbeit im Winter, wenn der Garten schläft? [[Idee|Vielleicht bietest du dann Schneeräumen oder Reparaturen im Haus an]]. So hast du das ganze Jahr Aufträge. Das hat sich bei meinem Onkel bewährt.
+
+Ich arbeite im Moment [[Arbeitszeit|dreißig Stunden pro Woche]], das reicht mir. Dadurch habe ich Zeit für Hobbys, und ich fühle mich ausgeglichen. Dein Weg bedeutet vielleicht mehr Stunden, [[Folge|aber auch mehr Freiheit]].
+
+In letzter Zeit [[Erlebnis|habe ich mir einen lang gehegten Wunsch erfüllt und eine Reise nach Spanien gebucht]]. Ich freue mich riesig darauf. Wenn ich zurück bin, erzähle ich dir alles ganz genau und zeige dir Fotos.
+
+Ich freue mich sehr für dich und wünsche dir viel Erfolg, denn mit so einer Idee, [[Wunsch|ein eigener Betrieb mit netten Kunden]], kann man weit kommen. Ich bin gespannt auf [[Neugier|deine nächsten Pläne]]. Gib mir bitte kurz Bescheid, [[Frage an den Freund|wie es läuft]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
 
   // 8
-  { label: "Praktikum im Büro, bewundernswert, neue Frisur, Frage nach Gartenhäuschen", t: `Hallo [[Name des Freundes|Miroslav]],
+  { label: "humorvoll, augenzwinkernd", t: `Lieber [[Name des Freundes|Miroslav]],
 
-danke für deine Neuigkeiten! Ich freue mich sehr, dass es dir gut geht, und ich gratuliere dir zu deiner Firma. Das war bestimmt viel Arbeit am Anfang.
+du hast eine Firma gegründet und meldest dich erst jetzt? [[Reaktion auf die Entschuldigung|Verziehen, Chefs haben ja nie Zeit]]. Glückwunsch, jetzt bist du dein eigener Chef und dein eigener Kritiker.
 
-Ich mache zurzeit [[Arbeit|ein Praktikum in einem Büro und lerne die Abläufe kennen]]. Es macht mir Spaß, aber ich würde gern mehr Verantwortung haben.
+Meine Arbeit: [[Eigene Arbeit|Ich sitze im Büro und sortiere Rechnungen, spannender als es klingt]]. Aber [[Grund für die Zufriedenheit|der Kaffee ist gut]].
 
-Dein Weg ist [[Meinung|bewundernswert. Du hast einen Lieferwagen gekauft und Werkzeug, das ist eine große Investition]]. Ich wünsche dir viel Glück dabei.
+Deine Tätigkeit ist beneidenswert. [[Meinung zur Firma|Draußen arbeiten, Blumen pflanzen, Gras schneiden, was für ein Leben]]. Ich würde sofort tauschen, aber nur im Sommer.
 
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe eine neue Frisur und fühle mich wie ein anderer Mensch]].
+Neues bei mir: [[Neuigkeit|Ich habe meinen Schreibtisch aufgeräumt, ein Wunder]].
 
-Eine Frage zu deinen Kunden: [[Frage|Wollen viele Kunden, dass du auch ihr Gartenhäuschen putzt, oder ist das selten]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Wer ist der anstrengendste, der Rasen oder der Mensch]]?
 
-Schreib mir kurz zurück.
+Dass du jetzt dein eigener Chef bist, [[Kommentar|bedeutet auch, dass du dir selbst Urlaub genehmigen musst]]. Vergiss das nicht, denn Erholung ist wichtig. Ich habe das bei meinem Schwager gesehen, [[Erinnerung|der drei Jahre ohne Pause gearbeitet hat]].
 
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Ines]]` },
+In meinem Büro gibt es gerade viel Wirbel: [[Ereignis|Wir bekommen neue Computer und müssen alles neu lernen]]. Ich beschwere mich nicht, aber ich träume von deinem Garten. Dort ist alles klar, und man sieht Ergebnisse.
+
+Neu bei mir ist [[Neuigkeit|ein Kochkurs, den ich jeden Mittwoch besuche]]. Ich habe schon drei Rezepte gelernt und koche jetzt für meine Freunde. Es macht mir großen Spaß, auch wenn die Küche danach wie ein Schlachtfeld aussieht.
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen mit dir]]. Schreib bald, [[Frage an den Freund|ob du mir auch den Garten machst]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
 
   // 9
-  { label: "Elektriker in Ausbildung, tolles Unternehmen, Autokauf, Frage nach Preisen und Zufriedenheit", t: `Lieber [[Name des Freundes|Miroslav]],
+  { label: "persönlich, erzählend", t: `Lieber [[Name des Freundes|Miroslav]],
 
-ich habe mich ehrlich über deine Mail gefreut! Dass du eine Firma gegründet hast, finde ich großartig, und ich gratuliere dir herzlich.
+als ich deine Mail gelesen habe, musste ich an unsere gemeinsame Zeit denken. [[Erinnerung an früher|Du hast damals schon gesagt, dass du einmal dein eigener Chef sein willst]]. Es freut mich, dass du es geschafft hast.
 
-Ich arbeite [[Arbeit|als Elektriker in der Ausbildung und lerne gerade, Kabel zu verlegen]]. Es ist praktisch, und ich liebe die Arbeit mit den Händen. Nach der Ausbildung möchte ich vielleicht auch selbstständig sein.
+Zu meiner Arbeit: [[Eigene Arbeit|Ich arbeite seit drei Jahren im Büro einer Spedition]].
 
-Dein Unternehmen finde ich [[Meinung|toll, weil du etwas Eigenes aufbaust und deine Kunden direkt kennst]]. Das ist eine schöne Art zu arbeiten.
+Deine Firma finde ich bewundernswert. [[Meinung zur Firma|Du hast Mut gehabt, einen Lieferwagen zu kaufen und neu anzufangen]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mir ein gebrauchtes Auto gekauft]].
+Bei mir gibt es [[Neuigkeit|eine Veränderung im Beruf]].
 
-Zu deinen Kunden: [[Frage|Rufen sie dich selbst an, oder organisierst du die Termine über eine Webseite]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Gibt es einen, der dir besonders in Erinnerung geblieben ist]]?
 
-Sag mir bitte bald Bescheid.
+Ich erinnere mich, wie du als Kind schon [[Erinnerung|im Garten deines Vaters geholfen hast]]. Es war immer klar, dass du etwas mit den Händen machst. Jetzt hast du dein Hobby zum Beruf gemacht, [[Folge|und das ist wunderbar]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Aymen]]` },
+Ich arbeite gern, aber ich habe [[Erinnerung|als Kind immer gesagt, ich werde Förster]]. Daran musste ich denken, als ich deine Mail las. Vielleicht gibt es ein Mittelding, [[Folge|etwas mit Natur und Menschen]].
+
+Eine Neuigkeit, an der ich lange gearbeitet habe: [[Neuigkeit|Ich habe meinen Führerschein bestanden]]. Das war ein langer Weg, und ich bin stolz darauf. Jetzt kann ich dich endlich einmal besuchen, [[Angebot|wenn du mich einlädst]].
+
+Erzähl mir, [[Frage an den Freund|wie dein Alltag jetzt aussieht]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
 
   // 10
-  { label: "Fahrer bei einem Lieferdienst, mutiger Chef, Umzug der Eltern, Frage nach dem Winter", t: `Hallo [[Name des Freundes|Miroslav]],
+  { label: "vorschlagsorientiert", t: `Hallo [[Name des Freundes|Miroslav]],
 
-danke für deine lange E-Mail! Ich gratuliere dir zu deiner eigenen Firma und freue mich, dass es so gut läuft.
+danke für deine Mail, und Glückwunsch zur Firma! [[Reaktion auf die Entschuldigung|Die Pause ist kein Problem]]. Ich habe gleich mehrere Vorschläge für dich.
 
-Ich arbeite [[Arbeit|als Fahrer für einen Lieferdienst und bin den ganzen Tag unterwegs]]. Das ist anstrengend, aber ich sehe viel von der Stadt.
+Mein erster Vorschlag: [[Vorschlag 1|Mach eine kleine Internetseite mit Fotos deiner Arbeit]]. Mein zweiter: [[Vorschlag 2|Frag deine Kunden nach Empfehlungen]]. Mein dritter: [[Vorschlag 3|Biete im Winter Schneeräumen an]].
 
-Mit deiner Tätigkeit hast du einen guten Weg gewählt: [[Meinung|Du bist dein eigener Chef und kannst deine Zeit selbst einteilen]]. Davon träume ich auch manchmal.
+Meine Arbeit: [[Eigene Arbeit|Ich arbeite im Verkauf]]. Bei mir gibt es [[Neuigkeit|einen neuen Chef]].
 
-Bei mir gibt es Neues: [[Neuigkeit|Meine Eltern sind umgezogen, und ich habe ihnen geholfen]].
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Wie viele davon kommen aus deiner Nachbarschaft]]?
 
-Eine Frage zu deinen Kunden: [[Frage|Was machst du im Winter, wenn niemand Gartenarbeit braucht, und hast du auch dann Aufträge]]?
+Mein vierter Vorschlag: [[Vorschlag|Schreib Rechnungen mit einem kostenlosen Programm]], das spart Zeit. Mein fünfter: [[Vorschlag 2|Frag deine ersten Kunden um eine kurze Bewertung für deine Seite]]. So bekommst du Vertrauen und neue Aufträge.
 
-Schreib mir bald zurück!
+Zu meiner Arbeit noch ein Vorschlag: Wenn du Hilfe bei den Finanzen brauchst, [[Angebot|schaue ich mir gern mit dir deine Zahlen an]]. Ich arbeite ja genau damit, und es wäre eine Freude, dir zu helfen.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Rim]]` },
+Bei mir gibt es nur kleine Veränderungen, [[Veränderung|zum Beispiel ein neues Sofa im Wohnzimmer]]. Aber ich freue mich darüber. Manchmal sind es die kleinen Dinge, die den Alltag schöner machen, und ich hoffe, dir geht es genauso.
 
-  // 11
-  { label: "Lehrerin in einer Schule, schöne Idee, neues Hobby, Frage nach Handwerk", t: `Lieber [[Name des Freundes|Miroslav]],
-
-es hat mich sehr gefreut, von dir zu hören, und ich gratuliere dir zu deiner Firma! Dein Lieferwagen und das Werkzeug zeigen, dass du es ernst meinst.
-
-Ich arbeite [[Arbeit|als Lehrerin an einer Grundschule und unterrichte Mathematik]]. Die Kinder sind süß, aber manchmal laut. Ich liebe meine Arbeit trotzdem.
-
-Deine Idee mit der Gartenarbeit finde ich [[Meinung|schön, weil du etwas Sichtbares schaffst. Ein ordentlicher Garten macht viele Menschen glücklich]].
-
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mit Malen angefangen]].
-
-Eine Frage zu deinen Kunden: [[Frage|Fragen die Leute dich auch nach anderen Reparaturen, zum Beispiel am Dach oder an der Tür]]?
-
-Ich bin schon neugierig auf deine Antwort.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Emna]]` },
-
-  // 12
-  { label: "Friseur im Salon, tolle Selbstständigkeit, Wanderung, Frage nach den Arbeitszeiten", t: `Hallo [[Name des Freundes|Miroslav]],
-
-wie schön, dass du mir schreibst! Dass du eine Firma gegründet hast, freut mich sehr, und ich gratuliere dir herzlich.
-
-Ich arbeite [[Arbeit|als Friseur in einem Salon in der Altstadt]]. Ich habe viele Stammkunden, und die Arbeit macht mir viel Freude.
-
-Deine Selbstständigkeit finde ich [[Meinung|wirklich toll, weil du jetzt frei entscheiden kannst]]. Ich denke auch manchmal an einen eigenen Salon.
-
-Bei mir gibt es Neues: [[Neuigkeit|Ich habe am Wochenende eine lange Wanderung gemacht]].
-
-Zu deinen Kunden habe ich eine Frage: [[Frage|Wann rufen sie meistens an, am Wochenende oder unter der Woche]], und wie planst du die Termine?
-
-Ich freue mich auf deine Mail.
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Fares]]` },
-
-  // 13
-  { label: "Bäckerei, hohe Anerkennung, Konzert, Frage nach Dankbarkeit der Kunden", t: `Lieber [[Name des Freundes|Miroslav]],
-
-wie toll, deine Zeilen zu lesen! Ich gratuliere dir zu deiner Firma, und ich bin sicher, dass du viel Erfolg haben wirst.
-
-Meine Arbeit: [[Arbeit|Ich arbeite in einer Bäckerei und stehe morgens um vier Uhr auf]]. Die Arbeit ist hart, aber das frische Brot macht alles wieder gut.
-
-Ich habe hohe Anerkennung für deine Tätigkeit: [[Meinung|Gartenarbeit, Reparaturen und Putzen, das ist viel Arbeit, und du machst das alles allein]]. Dafür gebührt dir Respekt.
-
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich war auf einem tollen Konzert]].
-
-Zu deinen Kunden habe ich noch eine Frage: [[Frage|Sind sie meist dankbar, und gibt es manchmal ein Trinkgeld]]?
-
-Lass mich bitte wissen, was du dazu sagst.
+Was hältst du davon? Ich freue mich auf deine Antwort. Schreib mir, [[Frage an den Freund|welcher Vorschlag dir gefällt]].
 
 [[Grußformel|Viele Grüße]]
-[[Dein Name|Anis]]` },
+[[Dein Name|Paula]]` },
 
-  // 14
-  { label: "Büroarbeit mit Plänen, gute Wahl, Fahrrad repariert, Frage nach den Hausbesitzern", t: `Hallo [[Name des Freundes|Miroslav]],
+  // 11
+  { label: "abwägend, vorsichtig", t: `Lieber [[Name des Freundes|Miroslav]],
 
-wie super, dass du dich bei mir meldest! Ich gratuliere dir zu deiner Firma, und ich bin gespannt, wie sie sich entwickelt.
+danke für deine Mail. [[Reaktion auf die Entschuldigung|Du brauchst dich nicht zu entschuldigen]]. Zu deiner Firma möchte ich vorsichtig antworten.
 
-Ich arbeite [[Arbeit|im Büro einer Baufirma, wo ich Pläne ausdrucke und Termine organisiere]]. Es ist nicht aufregend, aber sicher. Manchmal wünsche ich mir mehr Bewegung.
+Einerseits [[Vorteil der Selbstständigkeit|bist du frei und dein eigener Chef]], andererseits [[Nachteil der Selbstständigkeit|trägst du das ganze Risiko]]. Ich finde deine Idee gut, [[Meinung zur Firma|solange du dich nicht überlastest]].
 
-Die Wahl deiner Arbeit finde ich [[Meinung|sehr gut, weil du viel draußen bist und deine Arbeit sofort sichtbar wird]]. Das macht bestimmt zufrieden.
+Meine Arbeit: [[Eigene Arbeit|Ich arbeite im Büro und bin zufrieden, aber ohne große Veränderungen]].
 
-Bei mir gibt es Neuigkeiten: [[Neuigkeit|Ich habe mein altes Fahrrad repariert und fahre jetzt täglich damit]].
+Bei mir [[Neuigkeit|hat sich nicht viel verändert]].
 
-Eine Frage zu deinen Kunden: [[Frage|Sind es meistens Hausbesitzer, oder rufen auch Mieter bei dir an]]?
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Zahlen sie pünktlich, und wie planst du den Winter]]?
 
-Melde dich bitte, gleich nach den Ferien.
+Ich möchte noch erwähnen, dass Selbstständigkeit auch [[Hinweis|Phasen mit wenig Aufträgen bringen kann]]. Dafür solltest du [[Rat|Rücklagen bilden]], damit du ruhig bleiben kannst. Aber du bist ein vernünftiger Mensch und hast das sicher schon bedacht.
+
+Ich bin mit meiner Arbeit insgesamt zufrieden, [[Einschränkung|auch wenn es manchmal Tage gibt, an denen ich mich langweile]]. Aber das gehört dazu. Du wirst sicher auch solche Tage haben, [[Folge|auch wenn du es nicht zugibst]].
+
+Zur Planung für das Wochenende: [[Plan|Ich könnte dich in zwei Wochen besuchen und dir bei etwas helfen]]. Das wäre mein Beitrag für deinen Erfolg. Sag mir, [[Frage|ob dir ein Besuch gerade recht ist]], dann plane ich die Fahrt.
+
+Schreib mir bitte, [[Frage an den Freund|wie du dich fühlst]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Lieber [[Name des Freundes|Miroslav]],
+
+danke für deine Nachricht, ich antworte Schritt für Schritt. Als Erstes: [[Reaktion auf die Entschuldigung|Entschuldige dich nicht]]. Glückwunsch zur Firma.
+
+Als Nächstes zu meiner Arbeit: [[Eigene Arbeit|Büro, Buchhaltung]].
+
+Dann zu deiner Tätigkeit: [[Meinung zur Firma|Ich finde sie mutig und toll]].
+
+Danach zu den Neuigkeiten bei mir: [[Neuigkeit|Neue Aufgabe]].
+
+Zuletzt eine Frage zu deinen Kunden: [[Frage zu den Kunden|Wie findest du neue]]?
+
+Ein weiterer Schritt für dich: [[Schritt|Mach dir einen Plan für das nächste Jahr, mit Zielen und Preisen]]. Das gibt Sicherheit und hilft bei Entscheidungen. Ich helfe dir gern, wenn du magst, einen solchen Plan zu schreiben.
+
+Als zweiten Schritt für meine Karriere habe ich vor, [[Schritt|eine Weiterbildung zu machen]]. Das dauert ein Jahr, und dann habe ich bessere Chancen. Dein Beispiel zeigt mir, dass sich Mut lohnt, [[Folge|und dass man nicht zu lange warten sollte]].
+
+Mein Leben ist im Moment recht ruhig: [[Beschreibung|Arbeit, Freunde, ein bisschen Sport]]. Aber das ist gut so. Du hast bestimmt mehr zu erzählen, [[Wunsch|und ich freue mich auf deine nächste Mail]].
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen]] und wünsche dir viel Erfolg bei allem, was du dir vorgenommen hast, und auf viele neue Aufträge. Wie geht es weiter? Schreib mir, [[Frage an den Freund|wie es läuft]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Nour]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Lieber [[Name des Freundes|Miroslav]],
+
+deine Mail hat mich sehr gefreut. [[Reaktion auf die Entschuldigung|Mach dir keine Gedanken wegen der Pause, Hauptsache, es geht dir gut]]. Ich freue mich so für dich, dass du jetzt dein eigener Chef bist.
+
+Meine Arbeit: [[Eigene Arbeit|Ich arbeite in einem kleinen Büro, mit netten Kollegen]].
+
+Deine Tätigkeit finde ich wunderbar. [[Meinung zur Firma|Du bist mutig, und ich glaube, dass du Erfolg haben wirst]].
+
+Bei mir gibt es [[Neuigkeit|ein neues Hobby, das mir Freude macht]].
+
+Eine Frage zu deinen Kunden: [[Frage zu den Kunden|Sind sie nett zu dir, und fühlst du dich geschätzt]]?
+
+Ich glaube, dass du ein sehr guter Chef bist: [[Eigenschaft|Du bist fleißig, ehrlich und freundlich zu deinen Kunden]]. Das spricht sich herum. Und auch ich werde dich weiterempfehlen, [[Angebot|wenn ich jemanden kenne, der einen Gärtner braucht]].
+
+Ich bin mit meiner Arbeit zufrieden, [[Grund|weil ich nette Kollegen habe und mein Chef mich unterstützt]]. Trotzdem beneide ich dich ein wenig um deine Freiheit. Wenn es nicht klappt, sagst du mir ehrlich, wie es dir damit geht, oder?
+
+Neues von mir: [[Neuigkeit|Ich habe angefangen, Spanisch zu lernen]], weil ich im nächsten Jahr verreisen möchte. Es macht Spaß, und ich komme gut voran. Wenn du magst, übe ich bei einem Treffen mit dir, [[Idee|vielleicht über Gartenbegriffe]].
+
+Ich freue mich auf [[Vorfreude|ein Wiedersehen]]. Erzähl mir, [[Frage an den Freund|wie ich dich unterstützen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name des Freundes|Miroslav]],
+
+eigene Firma, stark! [[Reaktion auf die Entschuldigung|Kein Stress wegen der Pause]].
+
+Meine Arbeit: [[Eigene Arbeit|Büro, ganz okay]].
+
+Deine Tätigkeit: [[Meinung zur Firma|Cool und mutig]].
+
+Neues: [[Neuigkeit|Nichts Besonderes]].
+
+Kunden: [[Frage zu den Kunden|Wie viele hast du schon]]?
+
+Ein Tipp noch: [[Tipp|Visitenkarten und ein Schild am Lieferwagen]] bringen oft neue Kunden. Das kostet wenig, und die Leute sehen dich jeden Tag. Ich habe das bei einem Bekannten erlebt, [[Folge|er hatte nach einem Monat doppelt so viele Anfragen]].
+
+Mein Alltag ist [[Beschreibung|ziemlich geregelt: aufstehen, arbeiten, Feierabend]]. Das ist angenehm, aber auch ein bisschen eintönig. Dein Leben klingt bunter, [[Folge|und ich wünsche dir, dass es so bleibt]].
+
+Zu mir: Ich habe [[Neuigkeit|eine neue Kollegin, mit der ich mich super verstehe]]. Das verändert den Büroalltag zum Guten. Und ich hoffe, dass auch dein Alltag bunt und voller guter Begegnungen ist.
+
+Ich freue mich echt für dich und bin gespannt auf [[Vorfreude|deine nächsten Geschichten]]. Dass du jetzt ganz allein entscheidest, was du machst und wann, finde ich beeindruckend, und ich bin sicher, dass du mit deiner freundlichen Art viele Kunden gewinnst, die dich weiterempfehlen. Wenn ich dir einmal helfen kann, sag einfach Bescheid, das meine ich ernst. Meld dich, [[Frage an den Freund|wie es läuft]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
 ];
