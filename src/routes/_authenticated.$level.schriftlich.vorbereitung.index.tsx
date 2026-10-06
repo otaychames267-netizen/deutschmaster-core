@@ -20,7 +20,10 @@ export const Route = createFileRoute("/_authenticated/$level/schriftlich/vorbere
  */
 function schreibenParts(seg: "b1" | "b2" | undefined) {
   if (seg === "b1") {
-    return [{ label: "Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/informell" }];
+    return [
+      { label: "Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/informell" },
+      { label: "Meine Struktur — Informeller Brief", to: "/schriftlich/vorbereitung/schreiben/meine-struktur" },
+    ];
   }
   return [
     { label: "Beschwerde — Formal complaint", to: "/schriftlich/vorbereitung/schreiben/beschwerde" },
