@@ -52,6 +52,9 @@ function ThemeRow({ stat }: { stat: ThemeStat }) {
           <p className="truncate text-sm font-bold text-foreground">{stat.theme}</p>
           <div className="mt-2"><Bar closed={stat.closed} total={stat.total} /></div>
         </div>
+        <span className="hidden shrink-0 text-xs font-semibold tabular-nums text-muted-foreground sm:inline">
+          {stat.closed} gone · ذهبت
+        </span>
         <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold tabular-nums ${t.pill}`}>
           {remaining} / {stat.total} <span className="font-medium opacity-80">left</span>
         </span>
@@ -163,7 +166,7 @@ function StrukturCapacityPage() {
           <div className="grid grid-cols-3 gap-3">
             {[
               { label: "Total · المجموع", value: total },
-              { label: "Closed · مغلقة", value: closed },
+              { label: "Closed / gone · مغلقة (ذهبت)", value: closed },
               { label: "Remaining · المتبقّي", value: remaining },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl border border-border bg-card p-4">
