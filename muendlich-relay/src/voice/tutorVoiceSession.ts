@@ -38,6 +38,12 @@ import { createSupabaseVoiceStore } from "./supabaseVoiceStore.js";
 import { getPool, EXAMINER_POOL } from "./voicePools.js";
 import type { VoiceProfile } from "./voiceProfiles.js";
 import { createClient } from "@supabase/supabase-js";
+import { readFile } from "node:fs/promises";
+// The 1:1 tutor now reuses the 2:1 exam's transitions + closing lines and their pre-generated audio clips (owner 2026-10-06).
+import { findLibraryAssetById } from "./phraseLibrary/libraryStore.js";
+import { pickVariant } from "./phraseLibrary/phraseSelection.js";
+import { assignPhraseStyle } from "./phraseLibrary/voiceStyle.js";
+import { getSoloExamEndPool, type ScriptedLine } from "../examinerPhrases.js";
 
 const admin = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
 const voiceManager = new VoiceManager(getPool(EXAMINER_POOL), createSupabaseVoiceStore(admin));
@@ -58,6 +64,14 @@ export interface TutorVoiceSession {
   /** Milliseconds until everything sent so far has finished PLAYING on the client. */
   playbackRemainingMs(): number;
   speakScriptedText(text: string): Promise<void>;
+  /** A 2:1 exam transition line: its fixed lead sentence plays from the cached audio library ($0), the part with the topic is
+   * spoken live right behind it. Falls back to speaking the whole line live when no clip exists for this voice. */
+  speakScriptedLine(line: ScriptedLine): Promise<void>;
+  /** The 2:1 exam's closing line (cached clip, $0), restricted to the wordings that fit ONE student; spoken in the voice that is
+   * active right now (the partner's in Teil 3). Falls back to live TTS of the same text when no clip exists. */
+  playSoloExamEnd(): Promise<void>;
+  /** Waits (capped) until the student's last words are transcribed — call before deciding anything from what they just said. */
+  flushStt(): Promise<void>;
   /** Advances the session's stage (and, for stage 2, sets the shared topic)
    * — server.ts calls this exactly once, when Teil 1 completes and Teil 2
    * begins. Mutates the context used by every SUBSEQUENT speak() call;
@@ -392,6 +406,56 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     }
   }
 
+  // ---- cached 2:1 clips (same mechanics as muendlichVoiceSession.ts's playPcmFile / speakScriptedLine / playLibraryPhrase) ----
+  const LIBRARY_CHUNK_BYTES = 32 * 1024; // ~0.33s of pcm16@24kHz per chunk, same cadence as live TTS
+
+  async function playPcmFile(logLabel: string, absolutePath: string, spokenText: string): Promise<void> {
+    if (closed) return;
+    currentAbort?.abort();
+    currentTtsHandle?.cancel();
+    try { currentTtsConn?.close(); } catch {}
+    currentTtsConn = null;
+    const myId = ++currentGenerationId;
+    const speakingIsPartner = ctx.stage === 3 && !!partnerVoice; // snapshot before any await, same as speakScriptedText
+    try {
+      const pcm = await readFile(absolutePath);
+      if (myId !== currentGenerationId) return; // superseded while reading the file
+      for (let offset = 0; offset < pcm.length; offset += LIBRARY_CHUNK_BYTES) {
+        if (myId !== currentGenerationId || closed) return;
+        emitAudio(pcm.subarray(offset, offset + LIBRARY_CHUNK_BYTES).toString("base64"));
+      }
+      // No ttsCharacters increment: a cached clip costs nothing at runtime — that is the whole point.
+      if (myId === currentGenerationId) {
+        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text: spokenText });
+        callbacks.onOutputTranscript?.(spokenText);
+      }
+    } catch (e) {
+      // a missing / unreadable clip is one line's audio, never a reason to end a practice session
+      console.error(`[tutor voice] ${logLabel} failed for session ${sessionId}, skipping this utterance's audio:`, e);
+    }
+  }
+
+  async function speakScriptedLine(line: ScriptedLine): Promise<void> {
+    if (closed) return;
+    if (line.lead) {
+      const found = await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
+      if (found) {
+        await playPcmFile(`speakScriptedLine(${line.id})`, found.absolutePath, found.asset.text);
+        return speakScriptedText(line.rest);
+      }
+    }
+    return speakScriptedText(line.full);
+  }
+
+  async function playSoloExamEnd(): Promise<void> {
+    if (closed) return;
+    const voiceId = activeVoiceId();
+    const chosen = pickVariant("solo_exam_end", getSoloExamEndPool(), assignPhraseStyle(voiceId));
+    const found = await findLibraryAssetById("exam_end", voiceId, chosen.id);
+    if (!found) return speakScriptedText(chosen.text); // library not generated for this voice: same text, spoken live
+    return playPcmFile("playSoloExamEnd", found.absolutePath, found.asset.text);
+  }
+
   function handleCommittedTranscript(text: string) {
     if (!text.trim()) return;
     history.push({ speaker: "student", text });
@@ -443,6 +507,17 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     },
     speakScriptedText(text) {
       return speakScriptedText(text);
+    },
+    speakScriptedLine(line) {
+      return speakScriptedLine(line);
+    },
+    playSoloExamEnd() {
+      return playSoloExamEnd();
+    },
+    flushStt() {
+      const flushing = stt?.flush?.();
+      if (!flushing) return Promise.resolve();
+      return Promise.race([flushing.catch(() => {}), new Promise<void>((r) => setTimeout(r, FLUSH_WAIT_CAP_MS))]).then(() => {});
     },
     setStage(stage, teil2Topic) {
       ctx = { ...ctx, stage, teil2Topic };

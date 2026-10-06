@@ -277,6 +277,37 @@ export function pickSectionTransition23(v: Teil3SectionTransitionVars, voiceId: 
   return pick("section_transition_2_3", SECTION_TRANSITION_23_VARIANTS, voiceId, { ...v, teil3Topic: cleanTopic(v.teil3Topic) });
 }
 
+// ---------------------------------------------------------------------------
+// 1:1 AI tutor reuse (owner 2026-10-06: "the transitions and endings are the same as in the 2:1 exam").
+// The 2:1 pools above were written for TWO candidates, so a few variants talk to "Sie beide" / "Ihnen beiden" / "Ihre Präsentationen" /
+// "ein Gespräch zwischen Ihnen". Those would sound wrong to a single student, so the tutor draws only from the variants that read
+// naturally for one person — same wording, same cached audio clips (the clips are keyed by variant id + voice, so nothing new has to be
+// generated and every cached line costs $0 at runtime). The filter works on the RENDERED text, so it stays correct when a variant is edited.
+// ---------------------------------------------------------------------------
+const NOT_FOR_ONE = /\b(beide|beiden|miteinander)\b|zwischen Ihnen|Präsentationen|Sie beide/i;
+const NOT_FOR_ONE_TEIL2 = /\bgemeinsam\w*/i; // the 1:1 Teil 2 is a Q&A with the examiner, not "sprechen Sie gemeinsam" with a partner
+
+export function isReadableForOneCandidate(text: string, section: "teil1_2" | "teil2_3" | "end"): boolean {
+  if (NOT_FOR_ONE.test(text)) return false;
+  if (section === "teil1_2" && NOT_FOR_ONE_TEIL2.test(text)) return false;
+  return true;
+}
+
+function soloVariants<V>(variants: Variant<V>[], placeholderVars: V, section: "teil1_2" | "teil2_3"): Variant<V>[] {
+  return variants.filter((v) => isReadableForOneCandidate(v.render(placeholderVars), section));
+}
+
+export function pickSoloSectionTransition12Line(v: SectionTransitionVars, voiceId: string): ScriptedLine {
+  return pickLine("solo_section_transition_1_2", soloVariants(SECTION_TRANSITION_12_VARIANTS, PH_SECTION_12, "teil1_2"), voiceId, { ...v, teil2Topic: cleanTopic(v.teil2Topic) }, PH_SECTION_12);
+}
+export function pickSoloSectionTransition23Line(v: Teil3SectionTransitionVars, voiceId: string): ScriptedLine {
+  return pickLine("solo_section_transition_2_3", soloVariants(SECTION_TRANSITION_23_VARIANTS, PH_SECTION_23, "teil2_3"), voiceId, { ...v, teil3Topic: cleanTopic(v.teil3Topic) }, PH_SECTION_23);
+}
+/** The 2:1 exam's closing lines (cached audio library, category "exam_end") that are fine for a single student. */
+export function getSoloExamEndPool() {
+  return getFixedPool("exam_end").filter((p) => isReadableForOneCandidate(p.text, "end"));
+}
+
 /** Re-exported so callers only need one import for both fixed and scripted
  * phrase access where convenient (e.g. server.ts). */
 export { getFixedPool };

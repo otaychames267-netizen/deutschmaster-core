@@ -95,8 +95,8 @@ import type { TutorContext } from "./voice/tutorBrain.js";
 import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evaluator.js";
 import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
-import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line } from "./examinerPhrases.js";
-import { pickTeil1ToTeil2, pickTeil2ToTeil3, pickSessionEnd } from "./tutorPhrases.js";
+import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line, pickSoloSectionTransition12Line, pickSoloSectionTransition23Line } from "./examinerPhrases.js";
+import { asksForSimplerQuestion, simplifyInstruction, MAX_SIMPLIFICATIONS_PER_SESSION } from "./tutorSimplify.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
 
 // Process-level safety net — real finding from a full failure-handling
@@ -240,7 +240,7 @@ const GEMINI_AUDIO_TOKENS_PER_MINUTE = Number(process.env.GEMINI_AUDIO_TOKENS_PE
 // diverge; the per-Teil question counts/answer windows below, and the
 // tutor's own hard-idle-close margin further down, are genuinely
 // tutor-specific.
-const TUTOR_TEIL1_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL1_QUESTIONS ?? 3);
+const TUTOR_TEIL1_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL1_QUESTIONS ?? 2); // owner 2026-10-06: 2 / 6 / 7 questions, same as the 2:1 exam's feel
 const TUTOR_TEIL1_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL1_ANSWER_WINDOW_SECONDS ?? 40);
 // Teil 2 is a FIXED question count here (unlike the real exam's time-boxed
 // candidate discussion + late takeover) — there's no second candidate to
@@ -253,7 +253,7 @@ const TUTOR_TEIL2_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEI
 // again. "Answer window" here bounds the STUDENT's response to each of the
 // partner's turns, same mechanic as Teil 1/2 even though the content is a
 // negotiation, not a formal question.
-const TUTOR_TEIL3_TURNS = Number(process.env.MUENDLICH_TUTOR_TEIL3_TURNS ?? 5);
+const TUTOR_TEIL3_TURNS = Number(process.env.MUENDLICH_TUTOR_TEIL3_TURNS ?? 7);
 const TUTOR_TEIL3_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL3_ANSWER_WINDOW_SECONDS ?? 40);
 // Real bug found via live full-timing testing (2026-09-29): the exam's own
 // HARD_IDLE_CLOSE_MS (45s) was tuned against ITS answer windows (30s — see
@@ -430,6 +430,13 @@ interface TutorSession {
   // TUTOR_TEIL2_*/TUTOR_TEIL3_*).
   questionIndex: number;
   phaseStartedAt: number;
+  // "I did not understand" handling (tutorSimplify.ts): everything the student has said since the current question was
+  // asked, whether the question already got its one simplified repeat, how many repeats the session has used, and a guard
+  // so the (async) end-of-window decision runs once even though tick() keeps firing while it awaits the STT flush.
+  studentAnswerText: string;
+  simplifiedThisQuestion: boolean;
+  simplifyCount: number;
+  windowClosing: boolean;
   // Formatted like teil1Topic (set once, at connection time, from the
   // session's teil2_material_id/teil3_material_id — both required to
   // connect at all, since this build always runs Teil 1 -> 2 -> 3 straight
@@ -1576,8 +1583,49 @@ function startTutorClockAfter(session: TutorSession, spoken: Promise<void> | voi
     });
 }
 
+/** A new question/turn is about to be opened: forget what the student said for the previous one. */
+function resetQuestionState(session: TutorSession) {
+  session.studentAnswerText = "";
+  session.simplifiedThisQuestion = false;
+}
+
+/** Owner spec 2026-10-06 — the ONE thing the tutor does besides asking: when the student says they did not understand
+ * the question, repeat THAT question in simpler words (once per question, plus a small cap per session so nobody can
+ * stall the whole practice). Detection is a regex on the student's own words (tutorSimplify.ts), not the model's call. */
+function wantsSimplerQuestion(session: TutorSession): boolean {
+  return session.questionIndex >= 1 && !session.simplifiedThisQuestion
+    && session.simplifyCount < MAX_SIMPLIFICATIONS_PER_SESSION
+    && asksForSimplerQuestion(session.studentAnswerText);
+}
+
+/** A question's answer window is over (the student looks finished, or the 40s ran out). First flush STT — an
+ * utterance-buffering STT (Groq) still holds the student's last words — then either serve a simplified repeat of the SAME
+ * question (questionIndex is NOT advanced, so it does not use up one of the Teil's questions) or run `advance`. The
+ * tick keeps firing while this awaits; session.windowClosing keeps the decision single. */
+async function closeTutorWindow(session: TutorSession, ctx: TutorContext, advance: () => void) {
+  if (session.windowClosing) return;
+  session.windowClosing = true;
+  try {
+    await session.live?.flushStt();
+    if (session.ended) return;
+    if (wantsSimplerQuestion(session)) {
+      console.log(`[tutor ${session.sessionId}] Teil ${session.teilStage} Q${session.questionIndex}: student did not understand -> simplified repeat (${session.simplifyCount + 1}/${MAX_SIMPLIFICATIONS_PER_SESSION})`);
+      session.simplifiedThisQuestion = true;
+      session.simplifyCount++;
+      session.studentAnswerText = "";
+      session.phaseStartedAt = 0; // clock paused until the simplified question has been asked AND heard
+      const stage = session.teilStage, qi = session.questionIndex;
+      startTutorClockAfter(session, session.live?.sendSystemMessage(simplifyInstruction(ctx.studentName)), () => session.teilStage === stage && session.questionIndex === qi);
+      return;
+    }
+    advance();
+  } finally {
+    session.windowClosing = false;
+  }
+}
+
 /** Teil 1's post-presentation Q&A for the tutor — GENAU TUTOR_TEIL1_QUESTIONS
- * questions (owner spec: 3, not the exam's 2), each with its own
+ * questions (owner spec 2026-10-06: 2, like the 2:1 exam), each with its own
  * TUTOR_TEIL1_ANSWER_WINDOW_SECONDS window (40s, not the exam's 30s). */
 function openTutorTeil1Question(session: TutorSession, ctx: TutorContext): Promise<void> | void {
   const isFirst = session.questionIndex === 1;
@@ -1623,11 +1671,12 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
   // article as body_text; a real TELC tutor announces the topic, the
   // student reads any printed material themselves. Real bug fixed
   // 2026-10-03 (see the exam room's matching resolveSelections() comment).
-  const transitionText = pickTeil1ToTeil2({ teil2Topic: session.teil2TopicTitle }, voiceId);
-  await session.live?.speakScriptedText(transitionText);
+  // Owner spec 2026-10-06: the SAME (cached) transition lines as the 2:1 exam, restricted to the wordings that fit one student.
+  await session.live?.speakScriptedLine(pickSoloSectionTransition12Line({ teil2Topic: session.teil2TopicTitle }, voiceId));
   if (session.ended) return; // session could have been ended (cap/error) while the transition line was still playing
   session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into Q1's idle budget, same reasoning as the session-opening line's identical reset
   session.questionIndex = 1;
+  resetQuestionState(session);
   session.phaseStartedAt = 0; // clock paused until Q1 has been asked AND heard (startTutorClockAfter)
   session.advancingStage = false; // only now is it safe for tutorTick() to evaluate Teil 2's timing — see the field's doc comment
   startTutorClockAfter(session, openTutorTeil2Question(session, ctx), () => session.teilStage === 2 && session.questionIndex === 1);
@@ -1641,14 +1690,14 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
 async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
   // Title only — same reasoning as startTutorTeil2's identical fix.
-  const transitionText = pickTeil2ToTeil3({ teil3Topic: session.teil3TopicTitle }, voiceId);
-  await session.live?.speakScriptedText(transitionText);
+  await session.live?.speakScriptedLine(pickSoloSectionTransition23Line({ teil3Topic: session.teil3TopicTitle }, voiceId));
   if (session.ended) return;
   session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into turn 1's idle budget — same reasoning as startTutorTeil2's identical reset
   await session.live?.setPartnerStage(session.teil3Topic);
   session.teilStage = 3;
   send(session.ws, { type: "stage", stage: 3 });
   session.questionIndex = 1;
+  resetQuestionState(session);
   session.phaseStartedAt = 0; // paused until turn 1 has been spoken AND heard
   session.advancingStage = false;
   startTutorClockAfter(session, openTutorTeil3Turn(session, ctx), () => session.teilStage === 3 && session.questionIndex === 1);
@@ -1674,6 +1723,7 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
       console.log(`[tutor ${session.sessionId}] Teil 1: presentation -> Q1 (${hitHardCap ? "hard cap" : "early finish"}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
       session.teil1Phase = "questions";
       session.questionIndex = 1;
+      resetQuestionState(session); // the 90s presentation's words are not an answer to Q1
       session.phaseStartedAt = 0; // paused until the question has been asked AND heard
       startTutorClockAfter(session, openTutorTeil1Question(session, ctx), () => session.teilStage === 1 && session.teil1Phase === "questions" && session.questionIndex === 1);
     }
@@ -1689,21 +1739,22 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
 
-  if (session.questionIndex < TUTOR_TEIL1_QUESTIONS) {
-    console.log(`[tutor ${session.sessionId}] Teil 1: Q${session.questionIndex} -> Q${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
-    session.questionIndex++;
-    session.phaseStartedAt = 0;
-    {
+  void closeTutorWindow(session, ctx, () => {
+    if (session.questionIndex < TUTOR_TEIL1_QUESTIONS) {
+      console.log(`[tutor ${session.sessionId}] Teil 1: Q${session.questionIndex} -> Q${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+      session.questionIndex++;
+      resetQuestionState(session);
+      session.phaseStartedAt = 0;
       const qi = session.questionIndex;
       startTutorClockAfter(session, openTutorTeil1Question(session, ctx), () => session.teilStage === 1 && session.questionIndex === qi);
+      return;
     }
-    return;
-  }
 
-  console.log(`[tutor ${session.sessionId}] Teil 1: Q${session.questionIndex} done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> Teil 2`);
-  send(session.ws, { type: "teil1_complete" });
-  session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil2()'s own awaits settle
-  void startTutorTeil2(session, ctx);
+    console.log(`[tutor ${session.sessionId}] Teil 1: Q${session.questionIndex} done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> Teil 2`);
+    send(session.ws, { type: "teil1_complete" });
+    session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil2()'s own awaits settle
+    void startTutorTeil2(session, ctx);
+  });
 }
 
 /** Teil 2's examiner-led Q&A loop for ONE student — GENAU TUTOR_TEIL2_QUESTIONS
@@ -1720,21 +1771,22 @@ function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
 
-  if (session.questionIndex < TUTOR_TEIL2_QUESTIONS) {
-    console.log(`[tutor ${session.sessionId}] Teil 2: Q${session.questionIndex} -> Q${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
-    session.questionIndex++;
-    session.phaseStartedAt = 0;
-    {
+  void closeTutorWindow(session, ctx, () => {
+    if (session.questionIndex < TUTOR_TEIL2_QUESTIONS) {
+      console.log(`[tutor ${session.sessionId}] Teil 2: Q${session.questionIndex} -> Q${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+      session.questionIndex++;
+      resetQuestionState(session);
+      session.phaseStartedAt = 0;
       const qi = session.questionIndex;
       startTutorClockAfter(session, openTutorTeil2Question(session, ctx), () => session.teilStage === 2 && session.questionIndex === qi);
+      return;
     }
-    return;
-  }
 
-  console.log(`[tutor ${session.sessionId}] Teil 2: Q${session.questionIndex} done (${reason}) -> Teil 3`);
-  send(session.ws, { type: "teil2_complete" });
-  session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil3()'s own awaits settle
-  void startTutorTeil3(session, ctx);
+    console.log(`[tutor ${session.sessionId}] Teil 2: Q${session.questionIndex} done (${reason}) -> Teil 3`);
+    send(session.ws, { type: "teil2_complete" });
+    session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil3()'s own awaits settle
+    void startTutorTeil3(session, ctx);
+  });
 }
 
 /** Teil 3's partner-mode turn loop for ONE student — GENAU TUTOR_TEIL3_TURNS
@@ -1750,26 +1802,29 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
 
-  if (session.questionIndex < TUTOR_TEIL3_TURNS) {
-    console.log(`[tutor ${session.sessionId}] Teil 3: turn ${session.questionIndex} -> ${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
-    session.questionIndex++;
-    session.phaseStartedAt = 0;
-    {
+  void closeTutorWindow(session, ctx, () => {
+    if (session.questionIndex < TUTOR_TEIL3_TURNS) {
+      console.log(`[tutor ${session.sessionId}] Teil 3: turn ${session.questionIndex} -> ${session.questionIndex + 1} (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s)`);
+      session.questionIndex++;
+      resetQuestionState(session);
+      session.phaseStartedAt = 0;
       const qi = session.questionIndex;
       startTutorClockAfter(session, openTutorTeil3Turn(session, ctx), () => session.teilStage === 3 && session.questionIndex === qi);
+      return;
     }
-    return;
-  }
 
-  console.log(`[tutor ${session.sessionId}] Teil 3: turn ${session.questionIndex} done (${reason}) -> session complete`);
-  // Spoken by the partner (the persona that's been active for all of Teil 3),
-  // not the examiner reappearing out of nowhere at the very end.
-  const voiceId = session.live?.getPartnerVoiceId() ?? session.live?.getVoiceId() ?? "tutor-default";
-  void session.live?.speakScriptedText(pickSessionEnd({ studentName: ctx.studentName }, voiceId))
-    .finally(() => {
-      send(session.ws, { type: "session_complete" });
-      endTutorSession(session, "completed_by_user");
-    });
+    console.log(`[tutor ${session.sessionId}] Teil 3: turn ${session.questionIndex} done (${reason}) -> session complete`);
+    // The SAME cached closing line the 2:1 exam uses (only the wordings that fit one student), in the voice that has been
+    // active for all of Teil 3 (the partner), not the examiner reappearing at the very end. The student must HEAR it
+    // before the session closes — a cached clip is sent in one burst, so wait for the playback, not just the send.
+    session.advancingStage = true; // nothing may tick while the closing line plays
+    void (session.live?.playSoloExamEnd() ?? Promise.resolve())
+      .then(() => waitForTutorPlayback(session))
+      .finally(() => {
+        send(session.ws, { type: "session_complete" });
+        endTutorSession(session, "completed_by_user");
+      });
+  });
 }
 
 /** Dispatches to the current Teil's own tick function, plus the tutor's own
@@ -1792,6 +1847,7 @@ function tutorTick(session: TutorSession, ctx: TutorContext) {
 
   // Clock paused: the tutor's prompt is still being generated / played (or the opening hasn't finished) — nothing to evaluate.
   if (session.phaseStartedAt === 0) return;
+  if (session.windowClosing) return; // closeTutorWindow() is mid-decision (flushing STT) — it will advance or repeat exactly once
   if (session.teilStage === 1) tutorTickTeil1(session, ctx, now);
   else if (session.teilStage === 2) tutorTickTeil2(session, ctx, now);
   else tutorTickTeil3(session, ctx, now);
@@ -1849,14 +1905,17 @@ async function startTutorSession(
   const session: TutorSession = {
     sessionId: sessionRow.id, userId, accessToken, ws,
     level, lastAudioAt: Date.now(), teilStage: 1, advancingStage: false,
-    teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0, speechDetector: new SpeechDetector(), idleBaselineAt: 0,
+    teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0, studentAnswerText: "", simplifiedThisQuestion: false, simplifyCount: 0, windowClosing: false, speechDetector: new SpeechDetector(), idleBaselineAt: 0,
     teil2Topic, teil3Topic, teil2TopicTitle, teil3TopicTitle,
     liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
   };
   tutorSessions.set(session.sessionId, session);
 
   const teil1Topic = formatTopic(sessionRow.teil1MaterialTitle, [{ title: sessionRow.teil1MaterialTitle, body_text: sessionRow.teil1MaterialBodyText }]);
-  const ctx: TutorContext = { studentName, level: level === "TELC_B1" ? "B1" : "B2", teil1Topic, stage: 1 };
+  const ctx: TutorContext = {
+    studentName, level: level === "TELC_B1" ? "B1" : "B2", teil1Topic, stage: 1,
+    counts: { teil1: TUTOR_TEIL1_QUESTIONS, teil2: TUTOR_TEIL2_QUESTIONS, teil3: TUTOR_TEIL3_TURNS },
+  };
 
   session.live = await openTutorVoiceSession(ctx, session.sessionId, {
     onOpen: () => {},
@@ -1867,7 +1926,10 @@ async function startTutorSession(
     // including the Teil2->3 transition line itself, spoken while teilStage
     // is still 2/examiner).
     onOutputTranscript: (text) => logTutorTranscript(session, session.teilStage === 3 ? "partner" : "examiner", text),
-    onInputTranscript: (text) => logTutorTranscript(session, "student", text),
+    onInputTranscript: (text) => {
+      session.studentAnswerText += ` ${text}`;
+      logTutorTranscript(session, "student", text);
+    },
     onError: (message) => {
       console.error(`[tutor ${session.sessionId}] voice backend error:`, message);
       session.voiceBackendErrored = true;
