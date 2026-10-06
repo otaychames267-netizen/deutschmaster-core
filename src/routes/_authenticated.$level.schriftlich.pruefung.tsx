@@ -469,6 +469,8 @@ function SchriftlichPruefungPage() {
     }
   }
 
+  const autoSubmitBlockedRef = useRef(false);
+
   const submitExam = useCallback(async () => {
     if (!attempt || !user || submittingRef.current) return;
     submittingRef.current = true;
@@ -490,7 +492,17 @@ function SchriftlichPruefungPage() {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ attempt_id: attempt.id }),
       });
-      if (!res.ok) throw new Error("submit failed");
+      if (!res.ok) {
+        const err = await res.json().catch(() => null) as { error?: string; message?: string; message_ar?: string } | null;
+        if (err?.error === "GRADING_UNAVAILABLE") {
+          autoSubmitBlockedRef.current = true; // time is up but grading is down: do not hammer the server every second, the student retries by hand
+          toast.error(err.message ?? "Die automatische Bewertung ist gerade nicht verfügbar.", { description: err.message_ar, duration: 15000 });
+          submittingRef.current = false;
+          setPhase("exam");
+          return;
+        }
+        throw new Error("submit failed");
+      }
       const data = await res.json();
       setResult(data as ResultShape);
       setEssayGradingId((data as any).essay_grading_id ?? null);
@@ -511,7 +523,7 @@ function SchriftlichPruefungPage() {
       const serverNow = Date.now() + offsetRef.current;
       const rem = Math.max(0, Math.round((expiresAtMs - serverNow) / 1000));
       setRemaining(rem);
-      if (rem === 0 && !submittingRef.current) {
+      if (rem === 0 && !submittingRef.current && !autoSubmitBlockedRef.current) {
         toast.warning("Zeit abgelaufen! Prüfung wird automatisch abgegeben.");
         submitExam();
       }
