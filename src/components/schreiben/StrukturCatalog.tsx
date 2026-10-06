@@ -98,9 +98,9 @@ function CardChips({ cards, lockClosed }: { cards: (CardRow & { closed: boolean 
   return (
     <>
       <p className="mb-2 text-[11px] text-muted-foreground">
-        {lockClosed
-          ? <>Click a green number to read that letter. <Lock className="inline h-3 w-3" /> = already given to a subscriber, closed.</>
-          : <>Click a number to read that letter. <Lock className="inline h-3 w-3" /> = already given to a subscriber.</>}
+        <span className="mr-1 inline-flex items-center rounded bg-emerald-500/12 px-1.5 py-0.5 font-bold text-emerald-700 dark:text-emerald-300">green</span> = still free
+        <span className="mx-1 inline-flex items-center gap-1 rounded bg-rose-500/15 px-1.5 py-0.5 font-bold text-rose-700 ring-1 ring-rose-500/50 dark:text-rose-300"><Lock className="h-3 w-3" />red</span>
+        = already given to a subscriber{lockClosed ? ", closed." : "."} Click a {lockClosed ? "green " : ""}number to read that letter.
       </p>
       <div className="flex flex-wrap gap-1.5">
         {cards.map((c, i) => {
@@ -114,7 +114,7 @@ function CardChips({ cards, lockClosed }: { cards: (CardRow & { closed: boolean 
               title={`${c.card_title} — ${c.closed ? (locked ? "closed: given to a subscriber" : "closed (assigned)") : "open"}`}
               className={`inline-flex h-7 min-w-[2.25rem] items-center justify-center gap-1 rounded-md px-1.5 text-[11px] font-bold tabular-nums transition-colors ${
                 sel === c.id ? "ring-2 ring-amber-500 " : ""
-              }${c.closed ? `bg-muted text-muted-foreground line-through decoration-muted-foreground/60 ${locked ? "cursor-not-allowed" : ""}` : "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300"}`}
+              }${c.closed ? `bg-rose-500/15 text-rose-700 ring-1 ring-rose-500/50 line-through decoration-rose-500/60 dark:text-rose-300 ${locked ? "cursor-not-allowed" : ""}` : "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300"}`}
             >
               {c.closed && <Lock className="h-3 w-3 no-underline" />}
               {i + 1}
