@@ -17,7 +17,7 @@ const DIR = new URL(".", import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1
 const MARK = /\[\[([^\]|]+)\|([^\]]+)\]\]/g;
 const ANREDE = /^(Liebe|Lieber|Hallo|Hi|Hey|Servus|Guten Tag|Moin|Liebes)\b/;
 const GRUSS = /Gr(u|ü)ß|Bis |Alles Liebe|Herzlich|Dein|Deine|Tschüss|Ciao|Mach's gut|Pass auf|Küsschen|Umarmung|Beste Wünsche|Freundlich/i;
-const MIN_WORDS = 105, MAX_WORDS = 150;
+const MIN_WORDS = 200, MAX_WORDS = 285; // v2 (B2-style): long, complete letters
 
 const words = (s) => s.trim().split(/\s+/).filter(Boolean);
 const grams = (s, n = 3) => { const w = words(s.toLowerCase().replace(/[^a-zäöüß ]+/g, " ")); const out = new Set(); for (let i = 0; i + n <= w.length; i++) out.add(w.slice(i, i + n).join(" ")); return out; };
@@ -57,12 +57,12 @@ export function validateTask(task, cards) {
     if (!/Name|Absender|Unterschrift/i.test(c.labels[c.labels.length - 1] ?? "")) issues.push(`${tag}: last marker should be the writer's name`);
     task.kw.forEach((re, k) => { if (!re.test(c.example)) issues.push(`${tag}: point ${k + 1} not covered (${re})`); });
     if (task.question && !/\?/.test(c.example)) issues.push(`${tag}: task needs a question back, letter has no "?"`);
-    if (c.labels.length < 5 || c.labels.length > 14) issues.push(`${tag}: ${c.labels.length} placeholders (5-14)`);
+    if (c.labels.length < 16 || c.labels.length > 28) issues.push(`${tag}: ${c.labels.length} placeholders (16-28)`);
     for (const l of c.labels) if (l.length < 3 || l.length > 48) issues.push(`${tag}: placeholder label length "${l}"`);
     for (const f of c.fills) if (f.length < 2) issues.push(`${tag}: empty placeholder fill`);
     const fixedRatio = words(c.fixed).length / wc;
-    if (fixedRatio < 0.4) issues.push(`${tag}: only ${(fixedRatio * 100).toFixed(0)}% fixed text (>=40% so the Struktur is a real scaffold; keep formulaic phrases OUTSIDE the markers)`);
-    for (const f of c.fills) if (words(f).length > 16) issues.push(`${tag}: placeholder fill longer than 16 words ("${f.slice(0, 40)}...")`);
+    if (fixedRatio < 0.5) issues.push(`${tag}: only ${(fixedRatio * 100).toFixed(0)}% fixed text (>=50% so the Struktur is a real scaffold; keep formulaic phrases OUTSIDE the markers)`);
+    for (const f of c.fills) if (words(f).length > 14) issues.push(`${tag}: placeholder fill longer than 14 words ("${f.slice(0, 40)}...")`);
     if (!c.label || c.label.length < 4) issues.push(`${tag}: missing label`);
   }
   // inside the task: no two letters may share their fixed prose or read alike
@@ -93,7 +93,7 @@ if (process.argv[1].replace(/\\/g, "/").endsWith("schreiben-b1/build.mjs")) {
     console.log(`  ok  ${task.key}: ${parsed.length} cards, avg ${avg} words`);
     parsed.forEach((c) => rows.push({
       level: "TELC_B1", category: "informell", topic_group: POOLS[task.pool], theme_title: task.theme, theme_source: task.exam,
-      card_title: `${task.exam} – Brief ${c.i}: ${c.label}`, template_text: c.template, example_text: c.example, sort_order: task.sortBase + c.i,
+      card_title: `${task.exam} – Brief ${c.i} (${c.label})`, template_text: c.template, example_text: c.example, sort_order: task.sortBase + c.i,
     }));
   }
   // global diversity: the same opening / closing sentence must not recur across the bank

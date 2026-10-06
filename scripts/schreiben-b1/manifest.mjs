@@ -14,7 +14,8 @@ const NICHTGESCHRIEBEN = /nicht geschrieben|gemeldet|so lange|lange nicht|viel z
 export const GROUPS = [
   { name: "Feiern & Partys planen", tasks: [
     T("alicia", "Alicia", "Alicia – Gartenparty für den Englischkurs",
-      [/Freitag|Samstag/, /helf|Vorbereitung|unterstütz|mitbring|übernehm/i, /Regen|regnet/i, /Essen|Salat|Kuchen|Grill|grill|Buffet|Suppe|Pizza|kochen|backen|Nudel|Brot|Obst|Fleisch|Gemüse/i]),
+      [/(?=[\s\S]*Freitag)(?=[\s\S]*Samstag)/, /helf|hilf|Hilfe|Vorbereitung|unterstütz|mitbring|übernehm/i, /Regen|regnet/i, /Essen|Salat|Kuchen|Grill|grill|Buffet|Suppe|Pizza|kochen|backen|Nudel|Brot|Obst|Fleisch|Gemüse/i,
+       /Idee|Party|Fest|Feier/i, /Köchin|kochst|Kochkunst|Kochkünste|Kochen|Rezept/, /Pläne|Plan|halte|finde|Meinung|denke/, /Garten|Englischkurs|Kurs/]),
     T("iris", "Iris", "Iris – Abschlussparty für den Deutschkurs",
       [/Prüfung|bestanden|gratul|Glückwunsch/i, /Restaurant/i, MUSIK, URLAUB]),
     T("tobias", "Tobias", "Tobias – Einzugsparty in Wien",

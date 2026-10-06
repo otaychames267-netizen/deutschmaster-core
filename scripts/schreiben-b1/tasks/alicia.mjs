@@ -1,197 +1,303 @@
-// Alicia – Gartenparty für den Englischkurs. Points: Tag der Party · wie Sie helfen · was bei Regen passiert · Vorschläge zum Essen.
+// v2 (B2-style): Alicia lädt den Englischkurs in ihren Garten ein. Points: Tag der Party · wie Sie helfen · Plan bei Regen · Vorschläge zum Essen,
+// plus every other question of her e-mail: Freitag oder Samstag? · "beste Köchin" · was du über meine Pläne denkst.
 export default [
-  { label: "Samstag, Garten schmücken, Nudelsalat", t: `Liebe [[Name der Freundin|Alicia]],
+  // 1
+  { label: "herzlich, ausführlich", t: `Liebe [[Name der Freundin|Alicia]],
 
-vielen Dank für deine E-Mail! [[Reaktion auf die Idee|Die Idee mit der Gartenparty gefällt mir sehr gut]].
+vielen Dank für deine E-Mail, ich habe mich riesig darüber gefreut! [[Reaktion auf die Party-Idee|Eine Gartenparty für den ganzen Englischkurs finde ich wunderbar]], und ich bin sicher, dass alle gern kommen werden.
 
-Ich würde lieber am [[Wochentag|Samstag]] feiern, denn [[Grund für den Tag|am Freitag müssen noch viele aus unserem Kurs arbeiten]]. Wenn es regnet, können wir [[Plan bei Regen|ins Wohnzimmer gehen und die Möbel an die Wand schieben]]. Dort ist genug Platz für alle. Ich freue mich schon sehr darauf, alle aus dem Kurs bei dir zu sehen.
+Zum Termin habe ich eine klare Meinung: Ich würde die Party am [[Wochentag|Samstag]] feiern, weil [[Grund für diesen Tag|am Wochenende niemand am nächsten Morgen früh aufstehen muss]]. Am [[anderer Wochentag|Freitag]] [[Nachteil des anderen Tages|arbeiten viele aus unserem Kurs bis spät am Abend]].
 
-Gern helfe ich dir bei den Vorbereitungen: [[Ihre Hilfe|Ich komme am Vormittag und schmücke den Garten mit bunten Lampen]]. Zum Essen schlage ich [[Essensvorschlag|einen großen Nudelsalat und Obstspieße]] vor. [[Eigener Beitrag|Einen Schokoladenkuchen backe ich selbst]].
+Falls es regnet, sollten wir einen Plan B haben: [[Plan bei Regen|Wir stellen die Tische ins Wohnzimmer und öffnen die Terrassentür]]. So wird niemand nass, und die Stimmung bleibt trotzdem gut.
 
-Schreib mir bitte bald, was du davon hältst!
+Selbstverständlich helfe ich dir bei den Vorbereitungen. Ich kann [[Hilfe vor der Party|am Vortag einkaufen und die Getränke besorgen]], und am Tag selbst [[Hilfe am Partytag|komme ich früher und dekoriere den Garten]]. Sag mir einfach, [[Frage zur Hilfe|um wie viel Uhr du mich brauchst]].
+
+Beim Essen gehst du bestimmt auf Nummer sicher, denn du bist ja die beste Köchin, die ich kenne. [[Essensvorschlag|Wie wäre es mit einem großen Nudelsalat und gegrilltem Gemüse]]? Dazu könnte ich [[eigener Beitrag|einen Kuchen backen]].
+
+Für den Abend selbst hätte ich noch zwei Ideen: Wir beginnen um [[Uhrzeit|achtzehn Uhr]], und für die Stimmung sorge ich mit [[Musik|einer gemütlichen Playlist mit englischen Liedern]].
+
+Alles in allem finde ich deine Pläne [[Gesamteindruck|wirklich gut durchdacht]]. Schreib mir bitte bald, [[Frage an die Freundin|wie viele Gäste du erwartest]].
 
 [[Grußformel|Liebe Grüße]]
 [[Dein Name|Samir]]` },
 
-  { label: "Freitagabend, Einkaufen, Grill und Zelt", t: `Hallo [[Name der Freundin|Alicia]],
+  // 2
+  { label: "locker, freundschaftlich", t: `Hallo [[Name der Freundin|Alicia]],
 
-was für eine tolle Idee, den ganzen Englischkurs einzuladen! [[Reaktion|Ich habe mich über deine E-Mail sehr gefreut]].
+na, das ist ja mal eine coole Idee! [[Reaktion auf die Idee|Ein Fest im Garten für den Englischkurs, da bin ich sofort dabei]]. Ich hoffe, bei dir ist alles in Ordnung.
 
-Meiner Meinung nach passt ein [[Wochentag|Freitag]] besser, weil [[Grund für den Tag|wir am Samstag oft schon etwas mit der Familie vorhaben]]. Wenn es regnet, könnten wir [[Plan bei Regen|ein Partyzelt leihen]]. Das ist nicht teuer, wenn jeder ein paar Euro dazugibt. So müssen wir uns keine Sorgen um das Wetter machen.
+Beim Datum stimme ich für [[Wochentag|Freitag]], denn [[Grund für den Wochentag|dann bleibt der Samstag zum Ausschlafen und Aufräumen]]. Der [[anderer Wochentag|Samstag]] wäre auch okay, aber [[Nachteil des anderen Tages|an dem Tag habe ich oft Termine mit meiner Familie]].
 
-Beim Essen denke ich an [[Essensvorschlag|Würstchen, Gemüsespieße und frisches Brot vom Grill]]. Ich helfe dir gern: [[Ihre Hilfe|Am Donnerstag gehe ich mit dir einkaufen und trage die Getränke]].
+Und wenn es regnet? Dann ziehen wir einfach um: [[Plan bei Regen|Wir räumen die Garage leer und hängen Lichterketten auf]]. Das klappt bestimmt und ist sogar richtig gemütlich.
 
-Sag mir kurz Bescheid, ob dir der Freitag recht ist, dann schreibe ich den anderen aus dem Kurs.
+Klar helfe ich dir! [[Hilfe vor der Party|Ich kann Stühle und Tische bei meinen Nachbarn leihen]], und am Abend [[Hilfe am Partytag|stehe ich hinter der Bar und mixe die Getränke]]. Schick mir bitte [[Wunsch an die Freundin|rechtzeitig eine Liste mit allem, was noch fehlt]].
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Lina]]` },
+Zum Essen: Du bist doch unsere beste Köchin, also [[Reaktion auf das Kochen|überrasch uns einfach mit deinem berühmten Auflauf]]. Ich hätte noch [[Essensvorschlag|die Idee mit einem Grillbuffet und viel Salat]]. Dafür [[Beitrag|bringe ich Würstchen und frisches Brot mit]].
 
-  { label: "Samstag, Playlist, Gemeinschaftsraum, internationales Buffet", t: `Liebe [[Name der Freundin|Alicia]],
+Und noch was: Wir sollten [[Getränkeidee|selbstgemachte Limonade und Eistee]] anbieten, dann müssen wir nicht so viele Flaschen schleppen. Ich schreibe auch gleich [[Einladung per Chat|eine Nachricht an die Kursgruppe]].
 
-schön, dass du an unseren Englischkurs denkst! Eine Party im Garten wird bestimmt lustig.
+Deine Pläne gefallen mir wirklich gut! Melde dich bald und sag mir, [[Frage an die Freundin|ob du schon eine Gästeliste hast]].
 
-Ich schlage [[Wochentag|Samstag]] vor, [[Begründung|weil am nächsten Morgen niemand zur Arbeit muss]]. Ich kann dir bei den Vorbereitungen helfen und [[Ihre Hilfe|die Musik übernehmen. Ich stelle eine Playlist mit englischen und deutschen Liedern zusammen]]. Falls es regnet, feiern wir [[Plan bei Regen|im Gemeinschaftsraum unserer Sprachschule, den wir sicher mieten können]].
+[[Grußformel|Bis ganz bald]]
+[[Dein Name|Jonas]]` },
 
-Und das Essen? Wie wäre es mit [[Essensvorschlag|einem internationalen Buffet]]? Jeder bringt [[Beitrag der Gäste|ein Gericht aus seinem Land mit]], und du kochst den Hauptgang, denn du bist ja die beste Köchin. So haben alle etwas zu probieren und etwas zu erzählen.
+  // 3
+  { label: "begeistert, lebendig", t: `Liebe [[Name der Freundin|Alicia]],
 
-Ich freue mich schon sehr auf einen lustigen Abend mit allen!
+wow, was für eine tolle Überraschung in meinem Postfach! [[Reaktion auf die Einladung|Eine Party im Garten mit dem ganzen Englischkurs wird bestimmt unvergesslich]]. Danke, dass du dabei an mich gedacht hast.
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Youssef]]` },
+Mein Favorit für den Termin ist der [[Wochentag|Samstag]], weil [[Grund für den Tag|wir dann bis tief in die Nacht feiern können]]. Der [[anderer Wochentag|Freitag]] hat den Nachteil, dass [[Nachteil des anderen Tages|viele noch müde von der Arbeit kommen]].
 
-  { label: "Freitag, Einladungen schreiben, Party verschieben, Pizza", t: `Hi [[Name der Freundin|Alicia]],
+Bei Regen müssen wir nicht traurig sein: [[Plan bei Regen|Wir bauen ein großes Partyzelt auf, das ich von meinem Sportverein leihen kann]]. Mit Musik und Lichterketten ist es dort fast schöner als draußen!
 
-danke für deine Nachricht! [[Reaktion|Ich finde es super, dass du alle zu dir einladen willst]].
+Natürlich packe ich bei den Vorbereitungen mit an: [[Hilfe vor der Party|Ich schreibe die Einladungen und besorge die Getränke]], und am Partytag [[Hilfe am Partytag|helfe ich beim Aufbau und beim Dekorieren]]. Sag mir einfach, [[Frage zur Hilfe|was dir am meisten Arbeit macht]].
 
-Wegen des Termins: Ich bin für [[Wochentag|Freitag]], [[Grund|da ich am Wochenende meine Eltern besuche]]. Bei den Vorbereitungen kann ich helfen. [[Ihre Hilfe|Ich schreibe die Einladungen und schicke sie in unsere Kursgruppe]]. Und wenn es am Freitag regnet, [[Plan bei Regen|verschieben wir die Party einfach auf den nächsten Tag]]. Das ist doch kein Problem.
+Beim Essen vertraue ich voll auf dich, denn [[Reaktion auf das Kochen|deine Kochkünste sind legendär und alle sprechen davon]]. Mein Vorschlag: [[Essensvorschlag|ein buntes Buffet mit Lasagne, Salaten und Obstspießen]]. Ich selbst [[Beitrag|bringe einen großen Schokoladenkuchen mit]].
 
-Zum Essen habe ich einen Vorschlag: [[Essensvorschlag|Wir machen Pizza]]! Du bereitest den Teig vor, und [[Beitrag der Gäste|jeder belegt seine Pizza selbst mit Käse, Gemüse oder Schinken]]. So macht das Essen auch Spaß. Die Getränke kaufen wir dann zusammen am Donnerstag.
+Für die richtige Stimmung brauchen wir [[Dekoration|bunte Lampions und Blumen auf den Tischen]], und ich habe schon [[Spielidee|ein Quiz auf Englisch]] im Kopf, damit wir alle zusammen lachen.
 
-Was meinst du dazu?
-
-[[Grußformel|Alles Liebe]]
-[[Dein Name|Amira]]` },
-
-  { label: "Samstagnachmittag, Kochen helfen, Pavillon, Suppen", t: `Liebe [[Name der Freundin|Alicia]],
-
-ich habe mich sehr über deine E-Mail gefreut. Eine Party für den Englischkurs finde ich eine schöne Idee.
-
-Am besten feiern wir am [[Wochentag|Samstag]] [[Tageszeit|am Nachmittag]], denn [[Grund|dann haben alle Zeit und es ist noch hell]]. Natürlich helfe ich dir bei den Vorbereitungen. [[Ihre Hilfe|Ich komme früher und koche mit dir zusammen]]. Falls es regnet, [[Plan bei Regen|stellen wir einen Pavillon auf, und wir leihen ein paar Regenschirme]].
-
-Als Essen würde ich [[Essensvorschlag|eine Gemüsesuppe und eine Linsensuppe mit frischem Brot]] vorschlagen. [[Begründung|Sie sind leicht zu machen, und man kann sie draußen gut essen]]. Dazu können wir noch einen Salat anbieten, damit auch alle satt werden.
-
-Ich bin gespannt auf deine Antwort.
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Karim]]` },
-
-  { label: "Freitag nach dem Kurs, Tische leihen, Garage, belegte Brote", t: `Liebe [[Name der Freundin|Alicia]],
-
-wie schön, von dir zu hören! [[Reaktion|Deine Pläne für die Party klingen wirklich toll]].
-
-Ich bin für [[Wochentag|Freitag]] direkt nach dem Kurs, [[Grund|dann sind sowieso alle in der Stadt]]. Bei den Vorbereitungen kann ich dir helfen, und zwar so: [[Ihre Hilfe|Mein Onkel hat einen Lieferwagen, damit hole ich Tische und Stühle ab]]. Wenn es regnet, [[Plan bei Regen|stellen wir die Tische in die Garage, die ist groß und trocken]].
-
-Beim Essen sollten wir es einfach halten: [[Essensvorschlag|belegte Brote, Gemüse mit verschiedenen Dips und viel Obst]]. [[Eigener Beitrag|Ich bringe selbstgemachten Hummus mit]]. Außerdem habe ich zwei Tischdecken, die ich dir gern leihe.
-
-Melde dich doch, wenn du noch etwas brauchst!
-
-[[Grußformel|Liebe Grüße]]
-[[Dein Name|Nour]]` },
-
-  { label: "Samstag, Quiz auf Englisch, Spiele drinnen, Kartoffelsalat", t: `Hallo [[Name der Freundin|Alicia]],
-
-danke für die Einladung zur Planung! Ich bin schon neugierig auf die Party.
-
-Ich schlage [[Wochentag|Samstag]] vor, [[Grund|weil wir dann länger bleiben können]]. Die Vorbereitungen mache ich gern mit dir zusammen. [[Ihre Hilfe|Ich helfe dir mit einem lustigen Quiz auf Englisch, das ich für alle vorbereite]]. Wenn es regnet, spielen wir [[Plan bei Regen|das Quiz einfach im Haus, und die Gäste sitzen auf dem Sofa und auf dem Boden]]. Das ist sogar gemütlicher. Außerdem können wir dann länger bleiben.
-
-Für das Essen finde ich [[Essensvorschlag|Kartoffelsalat mit Würstchen]] gut, [[Begründung|weil das jeder gern isst]]. Du hast bestimmt noch bessere Ideen, du kochst ja am besten von uns.
-
-Hast du schon die Gästeliste gemacht?
-
-[[Grußformel|Bis bald]]
-[[Dein Name|Mehdi]]` },
-
-  { label: "Freitag, Eis und Getränke, Terrasse, Torte und Obstsalat", t: `Liebe [[Name der Freundin|Alicia]],
-
-ich freue mich, dass du eine Party für unseren Englischkurs machen möchtest!
-
-Mein Vorschlag für den Tag ist [[Wochentag|Freitag]], [[Grund|weil das Wetter laut Vorhersage am Wochenende schlechter werden soll]]. Wenn es doch regnet, [[Plan bei Regen|feiern wir auf der überdachten Terrasse und im Wohnzimmer]]. So bleiben alle trocken, und für die Gäste ist es trotzdem gemütlich.
-
-Ich helfe dir gern bei den Vorbereitungen, zum Beispiel [[Ihre Hilfe|kaufe ich Getränke und Eis für alle]]. Beim Essen würde ich [[Essensvorschlag|eine große Torte und einen bunten Obstsalat]] vorschlagen. [[Eigener Beitrag|Den Obstsalat mache ich gern selbst]]. So bleibt für dich mehr Zeit zum Kochen.
-
-Schreib mir bald, ob der Freitag für dich passt.
-
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Salma]]` },
-
-  { label: "Samstag, Kuchen mitbringen, Wintergarten, Couscous-Salat", t: `Liebe [[Name der Freundin|Alicia]],
-
-wie nett, dass du uns alle zu dir nach Hause einladen möchtest! Das wird bestimmt ein schöner Abend, und ich freue mich schon darauf.
-
-Ich finde [[Wochentag|Samstag]] am besten, denn [[Grund|am Sonntag kann man gut ausschlafen]]. Wenn es regnet, ist das kein Problem, [[Plan bei Regen|denn wir können im Wintergarten feiern, falls du einen hast, oder im Flur]]. Zu den Vorbereitungen: [[Ihre Hilfe|Ich helfe dir beim Aufbau und bringe außerdem einen Kuchen mit]].
-
-Für das Essen schlage ich [[Essensvorschlag|einen Couscous-Salat aus meiner Heimat, Tomatensalat und Brot]] vor. [[Begründung|Das kann man kalt essen, und es schmeckt allen]]. Dazu passt frisches Brot sehr gut.
-
-Ich freue mich schon sehr auf deine Antwort!
-
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Omar]]` },
-
-  { label: "Freitag, früh kommen und aufräumen, Keller, Hähnchen mit Reis", t: `Hallo [[Name der Freundin|Alicia]],
-
-deine E-Mail war eine echte Überraschung! [[Reaktion|Eine Party im Garten finde ich eine wunderbare Idee]].
-
-[[Wochentag|Freitag]] ist für mich der beste Tag, [[Grund|weil ich am Samstag arbeiten muss]]. Ich kann schon am Nachmittag kommen. [[Ihre Hilfe|Ich helfe dir beim Putzen und Aufbauen, und nach der Party räume ich mit dir auf]]. Falls es regnet, [[Plan bei Regen|können wir im Hobbyraum im Keller feiern, wenn der Platz reicht]].
-
-Beim Essen denke ich an [[Essensvorschlag|Hähnchen mit Reis und Salat]]. [[Begründung|Das kann man gut für viele Leute kochen]]. Wenn du möchtest, [[Eigener Beitrag|koche ich den Reis zu Hause und bringe ihn mit]]. Dann hast du weniger Arbeit in der Küche.
-
-Wie viele Leute kommen eigentlich?
+Deine Pläne finde ich einfach super, weil [[Grund für die Meinung|sie so viele Leute zusammenbringen]]. Schreib mir bald, [[Frage an die Freundin|wann du die Einladungen verschicken möchtest]].
 
 [[Grußformel|Alles Liebe]]
-[[Dein Name|Ines]]` },
+[[Dein Name|Marie]]` },
 
-  { label: "Samstagabend, Girlanden basteln, Lichterketten, Fingerfood", t: `Liebe [[Name der Freundin|Alicia]],
+  // 4
+  { label: "sachlich-strukturiert", t: `Liebe [[Name der Freundin|Alicia]],
 
-vielen Dank, dass du an mich gedacht hast! Ich finde, die Party im Garten ist ein schöner Abschluss für unseren Kurs.
+danke für deine Nachricht und für die Einladung zu deinen Plänen. [[Reaktion auf die Idee|Ich halte die Gartenparty für eine gute Möglichkeit, den Kurs besser kennenzulernen]]. Ich beantworte deine Fragen der Reihe nach.
 
-Ich schlage vor, dass wir am [[Wochentag|Samstagabend]] feiern. [[Grund|Dann ist es draußen schön warm und alle haben frei]]. Bei den Vorbereitungen kann ich helfen: [[Ihre Hilfe|Ich bastle Girlanden und hänge Lichterketten im Garten auf]]. Wenn es regnet, [[Plan bei Regen|hängen wir die Lichterketten einfach im Wohnzimmer auf]]. Dann ist es trotzdem gemütlich.
+Erstens, der Termin: Ich schlage den [[Wochentag|Freitag]] vor, weil [[Grund für den Wochentag|ich am Samstag einen Ausflug mit meinem Bruder geplant habe]]. Am [[anderer Wochentag|Samstag]] könnten dagegen [[Nachteil des anderen Tages|einige Gäste verhindert sein, weil viele Familien dann etwas vorhaben]].
 
-Zum Essen passt [[Essensvorschlag|Fingerfood: kleine Sandwiches, Käsewürfel und Oliven]]. [[Begründung|So kann jeder im Stehen essen und mit allen reden]]. Das ist doch ideal für eine Abschlussparty. Ich freue mich schon darauf!
+Zweitens, das Wetter: Bei Regen empfehle ich, [[Plan bei Regen|die Party in den Gemeinschaftsraum meiner Wohnanlage zu verlegen]]. Den Raum kann ich [[Organisation des Raums|für einen kleinen Betrag reservieren]].
 
-Schreib mir bitte, wie du das findest.
+Drittens, die Hilfe: Ich übernehme gern [[Hilfe vor der Party|die Einkäufe und das Schreiben der Einladungen]] und stehe am Tag der Party [[Hilfe am Partytag|ab dem Mittag zum Aufbauen bereit]].
 
-[[Grußformel|Bis bald]]
-[[Dein Name|Hamza]]` },
+Viertens, das Essen: Da du die beste Köchin bist, [[Reaktion auf das Kochen|würde ich dir die Hauptspeise überlassen]]. Als Ergänzung biete ich [[Essensvorschlag|zwei Salate und einen Nachtisch aus Joghurt und Früchten]] an.
 
-  { label: "Freitag, Anfahrtsskizze, Gartenhaus, vegetarisch", t: `Hallo [[Name der Freundin|Alicia]],
+Ergänzend schlage ich vor, die Kosten fair zu teilen: Jeder zahlt [[Kostenbeitrag|fünf Euro für Getränke und Material]]. Beginnen könnten wir um [[Uhrzeit|neunzehn Uhr]].
 
-schön, dass es dir gut geht! Deine Idee mit der Party finde ich richtig gut.
+Insgesamt gefallen mir deine Pläne sehr, weil sie klar und gut machbar sind, und ich bin gern ein Teil davon. Bitte teile mir noch mit, [[Frage an die Freundin|bis wann ich dir meine Zusage geben soll]].
 
-Ich wäre für [[Wochentag|Freitag]], [[Grund|weil der Termin für die meisten aus dem Kurs am einfachsten ist]]. Ich helfe dir gern mit einer Karte: [[Ihre Hilfe|Ich zeichne eine kleine Karte mit dem Weg zu deinem Garten und schicke sie an alle]]. Falls es regnet, [[Plan bei Regen|können wir in deinem Gartenhaus feiern, wenn es groß genug ist]].
+[[Grußformel|Mit freundlichen Grüßen]]
+[[Dein Name|Daniel]]` },
 
-Beim Essen sollten wir an alle denken, denn [[Hinweis zu den Gästen|einige aus dem Kurs essen kein Fleisch]]. Ich schlage [[Essensvorschlag|Gemüselasagne, Reissalat und Kuchen]] vor. [[Eigener Beitrag|Die Lasagne bereite ich gern vor]]. Dann musst du dich nur um die Getränke kümmern.
+  // 5
+  { label: "hilfsbereit, praktisch", t: `Liebe [[Name der Freundin|Alicia]],
 
-Kann ich noch etwas für dich tun?
+schön, dass du schreibst! [[Reaktion auf die Idee|Ich finde es toll, dass du den Englischkurs in deinen Garten einlädst]]. Das hilft uns allen, uns besser zu verstehen.
 
-[[Grußformel|Viele Grüße]]
-[[Dein Name|Yasmine]]` },
+Fangen wir mit der Arbeit an, denn ich möchte dir wirklich helfen: Ich kann [[Hilfe vor der Party|zwei Tage vorher einkaufen gehen und die Stühle aus dem Keller holen]], und am Partytag [[Hilfe am Partytag|koche ich Kaffee und kümmere mich um das Geschirr]]. Ich habe auch [[Praktisches Material|ein großes Zelt und einen Grill, die ich mitbringen kann]].
 
-  { label: "Samstag, Abwasch und Aufräumen, Party verschieben, Burger", t: `Liebe [[Name der Freundin|Alicia]],
+Das bringt mich zum Wetter. Bei Regen können wir [[Plan bei Regen|das Zelt über die Terrasse spannen und die Tische darunter stellen]]. Dann bleibt alles trocken.
 
-danke für deine Nachricht! [[Reaktion|Natürlich komme ich gern, und ich helfe dir auch]].
+Als Termin würde ich den [[Wochentag|Samstag]] wählen, weil [[Grund für den Tag|ich da den ganzen Tag helfen kann]]. Am [[anderer Wochentag|Freitag]] wäre es schwierig, denn [[Nachteil des anderen Tages|ich arbeite bis siebzehn Uhr]].
 
-Ich würde die Party auf [[Wochentag|Samstag]] legen, [[Grund|denn am Freitag haben mehrere von uns noch Unterricht]]. Bei den Vorbereitungen mache ich alles, was du möchtest. [[Ihre Hilfe|Ich übernehme den Abwasch und das Aufräumen nach der Feier]]. Wenn es am Samstag stark regnet, [[Plan bei Regen|sollten wir das Fest eine Woche später feiern]], denn im Regen macht eine Gartenparty keinen Spaß.
+Zum Essen habe ich folgenden Vorschlag: [[Essensvorschlag|Hähnchenspieße, Kartoffelsalat und frisches Brot]]. Dass du eine hervorragende Köchin bist, weiß ich, daher [[Reaktion auf das Kochen|übernimmst du am besten die Soßen]].
 
-Für das Essen habe ich eine Idee: [[Essensvorschlag|Wir machen Burger selbst]]. Du bereitest die Brötchen und das Fleisch vor, [[Beitrag der Gäste|und alle anderen bringen Salat, Tomaten oder Soßen mit]]. Das macht bestimmt allen Spaß.
+Praktisch ist auch, dass wir [[Sitzplätze|Bänke und Klappstühle von meinem Verein]] bekommen, und die Gäste können mit [[Anreise der Gäste|dem Bus oder dem Fahrrad]] kommen.
 
-Ich bin gespannt auf deine Antwort!
+Ich finde deine Pläne rundum gelungen und freue mich schon darauf, dass wir gemeinsam alles vorbereiten. Sag mir bitte, [[Frage an die Freundin|ob ich noch etwas mitbringen soll]].
 
 [[Grußformel|Liebe Grüße]]
-[[Dein Name|Aymen]]` },
+[[Dein Name|Kerem]]` },
 
-  { label: "Freitag, Fahrdienst, Wohnzimmer und Flur, Kuchenbuffet", t: `Hallo [[Name der Freundin|Alicia]],
+  // 6
+  { label: "begründend, argumentativ", t: `Hallo [[Name der Freundin|Alicia]],
 
-deine E-Mail hat mich richtig glücklich gemacht. [[Reaktion|Ein Fest für den Englischkurs ist eine wunderbare Idee]].
+deine Idee gefällt mir, und ich möchte erklären, warum: [[Begründung für die Zustimmung|Ein Fest im Garten ist entspannt, und alle können sich unterhalten]]. Deshalb sage ich gern zu.
 
-Ich würde [[Wochentag|Freitag]] vorschlagen, [[Grund|weil wir uns dann alle nach der Woche entspannen können]]. Bei den Vorbereitungen helfe ich dir gern. [[Ihre Hilfe|Ich habe ein Auto und kann Getränke, Stühle und Geschirr zu dir fahren]]. Wenn es regnet, [[Plan bei Regen|feiern wir im Wohnzimmer und im Flur, und wir öffnen die Türen]]. So haben wir genug Platz.
+Beim Termin spricht mehr für den [[Wochentag|Samstag]]. Erstens [[Argument 1 für diesen Tag|haben die meisten dann keine Arbeit]], zweitens [[Argument 2 für diesen Tag|kann man länger bleiben, ohne an den nächsten Tag zu denken]]. Am [[anderer Wochentag|Freitag]] müssten wir dagegen [[Nachteil des anderen Tages|früh anfangen und früh aufhören]].
 
-Als Essen finde ich [[Essensvorschlag|ein Kuchenbuffet mit Tee und Kaffee]] schön. [[Beitrag der Gäste|Jeder Gast backt oder kauft einen Kuchen]], und du entscheidest, was noch dazukommt. Für die Getränke sorge ich gern.
+Weil das Wetter im Sommer schnell wechselt, brauchen wir einen Plan für Regen. Ich würde [[Plan bei Regen|zwei Pavillons mieten, damit die Gäste im Trockenen sitzen]]. Das kostet wenig und lohnt sich, da [[Grund für den Plan|die Party sonst ins Wasser fallen würde]].
 
-Schreib mir doch bald, wie du es findest.
+Meine Hilfe biete ich an, weil ich möchte, dass du nicht alles allein machst: [[Hilfe vor der Party|Ich übernehme die Getränke und das Besorgen von Musik]], und [[Hilfe am Partytag|am Tag selbst räume ich auf und mache die Fotos]].
 
-[[Grußformel|Herzliche Grüße]]
-[[Dein Name|Rim]]` },
+Beim Essen schlage ich [[Essensvorschlag|ein Mittelmeer-Buffet mit Oliven, Brot und gegrilltem Fisch]] vor. Da du die beste Köchin bist, [[Reaktion auf das Kochen|bin ich sicher, dass dir etwas Besonderes einfällt]].
 
-  { label: "Samstag, Liegestühle und Sonnenschutz, abwarten, Eis und Melone", t: `Liebe [[Name der Freundin|Alicia]],
+Außerdem sollten wir [[Rücksicht auf Gäste|an Vegetarier und Gäste mit Allergien]] denken, weil [[Grund für die Rücksicht|nicht jeder alles essen kann]]. Das macht den Abend für alle angenehm.
 
-ich hoffe, es geht dir gut! Deine Idee finde ich ganz toll, und ich freue mich schon auf die Party.
+Was ich insgesamt von deinen Plänen halte? [[Gesamtmeinung|Sie sind klug, weil sie für alle bequem sind]]. Schreib mir, [[Frage an die Freundin|ob du mit meinen Vorschlägen einverstanden bist]].
 
-Ich schlage [[Wochentag|Samstag]] vor, [[Grund|weil im Sommer abends noch lange Sonne ist]]. Ich helfe dir gern, und zwar so: [[Ihre Hilfe|Ich bringe Liegestühle und einen großen Sonnenschirm mit]]. Wenn es regnet, [[Plan bei Regen|warten wir zuerst ab]]. Meistens hört der Regen nach einer Stunde auf, und wir feiern dann weiter. Wenn es den ganzen Tag regnet, gehen wir ins Haus.
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Selin]]` },
 
-Zum Essen passen [[Essensvorschlag|Eis und frische Wassermelone]], [[Begründung|denn das ist im Sommer genau richtig]]. [[Eigener Beitrag|Eine Melone bringe ich selbst mit]].
+  // 7
+  { label: "klar und kompakt", t: `Liebe [[Name der Freundin|Alicia]],
 
-Sag mir bitte, wenn du noch Hilfe brauchst!
+danke für deine E-Mail. [[Reaktion auf die Idee|Die Gartenparty für unseren Kurs ist eine super Idee]], ich komme gern. Ich habe mich über die Einladung wirklich gefreut, weil unser Kurs schon lange nichts mehr zusammen gemacht hat. Eine Party im Garten ist dafür genau das Richtige.
+
+Ich wäre für den [[Wochentag|Samstag]], denn [[Grund für den Tag|da kann jeder länger bleiben]]. Am [[anderer Wochentag|Freitag]] [[Nachteil des anderen Tages|haben viele noch Termine am Abend]].
+
+Bei Regen: [[Plan bei Regen|Wir feiern im Wohnzimmer und im Flur, und die Tür zum Garten bleibt offen]]. Das reicht für alle, wenn wir die Möbel verschieben und die Gläser auf kleine Tische stellen, damit niemand im Weg steht.
+
+Ich helfe dir gern. Konkret [[Hilfe vor der Party|kaufe ich die Getränke ein und bringe die Gläser mit]], und am Tag der Party [[Hilfe am Partytag|decke ich die Tische und dekoriere]].
+
+Essen: Du bist die beste Köchin, deshalb [[Reaktion auf das Kochen|entscheidest du, was auf den Tisch kommt]]. Mein Vorschlag wäre [[Essensvorschlag|Pizza vom Blech, Salate und Obst]]. Ich selbst [[Beitrag|backe zwei Kuchen]].
+
+Ich kann auch [[Zusätzliche Hilfe|den Nachbarn Bescheid sagen, damit sie sich nicht über die Musik ärgern]]. Das spart uns Ärger am Abend.
+
+Deine Pläne finde ich gut, und ich freue mich darauf, die anderen aus dem Kurs wiederzusehen. Gib mir bitte kurz Bescheid, [[Frage an die Freundin|wann genau die Party beginnt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Lukas]]` },
+
+  // 8
+  { label: "humorvoll, augenzwinkernd", t: `Liebe [[Name der Freundin|Alicia]],
+
+mit einer Party im Garten rennst du bei mir offene Türen ein! [[Reaktion auf die Idee|Der Englischkurs feiert endlich ohne Vokabeltest, das gefällt mir sehr]]. Ich hoffe, du hast auch genug Mut, uns alle einzuladen.
+
+Beim Datum bin ich für den [[Wochentag|Samstag]], denn [[Grund für den Tag|am Freitag sind wir nach der Arbeit müde wie Schlafmützen]]. Der [[anderer Wochentag|Freitag]] hätte höchstens den Vorteil, dass [[Vorteil des anderen Tages|man den Samstag noch für andere Pläne frei hat]].
+
+Und was machen wir bei Regen? Ganz einfach: [[Plan bei Regen|Wir tun so, als wäre es ein Hallenfest, und ziehen ins Wohnzimmer um]]. Mit genug Musik merkt niemand das Wetter.
+
+Hilfe bekommst du von mir selbstverständlich: [[Hilfe vor der Party|Ich sortiere die Getränke und verstecke den Wein vor den Durstigen]], und [[Hilfe am Partytag|am Tag selbst bin ich der Chef der Musikanlage]]. Dafür möchte ich nur [[Gegenleistung|ein Stück von deinem Kuchen]].
+
+Zum Essen: Wenn die beste Köchin der Stadt einlädt, [[Reaktion auf das Kochen|steht niemand freiwillig hungrig auf]]. Ich könnte [[Essensvorschlag|Nudelsalat und kalte Platten]] beisteuern.
+
+Meine Kamera bringe ich auch mit, und ich übernehme [[Fotoaufgabe|die Fotos und mache lustige Gruppenbilder]], damit wir später etwas zum Lachen haben.
+
+Was ich von deinen Plänen halte? [[Gesamtmeinung|Ich bin begeistert und habe schon Hunger]]. Die Party wird bestimmt ein Highlight in unserem Kursjahr. Schreib bald, [[Frage an die Freundin|ob du Hilfe beim Einladen brauchst]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Tim]]` },
+
+  // 9
+  { label: "persönlich, erzählend", t: `Liebe [[Name der Freundin|Alicia]],
+
+als ich deine Mail gelesen habe, musste ich sofort lächeln. [[Reaktion auf die Idee|Ich habe an unseren ersten Kurstag gedacht, und jetzt wollen wir zusammen feiern]]. Danke, dass du daran gedacht hast!
+
+Ich überlege schon seit gestern, welcher Tag besser ist. Am [[Wochentag|Freitag]] hätte ich Zeit, weil [[Grund für den Tag|ich dann früher Feierabend habe]]. Am [[anderer Wochentag|Samstag]] bin ich [[Einschränkung am anderen Tag|bei einer Hochzeit eingeladen]], deshalb passt dieser Tag bei mir nicht.
+
+Weißt du noch, wie es letztes Jahr beim Sommerfest geregnet hat? Da haben wir [[Erinnerung an den Regen|alle unter einem kleinen Dach gestanden und zusammen gesungen]]. Diesmal könnten wir [[Plan bei Regen|ein Zelt leihen, damit alle genug Platz haben]].
+
+Bei den Vorbereitungen bin ich gern dabei: [[Hilfe vor der Party|Ich helfe dir beim Einkaufen und schreibe die Einladung für den Kurs]]. Am Partytag [[Hilfe am Partytag|komme ich ein paar Stunden früher und helfe in der Küche]].
+
+Und das Essen? Du hast ja schon oft bewiesen, dass du die beste Köchin bist, [[Reaktion auf das Kochen|ich erinnere mich noch gut an deine Suppe]]. Ich würde [[Essensvorschlag|eine Gemüsesuppe, Brot und verschiedene Käsesorten]] vorschlagen.
+
+Wenn alles geklappt hat, könnten wir am Ende [[Abschlussidee|ein gemeinsames Foto machen und Kontaktdaten tauschen]]. Das wäre eine schöne Erinnerung an den Kurs.
+
+Deine Pläne klingen großartig. Schreib mir bitte, [[Frage an die Freundin|wie ihr die Party weiter plant]].
+
+[[Grußformel|Herzlich]]
+[[Dein Name|Emma]]` },
+
+  // 10
+  { label: "vorschlagsorientiert", t: `Hallo [[Name der Freundin|Alicia]],
+
+danke für die Einladung zu deiner Idee! [[Reaktion auf die Idee|Ich finde den Garten als Ort ideal, weil dort jeder Platz hat]]. Ich habe gleich mehrere Vorschläge für dich.
+
+Mein erster Vorschlag betrifft den Tag: Wir feiern am [[Wochentag|Samstag]], da [[Grund für den Tag|alle ausgeruht sind und niemand früh gehen muss]]. Der [[anderer Wochentag|Freitag]] eignet sich weniger, weil [[Nachteil des anderen Tages|einige am nächsten Tag arbeiten]].
+
+Mein zweiter Vorschlag gilt dem Regen: Falls das Wetter schlecht ist, könnten wir [[Plan bei Regen|das Fest in den Kursraum unserer Sprachschule verlegen]]. Ich frage gern [[Hilfe bei der Organisation|beim Hausmeister, ob wir den Raum nutzen dürfen]].
+
+Mein dritter Vorschlag betrifft die Arbeit: Wir teilen sie auf. Ich übernehme [[Hilfe vor der Party|die Getränke, die Musik und die Einladung per E-Mail]], und am Tag selbst [[Hilfe am Partytag|den Aufbau und das Aufräumen]].
+
+Mein vierter Vorschlag ist das Essen: [[Essensvorschlag|Jeder bringt eine Spezialität aus seiner Heimat mit]]. Da du die beste Köchin bist, [[Reaktion auf das Kochen|kochst du den Hauptgang]].
+
+Als fünften Punkt schlage ich noch [[Zusatzvorschlag|ein kleines Willkommensgetränk für jeden Gast]] vor, damit der Abend gleich gut beginnt. Das kostet wenig und kommt gut an.
+
+Natürlich ist das nur ein Entwurf, und du kennst deinen Garten und deine Gäste am besten, deshalb passe ich mich gern an. Wie findest du diese Ideen im Vergleich zu deinen Plänen? Schreib mir, [[Frage an die Freundin|welche Vorschläge dir am meisten helfen]].
+
+[[Grußformel|Viele Grüße]]
+[[Dein Name|Paula]]` },
+
+  // 11
+  { label: "abwägend, vorsichtig", t: `Liebe [[Name der Freundin|Alicia]],
+
+vielen Dank für deine Mail. [[Reaktion auf die Idee|Eine Party im Garten ist eine schöne Idee, aber sie braucht gute Planung]]. Deshalb habe ich einiges überlegt.
+
+Beim Tag kann ich mich nicht sofort entscheiden. Einerseits spricht für den [[Wochentag|Freitag]], dass [[Vorteil des ersten Tages|die Gäste am Wochenende noch Zeit für anderes haben]]. Andererseits ist der [[anderer Wochentag|Samstag]] besser, weil [[Vorteil des zweiten Tages|man abends länger feiern kann]]. Ich würde mich am Ende für den Samstag entscheiden.
+
+Das Wetter macht mir etwas Sorgen. Falls es regnet, wäre es vielleicht klug, [[Plan bei Regen|schon vorher ein Partyzelt zu mieten]]. So haben wir einen sicheren Plan.
+
+Bei den Vorbereitungen unterstütze ich dich gern, soweit es meine Zeit erlaubt: [[Hilfe vor der Party|Ich kann einkaufen und Gläser bringen]], und am Tag selbst [[Hilfe am Partytag|helfe ich beim Aufbau, bis die Gäste kommen]].
+
+Wegen des Essens würde ich nicht zu kompliziert planen. [[Essensvorschlag|Ein Grillbuffet mit Salaten wäre einfach und lecker]]. Du bist zwar die beste Köchin, doch [[Reaktion auf das Kochen|niemand erwartet von dir, dass du alles alleine machst]].
+
+Falls sich bis dahin etwas ändert, sage ich dir rechtzeitig Bescheid, denn [[möglicher Hinderungsgrund|ich muss vielleicht in der Woche vorher verreisen]]. Dann könnte ich dir trotzdem [[Alternative Hilfe|schon vorher beim Einkaufen helfen]].
+
+Insgesamt halte ich deine Pläne für sinnvoll und gut machbar, und ich freue mich auf den Abend mit dem Kurs. Schreib mir bitte, [[Frage an die Freundin|ob dir mein Vorschlag mit dem Zelt zu teuer ist]].
+
+[[Grußformel|Liebe Grüße]]
+[[Dein Name|Hannah]]` },
+
+  // 12
+  { label: "Schritt für Schritt", t: `Liebe [[Name der Freundin|Alicia]],
+
+danke für deine Nachricht! [[Reaktion auf die Idee|Die Gartenparty klingt nach einem schönen Abend für alle]]. Ich gehe deine Fragen einfach Schritt für Schritt durch.
+
+Zuerst der Termin: Wenn ich wählen darf, nehme ich den [[Wochentag|Samstag]], denn [[Grund für den Tag|ich habe dann nichts anderes vor]]. Der [[anderer Wochentag|Freitag]] ist für mich schwierig, weil [[Nachteil des anderen Tages|ich noch bis spät im Büro bin]].
+
+Danach das Wetter: Wenn es regnet, [[Plan bei Regen|bauen wir den Tisch im Eingangsbereich auf und stellen die Getränke in die Küche]]. So hat jeder ein trockenes Plätzchen, und niemand muss frieren.
+
+Dann zu meiner Hilfe: Vor der Party [[Hilfe vor der Party|besorge ich Servietten, Teller und Gläser]], und an dem Tag [[Hilfe am Partytag|bin ich die Erste, die dir beim Dekorieren hilft]].
+
+Schließlich das Essen: Weil du die beste Köchin bist, [[Reaktion auf das Kochen|überlasse ich dir gern die Hauptspeise]]. Ich würde zusätzlich [[Essensvorschlag|Tomatensalat, Brot und Dips]] anbieten.
+
+Zwischendurch rate ich dir, dass wir [[Zeitplan|um 17 Uhr beginnen und um 22 Uhr enden]], damit der Abend nicht zu lang wird.
+
+Außerdem finde ich es schön, dass du so früh planst, denn so kann jeder den Termin rechtzeitig in seinen Kalender eintragen. Zum Schluss noch mein Gesamteindruck: Deine Pläne sind [[Gesamteindruck|gut vorbereitet und machen Lust auf mehr]]. Sag mir bitte, [[Frage an die Freundin|wann wir uns wegen der Details treffen]].
 
 [[Grußformel|Bis bald]]
-[[Dein Name|Walid]]` },
+[[Dein Name|Leyla]]` },
+
+  // 13
+  { label: "warmherzig, unterstützend", t: `Liebe [[Name der Freundin|Alicia]],
+
+es hat mich sehr berührt, dass du uns alle einladen möchtest. [[Reaktion auf die Idee|Du schaffst es immer, dass sich die Leute aus dem Kurs bei dir wohlfühlen]]. Danke dafür!
+
+Zum Tag habe ich eine Bitte und einen Wunsch: Lass uns am [[Wochentag|Samstag]] feiern, weil [[Grund für den Tag|dann auch die Gäste mit langer Anreise kommen können]]. Der [[anderer Wochentag|Freitag]] wäre für sie [[Nachteil des anderen Tages|zu stressig nach einer langen Arbeitswoche]].
+
+Mach dir bitte keine Sorgen wegen des Regens. Wir finden gemeinsam eine Lösung und können [[Plan bei Regen|im Wohnzimmer feiern und die Tür zum Flur offen lassen]]. Hauptsache, wir sind zusammen.
+
+Du musst nicht alles allein stemmen. Ich bin da und [[Hilfe vor der Party|schreibe die Einladungen und besorge Blumen für die Tische]]. Am Partytag [[Hilfe am Partytag|helfe ich dir, damit du die Gäste in Ruhe begrüßen kannst]].
+
+Beim Essen weiß ich, dass du als beste Köchin [[Reaktion auf das Kochen|alle glücklich machen wirst]]. Wenn du magst, [[Essensvorschlag|machen wir ein gemeinsames Buffet mit Salaten, Reis und Obst]]. Ich bringe [[Beitrag|einen Nachtisch mit]].
+
+Wenn du möchtest, kümmere ich mich auch um [[Betreuung der Gäste|die Begrüßung der neuen Leute aus dem Kurs]], damit sich niemand allein fühlt. Und ich bringe [[Mitbringsel|ein kleines Geschenk für dich]] mit.
+
+Deine Pläne finde ich liebevoll und sehr gut, und ich freue mich darauf, die anderen aus dem Englischkurs bei dir im Garten zu sehen. Schreib mir, [[Frage an die Freundin|wie ich dich noch unterstützen kann]].
+
+[[Grußformel|Alles Liebe]]
+[[Dein Name|Sarah]]` },
+
+  // 14
+  { label: "spontan, entspannt", t: `Hi [[Name der Freundin|Alicia]],
+
+oh, eine Party? Da bin ich dabei! [[Reaktion auf die Idee|Der Garten ist perfekt, und der Kurs wird sich freuen]]. Kurz und knapp meine Antworten.
+
+Tag: Für mich ist der [[Wochentag|Freitag]] besser, weil [[Grund für den Tag|ich dann nicht lange planen muss]]. Der [[anderer Wochentag|Samstag]] geht notfalls auch, aber [[Nachteil des anderen Tages|da ist meistens viel los in der Stadt]].
+
+Regen: Kein Problem! [[Plan bei Regen|Wir hängen eine große Plane über den Tisch und feiern trotzdem draußen]]. Das ist sogar lustig, finde ich, und die Stimmung wird bestimmt gut.
+
+Hilfe: Sag mir einfach, was du brauchst und wann ich kommen soll. Ich kann [[Hilfe vor der Party|Getränke tragen und Stühle aufstellen]], und [[Hilfe am Partytag|am Abend bin ich der DJ mit meiner Playlist]].
+
+Essen: Du bist ja die beste Köchin, also [[Reaktion auf das Kochen|kochst du einfach das, was du am liebsten magst]]. Von mir gibt es [[Essensvorschlag|Chips, Dips und einen frischen Obstsalat]].
+
+Ach ja, ich kann [[Transportangebot|ein paar Leute mit dem Auto mitnehmen]], dann kommen auch die ohne Auto gut hin. Und wir fangen am besten [[Uhrzeit|gegen sieben Uhr abends]] an, damit alle in Ruhe ankommen können.
+
+Übrigens freue ich mich schon, die anderen aus dem Kurs wiederzusehen, denn wir haben zusammen so viel gelacht. Ein Abend im Garten ist dafür genau richtig. Ich finde deine Pläne richtig gut. Melde dich und sag mir, [[Frage an die Freundin|wer sonst noch alles kommt]].
+
+[[Grußformel|Bis dann]]
+[[Dein Name|Max]]` },
+
+  // 15
+  { label: "dankbar, wertschätzend", t: `Liebe [[Name der Freundin|Alicia]],
+
+ich danke dir von Herzen für deine Mail. [[Reaktion auf die Idee|Dass du den Kurs zu dir einlädst, zeigt, wie großzügig du bist]]. Ich schätze das sehr und bin schon gespannt auf den Abend.
+
+Zum Termin: Ich bin dir dankbar, dass du mich fragst, und sage ehrlich, dass mir der [[Wochentag|Samstag]] besser passt, weil [[Grund für den Tag|ich dann den ganzen Nachmittag Zeit für dich habe]]. Am [[anderer Wochentag|Freitag]] [[Nachteil des anderen Tages|bin ich oft noch bei der Arbeit]].
+
+Für den Fall von Regen möchte ich dir etwas Sorge nehmen. Wir könnten [[Plan bei Regen|das Fest in den Keller verlegen, den wir mit Lichtern schön machen]]. Dann klappt alles auch bei schlechtem Wetter.
+
+Wenn du mich lässt, [[Hilfe vor der Party|übernehme ich das Schreiben der Gästeliste und den Einkauf]]. Am Partytag [[Hilfe am Partytag|bleibe ich nach der Feier und räume mit dir auf]]. So hast du weniger Stress.
+
+Was das Essen betrifft, bewundere ich deine Kochkunst: Du bist ja die beste Köchin, [[Reaktion auf das Kochen|ich lerne gern von dir]]. Ich würde vorschlagen, [[Essensvorschlag|dass es Suppen, Salate und ein süßes Dessert gibt]].
+
+Ich würde dir gern [[Dankesgeste|am Ende einen Blumenstrauß schenken]], weil du so viel Arbeit hast. Außerdem helfe ich [[Weitere Hilfe|beim Spülen und Aufräumen bis zum Schluss]].
+
+Deine Pläne finde ich großartig. Sag mir bitte, [[Frage an die Freundin|ob ich dir sonst noch einen Gefallen tun kann]].
+
+[[Grußformel|Dankbare Grüße]]
+[[Dein Name|Nina]]` },
 ];
