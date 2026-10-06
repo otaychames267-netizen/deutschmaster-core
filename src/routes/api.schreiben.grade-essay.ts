@@ -138,9 +138,24 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
         } catch (e) {
           await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
           console.error("[grade-essay] grading failed, credit refunded:", e);
+          try {
+            await (supabaseAdmin as any).rpc("log_client_error", {
+              p_kind: "ssr",
+              p_path: "/api/schreiben/grade-essay",
+              p_message: `AI grading failed: ${String((e as Error)?.message ?? e).slice(0, 300)}`,
+              p_stack: null,
+              p_context: null,
+            });
+          } catch { /* logging only */ }
+          const outage = /QUOTA_429|BUDGET_EXCEEDED/.test(String((e as Error)?.message ?? e));
           return Response.json(
-            { error: "GRADING_FAILED", message: "Grading failed — your credit was refunded. Please try again." },
-            { status: 502 },
+            {
+              error: outage ? "GRADING_UNAVAILABLE" : "GRADING_FAILED",
+              message: outage
+                ? "Die automatische Bewertung ist gerade nicht verfügbar — dein Credit wurde zurückerstattet. Bitte versuche es in einigen Minuten erneut. · التصحيح الآلي غير متوفر حاليًا، تمّ إرجاع الكريدي متاعك. جرّب بعد دقائق."
+                : "Grading failed — your credit was refunded. Please try again.",
+            },
+            { status: outage ? 503 : 502 },
           );
         }
 

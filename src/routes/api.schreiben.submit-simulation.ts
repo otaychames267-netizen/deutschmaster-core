@@ -134,8 +134,28 @@ export const Route = createFileRoute("/api/schreiben/submit-simulation")({
                 .single();
               essayGradingId = saved?.id ?? null;
             } catch (e) {
-              console.error("[submit-simulation] Schreiben grading failed, scoring 0:", e);
-              scoreSchreiben = 0;
+              // The grader being down (Anthropic credit balance used up, quota, outage, malformed model output) is OUR failure, never the
+              // student's: the old code silently finalized the exam with 0/45 Schreiben points, so a candidate who wrote a good letter got
+              // "NICHT BESTANDEN". Now nothing is finalized — the attempt stays in_progress, the essay stays saved, and the student can
+              // press "Prüfung abgeben" again as soon as grading is back. (A blank / too-short essay still scores 0 without an AI call.)
+              console.error("[submit-simulation] Schreiben grading unavailable, NOT finalizing:", e);
+              try {
+                await (supabaseAdmin as any).rpc("log_client_error", {
+                  p_kind: "ssr",
+                  p_path: "/api/schreiben/submit-simulation",
+                  p_message: `AI grading unavailable: ${String((e as Error)?.message ?? e).slice(0, 300)}`,
+                  p_stack: null,
+                  p_context: { attempt_id: attemptId },
+                });
+              } catch { /* logging only */ }
+              return Response.json(
+                {
+                  error: "GRADING_UNAVAILABLE",
+                  message: "Die automatische Bewertung ist gerade nicht verfügbar. Deine Antworten sind gespeichert — bitte gib die Prüfung in einigen Minuten erneut ab.",
+                  message_ar: "التصحيح الآلي غير متوفر حاليًا. إجاباتك محفوظة — أعد تسليم الامتحان بعد دقائق.",
+                },
+                { status: 503 },
+              );
             }
           }
         }
