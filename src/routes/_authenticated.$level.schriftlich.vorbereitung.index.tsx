@@ -150,6 +150,25 @@ function SchriftlichVorbereitungHub() {
         </p>
       </div>
 
+      {/* ── B1: the two personal Strukturen, visible without opening the Schreiben accordion ── */}
+      {seg === "b1" && (
+        <Link
+          to={"/b1/schriftlich/vorbereitung/schreiben/meine-struktur" as never}
+          className="group flex items-center gap-4 rounded-2xl border border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-transparent p-4 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md"
+        >
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-amber-500/15 ring-1 ring-amber-500/30">
+            <PenLine className="h-5 w-5 text-amber-500" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-black text-foreground">Meine 2 Strukturen — Informeller Brief</p>
+            <p className="mt-0.5 text-xs text-muted-foreground">
+              Brief A (Einladung, Vorschlag &amp; Planung) und Brief B (Neuigkeiten, Rat &amp; Bitte): deine zwei persönlichen Antwortbriefe.
+            </p>
+          </div>
+          <ChevronRight className="h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+        </Link>
+      )}
+
       {/* ── Skill accordions ─────────────────────────────────── */}
       <div className="space-y-3">
         {SKILLS.map(skill => {
