@@ -19,3 +19,14 @@ telccfree's ad texts are lightly re-typed copies of the real ones (e.g. "liefen 
 `insert-mod-variants.sql` is the insert (one DO block = one transaction, guarded against double-run); it also shifts `sort_order` of the rows after each original so a variant sits directly behind its original.
 
 Typos in Ausflug-mod situations 11 ("ein Tag machen") and 13 ("Freier") were first imported verbatim, then fixed with the owner's OK on 2026-10-07 (`fix-ausflug-mod-typos.sql`): "einen Tag verbringen" and "Feier".
+
+## Second batch (2026-10-07): Stadtführer (معدل) + Musik (معدل)
+
+| telccfree | Aura | result |
+|---|---|---|
+| Stadtführer (quiz/stadtfuehrer.html) | Stadtführer | ads 12/12 (prefix), same answer key → Aura has the original |
+| **Reiseführer 2** (quiz/reisefuehrer-2.html) = modified Stadtführer | — | 9/10 situations reworded + new key `A K X X H X F X B L` (original `A K D C X E X H F L`); telccfree re-typed all 12 ads (new typos) → **added** as "Stadtführer (معدل)" with Aura's ads |
+| Musik (quiz/88.html) | Musik | 9/10 situations identical, same key → Aura has the original |
+| Musik (معدل) (quiz/musik-mod.html) | — | situations 11–13 reworded, same ads + key → **added** as "Musik (معدل)" |
+
+`insert-stadtfuehrer-musik-mod.sql`: verified with the real `score_lesen_t3` RPC (perfect = 10/10, wrong = 0, learning aids present). Open observation: Aura's *original* Stadtführer situations are missing umlauts ("Stadtfuhrer", "mochte", "mogen") — pre-existing, not touched.
