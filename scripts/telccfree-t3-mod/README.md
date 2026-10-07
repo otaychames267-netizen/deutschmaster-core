@@ -18,4 +18,4 @@ telccfree's ad texts are lightly re-typed copies of the real ones (e.g. "liefen 
 
 `insert-mod-variants.sql` is the insert (one DO block = one transaction, guarded against double-run); it also shifts `sort_order` of the rows after each original so a variant sits directly behind its original.
 
-Open for the owner: the source wording of Ausflug-mod situations 11 ("ein Tag machen") and 13 ("einen Freier" — evidently "Feier") has typos; imported verbatim, noted in `import_notes`.
+Typos in Ausflug-mod situations 11 ("ein Tag machen") and 13 ("Freier") were first imported verbatim, then fixed with the owner's OK on 2026-10-07 (`fix-ausflug-mod-typos.sql`): "einen Tag verbringen" and "Feier".
