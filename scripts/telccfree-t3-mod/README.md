@@ -30,3 +30,6 @@ Typos in Ausflug-mod situations 11 ("ein Tag machen") and 13 ("Freier") were fir
 | Musik (معدل) (quiz/musik-mod.html) | — | situations 11–13 reworded, same ads + key → **added** as "Musik (معدل)" |
 
 `insert-stadtfuehrer-musik-mod.sql`: verified with the real `score_lesen_t3` RPC (perfect = 10/10, wrong = 0, learning aids present). Open observation: Aura's *original* Stadtführer situations are missing umlauts ("Stadtfuhrer", "mochte", "mogen") — pre-existing, not touched.
+
+## Translation + justification audit (2026-10-07)
+All four variants carry the Arabic translation (12 ads + 10 situations) and a justification item for every matched situation. The no-match (X) situations of Ausflug/Berlin/Stadtführer (معدل) had none (copied from older originals that left X empty) → `add-no-match-justifications.sql` adds them (names the closest trap ad); Musik (معدل) inherits its X items. Check: `score_lesen_t3` returns learning_aids for 11–20 on all four.
