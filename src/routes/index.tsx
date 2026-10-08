@@ -597,7 +597,7 @@ function Pricing() {
               }`}
             >
               {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
                   <span className="inline-flex items-center gap-1 rounded-full bg-gold px-3 py-0.5 text-xs font-semibold text-gold-foreground shadow-sm">
                     <Star className="h-3 w-3 fill-current" /> {plan.badge}
                   </span>

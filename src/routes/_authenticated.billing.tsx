@@ -259,7 +259,7 @@ function BillingPage() {
                 }`}
               >
                 {plan.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
                     <span className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-black shadow-sm ${premium ? "bg-gold text-gold-foreground" : "text-white"}`}
                       style={premium ? undefined : { background: `linear-gradient(135deg, ${plan.gradientFrom}, ${plan.gradientTo})` }}>
                       <Star className="h-2.5 w-2.5 fill-current" /> {plan.badge}
