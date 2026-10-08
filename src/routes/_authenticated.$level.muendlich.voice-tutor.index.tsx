@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
 import { VOICE_TUTOR_ENABLED } from "@/lib/features";
 import { supabase } from "@/integrations/supabase/client";
+import { muendlichQuotaMessage } from "@/lib/muendlich/quota";
 
 const db = supabase as any;
 
@@ -94,7 +95,7 @@ function VoiceTutorPicker() {
       teil3_material_id: findId(3, picked[3]),
     }).select("id").single();
     if (insertError || !data) {
-      setError("Die Sitzung konnte nicht gestartet werden. Bitte versuche es erneut.");
+      setError(muendlichQuotaMessage(insertError?.message) ?? "Die Sitzung konnte nicht gestartet werden. Bitte versuche es erneut.");
       setStarting(false);
       return;
     }

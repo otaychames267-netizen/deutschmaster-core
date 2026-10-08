@@ -124,7 +124,11 @@ export interface TutorVoiceSession {
 // Teil 1 + a long-article Teil 2 topic + several questions + closing with
 // real headroom, while staying well under the 2-participant exam room's
 // 7,000 (this is one participant, not two).
-const MAX_ELEVENLABS_CHARS_PER_SESSION = 6000;
+// 2026-10-08: lowered 6,000 -> 3,500 after the lean-prompt rewrite (measured full sessions use ~2,500-2,900 live
+// chars, see tutorCost.harness.mjs; replies are length-capped and turns fixed at 2/6/7, so ~20-40% headroom is
+// enough) — it is the hard worst-case bound behind the per-student monthly budget
+// (muendlich_ai_monthly_budget_usd): 3,500 chars is at most ~0.18 USD of TTS per session.
+const MAX_ELEVENLABS_CHARS_PER_SESSION = 3500;
 
 export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {
   let voice = await voiceManager.assignVoice(sessionId, EXAMINER_POOL);
