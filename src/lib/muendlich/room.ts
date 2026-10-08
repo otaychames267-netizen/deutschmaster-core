@@ -7,6 +7,7 @@
  * participants always see identical remaining time.
  */
 import { supabase } from "@/integrations/supabase/client";
+import { muendlichQuotaMessage } from "./quota";
 
 const db = supabase as any;
 export type RoomState = "waiting_for_partner" | "both_connected" | "ready_check" | "preparation" | "preparation_locked" | "exam_room_ready" | "exam_in_progress" | "finished" | "abandoned";
@@ -97,6 +98,8 @@ export async function joinOrCreateRoom(code: string | null): Promise<{ room: Roo
       await maybeAdvanceToReadyCheck(room!.id);
       return { room: room!, slot };
     }
+    const quotaMsg = muendlichQuotaMessage(ins.error.message);
+    if (quotaMsg) return { error: quotaMsg };
     // 23505 = unique violation: either the slot got taken (retry) or we already joined (recover)
     const { data: mine } = await db.from("muendlich_participants").select("slot").eq("room_id", room!.id).eq("user_id", userId).maybeSingle();
     if (mine) { await db.from("muendlich_participants").update({ connected: true }).eq("room_id", room!.id).eq("user_id", userId); return { room: room!, slot: mine.slot }; }
@@ -231,6 +234,8 @@ export async function joinMatchmakingQueue(level: "TELC_B1" | "TELC_B2"): Promis
   if (error) {
     if (error.message?.includes("NO_MUENDLICH_ACCESS")) return { error: "Your subscription doesn't include Mündlich access. Upgrade to Mündlich or Komplett to use the exam room." };
     if (error.message?.includes("ALREADY_IN_ACTIVE_SESSION")) return { error: "You already have an active exam session. Finish or leave it first." };
+    const quotaMsg = muendlichQuotaMessage(error.message);
+    if (quotaMsg) return { error: quotaMsg };
     return { error: error.message };
   }
   return { code: data as string | null };
