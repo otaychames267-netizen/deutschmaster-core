@@ -63,9 +63,14 @@ export function HeroCard({ topic, index, onOpen, loading, levelLabel }: { topic:
           )}
         </div>
         <h3 className="mb-1.5 text-base font-black leading-snug text-foreground">{topic.title}</h3>
-        {topic.body_text && (
-          <p className="mb-4 line-clamp-3 flex-1 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{topic.body_text}</p>
-        )}
+        {/* The grow-to-fill (flex-1) must sit on a wrapper, never on the line-clamped <p> itself: a clamped box that is
+            stretched taller than 3 lines (a card with a 1-line title next to cards with 2-line titles) paints the
+            hidden 4th line below the ellipsis, so the preview text visibly runs into the button. */}
+        <div className="mb-4 flex-1">
+          {topic.body_text && (
+            <p className="line-clamp-3 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{topic.body_text}</p>
+          )}
+        </div>
 
         <div className="mt-auto flex items-center justify-center gap-1.5 rounded-xl bg-primary px-3.5 py-2.5 text-xs font-bold text-primary-foreground transition-opacity group-hover:opacity-90">
           {loading ? (
