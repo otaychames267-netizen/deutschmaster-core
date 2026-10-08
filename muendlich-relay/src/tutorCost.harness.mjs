@@ -51,4 +51,5 @@ for (let t = 1; t <= 7; t++) { await turn(`Bringen Sie jetzt Ihren nächsten Ges
 const claudeUsd = (totalIn * PRICE.in + cw * PRICE.in * 1.25 + cr * PRICE.in * 0.1 + totalOut * PRICE.out) / 1e6;
 const liveChars = welcome.length + replyChars + 130; // + ~130 chars of live "rest" after the two cached transition lead-ins
 console.log(JSON.stringify({ model: MODEL, calls, tokens: { uncachedIn: totalIn, cacheWrite: cw, cacheRead: cr, out: totalOut }, claudeUsd: +claudeUsd.toFixed(4), replyChars, avgReplyChars: Math.round(replyChars / calls), minMax: [Math.min(...perTurn), Math.max(...perTurn)], liveTtsChars: liveChars, sample: history.filter((h) => h.speaker !== "student").slice(1, 4).map((h) => h.text) }, null, 1));
+if (process.env.HARNESS_OUT) { const { writeFileSync } = await import("node:fs"); writeFileSync(process.env.HARNESS_OUT, JSON.stringify({ welcome, replies: history.filter((h) => h.speaker !== "student").slice(1).map((h) => h.text) })); }
 process.exit(0);
