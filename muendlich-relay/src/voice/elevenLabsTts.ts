@@ -309,7 +309,9 @@ export function startDialogueSynthesis(conn: DialogueConnection, callbacks: Stre
       conn.ws.off("message", onMessage);
       return;
     }
-    if (msg.is_final) {
+    // v3 ended a turn with `is_final`; v4 / v4 Turbo end it with `is_final_audio_for_turn` (found 2026-10-08 against the live API —
+    // without this the helper never resolved and "stalled" after the audio had fully arrived).
+    if (msg.is_final || msg.is_final_audio_for_turn || msg.isFinal) {
       settled = true;
       clearIdleTimer();
       callbacks.onDone?.(Date.now());
@@ -336,6 +338,52 @@ export function startDialogueSynthesis(conn: DialogueConnection, callbacks: Stre
       resolveDone();
     },
     done,
+  };
+}
+
+// ============================================================================
+// 2b. LIVE PATH SWITCH — "stream" (default) or "dialogue", chosen by ELEVENLABS_TTS_PATH
+// ============================================================================
+
+/** Owner 2026-10-08 (cost): eleven_v4_turbo is rejected by the standard /stream-input websocket (HTTP 400 at the handshake) and only
+ * streams over /text-to-dialogue/stream-input. ELEVENLABS_TTS_PATH=dialogue routes live speech through that path (model from
+ * ELEVENLABS_DIALOGUE_MODEL, e.g. eleven_v4_turbo); the default ("stream") is the unchanged Flash v2.5 behaviour. Only callers that
+ * use openLiveConnection/startLiveSynthesis switch — today the 1:1 tutor. */
+export function liveTtsPath(): "stream" | "dialogue" {
+  return process.env.ELEVENLABS_TTS_PATH === "dialogue" ? "dialogue" : "stream";
+}
+
+export type LiveConnection = StreamConnection | DialogueConnection;
+
+export function openLiveConnection(voiceId: string): Promise<LiveConnection> {
+  return liveTtsPath() === "dialogue" ? openDialogueConnection(voiceId) : openStreamingConnection(voiceId);
+}
+
+export function startLiveSynthesis(conn: LiveConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
+  return "voiceId" in conn ? startSentenceBatchedDialogue(conn, callbacks) : startStreamingSynthesis(conn, callbacks);
+}
+
+/** The dialogue endpoint wants whole utterances, not word-sized fragments (the streaming path takes Claude's chunks as they arrive):
+ * completed sentences are sent as one input each, the tail on the final call. A one-sentence reply therefore goes out once Claude has
+ * finished it — typically well under a second later. */
+function startSentenceBatchedDialogue(conn: DialogueConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
+  const inner = startDialogueSynthesis(conn, callbacks);
+  const SENTENCE = /^([\s\S]*?[.!?…]["”)]?)\s+([\s\S]*)$/;
+  let buf = "";
+  let sent = 0;
+  return {
+    appendText(text: string, isFinal: boolean) {
+      buf += text;
+      let m = SENTENCE.exec(buf);
+      while (m) { inner.appendText(m[1], false); sent++; buf = m[2]; m = SENTENCE.exec(buf); }
+      if (isFinal) {
+        if (buf.trim() || !sent) inner.appendText(buf, true);
+        else if (conn.ws.readyState === WebSocket.OPEN) conn.ws.send(JSON.stringify({ flush: true })); // everything already went out sentence by sentence — just flush, no empty input
+        buf = "";
+      }
+    },
+    cancel: () => inner.cancel(),
+    done: inner.done,
   };
 }
 

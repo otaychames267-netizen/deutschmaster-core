@@ -29,7 +29,7 @@ import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openGroqStt } from "./groqStt.js";
 import { openFailoverStt } from "./failoverStt.js";
 import { SpeechDetector } from "../speechActivity.js";
-import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
+import { openLiveConnection, startLiveSynthesis, type LiveConnection, type StreamingSynthesisHandle } from "./elevenLabsTts.js";
 import { generateTutorReply, type TutorContext, type TutorHistoryTurn, type TutorTrigger } from "./tutorBrain.js";
 import { ExaminerBrainError } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
@@ -148,8 +148,8 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   let stt: SttSession | null = null;
   let currentGenerationId = 0;
   let currentAbort: AbortController | null = null;
-  let currentTtsHandle: ReturnType<typeof startStreamingSynthesis> | null = null;
-  let currentTtsConn: StreamConnection | null = null;
+  let currentTtsHandle: StreamingSynthesisHandle | null = null;
+  let currentTtsConn: LiveConnection | null = null;
 
   let ttsCharacters = 0;
   let sttBytes = 0;
@@ -185,7 +185,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     const myId = ++currentGenerationId;
     const abortCtrl = new AbortController();
     currentAbort = abortCtrl;
-    let conn: StreamConnection | null = null;
+    let conn: LiveConnection | null = null;
     // Snapshot NOW, not re-read after any await below — ctx.stage (and
     // therefore which persona is "active") could in principle change again
     // before this call's onVoiceError fires, and that handler must reassign
@@ -195,7 +195,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     const speakingVoiceId = activeVoiceId();
 
     try {
-      conn = await openStreamingConnection(speakingVoiceId);
+      conn = await openLiveConnection(speakingVoiceId);
     } catch (e) {
       // Connection-level failure (including a handshake timeout — see
       // elevenLabsTts.ts's CONNECT_TIMEOUT_MS, added after a real live-
@@ -213,7 +213,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
-      const ttsHandle = startStreamingSynthesis(conn, {
+      const ttsHandle = startLiveSynthesis(conn, {
         onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[tutor voice] TTS error for session ${sessionId}:`, message);
@@ -327,7 +327,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     currentTtsHandle?.cancel();
     try { currentTtsConn?.close(); } catch {}
     const myId = ++currentGenerationId;
-    let conn: StreamConnection | null = null;
+    let conn: LiveConnection | null = null;
     // Snapshot now — see speak()'s identical comment for why. Note this is
     // taken BEFORE any stage change a caller might make right after this
     // call resolves (e.g. server.ts speaks the Teil2->3 transition line via
@@ -337,7 +337,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     const speakingVoiceId = activeVoiceId();
 
     try {
-      conn = await openStreamingConnection(speakingVoiceId);
+      conn = await openLiveConnection(speakingVoiceId);
     } catch (e) {
       // Same reasoning as speak()'s identical connection-failure branch — a
       // recoverable, per-utterance blip (including a handshake timeout, see
@@ -357,7 +357,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
-      const ttsHandle = startStreamingSynthesis(conn, {
+      const ttsHandle = startLiveSynthesis(conn, {
         onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[tutor voice] TTS error (scripted) for session ${sessionId}:`, message);
