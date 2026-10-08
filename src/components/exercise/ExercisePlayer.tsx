@@ -503,7 +503,8 @@ export function ExercisePlayer({ examId, examTitle, onClose, onComplete }: Exerc
 
       setEssayResult(json as EssayGradingResult);
       notifyCreditsChanged();
-      await recordCompletion(user!.id, { isPerfect: json.overall_score === 100 });
+      // Schreiben is graded out of 45 (telc B2: 3 x 15), not 100 — a perfect essay is 45/45.
+      await recordCompletion(user!.id, { isPerfect: json.overall_score >= 45 });
       onComplete?.();
     } catch (e) {
       setEssayError({ code: "NETWORK_ERROR", message: "Could not reach the grading service. Please try again." });
