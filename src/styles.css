@@ -239,10 +239,16 @@
 /* ── Utilities ──────────────────────────────────────────── */
 @layer utilities {
   /* Glass card effect */
+  /* Relative colour syntax (oklch(from …)) needs Chrome 119+. A fallback declaration written BEFORE it would not help (a value containing
+     var() is only judged invalid when the property is computed, which then leaves the property EMPTY, not on the earlier value) — so the
+     enhancement lives in @supports and old browsers keep the plain colour. Same pattern for every oklch(from …) below. */
   .glass {
-    background: oklch(from var(--color-card) l c h / 0.8);
+    background: var(--color-card);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+  @supports (color: oklch(from red l c h)) {
+    .glass { background: oklch(from var(--color-card) l c h / 0.8); }
   }
 
   /* Premium gradient text */
@@ -259,10 +265,15 @@
 
   /* Subtle animated gradient background for hero sections */
   .hero-gradient {
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, oklch(from var(--color-brand) l c h / 0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 85% 30%,  oklch(from var(--color-gold) l c h / 0.08) 0%, transparent 60%),
-      var(--color-background);
+    background: var(--color-background);
+  }
+  @supports (color: oklch(from red l c h)) {
+    .hero-gradient {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, oklch(from var(--color-brand) l c h / 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 85% 30%,  oklch(from var(--color-gold) l c h / 0.08) 0%, transparent 60%),
+        var(--color-background);
+    }
   }
 
   /* Section divider */
@@ -276,8 +287,11 @@
   }
   .exam-card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px oklch(from var(--color-brand) l c h / 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-color: var(--color-brand);
+  }
+  @supports (color: oklch(from red l c h)) {
+    .exam-card-hover:hover { box-shadow: 0 8px 24px oklch(from var(--color-brand) l c h / 0.12); }
   }
 
   /* Scrollbar */
@@ -328,14 +342,20 @@
 }
 
 .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--color-muted) 25%,
-    oklch(from var(--color-muted) calc(l + 0.06) c h) 50%,
-    var(--color-muted) 75%
-  );
+  background: linear-gradient(90deg, var(--color-muted) 25%, var(--color-border) 50%, var(--color-muted) 75%);
   background-size: 200% auto;
   animation: shimmer 1.6s linear infinite;
+}
+@supports (color: oklch(from red l c h)) {
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-muted) 25%,
+      oklch(from var(--color-muted) calc(l + 0.06) c h) 50%,
+      var(--color-muted) 75%
+    );
+    background-size: 200% auto;
+  }
 }
 
 /* ── Premium plan card (landing pricing) ───────────────────────────────
