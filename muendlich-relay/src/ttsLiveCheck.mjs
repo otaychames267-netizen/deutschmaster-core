@@ -1,9 +1,9 @@
 // usage: ELEVENLABS_API_KEY=... ELEVENLABS_TTS_PATH=dialogue ELEVENLABS_DIALOGUE_MODEL=eleven_v4_turbo npx tsx src/ttsLiveCheck.mjs <voiceId> <texts.json>
 // Drives the relay's real live-TTS switch (openLiveConnection/startLiveSynthesis) with real tutor replies; chunks the text like Claude's stream does.
 import { readFileSync } from "node:fs";
-const { openLiveConnection, startLiveSynthesis, liveTtsPath } = await import("./voice/elevenLabsTts.ts");
+const { openLiveConnection, startLiveSynthesis, liveTtsPath, liveTtsModel } = await import("./voice/elevenLabsTts.ts");
 const { welcome, replies } = JSON.parse(readFileSync(process.argv[3], "utf8")); const texts = [welcome, ...replies].slice(0, Number(process.env.N ?? 6));
-console.log("path:", liveTtsPath(), "| model:", liveTtsPath() === "dialogue" ? process.env.ELEVENLABS_DIALOGUE_MODEL : process.env.ELEVENLABS_DYNAMIC_TTS_MODEL ?? "eleven_flash_v2_5");
+console.log("path:", liveTtsPath(), "| model:", liveTtsModel());
 let chars = 0, secs = 0, ok = 0; const firsts = [], totals = [];
 for (const text of texts) {
   const t0 = Date.now(); let first = null, bytes = 0, err = null;

@@ -29,7 +29,8 @@ import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openGroqStt } from "./groqStt.js";
 import { openFailoverStt } from "./failoverStt.js";
 import { SpeechDetector } from "../speechActivity.js";
-import { openLiveConnection, startLiveSynthesis, type LiveConnection, type StreamingSynthesisHandle } from "./elevenLabsTts.js";
+import { openLiveConnection, startLiveSynthesis, liveTtsPath, type LiveConnection, type StreamingSynthesisHandle } from "./elevenLabsTts.js";
+import { VOICES } from "./voices.config.js";
 import { generateTutorReply, type TutorContext, type TutorHistoryTurn, type TutorTrigger } from "./tutorBrain.js";
 import { ExaminerBrainError } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
@@ -130,8 +131,14 @@ export interface TutorVoiceSession {
 // (muendlich_ai_monthly_budget_usd): 3,500 chars is at most ~0.18 USD of TTS per session.
 const MAX_ELEVENLABS_CHARS_PER_SESSION = 3500;
 
+/** The examiner voice of the 1:1 tutor: Leonie (uvysWDLbKpA4XvpD3GI6), owner's pick 2026-10-09. */
+const TUTOR_EXAMINER_VOICE_ID = process.env.TUTOR_EXAMINER_VOICE_ID ?? "uvysWDLbKpA4XvpD3GI6";
+
 export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {
-  let voice = await voiceManager.assignVoice(sessionId, EXAMINER_POOL);
+  // Owner 2026-10-09: Leonie is the 1:1 examiner (head of the list — her voice is the best of the pool). TUTOR_EXAMINER_VOICE_ID overrides; if the id
+  // is missing/disabled in voices.config the normal pool assignment applies.
+  const preferredExaminer = VOICES.find((v) => v.enabled && v.voiceId === TUTOR_EXAMINER_VOICE_ID);
+  let voice = preferredExaminer ?? (await voiceManager.assignVoice(sessionId, EXAMINER_POOL));
   // Assigned once, lazily, by setPartnerStage() — null until Teil 3 begins.
   // A DIFFERENT assignment key (`${sessionId}:partner`, not `sessionId`)
   // than the examiner's own — see voiceManager.ts's stableHash-based
@@ -441,7 +448,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
   async function speakScriptedLine(line: ScriptedLine): Promise<void> {
     if (closed) return;
-    if (line.lead) {
+    // The cached lead clips were synthesized with Flash v2.5 so they match a Flash remainder; with the dialogue path (v4 Turbo) the whole line
+    // is spoken live instead (≈100 extra chars per transition) so the line keeps one timbre.
+    if (line.lead && liveTtsPath() === "stream") {
       const found = await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
       if (found) {
         await playPcmFile(`speakScriptedLine(${line.id})`, found.absolutePath, found.asset.text);
@@ -531,6 +540,8 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       // examiner's own `sessionId` — see this function's own interface doc
       // comment for why that reliably lands on a different voice.
       partnerVoice = await voiceManager.assignVoice(`${sessionId}:partner`, EXAMINER_POOL);
+      // The partner is a second person: never the examiner's own voice (Leonie), whatever the hash picked.
+      if (partnerVoice.voiceId === voice.voiceId) partnerVoice = await voiceManager.reassignAfterFailure(`${sessionId}:partner`, EXAMINER_POOL, voice.voiceId);
       ctx = { ...ctx, stage: 3, teil3Topic };
     },
     getVoiceId() {

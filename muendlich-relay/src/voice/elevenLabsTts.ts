@@ -238,10 +238,10 @@ export interface DialogueConnection {
   close(): void;
 }
 
-export function openDialogueConnection(voiceId: string): Promise<DialogueConnection> {
+export function openDialogueConnection(voiceId: string, modelOverride?: string): Promise<DialogueConnection> {
   const key = process.env.ELEVENLABS_API_KEY;
   if (!key) return Promise.reject(new Error("ELEVENLABS_API_KEY not set"));
-  const model = process.env.ELEVENLABS_DIALOGUE_MODEL ?? "eleven_v3";
+  const model = modelOverride ?? process.env.ELEVENLABS_DIALOGUE_MODEL ?? "eleven_v3";
   const url = `wss://api.elevenlabs.io/v1/text-to-dialogue/stream-input?model_id=${model}&output_format=pcm_24000`;
 
   return new Promise((resolve, reject) => {
@@ -250,6 +250,8 @@ export function openDialogueConnection(voiceId: string): Promise<DialogueConnect
 
     let keepalive: NodeJS.Timeout | null = null;
     ws.on("open", () => {
+      // NOTE (tested 2026-10-09): v4 Turbo speaks ~24% faster than Flash v2.5 (same 878 chars = 56 s vs 74 s) and a `settings.speed` in this
+      // init message has NO effect (0.7 -> 56 s, 1.0 -> 55 s), so the pace cannot be slowed on this endpoint.
       ws.send(JSON.stringify({ voices: [voiceId], xi_api_key: key }));
       keepalive = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ keep_alive: true }));
@@ -345,18 +347,23 @@ export function startDialogueSynthesis(conn: DialogueConnection, callbacks: Stre
 // 2b. LIVE PATH SWITCH — "stream" (default) or "dialogue", chosen by ELEVENLABS_TTS_PATH
 // ============================================================================
 
-/** Owner 2026-10-08 (cost): eleven_v4_turbo is rejected by the standard /stream-input websocket (HTTP 400 at the handshake) and only
- * streams over /text-to-dialogue/stream-input. ELEVENLABS_TTS_PATH=dialogue routes live speech through that path (model from
- * ELEVENLABS_DIALOGUE_MODEL, e.g. eleven_v4_turbo); the default ("stream") is the unchanged Flash v2.5 behaviour. Only callers that
- * use openLiveConnection/startLiveSynthesis switch — today the 1:1 tutor. */
+/** Owner 2026-10-09 (cost, ElevenLabs promo until 2026-10-12): the 1:1 tutor speaks with eleven_v4_turbo by default. That model is rejected
+ * by the standard /stream-input websocket (HTTP 400 at the handshake) and only streams over /text-to-dialogue/stream-input, so the live path
+ * is "dialogue" unless ELEVENLABS_TTS_PATH=stream switches back to the previous Flash v2.5 behaviour (ELEVENLABS_DYNAMIC_TTS_MODEL).
+ * The dialogue model is ELEVENLABS_TUTOR_MODEL (default eleven_v4_turbo) — deliberately NOT the shared ELEVENLABS_DIALOGUE_MODEL.
+ * Only callers that use openLiveConnection/startLiveSynthesis switch — today the 1:1 tutor; the 2:1 exam room is untouched. */
 export function liveTtsPath(): "stream" | "dialogue" {
-  return process.env.ELEVENLABS_TTS_PATH === "dialogue" ? "dialogue" : "stream";
+  return process.env.ELEVENLABS_TTS_PATH === "stream" ? "stream" : "dialogue";
+}
+
+export function liveTtsModel(): string {
+  return liveTtsPath() === "dialogue" ? (process.env.ELEVENLABS_TUTOR_MODEL ?? "eleven_v4_turbo") : (process.env.ELEVENLABS_DYNAMIC_TTS_MODEL ?? "eleven_flash_v2_5");
 }
 
 export type LiveConnection = StreamConnection | DialogueConnection;
 
 export function openLiveConnection(voiceId: string): Promise<LiveConnection> {
-  return liveTtsPath() === "dialogue" ? openDialogueConnection(voiceId) : openStreamingConnection(voiceId);
+  return liveTtsPath() === "dialogue" ? openDialogueConnection(voiceId, liveTtsModel()) : openStreamingConnection(voiceId);
 }
 
 export function startLiveSynthesis(conn: LiveConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
