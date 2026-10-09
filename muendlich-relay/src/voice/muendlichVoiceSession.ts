@@ -41,12 +41,12 @@ import { openWhisperStt } from "./whisperStt.js";
 import { openGroqStt } from "./groqStt.js";
 import { openFailoverStt } from "./failoverStt.js";
 import { SpeechDetector } from "../speechActivity.js";
-import { openStreamingConnection, startStreamingSynthesis, type StreamConnection } from "./elevenLabsTts.js";
+import { openExamConnection, startExamSynthesis, type ExamConnection } from "./elevenLabsTts.js";
 import { generateExaminerReply, ExaminerBrainError, type ExamContext, type HistoryTurn } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
 import { VoiceManager } from "./voiceManager.js";
 import { createSupabaseVoiceStore } from "./supabaseVoiceStore.js";
-import { getPool, EXAMINER_POOL } from "./voicePools.js";
+import { getExamPool, EXAMINER_POOL } from "./voicePools.js";
 import { pickLibraryAsset, findLibraryAssetById } from "./phraseLibrary/libraryStore.js";
 import type { ScriptedLine } from "../examinerPhrases.js";
 import { getFixedPool } from "./phraseLibrary/fixedPhrases.js";
@@ -57,7 +57,7 @@ import type { FixedPhraseCategory } from "./phraseLibrary/phraseTypes.js";
 import { createClient } from "@supabase/supabase-js";
 
 const admin = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
-const voiceManager = new VoiceManager(getPool(EXAMINER_POOL), createSupabaseVoiceStore(admin));
+const voiceManager = new VoiceManager(getExamPool(EXAMINER_POOL), createSupabaseVoiceStore(admin));
 
 /** Last-resort Teil-1 prompt for a topic string that doesn't match any of
  * the 7 configured TEIL1_TOPICS (see teil1Questions.ts) — genuinely
@@ -335,7 +335,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // actually throwing, the old ttsHandle could still emit audio/errors —
   // synchronous cancel() (and closing its own socket, see currentTtsConn
   // below) here stops it immediately instead of waiting for that.
-  let currentTtsHandle: ReturnType<typeof startStreamingSynthesis> | null = null;
+  let currentTtsHandle: ReturnType<typeof startExamSynthesis> | null = null;
   // The CURRENT utterance's own dedicated ElevenLabs socket — see this
   // file's header comment for why this is opened fresh per call instead of
   // being one persistent, session-wide connection. Closed unconditionally
@@ -343,7 +343,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
   // moment that utterance is done, canceled, or superseded — so a stray
   // late message from a finished/canceled utterance has no socket left to
   // arrive on, let alone a listener to misfire.
-  let currentTtsConn: StreamConnection | null = null;
+  let currentTtsConn: ExamConnection | null = null;
 
   async function speak(trigger: Parameters<typeof generateExaminerReply>[2]) {
     if (closed) return;
@@ -354,10 +354,10 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     aiSpeaking = true; // see its own declaration comment — suppresses candidate mic forwarding for the whole duration of this call
     const abortCtrl = new AbortController();
     currentAbort = abortCtrl;
-    let conn: StreamConnection | null = null;
+    let conn: ExamConnection | null = null;
 
     try {
-      conn = await openStreamingConnection(voice.voiceId);
+      conn = await openExamConnection(voice.voiceId);
     } catch (e) {
       // Real bug found via live-testing this exact fix (2026-09-30): a
       // connection-level failure here — including a handshake timeout, see
@@ -377,7 +377,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; } // session closed or superseded while connecting
       currentTtsConn = conn;
-      const ttsHandle = startStreamingSynthesis(conn, {
+      const ttsHandle = startExamSynthesis(conn, {
         onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[voice] TTS error for session ${examSessionId}:`, message);
@@ -513,10 +513,10 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     try { currentTtsConn?.close(); } catch {}
     const myId = ++currentGenerationId;
     aiSpeaking = true; // see its own declaration comment — suppresses candidate mic forwarding for the whole duration of this call
-    let conn: StreamConnection | null = null;
+    let conn: ExamConnection | null = null;
 
     try {
-      conn = await openStreamingConnection(voice.voiceId);
+      conn = await openExamConnection(voice.voiceId);
     } catch (e) {
       // Same reasoning as speak()'s identical connection-failure branch — a
       // recoverable, per-utterance blip (including a handshake timeout), not
@@ -537,7 +537,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     try {
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
-      const ttsHandle = startStreamingSynthesis(conn, {
+      const ttsHandle = startExamSynthesis(conn, {
         onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
         onVoiceError: async (message) => {
           console.error(`[voice] TTS error (scripted) for session ${examSessionId}:`, message);

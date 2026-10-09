@@ -49,6 +49,7 @@
 import WebSocket from "ws";
 import { isAzureVoice, openAzureConnection, startAzureSynthesis, type AzureConnection } from "./azureTts.js";
 import { isInworldVoice, openInworldConnection, startInworldSynthesis, type InworldConnection } from "./inworldTts.js";
+import { isDeepInfraVoice, openDeepInfraConnection, startDeepInfraSynthesis, type DeepInfraConnection } from "./deepinfraTts.js";
 
 const KEEPALIVE_INTERVAL_MS = 15_000; // under the documented 20s idle timeout
 
@@ -353,7 +354,7 @@ export function startDialogueSynthesis(conn: DialogueConnection, callbacks: Stre
  * by the standard /stream-input websocket (HTTP 400 at the handshake) and only streams over /text-to-dialogue/stream-input, so the live path
  * is "dialogue" unless ELEVENLABS_TTS_PATH=stream switches back to the previous Flash v2.5 behaviour (ELEVENLABS_DYNAMIC_TTS_MODEL).
  * The dialogue model is ELEVENLABS_TUTOR_MODEL (default eleven_v4_turbo) — deliberately NOT the shared ELEVENLABS_DIALOGUE_MODEL.
- * Only callers that use openLiveConnection/startLiveSynthesis switch — today the 1:1 tutor; the 2:1 exam room is untouched. */
+ * Only callers that use openLiveConnection/startLiveSynthesis switch — the 1:1 tutor; the 2:1 exam room uses openExamConnection/startExamSynthesis below. */
 export function liveTtsPath(): "stream" | "dialogue" {
   return process.env.ELEVENLABS_TTS_PATH === "stream" ? "stream" : "dialogue";
 }
@@ -362,21 +363,38 @@ export function liveTtsModel(): string {
   return liveTtsPath() === "dialogue" ? (process.env.ELEVENLABS_TUTOR_MODEL ?? "eleven_v4_turbo") : (process.env.ELEVENLABS_DYNAMIC_TTS_MODEL ?? "eleven_flash_v2_5");
 }
 
-export type LiveConnection = StreamConnection | DialogueConnection | AzureConnection | InworldConnection;
+export type LiveConnection = StreamConnection | DialogueConnection | AzureConnection | InworldConnection | DeepInfraConnection;
 
 /** The provider is chosen by the VOICE (Azure voice names like "de-DE-Seraphina:DragonHDLatestNeural" vs 20-character ElevenLabs ids), so a
  * session can never mix them up; which voices a session draws from is decided by TUTOR_TTS_PROVIDER in tutorVoiceSession.ts. */
 export function openLiveConnection(voiceId: string): Promise<LiveConnection> {
   if (isAzureVoice(voiceId)) return openAzureConnection(voiceId);
   if (isInworldVoice(voiceId)) return openInworldConnection(voiceId);
+  if (isDeepInfraVoice(voiceId)) return openDeepInfraConnection(voiceId);
   return liveTtsPath() === "dialogue" ? openDialogueConnection(voiceId, liveTtsModel()) : openStreamingConnection(voiceId);
+}
+
+/** The 2:1 exam room's connection: ElevenLabs voices keep the standard streaming socket exactly as before (this room never used the dialogue path);
+ * Azure / Inworld / DeepInfra voices (EXAM_TTS_PROVIDER, see voicePools.ts) go over plain HTTP per sentence. */
+export type ExamConnection = StreamConnection | AzureConnection | InworldConnection | DeepInfraConnection;
+
+export function openExamConnection(voiceId: string): Promise<ExamConnection> {
+  if (isAzureVoice(voiceId)) return openAzureConnection(voiceId);
+  if (isInworldVoice(voiceId)) return openInworldConnection(voiceId);
+  if (isDeepInfraVoice(voiceId)) return openDeepInfraConnection(voiceId);
+  return openStreamingConnection(voiceId);
+}
+
+export function startExamSynthesis(conn: ExamConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
+  if ("kind" in conn) return conn.kind === "azure" ? startAzureSynthesis(conn, callbacks) : conn.kind === "inworld" ? startInworldSynthesis(conn, callbacks) : startDeepInfraSynthesis(conn, callbacks);
+  return startStreamingSynthesis(conn, callbacks);
 }
 
 /** Warm-up (owner 2026-10-09): the first stream a voice opens on the dialogue socket sometimes needs ~2 s to the first audio (measured: 8 of 20
  * voices on their first stream, then 0.5 s). A 6-character throw-away synthesis (≈$0.0002, audio discarded) issued as soon as the voice is known
  * moves that wait off the student's first line. Never throws, never blocks the caller, gives up after 6 s. */
 export async function warmUpLiveVoice(voiceId: string): Promise<void> {
-  if (isAzureVoice(voiceId) || isInworldVoice(voiceId)) return; // plain HTTP per sentence, nothing to warm
+  if (isAzureVoice(voiceId) || isInworldVoice(voiceId) || isDeepInfraVoice(voiceId)) return; // plain HTTP per sentence, nothing to warm
   let conn: LiveConnection | null = null;
   try {
     conn = await Promise.race([openLiveConnection(voiceId), new Promise<never>((_, rj) => setTimeout(() => rj(new Error("warm-up connect timeout")), 6000))]);
@@ -391,7 +409,7 @@ export async function warmUpLiveVoice(voiceId: string): Promise<void> {
 }
 
 export function startLiveSynthesis(conn: LiveConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
-  if ("kind" in conn) return conn.kind === "azure" ? startAzureSynthesis(conn, callbacks) : startInworldSynthesis(conn, callbacks); // only the HTTP providers carry `kind`
+  if ("kind" in conn) return conn.kind === "azure" ? startAzureSynthesis(conn, callbacks) : conn.kind === "inworld" ? startInworldSynthesis(conn, callbacks) : startDeepInfraSynthesis(conn, callbacks); // only the HTTP providers carry `kind`
   return "voiceId" in conn ? startSentenceBatchedDialogue(conn, callbacks) : startStreamingSynthesis(conn, callbacks);
 }
 

@@ -20,6 +20,7 @@ import { VOICES } from "../voices.config.js";
 import { TUTOR_EXAMINER_POOL, voiceProvider } from "../voicePools.js";
 import { isAzureVoice, synthesizeAzureOnce } from "../azureTts.js";
 import { isInworldVoice, synthesizeInworldOnce } from "../inworldTts.js";
+import { isDeepInfraVoice, synthesizeDeepInfraOnce } from "../deepinfraTts.js";
 import { getSoloTransitionLeadPhrases, getSoloExamEndPool, TUTOR_PHRASE_STYLE } from "../../examinerPhrases.js";
 import type { PhraseAudioAsset } from "./phraseTypes.js";
 
@@ -47,6 +48,7 @@ for (const v of voices) {
 async function synth(voiceId: string, text: string): Promise<Buffer> {
   if (isAzureVoice(voiceId)) return synthesizeAzureOnce(voiceId, text); // raw PCM16 mono 24 kHz, same as the ElevenLabs clips
   if (isInworldVoice(voiceId)) return synthesizeInworldOnce(voiceId, text);
+  if (isDeepInfraVoice(voiceId)) return synthesizeDeepInfraOnce(voiceId, text);
   for (let attempt = 0; attempt < 5; attempt++) {
     const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=${OUTPUT_FORMAT}`, {
       method: "POST",
@@ -74,11 +76,12 @@ async function main() {
   const chars = jobs.reduce((n, j) => n + j.text.length, 0);
   console.log(`${voices.length} voices x (${leads.length} leads + ${ends.length} endings) = ${jobs.length} clips, ${chars} characters ≈ ${(chars * 0.059).toFixed(0)} credits at the promo rate (≈ $${((chars / 1000) * 0.011).toFixed(2)}), ≈ $${((chars / 1000) * 0.04).toFixed(2)} at the regular $0.04/1k`);
   if (process.argv.includes("--dry")) return;
-  const providerOf = (id: string) => (isAzureVoice(id) ? "azure" : isInworldVoice(id) ? "inworld" : "elevenlabs");
+  const providerOf = (id: string) => (isAzureVoice(id) ? "azure" : isInworldVoice(id) ? "inworld" : isDeepInfraVoice(id) ? "deepinfra" : "elevenlabs");
   const todo = jobs.filter((j) => !existsSync(path.join(ROOT, j.file)) && (!onlyProvider || providerOf(j.voiceId) === onlyProvider));
   if (todo.some((j) => providerOf(j.voiceId) === "elevenlabs") && !process.env.ELEVENLABS_API_KEY) { console.error("ELEVENLABS_API_KEY not set — aborting (use --provider azure to generate only the Azure clips)."); process.exit(1); }
   if (todo.some((j) => isAzureVoice(j.voiceId)) && !(process.env.AZURE_SPEECH_KEY && process.env.AZURE_SPEECH_REGION)) { console.error("AZURE_SPEECH_KEY / AZURE_SPEECH_REGION not set — aborting (use --provider elevenlabs to skip the Azure clips)."); process.exit(1); }
   if (todo.some((j) => providerOf(j.voiceId) === "inworld") && !process.env.INWORLD_API_KEY) { console.error("INWORLD_API_KEY not set — aborting (use --provider to limit the run)."); process.exit(1); }
+  if (todo.some((j) => providerOf(j.voiceId) === "deepinfra") && !process.env.DEEPINFRA_API_KEY) { console.error("DEEPINFRA_API_KEY not set — aborting (use --provider to limit the run)."); process.exit(1); }
   await mkdir(path.join(ROOT, "scripted_lead"), { recursive: true });
   await mkdir(path.join(ROOT, "exam_end"), { recursive: true });
   let ok = 0, skipped = jobs.length - todo.length, failed = 0, spent = 0;
