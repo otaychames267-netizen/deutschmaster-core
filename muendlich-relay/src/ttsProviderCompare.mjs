@@ -51,7 +51,7 @@ if (process.env.AZURE_SPEECH_KEY && process.env.AZURE_SPEECH_REGION) {
 
 // --- OpenAI gpt-4o-mini-tts ---
 if (process.env.OPENAI_API_KEY) {
-  for (const v of ["coral", "sage", "onyx", "ash"]) {
+  for (const v of ["marin", "cedar", "coral", "sage", "onyx", "ash"]) { // marin + cedar = the voices OpenAI recommends for best quality
     await run("openai", v, (text) => timedPost("https://api.openai.com/v1/audio/speech", {
       method: "POST", headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}`, "content-type": "application/json" },
       body: JSON.stringify({ model: "gpt-4o-mini-tts", voice: v, input: text, instructions: STYLE, response_format: "mp3" }),
