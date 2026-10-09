@@ -63,6 +63,7 @@ export function examProvider(): TtsProvider {
 function poolOfProvider(poolId: string, provider: TtsProvider): VoiceProfile[] {
   const all = getPool(poolId);
   const wanted = all.filter((v) => voiceProvider(v) === provider);
+  if (wanted.length === 0 && provider !== "elevenlabs") console.warn(`[voice] pool "${poolId}" has no ${provider} voice — using the ElevenLabs voices of that pool (this session would mix providers)`);
   return wanted.length > 0 ? wanted : all.filter((v) => voiceProvider(v) === "elevenlabs");
 }
 

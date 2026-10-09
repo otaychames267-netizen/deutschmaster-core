@@ -36,6 +36,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { VOICES } from "../voices.config.js";
+import { voiceProvider } from "../voicePools.js";
 import { WELCOME_PHRASES, EXAM_END_PHRASES, EARLY_END_TIME_UP_PHRASES, EARLY_END_IDLE_PHRASES, EARLY_END_PARTNER_DISCONNECTED_PHRASES } from "./fixedPhrases.js";
 import { synthesizeOnce } from "../elevenLabsTts.js";
 import type { PhraseAudioAsset } from "./phraseTypes.js";
@@ -51,7 +52,7 @@ async function main() {
     console.error("ELEVENLABS_API_KEY not set — aborting.");
     process.exit(1);
   }
-  const voices = VOICES.filter((v) => v.enabled);
+  const voices = VOICES.filter((v) => v.enabled && voiceProvider(v) === "elevenlabs"); // these libraries are ElevenLabs clips; other providers have their own generators
   const categories = [
     { name: "welcome" as const, phrases: WELCOME_PHRASES },
     { name: "exam_end" as const, phrases: EXAM_END_PHRASES },

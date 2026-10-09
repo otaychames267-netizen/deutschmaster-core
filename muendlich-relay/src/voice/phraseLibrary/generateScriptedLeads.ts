@@ -27,6 +27,7 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { VOICES } from "../voices.config.js";
+import { voiceProvider } from "../voicePools.js";
 import { synthesizeOnce } from "../elevenLabsTts.js";
 import { getScriptedLeadPhrases } from "../../examinerPhrases.js";
 import { assignPhraseStyle } from "./voiceStyle.js";
@@ -40,7 +41,7 @@ const OUTPUT_FORMAT = "pcm_24000";
 const FLASH_USD_PER_1K_CHARS = 0.05;
 
 const args = new Set(process.argv.slice(2));
-const voices = VOICES.filter((v) => v.enabled);
+const voices = VOICES.filter((v) => v.enabled && voiceProvider(v) === "elevenlabs"); // these libraries are ElevenLabs clips; other providers have their own generators
 const leads = getScriptedLeadPhrases();
 
 interface Job { phraseId: string; style: PhraseStyle; text: string; voiceId: string; file: string }

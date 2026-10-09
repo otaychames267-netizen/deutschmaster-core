@@ -1,6 +1,6 @@
 // Unit test (no network): the voice pools — 2:1 exam room keeps its original 5 voices, the 1:1 tutor has 10 examiner + 10 partner voices, no overlap.
 //   npx tsx src/voice/voicePools.test.mjs
-import { getPool, getTutorPool, voiceProvider, EXAMINER_POOL, TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL } from "./voicePools.ts";
+import { getPool, getTutorPool, getExamPool, voiceProvider, EXAMINER_POOL, TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL } from "./voicePools.ts";
 import { VOICES } from "./voices.config.ts";
 
 let failed = 0;
@@ -9,10 +9,11 @@ const ok = (name, cond, extra = "") => { if (!cond) failed++; console.log((cond 
 const ids = (pool) => getPool(pool).map((v) => v.voiceId);
 const eleven = (pool) => getPool(pool).filter((v) => voiceProvider(v) === "elevenlabs").map((v) => v.voiceId);
 const azure = (pool) => getPool(pool).filter((v) => voiceProvider(v) === "azure").map((v) => v.voiceId);
-const exam = ids(EXAMINER_POOL), tutorEx = eleven(TUTOR_EXAMINER_POOL), tutorPa = eleven(TUTOR_PARTNER_POOL);
+const exam = eleven(EXAMINER_POOL), tutorEx = eleven(TUTOR_EXAMINER_POOL), tutorPa = eleven(TUTOR_PARTNER_POOL);
 
 ok("2:1 exam room pool is unchanged (the original 5 voices)", exam.length === 5, `(${exam.length})`);
 ok("2:1 pool = Leonie, Daniel, Lena, Mila Winter, Kerstin", ["Leonie", "Daniel", "Lena", "Mila Winter", "Kerstin"].every((n) => getPool(EXAMINER_POOL).some((v) => v.name === n)));
+ok("getExamPool: default provider is ElevenLabs (the original 5 voices)", getExamPool(EXAMINER_POOL).length === 5 && getExamPool(EXAMINER_POOL).every((v) => voiceProvider(v) === "elevenlabs"));
 ok("1:1 ElevenLabs examiner pool has 10 voices", tutorEx.length === 10, `(${tutorEx.length})`);
 ok("1:1 Azure examiner pool = the two German DragonHD voices", azure(TUTOR_EXAMINER_POOL).join() === "de-DE-Seraphina:DragonHDLatestNeural,de-DE-Florian:DragonHDLatestNeural");
 ok("1:1 Azure partner pool has 4 neural voices, none of them an examiner", azure(TUTOR_PARTNER_POOL).length === 4 && azure(TUTOR_PARTNER_POOL).every((id) => !azure(TUTOR_EXAMINER_POOL).includes(id)));
@@ -31,6 +32,12 @@ ok("getTutorPool: provider=inworld without the key falls back to ElevenLabs", ge
 process.env.INWORLD_API_KEY = "k";
 ok("getTutorPool: provider=inworld with the key gives only Inworld voices", getTutorPool(TUTOR_EXAMINER_POOL).length === 6 && getTutorPool(TUTOR_PARTNER_POOL).length === 6 && [...getTutorPool(TUTOR_EXAMINER_POOL), ...getTutorPool(TUTOR_PARTNER_POOL)].every((v) => voiceProvider(v) === "inworld"));
 delete process.env.TUTOR_TTS_PROVIDER; delete process.env.INWORLD_API_KEY;
+const deepinfra = (pool) => getPool(pool).filter((v) => voiceProvider(v) === "deepinfra");
+ok("DeepInfra/Qwen: 10 examiner voices, in the 2:1 pool AND the 1:1 examiner pool, none in the partner pool", deepinfra(EXAMINER_POOL).length === 10 && deepinfra(TUTOR_EXAMINER_POOL).length === 10 && deepinfra(TUTOR_PARTNER_POOL).length === 0, `(${deepinfra(EXAMINER_POOL).length}/${deepinfra(TUTOR_EXAMINER_POOL).length}/${deepinfra(TUTOR_PARTNER_POOL).length})`);
+process.env.DEEPINFRA_API_KEY = "k"; process.env.EXAM_TTS_PROVIDER = "deepinfra"; process.env.TUTOR_TTS_PROVIDER = "deepinfra";
+ok("EXAM_TTS_PROVIDER=deepinfra gives the 10 Qwen voices for the 2:1 room", getExamPool(EXAMINER_POOL).length === 10 && getExamPool(EXAMINER_POOL).every((v) => voiceProvider(v) === "deepinfra"));
+ok("TUTOR_TTS_PROVIDER=deepinfra gives the 10 Qwen examiners (the partner pool has no Qwen voice yet -> ElevenLabs fallback)", getTutorPool(TUTOR_EXAMINER_POOL).length === 10 && getTutorPool(TUTOR_EXAMINER_POOL).every((v) => voiceProvider(v) === "deepinfra") && getTutorPool(TUTOR_PARTNER_POOL).every((v) => voiceProvider(v) === "elevenlabs"));
+delete process.env.DEEPINFRA_API_KEY; delete process.env.EXAM_TTS_PROVIDER; delete process.env.TUTOR_TTS_PROVIDER;
 ok("1:1 ElevenLabs partner pool has 10 voices", tutorPa.length === 10, `(${tutorPa.length})`);
 ok("examiner and partner pools do not overlap", tutorEx.every((id) => !tutorPa.includes(id)));
 ok("Leonie is the first examiner in the list", getPool(TUTOR_EXAMINER_POOL)[0]?.name === "Leonie");
