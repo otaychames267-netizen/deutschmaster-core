@@ -16,6 +16,9 @@ import { VOICES } from "./voices.config.js";
 import type { VoiceProfile } from "./voiceProfiles.js";
 
 export const EXAMINER_POOL = "examiner";
+/** 1:1 tutor only (owner 2026-10-09): 10 examiner voices and 10 partner voices, kept apart from the 2:1 exam room pool above so the exam room's voices and cached clips are untouched. */
+export const TUTOR_EXAMINER_POOL = "tutor_examiner";
+export const TUTOR_PARTNER_POOL = "tutor_partner";
 
 export function getPool(poolId: string): VoiceProfile[] {
   return VOICES.filter((v) => v.enabled && (v.pools ? v.pools.includes(poolId) : poolId === EXAMINER_POOL));

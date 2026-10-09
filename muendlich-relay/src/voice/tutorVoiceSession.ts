@@ -36,7 +36,7 @@ import { ExaminerBrainError } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
 import { VoiceManager } from "./voiceManager.js";
 import { createSupabaseVoiceStore } from "./supabaseVoiceStore.js";
-import { getPool, EXAMINER_POOL } from "./voicePools.js";
+import { getPool, TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL } from "./voicePools.js";
 import type { VoiceProfile } from "./voiceProfiles.js";
 import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
@@ -47,7 +47,9 @@ import { assignPhraseStyle } from "./phraseLibrary/voiceStyle.js";
 import { getSoloExamEndPool, type ScriptedLine } from "../examinerPhrases.js";
 
 const admin = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
-const voiceManager = new VoiceManager(getPool(EXAMINER_POOL), createSupabaseVoiceStore(admin));
+// Two separate pools (owner 2026-10-09): 10 examiner voices for Teil 1/2 and 10 different partner voices for Teil 3 — see voices.config.ts.
+const examinerVoices = new VoiceManager(getPool(TUTOR_EXAMINER_POOL), createSupabaseVoiceStore(admin));
+const partnerVoices = new VoiceManager(getPool(TUTOR_PARTNER_POOL), createSupabaseVoiceStore(admin));
 
 export interface TutorVoiceCallbacks {
   onOpen?: () => void;
@@ -131,14 +133,14 @@ export interface TutorVoiceSession {
 // (muendlich_ai_monthly_budget_usd): 3,500 chars is at most ~0.18 USD of TTS per session.
 const MAX_ELEVENLABS_CHARS_PER_SESSION = 3500;
 
-/** The examiner voice of the 1:1 tutor: Leonie (uvysWDLbKpA4XvpD3GI6), owner's pick 2026-10-09. */
-const TUTOR_EXAMINER_VOICE_ID = process.env.TUTOR_EXAMINER_VOICE_ID ?? "uvysWDLbKpA4XvpD3GI6";
+/** Optional pin: set TUTOR_EXAMINER_VOICE_ID (e.g. Leonie, uvysWDLbKpA4XvpD3GI6) to make every 1:1 session use that one examiner voice. Unset = the
+ * normal rotation over the 10 examiner voices of the "tutor_examiner" pool. */
+const TUTOR_EXAMINER_VOICE_ID = process.env.TUTOR_EXAMINER_VOICE_ID ?? "";
 
 export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {
-  // Owner 2026-10-09: Leonie is the 1:1 examiner (head of the list — her voice is the best of the pool). TUTOR_EXAMINER_VOICE_ID overrides; if the id
-  // is missing/disabled in voices.config the normal pool assignment applies.
-  const preferredExaminer = VOICES.find((v) => v.enabled && v.voiceId === TUTOR_EXAMINER_VOICE_ID);
-  let voice = preferredExaminer ?? (await voiceManager.assignVoice(sessionId, EXAMINER_POOL));
+  // Owner 2026-10-09: 10 examiner voices (Leonie first in the list) rotate per session, stable within a session; TUTOR_EXAMINER_VOICE_ID pins one.
+  const preferredExaminer = TUTOR_EXAMINER_VOICE_ID ? VOICES.find((v) => v.enabled && v.voiceId === TUTOR_EXAMINER_VOICE_ID) : undefined;
+  let voice = preferredExaminer ?? (await examinerVoices.assignVoice(sessionId, TUTOR_EXAMINER_POOL));
   // Assigned once, lazily, by setPartnerStage() — null until Teil 3 begins.
   // A DIFFERENT assignment key (`${sessionId}:partner`, not `sessionId`)
   // than the examiner's own — see voiceManager.ts's stableHash-based
@@ -234,10 +236,10 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
             // "active" now, which could differ if the stage advanced again
             // in the meantime.
             if (speakingIsPartner && partnerVoice) {
-              const fresh = await voiceManager.reassignAfterFailure(`${sessionId}:partner`, EXAMINER_POOL, partnerVoice.voiceId);
+              const fresh = await partnerVoices.reassignAfterFailure(`${sessionId}:partner`, TUTOR_PARTNER_POOL, partnerVoice.voiceId);
               partnerVoice = fresh;
             } else {
-              const fresh = await voiceManager.reassignAfterFailure(sessionId, EXAMINER_POOL, voice.voiceId);
+              const fresh = await examinerVoices.reassignAfterFailure(sessionId, TUTOR_EXAMINER_POOL, voice.voiceId);
               voice = fresh;
             }
           } catch (e) {
@@ -374,10 +376,10 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
           console.error(`[tutor voice] TTS error (scripted) for session ${sessionId}:`, message);
           try {
             if (speakingIsPartner && partnerVoice) {
-              const fresh = await voiceManager.reassignAfterFailure(`${sessionId}:partner`, EXAMINER_POOL, partnerVoice.voiceId);
+              const fresh = await partnerVoices.reassignAfterFailure(`${sessionId}:partner`, TUTOR_PARTNER_POOL, partnerVoice.voiceId);
               partnerVoice = fresh;
             } else {
-              const fresh = await voiceManager.reassignAfterFailure(sessionId, EXAMINER_POOL, voice.voiceId);
+              const fresh = await examinerVoices.reassignAfterFailure(sessionId, TUTOR_EXAMINER_POOL, voice.voiceId);
               voice = fresh;
             }
           } catch (e) {
@@ -539,9 +541,8 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       // Different assignment key (`${sessionId}:partner`) than the
       // examiner's own `sessionId` — see this function's own interface doc
       // comment for why that reliably lands on a different voice.
-      partnerVoice = await voiceManager.assignVoice(`${sessionId}:partner`, EXAMINER_POOL);
-      // The partner is a second person: never the examiner's own voice (Leonie), whatever the hash picked.
-      if (partnerVoice.voiceId === voice.voiceId) partnerVoice = await voiceManager.reassignAfterFailure(`${sessionId}:partner`, EXAMINER_POOL, voice.voiceId);
+      partnerVoice = await partnerVoices.assignVoice(`${sessionId}:partner`, TUTOR_PARTNER_POOL);
+      // The partner pool is disjoint from the examiner pool (voices.config.ts), so the partner is always a different person than the examiner.
       ctx = { ...ctx, stage: 3, teil3Topic };
     },
     getVoiceId() {
