@@ -29,7 +29,7 @@ import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
 import { openGroqStt } from "./groqStt.js";
 import { openFailoverStt } from "./failoverStt.js";
 import { SpeechDetector } from "../speechActivity.js";
-import { openLiveConnection, startLiveSynthesis, liveTtsPath, type LiveConnection, type StreamingSynthesisHandle } from "./elevenLabsTts.js";
+import { openLiveConnection, startLiveSynthesis, liveTtsPath, warmUpLiveVoice, type LiveConnection, type StreamingSynthesisHandle } from "./elevenLabsTts.js";
 import { VOICES } from "./voices.config.js";
 import { generateTutorReply, type TutorContext, type TutorHistoryTurn, type TutorTrigger } from "./tutorBrain.js";
 import { ExaminerBrainError } from "./examinerBrain.js";
@@ -141,6 +141,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   // Owner 2026-10-09: 10 examiner voices (Leonie first in the list) rotate per session, stable within a session; TUTOR_EXAMINER_VOICE_ID pins one.
   const preferredExaminer = TUTOR_EXAMINER_VOICE_ID ? VOICES.find((v) => v.enabled && v.voiceId === TUTOR_EXAMINER_VOICE_ID) : undefined;
   let voice = preferredExaminer ?? (await examinerVoices.assignVoice(sessionId, TUTOR_EXAMINER_POOL));
+  if (liveTtsPath() === "dialogue") void warmUpLiveVoice(voice.voiceId); // hides the slow first stream of a voice behind the session start (see warmUpLiveVoice)
   // Assigned once, lazily, by setPartnerStage() — null until Teil 3 begins.
   // A DIFFERENT assignment key (`${sessionId}:partner`, not `sessionId`)
   // than the examiner's own — see voiceManager.ts's stableHash-based
@@ -536,6 +537,10 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     },
     setStage(stage, teil2Topic) {
       ctx = { ...ctx, stage, teil2Topic };
+      if (stage === 2 && liveTtsPath() === "dialogue") {
+        // Pick the Teil-3 partner now (assignVoice is idempotent — setPartnerStage() gets the same voice) and warm it during Teil 2.
+        void partnerVoices.assignVoice(`${sessionId}:partner`, TUTOR_PARTNER_POOL).then((p) => warmUpLiveVoice(p.voiceId)).catch(() => {});
+      }
     },
     async setPartnerStage(teil3Topic) {
       // Different assignment key (`${sessionId}:partner`) than the

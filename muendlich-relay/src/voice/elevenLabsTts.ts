@@ -366,6 +366,23 @@ export function openLiveConnection(voiceId: string): Promise<LiveConnection> {
   return liveTtsPath() === "dialogue" ? openDialogueConnection(voiceId, liveTtsModel()) : openStreamingConnection(voiceId);
 }
 
+/** Warm-up (owner 2026-10-09): the first stream a voice opens on the dialogue socket sometimes needs ~2 s to the first audio (measured: 8 of 20
+ * voices on their first stream, then 0.5 s). A 6-character throw-away synthesis (≈$0.0002, audio discarded) issued as soon as the voice is known
+ * moves that wait off the student's first line. Never throws, never blocks the caller, gives up after 6 s. */
+export async function warmUpLiveVoice(voiceId: string): Promise<void> {
+  let conn: LiveConnection | null = null;
+  try {
+    conn = await Promise.race([openLiveConnection(voiceId), new Promise<never>((_, rj) => setTimeout(() => rj(new Error("warm-up connect timeout")), 6000))]);
+    const handle = startLiveSynthesis(conn, {});
+    handle.appendText("Hallo.", true);
+    await Promise.race([handle.done, new Promise<void>((r) => setTimeout(r, 6000))]);
+  } catch (e) {
+    console.warn(`[tts] warm-up for voice ${voiceId} failed (harmless): ${String(e)}`);
+  } finally {
+    try { conn?.close(); } catch {}
+  }
+}
+
 export function startLiveSynthesis(conn: LiveConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
   return "voiceId" in conn ? startSentenceBatchedDialogue(conn, callbacks) : startStreamingSynthesis(conn, callbacks);
 }
