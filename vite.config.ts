@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { nitro } from "nitro/vite";
+import { legacyColorFallback } from "./vite-plugin-legacy-colors";
 
 export default defineConfig({
   server: {
@@ -23,6 +24,7 @@ export default defineConfig({
   },
   plugins: [
     tailwindcss(),
+    legacyColorFallback(), // production only: oklch() -> sRGB so Chrome <= 110 (Windows 7/8 laptops) renders backgrounds/colours
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tanstackStart(),
     nitro(),
