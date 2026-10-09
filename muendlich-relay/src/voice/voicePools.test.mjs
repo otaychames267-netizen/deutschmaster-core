@@ -22,6 +22,15 @@ ok("getTutorPool: provider=azure without the Azure key falls back to ElevenLabs"
 process.env.AZURE_SPEECH_KEY = "k"; process.env.AZURE_SPEECH_REGION = "westeurope";
 ok("getTutorPool: provider=azure with the key gives only Azure voices", getTutorPool(TUTOR_EXAMINER_POOL).length === 2 && getTutorPool(TUTOR_PARTNER_POOL).length === 4 && [...getTutorPool(TUTOR_EXAMINER_POOL), ...getTutorPool(TUTOR_PARTNER_POOL)].every((v) => voiceProvider(v) === "azure"));
 delete process.env.TUTOR_TTS_PROVIDER;
+const inworld = (pool) => getPool(pool).filter((v) => voiceProvider(v) === "inworld").map((v) => v.voiceId);
+const inworldNames = [...inworld(TUTOR_EXAMINER_POOL), ...inworld(TUTOR_PARTNER_POOL)].map((id) => id.replace("inworld:", ""));
+ok("1:1 Inworld pools: 6 examiners + 6 partners, no overlap", inworld(TUTOR_EXAMINER_POOL).length === 6 && inworld(TUTOR_PARTNER_POOL).length === 6 && inworld(TUTOR_EXAMINER_POOL).every((id) => !inworld(TUTOR_PARTNER_POOL).includes(id)));
+ok("owner veto: Reinhard, Kilian, Josef, Hendrik, Johanna are never configured", ["Reinhard", "Kilian", "Josef", "Hendrik", "Johanna"].every((n) => !inworldNames.includes(n)), inworldNames.join(","));
+process.env.TUTOR_TTS_PROVIDER = "inworld"; delete process.env.INWORLD_API_KEY;
+ok("getTutorPool: provider=inworld without the key falls back to ElevenLabs", getTutorPool(TUTOR_EXAMINER_POOL).every((v) => voiceProvider(v) === "elevenlabs") && getTutorPool(TUTOR_EXAMINER_POOL).length === 10);
+process.env.INWORLD_API_KEY = "k";
+ok("getTutorPool: provider=inworld with the key gives only Inworld voices", getTutorPool(TUTOR_EXAMINER_POOL).length === 6 && getTutorPool(TUTOR_PARTNER_POOL).length === 6 && [...getTutorPool(TUTOR_EXAMINER_POOL), ...getTutorPool(TUTOR_PARTNER_POOL)].every((v) => voiceProvider(v) === "inworld"));
+delete process.env.TUTOR_TTS_PROVIDER; delete process.env.INWORLD_API_KEY;
 ok("1:1 ElevenLabs partner pool has 10 voices", tutorPa.length === 10, `(${tutorPa.length})`);
 ok("examiner and partner pools do not overlap", tutorEx.every((id) => !tutorPa.includes(id)));
 ok("Leonie is the first examiner in the list", getPool(TUTOR_EXAMINER_POOL)[0]?.name === "Leonie");

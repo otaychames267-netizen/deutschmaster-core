@@ -39,5 +39,18 @@ if (!existsSync(new URL("../audio-library/tutor-v4/manifest.json", import.meta.u
   ok("every lead and closing line has a clip for every examiner voice", missing === 0, `(${missing} missing)`);
 }
 
+// Inworld examiner voices (generated with --provider inworld): every lead and closing line must exist for each of them
+{
+  const inworldExaminers = getPool(TUTOR_EXAMINER_POOL).filter((v) => voiceProvider(v) === "inworld");
+  if (inworldExaminers.length && existsSync(new URL("../audio-library/tutor-v4/manifest.json", import.meta.url))) {
+    let missing = 0;
+    for (const v of inworldExaminers) {
+      for (const l of leads) if (!(await findTutorV4Asset("scripted_lead", v.voiceId, l.id))) missing++;
+      for (const e of ends) if (!(await findTutorV4Asset("exam_end", v.voiceId, e.id))) missing++;
+    }
+    ok(`every lead and closing line has a clip for all ${inworldExaminers.length} Inworld examiner voices`, missing === 0, `(${missing} missing)`);
+  }
+}
+
 if (failed) { console.error(`\n${failed} FAILED`); process.exit(1); }
 console.log("\nall passed");

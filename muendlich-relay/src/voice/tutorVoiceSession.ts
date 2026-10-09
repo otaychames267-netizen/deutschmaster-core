@@ -38,6 +38,7 @@ import { VoiceManager } from "./voiceManager.js";
 import { createSupabaseVoiceStore } from "./supabaseVoiceStore.js";
 import { getTutorPool, TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL } from "./voicePools.js";
 import { isAzureVoice } from "./azureTts.js";
+import { isInworldVoice } from "./inworldTts.js";
 import type { VoiceProfile } from "./voiceProfiles.js";
 import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
@@ -137,9 +138,9 @@ const MAX_ELEVENLABS_CHARS_PER_SESSION = 3500;
  * normal rotation over the 10 examiner voices of the "tutor_examiner" pool. */
 const TUTOR_EXAMINER_VOICE_ID = process.env.TUTOR_EXAMINER_VOICE_ID ?? "";
 
-/** The cached tutor clips (audio-library/tutor-v4) belong to the live voice of the tutor: Azure voices and ElevenLabs v4 Turbo. Only the old Flash path uses the Flash library. */
+/** The cached tutor clips (audio-library/tutor-v4) belong to the live voice of the tutor: Azure / Inworld voices and ElevenLabs v4 Turbo. Only the old Flash path uses the Flash library. */
 function usesTutorLibrary(voiceId: string): boolean {
-  return isAzureVoice(voiceId) || liveTtsPath() === "dialogue";
+  return isAzureVoice(voiceId) || isInworldVoice(voiceId) || liveTtsPath() === "dialogue";
 }
 
 export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {

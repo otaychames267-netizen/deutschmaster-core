@@ -347,4 +347,125 @@ export const VOICES: VoiceProfile[] = [
     pools: ["tutor_partner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
     enabled: true,
   },
+// ---- Inworld (owner 2026-10-09; Reinhard, Kilian, Josef, Hendrik and Johanna are deliberately NOT used — owner: never) ----
+  {
+    voiceId: "inworld:Annika",
+    name: "Annika (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Annika (female).",
+    pools: ["tutor_examiner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Birgit",
+    name: "Birgit (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Birgit (female).",
+    pools: ["tutor_examiner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Sabine",
+    name: "Sabine (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Sabine (female).",
+    pools: ["tutor_examiner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Heike",
+    name: "Heike (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Heike (female).",
+    pools: ["tutor_examiner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Matthias",
+    name: "Matthias (Inworld)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Matthias (male).",
+    pools: ["tutor_examiner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Bastian",
+    name: "Bastian (Inworld)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Bastian (male).",
+    pools: ["tutor_examiner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Steffi",
+    name: "Steffi (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Steffi (female).",
+    pools: ["tutor_partner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Franziska",
+    name: "Franziska (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Franziska (female).",
+    pools: ["tutor_partner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Carina",
+    name: "Carina (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Carina (female).",
+    pools: ["tutor_partner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Heidi",
+    name: "Heidi (Inworld)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Heidi (female).",
+    pools: ["tutor_partner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Fabian",
+    name: "Fabian (Inworld)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Fabian (male).",
+    pools: ["tutor_partner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
+  {
+    voiceId: "inworld:Tobias",
+    name: "Tobias (Inworld)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Inworld TTS German voice Tobias (male).",
+    pools: ["tutor_partner"], // Inworld — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=inworld
+    enabled: true,
+  },
 ];

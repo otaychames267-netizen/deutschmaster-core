@@ -67,7 +67,7 @@ if (process.env.INWORLD_API_KEY) {
     try {
       const j = await (await fetch("https://api.inworld.ai/tts/v1/voices", { headers: auth })).json();
       const de = (j.voices ?? []).filter((v) => JSON.stringify(v.languages ?? v.language ?? "").toLowerCase().includes("de"));
-      console.log(`inworld: ${(j.voices ?? []).length} voices, ${de.length} German`); voiceIds = de.slice(0, 4).map((v) => v.voiceId ?? v.name);
+      console.log(`inworld: ${(j.voices ?? []).length} voices, ${de.length} German`); voiceIds = de.slice(0, Number(process.env.INWORLD_MAX_VOICES ?? 4)).map((v) => v.voiceId ?? v.name);
     } catch (e) { console.log("inworld voice list failed:", String(e.message).slice(0, 160)); }
   }
   for (const v of voiceIds) {

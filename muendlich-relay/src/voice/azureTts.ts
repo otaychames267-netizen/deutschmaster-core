@@ -10,6 +10,7 @@
  * NOT yet run against the real service when this file was written (no key at hand) — azureTtsCheck.mjs is the live check.
  */
 import type { StreamingSynthesisCallbacks, StreamingSynthesisHandle } from "./elevenLabsTts.js";
+import { startSentenceSynthesis } from "./sentenceTts.js";
 
 export interface AzureConnection {
   kind: "azure";
@@ -64,88 +65,25 @@ export function openAzureConnection(voiceId: string): Promise<AzureConnection> {
   return Promise.resolve({ kind: "azure", voiceId, close() {} }); // HTTP: nothing to hold open
 }
 
-const SENTENCE = /^([\s\S]*?[.!?…]["”)]?)\s+([\s\S]*)$/;
+export { splitSentences } from "./sentenceTts.js";
 
-/** Splits streamed text into completed sentences (queued for synthesis) and a pending tail. Exported for tests. */
-export function splitSentences(buffer: string): { sentences: string[]; rest: string } {
-  const sentences: string[] = [];
-  let rest = buffer;
-  for (let m = SENTENCE.exec(rest); m; m = SENTENCE.exec(rest)) { sentences.push(m[1].trim()); rest = m[2]; }
-  return { sentences, rest };
-}
-
-/** Sentence-by-sentence synthesis in order: each completed sentence is sent as soon as it is complete, the tail on the final call. */
+/** One HTTPS request per sentence (see sentenceTts.ts): the body streams back as raw 24 kHz PCM16. */
 export function startAzureSynthesis(conn: AzureConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
-  const t0 = Date.now();
-  const abort = new AbortController();
-  const queue: string[] = [];
-  let buffer = "";
-  let finished = false, cancelled = false, running = false, firstAudio = false;
-  let resolveDone!: () => void, rejectDone!: (e: unknown) => void;
-  const done = new Promise<void>((res, rej) => { resolveDone = res; rejectDone = rej; });
-
-  async function speak(text: string): Promise<void> {
+  return startSentenceSynthesis(async (text, signal, emit) => {
     const { url, headers } = endpoint();
     let res: Response | null = null;
     for (let attempt = 0; attempt < 2; attempt++) {
-      res = await fetch(url, { method: "POST", headers, body: buildAzureSsml(conn.voiceId, text), signal: abort.signal });
+      res = await fetch(url, { method: "POST", headers, body: buildAzureSsml(conn.voiceId, text), signal });
       if (res.ok || (res.status !== 429 && res.status < 500)) break;
       await new Promise((r) => setTimeout(r, 300));
     }
     if (!res || !res.ok || !res.body) throw new Error(`Azure TTS ${res?.status}: ${(await res?.text().catch(() => ""))?.slice(0, 300)}`);
     const reader = res.body.getReader();
-    let carry: Buffer | null = null; // keep PCM16 samples whole: an HTTP chunk may end in the middle of a 2-byte sample
     for (;;) {
-      if (cancelled) { void reader.cancel().catch(() => {}); return; } // barge-in: stop emitting audio at once
-      const { done: eof, value } = await reader.read();
-      if (eof || cancelled) { if (cancelled) void reader.cancel().catch(() => {}); break; }
-      let chunk: Buffer = carry ? Buffer.concat([carry, Buffer.from(value)]) : Buffer.from(value);
-      carry = null;
-      if (chunk.length % 2 === 1) { carry = chunk.subarray(chunk.length - 1); chunk = chunk.subarray(0, chunk.length - 1); }
-      if (chunk.length === 0) continue;
-      if (!firstAudio) { firstAudio = true; callbacks.onFirstAudio?.(Date.now() - t0); }
-      callbacks.onAudioChunk?.(chunk.toString("base64"));
+      if (signal.aborted) { void reader.cancel().catch(() => {}); return; }
+      const { done, value } = await reader.read();
+      if (done) break;
+      emit(Buffer.from(value));
     }
-  }
-
-  async function pump(): Promise<void> {
-    if (running) return;
-    running = true;
-    try {
-      while (queue.length > 0 && !cancelled) await speak(queue.shift()!);
-    } catch (e) {
-      running = false;
-      if (cancelled) return;
-      callbacks.onVoiceError?.(String(e));
-      rejectDone(e);
-      return;
-    }
-    running = false;
-    if (cancelled) return;
-    if (queue.length > 0) return void pump(); // text arrived while the last chunk was draining
-    if (finished) { callbacks.onDone?.(Date.now() - t0); resolveDone(); }
-  }
-
-  return {
-    appendText(text: string, isFinal: boolean) {
-      if (cancelled || finished) return;
-      buffer += text;
-      const { sentences, rest } = splitSentences(buffer);
-      buffer = rest;
-      for (const s of sentences) if (s) queue.push(s);
-      if (isFinal) {
-        finished = true;
-        if (buffer.trim()) queue.push(buffer.trim());
-        buffer = "";
-      }
-      if (queue.length > 0) void pump();
-      else if (finished && !running) { callbacks.onDone?.(Date.now() - t0); resolveDone(); }
-    },
-    cancel() {
-      cancelled = true;
-      abort.abort();
-      resolveDone();
-    },
-    done,
-  };
+  }, callbacks);
 }
