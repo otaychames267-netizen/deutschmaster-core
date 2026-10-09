@@ -213,8 +213,8 @@ function splitAtLead(rendered: string): string {
   return m && m[1].length >= MIN_LEAD_CHARS ? m[1] : "";
 }
 
-function pickLine<V>(category: string, variants: Variant<V>[], voiceId: string, vars: V, placeholderVars: V): ScriptedLine {
-  const chosen = pickVariant(category, variants, assignPhraseStyle(voiceId));
+function pickLine<V>(category: string, variants: Variant<V>[], voiceId: string, vars: V, placeholderVars: V, styleOverride?: string): ScriptedLine {
+  const chosen = pickVariant(category, variants, styleOverride ?? assignPhraseStyle(voiceId));
   const full = chosen.render(vars);
   const lead = splitAtLead(chosen.render(placeholderVars));
   // The lead has no dynamic text, so the real render must start with it — if it
@@ -298,11 +298,31 @@ function soloVariants<V>(variants: Variant<V>[], placeholderVars: V, section: "t
 }
 
 export function pickSoloSectionTransition12Line(v: SectionTransitionVars, voiceId: string): ScriptedLine {
-  return pickLine("solo_section_transition_1_2", soloVariants(SECTION_TRANSITION_12_VARIANTS, PH_SECTION_12, "teil1_2"), voiceId, { ...v, teil2Topic: cleanTopic(v.teil2Topic) }, PH_SECTION_12);
+  return pickLine("solo_section_transition_1_2", soloVariants(SECTION_TRANSITION_12_VARIANTS, PH_SECTION_12, "teil1_2"), voiceId, { ...v, teil2Topic: cleanTopic(v.teil2Topic) }, PH_SECTION_12, TUTOR_PHRASE_STYLE);
 }
 export function pickSoloSectionTransition23Line(v: Teil3SectionTransitionVars, voiceId: string): ScriptedLine {
-  return pickLine("solo_section_transition_2_3", soloVariants(SECTION_TRANSITION_23_VARIANTS, PH_SECTION_23, "teil2_3"), voiceId, { ...v, teil3Topic: cleanTopic(v.teil3Topic) }, PH_SECTION_23);
+  return pickLine("solo_section_transition_2_3", soloVariants(SECTION_TRANSITION_23_VARIANTS, PH_SECTION_23, "teil2_3"), voiceId, { ...v, teil3Topic: cleanTopic(v.teil3Topic) }, PH_SECTION_23, TUTOR_PHRASE_STYLE);
 }
+
+/** Owner 2026-10-09: the 1:1 tutor always speaks the professional register. The per-voice style hash (formal / warm / calm) would otherwise give
+ * most voices casual or curt wording ("Das war's — die Prüfung ist geschafft!", "Teil eins ist abgeschlossen."). */
+export const TUTOR_PHRASE_STYLE = "formal";
+
+/** Every fixed lead sentence of the 1:1 tutor's transitions (formal, solo-readable variants only) — what generateTutorLibrary.ts pre-generates. */
+export function getSoloTransitionLeadPhrases(): { id: string; text: string }[] {
+  const out: { id: string; text: string }[] = [];
+  const add = <V,>(variants: Variant<V>[], placeholderVars: V, section: "teil1_2" | "teil2_3") => {
+    for (const v of soloVariants(variants, placeholderVars, section)) {
+      if (v.style !== TUTOR_PHRASE_STYLE) continue;
+      const lead = splitAtLead(v.render(placeholderVars));
+      if (lead) out.push({ id: v.id, text: lead });
+    }
+  };
+  add(SECTION_TRANSITION_12_VARIANTS, PH_SECTION_12, "teil1_2");
+  add(SECTION_TRANSITION_23_VARIANTS, PH_SECTION_23, "teil2_3");
+  return out;
+}
+
 /** The 2:1 exam's closing lines (cached audio library, category "exam_end") that are fine for a single student. */
 export function getSoloExamEndPool() {
   return getFixedPool("exam_end").filter((p) => isReadableForOneCandidate(p.text, "end"));

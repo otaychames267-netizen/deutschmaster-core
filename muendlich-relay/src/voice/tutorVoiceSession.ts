@@ -41,10 +41,9 @@ import type { VoiceProfile } from "./voiceProfiles.js";
 import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
 // The 1:1 tutor now reuses the 2:1 exam's transitions + closing lines and their pre-generated audio clips (owner 2026-10-06).
-import { findLibraryAssetById } from "./phraseLibrary/libraryStore.js";
+import { findLibraryAssetById, findTutorV4Asset } from "./phraseLibrary/libraryStore.js";
 import { pickVariant } from "./phraseLibrary/phraseSelection.js";
-import { assignPhraseStyle } from "./phraseLibrary/voiceStyle.js";
-import { getSoloExamEndPool, type ScriptedLine } from "../examinerPhrases.js";
+import { getSoloExamEndPool, TUTOR_PHRASE_STYLE, type ScriptedLine } from "../examinerPhrases.js";
 
 const admin = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
 // Two separate pools (owner 2026-10-09): 10 examiner voices for Teil 1/2 and 10 different partner voices for Teil 3 — see voices.config.ts.
@@ -153,8 +152,14 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   // The voice actually used for the NEXT speak()/speakScriptedText() call —
   // the partner's once Teil 3 has begun, the examiner's otherwise. Checked
   // fresh each call (not cached) since ctx.stage changes mid-session.
+  // Set once the exam is being closed: the EXAMINER says the closing line in her own voice (a fellow-candidate partner closing the exam would
+  // sound wrong), even though ctx.stage is still 3 at that point.
+  let closingByExaminer = false;
+  function isPartnerSpeaking(): boolean {
+    return !closingByExaminer && ctx.stage === 3 && !!partnerVoice;
+  }
   function activeVoiceId(): string {
-    return ctx.stage === 3 && partnerVoice ? partnerVoice.voiceId : voice.voiceId;
+    return !closingByExaminer && ctx.stage === 3 && partnerVoice ? partnerVoice.voiceId : voice.voiceId;
   }
 
   const history: TutorHistoryTurn[] = [];
@@ -205,7 +210,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     // before this call's onVoiceError fires, and that handler must reassign
     // the SAME voice this call actually opened a connection with, examiner
     // or partner, not whichever happens to be active by then.
-    const speakingIsPartner = ctx.stage === 3 && !!partnerVoice;
+    const speakingIsPartner = isPartnerSpeaking();
     const speakingVoiceId = activeVoiceId();
 
     try {
@@ -347,7 +352,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     // call resolves (e.g. server.ts speaks the Teil2->3 transition line via
     // this function WHILE ctx.stage is still 2, THEN calls setPartnerStage()
     // — the transition line itself must stay the examiner's voice).
-    const speakingIsPartner = ctx.stage === 3 && !!partnerVoice;
+    const speakingIsPartner = isPartnerSpeaking();
     const speakingVoiceId = activeVoiceId();
 
     try {
@@ -430,7 +435,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     try { currentTtsConn?.close(); } catch {}
     currentTtsConn = null;
     const myId = ++currentGenerationId;
-    const speakingIsPartner = ctx.stage === 3 && !!partnerVoice; // snapshot before any await, same as speakScriptedText
+    const speakingIsPartner = isPartnerSpeaking(); // snapshot before any await, same as speakScriptedText
     try {
       const pcm = await readFile(absolutePath);
       if (myId !== currentGenerationId) return; // superseded while reading the file
@@ -451,10 +456,12 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
   async function speakScriptedLine(line: ScriptedLine): Promise<void> {
     if (closed) return;
-    // The cached lead clips were synthesized with Flash v2.5 so they match a Flash remainder; with the dialogue path (v4 Turbo) the whole line
-    // is spoken live instead (≈100 extra chars per transition) so the line keeps one timbre.
-    if (line.lead && liveTtsPath() === "stream") {
-      const found = await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
+    // Cached lead: v4 Turbo clips (audio-library/tutor-v4, generateTutorLibrary.ts) when the live voice is v4 Turbo, the Flash v2.5 library when it
+    // is Flash — a lead must be synthesized with the same model as the live remainder after it, or the line changes timbre mid-sentence.
+    if (line.lead) {
+      const found = liveTtsPath() === "dialogue"
+        ? await findTutorV4Asset("scripted_lead", activeVoiceId(), line.id)
+        : await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
       if (found) {
         await playPcmFile(`speakScriptedLine(${line.id})`, found.absolutePath, found.asset.text);
         return speakScriptedText(line.rest);
@@ -465,9 +472,13 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
   async function playSoloExamEnd(): Promise<void> {
     if (closed) return;
-    const voiceId = activeVoiceId();
-    const chosen = pickVariant("solo_exam_end", getSoloExamEndPool(), assignPhraseStyle(voiceId));
-    const found = await findLibraryAssetById("exam_end", voiceId, chosen.id);
+    closingByExaminer = true; // from here on every utterance is the examiner's (see isPartnerSpeaking)
+    const voiceId = voice.voiceId;
+    const pool = getSoloExamEndPool();
+    const chosen = pickVariant("solo_exam_end", pool, TUTOR_PHRASE_STYLE); // professional register for every voice
+    const found = liveTtsPath() === "dialogue"
+      ? await findTutorV4Asset("exam_end", voiceId, chosen.id)
+      : await findLibraryAssetById("exam_end", voiceId, chosen.id);
     if (!found) return speakScriptedText(chosen.text); // library not generated for this voice: same text, spoken live
     return playPcmFile("playSoloExamEnd", found.absolutePath, found.asset.text);
   }
