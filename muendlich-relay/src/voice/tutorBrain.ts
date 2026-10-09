@@ -54,6 +54,24 @@ function noHelpRule(name: string, isPartner: boolean): string {
 const QUESTION_LIMIT = "ein einziger Satz, höchstens 110 Zeichen (ca. 14 Wörter) — weder ein Stichwort noch ein Vortrag";
 const PARTNER_LIMIT = "höchstens zwei kurze Sätze, zusammen ca. 130 Zeichen, die mit einer Frage oder einem Vorschlag an den Partner enden";
 
+/** True when a streamed chunk ends a real sentence ("?" / "!" always; "." only after a word of 4+ letters, so "z.", "B.", "Dr.", "2." and "bzw."/"usw."/"etc." do not count). */
+export function endsSentence(chunk: string): boolean {
+  const t = chunk.trim();
+  if (/[?!]["”)]?$/.test(t)) return true;
+  if (!/\.["“”)]?$/.test(t)) return false;
+  if (/\b(?:bzw|usw|etc)\.["”)]?$/i.test(t)) return false;
+  return /\p{L}{4,}["“”)]?\.["“”)]?$/u.test(t);
+}
+
+/** Hard length control (owner 2026-10-09, cost): the prompt limits above are only requests — measured replies still averaged ~140 chars.
+ * The examiner (Teil 1/2) speaks exactly ONE sentence: everything after the first complete sentence is dropped (and the stream cancelled).
+ * The Teil-3 partner may speak two sentences and stops at the first question to the student (that is where a turn is meant to end). */
+export function replyIsComplete(isPartner: boolean, sentencesSoFar: number, lastChunk: string): boolean {
+  if (!endsSentence(lastChunk)) return false;
+  if (!isPartner) return true;
+  return sentencesSoFar >= 2 || /\?["”)]?$/.test(lastChunk.trim());
+}
+
 export interface TutorHistoryTurn {
   speaker: "examiner" | "partner" | "student";
   text: string;
@@ -247,6 +265,9 @@ async function generateTutorReplyOnce(
   // Only the FIRST chunk can start with a pleasantry (examiner only); a chunk that is nothing but filler is dropped
   // and the next one is treated as the first.
   let firstChunk = true;
+  let cut = false; // set once the reply is complete (see replyIsComplete) — later chunks are dropped
+  let sentences = 0;
+  const spoken: string[] = [];
   const emit = (c: string) => {
     if (firstChunk) {
       firstChunk = false;
@@ -261,7 +282,11 @@ async function generateTutorReplyOnce(
         if (looksMeta(c, { allowWe: isPartner })) throw new ReplyGuardError("meta", c.slice(0, 80));
       }
     }
+    if (cut) return;
+    spoken.push(c);
     callbacks.onChunk?.(c);
+    if (endsSentence(c)) sentences++;
+    if (replyIsComplete(isPartner, sentences, c)) cut = true;
   };
 
   const reader = res.body.getReader();
@@ -298,11 +323,18 @@ async function generateTutorReplyOnce(
           const { chunks, rest } = extractReadyChunks(textBuffer, false);
           textBuffer = rest;
           for (const c of chunks) emit(c);
+          if (cut) break;
         }
       }
+      if (cut) { await reader.cancel().catch(() => {}); break; }
     }
-    const { chunks: finalChunks } = extractReadyChunks(textBuffer, true);
-    for (const c of finalChunks) emit(c);
+    if (!cut) {
+      const { chunks: finalChunks } = extractReadyChunks(textBuffer, true);
+      for (const c of finalChunks) emit(c);
+    } else {
+      // The cancelled stream never sends its final usage block — estimate the output tokens generated so far (German ~3.5 chars/token) so the cost record is not under-counted.
+      usage.outputTokens = Math.max(usage.outputTokens, Math.ceil(fullReply.length / 3.5));
+    }
   } catch (e) {
     if (e instanceof ReplyGuardError) {
       await reader.cancel().catch(() => {});
@@ -312,5 +344,6 @@ async function generateTutorReplyOnce(
   }
 
   callbacks.onUsage?.(usage);
+  if (cut) return spoken.join(" ").trim(); // exactly what was sent to TTS (transcript/history must match what the student heard)
   return (isPartner ? fullReply.trim() : stripLeadingFiller(fullReply.trim()).trim());
 }
