@@ -36,7 +36,8 @@ import { ExaminerBrainError } from "./examinerBrain.js";
 import type { ExamUsage } from "./costAccounting.js";
 import { VoiceManager } from "./voiceManager.js";
 import { createSupabaseVoiceStore } from "./supabaseVoiceStore.js";
-import { getPool, TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL } from "./voicePools.js";
+import { getTutorPool, TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL } from "./voicePools.js";
+import { isAzureVoice } from "./azureTts.js";
 import type { VoiceProfile } from "./voiceProfiles.js";
 import { createClient } from "@supabase/supabase-js";
 import { readFile } from "node:fs/promises";
@@ -47,8 +48,8 @@ import { getSoloExamEndPool, TUTOR_PHRASE_STYLE, type ScriptedLine } from "../ex
 
 const admin = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
 // Two separate pools (owner 2026-10-09): 10 examiner voices for Teil 1/2 and 10 different partner voices for Teil 3 — see voices.config.ts.
-const examinerVoices = new VoiceManager(getPool(TUTOR_EXAMINER_POOL), createSupabaseVoiceStore(admin));
-const partnerVoices = new VoiceManager(getPool(TUTOR_PARTNER_POOL), createSupabaseVoiceStore(admin));
+const examinerVoices = new VoiceManager(getTutorPool(TUTOR_EXAMINER_POOL), createSupabaseVoiceStore(admin));
+const partnerVoices = new VoiceManager(getTutorPool(TUTOR_PARTNER_POOL), createSupabaseVoiceStore(admin));
 
 export interface TutorVoiceCallbacks {
   onOpen?: () => void;
@@ -135,6 +136,11 @@ const MAX_ELEVENLABS_CHARS_PER_SESSION = 3500;
 /** Optional pin: set TUTOR_EXAMINER_VOICE_ID (e.g. Leonie, uvysWDLbKpA4XvpD3GI6) to make every 1:1 session use that one examiner voice. Unset = the
  * normal rotation over the 10 examiner voices of the "tutor_examiner" pool. */
 const TUTOR_EXAMINER_VOICE_ID = process.env.TUTOR_EXAMINER_VOICE_ID ?? "";
+
+/** The cached tutor clips (audio-library/tutor-v4) belong to the live voice of the tutor: Azure voices and ElevenLabs v4 Turbo. Only the old Flash path uses the Flash library. */
+function usesTutorLibrary(voiceId: string): boolean {
+  return isAzureVoice(voiceId) || liveTtsPath() === "dialogue";
+}
 
 export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId: string, callbacks: TutorVoiceCallbacks): Promise<TutorVoiceSession> {
   // Owner 2026-10-09: 10 examiner voices (Leonie first in the list) rotate per session, stable within a session; TUTOR_EXAMINER_VOICE_ID pins one.
@@ -459,7 +465,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     // Cached lead: v4 Turbo clips (audio-library/tutor-v4, generateTutorLibrary.ts) when the live voice is v4 Turbo, the Flash v2.5 library when it
     // is Flash — a lead must be synthesized with the same model as the live remainder after it, or the line changes timbre mid-sentence.
     if (line.lead) {
-      const found = liveTtsPath() === "dialogue"
+      const found = usesTutorLibrary(activeVoiceId())
         ? await findTutorV4Asset("scripted_lead", activeVoiceId(), line.id)
         : await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
       if (found) {
@@ -476,7 +482,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     const voiceId = voice.voiceId;
     const pool = getSoloExamEndPool();
     const chosen = pickVariant("solo_exam_end", pool, TUTOR_PHRASE_STYLE); // professional register for every voice
-    const found = liveTtsPath() === "dialogue"
+    const found = usesTutorLibrary(voiceId)
       ? await findTutorV4Asset("exam_end", voiceId, chosen.id)
       : await findLibraryAssetById("exam_end", voiceId, chosen.id);
     if (!found) return speakScriptedText(chosen.text); // library not generated for this voice: same text, spoken live

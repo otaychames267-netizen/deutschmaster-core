@@ -14,6 +14,7 @@
  */
 import { VOICES } from "./voices.config.js";
 import type { VoiceProfile } from "./voiceProfiles.js";
+import { isAzureVoice, azureConfigured } from "./azureTts.js";
 
 export const EXAMINER_POOL = "examiner";
 /** 1:1 tutor only (owner 2026-10-09): 10 examiner voices and 10 partner voices, kept apart from the 2:1 exam room pool above so the exam room's voices and cached clips are untouched. */
@@ -22,4 +23,25 @@ export const TUTOR_PARTNER_POOL = "tutor_partner";
 
 export function getPool(poolId: string): VoiceProfile[] {
   return VOICES.filter((v) => v.enabled && (v.pools ? v.pools.includes(poolId) : poolId === EXAMINER_POOL));
+}
+
+export type TtsProvider = "elevenlabs" | "azure";
+
+export function voiceProvider(v: { voiceId: string }): TtsProvider {
+  return isAzureVoice(v.voiceId) ? "azure" : "elevenlabs";
+}
+
+/** Which TTS provider the 1:1 tutor speaks with: TUTOR_TTS_PROVIDER=azure switches to the Azure voices (default: ElevenLabs). Without the Azure key the
+ * switch is ignored (logged) so a missing secret can never leave the tutor without a voice. */
+export function tutorProvider(): TtsProvider {
+  if (process.env.TUTOR_TTS_PROVIDER !== "azure") return "elevenlabs";
+  if (!azureConfigured()) { console.warn("[voice] TUTOR_TTS_PROVIDER=azure but AZURE_SPEECH_KEY/AZURE_SPEECH_REGION are not set — using ElevenLabs"); return "elevenlabs"; }
+  return "azure";
+}
+
+/** getPool() restricted to the tutor's provider (falls back to ElevenLabs if the pool has no voice of the wanted provider). */
+export function getTutorPool(poolId: string): VoiceProfile[] {
+  const all = getPool(poolId);
+  const wanted = all.filter((v) => voiceProvider(v) === tutorProvider());
+  return wanted.length > 0 ? wanted : all.filter((v) => voiceProvider(v) === "elevenlabs");
 }

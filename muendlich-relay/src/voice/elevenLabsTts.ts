@@ -47,6 +47,7 @@
  * that script's header for its own resolution as of 2026-10-03.
  */
 import WebSocket from "ws";
+import { isAzureVoice, openAzureConnection, startAzureSynthesis, type AzureConnection } from "./azureTts.js";
 
 const KEEPALIVE_INTERVAL_MS = 15_000; // under the documented 20s idle timeout
 
@@ -360,9 +361,12 @@ export function liveTtsModel(): string {
   return liveTtsPath() === "dialogue" ? (process.env.ELEVENLABS_TUTOR_MODEL ?? "eleven_v4_turbo") : (process.env.ELEVENLABS_DYNAMIC_TTS_MODEL ?? "eleven_flash_v2_5");
 }
 
-export type LiveConnection = StreamConnection | DialogueConnection;
+export type LiveConnection = StreamConnection | DialogueConnection | AzureConnection;
 
+/** The provider is chosen by the VOICE (Azure voice names like "de-DE-Seraphina:DragonHDLatestNeural" vs 20-character ElevenLabs ids), so a
+ * session can never mix them up; which voices a session draws from is decided by TUTOR_TTS_PROVIDER in tutorVoiceSession.ts. */
 export function openLiveConnection(voiceId: string): Promise<LiveConnection> {
+  if (isAzureVoice(voiceId)) return openAzureConnection(voiceId);
   return liveTtsPath() === "dialogue" ? openDialogueConnection(voiceId, liveTtsModel()) : openStreamingConnection(voiceId);
 }
 
@@ -370,6 +374,7 @@ export function openLiveConnection(voiceId: string): Promise<LiveConnection> {
  * voices on their first stream, then 0.5 s). A 6-character throw-away synthesis (≈$0.0002, audio discarded) issued as soon as the voice is known
  * moves that wait off the student's first line. Never throws, never blocks the caller, gives up after 6 s. */
 export async function warmUpLiveVoice(voiceId: string): Promise<void> {
+  if (isAzureVoice(voiceId)) return; // plain HTTP per sentence, nothing to warm
   let conn: LiveConnection | null = null;
   try {
     conn = await Promise.race([openLiveConnection(voiceId), new Promise<never>((_, rj) => setTimeout(() => rj(new Error("warm-up connect timeout")), 6000))]);
@@ -384,6 +389,7 @@ export async function warmUpLiveVoice(voiceId: string): Promise<void> {
 }
 
 export function startLiveSynthesis(conn: LiveConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
+  if ("kind" in conn) return startAzureSynthesis(conn, callbacks); // only AzureConnection carries `kind`
   return "voiceId" in conn ? startSentenceBatchedDialogue(conn, callbacks) : startStreamingSynthesis(conn, callbacks);
 }
 

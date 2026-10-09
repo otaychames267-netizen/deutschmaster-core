@@ -287,4 +287,64 @@ export const VOICES: VoiceProfile[] = [
     pools: ["tutor_partner"], // 1:1 tutor only
     enabled: true,
   },
+  {
+    voiceId: "de-DE-Seraphina:DragonHDLatestNeural",
+    name: "Seraphina (Azure HD)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Azure Speech DragonHD, German (GA): high-definition female voice, < 300 ms latency.",
+    pools: ["tutor_examiner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
+    enabled: true,
+  },
+  {
+    voiceId: "de-DE-Florian:DragonHDLatestNeural",
+    name: "Florian (Azure HD)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Azure Speech DragonHD, German (GA): high-definition male voice, < 300 ms latency.",
+    pools: ["tutor_examiner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
+    enabled: true,
+  },
+  {
+    voiceId: "de-DE-KatjaNeural",
+    name: "Katja (Azure)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Azure Speech neural German female voice.",
+    pools: ["tutor_partner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
+    enabled: true,
+  },
+  {
+    voiceId: "de-DE-ConradNeural",
+    name: "Conrad (Azure)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Azure Speech neural German male voice.",
+    pools: ["tutor_partner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
+    enabled: true,
+  },
+  {
+    voiceId: "de-DE-AmalaNeural",
+    name: "Amala (Azure)",
+    gender: "female",
+    language: "de",
+    accent: "standard",
+    description: "Azure Speech neural German female voice.",
+    pools: ["tutor_partner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
+    enabled: true,
+  },
+  {
+    voiceId: "de-DE-KillianNeural",
+    name: "Killian (Azure)",
+    gender: "male",
+    language: "de",
+    accent: "standard",
+    description: "Azure Speech neural German male voice.",
+    pools: ["tutor_partner"], // Azure AI Speech — 1:1 tutor only, used when TUTOR_TTS_PROVIDER=azure
+    enabled: true,
+  },
 ];

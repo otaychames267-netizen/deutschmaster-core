@@ -3,14 +3,14 @@
 //   npx tsx src/tutorLibrary.test.mjs
 import { pickSoloSectionTransition12Line, pickSoloSectionTransition23Line, getSoloExamEndPool, getSoloTransitionLeadPhrases, TUTOR_PHRASE_STYLE } from "./examinerPhrases.ts";
 import { findTutorV4Asset } from "./voice/phraseLibrary/libraryStore.ts";
-import { getPool } from "./voice/voicePools.ts";
+import { getPool, voiceProvider } from "./voice/voicePools.ts";
 import { TUTOR_EXAMINER_POOL } from "./voice/voicePools.ts";
 import { existsSync } from "node:fs";
 
 let failed = 0;
 const ok = (name, cond, extra = "") => { if (!cond) failed++; console.log((cond ? "PASS" : "FAIL") + "  " + name + (extra ? "  " + extra : "")); };
 
-const examiners = getPool(TUTOR_EXAMINER_POOL);
+const examiners = getPool(TUTOR_EXAMINER_POOL).filter((v) => voiceProvider(v) === "elevenlabs"); // Azure clips are generated separately (needs the Azure key)
 ok("10 examiner voices", examiners.length === 10);
 
 // Every voice gets formal wording, whatever its hashed style bucket would be.
