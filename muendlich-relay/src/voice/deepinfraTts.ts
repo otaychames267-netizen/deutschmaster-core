@@ -8,7 +8,11 @@
  * (a VoiceDesign prompt re-draws the voice on EVERY request).
  *
  * Voices are configured as `deepinfra:<voice>` (e.g. "deepinfra:Vivian" or "deepinfra:<cloned voice id>"); `<voice>` is sent as the API's `voice`.
- * Env: DEEPINFRA_API_KEY, optional DEEPINFRA_TTS_MODEL (default "Qwen/Qwen3-TTS").
+ * Env: DEEPINFRA_API_KEY, optional DEEPINFRA_TTS_MODEL (default "Qwen/Qwen3-TTS"), optional DEEPINFRA_SERVICE_TIER ("priority" = premium rate, measured 2026-10-09:
+ * first audio ≈1.4 s instead of ≈1.8 s for a built-in voice and no multi-second spikes for a cloned one; unset = default tier).
+ * Measured latency (home connection in Tunisia, 70-char sentence, 6 interleaved runs): built-in voice ≈1.8 s to the first audio byte, cloned voice ≈2.3-2.5 s, with
+ * occasional 5-7 s spikes (queueing) — the serverless endpoint is NOT the advertised ~100 ms. The reference clip length (20 s vs 5.5 s) and the language hint made no real difference.
+ * Once audio starts it arrives ≈2x faster than real time, so only the first sentence of a reply is felt.
  * Assumption to verify with the first live run (needs balance): "pcm" is PCM16 mono at 24 kHz, like OpenAI's — deepinfraTtsCheck.mjs prints the audio
  * length per voice so a wrong rate (too fast / slow audio) shows up at once.
  */
@@ -40,7 +44,10 @@ function request(voiceId: string, text: string): { url: string; init: RequestIni
     init: {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model: process.env.DEEPINFRA_TTS_MODEL ?? "Qwen/Qwen3-TTS", voice: voiceId.slice(DEEPINFRA_PREFIX.length), input: text, response_format: "pcm" }),
+      body: JSON.stringify({
+        model: process.env.DEEPINFRA_TTS_MODEL ?? "Qwen/Qwen3-TTS", voice: voiceId.slice(DEEPINFRA_PREFIX.length), input: text, response_format: "pcm",
+        ...(process.env.DEEPINFRA_SERVICE_TIER ? { service_tier: process.env.DEEPINFRA_SERVICE_TIER } : {}),
+      }),
     },
   };
 }

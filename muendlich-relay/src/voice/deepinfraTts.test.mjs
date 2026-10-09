@@ -60,6 +60,14 @@ ok("with the default provider the exam pool is the ElevenLabs pool", getExamPool
   delete process.env.DEEPINFRA_TTS_MODEL;
 }
 {
+  const calls = mockFetch(async () => new Response(chunked(seq(100, 1), [50]), { status: 200 }));
+  const h0 = startDeepInfraSynthesis(await openDeepInfraConnection("deepinfra:Vivian"), {}); h0.appendText("Hallo.", true); await h0.done;
+  process.env.DEEPINFRA_SERVICE_TIER = "priority";
+  const h1 = startDeepInfraSynthesis(await openDeepInfraConnection("deepinfra:Vivian"), {}); h1.appendText("Hallo.", true); await h1.done;
+  delete process.env.DEEPINFRA_SERVICE_TIER;
+  ok("service_tier is sent only when DEEPINFRA_SERVICE_TIER is set", !("service_tier" in JSON.parse(calls[0].init.body)) && JSON.parse(calls[1].init.body).service_tier === "priority");
+}
+{
   mockFetch(async () => new Response('{"detail":{"error":"You need positive balance to do inference."}}', { status: 402 }));
   let err = null; const h = startDeepInfraSynthesis(await openDeepInfraConnection("deepinfra:Vivian"), { onVoiceError: (m) => { err = m; } });
   h.appendText("Hallo Welt.", true);
