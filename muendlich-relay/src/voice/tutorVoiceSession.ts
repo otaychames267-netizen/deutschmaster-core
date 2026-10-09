@@ -470,7 +470,8 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       const found = usesTutorLibrary(activeVoiceId())
         ? await findTutorV4Asset("scripted_lead", activeVoiceId(), line.id)
         : await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
-      if (found) {
+      // a clip generated for an OLDER wording of this variant must never be played in front of the new live remainder
+      if (found && found.asset.text === line.lead) {
         await playPcmFile(`speakScriptedLine(${line.id})`, found.absolutePath, found.asset.text);
         return speakScriptedText(line.rest);
       }

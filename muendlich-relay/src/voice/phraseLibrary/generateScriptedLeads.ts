@@ -16,7 +16,7 @@
  *    exactly as they are, so running this can never silently change what the
  *    live relay plays for them.
  *
- * Run:  npx tsx src/voice/phraseLibrary/generateScriptedLeads.ts [--dry] [--sync-only]
+ * Run:  npx tsx src/voice/phraseLibrary/generateScriptedLeads.ts [--dry] [--sync-only] [--provider elevenlabs|deepinfra]
  *   --dry        print counts / characters / cost estimate, call nothing
  *   --sync-only  no ElevenLabs calls: just (re)add manifest entries for clips
  *                already on disk (scripted_lead + early_end_*)
@@ -29,6 +29,7 @@ import { fileURLToPath } from "node:url";
 import { VOICES } from "../voices.config.js";
 import { voiceProvider } from "../voicePools.js";
 import { synthesizeOnce } from "../elevenLabsTts.js";
+import { isDeepInfraVoice, synthesizeDeepInfraOnce } from "../deepinfraTts.js";
 import { getScriptedLeadPhrases } from "../../examinerPhrases.js";
 import { assignPhraseStyle } from "./voiceStyle.js";
 import { EARLY_END_TIME_UP_PHRASES, EARLY_END_IDLE_PHRASES, EARLY_END_PARTNER_DISCONNECTED_PHRASES } from "./fixedPhrases.js";
@@ -41,7 +42,12 @@ const OUTPUT_FORMAT = "pcm_24000";
 const FLASH_USD_PER_1K_CHARS = 0.05;
 
 const args = new Set(process.argv.slice(2));
-const voices = VOICES.filter((v) => v.enabled && voiceProvider(v) === "elevenlabs"); // these libraries are ElevenLabs clips; other providers have their own generators
+// ElevenLabs: every enabled voice (as before); DeepInfra/Qwen (owner 2026-10-09): the voices of the 2:1 examiner pool. --provider elevenlabs|deepinfra limits what gets SYNTHESIZED.
+const onlyProvider = process.argv.includes("--provider") ? process.argv[process.argv.indexOf("--provider") + 1] : null;
+const voices = VOICES.filter((v) => v.enabled && (voiceProvider(v) === "elevenlabs" || (voiceProvider(v) === "deepinfra" && v.pools?.includes("examiner"))));
+/** DeepInfra voice ids contain ":" (invalid in Windows file names) — files use a sanitized id, the manifest keeps the real voiceId. ElevenLabs ids are unchanged. */
+const safeId = (voiceId: string) => voiceId.replace(/[^A-Za-z0-9._-]/g, "_");
+const providerOf = (voiceId: string) => (isDeepInfraVoice(voiceId) ? "deepinfra" : "elevenlabs");
 const leads = getScriptedLeadPhrases();
 
 interface Job { phraseId: string; style: PhraseStyle; text: string; voiceId: string; file: string }
@@ -50,7 +56,7 @@ for (const voice of voices) {
   const style = assignPhraseStyle(voice.voiceId);
   for (const lead of leads) {
     if (lead.style !== style) continue;
-    jobs.push({ phraseId: lead.id, style: lead.style, text: lead.text, voiceId: voice.voiceId, file: path.join("scripted_lead", `${lead.id}__${voice.voiceId}.pcm`) });
+    jobs.push({ phraseId: lead.id, style: lead.style, text: lead.text, voiceId: voice.voiceId, file: path.join("scripted_lead", `${lead.id}__${safeId(voice.voiceId)}.pcm`) });
   }
 }
 
@@ -79,7 +85,7 @@ async function syncManifest() {
   let earlyAdded = 0;
   for (const { name, phrases } of earlyEnd) {
     for (const p of phrases) for (const v of voices) {
-      const file = path.join(name, `${p.id}__${v.voiceId}.pcm`);
+      const file = path.join(name, `${p.id}__${safeId(v.voiceId)}.pcm`);
       if (!existsSync(path.join(LIBRARY_ROOT, file)) || have.has(key({ category: name, voiceId: v.voiceId, phraseId: p.id }))) continue;
       added.push({ phraseId: p.id, category: name, style: p.style, voiceId: v.voiceId, text: p.text, characterCount: p.text.length, pcmPath: file.replace(/\\/g, "/"), generatedAt: now });
       earlyAdded++;
@@ -93,20 +99,21 @@ async function syncManifest() {
 }
 
 async function main() {
-  const chars = jobs.reduce((n, j) => n + j.text.length, 0);
-  console.log(`${leads.length} distinct lead sentences; ${jobs.length} clips (voices x own-style variants); ${chars} characters ≈ $${((chars / 1000) * FLASH_USD_PER_1K_CHARS).toFixed(2)} at the Flash rate`);
+  const todo = jobs.filter((j) => !existsSync(path.join(LIBRARY_ROOT, j.file)) && (!onlyProvider || providerOf(j.voiceId) === onlyProvider));
+  const chars = (p: string) => todo.filter((j) => providerOf(j.voiceId) === p).reduce((n, j) => n + j.text.length, 0);
+  console.log(`${leads.length} distinct lead sentences; ${jobs.length} clips (voices x own-style variants), ${todo.length} to synthesize: ElevenLabs ${chars("elevenlabs")} chars (≈ $${((chars("elevenlabs") / 1000) * FLASH_USD_PER_1K_CHARS).toFixed(2)} at the Flash rate), DeepInfra ${chars("deepinfra")} chars (≈ $${((chars("deepinfra") / 1e6) * 20).toFixed(2)} at $20/M)`);
   if (args.has("--dry")) return;
   if (args.has("--sync-only")) { await syncManifest(); return; }
 
-  if (!process.env.ELEVENLABS_API_KEY) { console.error("ELEVENLABS_API_KEY not set — aborting."); process.exit(1); }
+  if (todo.some((j) => providerOf(j.voiceId) === "elevenlabs") && !process.env.ELEVENLABS_API_KEY) { console.error("ELEVENLABS_API_KEY not set — aborting (use --provider deepinfra to generate only the Qwen clips)."); process.exit(1); }
+  if (todo.some((j) => providerOf(j.voiceId) === "deepinfra") && !process.env.DEEPINFRA_API_KEY) { console.error("DEEPINFRA_API_KEY not set — aborting (use --provider elevenlabs to skip the Qwen clips)."); process.exit(1); }
   await mkdir(path.join(LIBRARY_ROOT, "scripted_lead"), { recursive: true });
-  let ok = 0, skipped = 0, failed = 0, spent = 0;
-  for (const j of jobs) {
-    const full = path.join(LIBRARY_ROOT, j.file);
-    if (existsSync(full)) { skipped++; continue; }
+  let ok = 0, failed = 0, spent = 0;
+  const skipped = jobs.length - todo.length;
+  async function run(j: Job) {
     try {
-      const pcm = await synthesizeOnce(j.voiceId, j.text, MODEL, OUTPUT_FORMAT);
-      await writeFile(full, pcm);
+      const pcm = providerOf(j.voiceId) === "deepinfra" ? await synthesizeDeepInfraOnce(j.voiceId, j.text) : await synthesizeOnce(j.voiceId, j.text, MODEL, OUTPUT_FORMAT);
+      await writeFile(path.join(LIBRARY_ROOT, j.file), pcm);
       ok++; spent += j.text.length;
       if (ok % 20 === 0) console.log(`  ${ok} generated (${spent} chars so far)`);
     } catch (e) {
@@ -114,7 +121,11 @@ async function main() {
       console.error(`FAIL ${j.file}:`, e instanceof Error ? e.message : e);
     }
   }
-  console.log(`done: ${ok} generated, ${skipped} already on disk, ${failed} failed, ${spent} characters spent`);
+  // ElevenLabs runs stay sequential (as before); a DeepInfra-only run does 3 clips at a time.
+  const queue = [...todo];
+  const concurrency = todo.every((j) => providerOf(j.voiceId) === "deepinfra") ? 3 : 1;
+  await Promise.all(Array.from({ length: concurrency }, async () => { for (let j = queue.shift(); j; j = queue.shift()) await run(j); }));
+  console.log(`done: ${ok} generated, ${skipped} already on disk or other provider, ${failed} failed, ${spent} characters spent`);
   await syncManifest(); // also after a partial run, so already-paid clips are never orphaned
   if (failed > 0 && ok === 0) process.exit(1);
 }

@@ -20,6 +20,7 @@
  * function's body would.
  */
 import type { PhraseStyle } from "./phraseTypes.js";
+import { isDeepInfraVoice } from "../deepinfraTts.js";
 
 const STYLES: PhraseStyle[] = ["formal", "warm", "calm"];
 
@@ -33,5 +34,7 @@ function stableHash(input: string): number {
 }
 
 export function assignPhraseStyle(voiceId: string): PhraseStyle {
+  // Owner 2026-10-09: the Qwen3-TTS voices (DeepInfra) always speak the professional register — no casual/warm or curt wording.
+  if (isDeepInfraVoice(voiceId)) return "formal";
   return STYLES[stableHash(voiceId) % STYLES.length];
 }

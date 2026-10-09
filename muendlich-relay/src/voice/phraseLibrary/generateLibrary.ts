@@ -7,7 +7,9 @@
  * muendlichVoiceSession.ts already streams to clients, so runtime playback
  * (playLibraryPhrase) needs zero transcoding.
  *
- * Run with: npm run generate-phrase-library
+ * Run with: npm run generate-phrase-library   [-- --dry] [-- --provider elevenlabs|deepinfra]
+ * (2026-10-09: also covers the owner's Qwen3-TTS voices of the 2:1 examiner pool via DeepInfra — own-style phrases only, 3 requests at a time, files named with a
+ * sanitized voice id; the manifest keeps every other category untouched.)
  *
  * UNBLOCKED as of 2026-10-03 — confirmed live (a real synthesizeOnce call
  * against a real library voice ID now returns 200, not the previous
@@ -31,7 +33,7 @@
  * rebuilt from scratch every run (cheap, local) so it always matches
  * whatever is actually on disk.
  */
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -39,6 +41,8 @@ import { VOICES } from "../voices.config.js";
 import { voiceProvider } from "../voicePools.js";
 import { WELCOME_PHRASES, EXAM_END_PHRASES, EARLY_END_TIME_UP_PHRASES, EARLY_END_IDLE_PHRASES, EARLY_END_PARTNER_DISCONNECTED_PHRASES } from "./fixedPhrases.js";
 import { synthesizeOnce } from "../elevenLabsTts.js";
+import { isDeepInfraVoice, synthesizeDeepInfraOnce } from "../deepinfraTts.js";
+import { assignPhraseStyle } from "./voiceStyle.js";
 import type { PhraseAudioAsset } from "./phraseTypes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -46,81 +50,74 @@ const LIBRARY_ROOT = path.resolve(__dirname, "../../../audio-library");
 const OUTPUT_FORMAT = "pcm_24000";
 const MODEL = "eleven_v3";
 
+// --provider elevenlabs|deepinfra limits which clips get SYNTHESIZED in this run; the job list (and so the manifest) always covers the voices of every provider.
+const onlyProvider = process.argv.includes("--provider") ? process.argv[process.argv.indexOf("--provider") + 1] : null;
+const DEEPINFRA_CONCURRENCY = 3;
+/** DeepInfra voice ids contain ":" (invalid in Windows file names) — files use a sanitized id, the manifest keeps the real voiceId. ElevenLabs ids are unchanged by this. */
+const safeId = (voiceId: string) => voiceId.replace(/[^A-Za-z0-9._-]/g, "_");
+
 async function main() {
-  const key = process.env.ELEVENLABS_API_KEY;
-  if (!key) {
-    console.error("ELEVENLABS_API_KEY not set — aborting.");
-    process.exit(1);
-  }
-  const voices = VOICES.filter((v) => v.enabled && voiceProvider(v) === "elevenlabs"); // these libraries are ElevenLabs clips; other providers have their own generators
+  // ElevenLabs: every enabled voice (as before). DeepInfra/Qwen (owner 2026-10-09): the voices of the 2:1 "examiner" pool, and only the phrases of the voice's OWN style
+  // bucket — a voice only ever speaks its own style (voiceStyle.ts / pickVariant), so the other two thirds would never be played.
+  const voices = VOICES.filter((v) => v.enabled && (voiceProvider(v) === "elevenlabs" || (voiceProvider(v) === "deepinfra" && v.pools?.includes("examiner"))));
   const categories = [
     { name: "welcome" as const, phrases: WELCOME_PHRASES },
     { name: "exam_end" as const, phrases: EXAM_END_PHRASES },
-    // teil1_question is deliberately NOT pre-generated: the user chose to
-    // keep Teil 1 presentation prompts live/spontaneous from the AI rather
-    // than cached, even though they're name-free and technically cacheable
-    // (2026-10-03 decision) — playLibraryPhrase() already falls back to live
-    // TTS when no manifest entry exists for a category, so this needs no
-    // runtime change, only omission here.
-    // Added 2026-10-03: candidate-name/topic-free, same as welcome/exam_end
-    // above — see fixedPhrases.ts's own comment for why these moved out of
-    // live-TTS-only territory once the account-tier blocker cleared.
+    // teil1_question is deliberately NOT pre-generated here (2026-10-03 decision): playLibraryPhrase() falls back to live TTS when no manifest entry exists.
+    // Added 2026-10-03: candidate-name/topic-free, same as welcome/exam_end above — see fixedPhrases.ts's own comment.
     { name: "early_end_time_up" as const, phrases: EARLY_END_TIME_UP_PHRASES },
     { name: "early_end_idle_timeout" as const, phrases: EARLY_END_IDLE_PHRASES },
     { name: "early_end_partner_disconnected" as const, phrases: EARLY_END_PARTNER_DISCONNECTED_PHRASES },
   ];
 
-  const manifest: PhraseAudioAsset[] = [];
-  let ok = 0, failed = 0, skipped = 0;
-
+  interface Job { name: (typeof categories)[number]["name"]; phrase: (typeof categories)[number]["phrases"][number]; voiceId: string; file: string }
+  const jobs: Job[] = [];
   for (const { name, phrases } of categories) {
-    const dir = path.join(LIBRARY_ROOT, name);
-    await mkdir(dir, { recursive: true });
     for (const phrase of phrases) {
       for (const voice of voices) {
-        const fileName = `${phrase.id}__${voice.voiceId}.pcm`;
-        const fullPath = path.join(dir, fileName);
-        if (existsSync(fullPath)) {
-          manifest.push({
-            phraseId: phrase.id,
-            category: name,
-            style: phrase.style,
-            voiceId: voice.voiceId,
-            text: phrase.text,
-            characterCount: phrase.text.length,
-            pcmPath: path.join(name, fileName).replace(/\\/g, "/"),
-            generatedAt: new Date().toISOString(),
-            topic: phrase.topic,
-          });
-          skipped++;
-          continue;
-        }
-        try {
-          const pcm = await synthesizeOnce(voice.voiceId, phrase.text, MODEL, OUTPUT_FORMAT);
-          await writeFile(fullPath, pcm);
-          manifest.push({
-            phraseId: phrase.id,
-            category: name,
-            style: phrase.style,
-            voiceId: voice.voiceId,
-            text: phrase.text,
-            characterCount: phrase.text.length,
-            pcmPath: path.join(name, fileName).replace(/\\/g, "/"),
-            generatedAt: new Date().toISOString(),
-            topic: phrase.topic,
-          });
-          ok++;
-          console.log(`OK   ${name}/${fileName} (${pcm.length} bytes)`);
-        } catch (e) {
-          failed++;
-          console.error(`FAIL ${name}/${fileName}:`, e instanceof Error ? e.message : e);
-        }
+        if (voiceProvider(voice) === "deepinfra" && phrase.style !== assignPhraseStyle(voice.voiceId)) continue;
+        jobs.push({ name, phrase, voiceId: voice.voiceId, file: path.join(name, `${phrase.id}__${safeId(voice.voiceId)}.pcm`) });
       }
     }
   }
+  const providerOf = (voiceId: string) => (isDeepInfraVoice(voiceId) ? "deepinfra" : "elevenlabs");
+  const todo = jobs.filter((j) => !existsSync(path.join(LIBRARY_ROOT, j.file)) && (!onlyProvider || providerOf(j.voiceId) === onlyProvider));
+  const chars = (p: string) => todo.filter((j) => providerOf(j.voiceId) === p).reduce((n, j) => n + j.phrase.text.length, 0);
+  console.log(`${jobs.length} clips in the job list, ${todo.length} to synthesize: ElevenLabs ${chars("elevenlabs")} chars (≈ $${((chars("elevenlabs") / 1000) * 0.04).toFixed(2)} at $0.04/1k), DeepInfra ${chars("deepinfra")} chars (≈ $${((chars("deepinfra") / 1e6) * 20).toFixed(2)} at $20/M)`);
+  if (process.argv.includes("--dry")) return;
+  if (todo.some((j) => providerOf(j.voiceId) === "elevenlabs") && !process.env.ELEVENLABS_API_KEY) { console.error("ELEVENLABS_API_KEY not set — aborting (use --provider deepinfra to generate only the Qwen clips)."); process.exit(1); }
+  if (todo.some((j) => providerOf(j.voiceId) === "deepinfra") && !process.env.DEEPINFRA_API_KEY) { console.error("DEEPINFRA_API_KEY not set — aborting (use --provider elevenlabs to skip the Qwen clips)."); process.exit(1); }
 
-  await writeFile(path.join(LIBRARY_ROOT, "manifest.json"), JSON.stringify(manifest, null, 2));
-  console.log(`\nDone. ${ok} generated, ${skipped} skipped (already on disk), ${failed} failed. Manifest: ${path.join(LIBRARY_ROOT, "manifest.json")}`);
+  for (const { name } of categories) await mkdir(path.join(LIBRARY_ROOT, name), { recursive: true });
+  let ok = 0, failed = 0;
+  const skipped = jobs.length - todo.length;
+  async function run(j: Job) {
+    try {
+      const pcm = providerOf(j.voiceId) === "deepinfra" ? await synthesizeDeepInfraOnce(j.voiceId, j.phrase.text) : await synthesizeOnce(j.voiceId, j.phrase.text, MODEL, OUTPUT_FORMAT);
+      await writeFile(path.join(LIBRARY_ROOT, j.file), pcm);
+      ok++;
+      if (ok % 25 === 0) console.log(`  ${ok} generated`);
+    } catch (e) {
+      failed++;
+      console.error(`FAIL ${j.file}:`, e instanceof Error ? e.message : e);
+    }
+  }
+  // ElevenLabs runs stay sequential (as before); a DeepInfra-only run does DEEPINFRA_CONCURRENCY clips at a time.
+  const queue = [...todo];
+  const concurrency = todo.every((j) => providerOf(j.voiceId) === "deepinfra") ? DEEPINFRA_CONCURRENCY : 1;
+  const workers = Array.from({ length: concurrency }, async () => { for (let j = queue.shift(); j; j = queue.shift()) await run(j); });
+  await Promise.all(workers);
+
+  // The manifest is rebuilt for THIS script's categories from the files on disk; entries of every other category (teil1_question, scripted_lead) are kept exactly as they are.
+  const mine = new Set<string>(categories.map((c) => c.name));
+  let kept: PhraseAudioAsset[] = [];
+  try { kept = (JSON.parse(await readFile(path.join(LIBRARY_ROOT, "manifest.json"), "utf8")) as PhraseAudioAsset[]).filter((a) => !mine.has(a.category)); } catch { /* no manifest yet */ }
+  const now = new Date().toISOString();
+  const rebuilt: PhraseAudioAsset[] = jobs
+    .filter((j) => existsSync(path.join(LIBRARY_ROOT, j.file)))
+    .map((j) => ({ phraseId: j.phrase.id, category: j.name, style: j.phrase.style, voiceId: j.voiceId, text: j.phrase.text, characterCount: j.phrase.text.length, pcmPath: j.file.replace(/\\/g, "/"), generatedAt: now, topic: j.phrase.topic }));
+  await writeFile(path.join(LIBRARY_ROOT, "manifest.json"), JSON.stringify([...kept, ...rebuilt], null, 2));
+  console.log(`\nDone. ${ok} generated, ${skipped} skipped (already on disk or other provider), ${failed} failed. Manifest: ${rebuilt.length} clips of this script's categories + ${kept.length} kept from other categories.`);
   if (failed > 0 && ok === 0) process.exit(1);
 }
 

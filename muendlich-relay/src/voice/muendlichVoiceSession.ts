@@ -651,7 +651,7 @@ export async function openMuendlichVoiceSession(ctx: RoomContext, examSessionId:
     if (closed) return;
     if (line.lead) {
       const found = await findLibraryAssetById("scripted_lead", voice.voiceId, line.id);
-      if (found) {
+      if (found && found.asset.text === line.lead) { // a clip generated for an OLDER wording of this variant is never played in front of the new live remainder
         // The lead clip is the same voice on the same Flash model as the live
         // part, sent to the client first; the live remainder (name/topic) is
         // queued right behind it on the client's gapless playback scheduler.
