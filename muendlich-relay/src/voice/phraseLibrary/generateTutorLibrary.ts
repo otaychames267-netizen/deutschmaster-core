@@ -17,11 +17,11 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { VOICES } from "../voices.config.js";
-import { TUTOR_EXAMINER_POOL, voiceProvider } from "../voicePools.js";
+import { TUTOR_EXAMINER_POOL, TUTOR_PARTNER_POOL, voiceProvider } from "../voicePools.js";
 import { isAzureVoice, synthesizeAzureOnce } from "../azureTts.js";
 import { isInworldVoice, synthesizeInworldOnce } from "../inworldTts.js";
 import { isDeepInfraVoice, synthesizeDeepInfraOnce } from "../deepinfraTts.js";
-import { getSoloTransitionLeadPhrases, getSoloExamEndPool, TUTOR_PHRASE_STYLE } from "../../examinerPhrases.js";
+import { getSoloTransitionLeadPhrases, getSoloExamStartLeadPhrases, getSoloExamEndPool, getTutorAckPhrases, TUTOR_PHRASE_STYLE } from "../../examinerPhrases.js";
 import type { PhraseAudioAsset } from "./phraseTypes.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -33,13 +33,18 @@ const OUTPUT_FORMAT = "pcm_24000";
 // disk every run) always covers every examiner voice of the tutor pool, so a partial run can never drop the other provider's clips from the manifest.
 const onlyProvider = process.argv.includes("--provider") ? process.argv[process.argv.indexOf("--provider") + 1] : null;
 const voices = VOICES.filter((v) => v.enabled && v.pools?.includes(TUTOR_EXAMINER_POOL));
+const partnerVoices = VOICES.filter((v) => v.enabled && v.pools?.includes(TUTOR_PARTNER_POOL));
 /** Azure voice names contain ":" (invalid in Windows file names) — files use a sanitized id, the manifest keeps the real voiceId. */
 const safeId = (voiceId: string) => voiceId.replace(/[^A-Za-z0-9._-]/g, "_");
-const leads = getSoloTransitionLeadPhrases();
+// transition leads (Teil 1 -> 2, 2 -> 3) + the opening's fixed instructions (owner 2026-10-10: welcome cached, name + topic live)
+const leads = [...getSoloExamStartLeadPhrases(), ...getSoloTransitionLeadPhrases()];
 const ends = getSoloExamEndPool().filter((p) => p.style === TUTOR_PHRASE_STYLE);
 
 interface Job { category: "scripted_lead" | "exam_end"; phraseId: string; text: string; voiceId: string; file: string }
 const jobs: Job[] = [];
+// cached acknowledgements ("Vielen Dank.") — examiner voices get the examiner + presentation ones, partner voices the peer ones; stored as scripted_lead clips
+for (const v of voices) for (const a of [...getTutorAckPhrases("examiner"), ...getTutorAckPhrases("presentation")]) jobs.push({ category: "scripted_lead", phraseId: a.id, text: a.text, voiceId: v.voiceId, file: path.join("scripted_lead", `${a.id}__${safeId(v.voiceId)}.pcm`) });
+for (const v of partnerVoices) for (const a of getTutorAckPhrases("partner")) jobs.push({ category: "scripted_lead", phraseId: a.id, text: a.text, voiceId: v.voiceId, file: path.join("scripted_lead", `${a.id}__${safeId(v.voiceId)}.pcm`) });
 for (const v of voices) {
   for (const l of leads) jobs.push({ category: "scripted_lead", phraseId: l.id, text: l.text, voiceId: v.voiceId, file: path.join("scripted_lead", `${l.id}__${safeId(v.voiceId)}.pcm`) });
   for (const e of ends) jobs.push({ category: "exam_end", phraseId: e.id, text: e.text, voiceId: v.voiceId, file: path.join("exam_end", `${e.id}__${safeId(v.voiceId)}.pcm`) });

@@ -70,7 +70,7 @@ async function brain(instruction, transcript) {
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST", headers: { "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
     body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 600,
-      system: `Du bist ${NAME}, eine B2-Deutschlernerin in einer telc-Prüfungssimulation (mündlich). Sprich natürlich und zusammenhängend, mit gelegentlichen typischen Lernerfehlern (Artikel, Kasus, Wortstellung), aber verständlich. Antworte NUR mit dem, was du laut sagst — keine Regieanweisungen, keine Anführungszeichen.`,
+      system: `Du bist ${NAME}, eine B2-Deutschlernerin in einer telc-Prüfungssimulation (mündlich). Sprich natürlich und zusammenhängend, mit gelegentlichen typischen Lernerfehlern (Artikel, Kasus, Wortstellung), aber verständlich. Halte dich strikt an die gewünschte Länge (lieber kürzer als länger). Antworte NUR mit dem, was du laut sagst — keine Regieanweisungen, keine Anführungszeichen.`,
       messages: [{ role: "user", content: `${history ? `Bisheriger Verlauf:\n${history}\n\n` : ""}${instruction}` }] }),
   });
   const j = await res.json();
@@ -93,6 +93,7 @@ async function main() {
   let playbackEndsAt = 0, lastTutorActivityAt = 0, candEndedAt = null;
   const tutorSince = [], transcript = [], latencies = [], timeline = [], tutorSpans = [], candSpans = [];
   let mic = null;
+  let pauseTurn = 0; const midPauses = [];
   const tutorChunks = [], candChunks = []; // for the full-conversation recording: { at: ms since t0, pcm }
 
   async function cleanup() {
@@ -140,7 +141,18 @@ async function main() {
     speaking = true;
     try {
       const text = await brain(instruction, transcript);
-      const pcm = await synth(text);
+      let pcm;
+      // CANDIDATE_MID_PAUSE_S: every second answer (not the presentation) gets a silent pause of that many seconds at its middle sentence boundary — a
+      // thinking pause in the middle of an answer, which the tutor must NOT mistake for the end (it did in 4 of 14 long answers on 2026-10-10).
+      const sentences = text.match(/[^.!?]+[.!?]+\s*/g) ?? [text];
+      pauseTurn++;
+      if (process.env.CANDIDATE_MID_PAUSE_S && label !== "Präsentation" && pauseTurn % 2 === 0 && sentences.length >= 2) {
+        const cut = Math.ceil(sentences.length / 2);
+        const [a, b] = [sentences.slice(0, cut).join(""), sentences.slice(cut).join("")];
+        const gap = Buffer.alloc(Math.round(Number(process.env.CANDIDATE_MID_PAUSE_S) * 32000));
+        pcm = Buffer.concat([await synth(a), gap, await synth(b)]);
+        midPauses.push({ label, at: Math.round((Date.now() - t0) / 1000), pauseS: Number(process.env.CANDIDATE_MID_PAUSE_S) });
+      } else pcm = await synth(text);
       while (Date.now() < playbackEndsAt + 300 && !finished) await sleep(150); // never talk over the tutor
       transcript.push({ who: NAME, text }); timeline.push({ t: Date.now() - t0, who: NAME, label, text });
       log(`${NAME} (${label}, ${(pcm.length / 32000).toFixed(0)}s): ${text.slice(0, 120)}${text.length > 120 ? "…" : ""}`);
@@ -187,6 +199,7 @@ async function main() {
   console.log("\n=== DOES THE TUTOR INTERRUPT THE CANDIDATE? ===");
   console.log(`candidate turns: ${candSpans.length}, tutor audio blocks: ${tutorSpans.length}, overlaps > 0.3 s: ${overlaps.length}`);
   for (const o of overlaps) console.log(`  overlap ${(o.ms / 1000).toFixed(1)} s during the candidate's "${o.label}" at +${o.at}s`);
+  if (midPauses.length) console.log(`mid-answer pauses injected (${midPauses.length}): ${midPauses.map((p) => `${p.pauseS}s at +${p.at}s (${p.label})`).join(", ")}`);
   console.log("\n=== WHO SPOKE HOW OFTEN, PER TEIL (voice_tutor_transcript_nodes) ===");
   for (const teil of [1, 2, 3]) {
     const rows = nodes.filter((n) => n.teil === teil);

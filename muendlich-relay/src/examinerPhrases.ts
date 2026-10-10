@@ -323,6 +323,74 @@ export function getSoloTransitionLeadPhrases(): { id: string; text: string }[] {
   return out;
 }
 
+// ---------------------------------------------------------------------------
+// 1:1 tutor OPENING (owner 2026-10-10: "the welcome must be cached, only the topic live"). Every variant puts the fixed, name-free instructions
+// FIRST and the candidate's name + topic AFTER the last sentence boundary, so splitAtLead() turns the first ~250 characters into a cached clip
+// ($0, instant) and only "<name>, Ihr Thema lautet: <topic>. ..." is synthesized live right behind it. Professional register only.
+// ---------------------------------------------------------------------------
+const SOLO_EXAM_START_VARIANTS: Variant<ExamStartVars>[] = [
+  { id: "solo_exam_start_formal_01", style: "formal", render: (v) => `Guten Tag. Wir beginnen die Übung mit Teil eins der mündlichen Prüfung, der Präsentation. Bitte stellen Sie Ihr Thema zusammenhängend vor, begründen Sie Ihre Meinung nachvollziehbar und belegen Sie sie mit Beispielen. ${v.aName}, Ihr Thema lautet: ${v.topicA}. Sie haben dafür etwa anderthalb Minuten Zeit; beginnen Sie bitte, sobald Sie bereit sind.` },
+  { id: "solo_exam_start_formal_02", style: "formal", render: (v) => `Guten Tag. Ich begrüße Sie zur Übung der mündlichen Prüfung, die aus drei Teilen besteht. Wir beginnen mit Teil eins, der Präsentation: Gliedern Sie Ihren Beitrag klar, nennen Sie Ihre Argumente und belegen Sie diese mit Beispielen aus Ihrem Alltag. ${v.aName}, Ihr Thema lautet: ${v.topicA}. Dafür stehen Ihnen etwa anderthalb Minuten zur Verfügung; beginnen Sie bitte, sobald Sie bereit sind.` },
+  { id: "solo_exam_start_formal_03", style: "formal", render: (v) => `Guten Tag. Die mündliche Prüfung gliedert sich in drei Teile, und wir beginnen mit der Präsentation. Tragen Sie Ihr Thema zusammenhängend vor, begründen Sie Ihre Meinung nachvollziehbar und führen Sie passende Beispiele an. ${v.aName}, Ihr Thema lautet: ${v.topicA}. Sie haben etwa anderthalb Minuten Zeit und können beginnen, sobald Sie bereit sind.` },
+  { id: "solo_exam_start_formal_04", style: "formal", render: (v) => `Guten Tag. Wir starten nun mit Teil eins der mündlichen Prüfung, der Präsentation eines Themas. Achten Sie auf einen klaren Aufbau, eine überzeugende Begründung Ihrer Meinung und auf konkrete Beispiele. ${v.aName}, Ihr Thema lautet: ${v.topicA}. Ihre Redezeit beträgt etwa anderthalb Minuten; beginnen Sie bitte, wenn Sie bereit sind.` },
+];
+
+export function pickSoloExamStartLine(v: ExamStartVars, voiceId: string): ScriptedLine {
+  return pickLine("solo_exam_start", SOLO_EXAM_START_VARIANTS, voiceId, { ...v, topicA: cleanTopic(v.topicA) }, PH_EXAM_START, TUTOR_PHRASE_STYLE);
+}
+
+/** The fixed lead sentences of the 1:1 opening — what generateTutorLibrary.ts pre-generates next to the transition leads. */
+export function getSoloExamStartLeadPhrases(): { id: string; text: string }[] {
+  const out: { id: string; text: string }[] = [];
+  for (const v of SOLO_EXAM_START_VARIANTS) {
+    const lead = splitAtLead(v.render(PH_EXAM_START));
+    if (lead) out.push({ id: v.id, text: lead });
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// 1:1 tutor ACKNOWLEDGEMENTS (owner 2026-10-10: cut the dead air after an answer). Once the student has been silent for the hold time, a short cached
+// clip ("Vielen Dank.") is played at once while Claude + TTS finish the real question behind it — the student hears a reaction after ~3 s instead of
+// ~5-7 s. Professional register, neutral (they never judge the answer or promise agreement, because the question has not been written yet).
+// ---------------------------------------------------------------------------
+export type AckKind = "examiner" | "presentation" | "partner";
+export interface AckPhrase { id: string; text: string }
+
+const ACK_PHRASES: Record<AckKind, AckPhrase[]> = {
+  examiner: [
+    { id: "ack_examiner_01", text: "Vielen Dank." },
+    { id: "ack_examiner_02", text: "Danke schön, das habe ich verstanden." },
+    { id: "ack_examiner_03", text: "Gut, vielen Dank für Ihre Antwort." },
+    { id: "ack_examiner_04", text: "Ich danke Ihnen." },
+    { id: "ack_examiner_05", text: "Danke, das war nachvollziehbar." },
+    { id: "ack_examiner_06", text: "In Ordnung, vielen Dank." },
+  ],
+  presentation: [
+    { id: "ack_presentation_01", text: "Vielen Dank für Ihre Präsentation." },
+    { id: "ack_presentation_02", text: "Danke schön, damit ist Ihre Präsentation beendet." },
+    { id: "ack_presentation_03", text: "Ich danke Ihnen für diesen Beitrag." },
+  ],
+  partner: [
+    { id: "ack_partner_01", text: "Ja, das verstehe ich." },
+    { id: "ack_partner_02", text: "Gut, danke dir." },
+    { id: "ack_partner_03", text: "Okay, das habe ich verstanden." },
+    { id: "ack_partner_04", text: "Danke für deinen Beitrag." },
+    { id: "ack_partner_05", text: "Ja, ich verstehe, was du meinst." },
+  ],
+};
+
+/** A random acknowledgement of this kind that differs from the previous one (so the same "Vielen Dank." is not heard twice in a row). */
+export function pickTutorAck(kind: AckKind, avoidId?: string): AckPhrase {
+  const pool = ACK_PHRASES[kind].filter((a) => a.id !== avoidId);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/** Every acknowledgement of one kind — what generateTutorLibrary.ts pre-generates (examiner + presentation for the examiner voices, partner for the partner voices). */
+export function getTutorAckPhrases(kind: AckKind): AckPhrase[] {
+  return ACK_PHRASES[kind];
+}
+
 /** The 2:1 exam's closing lines (cached audio library, category "exam_end") that are fine for a single student. */
 export function getSoloExamEndPool() {
   return getFixedPool("exam_end").filter((p) => isReadableForOneCandidate(p.text, "end"));

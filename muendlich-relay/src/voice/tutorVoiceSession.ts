@@ -46,7 +46,8 @@ import { readFile } from "node:fs/promises";
 // The 1:1 tutor now reuses the 2:1 exam's transitions + closing lines and their pre-generated audio clips (owner 2026-10-06).
 import { findLibraryAssetById, findTutorV4Asset } from "./phraseLibrary/libraryStore.js";
 import { pickVariant } from "./phraseLibrary/phraseSelection.js";
-import { getSoloExamEndPool, TUTOR_PHRASE_STYLE, type ScriptedLine } from "../examinerPhrases.js";
+import { getSoloExamEndPool, pickTutorAck, TUTOR_PHRASE_STYLE, type AckKind, type ScriptedLine } from "../examinerPhrases.js";
+import { TurnGuard } from "./turnGuard.js";
 
 const admin = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
 // Two separate pools (owner 2026-10-09): 10 examiner voices for Teil 1/2 and 10 different partner voices for Teil 3 — see voices.config.ts.
@@ -62,10 +63,20 @@ export interface TutorVoiceCallbacks {
   onClose?: (reason: string) => void;
 }
 
+/** How a triggered turn treats the student's floor (owner 2026-10-10 — see voice/turnGuard.ts and tutorTiming.ts). */
+export interface TutorTurnOptions {
+  /** Prepare the reply now, but do not let any of it be heard before the student has been silent this long; if the student talks again first the turn is thrown away. */
+  holdSilenceMs?: number;
+  /** Called exactly once when the turn was thrown away because the student resumed talking (the caller restores its question counters). */
+  onYield?: () => void;
+  /** A cached acknowledgement ("Vielen Dank.") played first: at once when there is no hold, otherwise the moment the hold opens if the reply is not ready yet. */
+  ack?: AckKind;
+}
+
 export interface TutorVoiceSession {
   sendAudioChunk(base64: string): void;
   /** Resolves when the triggered reply has been fully SENT (not played — see playbackRemainingMs). */
-  sendSystemMessage(text: string): Promise<void>;
+  sendSystemMessage(text: string, turn?: TutorTurnOptions): Promise<void>;
   /** Milliseconds until everything sent so far has finished PLAYING on the client. */
   playbackRemainingMs(): number;
   speakScriptedText(text: string): Promise<void>;
@@ -200,13 +211,34 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   // usually ready before the answer is judged finished (2026-10-10: stt_flush 0.8-3.9 s was the wait for that request). A pause longer than this just splits the answer into two requests.
   const STT_HANGOVER_MS = Number(process.env.TUTOR_STT_HANGOVER_MS ?? 700);
   let sttLastActiveAt = 0;
+  // Student speech as seen by the turn guard (voice/turnGuard.ts): when the last speech frame arrived and how much speech there has been in total.
+  let studentLastSpeechAt = 0, studentSpeechMs = 0;
+  let lastAckId: string | undefined;
   const FLUSH_WAIT_CAP_MS = 8_000;
   let claudeInputTokens = 0, claudeOutputTokens = 0, claudeCacheCreationInputTokens = 0, claudeCacheReadInputTokens = 0;
   const STT_SAMPLE_RATE = 16_000, STT_BYTES_PER_SAMPLE = 2;
 
   function charBudgetRemaining(): number { return MAX_ELEVENLABS_CHARS_PER_SESSION - ttsCharacters; }
 
-  async function speak(trigger: TutorTrigger) {
+  /** Plays a cached acknowledgement in the voice that is speaking this turn. Returns false when no usable clip exists for the voice. Does NOT touch the current generation. */
+  async function playAck(kind: AckKind, voiceId: string): Promise<boolean> {
+    if (!usesTutorLibrary(voiceId)) return false;
+    const ack = pickTutorAck(kind, lastAckId);
+    const found = await findTutorV4Asset("scripted_lead", voiceId, ack.id);
+    if (!found || found.asset.text !== ack.text) { console.log(`[tutor-clip] ${sessionId} NO cached acknowledgement ${ack.id} for voice ${voiceId.slice(0, 24)}`); return false; }
+    try {
+      const pcm = await readFile(found.absolutePath);
+      lastAckId = ack.id;
+      for (let offset = 0; offset < pcm.length; offset += LIBRARY_CHUNK_BYTES) emitAudio(pcm.subarray(offset, offset + LIBRARY_CHUNK_BYTES).toString("base64"));
+      console.log(`[tutor-clip] ${sessionId} CACHED acknowledgement ${ack.id} (${ack.text.length} chars, $0)`);
+      return true;
+    } catch (e) {
+      console.error(`[tutor voice] acknowledgement ${ack.id} unreadable for session ${sessionId}:`, e);
+      return false;
+    }
+  }
+
+  async function speak(trigger: TutorTrigger, turn?: TutorTurnOptions) {
     if (closed) return;
     currentAbort?.abort();
     currentTtsHandle?.cancel();
@@ -223,6 +255,35 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     const speakingIsPartner = isPartnerSpeaking();
     const speakingVoiceId = activeVoiceId();
     const tSpeak0 = Date.now(); let tFirstChunk = 0, tFirstAudio = 0; // per-turn latency log below (owner 2026-10-10: find where the seconds go)
+
+    // Turn guard: with holdSilenceMs the reply is prepared but kept back (held) until the student has been silent long enough; if they talk again first, yield.
+    let gateOpen = !turn?.holdSilenceMs;
+    let yielded = false;
+    const held: string[] = [];
+    let gateTimer: ReturnType<typeof setInterval> | null = null;
+    let resolveGate: (verdict: "open" | "yield") => void = () => {};
+    const gatePromise = new Promise<"open" | "yield">((r) => { resolveGate = r; });
+    if (gateOpen) resolveGate("open");
+    const emitTurnAudio = (b64: string) => { if (gateOpen) emitAudio(b64); else held.push(b64); };
+    const ackKind: AckKind | null = turn?.ack ?? null;
+    if (turn?.holdSilenceMs) {
+      const guard = new TurnGuard({ holdSilenceMs: turn.holdSilenceMs, resumeSpeechMs: Number(process.env.TUTOR_TURN_RESUME_SPEECH_MS ?? 250), maxHoldMs: 15_000 }, { lastSpeechAt: studentLastSpeechAt, speechMs: studentSpeechMs });
+      gateTimer = setInterval(() => {
+        const verdict = guard.check({ lastSpeechAt: studentLastSpeechAt, speechMs: studentSpeechMs });
+        if (verdict === "wait") return;
+        clearInterval(gateTimer!); gateTimer = null;
+        if (verdict === "yield") { yielded = true; resolveGate("yield"); return; }
+        void (async () => {
+          // the reply is not ready yet: fill the gap with the cached acknowledgement (its audio is queued ahead of whatever is held / still to come)
+          if (held.length === 0 && ackKind) await playAck(ackKind, speakingVoiceId);
+          gateOpen = true;
+          for (const c of held.splice(0)) emitAudio(c);
+          resolveGate("open");
+        })();
+      }, 60);
+    } else if (ackKind) {
+      await playAck(ackKind, speakingVoiceId); // no hold: the acknowledgement goes out immediately, the reply follows behind it
+    }
 
     try {
       conn = await openLiveConnection(speakingVoiceId);
@@ -246,8 +307,8 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       const ttsHandle = startLiveSynthesis(conn, {
         onAudioChunk: (b64) => {
           if (myId !== currentGenerationId) return;
-          if (!tFirstAudio) { tFirstAudio = Date.now(); console.log(`[tutor-latency] ${sessionId} llm_first_chunk=${tFirstChunk ? tFirstChunk - tSpeak0 : -1}ms first_audio=${tFirstAudio - tSpeak0}ms (from speak start) voice=${speakingVoiceId.slice(0, 24)}`); }
-          emitAudio(b64);
+          if (!tFirstAudio) { tFirstAudio = Date.now(); console.log(`[tutor-latency] ${sessionId} llm_first_chunk=${tFirstChunk ? tFirstChunk - tSpeak0 : -1}ms first_audio=${tFirstAudio - tSpeak0}ms (from speak start) voice=${speakingVoiceId.slice(0, 24)}${turn?.holdSilenceMs ? ` [held until the student's silence reaches ${turn.holdSilenceMs}ms]` : ""}`); }
+          emitTurnAudio(b64);
         },
         onVoiceError: async (message) => {
           console.error(`[tutor voice] TTS error for session ${sessionId}:`, message);
@@ -272,6 +333,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       currentTtsHandle = ttsHandle;
       let ttsError: unknown = null;
       ttsHandle.done.catch((e) => { ttsError = e; });
+      void gatePromise.then((verdict) => { if (verdict === "yield") { abortCtrl.abort(); ttsHandle.cancel(); } });
 
       let reply: string | null = null;
       let attempt = 0;
@@ -325,7 +387,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if (myId !== currentGenerationId) { ttsHandle.cancel(); return; }
       ttsHandle.appendText("", true);
       await ttsHandle.done.catch(() => {});
+      if (yielded) return;
       if (ttsError) throw ttsError;
+      if ((await gatePromise) === "yield") return; // the reply was ready before the hold opened — the student may still resume until it does
 
       if (reply && myId === currentGenerationId) {
         history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text: reply });
@@ -345,8 +409,13 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       // handled separately below) rather than every single-utterance error.
       console.error(`[tutor voice] speak() failed for session ${sessionId}, skipping this utterance:`, e);
     } finally {
+      if (gateTimer) { clearInterval(gateTimer); gateTimer = null; }
       if (conn) { try { conn.close(); } catch {} }
       if (myId === currentGenerationId) { currentAbort = null; currentTtsHandle = null; currentTtsConn = null; }
+      if (yielded) {
+        console.log(`[tutor-turn] ${sessionId} YIELDED: the student resumed speaking before the tutor's reply was heard — reply thrown away (${Date.now() - tSpeak0}ms after it was triggered)`);
+        try { turn?.onYield?.(); } catch (e) { console.error("[tutor voice] onYield handler failed:", e); }
+      }
     }
   }
 
@@ -534,17 +603,17 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       const now = Date.now();
       if (now < playbackEndsAt + 500) return; // the tutor is (still) audibly speaking — never feed its own voice back into STT
       const speech = sttGate.isSpeech(base64, now);
-      if (speech) sttLastActiveAt = now;
+      if (speech) { sttLastActiveAt = now; studentLastSpeechAt = now; studentSpeechMs += Buffer.byteLength(base64, "base64") / 32; } // 16 kHz pcm16 mono = 32 bytes/ms
       else if (now - sttLastActiveAt >= STT_HANGOVER_MS) return; // genuine silence beyond the hangover
       const bytes = Buffer.byteLength(base64, "base64");
       sttBytes += bytes;
       if (stt && "failedOver" in stt && (stt as { failedOver: boolean }).failedOver) sttFallbackBytes += bytes;
       stt?.sendPcm16(base64);
     },
-    sendSystemMessage(text) {
+    sendSystemMessage(text, turn) {
       // Utterance-buffering STT (Groq) holds the student's last words un-transcribed for up to a pause: flush first
       // (capped) so the reply is grounded on what was JUST said, then speak. Resolves when the reply has been sent.
-      const sendIt = (): Promise<void> => speak({ type: "system", text: `[SYSTEM] ${text}` }).catch(() => {});
+      const sendIt = (): Promise<void> => speak({ type: "system", text: `[SYSTEM] ${text}` }, turn).catch(() => {});
       const flushing = stt?.flush?.();
       if (!flushing) return sendIt();
       return Promise.race([flushing.catch(() => {}), new Promise<void>((r) => setTimeout(r, FLUSH_WAIT_CAP_MS))]).then(sendIt);
