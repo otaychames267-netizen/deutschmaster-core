@@ -84,6 +84,20 @@ export const SHOW_UNRELEASED_CONTENT = false;
 export const VOICE_TUTOR_ENABLED = false;
 
 /**
+ * Admin-only preview of the AI Voice Tutor (owner decision 2026-10-10): while
+ * `VOICE_TUTOR_ENABLED` is still false for students, admins may open the 1:1
+ * tutor to listen to it and test it with a real microphone. Set to false to
+ * close it for admins as well. Students never see it until
+ * `VOICE_TUTOR_ENABLED` is flipped.
+ */
+export const VOICE_TUTOR_ADMIN_PREVIEW = true;
+
+/** Can this user open the AI Voice Tutor right now? Public launch flag, or the admin preview. */
+export function voiceTutorAvailable(isAdmin: boolean): boolean {
+  return VOICE_TUTOR_ENABLED || (VOICE_TUTOR_ADMIN_PREVIEW && isAdmin);
+}
+
+/**
  * Invite link for the subscriber-only WhatsApp community group. Shown as a
  * dashboard banner gated by `hasAccess` (an active subscription) — kept here
  * as a single constant so rotating the link (if it expires or the group is
