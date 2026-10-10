@@ -196,7 +196,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   // One adaptive speech detector for the student's mic (speechActivity.ts) — the SAME one the exam room uses: forwards
   // speech plus a short hangover to STT, drops long silence (was: ALL audio, ~$0.39/h of Scribe for silence too).
   const sttGate = new SpeechDetector();
-  const STT_HANGOVER_MS = 1_500;
+  // 0.7 s (was 1.5 s) + a 250 ms debounce in the buffered STT (was 400): the student's last words reach Groq ~1.1 s after they stop talking instead of ~1.9 s, so the transcript is
+  // usually ready before the answer is judged finished (2026-10-10: stt_flush 0.8-3.9 s was the wait for that request). A pause longer than this just splits the answer into two requests.
+  const STT_HANGOVER_MS = Number(process.env.TUTOR_STT_HANGOVER_MS ?? 700);
   let sttLastActiveAt = 0;
   const FLUSH_WAIT_CAP_MS = 8_000;
   let claudeInputTokens = 0, claudeOutputTokens = 0, claudeCacheCreationInputTokens = 0, claudeCacheReadInputTokens = 0;
@@ -516,7 +518,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     };
     // Groq-hosted Whisper (~10x cheaper) with automatic failover to ElevenLabs Scribe, same as the exam room.
     stt = process.env.MUENDLICH_STT_BACKEND === "groq"
-      ? await openFailoverStt(openGroqStt, openRealtimeStt, sttCallbacks, `tutor session ${sessionId}`)
+      ? await openFailoverStt((cb) => openGroqStt(cb, { flushDebounceMs: Number(process.env.TUTOR_STT_FLUSH_DEBOUNCE_MS ?? 250) }), openRealtimeStt, sttCallbacks, `tutor session ${sessionId}`)
       : await openRealtimeStt(sttCallbacks);
   } catch (e) {
     console.error(`[tutor voice] failed to open STT for session ${sessionId}:`, e);

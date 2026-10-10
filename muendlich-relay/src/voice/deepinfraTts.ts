@@ -86,5 +86,5 @@ export function startDeepInfraSynthesis(conn: DeepInfraConnection, callbacks: St
       if (done) break;
       if (value?.length) emit(Buffer.from(value));
     }
-  }, callbacks);
+  }, callbacks, { maxParallel: 2 }); // prefetch: the next sentence is requested while the previous one is still being generated (the audio is still emitted in order)
 }

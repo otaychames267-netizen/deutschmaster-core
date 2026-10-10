@@ -21,7 +21,7 @@
  *    survive into the transcript — the evaluation grades them).
  */
 import type { SttCallbacks, SttSession } from "./elevenLabsStt.js";
-import { openBufferedStt } from "./whisperStt.js";
+import { openBufferedStt, type BufferedSttOptions } from "./whisperStt.js";
 import { PERMANENT_MARKER } from "./failoverStt.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
@@ -109,9 +109,9 @@ async function groqTranscribe(pcm: Buffer, onBilled?: (seconds: number) => void)
   throw new Error(lastErr);
 }
 
-export function openGroqStt(callbacks: SttCallbacks): Promise<SttSession> {
+export function openGroqStt(callbacks: SttCallbacks, opts?: BufferedSttOptions): Promise<SttSession> {
   if (!process.env.GROQ_API_KEY) return Promise.reject(new Error("GROQ_API_KEY not set"));
   let requests = 0, billedSeconds = 0;
-  const session = openBufferedStt((pcm) => groqTranscribe(pcm, (s) => { requests++; billedSeconds += s; }), callbacks);
+  const session = openBufferedStt((pcm) => groqTranscribe(pcm, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
   return Promise.resolve(Object.assign(session, { billing: () => ({ requests, billedSeconds }) }));
 }

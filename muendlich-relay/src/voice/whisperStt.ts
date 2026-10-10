@@ -89,7 +89,10 @@ function quietestSplitPoint(buf: Buffer): number {
   return bestW >= windows ? buf.length : bestW * WINDOW_BYTES;
 }
 
-export function openBufferedStt(transcribe: TranscribeFn, callbacks: SttCallbacks): SttSession {
+export interface BufferedSttOptions { /** Silence (ms, no new audio chunk) after which the buffered utterance is sent. Default FLUSH_DEBOUNCE_MS (400); the 1:1 tutor uses a shorter one. */ flushDebounceMs?: number }
+
+export function openBufferedStt(transcribe: TranscribeFn, callbacks: SttCallbacks, opts?: BufferedSttOptions): SttSession {
+  const debounceMs = opts?.flushDebounceMs ?? FLUSH_DEBOUNCE_MS;
   let closed = false;
   let chunks: Buffer[] = [];
   let bufferedBytes = 0;
@@ -140,7 +143,7 @@ export function openBufferedStt(transcribe: TranscribeFn, callbacks: SttCallback
       bufferedBytes += chunk.length;
       if (bufferedBytes >= MAX_SEGMENT_BYTES) cutLongSegment();
       if (flushTimer) clearTimeout(flushTimer);
-      flushTimer = setTimeout(() => { void flush(); }, FLUSH_DEBOUNCE_MS);
+      flushTimer = setTimeout(() => { void flush(); }, debounceMs);
     },
     flush,
     close() {
