@@ -1,0 +1,21 @@
+{
+  "title": "Schröder",
+  "level": "B1",
+  "position": 7,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 7/16 (Annika3/Language Tests, page 87 printed / PDF page 88). Marketing/prize-draw letter 'An alle Kunden – Gewinnen', addressed to 'Herr Schröder', signed Petra Obermoser (Leiterin der Abteilung Marketing). Answer key from Lösungen page (printed p.93 / PDF p.94): 21b in, 22a Mit, 23a schöne, 24a einfach, 25b unserem, 26a natürlich, 27b teil, 28b neben, 29c unbedingt, 30a noch.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "An alle Kunden\n\nGewinnen\n\nSehr geehrter Herr Schröder,\n\nzum Start {{21}} das neue Geschäftsjahr haben wir uns für Sie etwas ganz Besonderes ausgedacht: einen attraktiven Gewinn! {{22}} dem Beginn des neuen Geschäftsjahres feiern wir unsere erfolgreiche Buchidee. Machen Sie mit! Es warten auf Sie sehr {{23}} Gewinne im Wert von vielen Tausend Euro. Mit ihrer Kundennummer können Sie an einem Preisausschreiben teilnehmen. Senden Sie uns {{24}} das beigefügte Antwortschreiben zurück und bestellen Sie damit – ohne Risiko – das Buch des Monats. Sie erhalten dieses Buch mit {{25}} Versprechen, es nach 10 Tagen zurückgeben zu können, sollte Ihnen das Buch nicht gefallen. Ohne irgendetwas zu zahlen! Behalten Sie das Buch, was wir {{26}} hoffen, zahlen Sie nur 50 Prozent des sonst üblichen Preises in einer Buchhandlung. Gleichzeitig nehmen Sie an einem Preisausschreiben {{27}}.\n\nBitte bedenken Sie: sollte Ihre Kundennummer {{28}} den richtigen Zahlen sein, haben Sie die Chance, ein Auto, eine Reise und viele weitere Preise zu erhalten. Antworten Sie {{29}} noch diese Woche! Dann haben Sie in jedem Fall die Chance auf den Hauptgewinn - einen Mercedes der S-Klasse. Wenn Sie innerhalb der kommenden vier Wochen antworten, nehmen Sie immer {{30}} an unserer Gewinnverteilung teil – vorausgesetzt, Sie haben die richtige Kundennummer.\n\nMit freundlichen Grüßen\nPetra Obermoser\nLeiterin der Abteilung Marketing",
+  "gaps": [
+    { "n": 21, "a": "auf", "b": "in", "c": "über", "correct": "b" },
+    { "n": 22, "a": "Mit", "b": "Von", "c": "Zwischen", "correct": "a" },
+    { "n": 23, "a": "schöne", "b": "schönen", "c": "schönes", "correct": "a" },
+    { "n": 24, "a": "einfach", "b": "immer", "c": "noch", "correct": "a" },
+    { "n": 25, "a": "unsere", "b": "unserem", "c": "unseren", "correct": "b" },
+    { "n": 26, "a": "natürlich", "b": "schön", "c": "viele", "correct": "a" },
+    { "n": 27, "a": "mit", "b": "teil", "c": "zu", "correct": "b" },
+    { "n": 28, "a": "unter", "b": "neben", "c": "vor", "correct": "b" },
+    { "n": 29, "a": "bald", "b": "bereits", "c": "unbedingt", "correct": "c" },
+    { "n": 30, "a": "noch", "b": "schon", "c": "schnell", "correct": "a" }
+  ]
+}

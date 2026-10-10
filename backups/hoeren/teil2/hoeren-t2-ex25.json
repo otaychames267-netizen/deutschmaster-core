@@ -1,0 +1,63 @@
+{
+  "title": "Zu Beginn",
+  "teil": 2,
+  "level": "B2",
+  "position": 25,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 26 (code 1234689) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Zu Beginn der Sendung hatte der Frühstücksreporter erwartet. REPORTER ein exklusives",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Ole hat sich vor 17 Jahren selbstständig gemacht.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Davor hatte er eine Lehre als Koch absolviert.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Er bevorzugt Gerichte ohne Fleisch.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Ole sieht wie ein Punker aus.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Er kocht für Musiker, die auf Tournee sind.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Zuletzt hat er für die Band „Die Prinzen“ gekocht.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Ole nimmt eine komplette Kücheneinrichtung mit auf Tournee.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Er macht sich über den Sender lustig, weil der Reporter bei englischen Wörtern nachfragt.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Die Musiker müssen immer essen, was auf den Tisch kommt.",
+      "correct": false
+    }
+  ]
+}

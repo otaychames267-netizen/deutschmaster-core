@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Computer",
+  "level": "TELC_B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 5/16 (Petra/Language Tests, pages 54-55 printed / PDF pages 55-56). Headlines a-j printed lowercase in source; uppercased to A-J per this platform's schema convention. Answer key from Lösungen page (printed p.66 / PDF p.67): 1H 2B 3G 4E 5F.",
+  "headlines": [
+    { "letter": "A", "text": "Sportkurse für ältere Menschen", "is_distractor": true },
+    { "letter": "B", "text": "Für Jugendliche ist der Computer etwas Alltägliches", "is_distractor": false },
+    { "letter": "C", "text": "Das Interesse am Handel über Internet nimmt stark ab", "is_distractor": true },
+    { "letter": "D", "text": "Arbeiten am Computer verursacht häufig Rückenschmerzen", "is_distractor": true },
+    { "letter": "E", "text": "Internetnutzer machen viele Dinge gleichzeitig", "is_distractor": false },
+    { "letter": "F", "text": "Firmen müssen auch über Internet für Produkte werben", "is_distractor": false },
+    { "letter": "G", "text": "Auch Freizeitsportarten sollten trainiert werden", "is_distractor": false },
+    { "letter": "H", "text": "Was man gegen Rückenschmerzen tun kann", "is_distractor": false },
+    { "letter": "I", "text": "Kinder wollen mit dem Computer nur spielen", "is_distractor": true },
+    { "letter": "J", "text": "Internetnutzer interessieren sich nicht fürs Fernsehen", "is_distractor": true }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "Falsche Körperhaltung, mangelnde Bewegung und psychische Faktoren sind meistens die Hauptfaktoren für Rückenschmerzen. Hier finden Sie ein ganzheitliches Trainingsprogramm, das hilft: Alle Übungen lassen sich im Alltag gut umsetzen und sind auch bei Vorschäden der Wirbelsäule durchführbar. Mit speziellem Entspannungstraining. 114 Seiten, durchgehend Farbabbildungen, 18×25 cm, gebunden.", "correct_headline": "H" },
+    { "position": 2, "title": "", "content": "Der Computer gehört heute wie selbstverständlich in das Jugendzimmer. Wie früher die Modelleisenbahn oder die Barbie-Puppe. Was aber genau treiben die Kids mit den hochgerüsteten Rechenmaschinen auf dem Schreibtisch? Das wollte die Jugendzeitschrift Bravo wissen. Selbstverständlich spielen, aber auch andere, nützlichere Dinge wie Texte schreiben oder Hausaufgaben für die Schule erledigen, Tabellen erstellen – und natürlich im Internet herumsurfen.", "correct_headline": "B" },
+    { "position": 3, "title": "", "content": "Inline-Skating ist ein idealer Ausdauersport – nicht nur für die jüngere Generation. Das haben jetzt Untersuchungen am Institut für Sportwissenschaften an der Universität Frankfurt bestätigt. Danach trainiert Inline-Skating das Herz-Kreislauf-System, beansprucht die wichtigsten Muskelgruppen und fördert die Koordination. Die Faszination dieser rasanten Freizeitsportart wirke generationenübergreifend und erfasst die Jungen wie die Alten, sagt Dr. Hans Jürgen Ahrens. Allerdings fragt der Arzt kritisch, warum jeder Skifahrer, Windsurfer oder Tennisspieler zu Beginn Trainingsstunden bei einem Profi belege, oft aber nicht der Inliner: Dabei lässt sich das Verletzungsrisiko durch regelmäßiges Fahrtraining deutlich verringern. In einem Kurs sollten die wichtigsten Sturz- Brems und Fahrtechniken erlernt werden.", "correct_headline": "G" },
+    { "position": 4, "title": "", "content": "Eine Studie der Fernsehgesellschaften ARD und ZDF besagt, dass deutsche Internetnutzer sich auch mit anderen Dingen beschäftigen, wenn sie im Internet sind. Ein Großteil der beobachteten Personen telefoniert beim Surfen, hört nebenbei Musik, oder arbeitet mit anderen Computerprogrammen. Aber auch Konkurrenzmedien wie Fernsehen und Zeitschriften finden große Aufmerksamkeit, während im Internet nach Informationen gesucht wird.", "correct_headline": "E" },
+    { "position": 5, "title": "", "content": "Geschäfte über das Internet werden in Deutschland auch in Zukunft Milliarden Euro einbringen. In spätestens zwei Jahren werden 20 Prozent aller europäischen Geschäfte über das Internet abgewickelt, sagen die Fachleute. Heutzutage ist es kaum vorstellbar, dass ein Unternehmen allein mit klassischen Verkaufsmethoden und ohne zusätzliches Online-Marketing erfolgreich sein wird. Wer heute nicht anfängt, diese Möglichkeiten zu nutzen, kann in Zukunft seine Kunden verlieren. Das Argument, dass die angebotene Ware sich ja auch ohne Internet gut verkaufe, stimmt so nicht mehr. Denn das Internet beeinflusst auch das Käuferverhalten auf der Straße.", "correct_headline": "F" }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "title": "In dem Restaurant",
+  "teil": 2,
+  "level": "B2",
+  "position": 3,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 4 (code 13489) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 1,
+      "text": "In dem Restaurant gab es einen Wasserschaden.",
+      "correct": true
+    },
+    {
+      "number": 2,
+      "text": "Anton Laurito ist bei seinen Großeltern aufgewachsen.",
+      "correct": false
+    },
+    {
+      "number": 3,
+      "text": "Im Haus der Großeltern lebten auch andere Kinder.",
+      "correct": true
+    },
+    {
+      "number": 4,
+      "text": "Der Stress störte den Studiogast während der Ausbildung nicht.",
+      "correct": true
+    },
+    {
+      "number": 5,
+      "text": "Bei neuen Mitarbeitern legt Anton Laurito am meisten Wert auf viel Erfahrung.",
+      "correct": false
+    },
+    {
+      "number": 6,
+      "text": "Ausschen und Geschmack der Speisen haben für den Koch den gleichen Stellenwert.",
+      "correct": false
+    },
+    {
+      "number": 7,
+      "text": "In der Essschule können Kinder kochen lernen",
+      "correct": false
+    },
+    {
+      "number": 8,
+      "text": "Anton Laurito lehnt Fastfood nicht grundsätzlich ab.",
+      "correct": true
+    },
+    {
+      "number": 9,
+      "text": "Der Koch hat eine gesunde Einstellung zum Thema Wettbewerb.",
+      "correct": true
+    },
+    {
+      "number": 10,
+      "text": "Zuhause probiert er gerne komplizierte Gerichte aus. 134789:",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "title": "Buschhaus",
+  "level": "B1",
+  "position": 2,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 2/16 (Petra/Language Tests, page 19 = in-doc p.18). Answer key from Lösungen page: 21b dass, 22b möchten, 23b nächsten, 24a mehr, 25a verlieren, 26b trotz, 27c Sie, 28b Falls, 29b der, 30c freundlichen.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig? Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Herrn\nMatthias Buschhaus\nAlte Gasse 19\nD-80344 München\n\nDas COMPUTER-MAGAZIN\n\nMünchen, den 21. Mai....\n\nIhre Kündigung vom 15. Mai\n\nSehr geehrter Herr Buschhaus,\n\nschade, {{21}} Sie CHIP nicht weiter beziehen {{22}}. Die Belieferung beenden wir mit unserem {{23}} Heft. Sie erhalten daher die darauf folgende Ausgabe nicht {{24}}.\n\nWir {{25}} Sie natürlich nur ungern als Abonnenten und würden uns freuen, wenn Sie CHIP {{26}} ab und zu am Kiosk kaufen. Vielleicht gelingt es uns, {{27}} wieder von der Qualität von CHIP zu überzeugen.\n\n{{28}} Sie noch Fragen haben oder sich wieder für ein Abonnement entscheiden, stehen wir Ihnen gerne unter {{29}} Nummer 0781/639 6259 von montags bis freitags von 8 bis 18 Uhr zur Verfügung.\n\nMit {{30}} Grüßen\n\nIhr CHIP-Aboservice",
+  "gaps": [
+    { "n": 21, "a": "darum", "b": "dass", "c": "weil", "correct": "b" },
+    { "n": 22, "a": "möchte", "b": "möchten", "c": "möchtest", "correct": "b" },
+    { "n": 23, "a": "nächste", "b": "nächsten", "c": "nächstes", "correct": "b" },
+    { "n": 24, "a": "mehr", "b": "noch", "c": "nur", "correct": "a" },
+    { "n": 25, "a": "verlieren", "b": "verliert", "c": "verloren", "correct": "a" },
+    { "n": 26, "a": "obwohl", "b": "trotz", "c": "trotzdem", "correct": "b" },
+    { "n": 27, "a": "Ihnen", "b": "sie", "c": "Sie", "correct": "c" },
+    { "n": 28, "a": "Aber", "b": "Falls", "c": "Wann", "correct": "b" },
+    { "n": 29, "a": "das", "b": "der", "c": "die", "correct": "b" },
+    { "n": 30, "a": "freundlich", "b": "freundlichem", "c": "freundlichen", "correct": "c" }
+  ]
+}

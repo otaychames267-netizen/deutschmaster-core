@@ -1,0 +1,63 @@
+{
+  "title": "Frau Hahn",
+  "teil": 2,
+  "level": "B2",
+  "position": 39,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 40 (code 24680) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Der Journalist spricht mit einer Kundin im Kaufhaus.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Frau Hahn hat ihren Beruf im Kaufhaus Brück gelernt..Brück",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Frau Hahn wollte schon als Kind Verkäuferin im Kaufhaus Brück werden.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Frau Hahn fand es wichtig, nette Kollegen zu haben.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Frau Hahns Mann arbeitet jetzt in demselben Kaufhaus wie sie.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Der Mann von Frau Hahn hat als Schuhverkäufer gearbeitet.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Das Kaufhaus Brück wird nach der Schließung abgerissen.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Frau Hahn findet es wichtig, in einem schönen Haus zu arbeiten.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Die neuen Inhaber hätten das Kaufhaus gerne weitergeführt.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Frau Hahn will nicht in einem anderen Kaufhaus arbeiten.",
+      "correct": true
+    }
+  ]
+}

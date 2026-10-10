@@ -1,0 +1,21 @@
+{
+  "name": "realtime-voice-pipeline",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "ISOLATED PROTOTYPE — persistent bidirectional realtime voice session (Gemini Live) as the comparison architecture against prototype-voice-pipeline's decomposed Deepgram+Claude+Cartesia pipeline. Not wired into production, not deployed, not part of the main app's build. See README.md.",
+  "scripts": {
+    "make-fixture": "tsx src/makeFixture.ts",
+    "harness": "tsx src/harness.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

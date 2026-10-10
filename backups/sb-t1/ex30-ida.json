@@ -1,0 +1,20 @@
+{
+  "title": "Ida",
+  "level": "B2",
+  "position": 31,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Ida,\n\nnun ist es schon drei Monate her, dass ich nach Frankfurt gezogen bin. Es hat ziemlich lange gedauert, bis ich mich hier eingelebt habe. Am Anfang hatte ich mich auch gar nicht {{21}} die neue Stelle und das Leben in der Stadt gefreut. Dass ich mich für meine neue Arbeitsstelle umgezogen war, hatte mich eine Zeitlang sogar ein bisschen geärgert. Ich {{22}} ja auch täglich mit dem Zug fahren können, statt mir eine Wohnung in der Nähe der Firma zu suchen. Zuerst habe ich {{23}} in meiner neuen Wohnung auch gar nicht richtig wohlgefühlt. Aber nachdem ich meine Umzugskartons {{24}}, konnte ich endlich die Stadt richtig erkunden.\nSeit einiger Zeit gefällt es mir in Frankfurt nun richtig gut. Das liegt vor allem {{25}}, dass ich eine neue Freundin gefunden habe. Annabelle wohnt in derselben Straße wie ich und wir haben uns auf einem Flohmarkt in unserem Stadtviertel kennengelernt. Sie hat dort ihre alten Bücher verkauft. Als wir {{26}} ins Gespräch kamen, haben wir festgestellt, dass wir ähnliche Interessen und Hobbys teilen: Sie mag ebenfalls ausgefallene Mode und moderne Kunst und wir gehen nun regelmäßig zusammen ins Schwimmbad.\nMein Leben sieht nun also ganz anders aus {{27}} noch vor drei Monaten. Mit meiner neuen Stelle bin ich auch zufrieden, {{28}} ich oft Überstunden machen muss. Dafür herrscht jedoch ein angenehmes Betriebsklima {{29}} uns in der Abteilung. Jetzt habe ich viel von mir erzählt, aber Dich noch gar nicht gefragt, wie es Dir {{30}} geht. Gibt es etwas Neues bei Dir? Ich freue mich auf Deine nächste Mail!\n\nHerzliche Grüße\nDeine Emilia",
+  "gaps": [
+    { "n": 21, "a": "an", "b": "auf", "c": "wegen", "correct": "b" },
+    { "n": 22, "a": "habe", "b": "hätte", "c": "würde", "correct": "b" },
+    { "n": 23, "a": "dich", "b": "uns", "c": "mich", "correct": "c" },
+    { "n": 24, "a": "ausgepackt habe", "b": "ausgepackt hatte", "c": "auspackte", "correct": "b" },
+    { "n": 25, "a": "daran", "b": "darauf", "c": "darin", "correct": "a" },
+    { "n": 26, "a": "einander", "b": "gegeneinander", "c": "miteinander", "correct": "c" },
+    { "n": 27, "a": "als", "b": "denn", "c": "wenn", "correct": "a" },
+    { "n": 28, "a": "obwohl", "b": "trotzdem", "c": "während", "correct": "a" },
+    { "n": 29, "a": "bei", "b": "mit", "c": "zu", "correct": "a" },
+    { "n": 30, "a": "eigentlich", "b": "hoffentlich", "c": "sicherlich", "correct": "a" }
+  ]
+}

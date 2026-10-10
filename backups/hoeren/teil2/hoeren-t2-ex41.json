@@ -1,0 +1,63 @@
+{
+  "title": "Herr Kemper 2",
+  "teil": 2,
+  "level": "B2",
+  "position": 41,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": "Herr Kemper",
+  "notes": "PDF page 42 (code 23468) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Lisa Eisenberg war aus beruflichen Gründen in den USA.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Während einer Reise entschied sich Lisa Eisenberg für einen beruflichen Neuanfang.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Lisa Eisenbergs Geschäftsidee stieß in ihrem Bekanntenkreis auf Skepsis.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Lisa Eisenberg hat sich auf regionale Speisen spezialisiert.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "In der Mittagszeit erzielt Lisa Eisenberg den Großteil ihres Umsatzes.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Lisa Eisenberg muss nicht mehr aktiv nach Kunden suchen.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Lisa Eisenberg bietet für Firmen täglich auch abends Gerichte an.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Es ist für Lisa Eisenberg leicht, ein geeignetes Fahrzeug zu finden.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Lisa Eisenberg hat als Studentin nebenbei in der Gastronomie gearbeitet.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "In den nächsten Monaten wird Lisa Eisenberg einen zweiten Wagen kaufen.",
+      "correct": false
+    }
+  ]
+}

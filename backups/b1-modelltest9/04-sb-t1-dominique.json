@@ -1,0 +1,21 @@
+{
+  "title": "Dominique",
+  "level": "B1",
+  "position": 9,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 9/16 (Sonja3/Language Tests, page 113 printed / PDF page 114). Letter addressed to 'Liebe Dominique', signed Katie, about a new EU job in Brussels. Answer key from Lösungen page (printed p.119 / PDF p.120): 21b geschehen, 22b dir, 23c wurden, 24a lange, 25c man, 26b damit, 27b um, 28a dem, 29c treffen, 30b in.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Liebe Dominique,\n\nda ich dich telefonisch nicht erreiche, auch nicht per E-Mail, schreibe ich dir einen Brief. Es ist nämlich etwas ganz Besonderes {{21}}: Stell {{22}} vor, ich habe die Stelle bei der EU in Brüssel bekommen!\n\nDu weißt noch: Es gab ungefähr 300 Bewerber, und unter denen {{23}} die besten ausgesucht. Ich hatte mich auf das Vorstellungsgespräch schon {{24}} Zeit vorher vorbereitet. Trotzdem – ohne meine Sprachkenntnisse und meine Auslandserfahrung hätte {{25}} die Stelle sicher nicht bekommen. Aber ein bisschen Glück braucht {{26}} auch, dass so etwas gelingt.\n\nNun bitte ich dich {{27}} ein paar gute Tipps. Vielleicht kennst du auch jemanden, von {{28}} ich Informationen über das Leben in Belgien bekommen kann? Ich würde dich am liebsten kurz {{29}}, um mit dir persönlich zu sprechen. Geht das vielleicht {{30}} zwei Wochen, z.B. am übernächsten Wochenende? Bitte gib mir Bescheid.\n\nHerzliche Grüße\nKatie",
+  "gaps": [
+    { "n": 21, "a": "geschah", "b": "geschehen", "c": "geschieht", "correct": "b" },
+    { "n": 22, "a": "dich", "b": "dir", "c": "Du", "correct": "b" },
+    { "n": 23, "a": "halten", "b": "wären", "c": "wurden", "correct": "c" },
+    { "n": 24, "a": "lange", "b": "langem", "c": "langer", "correct": "a" },
+    { "n": 25, "a": "er", "b": "ich", "c": "man", "correct": "c" },
+    { "n": 26, "a": "als", "b": "damit", "c": "ob", "correct": "b" },
+    { "n": 27, "a": "über", "b": "um", "c": "vor", "correct": "b" },
+    { "n": 28, "a": "dem", "b": "den", "c": "denen", "correct": "a" },
+    { "n": 29, "a": "getroffen", "b": "treffe", "c": "treffen", "correct": "c" },
+    { "n": 30, "a": "bis", "b": "in", "c": "an", "correct": "b" }
+  ]
+}

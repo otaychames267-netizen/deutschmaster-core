@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "arabischen Ländern",
+  "level": "TELC_B1",
+  "position": 3,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 3/16 (Sophie/Language Tests, pages 32-33 printed = PDF pages 32-33 for situations, page 33 printed = PDF page 34 for the ad block). Ad block is a low-resolution scan/photo inside the source PDF; some phone numbers/addresses transcribed as legibly as possible. Answer key from Lösungen page (printed p.40 / PDF p.41, re-verified at 250 DPI): 11D 12K 13J 14A 15H 16X 17I 18F 19B 20X. NOTE on situation 17: the printed key marks ad I (Tanzschule Wernicke, a job posting SEEKING a dance teacher/-in) as correct for 'Sie möchten tanzen lernen' (wanting to learn to dance), while ad E (Tanzschule Bäulke's beginner/refresher dance courses) reads as the more obvious semantic match but is marked as an unused distractor in the key. Transcribed verbatim per this project's policy of never overriding an explicit printed answer key.",
+  "key": "DKJAHXIFBX",
+  "situations": {
+    "11": "Sie möchten als Student nebenbei Geld verdienen. Sie reisen gern.",
+    "12": "Sie interessieren sich für Literatur aus arabischen Ländern.",
+    "13": "Ihr Freund möchte gerne in einem Kino arbeiten.",
+    "14": "Sie wollen in einem Restaurant arbeiten und dort auch wohnen.",
+    "15": "Ihre Freundin sucht einen Kindergartenplatz für ihren kleinen Sohn.",
+    "16": "Sie möchten am nächsten Wochenende in eine Diskothek gehen.",
+    "17": "Sie möchten tanzen lernen.",
+    "18": "Sie haben große Berufserfahrung in Gaststätten. Jetzt möchten Sie ein Restaurant leiten.",
+    "19": "Sie möchten Filme aus afrikanischen Ländern sehen.",
+    "20": "Sie möchten einen Fotografiekurs besuchen und haben nur abends Zeit."
+  },
+  "texts": {
+    "A": { "title": "", "content": "KLOSTER Andechs, seit 1455 – Genuss für Leib und Seele. Für unseren Klostergasthof Andechs suchen wir zur Verstärkung unseres Teams zur Festanstellung und zum baldmöglichsten Eintritt Koch und Küchenhelfer. Kost und Wohnen im Haus möglich. Bitte setzen Sie sich mit Herrn Urban in Verbindung. Klostergasthof Andechs, Bergstraße 5, 82346 Andechs, Telefon 08152/9309-0" },
+    "B": { "title": "", "content": "Eine Woche lang zeigen wir Spielfilme aus Nordafrika. Sie geben das Leben in Algerien, Marokko, Tunesien und Libyen wieder. www.valentin.de – Programmkino Valentin, Schwabing" },
+    "C": { "title": "", "content": "Starnberg – Seniorentreff, kommenden Mittwoch: 9 Uhr, Treffen am Bahnhof-Parkplatz zum Skilanglauf (Informationen unter 08151/21714); 13.30 Uhr, offener Spielenachmittag; 14.30 Uhr, Englisch für Fortgeschrittene; 17 Uhr, Spanischkurs; ab 19 Uhr, Oldie-Disko!!" },
+    "D": { "title": "", "content": "Reisebüro sucht für Juli und August junge, unabhängige Leute als Reiseleiter für Busreisen. Fremdsprachenkenntnisse von Vorteil. Weitere Auskünfte: Schneider-Reisen, Frau Hagmann, Tel. 089/87 00 35 von 9-16 Uhr" },
+    "E": { "title": "", "content": "Walzer, Tango, Foxtrott – wer seine Füße im Takt und nach den richtigen Schritten bewegt... Zu Beginn der Ballsaison bieten wir wieder unsere beliebten Kurse in den Gesellschaftstänzen an. Spezielle Anfänger- und Auffrischungskurse. Tanzschule Bäulke, Wolfstraße 12, 82404 Pullach" },
+    "F": { "title": "", "content": "Wir suchen für das Restaurant-, Bankett- und Tagungsgeschäft der Waldwirtschaft Großhesselohe Geschäftsführer/-in, Restaurant-Fachmann/Frau. Sie sind eine gefestigte Persönlichkeit mit Verantwortungsbewusstsein und überdurchschnittlicher Einsatzbereitschaft. Zufriedene Gäste sind unser oberstes Prinzip. Bewerbung mit ausführlichem Lebenslauf senden Sie bitte an: Waldwirtschaft Großhesselohe, z. Hd. Herrn Sepp Krätz oder Frau Carola Schuchardt, Georg-Kalb-Str. 3, 83049 Großhesselohe/München" },
+    "G": { "title": "", "content": "Fa. Team Work in Landsberg/Lech sucht dringend für verschiedene Gebiete in Bayern freundliche Damen und Herren für den Verkauf von hochwertigen Natur-Spielwaren im Kindergartenbereich oder Direktverkauf. Haupt- oder nebenberufliche Tätigkeit möglich. Vergütung auf Provisionsbasis. Bitte sprechen Sie mit Herrn Turtenwald. Tel. 08191/942 942" },
+    "H": { "title": "", "content": "Tatzelwurm hat noch freie Plätze für Drei- bis Vierjährige. In unserem Kindergarten fühlen sich Ihre Kinder wohl: langjährige Erfahrung, professionelle Betreuung, großer Garten, Vollwertküche. Nähere Informationen bei Frau Hammerschmidt, Dietrich-Allee, 51429 Berg-Gladbach, Tel. 087 700 19 67" },
+    "I": { "title": "", "content": "Tanzschule Wernicke sucht ab sofort Tanzlehrer/-in für Tango, Rumba, Samba, Lambada, Salsa, Cha-Cha-Cha. Bewerber/-in sollte mehrjährige Erfahrung speziell mit Anfängerkursen haben, wenn möglich auch Turniererfahrung. Bewerbungen unter Chiffre: 17296" },
+    "J": { "title": "", "content": "Technisch versierter, zuverlässiger Filmvorführer für Filmkunstkino ab sofort gesucht. Telefonische Anfragen Montag-Freitag, nur 10-11 Uhr, unter: 089-2 71 36 78" },
+    "K": { "title": "", "content": "Blickpunkt Orient: Im Rahmen der Fotoausstellung 'Kairo – uralte Metropole am Nil' liest die ägyptische Schriftstellerin Salwa Bakr aus ihrem Roman 'Der goldene Wagen fährt nicht zum Himmel' und berichtet über das Leben von Frauen, die in der Millionenstadt Kairo ihren Alltag bewältigen müssen... 20 Uhr, Seidlvilla, Nikolaiplatz 1b." },
+    "L": { "title": "", "content": "New York aus der Perspektive der Starfotografin Helen Levitt – noch bis Sonntag, 10. Januar, sind ihre Schwarzweiß-Ansichten in der Villa Stuck zu sehen. Auch die Ausstellung 'Viehweide und Glaspalast', Aquarelle und Zeichnungen der Münchner Schule, im Lenbachhaus endet an diesem Sonntag. Beide Ausstellungen sind täglich von 10 bis 17 Uhr geöffnet. SZ Extra Redaktion 089/2183-9256, Fax 089/2183-9397, Anzeigen 089/2183-398, Fax 089/2193-8711" }
+  }
+}

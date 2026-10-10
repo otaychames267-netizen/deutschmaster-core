@@ -1,0 +1,107 @@
+{
+ "items": {
+  "21": {
+   "keyword": "Grüße aus",
+   "item_type": "fixed_expression",
+   "evidence_text": "Betreff: Grüße **aus** Berlin",
+   "grammar_example": null,
+   "explanation_wrong": "\"ab\" (اعتباراً من) تصف نقطة بداية زمنية -- معنى مختلف، و\"von\" (من) لا تكوّن التعبير الثابت \"Grüße aus + مكان\" (تحيات من مكان) الذي يستلزم \"aus\".",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير الثابت \"Grüße aus + مكان\" يحدد \"aus\".",
+   "grammar_translation": null
+  },
+  "22": {
+   "keyword": "was los war",
+   "item_type": "conjunction",
+   "evidence_text": "Aber jetzt berichte ich dir, **was** alles los war.",
+   "grammar_example": null,
+   "explanation_wrong": "\"wann\" (متى) أداة استفهام زمنية، و\"wie\" (كيف) أداة استفهام عن الكيفية -- لا تناسبان الإخبار عن أحداث (\"ما الذي جرى\") كما تفعل \"was\".",
+   "grammar_structure": null,
+   "explanation_correct": "الإخبار عما جرى (الأحداث) يستدعي \"was\".",
+   "grammar_translation": null
+  },
+  "23": {
+   "keyword": "da",
+   "item_type": "conjunction",
+   "evidence_text": "Also, im Büro haben wir derzeit viel Stress, **da** drei Kollegen im Urlaub sind und eine weitere Kollegin seit zwei Wochen krank ist.",
+   "grammar_example": null,
+   "explanation_wrong": "\"indem\" (من خلال) تصف وسيلة/طريقة -- معنى مختلف تماماً، و\"obwohl\" (رغم أنّ) تصوغ تناقضاً غير موجود -- الجملة تفسر سبباً مباشراً يستلزم \"da\".",
+   "grammar_structure": null,
+   "explanation_correct": "تفسير سبب الضغط في العمل يستدعي \"da\".",
+   "grammar_translation": null
+  },
+  "24": {
+   "keyword": "wird organisiert",
+   "item_type": "grammar_structure",
+   "evidence_text": "Hoffentlich **wird** das in Zukunft besser organisiert.",
+   "grammar_example": null,
+   "explanation_wrong": "\"ist\" مضارع بسيط -- لا يعبّر عن أمل مستقبلي، و\"würde\" صيغة حال افتراضي -- لا تناسب أملاً واقعياً مباشراً بالمستقبل؛ المبني للمجهول المستقبلي يستلزم \"wird\".",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير عن أمل بتحسن مستقبلي يستدعي \"wird\" (مبني للمجهول مستقبلي).",
+   "grammar_translation": null
+  },
+  "25": {
+   "keyword": "wäre geblieben",
+   "item_type": "tense",
+   "evidence_text": "Kennst du die Band? Eigentlich war ich an dem Abend ganz schön kaputt und **wäre** am liebsten zuhause geblieben, aber ich hatte Carmen die Karten zum Geburtstag geschenkt.",
+   "grammar_example": null,
+   "explanation_wrong": "\"bin\" مضارع، و\"war\" ماضٍ إخباري مباشر -- لا يعبّران عن رغبة افتراضية غير متحققة في الماضي؛ هذا يستلزم Konjunktiv II: wäre.",
+   "grammar_structure": null,
+   "explanation_correct": "الرغبة الافتراضية غير المتحققة في الماضي تستدعي Konjunktiv II \"wäre\".",
+   "grammar_translation": null
+  },
+  "26": {
+   "keyword": "konnte schlecht",
+   "item_type": "tense",
+   "evidence_text": "Da **konnte** ich ja schlecht auf dem Sofa sitzen bleiben! Im Nachhinein muss ich sagen: Ein Glück, dass wir zu dem Konzert gegangen sind, denn es war einfach nur super!",
+   "grammar_example": null,
+   "explanation_wrong": "\"musste\" (كان يجب) يفيد إلزاماً خارجياً، و\"sollte\" (كان يُفترض) يفيد توقعاً من الآخرين -- لا يناسبان استحالة اجتماعية بسيطة (لا يليق) كما يفيدها \"konnte\" هنا مع \"schlecht\".",
+   "grammar_structure": null,
+   "explanation_correct": "وصف استحالة اجتماعية (لا يليق) بسبب التزام سابق يستدعي \"konnte\" (بالنفي الضمني عبر \"schlecht\").",
+   "grammar_translation": null
+  },
+  "27": {
+   "keyword": "denn",
+   "item_type": "conjunction",
+   "evidence_text": "Da konnte ich ja schlecht auf dem Sofa sitzen bleiben! Im Nachhinein muss ich sagen: Ein Glück, dass wir zu dem Konzert gegangen sind, **denn** es war einfach nur super!",
+   "grammar_example": null,
+   "explanation_wrong": "\"aber\" (لكن) تصوغ تبايناً -- لا سبباً، و\"sondern\" تحتاج نفياً سابقاً مباشراً غير موجود هنا -- تفسير سبب الفرح يستلزم \"denn\".",
+   "grammar_structure": null,
+   "explanation_correct": "تفسير سبب الفرح بالذهاب يستدعي \"denn\".",
+   "grammar_translation": null
+  },
+  "28": {
+   "keyword": "Beides",
+   "item_type": "grammar_structure",
+   "evidence_text": "An den letzten beiden Wochenenden hatten wir dann auch noch Familienfeiern: Erst hatte meine ältere Schwester Geburtstag und hat groß gefeiert, dann hat ein Cousin geheiratet und uns eingeladen, **Beides** war zwar schön, aber auch anstrengend.",
+   "grammar_example": null,
+   "explanation_wrong": "\"Beide\" صيغة جمعية تُستخدم للإشارة لعناصر معدودة منفصلة، و\"Beiden\" حالة جر -- بينما الإشارة هنا لفكرة مجردة موحدة (الحدثان معاً) بصيغة الفاعل، وهذا يستلزم الضمير المحايد المستقل: Beides.",
+   "grammar_structure": null,
+   "explanation_correct": "الإشارة المستقلة لحدثين مجتمعين كفكرة واحدة تستدعي الضمير المحايد المستقل \"Beides\".",
+   "grammar_translation": null
+  },
+  "29": {
+   "keyword": "noch keine Pläne (bisher nicht)",
+   "item_type": "adjective_adverb",
+   "evidence_text": "Ich bin froh, dass wir für die kommenden Wochenenden **noch** keine Pläne haben.",
+   "grammar_example": null,
+   "explanation_wrong": "\"erst\" (لم يحدث إلا) تفيد تأخراً غير متوقع، و\"schon\" (بالفعل) تعني عكس المقصود (وجود خطط بالفعل) -- التعبير الصحيح لعدم وجود خطط حتى الآن يستلزم \"noch\".",
+   "grammar_structure": null,
+   "explanation_correct": "\"noch keine Pläne haben\" تعبير شائع بمعنى \"لا توجد خطط حتى الآن\" -- براحة لعدم الانشغال في عطلات نهاية الأسبوع القادمة.",
+   "grammar_translation": null
+  },
+  "30": {
+   "keyword": "sich freuen auf",
+   "item_type": "fixed_expression",
+   "evidence_text": "Melde dich doch wieder, ich freue mich **auf** deine nächste E-Mail!",
+   "grammar_example": null,
+   "explanation_wrong": "\"für\" لا يقترن بالفعل \"sich freuen\" هنا، و\"über\" تناسب الفرح بشيء حاضر مُستلَم -- لا التطلع لشيء مستقبلي (رسالة قادمة) كما يفيده \"sich freuen auf\" الذي يستلزم \"auf\".",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير الثابت \"sich freuen auf\" يحدد \"auf\".",
+   "grammar_translation": null
+  }
+ },
+ "translation": {
+  "text": "الموضوع: تحيات من برلين\n\nمرحباً ليون،\n\nشكراً جزيلاً على رسالتك الأخيرة من بكين! أنت تعمل الآن منذ نصف عام في الصين - لا يُصدَّق كم يمر الوقت بسرعة.\n\nللأسف لم يكن لدي وقت في الأسابيع الثلاثة الماضية للرد عليك لأن لدي الكثير لأفعله. لكنني الآن سأخبرك بما كان يحدث.\n\nإذن، في المكتب لدينا حالياً ضغط كبير، لأن ثلاثة زملاء في إجازة وزميلة أخرى مريضة منذ أسبوعين. الآن يجب أن ننجز العمل بخمسة أشخاص، الذي عادة ينجزه تسعة أشخاص. لا أعرف حقاً من قام بتخطيط الإجازات هذا. آمل أن يُنظَّم ذلك بشكل أفضل في المستقبل.\n\nمساءً خرجنا أنا وكارمن عدة مرات. كنا مثلاً في حفلة لفرقة \"بيلاسكو\". هل تعرف الفرقة؟ في الواقع كنت متعبة جداً في تلك الليلة وكنت أفضل البقاء في المنزل، لكنني كنت قد أهديت كارمن التذاكر في عيد ميلادها. لم يكن بإمكاني حينها البقاء جالسة على الأريكة! بأثر رجعي يجب أن أقول: لحسن الحظ أننا ذهبنا للحفل، لأنه كان رائعاً ببساطة!\n\nفي عطلتي نهاية الأسبوع الأخيرتين كان لدينا أيضاً احتفالات عائلية: أولاً كان عيد ميلاد أختي الكبرى واحتفلت بشكل كبير، ثم تزوج ابن عم لي ودعانا. كلاهما كان جميلاً لكن مرهقاً أيضاً. أنا سعيدة أنه لا توجد لدينا حتى الآن خطط لعطلات نهاية الأسبوع القادمة.\n\nهذا كل شيء مني الآن. تواصل معي مرة أخرى، أتطلع لرسالتك الإلكترونية القادمة!\n\nتحياتي الكثيرة يرسلها لك\nفابيان"
+ }
+}

@@ -1,0 +1,23 @@
+{
+  "title": "ADRIAN",
+  "teil": 2,
+  "level": "B1",
+  "position": 11,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 11/16 (Petra/Language Tests, page 153). Answer key from Lösungen page (p.158): 31B AUFTRAG, 32J STATTFINDEN, 33F INFORMATIONEN, 34H NENNEN, 35D GEEIGNET, 36O WEGEN, 37I NUN, 38A AM, 39K TERMIN, 40N WÄREN. Title 'ADRIAN' taken verbatim from the Lösungen page's short label (referring to the letter's signatory, Adrian Schöller). Word list letter 'd' is printed in the source as 'GEEIGENET' (extra 'E') rather than the grammatically expected 'GEEIGNET' — transcribed verbatim as a likely source typo, not corrected. Word list letter 'e' is printed as 'GEGEÜBER' (likely typo for 'GEGENÜBER') — also transcribed verbatim.",
+  "instructions": "Lesen Sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Damen und Herren,\n\nunsere Organisation hat den {{31}}, eine deutsch-französische Konferenz zu europäischen Entwicklungsprogrammen vorzubereiten. Diese Veranstaltung könnte in Breisach {{32}}, und daher brauchen wir von Ihnen nähere {{33}}. In Ihrer Anzeige {{34}} Sie die Sehenswürdigkeiten von Breisach und die verschiedenen touristischen Möglichkeiten. Deshalb erscheint uns Ihre Stadt als sehr {{35}}, auch {{36}} sie als Brücke zu Europa gilt.\n\nNun haben wir folgende Bitte: Für diese Veranstaltung {{37}} wir ein gutes Hotel, möglichst am Ufer des Rheins, mit Konferenz- und Arbeitsräumen, ausgestattet mit den notwendigen technischen Anlagen, Internetanschluss usw. Es sollte {{38}} ruhig gelegen sein. Können Sie uns dazu Vorschläge schicken? Der {{39}} wäre 15.-21. November.\n\nBitte geben Sie uns möglichst bald Bescheid. Für Prospekte und Informationen zu Preisen und Buchungsbedingungen {{40}} wir Ihnen dankbar.\n\nMit freundlichen Grüßen\n\nADRIAN SCHÖLLER\nEVD Trans GmbH",
+  "words": ["AM", "AUFTRAG", "FRAGEN", "GEEIGENET", "GEGEÜBER", "INFORMATIONEN", "KÖNNTEN", "NENNEN", "NUN", "STATTFINDEN", "TERMIN", "TROTZDEM", "VOR", "WÄREN", "WEGEN"],
+  "answers": {
+    "31": "AUFTRAG",
+    "32": "STATTFINDEN",
+    "33": "INFORMATIONEN",
+    "34": "NENNEN",
+    "35": "GEEIGENET",
+    "36": "WEGEN",
+    "37": "NUN",
+    "38": "AM",
+    "39": "TERMIN",
+    "40": "WÄREN"
+  }
+}

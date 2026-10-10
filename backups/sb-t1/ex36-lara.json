@@ -1,0 +1,20 @@
+{
+  "title": "Lara",
+  "level": "B2",
+  "position": 37,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Lara,\n\nbitte verzeih mir, dass ich erst jetzt auf {{21}} Brief antworte. Ich hatte in den letzten Wochen praktisch keine freie Minute und kam einfach nicht dazu, dir zu schreiben. Jetzt aber tue ich es, {{22}} du wirklich tolle Neuigkeiten mitzuteilen hast.\nSchon immer hast du von großen Abenteuern und Reisen in die Ferne geträumt. Ich weiß {{23}} gut, wie wir uns als Gymnasiasten fremde Länder ausgemalt haben. Nun verschlägt es dich und deine Familie also nach Dubai - und du sagst unserem Land für einige Zeit Adieu. Ich weiß, dass mit dieser Versetzung für dich ein Traum in Erfüllung geht. {{24}} deinen Neubeginn wünschen Peter und ich dir alles Gute. Wir freuen uns auch sehr, dass ihr alle gesund und munter seid und hoffen, dass das so bleibt. Bei uns geht mehr oder weniger alles seinen gewohnten Gang. Robert gefällt es gut auf seiner {{25}} Stelle. Er muss sich einfach noch einarbeiten. Lorenz ist jetzt 15. Du weißt {{26}}, was das heißt. Er hält sich für den Größten und macht uns viele Schwierigkeiten. Aber irgendwann geht auch das vorüber. Sandra ist jetzt auch schon in der dritten Klasse und bringt gute Noten nach Hause. {{27}} sind wir natürlich stolz. Es {{28}} schön, wenn wir uns vor deiner Abreise noch einmal treffen würden. Vielleicht findet ihr {{29}} der Umzugsvorbereitungen noch Zeit. Wie wäre es mit einem gemeinsamen Sonntagsbrunch in unserem Garten? Bitte melde dich doch, damit wir etwas abmachen {{30}}\n\nLiebe Grüße\ndeine\nVanessa",
+  "gaps": [
+    { "n": 21, "a": "dein", "b": "deine", "c": "deinen", "correct": "c" },
+    { "n": 22, "a": "denn", "b": "obwohl", "c": "weil", "correct": "c" },
+    { "n": 23, "a": "noch", "b": "schon", "c": "weiterhin", "correct": "a" },
+    { "n": 24, "a": "für", "b": "vor", "c": "zu", "correct": "a" },
+    { "n": 25, "a": "neue", "b": "neuen", "c": "neuer", "correct": "b" },
+    { "n": 26, "a": "bloß", "b": "ja", "c": "mal", "correct": "b" },
+    { "n": 27, "a": "damit", "b": "darauf", "c": "darüber", "correct": "b" },
+    { "n": 28, "a": "ist", "b": "wäre", "c": "würde", "correct": "b" },
+    { "n": 29, "a": "aufgrund", "b": "trotz", "c": "wegen", "correct": "b" },
+    { "n": 30, "a": "können", "b": "könnten", "c": "konnten", "correct": "a" }
+  ]
+}

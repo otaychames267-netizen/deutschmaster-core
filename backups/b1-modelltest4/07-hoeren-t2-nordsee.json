@@ -1,0 +1,22 @@
+{
+  "title": "Nordsee",
+  "teil": 2,
+  "level": "B1",
+  "position": 4,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 4/16 (Nadia2/Language Tests, page 50 printed / PDF page 51). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.52 / PDF p.53): 46- 47+ 48- 49+ 50- 51- 52+ 53+ 54+ 55-. NOT INSERTED: confirmed byte-identical duplicate of Modelltest 5's own 'Nordsee' Hören Teil 2 exercise (id 5934d2d4-de42-4546-910c-9b6786acf0b4, position 5) — same title, same 10 statements verbatim, same answer key. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted).",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Die Lehrerin fährt mit ihrer Klasse an die Nordsee.", "correct": false },
+    { "number": 47, "text": "Herr Kühne hat den Brief der Lehrerin nicht erhalten.", "correct": true },
+    { "number": 48, "text": "Die Klassenfahrt beginnt an einem Samstag.", "correct": false },
+    { "number": 49, "text": "Herrn Kühnes Sohn Martin wird bei Busfahrten oft schlecht.", "correct": true },
+    { "number": 50, "text": "Die Fahrt mit dem Schiff dauert fünf bis sechs Stunden.", "correct": false },
+    { "number": 51, "text": "Das Haus, in dem die Schüler wohnen, gehört zu einem Hotel.", "correct": false },
+    { "number": 52, "text": "Die Klassenfahrt wird von einer Lehrerin und einem Lehrer geleitet.", "correct": true },
+    { "number": 53, "text": "Die Lehrerin empfiehlt, dass die Kinder nicht mehr als 50 Euro Taschengeld mitnehmen.", "correct": true },
+    { "number": 54, "text": "Katerina kann entweder mitfahren, oder in eine andere Klasse gehen.", "correct": true },
+    { "number": 55, "text": "Auf der Klassenfahrt darf nur mit Erlaubnis der Eltern geraucht werden.", "correct": false }
+  ]
+}

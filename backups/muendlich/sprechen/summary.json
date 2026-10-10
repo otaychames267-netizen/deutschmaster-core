@@ -1,0 +1,67 @@
+{
+  "pagesProcessed": 57,
+  "rowsToInsert": 107,
+  "teil2Count": 55,
+  "teil3Count": 52,
+  "droppedDuplicates": [
+    {
+      "page": 14,
+      "teil": 3,
+      "title": "Freundin beim Umzug in eine andere Stadt unterstützen",
+      "duplicateOfPage": 7
+    },
+    {
+      "page": 33,
+      "teil": 3,
+      "title": "Infotag zu neuen Medien am Bildungsinstitut planen",
+      "duplicateOfPage": 28
+    },
+    {
+      "page": 53,
+      "teil": 2,
+      "title": "Alkoholmissbrauch",
+      "duplicateOfPage": 20
+    },
+    {
+      "page": 55,
+      "teil": 2,
+      "title": "Antibiotika – gibt es Alternativen",
+      "duplicateOfPage": 28
+    },
+    {
+      "page": 55,
+      "teil": 3,
+      "title": "Infotag zu neuen Medien am Bildungsinstitut planen",
+      "duplicateOfPage": 28
+    }
+  ],
+  "missingSections": [
+    {
+      "page": 53,
+      "teil": 3
+    },
+    {
+      "page": 56,
+      "teil": 3
+    }
+  ],
+  "difficultyBreakdown": {
+    "B2": 88,
+    "C1": 19
+  },
+  "themeBreakdown": {
+    "Gesundheit": 16,
+    "Freizeit": 12,
+    "Gesellschaft": 14,
+    "Familie": 7,
+    "Reisen": 7,
+    "Bildung": 26,
+    "Technologie": 4,
+    "Beruf": 8,
+    "Konsum": 4,
+    "Medien": 5,
+    "Wohnen": 1,
+    "Soziales Engagement": 2,
+    "Finanzen": 1
+  }
+}

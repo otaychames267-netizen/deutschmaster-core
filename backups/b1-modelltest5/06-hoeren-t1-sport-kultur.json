@@ -1,0 +1,17 @@
+{
+  "title": "Sport als für Kultur",
+  "teil": 1,
+  "level": "B1",
+  "position": 5,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 5/16 (Petra/Language Tests, page 62 printed / PDF page 63). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Title transcribed verbatim from Lösungen page short label 'Sport als für Kultur' — this reads as an ungrammatical/truncated source label (likely intended 'Sport als Kultur' or similar); kept verbatim per project policy against silently correcting apparent source text. Answer key from Lösungen page (printed p.66 / PDF p.67): 41+ 42+ 43- 44- 45+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 – 45. Markieren Sie PLUS (+) gleich richtig und MINUS (-) gleich falsch auf dem Antwortbogen.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Der Sprecher interessiert sich für Sport als für Kultur.", "correct": true },
+    { "number": 42, "text": "Die Sprecherin geht so oft sie kann ins Theater.", "correct": true },
+    { "number": 43, "text": "Der Sprecher hört besonders gern moderne Musik.", "correct": false },
+    { "number": 44, "text": "Die Sprecherin geht oft in Kunstausstellungen.", "correct": false },
+    { "number": 45, "text": "Die Sprecherin hätte gerne mehr Zeit für die Kultur.", "correct": true }
+  ]
+}

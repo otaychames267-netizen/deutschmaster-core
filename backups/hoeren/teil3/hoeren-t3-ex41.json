@@ -1,0 +1,38 @@
+{
+  "title": "Ein Teil der kostenlosen",
+  "teil": 3,
+  "level": "B2",
+  "position": 41,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 41 (code 23) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Der IC 865 fährt heute nicht nach Hamburg, sondern nur bis Bonn.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Ein Teil der kostenlosen Veranstaltungen beim Literaturfest findet an spannenden Orten in der Stadt statt.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Die Firma Sanitärbedarf Frieder & Hansen ist sechs Tage die Woche für Anfragen erreichbar.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Bewohner des Musikerviertels müssen am Donnerstagnachmittag für zwei Stunden zu Hause bleiben.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Zum Valentinstag gibt es heute eine spezielle Beratung für Schmuck und Kosmetikartikel.",
+      "correct": false
+    }
+  ]
+}

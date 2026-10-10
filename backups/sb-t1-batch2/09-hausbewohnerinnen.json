@@ -1,0 +1,20 @@
+{
+  "title": "HausbewohnerInnen",
+  "level": "B2",
+  "position": 48,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Liebe HausbewohnerInnen,\n\nDer Winter ist nicht mehr weit, das Haus soll deshalb winterfest gemacht werden. {{21}} sind noch einige Vorbereitungen nötig.\nBevor die Heizsaison beginnt, stehen Wartungsarbeiten im Heizraum an. Diese {{22}} in der Zeit von 8.11 bis 10.11 durchgeführt. Um den reibungslosen Ablauf der Arbeiten zu ermöglichen, bitten wir alle BewohnerInnen {{23}} zu diesem Datum sämtliche abgestellte Gegenstände (wie z.B. Schlitten) aus dem Heizraum zu entfernen.\nDes Weiteren sind über den Sommer einige Schäden am Gebäude entstanden, die vor Winterbeginn noch {{24}} werden müssen. Drei Fensterscheiben sind zu Bruch gegangen; das betrifft die Kellerabteile 5 und 7. Die Mitarbeiter der Glaserfirma werden am 12.11. kommen, {{25}} neue Fensterscheiben einzusetzen.\nWir bitten Sie, an diesen Tagen, den Zugang zu Ihren Kellerabteilen zu {{26}} und den Bereich vor den Fenstern nicht durch Objekte zu verstellen.\nAn dieser Stelle erfolgt noch ein kurzer Aufruf an alle HausbewohnerInnen, aufeinander Rücksicht zu nehmen. Es ist in {{27}} Zeit vermehrt zu Beschwerden gekommen. Bitte rufen Sie sich unsere Hausordnung wieder in Erinnerung.\nLärm und laute Musik sind nach 22 Uhr untersagt, achten Sie aber zu jeder Tageszeit darauf, {{28}} sich Ihre Nachbarn nicht gestört fühlen. Fußballspielen u.Ä. ist nur im Bereich des Kinderspielplatzes hinter dem Haus gestattet. Auf den Parkplätzen und im Eingangsbereich darf nicht mit {{29}} gespielt werden.\nWir danken für die Zusammenarbeit und verbleiben mit {{30}} Grüßen,\n\ndie Hausverwaltung",
+  "gaps": [
+    {"n":21,"a":"Dafür","b":"Damit","c":"So","correct":"a"},
+    {"n":22,"a":"sind","b":"werden","c":"können","correct":"b"},
+    {"n":23,"a":"bis","b":"bei","c":"vor","correct":"a"},
+    {"n":24,"a":"beheben","b":"behebt","c":"behoben","correct":"c"},
+    {"n":25,"a":"dass","b":"für","c":"um","correct":"c"},
+    {"n":26,"a":"ermöglichen","b":"verhindern","c":"vergessen","correct":"a"},
+    {"n":27,"a":"einiger","b":"letzte","c":"letzter","correct":"c"},
+    {"n":28,"a":"weswegen","b":"weil","c":"dass","correct":"c"},
+    {"n":29,"a":"Bällen","b":"Bälle","c":"Ballen","correct":"a"},
+    {"n":30,"a":"freundliche","b":"freundlichen","c":"freundlichem","correct":"b"}
+  ]
+}

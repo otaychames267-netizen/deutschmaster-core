@@ -1,0 +1,63 @@
+{
+  "title": "Familie - Eltern",
+  "teil": 2,
+  "level": "B2",
+  "position": 33,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 34 (code 12367890) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Fast 11500 Kinder leben nicht bei ihren leiblichen Eltern. 11,500",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Früher wurden Fälle von Gewalt in der Familie oft nicht bekannt.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Kinder werden nicht sofort von ihren Familien getrennt.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Materielle Unterstützung wie Elektrogeräte kann keine Hilfe sein.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Die Nachmittagsbetreuung für die ältesten Kinder ist kostenlos.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "In Skandinavien gibt es eine bessere Familienvorsorge.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Früher lernte man Erziehung an Modellsituationen in der Großfamilie.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Der Kontakt zwischen Kindern und leiblichen Eltern wird möglichst erhalten. (WGs)",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Es gibt spezielle WGs für Jugendliche, die nicht bei ihren Eltern leben.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Herr Blaschitz bittet die Hörer um Unterstützung.",
+      "correct": true
+    }
+  ]
+}

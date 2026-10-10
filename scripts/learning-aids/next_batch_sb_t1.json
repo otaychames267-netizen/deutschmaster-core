@@ -1,0 +1,541 @@
+[
+ {
+  "id": "4d33db57-ac6b-4c2e-8c4c-9e4dcb883ec2",
+  "gaps": [
+   {
+    "correct": "b",
+    "option_a": "Monate",
+    "option_b": "Monaten",
+    "option_c": "Monats",
+    "gap_number": 21
+   },
+   {
+    "correct": "b",
+    "option_a": "ihnen",
+    "option_b": "Ihnen",
+    "option_c": "Sie",
+    "gap_number": 22
+   },
+   {
+    "correct": "c",
+    "option_a": "müssen",
+    "option_b": "muss",
+    "option_c": "musste",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "endlich",
+    "option_b": "noch",
+    "option_c": "schon",
+    "gap_number": 24
+   },
+   {
+    "correct": "b",
+    "option_a": "denn",
+    "option_b": "deshalb",
+    "option_c": "weshalb",
+    "gap_number": 25
+   },
+   {
+    "correct": "a",
+    "option_a": "oder",
+    "option_b": "sondern",
+    "option_c": "sonst",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "für",
+    "option_b": "um",
+    "option_c": "wegen",
+    "gap_number": 27
+   },
+   {
+    "correct": "a",
+    "option_a": "meine",
+    "option_b": "meinem",
+    "option_c": "meiner",
+    "gap_number": 28
+   },
+   {
+    "correct": "b",
+    "option_a": "mitgenommen",
+    "option_b": "mitnehmen",
+    "option_c": "mitnehme",
+    "gap_number": 29
+   },
+   {
+    "correct": "b",
+    "option_a": "-",
+    "option_b": "mich",
+    "option_c": "mir",
+    "gap_number": 30
+   }
+  ],
+  "title": "Brauckmann Versand",
+  "passage": "Brauckmann Versand\nDorotheenplatz 8\n04109 Leipzig\n\nReklamation\n\nSehr geehrte Damen und Herren,\n\nvor zwei {{21}} habe ich bei Ihnen einen tragbaren CD-Player bestellt und erhalten. Leider muss ich {{22}} heute mitteilen, dass er kaputt ist. Die CDs wurden von Anfang an nicht richtig eingezogen. Man {{23}} die Taste mehrmals drücken, erst dann funktionierte das Gerät. Jetzt lässt es sich gar nicht mehr öffnen.\n\nAuf dem Gerät sind {{24}} vier Monate Garantie. Ich schicke Ihnen {{25}} das Gerät zurück, Garantiekarte und Rechnung sind beigefügt.\n\nIch darf Sie bitten, das Gerät entweder zu reparieren {{26}} umzutauschen. Falls das nicht möglich ist, würde ich Sie {{27}} Erstattung des Kaufpreises bitten.\n\nIn sechs Wochen kehre ich in {{28}} Heimat zurück, d.h. ich verlasse Deutschland. Ich möchte das Gerät natürlich gern {{29}}. Daher wäre ich Ihnen dankbar, wenn Sie die Angelegenheit möglichst umgehend klären und {{30}} dann benachrichtigen würden.\n\nIn der Hoffnung auf eine positive Nachricht\n\nMit freundlichen Grüßen"
+ },
+ {
+  "id": "e54f89e4-8421-42ef-810e-ef43c42c1dd2",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "dass",
+    "option_b": "ob",
+    "option_c": "weil",
+    "gap_number": 21
+   },
+   {
+    "correct": "c",
+    "option_a": "bedienen",
+    "option_b": "beeilen",
+    "option_c": "beschäftigen",
+    "gap_number": 22
+   },
+   {
+    "correct": "b",
+    "option_a": "bloß",
+    "option_b": "doch",
+    "option_c": "nur",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "außerdem",
+    "option_b": "insbesondere",
+    "option_c": "jedoch",
+    "gap_number": 24
+   },
+   {
+    "correct": "c",
+    "option_a": "übermächtig",
+    "option_b": "übermäßig",
+    "option_c": "überwiegend",
+    "gap_number": 25
+   },
+   {
+    "correct": "b",
+    "option_a": "darf",
+    "option_b": "muss",
+    "option_c": "soll",
+    "gap_number": 26
+   },
+   {
+    "correct": "c",
+    "option_a": "gering",
+    "option_b": "knapp",
+    "option_c": "wenig",
+    "gap_number": 27
+   },
+   {
+    "correct": "a",
+    "option_a": "kommt",
+    "option_b": "läuft",
+    "option_c": "steht",
+    "gap_number": 28
+   },
+   {
+    "correct": "c",
+    "option_a": "brauchst",
+    "option_b": "hast",
+    "option_c": "lässt",
+    "gap_number": 29
+   },
+   {
+    "correct": "b",
+    "option_a": "kürzlich",
+    "option_b": "möglich",
+    "option_c": "üblich",
+    "gap_number": 30
+   }
+  ],
+  "title": "Corinna ( Original )",
+  "passage": "Liebe Corinna,\n\nes tut mir wirklich Leid, {{21}} ich dir seit Ewigkeiten nicht mehr geschrieben habe. Aber du weißt ja: Ich habe seit drei Monaten eine neue Arbeit. Und da hatte ich gar keine Zeit, mich mit etwas Anderem zu {{22}} als mit der neuen Arbeit. Es hat mich wirklich überrascht, wie schnell ich nach dem Abschluss meiner Ausbildung etwas gefunden habe. Dabei haben alle immer nur gesagt: \"Gärtner? Die gibt es {{23}} wie Sand am Meer, wie willst du da so schnell einen Job finden?\".\nIch arbeite jetzt in einer Baumschule. Wir kultivieren und verkaufen Obstbäume, {{24}} an die Obstbauern der näheren Umgebung. Die Arbeit macht mir großen Spaß, es ist andererseits aber ein bisschen anstrengend, acht Stunden am Tag körperlich - {{25}} im Freien - zu arbeiten. Und leider {{26}} ich fast eine dreiviertel Stunde mit dem Zug fahren, um an meinen Arbeitsplatz zu kommen.\nWenn ich dann am Abend nach Hause komme, bin ich so müde, dass ich eigentlich nur noch fernsehen oder Musik hören kann. Ich habe im Moment nur {{27}} Lust, etwas zu unternehmen, aber ich bin mir sicher: Sie {{28}} wieder. Wie geht es dir denn? Du müsstest doch jetzt auch bald mit deiner Ausbildung fertig sein, oder? Hast du schon damit angefangen, dich bei verschiedenen Arbeitgebern zu bewerben? Oder {{29}} du dir noch ein bisschen Zeit damit? Ich würde dir in jedem Fall raten: Fang so früh wie {{30}} mit den Bewerbungen an, je früher, desto besser. Du weißt ja, was unser Klassenlehrer in der Realschule immer gesagt hat: Gut Ding will Weile haben. So, jetzt muss ich aufhören und ins Bett gehen, damit ich morgen wieder fit bin.\nMach's gut, bis bald,\n\ndein\nRichard"
+ },
+ {
+  "id": "4d1c791c-48bb-428b-a256-a6b6a33263b2",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "dass",
+    "option_b": "ob",
+    "option_c": "weil",
+    "gap_number": 21
+   },
+   {
+    "correct": "c",
+    "option_a": "bedienen",
+    "option_b": "beeilen",
+    "option_c": "beschäftigen",
+    "gap_number": 22
+   },
+   {
+    "correct": "b",
+    "option_a": "bloß",
+    "option_b": "doch",
+    "option_c": "nur",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "außerdem",
+    "option_b": "insbesondere",
+    "option_c": "jedoch",
+    "gap_number": 24
+   },
+   {
+    "correct": "c",
+    "option_a": "übermächtig",
+    "option_b": "übermäßig",
+    "option_c": "überwiegend",
+    "gap_number": 25
+   },
+   {
+    "correct": "a",
+    "option_a": "fast",
+    "option_b": "nahe",
+    "option_c": "ziemlich",
+    "gap_number": 26
+   },
+   {
+    "correct": "c",
+    "option_a": "gering",
+    "option_b": "knapp",
+    "option_c": "wenig",
+    "gap_number": 27
+   },
+   {
+    "correct": "a",
+    "option_a": "kommt",
+    "option_b": "läuft",
+    "option_c": "steht",
+    "gap_number": 28
+   },
+   {
+    "correct": "c",
+    "option_a": "brauchst",
+    "option_b": "hast",
+    "option_c": "lässt",
+    "gap_number": 29
+   },
+   {
+    "correct": "b",
+    "option_a": "kürzlich",
+    "option_b": "möglich",
+    "option_c": "üblich",
+    "gap_number": 30
+   }
+  ],
+  "title": "Corinna (معدل)",
+  "passage": "Liebe Corinna,\n\nes tut mir wirklich Leid, {{21}} ich dir seit Ewigkeiten nicht mehr geschrieben habe. Aber du weißt ja: Ich habe seit drei Monaten eine neue Arbeit. Und da hatte ich gar keine Zeit, mich mit etwas Anderem zu {{22}} als mit der neuen Arbeit. Es hat mich wirklich überrascht, wie schnell ich nach dem Abschluss meiner Ausbildung etwas gefunden habe. Dabei haben alle immer nur gesagt: \"Gärtner? Die gibt es {{23}} wie Sand am Meer, wie willst du da so schnell einen Job finden?\".\nIch arbeite jetzt in einer Baumschule. Wir kultivieren und verkaufen Obstbäume {{24}}, an die Obstbauern der näheren Umgebung. Die Arbeit macht mir großen Spaß, es ist andererseits aber ein bisschen anstrengend, acht Stunden am Tag körperlich - {{25}} im Freien - zu arbeiten. Und leider muss ich {{26}} eine dreiviertel Stunde mit dem Zug fahren, um an meinen Arbeitsplatz zu kommen.\nWenn ich dann am Abend nach Hause komme, bin ich so müde, dass ich eigentlich nur noch fernsehen oder Musik hören kann. Ich habe im Moment nur {{27}} Lust, etwas zu unternehmen, aber ich bin mir sicher: Sie {{28}} wieder. Wie geht es dir denn? Du müsstest doch jetzt auch bald mit deiner Ausbildung fertig sein, oder? Hast du schon damit angefangen, dich bei verschiedenen Arbeitgebern zu bewerben? Oder {{29}} du dir noch ein bisschen Zeit damit? Ich würde dir in jedem Fall raten: Fang so früh wie {{30}} mit den Bewerbungen an, je früher, desto besser. Du weißt ja, was unser Klassenlehrer in der Realschule immer gesagt hat: Gut Ding will Weile haben. So, jetzt muss ich aufhören und ins Bett gehen, damit ich morgen wieder fit bin.\nMach's gut, bis bald,\n\ndein\nRichard"
+ },
+ {
+  "id": "3369b77b-4a5b-4fd7-ae69-6724f369d6cf",
+  "gaps": [
+   {
+    "correct": "b",
+    "option_a": "außerdem",
+    "option_b": "eigentlich",
+    "option_c": "überhaupt",
+    "gap_number": 21
+   },
+   {
+    "correct": "c",
+    "option_a": "er",
+    "option_b": "es",
+    "option_c": "man",
+    "gap_number": 22
+   },
+   {
+    "correct": "b",
+    "option_a": "der",
+    "option_b": "dessen",
+    "option_c": "seiner",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "übersetzen",
+    "option_b": "überstehen",
+    "option_c": "übertragen",
+    "gap_number": 24
+   },
+   {
+    "correct": "c",
+    "option_a": "dass",
+    "option_b": "falls",
+    "option_c": "ob",
+    "gap_number": 25
+   },
+   {
+    "correct": "c",
+    "option_a": "verbringen",
+    "option_b": "verplanen",
+    "option_c": "unternehmen",
+    "gap_number": 26
+   },
+   {
+    "correct": "a",
+    "option_a": "ganz",
+    "option_b": "recht",
+    "option_c": "zwar",
+    "gap_number": 27
+   },
+   {
+    "correct": "b",
+    "option_a": "auf",
+    "option_b": "für",
+    "option_c": "in",
+    "gap_number": 28
+   },
+   {
+    "correct": "b",
+    "option_a": "bestimmt",
+    "option_b": "doch",
+    "option_c": "sicher",
+    "gap_number": 29
+   },
+   {
+    "correct": "c",
+    "option_a": "euch",
+    "option_b": "uns",
+    "option_c": "sich",
+    "gap_number": 30
+   }
+  ],
+  "title": "Daniela",
+  "passage": "Liebe Daniela,\n\nich habe schon ein ganz schlechtes Gewissen, denn {{21}} wollte ich dir schon vor zwei Monaten schreiben. Aber du weißt ja, wie das ist: Wenn man sich auf eine Prüfung vorbereitet, hat {{22}} überhaupt keine Zeit mehr für seine Hobbys – alles dreht sich nur noch ums Lernen.\n\nNun habe ich es aber geschafft: Gestern war die Prüfung und ich bin zuversichtlich, dass ich sie bestanden habe. Mein Freund, mit {{23}} Hilfe es mir überhaupt nur möglich war, diese ganze Zeit zu {{24}}, hat mich für heute Abend in ein tolles Restaurant eingeladen. Danach gehen wir auch noch tanzen.\n\nIn deinem letzten Brief hast du mich gefragt, {{25}} ich Lust hätte, mit dir zusammen ein Wochenende in London zu verbringen. Natürlich habe ich Lust! Nach dem ganzen Stress der letzten Wochen fände ich es super, mal ein paar Tage lang mit einer Freundin etwas Tolles zu {{26}}. London ist eine wunderbare Stadt, ich habe schon viele Berichte darüber gelesen. Ich würde mich {{27}} besonders {{28}} die Tate Gallery und das Filmmuseum interessieren.\n\nMach {{29}} einfach ein paar Vorschläge, wann du Zeit hast. Ich bin sicher, dass wir {{30}} auf dem Wochenende einigen können. In der Zwischenzeit drucke ich schon mal ein paar Angebote aus dem Internet aus: preiswerte Flüge, ein schönes und günstiges Hotel für uns usw. Ich freue mich schon auf deinen nächsten Brief.\n\nHerzliche Grüße\nAndrea"
+ },
+ {
+  "id": "5a190b99-acfc-4232-9c0d-2788522bb893",
+  "gaps": [
+   {
+    "correct": "b",
+    "option_a": "ganz",
+    "option_b": "noch",
+    "option_c": "zwar",
+    "gap_number": 21
+   },
+   {
+    "correct": "b",
+    "option_a": "jedoch",
+    "option_b": "obwohl",
+    "option_c": "trotzdem",
+    "gap_number": 22
+   },
+   {
+    "correct": "a",
+    "option_a": "anschauen",
+    "option_b": "überschauen",
+    "option_c": "vorschauen",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "konnten",
+    "option_b": "sollten",
+    "option_c": "wollten",
+    "gap_number": 24
+   },
+   {
+    "correct": "a",
+    "option_a": "ankommen wirst",
+    "option_b": "anzukommen wirst",
+    "option_c": "wirst ankommen",
+    "gap_number": 25
+   },
+   {
+    "correct": "a",
+    "option_a": "falls",
+    "option_b": "für den Fall",
+    "option_c": "im Fall",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "neulich",
+    "option_b": "seitdem",
+    "option_c": "vormals",
+    "gap_number": 27
+   },
+   {
+    "correct": "a",
+    "option_a": "auffrischen",
+    "option_b": "aufholen",
+    "option_c": "aufsparen",
+    "gap_number": 28
+   },
+   {
+    "correct": "a",
+    "option_a": "als",
+    "option_b": "wann",
+    "option_c": "wo",
+    "gap_number": 29
+   },
+   {
+    "correct": "c",
+    "option_a": "geh",
+    "option_b": "komm",
+    "option_c": "lass",
+    "gap_number": 30
+   }
+  ],
+  "title": "David ( Original )",
+  "passage": "Lieber David,\n\nwas für eine schöne Überraschung, dass Du nach Deutschland kommst. Und {{21}} schöner ist es, dass Du uns besuchen willst, {{22}} Du in München zu tun hast und wir in Köln wohnen, was ja nicht so nah ist.\nDu bist jederzeit herzlich willkommen. Wir können für Dich ein interessantes Wochenende organisieren. Du kannst Dir den Kölner Dom {{23}} und noch ein paar andere Sehenswürdigkeiten. Und natürlich {{24}} wir genug Zeit für Gespräche haben. Die Briefe, die wir sonst schreiben, können persönliche Gespräche ja nicht ersetzen.\nMach dir keine Sorgen über Deinen Ausflug nach Köln. Schreib uns kurz, an welchem Tag und um welche Uhrzeit Du am Hauptbahnhof {{25}}. Wir holen Dich dort mit dem Auto ab, so dass Du Dir keine Gedanken über Bus und Straßenbahn machen musst. Warte einfach am Bahnsteig auf uns, {{26}} wir uns verspäten sollten. Zu Hause erwartet Dich ein Gästezimmer. Es ist das Zimmer unseres Sohnes, der schon seit Jahren eine eigene Wohnung hat. Wir benutzen es {{27}} für ihn, wenn er zu Besuch kommt, aber auch für andere Gäste. Es wird Dir bestimmt gefallen. Wir können dann alte Erinnerungen {{28}}. Wir haben sehr viele Fotos gemacht, {{29}} wir bei Dir zu Besuch waren. Kaum zu glauben, dass inzwischen schon drei Jahre vergangen sind. Es ist in dieser Zeit viel geschehen; aber {{30}} Dich überraschen...\nWir wünschen Dir eine gute Reise und freuen uns auf Deinen Besuch.\n\nViele Grüße\nKarl und Monika"
+ },
+ {
+  "id": "6d072628-061d-415e-a9db-388d9784cdab",
+  "gaps": [
+   {
+    "correct": "b",
+    "option_a": "ganz",
+    "option_b": "noch",
+    "option_c": "zwar",
+    "gap_number": 21
+   },
+   {
+    "correct": "b",
+    "option_a": "jedoch",
+    "option_b": "obwohl",
+    "option_c": "trotzdem",
+    "gap_number": 22
+   },
+   {
+    "correct": "a",
+    "option_a": "anschauen",
+    "option_b": "überschauen",
+    "option_c": "vorschauen",
+    "gap_number": 23
+   },
+   {
+    "correct": "b",
+    "option_a": "konnten",
+    "option_b": "sollten",
+    "option_c": "wollten",
+    "gap_number": 24
+   },
+   {
+    "correct": "a",
+    "option_a": "ankommen wirst",
+    "option_b": "anzukommen wirst",
+    "option_c": "wirst ankommen",
+    "gap_number": 25
+   },
+   {
+    "correct": "a",
+    "option_a": "falls",
+    "option_b": "für den Fall",
+    "option_c": "im Fall",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "neulich",
+    "option_b": "seitdem",
+    "option_c": "vormals",
+    "gap_number": 27
+   },
+   {
+    "correct": "a",
+    "option_a": "auffrischen",
+    "option_b": "aufholen",
+    "option_c": "aufsparen",
+    "gap_number": 28
+   },
+   {
+    "correct": "a",
+    "option_a": "als",
+    "option_b": "wann",
+    "option_c": "wo",
+    "gap_number": 29
+   },
+   {
+    "correct": "b",
+    "option_a": "fast",
+    "option_b": "kaum",
+    "option_c": "wohl",
+    "gap_number": 30
+   }
+  ],
+  "title": "David (معدل)",
+  "passage": "Lieber David,\n\nwas für eine schöne Überraschung, dass Du nach Deutschland kommst. Und {{21}} schöner ist es, dass Du uns besuchen willst, {{22}} Du in München zu tun hast und wir in Köln wohnen, was ja nicht so nah ist.\nDu bist jederzeit herzlich willkommen. Wir können für Dich ein interessantes Wochenende organisieren. Du kannst Dir den Kölner Dom {{23}} und noch ein paar andere Sehenswürdigkeiten. Und natürlich {{24}} wir genug Zeit für Gespräche haben. Die Briefe, die wir sonst schreiben, können persönliche Gespräche ja nicht ersetzen.\nMach dir keine Sorgen über Deinen Ausflug nach Köln. Schreib uns kurz, an welchem Tag und um welche Uhrzeit Du am Hauptbahnhof {{25}}. Wir holen Dich dort mit dem Auto ab, so dass Du Dir keine Gedanken über Bus und Straßenbahn machen musst. Warte einfach am Bahnsteig auf uns, {{26}} wir uns verspäten sollten. Zu Hause erwartet Dich ein Gästezimmer. Es ist das Zimmer unseres Sohnes, der schon seit Jahren eine eigene Wohnung hat. Wir benutzen es {{27}} für ihn, wenn er zu Besuch kommt, aber auch für andere Gäste. Es wird Dir bestimmt gefallen. Wir können dann alte Erinnerungen {{28}}. Wir haben sehr viele Fotos gemacht, {{29}} wir bei Dir zu Besuch waren. {{30}} zu glauben, dass inzwischen schon drei Jahre vergangen sind. Es ist in dieser Zeit viel geschehen; aber lass Dich überraschen...\nWir wünschen Dir eine gute Reise und freuen uns auf Deinen Besuch.\n\nViele Grüße\nKarl und Monika"
+ },
+ {
+  "id": "c789691a-22d1-4a8d-8fa1-bb78cc3111ac",
+  "gaps": [
+   {
+    "correct": "a",
+    "option_a": "Anlässlich",
+    "option_b": "mithilfe",
+    "option_c": "zwecks",
+    "gap_number": 21
+   },
+   {
+    "correct": "b",
+    "option_a": "deren",
+    "option_b": "denen",
+    "option_c": "dessen",
+    "gap_number": 22
+   },
+   {
+    "correct": "a",
+    "option_a": "darum",
+    "option_b": "davon",
+    "option_c": "darüber",
+    "gap_number": 23
+   },
+   {
+    "correct": "c",
+    "option_a": "damit",
+    "option_b": "dass",
+    "option_c": "Um",
+    "gap_number": 24
+   },
+   {
+    "correct": "c",
+    "option_a": "herz",
+    "option_b": "herze",
+    "option_c": "herzen",
+    "gap_number": 25
+   },
+   {
+    "correct": "a",
+    "option_a": "anhand",
+    "option_b": "durch",
+    "option_c": "mit",
+    "gap_number": 26
+   },
+   {
+    "correct": "b",
+    "option_a": "schaffen",
+    "option_b": "geschaffen",
+    "option_c": "geschafft",
+    "gap_number": 27
+   },
+   {
+    "correct": "c",
+    "option_a": "größe",
+    "option_b": "größen",
+    "option_c": "größter",
+    "gap_number": 28
+   },
+   {
+    "correct": "c",
+    "option_a": "lassen",
+    "option_b": "lasst",
+    "option_c": "lässt",
+    "gap_number": 29
+   },
+   {
+    "correct": "b",
+    "option_a": "nämlich",
+    "option_b": "während",
+    "option_c": "trotzdem",
+    "gap_number": 30
+   }
+  ],
+  "title": "Eltern und Erziehungsberechtigte",
+  "passage": "Liebe Eltern und Erziehungsberechtigte,\n\n{{21}} mehr Internetsicherheit möchten wir dieses Thema am 9. Februar auch im Unterricht des alljährlich von der Europäischen Union veranstalteten Nationstages behandeln.\nEs sind in erster Linie drei große Bereiche, {{22}} wir uns widmen… zunächst geht es {{23}} die Internetkommunikation im Allgemeinen, insbesondere über soziale Medien wie YouTube oder WhatsApp, genauer zu beleuchten. Wir wollen bei Schülerinnen und Schülern das Bewusstsein für die damit verbundenen Gefahren wecken.\nAls für die Gesellschaft bedrohlich ist die gezielte Verbreitung falscher Informationen in den Medien, sogenannter Fake News, anzusehen. {{24}} solche zu erkennen, muss man in der Lage sein, Berichte zu analysieren und ihren Wahrheitsgehalt zu überprüfen. Daher liegt es unseren engagierten Pädagoginnen und Pädagogen besonders am {{25}}, bei Schülerinnen und Schülern den kritischen Blick für Nachrichten sowie deren Quellen zu schärfen.\nDarüber hinaus werden sie {{26}} anschaulicher Beispiele lernen, wie mittels Bildbearbeitung eine alternative Realität {{27}} werden kann. Auch der Datenschutz, den wir als dritten Schwerpunkt besprechen werden, ist ein Thema von {{28}} Bedeutung. Denn im Zuge der Verwendung sozialer Netzwerke können Jugendliche allzu leicht in problematische Situationen geraten, weil sie oft zu sorglos mit sensiblen Daten von sich oder anderen umgehen. Auf solche Risiken möchten wir aufmerksam machen und erläutern, wie sich Derartiges vermeiden {{29}}.\nDen Schülerinnen und Schülern ist an diesem Tag die Nutzung ihrer Handys {{30}} des Unterrichts ausdrücklich gestattet.\n\nMit freundlichen Grüßen\nMag. Katharina Schnell"
+ }
+]

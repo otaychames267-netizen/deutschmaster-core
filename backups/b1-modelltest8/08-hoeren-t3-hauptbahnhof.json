@@ -1,0 +1,17 @@
+{
+  "title": "Hauptbahnhof",
+  "teil": 3,
+  "level": "B1",
+  "position": 8,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 8/16 (Petra/Language Tests, page 104). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.106): 56- 57+ 58- 59+ 60+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Die Linie 2 fährt zum Hauptbahnhof.", "correct": false },
+    { "number": 57, "text": "Das Hallenbad schließt heute um 21:00 Uhr.", "correct": true },
+    { "number": 58, "text": "Sie können mit der S1 nach Hütteldorf fahren.", "correct": false },
+    { "number": 59, "text": "Badezimmerspiegel finden Sie im Untergeschoss.", "correct": true },
+    { "number": 60, "text": "Sie können gleich in Richtung Eilenburg umsteigen.", "correct": true }
+  ]
+}

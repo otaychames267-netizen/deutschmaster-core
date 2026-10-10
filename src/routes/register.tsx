@@ -1,13 +1,72 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
+import { GoogleAuthButton, OrDivider } from "@/components/GoogleAuthButton";
+import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
 import { Eye, EyeOff, Loader2, CheckCircle2 } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/register")({
   component: RegisterPage,
 });
+
+// Supabase's generateLink({type:'signup'}) issues an 8-digit email_otp
+// (confirmed empirically against the real auth endpoints, not assumed) —
+// one box per digit, not a single free-text field.
+const CODE_LENGTH = 8;
+
+function CodeInput({ value, onChange, disabled }: { value: string; onChange: (v: string) => void; disabled?: boolean }) {
+  const refs = useRef<(HTMLInputElement | null)[]>([]);
+
+  function setDigitAt(index: number, digit: string) {
+    const digits = value.padEnd(CODE_LENGTH, " ").split("");
+    digits[index] = digit;
+    onChange(digits.join("").trimEnd());
+  }
+
+  function handleChange(index: number, raw: string) {
+    const digit = raw.replace(/\D/g, "").slice(-1);
+    if (!digit) { setDigitAt(index, ""); return; }
+    setDigitAt(index, digit);
+    if (index < CODE_LENGTH - 1) refs.current[index + 1]?.focus();
+  }
+
+  function handleKeyDown(index: number, e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "Backspace" && !value[index] && index > 0) {
+      refs.current[index - 1]?.focus();
+    }
+  }
+
+  function handlePaste(e: React.ClipboardEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const pasted = e.clipboardData.getData("text").replace(/\D/g, "").slice(0, CODE_LENGTH);
+    if (!pasted) return;
+    onChange(pasted);
+    refs.current[Math.min(pasted.length, CODE_LENGTH - 1)]?.focus();
+  }
+
+  return (
+    <div className="flex justify-center gap-1.5" onPaste={handlePaste}>
+      {Array.from({ length: CODE_LENGTH }).map((_, i) => (
+        <input
+          key={i}
+          ref={(el) => { refs.current[i] = el; }}
+          type="text"
+          inputMode="numeric"
+          maxLength={1}
+          autoFocus={i === 0}
+          disabled={disabled}
+          value={value[i] ?? ""}
+          onChange={(e) => handleChange(i, e.target.value)}
+          onKeyDown={(e) => handleKeyDown(i, e)}
+          className="h-12 w-9 rounded-lg border border-input bg-background text-center text-lg font-mono font-bold text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20 disabled:opacity-60"
+        />
+      ))}
+    </div>
+  );
+}
 
 function PasswordStrength({ password }: { password: string }) {
   const checks = [
@@ -38,7 +97,17 @@ function RegisterPage() {
   const [accepted, setAccepted]   = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState<string | null>(null);
-  const [done, setDone]           = useState(false);
+  const [awaitingCode, setAwaitingCode] = useState(false);
+  const [code, setCode]           = useState("");
+  const [verifying, setVerifying] = useState(false);
+  const [resending, setResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
+
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+    const timer = setTimeout(() => setResendCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [resendCooldown]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -57,51 +126,128 @@ function RegisterPage() {
       return;
     }
 
+    // Capture ?ref=CODE now, before signup — there's no session yet to call
+    // register_referral() with (the account isn't confirmed until the code
+    // step below succeeds); the code is relayed via localStorage and linked
+    // on the user's first real authenticated session instead (see auth.tsx).
+    const refCode = new URLSearchParams(window.location.search).get("ref");
+    if (refCode && refCode.trim()) {
+      try { localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, refCode.trim()); } catch { /* localStorage unavailable — referral capture skipped, never blocks signup */ }
+    }
+
     setLoading(true);
-    const { error: err } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/dashboard`,
-      },
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, full_name: fullName }),
     });
+    const resBody = await res.json();
     setLoading(false);
 
-    if (err) {
-      setError(err.message);
+    if (!res.ok) {
+      setError(res.status === 429 ? resBody.message : (resBody.message ?? "Could not create account."));
       return;
     }
 
-    setDone(true);
+    setAwaitingCode(true);
   }
 
-  if (done) {
+  async function handleVerifyCode(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setVerifying(true);
+
+    const res = await fetch("/api/auth/verify-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, code }),
+    });
+    const resBody = await res.json();
+
+    if (!res.ok) {
+      setVerifying(false);
+      setError(resBody.message ?? "That code is incorrect or has expired.");
+      return;
+    }
+
+    const { error: sessionErr } = await supabase.auth.setSession({
+      access_token: resBody.access_token,
+      refresh_token: resBody.refresh_token,
+    });
+    setVerifying(false);
+    if (sessionErr) {
+      setError(sessionErr.message);
+      return;
+    }
+
+    toast.success("Account created!");
+    // Hard navigation, not TanStack Router's client-side nav() — same
+    // reasoning as login.tsx: forces AuthProvider to remount and read the
+    // session setSession() just persisted, rather than depending on an
+    // onAuthStateChange event reaching it in time.
+    window.location.href = "/dashboard";
+  }
+
+  async function handleResend() {
+    if (resending || resendCooldown > 0) return;
+    setResending(true);
+    setError(null);
+    const res = await fetch("/api/auth/resend-code", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, full_name: fullName }),
+    });
+    const resBody = await res.json();
+    setResending(false);
+    if (!res.ok) {
+      setError(resBody.message ?? "Could not resend the code.");
+      return;
+    }
+    toast.success("A new code was sent.");
+    setResendCooldown(30);
+  }
+
+  if (awaitingCode) {
     return (
-      <AuthLayout title="Check your email" subtitle={t("auth.verify_sent")}>
-        <div className="space-y-4 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
-            <CheckCircle2 className="h-7 w-7 text-emerald-500" />
+      <AuthLayout title="Enter your code" subtitle={`We sent a verification code to ${email}`}>
+        <form onSubmit={handleVerifyCode} className="space-y-4">
+          {error && (
+            <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+              {error}
+            </div>
+          )}
+          <div className="space-y-1.5">
+            <label className="block text-center text-sm font-medium text-foreground">
+              Verification code
+            </label>
+            <CodeInput value={code} onChange={setCode} disabled={verifying} />
           </div>
-          <div>
-            <p className="text-sm text-muted-foreground">
-              We sent a verification email to <strong className="text-foreground">{email}</strong>.
-            </p>
-            <p className="mt-1 text-xs text-muted-foreground">{t("auth.check_spam")}</p>
-          </div>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+          <button
+            type="submit"
+            disabled={verifying || code.length < CODE_LENGTH}
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-60"
           >
-            {t("auth.back_to_login")}
-          </Link>
-        </div>
+            {verifying && <Loader2 className="h-4 w-4 animate-spin" />}
+            Verify &amp; continue
+          </button>
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={resending || resendCooldown > 0}
+            className="flex w-full items-center justify-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60"
+          >
+            {resending && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+            {resendCooldown > 0 ? `Resend code in ${resendCooldown}s` : "Didn't get it? Resend code"}
+          </button>
+        </form>
       </AuthLayout>
     );
   }
 
   return (
-    <AuthLayout title={t("auth.sign_up")} subtitle="Start your free 3-day trial — no credit card required">
+    <AuthLayout title={t("auth.sign_up")} subtitle="Create your account to get started">
+      <GoogleAuthButton />
+      <OrDivider />
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">

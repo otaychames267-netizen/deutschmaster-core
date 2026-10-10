@@ -1,0 +1,63 @@
+{
+  "title": "Frau Schenk 2",
+  "teil": 2,
+  "level": "B2",
+  "position": 10,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Frau Schenk",
+  "notes": "PDF page 11 (code 14678) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Frau Schenk hat kurze blondierte Haar.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Angie ist der Künstlername von Frau Schenk.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Frau Schenk lebt seit etwas mehr als zwei Jahren in Bayer.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Der Interview hat keine guten Erinnerungen an seine Aufenthalte in Jugendherberge.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Auch in der modernen Jugendherberge von Frau Schenk gibt es Schlafraum mit mehr als zehn Bette.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Mädchen und jungen müssen in verschiedenen Schlafräumen schlafen.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "In der Jugendherberge wird das Essen den Wünschen der Gästegruppen angepasst.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Schulter aus ländlichen Regionen verhalten sich in der Regel anständig.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Reiten ist Teil des Sportangebots der Jugendherberge.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Frau Schenk muss für ihre Dienstwohnung 800€ bezahle.",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "title": "Der Christkindlesmarkt in Nürnberg",
+  "teil": 3,
+  "level": "B2",
+  "position": 29,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 30 (code 1245) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Der Christkindlesmarkt in Nürnberg bietet einen speziellen Geschenk-Dienst für Kinder an.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Auf dem deutsch-französischen Bauernmarkt in Hochspeyer werden ökologische Projekte vorgestellt.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "In Heilsheim findet heute Abend ein Jodelkurs statt.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Auf der A5 gibt es hinter Karlsruhe mehrere Verkehrsbehinderungen.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "Wenn Ihr Computer nicht mehr hochfährt, können Sie die Nummer 70 17 17 wählen, um Hilfe von Computer World zu erhalten.",
+      "correct": true
+    }
+  ]
+}

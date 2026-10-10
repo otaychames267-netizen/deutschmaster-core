@@ -1,0 +1,17 @@
+{
+  "title": "Prag",
+  "teil": 3,
+  "level": "B1",
+  "position": 7,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 7/16 (Annika3/Language Tests, page 91 printed / PDF page 92). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (printed p.93 / PDF p.94): 56- 57- 58+ 59- 60+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Ihr Flug nach Prag ist nicht pünktlich.", "correct": false },
+    { "number": 57, "text": "Im Speisewagen kann man ins Internet gehen.", "correct": false },
+    { "number": 58, "text": "Montags bis freitags ab 8:00 Uhr kann man sich persönlich beraten lassen.", "correct": true },
+    { "number": 59, "text": "Das Hörspiel Katzen in der Nacht wird morgen um 20:30 Uhr gesendet.", "correct": false },
+    { "number": 60, "text": "Das Flugzeug landet mit 20 Minuten Verspätung in Leipzig.", "correct": true }
+  ]
+}

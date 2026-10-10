@@ -1,0 +1,22 @@
+{
+  "title": "Herr Blanco Ruiz",
+  "level": "B1",
+  "position": 1,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 1/16 (Petra/Language Tests, page 8). Answer key from Lösungen page (p.13): 31H MIR, 32D FÜR, 33F KENIE, 34I MIT, 35E GUTE, 36A AM, 37C DASS, 38B BIS, 39L PRO, 40J MÖCHTE. Word 'KENIE' (gap 33) and the run-on phrasing around gaps 35/36 and 40 are transcribed verbatim exactly as printed in the source (likely a source typo for 'KEINE' and missing punctuation) — not corrected, per instruction to ingest source content exactly.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Herr Blanco Ruiz\n\nIch schreibe Ihnen auf die Anzeige, die {{31}} in der heutigen Bild-Zeitung aufgefallen ist. Da ich {{32}} einige Monate beruflich nach Südamerika gehe, muss ich sehr schnell Spanisch lernen. Für einen richtigen Sprachkurs habe ich leider {{33}} Zeit. Aber Ihre Methode interessiert mich, vor allem die Sprachübungen {{34}} den CDs. Ich denke, damit könnte ich ganz {{35}} Ich arbeite {{36}} liebsten mit meinem PC. Sie schreiben, {{37}} Ihr Programm besonders die alltägliche Kommunikation fördert. Wie lange wird es dauern, {{38}} ich mich meinen Geschäftsfreunden richtig unterhalten kann? Und wie viele Stunden {{39}} Woche sollte man mindestens üben? Können Sie mir eine Musterlektion schicken ich? {{40}} gerne ausprobieren, wie ihre Methode funktioniert\n\nMit freundlichen Grüßen\n\nIhre KARIN ÜBERSCHÄR",
+  "words": ["AM", "BIS", "DASS", "FÜR", "GUTE", "KENIE", "MICH", "MIR", "MIT", "MÖCHTE", "OHNE", "PRO", "WÄHREND", "WÄRE", "WÜRDEN"],
+  "answers": {
+    "31": "MIR",
+    "32": "FÜR",
+    "33": "KENIE",
+    "34": "MIT",
+    "35": "GUTE",
+    "36": "AM",
+    "37": "DASS",
+    "38": "BIS",
+    "39": "PRO",
+    "40": "MÖCHTE"
+  }
+}
