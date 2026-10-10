@@ -11,7 +11,7 @@
  */
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { ExamUsage } from "./costAccounting.js";
-import { ttsCharactersToUsd, sttMinutesToUsd, groqSttMinutesToUsd, CLAUDE_CACHE_READ_MULTIPLIER, CLAUDE_CACHE_WRITE_MULTIPLIER } from "./costAccounting.js";
+import { ttsUsdPer1000Characters, sttMinutesToUsd, groqSttMinutesToUsd, CLAUDE_CACHE_READ_MULTIPLIER, CLAUDE_CACHE_WRITE_MULTIPLIER } from "./costAccounting.js";
 
 export interface TokenUsage { inputTokens: number; outputTokens: number; cacheCreationInputTokens: number; cacheReadInputTokens: number }
 export const ZERO_TOKENS: TokenUsage = { inputTokens: 0, outputTokens: 0, cacheCreationInputTokens: 0, cacheReadInputTokens: 0 };
@@ -42,6 +42,8 @@ const round5 = (n: number) => Math.round(n * 1e5) / 1e5;
 export async function recordExamCost(admin: SupabaseClient, p: {
   sessionId: string; roomId: string | null; endReason: string; durationSeconds: number | null;
   usage: ExamUsage; examinerModel: string; evaluatorModel: string; evaluatorUsage: TokenUsage;
+  /** Which provider spoke the live TTS (voicePools.ts tutorProvider()/examProvider()); priced per ttsUsdPer1000Characters. Default: ElevenLabs. */
+  ttsProvider?: string;
 }, table: "muendlich_exam_costs" | "voice_tutor_costs" = "muendlich_exam_costs"): Promise<void> {
   const u = p.usage;
   const examiner: TokenUsage = {
@@ -52,14 +54,14 @@ export async function recordExamCost(admin: SupabaseClient, p: {
   const elevenLabsSttMinutes = u.sttMinutes ?? 0;
   const sttProvider = backend === "groq" ? (elevenLabsSttMinutes > 0 ? "groq+elevenlabs_failover" : "groq") : backend;
 
-  const usdTts = ttsCharactersToUsd(u.ttsCharacters ?? 0);
+  const usdTts = ((u.ttsCharacters ?? 0) / 1000) * ttsUsdPer1000Characters(p.ttsProvider);
   const usdStt = sttMinutesToUsd(elevenLabsSttMinutes) + groqSttMinutesToUsd(u.groqSttMinutes ?? 0);
   const usdExaminer = tokensToUsd(examiner, p.examinerModel);
   const usdEvaluator = tokensToUsd(p.evaluatorUsage, p.evaluatorModel);
   const usdTotal = usdTts + usdStt + usdExaminer + usdEvaluator;
 
   console.log(
-    `[${table === "voice_tutor_costs" ? "tutor-cost" : "exam-cost"}] session=${p.sessionId} total=$${usdTotal.toFixed(4)} tts=$${usdTts.toFixed(4)}(${u.ttsCharacters ?? 0} chars) stt=$${usdStt.toFixed(4)}(${sttProvider}, groq ${u.groqRequests ?? 0} req / ${((u.groqSttMinutes ?? 0) * 60).toFixed(0)}s billed, forwarded ${(u.forwardedSttMinutes ?? 0).toFixed(1)} min) examiner=$${usdExaminer.toFixed(4)}(${p.examinerModel}) evaluator=$${usdEvaluator.toFixed(4)}`,
+    `[${table === "voice_tutor_costs" ? "tutor-cost" : "exam-cost"}] session=${p.sessionId} total=$${usdTotal.toFixed(4)} tts=$${usdTts.toFixed(4)}(${u.ttsCharacters ?? 0} chars, ${p.ttsProvider ?? "elevenlabs"}) stt=$${usdStt.toFixed(4)}(${sttProvider}, groq ${u.groqRequests ?? 0} req / ${((u.groqSttMinutes ?? 0) * 60).toFixed(0)}s billed, forwarded ${(u.forwardedSttMinutes ?? 0).toFixed(1)} min) examiner=$${usdExaminer.toFixed(4)}(${p.examinerModel}) evaluator=$${usdEvaluator.toFixed(4)}`,
   );
 
   const { error } = await admin.from(table).upsert({

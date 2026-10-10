@@ -113,6 +113,16 @@ export function ttsCharactersToUsd(characters: number): number {
   return (characters / 1000) * TTS_USD_PER_1000_CHARACTERS;
 }
 
+/** Live TTS price per 1,000 characters of the provider that actually spoke (owner 2026-10-09: the cost rows used to price EVERY character at the ElevenLabs rate,
+ * which over-states a Qwen session 2.5x). DeepInfra Qwen3-TTS 20 USD/M (the "priority" service tier is a premium rate that is not published — set
+ * DEEPINFRA_TTS_USD_PER_1M to price it); Inworld 1.5 Max ≈ 35 USD/M measured, Mini 10 USD/M; Azure Neural 15 USD/M; ElevenLabs Flash/Turbo 0.05 per 1k. */
+export function ttsUsdPer1000Characters(provider: string | undefined): number {
+  if (provider === "deepinfra") return Number(process.env.DEEPINFRA_TTS_USD_PER_1M ?? 20) / 1000;
+  if (provider === "inworld") return /mini/i.test(process.env.INWORLD_MODEL ?? "") ? 0.01 : 0.035;
+  if (provider === "azure") return 0.015;
+  return TTS_USD_PER_1000_CHARACTERS_FLASH;
+}
+
 export function sttMinutesToCredits(minutes: number): number {
   return minutes * STT_REALTIME_CREDITS_PER_MINUTE;
 }

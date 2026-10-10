@@ -95,6 +95,7 @@ import type { TutorContext } from "./voice/tutorBrain.js";
 import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evaluator.js";
 import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
+import { examProvider, tutorProvider } from "./voice/voicePools.js";
 import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line, pickSoloSectionTransition12Line, pickSoloSectionTransition23Line } from "./examinerPhrases.js";
 import { asksForSimplerQuestion, simplifyInstruction, MAX_SIMPLIFICATIONS_PER_SESSION } from "./tutorSimplify.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
@@ -1469,7 +1470,7 @@ function endRoom(room: RoomSession, endReason: string) {
       sessionId: room.examSessionId, roomId: room.roomId, endReason,
       durationSeconds: room.liveSessionStartedAt ? Math.round((Date.now() - room.liveSessionStartedAt) / 1000) : null,
       usage: room.live.getUsage(),
-      examinerModel: process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5", evaluatorModel: EVALUATOR_MODEL, evaluatorUsage: room.evalUsage,
+      examinerModel: process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5", evaluatorModel: EVALUATOR_MODEL, evaluatorUsage: room.evalUsage, ttsProvider: examProvider(),
     }).catch((e) => console.error(`[room ${room.roomId}] exam cost record failed:`, e));
   }
 
@@ -1535,7 +1536,7 @@ function endTutorSession(session: TutorSession, endReason: string) {
     void recordExamCost(admin, {
       sessionId: session.sessionId, roomId: null, endReason,
       durationSeconds: session.liveSessionStartedAt ? Math.round((Date.now() - session.liveSessionStartedAt) / 1000) : null,
-      usage, examinerModel: process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5", evaluatorModel: EVALUATOR_MODEL, evaluatorUsage: ZERO_TOKENS,
+      usage, examinerModel: process.env.CLAUDE_TUTOR_MODEL ?? process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5", evaluatorModel: EVALUATOR_MODEL, evaluatorUsage: ZERO_TOKENS, ttsProvider: tutorProvider(),
     }, "voice_tutor_costs").catch((e) => console.error(`[tutor ${session.sessionId}] cost record failed:`, e));
   }
 
@@ -1951,7 +1952,8 @@ async function startTutorSession(
   // opening utterance's real ElevenLabs cost; a fixed-phrase library for the
   // tutor is a reasonable later optimization, not needed for this build.
   await session.live.speakScriptedText(
-    `Hallo ${studentName}, willkommen zu Ihrer Übung für Teil 1 der mündlichen Prüfung. Ihr Thema lautet: ${teil1Topic}. Sie haben etwa anderthalb Minuten Zeit — bitte beginnen Sie, wenn Sie bereit sind.`,
+    // Owner 2026-10-09: professional, relatively long wording — no casual "Hallo ..., willkommen" opener.
+    `Guten Tag, ${studentName}. Wir beginnen die Übung mit Teil eins der mündlichen Prüfung, der Präsentation. Bitte stellen Sie Ihr Thema zusammenhängend vor, begründen Sie Ihre Meinung nachvollziehbar und belegen Sie sie mit Beispielen. Ihr Thema lautet: ${teil1Topic}. Sie haben dafür etwa anderthalb Minuten Zeit; beginnen Sie bitte, sobald Sie bereit sind.`,
   );
   await waitForTutorPlayback(session); // the welcome + topic are audio the student must HEAR before the 90s clock starts
   session.lastAudioAt = Date.now(); // reset so the opening's own TTS playback time doesn't eat into the 90s presentation budget

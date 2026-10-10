@@ -4,7 +4,7 @@ import {
   TTS_USD_PER_1000_CHARACTERS_FLASH, TTS_USD_PER_1000_CHARACTERS_V3,
   CLAUDE_USD_PER_MILLION_INPUT_TOKENS, CLAUDE_USD_PER_MILLION_OUTPUT_TOKENS,
   googleTtsCharactersToUsd, googleSttMinutesToUsd, GOOGLE_TTS_USD_PER_1000_CHARACTERS, GOOGLE_STT_USD_PER_MINUTE,
-  selfHostedSttMinutesToUsd, SELF_HOSTED_STT_USD_PER_AUDIO_HOUR,
+  selfHostedSttMinutesToUsd, SELF_HOSTED_STT_USD_PER_AUDIO_HOUR, ttsUsdPer1000Characters,
 } from "./costAccounting.ts";
 
 function ok(name, cond) {
@@ -25,6 +25,12 @@ ok("60,000 credits = 120,000 characters (the user's own stated equivalence)", ap
 ok("Flash v2.5 rate is exactly half the v3 rate", approx(TTS_USD_PER_1000_CHARACTERS_FLASH * 2, TTS_USD_PER_1000_CHARACTERS_V3));
 ok("1000 chars TTS (live, Flash v2.5) costs $0.05", approx(ttsCharactersToUsd(1000), 0.05));
 ok("120,000 chars (full 60k-credit allowance) TTS costs $6.00", approx(ttsCharactersToUsd(120_000), 6.00));
+
+// Provider-aware TTS price (owner 2026-10-09: a Qwen/DeepInfra session must not be priced at the ElevenLabs rate)
+ok("default TTS provider is priced at the ElevenLabs Flash rate", approx(ttsUsdPer1000Characters(undefined), 0.05) && approx(ttsUsdPer1000Characters("elevenlabs"), 0.05));
+ok("DeepInfra Qwen3-TTS is 20 USD per 1M characters (0.02 per 1k)", approx(ttsUsdPer1000Characters("deepinfra"), 0.02));
+process.env.DEEPINFRA_TTS_USD_PER_1M = "30"; ok("DEEPINFRA_TTS_USD_PER_1M overrides the DeepInfra price (e.g. the priority tier)", approx(ttsUsdPer1000Characters("deepinfra"), 0.03)); delete process.env.DEEPINFRA_TTS_USD_PER_1M;
+ok("Inworld Max 0.035 / Mini 0.01, Azure 0.015 per 1k", approx(ttsUsdPer1000Characters("inworld"), 0.035) && approx(ttsUsdPer1000Characters("azure"), 0.015));
 
 // STT dollar math: $0.39/hour realtime
 ok("60 minutes of STT costs $0.39", approx(sttMinutesToUsd(60), 0.39));
