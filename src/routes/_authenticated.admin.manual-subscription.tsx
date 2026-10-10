@@ -30,6 +30,7 @@ const PLAN_LABELS: Record<ManualPlanCode, string> = {
   schriftlich: "Schriftlich",
   muendlich: "Mündlich",
   komplett: "Komplett (everything)",
+  komplett_ai: "Komplett (KI-Sprachtrainer)",
 };
 
 const DURATION_ORDER: ManualDurationKey[] = ["1d", "trial_3d", "1m", "2m", "3m", "6m", "12m"];

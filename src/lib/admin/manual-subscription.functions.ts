@@ -15,7 +15,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  * duration choice into a concrete date, and shuttle the result back.
  */
 
-export type ManualPlanCode = "schriftlich" | "muendlich" | "komplett";
+export type ManualPlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 export type ManualDurationKey = "1d" | "trial_3d" | "1m" | "2m" | "3m" | "6m" | "12m";
 export type ManualPaymentMethod = "virement" | "cash" | "d17" | "other";
 

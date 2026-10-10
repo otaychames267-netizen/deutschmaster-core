@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/$level/muendlich/voice-tut
 function VoiceTutorPicker() {
   const activeLevel = useActiveLevel();
   const { isAdmin, loading, roleLoading, user } = useAuth();
-  const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich");
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich_ai");
   const navigate = useNavigate();
 
   const [materials, setMaterials] = useState<Record<1 | 2 | 3, TopicMaterial[]> | null>(null);
@@ -67,7 +67,7 @@ function VoiceTutorPicker() {
   if (!hasAccess) {
     return (
       <div className="mx-auto max-w-lg p-6 text-center">
-        <p className="text-sm text-muted-foreground">Der KI-Sprachtrainer ist Teil deines Mündlich-Zugangs. Schalte ihn über dein Abonnement frei.</p>
+        <p className="text-sm text-muted-foreground">Der KI-Sprachtrainer gehört zum Plan „Komplett“. Du kannst ihn auf der Seite „Abonnement“ freischalten.</p>
       </div>
     );
   }
@@ -111,6 +111,19 @@ function VoiceTutorPicker() {
           <p className="text-xs text-muted-foreground">Wähle deine Themen wie in der echten Prüfung — übe dann Teil 1, 2 und 3 mit deiner KI-Prüferin, direkt nacheinander.</p>
         </div>
       </div>
+
+      <section aria-label="So läuft die Sitzung ab" className="rounded-2xl border border-rose-500/20 bg-rose-500/5 p-4">
+        <h2 className="text-sm font-bold text-foreground">So läuft die Sitzung ab</h2>
+        <ol className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
+          <li><b className="text-foreground">1 · Themen wählen.</b> Du wählst je ein Thema für Teil 1, 2 und 3 — wie in der echten Prüfung.</li>
+          <li><b className="text-foreground">2 · Sprechen (ca. 15 Minuten).</b> Teil 1: etwa anderthalb Minuten Präsentation und zwei Fragen. Teil 2: sechs Fragen der Prüferin. Teil 3: ihr plant gemeinsam. Die Prüferin lässt dich ausreden und reagiert erst nach einer deutlichen Pause.</li>
+          <li><b className="text-foreground">3 · Bericht.</b> Danach bekommst du deinen Korrekturbericht: deine echten Sätze mit Korrektur und Erklärung.</li>
+        </ol>
+        <p dir="rtl" lang="ar" className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+          اختر موضوعاً لكل جزء، وتكلّم حوالي 15 دقيقة. الممتحِنة تتركك تكمل كلامك وتردّ بعد وقفة واضحة، وفي الآخر يوصلك تقرير بأخطائك مع التصحيح. نصيحة: مكان هادئ وسمّاعات.
+          جلسة واحدة في اليوم وحتى 30 جلسة في الشهر.
+        </p>
+      </section>
 
       <section className="space-y-2">
         <h2 className="text-sm font-bold text-foreground">Teil 1 — Präsentation</h2>

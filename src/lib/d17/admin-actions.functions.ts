@@ -7,7 +7,7 @@ import { ADMIN_ACTIONABLE_STATUSES } from "./status";
 // import-protection plugin forbids any *.server.* module from being
 // reachable in the client bundle graph, even transitively.
 
-type PlanCode = "schriftlich" | "muendlich" | "komplett";
+type PlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
   const { data: isAdmin } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });

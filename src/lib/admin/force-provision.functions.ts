@@ -12,7 +12,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  * then performs the actual writes with the service-role client.
  */
 
-type PlanCode = "schriftlich" | "muendlich" | "komplett";
+type PlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
   const { data: isAdmin } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
@@ -63,7 +63,7 @@ export const forceProvisionSubscription = createServerFn({ method: "POST" })
       if (error) throw new Error(`Failed to provision minutes: ${error.message}`);
       results.minutes = minutes as number;
     }
-    if (data.plan_code === "schriftlich" || data.plan_code === "komplett") {
+    if (data.plan_code === "schriftlich" || data.plan_code === "komplett" || data.plan_code === "komplett_ai") {
       const { data: credits, error } = await supabaseAdmin.rpc("provision_essay_credits", {
         p_user_id: data.student_id,
         p_amount: 30,

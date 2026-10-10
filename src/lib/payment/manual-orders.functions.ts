@@ -15,7 +15,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
  */
 
 export type ManualMethod = "postal" | "bancaire" | "d17";
-type PlanCode = "schriftlich" | "muendlich" | "komplett";
+type PlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
   const { data: isAdmin } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });

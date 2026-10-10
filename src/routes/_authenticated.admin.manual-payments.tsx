@@ -11,7 +11,7 @@ export const Route = createFileRoute("/_authenticated/admin/manual-payments")({
   component: ManualPaymentsAdminPage,
 });
 
-const PLAN_LABEL: Record<string, string> = { schriftlich: "Schriftlich", muendlich: "Mündlich", komplett: "Komplett" };
+const PLAN_LABEL: Record<string, string> = { schriftlich: "Schriftlich", muendlich: "Mündlich", komplett: "Komplett", komplett_ai: "Komplett (KI)" };
 const STATUS_TABS = [
   { key: "pending_verification", label: "Pending" },
   { key: "approved", label: "Approved" },

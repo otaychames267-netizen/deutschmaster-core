@@ -22,7 +22,7 @@ import { useAuth } from "@/lib/auth";
  * underneath. Folding `isAdmin` in here fixes that everywhere this hook is
  * used, in one place, matching what the backend already does.
  */
-export function useHasPlanAccess(module: "schriftlich" | "muendlich" = "schriftlich") {
+export function useHasPlanAccess(module: "schriftlich" | "muendlich" | "muendlich_ai" = "schriftlich") {
   const { user, isAdmin, roleLoading } = useAuth();
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
 

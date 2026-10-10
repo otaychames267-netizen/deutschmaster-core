@@ -101,7 +101,7 @@ function AdminSettingsPage() {
     }
     setPlanPriceBusyCode(code);
     try {
-      await updatePlanPrice({ data: { plan_code: code as "schriftlich" | "muendlich" | "komplett", price_tnd: num } });
+      await updatePlanPrice({ data: { plan_code: code as "schriftlich" | "muendlich" | "komplett" | "komplett_ai", price_tnd: num } });
       setPlanPrices((prev) => (prev ? { ...prev, [code]: num } : prev));
       toast.success("Price updated — existing orders/subscriptions keep their original amount.");
     } catch (e) {
@@ -255,8 +255,8 @@ function AdminSettingsPage() {
         {planPrices === null ? (
           <div className="flex justify-center py-4"><Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /></div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-3">
-            {(["schriftlich", "muendlich", "komplett"] as const).map((code) => (
+          <div className="grid gap-4 sm:grid-cols-4">
+            {(["schriftlich", "muendlich", "komplett", "komplett_ai"] as const).map((code) => (
               <div key={code} className="space-y-1.5">
                 <label className="text-xs font-semibold capitalize text-foreground">{code} price (TND/mo)</label>
                 <input

@@ -59,6 +59,12 @@ function TermsPage() {
             <li>Subscriptions renew automatically for successive billing periods (currently monthly) at the then-current price until cancelled, for any payment method that supports automatic renewal. Where automatic renewal is not technically possible (for example, D17 Mobile Transfer, which requires a new manual payment each period), your access simply ends at the close of the paid period unless you submit a new payment.</li>
             <li>We may change plan pricing going forward. Changes will not apply retroactively to a period you have already paid for, and where required by law we will give advance notice before a price change takes effect on your next renewal.</li>
             <li>You are responsible for any taxes applicable to your purchase, except taxes on our net income.</li>
+            <li>
+              <strong>KI-Sprachtrainer (Komplett plan).</strong> The plan named "Komplett" includes speaking practice with an AI examiner. It is offered
+              as a fair-use service: one practice session per day and up to 30 sessions per calendar month. The AI can make mistakes — its replies and
+              its correction report are practice aids, not an official TELC assessment, and do not guarantee any exam result. We may adjust these limits
+              to keep the service fair and sustainable; limits never apply retroactively to a session already in progress.
+            </li>
           </ul>
 
           <h2>4. Payment Methods</h2>

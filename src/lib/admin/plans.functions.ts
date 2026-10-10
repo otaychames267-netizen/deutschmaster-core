@@ -19,7 +19,7 @@ async function assertAdmin(ctx: { supabase: any; userId: string }) {
  */
 export const updatePlanPrice = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { plan_code: "schriftlich" | "muendlich" | "komplett"; price_tnd: number }) => d)
+  .inputValidator((d: { plan_code: "schriftlich" | "muendlich" | "komplett" | "komplett_ai"; price_tnd: number }) => d)
   .handler(async ({ data, context }) => {
     await assertAdmin(context);
     if (!Number.isFinite(data.price_tnd) || data.price_tnd <= 0) {
@@ -36,7 +36,7 @@ export const getPlanPrices = createServerFn({ method: "POST" })
   .handler(async ({ context }) => {
     await assertAdmin(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data, error } = await supabaseAdmin.from("plans").select("code, price_tnd").in("code", ["schriftlich", "muendlich", "komplett"]);
+    const { data, error } = await supabaseAdmin.from("plans").select("code, price_tnd").in("code", ["schriftlich", "muendlich", "komplett", "komplett_ai"]);
     if (error) throw new Error(error.message);
     return Object.fromEntries((data ?? []).map((p: { code: string; price_tnd: number }) => [p.code, p.price_tnd]));
   });

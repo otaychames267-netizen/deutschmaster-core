@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { LucideIcon } from "lucide-react";
-import { BarChart3, Bot, BookOpen, Headphones, Mic, PenLine, Puzzle, Sparkles, Timer } from "lucide-react";
+import { BarChart3, Bot, BookOpen, CalendarCheck, ClipboardCheck, Headphones, Layers, Mic, PenLine, Puzzle, Sparkles, Timer } from "lucide-react";
 
 export interface PlanBenefit {
   icon: LucideIcon;
@@ -26,6 +26,19 @@ export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
   { icon: Timer, title: "Prüfungssimulation", ar: "امتحان بنظام TELC كما ستجتازه، وتتعلّم تقسيم وقتك", highlight: true },
   { icon: Mic, title: "Mündlich", ar: "كل مواضيع الأجزاء الثلاثة + نصائح وعبارات، بدون AI", highlight: true },
   { icon: BarChart3, title: "Extras", ar: "متابعة تقدّمك + مكتبة امتحانات تدريبية" },
+];
+
+/** What the Komplett plan (komplett_ai) really includes: everything in Schriftlich + the KI-Sprachtrainer 1:1. Same rule as above — every line is backed
+ * by the database or the relay: access = has_plan_access(user, 'muendlich_ai') + a trigger on voice_tutor_sessions; the session is Teil 1 -> 2 -> 3
+ * (about 15 minutes, measured 12-14); the correction report is the post-session pass in voice-tutor-correction.ts (verbatim quotes, categories Grammatik /
+ * Wortstellung / Kasus / Verbformen / Wortschatz / Redemittel, better formulations, vocabulary); the limits are platform_settings muendlich_ai_daily_limit (1)
+ * and muendlich_ai_monthly_limit (30). The tutor does NOT assess pronunciation — never claim it. */
+export const KOMPLETT_BENEFITS: PlanBenefit[] = [
+  { icon: Layers, title: "Alles aus Schriftlich", ar: "Lesen و Hören و Sprachbausteine و Schreiben + بطاقات Mündlich Vorbereitung" },
+  { icon: Bot, title: "KI-Sprachtrainer 1:1", ar: "تتكلّم بصوتك مع ممتحِنة بالذكاء الاصطناعي تردّ عليك مباشرة بصوت حقيقي", highlight: true },
+  { icon: Mic, title: "Teil 1 · 2 · 3", ar: "امتحان شفوي كامل بنفس تسلسل TELC، حوالي 15 دقيقة للجلسة", highlight: true },
+  { icon: ClipboardCheck, title: "Korrektur nach der Sitzung", ar: "تقرير بأخطائك الحقيقية مع التصحيح والشرح، وصيغ ومفردات أفضل", highlight: true },
+  { icon: CalendarCheck, title: "Fair Use", ar: "جلسة واحدة كل يوم، وحتى 30 جلسة في الشهر" },
 ];
 
 interface Accent { bg: string; text: string; ring: string }

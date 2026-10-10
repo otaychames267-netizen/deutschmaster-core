@@ -7,6 +7,7 @@ import {
 import { useLevelSegment } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
 import { voiceTutorAvailable } from "@/lib/features";
+import { useHasPlanAccess } from "@/lib/useContentAccess";
 
 export const Route = createFileRoute("/_authenticated/$level/muendlich/")({
   component: MuendlichIndexPage,
@@ -33,7 +34,7 @@ const TEILE = [
     icon: MessageSquare,
     label: "Über ein Thema sprechen",
     subtitle: "Teil 2",
-    description: "React to a short text stimulus (quote, headline, statistic) and discuss it freely with your exam partner.",
+    description: "React to a short text stimulus (quote, headline, statistic) and discuss it freely, giving reasons for your opinion.",
     duration: "3–4 min",
     skills: ["Expressing opinions", "Agreeing & disagreeing", "Active listening"],
     color: "text-pink-500",
@@ -48,7 +49,7 @@ const TEILE = [
     icon: Users,
     label: "Etwas gemeinsam planen",
     subtitle: "Teil 3",
-    description: "Plan something jointly with your partner — you must reach a shared decision. Negotiation and compromise required.",
+    description: "Plan something together in a dialogue — you must reach a shared decision. Negotiation and compromise required.",
     duration: "4–5 min",
     skills: ["Making proposals", "Finding compromises", "Polite refusals"],
     color: "text-fuchsia-500",
@@ -134,16 +135,24 @@ function BigActionCard({ icon: Icon, accent, highlighted, title, description, me
  * shifts between admin and regular-user views, but a non-interactive `div`
  * (never a Link) so it can't navigate into a route's own redirect-away gate,
  * plus a muted palette and a "Bald" badge instead of the real CTA. */
-function LockedBigActionCard({ icon: Icon, title, description, meta }: {
+function LockedBigActionCard({ icon: Icon, title, description, meta, badge = "Bald", href }: {
   icon: React.ComponentType<{ className?: string }>;
   title: string;
   description: string;
   meta: { chips: string[] } | { duration: string; detail: string };
+  /** Corner label (default "Bald"). */
+  badge?: string;
+  /** When set the card is an upsell: it links to this page (the plan page) instead of being inert. */
+  href?: string;
 }) {
+  const Wrapper = (href ? Link : "div") as React.ElementType;
   return (
-    <div className="relative flex cursor-not-allowed select-none flex-col items-start gap-5 overflow-hidden rounded-2xl border border-dashed border-border bg-muted/20 p-7 opacity-80">
+    <Wrapper
+      {...(href ? { to: href } : {})}
+      className={`relative flex select-none flex-col items-start gap-5 overflow-hidden rounded-2xl border border-dashed border-border bg-muted/20 p-7 ${href ? "cursor-pointer opacity-95 transition-all hover:-translate-y-0.5 hover:border-rose-500/40 hover:bg-muted/30" : "cursor-not-allowed opacity-80"}`}
+    >
       <span className="absolute right-5 top-5 flex items-center gap-1 rounded-full bg-muted px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-muted-foreground">
-        <Lock className="h-3 w-3" /> Bald
+        <Lock className="h-3 w-3" /> {badge}
       </span>
       <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-muted ring-1 ring-border">
         <Icon className="h-7 w-7 text-muted-foreground" />
@@ -165,13 +174,15 @@ function LockedBigActionCard({ icon: Icon, title, description, meta }: {
           <span className="font-medium">{meta.detail}</span>
         </div>
       )}
-    </div>
+    </Wrapper>
   );
 }
 
 function MuendlichIndexPage() {
   const seg = useLevelSegment();
   const { isAdmin } = useAuth();
+  // The AI Sprachtrainer belongs to the Komplett plan only (DB module 'muendlich_ai'; admins always pass).
+  const { hasAccess: hasAiAccess } = useHasPlanAccess("muendlich_ai");
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-10">
 
@@ -225,43 +236,38 @@ function MuendlichIndexPage() {
             onClick={() => document.getElementById("vorbereitung-teile")?.scrollIntoView({ behavior: "smooth", block: "start" })}
           />
 
-          {isAdmin ? (
+          {/* The AI Sprachtrainer: open for the Komplett plan (and admins), an upsell to the plan page for everyone else. */}
+          {voiceTutorAvailable(isAdmin) && hasAiAccess ? (
             <BigActionCard
-              icon={GraduationCap}
-              accent="fuchsia"
+              icon={Bot}
+              accent="rose"
               highlighted
-              title="Prüfungssimulation"
-              description="Full oral exam with a real exam partner, under timed, realistic conditions. All three tasks in sequence."
-              meta={{ duration: "~15 min", detail: "All 3 tasks" }}
-              href={`/${seg}/muendlich/pruefung`}
+              title="KI-Sprachtrainer"
+              description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards."
+              meta={{ duration: "~15 min", detail: "1:1 · KI-Prüferin" }}
+              href={`/${seg}/muendlich/voice-tutor`}
             />
           ) : (
             <LockedBigActionCard
-              icon={GraduationCap}
-              title="Prüfungssimulation"
-              description="Full oral exam with a real exam partner, under timed, realistic conditions. All three tasks in sequence."
-              meta={{ duration: "~15 min", detail: "All 3 tasks" }}
+              icon={Bot}
+              title="KI-Sprachtrainer"
+              description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards. Included in the Komplett plan."
+              meta={{ duration: "~15 min", detail: "1:1 · KI-Prüferin" }}
+              badge="Komplett"
+              href="/billing"
             />
           )}
         </div>
 
-        {/* AI 1:1 is closed for students until the public launch (VOICE_TUTOR_ENABLED in features.ts + the relay
-            secret MUENDLICH_TUTOR_ENABLED); admins get the preview (VOICE_TUTOR_ADMIN_PREVIEW). */}
-        {voiceTutorAvailable(isAdmin) ? (
+        {/* The 2-candidate live exam is an internal tool: only admins see it at all (it is neither sold nor mentioned anywhere else). */}
+        {isAdmin && (
           <BigActionCard
-            icon={Bot}
-            accent="rose"
-            title="AI 1:1"
-            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Admin preview."
-            meta={{ duration: "~15 min", detail: "KI-Sprachpartner" }}
-            href={`/${seg}/muendlich/voice-tutor`}
-          />
-        ) : (
-          <LockedBigActionCard
-            icon={Bot}
-            title="AI 1:1"
-            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Coming soon."
-            meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
+            icon={GraduationCap}
+            accent="fuchsia"
+            title="Prüfungssimulation (Admin)"
+            description="Internal: live exam room with a second candidate."
+            meta={{ duration: "~15 min", detail: "Admin only" }}
+            href={`/${seg}/muendlich/pruefung`}
           />
         )}
 
@@ -348,7 +354,7 @@ function MuendlichIndexPage() {
           {[
             { label: "Fluency", desc: "Speak without long pauses. Mistakes are OK — stopping is not." },
             { label: "Structure", desc: "Use clear introductions and conclusions. Show you can organise ideas." },
-            { label: "Interaction", desc: "React to your partner. Asking questions shows active listening." },
+            { label: "Interaction", desc: "React to what the other person says. Asking questions shows active listening." },
           ].map(tip => (
             <div key={tip.label} className="rounded-xl bg-muted/40 p-3.5">
               <p className="text-xs font-black text-foreground mb-1">{tip.label}</p>

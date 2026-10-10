@@ -5044,7 +5044,7 @@ export type Database = {
         | "writing_prompt"
         | "speaking_prompt"
       payment_status: "pending" | "succeeded" | "failed" | "refunded"
-      plan_code: "schriftlich" | "muendlich" | "premium" | "komplett"
+      plan_code: "schriftlich" | "muendlich" | "premium" | "komplett" | "komplett_ai"
       referral_status: "pending" | "converted" | "rejected"
       subscription_status:
         | "trial"
@@ -5251,7 +5251,7 @@ export const Constants = {
         "speaking_prompt",
       ],
       payment_status: ["pending", "succeeded", "failed", "refunded"],
-      plan_code: ["schriftlich", "muendlich", "premium", "komplett"],
+      plan_code: ["schriftlich", "muendlich", "premium", "komplett", "komplett_ai"],
       referral_status: ["pending", "converted", "rejected"],
       subscription_status: [
         "trial",

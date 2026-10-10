@@ -15,7 +15,7 @@
  * calling those functions directly.
  */
 
-export type PlanCode = "schriftlich" | "muendlich" | "komplett";
+export type PlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 export type PaymentMethod = "lemonsqueezy" | "d17_manual" | "d17_api";
 
 export interface PaymentProvider {

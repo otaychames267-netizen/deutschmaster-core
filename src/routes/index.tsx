@@ -7,7 +7,7 @@ import { useTheme } from "@/lib/theme";
 import { MUENDLICH_ENABLED, isPlanPurchasable } from "@/lib/features";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
-import { PlanBenefits, SCHRIFTLICH_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
+import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import i18n from "@/lib/i18n";
 import {
   BookOpen, Headphones, PenLine, Mic,
@@ -38,41 +38,17 @@ const PLANS = [
     save: null,
   },
   {
-    key: "komplett",
+    key: "komplett_ai",
     name: "Komplett",
-    tag: null as string | null,
-    price: "30",
+    tag: "mit KI" as string | null,
+    price: "60",
     period: " TND",
-    desc: "Complete preparation for both written and spoken",
+    desc: "Everything in Schriftlich + your own AI speaking examiner",
     descAr: null as string | null,
-    benefits: null as PlanBenefit[] | null,
-    features: [
-      "Everything in Schriftlich + Mündlich",
-      "AI Mündlich — live exam room with an AI examiner",
-      "Priority support",
-      "Progress analytics",
-    ],
+    features: [] as string[],
+    benefits: KOMPLETT_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
-    badge: "Full access",
-    save: null,
-  },
-  {
-    key: "muendlich",
-    name: "Mündlich",
-    tag: null as string | null,
-    price: "55",
-    period: " TND",
-    desc: "Perfect your speaking and oral skills",
-    descAr: null as string | null,
-    benefits: null as PlanBenefit[] | null,
-    features: [
-      "Präsentation practice",
-      "Gespräch simulation",
-      "Gemeinsam planen",
-      "AI-powered feedback",
-    ],
-    highlighted: false,
-    badge: null,
+    badge: "KI-Sprachtrainer" as string | null,
     save: null,
   },
 ];
@@ -584,13 +560,13 @@ function Pricing() {
 
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
             Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
-        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "sm:grid-cols-3" : "mx-auto max-w-md"}`}>
+        <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "mx-auto max-w-4xl sm:grid-cols-2" : "mx-auto max-w-md"}`}>
           {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
             <div
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
                 plan.benefits
-                  ? "plan-premium"
+                  ? `plan-premium${plan.key === "komplett_ai" ? " plan-premium--pro" : ""}`
                   : plan.highlighted
                     ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
                     : "border-border bg-card"

@@ -22,7 +22,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "How do I choose between Schriftlich and Mündlich?",
-        a: "The Schriftlich module covers the written exam: Lesen (reading), Hören (listening), Sprachbausteine (grammar), and Schreiben (writing). Mündlich covers the oral exam: Präsentation, Thema sprechen, and Gemeinsam planen. The Komplett plan gives you access to both.",
+        a: "The Schriftlich module covers the written exam: Lesen (reading), Hören (listening), Sprachbausteine (grammar), and Schreiben (writing). Mündlich covers the oral exam: Präsentation, Thema sprechen, and Gemeinsam planen. The Schriftlich plan includes the Mündlich preparation cards; the Komplett plan adds the KI-Sprachtrainer, where you practise the whole oral exam out loud with an AI examiner.",
       },
       {
         q: "What exam level is this platform for?",
@@ -37,7 +37,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "What are the available plans and prices?",
-        a: "Komplett: 30 TND/month — full access to everything, written and spoken (Lesen, Hören, Sprachbausteine, Schreiben, Mündlich, and full exam simulations).",
+        a: "Schriftlich + Mündlich (ohne KI): 30 TND/month — the whole written exam (Lesen, Hören, Sprachbausteine, Schreiben, timed exam simulations) plus the Mündlich preparation cards. Komplett: 60 TND/month — everything in Schriftlich plus the KI-Sprachtrainer: speaking practice with an AI examiner (Teil 1, 2 and 3), with a correction report after each session. The KI-Sprachtrainer is a fair-use service: one session per day and up to 30 sessions per month.",
       },
       {
         q: "How do I upgrade or change my plan?",

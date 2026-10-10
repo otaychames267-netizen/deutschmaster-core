@@ -38,7 +38,7 @@ function VoiceTutorSession() {
   const { sessionId } = useParams({ from: "/_authenticated/$level/muendlich/voice-tutor/$sessionId" });
   const activeLevel = useActiveLevel();
   const { isAdmin, loading, roleLoading } = useAuth();
-  const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich");
+  const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich_ai");
   const navigate = useNavigate();
 
   const [teil1Title, setTeil1Title] = useState<string | null>(null);

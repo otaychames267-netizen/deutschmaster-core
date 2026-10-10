@@ -70,6 +70,7 @@ function PrivacyPage() {
           <p>We do not sell your personal data. We share it only with service providers who help us run AuraLingovia, under contractual confidentiality obligations:</p>
           <ul>
             <li><strong>Supabase</strong> — our database, authentication, and file-storage provider (EU-hosted infrastructure), which stores your account, learning, and payment-metadata records;</li>
+            <li><strong>Groq, DeepInfra and Anthropic (Claude)</strong> — providers behind the KI-Sprachtrainer (Komplett plan). While a session runs, your microphone audio is streamed to Groq to be turned into text, Claude writes the examiner's replies from that text, and DeepInfra turns the replies into speech. Audio is processed live and is not stored by us; we keep the text transcript of each session to build its correction report. The microphone is only used while you are inside a session that you started;</li>
             <li><strong>Anthropic (Claude) and Google (Gemini)</strong> — AI providers used to grade written essays and, where enabled, evaluate spoken exam responses. Only the specific submission being graded is sent, solely to generate your feedback;</li>
             <li><strong>Email and Telegram</strong> — used to deliver account, payment, and support notifications you trigger or that relate to your account; and</li>
             <li>Law enforcement or regulators, where we are legally required to disclose information.</li>

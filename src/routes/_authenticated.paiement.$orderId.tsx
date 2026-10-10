@@ -17,6 +17,7 @@ const PLAN_LABEL: Record<string, string> = {
   schriftlich: "Schriftlich + Mündlich (ohne KI)",
   muendlich: "Mündlich",
   komplett: "Komplett",
+  komplett_ai: "Komplett",
 };
 
 function CopyRow({ label, value }: { label: string; value: string }) {

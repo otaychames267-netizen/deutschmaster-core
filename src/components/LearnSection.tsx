@@ -19,7 +19,7 @@ const SCHRIFTLICH_MODULES = [
 const MUENDLICH_MODULES = [
   { label: "Teil 1 — Präsentation", icon: Speech, desc: "Structured presentation with templates." },
   { label: "Teil 2 — Diskussion", icon: MessageSquare, desc: "Arguments and counter-arguments." },
-  { label: "Teil 3 — Gemeinsam planen", icon: Users, desc: "Plan something together with a partner." },
+  { label: "Teil 3 — Gemeinsam planen", icon: Users, desc: "Plan something together in a dialogue." },
 ];
 
 export function LearnSection({ section }: { section: Section }) {

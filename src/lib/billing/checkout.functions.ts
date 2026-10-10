@@ -1,12 +1,13 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
-type PlanCode = "schriftlich" | "muendlich" | "komplett";
+type PlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 
 const VARIANT_ENV: Record<PlanCode, string | undefined> = {
   schriftlich: process.env.LEMONSQUEEZY_VARIANT_SCHRIFTLICH,
   muendlich: process.env.LEMONSQUEEZY_VARIANT_MUENDLICH,
   komplett: process.env.LEMONSQUEEZY_VARIANT_KOMPLETT,
+  komplett_ai: process.env.LEMONSQUEEZY_VARIANT_KOMPLETT_AI, // Lemon Squeezy is dormant (card payments are off); the D17/manual flow sells this plan
 };
 
 async function assertAdmin(ctx: { supabase: any; userId: string }) {
@@ -66,7 +67,7 @@ async function mockCheckoutSession(planCode: PlanCode, context: { supabase: any;
   if (planCode === "muendlich" || planCode === "komplett") {
     await supabaseAdmin.rpc("provision_muendlich_subscription", { p_user_id: context.userId, p_minutes: 300, p_reason: reason });
   }
-  if (planCode === "schriftlich" || planCode === "komplett") {
+  if (planCode === "schriftlich" || planCode === "komplett" || planCode === "komplett_ai") {
     await supabaseAdmin.rpc("provision_essay_credits", { p_user_id: context.userId, p_amount: 30, p_reason: reason });
   }
 

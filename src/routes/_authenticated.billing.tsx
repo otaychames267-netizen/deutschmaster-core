@@ -12,7 +12,7 @@ import {
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
   Landmark, Smartphone, Building2, ShieldCheck,
 } from "lucide-react";
-import { PlanBenefits, SCHRIFTLICH_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
+import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   component: BillingPage,
@@ -38,53 +38,32 @@ const PLANS = [
     badge: "TELC B2 preparation" as string | null,
   },
   {
-    code: "komplett",
+    code: "komplett_ai",
     name: "Komplett",
-    tag: null as string | null,
+    tag: "mit KI" as string | null,
     icon: Crown,
-    price_tnd: 30,
+    price_tnd: 60,
     period: "/month",
-    tagline: "Everything — written and spoken",
+    tagline: "Everything in Schriftlich + your own AI speaking examiner",
     taglineAr: null as string | null,
-    benefits: null as PlanBenefit[] | null,
+    benefits: KOMPLETT_BENEFITS as PlanBenefit[] | null,
     color: "violet",
     gradientFrom: "#6d28d9",
     gradientTo: "#8b5cf6",
-    features: [
-      "Everything in Schriftlich + Mündlich",
-      "AI Mündlich — live exam room with an AI examiner",
-      "Priority support",
-      "Advanced analytics",
-      "All future content included",
-    ],
+    features: [] as string[],
     highlighted: true,
-    badge: "Full access",
-  },
-  {
-    code: "muendlich",
-    name: "Mündlich",
-    tag: null as string | null,
-    icon: Mic,
-    price_tnd: 55,
-    period: "/month",
-    tagline: "Perfect your speaking skills",
-    taglineAr: null as string | null,
-    benefits: null as PlanBenefit[] | null,
-    color: "rose",
-    gradientFrom: "#be123c",
-    gradientTo: "#f43f5e",
-    features: [
-      "Präsentation (Teil 1)",
-      "Über ein Thema sprechen (Teil 2)",
-      "Gemeinsam planen (Teil 3)",
-      "Speaking progress tracking",
-      "Oral exam simulations",
-      "Practice feedback tools",
-    ],
-    highlighted: false,
-    badge: null,
+    badge: "KI-Sprachtrainer" as string | null,
   },
 ];
+
+/** How an active subscription's plan code is shown to the student. */
+const PLAN_DISPLAY: Record<string, string> = {
+  schriftlich: "Schriftlich + Mündlich (ohne KI)",
+  komplett: "Komplett",
+  komplett_ai: "Komplett (mit KI-Sprachtrainer)",
+  muendlich: "Mündlich",
+  premium: "Premium",
+};
 
 /** The three ways a student can pay today — all manual transfers verified by our team (the order screen then shows the account details). */
 const PAYMENT_METHODS: { id: ManualMethod; name: string; note: string; icon: typeof Landmark }[] = [
@@ -118,7 +97,7 @@ function BillingPage() {
   const [manualPlan, setManualPlan] = useState<string | null>(null);
   const [manualMethod, setManualMethod] = useState<ManualMethod | null>(null);
 
-  async function handleManualPayment(planCode: "schriftlich" | "muendlich" | "komplett", method: ManualMethod) {
+  async function handleManualPayment(planCode: "schriftlich" | "komplett_ai", method: ManualMethod) {
     setManualPlan(planCode);
     setManualMethod(method);
     try {
@@ -193,7 +172,7 @@ function BillingPage() {
                   </span>
                 </div>
                 <p className="mt-0.5 text-sm text-muted-foreground">
-                  Plan: <span className="font-semibold capitalize text-foreground">{subscription.plan_code}</span>
+                  Plan: <span className="font-semibold text-foreground">{PLAN_DISPLAY[subscription.plan_code] ?? subscription.plan_code}</span>
                   {renewDate ? ` · Renews ${renewDate}` : ""}
                 </p>
               </div>
@@ -242,7 +221,7 @@ function BillingPage() {
           <p className="text-sm text-muted-foreground">Choose the plan that fits your exam goals. Cancel anytime.</p>
         </div>
 
-        <div className={`grid gap-5 pt-4 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "md:grid-cols-3"}`}>
+        <div className={`grid gap-5 pt-4 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "mx-auto max-w-4xl md:grid-cols-2"}`}>
           {visiblePlans.map((plan) => {
             const isCurrent = subscription?.plan_code === plan.code;
             const c = COLOR_CLASSES[plan.color];
@@ -267,7 +246,7 @@ function BillingPage() {
                   </div>
                 )}
 
-                <div className={premium ? "plan-premium plan-premium--top rounded-t-2xl p-6" : "flex flex-1 flex-col"}>
+                <div className={premium ? `plan-premium plan-premium--top rounded-t-2xl p-6${plan.code === "komplett_ai" ? " plan-premium--pro" : ""}` : "flex flex-1 flex-col"}>
                 {/* Plan header */}
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-3">
@@ -325,7 +304,7 @@ function BillingPage() {
                           <button
                             key={m.id}
                             type="button"
-                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "muendlich" | "komplett", m.id)}
+                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "komplett_ai", m.id)}
                             disabled={manualPlan !== null || unavailable}
                             title={unavailable ? "D17 is temporarily unavailable — please use another method." : `Pay with ${m.name}, then send your receipt on WhatsApp.`}
                             className={`group flex w-full items-center gap-3 rounded-xl border border-border bg-card px-3.5 py-3 text-left transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:shadow-none ${premium ? "hover:border-gold/60" : "hover:border-foreground/25"}`}

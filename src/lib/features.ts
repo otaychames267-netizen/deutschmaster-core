@@ -81,7 +81,7 @@ export const SHOW_UNRELEASED_CONTENT = false;
  * `activeLevel === "TELC_B2"` check in the voice-tutor routes, which is
  * independent of this flag and not something flipping this alone changes.
  */
-export const VOICE_TUTOR_ENABLED = false;
+export const VOICE_TUTOR_ENABLED = true; // launched 2026-10-10 with the Komplett plan — access itself is plan-gated (module 'muendlich_ai': UI + a DB trigger on voice_tutor_sessions)
 
 /**
  * Admin-only preview of the AI Voice Tutor (owner decision 2026-10-10): while
@@ -105,7 +105,7 @@ export function voiceTutorAvailable(isAdmin: boolean): boolean {
  */
 export const COMMUNITY_WHATSAPP_URL = "https://chat.whatsapp.com/DHQil2MLKfYHCl2L4wQZIL?mode=gi_t";
 
-export type PlanCode = "schriftlich" | "muendlich" | "komplett";
+export type PlanCode = "schriftlich" | "muendlich" | "komplett" | "komplett_ai";
 
 /**
  * Which subscription plans may be purchased right now. Owner decision
@@ -116,10 +116,12 @@ export type PlanCode = "schriftlich" | "muendlich" | "komplett";
  * exam (enforced in the DB by has_plan_access's module scoping). Komplett and
  * Mündlich stay in the codebase (existing subscribers keep their access) but
  * are not purchasable by new customers.
+ * 2026-10-10: the plan "Komplett" (code komplett_ai, 60 TND) is sold next to Schriftlich: Schriftlich + the KI-Sprachtrainer 1:1
+ * (DB module 'muendlich_ai' = komplett_ai only). The legacy 'komplett' plan (30 TND, 87 subscribers) stays as it was and does NOT get the AI.
  * Enforced server-side at order/checkout creation (createD17OrderImpl,
  * createCheckoutSessionImpl) AND used client-side to filter the billing
  * plan list, so the two can never drift.
  */
 export function isPlanPurchasable(planCode: string): boolean {
-  return planCode === "schriftlich";
+  return planCode === "schriftlich" || planCode === "komplett_ai";
 }
