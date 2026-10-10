@@ -170,7 +170,7 @@ function VoiceTutorSession() {
             {audio.currentStage === 3 ? teil3Title : audio.currentStage === 2 ? teil2Title : teil1Title}
           </h1>
         </div>
-        <VoiceTutorCountdown secondsRemaining={audio.secondsRemaining} />
+        <VoiceTutorCountdown secondsRemaining={audio.secondsRemaining} running={audio.ready} />
       </div>
 
       <ExaminerAvatar state={examinerState} />
