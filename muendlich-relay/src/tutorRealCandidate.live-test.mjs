@@ -10,6 +10,8 @@
  * then:  node src/tutorRealCandidate.live-test.mjs        (LIVE_TEST_RELAY_URL, default ws://localhost:8791; SKIP_CLEANUP=1 keeps the rows)
  */
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import WebSocket from "ws";
 
 for (const line of readFileSync(new URL("../.env", import.meta.url), "utf8").split(/\r?\n/)) {
@@ -91,6 +93,7 @@ async function main() {
   let playbackEndsAt = 0, lastTutorActivityAt = 0, candEndedAt = null;
   const tutorSince = [], transcript = [], latencies = [], timeline = [], tutorSpans = [], candSpans = [];
   let mic = null;
+  const tutorChunks = [], candChunks = []; // for the full-conversation recording: { at: ms since t0, pcm }
 
   async function cleanup() {
     await rest(`/rest/v1/voice_tutor_sessions?id=eq.${sessionId}`, { method: "DELETE" }).catch(() => {});
@@ -106,6 +109,7 @@ async function main() {
     if (m.type === "audio") {
       const dur = Buffer.from(m.data, "base64").length / 48000; // 24 kHz PCM16 mono
       if (now > playbackEndsAt + 300) tutorSpans.push({ start: now, end: now }); // a new tutor utterance starts playing
+      tutorChunks.push({ at: Math.max(playbackEndsAt, now) - t0, pcm: Buffer.from(m.data, "base64") }); // when the browser would START playing it
       playbackEndsAt = Math.max(playbackEndsAt, now) + dur * 1000; lastTutorActivityAt = now;
       tutorSpans[tutorSpans.length - 1].end = playbackEndsAt;
       if (candEndedAt !== null) { latencies.push({ ms: now - candEndedAt, after: transcript[transcript.length - 1]?.text.slice(0, 50) }); candEndedAt = null; }
@@ -128,7 +132,7 @@ async function main() {
   const micTimer = setInterval(() => {
     if (ws.readyState !== WebSocket.OPEN) return;
     let data = silent;
-    if (mic && mic.pos < mic.pcm.length) { data = mic.pcm.subarray(mic.pos, mic.pos + 3200).toString("base64"); mic.pos += 3200; if (mic.pos >= mic.pcm.length) mic = null; }
+    if (mic && mic.pos < mic.pcm.length) { const frame = mic.pcm.subarray(mic.pos, mic.pos + 3200); candChunks.push({ at: Date.now() - t0, pcm: Buffer.from(frame) }); data = frame.toString("base64"); mic.pos += 3200; if (mic.pos >= mic.pcm.length) mic = null; }
     ws.send(JSON.stringify({ type: "audio", data }));
   }, 100);
 
@@ -196,7 +200,22 @@ async function main() {
   console.log(`\n(harness only, NOT product cost) candidate TTS: ElevenLabs ${candTts.elevenlabsChars} chars, DeepInfra ${candTts.deepinfraChars} chars${candTts.elevenlabsFailed ? ` [ElevenLabs failed: ${candTts.elevenlabsFailed}]` : ""}; candidate Claude Haiku: ${candBrain.inputTokens} in / ${candBrain.outputTokens} out tokens`);
 
   mkdirSync(new URL("../../voice-auditions/", import.meta.url), { recursive: true });
-  const out = new URL(`../../voice-auditions/tutor-real-run-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-")}.json`, import.meta.url);
+  // ---- full-conversation recording: tutor (24 kHz) + candidate (16 kHz -> 24 kHz) mixed on one wall-clock timeline, as the student's browser would play it ----
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  const wavUrl = new URL(`../../voice-auditions/tutor-real-run-${stamp}.wav`, import.meta.url);
+  {
+    const SR = 24000, endMs = Math.max(...tutorChunks.map((c) => c.at + (c.pcm.length / 48)), ...candChunks.map((c) => c.at + c.pcm.length / 32), 1000);
+    const mix = new Int32Array(Math.ceil(((endMs + 1500) / 1000) * SR));
+    for (const c of tutorChunks) { const o = Math.round((c.at / 1000) * SR); for (let i = 0; i < c.pcm.length / 2; i++) if (o + i < mix.length) mix[o + i] += c.pcm.readInt16LE(i * 2); }
+    for (const c of candChunks) { const o = Math.round((c.at / 1000) * SR), n = c.pcm.length / 2; for (let i = 0; i < n * 1.5; i++) { const p = i / 1.5, a = Math.floor(p), f = p - a; const s0 = c.pcm.readInt16LE(a * 2), s1 = a + 1 < n ? c.pcm.readInt16LE((a + 1) * 2) : s0; if (o + i < mix.length) mix[o + i] += Math.round(s0 + (s1 - s0) * f); } }
+    const pcm = Buffer.alloc(mix.length * 2); for (let i = 0; i < mix.length; i++) pcm.writeInt16LE(Math.max(-32768, Math.min(32767, mix[i])), i * 2);
+    const hdr = Buffer.alloc(44); hdr.write("RIFF", 0); hdr.writeUInt32LE(36 + pcm.length, 4); hdr.write("WAVEfmt ", 8); hdr.writeUInt32LE(16, 16); hdr.writeUInt16LE(1, 20); hdr.writeUInt16LE(1, 22); hdr.writeUInt32LE(SR, 24); hdr.writeUInt32LE(SR * 2, 28); hdr.writeUInt16LE(2, 32); hdr.writeUInt16LE(16, 34); hdr.write("data", 36); hdr.writeUInt32LE(pcm.length, 40);
+    writeFileSync(wavUrl, Buffer.concat([hdr, pcm]));
+    const wavPath = fileURLToPath(wavUrl), mp3 = wavPath.slice(0, -4) + ".mp3";
+    const ff = spawnSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wavPath, "-codec:a", "libmp3lame", "-b:a", "64k", mp3]);
+    console.log(`\nfull-conversation recording: ${(mix.length / SR / 60).toFixed(1)} min -> ${ff.status === 0 ? mp3 : wavPath + " (mp3 conversion unavailable)"}`);
+  }
+  const out = new URL(`../../voice-auditions/tutor-real-run-${stamp}.json`, import.meta.url);
   writeFileSync(out, JSON.stringify({ sessionId, minutes: (Date.now() - t0) / 60000, finished, terminated, turns, latencies, cost, timeline, candidateHarness: { candTts, candBrain } }, null, 1));
   console.log("report:", out.pathname);
   if (process.env.SKIP_CLEANUP) console.log(`SKIP_CLEANUP set — session ${sessionId} / student ${student.id} left in place.`);
