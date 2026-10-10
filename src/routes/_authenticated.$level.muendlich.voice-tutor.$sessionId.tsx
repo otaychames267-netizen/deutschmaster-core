@@ -8,7 +8,7 @@ import { VoiceTutorCorrectionsPanel, type VoiceTutorCorrectionsData } from "@/co
 import { useActiveLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
-import { VOICE_TUTOR_ENABLED } from "@/lib/features";
+import { voiceTutorAvailable } from "@/lib/features";
 import { supabase } from "@/integrations/supabase/client";
 
 // Same relay, different path suffix — see useVoiceTutorAudio.ts.
@@ -101,8 +101,8 @@ function VoiceTutorSession() {
 
   const b2OrAdmin = activeLevel === "TELC_B2" || isAdmin;
   const levelSeg = activeLevel === "TELC_B1" ? "b1" : "b2";
-  // CLOSED for everyone, admins included (owner decision 2026-10-05) — see the matching comment in voice-tutor.index.tsx.
-  if (!VOICE_TUTOR_ENABLED || !b2OrAdmin || !hasAccess) {
+  // Closed for students, open to admins while VOICE_TUTOR_ADMIN_PREVIEW — see the matching comment in voice-tutor.index.tsx.
+  if (!voiceTutorAvailable(isAdmin) || !b2OrAdmin || !hasAccess) {
     return <Navigate to="/$level/muendlich" params={{ level: levelSeg }} replace />;
   }
   if (sessionValid === false) {

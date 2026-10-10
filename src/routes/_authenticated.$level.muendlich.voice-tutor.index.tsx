@@ -5,7 +5,7 @@ import { TopicSelector, type TopicMaterial } from "@/components/muendlich/TopicS
 import { useActiveLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
-import { VOICE_TUTOR_ENABLED } from "@/lib/features";
+import { voiceTutorAvailable } from "@/lib/features";
 import { supabase } from "@/integrations/supabase/client";
 import { muendlichQuotaMessage } from "@/lib/muendlich/quota";
 
@@ -58,9 +58,9 @@ function VoiceTutorPicker() {
   if (loading || roleLoading || accessLoading) return null;
 
   const b2OrAdmin = activeLevel === "TELC_B2" || isAdmin;
-  // CLOSED for everyone, admins included (owner decision 2026-10-05: the 1:1 tutor is parked until it has been run end to
-  // end with ElevenLabs credits restored). Reopen = VOICE_TUTOR_ENABLED=true here + the relay secret MUENDLICH_TUTOR_ENABLED=true.
-  if (!VOICE_TUTOR_ENABLED || !b2OrAdmin) {
+  // Closed for students; admins can preview it (VOICE_TUTOR_ADMIN_PREVIEW in features.ts). Public launch =
+  // VOICE_TUTOR_ENABLED=true there + the relay secret MUENDLICH_TUTOR_ENABLED=true.
+  if (!voiceTutorAvailable(isAdmin) || !b2OrAdmin) {
     return <Navigate to="/$level/muendlich" params={{ level: activeLevel === "TELC_B1" ? "b1" : "b2" }} replace />;
   }
 

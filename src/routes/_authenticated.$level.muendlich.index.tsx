@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { useLevelSegment } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
+import { voiceTutorAvailable } from "@/lib/features";
 
 export const Route = createFileRoute("/_authenticated/$level/muendlich/")({
   component: MuendlichIndexPage,
@@ -244,14 +245,25 @@ function MuendlichIndexPage() {
           )}
         </div>
 
-        {/* AI 1:1 is CLOSED for everyone, admins included (owner decision 2026-10-05) — reopen together with
-            VOICE_TUTOR_ENABLED in features.ts and the relay secret MUENDLICH_TUTOR_ENABLED. */}
-        <LockedBigActionCard
-          icon={Bot}
-          title="AI 1:1"
-          description="Practice solo with an AI speaking partner — no need to wait for another candidate. Coming soon."
-          meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
-        />
+        {/* AI 1:1 is closed for students until the public launch (VOICE_TUTOR_ENABLED in features.ts + the relay
+            secret MUENDLICH_TUTOR_ENABLED); admins get the preview (VOICE_TUTOR_ADMIN_PREVIEW). */}
+        {voiceTutorAvailable(isAdmin) ? (
+          <BigActionCard
+            icon={Bot}
+            accent="rose"
+            title="AI 1:1"
+            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Admin preview."
+            meta={{ duration: "~15 min", detail: "KI-Sprachpartner" }}
+            href={`/${seg}/muendlich/voice-tutor`}
+          />
+        ) : (
+          <LockedBigActionCard
+            icon={Bot}
+            title="AI 1:1"
+            description="Practice solo with an AI speaking partner — no need to wait for another candidate. Coming soon."
+            meta={{ duration: "Flexible", detail: "KI-Sprachpartner" }}
+          />
+        )}
 
       </div>
 
