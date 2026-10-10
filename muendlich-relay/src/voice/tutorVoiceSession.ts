@@ -480,9 +480,11 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
         : await findLibraryAssetById("scripted_lead", activeVoiceId(), line.id);
       // a clip generated for an OLDER wording of this variant must never be played in front of the new live remainder
       if (found && found.asset.text === line.lead) {
+        console.log(`[tutor-clip] ${sessionId} CACHED lead ${line.id} (${found.asset.text.length} chars, $0) + live remainder ${line.rest.length} chars`);
         await playPcmFile(`speakScriptedLine(${line.id})`, found.absolutePath, found.asset.text);
         return speakScriptedText(line.rest);
       }
+      console.log(`[tutor-clip] ${sessionId} NO usable cached lead for ${line.id} (voice ${activeVoiceId().slice(0, 24)}${found ? ", stale wording" : ", no clip"}) — whole line live, ${line.full.length} chars`);
     }
     return speakScriptedText(line.full);
   }
@@ -496,7 +498,8 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     const found = usesTutorLibrary(voiceId)
       ? await findTutorV4Asset("exam_end", voiceId, chosen.id)
       : await findLibraryAssetById("exam_end", voiceId, chosen.id);
-    if (!found) return speakScriptedText(chosen.text); // library not generated for this voice: same text, spoken live
+    if (!found) { console.log(`[tutor-clip] ${sessionId} NO cached closing line for voice ${voiceId.slice(0, 24)} — spoken live, ${chosen.text.length} chars`); return speakScriptedText(chosen.text); } // library not generated for this voice: same text, spoken live
+    console.log(`[tutor-clip] ${sessionId} CACHED closing line ${chosen.id} (${found.asset.text.length} chars, $0)`);
     return playPcmFile("playSoloExamEnd", found.absolutePath, found.asset.text);
   }
 

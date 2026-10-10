@@ -89,7 +89,7 @@ async function main() {
 
   let stage = 0, finished = false, terminated = null, closed = false, presented = false, speaking = false, turns = 0;
   let playbackEndsAt = 0, lastTutorActivityAt = 0, candEndedAt = null;
-  const tutorSince = [], transcript = [], latencies = [], timeline = [];
+  const tutorSince = [], transcript = [], latencies = [], timeline = [], tutorSpans = [], candSpans = [];
   let mic = null;
 
   async function cleanup() {
@@ -105,7 +105,9 @@ async function main() {
     const now = Date.now();
     if (m.type === "audio") {
       const dur = Buffer.from(m.data, "base64").length / 48000; // 24 kHz PCM16 mono
+      if (now > playbackEndsAt + 300) tutorSpans.push({ start: now, end: now }); // a new tutor utterance starts playing
       playbackEndsAt = Math.max(playbackEndsAt, now) + dur * 1000; lastTutorActivityAt = now;
+      tutorSpans[tutorSpans.length - 1].end = playbackEndsAt;
       if (candEndedAt !== null) { latencies.push({ ms: now - candEndedAt, after: transcript[transcript.length - 1]?.text.slice(0, 50) }); candEndedAt = null; }
       return;
     }
@@ -138,9 +140,11 @@ async function main() {
       while (Date.now() < playbackEndsAt + 300 && !finished) await sleep(150); // never talk over the tutor
       transcript.push({ who: NAME, text }); timeline.push({ t: Date.now() - t0, who: NAME, label, text });
       log(`${NAME} (${label}, ${(pcm.length / 32000).toFixed(0)}s): ${text.slice(0, 120)}${text.length > 120 ? "…" : ""}`);
+      const spanStart = Date.now();
       mic = { pcm, pos: 0 };
       while (mic && !finished) await sleep(150);
       candEndedAt = Date.now(); turns++;
+      candSpans.push({ start: spanStart, end: candEndedAt, label });
     } finally { speaking = false; }
   }
 
@@ -173,6 +177,20 @@ async function main() {
   console.log("\n=== LATENCY (end of candidate speech -> first tutor audio) ===");
   for (const l of latencies) console.log(`  ${sFor(l.ms).padStart(5)} s   after: ${l.after}…`);
   if (sorted.length) console.log(`  n=${sorted.length}  median ${sFor(q(0.5))} s | p90 ${sFor(q(0.9))} s | max ${sFor(sorted[sorted.length - 1])} s`);
+  // ---- does the tutor let the candidate speak? overlap of the candidate's speech with the tutor's audio ----
+  const overlaps = [];
+  for (const c of candSpans) for (const t of tutorSpans) { const o = Math.min(c.end, t.end) - Math.max(c.start, t.start); if (o > 300) overlaps.push({ label: c.label, at: Math.round((c.start - t0) / 1000), ms: Math.round(o) }); }
+  console.log("\n=== DOES THE TUTOR INTERRUPT THE CANDIDATE? ===");
+  console.log(`candidate turns: ${candSpans.length}, tutor audio blocks: ${tutorSpans.length}, overlaps > 0.3 s: ${overlaps.length}`);
+  for (const o of overlaps) console.log(`  overlap ${(o.ms / 1000).toFixed(1)} s during the candidate's "${o.label}" at +${o.at}s`);
+  console.log("\n=== WHO SPOKE HOW OFTEN, PER TEIL (voice_tutor_transcript_nodes) ===");
+  for (const teil of [1, 2, 3]) {
+    const rows = nodes.filter((n) => n.teil === teil);
+    const by = rows.reduce((a, n) => { a[n.speaker] = (a[n.speaker] ?? 0) + 1; return a; }, {});
+    console.log(`  Teil ${teil}: ${JSON.stringify(by)}`);
+  }
+  console.log("\n=== TUTOR LINES IN ORDER (question count) ===");
+  let qn = 0; for (const x of timeline.filter((e) => e.who === "examiner" || e.who === "partner")) { const q = /\?\s*$/.test(x.text.trim()) ? ++qn : 0; console.log(`  [+${Math.round(x.t / 1000)}s ${x.who}${q ? " Q" + q : ""}] ${x.text.replace(/\s+/g, " ").slice(0, 170)}`); }
   console.log("\n=== MEASURED COST ROW (voice_tutor_costs) ===\n" + JSON.stringify(cost, null, 1));
   console.log("\ntranscript nodes by speaker:", JSON.stringify(nodes.reduce((a, n) => { a[n.speaker] = (a[n.speaker] ?? 0) + 1; return a; }, {})), "| by Teil:", JSON.stringify(nodes.reduce((a, n) => { a[n.teil] = (a[n.teil] ?? 0) + 1; return a; }, {})));
   console.log(`\n(harness only, NOT product cost) candidate TTS: ElevenLabs ${candTts.elevenlabsChars} chars, DeepInfra ${candTts.deepinfraChars} chars${candTts.elevenlabsFailed ? ` [ElevenLabs failed: ${candTts.elevenlabsFailed}]` : ""}; candidate Claude Haiku: ${candBrain.inputTokens} in / ${candBrain.outputTokens} out tokens`);
