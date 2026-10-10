@@ -26,7 +26,9 @@ import { PERMANENT_MARKER } from "./failoverStt.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
 const MAX_ATTEMPTS = 3;
-const REQUEST_TIMEOUT_MS = 15_000; // was 10s: Groq latency spikes of 10-14s were seen live and each timeout cost a retry
+// 7 s (was 15 s, 2026-10-10): a normal request answers in 0.5-1.5 s; in a full real-candidate run two 15 s timeouts + retries put a 34 s hole into one tutor turn.
+// A request that is still silent after 7 s is abandoned and retried (the retry usually answers at once), and 2 failed requests in a row switch the stream to ElevenLabs.
+const REQUEST_TIMEOUT_MS = Number(process.env.GROQ_REQUEST_TIMEOUT_MS ?? 7_000);
 
 const STOCK_HALLUCINATIONS = [
   /untertitel(ung)?\s+(der|von|im auftrag)/i,

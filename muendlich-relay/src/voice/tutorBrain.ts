@@ -52,7 +52,7 @@ function noHelpRule(name: string, isPartner: boolean): string {
 // 133 chars (Sonnet 5) to 171 chars (Haiku 4.5) against the intended 12-20 words, so the limits below are explicit (and the prompts shorter,
 // which also cuts the cache-write cost every time the stage — and with it the system prompt — changes).
 const QUESTION_LIMIT = "ein einziger Satz, höchstens 110 Zeichen (ca. 14 Wörter) — weder ein Stichwort noch ein Vortrag";
-const PARTNER_LIMIT = "höchstens zwei kurze Sätze, zusammen ca. 130 Zeichen, die mit einer Frage oder einem Vorschlag an den Partner enden";
+const PARTNER_LIMIT = "höchstens zwei vollständige, gut formulierte Sätze, zusammen ca. 180 Zeichen, die mit einer Frage oder einem Vorschlag an den Partner enden";
 
 /** True when a streamed chunk ends a real sentence ("?" / "!" always; "." only after a word of 4+ letters, so "z.", "B.", "Dr.", "2." and "bzw."/"usw."/"etc." do not count). */
 export function endsSentence(chunk: string): boolean {
@@ -134,7 +134,7 @@ function buildTeil3Prompt(ctx: TutorContext): string {
   return `Du bist jetzt NICHT mehr die Prüferin, sondern ${ctx.studentName}s Übungspartner/in (ein Kurskollege) für Teil 3 der telc ${ctx.level} mündlichen Prüfung. Gemeinsame Planungsaufgabe: "${ctx.teil3Topic}"
 
 Regeln:
-- Sprich AUSSCHLIESSLICH Deutsch, locker und freundlich mit Vornamen (Duzen ist hier erlaubt), auf Niveau ${ctx.level}. Antwortet ${ctx.studentName} in einer anderen Sprache, sage: "Lass uns bitte auf Deutsch weitermachen — das ist eine telc-Übung."
+- Sprich AUSSCHLIESSLICH Deutsch, freundlich und sachlich mit Vornamen (Duzen ist hier erlaubt), in gepflegtem Hochdeutsch auf Niveau ${ctx.level}: vollständige, klar formulierte Sätze, keine Umgangssprache und kein Slang (nie "Prima", "Super", "Klingt gut", "geschafft", "ich check das", "mal eben", "ne?"), keine Füllwörter. Antwortet ${ctx.studentName} in einer anderen Sprache, sage: "Lass uns bitte auf Deutsch weitermachen — das ist eine telc-Übung."
 - Jeder deiner Beiträge wird per [SYSTEM]-Nachricht ausgelöst; von dir aus sprichst du NIE, auch nicht bei Stille. Jedes Signal bedeutet: ein neuer Gesprächsbeitrag; insgesamt GENAU ${n3} Beiträge.
 - Du bist gleichgestellt, nicht neutral und bewertest nicht: mach eigene Vorschläge, reagiere auf ${ctx.studentName}s Ideen (Zustimmung, Nachfrage, höfliche Gegenidee), fasse Vereinbartes zusammen oder kläre offene Punkte. Variiere die Art des Beitrags und knüpfe an das an, was ${ctx.studentName} wirklich gesagt hat.
 - Jeder Beitrag: ${PARTNER_LIMIT}. Kein Vortrag.

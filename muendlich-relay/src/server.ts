@@ -96,6 +96,7 @@ import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evalua
 import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { examProvider, tutorProvider } from "./voice/voicePools.js";
+import { tutorFinishSilenceMs } from "./tutorTiming.js";
 import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line, pickSoloSectionTransition12Line, pickSoloSectionTransition23Line } from "./examinerPhrases.js";
 import { asksForSimplerQuestion, simplifyInstruction, MAX_SIMPLIFICATIONS_PER_SESSION } from "./tutorSimplify.js";
 import { checkCreditBudget, recordExamUsage, recordTutorUsage } from "./voice/creditBudget.js";
@@ -421,6 +422,9 @@ interface TutorSession {
   // Start of the student's current turn to speak (set when the clock of a presentation/answer window starts, i.e. once
   // the tutor's prompt has been SENT AND HEARD) — the hard idle-close measures from here or the last real speech.
   idleBaselineAt: number;
+  // First real speech of the CURRENT answer window (0 = none yet) — with lastAudioAt it gives how long the student has been speaking, which decides how
+  // quickly the answer counts as finished (tutorTiming.ts).
+  answerSpeechStartedAt: number;
   // Generic across ALL THREE Teile once past Teil 1's presentation: which
   // question/turn number is currently open (1-based) and when ITS OWN answer
   // window started. Reset to 1/now at the start of each new Teil (see
@@ -1588,6 +1592,7 @@ function startTutorClockAfter(session: TutorSession, spoken: Promise<void> | voi
 function resetQuestionState(session: TutorSession) {
   session.studentAnswerText = "";
   session.simplifiedThisQuestion = false;
+  session.answerSpeechStartedAt = 0;
 }
 
 /** Owner spec 2026-10-06 — the ONE thing the tutor does besides asking: when the student says they did not understand
@@ -1607,7 +1612,9 @@ async function closeTutorWindow(session: TutorSession, ctx: TutorContext, advanc
   if (session.windowClosing) return;
   session.windowClosing = true;
   try {
+    const tFlush0 = Date.now();
     await session.live?.flushStt();
+    console.log(`[tutor-latency] ${session.sessionId} stt_flush=${Date.now() - tFlush0}ms (after the answer was judged finished)`);
     if (session.ended) return;
     if (wantsSimplerQuestion(session)) {
       console.log(`[tutor ${session.sessionId}] Teil ${session.teilStage} Q${session.questionIndex}: student did not understand -> simplified repeat (${session.simplifyCount + 1}/${MAX_SIMPLIFICATIONS_PER_SESSION})`);
@@ -1735,7 +1742,7 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
   const windowMs = TUTOR_TEIL1_ANSWER_WINDOW_SECONDS * 1000;
   const hasResponded = session.lastAudioAt > session.phaseStartedAt;
   const trailingSilenceMs = now - session.lastAudioAt;
-  const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
+  const looksFinished = hasResponded && trailingSilenceMs >= tutorFinishSilenceMs(session.answerSpeechStartedAt > 0 ? session.lastAudioAt - session.answerSpeechStartedAt : 0);
   const windowExpired = phaseElapsedMs >= windowMs;
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
@@ -1767,7 +1774,7 @@ function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
   const phaseElapsedMs = now - session.phaseStartedAt;
   const hasResponded = session.lastAudioAt > session.phaseStartedAt;
   const trailingSilenceMs = now - session.lastAudioAt;
-  const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
+  const looksFinished = hasResponded && trailingSilenceMs >= tutorFinishSilenceMs(session.answerSpeechStartedAt > 0 ? session.lastAudioAt - session.answerSpeechStartedAt : 0);
   const windowExpired = phaseElapsedMs >= TUTOR_TEIL2_ANSWER_WINDOW_SECONDS * 1000;
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
@@ -1798,7 +1805,7 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
   const phaseElapsedMs = now - session.phaseStartedAt;
   const hasResponded = session.lastAudioAt > session.phaseStartedAt;
   const trailingSilenceMs = now - session.lastAudioAt;
-  const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
+  const looksFinished = hasResponded && trailingSilenceMs >= tutorFinishSilenceMs(session.answerSpeechStartedAt > 0 ? session.lastAudioAt - session.answerSpeechStartedAt : 0);
   const windowExpired = phaseElapsedMs >= TUTOR_TEIL3_ANSWER_WINDOW_SECONDS * 1000;
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
@@ -1906,7 +1913,7 @@ async function startTutorSession(
   const session: TutorSession = {
     sessionId: sessionRow.id, userId, accessToken, ws,
     level, lastAudioAt: Date.now(), teilStage: 1, advancingStage: false,
-    teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0, studentAnswerText: "", simplifiedThisQuestion: false, simplifyCount: 0, windowClosing: false, speechDetector: new SpeechDetector(), idleBaselineAt: 0,
+    teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0, studentAnswerText: "", simplifiedThisQuestion: false, simplifyCount: 0, windowClosing: false, speechDetector: new SpeechDetector(), idleBaselineAt: 0, answerSpeechStartedAt: 0,
     teil2Topic, teil3Topic, teil2TopicTitle, teil3TopicTitle,
     liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
   };
@@ -2236,7 +2243,11 @@ tutorWss.on("connection", async (ws, req) => {
         if (msg.type === "ping") {
           send(ws, { type: "pong", t: msg.t });
         } else if (msg.type === "audio" && session.live) {
-          if (session.speechDetector.isSpeech(msg.data)) session.lastAudioAt = Date.now();
+          if (session.speechDetector.isSpeech(msg.data)) {
+            const t = Date.now();
+            if (session.phaseStartedAt > 0 && session.lastAudioAt <= session.phaseStartedAt) session.answerSpeechStartedAt = t; // first speech of this answer window
+            session.lastAudioAt = t;
+          }
           session.live.sendAudioChunk(msg.data);
         }
       } catch (e) { console.error(`[tutor ${session.sessionId}] bad client message:`, e); }

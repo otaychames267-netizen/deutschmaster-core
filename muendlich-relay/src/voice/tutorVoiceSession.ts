@@ -220,6 +220,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     // or partner, not whichever happens to be active by then.
     const speakingIsPartner = isPartnerSpeaking();
     const speakingVoiceId = activeVoiceId();
+    const tSpeak0 = Date.now(); let tFirstChunk = 0, tFirstAudio = 0; // per-turn latency log below (owner 2026-10-10: find where the seconds go)
 
     try {
       conn = await openLiveConnection(speakingVoiceId);
@@ -241,7 +242,11 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if (closed || myId !== currentGenerationId) { try { conn.close(); } catch {} return; }
       currentTtsConn = conn;
       const ttsHandle = startLiveSynthesis(conn, {
-        onAudioChunk: (b64) => { if (myId === currentGenerationId) emitAudio(b64); },
+        onAudioChunk: (b64) => {
+          if (myId !== currentGenerationId) return;
+          if (!tFirstAudio) { tFirstAudio = Date.now(); console.log(`[tutor-latency] ${sessionId} llm_first_chunk=${tFirstChunk ? tFirstChunk - tSpeak0 : -1}ms first_audio=${tFirstAudio - tSpeak0}ms (from speak start) voice=${speakingVoiceId.slice(0, 24)}`); }
+          emitAudio(b64);
+        },
         onVoiceError: async (message) => {
           console.error(`[tutor voice] TTS error for session ${sessionId}:`, message);
           try {
@@ -280,6 +285,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
             onChunk: (text) => {
               if (myId !== currentGenerationId) return;
               chunksSentThisAttempt = true;
+              if (!tFirstChunk) tFirstChunk = Date.now();
               const budget = charBudgetRemaining();
               if (budget <= 0) { console.warn(`[tutor voice] ${MAX_ELEVENLABS_CHARS_PER_SESSION}-char ceiling reached for session ${sessionId}`); return; }
               const toSend = text.length > budget ? text.slice(0, budget) : text;

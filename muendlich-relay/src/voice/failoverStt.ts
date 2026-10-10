@@ -23,7 +23,7 @@
 import type { SttCallbacks, SttSession } from "./elevenLabsStt.js";
 
 export const PERMANENT_MARKER = "[permanent]";
-const FAILOVER_AFTER_CONSECUTIVE_ERRORS = 3;
+const FAILOVER_AFTER_CONSECUTIVE_ERRORS = Number(process.env.STT_FAILOVER_AFTER_ERRORS ?? 2); // was 3: each error already cost the primary's own retries (2026-10-10)
 
 export type FailoverSttSession = SttSession & {
   /** True once this stream has switched to the fallback backend. */
