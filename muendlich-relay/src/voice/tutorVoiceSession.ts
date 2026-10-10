@@ -144,7 +144,7 @@ export interface TutorVoiceSession {
 // chars, see tutorCost.harness.mjs; replies are length-capped and turns fixed at 2/6/7, so ~20-40% headroom is
 // enough) — it is the hard worst-case bound behind the per-student monthly budget
 // (muendlich_ai_monthly_budget_usd): 3,500 chars is at most ~0.18 USD of TTS per session.
-const MAX_ELEVENLABS_CHARS_PER_SESSION = 3500;
+const MAX_ELEVENLABS_CHARS_PER_SESSION = Number(process.env.TUTOR_MAX_TTS_CHARS ?? 4500); // was 3500: prepared-then-dropped replies (the student kept talking) are billed too, and 7 of them cut the last partner turns short in a test run
 
 /** Optional pin: set TUTOR_EXAMINER_VOICE_ID (e.g. Leonie, uvysWDLbKpA4XvpD3GI6) to make every 1:1 session use that one examiner voice. Unset = the
  * normal rotation over the 10 examiner voices of the "tutor_examiner" pool. */
