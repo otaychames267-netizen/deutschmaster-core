@@ -188,7 +188,19 @@ async function main() {
   let cost = null, nodes = [];
   for (let i = 0; i < 30 && !cost; i++) {
     await sleep(3000);
-    try { [cost] = await rest(`/rest/v1/voice_tutor_costs?select=*&session_id=eq.${sessionId}`); nodes = await rest(`/rest/v1/voice_tutor_transcript_nodes?select=speaker,teil&session_id=eq.${sessionId}&limit=500`); } catch (e) { log(`waiting for the cost row: ${e.message.slice(0, 80)}`); }
+    try { [cost] = await rest(`/rest/v1/voice_tutor_costs?select=*&session_id=eq.${sessionId}`); nodes = await rest(`/rest/v1/voice_tutor_transcript_nodes?select=speaker,teil,text,started_at&session_id=eq.${sessionId}&order=started_at.asc&limit=500`); } catch (e) { log(`waiting for the cost row: ${e.message.slice(0, 80)}`); }
+  }
+  // RUN_CORRECTION=1: run the REAL post-session correction through the live site (as the student's browser does), so its measured cost lands on the cost row too.
+  let correction = null;
+  if (process.env.RUN_CORRECTION) {
+    const t1 = Date.now();
+    try {
+      const res = await fetch(process.env.CORRECTION_URL ?? "https://www.auralingoviatestdeutsch.academy/api/muendlich/tutor-correction", { method: "POST", headers: { "Content-Type": "application/json", Authorization: `Bearer ${student.jwt}` }, body: JSON.stringify({ session_id: sessionId }) });
+      correction = await res.json();
+      log(`correction: HTTP ${res.status} in ${((Date.now() - t1) / 1000).toFixed(1)} s — ${correction.error_correction_matrix?.length ?? 0} errors, model ${correction.model}${correction.error ? " ERROR " + correction.error : ""}`);
+      await sleep(1500);
+      [cost] = await rest(`/rest/v1/voice_tutor_costs?select=*&session_id=eq.${sessionId}`);
+    } catch (e) { log(`correction failed: ${e.message}`); }
   }
   const sorted = latencies.map((l) => l.ms).sort((a, b) => a - b);
   const q = (p) => sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))];
@@ -231,7 +243,7 @@ async function main() {
     console.log(`\nfull-conversation recording: ${(mix.length / SR / 60).toFixed(1)} min -> ${ff.status === 0 ? mp3 : wavPath + " (mp3 conversion unavailable)"}`);
   }
   const out = new URL(`../../voice-auditions/tutor-real-run-${stamp}.json`, import.meta.url);
-  writeFileSync(out, JSON.stringify({ sessionId, minutes: (Date.now() - t0) / 60000, finished, terminated, turns, latencies, cost, timeline, candidateHarness: { candTts, candBrain } }, null, 1));
+  writeFileSync(out, JSON.stringify({ sessionId, minutes: (Date.now() - t0) / 60000, finished, terminated, turns, latencies, cost, timeline, nodes, correction, candidateHarness: { candTts, candBrain } }, null, 1));
   console.log("report:", out.pathname);
   if (process.env.SKIP_CLEANUP) console.log(`SKIP_CLEANUP set — session ${sessionId} / student ${student.id} left in place.`);
   else { ws.close(); await sleep(500); await cleanup(); log("cleanup done"); }

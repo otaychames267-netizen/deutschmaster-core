@@ -85,7 +85,7 @@ export const Route = createFileRoute("/api/muendlich/tutor-correction")({
 
         const { data: nodes, error: nodesError } = await (supabaseAdmin as any)
           .from("voice_tutor_transcript_nodes")
-          .select("speaker, text, started_at")
+          .select("speaker, text, teil, started_at")
           .eq("session_id", sessionId)
           .order("started_at", { ascending: true });
         if (nodesError) {
@@ -98,7 +98,14 @@ export const Route = createFileRoute("/api/muendlich/tutor-correction")({
           );
         }
 
-        const transcriptText = nodes.map((n: { speaker: string; text: string }) => `${n.speaker}: ${n.text}`).join("\n");
+        // Teil headings ("[Teil 2]") so the per-Teil scores have something to anchor on.
+        let currentTeil: number | null = null;
+        const transcriptLines: string[] = [];
+        for (const n of nodes as { speaker: string; text: string; teil: number | null }[]) {
+          if (n.teil && n.teil !== currentTeil) { currentTeil = n.teil; transcriptLines.push(`[Teil ${n.teil}]`); }
+          transcriptLines.push(`${n.speaker}: ${n.text}`);
+        }
+        const transcriptText = transcriptLines.join("\n");
         const level: "B1" | "B2" = String(session.level ?? "").toUpperCase().includes("B1") ? "B1" : "B2";
 
         let result;
@@ -117,6 +124,7 @@ export const Route = createFileRoute("/api/muendlich/tutor-correction")({
           better_formulations: result.better_formulations,
           vocabulary_enrichment: result.vocabulary_enrichment,
           summary: result.summary,
+          scores: result.scores,
         };
         const { error: saveError } = await (supabaseAdmin as any)
           .from("voice_tutor_corrections")
