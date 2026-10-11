@@ -115,6 +115,40 @@ export class StreakFilter {
 export function worst(levels: Level[]): Level { return levels.reduce<Level>((a, l) => (RANK[l] > RANK[a] ? l : a), "ok"); }
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------
+// Readiness — "can an exam be run right now?" (GET /health/ready, and the gate at the start of every tutor session)
+// ---------------------------------------------------------------------------------------------------------------------------------------------
+
+/** Below this DeepInfra credit an exam cannot be finished (one exam speaks ~$0.06), so the primary voice counts as unusable. */
+export const DEEPINFRA_MIN_USABLE_USD = Number(process.env.OPS_DEEPINFRA_MIN_USABLE_USD ?? 0.15);
+/** A snapshot older than this (watchdog stalled / just restarted) is not trusted to block anybody. */
+const SNAPSHOT_MAX_AGE_MS = 25 * 60_000;
+
+export interface Readiness { ready: boolean; unknown: boolean; reason: "tts" | "llm" | "stt" | "db" | null; checkedAt: string; tts: boolean; llm: boolean; stt: boolean; db: boolean }
+
+/** Pure: from the watchdog's last snapshot (+ whether the TTS failover is switched on) decide whether an exam can run.
+ * Fail-open on purpose: no snapshot yet, or a stale one, never blocks a student — only a FRESH, definite "this cannot work" does. */
+export function computeReadiness(snap: { generatedAt: string; providers: ProviderStatus[] }, failover: { enabled: boolean; breakerOpen: boolean }, nowMs = Date.now()): Readiness {
+  const open: Readiness = { ready: true, unknown: true, reason: null, checkedAt: snap.generatedAt, tts: true, llm: true, stt: true, db: true };
+  if (!snap.generatedAt || nowMs - Date.parse(snap.generatedAt) > SNAPSHOT_MAX_AGE_MS) return open;
+  const by = (id: string) => snap.providers.find((p) => p.id === id);
+  const di = by("deepinfra"), el = by("elevenlabs"), an = by("anthropic"), gq = by("groq"), sb = by("supabase");
+  const diCredit = di?.metrics?.credit_usd;
+  const diUsable = !di || (di.metrics?.suspended !== true && (typeof diCredit !== "number" || diCredit >= DEEPINFRA_MIN_USABLE_USD));
+  const elUsable = !!el && el.level !== "critical";
+  const tts = diUsable || (failover.enabled && elUsable);
+  const llm = !an || an.level !== "critical";
+  const stt = !gq || gq.level !== "critical" || elUsable; // Groq is backed up by ElevenLabs Scribe
+  const db = !sb || sb.level !== "critical";
+  const reason = !tts ? "tts" : !llm ? "llm" : !stt ? "stt" : !db ? "db" : null;
+  return { ready: reason === null, unknown: false, reason, checkedAt: snap.generatedAt, tts, llm, stt, db };
+}
+
+export function getReadiness(): Readiness {
+  const f = getTtsFailoverStats();
+  return computeReadiness(snapshot, { enabled: f.enabled, breakerOpen: f.breakerOpen });
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------
 // Probes
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -131,7 +165,7 @@ async function probeDeepInfra(): Promise<ProviderStatus> {
     if (!res.ok) return status("deepinfra", "DeepInfra (Qwen TTS)", { level: res.status === 401 || res.status === 403 ? "critical" : "warning", detail: `DeepInfra account check failed (HTTP ${res.status})` }, res.status >= 500 ? { transient: true } : {});
     const j = (await res.json()) as { stripe_balance?: number; suspended?: boolean; topup?: boolean; topup_failed?: boolean };
     const credit = deepinfraCredit(j.stripe_balance);
-    return status("deepinfra", "DeepInfra (Qwen TTS)", judgeDeepInfra({ credit, suspended: !!j.suspended, topupFailed: !!j.topup_failed, topup: !!j.topup }), { metrics: { credit_usd: credit, auto_topup: !!j.topup } });
+    return status("deepinfra", "DeepInfra (Qwen TTS)", judgeDeepInfra({ credit, suspended: !!j.suspended, topupFailed: !!j.topup_failed, topup: !!j.topup }), { metrics: { credit_usd: credit, auto_topup: !!j.topup, suspended: !!j.suspended, topup_failed: !!j.topup_failed } });
   } catch (e) { return unreachable("deepinfra", "DeepInfra (Qwen TTS)", e); }
 }
 

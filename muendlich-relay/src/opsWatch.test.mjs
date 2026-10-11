@@ -45,5 +45,26 @@ const t0 = 1_000_000, H = 3600_000;
   ok("a real answer resets the streak", f.apply({ ...blip, transient: false, level: "ok" }).level === "ok" && f.apply(blip).level === "ok");
   ok("a real (non-transient) problem is reported at once", f.apply({ ...blip, transient: false, level: "critical" }).level === "critical");
 }
+// readiness
+{
+  const P = (id, level, metrics) => ({ id, name: id, level, detail: "", checkedAt: "", metrics });
+  const fresh = (providers) => ({ generatedAt: new Date().toISOString(), providers });
+  const allOk = () => [P("deepinfra", "ok", { credit_usd: 10, suspended: false }), P("elevenlabs", "ok"), P("anthropic", "ok"), P("groq", "ok"), P("supabase", "ok")];
+  const set = (list, id, p) => list.map((x) => (x.id === id ? p : x));
+  const fo = { enabled: true, breakerOpen: false };
+  ok("readiness: everything fine -> ready", m.computeReadiness(fresh(allOk()), fo).ready === true);
+  ok("readiness: no snapshot yet -> ready but unknown (never blocks)", (() => { const r = m.computeReadiness({ generatedAt: "", providers: [] }, fo); return r.ready && r.unknown; })());
+  ok("readiness: stale snapshot (40 min) -> ready but unknown", (() => { const r = m.computeReadiness({ generatedAt: new Date(Date.now() - 40 * 60_000).toISOString(), providers: allOk().map((p) => ({ ...p, level: "critical" })) }, fo); return r.ready && r.unknown; })());
+  const noDi = set(allOk(), "deepinfra", P("deepinfra", "critical", { credit_usd: 0, suspended: false }));
+  ok("readiness: DeepInfra empty but ElevenLabs works -> ready (the failover speaks)", m.computeReadiness(fresh(noDi), fo).ready === true);
+  ok("readiness: DeepInfra empty and failover switched off -> NOT ready (tts)", (() => { const r = m.computeReadiness(fresh(noDi), { enabled: false, breakerOpen: false }); return !r.ready && r.reason === "tts"; })());
+  const noBoth = set(noDi, "elevenlabs", P("elevenlabs", "critical"));
+  ok("readiness: DeepInfra AND ElevenLabs empty -> NOT ready (tts)", (() => { const r = m.computeReadiness(fresh(noBoth), fo); return !r.ready && r.reason === "tts" && !r.unknown; })());
+  ok("readiness: DeepInfra with 5 cents left is unusable, with 10 dollars usable", !m.computeReadiness(fresh(set(set(allOk(), "deepinfra", P("deepinfra", "critical", { credit_usd: 0.05 })), "elevenlabs", P("elevenlabs", "critical"))), fo).ready && m.computeReadiness(fresh(allOk()), fo).ready);
+  ok("readiness: suspended DeepInfra with ElevenLabs down -> NOT ready", !m.computeReadiness(fresh(set(set(allOk(), "deepinfra", P("deepinfra", "critical", { credit_usd: 50, suspended: true })), "elevenlabs", P("elevenlabs", "critical"))), fo).ready);
+  ok("readiness: Anthropic out of credit -> NOT ready (llm)", (() => { const r = m.computeReadiness(fresh(set(allOk(), "anthropic", P("anthropic", "critical"))), fo); return !r.ready && r.reason === "llm"; })());
+  ok("readiness: Groq dead but ElevenLabs Scribe alive -> ready; both dead -> NOT ready (stt)", m.computeReadiness(fresh(set(allOk(), "groq", P("groq", "critical"))), fo).ready && (() => { const r = m.computeReadiness(fresh(set(set(allOk(), "groq", P("groq", "critical")), "elevenlabs", P("elevenlabs", "critical"))), fo); return !r.ready && r.reason === "stt"; })());
+  ok("readiness: database down -> NOT ready (db)", (() => { const r = m.computeReadiness(fresh(set(allOk(), "supabase", P("supabase", "critical"))), fo); return !r.ready && r.reason === "db"; })());
+}
 ok("worst() picks the highest level", m.worst(["ok", "warning"]) === "warning" && m.worst(["ok", "critical", "warning"]) === "critical" && m.worst([]) === "ok");
 if (failed) { console.log(`\n${failed} FAILED`); process.exit(1); } else console.log("\nall passed");

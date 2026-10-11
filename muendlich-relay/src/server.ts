@@ -97,7 +97,7 @@ import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { examProvider, tutorProvider } from "./voice/voicePools.js";
 import { getTtsFailoverStats } from "./voice/ttsFailover.js";
-import { startOpsWatch, getOpsSnapshot, opsSecret } from "./opsWatch.js";
+import { startOpsWatch, getOpsSnapshot, opsSecret, getReadiness } from "./opsWatch.js";
 import { tutorSpeculateSilenceMs, tutorHoldSilenceMs, tutorAnswerWindowExpired, roomStageEndReached, roomTakeoverWindowExpired } from "./tutorTiming.js";
 import type { TutorTurnOptions } from "./voice/tutorVoiceSession.js";
 import type { AckKind } from "./examinerPhrases.js";
@@ -1999,6 +1999,16 @@ async function startTutorSession(
     return null;
   }
 
+  // Pre-flight (owner 2026-10-11): refuse to START an exam that cannot work (voice credit gone with no backup, LLM key dead, ...). The student sees a clear
+  // message instead of a silent examiner, and the attempt ends within seconds, so it does not count against the daily/monthly allowance (quota SQL: >= 90 s).
+  const ready = getReadiness();
+  if (!ready.ready) {
+    console.warn(`[tutor] refusing to start session ${sessionRow.id}: service not ready (${ready.reason})`);
+    send(ws, { type: "terminated", reason: "service_unavailable" });
+    ws.close(4013, "service unavailable");
+    return null;
+  }
+
   const teil2Topic = formatTopic(sessionRow.teil2MaterialTitle, [{ title: sessionRow.teil2MaterialTitle, body_text: sessionRow.teil2MaterialBodyText }]);
   const teil3Topic = formatTopic(sessionRow.teil3MaterialTitle, [{ title: sessionRow.teil3MaterialTitle, body_text: sessionRow.teil3MaterialBodyText }]);
   // Title-only, for the SPOKEN transition line only — see the matching
@@ -2100,6 +2110,12 @@ const httpServer = createServer((_req, res) => {
     const s = opsSecret();
     if (!s || _req.headers["x-ops-secret"] !== s) { res.writeHead(404); res.end(); return; }
     res.writeHead(200, { "content-type": "application/json" }); res.end(JSON.stringify(getOpsSnapshot())); return;
+  }
+  // GET /health/ready — public, no secrets: can an AI exam run right now? (the web app greys out "start" and shows a clear message when not)
+  if ((_req.url ?? "").split("?")[0] === "/health/ready") {
+    const r = getReadiness();
+    res.writeHead(200, { "content-type": "application/json", "access-control-allow-origin": "*", "cache-control": "no-store" });
+    res.end(JSON.stringify({ ready: r.ready, unknown: r.unknown, reason: r.reason, checkedAt: r.checkedAt })); return;
   }
   if ((_req.url ?? "").split("?")[0] === "/health/tts") { res.writeHead(200, { "content-type": "application/json" }); res.end(JSON.stringify(getTtsFailoverStats())); return; }
   res.writeHead(200); res.end("muendlich-relay ok");
