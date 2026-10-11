@@ -96,7 +96,7 @@ import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evalua
 import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { examProvider, tutorProvider } from "./voice/voicePools.js";
-import { tutorSpeculateSilenceMs, tutorHoldSilenceMs } from "./tutorTiming.js";
+import { tutorSpeculateSilenceMs, tutorHoldSilenceMs, tutorAnswerWindowExpired, roomStageEndReached, roomTakeoverWindowExpired } from "./tutorTiming.js";
 import type { TutorTurnOptions } from "./voice/tutorVoiceSession.js";
 import type { AckKind } from "./examinerPhrases.js";
 import { pickExamStartLine, pickTaskTransitionLine, pickSectionTransition12Line, pickSectionTransition23Line, pickSoloSectionTransition12Line, pickSoloSectionTransition23Line, pickSoloExamStartLine } from "./examinerPhrases.js";
@@ -202,6 +202,11 @@ const TEIL3_COMPLETION_AT_SEC = Number(process.env.MUENDLICH_TEIL3_COMPLETION_SE
 // instead of the rare one who's genuinely still mid-thought at the mark.
 const HANDOFF_ACTIVE_SPEECH_MS = Number(process.env.MUENDLICH_HANDOFF_ACTIVE_SPEECH_MS ?? 4_000);
 const HANDOFF_MAX_GRACE_MS = Number(process.env.MUENDLICH_HANDOFF_GRACE_MS ?? 15_000);
+// Owner 2026-10-11 ("the examiner cut the candidate off"): "still mid-speech" used to mean "any speech in the last 4 s" — two candidates who answer each
+// other almost never leave 4 s of silence, so the 15 s grace ran out and the examiner broke in mid-sentence (Teil 2 takeover, Teil 3 moderator). A turn
+// boundary is a ~1.5 s pause. The soft hand-offs (Teil 2 takeover start, Teil 3 moderator signal) lose nothing by waiting for it, so they may wait longer.
+const MIDSPEECH_PAUSE_MS = Number(process.env.MUENDLICH_MIDSPEECH_PAUSE_MS ?? 1_500);
+const HANDOFF_SOFT_GRACE_MS = Number(process.env.MUENDLICH_HANDOFF_SOFT_GRACE_MS ?? 30_000);
 // Teil 1 gets a longer threshold than Teil 2 — a candidate collecting their
 // thoughts mid-presentation is normal, unlike a stalled back-and-forth
 // discussion. Teil 3's 5s is deliberately the tightest of the three (per
@@ -582,7 +587,7 @@ async function fetchRoomContext(roomId: string, participants: Participant[]) {
  * as a named, independently-testable function rather than an inline
  * condition — see muendlich-relay's own test suite for direct coverage. */
 function isLikelyMidSpeech(lastAudioAt: number, now: number): boolean {
-  return now - lastAudioAt < HANDOFF_ACTIVE_SPEECH_MS;
+  return now - lastAudioAt < MIDSPEECH_PAUSE_MS;
 }
 
 const sleepMs = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
@@ -1181,7 +1186,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   // moment the candidates start talking to each other again.
   if (room.examStage === 2) {
     if (room.teil2Mode === "natural" && elapsedMs >= TEIL2_TAKEOVER_AT_SEC * 1000) {
-      const withinGraceCap = elapsedMs < TEIL2_TAKEOVER_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+      const withinGraceCap = elapsedMs < TEIL2_TAKEOVER_AT_SEC * 1000 + HANDOFF_SOFT_GRACE_MS;
       // Same mid-speech grace as the Teil 1 handoff — interrupting an ongoing
       // discussion to redirect it is normal for this Teil, but shouldn't land
       // literally mid-word if avoidable.
@@ -1202,7 +1207,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       // "answered, then this many ms of silence -> the answer looks finished,
       // don't make them wait out the rest of the 30s for nothing."
       const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
-      const windowExpired = now >= room.teil2TakeoverWindowEndsAt;
+      const windowExpired = roomTakeoverWindowExpired(now - room.teil2TakeoverWindowOpenedAt, room.teil2TakeoverWindowEndsAt - room.teil2TakeoverWindowOpenedAt, now - room.lastSpeechAtBySlot[turn]); // never cuts the addressed candidate mid-sentence
       if (looksFinished || windowExpired) {
         const next = turn === "A" ? "B" : "A";
         openTeil2TakeoverWindow(room, ctx, next, { first: false, previousResponded: hasResponded });
@@ -1218,7 +1223,7 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   // mechanism below, which keeps working exactly the same before and after
   // this point (5s threshold active for the entire stage, per spec).
   if (room.examStage === 3 && !room.teil3CompletionSignalSent && elapsedMs >= TEIL3_COMPLETION_AT_SEC * 1000) {
-    const withinGraceCap = elapsedMs < TEIL3_COMPLETION_AT_SEC * 1000 + HANDOFF_MAX_GRACE_MS;
+    const withinGraceCap = elapsedMs < TEIL3_COMPLETION_AT_SEC * 1000 + HANDOFF_SOFT_GRACE_MS;
     // Same mid-speech grace as elsewhere — this is explicitly NOT meant to be
     // an abrupt takeover, so if they're actively mid-negotiation right at the
     // mark, let the moment pass rather than interrupting.
@@ -1313,7 +1318,8 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
   }
 
   // Stage duration elapsed -> queue a 15s breather, then advance (or finish).
-  if (elapsedMs >= stageSeconds * 1000) {
+  // Owner 2026-10-11: the end of a Teil (and the closing line of the exam) must not cut a candidate off mid-sentence — wait for a pause (max +12 s).
+  if (roomStageEndReached(elapsedMs, stageSeconds * 1000, Date.now() - Math.max(room.lastSpeechAtBySlot.A, room.lastSpeechAtBySlot.B))) {
     room.pendingNextStage = room.examStage === 1 ? 2 : room.examStage === 2 ? 3 : null;
     room.intermissionUntil = Date.now() + INTERMISSION_SECONDS * 1000;
     broadcast(room, { type: "intermission", seconds: INTERMISSION_SECONDS });
@@ -1792,7 +1798,7 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
   const spokenMs = answerSpokenMs(session);
   const lastQuestion = session.questionIndex >= TUTOR_TEIL1_QUESTIONS;
   const looksFinished = hasResponded && trailingSilenceMs >= (lastQuestion ? tutorHoldSilenceMs(spokenMs) : tutorSpeculateSilenceMs(spokenMs));
-  const windowExpired = phaseElapsedMs >= windowMs;
+  const windowExpired = tutorAnswerWindowExpired(phaseElapsedMs, windowMs, now - session.lastAudioAt); // never cuts a sentence in half (tutorTiming.ts)
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
 
@@ -1829,7 +1835,7 @@ function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
   const spokenMs = answerSpokenMs(session);
   const lastQuestion = session.questionIndex >= TUTOR_TEIL2_QUESTIONS; // see tutorTickTeil1: speculate on every question except the one that hands over to Teil 3
   const looksFinished = hasResponded && trailingSilenceMs >= (lastQuestion ? tutorHoldSilenceMs(spokenMs) : tutorSpeculateSilenceMs(spokenMs));
-  const windowExpired = phaseElapsedMs >= TUTOR_TEIL2_ANSWER_WINDOW_SECONDS * 1000;
+  const windowExpired = tutorAnswerWindowExpired(phaseElapsedMs, TUTOR_TEIL2_ANSWER_WINDOW_SECONDS * 1000, now - session.lastAudioAt);
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
 
@@ -1864,7 +1870,7 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
   const spokenMs = answerSpokenMs(session);
   const lastTurn = session.questionIndex >= TUTOR_TEIL3_TURNS; // the last turn is followed by the cached closing line, which starts instantly — no speculation possible
   const looksFinished = hasResponded && trailingSilenceMs >= (lastTurn ? tutorHoldSilenceMs(spokenMs) : tutorSpeculateSilenceMs(spokenMs));
-  const windowExpired = phaseElapsedMs >= TUTOR_TEIL3_ANSWER_WINDOW_SECONDS * 1000;
+  const windowExpired = tutorAnswerWindowExpired(phaseElapsedMs, TUTOR_TEIL3_ANSWER_WINDOW_SECONDS * 1000, now - session.lastAudioAt);
   if (!looksFinished && !windowExpired) return;
   const reason = looksFinished ? "looks finished" : "window expired";
 

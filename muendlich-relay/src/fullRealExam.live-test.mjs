@@ -36,6 +36,16 @@ loadEnv();
 const { SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY, ELEVENLABS_API_KEY, ANTHROPIC_API_KEY } = process.env;
 const RELAY_URL = process.env.LIVE_TEST_RELAY_URL ?? "ws://localhost:8791";
 const VOICES = { A: "uvysWDLbKpA4XvpD3GI6", B: "KDqku3FJfbImX6HKQdWA" };
+// PARTNER_QWEN=1 (owner 2026-10-11): candidate B is NOT a second human but the AI partner — same Claude Haiku brain, but spoken by DeepInfra Qwen3-TTS
+// (a cloned "partner" voice, 20 USD per 1M chars). Candidate A stays the ElevenLabs-simulated human. Per-candidate usage is counted so the partner's own
+// cost can be reported (Qwen characters + Haiku tokens); the relay's cost row still holds the whole room.
+const PARTNER_QWEN = process.env.PARTNER_QWEN === "1";
+const PARTNER_QWEN_VOICE = process.env.PARTNER_QWEN_VOICE ?? "spgick8i0cclmwonohad"; // Lukas (Qwen), male partner voice
+// HUMAN_QWEN=1: speak the simulated HUMAN (candidate A) with a Qwen voice too — only for when the ElevenLabs credits are used up (harness cost, not product cost).
+const HUMAN_QWEN = process.env.HUMAN_QWEN === "1";
+const QWEN_VOICES = { A: process.env.HUMAN_QWEN_VOICE ?? "s3qzkzydhp8y3i98htdu", B: PARTNER_QWEN_VOICE }; // A: Sophie (Qwen), female
+const PARTNER_SECONDS = Number(process.env.PARTNER_SECONDS ?? 0); // >0: the AI partner answers briefly (like the 1:1 partner), about this many seconds per turn
+const used = { A: { chars: 0, inTok: 0, outTok: 0, backend: HUMAN_QWEN ? "qwen" : "elevenlabs" }, B: { chars: 0, inTok: 0, outTok: 0, backend: PARTNER_QWEN ? "qwen" : "elevenlabs" } };
 const NAMES = { A: "Fatma", B: "Youssef" };
 const TOPICS = { A: "Reisen (Ziel, Zeit, Land und Leute, Sehenswürdigkeiten)", B: "Eine wichtige Erfahrung (was, wann, wo, mit wem, warum wichtig)" };
 const TEIL2 = "Sollte man Kindern ein eigenes Smartphone erlauben?";
@@ -64,7 +74,26 @@ async function createCandidate(label) {
   return { id: user.id, jwt };
 }
 
-async function synth(text, voiceId) {
+/** DeepInfra Qwen3-TTS (PCM16 @24 kHz) resampled to the 16 kHz the microphone path carries. */
+async function synthQwen(text, voice) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    const res = await fetch("https://api.deepinfra.com/v1/openai/audio/speech", {
+      method: "POST", headers: { Authorization: `Bearer ${process.env.DEEPINFRA_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "Qwen/Qwen3-TTS", voice, input: text, response_format: "pcm" }),
+    });
+    if (res.ok) {
+      const src = Buffer.from(await res.arrayBuffer()), n = src.length >> 1, outN = Math.floor(n / 1.5), out = Buffer.alloc(outN * 2);
+      for (let i = 0; i < outN; i++) { const p = i * 1.5, a = Math.floor(p), fr = p - a, s0 = src.readInt16LE(a * 2), s1 = a + 1 < n ? src.readInt16LE((a + 1) * 2) : s0; out.writeInt16LE(Math.round(s0 + (s1 - s0) * fr), i * 2); }
+      return out;
+    }
+    await sleep(1500 * (attempt + 1));
+  }
+  throw new Error("partner (Qwen) TTS failed");
+}
+
+async function synth(text, voiceId, who) {
+  if (who) used[who].chars += text.length;
+  if (who && used[who].backend === "qwen") return synthQwen(text, QWEN_VOICES[who]);
   for (let attempt = 0; attempt < 3; attempt++) {
     const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}?output_format=pcm_16000`, {
       method: "POST", headers: { "xi-api-key": ELEVENLABS_API_KEY, "content-type": "application/json" },
@@ -88,6 +117,7 @@ async function brain(who, instruction, transcript) {
     }),
   });
   const j = await res.json();
+  if (j.usage) { used[who].inTok += j.usage.input_tokens ?? 0; used[who].outTok += j.usage.output_tokens ?? 0; }
   const text = (j.content ?? []).map((c) => c.text ?? "").join("").trim();
   if (!text) throw new Error("brain returned nothing: " + JSON.stringify(j).slice(0, 200));
   return text;
@@ -150,7 +180,7 @@ async function main() {
 
   async function prepareTurn(who, instruction) {
     const text = await brain(who, instruction, transcript);
-    const pcm = await synth(text, VOICES[who]);
+    const pcm = await synth(text, VOICES[who], who);
     return { who, text, pcm };
   }
   // Real conversation partners think while the other one is still talking — so the next reply is prepared during
@@ -161,6 +191,8 @@ async function main() {
     const role = stage === 2 ? `Ihr diskutiert zu zweit das Thema „${topic}“. Gib deine Meinung mit einem Grund oder Beispiel und reagiere auf deine Partnerin/deinen Partner.` : `Ihr plant zu zweit: „${topic}“. Mach einen konkreten Vorschlag (Termin, Ort, Essen, Budget, Aufgaben) oder reagiere auf den Vorschlag deines Partners und einigt euch.`;
     return `${role} Sprich 2 bis 3 Sätze (etwa 12 Sekunden).`;
   };
+  // The AI partner keeps its turns short, like a real second candidate who does not monopolise the floor (and like the 1:1 partner, which is capped).
+  const instructionFor = (who) => (PARTNER_QWEN && who === "B" && PARTNER_SECONDS > 0 ? convInstruction().replace("2 bis 3 Sätze (etwa 12 Sekunden)", `1 bis 2 Sätze (etwa ${PARTNER_SECONDS} Sekunden)`) : convInstruction());
 
   async function speakTurn(who, instruction, label, prepared) {
     speaking = true;
@@ -174,7 +206,7 @@ async function main() {
       mic[who] = { pcm, pos: 0 };
       if (label === "discussion" || label === "planning") {
         const other = who === "A" ? "B" : "A";
-        prefetched = prepareTurn(other, convInstruction()).catch(() => null);
+        prefetched = prepareTurn(other, instructionFor(other)).catch(() => null);
       } else prefetched = null;
       while (mic[who] && !finished) await sleep(150);
       turns++;
@@ -213,7 +245,7 @@ async function main() {
     const label = stage === 2 ? "discussion" : "planning";
     let prep = null;
     if (prefetched) { prep = await prefetched; prefetched = null; if (prep && prep.who !== who) prep = null; }
-    return speakTurn(who, convInstruction(), label, prep ?? undefined);
+    return speakTurn(who, instructionFor(who), label, prep ?? undefined);
   }
 
   const deadline = Date.now() + 32 * 60_000;
@@ -246,6 +278,30 @@ async function main() {
   console.log("transcript nodes by speaker:", JSON.stringify(nodes.reduce((a, n) => { a[n.speaker] = (a[n.speaker] ?? 0) + 1; return a; }, {})), " by Teil:", JSON.stringify(nodes.reduce((a, n) => { a[n.teil] = (a[n.teil] ?? 0) + 1; return a; }, {})));
   console.log("evaluations:", JSON.stringify(evals));
   console.log("MEASURED COST ROW:", JSON.stringify(cost, null, 1));
+  // Per-candidate harness usage. For the partner (B, Qwen) this IS a product cost: Qwen characters + the Claude Haiku call that writes its words.
+  // (Its STT and its evaluation exist only because the harness feeds a microphone; a product partner has its text directly and is not evaluated.)
+  const usd = (u) => (u.backend === "qwen" ? u.chars * 20 / 1e6 : u.chars * 50 / 1e6) + u.inTok * 1 / 1e6 + u.outTok * 5 / 1e6;
+  const partner = { chars: used.B.chars, haiku_in: used.B.inTok, haiku_out: used.B.outTok, usd_tts: +(used.B.chars * (PARTNER_QWEN ? 20 : 50) / 1e6).toFixed(5), usd_haiku: +((used.B.inTok + used.B.outTok * 5) / 1e6).toFixed(5), usd_total: +usd(used.B).toFixed(5) };
+  console.log(`
+=== PARTNER (candidate B, ${PARTNER_QWEN ? "AI via Qwen3-TTS" : "ElevenLabs"}; human A via ${used.A.backend}) === ${JSON.stringify(partner)}`);
+  console.log(`(harness only, NOT product cost) human candidate A: ${used.A.backend} ${used.A.chars} chars, Haiku ${used.A.inTok} in / ${used.A.outTok} out`);
+  if (cost) {
+    const adjusted = Number(cost.usd_total) - Number(cost.usd_stt) / 2 - Number(cost.usd_evaluator) / 2 + partner.usd_total;
+    console.log(`WHOLE ROOM with an AI partner ≈ ${adjusted.toFixed(4)} = measured room row ${Number(cost.usd_total).toFixed(4)} − partner's share of STT & evaluation (${(Number(cost.usd_stt) / 2 + Number(cost.usd_evaluator) / 2).toFixed(4)}) + partner TTS+brain ${partner.usd_total.toFixed(4)}`);
+  }
+
+  // ---- did the examiner talk over / cut off a candidate? (owner 2026-10-11) ----
+  // Spans on one wall-clock timeline: examiner = what the browser would PLAY, candidates = what their mics SENT. An "interruption" is an examiner
+  // utterance that starts while a candidate is still mid-sentence (still >= 1.5 s of that sentence to come), i.e. the examiner cut the candidate off.
+  const toSpans = (chunks, durMs, gapMs) => { const sp = []; for (const c of chunks) { const end = c.at + durMs(c); const last = sp[sp.length - 1]; if (last && c.at - last.end <= gapMs) last.end = Math.max(last.end, end); else sp.push({ start: c.at, end }); } return sp; };
+  const examSpans = toSpans(examinerChunks, (c) => c.pcm.length / 48, 700);
+  const candSpans = toSpans(candChunks, (c) => c.pcm.length / 32, 500);
+  const interruptions = [];
+  for (const e of examSpans) for (const c of candSpans) if (e.start > c.start + 300 && e.start < c.end - 1500) interruptions.push({ at_s: +(e.start / 1000).toFixed(1), candidate_still_to_say_s: +((c.end - e.start) / 1000).toFixed(1), candidate_spoke_for_s: +((e.start - c.start) / 1000).toFixed(1) });
+  const overlapMs = examSpans.reduce((a, e) => a + candSpans.reduce((b, c) => b + Math.max(0, Math.min(e.end, c.end) - Math.max(e.start, c.start)), 0), 0);
+  console.log(`
+=== OVERLAP ANALYSIS === examiner utterances: ${examSpans.length} | candidate turns: ${candSpans.length} | examiner started INSIDE a candidate sentence (cut-offs): ${interruptions.length} | total simultaneous speech: ${(overlapMs / 1000).toFixed(1)} s`);
+  for (const i of interruptions) console.log(`  CUT-OFF at ${i.at_s}s: candidate had spoken ${i.candidate_spoke_for_s}s and still had ${i.candidate_still_to_say_s}s to say`);
 
   // ---- recording + report ----
   const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
@@ -263,7 +319,7 @@ async function main() {
     const ff = spawnSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wavPath, "-codec:a", "libmp3lame", "-b:a", "64k", wavPath.slice(0, -4) + ".mp3"]);
     console.log(`full-conversation recording: ${(mix.length / SR / 60).toFixed(1)} min -> ${wavPath}${ff.status === 0 ? " (+ mp3)" : " (mp3 conversion unavailable here)"}`);
   }
-  writeFileSync(outDir + `room-real-run-${stamp}.json`, JSON.stringify({ minutes: (Date.now() - t0) / 60000, finished, terminated, turns, session, cost, evals, nodes, transcript }, null, 1));
+  writeFileSync(outDir + `room-real-run-${stamp}.json`, JSON.stringify({ minutes: (Date.now() - t0) / 60000, finished, terminated, turns, interruptions, overlap_seconds: overlapMs / 1000, partner_usage: used, session, cost, evals, nodes, transcript }, null, 1));
   console.log("report:", outDir + `room-real-run-${stamp}.json`);
 
   // cleanup

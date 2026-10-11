@@ -30,3 +30,28 @@ export function tutorSpeculateSilenceMs(spokenMs: number): number {
 export function tutorHoldSilenceMs(spokenMs: number): number {
   return num("MUENDLICH_TUTOR_HOLD_SILENCE_MS", 3_500) + shortExtra(spokenMs);
 }
+
+/** Owner 2026-10-11 ("the examiner cut the candidate off mid-sentence"): a time limit (answer window, Teil, whole exam) must never cut a sentence in half.
+ * Once the limit is reached, wait for the speaker to pause (>= pauseMs of silence), but for at most graceMs more. Somebody who has already stopped is moved
+ * on immediately, exactly as before. Pure, so both the 1:1 tutor and the 2:1 room use it and it can be unit-tested. */
+export function speechGraceExpired(elapsedMs: number, limitMs: number, msSinceLastSpeech: number, graceMs: number, pauseMs: number): boolean {
+  if (elapsedMs < limitMs) return false;
+  const stillTalking = msSinceLastSpeech < pauseMs;
+  return !(stillTalking && elapsedMs < limitMs + graceMs);
+}
+
+/** 1:1 tutor: a student's answer window (40 s). Env: MUENDLICH_TUTOR_WINDOW_GRACE_MS (12 s), MUENDLICH_TUTOR_WINDOW_PAUSE_MS (1.5 s). */
+export function tutorAnswerWindowExpired(phaseElapsedMs: number, windowMs: number, msSinceLastSpeech: number): boolean {
+  return speechGraceExpired(phaseElapsedMs, windowMs, msSinceLastSpeech, num("MUENDLICH_TUTOR_WINDOW_GRACE_MS", 12_000), num("MUENDLICH_TUTOR_WINDOW_PAUSE_MS", 1_500));
+}
+
+/** 2:1 room: the end of a Teil (Teil 2 -> 3, and the closing of Teil 3). Two candidates talk almost continuously, so the pause that counts is shorter (1.2 s).
+ * Env: MUENDLICH_ROOM_STAGE_GRACE_MS (12 s), MUENDLICH_ROOM_STAGE_PAUSE_MS (1.2 s). */
+export function roomStageEndReached(elapsedMs: number, stageMs: number, msSinceLastSpeech: number): boolean {
+  return speechGraceExpired(elapsedMs, stageMs, msSinceLastSpeech, num("MUENDLICH_ROOM_STAGE_GRACE_MS", 12_000), num("MUENDLICH_ROOM_STAGE_PAUSE_MS", 1_200));
+}
+
+/** 2:1 room, Teil 2 takeover: one candidate's 30 s answer window. Env: MUENDLICH_ROOM_WINDOW_GRACE_MS (10 s), MUENDLICH_ROOM_STAGE_PAUSE_MS. */
+export function roomTakeoverWindowExpired(windowElapsedMs: number, windowMs: number, msSinceLastSpeech: number): boolean {
+  return speechGraceExpired(windowElapsedMs, windowMs, msSinceLastSpeech, num("MUENDLICH_ROOM_WINDOW_GRACE_MS", 10_000), num("MUENDLICH_ROOM_STAGE_PAUSE_MS", 1_200));
+}
