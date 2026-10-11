@@ -7,7 +7,7 @@
 export function muendlichQuotaMessage(message: string | null | undefined): string | null {
   if (!message) return null;
   if (message.includes("MUENDLICH_AI_QUOTA_DAY")) {
-    return "Du hast heute schon eine KI-Sitzung in diesem Modus geübt — pro Tag ist eine möglich. Morgen geht es weiter. · استعملت حصّتك اليوم في هذا الوضع (حصّة وحدة في النهار). ترجع غدوة.";
+    return "Du hast heute schon deine KI-Sitzungen in diesem Modus geübt — pro Tag sind zwei möglich. Morgen geht es weiter. · استعملت حصّتك اليوم في هذا الوضع (جلستين في النهار). ترجع غدوة.";
   }
   if (message.includes("MUENDLICH_AI_QUOTA_MONTH")) {
     return "Du hast die Monatsgrenze deiner KI-Sitzungen erreicht. Sie startet zu Beginn des nächsten Monats neu. · وصلت للحدّ الشهري متاع حصص الذكاء الاصطناعي. يتجدّد مع بداية الشهر الجاي.";

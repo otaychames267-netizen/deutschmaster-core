@@ -61,7 +61,7 @@ function TermsPage() {
             <li>You are responsible for any taxes applicable to your purchase, except taxes on our net income.</li>
             <li>
               <strong>KI-Sprachtrainer (Komplett plan).</strong> The plan named "Komplett" includes speaking practice with an AI examiner. It is offered
-              as a fair-use service: one practice session per day and up to 30 sessions per calendar month. The AI can make mistakes — its replies and
+              as a fair-use service: up to two practice sessions per day and up to 50 sessions per calendar month. The AI can make mistakes — its replies and
               its correction report are practice aids, not an official TELC assessment, and do not guarantee any exam result. We may adjust these limits
               to keep the service fair and sustainable; limits never apply retroactively to a session already in progress.
             </li>
