@@ -23,13 +23,41 @@ function LesenTeil3Page() {
   const catalog = useExerciseCatalog("lesen", level, 3);
   const [paywallOpen, setPaywallOpen] = useState(false);
   const [paywallReason, setPaywallReason] = useState<"locked" | "sample-complete">("locked");
-  const [exercises, setExercises] = useState<Array<{ meta: { id: string; title: string }; data: T3ExerciseData }>>([]);
+  // The list only needs id + title, so it renders as soon as the one list query returns. An exercise's situations/ads are fetched when it is opened
+  // (reported 2026-10-11: loading all 47 exercises one after another kept the page on a spinner for a minute on a phone connection, with every title
+  // meanwhile showing as "Restricted" and the list unreachable).
+  const [exercises, setExercises] = useState<Array<{ id: string; title: string }>>([]);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [hiddenCount, setHiddenCount] = useState(0);
   const [selected, setSelected] = useState<T3ExerciseData | null>(null);
   const [selectedTitle, setSelectedTitle] = useState("");
+  const [opening, setOpening] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  async function openExercise(ex: { id: string; title: string }) {
+    if (opening) return;
+    setOpening(ex.id);
+    setError(null);
+    try {
+      const [{ data: situations, error: sErr }, { data: texts, error: tErr }] = await Promise.all([
+        // Do NOT select correct_letter / no_match — answers checked server-side via score_lesen_t3()
+        supabase.from("lesen_t3_situations").select("number, description").eq("exercise_id", ex.id).order("number"),
+        supabase.from("lesen_t3_texts").select("letter, title, content").eq("exercise_id", ex.id).order("letter"),
+      ]);
+      if (sErr || tErr) throw sErr ?? tErr;
+      setSelected({
+        id: ex.id,
+        situations: (situations ?? []) as T3Situation[],
+        texts: ((texts ?? []) as T3Text[]).map((t) => ({ ...t, title: t.title ?? "" })),
+      });
+      setSelectedTitle(ex.title);
+    } catch {
+      setError("Die Übung konnte nicht geladen werden. Bitte Verbindung prüfen und erneut tippen.");
+    } finally {
+      setOpening(null);
+    }
+  }
 
   useEffect(() => {
     if (!level) return;
@@ -50,25 +78,7 @@ function LesenTeil3Page() {
         const { ordered: exList, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
         setHiddenCount(hc);
         setFlaggedStartIndex(fsi);
-        if (exList.length === 0) { setLoading(false); return; }
-
-        const full = [];
-        for (const ex of exList) {
-          const [{ data: situations }, { data: texts }] = await Promise.all([
-            // Do NOT select correct_letter / no_match — answers checked server-side via score_lesen_t3()
-            supabase.from("lesen_t3_situations").select("number, description").eq("exercise_id", ex.id).order("number"),
-            supabase.from("lesen_t3_texts").select("letter, title, content").eq("exercise_id", ex.id).order("letter"),
-          ]);
-          full.push({
-            meta: ex,
-            data: {
-              id: ex.id,
-              situations: (situations ?? []) as T3Situation[],
-              texts: ((texts ?? []) as T3Text[]).map(t => ({ ...t, title: t.title ?? "" })),
-            },
-          });
-        }
-        setExercises(full);
+        setExercises(exList.map((ex) => ({ id: ex.id, title: ex.title })));
       } catch {
         setError("Exercises could not be loaded. Try again later.");
       } finally {
@@ -89,7 +99,8 @@ function LesenTeil3Page() {
   // Non-subscribers: the direct fetch above is RLS-scoped server-side, so
   // `exercises` naturally contains ONLY the flagged free-sample rows for a
   // non-subscriber (real, fully interactive). The rest is a locked row list.
-  const lockedRemainder = catalog.items.filter((c) => !exercises.some((e) => e.meta.id === c.id));
+  // Nothing is "restricted" until the list query has answered — before that every catalog title would be missing from `exercises` and flash as "Restricted".
+  const lockedRemainder = loading ? [] : catalog.items.filter((c) => !exercises.some((e) => e.id === c.id));
 
   if (selected) {
     return (
@@ -166,11 +177,11 @@ function LesenTeil3Page() {
             </div>
           </div>
         )}
-        {exercises.slice(0, flaggedStartIndex ?? exercises.length).map(({ meta, data }) => {
+        {exercises.slice(0, flaggedStartIndex ?? exercises.length).map((meta) => {
           const v = parseVariant(meta.title);
           return (
-          <button key={meta.id} onClick={() => { setSelected(data); setSelectedTitle(meta.title); }}
-            className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
+          <button key={meta.id} onClick={() => openExercise(meta)} disabled={opening !== null}
+            className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group disabled:opacity-60">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500/10">
               <BookOpen className="h-5 w-5 text-blue-500" />
             </div>
@@ -184,27 +195,31 @@ function LesenTeil3Page() {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">{data.situations.length} Situationen · {data.texts.length} Anzeigen</p>
+              <p className="text-xs text-muted-foreground mt-0.5">10 Situationen · 12 Anzeigen</p>
             </div>
             {v.isNew && <NewBadge />}
-            <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+            {opening === meta.id
+              ? <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              : <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />}
           </button>
           );
         })}
         {flaggedStartIndex !== null && flaggedStartIndex < exercises.length && (
           <>
             <NoticeGroupBanner />
-            {exercises.slice(flaggedStartIndex).map(({ meta, data }) => (
-              <button key={meta.id} onClick={() => { setSelected(data); setSelectedTitle(meta.title); }}
-                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group">
+            {exercises.slice(flaggedStartIndex).map((meta) => (
+              <button key={meta.id} onClick={() => openExercise(meta)} disabled={opening !== null}
+                className="w-full flex items-center gap-4 rounded-2xl border border-border bg-card px-5 py-4 text-left transition-all hover:border-blue-500/30 hover:bg-blue-500/3 group disabled:opacity-60">
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10">
                   <BookOpen className="h-5 w-5 text-amber-500" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-foreground">{meta.title}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{data.situations.length} Situationen · {data.texts.length} Anzeigen</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">10 Situationen · 12 Anzeigen</p>
                 </div>
-                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+                {opening === meta.id
+                  ? <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  : <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />}
               </button>
             ))}
           </>

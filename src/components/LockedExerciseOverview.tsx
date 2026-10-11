@@ -56,6 +56,10 @@ export function LockedExerciseOverview({
       });
   const { ordered, flaggedStartIndex, hiddenCount } = orderWithNoticeGroup(prioritized);
   const openPaywall = () => { if (!restrictedOnly) setDialogOpen(true); };
+  // Items the notice-group logic withholds ("Coming Soon", counted by the page's own banner) are not restricted on the account. The pages hand over every
+  // catalog title they did not list, so without this a subscriber with nothing really restricted saw "4 items restricted on this account" above an empty
+  // "No exercises here yet." box (every B2 student, Lesen Teil 3 / Teil 1 / Sprachbausteine).
+  if (restrictedOnly && ordered.length === 0) return null;
 
   return (
     <div className={compact ? "space-y-3" : "mx-auto max-w-3xl space-y-6 pb-10"}>
@@ -72,7 +76,7 @@ export function LockedExerciseOverview({
         <div className="flex items-center gap-3 rounded-2xl border border-border bg-muted/30 px-4 py-3">
           <Lock className="h-4 w-4 shrink-0 text-muted-foreground" />
           <p className="text-xs font-semibold text-muted-foreground">
-            {items.length} item{items.length !== 1 ? "s" : ""} restricted on this account
+            {ordered.length} item{ordered.length !== 1 ? "s" : ""} restricted on this account
           </p>
         </div>
       ) : compact ? (

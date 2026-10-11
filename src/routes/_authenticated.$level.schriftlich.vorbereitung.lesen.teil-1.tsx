@@ -21,7 +21,12 @@ const titleOf = (ex: T1ExerciseData, i: number) => (ex.title && ex.title.trim() 
 function LesenTeil1Page() {
   const level = useActiveLevel();
   const seg = useLevelSegment();
+  // The list only needs id + title and renders as soon as the one list query returns; headlines/texts are fetched for the exercise being opened (reported
+  // 2026-10-11: loading all 61 exercises one after another kept the page on a spinner for a minute on a phone connection, with every title showing as "Restricted").
   const [exercises, setExercises] = useState<T1ExerciseData[]>([]);
+  const [details, setDetails] = useState<Record<string, T1ExerciseData>>({});
+  const [detailError, setDetailError] = useState<string | null>(null);
+  const [detailRetry, setDetailRetry] = useState(0);
   const [flaggedStartIndex, setFlaggedStartIndex] = useState<number | null>(null);
   const [hiddenCount, setHiddenCount] = useState(0);
   const [idx, setIdx] = useState<number | null>(null);
@@ -47,21 +52,8 @@ function LesenTeil1Page() {
         const { ordered: exList, flaggedStartIndex: fsi, hiddenCount: hc } = orderWithNoticeGroup(enforced);
         setHiddenCount(hc);
         setFlaggedStartIndex(fsi);
-        if (exList.length === 0) { setLoading(false); return; }
-
-        const full: T1ExerciseData[] = [];
-        for (const ex of exList) {
-          const [{ data: headlines }, { data: texts }] = await Promise.all([
-            supabase.from("lesen_t1_headlines").select("letter, text, is_distractor").eq("exercise_id", ex.id),
-            supabase.from("lesen_t1_texts").select("position, title, content").eq("exercise_id", ex.id).order("position"),
-          ]);
-          full.push({
-            id: ex.id, title: ex.title,
-            headlines: (headlines ?? []) as T1Headline[],
-            texts: ((texts ?? []) as T1Text[]).map((t) => ({ ...t, title: t.title ?? "" })),
-          });
-        }
-        setExercises(full);
+        setDetails({}); // anything fetched under the previous access state is dropped together with the list
+        setExercises(exList.map((ex) => ({ id: ex.id, title: ex.title, headlines: [], texts: [] })));
       } catch { setError("Übungen konnten nicht geladen werden."); }
       finally { setLoading(false); }
     }
@@ -77,6 +69,36 @@ function LesenTeil1Page() {
     // blocked the actual exercise content on click.
   }, [level, hasAccess]);
 
+  // Fetch the headlines/texts of the exercise being shown (also on Zurück/Weiter), once per exercise.
+  useEffect(() => {
+    if (idx === null) return;
+    const ex = exercises[idx];
+    if (!ex || details[ex.id]) return;
+    let cancelled = false;
+    setDetailError(null);
+    (async () => {
+      try {
+        const [{ data: headlines, error: hErr }, { data: texts, error: tErr }] = await Promise.all([
+          supabase.from("lesen_t1_headlines").select("letter, text, is_distractor").eq("exercise_id", ex.id),
+          supabase.from("lesen_t1_texts").select("position, title, content").eq("exercise_id", ex.id).order("position"),
+        ]);
+        if (hErr || tErr) throw hErr ?? tErr;
+        if (cancelled) return;
+        setDetails((d) => ({
+          ...d,
+          [ex.id]: {
+            ...ex,
+            headlines: (headlines ?? []) as T1Headline[],
+            texts: ((texts ?? []) as T1Text[]).map((t) => ({ ...t, title: t.title ?? "" })),
+          },
+        }));
+      } catch {
+        if (!cancelled) setDetailError("Die Übung konnte nicht geladen werden. Bitte Verbindung prüfen und erneut versuchen.");
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [idx, exercises, details, detailRetry]);
+
   // Non-subscribers: the direct fetch below is RLS-scoped server-side, so
   // `exercises` naturally contains ONLY the flagged free-sample rows for a
   // non-subscriber (real, fully interactive) — never full protected content.
@@ -89,7 +111,8 @@ function LesenTeil1Page() {
   // catalog RPC still lists the title, but the real fetch above won't
   // contain it since RLS blocks it, so it surfaces here as a locked row
   // instead of silently vanishing.
-  const lockedRemainder = catalog.items.filter((c) => !exercises.some((e) => e.id === c.id));
+  // Nothing is "restricted" until the list query has answered — before that every catalog title would be missing from `exercises` and flash as "Restricted".
+  const lockedRemainder = loading ? [] : catalog.items.filter((c) => !exercises.some((e) => e.id === c.id));
 
   // ── Detail view with Previous/Next navigation ──
   if (idx !== null && exercises[idx]) {
@@ -122,10 +145,21 @@ function LesenTeil1Page() {
           <h1 className="text-2xl font-black text-foreground">{titleOf(ex, idx)}</h1>
           <p className="text-sm text-muted-foreground mt-0.5">Lesen · Teil 1 — Schlagzeilen zuordnen</p>
         </div>
-        <Teil1Exercise
-          key={ex.id}
-          exercise={ex}
-        />
+        {details[ex.id] ? (
+          <Teil1Exercise
+            key={ex.id}
+            exercise={details[ex.id]}
+          />
+        ) : detailError ? (
+          <div className="flex flex-col items-center gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/5 p-6 text-center">
+            <AlertCircle className="h-5 w-5 text-rose-500" />
+            <p className="text-sm text-rose-700 dark:text-rose-300">{detailError}</p>
+            <button onClick={() => setDetailRetry((n) => n + 1)}
+              className="rounded-xl border border-border bg-card px-4 py-2 text-sm font-bold text-foreground hover:bg-muted transition-all">Erneut versuchen</button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-center py-16"><Loader2 className="h-7 w-7 animate-spin text-muted-foreground" /></div>
+        )}
         <PaywallModal open={paywallOpen} onClose={() => setPaywallOpen(false)} reason={paywallReason} />
       </div>
     );
@@ -189,7 +223,7 @@ function LesenTeil1Page() {
                   </span>
                 )}
               </div>
-              <p className="text-xs text-muted-foreground mt-0.5">{ex.texts.length} Texte · {ex.headlines.length} Schlagzeilen</p>
+              <p className="text-xs text-muted-foreground mt-0.5">5 Texte · 10 Schlagzeilen</p>
             </div>
             {v.isNew && <NewBadge />}
             <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
@@ -205,7 +239,7 @@ function LesenTeil1Page() {
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 text-sm font-black text-amber-600 dark:text-amber-400">{i + 1}</div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-bold text-foreground truncate">{titleOf(ex, flaggedStartIndex + i)}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{ex.texts.length} Texte · {ex.headlines.length} Schlagzeilen</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">5 Texte · 10 Schlagzeilen</p>
                 </div>
                 <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
               </button>
