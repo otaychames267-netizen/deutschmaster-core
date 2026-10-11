@@ -16,7 +16,9 @@
  * then: LIVE_TEST_RELAY_URL=ws://localhost:8791 npx tsx src/fullRealExam.live-test.mjs
  * (takes ~15-20 minutes of wall-clock time)
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import WebSocket from "ws";
 
 function loadEnv() {
@@ -116,10 +118,12 @@ async function main() {
   const t1 = { speaker: "A", presented: { A: false, B: false }, answers: { A: 0, B: 0 } };
   let turns = 0;
 
+  // full-conversation recording (examiner 24 kHz as the browser would play it + both candidates 16 kHz) on one wall-clock timeline
+  const examinerChunks = [], candChunks = [];
   const attach = (ws, label) => ws.on("message", (raw) => {
     let m; try { m = JSON.parse(raw.toString()); } catch { return; }
     if (label !== "A") return;
-    if (m.type === "audio") { const dur = Buffer.from(m.data, "base64").length / 48000; playbackEndsAt = Math.max(playbackEndsAt, Date.now()) + dur * 1000; return; }
+    if (m.type === "audio") { const pcm = Buffer.from(m.data, "base64"); const dur = pcm.length / 48000; examinerChunks.push({ at: Math.max(playbackEndsAt, Date.now()) - t0, pcm }); playbackEndsAt = Math.max(playbackEndsAt, Date.now()) + dur * 1000; return; }
     if (m.type === "transcript" && m.speaker === "examiner") { examinerSince.push(m.text); return; }
     if (m.type === "stage") { stage = m.stage; log(`=== STAGE ${m.stage} ===`); }
     if (m.type === "finished") finished = true;
@@ -139,7 +143,7 @@ async function main() {
       if (ws.readyState !== WebSocket.OPEN) continue;
       const m = mic[who];
       let data = silent;
-      if (m && m.pos < m.pcm.length) { data = m.pcm.subarray(m.pos, m.pos + 3200).toString("base64"); m.pos += 3200; if (m.pos >= m.pcm.length) mic[who] = null; }
+      if (m && m.pos < m.pcm.length) { const frame = m.pcm.subarray(m.pos, m.pos + 3200); candChunks.push({ at: Date.now() - t0, pcm: Buffer.from(frame) }); data = frame.toString("base64"); m.pos += 3200; if (m.pos >= m.pcm.length) mic[who] = null; }
       ws.send(JSON.stringify({ type: "audio", data }));
     }
   }, 100);
@@ -233,7 +237,7 @@ async function main() {
       [session] = await rest(`/rest/v1/muendlich_exam_sessions?select=id,end_reason,ended_at&room_id=eq.${roomId}&order=created_at.desc&limit=1`);
       [cost] = await rest(`/rest/v1/muendlich_exam_costs?select=*&session_id=eq.${session.id}`);
       evals = await rest(`/rest/v1/muendlich_evaluations?select=user_id,teil1_score,teil2_score,teil3_score,overall_score,cefr_level&session_id=eq.${session.id}`);
-      nodes = await rest(`/rest/v1/muendlich_transcript_nodes?select=speaker,teil&session_id=eq.${session.id}&limit=1000`);
+      nodes = await rest(`/rest/v1/muendlich_transcript_nodes?select=speaker,teil,text,started_at&session_id=eq.${session.id}&order=started_at.asc&limit=1000`);
       if (cost && evals.length >= 2) break;
     } catch (e) { log(`waiting for results: ${e.message.slice(0, 80)}`); }
   }
@@ -242,6 +246,25 @@ async function main() {
   console.log("transcript nodes by speaker:", JSON.stringify(nodes.reduce((a, n) => { a[n.speaker] = (a[n.speaker] ?? 0) + 1; return a; }, {})), " by Teil:", JSON.stringify(nodes.reduce((a, n) => { a[n.teil] = (a[n.teil] ?? 0) + 1; return a; }, {})));
   console.log("evaluations:", JSON.stringify(evals));
   console.log("MEASURED COST ROW:", JSON.stringify(cost, null, 1));
+
+  // ---- recording + report ----
+  const stamp = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+  const outDir = fileURLToPath(new URL("../../voice-auditions/", import.meta.url));
+  mkdirSync(outDir, { recursive: true });
+  {
+    const SR = 24000, endMs = Math.max(...examinerChunks.map((c) => c.at + c.pcm.length / 48), ...candChunks.map((c) => c.at + c.pcm.length / 32), 1000);
+    const mix = new Int32Array(Math.ceil(((endMs + 1500) / 1000) * SR));
+    for (const c of examinerChunks) { const o = Math.round((c.at / 1000) * SR); for (let i = 0; i < c.pcm.length / 2; i++) if (o + i < mix.length) mix[o + i] += c.pcm.readInt16LE(i * 2); }
+    for (const c of candChunks) { const o = Math.round((c.at / 1000) * SR), n = c.pcm.length / 2; for (let i = 0; i < n * 1.5; i++) { const p = i / 1.5, a = Math.floor(p), fr = p - a; const s0 = c.pcm.readInt16LE(a * 2), s1 = a + 1 < n ? c.pcm.readInt16LE((a + 1) * 2) : s0; if (o + i < mix.length) mix[o + i] += Math.round(s0 + (s1 - s0) * fr); } }
+    const pcm = Buffer.alloc(mix.length * 2); for (let i = 0; i < mix.length; i++) pcm.writeInt16LE(Math.max(-32768, Math.min(32767, mix[i])), i * 2);
+    const hdr = Buffer.alloc(44); hdr.write("RIFF", 0); hdr.writeUInt32LE(36 + pcm.length, 4); hdr.write("WAVEfmt ", 8); hdr.writeUInt32LE(16, 16); hdr.writeUInt16LE(1, 20); hdr.writeUInt16LE(1, 22); hdr.writeUInt32LE(SR, 24); hdr.writeUInt32LE(SR * 2, 28); hdr.writeUInt16LE(2, 32); hdr.writeUInt16LE(16, 34); hdr.write("data", 36); hdr.writeUInt32LE(pcm.length, 40);
+    const wavPath = outDir + `room-real-run-${stamp}.wav`;
+    writeFileSync(wavPath, Buffer.concat([hdr, pcm]));
+    const ff = spawnSync("ffmpeg", ["-y", "-loglevel", "error", "-i", wavPath, "-codec:a", "libmp3lame", "-b:a", "64k", wavPath.slice(0, -4) + ".mp3"]);
+    console.log(`full-conversation recording: ${(mix.length / SR / 60).toFixed(1)} min -> ${wavPath}${ff.status === 0 ? " (+ mp3)" : " (mp3 conversion unavailable here)"}`);
+  }
+  writeFileSync(outDir + `room-real-run-${stamp}.json`, JSON.stringify({ minutes: (Date.now() - t0) / 60000, finished, terminated, turns, session, cost, evals, nodes, transcript }, null, 1));
+  console.log("report:", outDir + `room-real-run-${stamp}.json`);
 
   // cleanup
   await rest(`/rest/v1/muendlich_credit_transactions?room_id=eq.${roomId}`, { method: "DELETE" }).catch(() => {});
