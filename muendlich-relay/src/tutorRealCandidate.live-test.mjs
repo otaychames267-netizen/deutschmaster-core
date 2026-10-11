@@ -43,6 +43,8 @@ async function createStudent() {
   const { access_token: jwt } = await login.json();
   if (!jwt) throw new Error("login failed");
   await rest(`/rest/v1/profiles?id=eq.${user.id}`, { method: "PATCH", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ level: "TELC_B2", full_name: NAME }) });
+  // The AI Sprachtrainer is plan-gated in the database (trigger on voice_tutor_sessions, 2026-10-10): the test student is a Komplett subscriber, like a real buyer.
+  await rest("/rest/v1/subscriptions", { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify({ user_id: user.id, plan_code: "komplett_ai", status: "active", started_at: new Date().toISOString(), expires_at: new Date(Date.now() + 2 * 864e5).toISOString() }) });
   return { id: user.id, jwt };
 }
 

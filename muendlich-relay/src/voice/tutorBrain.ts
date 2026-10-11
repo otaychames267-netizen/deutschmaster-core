@@ -38,7 +38,7 @@ export interface TutorContext {
   counts?: { teil1: number; teil2: number; teil3: number };
 }
 
-const DEFAULT_COUNTS = { teil1: 2, teil2: 6, teil3: 7 };
+const DEFAULT_COUNTS = { teil1: 2, teil2: 5, teil3: 6 };
 const countsOf = (ctx: TutorContext) => ctx.counts ?? DEFAULT_COUNTS;
 
 /** Owner spec 2026-10-06: the tutor helps with NOTHING and corrects NOTHING during the conversation. The one allowed
@@ -52,7 +52,10 @@ function noHelpRule(name: string, isPartner: boolean): string {
 // 133 chars (Sonnet 5) to 171 chars (Haiku 4.5) against the intended 12-20 words, so the limits below are explicit (and the prompts shorter,
 // which also cuts the cache-write cost every time the stage — and with it the system prompt — changes).
 const QUESTION_LIMIT = "ein einziger Satz, höchstens 110 Zeichen (ca. 14 Wörter) — weder ein Stichwort noch ein Vortrag";
-const PARTNER_LIMIT = "höchstens zwei vollständige, gut formulierte Sätze, zusammen ca. 180 Zeichen, die mit einer Frage oder einem Vorschlag an den Partner enden";
+// Owner 2026-10-11 (cost, lever 2): 180 -> 140 characters; the partner's replies averaged 200-260 characters in the production runs and TTS is ~52% of a session.
+const PARTNER_LIMIT = "höchstens zwei kurze, vollständige, gut formulierte Sätze, zusammen höchstens ca. 140 Zeichen, die mit einer Frage oder einem Vorschlag an den Partner enden";
+/** Hard backstop for the above: once the partner has spoken this many characters, the end of the current sentence ends the reply. */
+export const PARTNER_SOFT_CAP_CHARS = 150;
 
 /** True when a streamed chunk ends a real sentence ("?" / "!" always; "." only after a word of 4+ letters, so "z.", "B.", "Dr.", "2." and "bzw."/"usw."/"etc." do not count). */
 export function endsSentence(chunk: string): boolean {
@@ -66,16 +69,35 @@ export function endsSentence(chunk: string): boolean {
 /** Hard length control (owner 2026-10-09, cost): the prompt limits above are only requests — measured replies still averaged ~140 chars.
  * The examiner (Teil 1/2) speaks exactly ONE sentence: everything after the first complete sentence is dropped (and the stream cancelled).
  * The Teil-3 partner may speak two sentences and stops at the first question to the student (that is where a turn is meant to end). */
-export function replyIsComplete(isPartner: boolean, sentencesSoFar: number, lastChunk: string): boolean {
+export function replyIsComplete(isPartner: boolean, sentencesSoFar: number, lastChunk: string, charsSoFar = 0): boolean {
   if (!endsSentence(lastChunk)) return false;
   if (!isPartner) return true;
-  return sentencesSoFar >= 2 || /\?["”)]?$/.test(lastChunk.trim());
+  return sentencesSoFar >= 2 || /\?["”)]?$/.test(lastChunk.trim()) || charsSoFar >= PARTNER_SOFT_CAP_CHARS;
 }
 
 export interface TutorHistoryTurn {
   speaker: "examiner" | "partner" | "student";
   text: string;
+  /** The Teil that was active when this turn was said (tutorVoiceSession.ts stamps it) — see selectHistoryForStage(). */
+  stage?: 1 | 2 | 3;
 }
+
+/** Owner 2026-10-11 (cost, lever 1): Claude's input tokens are ~92% of the Haiku bill and the whole session history was re-sent on every call
+ * (~50k input tokens per session). Each Teil is its own task — the Teil-2 questions are about the Teil-2 topic and the Teil-3 partner plans a
+ * different task — so a call only needs the turns of ITS OWN Teil (turns without a stage tag are kept, to be safe), and never more than
+ * `maxChars` of them (the newest ones win). Roughly -30% input tokens, no quality loss in the question content. */
+export function selectHistoryForStage(history: TutorHistoryTurn[], stage: 1 | 2 | 3, maxChars: number): TutorHistoryTurn[] {
+  const ofStage = history.filter((h) => h.stage === undefined || h.stage === stage);
+  const kept: TutorHistoryTurn[] = [];
+  let chars = 0;
+  for (let i = ofStage.length - 1; i >= 0; i--) {
+    chars += ofStage[i].text.length;
+    if (chars > maxChars && kept.length > 0) break;
+    kept.unshift(ofStage[i]);
+  }
+  return kept;
+}
+const HISTORY_MAX_CHARS = Number(process.env.TUTOR_HISTORY_MAX_CHARS ?? 7000);
 
 export type TutorTrigger = { type: "system"; text: string };
 
@@ -220,7 +242,7 @@ async function generateTutorReplyOnce(
   const isPartner = ctx.stage === 3;
 
   const speakerLabel = (sp: TutorHistoryTurn["speaker"]) => (sp === "student" ? ctx.studentName : sp === "partner" ? "Übungspartner" : "Prüferin");
-  const historyLines = history.map((h) => `${speakerLabel(h.speaker)}: ${h.text}`).filter((line) => line.trim());
+  const historyLines = selectHistoryForStage(history, ctx.stage, HISTORY_MAX_CHARS).map((h) => `${speakerLabel(h.speaker)}: ${h.text}`).filter((line) => line.trim());
   const userContent: { type: "text"; text: string; cache_control?: { type: "ephemeral" } }[] = historyLines.map((line, i) => ({
     type: "text" as const,
     text: (i === 0 ? "Bisheriger Verlauf:\n" : "") + line + "\n",
@@ -267,6 +289,7 @@ async function generateTutorReplyOnce(
   let firstChunk = true;
   let cut = false; // set once the reply is complete (see replyIsComplete) — later chunks are dropped
   let sentences = 0;
+  let spokenChars = 0;
   const spoken: string[] = [];
   const emit = (c: string) => {
     if (firstChunk) {
@@ -284,9 +307,10 @@ async function generateTutorReplyOnce(
     }
     if (cut) return;
     spoken.push(c);
+    spokenChars += c.length;
     callbacks.onChunk?.(c);
     if (endsSentence(c)) sentences++;
-    if (replyIsComplete(isPartner, sentences, c)) cut = true;
+    if (replyIsComplete(isPartner, sentences, c, spokenChars)) cut = true;
   };
 
   const reader = res.body.getReader();

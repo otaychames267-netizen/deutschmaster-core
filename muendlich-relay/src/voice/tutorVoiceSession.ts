@@ -253,6 +253,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     // the SAME voice this call actually opened a connection with, examiner
     // or partner, not whichever happens to be active by then.
     const speakingIsPartner = isPartnerSpeaking();
+    const speakingStage = ctx.stage; // the Teil this reply belongs to (history entries are stamped with it — see selectHistoryForStage)
     const speakingVoiceId = activeVoiceId();
     const tSpeak0 = Date.now(); let tFirstChunk = 0, tFirstAudio = 0; // per-turn latency log below (owner 2026-10-10: find where the seconds go)
 
@@ -392,7 +393,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if ((await gatePromise) === "yield") return; // the reply was ready before the hold opened — the student may still resume until it does
 
       if (reply && myId === currentGenerationId) {
-        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text: reply });
+        history.push({ stage: speakingStage, speaker: speakingIsPartner ? "partner" : "examiner", text: reply });
         callbacks.onOutputTranscript?.(reply);
       }
     } catch (e) {
@@ -423,7 +424,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     if (closed) return;
     if (text.length > charBudgetRemaining()) {
       console.warn(`[tutor voice] ${MAX_ELEVENLABS_CHARS_PER_SESSION}-char ceiling reached for session ${sessionId} — skipping scripted utterance`);
-      history.push({ speaker: "examiner", text });
+      history.push({ stage: ctx.stage, speaker: "examiner", text });
       callbacks.onOutputTranscript?.(text);
       return;
     }
@@ -452,7 +453,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       console.warn(`[tutor voice] connection failed for session ${sessionId}, skipping this scripted utterance's audio:`, e instanceof Error ? e.message : e);
       if (myId === currentGenerationId) {
         currentAbort = null;
-        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text });
+        history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text });
         callbacks.onOutputTranscript?.(text);
       }
       return;
@@ -489,7 +490,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if (ttsError) throw ttsError;
 
       if (myId === currentGenerationId) {
-        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text });
+        history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text });
         callbacks.onOutputTranscript?.(text);
       }
     } catch (e) {
@@ -501,7 +502,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       // same convention as the connection-failure branch above.
       console.error(`[tutor voice] speakScriptedText() failed for session ${sessionId}, skipping this utterance's audio:`, e);
       if (myId === currentGenerationId) {
-        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text });
+        history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text });
         callbacks.onOutputTranscript?.(text);
       }
     } finally {
@@ -530,7 +531,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       }
       // No ttsCharacters increment: a cached clip costs nothing at runtime — that is the whole point.
       if (myId === currentGenerationId) {
-        history.push({ speaker: speakingIsPartner ? "partner" : "examiner", text: spokenText });
+        history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text: spokenText });
         callbacks.onOutputTranscript?.(spokenText);
       }
     } catch (e) {
@@ -574,7 +575,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
   function handleCommittedTranscript(text: string) {
     if (!text.trim()) return;
-    history.push({ speaker: "student", text });
+    history.push({ stage: ctx.stage, speaker: "student", text });
     callbacks.onInputTranscript?.(text);
     // No organic-trigger mechanism here, by design — same reasoning as the
     // exam's Teil 1 redesign: every examiner turn in Teil 1 is explicitly
