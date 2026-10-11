@@ -96,6 +96,7 @@ import { generateMuendlichEvaluation, EVALUATOR_MODEL } from "./muendlich-evalua
 import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { examProvider, tutorProvider } from "./voice/voicePools.js";
+import { getTtsFailoverStats } from "./voice/ttsFailover.js";
 import { tutorSpeculateSilenceMs, tutorHoldSilenceMs, tutorAnswerWindowExpired, roomStageEndReached, roomTakeoverWindowExpired } from "./tutorTiming.js";
 import type { TutorTurnOptions } from "./voice/tutorVoiceSession.js";
 import type { AckKind } from "./examinerPhrases.js";
@@ -2074,7 +2075,11 @@ async function startTutorSession(
   return session;
 }
 
-const httpServer = createServer((_req, res) => { res.writeHead(200); res.end("muendlich-relay ok"); });
+const httpServer = createServer((_req, res) => {
+  // GET /health/tts — is the primary TTS (DeepInfra) in failover right now? (owner monitoring; no secrets in it)
+  if ((_req.url ?? "").split("?")[0] === "/health/tts") { res.writeHead(200, { "content-type": "application/json" }); res.end(JSON.stringify(getTtsFailoverStats())); return; }
+  res.writeHead(200); res.end("muendlich-relay ok");
+});
 // noServer:true on BOTH WebSocketServers below — `{ server: httpServer }`
 // would make `ws` auto-attach its own "upgrade" listener that intercepts
 // EVERY path on this http server (path filtering only happens later, inside

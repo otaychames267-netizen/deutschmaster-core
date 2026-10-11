@@ -18,6 +18,7 @@
  */
 import type { StreamingSynthesisCallbacks, StreamingSynthesisHandle } from "./elevenLabsTts.js";
 import { startSentenceSynthesis } from "./sentenceTts.js";
+import { TtsHttpError, failoverEnabled, breakerOpen, tripBreaker, noteDeepinfraOk, speakWithFallback } from "./ttsFailover.js";
 
 export const DEEPINFRA_PREFIX = "deepinfra:";
 const URL = "https://api.deepinfra.com/v1/openai/audio/speech";
@@ -71,20 +72,35 @@ export function openDeepInfraConnection(voiceId: string): Promise<DeepInfraConne
 
 export function startDeepInfraSynthesis(conn: DeepInfraConnection, callbacks: StreamingSynthesisCallbacks): StreamingSynthesisHandle {
   return startSentenceSynthesis(async (text, signal, emit) => {
-    const { url, init } = request(conn.voiceId, text);
-    let res: Response | null = null;
-    for (let attempt = 0; attempt < 2; attempt++) {
-      res = await fetch(url, { ...init, signal });
-      if (res.ok || (res.status !== 429 && res.status < 500)) break;
-      await new Promise((r) => setTimeout(r, 300));
+    // Failover (ttsFailover.ts): while DeepInfra is known to be down, go straight to ElevenLabs; if it fails before any audio came out, speak the sentence there.
+    const canFail = failoverEnabled();
+    if (canFail && breakerOpen()) {
+      try { return await speakWithFallback(conn.voiceId, text, signal, emit); }
+      catch (e) { if (signal.aborted) throw e; /* the fallback is down too: still try DeepInfra below — it may be back */ }
     }
-    if (!res || !res.ok || !res.body) throw new Error(`DeepInfra TTS ${res?.status}: ${(await res?.text().catch(() => ""))?.slice(0, 300)}`);
-    const reader = res.body.getReader();
-    for (;;) {
-      if (signal.aborted) { void reader.cancel().catch(() => {}); return; }
-      const { done, value } = await reader.read();
-      if (done) break;
-      if (value?.length) emit(Buffer.from(value));
+    let emitted = false;
+    try {
+      const { url, init } = request(conn.voiceId, text);
+      let res: Response | null = null;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        res = await fetch(url, { ...init, signal });
+        if (res.ok || (res.status !== 429 && res.status < 500)) break;
+        await new Promise((r) => setTimeout(r, 300));
+      }
+      if (!res || !res.ok || !res.body) throw new TtsHttpError(res?.status ?? null, `DeepInfra TTS ${res?.status}: ${(await res?.text().catch(() => ""))?.slice(0, 300)}`);
+      const reader = res.body.getReader();
+      for (;;) {
+        if (signal.aborted) { void reader.cancel().catch(() => {}); return; }
+        const { done, value } = await reader.read();
+        if (done) break;
+        if (value?.length) { emitted = true; emit(Buffer.from(value)); }
+      }
+      noteDeepinfraOk();
+    } catch (e) {
+      if (signal.aborted || emitted || !canFail) throw e;
+      const status = e instanceof TtsHttpError ? e.status : null; // anything else (fetch threw) is a network-level failure
+      if (tripBreaker(status, e instanceof Error ? e.message : String(e)) === 0) throw e;
+      return speakWithFallback(conn.voiceId, text, signal, emit);
     }
   }, callbacks, { maxParallel: 2 }); // prefetch: the next sentence is requested while the previous one is still being generated (the audio is still emitted in order)
 }
