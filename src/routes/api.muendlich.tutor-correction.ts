@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { generateVoiceTutorCorrection } from "@/lib/grading/voice-tutor-correction";
+import { generateVoiceTutorCorrection, correctionUsd } from "@/lib/grading/voice-tutor-correction";
 
 /**
  * Authenticated route: runs the deferred, post-session language-correction
@@ -123,6 +123,34 @@ export const Route = createFileRoute("/api/muendlich/tutor-correction")({
           .insert({ session_id: sessionId, user_id: userId, feedback, model: result.model });
         if (saveError) {
           console.error("[tutor-correction] failed to persist correction:", saveError);
+        }
+
+        // Record the REAL cost of this correction on the session's cost row (the relay wrote the live part when the session ended; evaluator_* were always 0).
+        // usd_total includes it, so the per-student AI budget now counts the whole session. Only once per session (evaluator_input_tokens = 0).
+        if (result.usage) {
+          try {
+            const { data: costRow } = await (supabaseAdmin as any)
+              .from("voice_tutor_costs")
+              .select("id, usd_total, evaluator_input_tokens")
+              .eq("session_id", sessionId)
+              .maybeSingle();
+            if (costRow && !costRow.evaluator_input_tokens) {
+              const usd = correctionUsd(result.model, result.usage.inputTokens, result.usage.outputTokens);
+              const { error: costError } = await (supabaseAdmin as any)
+                .from("voice_tutor_costs")
+                .update({
+                  evaluator_model: result.model,
+                  evaluator_input_tokens: result.usage.inputTokens,
+                  evaluator_output_tokens: result.usage.outputTokens,
+                  usd_evaluator: usd,
+                  usd_total: Number(costRow.usd_total) + usd,
+                })
+                .eq("id", costRow.id);
+              if (costError) console.error("[tutor-correction] failed to record the correction cost:", costError.message);
+            }
+          } catch (e) {
+            console.error("[tutor-correction] cost recording failed:", e);
+          }
         }
 
         return Response.json({ ...feedback, model: result.model });
