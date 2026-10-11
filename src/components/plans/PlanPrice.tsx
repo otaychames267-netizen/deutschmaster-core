@@ -1,4 +1,4 @@
-import { BadgePercent, CalendarDays, CalendarRange, Flame, Sparkles, Timer } from "lucide-react";
+import { BadgePercent, CalendarDays, CalendarRange, RefreshCcwDot, Sparkles, Timer } from "lucide-react";
 import { maxPackSaving, offerDaysLeft, perMonth, savedAmount, savedPercent, type Months, type PricingMap, type TermPrice } from "@/lib/plans/pricing";
 
 /**
@@ -53,59 +53,60 @@ export function TermToggle({ months, onChange, pricing }: { months: Months; onCh
   );
 }
 
-/** The days-left chip of a running launch offer. */
-export function OfferChip({ endsAt }: { endsAt: string | null }) {
-  const days = offerDaysLeft(endsAt);
-  if (days === null) return null;
-  const urgent = days <= 7;
-  const when = days === 0 ? "ends today" : days === 1 ? "ends tomorrow" : `ends in ${days} days`;
-  const whenAr = days === 0 ? "ينتهي اليوم" : days === 1 ? "ينتهي غداً" : `ينتهي بعد ${days} يوماً`;
-  const Icon = urgent ? Flame : Timer;
-  return (
-    <p
-      className={`mt-2.5 inline-flex flex-wrap items-center gap-x-1.5 rounded-lg px-2.5 py-1.5 text-xs font-bold ${
-        urgent ? "bg-amber-400/20 text-amber-200 ring-1 ring-amber-300/40" : "bg-white/10 text-white/90"
-      }`}
-    >
-      <Icon className="h-3.5 w-3.5 shrink-0" aria-hidden />
-      <span>Launch offer · {when}</span>
-      <span dir="rtl" lang="ar" className="font-semibold opacity-85">عرض الإطلاق · {whenAr}</span>
-    </p>
-  );
-}
-
-/** Big price, struck-through regular price, percent badge, per-month note, "you save" chip and the offer countdown. */
+/** Big price, struck-through regular price, percent badge, per-month note and ONE offer strip (launch offer countdown and/or the saving). */
 export function PriceBlock({ term, offerEndsAt }: { term: TermPrice; offerEndsAt: string | null }) {
   const pct = savedPercent(term);
   const save = savedAmount(term);
+  const days = offerDaysLeft(offerEndsAt);
+  const urgent = days !== null && days <= 7;
+  const when = days === null ? "" : days === 0 ? "ends today" : days === 1 ? "ends tomorrow" : `ends in ${days} days`;
+  const whenAr = days === null ? "" : days === 0 ? "ينتهي اليوم" : days === 1 ? "ينتهي غداً" : `ينتهي بعد ${days} يوماً`;
+  const StripIcon = days !== null ? Timer : Sparkles;
   return (
     <div>
-      <div className="flex items-end gap-2">
-        <span className="text-5xl font-black leading-none tracking-tight tabular-nums text-white">{term.price}</span>
-        <span className="pb-1 text-sm font-semibold text-white/60">TND</span>
-        {term.listPrice && term.listPrice > term.price && (
-          <s className="pb-1 text-lg font-semibold tabular-nums text-white/45 decoration-gold/80 decoration-2">
-            {term.listPrice}
-            <span className="sr-only"> TND regular price</span>
-          </s>
-        )}
+      <div className="flex items-end gap-3">
+        <span className="text-[56px] font-extrabold leading-[0.85] tracking-tight tabular-nums text-white">{term.price}</span>
+        <div className="pb-0.5 leading-none">
+          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-white/55">TND</p>
+          {term.listPrice && term.listPrice > term.price && (
+            <s className="mt-1 block text-[15px] font-semibold tabular-nums text-white/45 decoration-gold/80 decoration-2">
+              {term.listPrice}
+              <span className="sr-only"> TND regular price</span>
+            </s>
+          )}
+        </div>
         {pct > 0 && (
-          <span className="mb-1 ml-auto inline-flex items-center gap-1 self-start rounded-full bg-gold px-2.5 py-1 text-[11px] font-black text-gold-foreground shadow-sm">
+          <span className="ml-auto inline-flex items-center gap-1 self-start rounded-full bg-gold px-2.5 py-1 text-[11px] font-black text-gold-foreground shadow-sm">
             <BadgePercent className="h-3 w-3" aria-hidden /> −{pct}%
           </span>
         )}
       </div>
-      <p className="mt-1.5 text-xs text-white/70">
+      <p className="mt-2.5 text-xs text-white/65">
         {term.months === 1 ? "per month" : <>for 2 months · <b className="text-white/90">{perMonth(term)} TND</b> / month</>}
       </p>
-      {save > 0 && (
-        <p className="mt-2.5 inline-flex flex-wrap items-center gap-x-1.5 rounded-lg bg-white/10 px-2.5 py-1.5 text-xs font-bold text-gold">
-          <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden />
-          <span>You save {save} TND</span>
-          <span dir="rtl" lang="ar" className="font-semibold opacity-90">وفّرت {save} دينار</span>
-        </p>
+      {(days !== null || save > 0) && (
+        <div className={`mt-4 rounded-xl px-3.5 py-2.5 ring-1 ring-inset ${urgent ? "bg-amber-400/15 ring-amber-300/35" : "bg-white/[0.06] ring-white/10"}`}>
+          <div className="flex items-center justify-between gap-3 text-[12px] font-semibold">
+            <span className="inline-flex items-center gap-1.5 text-white/90">
+              <StripIcon className={`h-3.5 w-3.5 shrink-0 ${urgent ? "text-amber-300" : "text-gold"}`} aria-hidden />
+              {days !== null ? `Launch offer · ${when}` : "Pack price"}
+            </span>
+            {save > 0 && <span className="shrink-0 text-gold">Save {save} TND</span>}
+          </div>
+          <p dir="rtl" lang="ar" className="mt-1 text-[11.5px] leading-snug text-white/60">
+            {days !== null ? `عرض الإطلاق · ${whenAr}` : "سعر الباقة"}
+            {save > 0 ? ` · وفّر ${save} دينار` : ""}
+          </p>
+        </div>
       )}
-      <div><OfferChip endsAt={offerEndsAt} /></div>
+      {days === null && save <= 0 && (
+        <div className="mt-4 rounded-xl bg-white/[0.06] px-3.5 py-2.5 ring-1 ring-inset ring-white/10">
+          <p className="inline-flex items-center gap-1.5 text-[12px] font-semibold text-white/90">
+            <RefreshCcwDot className="h-3.5 w-3.5 shrink-0 text-gold" aria-hidden /> No auto-renewal — you pay only when you want more
+          </p>
+          <p dir="rtl" lang="ar" className="mt-1 text-[11.5px] leading-snug text-white/60">لا تجديد تلقائي — تدفع فقط عندما تريد المتابعة</p>
+        </div>
+      )}
     </div>
   );
 }

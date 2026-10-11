@@ -9,14 +9,10 @@ import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
+import { PlanHeader, PlanDivider } from "@/components/plans/PlanCard";
 import { usePlanPricing, termOf, hasTerm, type Months, type SellablePlan } from "@/lib/plans/pricing";
 import i18n from "@/lib/i18n";
-import {
-  BookOpen, Headphones, PenLine, Mic,
-  Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight,
-  Zap, Shield, Clock, TrendingUp, Award, Play,
-  ChevronDown, Menu, X, Landmark, Smartphone, Building2,
-} from "lucide-react";
+import { BookOpen, Headphones, PenLine, Mic, Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight, Zap, Shield, Clock, TrendingUp, Award, Play, ChevronDown, Menu, X, Landmark, Smartphone, Building2, Gem } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: LandingPage,
@@ -566,81 +562,39 @@ function Pricing() {
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
             Schriftlich alone — Komplett/Mündlich both grant speaking access. */}
         <div className={`mt-12 grid gap-6 ${MUENDLICH_ENABLED && PLANS.filter((plan) => isPlanPurchasable(plan.key)).length > 1 ? "mx-auto max-w-4xl sm:grid-cols-2" : "mx-auto max-w-md"}`}>
-          {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => (
-            <div
-              key={plan.key}
-              className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
-                plan.benefits
-                  ? `plan-premium${plan.key === "komplett_ai" ? " plan-premium--platinum tier-platinum" : ""}`
-                  : plan.highlighted
-                    ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
-                    : "border-border bg-card"
-              }`}
-            >
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gold px-3 py-0.5 text-xs font-semibold text-gold-foreground shadow-sm">
-                    <Star className="h-3 w-3 fill-current" /> {plan.badge}
-                  </span>
-                </div>
-              )}
+          {PLANS.filter((plan) => isPlanPurchasable(plan.key)).map((plan) => {
+            const platinum = plan.key === "komplett_ai";
+            return (
+              <article
+                key={plan.key}
+                className={`plan-premium relative flex flex-col rounded-2xl p-6 transition-transform duration-300 hover:-translate-y-1 sm:p-7${platinum ? " plan-premium--platinum tier-platinum" : ""}`}
+              >
+                {plan.badge && (
+                  <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-gold px-3 py-1 text-[11px] font-bold text-gold-foreground shadow-md">
+                      <Star className="h-3 w-3 fill-current" /> {plan.badge}
+                    </span>
+                  </div>
+                )}
 
-              <div className={plan.benefits ? "mb-4 border-b border-white/10 pb-4" : "mb-6"}>
-                <p className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-semibold uppercase tracking-widest ${plan.benefits ? "text-gold" : plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-                  {plan.name}
-                  {plan.tag && (
-                    <span className="rounded-full border border-gold/50 px-2 py-0.5 text-[10px] font-bold normal-case tracking-wide text-gold">{plan.tag}</span>
-                  )}
-                </p>
-                <div className="mt-3">
+                <PlanHeader name={plan.name} tag={plan.tag} tagline={plan.desc} icon={platinum ? Gem : Award} />
+                <div className="mt-6 md:min-h-[9.5rem]">
                   <PriceBlock term={termOf(pricing, plan.key as SellablePlan, months)} offerEndsAt={pricing[plan.key as SellablePlan].offerEndsAt} />
                 </div>
-                <p className={`mt-2 text-xs leading-relaxed ${plan.highlighted ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
-                  {plan.desc}
-                </p>
-                {plan.descAr && (
-                  <p dir="rtl" lang="ar" className={`mt-1 text-sm font-medium leading-relaxed ${plan.highlighted ? "text-primary-foreground/90" : "text-foreground/85"}`}>
-                    {plan.descAr}
-                  </p>
-                )}
-                {plan.save && (
-                  <p className="mt-3 inline-flex items-center gap-1 rounded-md bg-white/15 px-2 py-1 text-xs font-semibold text-primary-foreground">
-                    <Star className="h-3 w-3 fill-current" /> {plan.save}
-                  </p>
-                )}
-              </div>
 
-              {plan.benefits ? (
-                <div className="mb-5 flex-1">
-                  <PlanBenefits benefits={plan.benefits} onPrimary={plan.highlighted} />
-                </div>
-              ) : (
-                <ul className="mb-7 flex-1 space-y-2.5">
-                  {plan.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2.5 text-sm">
-                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.highlighted ? "text-primary-foreground" : "text-emerald-500"}`} />
-                      <span className={plan.highlighted ? "text-primary-foreground/90" : "text-foreground"}>
-                        {f}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+                <Link
+                  to="/register"
+                  className="mt-6 inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-gold px-5 py-3.5 text-sm font-bold text-gold-foreground shadow-lg shadow-black/30 transition-all hover:-translate-y-0.5 hover:brightness-105"
+                >
+                  Get Started <ChevronRight className="h-4 w-4" />
+                </Link>
+                <p className="mt-2.5 text-center text-[11px] text-white/50">Pay with D17, Virement Postal or Virement Bancaire</p>
 
-              <Link
-                to="/register"
-                className={`inline-flex items-center justify-center gap-1.5 rounded-xl px-5 py-3 text-sm font-semibold transition-all hover:-translate-y-0.5 ${
-                  plan.benefits
-                    ? "bg-gold text-gold-foreground shadow-md shadow-black/25 hover:brightness-105"
-                    : plan.highlighted
-                      ? "bg-white text-primary shadow-sm hover:bg-white/95"
-                      : "bg-primary text-primary-foreground hover:bg-primary/90"
-                }`}
-              >
-                Get Started <ChevronRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-          ))}
+                <PlanDivider />
+                {plan.benefits && <div className="flex-1"><PlanBenefits benefits={plan.benefits} /></div>}
+              </article>
+            );
+          })}
         </div>
 
         {/* Guarantee note */}

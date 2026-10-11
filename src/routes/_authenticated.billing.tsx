@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
+import { PlanHeader, PlanDivider } from "@/components/plans/PlanCard";
 import { usePlanPricing, termOf, hasTerm, type Months, type SellablePlan } from "@/lib/plans/pricing";
 
 export const Route = createFileRoute("/_authenticated/billing")({
@@ -251,25 +252,14 @@ function BillingPage() {
                   </div>
                 )}
 
-                <div className={premium ? `plan-premium plan-premium--top rounded-t-2xl p-6${plan.code === "komplett_ai" ? " plan-premium--platinum" : ""}` : "flex flex-1 flex-col"}>
+                <div className={premium ? `plan-premium plan-premium--top flex-1 rounded-t-2xl p-6 sm:p-7${plan.code === "komplett_ai" ? " plan-premium--platinum" : ""}` : "flex flex-1 flex-col"}>
                 {/* Plan header */}
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ring-1 ${premium ? "bg-gold/20 text-gold ring-gold/40" : `${c.bg} ${c.ring}`}`}>
-                      <plan.icon className={`h-4.5 w-4.5 ${premium ? "" : c.text}`} />
-                    </div>
-                    <p className={`flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-black uppercase tracking-widest ${premium ? "text-gold" : c.text}`}>
-                      {plan.name}
-                      {plan.tag && (
-                        <span className="rounded-full border border-gold/50 px-2 py-0.5 text-[10px] font-bold normal-case tracking-wide text-gold">{plan.tag}</span>
-                      )}
-                    </p>
+                <div className="mb-1">
+                  <PlanHeader name={plan.name} tag={plan.tag} tagline={plan.tagline} icon={plan.icon} />
+                  <div className="mt-6 md:min-h-[9.5rem]">
+                    <PriceBlock term={termOf(pricing, plan.code as SellablePlan, months)} offerEndsAt={pricing[plan.code as SellablePlan].offerEndsAt} />
                   </div>
-                  <PriceBlock term={termOf(pricing, plan.code as SellablePlan, months)} offerEndsAt={pricing[plan.code as SellablePlan].offerEndsAt} />
-                  <p className={`mt-1 text-xs ${premium ? "text-white/70" : "text-muted-foreground"}`}>{plan.tagline}</p>
-                  {plan.taglineAr && (
-                    <p dir="rtl" lang="ar" className="mt-1 text-[13px] font-medium leading-relaxed text-foreground/80">{plan.taglineAr}</p>
-                  )}
+                  <PlanDivider />
                 </div>
 
                 {/* Features */}
