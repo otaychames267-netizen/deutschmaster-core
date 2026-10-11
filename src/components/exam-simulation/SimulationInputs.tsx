@@ -67,12 +67,12 @@ export interface LesenT2Data {
 export function LesenT2Input({ data, value, onChange }: { data: LesenT2Data; value: Record<string, string>; onChange: (v: Record<string, string>) => void }) {
   const questions = [...data.questions].sort((a, b) => a.number - b.number);
   return (
-    <div className="grid gap-5 lg:grid-cols-2 lg:items-start">
-      <div className={`${CARD} lg:sticky lg:top-20`}>
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-2 lg:items-start">
+      <div className={`${CARD} min-w-0 lg:sticky lg:top-20`}>
         <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Lesetext</p>
         <p className="text-sm text-foreground leading-[1.9] whitespace-pre-line">{data.passage}</p>
       </div>
-      <div className="space-y-3">
+      <div className="min-w-0 space-y-3">
         {questions.map((q) => (
           <div key={q.number} className={CARD}>
             <div className="flex items-start gap-3 mb-3">
@@ -117,8 +117,8 @@ export function LesenT3Input({ data, value, onChange }: { data: LesenT3Data; val
         <p className="text-sm font-bold text-foreground mb-0.5">Situationen den Anzeigen zuordnen</p>
         <p className="text-sm text-muted-foreground leading-relaxed">Für zwei Situationen gibt es keine passende Anzeige — wählen Sie dann „X — keine passende Anzeige".</p>
       </div>
-      <div className="grid gap-5 lg:grid-cols-2">
-        <div className="space-y-2.5">
+      <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        <div className="min-w-0 space-y-2.5">
           <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Situationen</p>
           {situations.map((s) => (
             <div key={s.number} className={CARD}>
@@ -141,7 +141,7 @@ export function LesenT3Input({ data, value, onChange }: { data: LesenT3Data; val
             </div>
           ))}
         </div>
-        <div className="space-y-3">
+        <div className="min-w-0 space-y-3">
           <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Anzeigen A–L</p>
           {texts.map((t) => (
             <div key={t.letter} className="rounded-2xl border border-border bg-card overflow-hidden">

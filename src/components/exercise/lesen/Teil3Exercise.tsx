@@ -444,10 +444,10 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
         </div>
       )}
 
-      <div className="grid gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
 
         {/* Situations */}
-        <div className="space-y-2.5">
+        <div className="min-w-0 space-y-2.5">
           <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Situationen</p>
           {situations.map((sit) => {
             const ans       = answers[sit.number];
@@ -563,7 +563,7 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
         </div>
 
         {/* Advertisement texts A–L */}
-        <div className="space-y-3">
+        <div className="min-w-0 space-y-3">
           <div className="flex items-center justify-between gap-2 px-1">
             <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Anzeigen</p>
             <SentenceTranslations items={translationItems} />
@@ -599,12 +599,12 @@ export function Teil3Exercise({ exercise, onComplete }: Props) {
       </div>
 
       {!submitted ? (
-        <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
           <div className="flex flex-col">
             <p className="text-sm text-muted-foreground">{answeredCount} / {situations.length} beantwortet</p>
             <p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button onClick={toggleSolutionPreview} disabled={loadingPreview}
               className={`rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
               {loadingPreview ? <Loader2 className="h-4 w-4 animate-spin" /> : previewResults ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
