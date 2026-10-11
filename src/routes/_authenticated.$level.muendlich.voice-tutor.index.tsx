@@ -8,6 +8,7 @@ import { useHasPlanAccess } from "@/lib/useContentAccess";
 import { voiceTutorAvailable } from "@/lib/features";
 import { supabase } from "@/integrations/supabase/client";
 import { muendlichQuotaMessage } from "@/lib/muendlich/quota";
+import { useRelayReady, checkRelayReady, SERVICE_DOWN_DE, SERVICE_DOWN_AR } from "@/lib/muendlich/useRelayReady";
 
 const db = supabase as any;
 
@@ -34,6 +35,7 @@ function VoiceTutorPicker() {
   const { isAdmin, loading, roleLoading, user } = useAuth();
   const { hasAccess, loading: accessLoading } = useHasPlanAccess("muendlich_ai");
   const navigate = useNavigate();
+  const relay = useRelayReady();
 
   const [materials, setMaterials] = useState<Record<1 | 2 | 3, TopicMaterial[]> | null>(null);
   const [picked, setPicked] = useState<{ 1?: string; 2?: string; 3?: string }>({});
@@ -87,6 +89,9 @@ function VoiceTutorPicker() {
     if (!picked[1] || !user) return;
     setStarting(true);
     setError(null);
+    // Ask the server first: no session row is created (and no slot touched) when it cannot run an exam.
+    const ready = await checkRelayReady();
+    if (!ready.ready) { setError(SERVICE_DOWN_DE); setStarting(false); return; }
     const findId = (teil: 1 | 2 | 3, title: string | undefined) => materials![teil].find((m) => m.title === title)?.id ?? null;
     const { data, error: insertError } = await db.from("voice_tutor_sessions").insert({
       user_id: user.id, level: activeLevel,
@@ -116,7 +121,7 @@ function VoiceTutorPicker() {
         <h2 className="text-sm font-bold text-foreground">So läuft die Sitzung ab</h2>
         <ol className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
           <li><b className="text-foreground">1 · Themen wählen.</b> Du wählst je ein Thema für Teil 1, 2 und 3 — wie in der echten Prüfung.</li>
-          <li><b className="text-foreground">2 · Sprechen (ca. 12 Minuten).</b> Teil 1: etwa anderthalb Minuten Präsentation und zwei Fragen. Teil 2: fünf Fragen der Prüferin. Teil 3: ihr plant gemeinsam. Die Prüferin lässt dich ausreden und reagiert erst nach einer deutlichen Pause.</li>
+          <li><b className="text-foreground">2 · Sprechen (ca. 12 Minuten).</b> Teil 1: etwa anderthalb Minuten Präsentation und zwei Fragen. Teil 2: ein Gespräch über ein Thema mit deiner KI-Partnerin. Teil 3: ihr plant gemeinsam. Die Prüferin lässt dich ausreden und reagiert erst nach einer deutlichen Pause.</li>
           <li><b className="text-foreground">3 · Bericht.</b> Danach bekommst du deinen Korrekturbericht: deine echten Sätze mit Korrektur und Erklärung.</li>
         </ol>
         <p dir="rtl" lang="ar" className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
@@ -140,13 +145,19 @@ function VoiceTutorPicker() {
         <TopicSelector teil={3} options={materials[3]} selected={picked[3]} onPick={(title) => setPicked((p) => ({ ...p, 3: title }))} />
       </section>
 
-      {error && <p className="text-center text-sm text-destructive">{error}</p>}
+      {relay.status === "down" && (
+        <div role="alert" className="rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-center">
+          <p className="text-sm font-semibold text-foreground">{SERVICE_DOWN_DE}</p>
+          <p dir="rtl" lang="ar" className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{SERVICE_DOWN_AR}</p>
+        </div>
+      )}
+      {error && relay.status !== "down" && <p className="text-center text-sm text-destructive">{error}</p>}
 
       <div className="fixed inset-x-0 bottom-0 border-t border-border bg-background p-4">
         <button
           type="button"
           onClick={handleStart}
-          disabled={!readyToStart || starting}
+          disabled={!readyToStart || starting || relay.status === "down"}
           className="mx-auto flex w-full max-w-2xl items-center justify-center gap-2 rounded-xl bg-rose-500 px-5 py-3 text-sm font-bold text-white hover:bg-rose-600 disabled:opacity-50"
         >
           {starting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mic className="h-4 w-4" />}

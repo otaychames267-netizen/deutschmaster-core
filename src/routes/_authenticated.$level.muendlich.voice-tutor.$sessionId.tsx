@@ -25,6 +25,7 @@ const TERMINATED_MESSAGE: Record<string, string> = {
   budget_exceeded: "Der Sprachtrainer ist gerade stark ausgelastet. Bitte versuche es in ein paar Minuten erneut.",
   ai_error: "Es gab ein technisches Problem mit dem Sprachtrainer. Bitte versuche es erneut.",
   idle_timeout: "Die Sitzung wurde wegen Inaktivität beendet.",
+  service_unavailable: "Der KI-Sprachtrainer ist gerade vorübergehend nicht verfügbar. Wir arbeiten daran — dein Kontingent wird nicht belastet. Bitte versuche es in einigen Minuten erneut.",
   insufficient_minutes: "Dein ElevenLabs-Kontingent für diesen Monat ist aufgebraucht. Bitte kontaktiere den Support.",
 };
 
