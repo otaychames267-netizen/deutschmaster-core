@@ -211,7 +211,7 @@ function validate(raw: any): Omit<GradingResult, "overall_score" | "passed" | "m
 
 export { isBudgetExceeded };
 
-export async function gradeEssay(
+async function gradeEssayOnce(
   taskPrompt: string,
   essayText: string,
   supabase: any,
@@ -252,5 +252,26 @@ export async function gradeEssay(
   } catch (e) {
     if (e instanceof ClaudeQuotaError) throw new Error("QUOTA_429");
     throw e;
+  }
+}
+
+/** Production 2026-10-10/11: two gradings were refunded because the model's tool call matched the JSON schema but failed validate() ("feedback.formal_accuracy
+ * missing or empty", "missing feedback object") — callClaudeTool only retries schema failures, not these. One more attempt almost always fixes it; a second
+ * refusal is a real failure and surfaces as before (the caller refunds the credit). Quota / budget / timeout errors are NOT retried. */
+export async function gradeEssay(
+  taskPrompt: string,
+  essayText: string,
+  supabase: any,
+  level: CefrLevel = "B2",
+  category: string | null | undefined = undefined,
+): Promise<GradingResult> {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await gradeEssayOnce(taskPrompt, essayText, supabase, level, category);
+    } catch (e) {
+      const invalid = e instanceof Error && /grading response invalid/i.test(e.message);
+      if (!invalid || attempt >= 2) throw e;
+      console.warn("[essay-grader] invalid grading response, retrying once:", (e as Error).message);
+    }
   }
 }

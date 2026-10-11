@@ -16,12 +16,14 @@ import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { initPwa, registerServiceWorker } from "@/lib/pwa";
 import { initChunkRecovery, isChunkLoadError, reloadOnceForNewVersion } from "@/lib/chunk-recovery";
+import { installDomTranslateGuard } from "@/lib/dom-translate-guard";
 import { reportClientError } from "@/lib/client-error-report";
 
 // Client only: must run at module load so a beforeinstallprompt that fires before hydration is not lost.
 initPwa();
 // A deploy while a student's tab is open makes the old route chunks disappear — reload once instead of showing an error page.
 initChunkRecovery((error) => reportClientError("chunk", error));
+installDomTranslateGuard(); // browser page-translation must not crash React (NotFoundError insertBefore/removeChild)
 
 function NotFoundComponent() {
   return (
