@@ -36,7 +36,7 @@ export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
  * and muendlich_ai_monthly_limit (50), plus the per-mode USD budget muendlich_ai_budget_usd_one_to_one (8) — migration 20261011180000. The partner (Teil 2 + 3) is the
  * tutor's practice-partner persona; Dein Fortschritt = VoiceTutorProgress (voice_tutor_corrections.feedback.scores, RLS own rows). The tutor does NOT assess pronunciation — never claim it. */
 export const KOMPLETT_BENEFITS: PlanBenefit[] = [
-  { icon: Layers, title: "Alles aus Schriftlich", ar: "Lesen و Hören و Sprachbausteine و Schreiben + بطاقات Mündlich Vorbereitung" },
+  { icon: Layers, title: "Alles aus Gold", ar: "Lesen و Hören و Sprachbausteine و Schreiben + بطاقات Mündlich Vorbereitung" },
   { icon: Bot, title: "KI-Prüferin", ar: "تتكلّم بصوتك مع ممتحِنة بالذكاء الاصطناعي تردّ عليك مباشرة بصوت حقيقي", highlight: true },
   { icon: Users, title: "KI-Partnerin", ar: "في الجزأين 2 و3 تتحاور وتخطّط مع شريك محادثة بصوت مختلف، كما في الامتحان", highlight: true },
   { icon: Mic, title: "Teil 1 · 2 · 3", ar: "امتحان شفوي كامل بنفس تسلسل TELC B2، حوالي 10 دقائق للجلسة", highlight: true },

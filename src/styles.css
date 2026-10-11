@@ -387,6 +387,40 @@
   border-color: oklch(0.84 0.16 84 / 0.9);
   box-shadow: 0 0 0 1px oklch(0.84 0.16 84 / 0.4), 0 36px 80px -30px oklch(0.78 0.14 82 / 0.55), inset 0 1px 0 oklch(1 0 0 / 0.1);
 }
+/* Platinum tier (the Komplett / KI plan): same card, cool metallic look. The accent the card components already use (text-gold / bg-gold / ring-gold ...) is
+   re-pointed to a platinum silver INSIDE the card via .tier-platinum (put it on the card root so the light CTA area follows too), so no component needs a
+   second colour path. Declared before .plan-premium--top so the top part keeps its own border/shadow reset. Motion off for prefers-reduced-motion. */
+.tier-platinum {
+  --gold: oklch(0.92 0.014 245);
+  --gold-foreground: oklch(0.2 0.03 255);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+}
+.plan-premium--platinum {
+  background: linear-gradient(165deg, oklch(0.3 0.038 255) 0%, oklch(0.17 0.03 262) 100%);
+  border-color: oklch(0.9 0.015 245 / 0.8);
+  box-shadow: 0 0 0 1px oklch(0.9 0.02 245 / 0.35), 0 36px 80px -30px oklch(0.82 0.05 235 / 0.45), inset 0 1px 0 oklch(1 0 0 / 0.14);
+}
+.plan-premium--platinum::before {
+  background: radial-gradient(70% 55% at 88% 0%, oklch(0.93 0.05 230 / 0.2), transparent 70%);
+}
+.plan-premium--platinum::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 38%, oklch(1 0 0 / 0.07) 48%, transparent 58%);
+  background-size: 260% 100%;
+  animation: plan-sheen 8s ease-in-out infinite;
+}
+@keyframes plan-sheen {
+  from { background-position: 125% 0; }
+  to { background-position: -45% 0; }
+}
+.plan-premium--platinum.plan-premium--top { border-bottom-color: oklch(0.9 0.015 245 / 0.35); }
+@media (prefers-reduced-motion: reduce) { .plan-premium--platinum::after { animation: none; } }
 .plan-premium--top {
   border: 0;
   border-bottom: 1px solid oklch(0.78 0.14 82 / 0.35);

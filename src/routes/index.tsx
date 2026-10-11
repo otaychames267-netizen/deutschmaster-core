@@ -27,8 +27,8 @@ export const Route = createFileRoute("/")({
 const PLANS = [
   {
     key: "schriftlich",
-    name: "Schriftlich + Mündlich",
-    tag: "ohne KI" as string | null,
+    name: "Gold",
+    tag: "Schriftlich + Mündlich" as string | null,
     desc: "Written exam + Mündlich preparation, no AI",
     descAr: null as string | null,
     features: [] as string[],
@@ -39,14 +39,14 @@ const PLANS = [
   },
   {
     key: "komplett_ai",
-    name: "Komplett",
-    tag: "mit KI" as string | null,
-    desc: "Everything in Schriftlich + your own AI speaking examiner",
+    name: "Platinum",
+    tag: "Komplett · mit KI" as string | null,
+    desc: "Everything in Gold + your own AI examiner and practice partner",
     descAr: null as string | null,
     features: [] as string[],
     benefits: KOMPLETT_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
-    badge: "KI-Sprachtrainer" as string | null,
+    badge: "Most complete" as string | null,
     save: null,
   },
 ];
@@ -571,7 +571,7 @@ function Pricing() {
               key={plan.key}
               className={`relative flex flex-col rounded-2xl border p-7 transition-all hover:-translate-y-1 hover:shadow-xl ${
                 plan.benefits
-                  ? `plan-premium${plan.key === "komplett_ai" ? " plan-premium--pro" : ""}`
+                  ? `plan-premium${plan.key === "komplett_ai" ? " plan-premium--platinum tier-platinum" : ""}`
                   : plan.highlighted
                     ? "border-primary bg-primary text-primary-foreground shadow-xl shadow-primary/20"
                     : "border-border bg-card"

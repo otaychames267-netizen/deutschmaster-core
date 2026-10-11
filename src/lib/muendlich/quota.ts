@@ -13,7 +13,7 @@ export function muendlichQuotaMessage(message: string | null | undefined): strin
     return "Du hast die Monatsgrenze deiner KI-Sitzungen erreicht. Sie startet zu Beginn des nächsten Monats neu. · وصلت للحدّ الشهري متاع حصص الذكاء الاصطناعي. يتجدّد مع بداية الشهر الجاي.";
   }
   if (message.includes("NO_AI_ACCESS")) {
-    return "Der KI-Sprachtrainer ist Teil des Plans „Komplett“. · المدرّب الصوتي بالذكاء الاصطناعي موجود في باقة «Komplett».";
+    return "Der KI-Sprachtrainer ist Teil des Plans „Platinum“. · المدرّب الصوتي بالذكاء الاصطناعي موجود في باقة «Platinum».";
   }
   if (message.includes("MUENDLICH_AI_QUOTA_BUDGET")) {
     return "Dein monatliches KI-Kontingent ist aufgebraucht. Es wird zu Beginn des nächsten Monats erneuert. · خلصت حصّتك الشهرية من الذكاء الاصطناعي. تتجدّد مع بداية الشهر الجاي.";

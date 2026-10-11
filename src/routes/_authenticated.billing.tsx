@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import {
   CreditCard, CheckCircle2, AlertCircle, Star,
   Check, Shield, Zap, Clock, RefreshCw,
-  Crown, Calendar, TrendingUp, BookOpen,
+  Award, Gem, Calendar, TrendingUp, BookOpen,
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
   Landmark, Smartphone, Building2, ShieldCheck,
 } from "lucide-react";
@@ -24,9 +24,9 @@ export const Route = createFileRoute("/_authenticated/billing")({
 const PLANS = [
   {
     code: "schriftlich",
-    name: "Schriftlich + Mündlich",
-    tag: "ohne KI" as string | null,
-    icon: PenLine,
+    name: "Gold",
+    tag: "Schriftlich + Mündlich" as string | null,
+    icon: Award,
     tagline: "Written exam + Mündlich preparation, no AI",
     taglineAr: null as string | null,
     color: "violet",
@@ -39,10 +39,10 @@ const PLANS = [
   },
   {
     code: "komplett_ai",
-    name: "Komplett",
-    tag: "mit KI" as string | null,
-    icon: Crown,
-    tagline: "Everything in Schriftlich + your own AI speaking examiner",
+    name: "Platinum",
+    tag: "Komplett · mit KI" as string | null,
+    icon: Gem,
+    tagline: "Everything in Gold + your own AI examiner and practice partner",
     taglineAr: null as string | null,
     benefits: KOMPLETT_BENEFITS as PlanBenefit[] | null,
     color: "violet",
@@ -50,15 +50,15 @@ const PLANS = [
     gradientTo: "#8b5cf6",
     features: [] as string[],
     highlighted: true,
-    badge: "KI-Sprachtrainer" as string | null,
+    badge: "Most complete" as string | null,
   },
 ];
 
 /** How an active subscription's plan code is shown to the student. */
 const PLAN_DISPLAY: Record<string, string> = {
-  schriftlich: "Schriftlich + Mündlich (ohne KI)",
+  schriftlich: "Gold — Schriftlich + Mündlich (ohne KI)",
   komplett: "Komplett",
-  komplett_ai: "Komplett (mit KI-Sprachtrainer)",
+  komplett_ai: "Platinum — Komplett mit KI-Sprachtrainer",
   muendlich: "Mündlich",
   premium: "Premium",
 };
@@ -236,7 +236,7 @@ function BillingPage() {
                 key={plan.code}
                 className={`relative flex flex-col rounded-2xl border transition-all ${
                   premium
-                    ? "border-gold/45 bg-card shadow-xl shadow-black/10"
+                    ? `border-gold/45 bg-card shadow-xl shadow-black/10${plan.code === "komplett_ai" ? " tier-platinum" : ""}`
                     : `p-6 ${plan.highlighted
                         ? `ring-2 ${c.ring} border-transparent ${c.bg} shadow-lg`
                         : "border-border bg-card hover:border-border/80 hover:shadow-md"}`
@@ -251,7 +251,7 @@ function BillingPage() {
                   </div>
                 )}
 
-                <div className={premium ? `plan-premium plan-premium--top rounded-t-2xl p-6${plan.code === "komplett_ai" ? " plan-premium--pro" : ""}` : "flex flex-1 flex-col"}>
+                <div className={premium ? `plan-premium plan-premium--top rounded-t-2xl p-6${plan.code === "komplett_ai" ? " plan-premium--platinum" : ""}` : "flex flex-1 flex-col"}>
                 {/* Plan header */}
                 <div className="mb-5">
                   <div className="flex items-center gap-2 mb-3">
@@ -314,7 +314,7 @@ function BillingPage() {
                             title={unavailable ? "D17 is temporarily unavailable — please use another method." : `Pay with ${m.name}, then send your receipt on WhatsApp.`}
                             className={`group flex w-full items-center gap-3 rounded-xl border border-border bg-card px-3.5 py-3 text-left transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:shadow-none ${premium ? "hover:border-gold/60" : "hover:border-foreground/25"}`}
                           >
-                            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${premium ? "bg-gold/15 text-amber-600 dark:text-amber-400" : `${c.bg} ${c.text}`}`}>
+                            <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${premium ? (plan.code === "komplett_ai" ? "bg-slate-500/15 text-slate-600 dark:text-slate-300" : "bg-gold/15 text-amber-600 dark:text-amber-400") : `${c.bg} ${c.text}`}`}>
                               <m.icon className="h-4.5 w-4.5" />
                             </span>
                             <span className="min-w-0 flex-1">

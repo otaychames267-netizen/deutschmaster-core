@@ -70,7 +70,7 @@ function VoiceTutorPicker() {
   if (!hasAccess) {
     return (
       <div className="mx-auto max-w-lg p-6 text-center">
-        <p className="text-sm text-muted-foreground">Der KI-Sprachtrainer gehört zum Plan „Komplett“. Du kannst ihn auf der Seite „Abonnement“ freischalten.</p>
+        <p className="text-sm text-muted-foreground">Der KI-Sprachtrainer gehört zum Plan „Platinum“. Du kannst ihn auf der Seite „Abonnement“ freischalten.</p>
       </div>
     );
   }

@@ -14,10 +14,10 @@ export const Route = createFileRoute("/_authenticated/paiement/$orderId")({
 });
 
 const PLAN_LABEL: Record<string, string> = {
-  schriftlich: "Schriftlich + Mündlich (ohne KI)",
+  schriftlich: "Gold – Schriftlich + Mündlich (ohne KI)",
   muendlich: "Mündlich",
   komplett: "Komplett",
-  komplett_ai: "Komplett",
+  komplett_ai: "Platinum – Komplett mit KI",
 };
 
 function CopyRow({ label, value }: { label: string; value: string }) {

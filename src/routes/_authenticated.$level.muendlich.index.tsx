@@ -251,9 +251,9 @@ function MuendlichIndexPage() {
             <LockedBigActionCard
               icon={Bot}
               title="KI-Sprachtrainer"
-              description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards. Included in the Komplett plan."
+              description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards. Included in the Platinum plan."
               meta={{ duration: "~12 min", detail: "1:1 · KI-Prüferin" }}
-              badge="Komplett"
+              badge="Platinum"
               href="/billing"
             />
           )}
