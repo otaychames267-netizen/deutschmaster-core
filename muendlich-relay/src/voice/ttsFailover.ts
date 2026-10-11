@@ -45,6 +45,10 @@ export function fallbackVoiceFor(deepinfraVoiceId: string): string | null {
   return FALLBACK_VOICES[role][gender];
 }
 
+let failoverListener: ((info: { status: number | null; detail: string }) => void) | null = null;
+/** opsWatch.ts registers here to be told the moment the breaker opens (a new outage, not every sentence). */
+export function setFailoverListener(fn: ((info: { status: number | null; detail: string }) => void) | null): void { failoverListener = fn; }
+
 let downUntil = 0, lastReason = "", trips = 0, failoverSentences = 0, failoverChars = 0, openedAt = 0;
 
 export function breakerOpen(now = Date.now()): boolean { return now < downUntil; }
@@ -53,7 +57,7 @@ export function breakerOpen(now = Date.now()): boolean { return now < downUntil;
 export function tripBreaker(status: number | null, detail: string, now = Date.now()): number {
   const hold = holdMsFor(status);
   if (hold === 0) return 0;
-  if (now >= downUntil) { trips++; openedAt = now; console.warn(`[tts-failover] DeepInfra failed (${status ?? "network"}: ${detail.slice(0, 120)}) — speaking with ElevenLabs for the next ${Math.round(hold / 1000)} s`); }
+  if (now >= downUntil) { trips++; openedAt = now; try { failoverListener?.({ status, detail }); } catch { /* an alert problem must never break speech */ } console.warn(`[tts-failover] DeepInfra failed (${status ?? "network"}: ${detail.slice(0, 120)}) — speaking with ElevenLabs for the next ${Math.round(hold / 1000)} s`); }
   downUntil = Math.max(downUntil, now + hold);
   lastReason = `${status ?? "network"}: ${detail.slice(0, 200)}`;
   return hold;

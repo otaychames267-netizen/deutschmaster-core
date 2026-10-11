@@ -97,6 +97,7 @@ import { SpeechDetector } from "./speechActivity.js";
 import { recordExamCost, addTokens, ZERO_TOKENS, type TokenUsage } from "./voice/examCostRecord.js";
 import { examProvider, tutorProvider } from "./voice/voicePools.js";
 import { getTtsFailoverStats } from "./voice/ttsFailover.js";
+import { startOpsWatch, getOpsSnapshot, opsSecret } from "./opsWatch.js";
 import { tutorSpeculateSilenceMs, tutorHoldSilenceMs, tutorAnswerWindowExpired, roomStageEndReached, roomTakeoverWindowExpired } from "./tutorTiming.js";
 import type { TutorTurnOptions } from "./voice/tutorVoiceSession.js";
 import type { AckKind } from "./examinerPhrases.js";
@@ -2094,6 +2095,12 @@ async function startTutorSession(
 
 const httpServer = createServer((_req, res) => {
   // GET /health/tts — is the primary TTS (DeepInfra) in failover right now? (owner monitoring; no secrets in it)
+  // GET /health/ops — provider balances/health as the watchdog sees them; needs the shared secret (it shows account balances)
+  if ((_req.url ?? "").split("?")[0] === "/health/ops") {
+    const s = opsSecret();
+    if (!s || _req.headers["x-ops-secret"] !== s) { res.writeHead(404); res.end(); return; }
+    res.writeHead(200, { "content-type": "application/json" }); res.end(JSON.stringify(getOpsSnapshot())); return;
+  }
   if ((_req.url ?? "").split("?")[0] === "/health/tts") { res.writeHead(200, { "content-type": "application/json" }); res.end(JSON.stringify(getTtsFailoverStats())); return; }
   res.writeHead(200); res.end("muendlich-relay ok");
 });
@@ -2355,4 +2362,4 @@ tutorWss.on("connection", async (ws, req) => {
   }
 });
 
-httpServer.listen(PORT, () => console.log(`muendlich-relay listening on :${PORT}`));
+httpServer.listen(PORT, () => { console.log(`muendlich-relay listening on :${PORT}`); startOpsWatch(); });
