@@ -22,7 +22,7 @@ export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
   { icon: Headphones, title: "Hören", ar: "مواضيع الأجزاء الثلاثة + ترجمة وتلميح لكل إجابة", highlight: true },
   { icon: Puzzle, title: "Sprachbausteine", ar: "كل المواضيع + شرح القاعدة لكل فراغ", highlight: true },
   { icon: PenLine, title: "Schreiben", ar: "تمارين Beschwerde و Bitte" },
-  { icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بالذكاء الاصطناعي بمعايير TELC B2، ولكل اشتراك 30 تصحيحاً", highlight: true },
+  { icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بالذكاء الاصطناعي بمعايير TELC B2: 30 تصحيحاً لكل شهر (و60 مع باقة الشهرين)", highlight: true },
   { icon: Sparkles, title: "2 Struktur Schreiben", ar: "خاصان بك وحدك", highlight: true },
   { icon: Timer, title: "Prüfungssimulation", ar: "امتحان كتابي كامل بنفس هيكل TELC B2 وعدّاد واحد 145 دقيقة، مع تصحيح الـSchreiben بالذكاء الاصطناعي — وبلا حدّ لعدد المحاكاة", highlight: true },
   { icon: Mic, title: "Mündlich", ar: "كل مواضيع الأجزاء الثلاثة + نصائح وعبارات، بدون AI", highlight: true },

@@ -194,6 +194,14 @@ export const adminApproveManualPaymentOrder = createServerFn({ method: "POST" })
     });
     if (grantError) throw new Error(grantError.message);
 
+    // A 2-month pack carries two months' worth of Schreiben corrections (owner 2026-10-11: 60 instead of 30). The grant above set the essay-credit wallet to 30
+    // (one month); provision_essay_credits SETS the balance (it is not additive), so granting 30 x months here lands on exactly 60 and is safe to repeat.
+    const termMonths = Number(order.months) === 2 ? 2 : 1;
+    if (termMonths === 2 && ["schriftlich", "komplett", "komplett_ai"].includes(order.plan_code)) {
+      const { error: creditError } = await db.rpc("provision_essay_credits", { p_user_id: order.user_id, p_amount: 30 * termMonths, p_reason: `manual_payment_${order.method}_${termMonths}_months` });
+      if (creditError) throw new Error(`Subscription granted but the 2-month credit top-up failed: ${creditError.message} — approve again to retry.`);
+    }
+
     const { error: updateError } = await db
       .from("manual_payment_orders")
       .update({ status: "approved", resolved_at: new Date().toISOString(), resolved_by: context.userId, updated_at: new Date().toISOString() })
