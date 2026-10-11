@@ -178,6 +178,7 @@ async function main() {
     try {
       if (stage === 1 && !presented) { presented = true; await speak(`Die Prüferin hat dich begrüßt. Halte jetzt deine Präsentation zum Thema „${m1.title}“. Sprich etwa 65 Sekunden lang (ca. 150 Wörter), in der Ich-Form, zusammenhängend, mit Beispielen aus deinem Leben.`, "Präsentation"); }
       else if (stage === 3) await speak(`Ihr plant gemeinsam: „${m3.title}“. Reagiere auf das, was dein Partner/deine Partnerin gerade gesagt hat, und mach einen konkreten Vorschlag. Sprich 1 bis 3 Sätze (etwa 10 Sekunden).`, "Planung");
+      else if (stage === 2 && heard.some((x) => x.who === "partner")) await speak(`Du führst ein Gespräch mit deinem Partner/deiner Partnerin über das Thema „${m2.title}“. Er/sie hat gerade gesagt: „${heard.map((x) => x.text).join(" ")}“. Reagiere darauf mit deiner Meinung und einem Grund. Sprich 2 bis 3 Sätze (etwa 12 Sekunden).`, "Teil 2 Gespräch");
       else await speak(`Die Prüferin hat gerade gesagt: „${heard.map((h) => h.text).join(" ")}“ (Thema ${stage === 2 ? m2.title : m1.title}). Antworte darauf in 2 bis 3 Sätzen (etwa 12 Sekunden).`, stage === 2 ? "Teil 2 Antwort" : "Teil 1 Antwort");
     } catch (e) { log(`candidate turn failed: ${e.message}`); await sleep(2000); }
   }

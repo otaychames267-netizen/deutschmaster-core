@@ -259,6 +259,9 @@ const TUTOR_TEIL1_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEI
 // pattern as Teil 1's exactly-N just with a bigger N.
 const TUTOR_TEIL2_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL2_QUESTIONS ?? 5); // owner 2026-10-11: 5 (was 6)
 const TUTOR_TEIL2_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL2_ANSWER_WINDOW_SECONDS ?? 40);
+// Owner 2026-10-11: Teil 2 is a real discussion WITH the AI practice partner (Teil 1 stays human-only with the examiner; the partner speaks in Teil 2 and 3). The examiner
+// only announces the topic and the next Teil. MUENDLICH_TUTOR_TEIL2_PARTNER=0 restores the examiner-led Q&A.
+const TUTOR_TEIL2_PARTNER = process.env.MUENDLICH_TUTOR_TEIL2_PARTNER !== "0";
 // Teil 3: the AI plays an active study-partner role (see tutorBrain.ts's
 // buildTeil3Prompt) for a fixed number of conversational turns, same pattern
 // again. "Answer window" here bounds the STUDENT's response to each of the
@@ -1694,6 +1697,18 @@ function openTutorTeil1Question(session: TutorSession, ctx: TutorContext, turn?:
   );
 }
 
+/** Teil 2 in partner mode: one discussion contribution of the AI partner (the first one opens the conversation), then the student reacts (fixed count, like the questions). */
+function openTutorTeil2PartnerTurn(session: TutorSession, ctx: TutorContext, turn?: TutorTurnOptions): Promise<void> | void {
+  const opening = session.questionIndex === 1 ? " Das ist der erste Beitrag: Eröffnen Sie das Gespräch." : "";
+  return session.live?.sendSystemMessage(
+    `Bringen Sie jetzt Ihren nächsten Gesprächsbeitrag zum Thema (Beitrag ${session.questionIndex} von ${TUTOR_TEIL2_QUESTIONS}) — als Partner, nicht als Prüfer.${opening} ${ctx.studentName} hat maximal ${TUTOR_TEIL2_ANSWER_WINDOW_SECONDS} Sekunden Zeit zu reagieren — diese Zahl ist NUR für Sie, erwähnen Sie sie nicht.${turn?.ack ? TUTOR_NO_THANKS_HINT : ""}`,
+    turn,
+  );
+}
+/** The Teil 2 prompt for the current mode (partner discussion or examiner question). */
+function openTutorTeil2Prompt(session: TutorSession, ctx: TutorContext, turn?: TutorTurnOptions): Promise<void> | void {
+  return TUTOR_TEIL2_PARTNER ? openTutorTeil2PartnerTurn(session, ctx, turn) : openTutorTeil2Question(session, ctx, turn);
+}
 /** Teil 2's question-asking instruction — GENAU TUTOR_TEIL2_QUESTIONS
  * questions (fixed count, not time-boxed — see tutorTickTeil2()). */
 function openTutorTeil2Question(session: TutorSession, ctx: TutorContext, turn?: TutorTurnOptions): Promise<void> | void {
@@ -1731,11 +1746,14 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
   await session.live?.speakScriptedLine(pickSoloSectionTransition12Line({ teil2Topic: session.teil2TopicTitle }, voiceId));
   if (session.ended) return; // session could have been ended (cap/error) while the transition line was still playing
   session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into Q1's idle budget, same reasoning as the session-opening line's identical reset
+  // The examiner has announced Teil 2; from here the AI is the student's practice PARTNER (a different voice) for the discussion.
+  if (TUTOR_TEIL2_PARTNER) await session.live?.setPartnerStage(session.teil2Topic, 2);
+  if (session.ended) return;
   session.questionIndex = 1;
   resetQuestionState(session);
   session.phaseStartedAt = 0; // clock paused until Q1 has been asked AND heard (startTutorClockAfter)
   session.advancingStage = false; // only now is it safe for tutorTick() to evaluate Teil 2's timing — see the field's doc comment
-  startTutorClockAfter(session, openTutorTeil2Question(session, ctx), () => session.teilStage === 2 && session.questionIndex === 1);
+  startTutorClockAfter(session, openTutorTeil2Prompt(session, ctx), () => session.teilStage === 2 && session.questionIndex === 1);
 }
 
 /** Teil 2 complete -> Teil 3 begins: scripted transition line, spoken AS
@@ -1744,6 +1762,7 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
  * finishes does setPartnerStage() actually flip the voice/persona — see
  * that method's own doc comment for why the order matters. */
 async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
+  if (TUTOR_TEIL2_PARTNER) session.live?.setExaminerPersona(); // the Teil 2 -> 3 announcement is the examiner's, not the partner's
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
   // Title only — same reasoning as startTutorTeil2's identical fix.
   await session.live?.speakScriptedLine(pickSoloSectionTransition23Line({ teil3Topic: session.teil3TopicTitle }, voiceId));
@@ -1849,8 +1868,9 @@ function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
       resetQuestionState(session);
       session.phaseStartedAt = 0;
       const qi = session.questionIndex;
-      const turn = reason === "looks finished" ? guardedTurn(session, snap, spokenMs, "examiner") : { ack: "examiner" as const };
-      startTutorClockAfter(session, openTutorTeil2Question(session, ctx, turn), () => session.teilStage === 2 && session.questionIndex === qi);
+      const ackKind: AckKind = TUTOR_TEIL2_PARTNER ? "partner" : "examiner";
+      const turn = reason === "looks finished" ? guardedTurn(session, snap, spokenMs, ackKind) : { ack: ackKind };
+      startTutorClockAfter(session, openTutorTeil2Prompt(session, ctx, turn), () => session.teilStage === 2 && session.questionIndex === qi);
       return;
     }
 
@@ -2004,12 +2024,9 @@ async function startTutorSession(
   session.live = await openTutorVoiceSession(ctx, session.sessionId, {
     onOpen: () => {},
     onAudioChunk: (b64) => send(ws, { type: "audio", data: b64 }),
-    // Deterministic from teilStage alone: Teil 1/2 are always the examiner,
-    // Teil 3 is always the partner (see tutorVoiceSession.ts's own identical
-    // speakingIsPartner check for why this mapping holds for every call site
-    // including the Teil2->3 transition line itself, spoken while teilStage
-    // is still 2/examiner).
-    onOutputTranscript: (text) => logTutorTranscript(session, session.teilStage === 3 ? "partner" : "examiner", text),
+    // The voice session reports who spoke (since 2026-10-11 the partner talks in Teil 2 and 3, and the examiner says the transition and closing lines in
+    // between), so the label no longer depends on teilStage; the stage mapping below is only a fallback for a callback without a speaker.
+    onOutputTranscript: (text, speaker) => logTutorTranscript(session, speaker ?? (session.teilStage === 3 ? "partner" : "examiner"), text),
     onInputTranscript: (text) => {
       session.studentAnswerText += ` ${text}`;
       logTutorTranscript(session, "student", text);

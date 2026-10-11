@@ -57,7 +57,8 @@ const partnerVoices = new VoiceManager(getTutorPool(TUTOR_PARTNER_POOL), createS
 export interface TutorVoiceCallbacks {
   onOpen?: () => void;
   onAudioChunk?: (base64: string) => void;
-  onOutputTranscript?: (text: string) => void;
+  /** speaker = who actually spoke it (the practice partner in Teil 2/3, the examiner otherwise) — the stage alone no longer tells since Teil 2 has a partner too. */
+  onOutputTranscript?: (text: string, speaker?: "examiner" | "partner") => void;
   onInputTranscript?: (text: string) => void;
   onError?: (message: string) => void;
   onClose?: (reason: string) => void;
@@ -111,7 +112,10 @@ export interface TutorVoiceSession {
    * calls made to deliver the Teil2->3 TRANSITION line itself still use the
    * examiner voice (that line is spoken as the examiner, announcing the
    * switch) — call this only once that line has finished. */
-  setPartnerStage(teil3Topic: string): Promise<void>;
+  setPartnerStage(topic: string, stage?: 2 | 3): Promise<void>;
+  /** Back to the examiner's voice/persona (owner 2026-10-11: the partner also speaks in Teil 2) — used for the Teil 2 -> 3 transition line, which the
+   * examiner speaks before the partner continues in Teil 3. */
+  setExaminerPersona(): void;
   /** The examiner's ElevenLabs voice ID — needed to pick a style-consistent
    * scripted-phrase variant (tutorPhrases.ts's pickTeil1ToTeil2/
    * pickTeil2ToTeil3) before speaking it, same reasoning as
@@ -174,11 +178,14 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   // Set once the exam is being closed: the EXAMINER says the closing line in her own voice (a fellow-candidate partner closing the exam would
   // sound wrong), even though ctx.stage is still 3 at that point.
   let closingByExaminer = false;
+  // Which persona speaks is no longer a function of the stage alone: the partner talks in Teil 2 AND Teil 3 (owner 2026-10-11), the examiner in Teil 1,
+  // for the two transition lines and for the closing line. setPartnerStage() / setExaminerPersona() flip it.
+  let partnerActive = false;
   function isPartnerSpeaking(): boolean {
-    return !closingByExaminer && ctx.stage === 3 && !!partnerVoice;
+    return !closingByExaminer && partnerActive && !!partnerVoice;
   }
   function activeVoiceId(): string {
-    return !closingByExaminer && ctx.stage === 3 && partnerVoice ? partnerVoice.voiceId : voice.voiceId;
+    return isPartnerSpeaking() && partnerVoice ? partnerVoice.voiceId : voice.voiceId;
   }
 
   const history: TutorHistoryTurn[] = [];
@@ -394,7 +401,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
       if (reply && myId === currentGenerationId) {
         history.push({ stage: speakingStage, speaker: speakingIsPartner ? "partner" : "examiner", text: reply });
-        callbacks.onOutputTranscript?.(reply);
+        callbacks.onOutputTranscript?.(reply, speakingIsPartner ? "partner" : "examiner");
       }
     } catch (e) {
       // Real bug found via live testing (2026-09-29): a post-connection TTS
@@ -424,8 +431,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     if (closed) return;
     if (text.length > charBudgetRemaining()) {
       console.warn(`[tutor voice] ${MAX_ELEVENLABS_CHARS_PER_SESSION}-char ceiling reached for session ${sessionId} — skipping scripted utterance`);
-      history.push({ stage: ctx.stage, speaker: "examiner", text });
-      callbacks.onOutputTranscript?.(text);
+      const ceilingSpeaker = isPartnerSpeaking() ? "partner" : "examiner";
+      history.push({ stage: ctx.stage, speaker: ceilingSpeaker, text });
+      callbacks.onOutputTranscript?.(text, ceilingSpeaker);
       return;
     }
     currentAbort?.abort();
@@ -454,7 +462,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       if (myId === currentGenerationId) {
         currentAbort = null;
         history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text });
-        callbacks.onOutputTranscript?.(text);
+        callbacks.onOutputTranscript?.(text, speakingIsPartner ? "partner" : "examiner");
       }
       return;
     }
@@ -491,7 +499,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
 
       if (myId === currentGenerationId) {
         history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text });
-        callbacks.onOutputTranscript?.(text);
+        callbacks.onOutputTranscript?.(text, speakingIsPartner ? "partner" : "examiner");
       }
     } catch (e) {
       // Same fix as speak()'s identical catch block, same reasoning — a
@@ -503,7 +511,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       console.error(`[tutor voice] speakScriptedText() failed for session ${sessionId}, skipping this utterance's audio:`, e);
       if (myId === currentGenerationId) {
         history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text });
-        callbacks.onOutputTranscript?.(text);
+        callbacks.onOutputTranscript?.(text, speakingIsPartner ? "partner" : "examiner");
       }
     } finally {
       if (conn) { try { conn.close(); } catch {} }
@@ -532,7 +540,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       // No ttsCharacters increment: a cached clip costs nothing at runtime — that is the whole point.
       if (myId === currentGenerationId) {
         history.push({ stage: ctx.stage, speaker: speakingIsPartner ? "partner" : "examiner", text: spokenText });
-        callbacks.onOutputTranscript?.(spokenText);
+        callbacks.onOutputTranscript?.(spokenText, speakingIsPartner ? "partner" : "examiner");
       }
     } catch (e) {
       // a missing / unreadable clip is one line's audio, never a reason to end a practice session
@@ -643,13 +651,18 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
         void partnerVoices.assignVoice(`${sessionId}:partner`, TUTOR_PARTNER_POOL).then((p) => warmUpLiveVoice(p.voiceId)).catch(() => {});
       }
     },
-    async setPartnerStage(teil3Topic) {
+    setExaminerPersona() {
+      partnerActive = false;
+      ctx = { ...ctx, partner: false };
+    },
+    async setPartnerStage(topic, stage = 3) {
       // Different assignment key (`${sessionId}:partner`) than the
       // examiner's own `sessionId` — see this function's own interface doc
       // comment for why that reliably lands on a different voice.
       partnerVoice = await partnerVoices.assignVoice(`${sessionId}:partner`, TUTOR_PARTNER_POOL);
       // The partner pool is disjoint from the examiner pool (voices.config.ts), so the partner is always a different person than the examiner.
-      ctx = { ...ctx, stage: 3, teil3Topic };
+      partnerActive = true;
+      ctx = stage === 3 ? { ...ctx, stage: 3, teil3Topic: topic, partner: true } : { ...ctx, stage: 2, teil2Topic: topic, partner: true };
     },
     getVoiceId() {
       return voice.voiceId;
