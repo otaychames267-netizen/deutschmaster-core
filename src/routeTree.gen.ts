@@ -41,6 +41,7 @@ import { Route as AuthenticatedTimerRouteImport } from './routes/_authenticated.
 import { Route as AuthenticatedVerifyEmailRouteImport } from './routes/_authenticated.verify-email'
 import { Route as AuthenticatedWeeklyGoalsRouteImport } from './routes/_authenticated.weekly-goals'
 import { Route as AuthenticatedWoerterRouteImport } from './routes/_authenticated.woerter'
+import { Route as ApiOpsAlertRouteImport } from './routes/api.ops-alert'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedLevelDashboardRouteImport } from './routes/_authenticated.$level.dashboard'
 import { Route as AuthenticatedLevelMuendlichRouteImport } from './routes/_authenticated.$level.muendlich'
@@ -296,6 +297,11 @@ const AuthenticatedWoerterRoute = AuthenticatedWoerterRouteImport.update({
   id: '/woerter',
   path: '/woerter',
   getParentRoute: () => AuthenticatedRoute,
+} as any)
+const ApiOpsAlertRoute = ApiOpsAlertRouteImport.update({
+  id: '/api/ops-alert',
+  path: '/api/ops-alert',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthCallbackRoute = AuthCallbackRouteImport.update({
   id: '/auth/callback',
@@ -879,6 +885,7 @@ export interface FileRoutesByFullPath {
   '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/woerter': typeof AuthenticatedWoerterRoute
+  '/api/ops-alert': typeof ApiOpsAlertRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
@@ -1002,6 +1009,7 @@ export interface FileRoutesByTo {
   '/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/woerter': typeof AuthenticatedWoerterRoute
+  '/api/ops-alert': typeof ApiOpsAlertRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/$level/search': typeof AuthenticatedLevelSearchRoute
@@ -1125,6 +1133,7 @@ export interface FileRoutesById {
   '/_authenticated/verify-email': typeof AuthenticatedVerifyEmailRoute
   '/_authenticated/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/_authenticated/woerter': typeof AuthenticatedWoerterRoute
+  '/api/ops-alert': typeof ApiOpsAlertRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
   '/_authenticated/$level/muendlich': typeof AuthenticatedLevelMuendlichRouteWithChildren
@@ -1252,6 +1261,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/weekly-goals'
     | '/woerter'
+    | '/api/ops-alert'
     | '/auth/callback'
     | '/$level/dashboard'
     | '/$level/muendlich'
@@ -1375,6 +1385,7 @@ export interface FileRouteTypes {
     | '/verify-email'
     | '/weekly-goals'
     | '/woerter'
+    | '/api/ops-alert'
     | '/auth/callback'
     | '/$level/dashboard'
     | '/$level/search'
@@ -1497,6 +1508,7 @@ export interface FileRouteTypes {
     | '/_authenticated/verify-email'
     | '/_authenticated/weekly-goals'
     | '/_authenticated/woerter'
+    | '/api/ops-alert'
     | '/auth/callback'
     | '/_authenticated/$level/dashboard'
     | '/_authenticated/$level/muendlich'
@@ -1604,6 +1616,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TermsRoute: typeof TermsRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
+  ApiOpsAlertRoute: typeof ApiOpsAlertRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   ApiAuthForgotPasswordRoute: typeof ApiAuthForgotPasswordRoute
   ApiAuthLoginRoute: typeof ApiAuthLoginRoute
@@ -1842,6 +1855,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/woerter'
       preLoaderRoute: typeof AuthenticatedWoerterRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/api/ops-alert': {
+      id: '/api/ops-alert'
+      path: '/api/ops-alert'
+      fullPath: '/api/ops-alert'
+      preLoaderRoute: typeof ApiOpsAlertRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/auth/callback': {
       id: '/auth/callback'
@@ -2838,6 +2858,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TermsRoute: TermsRoute,
   UnauthorizedRoute: UnauthorizedRoute,
+  ApiOpsAlertRoute: ApiOpsAlertRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   ApiAuthForgotPasswordRoute: ApiAuthForgotPasswordRoute,
   ApiAuthLoginRoute: ApiAuthLoginRoute,
