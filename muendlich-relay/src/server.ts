@@ -1103,7 +1103,8 @@ async function tick(room: RoomSession, ctx: { aName: string; bName: string; teil
       const hasResponded = room.lastSpeechAtBySlot[room.teil1Speaker] > room.teil1PhaseStartedAt;
       const trailingSilenceMs = now - room.lastSpeechAtBySlot[room.teil1Speaker];
       const looksFinished = hasResponded && trailingSilenceMs >= HANDOFF_ACTIVE_SPEECH_MS;
-      const windowExpired = phaseElapsedMs >= windowMs;
+      // Owner 2026-10-11: the 30 s window is a limit, not permission to cut a sentence in half — wait for a pause (max +10 s), like Teil 2's windows.
+      const windowExpired = roomTakeoverWindowExpired(phaseElapsedMs, windowMs, now - room.lastSpeechAtBySlot[room.teil1Speaker]);
       if (looksFinished || windowExpired) {
         const reason = looksFinished ? "looks finished" : "window expired";
         if (room.teil1Phase === "q1") {

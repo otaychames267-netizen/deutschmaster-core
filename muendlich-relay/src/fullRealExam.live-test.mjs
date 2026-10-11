@@ -76,6 +76,13 @@ async function createCandidate(label) {
 
 /** DeepInfra Qwen3-TTS (PCM16 @24 kHz) resampled to the 16 kHz the microphone path carries. */
 async function synthQwen(text, voice) {
+  // Qwen3-TTS is not streaming here: a 25 s answer in one request takes ~10 s before the first sample, which no person would take to start answering.
+  // Synthesising the sentences in parallel makes the latency that of the slowest sentence (~3 s).
+  const parts = text.split(/(?<=[.!?])s+/).filter((p) => p.trim());
+  if (parts.length > 1) return Buffer.concat(await Promise.all(parts.map((p) => synthQwenOne(p, voice))));
+  return synthQwenOne(text, voice);
+}
+async function synthQwenOne(text, voice) {
   for (let attempt = 0; attempt < 4; attempt++) {
     const res = await fetch("https://api.deepinfra.com/v1/openai/audio/speech", {
       method: "POST", headers: { Authorization: `Bearer ${process.env.DEEPINFRA_API_KEY}`, "Content-Type": "application/json" },
@@ -144,7 +151,7 @@ async function main() {
   const examinerSince = [];               // examiner text since the last candidate turn ended
   const transcript = [];                  // { who, text }
   const mic = { A: null, B: null };       // { pcm, pos } being spoken into each mic
-  let lastSpeechEndsAt = 0, speaking = false, lastSpeaker = "B";
+  let lastSpeechEndsAt = 0, speaking = false, lastSpeaker = "B", intermissionUntil = 0; // a person does not talk during the break between two Teile
   const t1 = { speaker: "A", presented: { A: false, B: false }, answers: { A: 0, B: 0 } };
   let turns = 0;
 
@@ -155,7 +162,8 @@ async function main() {
     if (label !== "A") return;
     if (m.type === "audio") { const pcm = Buffer.from(m.data, "base64"); const dur = pcm.length / 48000; examinerChunks.push({ at: Math.max(playbackEndsAt, Date.now()) - t0, pcm }); playbackEndsAt = Math.max(playbackEndsAt, Date.now()) + dur * 1000; return; }
     if (m.type === "transcript" && m.speaker === "examiner") { examinerSince.push(m.text); return; }
-    if (m.type === "stage") { stage = m.stage; log(`=== STAGE ${m.stage} ===`); }
+    if (m.type === "intermission") { intermissionUntil = Date.now() + (m.seconds ?? 15) * 1000; log(`--- intermission (${m.seconds ?? 15}s) ---`); }
+    if (m.type === "stage") { stage = m.stage; intermissionUntil = 0; log(`=== STAGE ${m.stage} ===`); }
     if (m.type === "finished") finished = true;
     if (m.type === "terminated") { terminated = m.reason; log(`TERMINATED: ${m.reason}`); }
   });
@@ -253,6 +261,7 @@ async function main() {
     await sleep(400);
     if (speaking || stage === 0) continue;
     if (Date.now() < playbackEndsAt + 700) continue;               // examiner still talking
+    if (Date.now() < intermissionUntil) continue;                  // break between two Teile
     if (Date.now() < lastSpeechEndsAt + 1200) continue;            // natural gap between turns
     try { await decide(); } catch (e) { log(`candidate turn failed: ${e.message}`); await sleep(2000); }
   }
