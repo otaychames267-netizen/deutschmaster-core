@@ -116,11 +116,11 @@ function VoiceTutorPicker() {
         <h2 className="text-sm font-bold text-foreground">So läuft die Sitzung ab</h2>
         <ol className="mt-2 space-y-1.5 text-xs leading-relaxed text-muted-foreground">
           <li><b className="text-foreground">1 · Themen wählen.</b> Du wählst je ein Thema für Teil 1, 2 und 3 — wie in der echten Prüfung.</li>
-          <li><b className="text-foreground">2 · Sprechen (ca. 15 Minuten).</b> Teil 1: etwa anderthalb Minuten Präsentation und zwei Fragen. Teil 2: sechs Fragen der Prüferin. Teil 3: ihr plant gemeinsam. Die Prüferin lässt dich ausreden und reagiert erst nach einer deutlichen Pause.</li>
+          <li><b className="text-foreground">2 · Sprechen (ca. 12 Minuten).</b> Teil 1: etwa anderthalb Minuten Präsentation und zwei Fragen. Teil 2: fünf Fragen der Prüferin. Teil 3: ihr plant gemeinsam. Die Prüferin lässt dich ausreden und reagiert erst nach einer deutlichen Pause.</li>
           <li><b className="text-foreground">3 · Bericht.</b> Danach bekommst du deinen Korrekturbericht: deine echten Sätze mit Korrektur und Erklärung.</li>
         </ol>
         <p dir="rtl" lang="ar" className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-          اختر موضوعاً لكل جزء، وتكلّم حوالي 15 دقيقة. الممتحِنة تتركك تكمل كلامك وتردّ بعد وقفة واضحة، وفي الآخر يوصلك تقرير بأخطائك مع التصحيح. نصيحة: مكان هادئ وسمّاعات.
+          اختر موضوعاً لكل جزء، وتكلّم حوالي 12 دقيقة. الممتحِنة تتركك تكمل كلامك وتردّ بعد وقفة واضحة، وفي الآخر يوصلك تقرير بأخطائك مع التصحيح. نصيحة: مكان هادئ وسمّاعات.
           جلسة واحدة في اليوم وحتى 30 جلسة في الشهر.
         </p>
       </section>

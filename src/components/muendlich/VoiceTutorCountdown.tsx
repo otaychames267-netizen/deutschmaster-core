@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Clock } from "lucide-react";
 
-/** A full run (Teil 1 -> 2 -> 3) is state-machine bound and measured at ~14-15 min. */
-const EXPECTED_MINUTES = 15;
+/** A full run (Teil 1 -> 2 -> 3) is state-machine bound and measured at ~11-13 min since Teil 2 = 5 and Teil 3 = 6 (2026-10-11). */
+const EXPECTED_MINUTES = 12;
 /** The server's daily cap (45 min, deduct_voice_tutor_seconds) is only a backstop, so it is shown only when it is nearly used up. */
 const CAP_WARNING_SECONDS = 300;
 
@@ -36,7 +36,7 @@ export function VoiceTutorCountdown({ secondsRemaining, running }: { secondsRema
   const mm = String(Math.floor(elapsed / 60)).padStart(2, "0");
   const ss = String(elapsed % 60).padStart(2, "0");
   return (
-    <div className="flex items-center gap-1.5 text-xs font-semibold tabular-nums text-muted-foreground" title="Die gesamte Prüfung dauert etwa 15 Minuten">
+    <div className="flex items-center gap-1.5 text-xs font-semibold tabular-nums text-muted-foreground" title="Die gesamte Prüfung dauert etwa 12 Minuten">
       <Clock className="h-3.5 w-3.5" />
       <span>{mm}:{ss} · ca. {EXPECTED_MINUTES} Min</span>
     </div>

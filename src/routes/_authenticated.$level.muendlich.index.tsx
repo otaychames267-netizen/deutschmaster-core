@@ -244,7 +244,7 @@ function MuendlichIndexPage() {
               highlighted
               title="KI-Sprachtrainer"
               description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards."
-              meta={{ duration: "~15 min", detail: "1:1 · KI-Prüferin" }}
+              meta={{ duration: "~12 min", detail: "1:1 · KI-Prüferin" }}
               href={`/${seg}/muendlich/voice-tutor`}
             />
           ) : (
@@ -252,7 +252,7 @@ function MuendlichIndexPage() {
               icon={Bot}
               title="KI-Sprachtrainer"
               description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards. Included in the Komplett plan."
-              meta={{ duration: "~15 min", detail: "1:1 · KI-Prüferin" }}
+              meta={{ duration: "~12 min", detail: "1:1 · KI-Prüferin" }}
               badge="Komplett"
               href="/billing"
             />
