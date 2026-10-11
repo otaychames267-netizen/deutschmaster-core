@@ -8,6 +8,8 @@ import { MUENDLICH_ENABLED, isPlanPurchasable } from "@/lib/features";
 import { useMuendlichVisible } from "@/lib/useMuendlichVisible";
 import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
+import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
+import { usePlanPricing, termOf, hasTerm, type Months, type SellablePlan } from "@/lib/plans/pricing";
 import i18n from "@/lib/i18n";
 import {
   BookOpen, Headphones, PenLine, Mic,
@@ -27,8 +29,6 @@ const PLANS = [
     key: "schriftlich",
     name: "Schriftlich + Mündlich",
     tag: "ohne KI" as string | null,
-    price: "30",
-    period: " TND",
     desc: "Written exam + Mündlich preparation, no AI",
     descAr: null as string | null,
     features: [] as string[],
@@ -41,8 +41,6 @@ const PLANS = [
     key: "komplett_ai",
     name: "Komplett",
     tag: "mit KI" as string | null,
-    price: "60",
-    period: " TND",
     desc: "Everything in Schriftlich + your own AI speaking examiner",
     descAr: null as string | null,
     features: [] as string[],
@@ -542,6 +540,8 @@ function Features() {
 
 function Pricing() {
   const { t } = useTranslation();
+  const pricing = usePlanPricing();
+  const [months, setMonths] = useState<Months>(1);
 
   return (
     <section id="pricing" className="py-20 sm:py-28">
@@ -556,6 +556,11 @@ function Pricing() {
           <p className="mt-3 text-base text-muted-foreground">
             Choose the plan that matches your exam goals.
           </p>
+          {hasTerm(pricing, 2) && (
+            <div className="mt-8">
+              <TermToggle months={months} onChange={setMonths} pricing={pricing} />
+            </div>
+          )}
         </div>
 
         {/* Only purchasable plans are shown. While Mündlich is disabled, that's
@@ -587,13 +592,8 @@ function Pricing() {
                     <span className="rounded-full border border-gold/50 px-2 py-0.5 text-[10px] font-bold normal-case tracking-wide text-gold">{plan.tag}</span>
                   )}
                 </p>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className={`text-4xl font-bold tracking-tight ${plan.highlighted ? "text-primary-foreground" : "text-foreground"}`}>
-                    {plan.price}
-                  </span>
-                  <span className={`text-sm ${plan.highlighted ? "text-primary-foreground/70" : "text-muted-foreground"}`}>
-                    {plan.period}
-                  </span>
+                <div className="mt-3">
+                  <PriceBlock term={termOf(pricing, plan.key as SellablePlan, months)} offerEndsAt={pricing[plan.key as SellablePlan].offerEndsAt} />
                 </div>
                 <p className={`mt-2 text-xs leading-relaxed ${plan.highlighted ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
                   {plan.desc}

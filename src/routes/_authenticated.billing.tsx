@@ -13,6 +13,8 @@ import {
   Landmark, Smartphone, Building2, ShieldCheck,
 } from "lucide-react";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
+import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
+import { usePlanPricing, termOf, hasTerm, type Months, type SellablePlan } from "@/lib/plans/pricing";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   component: BillingPage,
@@ -25,8 +27,6 @@ const PLANS = [
     name: "Schriftlich + Mündlich",
     tag: "ohne KI" as string | null,
     icon: PenLine,
-    price_tnd: 30,
-    period: "/month",
     tagline: "Written exam + Mündlich preparation, no AI",
     taglineAr: null as string | null,
     color: "violet",
@@ -42,8 +42,6 @@ const PLANS = [
     name: "Komplett",
     tag: "mit KI" as string | null,
     icon: Crown,
-    price_tnd: 60,
-    period: "/month",
     tagline: "Everything in Schriftlich + your own AI speaking examiner",
     taglineAr: null as string | null,
     benefits: KOMPLETT_BENEFITS as PlanBenefit[] | null,
@@ -96,12 +94,14 @@ function BillingPage() {
   const [d17Disabled, setD17Disabled] = useState(false);
   const [manualPlan, setManualPlan] = useState<string | null>(null);
   const [manualMethod, setManualMethod] = useState<ManualMethod | null>(null);
+  const pricing = usePlanPricing();
+  const [months, setMonths] = useState<Months>(1);
 
-  async function handleManualPayment(planCode: "schriftlich" | "komplett_ai", method: ManualMethod) {
+  async function handleManualPayment(planCode: SellablePlan, method: ManualMethod) {
     setManualPlan(planCode);
     setManualMethod(method);
     try {
-      const order = await createManualPaymentOrder({ data: { plan_code: planCode, method } });
+      const order = await createManualPaymentOrder({ data: { plan_code: planCode, method, months } });
       nav({ to: "/paiement/$orderId", params: { orderId: order.id } });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Could not start payment. Please try again.");
@@ -220,6 +220,11 @@ function BillingPage() {
           <h2 className="text-lg font-black text-foreground">Available plans</h2>
           <p className="text-sm text-muted-foreground">Choose the plan that fits your exam goals. Cancel anytime.</p>
         </div>
+        {hasTerm(pricing, 2) && (
+          <div className="mt-6 pb-1">
+            <TermToggle months={months} onChange={setMonths} pricing={pricing} />
+          </div>
+        )}
 
         <div className={`grid gap-5 pt-4 ${visiblePlans.length === 1 ? "mx-auto max-w-md grid-cols-1" : "mx-auto max-w-4xl md:grid-cols-2"}`}>
           {visiblePlans.map((plan) => {
@@ -260,10 +265,7 @@ function BillingPage() {
                       )}
                     </p>
                   </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className={`text-4xl font-black tracking-tight ${premium ? "text-white" : "text-foreground"}`}>{plan.price_tnd}</span>
-                    <span className={`text-sm font-semibold ${premium ? "text-white/60" : "text-muted-foreground"}`}>TND{plan.period}</span>
-                  </div>
+                  <PriceBlock term={termOf(pricing, plan.code as SellablePlan, months)} offerEndsAt={pricing[plan.code as SellablePlan].offerEndsAt} />
                   <p className={`mt-1 text-xs ${premium ? "text-white/70" : "text-muted-foreground"}`}>{plan.tagline}</p>
                   {plan.taglineAr && (
                     <p dir="rtl" lang="ar" className="mt-1 text-[13px] font-medium leading-relaxed text-foreground/80">{plan.taglineAr}</p>
@@ -295,7 +297,10 @@ function BillingPage() {
                   </div>
                 ) : (
                   <div>
-                    <p className="mb-2.5 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Choose how to pay</p>
+                    <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Choose how to pay</p>
+                    <p className="mb-2.5 text-xs text-muted-foreground">
+                      You pay <b className="text-foreground">{termOf(pricing, plan.code as SellablePlan, months).price} TND</b> once for {months === 2 ? "2 months" : "1 month"} of access.
+                    </p>
                     <div className="space-y-2">
                       {PAYMENT_METHODS.map((m) => {
                         const unavailable = m.id === "d17" && d17Disabled;
@@ -304,7 +309,7 @@ function BillingPage() {
                           <button
                             key={m.id}
                             type="button"
-                            onClick={() => handleManualPayment(plan.code as "schriftlich" | "komplett_ai", m.id)}
+                            onClick={() => handleManualPayment(plan.code as SellablePlan, m.id)}
                             disabled={manualPlan !== null || unavailable}
                             title={unavailable ? "D17 is temporarily unavailable — please use another method." : `Pay with ${m.name}, then send your receipt on WhatsApp.`}
                             className={`group flex w-full items-center gap-3 rounded-xl border border-border bg-card px-3.5 py-3 text-left transition-all hover:shadow-md disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:shadow-none ${premium ? "hover:border-gold/60" : "hover:border-foreground/25"}`}

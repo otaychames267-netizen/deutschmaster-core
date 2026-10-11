@@ -37,7 +37,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "What are the available plans and prices?",
-        a: "Schriftlich + Mündlich (ohne KI): 30 TND/month — the whole written exam (Lesen, Hören, Sprachbausteine, Schreiben, timed exam simulations) plus the Mündlich preparation cards. Komplett: 60 TND/month — everything in Schriftlich plus the KI-Sprachtrainer: speaking practice with an AI examiner (Teil 1, 2 and 3), with a correction report after each session. The KI-Sprachtrainer is a fair-use service: one session per day and up to 30 sessions per month.",
+        a: "Schriftlich + Mündlich (ohne KI): 30 TND for 1 month or 50 TND for 2 months — the whole written exam (Lesen, Hören, Sprachbausteine, Schreiben, timed exam simulations) plus the Mündlich preparation cards. Komplett: 55 TND for 1 month or 110 TND for 2 months (launch offer; regular price 65 / 130 TND) — everything in Schriftlich plus the KI-Sprachtrainer: speaking practice with an AI examiner (Teil 1, 2 and 3), with a correction report after each session. The KI-Sprachtrainer is a fair-use service: one session per day and up to 30 sessions per month.",
       },
       {
         q: "How do I upgrade or change my plan?",

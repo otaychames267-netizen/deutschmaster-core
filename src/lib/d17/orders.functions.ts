@@ -128,14 +128,12 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
       throw new Error("Manual D17 payment is temporarily unavailable. Please use card payment instead.");
     }
 
-    const { data: plan, error: planError } = await supabaseAdmin
-      .from("plans")
-      .select("price_tnd")
-      .eq("code", planCode)
-      .single();
-    if (planError || !plan) {
+    // plan_term_price = the amount charged NOW (includes a launch offer's end date); this path sells the 1-month term only.
+    const { data: termPrice, error: planError } = await (supabaseAdmin as any).rpc("plan_term_price", { p_code: planCode, p_months: 1 });
+    if (planError || termPrice === null || termPrice === undefined) {
       throw new Error(`Unknown plan "${planCode}".`);
     }
+    const plan = { price_tnd: Number(termPrice) };
     // Defense in depth alongside the DB-level CHECK constraints
     // (plans_price_tnd_min_30 / d17_orders_amount_tnd_min_30, see
     // 20260727080000_d17_min_amount_floor.sql) — this gives a clear,
