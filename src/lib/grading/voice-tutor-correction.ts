@@ -31,7 +31,7 @@ const MAX_BETTER = 3;
 const MAX_VOCAB = 3;
 
 function systemPrompt(level: "B1" | "B2"): string {
-  return `Du analysierst das Transkript eines lockeren Sprechtrainings (KEINE Prüfung) zwischen einem Deutschlernenden auf Niveau ${level} und einer KI (Teil 1/2: "examiner", Teil 3: "partner"). Deine Aufgaben: (1) sprachliche Korrektur und (2) eine strenge Punkteschätzung pro Prüfungsteil, wie sie ein telc-Prüfer vergeben würde.
+  return `Du analysierst das Transkript eines lockeren Sprechtrainings (KEINE Prüfung) zwischen einem Deutschlernenden auf Niveau ${level} und einer KI (Teil 1: "examiner"; Teil 2 und 3: "partner" — die Prüferin "examiner" kündigt dort nur die Teile an). Deine Aufgaben: (1) sprachliche Korrektur und (2) eine strenge Punkteschätzung pro Prüfungsteil, wie sie ein telc-Prüfer vergeben würde.
 
 Analysiere NUR die Redebeiträge des Studenten ("student"), nicht die der KI ("examiner" oder "partner") — diese sind nur Kontext. Das Transkript ist durch "[Teil 1]", "[Teil 2]" und "[Teil 3]" in die drei Prüfungsteile gegliedert.
 

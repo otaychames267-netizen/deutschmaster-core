@@ -115,7 +115,7 @@ function VoiceTutorSession() {
     return (
       <div className="mx-auto flex max-w-md flex-col items-center gap-4 p-6 text-center">
         <h1 className="text-lg font-bold text-foreground">{teil1Title ?? <Loader2 className="mx-auto h-5 w-5 animate-spin" />}</h1>
-        <p className="text-sm text-muted-foreground">Präsentiere dein Thema, dann stellt dir die KI-Prüferin drei Fragen dazu — genau wie in Teil 1 der echten Prüfung. Direkt danach geht es weiter mit Teil 2, und zum Schluss wird deine Prüferin zu deinem Übungspartner für Teil 3. Sprachfehler werden erst am Ende angezeigt, nicht während des Sprechens.</p>
+        <p className="text-sm text-muted-foreground">Präsentiere dein Thema, dann stellt dir die KI-Prüferin zwei Fragen dazu — genau wie in Teil 1 der echten Prüfung. In Teil 2 und Teil 3 sprichst du dann mit einer KI-Partnerin (eine andere Stimme): erst ein Gespräch über ein Thema, dann eine gemeinsame Planung. Sprachfehler werden erst am Ende angezeigt, nicht während des Sprechens.</p>
         <button
           type="button"
           onClick={() => setStarted(true)}
@@ -164,7 +164,7 @@ function VoiceTutorSession() {
       <div className="flex w-full items-center justify-between gap-2">
         <div className="min-w-0">
           <span className="text-[10px] font-bold uppercase tracking-wide text-rose-500">
-            Teil {audio.currentStage}{audio.currentStage === 3 && " · Partnerübung"}
+            Teil {audio.currentStage}{audio.currentStage === 2 && " · Gespräch mit Partner"}{audio.currentStage === 3 && " · Partnerübung"}
           </span>
           <h1 className="truncate text-sm font-bold text-foreground">
             {audio.currentStage === 3 ? teil3Title : audio.currentStage === 2 ? teil2Title : teil1Title}

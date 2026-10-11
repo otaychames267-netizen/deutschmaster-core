@@ -108,7 +108,7 @@ function VoiceTutorPicker() {
         <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/10 text-rose-500"><Mic className="h-5 w-5" /></div>
         <div>
           <h1 className="text-lg font-bold text-foreground">KI-Sprachtrainer</h1>
-          <p className="text-xs text-muted-foreground">Wähle deine Themen wie in der echten Prüfung — übe dann Teil 1, 2 und 3 mit deiner KI-Prüferin, direkt nacheinander.</p>
+          <p className="text-xs text-muted-foreground">Wähle deine Themen wie in der echten Prüfung — übe dann Teil 1 mit deiner KI-Prüferin, danach Teil 2 und 3 im Gespräch mit einer KI-Partnerin, direkt nacheinander.</p>
         </div>
       </div>
 
