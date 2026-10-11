@@ -245,20 +245,20 @@ const GEMINI_AUDIO_TOKENS_PER_MINUTE = Number(process.env.GEMINI_AUDIO_TOKENS_PE
 // diverge; the per-Teil question counts/answer windows below, and the
 // tutor's own hard-idle-close margin further down, are genuinely
 // tutor-specific.
-const TUTOR_TEIL1_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL1_QUESTIONS ?? 2); // owner 2026-10-06: 2 / 6 / 7 questions, same as the 2:1 exam's feel
+const TUTOR_TEIL1_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL1_QUESTIONS ?? 2); // owner 2026-10-06: 2 questions; Teil 2 = 5 and Teil 3 = 6 since 2026-10-11
 const TUTOR_TEIL1_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL1_ANSWER_WINDOW_SECONDS ?? 40);
 // Teil 2 is a FIXED question count here (unlike the real exam's time-boxed
 // candidate discussion + late takeover) — there's no second candidate to
 // discuss with, so the examiner leads the whole thing, same structural
 // pattern as Teil 1's exactly-N just with a bigger N.
-const TUTOR_TEIL2_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL2_QUESTIONS ?? 6);
+const TUTOR_TEIL2_QUESTIONS = Number(process.env.MUENDLICH_TUTOR_TEIL2_QUESTIONS ?? 5); // owner 2026-10-11: 5 (was 6)
 const TUTOR_TEIL2_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL2_ANSWER_WINDOW_SECONDS ?? 40);
 // Teil 3: the AI plays an active study-partner role (see tutorBrain.ts's
 // buildTeil3Prompt) for a fixed number of conversational turns, same pattern
 // again. "Answer window" here bounds the STUDENT's response to each of the
 // partner's turns, same mechanic as Teil 1/2 even though the content is a
 // negotiation, not a formal question.
-const TUTOR_TEIL3_TURNS = Number(process.env.MUENDLICH_TUTOR_TEIL3_TURNS ?? 7);
+const TUTOR_TEIL3_TURNS = Number(process.env.MUENDLICH_TUTOR_TEIL3_TURNS ?? 6); // owner 2026-10-11: 6 (was 7)
 const TUTOR_TEIL3_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEIL3_ANSWER_WINDOW_SECONDS ?? 40);
 // Real bug found via live full-timing testing (2026-09-29): the exam's own
 // HARD_IDLE_CLOSE_MS (45s) was tuned against ITS answer windows (30s — see
