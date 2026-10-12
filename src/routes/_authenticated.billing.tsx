@@ -88,7 +88,7 @@ function daysRemaining(expiresAt: string) {
 }
 
 function BillingPage() {
-  const { user } = useAuth();
+  const { user, level: profileLevel } = useAuth();
   const nav = useNavigate();
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [loading, setLoading] = useState(true);
@@ -137,7 +137,8 @@ function BillingPage() {
   const isActive = subscription?.status === "active";
   // Launch gate: only sellable plans are shown. While Mündlich is disabled,
   // this is just Schriftlich (Komplett/Mündlich both grant speaking access).
-  const visiblePlans = PLANS.filter((p) => isPlanPurchasable(p.code));
+  // Platinum (the AI Sprachtrainer) exists for B2 only: a B1 student is offered Gold alone.
+  const visiblePlans = PLANS.filter((p) => isPlanPurchasable(p.code) && !(profileLevel === "TELC_B1" && p.code === "komplett_ai"));
   const daysLeft = subscription ? daysRemaining(subscription.expires_at) : 0;
   const renewDate = subscription
     ? new Date(subscription.expires_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })

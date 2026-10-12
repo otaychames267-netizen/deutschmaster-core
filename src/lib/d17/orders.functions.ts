@@ -145,6 +145,7 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
     }
 
     const { data: profile } = await supabaseAdmin.from("profiles").select("level").eq("id", userId).maybeSingle();
+    if (planCode === "komplett_ai" && profile?.level === "TELC_B1") throw new Error("Platinum (AI Sprachtrainer) is for B2 only. Platinum متاحة لمستوى B2 فقط.");
 
     const now = new Date();
     const expiresAt = new Date(now.getTime() + ORDER_LIFETIME_MS).toISOString();

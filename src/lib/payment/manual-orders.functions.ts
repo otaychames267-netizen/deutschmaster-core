@@ -63,6 +63,11 @@ export const createManualPaymentOrder = createServerFn({ method: "POST" })
     const amountTnd = Number(price);
     if (!Number.isFinite(amountTnd) || amountTnd < 30) throw new Error("This plan's price is invalid right now. Please contact support.");
 
+    if (data.plan_code === "komplett_ai") {
+      const { data: lv } = await db.from("profiles").select("level").eq("id", context.userId).maybeSingle();
+      if (lv?.level === "TELC_B1") throw new Error("Platinum (AI Sprachtrainer) is for B2 only. Platinum متاحة لمستوى B2 فقط."); // before the pending-order replacement below, so a refused request changes nothing
+    }
+
     // Reuse an existing pending order for the same method AND the same plan, term and amount rather than stacking duplicates (D17's one-active-order
     // posture). A pending order for something else is replaced: the student changed their mind, and the old one must not be payable by mistake.
     const { data: existing } = await db
