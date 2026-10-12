@@ -60,7 +60,10 @@ function noHelpRule(name: string, isPartner: boolean): string {
 // which also cuts the cache-write cost every time the stage — and with it the system prompt — changes).
 const QUESTION_LIMIT = "ein einziger Satz, höchstens 110 Zeichen (ca. 14 Wörter) — weder ein Stichwort noch ein Vortrag";
 // Owner 2026-10-11 (cost, lever 2): 180 -> 140 characters; the partner's replies averaged 200-260 characters in the production runs and TTS is ~52% of a session.
-const PARTNER_LIMIT = "höchstens zwei kurze, vollständige, gut formulierte Sätze, zusammen höchstens ca. 140 Zeichen, die mit einer Frage oder einem Vorschlag an den Partner enden";
+// Owner 2026-10-12 (cost, "yalla"): the 140-character wording was ignored by Haiku (replayed offline on the 11 partner turns of a production run: average 207 chars,
+// max 287, same as the ~220 measured live). Stating the SHAPE instead of a total — a very short reaction, then ONE question/proposal — gave an average of 145 chars
+// (-30%, max 237) with the reaction + question structure intact: ~680 fewer live TTS characters per session, ~$0.014.
+const PARTNER_LIMIT = "genau zwei Teile: erst eine kurze Reaktion auf die letzte Aussage (höchstens 6 Wörter), dann EINE knappe Frage oder EIN Vorschlag (höchstens 14 Wörter) — zusammen höchstens ca. 110 Zeichen";
 /** Hard backstop for the above: once the partner has spoken this many characters, the end of the current sentence ends the reply. */
 export const PARTNER_SOFT_CAP_CHARS = 150;
 

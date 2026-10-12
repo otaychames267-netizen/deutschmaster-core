@@ -17,7 +17,7 @@ const p3 = buildTutorSystemPrompt({ ...base, stage: 3, partner: true });
 ok("Teil 1 prompt: examiner presentation", /KI-Prüferin/.test(p1) && /Präsentation/.test(p1));
 ok("Teil 2 examiner prompt (rollback mode): the examiner leads the whole conversation", /du führst das GANZE Gespräch/.test(p2e) && !/Übungspartner/.test(p2e));
 ok("Teil 2 partner prompt: practice partner, Teil 2, own opinion, opens with a greeting, exactly N contributions", /Übungspartner/.test(p2p) && /Teil 2/.test(p2p) && /eigene, begründete Meinung/.test(p2p) && /Beitrag 1 eröffnet/.test(p2p) && /GENAU 5 Beiträge/.test(p2p) && /Hochzeit nur zu zweit/.test(p2p));
-ok("Teil 2 partner prompt keeps the no-help / no-correction rule and the length limit", /Keine Korrektur, keine Hilfe/.test(p2p) && /140 Zeichen/.test(p2p));
+ok("Teil 2 partner prompt keeps the no-help / no-correction rule and the length limit (short reaction + one question)", /Keine Korrektur, keine Hilfe/.test(p2p) && /110 Zeichen/.test(p2p) && /kurze Reaktion/.test(p2p) && /EINE knappe Frage/.test(p2p));
 ok("Teil 3 prompt is the planning partner", /Übungspartner/.test(p3) && /Teil 3/.test(p3) && /Planungsaufgabe/.test(p3) && /GENAU 6 Beiträge/.test(p3));
 ok("the Teil 2 partner prompt differs from the Teil 3 one (discussion, not planning)", p2p !== p3 && !/Planungsaufgabe/.test(p2p));
 if (failed) { console.log(`\n${failed} FAILED`); process.exit(1); } else console.log("\nall passed");
