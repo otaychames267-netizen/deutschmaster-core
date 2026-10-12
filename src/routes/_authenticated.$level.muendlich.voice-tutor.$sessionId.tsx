@@ -80,11 +80,12 @@ function VoiceTutorSession() {
   useEffect(() => {
     if (!ended || correction.status !== "idle" || !accessToken) return;
     setCorrection({ status: "loading" });
-    fetch("/api/muendlich/tutor-correction", {
+    // the token captured when the page opened expires after an hour — ask the client for the CURRENT one right before the request
+    supabase.auth.getSession().then(({ data }) => data.session?.access_token ?? accessToken).then((token) => fetch("/api/muendlich/tutor-correction", {
       method: "POST",
-      headers: { "Content-Type": "application/json", Authorization: `Bearer ${accessToken}` },
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify({ session_id: sessionId }),
-    })
+    }))
       .then(async (res) => {
         const json = await res.json();
         if (!res.ok) throw new Error(json?.message ?? json?.error ?? "Auswertung fehlgeschlagen");
@@ -98,12 +99,14 @@ function VoiceTutorSession() {
     setEndedManually(true);
   }, [audio]);
 
-  if (loading || roleLoading || accessLoading) return null;
+  // A session that is running must not be torn down by a re-check of the plan (or an auth refresh): leaving this page closes the microphone and the connection and ends the exam.
+  const sessionLive = started && !ended;
+  if (!sessionLive && (loading || roleLoading || accessLoading)) return null;
 
   const b2OrAdmin = activeLevel === "TELC_B2" || isAdmin;
   const levelSeg = activeLevel === "TELC_B1" ? "b1" : "b2";
   // Closed for students, open to admins while VOICE_TUTOR_ADMIN_PREVIEW — see the matching comment in voice-tutor.index.tsx.
-  if (!voiceTutorAvailable(isAdmin) || !b2OrAdmin || !hasAccess) {
+  if (!sessionLive && (!voiceTutorAvailable(isAdmin) || !b2OrAdmin || !hasAccess)) {
     return <Navigate to="/$level/muendlich" params={{ level: levelSeg }} replace />;
   }
   if (sessionValid === false) {

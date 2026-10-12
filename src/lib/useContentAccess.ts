@@ -38,14 +38,16 @@ export function useHasPlanAccess(module: "schriftlich" | "muendlich" | "muendlic
       // types.ts, but exist in the DB and are the authoritative access check).
       (supabase as any)
         .rpc("has_plan_access", { p_user_id: user!.id, p_module: module })
-        .then(({ data }: { data: unknown }) => { if (!cancelled) setHasAccess(data === true); })
+        // supabase-js does not reject on an error answer (JWT expired, 5xx): it resolves with { data: null, error } — that must not read as "no access". 2026-10-12: a student on the
+        // KI-Sprachtrainer was thrown out of her session this way (the page redirects when hasAccess turns false, which closes the microphone and the connection).
+        .then(({ data, error }: { data: unknown; error?: unknown }) => { if (!cancelled) setHasAccess((prev) => (error ? (prev === null ? false : prev) : data === true)); })
         // A rejected RPC (network timeout, transient 5xx) used to leave
         // hasAccess stuck at null forever — every page gating on `loading`
         // (accessLoading === hasAccess === null) hung on its spinner
         // indefinitely, and the rejection went unhandled. Fail closed
         // (false) instead: the poll below retries in 20s, and the real
         // security boundary is server-side RLS regardless.
-        .catch(() => { if (!cancelled) setHasAccess(false); });
+        .catch(() => { if (!cancelled) setHasAccess((prev) => (prev === null ? false : prev)); });
     }
     check();
     // Keep polling regardless of the current answer — in both directions:
