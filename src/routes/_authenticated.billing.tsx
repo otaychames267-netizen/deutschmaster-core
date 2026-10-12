@@ -285,6 +285,12 @@ function BillingPage() {
                     <CheckCircle2 className="h-4 w-4 text-emerald-500" />
                     Current plan
                   </div>
+                ) : !pricing[plan.code as SellablePlan].open ? (
+                  <div className="rounded-xl border border-gold/40 bg-gold/10 px-4 py-4 text-center">
+                    <p className="text-sm font-bold text-foreground">Opens this evening</p>
+                    <p dir="rtl" lang="ar" className="mt-1 text-sm font-semibold text-foreground">يفتح هذا المساء</p>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">We are finishing the last checks on the AI Sprachtrainer. You will be able to subscribe to Platinum here as soon as it opens.</p>
+                  </div>
                 ) : (
                   <div>
                     <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Choose how to pay</p>

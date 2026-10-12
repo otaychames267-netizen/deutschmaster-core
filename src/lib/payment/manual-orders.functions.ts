@@ -56,6 +56,7 @@ export const createManualPaymentOrder = createServerFn({ method: "POST" })
     // The server decides the price (plans table through plan_term_price: includes the launch-offer end date); an unknown plan or a plan without a
     // 2-month pack raises here, so a crafted request can never pick its own amount or term.
     const { data: price, error: priceError } = await db.rpc("plan_term_price", { p_code: data.plan_code, p_months: months });
+    if (String(priceError?.message ?? "").includes("PLAN_CLOSED")) throw new Error("Platinum opens this evening. يفتح Platinum هذا المساء.");
     if (priceError || price === null || price === undefined) {
       throw new Error(String(priceError?.message ?? "").includes("TERM_NOT_AVAILABLE") ? "This plan has no 2-month pack." : `Unknown plan \"${data.plan_code}\".`);
     }

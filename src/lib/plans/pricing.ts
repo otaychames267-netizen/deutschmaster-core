@@ -21,15 +21,17 @@ export interface PlanPricing {
   terms: TermPrice[];
   /** ISO date while a launch offer is running, else null. */
   offerEndsAt: string | null;
+  /** false while the sale is switched off (platform_settings.platinum_open = false): the pages show "opens this evening" and the server refuses new orders. */
+  open: boolean;
 }
 export type PricingMap = Record<SellablePlan, PlanPricing>;
 
 export const FALLBACK_PRICING: PricingMap = {
-  schriftlich: { code: "schriftlich", offerEndsAt: null, terms: [{ months: 1, price: 30, listPrice: null }, { months: 2, price: 50, listPrice: 60 }] },
-  komplett_ai: { code: "komplett_ai", offerEndsAt: "2026-12-10T22:59:59Z", terms: [{ months: 1, price: 55, listPrice: 65 }, { months: 2, price: 110, listPrice: 130 }] },
+  schriftlich: { code: "schriftlich", offerEndsAt: null, open: true, terms: [{ months: 1, price: 30, listPrice: null }, { months: 2, price: 50, listPrice: 60 }] },
+  komplett_ai: { code: "komplett_ai", offerEndsAt: "2026-12-10T22:59:59Z", open: true, terms: [{ months: 1, price: 55, listPrice: 65 }, { months: 2, price: 110, listPrice: 130 }] },
 };
 
-interface RpcPlan { code: string; offer_ends_at: string | null; terms: { months: number; price: number | string; list_price: number | string | null }[] }
+interface RpcPlan { code: string; offer_ends_at: string | null; open?: boolean; terms: { months: number; price: number | string; list_price: number | string | null }[] }
 
 export function parsePricing(raw: unknown): PricingMap | null {
   if (!Array.isArray(raw)) return null;
@@ -41,7 +43,7 @@ export function parsePricing(raw: unknown): PricingMap | null {
       .map((t) => ({ months: t.months as Months, price: Number(t.price), listPrice: t.list_price == null ? null : Number(t.list_price) }))
       .filter((t) => Number.isFinite(t.price) && t.price > 0);
     if (!terms.some((t) => t.months === 1)) continue;
-    out[p.code] = { code: p.code, terms, offerEndsAt: p.offer_ends_at };
+    out[p.code] = { code: p.code, terms, offerEndsAt: p.offer_ends_at, open: p.open !== false };
   }
   return out.schriftlich && out.komplett_ai ? (out as PricingMap) : null;
 }

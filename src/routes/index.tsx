@@ -582,6 +582,13 @@ function Pricing() {
                   <PriceBlock term={termOf(pricing, plan.key as SellablePlan, months)} offerEndsAt={pricing[plan.key as SellablePlan].offerEndsAt} />
                 </div>
 
+                {!pricing[plan.key as SellablePlan].open ? (
+                  <div className="mt-6 rounded-xl border border-white/15 bg-white/[0.06] px-5 py-3.5 text-center">
+                    <p className="text-sm font-bold text-white">Opens this evening</p>
+                    <p dir="rtl" lang="ar" className="mt-0.5 text-[12.5px] text-white/70">يفتح هذا المساء</p>
+                  </div>
+                ) : (
+                  <>
                 <Link
                   to="/register"
                   className="mt-6 inline-flex w-full items-center justify-center gap-1.5 rounded-xl bg-gold px-5 py-3.5 text-sm font-bold text-gold-foreground shadow-lg shadow-black/30 transition-all hover:-translate-y-0.5 hover:brightness-105"
@@ -589,6 +596,8 @@ function Pricing() {
                   Get Started <ChevronRight className="h-4 w-4" />
                 </Link>
                 <p className="mt-2.5 text-center text-[11px] text-white/50">Pay with D17, Virement Postal or Virement Bancaire</p>
+                  </>
+                )}
 
                 <PlanDivider />
                 {plan.benefits && <div className="flex-1"><PlanBenefits benefits={plan.benefits} /></div>}

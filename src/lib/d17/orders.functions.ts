@@ -130,6 +130,7 @@ export async function createD17OrderImpl(userId: string, planCode: PlanCode) {
 
     // plan_term_price = the amount charged NOW (includes a launch offer's end date); this path sells the 1-month term only.
     const { data: termPrice, error: planError } = await (supabaseAdmin as any).rpc("plan_term_price", { p_code: planCode, p_months: 1 });
+    if (String(planError?.message ?? "").includes("PLAN_CLOSED")) throw new Error("Platinum opens this evening. يفتح Platinum هذا المساء.");
     if (planError || termPrice === null || termPrice === undefined) {
       throw new Error(`Unknown plan "${planCode}".`);
     }
