@@ -1763,6 +1763,11 @@ async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
  * finishes does setPartnerStage() actually flip the voice/persona — see
  * that method's own doc comment for why the order matters. */
 async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
+  // Owner 2026-10-12 ("Teil 3 has no transition from the examiner"): the examiner DID announce it, but the stage flipped only after the line was spoken, so the
+  // two announcement lines were saved under Teil 2 (and the student's Teil indicator switched late). Same order as startTutorTeil2: the announcement belongs to the
+  // Teil it opens. tutorTick() is blocked meanwhile (advancingStage), so flipping the stage first is safe.
+  session.teilStage = 3;
+  send(session.ws, { type: "stage", stage: 3 });
   if (TUTOR_TEIL2_PARTNER) session.live?.setExaminerPersona(); // the Teil 2 -> 3 announcement is the examiner's, not the partner's
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
   // Title only — same reasoning as startTutorTeil2's identical fix.
@@ -1770,8 +1775,7 @@ async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
   if (session.ended) return;
   session.lastAudioAt = Date.now(); // reset so this line's own synthesis time doesn't eat into turn 1's idle budget — same reasoning as startTutorTeil2's identical reset
   await session.live?.setPartnerStage(session.teil3Topic);
-  session.teilStage = 3;
-  send(session.ws, { type: "stage", stage: 3 });
+  if (session.ended) return;
   session.questionIndex = 1;
   resetQuestionState(session);
   session.phaseStartedAt = 0; // paused until turn 1 has been spoken AND heard
