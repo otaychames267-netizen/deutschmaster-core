@@ -126,7 +126,7 @@ function VoiceTutorPicker() {
           <li><b className="text-foreground">3 · Bericht.</b> Danach bekommst du deinen Korrekturbericht: deine echten Sätze mit Korrektur und Erklärung.</li>
         </ol>
         <p dir="rtl" lang="ar" className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
-          اختر موضوعاً لكل جزء، وتكلّم حوالي 10 دقائق. الممتحِنة تتركك تكمل كلامك وتردّ بعد وقفة واضحة، وفي الآخر يوصلك تقرير بأخطائك مع التصحيح. نصيحة: مكان هادئ وسمّاعات.
+          اختر موضوعاً لكل جزء، وتكلّم من 10 إلى 14 دقيقة. الممتحِنة تتركك تكمل كلامك وتردّ بعد وقفة واضحة، وفي الآخر يوصلك تقرير بأخطائك مع التصحيح. نصيحة: مكان هادئ وسمّاعات.
           حتى جلستين في اليوم وحتى 50 جلسة في الشهر.
         </p>
       </section>

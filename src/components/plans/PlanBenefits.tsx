@@ -33,7 +33,7 @@ export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
 
 /** What the Komplett plan (komplett_ai) really includes: everything in Schriftlich + the KI-Sprachtrainer 1:1. Same rule as above — every line is backed
  * by the database or the relay: access = has_plan_access(user, 'muendlich_ai') + a trigger on voice_tutor_sessions; the session is Teil 1 -> 2 -> 3
- * (about 10 minutes: Teil 2 = 5 and Teil 3 = 6 partner turns; measured 9.5-10.6, earlier runs 11-13); the correction report is the post-session pass in voice-tutor-correction.ts (verbatim quotes, categories Grammatik /
+ * (10-14 minutes: Teil 2 = 5 and Teil 3 = 6 partner turns, answers up to 40 s; measured 9.5-10.6 with short answers, 13.7 on the production relay 2026-10-12, earlier runs 11-13); the correction report is the post-session pass in voice-tutor-correction.ts (verbatim quotes, categories Grammatik /
  * Wortstellung / Kasus / Verbformen / Wortschatz / Redemittel, better formulations, vocabulary); the limits are platform_settings muendlich_ai_daily_limit (2)
  * and muendlich_ai_monthly_limit (50), plus the per-mode USD budget muendlich_ai_budget_usd_one_to_one (8) — migration 20261011180000. The partner (Teil 2 + 3) is the
  * tutor's practice-partner persona; Dein Fortschritt = VoiceTutorProgress (voice_tutor_corrections.feedback.scores, RLS own rows). The tutor does NOT assess pronunciation — never claim it. */
@@ -41,7 +41,7 @@ export const KOMPLETT_BENEFITS: PlanBenefit[] = [
   { group: "Inklusive", icon: Layers, title: "Alles aus Gold", ar: "Lesen و Hören و Sprachbausteine و Schreiben + Mündlich Vorbereitung" },
   { group: "KI-Sprachtrainer", icon: Bot, title: "KI-Prüferin", ar: "تتكلّم بصوتك مع ممتحِنة بالذكاء الاصطناعي تردّ عليك مباشرة", highlight: true },
   { group: "KI-Sprachtrainer", icon: Users, title: "KI-Partnerin", ar: "في الجزأين 2 و3 تتحاور وتخطّط مع شريك بصوت مختلف", highlight: true },
-  { group: "KI-Sprachtrainer", icon: Mic, title: "Teil 1 · 2 · 3", ar: "امتحان شفوي كامل بتسلسل TELC B2، حوالي 10 دقائق", highlight: true },
+  { group: "KI-Sprachtrainer", icon: Mic, title: "Teil 1 · 2 · 3", ar: "امتحان شفوي كامل بتسلسل TELC B2، من 10 إلى 14 دقيقة", highlight: true },
   { group: "KI-Sprachtrainer", icon: ClipboardCheck, title: "Ergebnis & Korrektur", ar: "بعد كل جلسة: درجتك من 75 ومستواك + تقرير بأخطائك وتصحيحها", highlight: true },
   { group: "KI-Sprachtrainer", icon: TrendingUp, title: "Dein Fortschritt", ar: "تتابع نتائج جلساتك وتشوف تقدّمك", highlight: true },
   { group: "KI-Sprachtrainer", icon: CalendarCheck, title: "Fair Use", ar: "حتى جلستين يومياً و50 جلسة شهرياً (100 مع باقة الشهرين)" },
