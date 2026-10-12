@@ -8,6 +8,7 @@ import { useLevelSegment } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
 import { voiceTutorAvailable } from "@/lib/features";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
+import { AiTutorCard } from "@/components/muendlich/AiTutorCard";
 
 export const Route = createFileRoute("/_authenticated/$level/muendlich/")({
   component: MuendlichIndexPage,
@@ -183,6 +184,7 @@ function MuendlichIndexPage() {
   const { isAdmin } = useAuth();
   // The AI Sprachtrainer belongs to the Komplett plan only (DB module 'muendlich_ai'; admins always pass).
   const { hasAccess: hasAiAccess } = useHasPlanAccess("muendlich_ai");
+  const showAi = seg === "b2" && voiceTutorAvailable(isAdmin); // the AI tutor exists for B2 only
   return (
     <div className="mx-auto max-w-4xl space-y-8 pb-10">
 
@@ -221,12 +223,9 @@ function MuendlichIndexPage() {
         </div>
       </div>
 
-      {/* ── Action cards: same shape/size as Schriftlich's own Vorbereitung
-          + Prüfungssimulation cards. AI 1:1 is a bonus/preview feature, not
-          one of the two core paths, so it gets its own full-width row below
-          rather than squeezing into the 2-up grid. ── */}
+      {/* ── Action cards: Vorbereitung (everyone) next to the KI-Sprachtrainer (Platinum, B2 only). The live 2-candidate room is switched off for everyone (ROOM_2_ENABLED). ── */}
       <div className="space-y-5">
-        <div className="grid gap-5 sm:grid-cols-2">
+        <div className="space-y-5">
           <BigActionCard
             icon={BookOpen}
             accent="rose"
@@ -236,40 +235,9 @@ function MuendlichIndexPage() {
             onClick={() => document.getElementById("vorbereitung-teile")?.scrollIntoView({ behavior: "smooth", block: "start" })}
           />
 
-          {/* The AI Sprachtrainer: open for the Komplett plan (and admins), an upsell to the plan page for everyone else. */}
-          {voiceTutorAvailable(isAdmin) && hasAiAccess ? (
-            <BigActionCard
-              icon={Bot}
-              accent="rose"
-              highlighted
-              title="KI-Sprachtrainer"
-              description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards."
-              meta={{ duration: "~12 min", detail: "1:1 · KI-Prüferin" }}
-              href={`/${seg}/muendlich/voice-tutor`}
-            />
-          ) : (
-            <LockedBigActionCard
-              icon={Bot}
-              title="KI-Sprachtrainer"
-              description="Practice the complete oral exam out loud with an AI examiner — Teil 1, 2 and 3 in one session, with a correction report afterwards. Included in the Platinum plan."
-              meta={{ duration: "~12 min", detail: "1:1 · KI-Prüferin" }}
-              badge="Platinum"
-              href="/billing"
-            />
-          )}
+          {/* The KI-Sprachtrainer (Platinum, B2 only): open for Platinum holders and anyone with a personal allowance, an upsell to the plan page for everyone else. */}
+          {showAi && <AiTutorCard locked={!hasAiAccess} href={hasAiAccess ? `/${seg}/muendlich/voice-tutor` : "/billing"} />}
         </div>
-
-        {/* The 2-candidate live exam is an internal tool: only admins see it at all (it is neither sold nor mentioned anywhere else). */}
-        {isAdmin && (
-          <BigActionCard
-            icon={GraduationCap}
-            accent="fuchsia"
-            title="Prüfungssimulation (Admin)"
-            description="Internal: live exam room with a second candidate."
-            meta={{ duration: "~15 min", detail: "Admin only" }}
-            href={`/${seg}/muendlich/pruefung`}
-          />
-        )}
 
       </div>
 
@@ -277,7 +245,7 @@ function MuendlichIndexPage() {
       <div className="flex items-start gap-3 rounded-2xl border border-amber-500/20 bg-amber-500/5 p-4">
         <Lightbulb className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
         <p className="text-sm text-foreground">
-          <strong>Study order:</strong> Start with Teil 1 (Präsentation) — prepare your topic in advance. Then practice Teil 2 for spontaneous reactions. Tackle Teil 3 last as it requires collaborative negotiation. Run the full Prüfungssimulation once confident.
+          <strong>Study order:</strong> Start with Teil 1 (Präsentation) — prepare your topic in advance. Then practice Teil 2 for spontaneous reactions. Tackle Teil 3 last as it requires collaborative negotiation.{showAi ? " Platinum members can then run the full oral exam with the KI-Sprachtrainer." : null}
         </p>
       </div>
 

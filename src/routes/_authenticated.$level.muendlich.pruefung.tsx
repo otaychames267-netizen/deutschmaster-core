@@ -25,6 +25,7 @@ import {
 import { supabase } from "@/integrations/supabase/client";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
+import { ROOM_2_ENABLED } from "@/lib/features";
 
 // Defaults to local dev — set VITE_MUENDLICH_RELAY_URL once the relay is
 // deployed (see muendlich-relay/README.md).
@@ -178,7 +179,7 @@ function PruefungPage() {
   // temporarily locked to admin while the AI 1:1 tutor is validated — every
   // other Mündlich feature (Vorbereitung) stays open to subscribers as before.
   if (authLoading || roleLoading) return null;
-  if (!isAdmin) {
+  if (!ROOM_2_ENABLED || !isAdmin) {
     return (
       <div className="mx-auto max-w-md py-16 text-center">
         <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted"><Users className="h-7 w-7 text-muted-foreground" /></div>

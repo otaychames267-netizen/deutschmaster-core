@@ -574,7 +574,7 @@ function DashboardPage() {
               </div>
 
               {/* CTA Buttons */}
-              <div className="mt-5 grid grid-cols-2 gap-3">
+              <div className="mt-5 grid grid-cols-1 gap-3">
                 <div className="flex items-center justify-center gap-1.5 rounded-xl bg-white/15 px-3 py-2.5 text-xs font-bold text-white backdrop-blur-sm ring-1 ring-white/10 transition-all group-hover:bg-white/20">
                   <BookOpen className="h-3.5 w-3.5" /> Vorbereitung
                 </div>
@@ -655,13 +655,6 @@ function DashboardPage() {
                 <div className="flex items-center justify-center gap-1.5 rounded-xl bg-white/15 px-3 py-2.5 text-xs font-bold text-white backdrop-blur-sm ring-1 ring-white/10 transition-all group-hover:bg-white/20">
                   <Mic className="h-3.5 w-3.5" /> Vorbereitung
                 </div>
-                <Link
-                  to={`/${seg}/muendlich/pruefung` as never}
-                  onClick={e => e.stopPropagation()}
-                  className="flex items-center justify-center gap-1.5 rounded-xl bg-white px-3 py-2.5 text-xs font-bold text-rose-700 transition-all hover:bg-rose-50"
-                >
-                  <GraduationCap className="h-3.5 w-3.5" /> Simulation
-                </Link>
               </div>
             </div>
           </div>

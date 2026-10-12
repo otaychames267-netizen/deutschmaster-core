@@ -92,6 +92,12 @@ export const VOICE_TUTOR_ENABLED = true; // launched 2026-10-10 with the Komplet
  */
 export const VOICE_TUTOR_ADMIN_PREVIEW = true;
 
+/**
+ * The live 2-candidate exam room ("Room 2", /muendlich/pruefung). Hidden for EVERYONE, admins included (owner 2026-10-12): no card on the Mündlich page, no button on the dashboard,
+ * and the route itself shows the "not available" page. The relay/DB side is untouched, so switching this to true brings the admin preview back.
+ */
+export const ROOM_2_ENABLED = false;
+
 /** Can this user open the AI Voice Tutor right now? Public launch flag, or the admin preview. */
 export function voiceTutorAvailable(isAdmin: boolean): boolean {
   return VOICE_TUTOR_ENABLED || (VOICE_TUTOR_ADMIN_PREVIEW && isAdmin);
