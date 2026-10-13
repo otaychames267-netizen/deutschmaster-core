@@ -230,6 +230,61 @@ export async function generateTutorReply(
   callbacks: TutorReplyCallbacks,
   abortSignal?: AbortSignal,
 ): Promise<string> {
+  const backup = backupModels();
+  if (backup.length && Date.now() < claudeDownUntil) return generateTutorReplyBackup(backup, ctx, history, trigger, callbacks, abortSignal);
+  try {
+    return await generateTutorReplyClaude(ctx, history, trigger, callbacks, abortSignal);
+  } catch (e) {
+    if (backup.length && isClaudeUnavailable(e)) {
+      if (/credit balance is too low/i.test((e as Error).message)) claudeDownUntil = Date.now() + 5 * 60_000; // skip the failing round trip for a while
+      console.warn(`[tutorBrain] Claude unavailable (${(e as Error).message.slice(0, 100)}) — answering with the DeepInfra backup (${backup[0]})`);
+      return generateTutorReplyBackup(backup, ctx, history, trigger, callbacks, abortSignal);
+    }
+    throw e;
+  }
+}
+
+// ── Backup brain (owner 2026-10-13: Anthropic credit at $0, no money to top up → "ekhdem bdeepinfra"). Same prompt, same guards and chunking, different transport:
+// DeepInfra's OpenAI-compatible streaming API with a fast non-reasoning open model. Measured on tutor prompts: Mistral-Small-3.2 / Qwen3.8-Flash answer in 0.3-1.4 s to the first token.
+// TUTOR_FALLBACK=off disables it; TUTOR_FALLBACK_MODELS overrides the chain.
+let claudeDownUntil = 0;
+function backupModels(): string[] {
+  if (!process.env.DEEPINFRA_API_KEY || (process.env.TUTOR_FALLBACK ?? "on").toLowerCase() === "off") return [];
+  return (process.env.TUTOR_FALLBACK_MODELS ?? "mistralai/Mistral-Small-3.2-24B-Instruct-2506,Qwen/Qwen3.8-Flash").split(",").map((m) => m.trim()).filter(Boolean);
+}
+function isClaudeUnavailable(e: unknown): boolean {
+  return e instanceof ExaminerBrainError && !(e instanceof ReplyGuardError) && /credit balance is too low|Claude (429|529|5\d\d)|Claude request failed|overloaded|ANTHROPIC_API_KEY not set/i.test(e.message);
+}
+async function generateTutorReplyBackup(models: string[], ctx: TutorContext, history: TutorHistoryTurn[], trigger: TutorTrigger, callbacks: TutorReplyCallbacks, abortSignal?: AbortSignal): Promise<string> {
+  const note = isPartnerPersona(ctx) ? PARTNER_RETRY_NOTE : EXAMINER_RETRY_NOTE;
+  const second = models[1] ?? models[0];
+  const attempts: { model: string; note: string; guards: boolean }[] = [
+    { model: models[0], note: "", guards: true },
+    { model: models[0], note, guards: true },
+    { model: second, note, guards: false },
+  ];
+  for (let i = 0; i < attempts.length; i++) {
+    const at = attempts[i];
+    try {
+      return await generateTutorReplyOnce(`deepinfra:${at.model}`, ctx, history, trigger, callbacks, abortSignal, at.note, at.guards);
+    } catch (e) {
+      if (e instanceof ReplyGuardError && i < attempts.length - 1) {
+        console.warn(`[tutorBrain] backup ${at.model} reply rejected (${e.reason}: "${e.sample}") — retrying (${i + 1}/${attempts.length - 1})`);
+        continue;
+      }
+      throw e;
+    }
+  }
+  throw new ExaminerBrainError("unreachable", false);
+}
+
+async function generateTutorReplyClaude(
+  ctx: TutorContext,
+  history: TutorHistoryTurn[],
+  trigger: TutorTrigger,
+  callbacks: TutorReplyCallbacks,
+  abortSignal?: AbortSignal,
+): Promise<string> {
   const primary = process.env.CLAUDE_TUTOR_MODEL ?? process.env.CLAUDE_EXAMINER_MODEL ?? "claude-sonnet-5";
   const fallback = process.env.CLAUDE_TUTOR_FALLBACK_MODEL ?? process.env.CLAUDE_EXAMINER_FALLBACK_MODEL ?? "claude-sonnet-5";
   const note = isPartnerPersona(ctx) ? PARTNER_RETRY_NOTE : EXAMINER_RETRY_NOTE;
@@ -266,8 +321,9 @@ async function generateTutorReplyOnce(
   extraNote: string,
   enforceGuards: boolean,
 ): Promise<string> {
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) throw new ExaminerBrainError("ANTHROPIC_API_KEY not set", false);
+  const useBackup = model.startsWith("deepinfra:"); // see generateTutorReplyBackup
+  const key = useBackup ? process.env.DEEPINFRA_API_KEY : process.env.ANTHROPIC_API_KEY;
+  if (!key) throw new ExaminerBrainError(useBackup ? "DEEPINFRA_API_KEY not set" : "ANTHROPIC_API_KEY not set", false);
   const isPartner = isPartnerPersona(ctx);
 
   const speakerLabel = (sp: TutorHistoryTurn["speaker"]) => (sp === "student" ? ctx.studentName : sp === "partner" ? "Übungspartner" : "Prüferin");
@@ -282,7 +338,7 @@ async function generateTutorReplyOnce(
     : `(Antworten Sie ausschließlich auf Deutsch und siezen Sie ${ctx.studentName} — niemals ihr oder du.)`;
   userContent.push({ type: "text", text: `${trigger.text}\n\n${reminder}${extraNote}` });
 
-  const body = {
+  const claudeBody = {
     model,
     // Real bug found via live testing: Claude can spend its ENTIRE max_tokens budget on extended-thinking
     // content blocks and hit stop_reason="max_tokens" before emitting a single text_delta — an empty spoken
@@ -294,11 +350,20 @@ async function generateTutorReplyOnce(
     messages: [{ role: "user", content: userContent }],
   };
 
+  const backupId = model.replace(/^deepinfra:/, "");
+  const reqUrl = useBackup ? "https://api.deepinfra.com/v1/openai/chat/completions" : "https://api.anthropic.com/v1/messages";
+  const reqHeaders: Record<string, string> = useBackup ? { Authorization: `Bearer ${key}`, "content-type": "application/json" } : { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" };
+  const reqBody = JSON.stringify(useBackup ? {
+    model: backupId, stream: true, stream_options: { include_usage: true }, max_tokens: 220, temperature: 0.7,
+    ...(/Qwen3|gpt-oss/.test(backupId) ? { chat_template_kwargs: { enable_thinking: false } } : {}),
+    messages: [{ role: "system", content: buildTutorSystemPrompt(ctx) }, { role: "user", content: userContent.map((c) => c.text).join("") }],
+  } : claudeBody);
+
   let res: Response;
   try {
     res = await fetchWithTimeout(
-      "https://api.anthropic.com/v1/messages",
-      { method: "POST", headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" }, body: JSON.stringify(body) },
+      reqUrl,
+      { method: "POST", headers: reqHeaders, body: reqBody },
       20_000,
       abortSignal,
     );
@@ -361,6 +426,20 @@ async function generateTutorReplyOnce(
         if (!line.startsWith("data: ")) continue;
         let evt: any;
         try { evt = JSON.parse(line.slice(6)); } catch { continue; }
+        if (useBackup) {
+          // OpenAI-style chunks: {choices:[{delta:{content}}]} and, last, {usage:{prompt_tokens,completion_tokens}}
+          if (evt.usage) { usage.inputTokens = Number(evt.usage.prompt_tokens ?? 0); usage.outputTokens = Number(evt.usage.completion_tokens ?? 0); }
+          const piece = evt.choices?.[0]?.delta?.content;
+          if (typeof piece === "string" && piece) {
+            fullReply += piece;
+            textBuffer += piece;
+            const { chunks, rest } = extractReadyChunks(textBuffer, false);
+            textBuffer = rest;
+            for (const c of chunks) emit(c);
+            if (cut) break;
+          }
+          continue;
+        }
         if (evt.type === "message_start" && evt.message?.usage) {
           usage.inputTokens = Number(evt.message.usage.input_tokens ?? 0);
           usage.cacheCreationInputTokens = Number(evt.message.usage.cache_creation_input_tokens ?? 0);
@@ -387,6 +466,7 @@ async function generateTutorReplyOnce(
     } else {
       // The cancelled stream never sends its final usage block — estimate the output tokens generated so far (German ~3.5 chars/token) so the cost record is not under-counted.
       usage.outputTokens = Math.max(usage.outputTokens, Math.ceil(fullReply.length / 3.5));
+      if (useBackup && usage.inputTokens === 0) usage.inputTokens = Math.ceil(reqBody.length / 3.5); // the backup stream is cancelled before its usage block too — estimate the prompt size
     }
   } catch (e) {
     if (e instanceof ReplyGuardError) {

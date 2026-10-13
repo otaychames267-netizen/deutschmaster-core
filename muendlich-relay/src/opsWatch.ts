@@ -136,7 +136,9 @@ export function computeReadiness(snap: { generatedAt: string; providers: Provide
   const diUsable = !di || (di.metrics?.suspended !== true && (typeof diCredit !== "number" || diCredit >= DEEPINFRA_MIN_USABLE_USD));
   const elUsable = !!el && el.level !== "critical";
   const tts = diUsable || (failover.enabled && elUsable);
-  const llm = !an || an.level !== "critical";
+  // Claude out of credit is still CRITICAL (the owner must know), but the tutor can run on the DeepInfra backup brain (tutorBrain.ts) while DeepInfra itself is healthy
+  const backupBrain = !!process.env.DEEPINFRA_API_KEY && (process.env.TUTOR_FALLBACK ?? "on").toLowerCase() !== "off" && !!di && di.level !== "critical";
+  const llm = !an || an.level !== "critical" || backupBrain;
   const stt = !gq || gq.level !== "critical" || elUsable; // Groq is backed up by ElevenLabs Scribe
   const db = !sb || sb.level !== "critical";
   const reason = !tts ? "tts" : !llm ? "llm" : !stt ? "stt" : !db ? "db" : null;

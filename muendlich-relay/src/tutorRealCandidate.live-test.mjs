@@ -69,13 +69,22 @@ async function synth(text) {
 const candBrain = { inputTokens: 0, outputTokens: 0 };
 async function brain(instruction, transcript) {
   const history = transcript.slice(-12).map((l) => `${l.who}: ${l.text}`).join("\n");
+  const system = `Du bist ${NAME}, eine B2-Deutschlernerin in einer telc-Prüfungssimulation (mündlich). Sprich natürlich und zusammenhängend, mit gelegentlichen typischen Lernerfehlern (Artikel, Kasus, Wortstellung), aber verständlich. Halte dich strikt an die gewünschte Länge (lieber kürzer als länger). Antworte NUR mit dem, was du laut sagst — keine Regieanweisungen, keine Anführungszeichen.`;
+  const user = `${history ? `Bisheriger Verlauf:\n${history}\n\n` : ""}${instruction}`;
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST", headers: { "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-    body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 600,
-      system: `Du bist ${NAME}, eine B2-Deutschlernerin in einer telc-Prüfungssimulation (mündlich). Sprich natürlich und zusammenhängend, mit gelegentlichen typischen Lernerfehlern (Artikel, Kasus, Wortstellung), aber verständlich. Halte dich strikt an die gewünschte Länge (lieber kürzer als länger). Antworte NUR mit dem, was du laut sagst — keine Regieanweisungen, keine Anführungszeichen.`,
-      messages: [{ role: "user", content: `${history ? `Bisheriger Verlauf:\n${history}\n\n` : ""}${instruction}` }] }),
+    body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 600, system, messages: [{ role: "user", content: user }] }),
   });
-  const j = await res.json();
+  let j = await res.json();
+  // Claude out of credit / overloaded (2026-10-13)? the simulated CANDIDATE falls back to DeepInfra too, so the harness can still exercise the tutor
+  if (!res.ok && /credit balance|overloaded|rate/i.test(JSON.stringify(j)) && process.env.DEEPINFRA_API_KEY) {
+    const di = await fetch("https://api.deepinfra.com/v1/openai/chat/completions", {
+      method: "POST", headers: { Authorization: `Bearer ${process.env.DEEPINFRA_API_KEY}`, "content-type": "application/json" },
+      body: JSON.stringify({ model: "mistralai/Mistral-Small-3.2-24B-Instruct-2506", max_tokens: 600, temperature: 0.8, messages: [{ role: "system", content: system }, { role: "user", content: user }] }),
+    });
+    const dj = await di.json();
+    j = { content: [{ text: dj.choices?.[0]?.message?.content ?? "" }], usage: { input_tokens: dj.usage?.prompt_tokens ?? 0, output_tokens: dj.usage?.completion_tokens ?? 0 } };
+  }
   candBrain.inputTokens += j.usage?.input_tokens ?? 0; candBrain.outputTokens += j.usage?.output_tokens ?? 0;
   const text = (j.content ?? []).map((c) => c.text ?? "").join("").trim();
   if (!text) throw new Error("candidate brain returned nothing: " + JSON.stringify(j).slice(0, 200));
