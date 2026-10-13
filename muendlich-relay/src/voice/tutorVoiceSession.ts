@@ -216,7 +216,11 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   const sttGate = new SpeechDetector();
   // 0.7 s (was 1.5 s) + a 250 ms debounce in the buffered STT (was 400): the student's last words reach Groq ~1.1 s after they stop talking instead of ~1.9 s, so the transcript is
   // usually ready before the answer is judged finished (2026-10-10: stt_flush 0.8-3.9 s was the wait for that request). A pause longer than this just splits the answer into two requests.
-  const STT_HANGOVER_MS = Number(process.env.TUTOR_STT_HANGOVER_MS ?? 700);
+  // Owner 2026-10-12 (first real user: words written wrongly when she speaks slowly): a pause longer than this ends the speech segment that is sent to the recognizer, and every segment is
+  // transcribed WITHOUT the context of the others. At 700 ms a hesitant answer arrived as dozens of 1-3 word fragments (29 of 65 lines of her session were <= 25 characters: "Atme", "Bastat.") and each
+  // request is billed for at least 10 s. Offline on a hesitant speaker (pauses 0.8-1.35 s): 17 requests / 170 billed s at 700 ms, 7 requests / 78 billed s at 1500 ms. 1200 ms keeps the final
+  // transcript on time (the turn logic flushes the pending segment itself once an answer looks finished) and merges the normal thinking pauses.
+  const STT_HANGOVER_MS = Number(process.env.TUTOR_STT_HANGOVER_MS ?? 1200);
   let sttLastActiveAt = 0;
   // Student speech as seen by the turn guard (voice/turnGuard.ts): when the last speech frame arrived and how much speech there has been in total.
   let studentLastSpeechAt = 0, studentSpeechMs = 0;
