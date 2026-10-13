@@ -65,7 +65,7 @@ export class ClaudeValidationError extends Error {
   }
 }
 
-export async function callClaudeTool<T = unknown>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
+async function callClaudeToolDirect<T = unknown>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
   const key = process.env.ANTHROPIC_API_KEY;
   if (!key) throw new Error("ANTHROPIC_API_KEY not set");
 
@@ -114,4 +114,99 @@ export async function callClaudeTool<T = unknown>(params: ClaudeToolCallParams):
     }
   }
   throw new Error(`Claude call failed after ${maxAttempts} attempts: ${String(lastErr)}`);
+}
+
+// ───────────────────────────── Backup LLM (DeepInfra) ─────────────────────────────
+// Owner 2026-10-13: the Anthropic API balance hit $0 while the owner had no money to top it up ("ekhdem bdeepinfra tawa lin nzid flous fi claude").
+// callClaudeTool() therefore falls back to open models on DeepInfra when Claude is unavailable (credit used up, rate limit / overloaded, transport failure) — Schreiben grading,
+// the Prüfungssimulation and the tutor correction all go through here, so one place covers them. Claude is ALWAYS tried first (unless it reported "credit balance is too low" in the last
+// 5 minutes); validation failures of Claude itself never fall back. The result's `model` is "deepinfra:<model>" so every stored grading says who graded it.
+//
+// Measured against Claude Sonnet 5 on 9 real graded essays (2026-10-13): Qwen3.8-Max ranks the essays exactly like Claude (Spearman 1.00) in ~16 s but is more generous (+5.6 points of 45 on
+// average); gpt-oss-120b (reasoning_effort low, ~30 s) is noisier. Both are far cheaper (≈1 cent / <0.1 cent per essay vs ≈3.7 cents). Disable with LLM_FALLBACK=off.
+const FALLBACK_MODELS = (process.env.LLM_FALLBACK_MODELS ?? "Qwen/Qwen3.8-Max,openai/gpt-oss-120b").split(",").map((m) => m.trim()).filter(Boolean);
+const FALLBACK_BUDGET_MS = 52_000; // total wall time for all fallback attempts (the platform function limit is the real ceiling)
+let claudeDownUntil = 0;
+
+function fallbackEnabled(): boolean {
+  return !!process.env.DEEPINFRA_API_KEY && (process.env.LLM_FALLBACK ?? "on").toLowerCase() !== "off" && FALLBACK_MODELS.length > 0;
+}
+
+/** Minimal JSON-Schema "required" check (objects/arrays/strings) — open models sometimes drop a nested required field, and a silent hole must not reach the student. */
+function missingRequired(schema: any, value: any, path = ""): string | null {
+  if (!schema || typeof schema !== "object") return null;
+  if (schema.type === "object") {
+    if (typeof value !== "object" || value === null || Array.isArray(value)) return `${path || "root"} is not an object`;
+    for (const k of schema.required ?? []) {
+      const v = value[k];
+      if (v === undefined || v === null || (typeof v === "string" && !v.trim())) return `${path}${k} missing or empty`;
+    }
+    for (const [k, sub] of Object.entries<any>(schema.properties ?? {})) {
+      if (value[k] !== undefined) { const m = missingRequired(sub, value[k], `${path}${k}.`); if (m) return m; }
+    }
+  } else if (schema.type === "array") {
+    if (!Array.isArray(value)) return `${path || "root"} is not an array`;
+    for (let i = 0; i < value.length; i++) { const m = missingRequired(schema.items, value[i], `${path}[${i}].`); if (m) return m; }
+  }
+  return null;
+}
+
+async function callFallbackTool<T>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
+  const key = process.env.DEEPINFRA_API_KEY;
+  if (!key) throw new Error("DEEPINFRA_API_KEY not set");
+  const started = Date.now();
+  const errors: string[] = [];
+  for (const model of FALLBACK_MODELS) {
+    const reasoning = /gpt-oss/i.test(model);
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      const left = FALLBACK_BUDGET_MS - (Date.now() - started);
+      if (left < 8_000) { errors.push("time budget used up"); break; }
+      try {
+        const res = await fetchWithTimeout("https://api.deepinfra.com/v1/openai/chat/completions", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${key}`, "content-type": "application/json" },
+          body: JSON.stringify({
+            model, temperature: 0.2,
+            max_tokens: Math.min(12_000, (params.maxTokens ?? 1500) * (reasoning ? 2 : 1)),
+            ...(reasoning ? { reasoning_effort: "low" } : {}),
+            messages: [{ role: "system", content: params.system }, { role: "user", content: params.userMessage }],
+            tools: [{ type: "function", function: { name: params.toolName, description: params.toolDescription, parameters: params.inputSchema } }],
+            tool_choice: { type: "function", function: { name: params.toolName } },
+          }),
+        }, Math.min(left, 45_000));
+        const json: any = await res.json().catch(() => ({}));
+        if (res.status === 402 || /balance|insufficient|payment/i.test(String(json?.error?.message ?? ""))) throw new ClaudeQuotaError(`DeepInfra balance: ${String(json?.error?.message ?? res.status)}`);
+        if (!res.ok) { errors.push(`${model}: HTTP ${res.status}`); if (res.status === 429 || res.status >= 500) { await new Promise((r) => setTimeout(r, 2000 * attempt)); continue; } break; }
+        const call = json.choices?.[0]?.message?.tool_calls?.[0];
+        if (!call) { errors.push(`${model}: no tool call`); continue; }
+        let data: any;
+        try { data = JSON.parse(call.function.arguments); } catch { errors.push(`${model}: tool arguments are not JSON`); continue; }
+        const hole = missingRequired(params.inputSchema, data);
+        if (hole) { errors.push(`${model}: ${hole}`); continue; }
+        return { data: data as T, model: `deepinfra:${model}`, inputTokens: Number(json.usage?.prompt_tokens ?? 0), outputTokens: Number(json.usage?.completion_tokens ?? 0) };
+      } catch (e) {
+        if (e instanceof ClaudeQuotaError) throw e;
+        errors.push(`${model}: ${String((e as Error)?.message ?? e).slice(0, 80)}`);
+      }
+    }
+  }
+  throw new ClaudeQuotaError(`backup LLM unavailable (${errors.join("; ").slice(0, 300)})`);
+}
+
+/** Claude first; DeepInfra open models only when Claude is unavailable (see the block comment above). */
+export async function callClaudeTool<T = unknown>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
+  const canFallback = fallbackEnabled();
+  if (!process.env.ANTHROPIC_API_KEY || (canFallback && Date.now() < claudeDownUntil)) {
+    if (canFallback) return callFallbackTool<T>(params);
+    return callClaudeToolDirect<T>(params); // throws "ANTHROPIC_API_KEY not set"
+  }
+  try {
+    return await callClaudeToolDirect<T>(params);
+  } catch (e) {
+    const unavailable = e instanceof ClaudeQuotaError || (!(e instanceof ClaudeValidationError) && /Claude call failed after/.test(String((e as Error)?.message ?? e)));
+    if (!unavailable || !canFallback) throw e;
+    if (e instanceof ClaudeQuotaError && /credit balance is too low/i.test(e.message)) claudeDownUntil = Date.now() + 5 * 60_000; // don't pay a failing round trip to Anthropic on every request
+    console.warn(`[llm] Claude unavailable (${String((e as Error)?.message ?? e).slice(0, 100)}) — using the DeepInfra backup (${FALLBACK_MODELS[0]})`);
+    return callFallbackTool<T>(params);
+  }
 }

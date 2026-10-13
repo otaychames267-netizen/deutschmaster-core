@@ -1,4 +1,4 @@
-import { CheckCircle2, XCircle, RotateCcw, Coins } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Coins, Info } from "lucide-react";
 
 export interface EssayGradingResult {
   task_achievement_score: number;
@@ -13,6 +13,8 @@ export interface EssayGradingResult {
     summary: string;
   };
   remaining_balance: number;
+  /** Who graded: "claude-…" normally; "deepinfra:<model>" while the backup AI is standing in (see lib/ai/claude.server.ts). */
+  model?: string;
 }
 
 const CRITERIA: { key: keyof EssayGradingResult["feedback"] & string; scoreKey: keyof EssayGradingResult; label: string }[] = [
@@ -55,6 +57,16 @@ export function EssayFeedback({
           </p>
         </div>
       </div>
+
+      {typeof result.model === "string" && result.model.startsWith("deepinfra:") && (
+        <div role="note" className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 py-3 text-xs leading-relaxed text-amber-800 dark:text-amber-300">
+          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
+          <p>
+            Diese Bewertung stammt vorübergehend vom Ersatz-KI-System. Die Punktzahl kann etwas großzügiger oder strenger ausfallen als gewohnt.
+            <span dir="rtl" lang="ar" className="mt-1 block">تم هذا التصحيح مؤقتاً بنظام ذكاء اصطناعي بديل، وقد تختلف النتيجة قليلاً عن المعتاد (أسهل أو أصعب قليلاً).</span>
+          </p>
+        </div>
+      )}
 
       <div className="space-y-4 rounded-2xl border border-border bg-card p-5">
         {CRITERIA.map((c) => (
