@@ -24,6 +24,10 @@ import { describeMicError } from "./micError";
  *   - `secondsRemaining` from the relay's `cap_status` message (the exam has
  *     no equivalent — it hard-stops silently instead; for money-metered
  *     practice time a visible, server-authoritative countdown is better UX).
+ *   - A dropped connection does NOT end the exam (2026-10-13, after a student lost hers to "connection dropped"): the relay freezes the session for
+ *     two minutes, this hook reconnects to the SAME /tutor/:sessionId with a fresh token (backoff, instantly on "back online" / "tab visible again") while the
+ *     microphone keeps running, and the relay resumes where it was and replays the tutor's speech that was missed. `reconnecting` drives the banner. Leaving
+ *     on purpose (stop()) first sends {type:"end"} — a bare socket close is treated as a drop.
  *   - `teil1Complete`/`teil2Complete` (informational — the session continues
  *     straight into the next Teil) and `sessionComplete` (the real
  *     end-of-session signal, once Teil 3 finishes) are separate flags — do
@@ -65,6 +69,8 @@ export interface VoiceTutorAudioState {
   sessionComplete: boolean;
   terminated: TutorTerminatedReason | null;
   error: string | null;
+  /** The connection to the relay broke and the hook is trying to get back into the same session (the exam is frozen on the server meanwhile). */
+  reconnecting: boolean;
 }
 
 const CAPTURE_SAMPLE_RATE = 16000;
@@ -73,6 +79,16 @@ const PING_INTERVAL_MS = 5000;
 const THINKING_TIMEOUT_MS = 2000;
 const MIC_ACTIVITY_RMS = 0.02;
 const DUCK_WHILE_AI_SPEAKING = 0.4;
+// The relay keeps a dropped session for 120 s (server.ts TUTOR_RESUME_GRACE_MS); give up a little before that — after it the session is gone for good.
+const RECONNECT_GIVE_UP_MS = 110_000;
+const RECONNECT_DELAYS_MS = [400, 1000, 2000, 3000];
+// An open-looking socket that has delivered nothing (not even the relay's answer to our 5 s ping) for this long is dead (Wi-Fi gone, half-open TCP): start a new connection instead of waiting for the browser to notice.
+const DEAD_AFTER_MS = 12_000;
+// Relay close codes after which reconnecting cannot work, mapped to what the student is told (see TERMINATED_MESSAGE in the session route).
+const FATAL_CLOSE_CODES: Record<number, string> = {
+  4003: "session_unavailable", 4004: "session_unavailable", 4006: "session_unavailable", 4007: "session_unavailable",
+  4010: "opened_elsewhere", 4005: "session_ended", 4009: "daily_cap_exceeded", 4011: "insufficient_minutes", 4013: "service_unavailable", 4014: "session_lost", 4015: "too_many_reconnects",
+};
 
 function floatTo16BitPCM(input: Float32Array): ArrayBuffer {
   const buffer = new ArrayBuffer(input.length * 2);
@@ -117,10 +133,10 @@ const initialState: VoiceTutorAudioState = {
   connected: false, ready: false, sessionId: null, secondsRemaining: null,
   micLevel: 0, aiSpeaking: false, aiThinking: false, lastNudgeAt: null,
   latencyMs: null, transcript: [], currentStage: 1, teil1Complete: false, teil2Complete: false, sessionComplete: false,
-  terminated: null, error: null,
+  terminated: null, error: null, reconnecting: false,
 };
 
-export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | null, accessToken: string | null) {
+export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | null, accessToken: string | null, getFreshToken?: () => Promise<string | null>) {
   const [state, setState] = useState<VoiceTutorAudioState>(initialState);
   const [reconnectNonce, setReconnectNonce] = useState(0);
 
@@ -136,13 +152,25 @@ export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | 
   const duckRef = useRef({ aiSpeaking: false });
   const micMutedRef = useRef(false);
   const [micMuted, setMicMutedState] = useState(false);
+  // Reconnect bookkeeping: `intentionalCloseRef` = WE are shutting down (stop()), so a closing socket is not a drop; `finishedRef` = the session is over (terminated / complete).
+  const intentionalCloseRef = useRef(false);
+  const finishedRef = useRef(false);
+  const reconnectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const removeListenersRef = useRef<(() => void) | null>(null);
 
   const stop = useCallback(() => {
+    intentionalCloseRef.current = true;
+    if (reconnectTimerRef.current) { clearTimeout(reconnectTimerRef.current); reconnectTimerRef.current = null; }
     processorRef.current?.disconnect();
     sourceRef.current?.disconnect();
     streamRef.current?.getTracks().forEach((t) => t.stop());
     audioCtxRef.current?.close().catch(() => {});
-    wsRef.current?.close();
+    // Tell the relay this is on purpose (a bare close is treated as a dropped connection and keeps the session frozen for two minutes).
+    const ws = wsRef.current;
+    if (ws) {
+      if (ws.readyState === WebSocket.OPEN) { try { ws.send(JSON.stringify({ type: "end" })); } catch { /* closing anyway */ } ws.close(); }
+      else if (ws.readyState === WebSocket.CONNECTING) { ws.onopen = () => { try { ws.send(JSON.stringify({ type: "end" })); } catch { /* closing anyway */ } ws.close(); }; }
+    }
     if (pingIntervalRef.current) clearInterval(pingIntervalRef.current);
     processorRef.current = null; sourceRef.current = null; streamRef.current = null; audioCtxRef.current = null; wsRef.current = null;
   }, []);
@@ -158,6 +186,88 @@ export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | 
   useEffect(() => {
     if (!relayUrl || !sessionId || !accessToken) return;
     let cancelled = false;
+    intentionalCloseRef.current = false;
+    finishedRef.current = false;
+    const initialToken: string = accessToken;
+    let lostAt = 0, attempt = 0, everConnected = false, lastInboundAt = Date.now();
+
+    const markFinished = (reason: string | null) => { finishedRef.current = true; if (reason) setState((s) => ({ ...s, terminated: reason, reconnecting: false })); };
+
+    // One WebSocket to the relay. Called for the first connection and again, with a fresh token, after every drop; the microphone/AudioContext below live across all of them.
+    const connect = async (audioCtx: AudioContext) => {
+      if (cancelled || intentionalCloseRef.current || finishedRef.current) return;
+      let token: string = initialToken;
+      if (lostAt > 0 && getFreshToken) { try { token = (await getFreshToken()) ?? initialToken; } catch { /* keep the old token */ } }
+      if (cancelled || intentionalCloseRef.current || finishedRef.current) return;
+      const ws = new WebSocket(`${relayUrl}/tutor/${sessionId}?token=${encodeURIComponent(token)}`);
+      wsRef.current = ws;
+      lastInboundAt = Date.now();
+
+      ws.onopen = () => {
+        if (wsRef.current !== ws) return;
+        everConnected = true;
+        setState((s) => ({ ...s, connected: true, error: null }));
+        ws.send(JSON.stringify({ type: "ping", t: Date.now() }));
+      };
+      ws.onerror = () => { if (wsRef.current === ws && lostAt === 0) setState((s) => ({ ...s, error: "Verbindung zum Sprachtrainer fehlgeschlagen." })); };
+      ws.onclose = (ev) => {
+        if (wsRef.current !== ws) return; // an older socket closing after it was replaced
+        setState((s) => ({ ...s, connected: false }));
+        if (cancelled || intentionalCloseRef.current || finishedRef.current) return;
+        const fatal = FATAL_CLOSE_CODES[ev.code];
+        if (fatal) { markFinished(fatal); return; }
+        // Anything else is a dropped connection: keep the microphone, reconnect to the same session.
+        if (lostAt === 0) { lostAt = Date.now(); attempt = 0; }
+        scheduleReconnect(audioCtx, attempt === 0 ? 0 : undefined); // the first retry is immediate, the next ones back off (RECONNECT_DELAYS_MS)
+      };
+      ws.onmessage = (ev) => {
+        if (wsRef.current !== ws) return;
+        lastInboundAt = Date.now();
+        const msg = JSON.parse(ev.data);
+        if (msg.type === "ready") {
+          lostAt = 0; attempt = 0;
+          setState((s) => ({ ...s, ready: true, sessionId: msg.sessionId ?? null, reconnecting: false, error: null }));
+          if (msg.resumed) nextPlayTimeRef.current = audioCtx.currentTime;
+        }
+        else if (msg.type === "pong") setState((s) => ({ ...s, latencyMs: Date.now() - msg.t }));
+        else if (msg.type === "cap_status") setState((s) => ({ ...s, secondsRemaining: msg.secondsRemaining }));
+        else if (msg.type === "nudge") setState((s) => ({ ...s, lastNudgeAt: Date.now() }));
+        else if (msg.type === "transcript") {
+          setState((s) => ({ ...s, transcript: [...s.transcript, { speaker: msg.speaker, text: msg.text, at: Date.now() }] }));
+        } else if (msg.type === "audio") {
+          playChunk(audioCtx, base64ToInt16Array(msg.data), nextPlayTimeRef);
+          duckRef.current.aiSpeaking = true;
+          if (thinkingTimeoutRef.current) { clearTimeout(thinkingTimeoutRef.current); thinkingTimeoutRef.current = null; }
+          setState((s) => ({ ...s, aiSpeaking: true, aiThinking: false }));
+          if (aiSpeakingTimeoutRef.current) clearTimeout(aiSpeakingTimeoutRef.current);
+          aiSpeakingTimeoutRef.current = setTimeout(() => {
+            duckRef.current.aiSpeaking = false;
+            setState((s) => ({ ...s, aiSpeaking: false }));
+          }, 600);
+        } else if (msg.type === "teil1_complete") setState((s) => ({ ...s, teil1Complete: true }));
+        else if (msg.type === "teil2_complete") setState((s) => ({ ...s, teil2Complete: true }));
+        else if (msg.type === "stage") setState((s) => ({ ...s, currentStage: msg.stage }));
+        else if (msg.type === "session_complete") { finishedRef.current = true; setState((s) => ({ ...s, sessionComplete: true })); }
+        else if (msg.type === "terminated") markFinished(msg.reason);
+      };
+    };
+
+    const scheduleReconnect = (audioCtx: AudioContext, delayOverride?: number) => {
+      if (cancelled || intentionalCloseRef.current || finishedRef.current) return;
+      if (reconnectTimerRef.current) clearTimeout(reconnectTimerRef.current);
+      // a connection that never opened at all (relay down / blocked) fails fast; one that was inside a live session gets the relay's whole reconnect window
+      if (Date.now() - lostAt > (everConnected ? RECONNECT_GIVE_UP_MS : 15_000)) { markFinished("connection_lost"); return; }
+      setState((s) => ({ ...s, reconnecting: true }));
+      const delay = delayOverride ?? RECONNECT_DELAYS_MS[Math.min(attempt, RECONNECT_DELAYS_MS.length - 1)];
+      attempt++;
+      reconnectTimerRef.current = setTimeout(async () => {
+        reconnectTimerRef.current = null;
+        await connect(audioCtx);
+        // A connect that never opens (network still down) fires onclose too, which schedules the next attempt; a socket stuck in CONNECTING is cut after 8 s.
+        const ws = wsRef.current;
+        if (ws && ws.readyState === WebSocket.CONNECTING) setTimeout(() => { if (wsRef.current === ws && ws.readyState === WebSocket.CONNECTING) ws.close(); }, 8000);
+      }, delay);
+    };
 
     (async () => {
       try {
@@ -171,42 +281,32 @@ export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | 
         audioCtxRef.current = audioCtx;
         nextPlayTimeRef.current = audioCtx.currentTime;
 
-        const ws = new WebSocket(`${relayUrl}/tutor/${sessionId}?token=${encodeURIComponent(accessToken)}`);
-        wsRef.current = ws;
-
-        ws.onopen = () => {
-          setState((s) => ({ ...s, connected: true }));
-          pingIntervalRef.current = setInterval(() => {
-            if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ type: "ping", t: Date.now() }));
-          }, PING_INTERVAL_MS);
+        await connect(audioCtx);
+        pingIntervalRef.current = setInterval(() => {
+          const ws = wsRef.current;
+          if (!ws || ws.readyState !== WebSocket.OPEN || finishedRef.current) return;
+          if (Date.now() - lastInboundAt > DEAD_AFTER_MS) {
+            if (lostAt === 0) { lostAt = Date.now(); attempt = 0; }
+            wsRef.current = null; // from here the old socket's events are ignored
+            try { ws.close(); } catch { /* already dead */ }
+            setState((s) => ({ ...s, connected: false }));
+            scheduleReconnect(audioCtx, 0);
+            return;
+          }
           ws.send(JSON.stringify({ type: "ping", t: Date.now() }));
+        }, PING_INTERVAL_MS);
+
+        // Back online / tab visible again (phone unlocked, app switched back): the browser may have suspended the audio and killed the socket — retry at once instead of waiting for the backoff.
+        const wake = () => {
+          if (cancelled || intentionalCloseRef.current || finishedRef.current) return;
+          if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+          const ws = wsRef.current;
+          if (lostAt > 0 && (!ws || ws.readyState === WebSocket.CLOSED)) { attempt = 0; scheduleReconnect(audioCtx, 0); }
         };
-        ws.onerror = () => setState((s) => ({ ...s, error: "Verbindung zum Sprachtrainer fehlgeschlagen." }));
-        ws.onclose = () => setState((s) => ({ ...s, connected: false }));
-        ws.onmessage = (ev) => {
-          const msg = JSON.parse(ev.data);
-          if (msg.type === "ready") setState((s) => ({ ...s, ready: true, sessionId: msg.sessionId ?? null }));
-          else if (msg.type === "pong") setState((s) => ({ ...s, latencyMs: Date.now() - msg.t }));
-          else if (msg.type === "cap_status") setState((s) => ({ ...s, secondsRemaining: msg.secondsRemaining }));
-          else if (msg.type === "nudge") setState((s) => ({ ...s, lastNudgeAt: Date.now() }));
-          else if (msg.type === "transcript") {
-            setState((s) => ({ ...s, transcript: [...s.transcript, { speaker: msg.speaker, text: msg.text, at: Date.now() }] }));
-          } else if (msg.type === "audio") {
-            playChunk(audioCtx, base64ToInt16Array(msg.data), nextPlayTimeRef);
-            duckRef.current.aiSpeaking = true;
-            if (thinkingTimeoutRef.current) { clearTimeout(thinkingTimeoutRef.current); thinkingTimeoutRef.current = null; }
-            setState((s) => ({ ...s, aiSpeaking: true, aiThinking: false }));
-            if (aiSpeakingTimeoutRef.current) clearTimeout(aiSpeakingTimeoutRef.current);
-            aiSpeakingTimeoutRef.current = setTimeout(() => {
-              duckRef.current.aiSpeaking = false;
-              setState((s) => ({ ...s, aiSpeaking: false }));
-            }, 600);
-          } else if (msg.type === "teil1_complete") setState((s) => ({ ...s, teil1Complete: true }));
-          else if (msg.type === "teil2_complete") setState((s) => ({ ...s, teil2Complete: true }));
-          else if (msg.type === "stage") setState((s) => ({ ...s, currentStage: msg.stage }));
-          else if (msg.type === "session_complete") setState((s) => ({ ...s, sessionComplete: true }));
-          else if (msg.type === "terminated") setState((s) => ({ ...s, terminated: msg.reason }));
-        };
+        const onVisibility = () => { if (document.visibilityState === "visible") wake(); };
+        window.addEventListener("online", wake);
+        document.addEventListener("visibilitychange", onVisibility);
+        removeListenersRef.current = () => { window.removeEventListener("online", wake); document.removeEventListener("visibilitychange", onVisibility); };
 
         const source = audioCtx.createMediaStreamSource(stream);
         sourceRef.current = source;
@@ -230,7 +330,8 @@ export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | 
             }, THINKING_TIMEOUT_MS);
           }
 
-          if (ws.readyState !== WebSocket.OPEN || micMutedRef.current) return;
+          const ws = wsRef.current; // the CURRENT socket — it is replaced after a reconnect
+          if (!ws || ws.readyState !== WebSocket.OPEN || micMutedRef.current) return;
 
           // Same echo-guard as the exam: attenuate outgoing mic samples while
           // the tutor's own audio is actually playing. No partner-turn
@@ -255,6 +356,7 @@ export function useVoiceTutorAudio(relayUrl: string | null, sessionId: string | 
 
     return () => {
       cancelled = true;
+      removeListenersRef.current?.(); removeListenersRef.current = null;
       if (thinkingTimeoutRef.current) clearTimeout(thinkingTimeoutRef.current);
       if (aiSpeakingTimeoutRef.current) clearTimeout(aiSpeakingTimeoutRef.current);
       stop();

@@ -27,6 +27,12 @@ const TERMINATED_MESSAGE: Record<string, string> = {
   idle_timeout: "Die Sitzung wurde wegen Inaktivität beendet.",
   service_unavailable: "Der KI-Sprachtrainer ist gerade vorübergehend nicht verfügbar. Wir arbeiten daran — dein Kontingent wird nicht belastet. Bitte versuche es in einigen Minuten erneut.",
   insufficient_minutes: "Dein ElevenLabs-Kontingent für diesen Monat ist aufgebraucht. Bitte kontaktiere den Support.",
+  connection_lost: "Die Verbindung wurde unterbrochen und konnte nicht wiederhergestellt werden. Deine bisherige Übung wird trotzdem ausgewertet.",
+  session_lost: "Die Sitzung wurde durch ein technisches Update unterbrochen. Deine bisherige Übung wird trotzdem ausgewertet.",
+  session_ended: "Die Sitzung wurde beendet, während deine Verbindung unterbrochen war. Deine Übung wird ausgewertet.",
+  too_many_reconnects: "Deine Verbindung war zu instabil, um die Prüfung fortzusetzen. Deine bisherige Übung wird ausgewertet.",
+  session_unavailable: "Diese Sitzung ist nicht mehr verfügbar.",
+  opened_elsewhere: "Diese Sitzung wurde in einem anderen Fenster geöffnet. Deine bisherige Übung wird ausgewertet.",
 };
 
 type CorrectionState = { status: "idle" } | { status: "loading" } | { status: "done"; data: VoiceTutorCorrectionsData } | { status: "error"; message: string };
@@ -69,7 +75,9 @@ function VoiceTutorSession() {
     supabase.auth.getSession().then(({ data }) => setAccessToken(data.session?.access_token ?? null));
   }, []);
 
-  const audio = useVoiceTutorAudio(started && !endedManually ? RELAY_URL : null, sessionId, accessToken);
+  // A fresh token for every reconnect after a dropped connection (the one from page load may have expired during a long outage).
+  const getFreshToken = useCallback(async () => (await supabase.auth.getSession()).data.session?.access_token ?? null, []);
+  const audio = useVoiceTutorAudio(started && !endedManually ? RELAY_URL : null, sessionId, accessToken, getFreshToken);
 
   const ended = endedManually || audio.sessionComplete || !!audio.terminated;
 
@@ -174,11 +182,18 @@ function VoiceTutorSession() {
             {audio.currentStage === 3 ? teil3Title : audio.currentStage === 2 ? teil2Title : teil1Title}
           </h1>
         </div>
-        <VoiceTutorCountdown secondsRemaining={audio.secondsRemaining} running={audio.ready} />
+        <VoiceTutorCountdown secondsRemaining={audio.secondsRemaining} running={audio.ready && !audio.reconnecting} />
       </div>
 
       <ExaminerAvatar state={examinerState} />
       <p className="text-xs text-muted-foreground">{audio.error ? <span className="text-destructive">{audio.error}</span> : EXAMINER_STATE_LABEL[examinerState]}</p>
+
+      {audio.reconnecting && (
+        <div role="status" className="flex w-full items-center justify-center gap-2 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-center text-xs font-medium text-amber-700 dark:text-amber-300">
+          <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+          <span>Verbindung unterbrochen – wir verbinden dich neu. Deine Prüfung ist angehalten; bleib bitte auf dieser Seite.</span>
+        </div>
+      )}
 
       {!(SHOW_LIVE_TRANSCRIPT || isAdmin) && (
         <div className="w-full flex-1 rounded-xl border border-border bg-card/50 p-4 text-center text-xs leading-relaxed text-muted-foreground">
