@@ -162,6 +162,10 @@ export interface ExamUsage {
   /** Real usage on the Groq-hosted Whisper path (MUENDLICH_STT_BACKEND=groq)
    * — billed by Groq at GROQ_STT_USD_PER_HOUR, ZERO ElevenLabs credits. */
   groqSttMinutes?: number;
+  /** Dollars the hosted-Whisper chain (DeepInfra primary, Groq backup) reports for itself — when set it REPLACES the groqSttMinutes pricing (groqSttMinutes then only carries the billed minutes for the record). */
+  hostedSttUsd?: number;
+  /** "deepinfra", "groq" or "deepinfra->groq" — what was recorded as stt_provider. */
+  sttProviderLabel?: string;
   /** Informational (not billed): number of Groq requests, and the raw minutes of audio forwarded to STT. */
   groqRequests?: number;
   forwardedSttMinutes?: number;
@@ -212,7 +216,7 @@ export function computeExamCost(usage: ExamUsage): ExamCost {
   const sttUsd = sttMinutesToUsd(usage.sttMinutes);
   const claudeUsd = claudeUsageToUsd(usage);
   const googleUsd = googleTtsCharactersToUsd(usage.googleTtsCharacters ?? 0) + googleSttMinutesToUsd(usage.googleSttMinutes ?? 0);
-  const selfHostedUsd = selfHostedSttMinutesToUsd(usage.selfHostedSttMinutes ?? 0) + groqSttMinutesToUsd(usage.groqSttMinutes ?? 0);
+  const selfHostedUsd = selfHostedSttMinutesToUsd(usage.selfHostedSttMinutes ?? 0) + (usage.hostedSttUsd !== undefined ? usage.hostedSttUsd : groqSttMinutesToUsd(usage.groqSttMinutes ?? 0));
   return {
     ttsCredits, sttCredits, totalCredits: ttsCredits + sttCredits,
     ttsUsd, sttUsd, claudeUsd, googleUsd, selfHostedUsd,

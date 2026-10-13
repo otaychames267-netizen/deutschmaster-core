@@ -85,7 +85,14 @@ export async function openFailoverStt(
       else if (switching) { if (queued.length < 600) queued.push(base64); } // ~60s of 100ms frames, bounded
       else primary.sendPcm16(base64);
     },
-    billing() { return primary.billing?.() ?? { requests: 0, billedSeconds: 0 }; },
+    billing() {
+      const a = primary.billing?.() ?? { requests: 0, billedSeconds: 0 };
+      const b = fallback?.billing?.();
+      return b ? { requests: a.requests + b.requests, billedSeconds: a.billedSeconds + b.billedSeconds } : a;
+    },
+    /** Real dollars of both providers (each has its own rate and minimum billing unit — see groqStt.ts). */
+    costUsd() { return (primary.costUsd?.() ?? 0) + (fallback?.costUsd?.() ?? 0); },
+    providerLabel() { const p = primary.providerLabel?.() ?? "primary"; return failedOver && fallback ? `${p}->${fallback.providerLabel?.() ?? "fallback"}` : p; },
     async flush() {
       if (failedOver && fallback) await fallback.flush?.();
       else await primary.flush?.();

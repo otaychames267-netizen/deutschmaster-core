@@ -23,8 +23,19 @@
 import type { SttCallbacks, SttSession } from "./elevenLabsStt.js";
 import { openBufferedStt, type BufferedSttOptions } from "./whisperStt.js";
 import { PERMANENT_MARKER } from "./failoverStt.js";
+import { GROQ_STT_USD_PER_HOUR } from "./costAccounting.js";
 
 const GROQ_URL = "https://api.groq.com/openai/v1/audio/transcriptions";
+
+/** Two hosted Whisper providers speak the same OpenAI-compatible /audio/transcriptions API (verified 2026-10-13 on the same audio: identical verbose_json shape with segments + no_speech_prob,
+ * same word accuracy, median request latency 1.36 s DeepInfra vs 1.30 s Groq). DeepInfra is pay-as-you-go ($0.00020/min = $0.012/h, no free-tier ceiling, billed on the audio actually sent);
+ * Groq's account is on the FREE tier (2,000 requests/day, 7,200 audio-s/hour) and bills every request for at least 10 s. */
+export type HostedWhisperProvider = "groq" | "deepinfra";
+interface ProviderConfig { label: HostedWhisperProvider; url: string; keyEnv: string; model: () => string; minBilledSeconds: number; usdPerHour: () => number; paymentRequiredIsPermanent: boolean }
+const PROVIDERS: Record<HostedWhisperProvider, ProviderConfig> = {
+  groq: { label: "groq", url: GROQ_URL, keyEnv: "GROQ_API_KEY", model: () => process.env.GROQ_STT_MODEL ?? "whisper-large-v3-turbo", minBilledSeconds: 10, usdPerHour: () => GROQ_STT_USD_PER_HOUR, paymentRequiredIsPermanent: false },
+  deepinfra: { label: "deepinfra", url: "https://api.deepinfra.com/v1/openai/audio/transcriptions", keyEnv: "DEEPINFRA_API_KEY", model: () => process.env.DEEPINFRA_STT_MODEL ?? "openai/whisper-large-v3-turbo", minBilledSeconds: 0, usdPerHour: () => Number(process.env.DEEPINFRA_STT_USD_PER_HOUR ?? 0.012), paymentRequiredIsPermanent: true },
+};
 const MAX_ATTEMPTS = 3;
 // 7 s (was 15 s, 2026-10-10): a normal request answers in 0.5-1.5 s; in a full real-candidate run two 15 s timeouts + retries put a 34 s hole into one tutor turn.
 // A request that is still silent after 7 s is abandoned and retried (the retry usually answers at once), and 2 failed requests in a row switch the stream to ElevenLabs.
@@ -55,12 +66,10 @@ function cleanTranscript(data: any): string {
   return STOCK_HALLUCINATIONS.some((re) => re.test(text)) ? "" : text;
 }
 
-const MIN_BILLED_SECONDS = 10; // Groq bills every request for at least 10s of audio
-
-async function groqTranscribe(pcm: Buffer, onBilled?: (seconds: number) => void): Promise<string> {
-  const key = process.env.GROQ_API_KEY;
-  if (!key) throw new Error("GROQ_API_KEY not set");
-  const model = process.env.GROQ_STT_MODEL ?? "whisper-large-v3-turbo";
+async function hostedTranscribe(pcm: Buffer, cfg: ProviderConfig, onBilled?: (seconds: number) => void): Promise<string> {
+  const key = process.env[cfg.keyEnv];
+  if (!key) throw new Error(`${cfg.keyEnv} not set`);
+  const model = cfg.model();
   const wav = pcm16ToWav(pcm);
 
   let lastErr = "";
@@ -77,21 +86,21 @@ async function groqTranscribe(pcm: Buffer, onBilled?: (seconds: number) => void)
       // chain (whisperStt.ts), so a single hung request would otherwise block
       // every later segment for the rest of the exam. Network errors (seen
       // live: "fetch failed" on 1 of 8 sequential calls) are retried like a 5xx.
-      res = await fetch(GROQ_URL, { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+      res = await fetch(cfg.url, { method: "POST", headers: { Authorization: `Bearer ${key}` }, body: form, signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
     } catch (e) {
-      lastErr = `groq request failed: ${e instanceof Error ? e.message : String(e)}`;
+      lastErr = `${cfg.label} request failed: ${e instanceof Error ? e.message : String(e)}`;
       if (attempt === MAX_ATTEMPTS) break;
-      console.warn(`[groqStt] ${lastErr} (attempt ${attempt}/${MAX_ATTEMPTS}), retrying`);
+      console.warn(`[hostedStt] ${lastErr} (attempt ${attempt}/${MAX_ATTEMPTS}), retrying`);
       await new Promise((r) => setTimeout(r, 400 * attempt));
       continue;
     }
     if (res.ok) {
-      onBilled?.(Math.max(MIN_BILLED_SECONDS, pcm.length / 2 / 16_000));
+      onBilled?.(Math.max(cfg.minBilledSeconds, pcm.length / 2 / 16_000));
       return cleanTranscript(await res.json());
     }
 
     const body = await res.text().catch(() => "");
-    lastErr = `groq ${res.status}: ${body.slice(0, 200)}`;
+    lastErr = `${cfg.label} ${res.status}: ${body.slice(0, 200)}`;
     const retryAfterS = Number(res.headers.get("retry-after"));
     // Errors retrying cannot fix are flagged so failoverStt.ts switches this
     // stream to the fallback backend IMMEDIATELY instead of after several
@@ -99,19 +108,29 @@ async function groqTranscribe(pcm: Buffer, onBilled?: (seconds: number) => void)
     // quota (Retry-After of minutes/hours, or a "per day" message) — not a
     // momentary per-minute burst.
     const dailyQuota = res.status === 429 && (retryAfterS > 10 || /per day|\b(RPD|TPD|ASD)\b/.test(body));
-    if (res.status === 401 || res.status === 403 || dailyQuota) throw new Error(`${PERMANENT_MARKER} ${lastErr}`);
+    // 402 = DeepInfra balance used up: retrying cannot help, hand the stream to the backup provider at once
+    if (res.status === 401 || res.status === 403 || dailyQuota || (cfg.paymentRequiredIsPermanent && res.status === 402)) throw new Error(`${PERMANENT_MARKER} ${lastErr}`);
     const retryable = res.status === 429 || res.status >= 500;
     if (!retryable || attempt === MAX_ATTEMPTS) break;
     const waitMs = Number.isFinite(retryAfterS) && retryAfterS > 0 ? Math.min(retryAfterS, 8) * 1000 : 800 * attempt;
-    console.warn(`[groqStt] ${res.status} on attempt ${attempt}/${MAX_ATTEMPTS}, retrying in ${waitMs}ms`);
+    console.warn(`[hostedStt] ${cfg.label} ${res.status} on attempt ${attempt}/${MAX_ATTEMPTS}, retrying in ${waitMs}ms`);
     await new Promise((r) => setTimeout(r, waitMs));
   }
   throw new Error(lastErr);
 }
 
-export function openGroqStt(callbacks: SttCallbacks, opts?: BufferedSttOptions): Promise<SttSession> {
-  if (!process.env.GROQ_API_KEY) return Promise.reject(new Error("GROQ_API_KEY not set"));
+export function openHostedWhisperStt(provider: HostedWhisperProvider, callbacks: SttCallbacks, opts?: BufferedSttOptions): Promise<SttSession> {
+  const cfg = PROVIDERS[provider];
+  if (!process.env[cfg.keyEnv]) return Promise.reject(new Error(`${cfg.keyEnv} not set`));
   let requests = 0, billedSeconds = 0;
-  const session = openBufferedStt((pcm) => groqTranscribe(pcm, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
-  return Promise.resolve(Object.assign(session, { billing: () => ({ requests, billedSeconds }) }));
+  const session = openBufferedStt((pcm) => hostedTranscribe(pcm, cfg, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
+  return Promise.resolve(Object.assign(session, {
+    billing: () => ({ requests, billedSeconds }),
+    costUsd: () => (billedSeconds / 3600) * cfg.usdPerHour(),
+    providerLabel: () => cfg.label,
+  }));
+}
+
+export function openGroqStt(callbacks: SttCallbacks, opts?: BufferedSttOptions): Promise<SttSession> {
+  return openHostedWhisperStt("groq", callbacks, opts);
 }

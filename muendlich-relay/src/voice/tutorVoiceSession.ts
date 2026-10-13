@@ -26,7 +26,7 @@
  * mid-connection.
  */
 import { openRealtimeStt, type SttSession } from "./elevenLabsStt.js";
-import { openGroqStt } from "./groqStt.js";
+import { openGroqStt, openHostedWhisperStt } from "./groqStt.js";
 import { openFailoverStt } from "./failoverStt.js";
 import { SpeechDetector } from "../speechActivity.js";
 import { openLiveConnection, startLiveSynthesis, liveTtsPath, warmUpLiveVoice, type LiveConnection, type StreamingSynthesisHandle } from "./elevenLabsTts.js";
@@ -221,6 +221,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
   // request is billed for at least 10 s. Offline on a hesitant speaker (pauses 0.8-1.35 s): 17 requests / 170 billed s at 700 ms, 7 requests / 78 billed s at 1500 ms. 1200 ms keeps the final
   // transcript on time (the turn logic flushes the pending segment itself once an answer looks finished) and merges the normal thinking pauses.
   const STT_HANGOVER_MS = Number(process.env.TUTOR_STT_HANGOVER_MS ?? 1200);
+  // STT chain (see where it is opened): hosted Whisper when MUENDLICH_STT_BACKEND=groq (the historical name of the switch), DeepInfra first unless TUTOR_STT_PRIMARY=groq.
+  const hostedSttEnabled = process.env.MUENDLICH_STT_BACKEND === "groq";
+  const deepInfraPrimary = hostedSttEnabled && (process.env.TUTOR_STT_PRIMARY ?? "deepinfra") === "deepinfra" && !!process.env.DEEPINFRA_API_KEY;
   let sttLastActiveAt = 0;
   // Student speech as seen by the turn guard (voice/turnGuard.ts): when the last speech frame arrived and how much speech there has been in total.
   let studentLastSpeechAt = 0, studentSpeechMs = 0;
@@ -601,10 +604,16 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       onError: (msg: string) => console.error(`[tutor voice] STT error (session ${sessionId}):`, msg),
       onClose: () => console.warn(`[tutor voice] STT connection closed (session ${sessionId}) — organic input transcripts disabled for the rest of the session`),
     };
-    // Groq-hosted Whisper (~10x cheaper) with automatic failover to ElevenLabs Scribe, same as the exam room.
-    stt = process.env.MUENDLICH_STT_BACKEND === "groq"
-      ? await openFailoverStt((cb) => openGroqStt(cb, { flushDebounceMs: Number(process.env.TUTOR_STT_FLUSH_DEBOUNCE_MS ?? 250) }), openRealtimeStt, sttCallbacks, `tutor session ${sessionId}`)
-      : await openRealtimeStt(sttCallbacks);
+    // Hosted Whisper. Owner 2026-10-13 ("yalla deepinfra"): DeepInfra is the PRIMARY (same model as Groq, $0.012/h pay-as-you-go, no free-tier ceiling; the Groq account is on the free
+    // tier: 2,000 requests/day, 7,200 audio-s/hour, every request billed >= 10 s) and Groq is the BACKUP — two independent providers; the ElevenLabs realtime fallback is only kept for the old
+    // Groq-primary chain (TUTOR_STT_PRIMARY=groq), because its credit is 0 and its cost accounting is minute-based. A provider that fails permanently (401/403, 402 = DeepInfra balance used up,
+    // Groq daily quota) hands THIS stream to the other one at once.
+    const sttOpts = { flushDebounceMs: Number(process.env.TUTOR_STT_FLUSH_DEBOUNCE_MS ?? 250) };
+    stt = !hostedSttEnabled
+      ? await openRealtimeStt(sttCallbacks)
+      : deepInfraPrimary
+        ? await openFailoverStt((cb) => openHostedWhisperStt("deepinfra", cb, sttOpts), (cb) => openHostedWhisperStt("groq", cb, sttOpts), sttCallbacks, `tutor session ${sessionId}`)
+        : await openFailoverStt((cb) => openGroqStt(cb, sttOpts), openRealtimeStt, sttCallbacks, `tutor session ${sessionId}`);
   } catch (e) {
     console.error(`[tutor voice] failed to open STT for session ${sessionId}:`, e);
   }
@@ -620,7 +629,7 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
       else if (now - sttLastActiveAt >= STT_HANGOVER_MS) return; // genuine silence beyond the hangover
       const bytes = Buffer.byteLength(base64, "base64");
       sttBytes += bytes;
-      if (stt && "failedOver" in stt && (stt as { failedOver: boolean }).failedOver) sttFallbackBytes += bytes;
+      if (!deepInfraPrimary && stt && "failedOver" in stt && (stt as { failedOver: boolean }).failedOver) sttFallbackBytes += bytes; // ElevenLabs minutes — only the old Groq->ElevenLabs chain
       stt?.sendPcm16(base64);
     },
     sendSystemMessage(text, turn) {
@@ -684,6 +693,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
         // Groq path: ElevenLabs STT minutes are only what failed over; Groq is billed per request (>= 10s each).
         sttMinutes: usingGroq ? fallbackMinutes : sttMinutes,
         groqSttMinutes: usingGroq ? (billing ? billing.billedSeconds / 60 : sttMinutes - fallbackMinutes) : 0,
+        // DeepInfra-primary chain: the providers report their own dollars (different rates and billing units); the minutes above are then only the record of what was billed
+        hostedSttUsd: deepInfraPrimary ? (stt?.costUsd?.() ?? 0) : undefined,
+        sttProviderLabel: deepInfraPrimary ? (stt?.providerLabel?.() ?? "deepinfra") : undefined,
         groqRequests: billing?.requests,
         forwardedSttMinutes: sttMinutes,
         claudeInputTokens, claudeOutputTokens, claudeCacheCreationInputTokens, claudeCacheReadInputTokens,

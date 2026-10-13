@@ -52,16 +52,16 @@ export async function recordExamCost(admin: SupabaseClient, p: {
   };
   const backend = process.env.MUENDLICH_STT_BACKEND ?? "elevenlabs";
   const elevenLabsSttMinutes = u.sttMinutes ?? 0;
-  const sttProvider = backend === "groq" ? (elevenLabsSttMinutes > 0 ? "groq+elevenlabs_failover" : "groq") : backend;
+  const sttProvider = u.sttProviderLabel ?? (backend === "groq" ? (elevenLabsSttMinutes > 0 ? "groq+elevenlabs_failover" : "groq") : backend);
 
   const usdTts = ((u.ttsCharacters ?? 0) / 1000) * ttsUsdPer1000Characters(p.ttsProvider);
-  const usdStt = sttMinutesToUsd(elevenLabsSttMinutes) + groqSttMinutesToUsd(u.groqSttMinutes ?? 0);
+  const usdStt = sttMinutesToUsd(elevenLabsSttMinutes) + (u.hostedSttUsd !== undefined ? u.hostedSttUsd : groqSttMinutesToUsd(u.groqSttMinutes ?? 0));
   const usdExaminer = tokensToUsd(examiner, p.examinerModel);
   const usdEvaluator = tokensToUsd(p.evaluatorUsage, p.evaluatorModel);
   const usdTotal = usdTts + usdStt + usdExaminer + usdEvaluator;
 
   console.log(
-    `[${table === "voice_tutor_costs" ? "tutor-cost" : "exam-cost"}] session=${p.sessionId} total=$${usdTotal.toFixed(4)} tts=$${usdTts.toFixed(4)}(${u.ttsCharacters ?? 0} chars, ${p.ttsProvider ?? "elevenlabs"}) stt=$${usdStt.toFixed(4)}(${sttProvider}, groq ${u.groqRequests ?? 0} req / ${((u.groqSttMinutes ?? 0) * 60).toFixed(0)}s billed, forwarded ${(u.forwardedSttMinutes ?? 0).toFixed(1)} min) examiner=$${usdExaminer.toFixed(4)}(${p.examinerModel}) evaluator=$${usdEvaluator.toFixed(4)}`,
+    `[${table === "voice_tutor_costs" ? "tutor-cost" : "exam-cost"}] session=${p.sessionId} total=$${usdTotal.toFixed(4)} tts=$${usdTts.toFixed(4)}(${u.ttsCharacters ?? 0} chars, ${p.ttsProvider ?? "elevenlabs"}) stt=$${usdStt.toFixed(4)}(${sttProvider}, ${u.groqRequests ?? 0} req / ${((u.groqSttMinutes ?? 0) * 60).toFixed(0)}s billed, forwarded ${(u.forwardedSttMinutes ?? 0).toFixed(1)} min) examiner=$${usdExaminer.toFixed(4)}(${p.examinerModel}) evaluator=$${usdEvaluator.toFixed(4)}`,
   );
 
   const { error } = await admin.from(table).upsert({

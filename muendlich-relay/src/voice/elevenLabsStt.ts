@@ -49,6 +49,10 @@ export interface SttSession {
    * 10s). Lets the exam cost record use real billing instead of forwarded
    * audio minutes. */
   billing?(): { requests: number; billedSeconds: number };
+  /** Hosted-Whisper backends (groqStt.ts) and the failover wrapper report the REAL dollars they will be billed (each provider has its own rate and minimum billing unit). */
+  costUsd?(): number;
+  /** "deepinfra", "groq" or "deepinfra->groq" (failed over) — recorded as stt_provider. */
+  providerLabel?(): string;
   close(): void;
 }
 
