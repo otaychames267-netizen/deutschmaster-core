@@ -105,11 +105,16 @@ async function main() {
     await fetch(`${SUPABASE_URL}/auth/v1/admin/users/${student.id}`, { method: "DELETE", headers: { apikey: SUPABASE_SERVICE_ROLE_KEY, Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}` } }).catch(() => {});
   }
 
-  const ws = new WebSocket(`${RELAY_URL}/tutor/${sessionId}?token=${encodeURIComponent(student.jwt)}`);
-  ws.on("message", (raw) => {
+  // LIVE_TEST_DROPS="100:t,260:s": at those seconds the candidate's connection breaks (t = socket terminated, s = goes completely silent for 20 s like a half-open TCP) and, after
+  // LIVE_TEST_DROP_GAP_S (default 8) seconds, reconnects to the SAME session — exercising the relay's reconnect window.
+  const drops = (process.env.LIVE_TEST_DROPS ?? "").split(",").filter(Boolean).map((d) => { const [at, kind] = d.split(":"); return { at: Number(at), kind: kind ?? "t", done: false }; });
+  let simulatedDrop = false, silentUntil = 0, resumedCount = 0, audioSinceResume = 0, dropOnAudio = () => {};
+  let ws = new WebSocket(`${RELAY_URL}/tutor/${sessionId}?token=${encodeURIComponent(student.jwt)}`);
+  const onMessage = (raw) => {
     let m; try { m = JSON.parse(raw.toString()); } catch { return; }
     const now = Date.now();
     if (m.type === "audio") {
+      audioSinceResume++; dropOnAudio();
       const dur = Buffer.from(m.data, "base64").length / 48000; // 24 kHz PCM16 mono
       if (now > playbackEndsAt + 300) tutorSpans.push({ start: now, end: now }); // a new tutor utterance starts playing
       tutorChunks.push({ at: Math.max(playbackEndsAt, now) - t0, pcm: Buffer.from(m.data, "base64") }); // when the browser would START playing it
@@ -121,19 +126,21 @@ async function main() {
     if (m.type === "pong" || m.type === "cap_status") return;
     if (m.type === "transcript" && (m.speaker === "examiner" || m.speaker === "partner")) { tutorSince.push({ who: m.speaker, text: m.text }); lastTutorActivityAt = now; return; }
     log(`<- ${JSON.stringify(m).slice(0, 160)}`);
-    if (m.type === "ready") stage = 1;
+    if (m.type === "ready") { if (m.resumed) { resumedCount++; log(`(resumed — relay says we are back in the session)`); } else stage = 1; }
     if (m.type === "stage") stage = m.stage;
     if (m.type === "session_complete") finished = true;
     if (m.type === "terminated") terminated = m.reason ?? "terminated";
-  });
-  ws.on("close", () => { closed = true; });
+  };
+  ws.on("message", onMessage);
+  const onClose = (code) => { if (simulatedDrop) { log(`(socket closed by the drop simulation / relay, code ${code})`); return; } closed = true; log(`socket closed unexpectedly, code ${code}`); };
+  ws.on("close", onClose);
   await new Promise((res, rej) => { ws.on("open", res); ws.on("error", rej); });
   log("socket open — waiting for the tutor's opening");
 
   // 100 ms mic frames, silence while the candidate is not speaking
   const silent = Buffer.alloc(3200).toString("base64");
   const micTimer = setInterval(() => {
-    if (ws.readyState !== WebSocket.OPEN) return;
+    if (ws.readyState !== WebSocket.OPEN || Date.now() < silentUntil) return;
     let data = silent;
     if (mic && mic.pos < mic.pcm.length) { const frame = mic.pcm.subarray(mic.pos, mic.pos + 3200); candChunks.push({ at: Date.now() - t0, pcm: Buffer.from(frame) }); data = frame.toString("base64"); mic.pos += 3200; if (mic.pos >= mic.pcm.length) mic = null; }
     ws.send(JSON.stringify({ type: "audio", data }));
@@ -166,6 +173,24 @@ async function main() {
     } finally { speaking = false; }
   }
 
+  async function doDrop(d) {
+    d.done = true; simulatedDrop = true;
+    log(`*** DROP (${d.kind === "s" ? "silent for 20 s, socket left open" : "socket terminated"}) at ${Math.round((Date.now() - t0) / 1000)} s`);
+    if (d.kind === "s") { silentUntil = Date.now() + 20_000; await sleep(21_000); try { ws.terminate(); } catch {} }
+    else ws.terminate();
+    await sleep(Number(process.env.LIVE_TEST_DROP_GAP_S ?? 8) * 1000);
+    ws = new WebSocket(`${RELAY_URL}/tutor/${sessionId}?token=${encodeURIComponent(student.jwt)}`);
+    ws.on("message", onMessage); ws.on("close", onClose);
+    await new Promise((res) => { ws.on("open", res); ws.on("error", res); });
+    silentUntil = 0; simulatedDrop = false; audioSinceResume = 0;
+    log(`*** RECONNECTED (ws state ${ws.readyState})`);
+    setTimeout(() => log(`    ${audioSinceResume} tutor audio chunk(s) arrived in the 5 s after the reconnect`), 5000);
+  }
+  dropOnAudio = () => { const d = drops.find((x) => !x.done && x.kind === "a" && (Date.now() - t0) / 1000 >= x.at); if (d && !simulatedDrop) { log(`*** DROP (socket terminated the moment tutor speech arrives) at ${Math.round((Date.now() - t0) / 1000)} s`); doDrop(d); } };
+  const dropDriver = setInterval(() => {
+    const d = drops.find((x) => !x.done && x.kind !== "a" && (Date.now() - t0) / 1000 >= x.at);
+    if (d && !simulatedDrop) doDrop(d);
+  }, 500);
   const deadline = Date.now() + 28 * 60_000;
   while (!finished && !terminated && !closed && Date.now() < deadline) {
     await sleep(400);
@@ -182,7 +207,8 @@ async function main() {
       else await speak(`Die Prüferin hat gerade gesagt: „${heard.map((h) => h.text).join(" ")}“ (Thema ${stage === 2 ? m2.title : m1.title}). Antworte darauf in 2 bis 3 Sätzen (etwa 12 Sekunden).`, stage === 2 ? "Teil 2 Antwort" : "Teil 1 Antwort");
     } catch (e) { log(`candidate turn failed: ${e.message}`); await sleep(2000); }
   }
-  clearInterval(micTimer);
+  clearInterval(micTimer); clearInterval(dropDriver);
+  if (drops.length) log(`drop simulation: ${drops.filter((d) => d.done).length}/${drops.length} drops done, relay confirmed ${resumedCount} resume(s)`);
   log(`${finished ? "SESSION COMPLETE" : terminated ? `TERMINATED (${terminated})` : closed ? "socket closed" : "TIMED OUT"} after ${((Date.now() - t0) / 60000).toFixed(1)} min, ${turns} candidate turns`);
 
   // ---- the MEASURED cost row ----

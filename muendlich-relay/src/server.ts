@@ -282,7 +282,12 @@ const TUTOR_TEIL3_ANSWER_WINDOW_SECONDS = Number(process.env.MUENDLICH_TUTOR_TEI
 // TITLE only, not its full body_text; see resolveSelections()'s comment.)
 const TUTOR_PRESENTATION_SPECULATE_MS = Number(process.env.MUENDLICH_TUTOR_PRESENTATION_SPECULATE_MS ?? 3_000); // silence after a presentation before the first question is prepared
 const TUTOR_PRESENTATION_HOLD_MS = Number(process.env.MUENDLICH_TUTOR_PRESENTATION_HOLD_MS ?? 5_000); // silence the presenter must have had before it may be heard
-const TUTOR_CLIENT_SILENCE_CLOSE_MS =Number(process.env.MUENDLICH_TUTOR_CLIENT_SILENCE_MS ?? 30_000); // no message at all from the browser for this long = it is gone
+const TUTOR_CLIENT_SILENCE_CLOSE_MS =Number(process.env.MUENDLICH_TUTOR_CLIENT_SILENCE_MS ?? 15_000); // no message at all from the browser for this long = the connection is gone (it only FREEZES the session now — see TUTOR_RESUME_GRACE_MS)
+// Reconnect window (owner 2026-10-13; a student's exam ended at "connection dropped"): when the browser's connection breaks the session is NOT ended. It is frozen — clocks stopped, no daily-allowance
+// deduction, the tutor's speech kept — and the browser may reconnect to the same /tutor/<id> within this time and carry on where it was. Only after the window does it end ("technical_issue").
+const TUTOR_RESUME_GRACE_MS = Number(process.env.MUENDLICH_TUTOR_RESUME_GRACE_MS ?? 120_000);
+const TUTOR_MAX_RESUMES = 12; // a connection that flaps more often than this is not going to give a usable exam
+const TUTOR_PENDING_AUDIO_MAX_CHARS = 6_000_000; // base64 characters of tutor speech kept for a reconnect (~4.5 MB ≈ 2 min of 24 kHz PCM16)
 const TUTOR_HARD_IDLE_CLOSE_MS =Number(process.env.MUENDLICH_TUTOR_HARD_IDLE_MS ?? 90_000);
 
 interface Participant {
@@ -477,11 +482,29 @@ interface TutorSession {
   liveSessionStartedAt: number | null;
   ended: boolean;
   voiceBackendErrored: boolean;
+  // --- reconnect (see TUTOR_RESUME_GRACE_MS) ---
+  asUser: Awaited<ReturnType<typeof userScopedClient>>; // per-user client for the daily-allowance RPCs; replaced with a fresh-token client on every resume
+  disconnectedAt: number | null; // set while no browser is attached: the session is frozen (tutorTick returns, creditTick skips)
+  graceTimer?: NodeJS.Timeout;
+  pendingAudio: string[]; // the tutor's speech produced while disconnected, replayed on resume
+  pendingAudioChars: number;
+  endRequested: boolean; // the browser said "end" on purpose — a plain socket close without it is a dropped connection
+  resumeCount: number;
+  audioOpen: boolean; // false during the scripted opening: mic audio is ignored until the first window opens (as before)
 }
 const tutorSessions = new Map<string, TutorSession>(); // keyed by sessionId
 
 function send(ws: WebSocket, msg: unknown) {
   if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(msg));
+}
+/** Sends to the browser that is attached right now. While none is (a dropped connection, see TUTOR_RESUME_GRACE_MS) only the tutor's SPEECH is kept — it is replayed on resume; everything else
+ * (transcript lines, stage, flags, cap) is either display-only or re-derived from the session state when the browser comes back. */
+function tutorSend(session: TutorSession, msg: { type: string; [k: string]: unknown }) {
+  if (session.disconnectedAt === null && session.ws.readyState === WebSocket.OPEN) { session.ws.send(JSON.stringify(msg)); return; }
+  if (msg.type === "audio" && !session.ended) {
+    const data = String(msg.data ?? "");
+    if (session.pendingAudioChars + data.length <= TUTOR_PENDING_AUDIO_MAX_CHARS) { session.pendingAudio.push(data); session.pendingAudioChars += data.length; }
+  }
 }
 function broadcast(room: RoomSession, msg: unknown) {
   for (const p of room.participants.values()) send(p.ws, msg);
@@ -1518,7 +1541,7 @@ function endRoom(room: RoomSession, endReason: string) {
 // ============================================================
 
 function logTutorTranscript(session: TutorSession, speaker: "examiner" | "partner" | "student", text: string) {
-  send(session.ws, { type: "transcript", speaker, text });
+  tutorSend(session, { type: "transcript", speaker, text });
   admin.from("voice_tutor_transcript_nodes").insert({
     // teil = session.teilStage, not a hardcoded 1 — a real gap from the
     // Teil-1-only build: every node was logged as teil 1 regardless of
@@ -1568,6 +1591,8 @@ function endTutorSession(session: TutorSession, endReason: string) {
   session.live?.close();
   if (session.creditTick) clearInterval(session.creditTick);
   if (session.mainTick) clearInterval(session.mainTick);
+  if (session.graceTimer) clearTimeout(session.graceTimer);
+  session.pendingAudio = []; session.pendingAudioChars = 0;
   session.ws.close();
 
   admin.from("voice_tutor_sessions").update({
@@ -1736,7 +1761,7 @@ function openTutorTeil3Turn(session: TutorSession, ctx: TutorContext, turn?: Tut
 async function startTutorTeil2(session: TutorSession, ctx: TutorContext) {
   session.teilStage = 2;
   session.live?.setStage(2, session.teil2Topic);
-  send(session.ws, { type: "stage", stage: 2 });
+  tutorSend(session, { type: "stage", stage: 2 });
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
   // Title only — session.teil2Topic (full, passed to setStage() above for
   // tutorBrain's OWN reasoning context) can embed a 2000+ char newspaper
@@ -1767,7 +1792,7 @@ async function startTutorTeil3(session: TutorSession, ctx: TutorContext) {
   // two announcement lines were saved under Teil 2 (and the student's Teil indicator switched late). Same order as startTutorTeil2: the announcement belongs to the
   // Teil it opens. tutorTick() is blocked meanwhile (advancingStage), so flipping the stage first is safe.
   session.teilStage = 3;
-  send(session.ws, { type: "stage", stage: 3 });
+  tutorSend(session, { type: "stage", stage: 3 });
   if (TUTOR_TEIL2_PARTNER) session.live?.setExaminerPersona(); // the Teil 2 -> 3 announcement is the examiner's, not the partner's
   const voiceId = session.live?.getVoiceId() ?? "tutor-default";
   // Title only — same reasoning as startTutorTeil2's identical fix.
@@ -1843,7 +1868,7 @@ function tutorTickTeil1(session: TutorSession, ctx: TutorContext, now: number) {
     }
 
     console.log(`[tutor ${session.sessionId}] Teil 1: Q${session.questionIndex} done (${reason}, ${(phaseElapsedMs / 1000).toFixed(1)}s) -> Teil 2`);
-    send(session.ws, { type: "teil1_complete" });
+    tutorSend(session, { type: "teil1_complete" });
     session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil2()'s own awaits settle
     void startTutorTeil2(session, ctx);
   });
@@ -1880,7 +1905,7 @@ function tutorTickTeil2(session: TutorSession, ctx: TutorContext, now: number) {
     }
 
     console.log(`[tutor ${session.sessionId}] Teil 2: Q${session.questionIndex} done (${reason}) -> Teil 3`);
-    send(session.ws, { type: "teil2_complete" });
+    tutorSend(session, { type: "teil2_complete" });
     session.advancingStage = true; // see the field's doc comment — blocks tutorTick() until startTutorTeil3()'s own awaits settle
     void startTutorTeil3(session, ctx);
   });
@@ -1922,7 +1947,7 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
     void (session.live?.playSoloExamEnd() ?? Promise.resolve())
       .then(() => waitForTutorPlayback(session))
       .finally(() => {
-        send(session.ws, { type: "session_complete" });
+        tutorSend(session, { type: "session_complete" });
         endTutorSession(session, "completed_by_user");
       });
   });
@@ -1935,21 +1960,25 @@ function tutorTickTeil3(session: TutorSession, ctx: TutorContext, now: number) {
  * more generous threshold than the exam's HARD_IDLE_CLOSE_MS. */
 function tutorTick(session: TutorSession, ctx: TutorContext) {
   if (session.ended) return;
+  if (session.disconnectedAt !== null) return; // frozen: no browser attached — resumeTutorSession() shifts the clocks, or the grace timer ends the session
   if (session.advancingStage) return; // a Teil handoff is in flight — see the field's doc comment
   const now = Date.now();
 
   // Dead-client watchdog (found 2026-10-10: a test client whose network dropped left the exam running on the server for minutes): the browser sends mic
-  // audio continuously and a ping every 5 s, so 30 s without ANY message means nobody is listening any more.
+  // audio continuously and a ping every 5 s, so this long without ANY message means nobody is listening any more. Since 2026-10-13 that FREEZES the session for a
+  // reconnect (it used to end it); the half-open socket is torn down so the browser sees the drop and reconnects.
   if (now - session.lastClientMessageAt > TUTOR_CLIENT_SILENCE_CLOSE_MS) {
-    console.log(`[tutor ${session.sessionId}] client vanished: no message for ${now - session.lastClientMessageAt}ms — ending the session`);
-    endTutorSession(session, "technical_issue");
+    console.log(`[tutor ${session.sessionId}] client vanished: no message for ${now - session.lastClientMessageAt}ms — freezing the session for a reconnect`);
+    const dead = session.ws;
+    tutorSocketGone(session, dead, "silent");
+    try { dead.terminate(); } catch { /* already gone */ }
     return;
   }
 
   const idleSilenceMs = now - Math.max(session.lastAudioAt, session.idleBaselineAt);
   if (idleSilenceMs > TUTOR_HARD_IDLE_CLOSE_MS) {
     console.log(`[tutor ${session.sessionId}] hard idle-close: ${idleSilenceMs}ms of silence`);
-    send(session.ws, { type: "terminated", reason: "idle_timeout" });
+    tutorSend(session, { type: "terminated", reason: "idle_timeout" });
     endTutorSession(session, "idle_timeout");
     return;
   }
@@ -2027,8 +2056,11 @@ async function startTutorSession(
     teil1Phase: "presenting", questionIndex: 0, phaseStartedAt: 0, studentAnswerText: "", simplifiedThisQuestion: false, simplifyCount: 0, windowClosing: false, speechDetector: new SpeechDetector(), idleBaselineAt: 0, lastClientMessageAt: Date.now(), answerSpeechStartedAt: 0,
     teil2Topic, teil3Topic, teil2TopicTitle, teil3TopicTitle,
     liveSessionStartedAt: null, ended: false, voiceBackendErrored: false,
+    asUser, disconnectedAt: null, pendingAudio: [], pendingAudioChars: 0, endRequested: false, resumeCount: 0, audioOpen: false,
   };
   tutorSessions.set(session.sessionId, session);
+  // Attached from the very start (it used to be after the ~30 s opening): a connection that breaks during the opening is a reconnectable drop like any other.
+  attachTutorSocket(session, ws);
 
   const teil1Topic = formatTopic(sessionRow.teil1MaterialTitle, [{ title: sessionRow.teil1MaterialTitle, body_text: sessionRow.teil1MaterialBodyText }]);
   const ctx: TutorContext = {
@@ -2038,7 +2070,7 @@ async function startTutorSession(
 
   session.live = await openTutorVoiceSession(ctx, session.sessionId, {
     onOpen: () => {},
-    onAudioChunk: (b64) => send(ws, { type: "audio", data: b64 }),
+    onAudioChunk: (b64) => tutorSend(session, { type: "audio", data: b64 }),
     // The voice session reports who spoke (since 2026-10-11 the partner talks in Teil 2 and 3, and the examiner says the transition and closing lines in
     // between), so the label no longer depends on teilStage; the stage mapping below is only a fallback for a callback without a speaker.
     onOutputTranscript: (text, speaker) => logTutorTranscript(session, speaker ?? (session.teilStage === 3 ? "partner" : "examiner"), text),
@@ -2049,15 +2081,15 @@ async function startTutorSession(
     onError: (message) => {
       console.error(`[tutor ${session.sessionId}] voice backend error:`, message);
       session.voiceBackendErrored = true;
-      send(ws, { type: "terminated", reason: "ai_error" });
+      tutorSend(session, { type: "terminated", reason: "ai_error" });
       endTutorSession(session, "technical_issue");
     },
     onClose: (reason) => console.log(`[tutor ${session.sessionId}] voice backend closed:`, reason),
   });
   session.liveSessionStartedAt = Date.now();
 
-  send(ws, { type: "ready", sessionId: session.sessionId });
-  send(ws, { type: "cap_status", secondsRemaining: capRow.seconds_remaining });
+  tutorSend(session, { type: "ready", sessionId: session.sessionId });
+  tutorSend(session, { type: "cap_status", secondsRemaining: capRow.seconds_remaining });
 
   // Opening: a scripted welcome + topic announcement, skipping Claude entirely — same reasoning as the exam's startStage() stage-1 opening (there is
   // no "what to say" decision left once the text is picked). Owner 2026-10-10: the fixed, name-free instructions (~250 chars, professional wording, no
@@ -2072,7 +2104,8 @@ async function startTutorSession(
   // Per-minute daily-cap deduction — same cadence as the exam's CREDIT_TICK_MS.
   session.creditTick = setInterval(async () => {
     if (session.voiceBackendErrored || session.ended) return;
-    const { error } = await asUser.rpc("deduct_voice_tutor_seconds", { p_seconds: 60, p_level: level });
+    if (session.disconnectedAt !== null) return; // the student is not practising while the connection is down — no daily-allowance deduction
+    const { error } = await session.asUser.rpc("deduct_voice_tutor_seconds", { p_seconds: 60, p_level: level });
     if (error) {
       // Real bug found via live testing (2026-09-29): this used to treat ANY
       // RPC failure as "the student hit their daily cap" and end the session
@@ -2090,21 +2123,110 @@ async function startTutorSession(
         return;
       }
       console.log(`[tutor ${session.sessionId}] daily cap genuinely exceeded, hard-stopping:`, error.message);
-      send(ws, { type: "terminated", reason: "daily_cap_exceeded" });
+      tutorSend(session, { type: "terminated", reason: "daily_cap_exceeded" });
       endTutorSession(session, "daily_cap_exceeded");
       return;
     }
-    const { data: statusRows } = await asUser.rpc("get_my_voice_tutor_cap_status", { p_level: level });
+    const { data: statusRows } = await session.asUser.rpc("get_my_voice_tutor_cap_status", { p_level: level });
     const status = Array.isArray(statusRows) ? statusRows[0] : statusRows;
-    if (status) send(ws, { type: "cap_status", secondsRemaining: status.seconds_remaining });
+    if (status) tutorSend(session, { type: "cap_status", secondsRemaining: status.seconds_remaining });
   }, CREDIT_TICK_MS);
 
   // Teil-1 phase machine + idle safety net, same TICK_MS cadence as the
   // exam's own mainTick.
   session.lastClientMessageAt = Date.now(); // the message handler is only attached after this function returns (the opening above took ~30 s) — start the watchdog fresh
   session.mainTick = setInterval(() => tutorTick(session, ctx), TUTOR_TICK_MS);
+  session.audioOpen = true; // from here the student's mic audio counts (the opening above is heard, not answered)
 
   return session;
+}
+
+/** Message + close handling for whichever browser connection is the session's CURRENT one (an older socket that was replaced is ignored). */
+function attachTutorSocket(session: TutorSession, ws: WebSocket) {
+  ws.on("message", (raw) => {
+    if (session.ended || session.ws !== ws) return;
+    session.lastClientMessageAt = Date.now();
+    try {
+      const msg = JSON.parse(raw.toString());
+      if (msg.type === "ping") {
+        send(ws, { type: "pong", t: msg.t });
+      } else if (msg.type === "end") {
+        // The student pressed "end" (or left the page on purpose): not a dropped connection, so no reconnect window.
+        session.endRequested = true;
+        endTutorSession(session, "completed_by_user");
+      } else if (msg.type === "audio" && session.live && session.audioOpen) {
+        if (session.speechDetector.isSpeech(msg.data)) {
+          const t = Date.now();
+          if (session.phaseStartedAt > 0 && session.lastAudioAt <= session.phaseStartedAt) session.answerSpeechStartedAt = t; // first speech of this answer window
+          session.lastAudioAt = t;
+        }
+        session.live.sendAudioChunk(msg.data);
+      }
+    } catch (e) { console.error(`[tutor ${session.sessionId}] bad client message:`, e); }
+  });
+  ws.on("close", () => tutorSocketGone(session, ws, "socket closed"));
+  ws.on("error", (e) => console.warn(`[tutor ${session.sessionId}] socket error:`, e instanceof Error ? e.message : e));
+}
+
+/** The browser connection broke (socket closed without an "end" message, or it went silent): FREEZE the session and wait TUTOR_RESUME_GRACE_MS for the browser to come back. */
+function tutorSocketGone(session: TutorSession, ws: WebSocket, why: string) {
+  if (session.ended || session.ws !== ws) return; // an older socket closing after it was replaced
+  if (session.endRequested) { endTutorSession(session, "completed_by_user"); return; }
+  if (session.disconnectedAt !== null) return;
+  session.disconnectedAt = Date.now();
+  console.log(`[tutor ${session.sessionId}] browser connection lost (${why}) — session frozen, waiting up to ${Math.round(TUTOR_RESUME_GRACE_MS / 1000)}s for a reconnect`);
+  session.graceTimer = setTimeout(() => {
+    if (session.ended || session.disconnectedAt === null) return;
+    console.log(`[tutor ${session.sessionId}] no reconnect within ${Math.round(TUTOR_RESUME_GRACE_MS / 1000)}s — ending the session`);
+    endTutorSession(session, "technical_issue");
+  }, TUTOR_RESUME_GRACE_MS);
+}
+
+/** A browser reconnected to a session that is still alive in memory: attach it, shift the clocks by the time it was away (the student must not lose answer time to the outage), tell it where the
+ * session stands and replay the tutor's speech it missed. */
+async function resumeTutorSession(session: TutorSession, ws: WebSocket, token: string) {
+  if (session.resumeCount >= TUTOR_MAX_RESUMES) {
+    console.warn(`[tutor ${session.sessionId}] too many reconnects (${session.resumeCount}) — refusing`);
+    send(ws, { type: "terminated", reason: "too_many_reconnects" });
+    ws.close(4015, "too many reconnects");
+    return;
+  }
+  const now = Date.now();
+  const old = session.ws;
+  session.ws = ws; // first: from here the old socket's late events are ignored
+  if (old !== ws) { try { old.close(4010, "replaced by a newer connection"); } catch { /* already closed */ } }
+  if (session.graceTimer) { clearTimeout(session.graceTimer); session.graceTimer = undefined; }
+  const awayMs = session.disconnectedAt !== null ? now - session.disconnectedAt : 0;
+  session.disconnectedAt = null;
+  session.resumeCount++;
+  session.lastClientMessageAt = now;
+  session.accessToken = token;
+  attachTutorSocket(session, ws);
+
+  // The tutor's speech that was produced while the browser was away plays now, so the student's answer window must start after it (not during it).
+  const queued = session.pendingAudio; session.pendingAudio = []; session.pendingAudioChars = 0;
+  const queuedMs = queued.reduce((ms, b64) => ms + (Buffer.byteLength(b64, "base64") / 48_000) * 1000, 0);
+  const shiftMs = awayMs + queuedMs;
+  if (shiftMs > 0) {
+    if (session.phaseStartedAt > 0) { session.phaseStartedAt += shiftMs; session.idleBaselineAt += shiftMs; }
+    if (session.lastAudioAt > 0) session.lastAudioAt += shiftMs;
+    if (session.answerSpeechStartedAt > 0) session.answerSpeechStartedAt += shiftMs;
+  }
+  if (queuedMs > 0) session.live?.restartPlaybackClock(queuedMs);
+
+  console.log(`[tutor ${session.sessionId}] browser reconnected (#${session.resumeCount}) after ${Math.round(awayMs / 1000)}s away — ${queued.length} tutor audio chunks replayed (${Math.round(queuedMs)}ms)`);
+  send(ws, { type: "ready", sessionId: session.sessionId, resumed: true });
+  send(ws, { type: "stage", stage: session.teilStage });
+  if (session.teilStage >= 2) send(ws, { type: "teil1_complete" });
+  if (session.teilStage >= 3) send(ws, { type: "teil2_complete" });
+  for (const b64 of queued) send(ws, { type: "audio", data: b64 });
+
+  try {
+    session.asUser = await userScopedClient(token);
+    const { data: statusRows } = await session.asUser.rpc("get_my_voice_tutor_cap_status", { p_level: session.level });
+    const status = Array.isArray(statusRows) ? statusRows[0] : statusRows;
+    if (status) tutorSend(session, { type: "cap_status", secondsRemaining: status.seconds_remaining });
+  } catch (e) { console.warn(`[tutor ${session.sessionId}] cap status after reconnect failed:`, e instanceof Error ? e.message : e); }
 }
 
 const httpServer = createServer((_req, res) => {
@@ -2326,6 +2448,23 @@ tutorWss.on("connection", async (ws, req) => {
       .maybeSingle();
     if (!sessionRow) { console.warn(`[tutor ${sessionId}] rejecting connection: session not found or not owned by this user${sessionError ? ` (query error: ${sessionError.message})` : ""}`); ws.close(4004, "session not found"); return; }
     if (sessionRow.ended_at) { console.warn(`[tutor ${sessionId}] rejecting connection: session already ended`); ws.close(4005, "session already ended"); return; }
+
+    // A browser coming back to a session that is still alive here (its connection dropped): carry on where it was instead of starting over.
+    const alive = tutorSessions.get(sessionId);
+    if (alive && !alive.ended) {
+      if (alive.userId !== userId) { console.warn(`[tutor ${sessionId}] rejecting connection: session belongs to another user`); ws.close(4003, "forbidden"); return; }
+      await resumeTutorSession(alive, ws, token);
+      return;
+    }
+    // Not in memory but already spoken in: the relay restarted (a deploy) in the middle of the exam. Starting the opening again over the same row would replay the welcome and
+    // duplicate the transcript — end the row and let the browser grade what exists.
+    const { count: spokenNodes } = await admin.from("voice_tutor_transcript_nodes").select("id", { count: "exact", head: true }).eq("session_id", sessionId);
+    if ((spokenNodes ?? 0) > 0) {
+      console.warn(`[tutor ${sessionId}] session lost (${spokenNodes} transcript nodes but not in memory — relay restart?) — ending it`);
+      await admin.from("voice_tutor_sessions").update({ ended_at: new Date().toISOString(), end_reason: "technical_issue" }).eq("id", sessionId).is("ended_at", null);
+      ws.close(4014, "session lost");
+      return;
+    }
     // All three Teil topics are required, not just Teil 1 — this build
     // always runs Teil 1 -> 2 -> 3 straight through (see tutorTickTeil1/2's
     // handoffs), so a session missing any one of them would hit a later Teil
@@ -2354,28 +2493,7 @@ tutorWss.on("connection", async (ws, req) => {
       teil3MaterialTitle: material3.title, teil3MaterialBodyText: material3.body_text,
     }, sessionRow.level as "TELC_B1" | "TELC_B2", studentName);
     if (!session) return; // startTutorSession already closed the socket with a clear reason
-
-    ws.on("message", (raw) => {
-      if (session.ended) return;
-      session.lastClientMessageAt = Date.now();
-      try {
-        const msg = JSON.parse(raw.toString());
-        if (msg.type === "ping") {
-          send(ws, { type: "pong", t: msg.t });
-        } else if (msg.type === "audio" && session.live) {
-          if (session.speechDetector.isSpeech(msg.data)) {
-            const t = Date.now();
-            if (session.phaseStartedAt > 0 && session.lastAudioAt <= session.phaseStartedAt) session.answerSpeechStartedAt = t; // first speech of this answer window
-            session.lastAudioAt = t;
-          }
-          session.live.sendAudioChunk(msg.data);
-        }
-      } catch (e) { console.error(`[tutor ${session.sessionId}] bad client message:`, e); }
-    });
-
-    ws.on("close", () => {
-      if (!session.ended) endTutorSession(session, "completed_by_user");
-    });
+    // (message + close handlers are attached inside startTutorSession by attachTutorSocket — they also serve reconnects)
   } catch (e) {
     console.error("[tutor] connection setup failed:", e);
     ws.close(1011, "internal error");

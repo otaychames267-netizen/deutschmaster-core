@@ -80,6 +80,8 @@ export interface TutorVoiceSession {
   sendSystemMessage(text: string, turn?: TutorTurnOptions): Promise<void>;
   /** Milliseconds until everything sent so far has finished PLAYING on the client. */
   playbackRemainingMs(): number;
+  /** After a browser reconnect: the speech that was kept for it (queuedMs of audio) starts playing NOW, so playback is over queuedMs from now (the clocks and the STT echo gate follow playbackRemainingMs). */
+  restartPlaybackClock(queuedMs: number): void;
   speakScriptedText(text: string): Promise<void>;
   /** A 2:1 exam transition line: its fixed lead sentence plays from the cached audio library ($0), the part with the topic is
    * spoken live right behind it. Falls back to speaking the whole line live when no clip exists for this voice. */
@@ -642,6 +644,9 @@ export async function openTutorVoiceSession(initialCtx: TutorContext, sessionId:
     },
     playbackRemainingMs() {
       return Math.max(0, playbackEndsAt - Date.now());
+    },
+    restartPlaybackClock(queuedMs) {
+      playbackEndsAt = Date.now() + Math.max(0, queuedMs);
     },
     speakScriptedText(text) {
       return speakScriptedText(text);
