@@ -109,6 +109,9 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
 
   const hydratedRef = useRef(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  // "Stelle anhören" in a Warum card -> the audio player above jumps to that passage and plays
+  const [seekRequest, setSeekRequest] = useState<{ t: number; nonce: number } | null>(null);
+  const playAudioFrom = (t: number) => setSeekRequest((prev) => ({ t, nonce: (prev?.nonce ?? 0) + 1 }));
 
   const storageKey = useMemo(
     () => attemptKey(["hoeren", exercise.teil, user?.id ?? "anon", exercise.id]),
@@ -173,10 +176,10 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
         const { data, error } = await (supabase as any).rpc("reveal_hoeren", { p_exercise_id: exercise.id });
         if (error) throw error;
         if (cancelled) return;
-        const res = data as unknown as { results: { statement_number: number; correct_answer: boolean }[] };
+        const res = data as unknown as { results: { statement_number: number; correct_answer: boolean; learning_aids?: LearningAidsItem | null }[] };
         const asResults: ScoreResult[] = res.results.map((r) => {
           const your = answers[r.statement_number] ?? null;
-          return { statement_number: r.statement_number, correct: your !== null && your === r.correct_answer, your_answer: your, correct_answer: r.correct_answer };
+          return { statement_number: r.statement_number, correct: your !== null && your === r.correct_answer, your_answer: your, correct_answer: r.correct_answer, learning_aids: r.learning_aids ?? null };
         });
         setScoreResults(asResults);
         setScoreCount(asResults.filter((r) => r.correct).length);
@@ -249,7 +252,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
     try {
       const { data, error } = await (supabase as any).rpc("reveal_hoeren", { p_exercise_id: exercise.id });
       if (error) throw error;
-      const res = data as unknown as { results: { statement_number: number; correct_answer: boolean }[] };
+      const res = data as unknown as { results: { statement_number: number; correct_answer: boolean; learning_aids?: LearningAidsItem | null }[] };
       const asResults: ScoreResult[] = res.results.map((r) => {
         const your = answers[r.statement_number] ?? null;
         return {
@@ -257,6 +260,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           correct: your !== null && your === r.correct_answer,
           your_answer: your,
           correct_answer: r.correct_answer,
+          learning_aids: r.learning_aids ?? null, // the Warum explanations come with the solution too
         };
       });
       setScoreResults(asResults);
@@ -367,7 +371,7 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
 
         {/* Custom protected player — never a native <audio controls>, see ProtectedAudioPlayer.tsx */}
         {exercise.audioPath ? (
-          <ProtectedAudioPlayer audioPath={exercise.audioPath} />
+          <ProtectedAudioPlayer audioPath={exercise.audioPath} seekRequest={seekRequest} />
         ) : (
           <div className="flex items-center gap-3 rounded-xl border border-dashed border-border bg-muted/30 px-4 py-2.5 text-muted-foreground/60">
             <Volume2 className="h-4 w-4 shrink-0" />
@@ -409,8 +413,10 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           const result    = scoreResults?.find((r) => r.statement_number === s.statement_number);
           const isCorrect = showState && !!result?.correct;
           const isWrong   = showState && !!result && !result.correct && ans !== undefined && ans !== null;
-          const highlightItems: HighlightItem[] = (isCorrect || isWrong) && result?.learning_aids?.evidence_text
-            ? [{ itemKey: String(s.statement_number), label: String(s.statement_number), evidenceText: result.learning_aids.evidence_text }]
+          const aids = result?.learning_aids ?? null;
+          const audioBased = typeof aids?.audio_start === "number"; // evidence_text is a quote from the Hörtext, explained from the real audio
+          const highlightItems: HighlightItem[] = (isCorrect || isWrong) && !audioBased && aids?.evidence_text
+            ? [{ itemKey: String(s.statement_number), label: String(s.statement_number), evidenceText: aids.evidence_text }]
             : [];
 
           return (
@@ -457,12 +463,17 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
               <div className="mt-1.5 pl-1">
                 <TranslateButton translation={translation?.questions?.[String(s.statement_number)]} loading={translationLoading} onRequest={loadTranslation} />
               </div>
-              {isWrong && result?.learning_aids && (
-                <EvidenceBlock aids={result.learning_aids} variant="wrong" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Satz ${s.statement_number}`} />
+              {isWrong && aids && (
+                <EvidenceBlock
+                  aids={audioBased ? { ...aids, explanation_wrong: [aids.explanation_correct, aids.explanation_wrong].filter(Boolean).join("\n") } : aids}
+                  variant="wrong" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck"
+                  showEvidenceQuote={audioBased} quoteLabel="Im Hörtext" onPlayAudio={audioBased ? playAudioFrom : undefined} triggerLabel={`Satz ${s.statement_number}`} />
               )}
-              {isCorrect && (result?.learning_aids?.explanation_correct || result?.learning_aids?.evidence_text) && (
+              {/* every statement of a graded / revealed exercise gets its Warum (also the ones left unanswered when the solution was shown) */}
+              {showState && !isWrong && aids && (aids.explanation_correct || aids.evidence_text) && (
                 <div className="mt-1.5 pl-1">
-                  <EvidenceBlock aids={result!.learning_aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Satz ${s.statement_number}`} />
+                  <EvidenceBlock aids={aids} variant="correct" skill="hoeren" exerciseId={exercise.id} itemKey={String(s.statement_number)} saveCategory="wichtiger_ausdruck"
+                    showEvidenceQuote={audioBased} quoteLabel="Im Hörtext" onPlayAudio={audioBased ? playAudioFrom : undefined} triggerLabel={`Satz ${s.statement_number}`} />
                 </div>
               )}
             </div>

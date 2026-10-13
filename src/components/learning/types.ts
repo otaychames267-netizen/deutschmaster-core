@@ -23,6 +23,10 @@ export interface OptionReasoning {
 }
 
 export interface LearningAidsItem {
+  /** Hören only: where the evidence quote is spoken in the exercise's audio (seconds from the start of the file). When set, evidence_text is a
+   * quote from the Hörtext (not from the statement) and the card offers "Stelle anhören". */
+  audio_start?: number | null;
+  audio_end?: number | null;
   evidence_text?: string | null;
   evidence_translation?: string | null;
   /** Arabic translation of the correct answer itself (the headline / MC

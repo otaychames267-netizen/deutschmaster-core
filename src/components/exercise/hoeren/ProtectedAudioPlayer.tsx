@@ -39,7 +39,8 @@ function formatTime(seconds: number): string {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-export function ProtectedAudioPlayer({ audioPath }: { audioPath: string }) {
+/** `seekRequest`: ask the player to jump to `t` seconds and play (a new `nonce` makes the same time fire again) — used by the Warum card's "Stelle anhören". */
+export function ProtectedAudioPlayer({ audioPath, seekRequest }: { audioPath: string; seekRequest?: { t: number; nonce: number } | null }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const blobUrlRef = useRef<string | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
@@ -77,6 +78,21 @@ export function ProtectedAudioPlayer({ audioPath }: { audioPath: string }) {
       return false;
     }
   }
+
+  useEffect(() => {
+    if (!seekRequest) return;
+    let cancelled = false;
+    (async () => {
+      const ok = status === "ready" || (await ensureLoaded());
+      const el = audioRef.current;
+      if (cancelled || !ok || !el) return;
+      el.currentTime = seekRequest.t; // before metadata the browser keeps it as the start position
+      setCurrentTime(seekRequest.t);
+      el.play().catch((e) => console.error("Playback failed:", e));
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- fire once per request (nonce), not on every status change
+  }, [seekRequest?.nonce]);
 
   async function togglePlay() {
     const el = audioRef.current;

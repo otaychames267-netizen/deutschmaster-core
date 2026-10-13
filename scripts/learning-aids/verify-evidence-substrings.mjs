@@ -43,15 +43,31 @@ function checkItem(context, evidenceText, sourceText) {
   }
 }
 
-// ── Hören T1/T2/T3 — evidence lives inside the statement's own text ──
+// ── Hören T1/T2/T3 ──
+// Two kinds of items: (1) audio-based (item.audio_start is set, written by scripts/hoeren-warum/): evidence_text is a quote from the Hörtext and must be a
+// verbatim substring of the exercise's stored transcript (public.hoeren_transcripts, tolerant of quotes/dashes/case/whitespace and the **bold** markers),
+// with audio_start/audio_end inside the audio duration; (2) older items: the evidence lives inside the statement's own text.
+const normTranscript = (t) => t.normalize("NFC").replace(/**/g, "").replace(/[„“”"»«‚‘’'`´]/g, "'").replace(/[–—−]/g, "-").replace(/s+/g, " ").trim().toLowerCase();
 {
   const { data: exercises } = await supabase.from("hoeren_exercises").select("id, title, teil, learning_aids").not("learning_aids", "is", null);
+  const { data: transcripts } = await supabase.from("hoeren_transcripts").select("exercise_id, text, duration_s");
+  const trById = Object.fromEntries((transcripts ?? []).map((t) => [t.exercise_id, t]));
   for (const ex of exercises ?? []) {
     const items = ex.learning_aids?.items ?? {};
     const { data: statements } = await supabase.from("hoeren_statements").select("statement_number, statement_text").eq("exercise_id", ex.id);
     const byNum = Object.fromEntries((statements ?? []).map((s) => [String(s.statement_number), s.statement_text]));
     for (const [key, item] of Object.entries(items)) {
-      checkItem({ skill: "hoeren", teil: ex.teil, exercise: ex.title, id: ex.id, item: key }, item.evidence_text, byNum[key]);
+      const context = { skill: "hoeren", teil: ex.teil, exercise: ex.title, id: ex.id, item: key };
+      if (typeof item.audio_start === "number") {
+        checked++;
+        const tr = trById[ex.id];
+        if (!tr) { issues.push({ ...context, problem: "audio-based item but no transcript stored" }); continue; }
+        if (!item.evidence_text || !normTranscript(tr.text).includes(normTranscript(item.evidence_text))) issues.push({ ...context, problem: "evidence_text is not in the transcript", evidenceText: item.evidence_text });
+        if (!(item.audio_start >= 0 && item.audio_end >= item.audio_start && (!tr.duration_s || item.audio_end <= Number(tr.duration_s) + 1))) issues.push({ ...context, problem: `audio_start/audio_end out of range (${item.audio_start}-${item.audio_end}, duration ${tr.duration_s})` });
+        if (!byNum[key]) issues.push({ ...context, problem: "item has no matching statement" });
+      } else {
+        checkItem(context, item.evidence_text, byNum[key]);
+      }
     }
   }
 }

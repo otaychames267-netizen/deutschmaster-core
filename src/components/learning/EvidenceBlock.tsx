@@ -19,7 +19,7 @@
  * be actively misleading.
  */
 import { useState } from "react";
-import { CheckCircle2, XCircle, Lightbulb, KeyRound, Pin, Languages, ChevronDown, Tag } from "lucide-react";
+import { CheckCircle2, XCircle, Lightbulb, KeyRound, Pin, Languages, ChevronDown, Tag, Play } from "lucide-react";
 import { ITEM_TYPE_INFO, type LearningAidsItem, type SavedExpressionCategory, type Skill } from "./types";
 import { SaveExpressionButton } from "./SaveExpressionButton";
 
@@ -47,6 +47,16 @@ interface Props {
    * explicit click to reveal this card (e.g. opening an anchored gap
    * popover) — asking for a second click here would be redundant. */
   defaultOpen?: boolean;
+  /** Small caption above the quote, e.g. "Im Hörtext" (Hören: the quote is from the audio, not from the statement). */
+  quoteLabel?: string;
+  /** Hören: jump the exercise's audio player to the passage that decides this statement (needs aids.audio_start). */
+  onPlayAudio?: (startSeconds: number) => void;
+}
+
+function formatClock(seconds: number): string {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${String(s).padStart(2, "0")}`;
 }
 
 /** Renders `**bold**` spans inside admin-authored quote text (e.g. the exact
@@ -104,6 +114,8 @@ export function EvidenceBlock({
   showEvidenceQuote = true,
   triggerLabel,
   defaultOpen = false,
+  quoteLabel,
+  onPlayAudio,
 }: Props) {
   const [open, setOpen] = useState(defaultOpen);
   if (!aids) return null;
@@ -172,9 +184,21 @@ export function EvidenceBlock({
           )}
 
           {showEvidenceQuote && aids.evidence_text && (
-            <p className="text-xs italic leading-relaxed text-muted-foreground">
-              „{renderBoldSegments(aids.evidence_text)}“
-            </p>
+            <div className="space-y-1">
+              {quoteLabel && <p className="text-[10px] font-bold uppercase tracking-wide text-violet-600/80 dark:text-violet-400/80">{quoteLabel}</p>}
+              <p className="text-xs italic leading-relaxed text-muted-foreground">
+                „{renderBoldSegments(aids.evidence_text)}“
+              </p>
+              {onPlayAudio && typeof aids.audio_start === "number" && (
+                <button
+                  type="button"
+                  onClick={() => onPlayAudio(Math.max(0, aids.audio_start! - 1))}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-violet-500/30 bg-background px-2 py-1 text-[11px] font-bold text-violet-700 transition-colors hover:bg-violet-500/10 dark:text-violet-300"
+                >
+                  <Play className="h-3 w-3" aria-hidden /> Stelle anhören ({formatClock(aids.audio_start)})
+                </button>
+              )}
+            </div>
           )}
 
           {explanation && (
