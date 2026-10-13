@@ -4,10 +4,10 @@ import { supabase } from "@/integrations/supabase/client";
 /**
  * The price list shown to students (landing page + billing). The numbers come from the database (RPC get_plan_pricing → plans table, the same source the
  * order creation charges from), so a price change never needs a deploy. The constants below are only the fallback while the request is in flight or
- * fails — they are the prices as of 2026-10-11 and must match migration 20261011150000_plan_terms_and_offers.sql.
+ * fails — they are the prices as of 2026-10-13 and must match migration 20261013100000_three_month_terms_and_new_prices.sql.
  */
 export type SellablePlan = "schriftlich" | "komplett_ai";
-export type Months = 1 | 2;
+export type Months = 1 | 2 | 3;
 
 export interface TermPrice {
   months: Months;
@@ -27,8 +27,8 @@ export interface PlanPricing {
 export type PricingMap = Record<SellablePlan, PlanPricing>;
 
 export const FALLBACK_PRICING: PricingMap = {
-  schriftlich: { code: "schriftlich", offerEndsAt: null, open: true, terms: [{ months: 1, price: 30, listPrice: null }, { months: 2, price: 50, listPrice: 60 }] },
-  komplett_ai: { code: "komplett_ai", offerEndsAt: "2026-12-10T22:59:59Z", open: true, terms: [{ months: 1, price: 55, listPrice: 65 }, { months: 2, price: 110, listPrice: 130 }] },
+  schriftlich: { code: "schriftlich", offerEndsAt: null, open: true, terms: [{ months: 1, price: 30, listPrice: null }, { months: 2, price: 50, listPrice: 60 }, { months: 3, price: 70, listPrice: 90 }] },
+  komplett_ai: { code: "komplett_ai", offerEndsAt: null, open: true, terms: [{ months: 1, price: 47, listPrice: null }, { months: 2, price: 86, listPrice: 94 }, { months: 3, price: 122, listPrice: 141 }] },
 };
 
 interface RpcPlan { code: string; offer_ends_at: string | null; open?: boolean; terms: { months: number; price: number | string; list_price: number | string | null }[] }
@@ -39,7 +39,7 @@ export function parsePricing(raw: unknown): PricingMap | null {
   for (const p of raw as RpcPlan[]) {
     if (p.code !== "schriftlich" && p.code !== "komplett_ai") continue;
     const terms = (p.terms ?? [])
-      .filter((t) => t.months === 1 || t.months === 2)
+      .filter((t) => t.months === 1 || t.months === 2 || t.months === 3)
       .map((t) => ({ months: t.months as Months, price: Number(t.price), listPrice: t.list_price == null ? null : Number(t.list_price) }))
       .filter((t) => Number.isFinite(t.price) && t.price > 0);
     if (!terms.some((t) => t.months === 1)) continue;
@@ -73,6 +73,10 @@ export function termOf(pricing: PricingMap, code: SellablePlan, months: Months):
 export function hasTerm(pricing: PricingMap, months: Months): boolean {
   return (Object.values(pricing) as PlanPricing[]).every((p) => p.terms.some((t) => t.months === months));
 }
+/** The term lengths every plan offers (always starts with 1) — what the length switch shows. */
+export function availableMonths(pricing: PricingMap): Months[] {
+  return ([1, 2, 3] as Months[]).filter((m) => hasTerm(pricing, m));
+}
 
 /** Money saved against the regular price (0 when there is no reduction). */
 export function savedAmount(t: TermPrice): number {
@@ -81,12 +85,9 @@ export function savedAmount(t: TermPrice): number {
 export function savedPercent(t: TermPrice): number {
   return t.listPrice && t.listPrice > t.price ? Math.round(((t.listPrice - t.price) / t.listPrice) * 100) : 0;
 }
-/** The biggest saving a student can get by picking the 2-month pack, over all plans (for the toggle's badge). */
+/** The biggest saving a student can get by picking a longer pack, over all plans and packs (for the toggle's badge). */
 export function maxPackSaving(pricing: PricingMap): number {
-  return Math.max(0, ...(Object.values(pricing) as PlanPricing[]).map((p) => {
-    const t = p.terms.find((x) => x.months === 2);
-    return t ? savedAmount(t) : 0;
-  }));
+  return Math.max(0, ...(Object.values(pricing) as PlanPricing[]).flatMap((p) => p.terms.filter((x) => x.months > 1).map(savedAmount)));
 }
 export function perMonth(t: TermPrice): number {
   return Math.round((t.price / t.months) * 100) / 100;
@@ -100,4 +101,4 @@ export function offerDaysLeft(endsAt: string | null, now = Date.now()): number |
   return Math.floor(ms / 86_400_000);
 }
 
-export const MONTHS_LABEL: Record<Months, string> = { 1: "1 month", 2: "2 months" };
+export const MONTHS_LABEL: Record<Months, string> = { 1: "1 month", 2: "2 months", 3: "3 months" };

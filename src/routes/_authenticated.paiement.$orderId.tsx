@@ -136,7 +136,7 @@ function ManualPaymentPage() {
   const arabicTitle = isD17 ? "الدفع عبر D17" : isPostal ? "التحويل البريدي – البريد التونسي" : "التحويل البنكي – بنك البركة";
   const titleEmoji = isD17 ? "📲" : isPostal ? "📮" : "🏦";
   const methodLabel = isD17 ? "D17" : isPostal ? "تحويل بريدي" : "تحويل بنكي";
-  const planName = (PLAN_LABEL[order.plan_code] ?? order.plan_code) + (Number(order.months) === 2 ? " – شهران" : "");
+  const planName = (PLAN_LABEL[order.plan_code] ?? order.plan_code) + (Number(order.months) === 2 ? " – شهران" : Number(order.months) === 3 ? " – 3 أشهر" : "");
   const whatsappUrl = buildWhatsAppReceiptUrl({ planName, amountTnd, methodLabel, email: user?.email ?? "" });
 
   return (

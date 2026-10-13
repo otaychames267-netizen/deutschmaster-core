@@ -24,7 +24,7 @@ export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
   { group: "Schriftlich", icon: Headphones, title: "Hören", ar: "الأجزاء الثلاثة + ترجمة وتلميح لكل إجابة", highlight: true },
   { group: "Schriftlich", icon: Puzzle, title: "Sprachbausteine", ar: "كل المواضيع + شرح القاعدة لكل فراغ", highlight: true },
   { group: "Schriftlich", icon: PenLine, title: "Schreiben", ar: "تمارين Beschwerde و Bitte" },
-  { group: "Schriftlich", icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بمعايير TELC B2: 30 كل شهر (60 مع باقة الشهرين)", highlight: true },
+  { group: "Schriftlich", icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بمعايير TELC B2: 30 كل شهر (60 مع باقة الشهرين، 90 مع باقة 3 أشهر)", highlight: true },
   { group: "Schriftlich", icon: Sparkles, title: "2 Struktur Schreiben", ar: "خاصان بك وحدك", highlight: true },
   { group: "Prüfungssimulation", icon: Timer, title: "Prüfungssimulation", ar: "امتحان كتابي كامل بهيكل TELC B2 (145 دقيقة) مع تصحيح Schreiben بالذكاء الاصطناعي بلا حدّ", highlight: true },
   { group: "Mündlich & Extras", icon: Mic, title: "Mündlich", ar: "كل مواضيع الأجزاء الثلاثة + نصائح وعبارات، بدون AI", highlight: true },
@@ -44,7 +44,7 @@ export const KOMPLETT_BENEFITS: PlanBenefit[] = [
   { group: "KI-Sprachtrainer", icon: Mic, title: "Teil 1 · 2 · 3", ar: "امتحان شفوي كامل بتسلسل TELC B2، من 10 إلى 14 دقيقة", highlight: true },
   { group: "KI-Sprachtrainer", icon: ClipboardCheck, title: "Ergebnis & Korrektur", ar: "بعد كل جلسة: درجتك من 75 ومستواك + تقرير بأخطائك وتصحيحها", highlight: true },
   { group: "KI-Sprachtrainer", icon: TrendingUp, title: "Dein Fortschritt", ar: "تتابع نتائج جلساتك وتشوف تقدّمك", highlight: true },
-  { group: "KI-Sprachtrainer", icon: CalendarCheck, title: "Fair Use", ar: "حتى جلستين يومياً و50 جلسة شهرياً (100 مع باقة الشهرين)" },
+  { group: "KI-Sprachtrainer", icon: CalendarCheck, title: "Fair Use", ar: "حتى جلستين يومياً و50 جلسة شهرياً (100 مع الشهرين، 150 مع 3 أشهر)" },
 ];
 
 interface Accent { bg: string; text: string; ring: string }

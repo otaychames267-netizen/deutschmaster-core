@@ -28,7 +28,7 @@ export interface ManualPaymentOrder {
   user_id: string;
   plan_code: string;
   amount_tnd: number;
-  /** Length of the purchased term: 1 or 2 months (the grant on approval is 30 days x months). */
+  /** Length of the purchased term: 1, 2 or 3 months (the grant on approval is 30 days x months). */
   months: number;
   method: ManualMethod;
   status: "pending_verification" | "approved" | "rejected";
@@ -40,7 +40,7 @@ export interface ManualPaymentOrder {
 
 export const createManualPaymentOrder = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { plan_code: PlanCode; method: ManualMethod; months?: 1 | 2 }) => d)
+  .inputValidator((d: { plan_code: PlanCode; method: ManualMethod; months?: 1 | 2 | 3 }) => d)
   .handler(async ({ data, context }): Promise<ManualPaymentOrder> => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const db = supabaseAdmin as any;
@@ -52,13 +52,13 @@ export const createManualPaymentOrder = createServerFn({ method: "POST" })
       throw new Error("This plan is not available yet.");
     }
 
-    const months = data.months === 2 ? 2 : 1;
+    const months = data.months === 3 ? 3 : data.months === 2 ? 2 : 1;
     // The server decides the price (plans table through plan_term_price: includes the launch-offer end date); an unknown plan or a plan without a
-    // 2-month pack raises here, so a crafted request can never pick its own amount or term.
+    // 2-/3-month pack raises here, so a crafted request can never pick its own amount or term.
     const { data: price, error: priceError } = await db.rpc("plan_term_price", { p_code: data.plan_code, p_months: months });
     if (String(priceError?.message ?? "").includes("PLAN_CLOSED")) throw new Error("Platinum opens this evening. يفتح Platinum هذا المساء.");
     if (priceError || price === null || price === undefined) {
-      throw new Error(String(priceError?.message ?? "").includes("TERM_NOT_AVAILABLE") ? "This plan has no 2-month pack." : `Unknown plan \"${data.plan_code}\".`);
+      throw new Error(String(priceError?.message ?? "").includes("TERM_NOT_AVAILABLE") ? `This plan has no ${months}-month pack.` : `Unknown plan \"${data.plan_code}\".`);
     }
     const amountTnd = Number(price);
     if (!Number.isFinite(amountTnd) || amountTnd < 30) throw new Error("This plan's price is invalid right now. Please contact support.");
@@ -188,7 +188,7 @@ export const adminApproveManualPaymentOrder = createServerFn({ method: "POST" })
       p_action_label: `manual_payment_${order.method}`,
       p_plan_code: order.plan_code,
       p_is_trial: false,
-      p_new_expires_at: new Date(Date.now() + 30 * 86_400_000 * (Number(order.months) === 2 ? 2 : 1)).toISOString(), // 30 days per purchased month
+      p_new_expires_at: new Date(Date.now() + 30 * 86_400_000 * ([2, 3].includes(Number(order.months)) ? Number(order.months) : 1)).toISOString(), // 30 days per purchased month
       // manual_subscription_actions.payment_method has a CHECK constraint
       // limited to ('virement','cash','d17','other') — postal/bancaire are
       // both literally "virement" (transfer) in that vocabulary, while d17
@@ -200,12 +200,12 @@ export const adminApproveManualPaymentOrder = createServerFn({ method: "POST" })
     });
     if (grantError) throw new Error(grantError.message);
 
-    // A 2-month pack carries two months' worth of Schreiben corrections (owner 2026-10-11: 60 instead of 30). The grant above set the essay-credit wallet to 30
-    // (one month); provision_essay_credits SETS the balance (it is not additive), so granting 30 x months here lands on exactly 60 and is safe to repeat.
-    const termMonths = Number(order.months) === 2 ? 2 : 1;
-    if (termMonths === 2 && ["schriftlich", "komplett", "komplett_ai"].includes(order.plan_code)) {
+    // A 2-/3-month pack carries that many months' worth of Schreiben corrections (owner 2026-10-11: 60 instead of 30; 3 months = 90). The grant above set the essay-credit wallet to 30
+    // (one month); provision_essay_credits SETS the balance (it is not additive), so granting 30 x months here lands on exactly 60 / 90 and is safe to repeat.
+    const termMonths = [2, 3].includes(Number(order.months)) ? Number(order.months) : 1;
+    if (termMonths >= 2 && ["schriftlich", "komplett", "komplett_ai"].includes(order.plan_code)) {
       const { error: creditError } = await db.rpc("provision_essay_credits", { p_user_id: order.user_id, p_amount: 30 * termMonths, p_reason: `manual_payment_${order.method}_${termMonths}_months` });
-      if (creditError) throw new Error(`Subscription granted but the 2-month credit top-up failed: ${creditError.message} — approve again to retry.`);
+      if (creditError) throw new Error(`Subscription granted but the multi-month credit top-up failed: ${creditError.message} — approve again to retry.`);
     }
 
     const { error: updateError } = await db

@@ -103,7 +103,7 @@ function ManualPaymentsAdminPage() {
                     <p className="font-bold text-foreground">{o.full_name ?? o.email ?? o.user_id}</p>
                     <p className="text-xs text-muted-foreground">{o.email}</p>
                     <p className="mt-1 text-sm text-foreground">
-                      {PLAN_LABEL[o.plan_code] ?? o.plan_code} · <span className="font-bold">{Number(o.amount_tnd).toFixed(0)} TND</span> ·{" "}
+                      {PLAN_LABEL[o.plan_code] ?? o.plan_code}{Number(o.months) > 1 && <span className="font-bold"> · {Number(o.months)} months</span>} · <span className="font-bold">{Number(o.amount_tnd).toFixed(0)} TND</span> ·{" "}
                       <span className="capitalize">{o.method === "d17" ? "D17" : o.method === "postal" ? "Virement Postal" : "Virement Bancaire"}</span>
                     </p>
                     <p className="mt-0.5 text-xs text-muted-foreground">{new Date(o.created_at).toLocaleString()}</p>

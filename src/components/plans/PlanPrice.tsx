@@ -1,5 +1,5 @@
 import { BadgePercent, CalendarDays, CalendarRange, RefreshCcwDot, Sparkles, Timer } from "lucide-react";
-import { maxPackSaving, offerDaysLeft, perMonth, savedAmount, savedPercent, type Months, type PricingMap, type TermPrice } from "@/lib/plans/pricing";
+import { availableMonths, maxPackSaving, offerDaysLeft, perMonth, savedAmount, savedPercent, type Months, type PricingMap, type TermPrice } from "@/lib/plans/pricing";
 
 /**
  * Price presentation for the plan cards (landing page + billing), drawn for the navy/gold `.plan-premium` card ground. Everything shown is derived from the
@@ -7,16 +7,19 @@ import { maxPackSaving, offerDaysLeft, perMonth, savedAmount, savedPercent, type
  * countdown only while the offer really runs (after it ends the charge itself goes back to the regular price).
  */
 
-/** Segmented "1 month | 2 months" switch with the saving of the 2-month pack as a gold badge. Lives on the page background, above the cards. */
+/** Segmented "1 month | 2 months | 3 months" switch with the biggest pack saving as a gold badge. Lives on the page background, above the cards. */
 export function TermToggle({ months, onChange, pricing }: { months: Months; onChange: (m: Months) => void; pricing: PricingMap }) {
   const saving = maxPackSaving(pricing);
-  const options: { m: Months; label: string; labelAr: string; Icon: typeof CalendarDays }[] = [
+  const all: { m: Months; label: string; labelAr: string; Icon: typeof CalendarDays }[] = [
     { m: 1, label: "1 month", labelAr: "شهر", Icon: CalendarDays },
     { m: 2, label: "2 months", labelAr: "شهران", Icon: CalendarRange },
+    { m: 3, label: "3 months", labelAr: "3 أشهر", Icon: CalendarRange },
   ];
+  const offered = availableMonths(pricing);
+  const options = all.filter((o) => offered.includes(o.m));
   return (
-    <div className="mx-auto w-full max-w-xs">
-      <div role="radiogroup" aria-label="Subscription length" className="relative grid grid-cols-2 gap-1 rounded-2xl border border-border bg-card p-1 shadow-sm">
+    <div className={`mx-auto w-full ${options.length > 2 ? "max-w-lg" : "max-w-xs"}`}>
+      <div role="radiogroup" aria-label="Subscription length" className={`relative grid gap-1 rounded-2xl border border-border bg-card p-1 shadow-sm ${options.length > 2 ? "grid-cols-3" : "grid-cols-2"}`}>
         {options.map(({ m, label, labelAr, Icon }) => {
           const on = months === m;
           return (
@@ -26,7 +29,7 @@ export function TermToggle({ months, onChange, pricing }: { months: Months; onCh
               role="radio"
               aria-checked={on}
               onClick={() => onChange(m)}
-              className={`relative flex items-center justify-center gap-2 rounded-xl px-3 py-2.5 text-sm font-bold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 ${
+              className={`relative flex min-w-0 flex-col items-center justify-center gap-0.5 rounded-xl px-2 py-2 text-sm font-bold transition-all sm:flex-row sm:gap-2 sm:px-3 sm:py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/70 ${
                 on ? "bg-primary text-primary-foreground shadow-md" : "text-muted-foreground hover:bg-muted hover:text-foreground"
               }`}
             >
@@ -43,10 +46,10 @@ export function TermToggle({ months, onChange, pricing }: { months: Months; onCh
         )}
       </div>
       <p className="mt-2.5 text-center text-xs text-muted-foreground">
-        {months === 2 ? (
-          <>One payment, two months of access — the better deal. <span dir="rtl" lang="ar" className="font-medium text-foreground/80">دفعة واحدة وشهران بسعر أقل.</span></>
+        {months > 1 ? (
+          <>One payment, {months} months of access — the better deal. <span dir="rtl" lang="ar" className="font-medium text-foreground/80">دفعة واحدة و{months === 2 ? "شهران" : "3 أشهر"} بسعر أقل.</span></>
         ) : (
-          <>Prefer to pay month by month? <span className="font-medium text-foreground/80">Two months cost less per month.</span></>
+          <>Prefer to pay month by month? <span className="font-medium text-foreground/80">Longer packs cost less per month.</span></>
         )}
       </p>
     </div>
@@ -82,7 +85,7 @@ export function PriceBlock({ term, offerEndsAt }: { term: TermPrice; offerEndsAt
         )}
       </div>
       <p className="mt-2.5 text-xs text-white/65">
-        {term.months === 1 ? "per month" : <>for 2 months · <b className="text-white/90">{perMonth(term)} TND</b> / month</>}
+        {term.months === 1 ? "per month" : <>for {term.months} months · <b className="text-white/90">{perMonth(term)} TND</b> / month</>}
       </p>
       {(days !== null || save > 0) && (
         <div className={`mt-4 rounded-xl px-3.5 py-2.5 ring-1 ring-inset ${urgent ? "bg-amber-400/15 ring-amber-300/35" : "bg-white/[0.06] ring-white/10"}`}>

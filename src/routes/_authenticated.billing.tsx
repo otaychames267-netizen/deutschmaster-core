@@ -15,7 +15,7 @@ import {
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
 import { PlanHeader, PlanDivider } from "@/components/plans/PlanCard";
-import { usePlanPricing, termOf, hasTerm, type Months, type SellablePlan } from "@/lib/plans/pricing";
+import { usePlanPricing, termOf, availableMonths, type Months, type SellablePlan } from "@/lib/plans/pricing";
 
 export const Route = createFileRoute("/_authenticated/billing")({
   component: BillingPage,
@@ -222,7 +222,7 @@ function BillingPage() {
           <h2 className="text-lg font-black text-foreground">Available plans</h2>
           <p className="text-sm text-muted-foreground">Choose the plan that fits your exam goals. Cancel anytime.</p>
         </div>
-        {hasTerm(pricing, 2) && (
+        {availableMonths(pricing).length > 1 && (
           <div className="mt-6 pb-1">
             <TermToggle months={months} onChange={setMonths} pricing={pricing} />
           </div>
@@ -296,7 +296,7 @@ function BillingPage() {
                   <div>
                     <p className="mb-1 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">Choose how to pay</p>
                     <p className="mb-2.5 text-xs text-muted-foreground">
-                      You pay <b className="text-foreground">{termOf(pricing, plan.code as SellablePlan, months).price} TND</b> once for {months === 2 ? "2 months" : "1 month"} of access.
+                      You pay <b className="text-foreground">{termOf(pricing, plan.code as SellablePlan, months).price} TND</b> once for {months === 1 ? "1 month" : `${months} months`} of access.
                     </p>
                     <div className="space-y-2">
                       {PAYMENT_METHODS.map((m) => {

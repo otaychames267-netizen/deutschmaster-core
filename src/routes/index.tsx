@@ -10,7 +10,7 @@ import { SUPPORTED_LANGUAGES } from "@/lib/i18n";
 import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
 import { PlanHeader, PlanDivider } from "@/components/plans/PlanCard";
-import { usePlanPricing, termOf, hasTerm, type Months, type SellablePlan } from "@/lib/plans/pricing";
+import { usePlanPricing, termOf, availableMonths, type Months, type SellablePlan } from "@/lib/plans/pricing";
 import i18n from "@/lib/i18n";
 import { BookOpen, Headphones, PenLine, Mic, Globe, Moon, Sun, ChevronRight, Check, Star, ArrowRight, Zap, Shield, Clock, TrendingUp, Award, Play, ChevronDown, Menu, X, Landmark, Smartphone, Building2, Gem } from "lucide-react";
 
@@ -552,7 +552,7 @@ function Pricing() {
           <p className="mt-3 text-base text-muted-foreground">
             Choose the plan that matches your exam goals.
           </p>
-          {hasTerm(pricing, 2) && (
+          {availableMonths(pricing).length > 1 && (
             <div className="mt-8">
               <TermToggle months={months} onChange={setMonths} pricing={pricing} />
             </div>
