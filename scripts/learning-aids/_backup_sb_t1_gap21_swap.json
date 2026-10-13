@@ -1,0 +1,24 @@
+[
+ {
+  "position": 5,
+  "gap_id": "bc5a96a6-31f9-4d56-96cb-d2a783afe9f7",
+  "exercise_id": "74c45095-393b-482c-8dac-8e55b739e34c",
+  "option_a": "an",
+  "option_b": "von",
+  "option_c": "zu",
+  "correct": "c",
+  "kw": "Anfrage zu",
+  "ev": "vielen Dank für Ihre Anfrage vom 16. Juni **zu** der Studienreise zu Schulklasse nach Frankfurt am Main im kommenden Oktober."
+ },
+ {
+  "position": 6,
+  "gap_id": "3a5eae03-e8cc-4791-959a-dfd010c32518",
+  "exercise_id": "03f1a1a2-7c40-491c-b88b-90b984ff62a4",
+  "option_a": "Seiner",
+  "option_b": "Deiner",
+  "option_c": "Ihrer",
+  "correct": "c",
+  "kw": "Ihrer",
+  "ev": "vielen Dank für Ihre Anfrage vom 16. Juni **Ihrer** der Studienreise Ihrer Schulklasse nach Frankfurt am Main im kommenden Oktober."
+ }
+]

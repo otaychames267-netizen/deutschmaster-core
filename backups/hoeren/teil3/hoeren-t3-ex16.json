@@ -1,0 +1,38 @@
+{
+  "title": "Blutspenden",
+  "teil": 3,
+  "level": "B2",
+  "position": 16,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 17 (code 1345) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Ihre Tochter kann am Freitag verschiedene Sportarten testen.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Sie können sich im Internet zum Blutspenden anmelden.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Heute müssen Sie auf den Bus ausweichen.",
+      "correct": true
+    },
+    {
+      "number": 59,
+      "text": "Sie müssen das Bad früher verlassen.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "Für einen Termin müssen Sie anrufen.",
+      "correct": true
+    }
+  ]
+}

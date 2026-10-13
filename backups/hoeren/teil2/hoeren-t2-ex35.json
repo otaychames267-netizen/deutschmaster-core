@@ -1,0 +1,63 @@
+{
+  "title": "Bicycle",
+  "teil": 2,
+  "level": "B2",
+  "position": 35,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 36 (code 369) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Das ist ein Interview mit dem Restaurant \"Bicycle\".",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Gert Kronheim ist der alleinige Gründer von Bicycle.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Bicycle bietet Arbeitsplätze für junge Leute, die schon länger arbeitslos sind. “Bicycle”",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Bicycle gibt es schon seit 1926.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Anlass für die Gründung von Bicycle war die steigende Arbeitslosigkeit Anfang der 80er Jahre.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Gert Kronheimer findet, dass das Fahrrad für junge Leute interessant ist.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Das Fahrrad ist heute leider sehr unpopulär geworden.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Bei Bicycle kann man nur Vollzeit arbeiten.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Bei Bicycle werden im Jahr ungefähr 10000 Fahrräder repariert. 10,000 “Bicycle”",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Sibylle Hartung ist nur eine Assistentin und keine Expertin für technische Fragen.",
+      "correct": false
+    }
+  ]
+}

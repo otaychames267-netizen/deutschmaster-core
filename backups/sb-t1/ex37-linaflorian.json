@@ -1,0 +1,20 @@
+{
+  "title": "Lina und Florian",
+  "level": "B2",
+  "position": 38,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Lina, lieber Florian,\n\nnun sind wir schon einige Monate in unserer neuen Wohnung, und ihr habt uns noch immer nicht besucht. Ihr {{21}} doch endlich unser neues Heim und unsere kleine Stadt Kennenlernen. Deshalb möchten wir euch {{22}} das verlängerte Wochenende Anfang Juni einladen. Wenn ihr am Donnerstagabend anreist, haben wir drei ganze Tage zur Verfügung. Wohnen könnt ihr natürlich {{23}} uns. Emma fährt im Juni in Urlaub, und sie überlässt euch gern ihr Zimmer.\nDie Stadt Steyr hat {{24}} zu bieten. Wir können eine Führung durch die historische Altstadt machen, die romantischen Innenhöfe besichtigen und auf {{25}} Tum der Stadtpfarrkirche steigen. Da geht es uber 228 Stufen 60 Meter hinauf. Bei einem längeren Rundgang {{26}} Auch die wunderbare Schlossbibliothek und das Tapetenzimmer zu besichtigen. Besonders interessant ist die Runde durch den Wehrgraten, {{27}} man an den alten Bauten den Wandel der Industrie nachvollziehen kann, {{28}} erfährt man alles über die Eisenindustrie, die den Reichtum der Stadt begründet hat\nAußerdem finden an {{29}} Wochenende die jährlichen Literaturtage Stadt. Bei dieser Veranstaltung präsentieren zeitgenössische Autorinnen und Autoren ihre Neuerscheinungen. Die Lesungen finden zum Großteil in den prächtigen Arkadenhöfen statt. Die Stimmung dort ist wirklich eine ganz besondere. Lina, das wäre doch was für dich, oder? Auch die Umgebung kann {{30}} sehen lassen. Praktisch vor den Toren der Stadt beginnt der Nationalpark Kalkalpen, Dort kann man wunderbar wandern und Rad fahren. Ihr könnt in der Stadt auch Räder ausleihen. Wir hoffen sehr, dass ihr noch keine Plane für das Wochenende habt und zu uns kommen könnt. Viele liebe Grüße und hoffentlich bis bald!\n\nChiara und Mark",
+  "gaps": [
+    { "n": 21, "a": "dürft", "b": "könnt", "c": "sollt", "correct": "c" },
+    { "n": 22, "a": "an", "b": "für", "c": "in", "correct": "b" },
+    { "n": 23, "a": "bei", "b": "unter", "c": "zu", "correct": "a" },
+    { "n": 24, "a": "einige", "b": "einigen", "c": "einiges", "correct": "c" },
+    { "n": 25, "a": "dem", "b": "den", "c": "der", "correct": "b" },
+    { "n": 26, "a": "ist", "b": "sind", "c": "waren", "correct": "b" },
+    { "n": 27, "a": "wann", "b": "wie", "c": "wo", "correct": "c" },
+    { "n": 28, "a": "dabei", "b": "daneben", "c": "darin", "correct": "a" },
+    { "n": 29, "a": "dies", "b": "diesem", "c": "dieses", "correct": "b" },
+    { "n": 30, "a": "man", "b": "sich", "c": "Sie", "correct": "b" }
+  ]
+}

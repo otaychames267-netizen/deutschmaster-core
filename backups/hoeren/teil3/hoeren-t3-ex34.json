@@ -1,0 +1,38 @@
+{
+  "title": "Die Literaturmesse für Kleinverleger",
+  "teil": 3,
+  "level": "B2",
+  "position": 34,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 35 (code 5) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Die Literaturmesse für Kleinverleger findet zum ersten Mal statt.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Bei dem Wettkampf machte Saskia Winzer alles richtig.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Am Samstag ist den ganzen Tag mit Sonne zu rechnen.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Das Theaterstück wird zum ersten Mal am Stadttheater aufgeführt.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Während des Unterhaltungsprogramms gibt es auch Kinderbetreuung.",
+      "correct": true
+    }
+  ]
+}

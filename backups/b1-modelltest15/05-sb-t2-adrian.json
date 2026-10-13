@@ -1,0 +1,22 @@
+{
+  "title": "ADRIAN 2",
+  "level": "B1",
+  "position": 15,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 15/16 (Thomas/Language Tests, page 175 printed / PDF page 176). Business letter to a Breisach tourism office requesting hotel proposals for a Franco-German conference, signed Adrian Schöller (EVD Trans GmbH). Genuine print-variant of Modelltest 11's own 'ADRIAN' exercise (id 93e7e3e8-0180-4624-8c80-139f2ce9833d) — the passage/letter text is byte-identical, but the word bank and 5 of the 10 correct answers differ: gaps 34/35/36/37/38 are BESCHREIBEN/GEEIGNET/WEIL/SUCHEN/AUCH here vs NENNEN/GEEIGENET/WEGEN/NUN/AM in Modelltest 11, with a correspondingly different word bank (this exercise uses AUCH/BESCHREIBEN/GEEIGNET/SUCHEN/TOUR/WEIL where Modelltest 11 uses AM/GEEIGENET/NENNEN/NUN/TROTZDEM/WEGEN). Confirmed NOT byte-identical, so inserted as a distinct exercise per this project's print-variant convention, titled with a '2' suffix. Note: grammatically, this exercise's own answers (esp. 36 WEIL, 37 SUCHEN, 38 AUCH) parse more naturally in context than Modelltest 11's stored NENNEN/WEGEN/NUN/AM at the same passage positions, but both are transcribed verbatim from their respective Lösungen pages per this project's never-silently-correct policy — no attempt was made to 'fix' either key. Answer key from THIS test's own Lösungen page (printed p.180 / PDF p.181): 31B AUFTRAG, 32I STATTFINDEN, 33G INFORMATIONEN, 34C BESCHREIBEN, 35E GEEIGNET, 36O WEIL, 37J SUCHEN, 38A AUCH, 39K TERMIN, 40N WÄREN.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrte Damen und Herren,\n\nunsere Organisation hat den {{31}}, eine deutsch-französische Konferenz zu europäischen Entwicklungsprogrammen vorzubereiten.\n\nDiese Veranstaltung könnte in Breisach {{32}}, und daher brauchen wir von Ihnen nähere {{33}}. In Ihrer Anzeige {{34}} Sie die Sehenswürdigkeiten von Breisach und die verschiedenen touristischen Möglichkeiten. Deshalb erscheint uns Ihre Stadt als sehr {{35}}, auch {{36}} sie als Brücke zu Europa gilt.\n\nNun haben wir folgende Bitte: Für diese Veranstaltung {{37}} wir ein gutes Hotel, möglichst am Ufer des Rheins, mit Konferenz- und Arbeitsräumen, ausgestattet mit den notwendigen technischen Anlagen, Internetanschluss usw. Es sollte {{38}} ruhig gelegen sein. Können Sie uns dazu Vorschläge schicken? Der {{39}} wäre 15.-21. November.\n\nBitte geben Sie uns möglichst bald Bescheid. Für Prospekte und Informationen zu Preisen und Buchungsbedingungen {{40}} wir Ihnen dankbar.\n\nMit freundlichen Grüßen\n\nADRIAN SCHÖLLER\nEVD Trans GmbH",
+  "words": ["AUCH", "AUFTRAG", "BESCHREIBEN", "FRAGEN", "GEEIGNET", "GEGEÜBER", "INFORMATIONEN", "KÖNNTEN", "STATTFINDEN", "SUCHEN", "TERMIN", "TOUR", "VOR", "WÄREN", "WEIL"],
+  "answers": {
+    "31": "AUFTRAG",
+    "32": "STATTFINDEN",
+    "33": "INFORMATIONEN",
+    "34": "BESCHREIBEN",
+    "35": "GEEIGNET",
+    "36": "WEIL",
+    "37": "SUCHEN",
+    "38": "AUCH",
+    "39": "TERMIN",
+    "40": "WÄREN"
+  }
+}

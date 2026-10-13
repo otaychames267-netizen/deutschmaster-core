@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { X, Maximize2, Loader2, AlertCircle, ExternalLink } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 
-export function PdfViewer({ storagePath, title, onClose }: { storagePath: string; title: string; onClose: () => void }) {
+export function PdfViewer({ storagePath, title, onClose, bucket = "muendlich-pdfs" }: { storagePath: string; title: string; onClose: () => void; bucket?: string }) {
   const [url, setUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -16,13 +16,13 @@ export function PdfViewer({ storagePath, title, onClose }: { storagePath: string
   useEffect(() => {
     let active = true;
     (async () => {
-      const { data, error } = await (supabase as any).storage.from("muendlich-pdfs").createSignedUrl(storagePath, 3600);
+      const { data, error } = await (supabase as any).storage.from(bucket).createSignedUrl(storagePath, 3600);
       if (!active) return;
       if (error || !data?.signedUrl) setError(error?.message ?? "Could not load PDF");
       else setUrl(data.signedUrl);
     })();
     return () => { active = false; };
-  }, [storagePath]);
+  }, [storagePath, bucket]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -36,7 +36,7 @@ export function PdfViewer({ storagePath, title, onClose }: { storagePath: string
     <div className="fixed inset-0 z-50 flex flex-col bg-black/70 backdrop-blur-sm p-2 sm:p-6" onClick={onClose}>
       <div ref={wrapRef} className="mx-auto flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-2xl bg-card shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 border-b border-border px-4 py-2.5">
-          <span className="flex-1 truncate text-sm font-bold text-foreground">{title}</span>
+          <span className="min-w-0 flex-1 truncate text-sm font-bold text-foreground">{title}</span>
           {url && <a href={url} target="_blank" rel="noopener noreferrer" className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground" title="Open in new tab"><ExternalLink className="h-4 w-4" /></a>}
           <button onClick={fullscreen} className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground" title="Fullscreen"><Maximize2 className="h-4 w-4" /></button>
           <button onClick={onClose} className="rounded-lg p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground" title="Close (Esc)"><X className="h-4 w-4" /></button>

@@ -1,0 +1,17 @@
+{
+  "title": "Mannheim",
+  "teil": 3,
+  "level": "B1",
+  "position": 16,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 16/16 (Tamara/Language Tests, PDF page 191). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Five short unrelated texts (a train announcement, a doctor's office, a cinema, weather, a birthday). Statement 57 is printed as 'Dr. Hoffmann ist um Urlaub...' (grammatically expected 'im Urlaub') — transcribed verbatim per this project's never-silently-correct policy. Answer key from Lösungen page: 56+ 57- 58- 59- 60+. NOT INSERTED: confirmed byte-identical duplicate of an already-existing 'Mannheim' Hören Teil 3 exercise (id 3fe9726c-40fa-419c-bdb5-05cf817e38f0, position 14, from Modelltest 14) — all 5 statements match verbatim, including the same 'ist um Urlaub' typo. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted).",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören jeden Text zweimal. Entscheiden Sie beim Hören, ob die Aussagen 56 – 60 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 56, "text": "Der Zug nach Mannheim fährt um 13:14 Uhr ab.", "correct": true },
+    { "number": 57, "text": "Dr. Hoffmann ist um Urlaub unter der Nummer 957 30 75 zu erreichen.", "correct": false },
+    { "number": 58, "text": "Sie können den Film Das Leben ist schön um 18:15 Uhr im Central sehen.", "correct": false },
+    { "number": 59, "text": "Heute Abend beginnt es zu schneien.", "correct": false },
+    { "number": 60, "text": "Katrin hätte am Dreiundzwanzigsten Zeit.", "correct": true }
+  ]
+}

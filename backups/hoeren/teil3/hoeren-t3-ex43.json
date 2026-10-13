@@ -1,0 +1,38 @@
+{
+  "title": "Die Buchpräsentation",
+  "teil": 3,
+  "level": "B2",
+  "position": 43,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 43 (code 145) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Die Buchpräsentation beginnt laut Programm in 30 Minuten.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Patienten, die zu einer Nachbehandlung kommen, werden zu Schalter 3 gebeten.",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Dienstags gibt es für einen Friseurbesuch zu Hause ein Sonderangebot.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Die Führungen im Tierpark beginnen in der Kassazone.",
+      "correct": true
+    },
+    {
+      "number": 60,
+      "text": "Die Besucher werden zum Mitmachen eingeladen.",
+      "correct": true
+    }
+  ]
+}

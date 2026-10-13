@@ -73,7 +73,7 @@ export const startExam = createServerFn({ method: "POST" })
       })
       .select("id,exercise_ids,started_at,ends_at,status")
       .single();
-    if (error || !session) throw new Error(error?.message ?? "Could not start exam");
+    if (error || !session) { if (error) console.error("[startExam]", error); throw new Error("Could not start exam. Please try again."); }
     return { session };
   });
 
@@ -87,7 +87,7 @@ export const getExamSession = createServerFn({ method: "POST" })
       .eq("id", data.sessionId)
       .eq("user_id", context.userId)
       .maybeSingle();
-    if (error || !session) throw new Error(error?.message ?? "Session not found");
+    if (error || !session) { if (error) console.error("[getExamSession]", error); throw new Error("Session not found"); }
 
     const { data: exercises } = await context.supabase
       .from("exercises")
@@ -149,7 +149,7 @@ export const finishExam = createServerFn({ method: "POST" })
       })
       .eq("id", data.sessionId)
       .eq("user_id", context.userId);
-    if (error) throw new Error(error.message);
+    if (error) { console.error("[finishExam]", error); throw new Error("Could not submit exam. Please try again."); }
 
     return { total, breakdown, needsReview: list.filter((a) => a.needs_review).length };
   });

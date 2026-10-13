@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "Musik",
+  "level": "TELC_B1",
+  "position": 9,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 9/16 (Sonja3/Language Tests, page 111 printed = PDF page 112 for situations, page 112 printed = PDF page 113 for the ad block). The ad block page is a blurry photograph of an actual printed exam booklet page (Swiss telc-style event listings); re-rendered at up to 300 DPI. Ad D's third composer's first name is illegible in the source; ad A's concert programme (Haydn/Beethoven symphonies plus a choral piece, hence the vocal/'Gesang' match for situation 18) and several phone numbers/addresses could not be fully verified pixel-by-pixel and are transcribed on a best-effort basis, matching this project's established handling of low-resolution source ad pages. Answer key from Lösungen page (printed p.119 / PDF p.120): 11H 12X 13X 14B 15I 16L 17E 18A 19K 20G.",
+  "key": "HXXBILEAKG",
+  "situations": {
+    "11": "Während Ihres Sommerurlaubs in der Schweiz möchten Sie ein Konzert besuchen. Sie interessieren sich für die traditionelle Musik dieses Landes.",
+    "12": "Ein Freund von Ihnen interessiert sich für Norwegen. Sie wollen ihm ein passendes Buch schenken.",
+    "13": "Sie möchten gerne in einem Restaurant mit Live-Musik essen.",
+    "14": "Sie suchen ein Geschenk für die 12-jährige Tochter Ihrer Schweizer Freunde.",
+    "15": "Sie suchen für Ihre Freunde ein passendes Geschenk. Ihre Freunde kochen gern selbst und probieren oft neue Rezepte.",
+    "16": "Sie möchten am Samstagabend griechisch essen gehen.",
+    "17": "Sie suchen ein Restaurant, in dem Sie draußen sitzen können.",
+    "18": "Sie sind im Juni in München und möchten ein Konzert mit Gesang besuchen.",
+    "19": "Sie sind in der Schweiz und suchen ein Souvenir für Ihre Freunde.",
+    "20": "Sie sind am Flughafen und möchten etwas essen."
+  },
+  "texts": {
+    "A": { "title": "", "content": "[Quellfoto unscharf – Konzertankündigung, Ort/Datum nicht sicher lesbar] Haydn, Symphonie Hob I:83 'Der Henne'. Beethoven, Ouvertüre c-Moll op. 85, Symphonie Nr. 1 C-Dur op. 21. Es singen [Chor/Solisten – Details unleserlich]." },
+    "B": { "title": "", "content": "SPICK. Die interessante Zeitschrift für Schweizer Kinder und Jugendliche. [Quellfoto unscharf – Bestelldaten/Preis nicht sicher lesbar] E-Mail: abo@spick.ch" },
+    "C": { "title": "", "content": "Korea Pavillon. [Quellfoto unscharf – weitere Details nicht sicher lesbar]." },
+    "D": { "title": "", "content": "CH-5000 Aarau, Schweiz. Im Saalbau: Samstag, 30. Januar, 17.00 Uhr. Das Casal Quartett spielt Werke von Ludwig van Beethoven, Georg Crumb und Antonín Dvořák. Vorverkauf: Info Aarau 062 822 75 22." },
+    "E": { "title": "", "content": "Cantino. Das Restaurant im Museum. Montag-Freitag 12.00 bis 14.00 Uhr und 18.00 bis 23.30 Uhr, Sonntag Tapas-Brunch 12.00 bis 15.00 Uhr, essen Sie Tapas, so viele Sie wollen. Modern gestalteter Innenraum. Eingang direkt neben der Museumskasse." },
+    "F": { "title": "", "content": "Zürich, Grosser Saal, Donnerstag 17. Juli. GALAKONZERT. Sinfonieorchester Zürich, Stadtharmonie Zürich, Gertken Seebach, Leitung: Eric Comas, mit weiteren Solisten. Karten zu Fr. 18.-, 27.- und 35.-, ermäßigt. Billett-Service Migros (City Shopping), Tel. 01 231 16 71. Musikhaus Bucher, 8000 Zürich, Tel. 01 312 58 43. Abendkasse am Konzerttag ab 18.00 Uhr." },
+    "G": { "title": "", "content": "Gastland Norwegen. Kulinarische Köstlichkeiten aus Fjordlachs. Vom 26. Mai bis 22. Juni. Frisch aus Norwegen und köstlich zubereitet. Lassen Sie sich von unseren sommerlichen Lachskreationen überraschen. Flughafenrestaurants Top Air, Asia Coffee Shop, Binario Uno und Brasserie. Reservation 01-816 60 60." },
+    "H": { "title": "", "content": "Alpenklänge. Die andere Schweizer Volksmusik. Do. 17. Juli, 20 Uhr, Oberwalliser Spillit, Gast: Sina. Paul Locher, Geige, Elmar Schmid, Klarinette, Klaus Schmid, Klarinette, Oswald Bumann, Bassgeige, Sabine Gertschen, Hackbrett, Marcel Volken, Schwyzerörgeli, Edmund Volken, Hackbrett. Do. 24. Juli, 20 Uhr, Roots of Communication, Gast: Erika Stucky. Robert Morgenthaler, Posaune, Jean-Jacques Pedretti, Alphorn, Posaune, Lukas Niggli, Schlagzeug, Perkussion. Hofkonzerte, Zentrum am Obertor 8, Winterthur. Vorverkauf: Zentrum am Obertor, Tel. 052 213 88 88, Tourist-Service, Tel. 052 269 26 66. Bei schlechter Witterung: Neuwiesenhof-Saal, Wartstr. 17. Auskunft am Veranstaltungstag über Nr. 1600." },
+    "I": { "title": "", "content": "Hiltl. Vegetarisch nach Lust und Laune. Vegetarische Küche liegt im Trend. Zum Jubiläum des ältesten vegetarischen Restaurants veröffentlicht Rolf Hiltl über 60 der besten Rezepte zum Nachkochen. Hiltl. Vegetarisch nach Lust und Laune, 168 Seiten, 120 farbige Abbildungen, gebunden, Fr. 59.-. Werderverlag, Postfach 8021 Zürich, Tel. 0846 850 550. Internet www.werderverlag.ch. Jetzt im Buchhandel erhältlich." },
+    "J": { "title": "", "content": "András Adorján, Flöte; Uwe Komischke, Trompete; Friedmann Winklhofer, Cembalo und Leitung. Konzert für Orchester, Trompeten und Flöten. Di., 22.6., 20 Uhr. Bei schlechtem Wetter im Herkulessaal." },
+    "K": { "title": "", "content": "Schweizer Heimatwerk – Geschenke von hier, von heute, von Hand. Hier finden Sie das optimale Geschenk für jede und jeden! Traditionelles Kunsthandwerk und Trachten, Panorama-Poster. Jetzt neu: große Auswahl an CDs verschiedenster Schweizer Künstler. Genf, Aarau, St. Gallen, Zürich. Tel. 01 211 57 80. http://www.heimatwerk.ch" },
+    "L": { "title": "", "content": "Neuburger. Genießen Sie unsere Gaststätte und die sagenhafte Auswahl. Am Wochenende griechische Spezialitäten. Hopfenstraße 19. Telefon 01[...]. Mo.-Fr.: 11:30-14:00, Samstag/Sonntag [Öffnungszeiten unleserlich]." }
+  }
+}

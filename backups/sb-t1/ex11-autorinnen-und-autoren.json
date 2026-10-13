@@ -1,0 +1,20 @@
+{
+  "title": "Autorinnen und Autoren",
+  "level": "B2",
+  "position": 11,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Autorinnen und Autoren,\n\nWeihnachten ist nicht mehr weit, und bevor wir uns alle in die wohlverdienten Feiertage verabschieden, möchte ich euch noch einmal an den Redaktionsschluss für unsere Vereinszeitung erinnern, den wir für den 10. Januar festgelegt haben. {{21}} ihr alle wisst, kann Claudia, unsere fleißige Layouterin, sich erst dann an die Arbeit machen, wenn alle Texte und Bilder {{22}}. Die fertige Datei muss bis spätestens 22. Januar in der Druckerei sein, damit das Heft pünktlich zum 1. Februar fertig sein kann. Ein gutes Layout ist auch {{23}} Interesse der Autorinnen und Autoren. Ist es schlecht, schenkt man dem Artikel automatisch weniger Beachtung. Liefert also bitte eure Beiträge rechtzeitig {{24}}. Für die Bildbearbeitung ist wie immer Florian zuständig. Bitte die Bilder im TIF- oder im JPG-Format liefern und bitte den Bildnachweis anführen, wenn die Bilder nicht von euch selbst stammen. Für eure eigenen Bilder liegt das Copyright natürlich {{25}} euch. Leider sind die Verkaufszahlen unserer Vereinszeitung im letzten Jahr {{26}} zurückgegangen. Deshalb möchten wir euch alle noch einmal herzlich {{27}} bitten, nur Themen zu wählen, die unsere Vereinsmitglieder betreffen und sie auch wirklich {{28}}. Das heißt nicht, {{29}} man große Themen wie Politik oder Gesellschaft nicht behandeln kann, aber sie sollten leserfreundlich verpackt sein. Wir verstehen uns ausdrücklich {{30}} unabhängige Zeitung und möchten uns keinen Maulkorb umhängen lassen. Trotzdem sollten die Beiträge im Rahmen sachlicher Meinungsäußerungen bleiben. In diesem Sinne freut sich die Redaktion auf zahlreiche Artikel!\n\nBeste Grüße und viel Erfolg\nEure Redaktion",
+  "gaps": [
+    { "n": 21, "a": "wie", "b": "was", "c": "wann", "correct": "a" },
+    { "n": 22, "a": "vorliegen", "b": "unterliegen", "c": "liegen lassen", "correct": "a" },
+    { "n": 23, "a": "von", "b": "ohne", "c": "im", "correct": "c" },
+    { "n": 24, "a": "zu", "b": "ein", "c": "ab", "correct": "c" },
+    { "n": 25, "a": "mit", "b": "für", "c": "bei", "correct": "c" },
+    { "n": 26, "a": "unerschütterlich", "b": "stark", "c": "fest", "correct": "b" },
+    { "n": 27, "a": "deswegen", "b": "darum", "c": "dafür", "correct": "b" },
+    { "n": 28, "a": "besprechen", "b": "aussprechen", "c": "ansprechen", "correct": "c" },
+    { "n": 29, "a": "ob", "b": "dass", "c": "damit", "correct": "b" },
+    { "n": 30, "a": "sowie", "b": "als ob", "c": "als", "correct": "c" }
+  ]
+}

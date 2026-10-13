@@ -1,0 +1,20 @@
+{
+  "title": "Judith oder Lina",
+  "level": "B2",
+  "position": 21,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Hallo Judith, oder Lina\n\nwir habe uns ja lange nicht gesehen. Ich hoffe, du hattest einen richtig schönen Urlaub in Kroatien! Danke auch für deine Urlaubskartei! Die hat mich echt neidisch gemacht; ich habe ja erst im September Urlaub.\n{{21}} rufst du heute schon deine E-Mails ab and liest diese Nachricht von mir!\n\nWir, als das gesamte Team, möchten {{22}} unserer Kollegin Elena zu ihrer Pensionierung gemeinsam etwas zum Abschied schenken. Ihre Abschiedsfeier ist ja {{23}} übermorgen abends im großen Konferenzraum unserer Firma. Bist du {{24}} einverstanden, dass wir ihr zusammen einen Gutschein und einen Blumenstrauß schenken? Jeder zahlt etwas 10 € dazu. Ich denke, das ist angemessen. Du erinnerst dich: {{25}} wir das letzte Mal gesammelt hatten, gab es Beschwerden wegen der Höhe des Betrags. Aber möglicherweise hast du eine bessere Idee.\n\nMichael und ich gehen dann nachmittags {{26}} in der Stadt einkaufen. Die Glückwunschkarte für Elena könntest du dann übermorgen noch {{27}} vor der Feier unterschreiben. Wir treffen uns ja alle vorher und gehen gemeinsam hin.\n\nIn der Firma war heute nicht viel los. Aber in den letzten 14 Tagen hatten viele Kollegen Urlaub, {{28}} ich sehr viel zu tun hatte. Es gibt übrigens auch {{29}} neue Entwicklungen in der Firma, von denen ich dir dann übermorgen erzählen kann.\nWahrscheinlich bist du nach der langen Fahrt sehr müde. Schlaf dich morgen gut aus; wir sehen uns dann auf Elenas Feier! Ich wünsche dir heute einen {{30}} Tag...\n\nLiebe Grüße,\nCosima",
+  "gaps": [
+    { "n": 21, "a": "Zuversichtlich", "b": "Möglichst", "c": "Hoffentlich", "correct": "c" },
+    { "n": 22, "a": "vermutlich", "b": "nämlich", "c": "bestimmt", "correct": "b" },
+    { "n": 23, "a": "schon", "b": "fast", "c": "beinahe", "correct": "a" },
+    { "n": 24, "a": "damit", "b": "dafür", "c": "dadurch", "correct": "a" },
+    { "n": 25, "a": "Wenn", "b": "Wann", "c": "Als", "correct": "c" },
+    { "n": 26, "a": "zueinander", "b": "voneinander", "c": "miteinander", "correct": "c" },
+    { "n": 27, "a": "vor Kurzem", "b": "kürzlich", "c": "kurz", "correct": "c" },
+    { "n": 28, "a": "weshalb", "b": "insofern", "c": "deshalb", "correct": "a" },
+    { "n": 29, "a": "vollkommen", "b": "sämtlich", "c": "erschöpfend", "correct": "a" },
+    { "n": 30, "a": "passenden", "b": "bequemen", "c": "angenehmen", "correct": "c" }
+  ]
+}

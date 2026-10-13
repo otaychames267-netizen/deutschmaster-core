@@ -1,0 +1,21 @@
+{
+  "title": "Lina",
+  "level": "B2",
+  "position": 28,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual transcription (page 34, photographed/low-quality source); orthography corrected.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Lina,\n\nvielen Dank für deine E-Mail! Ich hoffe sehr, dass du bei deiner Suche {{21}} einer größeren Wohnung bald Erfolg hast. Bei mir gibt es gute Neuigkeiten: Seit einem Monat arbeite ich als Pressereferentin beim Fichte-Verlag in München. Ich denke noch oft {{22}}, wie wir uns während des Studiums über unsere Berufswünsche und Zukunftspläne unterhalten haben. In einem Verlag zu arbeiten {{23}} schon damals mein Traum. Ich kann kaum glauben, dass es tatsächlich geklappt hat. Denn die Stellensuche nach dem Studium war ziemlich schwierig. {{24}} hatte ich einen guten Abschluss, aber ich {{25}} trotzdem unzählige Bewerbungen schreiben und habe mich Tag für Tag durch {{26}} Stellenbörsen geklickt. Dabei habe ich dann die Ausschreibung des Fichte-Verlags entdeckt: Für die Presseabteilung {{27}} eine Junior-Referentin gesucht, und zwar in Vollzeit und so schnell wie möglich. Eigentlich rechnete ich mir {{28}} großen Chancen aus. Einerseits hatte ich ja schon viele Praktika in diesem Bereich gemacht. Andererseits dachte ich, dass die Stelle auch für Bewerber mit mehr Berufserfahrung interessant sein könnte. Aber ich hatte Glück und bekam eine Einladung {{29}} einem Vorstellungsgespräch. An diesem Tag war ich natürlich ziemlich aufgeregt, aber es lief sehr gut. Zehn Tage später hatte ich die Zusage im Briefkasten. In den ersten Wochen im Verlag habe ich viel Neues gelernt und die Kollegen sind sehr freundlich. Das Einzige, {{30}} mich stört, sind die vielen Überstunden, aber daran werde ich mich wohl gewöhnen müssen. So viel für heute. Ich freue mich, bald wieder von dir zu hören.\n\nViele Grüße",
+  "gaps": [
+    { "n": 21, "a": "an", "b": "nach", "c": "von", "correct": "b" },
+    { "n": 22, "a": "danach", "b": "daran", "c": "darüber", "correct": "b" },
+    { "n": 23, "a": "war", "b": "wäre", "c": "würde", "correct": "a" },
+    { "n": 24, "a": "Andererseits", "b": "weder", "c": "zwar", "correct": "c" },
+    { "n": 25, "a": "mochte", "b": "musste", "c": "wollte", "correct": "b" },
+    { "n": 26, "a": "verschiedene", "b": "verschiedenen", "c": "verschiedener", "correct": "b" },
+    { "n": 27, "a": "hatte", "b": "war", "c": "wurde", "correct": "c" },
+    { "n": 28, "a": "keine", "b": "keinen", "c": "keiner", "correct": "a" },
+    { "n": 29, "a": "in", "b": "mit", "c": "zu", "correct": "c" },
+    { "n": 30, "a": "was", "b": "welches", "c": "wo", "correct": "a" }
+  ]
+}

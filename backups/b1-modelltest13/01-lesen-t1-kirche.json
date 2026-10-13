@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Kirche",
+  "level": "TELC_B1",
+  "position": 13,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 13/16 (Andreas2/Language Tests, page 159 printed / PDF page 160 for headlines, page 160 printed / PDF page 161 for texts). NOT INSERTED: confirmed byte-identical duplicate of Modelltest 4's own 'Kirche' Lesen Teil 1 exercise (source file backups/b1-modelltest4/01-lesen-t1-kirche.json). Both the full headline set (a-j) and the five text contents (including the same 'بعض الكلمات مفقودة من النصوص بسبب رداءة الصورة' Arabic poor-image-quality disclaimer and the same line-overlap rendering defect in texts 2 and 4) are word-for-word identical, and the answer key from this test's own Lösungen page (printed p.167 / PDF p.168) reads 1A 2C 3G 4E 5I — identical to Modelltest 4's key. Skipped per this project's content-reuse policy (exact duplicates are not re-inserted). Notably, this test's own Lösungen page carries an explicit Arabic annotation next to 'Sprachbausteine (Teil 1)' reading 'الأجزاء الناقصة موجودة في نموذج أندرياس الاساسي' ('the missing parts are found in the original Andreas base model'), confirming that Sprachbausteine Teil 1, Leseverstehen Teil 2, and Hörverstehen Teil 1 are deliberately absent from this abbreviated test variant (not pages that were missed during extraction) — this test therefore consists of only 6 sections: Lesen T1 (dup, skipped), Lesen T3, SB T2, Hören T2, Hören T3, and Schreiben.",
+  "headlines": [
+    { "letter": "A", "text": "Bilder mit dem Computer bearbeiten", "is_distractor": false },
+    { "letter": "B", "text": "Kirche bietet Backkurs für Kinder an", "is_distractor": true },
+    { "letter": "C", "text": "Kirche eröffnet neuen Treffpunkt", "is_distractor": false },
+    { "letter": "D", "text": "Neu: Kochbuch über Wiener Fleischgerichte", "is_distractor": true },
+    { "letter": "E", "text": "Neue Computerprogramme werden getestet", "is_distractor": false },
+    { "letter": "F", "text": "Preis für bestes Lernprogramm", "is_distractor": true },
+    { "letter": "G", "text": "Rezepte für Kuchen und Torten", "is_distractor": false },
+    { "letter": "H", "text": "Studie zeigt: Kaffeetrinker sind glücklicher", "is_distractor": true },
+    { "letter": "I", "text": "Warum die Wiener ins Café gehen", "is_distractor": false },
+    { "letter": "J", "text": "Zürcher Fotografen stellen aus", "is_distractor": true }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "(identical to Modelltest 4's text 1 — see backups/b1-modelltest4/01-lesen-t1-kirche.json)", "correct_headline": "A" },
+    { "position": 2, "title": "", "content": "(identical to Modelltest 4's text 2 — see backups/b1-modelltest4/01-lesen-t1-kirche.json)", "correct_headline": "C" },
+    { "position": 3, "title": "", "content": "(identical to Modelltest 4's text 3 — see backups/b1-modelltest4/01-lesen-t1-kirche.json)", "correct_headline": "G" },
+    { "position": 4, "title": "", "content": "(identical to Modelltest 4's text 4 — see backups/b1-modelltest4/01-lesen-t1-kirche.json)", "correct_headline": "E" },
+    { "position": 5, "title": "", "content": "(identical to Modelltest 4's text 5 — see backups/b1-modelltest4/01-lesen-t1-kirche.json)", "correct_headline": "I" }
+  ]
+}

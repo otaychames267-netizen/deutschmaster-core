@@ -1,0 +1,17 @@
+{
+  "title": "Kinder",
+  "teil": 1,
+  "level": "B1",
+  "position": 15,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 15/16 (Thomas/Language Tests, page 176 printed / PDF page 177). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). A speaker's views on raising children. Statement 41 is printed with the grammatically odd 'Für die Sprechen ist es unwichtig...' (likely should read 'Sprecherin') — transcribed verbatim per this project's never-silently-correct policy rather than silently fixing it. Answer key from Lösungen page (printed p.180 / PDF p.181): 41- 42+ 43- 44+ 45+.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Für die Sprechen ist es unwichtig, ob ihre Kinder in der Schule gut sind.", "correct": false },
+    { "number": 42, "text": "Der Sprecher findet es wichtig, dass Eltern immer für ihre Kinder da sind.", "correct": true },
+    { "number": 43, "text": "Die Sprecherin glaubt, dass sie mehr mit ihrer Tochter sprechen müsste.", "correct": false },
+    { "number": 44, "text": "Es ist dem Sprecher wichtig, dass seine Kinder gesund leben.", "correct": true },
+    { "number": 45, "text": "Der Sprecher möchte, dass sein Kind die eigenen Ideen realisieren kann.", "correct": true }
+  ]
+}

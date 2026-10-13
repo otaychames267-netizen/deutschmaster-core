@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useRef, useCallback } from "react";
 import { useAuth } from "@/lib/auth";
-import { supabase } from "@/integrations/supabase/client";
 import { extractNormalizedDocumentWithMeta } from "@/lib/import/pdf-extractor";
+import { createLesenT3Exercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
+import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import { parseLesenT3, type ParsedT3Exercise, type T3Situation, type T3Text } from "@/lib/import/lesen-t3-parser";
 import { ocrPdfDocument } from "@/lib/import/ocr-extractor";
 import { buildNormalizedDocument } from "@/lib/import/document-analyzer";
@@ -27,6 +28,7 @@ interface EditableExercise {
   situations: T3Situation[];
   texts:      T3Text[];
   include:    boolean;   // whether admin wants to import this exercise
+  situationAids: Record<number, LearningAidsFormValue>;
 }
 
 function ImportLesenT3Page() {
@@ -35,6 +37,8 @@ function ImportLesenT3Page() {
   const [exercises, setExercises] = useState<EditableExercise[]>([]);
   const [activeIdx, setActiveIdx] = useState(0);
   const [showRaw, setShowRaw] = useState(false);
+  const [level, setLevel] = useState<"TELC_B1" | "TELC_B2">("TELC_B2");
+  const [flagAsNewToTunisia, setFlagAsNewToTunisia] = useState(false);
   const [extracting, setExtracting] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressLabel, setProgressLabel] = useState("");
@@ -84,6 +88,7 @@ function ImportLesenT3Page() {
         situations: ex.situations.map(s => ({ ...s })),
         texts:      ex.texts.map(t => ({ ...t })),
         include:    true,
+        situationAids: {},
       }));
 
       setExercises(editable);
@@ -124,6 +129,11 @@ function ImportLesenT3Page() {
   function toggleInclude(idx: number) {
     setExercises(prev => prev.map((ex, ei) => ei !== idx ? ex : { ...ex, include: !ex.include }));
   }
+  function updateSituationAids(situationNumber: number, v: LearningAidsFormValue) {
+    setExercises(prev => prev.map((ex, ei) =>
+      ei !== activeIdx ? ex : { ...ex, situationAids: { ...ex.situationAids, [situationNumber]: v } }
+    ));
+  }
 
   async function handleSave() {
     if (!user) return;
@@ -134,44 +144,40 @@ function ImportLesenT3Page() {
     let saved = 0;
     try {
       for (const ex of toImport) {
-        const { data: row, error: exErr } = await supabase
-          .from("lesen_exercises")
-          .insert({ title: ex.parsed.title, teil: 3 as 3, created_by: user.id, source_pdf: "Lesen Teil 3" })
-          .select("id").single();
-        if (exErr || !row) throw exErr ?? new Error("Insert failed");
-
-        const exerciseId = row.id;
-
-        if (ex.situations.length > 0) {
-          const { error: sitErr } = await supabase.from("lesen_t3_situations").insert(
-            ex.situations.map(s => ({
-              exercise_id:    exerciseId,
-              number:         s.number as number,
-              description:    s.description,
+        // Single atomic call — validates + inserts exercise/texts/situations
+        // in one transaction (admin_create_lesen_t3_exercise).
+        await createLesenT3Exercise({
+          data: {
+            title: ex.parsed.title,
+            level,
+            note: "Source: Lesen Teil 3 PDF import",
+            flagAsNewToTunisia,
+            texts: ex.texts.map(t => ({ letter: t.letter, title: t.title, content: t.content })),
+            situations: ex.situations.map(s => ({
+              number: s.number as number,
+              description: s.description,
               correct_letter: s.no_match ? null : s.correct_letter,
-              no_match:       s.no_match,
-            }))
-          );
-          if (sitErr) throw sitErr;
-        }
-
-        if (ex.texts.length > 0) {
-          const { error: txErr } = await supabase.from("lesen_t3_texts").insert(
-            ex.texts.map(t => ({ exercise_id: exerciseId, letter: t.letter, title: t.title, content: t.content }))
-          );
-          if (txErr) throw txErr;
-        }
+              no_match: s.no_match,
+            })),
+            learningAids: assembleLearningAids(
+              Object.fromEntries(ex.situations.map(s => [String(s.number), ex.situationAids[s.number]])),
+            ),
+          },
+        });
         saved++;
       }
       setStep("done");
       toast.success(`${saved} exercise${saved > 1 ? "s" : ""} imported successfully.`);
     } catch (err) {
-      console.error(err); toast.error("Save failed."); setStep("review");
+      console.error(err);
+      toast.error(err instanceof Error ? err.message : "Save failed.");
+      setStep("review");
     }
   }
 
   function reset() {
     setStep("upload"); setExercises([]); setActiveIdx(0); setShowRaw(false);
+    setLevel("TELC_B2"); setFlagAsNewToTunisia(false);
     if (fileRef.current) fileRef.current.value = "";
   }
 
@@ -300,6 +306,28 @@ function ImportLesenT3Page() {
             </div>
           )}
 
+          {/* Level + notice flag — applies to every exercise in this batch */}
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+            <div className="space-y-2">
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wide">Level (applies to all exercises in this batch)</p>
+              <div className="flex gap-2">
+                {(["TELC_B1", "TELC_B2"] as const).map((l) => (
+                  <button key={l} type="button" onClick={() => setLevel(l)}
+                    className={`rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
+                      level === l ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-muted/70"
+                    }`}>
+                    {l === "TELC_B1" ? "B1" : "B2"}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <label className="flex items-start gap-3 rounded-xl border border-dashed border-border p-3 cursor-pointer">
+              <input type="checkbox" checked={flagAsNewToTunisia} onChange={(e) => setFlagAsNewToTunisia(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0" />
+              <span className="text-xs text-muted-foreground" dir="rtl">{NOTICE_TEXT}</span>
+            </label>
+          </div>
+
           {/* Active exercise confidence + controls */}
           <div className={`flex items-start gap-3 rounded-2xl border p-4 ${
             active.parsed.confidence === "high"   ? "border-emerald-500/30 bg-emerald-500/5"
@@ -354,24 +382,33 @@ function ImportLesenT3Page() {
             </div>
             <div className="divide-y divide-border">
               {active.situations.map((s, i) => (
-                <div key={i} className="flex items-start gap-3 px-5 py-3">
-                  <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
-                    {s.number}
-                  </span>
-                  <textarea value={s.description} rows={2}
-                    onChange={(e) => updateSituation(i, { description: e.target.value })}
-                    className="flex-1 resize-y rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                  <select
-                    value={s.no_match ? "X" : (s.correct_letter ?? "")}
-                    onChange={(e) => {
-                      const v = e.target.value;
-                      if (v === "X") updateSituation(i, { no_match: true, correct_letter: null });
-                      else updateSituation(i, { no_match: false, correct_letter: v || null });
-                    }}
-                    className="w-20 shrink-0 rounded-xl border border-input bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
-                    <option value="">—</option>
-                    {TEXT_LETTERS.map(l => <option key={l} value={l}>{l}</option>)}
-                  </select>
+                <div key={i} className="space-y-1.5 px-5 py-3">
+                  <div className="flex items-start gap-3">
+                    <span className="shrink-0 mt-2 flex h-7 w-7 items-center justify-center rounded-lg bg-muted text-xs font-black text-muted-foreground">
+                      {s.number}
+                    </span>
+                    <textarea value={s.description} rows={2}
+                      onChange={(e) => updateSituation(i, { description: e.target.value })}
+                      className="flex-1 resize-y rounded-xl border border-input bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30" />
+                    <select
+                      value={s.no_match ? "X" : (s.correct_letter ?? "")}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        if (v === "X") updateSituation(i, { no_match: true, correct_letter: null });
+                        else updateSituation(i, { no_match: false, correct_letter: v || null });
+                      }}
+                      className="w-20 shrink-0 rounded-xl border border-input bg-background px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30">
+                      <option value="">—</option>
+                      {TEXT_LETTERS.map(l => <option key={l} value={l}>{l}</option>)}
+                    </select>
+                  </div>
+                  <div className="pl-10">
+                    <LearningAidsFields
+                      value={active.situationAids[s.number] ?? {}}
+                      onChange={(v) => updateSituationAids(s.number, v)}
+                      hideGrammar
+                    />
+                  </div>
                 </div>
               ))}
               {active.situations.length < 10 && (
@@ -469,9 +506,9 @@ function ImportLesenT3Page() {
               className="flex items-center gap-2 rounded-xl border border-border bg-card px-5 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors">
               <FileText className="h-4 w-4" /> Import another
             </button>
-            <Link to="/schriftlich/vorbereitung/lesen/teil-3"
+            <Link to="/dashboard"
               className="flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-primary-foreground hover:bg-primary/90 transition-colors">
-              View exercises <ChevronRight className="h-4 w-4" />
+              Go verify in a course <ChevronRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

@@ -8,10 +8,29 @@
  * popover directly under the gap showing options A, B, C. The
  * selected answer is shown inside the gap. Answers can be changed
  * before submission.
+ *
+ * Solution reveal: ONE "Lösung anzeigen" button for the whole exercise
+ * (mirrors Lesen T1/T2/T3) — fetches every correct answer + Warum via the
+ * non-saving score_sb_t1 RPC (empty answers) and shows the full solution
+ * for every gap at once, exactly like after a real submission. A second
+ * click hides it again.
+ *
+ * Two-part correlatives (e.g. "sowohl…als auch") occupy TWO gap buttons
+ * that share the SAME gap_number. State keyed only by gap_number would
+ * make both occurrences fight over one popover/ref — every piece of
+ * per-occurrence UI state (open popover, DOM ref) is keyed by
+ * `${gapNumber}:${occurrenceIndex}` instead, while the underlying answer
+ * itself stays keyed by plain gap_number (it's genuinely one selection).
  */
-import { useState, useRef, useEffect, useCallback } from "react";
-import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw } from "lucide-react";
+import { useState, useRef, useEffect, useLayoutEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { CheckCircle2, XCircle, ChevronDown, Loader2, RotateCcw, Eye, EyeOff, HelpCircle } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { AnchoredEvidencePopover } from "@/components/learning/AnchoredEvidencePopover";
+import { useIsMobile } from "@/hooks/use-mobile";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface SBT1Gap {
   gap_number: number;
@@ -32,11 +51,21 @@ interface ScoreResult {
   correct: boolean;
   your_answer: string;
   correct_answer: string;
+  learning_aids?: LearningAidsItem | null;
 }
 
 interface Props {
   exercise: SBT1ExerciseData;
   onComplete?: (score: number, total: number) => void;
+  /** Exam mode (Prüfungssimulation): no self-scoring RPC call, no "Lösung
+   * anzeigen" reveal, no submit/reset buttons — the parent owns save/submit.
+   * Answers seed from `initialAnswers` once on mount and stream out via
+   * `onAnswersChange` on every change; the component is otherwise identical
+   * to the practice version (same layout, same interaction) per an explicit
+   * requirement to reuse this component rather than build a different UI. */
+  examMode?: boolean;
+  initialAnswers?: Record<number, string>;
+  onAnswersChange?: (answers: Record<number, string>) => void;
 }
 
 // ── Gap popover ────────────────────────────────────────────────────────────────
@@ -49,8 +78,41 @@ interface GapPopoverProps {
   anchorEl: HTMLButtonElement | null;
 }
 
+const GAP_POPOVER_MARGIN = 8;
+const GAP_POPOVER_WIDTH = 224;
+
+// `position: fixed` via a portal, coordinates computed from the anchor's
+// real screen position and clamped to the viewport — NOT `absolute` inside
+// the gap's own inline span. A gap sits in the middle of flowing paragraph
+// text, so anchoring a wide popover directly to that tiny inline element
+// let it overlap the surrounding sentence, especially on narrow screens.
+// Same fix as AnchoredEvidencePopover, applied here for the same reason.
 function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverProps) {
   const popRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const [style, setStyle] = useState<{ top: number; left: number } | null>(null);
+
+  useLayoutEffect(() => {
+    if (isMobile || !anchorEl) return;
+    function place() {
+      const rect = anchorEl!.getBoundingClientRect();
+      const width = Math.min(GAP_POPOVER_WIDTH, window.innerWidth - GAP_POPOVER_MARGIN * 2);
+      let left = rect.left + rect.width / 2 - width / 2;
+      left = Math.min(Math.max(left, GAP_POPOVER_MARGIN), window.innerWidth - width - GAP_POPOVER_MARGIN);
+      const popHeight = popRef.current?.offsetHeight ?? 0;
+      const spaceBelow = window.innerHeight - rect.bottom - GAP_POPOVER_MARGIN;
+      const openUpward = popHeight > spaceBelow && rect.top > spaceBelow;
+      const top = openUpward ? Math.max(rect.top - popHeight - 6, GAP_POPOVER_MARGIN) : rect.bottom + 6;
+      setStyle({ top, left });
+    }
+    place();
+    window.addEventListener("scroll", place, true);
+    window.addEventListener("resize", place);
+    return () => {
+      window.removeEventListener("scroll", place, true);
+      window.removeEventListener("resize", place);
+    };
+  }, [anchorEl, isMobile]);
 
   useEffect(() => {
     function onDown(e: MouseEvent) {
@@ -74,12 +136,8 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
     { key: "c", label: "C", text: gap.option_c },
   ];
 
-  return (
-    <div
-      ref={popRef}
-      role="listbox"
-      className="absolute z-50 top-full left-1/2 -translate-x-1/2 mt-1 w-56 rounded-xl border border-border bg-card shadow-xl overflow-hidden"
-    >
+  const list = (
+    <div role="listbox">
       {options.map(({ key, label, text }) => {
         const isSelected = current === key;
         return (
@@ -88,7 +146,7 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
             role="option"
             aria-selected={isSelected}
             onClick={() => { onSelect(key); onClose(); }}
-            className={`w-full flex items-center gap-2.5 px-3 py-2 text-left text-sm transition-colors hover:bg-muted/60 ${
+            className={`w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-sm transition-colors hover:bg-muted/60 ${
               isSelected ? "bg-primary/8" : ""
             }`}
           >
@@ -107,110 +165,63 @@ function GapPopover({ gap, current, onSelect, onClose, anchorEl }: GapPopoverPro
       })}
     </div>
   );
-}
 
-// ── Render passage with interactive gap buttons ────────────────────────────────
-
-interface PassageProps {
-  passage: string;
-  gaps: SBT1Gap[];
-  answers: Record<number, string>;
-  submitted: boolean;
-  scoreResults: ScoreResult[] | null;
-  openGap: number | null;
-  buttonRefs: React.MutableRefObject<Record<number, HTMLButtonElement | null>>;
-  onToggle: (gapNumber: number) => void;
-}
-
-function PassageWithGaps({
-  passage, gaps, answers, submitted, scoreResults, openGap, buttonRefs, onToggle
-}: PassageProps) {
-  const gapMap = new Map(gaps.map(g => [g.gap_number, g]));
-
-  // Split passage by gap markers {{N}}
-  const parts = passage.split(/(\{\{(\d+)\}\})/g);
-
-  const nodes: React.ReactNode[] = [];
-  let i = 0;
-  while (i < parts.length) {
-    const part = parts[i];
-    const match = part.match(/^\{\{(\d+)\}\}$/);
-    if (match) {
-      const gapNum = parseInt(match[1]);
-      const gap = gapMap.get(gapNum);
-      const chosen = answers[gapNum];
-      const result = scoreResults?.find(r => r.gap_number === gapNum);
-      const isCorrect = submitted && !!result?.correct;
-      const isWrong = submitted && !!result && !result.correct;
-
-      const optionText = gap && chosen
-        ? (chosen === "a" ? gap.option_a : chosen === "b" ? gap.option_b : gap.option_c)
-        : null;
-
-      nodes.push(
-        <span key={`gap-${gapNum}`} className="relative inline-block">
-          <button
-            ref={(el) => { buttonRefs.current[gapNum] = el; }}
-            onClick={() => !submitted && onToggle(gapNum)}
-            disabled={submitted}
-            className={`relative inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium transition-all ${
-              submitted
-                ? isCorrect
-                  ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 cursor-default"
-                  : isWrong
-                    ? "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 cursor-default"
-                    : "border-border bg-muted/30 text-muted-foreground cursor-default"
-                : chosen
-                  ? openGap === gapNum
-                    ? "border-primary bg-primary/8 text-primary"
-                    : "border-primary/30 bg-primary/5 text-primary"
-                  : openGap === gapNum
-                    ? "border-primary bg-muted text-foreground"
-                    : "border-dashed border-muted-foreground/40 bg-muted/20 text-muted-foreground hover:border-primary/40 hover:text-foreground"
-            }`}
-          >
-            <span className="text-[10px] font-black text-muted-foreground mr-0.5">{gapNum}</span>
-            {optionText
-              ? <span>{optionText}</span>
-              : <span className="italic opacity-60 min-w-[40px] text-center">___</span>
-            }
-            {!submitted && <ChevronDown className={`h-2.5 w-2.5 opacity-60 transition-transform ${openGap === gapNum ? "rotate-180" : ""}`} />}
-            {submitted && isCorrect && <CheckCircle2 className="h-3 w-3 text-emerald-500" />}
-            {submitted && isWrong && <XCircle className="h-3 w-3 text-rose-500" />}
-          </button>
-          {openGap === gapNum && !submitted && gap && (
-            <GapPopover
-              gap={gap}
-              current={chosen ?? ""}
-              onSelect={() => {}}
-              onClose={() => {}}
-              anchorEl={buttonRefs.current[gapNum]}
-            />
-          )}
-        </span>
-      );
-    } else if (part && !parts[i - 1]?.match(/^\{\{(\d+)\}\}$/)) {
-      nodes.push(<span key={`text-${i}`}>{part}</span>);
-    } else if (part && !match) {
-      nodes.push(<span key={`text-${i}`}>{part}</span>);
-    }
-    i++;
+  if (isMobile) {
+    return createPortal(
+      <div className="fixed inset-0 z-50">
+        <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+        <div
+          ref={popRef}
+          className="absolute inset-x-0 bottom-0 max-h-[75vh] overflow-y-auto rounded-t-2xl border-t border-border bg-card pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-2xl"
+        >
+          <div className="flex justify-center py-2"><div className="h-1 w-10 rounded-full bg-muted-foreground/25" /></div>
+          {list}
+        </div>
+      </div>,
+      document.body,
+    );
   }
 
-  return <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{nodes}</p>;
+  return createPortal(
+    <div
+      ref={popRef}
+      className="fixed z-50 rounded-xl border border-border bg-card shadow-xl overflow-hidden"
+      style={style ? { top: style.top, left: style.left, width: GAP_POPOVER_WIDTH, maxWidth: `calc(100vw - ${GAP_POPOVER_MARGIN * 2}px)` } : { visibility: "hidden", top: 0, left: 0, width: GAP_POPOVER_WIDTH }}
+    >
+      {list}
+    </div>,
+    document.body,
+  );
+}
+
+function gapOptionText(gap: SBT1Gap, choice: string | null | undefined): string {
+  if (!choice) return "—";
+  return (choice === "a" ? gap.option_a : choice === "b" ? gap.option_b : gap.option_c) ?? choice;
 }
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
-export function SBTeil1Exercise({ exercise, onComplete }: Props) {
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [openGap, setOpenGap] = useState<number | null>(null);
+export function SBTeil1Exercise({ exercise, onComplete, examMode, initialAnswers, onAnswersChange }: Props) {
+  const [answers, setAnswers] = useState<Record<number, string>>(() => initialAnswers ?? {});
+  // Open popover/card, keyed by "<gapNumber>:<occurrenceIndex>" so two-part
+  // correlatives (same gap_number, two DOM spots) never collide.
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [scoring, setScoring] = useState(false);
   const [scoreResults, setScoreResults] = useState<ScoreResult[] | null>(null);
   const [scoreCount, setScoreCount] = useState(0);
   const [scoreTotal, setScoreTotal] = useState(0);
-  const buttonRefs = useRef<Record<number, HTMLButtonElement | null>>({});
+  // "Lösung anzeigen" — ONE button for the whole exercise. Fetches every
+  // correct answer + Warum/translation via the non-saving RPC and shows the
+  // full solution for every gap at once, same shape as a real submission.
+  const [previewResults, setPreviewResults] = useState<ScoreResult[] | null>(null);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("sprachbausteine", exercise.id);
+
+  useEffect(() => {
+    if (examMode) onAnswersChange?.(answers);
+  }, [examMode, answers, onAnswersChange]);
 
   const gaps = [...exercise.gaps].sort((a, b) => a.gap_number - b.gap_number);
 
@@ -219,30 +230,50 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
     setAnswers(prev => ({ ...prev, [gapNum]: choice }));
   }, [submitted]);
 
-  function toggleGap(gapNum: number) {
-    setOpenGap(prev => prev === gapNum ? null : gapNum);
+  function toggleKey(key: string) {
+    setOpenKey(prev => prev === key ? null : key);
   }
 
   // Close popover on outside click
   useEffect(() => {
-    if (openGap === null) return;
+    if (openKey === null) return;
     function handler(e: MouseEvent) {
-      const btn = buttonRefs.current[openGap!];
+      const btn = buttonRefs.current[openKey!];
       if (btn && btn.contains(e.target as Node)) return;
-      // Check if click is inside any popover
-      const popovers = document.querySelectorAll('[role="listbox"]');
+      const popovers = document.querySelectorAll('[role="listbox"], [role="dialog"]');
       for (const pop of popovers) {
         if (pop.contains(e.target as Node)) return;
       }
-      setOpenGap(null);
+      setOpenKey(null);
     }
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [openGap]);
+  }, [openKey]);
+
+  // activeResults = whatever's live right now: the real scored results after
+  // submitting, or the preview fetched by "Lösung anzeigen" beforehand. Both
+  // share the same shape, so every gap shows its full solution (correct
+  // answer, translation, Warum) the same way regardless of which path
+  // produced it — mirrors the Lesen T1/T2/T3 pattern exactly.
+  const activeResults = scoreResults ?? previewResults;
+  const revealed = !submitted && previewResults !== null;
 
   // Split passage by gap markers for rendering with interactive gaps
   const gapMap = new Map(gaps.map(g => [g.gap_number, g]));
   const passageParts = exercise.passage.split(/(\{\{\d+\}\})/);
+
+  // Two-part correlative options (e.g. "zwar… aber", "nicht nur… sondern") occupy
+  // TWO blanks that share the same gap number. Track which occurrence a token is so
+  // we can show the matching half in each slot while the popover keeps ONE full option.
+  const occurrenceCount: Record<number, number> = {};
+  const splitOption = (text: string | null, occ: number): string | null => {
+    if (!text) return text;
+    const parts = text.split(/\s*(?:\.\.\.|…|-{2,}|—)\s*/);
+    // Only a genuine two-part option (both halves non-empty) splits; a dashes-only
+    // placeholder option like "----" must render verbatim.
+    if (parts.length < 2 || parts.some((p) => p.trim() === "")) return text;
+    return parts[occ] ?? text;
+  };
 
   const renderedPassage = passageParts.map((part, idx) => {
     const m = part.match(/^\{\{(\d+)\}\}$/);
@@ -250,53 +281,95 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
     const gapNum = parseInt(m[1]);
     const gap = gapMap.get(gapNum);
     if (!gap) return <span key={idx}>[{gapNum}]</span>;
+    const occ = occurrenceCount[gapNum] ?? 0;
+    occurrenceCount[gapNum] = occ + 1;
+    const key = `${gapNum}:${occ}`;
     const chosen = answers[gapNum];
-    const result = scoreResults?.find(r => r.gap_number === gapNum);
-    const isCorrect = submitted && !!result?.correct;
-    const isWrong = submitted && !!result && !result.correct;
-    const optionText = chosen
+    const result = activeResults?.find(r => r.gap_number === gapNum);
+    const isSubmittedCorrect = submitted && !!result?.correct;
+    const isSubmittedWrong = submitted && !!result && !result.correct;
+    const hasSolution = !!result;
+    const correctChoice = result?.correct_answer;
+    const correctText = correctChoice
+      ? (correctChoice === "a" ? gap.option_a : correctChoice === "b" ? gap.option_b : gap.option_c)
+      : null;
+    const revealWrong = revealed && !!chosen && chosen !== correctChoice;
+    const locked = submitted || revealed;
+    const chosenFull = chosen
       ? (chosen === "a" ? gap.option_a : chosen === "b" ? gap.option_b : gap.option_c)
       : null;
-    const isOpen = openGap === gapNum;
+    const chosenText = splitOption(chosenFull, occ);
+    const optionText = (locked && correctText) ? splitOption(correctText, occ) : chosenText;
+    const isOpen = openKey === key;
+    // Same "does this item have anything to show" gate EvidenceBlock itself
+    // uses, so the gap never opens onto an empty popover.
+    const gapExplanation = result?.correct ? result?.learning_aids?.explanation_correct : result?.learning_aids?.explanation_wrong;
+    const hasAids = !examMode && hasSolution && !!result?.learning_aids &&
+      !!(gapExplanation || result.learning_aids.evidence_text || result.learning_aids.grammar_structure || result.learning_aids.keyword);
+    const clickable = !locked || hasAids;
 
     return (
       <span key={idx} className="relative inline-block">
         <button
-          ref={(el) => { buttonRefs.current[gapNum] = el as HTMLButtonElement; }}
-          onClick={() => toggleGap(gapNum)}
-          disabled={submitted}
-          aria-haspopup="listbox"
+          ref={(el) => { buttonRefs.current[key] = el as HTMLButtonElement; }}
+          onClick={() => toggleKey(key)}
+          disabled={!clickable}
+          aria-haspopup={locked ? "dialog" : "listbox"}
           aria-expanded={isOpen}
           className={`relative inline-flex items-center gap-1 mx-0.5 px-2 py-0.5 rounded-md border text-sm font-medium transition-all leading-normal ${
             submitted
-              ? isCorrect
-                ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 cursor-default"
-                : isWrong
-                  ? "border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 cursor-default"
+              ? isSubmittedCorrect
+                ? `border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 ${hasAids ? "cursor-pointer hover:bg-emerald-500/15" : "cursor-default"}`
+                : isSubmittedWrong
+                  ? `border-rose-500/50 bg-rose-500/10 text-rose-700 dark:text-rose-300 ${hasAids ? "cursor-pointer hover:bg-rose-500/15" : "cursor-default"}`
                   : "border-border bg-muted/30 text-muted-foreground cursor-default"
-              : isOpen
-                ? "border-primary bg-primary/8 text-primary"
-                : chosen
-                  ? "border-primary/30 bg-primary/5 text-primary hover:border-primary/60"
-                  : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/40 hover:text-foreground"
+              : revealed
+                ? `border-emerald-500/50 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 ${hasAids ? "cursor-pointer hover:bg-emerald-500/15" : "cursor-default"}`
+                : isOpen
+                  ? "border-primary bg-primary/8 text-primary"
+                  : chosen
+                    ? "border-primary/30 bg-primary/5 text-primary hover:border-primary/60"
+                    : "border-dashed border-muted-foreground/40 bg-transparent text-muted-foreground hover:border-primary/40 hover:text-foreground"
           }`}
         >
           <span className="text-[10px] font-black opacity-50">{gapNum}</span>
           {optionText
-            ? <span className="max-w-[120px] truncate">{optionText}</span>
+            ? <span className="max-w-[160px] truncate font-semibold">{optionText}</span>
             : <span className="italic opacity-50 w-12 text-center text-[13px]">___</span>
           }
-          {!submitted && <ChevronDown className={`h-2.5 w-2.5 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`} />}
-          {submitted && isCorrect && <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
-          {submitted && isWrong && <XCircle className="h-3 w-3 text-rose-500 shrink-0" />}
+          {revealWrong && chosenText && (
+            <span className="text-[11px] text-rose-500 line-through opacity-70 max-w-[80px] truncate">{chosenText}</span>
+          )}
+          {!locked && <ChevronDown className={`h-2.5 w-2.5 opacity-40 transition-transform ${isOpen ? "rotate-180" : ""}`} />}
+          {((submitted && isSubmittedCorrect) || (revealed && correctText)) && <CheckCircle2 className="h-3 w-3 text-emerald-500 shrink-0" />}
+          {submitted && isSubmittedWrong && <XCircle className="h-3 w-3 text-rose-500 shrink-0" />}
+          {hasAids && (
+            <span className="ml-0.5 flex items-center gap-0.5 rounded-full bg-violet-500/15 px-1 py-0.5 text-[9px] font-black text-violet-600 dark:text-violet-300">
+              <HelpCircle className="h-2.5 w-2.5" /> Warum?
+            </span>
+          )}
         </button>
-        {isOpen && !submitted && (
+        {isOpen && !locked && (
           <GapPopover
             gap={gap}
             current={chosen ?? ""}
             onSelect={(k) => selectAnswer(gapNum, k)}
-            onClose={() => setOpenGap(null)}
-            anchorEl={buttonRefs.current[gapNum]}
+            onClose={() => setOpenKey(null)}
+            anchorEl={buttonRefs.current[key]}
+          />
+        )}
+        {isOpen && hasAids && result && (
+          <AnchoredEvidencePopover
+            aids={result.learning_aids}
+            variant={result.correct ? "correct" : "wrong"}
+            skill="sprachbausteine"
+            exerciseId={exercise.id}
+            itemKey={String(result.gap_number)}
+            saveCategory="grammatikstruktur"
+            yourAnswerText={submitted ? gapOptionText(gap, result.your_answer) : null}
+            correctAnswerText={gapOptionText(gap, result.correct_answer)}
+            onClose={() => setOpenKey(null)}
+            anchorEl={buttonRefs.current[key]}
           />
         )}
       </span>
@@ -305,7 +378,7 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
 
   async function handleSubmit() {
     setScoring(true);
-    setOpenGap(null);
+    setOpenKey(null);
     try {
       const payload: Record<string, string> = {};
       for (const [k, v] of Object.entries(answers)) payload[k] = v;
@@ -321,6 +394,7 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
       setScoreCount(res.score);
       setScoreTotal(res.total);
       setSubmitted(true);
+      setPreviewResults(null);
       onComplete?.(res.score, res.total);
     } catch (e) {
       console.error("Scoring error:", e);
@@ -330,13 +404,33 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
     }
   }
 
+  async function toggleSolutionPreview() {
+    if (previewResults) { setPreviewResults(null); return; }
+    setLoadingPreview(true);
+    setOpenKey(null);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_sb_t1", {
+        p_exercise_id: exercise.id,
+        p_answers: {},
+      });
+      if (error) throw error;
+      const res = data as unknown as { results: ScoreResult[] };
+      setPreviewResults(res.results);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingPreview(false);
+    }
+  }
+
   function reset() {
     setAnswers({});
     setSubmitted(false);
-    setOpenGap(null);
+    setOpenKey(null);
     setScoreResults(null);
     setScoreCount(0);
     setScoreTotal(0);
+    setPreviewResults(null);
   }
 
   const answeredCount = Object.keys(answers).length;
@@ -346,113 +440,66 @@ export function SBTeil1Exercise({ exercise, onComplete }: Props) {
     <div className="space-y-6">
       {/* Instructions */}
       <div className="rounded-2xl border border-border bg-card p-5">
-        <p className="text-sm font-bold text-foreground mb-1">Aufgabe</p>
+        <div className="flex items-start justify-between gap-3">
+          <p className="text-sm font-bold text-foreground mb-1">Aufgabe</p>
+          {!examMode && <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />}
+        </div>
         <p className="text-sm text-muted-foreground leading-relaxed">
           Lesen Sie den Text. Klicken Sie auf eine Lücke und wählen Sie das richtige Wort (a, b oder c).
           Jede Lücke hat genau eine richtige Antwort.
         </p>
       </div>
 
-      {/* Text with inline gaps */}
+      {/* Text with inline gaps — whitespace-pre-line preserves the PDF's paragraph
+          and line breaks exactly (never merge/split paragraphs). */}
       <div className="rounded-2xl border border-border bg-card p-6">
-        {exercise.title && (
-          <p className="text-base font-bold text-foreground mb-4">{exercise.title}</p>
-        )}
-        <div className="text-sm text-foreground leading-[2] select-text">
+        <div className="text-sm text-foreground leading-[2] select-text whitespace-pre-line">
           {renderedPassage}
         </div>
       </div>
 
-      {/* Options legend (visible while solving) */}
-      {!submitted && (
-        <div className="rounded-2xl border border-border bg-muted/30 p-4">
-          <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Auswahlmöglichkeiten</p>
-          <div className="space-y-2">
-            {gaps.map(gap => {
-              const chosen = answers[gap.gap_number];
-              return (
-                <div key={gap.gap_number} className="flex items-start gap-3 text-xs">
-                  <span className={`shrink-0 w-6 text-center font-bold ${chosen ? "text-primary" : "text-muted-foreground"}`}>
-                    {gap.gap_number}
-                  </span>
-                  {(["a","b","c"] as const).map(k => {
-                    const text = k === "a" ? gap.option_a : k === "b" ? gap.option_b : gap.option_c;
-                    const isChosen = chosen === k;
-                    return (
-                      <button
-                        key={k}
-                        onClick={() => selectAnswer(gap.gap_number, k)}
-                        className={`flex items-center gap-1.5 rounded-lg border px-2 py-1 transition-all ${
-                          isChosen
-                            ? "border-primary/40 bg-primary/8 text-primary font-semibold"
-                            : "border-border bg-background text-foreground hover:border-primary/30 hover:bg-primary/5"
-                        }`}
-                      >
-                        <span className={`font-black text-[10px] ${isChosen ? "text-primary" : "text-muted-foreground"}`}>
-                          {k.toUpperCase()}
-                        </span>
-                        <span>{text}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              );
-            })}
-          </div>
-        </div>
+      {(submitted || revealed) && !examMode && (
+        <p className="text-xs text-muted-foreground text-center -mt-2">
+          Tippen Sie auf eine Lücke mit „Warum?", um die Erklärung zu sehen.
+        </p>
       )}
 
-      {/* Correction view */}
-      {submitted && scoreResults && (
-        <div className="rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="border-b border-border bg-muted/30 px-5 py-3">
-            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Auswertung</p>
-          </div>
-          <div className="divide-y divide-border/50">
-            {scoreResults.map(r => {
-              const gap = gapMap.get(r.gap_number)!;
-              const chosenText = r.your_answer
-                ? (r.your_answer === "a" ? gap?.option_a : r.your_answer === "b" ? gap?.option_b : gap?.option_c) ?? r.your_answer
-                : "—";
-              const correctText = r.correct_answer
-                ? (r.correct_answer === "a" ? gap?.option_a : r.correct_answer === "b" ? gap?.option_b : gap?.option_c) ?? r.correct_answer
-                : "—";
-              return (
-                <div key={r.gap_number} className={`flex items-center gap-3 px-5 py-2.5 ${r.correct ? "bg-emerald-500/3" : "bg-rose-500/3"}`}>
-                  <span className="shrink-0 w-6 text-xs font-black text-muted-foreground text-center">{r.gap_number}</span>
-                  {r.correct
-                    ? <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0" />
-                    : <XCircle className="h-4 w-4 text-rose-500 shrink-0" />
-                  }
-                  <span className={`flex-1 text-sm ${r.correct ? "text-emerald-700 dark:text-emerald-300 font-medium" : "text-rose-700 dark:text-rose-300"}`}>
-                    {r.correct ? chosenText : (
-                      <><span className="line-through opacity-60">{chosenText}</span> → <span className="font-semibold">{correctText}</span></>
-                    )}
-                  </span>
-                  <span className={`shrink-0 text-xs font-bold px-2 py-0.5 rounded-full ${
-                    r.correct ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/15 text-rose-700 dark:text-rose-300"
-                  }`}>
-                    {r.your_answer?.toUpperCase() || "—"}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* Footer */}
-      {!submitted ? (
-        <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
+      {/* Footer — exam mode has no self-scoring/reveal/reset, the parent owns save/submit */}
+      {examMode ? (
+        <div className="rounded-2xl border border-border bg-card px-5 py-4">
           <p className="text-sm text-muted-foreground">{answeredCount} / {gaps.length} beantwortet</p>
-          <button
-            onClick={handleSubmit}
-            disabled={!allAnswered || scoring}
-            className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2"
-          >
-            {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
-            Auswertung
-          </button>
+        </div>
+      ) : !submitted ? (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-card px-5 py-4">
+          <p className="text-sm text-muted-foreground">
+            {revealed ? "Lösung wird angezeigt" : `${answeredCount} / ${gaps.length} beantwortet`}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleSolutionPreview}
+              disabled={loadingPreview}
+              className="rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2"
+            >
+              {loadingPreview ? <Loader2 className="h-4 w-4 animate-spin" /> : previewResults ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {previewResults ? "Lösung ausblenden" : "Lösung anzeigen"}
+            </button>
+            {(answeredCount > 0 || previewResults) && (
+              <button
+                onClick={reset}
+                className="rounded-xl border border-border bg-muted px-4 py-2.5 text-sm font-medium hover:bg-muted/70 transition-colors flex items-center gap-2"
+              >
+                <RotateCcw className="h-3.5 w-3.5" /> Zurücksetzen
+              </button>
+            )}
+            <button
+              onClick={handleSubmit}
+              disabled={!allAnswered || scoring || !!previewResults}
+              className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2"
+            >
+              {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
+              Auswertung
+            </button>
+          </div>
         </div>
       ) : (
         <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">

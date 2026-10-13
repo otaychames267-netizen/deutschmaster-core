@@ -1,0 +1,20 @@
+{
+  "title": "Markus",
+  "level": "B2",
+  "position": 42,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Lieber Markus,\n\nvielen Dank für deine letzte Mail mit den tollen Tipps gegen Prüfungsangst! Die waren wirklich mehr als hilfreich. Besonders locker war ich natürlich trotzdem nicht. Vor Prüfungen gestresst zu sein, ist ja {{21}} ganz normal, denke ich. Und stell dir vor, jetzt habe ich die Prüfung {{22}} mir und auch schon das Ergebnis, mit dem ich mehr als zufrieden bin. Die schriftliche Prüfung habe ich mit \"sehr gut\" {{23}} und die mündliche mit \"gut\". Ich hatte mich {{24}} auch wirklich gut darauf vorbereitet. Nur am Anfang in der mündlichen Prüfung hatte ich ein totales Blackout und es dauerte etwas, bis ich {{25}} wieder gefangen hatte.\n\n{{26}} ich das Zeugnis bekomme, bewerbe ich mich hier im Ort {{27}} einer großen Firma. Ich bin eigentlich ganz zuversichtlich, dass es klappt. Mal sehen, {{28}} mich da dann so erwartet. Aber jetzt brauche ich erst mal Abstand von {{29}} ganzen Lernerei.\n\nZwei Dinge sind geplant: Eine große Party, und {{30}} am 14.Juni und danach eine kurze Reise in die Schweiz zum Bergsteigen. Hast du Lust auf die Party zu kommen? Ich würde mich sehr freuen.\n\nLieben Gruß\nAlina",
+  "gaps": [
+    {"n":21,"a":"wohl","b":"doch","c":"sogar","correct":"a"},
+    {"n":22,"a":"hinter","b":"hinten","c":"hinunter","correct":"a"},
+    {"n":23,"a":"gepasst","b":"bestehen","c":"bestanden","correct":"c"},
+    {"n":24,"a":"ja","b":"also","c":"wohl","correct":"a"},
+    {"n":25,"a":"mir","b":"mich","c":"meins","correct":"b"},
+    {"n":26,"a":"seit","b":"nachdem","c":"sobald","correct":"c"},
+    {"n":27,"a":"um","b":"bei","c":"an","correct":"b"},
+    {"n":28,"a":"was","b":"wer","c":"wen","correct":"a"},
+    {"n":29,"a":"der","b":"dem","c":"das","correct":"a"},
+    {"n":30,"a":"dann","b":"zwar","c":"auch","correct":"b"}
+  ]
+}

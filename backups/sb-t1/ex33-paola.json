@@ -1,0 +1,20 @@
+{
+  "title": "Paola",
+  "level": "B2",
+  "position": 34,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Paola,\n\nvielen Dank für deine Nachricht und die vielen schönen Fotos. Eure Laura ist wirklich niedlich!\nIch hoffe, dass wir {{21}} bald kennenlernen. Aber ich weiß, wie anstrengend die erste Zeit mit einem Baby sein kann. {{22}} Warten wir lieber noch etwas, bevor wir euch besuchen. Sagt uns einfach Bescheid, {{23}} euch ein Treffen lieb wäre. Eine kleine Überraschung für eure Laura steht {{24}} jeden Fall bereit.\nBei uns gibt es auch einige Veränderungen. Elijah ist diesen Herbst eingeschult worden. Er kommt mit allem gut zurecht und hat auch schon Freundschaften geschlossen. Lea geht nun in den Kindergarten. {{25}} diesem Jahr sind hier im Ort Grundschule und Kindergarten in demselben Gebäudekomplex untergebracht. Das kommt uns sehr gelegen.\nNun ist es vormittags sehr still bei uns im Haus, Ich überlege mir, {{26}} Ich nicht wieder anfangen soll, halbtags zu arbeiten. In meinen alten Beruf als Krankenschwester möchte ich aber nicht zurück, denn ich kann mir gar nicht {{27}}, wie ich den Schichtdienst im Krankenhaus und die Kinderbetreuung unter einen Hut bringen soll.\nWahrscheinlich bewerbe ich mich bei einer Arztpraxis oder der Verwaltung einer Krankenkasse. Was hältst du {{28}}? Fällt dir vielleicht eine Tätigkeit ein, bei der meine Ausbildung {{29}} Krankenschwester von Vorteil wäre? Wie dem auch {{30}} - ich wünsche euch viel Glück und Freude mit eurem Baby. Wenn Du irgendwelche Tipps brauchst, kannst du mich jederzeit anrufen. Im Anhang schicke ich dir ein paar Fotos vom Schulanfang.\nIch freue mich schon darauf, euch bald wiederzusehen.\n\nLiebe Grüße\nSarah",
+  "gaps": [
+    { "n": 21, "a": "ihr", "b": "Sie", "c": "sie", "correct": "c" },
+    { "n": 22, "a": "deshalb", "b": "obwohl", "c": "trotzdem", "correct": "a" },
+    { "n": 23, "a": "bis", "b": "dann", "c": "wann", "correct": "c" },
+    { "n": 24, "a": "auf", "b": "im", "c": "in", "correct": "a" },
+    { "n": 25, "a": "seit", "b": "vom", "c": "Zum", "correct": "a" },
+    { "n": 26, "a": "ob", "b": "obwohl", "c": "ohnehin", "correct": "a" },
+    { "n": 27, "a": "verstellen", "b": "vorstellen", "c": "zustellen", "correct": "b" },
+    { "n": 28, "a": "dafür", "b": "damit", "c": "davon", "correct": "c" },
+    { "n": 29, "a": "als", "b": "wie", "c": "zu", "correct": "a" },
+    { "n": 30, "a": "hätte", "b": "sei", "c": "wäre", "correct": "b" }
+  ]
+}

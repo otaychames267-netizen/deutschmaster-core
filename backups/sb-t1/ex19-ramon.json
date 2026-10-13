@@ -1,0 +1,21 @@
+{
+  "title": "Ramon",
+  "level": "B2",
+  "position": 20,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 23). Gap 25 = two-part 'Einerseits...andererseits'.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Lieber Ramon,\n\nich muss dir unbedingt etwas erzählen: Ich bin heute das erste Mal in meinem Leben Ski gefahren, {{21}} ich mir das bisher nie zugetraut hatte. Meine Freundin Lisa hat mich eingeladen, einige Tage mit ihr und ihren Eltern in den Bergen zu verbringen. Und bevor ich ankam, {{22}} sie schon einen individuellen Skikurs für mich gebucht! Du kannst dir vorstellen, wie mich das überrascht hat! Ich {{23}} es mir schon anders überlegen, aber Lisa wollte nichts {{24}} hören. Heute Morgen ging es dann los. {{25}} war ich ziemlich aufgeregt, {{25}} habe ich mich auch unheimlich gefreut. Mit der Skilehrerin habe ich mich gleich gut verstanden. Sie hat mich abgeholt und mir {{26}} geholfen, im Sportgeschäft Schuhe, Skier, Stöcke und einen Helm für mich {{27}}. Dann hat mir die Skilehrerin einige {{28}} Dinge erklärt. Ich war anfangs sehr unsicher, mit der Zeit ließ das aber nach. Die Kinder im Zwergerlkurs scheinen {{29}} Gegensatz zu mir überhaupt keine Angst zu haben. Das Schlimmste am ersten Tag war der Schlepplift. Erst habe ich den Lift einige Male verpasst, dann bin ich hingefallen. Irgendwie habe ich es dann doch noch geschafft. Und zum Schluss bin ich mit der Lehrerin sogar eine leichte Piste runtergefahren. Morgen habe ich wieder zwei Stunden. Ich habe jetzt schon Muskelkater und mir tut alles weh! Ich weiß gar nicht, {{30}} ich das schaffen soll. Ich werde dich über meine Fortschritte auf dem Laufenden halten :)\n\nBis bald und liebe Grüße\n\nSamira",
+  "gaps": [
+    { "n": 21, "a": "obwohl", "b": "trotz", "c": "während", "correct": "a" },
+    { "n": 22, "a": "hat", "b": "hatte", "c": "hätte", "correct": "b" },
+    { "n": 23, "a": "konnte", "b": "sollte", "c": "wollte", "correct": "c" },
+    { "n": 24, "a": "dafür", "b": "damit", "c": "davon", "correct": "c" },
+    { "n": 25, "a": "Einerseits...andererseits", "b": "weder ...noch", "c": "zwar … aber", "correct": "a" },
+    { "n": 26, "a": "dabei", "b": "davon", "c": "dazu", "correct": "a" },
+    { "n": 27, "a": "aussuchen", "b": "ausgesucht", "c": "auszusuchen", "correct": "c" },
+    { "n": 28, "a": "grundlegende", "b": "grundlegenden", "c": "grundlegender", "correct": "a" },
+    { "n": 29, "a": "am", "b": "im", "c": "zum", "correct": "b" },
+    { "n": 30, "a": "dass", "b": "ob", "c": "wie", "correct": "c" }
+  ]
+}

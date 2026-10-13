@@ -1,0 +1,22 @@
+{
+  "title": "Garten in der Stadt",
+  "level": "B2",
+  "position": 41,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "PDF page 34 of sprachbausteine teil 2.pdf. RECOVERED on re-investigation (2026-07-06) after initially being marked pending, per explicit user decision to import verbatim rather than skip. The official source page itself is severely corrupted (broken word order, missing connectives throughout — beyond ordinary OCR-typo level) and carries its own handwritten Arabic annotation admitting the passage text is incomplete from gap 39 to the end (gap 40): \"يوجد نقص فقط في اخر التكملة ابتدا من الفراغ 39 حتى 40\" (there is a deficiency only at the end of the completion, starting from gap 39 until 40). Per user instruction, the passage below is transcribed as faithfully as possible: only unambiguous single-word OCR/spelling fixes were applied (e.g. Trand→Trend, Großestadt bewohner→Großstadtbewohnern, Blümen→Blumen, schützwälle→Schutzwälle, belibte→beliebte, Aspalt→Asphalt, ligt→liegt, pasychologischen→psychologischen, städchen→Städtchen, trefpunkten→Treffpunkten, MITLERWEILE→MITTLERWEILE). Two tokens could NOT be confidently mapped to a single intended word and were left EXACTLY as printed, uncorrected, per the no-invention rule: \"gerabenig\" (context: \"wird also gerabenig pflanzt\") and \"veruneinigen\" (context: \"pflnzen filtern veruneinigen aus der Luft\" — plausibly related to \"Verunreinigungen\"/pollutants, but reconstructing it would require inventing word class/ending, which is disallowed). The passage ends exactly where the source ends — nothing follows gap 40 in the official material, matching the source's own admission of an incomplete ending. The answer key (all 10 letters a-o mapped to gaps 31-40) is fully legible and unambiguous, confirmed via multiple 300dpi/900dpi crops; the incompleteness affects only the passage's final prose, not the answer key.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a–o) in die Lücken 31–40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31–40.",
+  "passage": "Garten in der Stadt\n\nUnter jungen Großstadtbewohnern gibt es einen neuen Trend: sie wünschen sich einen eigenen Garten. Daher lassen sie sich auf lange Wartelisten für Kleingartenparzellen {{31}} auf Dächern, vor Gärten, Mauer und grüne Grünstreifen werden Blumen {{32}} und WGs nutzen ihre Südbalkons nicht mehr, um alt Glas, sondern um Pflanzentöpfe abzustellen. In den deutschen Städten wird also gerabenig pflanzt, gegossen und geerntet. Die {{33}} von grünen Städten liegen auf der Hand. Je mehr Pflanzen es in einer Stadt gibt, desto {{34}} ist die Lebensqualität. Pflanzen filtern veruneinigen aus der Luft, nehmen Kohlenstoffdioxid auf den gegebenen Sauerstoff ab. Bäume sind natürliche Schutzwälle {{35}} Wind und Lärm, Park sind beliebte Treffpunkte. Und zu guter Letzt machen Pflanzen eine Stadt, die ansonsten aus Ziegeln, Beton und Asphalt besteht, auch viel schöner.\n\nDas liegt daran, dass die auch einen psychologischen Effekt auf uns Menschen haben. Wo {{36}} grünt und blüht, da fühlen wir uns {{37}} wohl.\n\n{{38}} haben viel Städte entdeckt, dass {{39}} Städtchen auch schnell zu sozialen Treffpunkten werden {{40}}.",
+  "words": ["SETZEN", "GEZÜCHTET", "VORTEILE", "VOR", "ES", "EINFACH", "MITTLERWEILE", "SOLCHE", "DADURCH", "VON", "KLEIN", "KEIN", "HÖHER", "ERZOGEN", "BEZÜCHTET"],
+  "answers": {
+    "31": "SETZEN",
+    "32": "GEZÜCHTET",
+    "33": "VORTEILE",
+    "34": "HÖHER",
+    "35": "VOR",
+    "36": "ES",
+    "37": "EINFACH",
+    "38": "MITTLERWEILE",
+    "39": "SOLCHE",
+    "40": "DADURCH"
+  }
+}

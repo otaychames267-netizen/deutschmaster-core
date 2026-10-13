@@ -7,6 +7,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { describeMicError } from "./micError";
 
 /**
  * ICE servers: STUN (fast, works on most networks) + TURN (relays media when
@@ -112,7 +113,7 @@ export function useVoiceCall(roomId: string | null, slot: "A" | "B" | null, enab
         });
 
         ch.subscribe((status: string) => { if (status === "SUBSCRIBED") { subscribed = true; send({ hello: true }); } });
-      } catch (e: any) { if (!cancelled) setError(e?.message ?? "Microphone/voice unavailable"); }
+      } catch (e: any) { if (!cancelled) setError(describeMicError(e)); }
     })();
 
     return () => {

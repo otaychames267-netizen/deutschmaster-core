@@ -1,0 +1,63 @@
+{
+  "title": "Revolution Day",
+  "teil": 2,
+  "level": "B2",
+  "position": 34,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 35 (code 12568) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Am 24. April ist der Fashion Revolution Day..(Fashion Revolution Day) 24",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Der Anlass für den Fashion Revolution Day ist der Einsturz des Fabrikgebäudes in Bangladesch.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Nur wenige Menschen wurden beim Einsturz schwer verletzt.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "An diesem Tag wird nur schwarze Kleidung getragen. 20",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Eine Näherin verdient dort ca. 20 Cent.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "The Clean Clothes Kampagne fordert bereits seit Jahren einen existenzsichernden Lohn.",
+      "correct": true
+    },
+    {
+      "number": 52,
+      "text": "Faire Mode ist im Geschäft teurer, weil größere Serien produziert werden.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Eine andere Attraktion ist das Filmscreening des Films \"Traceable\"..\"Traceable\"",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Nach dem Film ist die Veranstaltung zu Ende.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Weitere Informationen können auf der Webseite traceable.org abgerufen werden.",
+      "correct": false
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "title": "Meike",
+  "level": "B2",
+  "position": 23,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Meike,\n\nvielen Dank für deine Mail! Es freut mich, dass du dich in Bremen wohlfühlst und mit deiner {{21}} Arbeit zufrieden bist. Auch ich habe eine Menge zu erzählen. Du weißt ja, wie unzufrieden ich in letzter Zeit oft war. {{22}} ich einen neuen Chef habe, hat sich in der Firma viel verändert: Die Arbeitsatmosphäre ist schlechter geworden und ich muss viele Überstunden machen. Daher habe ich oft {{23}} nachgedacht, ob ein beruflicher Neuanfang das Richtige für mich wäre.\n\nNun, inzwischen habe ich einen ersten Schritt unternommen: Ich habe {{24}} an einer Fernuniversität für ein Psychologie-Studium eingeschrieben. {{25}} ich zuerst einige Bedenken hatte, bin ich nun sehr froh über meine Entscheidung. Anfangs war ich mir nicht sicher, ob ich nebenberuflich ein Studium schaffen {{26}}. Schließlich muss ich ja auch noch meinen Lebensunterhalt verdienen. Außerdem hatte ich Angst, dass mir das Lernen nicht mehr so leichtfallen würde {{27}} früher.\n\nDas Studium macht mir wirklich Spaß. Allerdings habe ich es unterschätzt, wie viel Zeit die Vorbereitungen in Anspruch {{28}}. Manchmal fehlt mir bei dem Fernstudium auch der direkte Austausch mit Kommilitonen, denn den Lehrstoff arbeite ich alleine zuhause durch.\nFür {{29}} ist es aber eine große Hilfe, dass die Fernuniversität Chatgruppen anbietet, in {{30}} man rund um die Uhr Fragen stellen kann. Ich bin jedenfalls gespannt, wie es mit meinem Studium weitergeht.\n\nWie wäre es, wenn wir demnächst mal wieder telefonieren? Ich würde mich freuen, bald von dir zu hören.\n\nHerzliche Grüße\nElise",
+  "gaps": [
+    { "n": 21, "a": "neue", "b": "neuen", "c": "neuer", "correct": "b" },
+    { "n": 22, "a": "Seit", "b": "Sobald", "c": "Solange", "correct": "a" },
+    { "n": 23, "a": "daran", "b": "darauf", "c": "darüber", "correct": "c" },
+    { "n": 24, "a": "es", "b": "mich", "c": "mir", "correct": "b" },
+    { "n": 25, "a": "Damit", "b": "Obwohl", "c": "Wenn", "correct": "b" },
+    { "n": 26, "a": "dürfte", "b": "könnte", "c": "müsste", "correct": "b" },
+    { "n": 27, "a": "als", "b": "nach", "c": "wie", "correct": "c" },
+    { "n": 28, "a": "nahmen", "b": "nehmen", "c": "nimmt", "correct": "b" },
+    { "n": 29, "a": "mein", "b": "mich", "c": "mir", "correct": "b" },
+    { "n": 30, "a": "denen", "b": "der", "c": "die", "correct": "a" }
+  ]
+}

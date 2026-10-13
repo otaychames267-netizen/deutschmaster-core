@@ -1,8 +1,9 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/AuthLayout";
+import { GoogleAuthButton, OrDivider } from "@/components/GoogleAuthButton";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -12,7 +13,6 @@ export const Route = createFileRoute("/login")({
 
 function LoginPage() {
   const { t } = useTranslation();
-  const nav = useNavigate();
 
   const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
@@ -25,20 +25,51 @@ function LoginPage() {
     setError(null);
     setLoading(true);
 
-    const { error: err } = await supabase.auth.signInWithPassword({ email, password });
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const body = await res.json();
     setLoading(false);
 
-    if (err) {
-      setError(err.message);
+    if (!res.ok) {
+      setError(res.status === 429 ? body.message : (body.message ?? "Invalid login credentials"));
+      return;
+    }
+
+    // Hydrate the client SDK's session from the tokens our rate-limited
+    // proxy returned, instead of calling supabase.auth.signInWithPassword
+    // directly (which has no application-level brute-force protection).
+    const { error: sessionErr } = await supabase.auth.setSession({
+      access_token: body.access_token,
+      refresh_token: body.refresh_token,
+    });
+    if (sessionErr) {
+      setError(sessionErr.message);
       return;
     }
 
     toast.success("Welcome back!");
-    nav({ to: "/dashboard" });
+    // A real navigation, not TanStack Router's client-side nav(): AuthContext
+    // (src/lib/auth.tsx) only updates on the initial getSession() call or a
+    // subsequent onAuthStateChange event. Confirmed live in production that
+    // the SIGNED_IN event from this setSession() call does not reliably
+    // reach the listener in time (or at all) on the very first login after
+    // a fresh page load, leaving _authenticated.tsx's `user` gate stuck on
+    // null forever — no further recovery once that happens, since the
+    // AuthProvider safety-net timeout only unblocks `loading`, not `user`.
+    // A hard navigation forces AuthProvider to remount and call
+    // getSession() directly, which reads the session setSession() already
+    // persisted to localStorage — proven reliable by every manual reload
+    // during testing.
+    window.location.href = "/dashboard";
   }
 
   return (
     <AuthLayout title={t("auth.sign_in")} subtitle="Enter your credentials to continue">
+      <GoogleAuthButton />
+      <OrDivider />
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">

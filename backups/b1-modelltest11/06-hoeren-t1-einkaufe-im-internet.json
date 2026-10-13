@@ -1,0 +1,17 @@
+{
+  "title": "Einkäufe im Internet",
+  "teil": 1,
+  "level": "B1",
+  "position": 11,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 11/16 (Petra/Language Tests, page 154). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Answer key from Lösungen page (p.158): 41+ 42- 43+ 44- 45-.",
+  "instructions": "Sie hören nun fünf kurze Texte. Dazu sollen Sie fünf Aufgaben lösen. Sie hören diese Texte nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 – 45 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 41, "text": "Herr Pawliczek erledigt alle seine Einkäufe im Internet.", "correct": true },
+    { "number": 42, "text": "Frau Zimmermann legt beim Einkaufen großen Wert auf persönlichen Kontakt.", "correct": false },
+    { "number": 43, "text": "Frau Schmidt findet zu Hause nicht genug Ruhe, um im Internet einzukaufen.", "correct": true },
+    { "number": 44, "text": "Frau Ruttnigg ist vom Einkaufen im Internet nicht überzeugt.", "correct": false },
+    { "number": 45, "text": "Herr Krause kauft seine Medikamente am liebsten in der nächsten Stadt.", "correct": false }
+  ]
+}

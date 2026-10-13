@@ -22,17 +22,25 @@ interface ReferralRow {
 
 interface RewardRow {
   id: string;
+  referral_id: string;
   days_granted: number;
   reason: string;
   applied_at: string | null;
   created_at: string;
 }
 
+// Matches process_referral_conversion() in
+// 20260926140000_referral_linear_7day_30cap.sql exactly — each converted
+// referral grants +7 total days, linearly, capped at +30 total days (one
+// free month) once 5 referrals have converted. Referral 5 only adds +2 (28
+// -> 30) so the running total lands exactly on the cap; nothing is granted
+// past the 5th.
 const MILESTONES = [
-  { count: 1,  reward: "+1 free day",   icon: "🌟", xp: 50  },
-  { count: 3,  reward: "+3 free days",  icon: "⭐",  xp: 150 },
-  { count: 5,  reward: "+1 free week",  icon: "🏆",  xp: 300 },
-  { count: 10, reward: "+1 free month", icon: "👑",  xp: 500 },
+  { count: 1, reward: "+7 free days (total)", icon: "🎁", xp: 100 },
+  { count: 2, reward: "+14 free days (total)", icon: "⭐", xp: 150 },
+  { count: 3, reward: "+21 free days (total)", icon: "🔥", xp: 200 },
+  { count: 4, reward: "+28 free days (total)", icon: "💎", xp: 250 },
+  { count: 5, reward: "+30 free days (total, one free month — maximum)", icon: "👑", xp: 400 },
 ];
 
 function Skeleton({ className = "" }: { className?: string }) {
@@ -44,12 +52,14 @@ function ReferralsPage() {
   const [hasSubscription, setHasSubscription] = useState<boolean | null>(null);
   const [referrals, setReferrals]   = useState<ReferralRow[]>([]);
   const [rewards, setRewards]       = useState<RewardRow[]>([]);
+  const [referralCode, setReferralCode] = useState<string | null>(null);
   const [loading, setLoading]       = useState(true);
   const [copied, setCopied]         = useState(false);
 
-  const referralCode = user?.id
-    ? user.id.replace(/-/g, "").substring(0, 8).toUpperCase()
-    : null;
+  // The real, DB-backed code (profiles.referral_code) — what register_referral()
+  // actually looks up. Previously this was re-derived client-side from
+  // user.id with no server-side link to it at all, so sharing it did
+  // nothing: nothing on the registration side ever read a ?ref= param.
   const referralUrl = referralCode
     ? `${typeof window !== "undefined" ? window.location.origin : ""}/register?ref=${referralCode}`
     : null;
@@ -57,14 +67,16 @@ function ReferralsPage() {
   useEffect(() => {
     if (!user) return;
     (async () => {
-      const [subRes, refRes, rewardRes] = await Promise.all([
-        supabase.from("subscriptions").select("id").eq("user_id", user.id).in("status", ["active", "trial"]).limit(1),
+      const [subRes, refRes, rewardRes, profileRes] = await Promise.all([
+        supabase.from("subscriptions").select("id").eq("user_id", user.id).eq("status", "active").gt("expires_at", new Date().toISOString()).limit(1),
         supabase.from("referrals").select("id, status, created_at, converted_at").eq("referrer_id", user.id).order("created_at", { ascending: false }),
-        supabase.from("referral_rewards").select("id, days_granted, reason, applied_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
+        supabase.from("referral_rewards").select("id, referral_id, days_granted, reason, applied_at, created_at").eq("user_id", user.id).order("created_at", { ascending: false }),
+        supabase.from("profiles").select("referral_code").eq("id", user.id).maybeSingle(),
       ]);
       setHasSubscription((subRes.data?.length ?? 0) > 0);
       setReferrals((refRes.data as ReferralRow[]) ?? []);
       setRewards((rewardRes.data as RewardRow[]) ?? []);
+      setReferralCode((profileRes.data as { referral_code: string | null } | null)?.referral_code ?? null);
       setLoading(false);
     })();
   }, [user?.id]);
@@ -85,6 +97,11 @@ function ReferralsPage() {
 
   const convertedCount = referrals.filter((r) => r.status === "converted").length;
   const pendingCount   = referrals.filter((r) => r.status === "pending").length;
+  // Each referral_rewards row records exactly which referral it came from
+  // (referral_id), so every converted friend can show the real days THAT
+  // specific referral earned — not just the running total — even once the
+  // 30-day cap means later friends earn 0 (cap already reached).
+  const daysByReferralId = new Map(rewards.map((r) => [r.referral_id, r.days_granted]));
 
   if (loading) {
     return (
@@ -247,24 +264,34 @@ function ReferralsPage() {
             <p className="font-semibold text-foreground">Referral history</p>
           </div>
           <div className="space-y-2">
-            {referrals.map((r) => (
-              <div key={r.id} className="flex items-center gap-3 rounded-xl bg-muted/20 px-4 py-3">
-                <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
-                  r.status === "converted" ? "bg-emerald-500/10 text-emerald-500" : "bg-muted text-muted-foreground"
-                }`}>
-                  {r.status === "converted" ? "✓" : "…"}
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm text-foreground capitalize font-medium">{r.status === "converted" ? "Subscribed" : "Registered"}</p>
-                  {r.converted_at && (
-                    <p className="text-xs text-muted-foreground">Converted {new Date(r.converted_at).toLocaleDateString("en-GB")}</p>
+            {referrals.map((r, i) => {
+              const daysEarned = daysByReferralId.get(r.id);
+              return (
+                <div key={r.id} className="flex items-center gap-3 rounded-xl bg-muted/20 px-4 py-3">
+                  <div className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-semibold ${
+                    r.status === "converted" ? "bg-emerald-500/10 text-emerald-500" : "bg-muted text-muted-foreground"
+                  }`}>
+                    {r.status === "converted" ? "✓" : "…"}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm text-foreground font-medium">Friend {i + 1} · {r.status === "converted" ? "Subscribed" : "Registered"}</p>
+                    {r.converted_at && (
+                      <p className="text-xs text-muted-foreground">Converted {new Date(r.converted_at).toLocaleDateString("en-GB")}</p>
+                    )}
+                  </div>
+                  {r.status === "converted" && (
+                    <span className={`shrink-0 rounded-lg px-2.5 py-1 text-xs font-bold ${
+                      daysEarned ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "bg-muted text-muted-foreground"
+                    }`}>
+                      {daysEarned ? `+${daysEarned} day${daysEarned > 1 ? "s" : ""}` : "cap reached"}
+                    </span>
                   )}
+                  <span className="text-xs text-muted-foreground">
+                    {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
+                  </span>
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  {new Date(r.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}

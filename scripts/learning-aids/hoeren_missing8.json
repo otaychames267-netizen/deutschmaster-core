@@ -1,0 +1,516 @@
+{
+ "4a4ac7bc-dabd-42b3-9769-d1fb9928b875": {
+  "translation": {
+   "questions": {
+    "46": "دخّن توماس لأول مرة في سن 14.",
+    "47": "كان يدخّن بكثرة خصوصاً في مواقف الضغط.",
+    "48": "كان سبب الإقلاع عن التدخين هو دخوله المستشفى.",
+    "49": "خطط للإقلاع عن التدخين مع بداية العام.",
+    "50": "في اليوم الأول كانت رغبته في السجائر ضعيفة بالكاد.",
+    "51": "ساعده الزملاء على الإقلاع.",
+    "52": "امتنع عمداً عن استخدام الوسائل الرقمية المساعدة أثناء الإقلاع.",
+    "53": "كان الانسحاب النفسي أصعب من الجسدي.",
+    "54": "يشعر توماس اليوم بانتظام برغبة قوية في التدخين.",
+    "55": "بالنسبة لابنته التدخين مفهوم غريب تماماً."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "mit 14",
+    "explanation_correct": "Zahlenangaben wie „mit 14“ (Alter) sind klassische Prüfpunkte – achte auf die genaue Zahl. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zahlenangaben wie „mit 14“ (Alter) sind klassische Prüfpunkte – achte auf die genaue Zahl. Diese Aussage ist Richtig."
+   },
+   "47": {
+    "keyword": "in Stresssituationen",
+    "explanation_correct": "„besonders oft in …“ nennt eine bestimmte Situation – prüfe, ob genau diese Situation im Hörtext vorkommt. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„besonders oft in …“ nennt eine bestimmte Situation – prüfe, ob genau diese Situation im Hörtext vorkommt. Diese Aussage ist Richtig."
+   },
+   "48": {
+    "keyword": "Krankenhausaufenthalt",
+    "explanation_correct": "Ein konkreter Auslöser (hier: Krankenhausaufenthalt) wird im Hörtext meist wörtlich genannt – ein anderer Grund macht die Aussage falsch. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Ein konkreter Auslöser (hier: Krankenhausaufenthalt) wird im Hörtext meist wörtlich genannt – ein anderer Grund macht die Aussage falsch. Diese Aussage ist Falsch."
+   },
+   "49": {
+    "keyword": "zum Jahresanfang",
+    "explanation_correct": "Zeitangaben wie „zum Jahresanfang“ solltest du genau mit dem Hörtext vergleichen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zeitangaben wie „zum Jahresanfang“ solltest du genau mit dem Hörtext vergleichen. Diese Aussage ist Richtig."
+   },
+   "50": {
+    "keyword": "kaum Verlangen",
+    "explanation_correct": "„kaum“ verneint fast vollständig – prüfe, ob der erste Tag im Hörtext wirklich als leicht oder als schwer beschrieben wird. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„kaum“ verneint fast vollständig – prüfe, ob der erste Tag im Hörtext wirklich als leicht oder als schwer beschrieben wird. Diese Aussage ist Falsch."
+   },
+   "51": {
+    "keyword": "Kollegen halfen",
+    "explanation_correct": "Wer hilft? Die genannte Personengruppe („Kollegen“) muss mit dem Hörtext übereinstimmen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Wer hilft? Die genannte Personengruppe („Kollegen“) muss mit dem Hörtext übereinstimmen. Diese Aussage ist Richtig."
+   },
+   "52": {
+    "keyword": "bewusst auf digitale Hilfsmittel verzichtet",
+    "explanation_correct": "„bewusst verzichten“ ist eine starke Behauptung über eine Absicht – achte darauf, ob im Hörtext digitale Hilfsmittel erwähnt werden. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„bewusst verzichten“ ist eine starke Behauptung über eine Absicht – achte darauf, ob im Hörtext digitale Hilfsmittel erwähnt werden. Diese Aussage ist Falsch."
+   },
+   "53": {
+    "keyword": "psychische Entzug schwieriger als körperliche",
+    "explanation_correct": "Vergleiche mit „schwieriger als“ kippen, wenn die Reihenfolge vertauscht ist – prüfe, was als schwerer beschrieben wird. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Vergleiche mit „schwieriger als“ kippen, wenn die Reihenfolge vertauscht ist – prüfe, was als schwerer beschrieben wird. Diese Aussage ist Richtig."
+   },
+   "54": {
+    "keyword": "regelmäßig starke Rauchlust",
+    "explanation_correct": "„regelmäßig“ und „stark“ sind verstärkende Wörter – schon eine abgeschwächte Aussage im Hörtext macht die Aussage falsch. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„regelmäßig“ und „stark“ sind verstärkende Wörter – schon eine abgeschwächte Aussage im Hörtext macht die Aussage falsch. Diese Aussage ist Falsch."
+   },
+   "55": {
+    "keyword": "völlig fremder Begriff",
+    "explanation_correct": "Absolute Formulierungen wie „völlig fremd“ gelten nur, wenn der Hörtext sie klar bestätigt. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Absolute Formulierungen wie „völlig fremd“ gelten nur, wenn der Hörtext sie klar bestätigt. Diese Aussage ist Richtig."
+   }
+  }
+ },
+ "42f827c4-bb92-45ca-8a48-ebfaa699e2a7": {
+  "translation": {
+   "questions": {
+    "46": "عمل ديفيد شتاينر سابقاً في قطاع المطاعم والضيافة.",
+    "47": "نشأ قراره بالعمل لحسابه الخاص أثناء فترة تدريب.",
+    "48": "ساعده والداه في تمويل المقهى.",
+    "49": "عثر ديفيد على الموقع بالأحرى بالصدفة.",
+    "50": "لم يكن الإعلان عبر وسائل التواصل الاجتماعي مهماً بالنسبة له في البداية.",
+    "51": "يقدّر كثير من الزبائن الدائمين الأجواء الشخصية.",
+    "52": "بالكاد غطّت الإيرادات في الأشهر الأولى التكاليف الجارية.",
+    "53": "لدى ديفيد الآن موظفان بدوام كامل.",
+    "54": "يسمح لنفسه بانتظام بفترات استراحة أطول خلال الموسم.",
+    "55": "افتتاح فرع ثانٍ وارد بالنسبة له بعد بضع سنوات."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "früher in der Gastronomie",
+    "explanation_correct": "Der frühere Beruf ist ein konkretes Detail – vergleiche den genannten Beruf wörtlich mit dem Hörtext. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Der frühere Beruf ist ein konkretes Detail – vergleiche den genannten Beruf wörtlich mit dem Hörtext. Diese Aussage ist Falsch."
+   },
+   "47": {
+    "keyword": "während eines Praktikums",
+    "explanation_correct": "Der Zeitpunkt oder Anlass einer Entscheidung („während eines Praktikums“) muss genau stimmen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Der Zeitpunkt oder Anlass einer Entscheidung („während eines Praktikums“) muss genau stimmen. Diese Aussage ist Falsch."
+   },
+   "48": {
+    "keyword": "Eltern … Finanzierung",
+    "explanation_correct": "Wer finanziert? Achte darauf, ob die genannte Quelle (Eltern) im Hörtext vorkommt. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Wer finanziert? Achte darauf, ob die genannte Quelle (Eltern) im Hörtext vorkommt. Diese Aussage ist Falsch."
+   },
+   "49": {
+    "keyword": "eher zufällig",
+    "explanation_correct": "„eher zufällig“ beschreibt, wie etwas entstand – achte auf Wörter wie Zufall oder gezielte Suche. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„eher zufällig“ beschreibt, wie etwas entstand – achte auf Wörter wie Zufall oder gezielte Suche. Diese Aussage ist Richtig."
+   },
+   "50": {
+    "keyword": "nicht relevant",
+    "explanation_correct": "Die Verneinung „nicht relevant“ kehrt die Bedeutung von „Werbung über soziale Medien“ um – prüfe die Wichtigkeit im Hörtext. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Die Verneinung „nicht relevant“ kehrt die Bedeutung von „Werbung über soziale Medien“ um – prüfe die Wichtigkeit im Hörtext. Diese Aussage ist Falsch."
+   },
+   "51": {
+    "keyword": "Stammgäste … persönliche Atmosphäre",
+    "explanation_correct": "Zwei Details (wer + was geschätzt wird) müssen beide stimmen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zwei Details (wer + was geschätzt wird) müssen beide stimmen. Diese Aussage ist Richtig."
+   },
+   "52": {
+    "keyword": "kaum die laufenden Kosten",
+    "explanation_correct": "„kaum“ + Kostenangabe ist eine Mengenbeschreibung – prüfe, ob die Einnahmen als ausreichend oder als knapp beschrieben werden. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„kaum“ + Kostenangabe ist eine Mengenbeschreibung – prüfe, ob die Einnahmen als ausreichend oder als knapp beschrieben werden. Diese Aussage ist Richtig."
+   },
+   "53": {
+    "keyword": "zwei Vollzeitkräfte",
+    "explanation_correct": "Zahlen und Beschäftigungsform („zwei Vollzeitkräfte“) sind typische Prüfpunkte. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Zahlen und Beschäftigungsform („zwei Vollzeitkräfte“) sind typische Prüfpunkte. Diese Aussage ist Falsch."
+   },
+   "54": {
+    "keyword": "regelmäßig längere Pausen",
+    "explanation_correct": "„regelmäßig“ ist ein Häufigkeitswort – prüfe, ob Pausen wirklich oft oder nur selten vorkommen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„regelmäßig“ ist ein Häufigkeitswort – prüfe, ob Pausen wirklich oft oder nur selten vorkommen. Diese Aussage ist Falsch."
+   },
+   "55": {
+    "keyword": "zweiter Standort in einigen Jahren",
+    "explanation_correct": "Zukunftspläne mit Zeitangabe („in einigen Jahren“) solltest du genau mit dem Hörtext vergleichen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zukunftspläne mit Zeitangabe („in einigen Jahren“) solltest du genau mit dem Hörtext vergleichen. Diese Aussage ist Richtig."
+   }
+  }
+ },
+ "73609ee0-a58c-46ad-8c11-7070977a7c9c": {
+  "translation": {
+   "questions": {
+    "46": "تفتتح سلسلة المخابز فروعاً جديدة في بعض الولايات الاتحادية.",
+    "47": "إجراءات مواجهة نقص المعلمين تُظهر أولى النجاحات.",
+    "48": "في المعرض توجد عروض للأطفال والكبار.",
+    "49": "الأندية الرياضية الألمانية تخسر حالياً أعضاء كثيرين.",
+    "50": "لن يعمل رئيس البلدية بعد الآن سياسياً في المستقبل."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "neue Filialen",
+    "explanation_correct": "Eine konkrete Handlung wie „neue Filialen eröffnen“ muss im Hörtext genau so vorkommen – achte auf das Verb und den Ort („in einigen Bundesländern“). Diese Aussage ist Falsch.",
+    "explanation_wrong": "Eine konkrete Handlung wie „neue Filialen eröffnen“ muss im Hörtext genau so vorkommen – achte auf das Verb und den Ort („in einigen Bundesländern“). Diese Aussage ist Falsch."
+   },
+   "47": {
+    "keyword": "erste Erfolge",
+    "explanation_correct": "„erste Erfolge“ ist eine Bewertung des Ergebnisses: Prüfe, ob im Hörtext wirklich von Erfolgen die Rede ist oder nur von Maßnahmen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„erste Erfolge“ ist eine Bewertung des Ergebnisses: Prüfe, ob im Hörtext wirklich von Erfolgen die Rede ist oder nur von Maßnahmen. Diese Aussage ist Falsch."
+   },
+   "48": {
+    "keyword": "Kinder und Erwachsene",
+    "explanation_correct": "Aufzählungen von Zielgruppen („Kinder und Erwachsene“) sind meist ein Detail, das du im Hörtext direkt wiederfindest. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Aufzählungen von Zielgruppen („Kinder und Erwachsene“) sind meist ein Detail, das du im Hörtext direkt wiederfindest. Diese Aussage ist Richtig."
+   },
+   "49": {
+    "keyword": "verlieren zurzeit viele Mitglieder",
+    "explanation_correct": "Eine Entwicklung mit Mengenangabe („viele Mitglieder verlieren“) muss zur Richtung der Meldung passen – achte auf Verlust oder Zuwachs. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Eine Entwicklung mit Mengenangabe („viele Mitglieder verlieren“) muss zur Richtung der Meldung passen – achte auf Verlust oder Zuwachs. Diese Aussage ist Richtig."
+   },
+   "50": {
+    "keyword": "nicht mehr als Politiker tätig",
+    "explanation_correct": "Die Verneinung „nicht mehr“ in Verbindung mit einer Zukunftsangabe verändert die Aussage stark – höre genau auf die Zukunftspläne der Person. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Die Verneinung „nicht mehr“ in Verbindung mit einer Zukunftsangabe verändert die Aussage stark – höre genau auf die Zukunftspläne der Person. Diese Aussage ist Falsch."
+   }
+  }
+ },
+ "b195b8b8-3078-4f3f-be39-b3a312a8838c": {
+  "translation": {
+   "questions": {
+    "46": "عملت لورا سابقاً في وكالة إعلانات.",
+    "47": "خطرت لها فكرة الحياة الريفية خلال إجازة.",
+    "48": "رأى والداها قرارها جيداً على الفور.",
+    "49": "دعمها شريكها في عملية التغيير.",
+    "50": "لم تستعد لورا قبل الانتقال.",
+    "51": "كانت البداية في المزرعة مرهقة جسدياً.",
+    "52": "تمارس لورا في مزرعتها تربية الحيوانات.",
+    "53": "تدير متجراً صغيراً في المزرعة يبيع أغذية محلية.",
+    "54": "إيراداتها الحالية تفوق راتبها السابق.",
+    "55": "ترغب لورا في تقديم دورات تدريبية في مزرعتها."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "Werbeagentur",
+    "explanation_correct": "Der frühere Arbeitgeber bzw. Beruf („Werbeagentur“) ist ein konkretes Detail – prüfe es wörtlich. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Der frühere Arbeitgeber bzw. Beruf („Werbeagentur“) ist ein konkretes Detail – prüfe es wörtlich. Diese Aussage ist Richtig."
+   },
+   "47": {
+    "keyword": "während eines Urlaubs",
+    "explanation_correct": "Der Anlass der Idee („während eines Urlaubs“) muss genau mit dem Hörtext übereinstimmen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Der Anlass der Idee („während eines Urlaubs“) muss genau mit dem Hörtext übereinstimmen. Diese Aussage ist Richtig."
+   },
+   "48": {
+    "keyword": "sofort gut",
+    "explanation_correct": "„sofort“ ist ein starkes Zeitwort – eine zögerliche Reaktion im Hörtext macht die Aussage falsch. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„sofort“ ist ein starkes Zeitwort – eine zögerliche Reaktion im Hörtext macht die Aussage falsch. Diese Aussage ist Falsch."
+   },
+   "49": {
+    "keyword": "Partner unterstützte",
+    "explanation_correct": "Wer unterstützt wen? Prüfe die genannte Person (Partner) und die Richtung der Unterstützung. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Wer unterstützt wen? Prüfe die genannte Person (Partner) und die Richtung der Unterstützung. Diese Aussage ist Richtig."
+   },
+   "50": {
+    "keyword": "nicht vorbereitet",
+    "explanation_correct": "Die Verneinung „nicht vorbereitet“ ist das Gegenteil von Planung – achte auf Hinweise zu Vorbereitungen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Die Verneinung „nicht vorbereitet“ ist das Gegenteil von Planung – achte auf Hinweise zu Vorbereitungen. Diese Aussage ist Falsch."
+   },
+   "51": {
+    "keyword": "körperlich belastend",
+    "explanation_correct": "Bewertungen wie „körperlich belastend“ beschreiben die Art der Schwierigkeit – achte auf körperlich, finanziell oder psychisch. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Bewertungen wie „körperlich belastend“ beschreiben die Art der Schwierigkeit – achte auf körperlich, finanziell oder psychisch. Diese Aussage ist Richtig."
+   },
+   "52": {
+    "keyword": "Tierhaltung",
+    "explanation_correct": "Konkrete Tätigkeiten auf dem Hof (z. B. Tierhaltung) erscheinen im Hörtext meist als Aufzählung – achte auf jede genannte Tätigkeit. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Konkrete Tätigkeiten auf dem Hof (z. B. Tierhaltung) erscheinen im Hörtext meist als Aufzählung – achte auf jede genannte Tätigkeit. Diese Aussage ist Richtig."
+   },
+   "53": {
+    "keyword": "kleinen Hofladen",
+    "explanation_correct": "Bei Aussagen über ein bestimmtes Angebot („Hofladen“) musst du prüfen, ob es wirklich genannt wird. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Bei Aussagen über ein bestimmtes Angebot („Hofladen“) musst du prüfen, ob es wirklich genannt wird. Diese Aussage ist Falsch."
+   },
+   "54": {
+    "keyword": "Einnahmen übertreffen früheres Gehalt",
+    "explanation_correct": "Vergleiche zwischen Einnahmen und früherem Gehalt („übertreffen“) sind Fallen – die Richtung des Vergleichs muss stimmen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Vergleiche zwischen Einnahmen und früherem Gehalt („übertreffen“) sind Fallen – die Richtung des Vergleichs muss stimmen. Diese Aussage ist Falsch."
+   },
+   "55": {
+    "keyword": "Schulungen anbieten",
+    "explanation_correct": "Zukunftswünsche („möchte … anbieten“) werden im Hörtext oft mit „plant“ oder „möchte“ eingeleitet – achte auf das Angebot. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zukunftswünsche („möchte … anbieten“) werden im Hörtext oft mit „plant“ oder „möchte“ eingeleitet – achte auf das Angebot. Diese Aussage ist Richtig."
+   }
+  }
+ },
+ "16501db0-10b9-4e3f-ba57-6a43766fb091": {
+  "translation": {
+   "questions": {
+    "46": "يغيّر ليو بيرغر موقعه بانتظام.",
+    "47": "يومه بالكاد يتأثر بالطقس.",
+    "48": "كان ليو بيرغر يعمل سابقاً كثيراً في الهواء الطلق في الطبيعة.",
+    "49": "يتطلب تأمين المياه والطاقة تخطيطاً.",
+    "50": "يثير هذا النمط من الحياة جدلاً في شبكات التواصل الاجتماعي.",
+    "51": "يشعر ليو بيرغر بأنه أكثر صحة منذ حياة الفان.",
+    "52": "يتلقى محيطه ردود فعل فيها عدم تفهّم جزئياً.",
+    "53": "تخدمه الفان في الوقت نفسه كمسكن وكمكان عمل.",
+    "54": "التنقل المستمر بين الأماكن لا يشكّل لليو بيرغر أي عبء.",
+    "55": "لا يستبعد ليو بيرغر حالياً حياة مستقرة."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "regelmäßig seinen Standort",
+    "explanation_correct": "„regelmäßig“ beschreibt die Häufigkeit – prüfe, ob der Wechsel des Standorts als Regelfall genannt wird. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„regelmäßig“ beschreibt die Häufigkeit – prüfe, ob der Wechsel des Standorts als Regelfall genannt wird. Diese Aussage ist Richtig."
+   },
+   "47": {
+    "keyword": "kaum vom Wetter abhängig",
+    "explanation_correct": "„kaum abhängig“ verneint fast vollständig – prüfe, welche Rolle das Wetter im Tagesablauf spielt. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„kaum abhängig“ verneint fast vollständig – prüfe, welche Rolle das Wetter im Tagesablauf spielt. Diese Aussage ist Falsch."
+   },
+   "48": {
+    "keyword": "früher viel draußen",
+    "explanation_correct": "Vergleich „früher“ und „heute“: Achte darauf, wo die Person früher gearbeitet hat und wo heute. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Vergleich „früher“ und „heute“: Achte darauf, wo die Person früher gearbeitet hat und wo heute. Diese Aussage ist Falsch."
+   },
+   "49": {
+    "keyword": "Wasser- und Energieversorgung erfordert Planung",
+    "explanation_correct": "Sachliche Aussagen zur Alltagsorganisation („erfordert Planung“) sind häufig Detailfragen – achte auf Wasser und Energie. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Sachliche Aussagen zur Alltagsorganisation („erfordert Planung“) sind häufig Detailfragen – achte auf Wasser und Energie. Diese Aussage ist Richtig."
+   },
+   "50": {
+    "keyword": "polarisiert in sozialen Netzwerken",
+    "explanation_correct": "„polarisiert“ heißt, dass es gegensätzliche Meinungen gibt – prüfe, ob der Hörtext Reaktionen im Netz erwähnt. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„polarisiert“ heißt, dass es gegensätzliche Meinungen gibt – prüfe, ob der Hörtext Reaktionen im Netz erwähnt. Diese Aussage ist Richtig."
+   },
+   "51": {
+    "keyword": "gesünder",
+    "explanation_correct": "Eine Veränderung der Gesundheit (besser oder schlechter) muss in dieselbe Richtung gehen wie im Hörtext. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Eine Veränderung der Gesundheit (besser oder schlechter) muss in dieselbe Richtung gehen wie im Hörtext. Diese Aussage ist Richtig."
+   },
+   "52": {
+    "keyword": "teilweise mit Unverständnis",
+    "explanation_correct": "„teilweise“ schränkt ein – prüfe, ob das Umfeld nur zum Teil oder ganz anders reagiert. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„teilweise“ schränkt ein – prüfe, ob das Umfeld nur zum Teil oder ganz anders reagiert. Diese Aussage ist Richtig."
+   },
+   "53": {
+    "keyword": "gleichzeitig Wohnraum und Arbeitsplatz",
+    "explanation_correct": "Aussagen mit „gleichzeitig“ verlangen, dass beide Funktionen (wohnen und arbeiten) im Hörtext vorkommen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Aussagen mit „gleichzeitig“ verlangen, dass beide Funktionen (wohnen und arbeiten) im Hörtext vorkommen. Diese Aussage ist Richtig."
+   },
+   "54": {
+    "keyword": "keinerlei Belastung",
+    "explanation_correct": "„keinerlei“ ist absolut – schon eine einzige genannte Belastung macht die Aussage falsch. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„keinerlei“ ist absolut – schon eine einzige genannte Belastung macht die Aussage falsch. Diese Aussage ist Falsch."
+   },
+   "55": {
+    "keyword": "schließt ein festes Leben nicht aus",
+    "explanation_correct": "Doppelte Verneinung („schließt … nicht aus“) bedeutet „hält es für möglich“ – prüfe genau die Zukunftseinstellung. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Doppelte Verneinung („schließt … nicht aus“) bedeutet „hält es für möglich“ – prüfe genau die Zukunftseinstellung. Diese Aussage ist Falsch."
+   }
+  }
+ },
+ "7865f95f-473e-4d86-b950-c899f3af2d31": {
+  "translation": {
+   "questions": {
+    "46": "أنهى مارتن تدريبه الأول كخباز.",
+    "47": "عمل أكثر من عشر سنوات في فرع بنك.",
+    "48": "كان سبب تغيير المهنة فصلاً بسبب ظروف الشركة.",
+    "49": "تفاعلت شريكة مارتن في البداية بشكل انتقادي مع قراره.",
+    "50": "وجد مارتن البداية في المخبز صعبة جسدياً.",
+    "51": "استطاع البدء في المخبز دون دورة نظافة.",
+    "52": "يقدّر مارتن بوجه خاص الاتصال الشخصي بالزبائن.",
+    "53": "دخله الآن أعلى مما كان في البنك.",
+    "54": "افتتاح مخبز خاص به غير وارد بالنسبة لمارتن.",
+    "55": "ينصح بتخطيط دقيق قبل تغيير الوظيفة."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "Ausbildung als Bäcker",
+    "explanation_correct": "Der erste Beruf ist ein konkretes Detail – vergleiche die genannte Ausbildung wörtlich. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Der erste Beruf ist ein konkretes Detail – vergleiche die genannte Ausbildung wörtlich. Diese Aussage ist Falsch."
+   },
+   "47": {
+    "keyword": "mehr als zehn Jahre",
+    "explanation_correct": "Zeitangaben mit Zahl („mehr als zehn Jahre“) sind klassische Prüfpunkte – achte auf die Jahreszahl und auf „mehr als“. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zeitangaben mit Zahl („mehr als zehn Jahre“) sind klassische Prüfpunkte – achte auf die Jahreszahl und auf „mehr als“. Diese Aussage ist Richtig."
+   },
+   "48": {
+    "keyword": "betriebsbedingte Kündigung",
+    "explanation_correct": "Der Grund für den Berufswechsel („betriebsbedingte Kündigung“) ist spezifisch – ein anderer Grund im Hörtext macht die Aussage falsch. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Der Grund für den Berufswechsel („betriebsbedingte Kündigung“) ist spezifisch – ein anderer Grund im Hörtext macht die Aussage falsch. Diese Aussage ist Falsch."
+   },
+   "49": {
+    "keyword": "zunächst kritisch",
+    "explanation_correct": "„zunächst“ beschreibt die erste Reaktion – prüfe, wie die Partnerin am Anfang reagiert hat. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„zunächst“ beschreibt die erste Reaktion – prüfe, wie die Partnerin am Anfang reagiert hat. Diese Aussage ist Falsch."
+   },
+   "50": {
+    "keyword": "körperlich hart",
+    "explanation_correct": "Beschreibungen der Schwierigkeit („körperlich hart“) müssen zur Art der Belastung passen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Beschreibungen der Schwierigkeit („körperlich hart“) müssen zur Art der Belastung passen. Diese Aussage ist Richtig."
+   },
+   "51": {
+    "keyword": "ohne Hygieneschulung",
+    "explanation_correct": "„ohne …“ verneint eine Voraussetzung – prüfe, ob eine Schulung verlangt wurde. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„ohne …“ verneint eine Voraussetzung – prüfe, ob eine Schulung verlangt wurde. Diese Aussage ist Falsch."
+   },
+   "52": {
+    "keyword": "persönlichen Kontakt zu den Kunden",
+    "explanation_correct": "„besonders schätzt“ nennt genau ein Hauptmotiv – prüfe, ob der Kundenkontakt wirklich als Vorteil genannt wird. Diese Aussage ist Richtig.",
+    "explanation_wrong": "„besonders schätzt“ nennt genau ein Hauptmotiv – prüfe, ob der Kundenkontakt wirklich als Vorteil genannt wird. Diese Aussage ist Richtig."
+   },
+   "53": {
+    "keyword": "Einkommen höher als bei der Bank",
+    "explanation_correct": "Einkommensvergleiche („höher als“) sind Fallen – die Richtung des Vergleichs muss stimmen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Einkommensvergleiche („höher als“) sind Fallen – die Richtung des Vergleichs muss stimmen. Diese Aussage ist Falsch."
+   },
+   "54": {
+    "keyword": "eigene Bäckerei kommt nicht infrage",
+    "explanation_correct": "Die Verneinung „nicht infrage“ bei Zukunftsplänen kann das Gegenteil des Gesagten sein – achte auf Pläne. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Die Verneinung „nicht infrage“ bei Zukunftsplänen kann das Gegenteil des Gesagten sein – achte auf Pläne. Diese Aussage ist Falsch."
+   },
+   "55": {
+    "keyword": "sorgfältige Planung",
+    "explanation_correct": "Ratschläge am Ende („Er empfiehlt …“) fassen oft die Kernbotschaft zusammen – achte auf die Empfehlung. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Ratschläge am Ende („Er empfiehlt …“) fassen oft die Kernbotschaft zusammen – achte auf die Empfehlung. Diese Aussage ist Richtig."
+   }
+  }
+ },
+ "ce7c9b2c-8db6-473e-8fc4-0f05ebad5707": {
+  "translation": {
+   "questions": {
+    "46": "كانت نورا فايدليش سابقاً مهندسة معمارية.",
+    "47": "نشأت الفكرة فقط أثناء عملية البناء.",
+    "48": "يوفّر الأرض زوجان مسنّان.",
+    "49": "سار البناء في الغالب دون مشاكل.",
+    "50": "تسير الحياة اليومية جيداً حتى في مساحة صغيرة.",
+    "51": "كان التخلي عن الممتلكات تحدياً.",
+    "52": "تثقل عليها القيود في الراحة بشكل دائم.",
+    "53": "كان المحيط في البداية ينتقد إلى حد ما.",
+    "54": "الشقق الأكبر غير واردة بالنسبة لها حالياً.",
+    "55": "تعني البساطة بالنسبة لها جودة حياة أكبر."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "früher Architektin",
+    "explanation_correct": "Der frühere Beruf ist ein konkretes Detail – prüfe, welchen Beruf der Hörtext nennt. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Der frühere Beruf ist ein konkretes Detail – prüfe, welchen Beruf der Hörtext nennt. Diese Aussage ist Falsch."
+   },
+   "47": {
+    "keyword": "erst während des Bauprozesses",
+    "explanation_correct": "„erst während …“ nennt den Zeitpunkt der Idee – prüfe, ob die Idee früher oder später entstand. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„erst während …“ nennt den Zeitpunkt der Idee – prüfe, ob die Idee früher oder später entstand. Diese Aussage ist Falsch."
+   },
+   "48": {
+    "keyword": "älteres Ehepaar",
+    "explanation_correct": "Wer stellt etwas zur Verfügung? Die genannte Person bzw. Personengruppe muss genau stimmen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Wer stellt etwas zur Verfügung? Die genannte Person bzw. Personengruppe muss genau stimmen. Diese Aussage ist Richtig."
+   },
+   "49": {
+    "keyword": "weitgehend problemlos",
+    "explanation_correct": "„weitgehend problemlos“ ist eine Gesamtbewertung – achte auf genannte Schwierigkeiten beim Bau. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„weitgehend problemlos“ ist eine Gesamtbewertung – achte auf genannte Schwierigkeiten beim Bau. Diese Aussage ist Falsch."
+   },
+   "50": {
+    "keyword": "auf kleinem Raum",
+    "explanation_correct": "Aussagen zum Alltag („funktioniert auch auf kleinem Raum“) sind meist Kernaussagen – achte auf Bewertungen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Aussagen zum Alltag („funktioniert auch auf kleinem Raum“) sind meist Kernaussagen – achte auf Bewertungen. Diese Aussage ist Richtig."
+   },
+   "51": {
+    "keyword": "Loslassen von Besitz",
+    "explanation_correct": "Eine Herausforderung („herausfordernd“) wird oft ausdrücklich benannt – achte auf das Thema Besitz. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Eine Herausforderung („herausfordernd“) wird oft ausdrücklich benannt – achte auf das Thema Besitz. Diese Aussage ist Richtig."
+   },
+   "52": {
+    "keyword": "dauerhaft belasten",
+    "explanation_correct": "„dauerhaft“ macht die Aussage absolut – ein Hinweis auf gelegentliche Belastung genügt nicht. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„dauerhaft“ macht die Aussage absolut – ein Hinweis auf gelegentliche Belastung genügt nicht. Diese Aussage ist Falsch."
+   },
+   "53": {
+    "keyword": "anfangs eher kritisch",
+    "explanation_correct": "„anfangs“ und „eher kritisch“: prüfe die erste Reaktion des Umfelds. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„anfangs“ und „eher kritisch“: prüfe die erste Reaktion des Umfelds. Diese Aussage ist Falsch."
+   },
+   "54": {
+    "keyword": "größere Wohnungen kommen nicht infrage",
+    "explanation_correct": "Die Verneinung „nicht infrage“ zeigt die aktuelle Einstellung – achte auf Aussagen zur künftigen Wohnsituation. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Die Verneinung „nicht infrage“ zeigt die aktuelle Einstellung – achte auf Aussagen zur künftigen Wohnsituation. Diese Aussage ist Richtig."
+   },
+   "55": {
+    "keyword": "mehr Lebensqualität",
+    "explanation_correct": "Schlussaussagen („bedeutet mehr Lebensqualität“) fassen die persönliche Bilanz zusammen – achte auf das Fazit. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Schlussaussagen („bedeutet mehr Lebensqualität“) fassen die persönliche Bilanz zusammen – achte auf das Fazit. Diese Aussage ist Richtig."
+   }
+  }
+ },
+ "8f0049c7-20d2-43ec-a33b-24873c2401ee": {
+  "translation": {
+   "questions": {
+    "46": "بدأ تارك هيسه مسيرته المهنية كمخطط مدن.",
+    "47": "نشأ مشروع الحديقة الأول في أرض شركة.",
+    "48": "بعض الحدائق موجودة في مواقف سيارات سابقة.",
+    "49": "يسعى المشروع في المقام الأول إلى أهداف اقتصادية.",
+    "50": "المشاركة بمقابل مادي لكن عليها طلب كبير.",
+    "51": "توجد قواعد ثابتة لمن يزرع ماذا.",
+    "52": "تهتم المنظمة بأنشطة حصاد منتظمة.",
+    "53": "يُسمح للأطفال بالمشاركة في العمل فقط تحت الإشراف.",
+    "54": "انسحب بعض المشاركين مرة أخرى بسبب الفوضى.",
+    "55": "يستطيع تارك هيسه تخيّل توسّع دولي."
+   }
+  },
+  "items": {
+   "46": {
+    "keyword": "Stadtplaner",
+    "explanation_correct": "Der berufliche Anfang ist ein konkretes Detail – prüfe den genannten Beruf. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Der berufliche Anfang ist ein konkretes Detail – prüfe den genannten Beruf. Diese Aussage ist Richtig."
+   },
+   "47": {
+    "keyword": "Firmengelände",
+    "explanation_correct": "Orte von Projekten („auf einem Firmengelände“) müssen genau stimmen – achte auf den ersten Standort. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Orte von Projekten („auf einem Firmengelände“) müssen genau stimmen – achte auf den ersten Standort. Diese Aussage ist Falsch."
+   },
+   "48": {
+    "keyword": "ehemaligen Parkplätzen",
+    "explanation_correct": "Ortsangaben („ehemalige Parkplätze“) sind häufige Prüfpunkte – prüfe die genannten Flächen. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Ortsangaben („ehemalige Parkplätze“) sind häufige Prüfpunkte – prüfe die genannten Flächen. Diese Aussage ist Richtig."
+   },
+   "49": {
+    "keyword": "vor allem wirtschaftliche Ziele",
+    "explanation_correct": "„vor allem“ legt den Hauptzweck fest – prüfe, ob wirtschaftliche oder andere Ziele im Vordergrund stehen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„vor allem“ legt den Hauptzweck fest – prüfe, ob wirtschaftliche oder andere Ziele im Vordergrund stehen. Diese Aussage ist Falsch."
+   },
+   "50": {
+    "keyword": "kostenpflichtig, aber stark nachgefragt",
+    "explanation_correct": "Zwei Teile müssen beide stimmen (kostenpflichtig und stark nachgefragt) – ein falscher Teil macht die ganze Aussage falsch. Diese Aussage ist Falsch.",
+    "explanation_wrong": "Zwei Teile müssen beide stimmen (kostenpflichtig und stark nachgefragt) – ein falscher Teil macht die ganze Aussage falsch. Diese Aussage ist Falsch."
+   },
+   "51": {
+    "keyword": "feste Regeln",
+    "explanation_correct": "„feste Regeln“ ist eine starke Behauptung – prüfe, ob es Regeln oder Freiheit gibt. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„feste Regeln“ ist eine starke Behauptung – prüfe, ob es Regeln oder Freiheit gibt. Diese Aussage ist Falsch."
+   },
+   "52": {
+    "keyword": "regelmäßige Ernteaktionen",
+    "explanation_correct": "Organisatorische Details („regelmäßige Ernteaktionen“) werden im Hörtext konkret genannt – achte auf Häufigkeit und Aufgabe. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Organisatorische Details („regelmäßige Ernteaktionen“) werden im Hörtext konkret genannt – achte auf Häufigkeit und Aufgabe. Diese Aussage ist Richtig."
+   },
+   "53": {
+    "keyword": "nur unter Aufsicht",
+    "explanation_correct": "„nur unter …“ ist eine Einschränkung – prüfe, ob Kinder wirklich nur mit Aufsicht mitarbeiten dürfen. Diese Aussage ist Falsch.",
+    "explanation_wrong": "„nur unter …“ ist eine Einschränkung – prüfe, ob Kinder wirklich nur mit Aufsicht mitarbeiten dürfen. Diese Aussage ist Falsch."
+   },
+   "54": {
+    "keyword": "wegen der Unordnung ausgestiegen",
+    "explanation_correct": "Begründungen („wegen der Unordnung“) müssen zum genannten Grund passen – prüfe den Ausstiegsgrund. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Begründungen („wegen der Unordnung“) müssen zum genannten Grund passen – prüfe den Ausstiegsgrund. Diese Aussage ist Richtig."
+   },
+   "55": {
+    "keyword": "internationale Ausweitung",
+    "explanation_correct": "Zukunftsvorstellungen („kann sich … vorstellen“) bedeuten eine Möglichkeit, keinen Plan – achte auf Formulierungen wie „denkbar“. Diese Aussage ist Richtig.",
+    "explanation_wrong": "Zukunftsvorstellungen („kann sich … vorstellen“) bedeuten eine Möglichkeit, keinen Plan – achte auf Formulierungen wie „denkbar“. Diese Aussage ist Richtig."
+   }
+  }
+ }
+}

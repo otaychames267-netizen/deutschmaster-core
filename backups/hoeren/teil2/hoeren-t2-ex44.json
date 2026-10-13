@@ -1,0 +1,63 @@
+{
+  "title": "Bibliothek",
+  "teil": 2,
+  "level": "B2",
+  "position": 44,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 45 (code 2359) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Astrid Nowak hat ihr ganzes Berufsleben in der Stadtbibliothek verbracht.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Die meisten Besucher/innen der Stadtbibliothek wollen Medien ausleihen.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Viele halten sich gern in den attraktiven Räumen der Bibliothek auf.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Die Bibliothek bietet ihre Dienstleistungen seit Jahren auch sonntags an.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Die vielfältigen Angebote der Bibliothek sind gratis nutzbar.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Ein Angebotsschwerpunkt sind Informationsmedien für jüngere Leute.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Man kann in der Bibliothek auch elektronische Geräte mieten.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Heute finden nur Kurse aus dem Bereich Medien und Technik statt.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Es gibt einen Raum, in dem man mit anderen zusammen moderne technische Werkzeuge ausprobieren kann.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Die Bibliotheken in Deutschland werden genauso häufig genutzt wie Kinos oder Museen.",
+      "correct": false
+    }
+  ]
+}

@@ -239,10 +239,16 @@
 /* ── Utilities ──────────────────────────────────────────── */
 @layer utilities {
   /* Glass card effect */
+  /* Relative colour syntax (oklch(from …)) needs Chrome 119+. A fallback declaration written BEFORE it would not help (a value containing
+     var() is only judged invalid when the property is computed, which then leaves the property EMPTY, not on the earlier value) — so the
+     enhancement lives in @supports and old browsers keep the plain colour. Same pattern for every oklch(from …) below. */
   .glass {
-    background: oklch(from var(--color-card) l c h / 0.8);
+    background: var(--color-card);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+  @supports (color: oklch(from red l c h)) {
+    .glass { background: oklch(from var(--color-card) l c h / 0.8); }
   }
 
   /* Premium gradient text */
@@ -259,10 +265,15 @@
 
   /* Subtle animated gradient background for hero sections */
   .hero-gradient {
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, oklch(from var(--color-brand) l c h / 0.12) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 40% at 85% 30%,  oklch(from var(--color-gold) l c h / 0.08) 0%, transparent 60%),
-      var(--color-background);
+    background: var(--color-background);
+  }
+  @supports (color: oklch(from red l c h)) {
+    .hero-gradient {
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, oklch(from var(--color-brand) l c h / 0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 85% 30%,  oklch(from var(--color-gold) l c h / 0.08) 0%, transparent 60%),
+        var(--color-background);
+    }
   }
 
   /* Section divider */
@@ -276,8 +287,11 @@
   }
   .exam-card-hover:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 24px oklch(from var(--color-brand) l c h / 0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-color: var(--color-brand);
+  }
+  @supports (color: oklch(from red l c h)) {
+    .exam-card-hover:hover { box-shadow: 0 8px 24px oklch(from var(--color-brand) l c h / 0.12); }
   }
 
   /* Scrollbar */
@@ -295,6 +309,32 @@
   }
 }
 
+/* ── Content protection ─────────────────────────────────── */
+/* ProtectedContentGate applies user-select:none on its wrapper for every
+   protected route, including the Schreiben essay editor — explicitly
+   re-enable selection/editing inside actual form fields so students can
+   still write and edit their own essays. */
+.select-none textarea,
+.select-none input,
+.select-none [contenteditable="true"] {
+  user-select: text;
+}
+
+.print-protection-notice {
+  display: none;
+}
+@media print {
+  .protected-content {
+    display: none !important;
+  }
+  .print-protection-notice {
+    display: block !important;
+    padding: 4rem 2rem;
+    text-align: center;
+    font-size: 14pt;
+  }
+}
+
 /* ── Animations ─────────────────────────────────────────── */
 @keyframes shimmer {
   0% { background-position: -200% center; }
@@ -302,12 +342,60 @@
 }
 
 .animate-shimmer {
-  background: linear-gradient(
-    90deg,
-    var(--color-muted) 25%,
-    oklch(from var(--color-muted) calc(l + 0.06) c h) 50%,
-    var(--color-muted) 75%
-  );
+  background: linear-gradient(90deg, var(--color-muted) 25%, var(--color-border) 50%, var(--color-muted) 75%);
   background-size: 200% auto;
   animation: shimmer 1.6s linear infinite;
+}
+@supports (color: oklch(from red l c h)) {
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--color-muted) 25%,
+      oklch(from var(--color-muted) calc(l + 0.06) c h) 50%,
+      var(--color-muted) 75%
+    );
+    background-size: 200% auto;
+  }
+}
+
+/* ── Premium plan card (landing pricing) ───────────────────────────────
+   Fixed deep-navy + gold look in BOTH themes (the theme's --primary turns light blue in dark mode, so it can't be used
+   as the card ground). Slow ambient gold glow + staggered row reveal; all motion is off for prefers-reduced-motion. */
+.plan-premium {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(165deg, oklch(0.31 0.1 263) 0%, oklch(0.21 0.07 265) 100%);
+  color: oklch(0.98 0.004 240);
+  border: 1px solid oklch(0.78 0.14 82 / 0.45);
+  box-shadow: 0 28px 64px -28px oklch(0.2 0.09 263 / 0.6), inset 0 1px 0 oklch(1 0 0 / 0.08);
+}
+.plan-premium::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(70% 55% at 88% 0%, oklch(0.78 0.14 82 / 0.22), transparent 70%);
+  animation: plan-glow 9s ease-in-out infinite alternate;
+}
+@keyframes plan-glow {
+  from { opacity: 0.55; transform: translate3d(0, 0, 0); }
+  to { opacity: 1; transform: translate3d(-3%, 2%, 0); }
+}
+.plan-premium--top {
+  border: 0;
+  border-bottom: 1px solid oklch(0.78 0.14 82 / 0.35);
+  box-shadow: none;
+}
+.plan-row-armed { opacity: 0; transform: translateY(6px); }
+.plan-row-show { animation: plan-row-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both; animation-delay: calc(var(--i, 0) * 70ms); }
+@keyframes plan-row-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .plan-premium::before { animation: none; }
+  .plan-row-armed { opacity: 1; transform: none; }
+  .plan-row-show { animation: none; }
 }

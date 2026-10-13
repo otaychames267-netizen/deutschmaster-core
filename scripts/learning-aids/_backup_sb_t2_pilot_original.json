@@ -1,0 +1,107 @@
+{
+ "items": {
+  "31": {
+   "keyword": "nicht nur...sondern auch",
+   "item_type": "conjunction",
+   "evidence_text": "Theater fördert nicht nur die Kreativität, **sondern** auch die Körpererfahrung von Kindern.",
+   "grammar_example": null,
+   "explanation_wrong": "\"ABER\" (لكن) أداة تعارض عامة -- لا ترتبط تحديداً ببنية \"nicht nur\" السابقة، و\"TROTZ\" (رغم) حرف جر -- لا يعمل أداة عطف؛ البنية الجامعة \"nicht nur...sondern auch\" تفرض \"SONDERN\" حصراً.",
+   "grammar_structure": null,
+   "explanation_correct": "البنية الجامعة تحدد \"sondern\".",
+   "grammar_translation": null
+  },
+  "32": {
+   "keyword": "seit",
+   "item_type": "preposition",
+   "evidence_text": "V.\" arbeitet **seit** vielen Jahren in der Jugendförderung, und deshalb unterstützt er auch ein neues Theaterprojekt für Kinder.",
+   "grammar_example": null,
+   "explanation_wrong": "\"VOR\" (قبل) حرف جر بمعنى مختلف تماماً (نقطة سابقة لا استمرارية)، و\"AB\" (يُستخدم في الفجوة 34 بمعنى \"اعتباراً من\" لبداية مستقبلية) -- معنى مختلف عن الاستمرارية من الماضي؛ وصف نشاط مستمر منذ الماضي يستدعي \"SEIT\".",
+   "grammar_structure": null,
+   "explanation_correct": "وصف نشاط مستمر منذ الماضي يستدعي \"seit\".",
+   "grammar_translation": null
+  },
+  "33": {
+   "keyword": "wegen",
+   "item_type": "preposition",
+   "evidence_text": "Das Jugendzentrum ist eine Einrichtung des städtischen Jugendamtes und kümmert sich um Kinder, Jugendliche und junge Volljährige, die **wegen** familiärer und anderer Probleme Hilfe benötigen.",
+   "grammar_example": null,
+   "explanation_wrong": "\"TROTZ\" (رغم) حرف جر تنازلي -- معنى معاكس تقريباً، و\"OHNE\" (بدون) حرف جر -- معنى مختلف تماماً؛ تفسير سبب حاجة الأطفال للمساعدة يستدعي \"WEGEN\".",
+   "grammar_structure": null,
+   "explanation_correct": "تفسير سبب حاجة الأطفال للمساعدة يستدعي \"wegen\".",
+   "grammar_translation": null
+  },
+  "34": {
+   "keyword": "ab",
+   "item_type": "grammar_structure",
+   "evidence_text": "Bis zu zwanzig Mädchen und Jungen werden **ab** dem kommenden Jahr die Welt des Theaters kennenlernen.",
+   "grammar_example": null,
+   "explanation_wrong": "\"SEIT\" (يُستخدم في الفجوة 32 بمعنى \"منذ\" لاستمرارية من الماضي) -- عكس الاتجاه الزمني المطلوب هنا، و\"VOR\" (قبل) حرف جر -- معنى مختلف تماماً؛ وصف بداية زمنية مستقبلية يستدعي \"AB\".",
+   "grammar_structure": null,
+   "explanation_correct": "وصف بداية زمنية مستقبلية يستدعي \"ab\".",
+   "grammar_translation": null
+  },
+  "35": {
+   "keyword": "am Ende",
+   "item_type": "fixed_expression",
+   "evidence_text": "**Am** Ende des Projekts werden die Nachwuchsschauspieler bei einem Theaterfestival auftreten, was sicher ein Höhepunkt für alle Teilnehmer sein wird.",
+   "grammar_example": null,
+   "explanation_wrong": "\"AUF\" (يُستخدم في الفجوة 39) حرف جر آخر -- لا يكوّن هذا التعبير، و\"VOR\" حرف جر مختلف تماماً؛ التعبير الثابت \"am Ende\" يستلزم \"AM\" حصراً.",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير الثابت \"am Ende\" يحدد \"Am\".",
+   "grammar_translation": null
+  },
+  "36": {
+   "keyword": "es ist wichtig",
+   "item_type": "grammar_structure",
+   "evidence_text": "Allen Mitarbeitern ist **es** wichtig, dass die Kinder auf der Bühne Anerkennung für ihre Leistung bekommen.",
+   "grammar_example": null,
+   "explanation_wrong": "\"DA\" أداة ربط/ظرف -- لا يعمل ضميراً فاعلاً شكلياً، و\"DARUM\" (يُستخدم في الفجوة 38) ضمير ظرفي -- لا يصلح أيضاً؛ التركيب غير الشخصي \"es ist wichtig\" يستدعي \"ES\" حصراً.",
+   "grammar_structure": null,
+   "explanation_correct": "التركيب غير الشخصي \"es ist wichtig\" يستدعي \"es\".",
+   "grammar_translation": null
+  },
+  "37": {
+   "keyword": "da",
+   "item_type": "conjunction",
+   "evidence_text": "Ohne die finanzielle Unterstützung wäre das Vorhaben unmöglich, **da** bei der Stadt keine Gelder vorhanden wären.",
+   "grammar_example": null,
+   "explanation_wrong": "\"WEGEN\" (يُستخدم في الفجوة 33) حرف جر -- لا يعمل أداة ربط تابعة لجملة كاملة، و\"OHNE\" (بدون) حرف جر آخر -- معنى مختلف تماماً؛ تفسير السبب يستدعي \"DA\".",
+   "grammar_structure": null,
+   "explanation_correct": "تفسير السبب يستدعي \"da\".",
+   "grammar_translation": null
+  },
+  "38": {
+   "keyword": "sich darum kümmern",
+   "item_type": "grammar_structure",
+   "evidence_text": "Allerdings ist nicht nur Geld wichtig: Der Verein kümmert sich auch **darum**, die Projekte bekannt zu machen.",
+   "grammar_example": null,
+   "explanation_wrong": "\"DAZU\" ضمير ظرفي بحرف جر مختلف (zu) -- التعبير الثابت \"sich kümmern um\" يستلزم حرف الجر \"um\" حصراً (darum)، و\"ES\" (يُستخدم في الفجوة 36) ضمير شكلي -- لا يعمل ضميراً ظرفياً؛ هذا يستلزم \"DARUM\".",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير الثابت \"sich kümmern darum\" يحدد \"darum\".",
+   "grammar_translation": null
+  },
+  "39": {
+   "keyword": "auf diese Weise",
+   "item_type": "fixed_expression",
+   "evidence_text": "Man hofft, **auf** diese Weise noch mehr Unterstützer zu finden.",
+   "grammar_example": null,
+   "explanation_wrong": "\"AM\" (يُستخدم في الفجوة 35) حرف جر آخر -- لا يكوّن هذا التعبير، و\"VOR\" حرف جر مختلف تماماً؛ التعبير الثابت \"auf diese Weise\" يستلزم \"AUF\" حصراً.",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير الثابت \"auf diese Weise\" يحدد \"auf\".",
+   "grammar_translation": null
+  },
+  "40": {
+   "keyword": "um zu",
+   "item_type": "grammar_structure",
+   "evidence_text": "Auch unsere Leser können die Jugendlichen unterstützen: Aktuell sammelt das Jugendzentrum Spenden, **um** weitere Projekte finanzieren zu können.",
+   "grammar_example": null,
+   "explanation_wrong": "\"OHNE\" (بدون) حرف جر -- معنى مختلف تماماً عن الغرض، و\"TROTZ\" (رغم) حرف جر تنازلي -- لا يصوغ جملة غرض بمصدر؛ التعبير عن الغرض يستدعي \"UM\" (مقترنة بـ zu).",
+   "grammar_structure": null,
+   "explanation_correct": "التعبير عن الغرض يستدعي \"um\".",
+   "grammar_translation": null
+  }
+ },
+ "translation": {
+  "text": "لا يعزز المسرح الإبداع فقط، بل أيضاً الخبرة الجسدية لدى الأطفال. تعمل جمعية \"مساعدة الشباب دوسلدورف\" منذ سنوات عديدة في مجال رعاية الشباب، ولذلك تدعم أيضاً مشروعاً مسرحياً جديداً للأطفال. سيتدرب المشاركون ويلعبون في مركز الشباب. مركز الشباب مؤسسة تابعة لمكتب رعاية الشباب البلدي، وتهتم بالأطفال والمراهقين والبالغين الشباب الذين يحتاجون مساعدة بسبب مشاكل أسرية أو غيرها.\n\nسيتعرف حتى عشرون فتاة وفتى اعتباراً من العام القادم على عالم المسرح. في نهاية المشروع، سيقدم الممثلون الصاعدون عرضاً في مهرجان مسرحي، وهو ما سيكون بالتأكيد ذروة بالنسبة لجميع المشاركين.\n\nيقود المجموعة الممثل فولفغانغ نويهاوزن. يعمل مع مركز الشباب ويحصل على دعم من مربيين مسرحيين اثنين. من المهم لجميع العاملين أن يحصل الأطفال على تقدير لأدائهم على المسرح. بدون الدعم المالي، سيكون المشروع مستحيلاً، لأنه لن تتوفر أموال من البلدية.\n\nهذا المشروع المسرحي ليس الأول الذي يحصل على دعم. في العام الماضي حصل المشروع المسرحي \"شيلر - الحياة المتوحشة الحرة\" على دعم مالي. لكن ليس المال وحده هو المهم: تهتم الجمعية أيضاً بالتعريف بالمشاريع. تُعلَّق ملصقات في مسارح مختلفة في المدينة، تروّج بها الجمعية للمسرح الشبابي. يأملون بهذه الطريقة إيجاد المزيد من الداعمين.\n\nيمكن لقرائنا أيضاً دعم الشباب: يجمع مركز الشباب حالياً تبرعات، لكي يتمكن من تمويل مشاريع إضافية. بالإضافة إلى ذلك، لا تزال هناك حاجة لمتطوعين للتدريبات المسرحية والعروض."
+ }
+}

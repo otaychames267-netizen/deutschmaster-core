@@ -1,0 +1,27 @@
+{
+  "teil": 1,
+  "title": "Eine Karte",
+  "level": "TELC_B1",
+  "position": 15,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 15/16 (Thomas/Language Tests, page 168 printed / PDF page 169 for headlines, page 169 printed / PDF page 170 for texts 1-4, text 5 continues onto page 170 printed / PDF page 171). Headline (i) is printed verbatim as 'Schöne werden großzügiger beschenkt' — this appears to be a source typo for 'Söhne' (given text 1 is about sons, not 'beautiful people', receiving more gifts, and the answer key maps 1→I), but transcribed exactly as printed per this project's never-silently-correct policy. Answer key from Lösungen page (printed p.180 / PDF p.181): 1I 2A 3J 4D 5C, cross-verified content-to-headline by direct reading.",
+  "headlines": [
+    { "letter": "A", "text": "Eine Karte – viele Vorteile", "is_distractor": false },
+    { "letter": "B", "text": "Endlich Ferien ohne Kinder", "is_distractor": true },
+    { "letter": "C", "text": "Günstiger Urlaub für Vereinsmitglieder", "is_distractor": false },
+    { "letter": "D", "text": "Meer statt Berge", "is_distractor": false },
+    { "letter": "E", "text": "Neues Wohnprojekt für Alleinerziehende", "is_distractor": true },
+    { "letter": "F", "text": "Reisebüros weltweit vernetzt", "is_distractor": true },
+    { "letter": "G", "text": "Schweizer Seen weiterhin sehr beliebt", "is_distractor": true },
+    { "letter": "H", "text": "Söhne schenken mehr als Töchter", "is_distractor": true },
+    { "letter": "I", "text": "Schöne werden großzügiger beschenkt", "is_distractor": false },
+    { "letter": "J", "text": "Tipps: Wo auch Kinder ihren Spaß haben", "is_distractor": false }
+  ],
+  "texts": [
+    { "position": 1, "title": "", "content": "Das fängt ja gut an: Schon im Kinderzimmer werden Jungs bevorzugt – sie bekommen mehr geschenkt als Mädchen. Das ist das Ergebnis einer Untersuchung vom Bundesverband des Spielwaren-Einzelhandels. Bundesweit wurden 6500 Familien nach ihren Schenkgewohnheiten befragt. Fast immer wurden für die Söhne – auch schon im Babyalter – mehr gekauft. Zuständig für die Geschenke sind übrigens meist die Mütter.", "correct_headline": "I" },
+    { "position": 2, "title": "", "content": "In diesem Sommer werden weitere 200 Großstadt-Jugendherbergen auf der ganzen Welt miteinander vernetzt. ICYN heißt das Zauberwort – International Communication Youth Network. Das System wurde speziell für Jugendherbergen entwickelt. Für nur 15 Euro Jahresgebühr kann man mit der ICYN-Karte weltweit nicht nur Übernachtungen in anderen Herbergen reservieren, sondern auch unbegrenzt im Internet surfen, sogar gratis übers Internet telefonieren, Bahn- und Flugtickets bargeldlos buchen sowie günstige Konzerttickets bekommen.", "correct_headline": "A" },
+    { "position": 3, "title": "", "content": "Ob zu Hause, irgendwo in der Schweiz oder im Ausland: Ferien mit Kindern wollen gut geplant sein. Wo gibt es denn Orte, wo Kinder noch Abenteuer erleben, Hotels oder Wohnungen, in denen sie sich wohl fühlen, wo aber gleichzeitig auch die Eltern auf ihre Rechnung kommen? Ruth Michaela Richter gibt Tipps, verrät Adressen und zeigt Beispiele. Damit werden sogar Städtereisen oder Schlossferien in England interessant.", "correct_headline": "J" },
+    { "position": 4, "title": "", "content": "Die Sehnsucht nach dem Meer ist in der Schweiz groß, vor allem bei der jüngeren Generation. Ein Drittel der Schweizerinnen und Schweizer würde nach einer Umfrage im Tausch für eine Meeresküste die Hälfte der Berge hergeben. Die Zeitschrift mare ließ über 1000 Personen in der Schweiz nach ihrem Verhältnis zum Meer befragen. Rund 42 Prozent der 15- bis 34-Jährigen würden – treu dem Motto der Jugendbewegung der 80er Jahre: Nieder mit den Alpen, freie Sicht aufs Mittelmeer – den Tausch eingehen. In der Deutschschweiz könnten sich nur 29 Prozent von den Bergen trennen, in der Romandie sind es 37 und im Tessin 43 Prozent.", "correct_headline": "D" },
+    { "position": 5, "title": "", "content": "Ob für die traditionelle Familie oder für Alleinerziehende: Der Verein für Familienherbergen in Gelsenkirchen bietet schon seit Jahren preisgünstige Ferien. Über 1100 Zimmer und Wohnungen – auch für das kleine Portemonnaie – stehen zwischen Nordsee und Sizilien den Mitgliedern im neuen Katalog zur Auswahl. Nichtmitglieder erhalten diesen Katalog gegen eine Gebühr von 5 Euro. Infos: Telefon 061/981 25 25 oder www.ferienwohnung.ch", "correct_headline": "C" }
+  ]
+}

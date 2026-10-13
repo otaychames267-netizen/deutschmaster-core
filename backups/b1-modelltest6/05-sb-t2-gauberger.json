@@ -1,0 +1,22 @@
+{
+  "title": "Gauberger",
+  "level": "B1",
+  "position": 6,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 6/16 (Petra/Language Tests, page 74 printed / PDF page 75). Letter addressed to 'Sehr geehrter Herr Gauberger', signed Eberhard Spitzweg. Word bank item 'a' is printed 'BEOUEM' in the source — an apparent typo for 'BEQUEM' (Q/O visually similar in the source's typeface) — transcribed verbatim as printed, per project policy against silently correcting source text; this word is unused (a distractor) so it does not affect the answer key. Two genuinely overlapping printed lines in the source body text ('monatlich nur wenig Geld. Wenn ich die Möglichkeit (32), noch ein wenig zu verdienen,' overlaid with 'Würde mir das sehr helfen. Ich bin (33) schon 72 Jahre alt, aber noch bei sehr guter') transcribed in this reading order, joined. Answer key from Lösungen page (printed p.80 / PDF p.81): 31J SCHON, 32C HÄTTE, 33O ZWAR, 34I OHNE, 35E JEDEN, 36H NICHTS, 37L TÄGLICH, 38N WIE VIEL, 39D IHNEN, 40B GEEIGNET.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 31 – 40. Benutzen Sie die Wörter (a-o). Jedes Wort passt nur einmal. Markieren Sie Ihre Lösungen für die Aufgaben 31 – 40 auf dem Antwortbogen.",
+  "passage": "Sehr geehrter Herr Gauberger,\n\nihre Anzeige habe ich mit Interesse gelesen. Ich bin {{31}} lange Rentner und bekomme monatlich nur wenig Geld. Wenn ich die Möglichkeit {{32}}, noch ein wenig zu verdienen, würde mir das sehr helfen. Ich bin {{33}} schon 72 Jahre alt, aber noch bei sehr guter Gesundheit. Daher denke ich, dass ich die Arbeit {{34}} Probleme machen kann. Seit über dreißig Jahren treibe ich {{35}} Tag Sport. Auch das frühe Aufstehen macht mir gar {{36}} aus.\n\nEinige Fragen hätte ich trotzdem noch: Müssen die Zeitungen {{37}} ausgetragen werden und wie lange ist man unterwegs? Außerdem möchte ich natürlich wissen, {{38}} man verdient. Ich bin gerne bereit, mich bei {{39}} vorzustellen, damit Sie sehen können, dass ich für die Tätigkeit {{40}} bin.\n\nMit freundlichen Grüßen\nEBERHARD SPITZWEG",
+  "words": ["BEOUEM", "GEEIGNET", "HÄTTE", "IHNEN", "JEDEN", "KÖNNTE", "MEHR", "NICHTS", "OHNE", "SCHON", "SIE", "TÄGLICH", "WIE HOCH", "WIE VIEL", "ZWAR"],
+  "answers": {
+    "31": "SCHON",
+    "32": "HÄTTE",
+    "33": "ZWAR",
+    "34": "OHNE",
+    "35": "JEDEN",
+    "36": "NICHTS",
+    "37": "TÄGLICH",
+    "38": "WIE VIEL",
+    "39": "IHNEN",
+    "40": "GEEIGNET"
+  }
+}
