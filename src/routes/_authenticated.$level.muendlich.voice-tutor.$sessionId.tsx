@@ -8,7 +8,7 @@ import { VoiceTutorCorrectionsPanel, type VoiceTutorCorrectionsData } from "@/co
 import { useActiveLevel } from "@/lib/useActiveLevel";
 import { useAuth } from "@/lib/auth";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
-import { voiceTutorAvailable } from "@/lib/features";
+import { SHOW_LIVE_TRANSCRIPT, voiceTutorAvailable } from "@/lib/features";
 import { supabase } from "@/integrations/supabase/client";
 
 // Same relay, different path suffix — see useVoiceTutorAudio.ts.
@@ -180,6 +180,13 @@ function VoiceTutorSession() {
       <ExaminerAvatar state={examinerState} />
       <p className="text-xs text-muted-foreground">{audio.error ? <span className="text-destructive">{audio.error}</span> : EXAMINER_STATE_LABEL[examinerState]}</p>
 
+      {!(SHOW_LIVE_TRANSCRIPT || isAdmin) && (
+        <div className="w-full flex-1 rounded-xl border border-border bg-card/50 p-4 text-center text-xs leading-relaxed text-muted-foreground">
+          <p className="font-semibold text-foreground">Sprich in deinem eigenen Tempo.</p>
+          <p className="mt-1">Kurze Denkpausen sind in Ordnung. Wie in der echten Prüfung siehst du keinen Mitschrieb — dein Text und die Korrekturen erscheinen im Bericht nach der Prüfung.</p>
+        </div>
+      )}
+      {(SHOW_LIVE_TRANSCRIPT || isAdmin) && (
       <div className="w-full flex-1 space-y-2 overflow-y-auto rounded-xl border border-border bg-card/50 p-3 text-xs">
         {audio.transcript.length === 0 && <p className="text-center text-muted-foreground">Die Prüfung beginnt gleich…</p>}
         {audio.transcript.map((line, i) => (
@@ -200,6 +207,7 @@ function VoiceTutorSession() {
           </p>
         ))}
       </div>
+      )}
 
       <div className="flex items-center gap-3">
         <button

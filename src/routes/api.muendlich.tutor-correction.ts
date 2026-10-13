@@ -100,10 +100,14 @@ export const Route = createFileRoute("/api/muendlich/tutor-correction")({
 
         // Teil headings ("[Teil 2]") so the per-Teil scores have something to anchor on.
         let currentTeil: number | null = null;
+        let lastSpeaker: string | null = null;
         const transcriptLines: string[] = [];
         for (const n of nodes as { speaker: string; text: string; teil: number | null }[]) {
-          if (n.teil && n.teil !== currentTeil) { currentTeil = n.teil; transcriptLines.push(`[Teil ${n.teil}]`); }
-          transcriptLines.push(`${n.speaker}: ${n.text}`);
+          if (n.teil && n.teil !== currentTeil) { currentTeil = n.teil; transcriptLines.push(`[Teil ${n.teil}]`); lastSpeaker = null; }
+          // the speech recognition delivers one line per detected pause (a hesitant answer arrives as many fragments): join the consecutive lines of one speaker back into one utterance
+          if (lastSpeaker === n.speaker && transcriptLines.length) transcriptLines[transcriptLines.length - 1] += ` ${n.text}`;
+          else transcriptLines.push(`${n.speaker}: ${n.text}`);
+          lastSpeaker = n.speaker;
         }
         const transcriptText = transcriptLines.join("\n");
         const level: "B1" | "B2" = String(session.level ?? "").toUpperCase().includes("B1") ? "B1" : "B2";

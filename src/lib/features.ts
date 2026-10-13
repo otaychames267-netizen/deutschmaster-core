@@ -98,6 +98,13 @@ export const VOICE_TUTOR_ADMIN_PREVIEW = true;
  */
 export const ROOM_2_ENABLED = false;
 
+/**
+ * Live captions (the speech recognition's text, line by line) on the KI-Sprachtrainer screen. Off for students (owner 2026-10-12, first real user: "many of my words are written wrongly, so I hurry"):
+ * a real exam has no captions, the recognition makes many errors on learner speech, and watching them pushes people to rush. The full text appears in the report after the session.
+ * Admins always see them (to check the recognition).
+ */
+export const SHOW_LIVE_TRANSCRIPT = false;
+
 /** Can this user open the AI Voice Tutor right now? Public launch flag, or the admin preview. */
 export function voiceTutorAvailable(isAdmin: boolean): boolean {
   return VOICE_TUTOR_ENABLED || (VOICE_TUTOR_ADMIN_PREVIEW && isAdmin);
