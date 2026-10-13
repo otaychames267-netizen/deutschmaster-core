@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, PenLine, Mic,
@@ -29,6 +29,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarSeparator,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 type NavColor = "blue" | "rose" | "amber" | "violet" | "default";
@@ -248,13 +249,36 @@ function ImportPDFsSection({ pathname }: ImportRootProps) {
 
 // ── Main sidebar ─────────────────────────────────────────────────────────────
 
+/** Drops a body scroll lock that no open dialog/sheet owns any more (Radix sets data-scroll-locked + overflow:hidden + pointer-events:none while a sheet is open and, on some Android browsers,
+ * can leave it behind when the page navigates underneath the closing sheet) — the symptom was a Lesen page that would not scroll down. */
+function releaseStaleScrollLock() {
+  if (typeof document === "undefined") return;
+  if (document.querySelector('[role="dialog"][data-state="open"], [role="alertdialog"][data-state="open"]')) return;
+  const b = document.body;
+  if (b.hasAttribute("data-scroll-locked")) b.removeAttribute("data-scroll-locked");
+  if (b.style.pointerEvents === "none") b.style.pointerEvents = "";
+  if (b.style.overflow === "hidden") b.style.overflow = "";
+}
+
 export function AppSidebar() {
   const { user, isAdmin, signOut } = useAuth();
+  const { setOpenMobile } = useSidebar();
   const muendlichVisible = useMuendlichVisible();
   const activeLevel = useActiveLevel();
   const seg = useLevelSegment();
   const state = useRouterState();
   const pathname = state.location.pathname;
+
+  // Phones: tapping a menu link navigated but LEFT THE SIDEBAR SHEET OPEN, which covers the new page and keeps the whole page scroll-locked until the dark overlay is tapped
+  // ("Lesen does not scroll down" — reproduced 2026-10-13 on a 375 px Android Chrome emulation). Close it on every navigation, then clear a lock nothing owns any more.
+  useEffect(() => {
+    setOpenMobile(false);
+    const t = window.setTimeout(releaseStaleScrollLock, 450); // after the sheet's close animation
+    const onShow = () => releaseStaleScrollLock();
+    window.addEventListener("pageshow", onShow);
+    document.addEventListener("visibilitychange", onShow);
+    return () => { window.clearTimeout(t); window.removeEventListener("pageshow", onShow); document.removeEventListener("visibilitychange", onShow); };
+  }, [pathname, setOpenMobile]);
 
   function isActive(to: string) {
     if (to === "/admin") return pathname === "/admin";
