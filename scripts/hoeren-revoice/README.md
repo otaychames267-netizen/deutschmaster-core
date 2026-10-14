@@ -11,3 +11,9 @@ Pipeline (all scripts expect to run from a working folder that has `../hoeren/or
 
 Voices used: Julia = Lara (PF1, early 20s) / radio host = Thomas (M1) / announcer = Nadine (F1); Herr Karimov = interviewer Claudia (F2) + Wolfgang (M3, mid 50s).
 Measured: Julia WER 1.2 % (the only multi-word gap was an ASR drop, the audio contains it), Karimov WER 0.3 %; pace = original (15.9 cps) after tempo 0.85-0.86.
+
+## Round 2 (2026-10-14): "Nadine" (`64c87ece-…`) and "Steiner (معدل)" (`fc06d9e6-…`), B2 Teil 2
+- Speakers: Nadine = male host (Markus M2) + Nadine female (Anja PF4); Steiner = female host (Petra F5) + Steiner male (Stefan M5). The Steiner recording has a constant 130 Hz hum (pitch tracking useless) -> gender by cepstral pitch (host 198 Hz, Steiner 137 Hz), ASR on a notch-filtered copy.
+- Tempo (rubberband): Nadine 0.91/0.915, Steiner host 0.95 (Steiner himself already matched the original pace). Switch + rollback: `switch2.sql`.
+- NOT touched: "Professor Steiner (Original)" — it is a different recording with different wording.
+- KEY FLAG: Steiner (معدل) statement 51 ("Journalisten sollten Lust haben, etwas zu entdecken") is marked Falsch, but the audio says the journalist should be "von Neugier getrieben" (heard as "Boye getrieben" by Whisper) = Richtig; the Original variant has the same statement as Richtig.

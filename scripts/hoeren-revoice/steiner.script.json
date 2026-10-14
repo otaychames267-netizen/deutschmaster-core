@@ -1,0 +1,151 @@
+{
+  "name": "steiner",
+  "voices": {
+    "host": "tnco184vh6dfine5wbfq",
+    "steiner": "rheg7ma615vee6mfzn3v"
+  },
+  "items": [
+    {
+      "type": "clip",
+      "start": 0,
+      "end": 2.9,
+      "fadeOut": 0.5,
+      "gapAfter": 0.4
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.5,
+      "text": "Willkommen zu unserer Sendung „Berufe heute“. Als Gast begrüße ich Michael Steiner, der das aktuelle Sportstudio, eine der bekanntesten Sportsendungen im deutschen Fernsehen, moderiert und seit einigen Jahren Professor an der TU Dortmund ist."
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.5,
+      "text": "Hallo, ich freue mich, hier zu sein."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Herr Steiner, Sie sind derzeit auch Messepate einer Dortmunder Messe für Abiturienten. Dazu kommen wir später noch. Zuerst aber habe ich folgende Frage: Herr Steiner, bei welchem Anlass hatten Sie mehr Lampenfieber? Bei Ihrem ersten Auftritt als Moderator des Sportstudios oder bei Ihrer ersten Vorlesung als Professor an der TU Dortmund?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Ich war vor beiden Anlässen zwar angespannt, habe mich aber jeweils auch auf den Tag gefreut. Ehrlich gesagt geht es mir auch heute noch bei Auftritten im Sportstudio oder Vorlesungen an der Uni so. Ein wenig Lampenfieber ist also geblieben. Das Entscheidende dabei ist, dass man sich gut vorbereitet fühlt."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Sie unterrichten das Fach Fernseh- und Videojournalismus. Worauf kommt es Ihnen dabei besonders an?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Besonders wichtig ist mir das, was dem Studium am Institut für Journalistik zugrunde liegt und hier auch als Dortmunder Modell bezeichnet wird: die Integration von Theorie und Praxis. Wir wollen die Studierenden möglichst realitätsnah in allen Medien auf das Berufsleben vorbereiten und gleichzeitig wissenschaftlich ausbilden. Das heißt also, seriösen Journalismus nicht nur in Seminaren oder in Bibliotheken, sondern auch ganz praktisch durch eigene Arbeit kennenzulernen. Sie müssen beispielsweise Reportagen schreiben oder Interviews führen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Herr Steiner, Sie leiten das Medienprojekt „En-Er-Weh-Vision“, bei dem auch Schüler mitmachen können. Was für ein Projekt ist das? Können Sie unseren Hörern dazu etwas mehr erzählen?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "En-Er-Weh-Vision ist Teil eines Pilotprojekts der Landesanstalt für Medien. Dabei handelt es sich um einen landesweiten Fernsehsender, der in digitalen Kabelnetzen ausgestrahlt wird und bei dem jeder mitmachen kann. Vom Hobbyfilmer bis zum angehenden Profi. Ein Ort zum Experimentieren und Dazulernen. Denn jeder, der mitmacht, bekommt von uns eine professionelle Rückmeldung. Wir sagen also, was gut war und was noch nicht. Und warum."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Sie kamen neunzehnhundertsiebenundachtzig als Volontär zum ZDF. Was sind aus Ihrer Sicht seitdem die größten Veränderungen im Fernsehjournalismus?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Na ja, früher arbeiteten die Medien völlig getrennt voneinander. Hier das Fernsehen, da der Hörfunk, dort die Zeitung. Heute leben wir im crossmedialen Zeitalter. Journalisten, die in mehreren Medien denken und arbeiten können, sind gefragt, weil sich alles, nicht zuletzt durch das Internet, immer mehr durchdringt und die Grenzen fließender werden."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Journalist und insbesondere Sportjournalist ist trotz des Mangels an Stellen noch immer ein Traumberuf für viele junge Menschen. Was raten Sie diesen jungen Menschen, um den Traum wahr zu machen?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Dafür muss man gute Erfahrungen sammeln und auf eine solide Ausbildung setzen. Es ist natürlich nicht einfach, aber es ist auf jeden Fall möglich."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Welche Fähigkeiten sollte man unbedingt mitbringen, wenn man Journalist beziehungsweise Sportjournalist werden will?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Generell sollte ein Journalist von Neugier getrieben sein, gleichzeitig diszipliniert und sorgfältig arbeiten und verantwortungsbewusst mit Informationen umgehen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Was viele Hörer wahrscheinlich nicht wissen: Nach dem Abitur waren Sie auf dem besten Weg, Fußballprofi zu werden. Warum sind Sie in den Journalismus gewechselt?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Ich habe in meiner Jugend zwar bei Borussia Dortmund und Borussia Mönchengladbach gespielt. Ein großer Fußballer wäre ich aber nicht geworden. Nicht umsonst war mein Spitzname „Knochenbrecher“. Ich kam mehr über die Athletik als über die Technik. Als dann mit einundzwanzig Jahren und während meines Journalistikstudiums das Angebot vom ZDF kam, die Diskussionssendung „Doppelpunkt“ zu moderieren, wusste ich sofort: Das ist es."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Muss man sich als Sportjournalist eigentlich immer neutral zeigen? Oder durften Sie sich als gebürtiger Dortmunder und früherer Jugendspieler des Dortmunder Vereins BVB auch öffentlich über die gewonnene Fußballmeisterschaft freuen?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Ich habe für das ZDF von der Meisterschaft berichtet und konnte dort im Sportstudio die ganze Mannschaft begrüßen. Es geht natürlich darum, Stimmung und Freude zu transportieren. Ich achte aber immer sehr darauf, in meinem Beruf alle Sportler und Mannschaften gleich zu behandeln. Denn ich bin in erster Linie Journalist und nicht Fan. Darauf muss man schon achten als Moderator."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Jetzt komme ich noch einmal auf das zurück, was ich zu Beginn schon erwähnt hatte. Sie sind Messepate der Messe für Abiturienten in Dortmund. Was empfehlen Sie all den jugendlichen Besuchern, die noch gar nicht wissen, was sie später mal machen sollen?"
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.7,
+      "text": "Den ersten Schritt tun Sie schon, wenn Sie die Messe besuchen. Es geht darum, sich zu informieren und zu prüfen, was etwas für mich sein kann. Mein Neffe ist derzeit genau in dieser Situation. Ich finde es wichtig, dass man nicht in Hektik verfällt, wenn der Weg noch nicht ganz klar ist. Ausprobieren muss auch in der heutigen Zeit noch erlaubt sein."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.4,
+      "text": "Leider ist unsere Zeit schon wieder um. Herr Steiner, herzlichen Dank für das Gespräch."
+    },
+    {
+      "type": "tts",
+      "voice": "steiner",
+      "gapAfter": 0.3,
+      "text": "Ich danke Ihnen."
+    }
+  ],
+  "tempo": {
+    "host": 0.95
+  }
+}

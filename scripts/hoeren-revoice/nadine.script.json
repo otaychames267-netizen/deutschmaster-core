@@ -1,0 +1,143 @@
+{
+  "name": "nadine",
+  "voices": {
+    "host": "9ky4fb0el43530xjj8ye",
+    "nadine": "41vycvwmum24v5sib932"
+  },
+  "items": [
+    {
+      "type": "silence",
+      "s": 0.4
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Herzlich willkommen zu unserer Sendung „Reisen heute“, liebe Hörerinnen und Hörer. Einmal im Leben eine Weltreise unternehmen – davon träumen viele. Die Journalistin Nadine Wagner hat sich diesen Wunsch erfüllt. Sie ist ein Jahr lang allein um die Welt gereist, und zwar auf dem Motorrad. Nun ist sie schon länger wieder zurück in Deutschland und heute ist sie bei uns zu Gast. Frau Wagner, wie kamen Sie eigentlich auf die Idee, eine Weltreise mit dem Motorrad zu machen?"
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Ich wollte schon immer eine lange Reise unternehmen. Und seit ich vor fünf Jahren meinen Motorradführerschein gemacht habe, war mir klar, dass dabei kein anderes Fortbewegungsmittel infrage kommt. Ich habe aber dann noch längere Zeit über diesen Entschluss nachgedacht und gezögert. Denn ich wusste erst nicht, ob ich das wirklich finanzieren kann und ob es mir Spaß macht, so lange allein zu reisen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Ja. Wenn andere von Deutschland aus mit dem Motorrad verreisen, fahren sie meist erst einmal nach Italien oder Griechenland. Mit dem Motorrad ist man doch sehr lange unterwegs, wenn man von einem Ort zum nächsten reist. Wäre es dann für Sie nicht besser gewesen zu fliegen?"
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.5,
+      "text": "Nein, denn es gibt ja das Sprichwort: Der Weg ist das Ziel. Ich wollte nicht einfach mit dem Flugzeug in fremden Ländern landen, sondern auch die Landschaften und Entfernungen erleben, während ich fahre. Ich wollte wahrnehmen, was für lange Strecken und große Distanzen zwischen den Orten liegen, die ich besuche. Doch natürlich musste ich zwischendurch auch fliegen. Meine Route ging schließlich über mehrere Kontinente. Ich war in Asien, Amerika und Afrika."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Aha. Normalerweise ist es ja nicht möglich, einfach mal für ein Jahr zu verreisen. Schließlich hat man zu Hause Verpflichtungen, eine Arbeitsstelle, eine Wohnung. Haben Sie das alles für Ihre Reise aufgegeben?"
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Nein, die Wohnung konnte ich zum Glück untervermieten. Meine Stelle hatte ich leider einige Monate vor der Reise verloren. Ich war Zeitschriftenredakteurin und die Arbeit machte mir viel Spaß. Aber dann geriet das Verlagshaus in wirtschaftliche Schwierigkeiten. Am Ende wurde die Zeitschrift eingestellt und alle Redakteure wurden entlassen. Und da dachte ich: Das ist nun vielleicht der beste Zeitpunkt, um zu verreisen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Die meisten hätten in dieser Situation allerdings erst mal nach einer neuen Stelle gesucht. Wie haben denn Ihre Familie und Ihre Freunde reagiert? Hat dann niemand Bedenken geäußert?"
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Meine Eltern wussten, dass sie mich von meinen Plänen nicht abbringen können. Sie kennen mich ja lange genug. Meine Freunde reagierten teilweise positiv, teilweise entsetzt. Der Satz, den ich wohl am häufigsten gehört habe, war: „Ich freue mich für dich, aber selbst würde ich das nicht machen.“"
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Vermutlich haben sich Ihre Familie und Freunde vor allem deshalb Sorgen gemacht, weil Sie allein mit dem Motorrad unterwegs waren."
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Ja, natürlich ist das Motorradfahren immer ein Risikofaktor. Das war mir auch vorher schon klar. Aber wenn es mal Probleme gab, hat sich immer eine Lösung gefunden. In Tadschikistan bin ich zum Beispiel mit dem Motorrad im Schlamm stecken geblieben. Das ist mir ausgerechnet auf einer Straße passiert, auf der es nur wenig Verkehr gibt. Eine Gruppe von Motorradfahrern, die zufällig vorbeifuhr, hat mich gerettet. Sie hatten einen Mechaniker dabei. Mein Motorrad wurde von ihm so gut gewartet wie davor auf der ganzen Reise nicht. Ich bin dann mit der Gruppe noch eine Woche unterwegs gewesen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Also, aus dem Schlamm gerettet, und das auf einer wenig befahrenen Straße. Das klingt gefährlich. Da könnte man schon ein bisschen Angst bekommen. Ja. Mal eine ganz andere Frage. Geld ist bei einem solchen Vorhaben ja sicher ein wichtiges Thema. Wie haben Sie diese Reise eigentlich finanziert? Das hat ja bestimmt enorme Kosten verursacht."
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Ja, ich hatte in den Jahren zuvor viel gespart. Das Motorrad ist mein einziges teures Hobby. Sonst bin ich eigentlich ein ziemlich sparsamer Mensch. Bei der Planung der Weltreise habe ich mich natürlich gefragt, ob mein Geld reicht. Ich brauche zwar keinen Luxus, aber eine Weltreise macht man ja nur einmal. Deswegen wollte ich sicher sein, dass ich genug Geld dafür habe und nicht jedes Mal darüber nachdenken muss, ob ich mir noch einen Kaffee leisten kann oder nicht, oder ob ich in ein Hotelzimmer gehen kann, wenn ich keine billigere Unterkunft finde. Doch auf der Reise habe ich am Ende sogar weniger ausgegeben, als ich eingeplant hatte. Es blieb sogar noch Geld auf meinem Konto übrig."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Ha, das überrascht mich. Wie haben Sie das geschafft?"
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Ich habe mir wie gesagt meistens günstige Unterkünfte gesucht und war nur selten in Hotels. Außerdem habe ich nebenbei ein bisschen Geld verdient. Als Journalistin konnte ich meine Reisekasse manchmal freiberuflich mit Artikeln für Zeitungen und Magazine aufbessern. Am teuersten war es, mein Motorrad im Flugzeug von Asien nach Südamerika und von den USA nach Marokko transportieren zu lassen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.6,
+      "text": "Was mich noch interessiert: Wie haben Sie es geschafft, ein Jahr lang mit so wenig Gepäck auszukommen? Auf dem Motorrad kann man ja nicht so viel mitnehmen."
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.5,
+      "text": "Ich habe an Kleidung nur das Allernötigste mitgenommen."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.4,
+      "text": "Na ja..."
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.7,
+      "text": "Fast. Auf mein Lieblingskleid wollte ich nicht verzichten, obwohl ich es eigentlich nicht gebraucht hätte. Allerdings gab es auch schon einiges, was mir unterwegs gefehlt hat, zum Beispiel meine Badewanne, meine Tageszeitung oder meine kleine gemütliche Wohnung in München. Vor allem hatte ich natürlich Sehnsucht nach meiner Familie und meinen Freunden."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Sie sind ja nun schon vor gut drei Monaten zurückgekommen. Haben Sie sich inzwischen wieder ganz an das Leben in Deutschland gewöhnt?"
+    },
+    {
+      "type": "tts",
+      "voice": "nadine",
+      "gapAfter": 0.5,
+      "text": "Nein, noch nicht ganz. Manchmal würde ich mich gerne auf mein Motorrad setzen und wieder losfahren. Aber eigentlich hat mich der Alltag schon wieder eingeholt. Kaum war ich wieder da, habe ich eine neue Stelle gefunden. Nun arbeite ich in der PR-Abteilung eines großen Unternehmens. Ich bin sehr froh, dass ich meinen Traum vorher verwirklicht habe. Die vielen Erfahrungen, die ich gemacht habe, sind wirklich eine Bereicherung."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.3,
+      "text": "Das glaube ich Ihnen gerne. Frau Wagner, ich freue mich, dass Sie bei uns im Studio waren, und danke Ihnen ganz herzlich für dieses Gespräch. Und jetzt, liebe Hörerinnen und Hörer, kommen wir zu unserem Wettbewerb."
+    }
+  ],
+  "tempo": {
+    "host": 0.91,
+    "nadine": 0.915
+  }
+}
