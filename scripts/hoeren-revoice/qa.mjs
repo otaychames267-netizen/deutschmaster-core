@@ -10,7 +10,13 @@ const timeline = JSON.parse(fs.readFileSync(`${name}.timeline.json`, "utf8")); c
 const mp3 = `${name}.qa.mp3`; execFileSync("ffmpeg", ["-y", "-v", "error", "-i", `${name}.new.m4a`, "-ac", "1", "-ar", "16000", "-c:a", "libmp3lame", "-b:a", "40k", mp3]);
 let asr = null;
 if (fs.existsSync(`${name}.qa.json`)) asr = JSON.parse(fs.readFileSync(`${name}.qa.json`, "utf8"));
-else {
+else if (process.env.QA_STT === "groq") { // DeepInfra unavailable: Groq whisper-large-v3 in 40 s windows
+  const dur = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", mp3]).toString()); const segs = [];
+  for (let a = 0; a < dur; a += 40) { execFileSync("ffmpeg", ["-y", "-v", "error", "-ss", String(a), "-t", "40", "-i", mp3, "-c:a", "libmp3lame", "-b:a", "48k", `${name}.qaw.mp3`]);
+    for (let t = 1; t <= 4; t++) { const form = new FormData(); form.append("file", new Blob([fs.readFileSync(`${name}.qaw.mp3`)], { type: "audio/mpeg" }), "w.mp3"); form.append("model", "whisper-large-v3"); form.append("language", "de"); form.append("response_format", "verbose_json"); form.append("temperature", "0");
+      try { const r = await fetch("https://api.groq.com/openai/v1/audio/transcriptions", { method: "POST", headers: { Authorization: `Bearer ${env.GROQ_API_KEY}` }, body: form, signal: AbortSignal.timeout(120_000) }); if (r.ok) { const j = await r.json(); for (const x of j.segments ?? []) segs.push({ text: x.text }); break; } } catch {} await new Promise((x) => setTimeout(x, 3000 * t)); } }
+  asr = { segments: segs }; fs.writeFileSync(`${name}.qa.json`, JSON.stringify(asr));
+} else {
   for (let a = 1; a <= 4 && !asr; a++) {
     const form = new FormData(); form.append("file", new Blob([fs.readFileSync(mp3)], { type: "audio/mpeg" }), "a.mp3"); form.append("model", "openai/whisper-large-v3"); form.append("language", "de"); form.append("response_format", "verbose_json"); form.append("temperature", "0");
     try { const r = await fetch("https://api.deepinfra.com/v1/openai/audio/transcriptions", { method: "POST", headers: { Authorization: `Bearer ${env.DEEPINFRA_API_KEY}` }, body: form, signal: AbortSignal.timeout(420_000) }); if (r.ok) asr = await r.json(); else console.log("stt", r.status); } catch (e) { console.log("stt err", String(e.message ?? e)); }

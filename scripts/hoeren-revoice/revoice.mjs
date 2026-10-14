@@ -16,9 +16,27 @@ function chunksOf(text, max = 230) {
   for (const s of sents) { if (cur && (cur + " " + s).length > max) { out.push(cur); cur = s; } else cur = cur ? cur + " " + s : s; }
   if (cur) out.push(cur); return out;
 }
+function wavToPcm(buf) { // strip a RIFF/WAVE header (Inworld LINEAR16 answers a WAV)
+  if (buf.length > 12 && buf.toString("ascii", 0, 4) === "RIFF") { let p = 12; while (p + 8 <= buf.length) { const id = buf.toString("ascii", p, p + 4), len = buf.readUInt32LE(p + 4); if (id === "data") return buf.subarray(p + 8, len > 0 && p + 8 + len <= buf.length ? p + 8 + len : buf.length); p += 8 + len; } }
+  return buf;
+}
+async function synthInworld(voiceId, text) {
+  let err = "";
+  for (let a = 1; a <= 5; a++) {
+    try {
+      const r = await fetch("https://api.inworld.ai/tts/v1/voice", { method: "POST", headers: { Authorization: `Basic ${env.INWORLD_API_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ text, voiceId, modelId: process.env.INWORLD_MODEL ?? "inworld-tts-1.5-max", audioConfig: { audioEncoding: "LINEAR16", sampleRateHertz: 24000 } }), signal: AbortSignal.timeout(120_000) });
+      if (r.ok) { const j = await r.json(); const b = wavToPcm(Buffer.from(j.audioContent ?? j.result?.audioContent ?? "", "base64")); if (b.length > 4000) return b; err = "tiny audio"; }
+      else { err = r.status + " " + (await r.text()).slice(0, 160); if (r.status === 402 || r.status === 429 && /quota|credit/i.test(err)) throw new Error("Inworld credit/quota: " + err); }
+    } catch (e) { err = String(e.message ?? e); if (/credit|quota/.test(err)) throw e; }
+    await new Promise((x) => setTimeout(x, 1500 * a));
+  }
+  throw new Error(`Inworld TTS failed for "${text.slice(0, 40)}…": ${err}`);
+}
 async function synth(voiceId, text) {
-  const key = crypto.createHash("sha1").update(voiceId + "|" + text).digest("hex"); const f = `cache/${key}.pcm`;
+  const key = crypto.createHash("sha1").update((script.provider ?? "deepinfra") + "|" + voiceId + "|" + text).digest("hex"); const f = `cache/${key}.pcm`;
+  if (!script.provider) { const old = `cache/${crypto.createHash("sha1").update(voiceId + "|" + text).digest("hex")}.pcm`; if (fs.existsSync(old)) return fs.readFileSync(old); }
   if (fs.existsSync(f)) return fs.readFileSync(f);
+  if (script.provider === "inworld") { const b = await synthInworld(voiceId, text); fs.writeFileSync(f, b); return b; }
   let err = "";
   for (let a = 1; a <= 5; a++) {
     try {
@@ -46,7 +64,7 @@ function stretch(buf, tempo) {
 }
 const silence = (s) => Buffer.alloc(Math.round(s * SR) * 2);
 function clip(start, end, fadeIn = 0, fadeOut = 0) {
-  const raw = execFileSync("ffmpeg", ["-v", "error", "-ss", String(start), "-to", String(end), "-i", `../hoeren/orig/teil2/${name}.m4a`, "-ac", "1", "-ar", String(SR), "-f", "s16le", "-"], { maxBuffer: 1 << 28 });
+  const raw = execFileSync("ffmpeg", ["-v", "error", "-ss", String(start), "-to", String(end), "-i", (script.src ?? `../hoeren/orig/teil2/${name}.m4a`), "-ac", "1", "-ar", String(SR), "-f", "s16le", "-"], { maxBuffer: 1 << 28 });
   const x = new Int16Array(raw.buffer.slice(raw.byteOffset, raw.byteOffset + raw.length)); const n = x.length;
   for (let i = 0; i < Math.min(n, fadeIn * SR); i++) x[i] = Math.round(x[i] * (i / (fadeIn * SR)));
   for (let i = 0; i < Math.min(n, fadeOut * SR); i++) x[n - 1 - i] = Math.round(x[n - 1 - i] * (i / (fadeOut * SR)));
