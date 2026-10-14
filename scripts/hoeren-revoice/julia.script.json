@@ -1,0 +1,146 @@
+{
+  "name": "julia",
+  "voices": {
+    "ann": "21cphao8nfi9jkina0g0",
+    "host": "w5ansswgujjbb7qv07tz",
+    "julia": "svlnehq8huu9jshp2t2i"
+  },
+  "items": [
+    {
+      "type": "tts",
+      "voice": "ann",
+      "gapAfter": 0.9,
+      "text": "Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen sechsundvierzig bis fünfundfünfzig richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben sechsundvierzig bis fünfundfünfzig. Markieren Sie „Plus“ gleich „richtig“ und „Minus“ gleich „falsch“ auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben sechsundvierzig bis fünfundfünfzig. Sie haben dazu sechzig Sekunden Zeit."
+    },
+    {
+      "type": "silence",
+      "s": 59.6
+    },
+    {
+      "type": "clip",
+      "start": 100.2,
+      "end": 102.7,
+      "fadeOut": 0.4,
+      "gapAfter": 0.3
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.5,
+      "text": "Hallo zu einer neuen Ausgabe von Flügelschlagen. Thema unserer heutigen Sendung ist das Au-pair-Programm. Au-pair, ne? Au-pair heißt so viel wie „auf Gegenleistung“ und bedeutet, dass junge Menschen gegen Unterkunft, Verpflegung und ein kleines Taschengeld eine Gastfamilie bei der Kinderbetreuung und im Haushalt unterstützen. Zu Gast im Studio ist heute Julia Schäfer aus Duisburg. Sie gehört zu den jungen Menschen, die die Möglichkeit in Anspruch genommen haben, für maximal ein Jahr in ein fremdes Land zu ziehen, um Sprache, Gebräuche und Kultur des Gastlandes kennenzulernen. Herzlich willkommen!"
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.35,
+      "text": "Hallo!"
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Julia, du warst zehn Monate bei einer Gastfamilie in Frankreich. Meine erste Frage an dich: Was hat dich daran gereizt, dich für einen Aufenthalt als Au-pair bei einer Gastfamilie zu bewerben? Warum bist du nicht den sehr beliebten Weg eines Schüleraustauschs gegangen?"
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.4,
+      "text": "Ich wollte unbedingt das ganz alltägliche Leben kennenlernen. Und ich war der Meinung, dass das innerhalb einer Familie leichter wäre als in einer Schulklasse. Beim Schüleraustausch verbringt man ziemlich viel Zeit außerhalb des Hauses. Sicher lernt man auch dabei so einiges über eine Gesellschaft. Doch mir ging es um die ganz normalen Dinge des Lebens: miteinander wohnen, reden, essen, Freunde und Verwandte sehen, Familie eben. In einer Familie ist es einfach ungezwungener als in der Schule, wo es strengere Regeln gibt."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.3,
+      "text": "Ich verstehe."
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Ja, und außerdem wollte ich sicher sein, ganz in die Sprache des Landes eintauchen zu können. In meiner Klasse in Duisburg hatten wir einmal einen amerikanischen Austauschschüler. Und anstatt mit ihm konsequent Deutsch zu sprechen, wechselten wir immer wieder zum Englischen. Das war vor allem am Anfang einfach leichter, als ihm gewisse Dinge mühsam auf Deutsch zu erklären. Selbst unsere Lehrer griffen immer wieder zum Englischen, um mit dem Schüler zu kommunizieren. In einer Familie mit kleinen Kindern wäre ich dagegen vollständig in einem echten sprachlichen Umfeld eingebettet. Das war mir sehr wichtig."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Und warum hast du dich ausgerechnet für Frankreich entschieden? Die Liste der beliebtesten Länder für einen Au-pair-Aufenthalt führen seit Jahren Amerika, Kanada und Australien an. Und auch bei den europäischen Aufenthaltsländern steht Frankreich nicht unbedingt an erster Stelle."
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Ich hatte in der Schule Französisch gelernt und wollte meine Sprachkenntnisse verbessern. Daher kam für mich von Anfang an nur ein französischsprachiges Land in Frage. Ich hatte auch Belgien und die französische Schweiz in Betracht gezogen. Aber schließlich entschied ich mich für Frankreich, weil ich unbedingt nach Paris wollte."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Unsere jungen Hörer und Hörerinnen würden sicher gerne mehr über die Bewerbung als Au-pair erfahren. Mit anderen Worten: Wie wird man Au-pair?"
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Da gibt es verschiedene Möglichkeiten. Die kostengünstigste Variante ist, über Zeitungs- oder Internetanzeigen selbst eine Gastfamilie zu finden. Dieses Vorgehen umfasst allerdings auch das höchste Risiko, weil die Gastfamilien nicht von einer Agentur kontrolliert werden. Da sollte man auf jeden Fall auf einem schriftlichen Vertrag mit den Gastgebern bestehen, in dem die Rechte und Pflichten jeder Seite ganz genau angeführt werden. Natürlich kann man auch durch Verwandte oder Bekannte im Ausland eine Gastfamilie finden. Aber das passiert wohl eher selten."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.45,
+      "text": "Dabei ist die persönliche doch eigentlich die ursprüngliche Form der Vermittlung. Die Anfänge dieses Programms reichen ja angeblich bis ins achtzehnte Jahrhundert zurück, als wohlhabende Schweizer Familien ihre Töchter zu befreundeten Familien ins Ausland schickten, damit sie dort die Sprache lernten und mit fremden Gebräuchen vertraut wurden."
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Ja. Aber nicht alle Menschen haben Kontakt im Ausland, und deshalb können sie sich an Vermittlungsagenturen wenden. Das ist bei weitem die geläufigste Art der Vermittlung von Aufenthalten als Au-pair. Sie ist zwar nicht gratis, aber die Beiträge halten sich durchaus in einem vernünftigen Rahmen. Den größeren Teil der Vermittlungskosten tragen die Gastfamilien, die ein Au-pair suchen. Dafür bekommt man aber auch wertvolle Unterstützung von den Agenturen, denn sie nehmen einem viele administrative Schritte ab. Sie suchen nach einer geeigneten Gastfamilie, kümmern sich um Beschwerden, helfen bei der Beantragung eines eventuell erforderlichen Visums und vielem mehr. Das ist wirklich gut investiertes Geld."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.7,
+      "text": "Ich möchte hier unsere Hörer und Hörerinnen darauf hinweisen, dass wir auf unserer Webseite weiterführende Links zusammengestellt haben. Nun kommen wir aber zu Julias ganz persönlichen Erfahrungen. Wie war es denn nun als Au-pair in Frankreich? Klappte denn alles so, wie du es dir vorgestellt hattest?"
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Na ja, nicht auf Anhieb. Die Vermittlungsagentur fand in dem Zeitraum, in dem ich nach Frankreich wollte, keine passende Gastfamilie in Paris. Sie konnte mir nur Versailles anbieten. Das ist mit dem Regionalzug ungefähr eine halbe Stunde Fahrzeit von Paris entfernt. Das war zuerst eine ziemliche Enttäuschung, aber ich entschloss mich dann doch, das Angebot anzunehmen. Und ich habe es auch nicht bereut. Das Leben in Versailles war sehr angenehm und nach Paris kam ich dann doch noch. Das ergab sich aus den familiären Umständen meiner Gastfamilie. Meine Gasteltern leben nämlich getrennt. Meine Gastmutter wohnt mit ihren zwei Kindern in Versailles, während der Vater der Kinder in Paris lebt. Wenn die Kinder das Wochenende bei ihrem Vater verbrachten, war ich immer dabei und konnte so die Stadt gemeinsam mit den Kindern kennenlernen. Außerdem fuhr ich fast immer an meinem freien Tag allein oder mit anderen Au-pair-Mädchen dorthin. In der Zwischenzeit finde ich mich ganz gut in der französischen Hauptstadt zurecht."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.6,
+      "text": "Konntest du denn auch das echte Familienleben kennenlernen, wie du es wolltest?"
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Ja, alles lief gleich völlig ungezwungen ab. Die beiden Kinder, Louis und Camille, waren sehr neugierig auf ihr deutsches Au-pair-Mädchen. Und sie waren wirklich reizend. Louis war damals neun und Camille sieben. Meine Gastmutter Sylvie und ich mochten uns auf Anhieb. Ich habe mich zu keinem Zeitpunkt, nicht einmal in den ersten Tagen, als Angestellte gefühlt, sondern hatte das Gefühl, zur Familie zu gehören. Selbst die Großeltern der Kinder, bei denen wir gleich am Anfang zu Besuch waren, nahmen mich wie ein Familienmitglied auf."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.6,
+      "text": "Eines deiner Ziele war ja auch, dein Französisch zu verbessern. Ist dir das denn gelungen?"
+    },
+    {
+      "type": "tts",
+      "voice": "julia",
+      "gapAfter": 0.7,
+      "text": "Ja. Der Besuch eines intensiven Sprachkurses ist ja verpflichtend bei einem Au-pair-Aufenthalt. Aber ebenso viel habe ich von den Kindern und ihren Eltern gelernt. Ich darf sagen, dass ich nun fließend Französisch spreche und auch einige Schimpfwörter ganz gut beherrsche. Die Kinder waren da sehr hilfreich."
+    },
+    {
+      "type": "tts",
+      "voice": "host",
+      "gapAfter": 0.4,
+      "text": "Julia, erst mal vielen Dank. Jetzt machen wir etwas Musik, und danach kommen wir auf deine Arbeit und deine Pflichten zu sprechen."
+    }
+  ],
+  "tempo": {
+    "ann": 0.92,
+    "host": 0.85,
+    "julia": 0.86
+  }
+}
