@@ -1,0 +1,3 @@
+-- 2026-10-14 owner "original na7ilou audio": "Für ein Konzert morgen" (Original) 40889546-f779-42e4-a40f-ffb62255416f — its audio (shared with the معدل variant, teacher-made recording) matches only the معدل key, so the Original plays NO audio; keys unchanged (R F R F F = telccfree Original key).
+-- ROLLBACK: update public.hoeren_exercises set audio_path = 'clean/teil3/fuer-ein-konzert-morgen.m4a' where id = '40889546-f779-42e4-a40f-ffb62255416f';
+update public.hoeren_exercises set audio_path = null where id = '40889546-f779-42e4-a40f-ffb62255416f' and audio_path = 'clean/teil3/fuer-ein-konzert-morgen.m4a';
