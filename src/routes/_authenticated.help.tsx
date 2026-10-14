@@ -37,7 +37,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: "What are the available plans and prices?",
-        a: "Gold (Schriftlich + Mündlich, ohne KI): 30 TND for 1 month, 50 TND for 2 months or 70 TND for 3 months — the whole written exam (Lesen, Hören, Sprachbausteine, Schreiben, timed exam simulations) plus the Mündlich preparation cards. Platinum (Komplett): 47 TND for 1 month, 86 TND for 2 months or 122 TND for 3 months — everything in Gold plus the KI-Sprachtrainer: speaking practice with an AI examiner (Teil 1, 2 and 3), with a correction report after each session. The KI-Sprachtrainer is a fair-use service: up to two sessions per day and up to 50 sessions per month (so up to 100 with the 2-month pack and up to 150 with the 3-month pack).",
+        a: "Gold (Schriftlich + Mündlich, ohne KI): 30 TND for 1 month, 50 TND for 2 months or 70 TND for 3 months — the whole written exam (Lesen, Hören, Sprachbausteine, Schreiben, timed exam simulations) plus the Mündlich preparation cards. Platinum (Komplett): 50 TND for 1 month, 86 TND for 2 months or 122 TND for 3 months — everything in Gold plus the KI-Sprachtrainer: speaking practice with an AI examiner (Teil 1, 2 and 3), with a correction report after each session. The KI-Sprachtrainer is a fair-use service: up to two sessions per day and up to 50 sessions per month (so up to 100 with the 2-month pack and up to 150 with the 3-month pack).",
       },
       {
         q: "How do I upgrade or change my plan?",

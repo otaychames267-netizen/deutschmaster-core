@@ -28,7 +28,7 @@ export type PricingMap = Record<SellablePlan, PlanPricing>;
 
 export const FALLBACK_PRICING: PricingMap = {
   schriftlich: { code: "schriftlich", offerEndsAt: null, open: true, terms: [{ months: 1, price: 30, listPrice: null }, { months: 2, price: 50, listPrice: 60 }, { months: 3, price: 70, listPrice: 90 }] },
-  komplett_ai: { code: "komplett_ai", offerEndsAt: null, open: true, terms: [{ months: 1, price: 47, listPrice: null }, { months: 2, price: 86, listPrice: 94 }, { months: 3, price: 122, listPrice: 141 }] },
+  komplett_ai: { code: "komplett_ai", offerEndsAt: null, open: true, terms: [{ months: 1, price: 50, listPrice: null }, { months: 2, price: 86, listPrice: 100 }, { months: 3, price: 122, listPrice: 150 }] },
 };
 
 interface RpcPlan { code: string; offer_ends_at: string | null; open?: boolean; terms: { months: number; price: number | string; list_price: number | string | null }[] }
