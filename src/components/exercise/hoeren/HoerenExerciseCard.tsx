@@ -363,6 +363,14 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           {parseVariant(exercise.title).isNew && <NewBadge />}
         </div>
 
+        {/* Admin note for students (e.g. "if the audio says X, the correct sentences are ...") — shown for normal exercises too, not only on the empty placeholder card */}
+        {exercise.adminNote && (
+          <div role="note" className="flex items-start gap-2 rounded-xl border border-amber-500/25 bg-amber-500/5 px-3.5 py-2.5">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" aria-hidden />
+            <p dir="auto" className="whitespace-pre-line text-xs leading-relaxed text-amber-800 dark:text-amber-300">{exercise.adminNote}</p>
+          </div>
+        )}
+
         {exercise.imageUrl && (
           <div className="overflow-hidden rounded-xl border border-border">
             <img src={exercise.imageUrl} alt={exercise.title} loading="lazy" className="w-full max-h-64 object-cover" />
