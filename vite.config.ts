@@ -6,7 +6,11 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { nitro } from "nitro/vite";
 import { legacyColorFallback } from "./vite-plugin-legacy-colors";
 
+// Id of this build (Vercel: the commit sha) — compared with GET /api/version by lib/version-watch.ts to notice "a new version was released while this tab was open".
+const BUILD_ID = process.env.VERCEL_GIT_COMMIT_SHA ?? "";
+
 export default defineConfig({
+  define: { "import.meta.env.VITE_BUILD_ID": JSON.stringify(BUILD_ID) },
   server: {
     port: 5174,
     strictPort: true,
