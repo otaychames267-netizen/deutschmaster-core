@@ -263,15 +263,13 @@ function DashboardPage() {
   const muePct = 0;
 
   // Milestone nodes for the referral stepper — a "0" start node plus one per
-  // real reward tier from process_referral_conversion(): +7d per referral,
-  // capped at +30d (one month) after 5.
+  // real reward tier from process_referral_conversion(): +10d per referral,
+  // capped at +30d (one month) after 3.
   const referralStepperNodes = [
     { invites: 0, days: null as number | null },
-    { invites: 1, days: 7 },
-    { invites: 2, days: 14 },
-    { invites: 3, days: 21 },
-    { invites: 4, days: 28 },
-    { invites: 5, days: 30 },
+    { invites: 1, days: 10 },
+    { invites: 2, days: 20 },
+    { invites: 3, days: 30 },
   ];
 
   return (
@@ -394,10 +392,10 @@ function DashboardPage() {
             smaller dashboard teaser lower down. The code + a one-tap copy
             button live right here too, so grabbing it costs zero
             navigation — the whole point of putting this on the very first
-            screen instead of behind a click. A numbered 0→5 stepper (plus
+            screen instead of behind a click. A numbered 0→3 stepper (plus
             the "0" start node) shows real progress at a glance, matching
-            process_referral_conversion()'s actual +7d/referral, capped at
-            +30d schedule — not the competitor screenshot's own +7d-flat/
+            process_referral_conversion()'s actual +10d/referral, capped at
+            +30d schedule — not the competitor screenshot's own flat/
             cash-at-4 structure, just its stepper visual language. ── */}
       {hasAccess && profile?.referral_code && (
         <div
@@ -413,7 +411,7 @@ function DashboardPage() {
               </div>
               <div>
                 <p className="text-sm font-black text-foreground">Invite friends, earn a free month</p>
-                <p className="text-xs text-muted-foreground">{referralCount}/5 friends invited</p>
+                <p className="text-xs text-muted-foreground">{Math.min(referralCount, 3)}/3 friends invited</p>
               </div>
             </div>
             <ChevronRight className="hidden h-4 w-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 sm:block" />
@@ -425,7 +423,7 @@ function DashboardPage() {
               <div className="absolute left-0 right-0 top-3.5 h-0.5 bg-muted" />
               <div
                 className="absolute left-0 top-3.5 h-0.5 bg-emerald-500 transition-all duration-700"
-                style={{ width: `${Math.min(100, (referralCount / 5) * 100)}%` }}
+                style={{ width: `${Math.min(100, (referralCount / 3) * 100)}%` }}
               />
               {referralStepperNodes.map((n) => {
                 const reached = referralCount >= n.invites;
@@ -851,7 +849,7 @@ function DashboardPage() {
             </div>
 
             {/* Your actual friends, not just abstract milestones — the
-                concrete "Friend 1 · +7d" proof that this really pays out,
+                concrete "Friend 1 · +10d" proof that this really pays out,
                 right here on the first screen instead of a click away. */}
             {referralRows.length > 0 ? (
               <div className="mb-4 space-y-1.5">
