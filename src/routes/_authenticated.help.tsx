@@ -106,7 +106,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: "What is the referral program?",
-        a: "Share your unique referral link with friends. When they subscribe using your link, you both earn rewards. Track your referrals and rewards on the Referral Program page.",
+        a: "Share your unique referral link or code with friends. When a friend subscribes using it, you earn +10 free days (up to 30 free days in total, one free month). A friend who has a code can enter it when registering or on the Referral Program page, before their first subscription. Track your referrals and rewards on the Referral Program page.",
       },
     ],
   },

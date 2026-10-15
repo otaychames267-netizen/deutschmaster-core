@@ -93,6 +93,8 @@ function RegisterPage() {
   const [email, setEmail]         = useState("");
   const [password, setPassword]   = useState("");
   const [confirm, setConfirm]     = useState("");
+  // Optional friend's referral code — prefilled from a ?ref=CODE link (or a code kept from an earlier visit), and also typeable by hand.
+  const [refInput, setRefInput]   = useState("");
   const [showPw, setShowPw]       = useState(false);
   const [accepted, setAccepted]   = useState(false);
   const [loading, setLoading]     = useState(false);
@@ -102,6 +104,29 @@ function RegisterPage() {
   const [verifying, setVerifying] = useState(false);
   const [resending, setResending] = useState(false);
   const [resendCooldown, setResendCooldown] = useState(0);
+
+  useEffect(() => {
+    try {
+      const fromUrl = new URLSearchParams(window.location.search).get("ref");
+      const stored = localStorage.getItem(PENDING_REFERRAL_STORAGE_KEY);
+      const start = (fromUrl ?? stored ?? "").trim().toUpperCase();
+      if (start) {
+        setRefInput(start);
+        // also keep it for the Google sign-in path, which never reaches the submit handler below
+        if (fromUrl) localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, start);
+      }
+    } catch { /* storage or URL unavailable — the field simply starts empty */ }
+  }, []);
+
+  /** Keep the typed code in localStorage as it changes, so it also survives the Google sign-in redirect (auth.tsx links it on the first session). */
+  function onRefChange(value: string) {
+    const v = value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 32);
+    setRefInput(v);
+    try {
+      if (v) localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, v);
+      else localStorage.removeItem(PENDING_REFERRAL_STORAGE_KEY);
+    } catch { /* localStorage unavailable — referral capture skipped, never blocks signup */ }
+  }
 
   useEffect(() => {
     if (resendCooldown <= 0) return;
@@ -130,9 +155,9 @@ function RegisterPage() {
     // register_referral() with (the account isn't confirmed until the code
     // step below succeeds); the code is relayed via localStorage and linked
     // on the user's first real authenticated session instead (see auth.tsx).
-    const refCode = new URLSearchParams(window.location.search).get("ref");
+    const refCode = refInput.trim() || new URLSearchParams(window.location.search).get("ref");
     if (refCode && refCode.trim()) {
-      try { localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, refCode.trim()); } catch { /* localStorage unavailable — referral capture skipped, never blocks signup */ }
+      try { localStorage.setItem(PENDING_REFERRAL_STORAGE_KEY, refCode.trim().toUpperCase()); } catch { /* localStorage unavailable — referral capture skipped, never blocks signup */ }
     }
 
     setLoading(true);
@@ -331,6 +356,26 @@ function RegisterPage() {
             className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring/20"
             placeholder="••••••••"
           />
+        </div>
+
+        {/* Optional friend's referral code */}
+        <div className="space-y-1.5">
+          <label className="text-sm font-medium text-foreground" htmlFor="referral">
+            Referral code <span className="font-normal text-muted-foreground">(optional · اختياري)</span>
+          </label>
+          <input
+            id="referral"
+            type="text"
+            inputMode="text"
+            autoComplete="off"
+            autoCapitalize="characters"
+            spellCheck={false}
+            value={refInput}
+            onChange={(e) => onRefChange(e.target.value)}
+            placeholder="e.g. 02938AA1"
+            className="w-full rounded-lg border border-input bg-background px-3.5 py-2.5 font-mono text-sm uppercase tracking-widest text-foreground placeholder:font-sans placeholder:normal-case placeholder:tracking-normal placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
+          />
+          <p className="text-xs text-muted-foreground">Got a code from a friend? Enter it — your friend earns free days when you subscribe.</p>
         </div>
 
         {/* Terms */}
