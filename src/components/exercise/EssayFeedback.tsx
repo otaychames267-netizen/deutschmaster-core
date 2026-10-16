@@ -58,7 +58,7 @@ export function EssayFeedback({
         </div>
       </div>
 
-      {typeof result.model === "string" && result.model.startsWith("deepinfra:") && (
+      {typeof result.model === "string" && /^(deepinfra|groq):/.test(result.model) && (
         <div role="note" className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 py-3 text-xs leading-relaxed text-amber-800 dark:text-amber-300">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
           <p>

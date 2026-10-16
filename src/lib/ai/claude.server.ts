@@ -128,8 +128,24 @@ const FALLBACK_MODELS = (process.env.LLM_FALLBACK_MODELS ?? "Qwen/Qwen3.8-Max,op
 const FALLBACK_BUDGET_MS = 52_000; // total wall time for all fallback attempts (the platform function limit is the real ceiling)
 let claudeDownUntil = 0;
 
+// Owner 2026-10-16: Anthropic AND DeepInfra were both at $0 for 3+ days — every Schreiben grading failed with QUOTA_429. Groq's free tier serves the SAME open model the owner already accepted as backup #2
+// (gpt-oss-120b), so it is the third and last tier: only reached when Claude and DeepInfra are both unavailable, and inert unless GROQ_API_KEY is set. Free-tier limits (≈8k tokens/min, ≈200k tokens/day)
+// mean a few dozen gradings a day — plenty for an emergency tier. Disable with GROQ_LLM_FALLBACK=off.
+const GROQ_MODELS = (process.env.GROQ_LLM_MODELS ?? "openai/gpt-oss-120b").split(",").map((m) => m.trim()).filter(Boolean);
+
+interface FallbackProvider { id: "deepinfra" | "groq"; url: string; key: string; models: string[] }
+
+function fallbackProviders(): FallbackProvider[] {
+  const off = (process.env.LLM_FALLBACK ?? "on").toLowerCase() === "off";
+  const groqOff = (process.env.GROQ_LLM_FALLBACK ?? "on").toLowerCase() === "off";
+  const list: FallbackProvider[] = [];
+  if (!off && process.env.DEEPINFRA_API_KEY) list.push({ id: "deepinfra", url: "https://api.deepinfra.com/v1/openai/chat/completions", key: process.env.DEEPINFRA_API_KEY, models: FALLBACK_MODELS });
+  if (!off && !groqOff && process.env.GROQ_API_KEY) list.push({ id: "groq", url: "https://api.groq.com/openai/v1/chat/completions", key: process.env.GROQ_API_KEY, models: GROQ_MODELS });
+  return list.filter((p) => p.models.length > 0);
+}
+
 function fallbackEnabled(): boolean {
-  return !!process.env.DEEPINFRA_API_KEY && (process.env.LLM_FALLBACK ?? "on").toLowerCase() !== "off" && FALLBACK_MODELS.length > 0;
+  return fallbackProviders().length > 0;
 }
 
 /** Minimal JSON-Schema "required" check (objects/arrays/strings) — open models sometimes drop a nested required field, and a silent hole must not reach the student. */
@@ -152,19 +168,23 @@ function missingRequired(schema: any, value: any, path = ""): string | null {
 }
 
 async function callFallbackTool<T>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
-  const key = process.env.DEEPINFRA_API_KEY;
-  if (!key) throw new Error("DEEPINFRA_API_KEY not set");
+  const providers = fallbackProviders();
+  if (providers.length === 0) throw new Error("no backup LLM provider configured");
   const started = Date.now();
   const errors: string[] = [];
-  for (const model of FALLBACK_MODELS) {
+  for (const provider of providers) {
+   // an account-level failure (no balance / key refused) skips the rest of THAT provider's models and moves on to the next provider
+   let providerDown = false;
+   for (const model of provider.models) {
+    if (providerDown) break;
     const reasoning = /gpt-oss/i.test(model);
     for (let attempt = 1; attempt <= 2; attempt++) {
       const left = FALLBACK_BUDGET_MS - (Date.now() - started);
-      if (left < 8_000) { errors.push("time budget used up"); break; }
+      if (left < 8_000) { errors.push(`${provider.id}: time budget used up`); break; }
       try {
-        const res = await fetchWithTimeout("https://api.deepinfra.com/v1/openai/chat/completions", {
+        const res = await fetchWithTimeout(provider.url, {
           method: "POST",
-          headers: { Authorization: `Bearer ${key}`, "content-type": "application/json" },
+          headers: { Authorization: `Bearer ${provider.key}`, "content-type": "application/json" },
           body: JSON.stringify({
             model, temperature: 0.2,
             max_tokens: Math.min(12_000, (params.maxTokens ?? 1500) * (reasoning ? 2 : 1)),
@@ -175,20 +195,21 @@ async function callFallbackTool<T>(params: ClaudeToolCallParams): Promise<Claude
           }),
         }, Math.min(left, 45_000));
         const json: any = await res.json().catch(() => ({}));
-        if (res.status === 402 || /balance|insufficient|payment/i.test(String(json?.error?.message ?? ""))) throw new ClaudeQuotaError(`DeepInfra balance: ${String(json?.error?.message ?? res.status)}`);
-        if (!res.ok) { errors.push(`${model}: HTTP ${res.status}`); if (res.status === 429 || res.status >= 500) { await new Promise((r) => setTimeout(r, 2000 * attempt)); continue; } break; }
+        const msg = String(json?.error?.message ?? "");
+        if (res.status === 402 || res.status === 401 || res.status === 403 || (provider.id === "deepinfra" && /balance|insufficient|payment/i.test(msg))) { errors.push(`${provider.id}: ${msg.slice(0, 80) || res.status}`); providerDown = true; break; }
+        if (!res.ok) { errors.push(`${provider.id}:${model}: HTTP ${res.status}`); if (res.status === 429 || res.status >= 500) { await new Promise((r) => setTimeout(r, 2000 * attempt)); continue; } break; }
         const call = json.choices?.[0]?.message?.tool_calls?.[0];
-        if (!call) { errors.push(`${model}: no tool call`); continue; }
+        if (!call) { errors.push(`${provider.id}:${model}: no tool call`); continue; }
         let data: any;
-        try { data = JSON.parse(call.function.arguments); } catch { errors.push(`${model}: tool arguments are not JSON`); continue; }
+        try { data = JSON.parse(call.function.arguments); } catch { errors.push(`${provider.id}:${model}: tool arguments are not JSON`); continue; }
         const hole = missingRequired(params.inputSchema, data);
-        if (hole) { errors.push(`${model}: ${hole}`); continue; }
-        return { data: data as T, model: `deepinfra:${model}`, inputTokens: Number(json.usage?.prompt_tokens ?? 0), outputTokens: Number(json.usage?.completion_tokens ?? 0) };
+        if (hole) { errors.push(`${provider.id}:${model}: ${hole}`); continue; }
+        return { data: data as T, model: `${provider.id}:${model}`, inputTokens: Number(json.usage?.prompt_tokens ?? 0), outputTokens: Number(json.usage?.completion_tokens ?? 0) };
       } catch (e) {
-        if (e instanceof ClaudeQuotaError) throw e;
-        errors.push(`${model}: ${String((e as Error)?.message ?? e).slice(0, 80)}`);
+        errors.push(`${provider.id}:${model}: ${String((e as Error)?.message ?? e).slice(0, 80)}`);
       }
     }
+   }
   }
   throw new ClaudeQuotaError(`backup LLM unavailable (${errors.join("; ").slice(0, 300)})`);
 }
@@ -206,7 +227,7 @@ export async function callClaudeTool<T = unknown>(params: ClaudeToolCallParams):
     const unavailable = e instanceof ClaudeQuotaError || (!(e instanceof ClaudeValidationError) && /Claude call failed after/.test(String((e as Error)?.message ?? e)));
     if (!unavailable || !canFallback) throw e;
     if (e instanceof ClaudeQuotaError && /credit balance is too low/i.test(e.message)) claudeDownUntil = Date.now() + 5 * 60_000; // don't pay a failing round trip to Anthropic on every request
-    console.warn(`[llm] Claude unavailable (${String((e as Error)?.message ?? e).slice(0, 100)}) — using the DeepInfra backup (${FALLBACK_MODELS[0]})`);
+    console.warn(`[llm] Claude unavailable (${String((e as Error)?.message ?? e).slice(0, 100)}) — using the backup LLM chain (${fallbackProviders().map((p) => p.id).join(" → ")})`);
     return callFallbackTool<T>(params);
   }
 }
