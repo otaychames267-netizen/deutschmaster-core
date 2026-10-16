@@ -1,0 +1,16 @@
+-- 2026-10-16 owner: topics that exist in telccfree (B2 Sprechen Teil 3) were still on the not-Tunisia list -> moved to the Tunisia list (is_unassigned_center=false). 13 rows:
+--   #5 Freundin beim Neustart nach Auslandsaufenthalt unterstützen
+--   #6 Spendensammlung zur Renovierung eines Kulturzentrums organisieren
+--   #12 Multikulturelles Fest der Sprachschule mitplanen
+--   #13 Dreitägige Fahrradreise mit der Sprachkursgruppe planen
+--   #18 Infotag zum Arbeitsalltag verschiedener Berufe mitgestalten
+--   #23 Wochenend-Kurstreffen ein Jahr nach Sprachkursende planen
+--   #24 Schreibwettbewerb für Kursteilnehmer der Sprachschule planen
+--   #32 Kurztrip in eine europäische Stadt für die Klasse/Firma planen
+--   #42 Programm für Schülergruppe aus dem Heimatland planen
+--   #44 Ausstellung über das Heimatland im Kulturzentrum planen
+--   #45 Infotag zum Thema Lernen mit Musik an der Sprachschule
+--   #46 Betriebsausflug mit Kollegen der Firma organisieren
+--   #47 Spendenaktion für Renovierung des Kindergartens planen
+-- ROLLBACK: update public.muendlich_materials set is_unassigned_center = true where id in ('92c04daa-a1ca-4d50-a325-3aee07864de4','3237a08f-b43a-4f5a-8859-4d09baca385b','2153c6e0-1efc-45c5-83ee-a81f4fb1ce12','0f3e63a5-2c36-4801-87df-e665d15b2c96','f8905184-c16b-43f8-ae6e-f6ffe1716d0a','1ba1deea-afcd-48e2-9858-44ed85371f6a','975e0d0d-d909-4b9c-a0ec-6dd3d9555293','264d8941-eff0-4572-8919-00a555c5ca47','0a8f1386-f277-4ae5-83a5-0c8eb4d0e9c6','fed3fd7a-95af-4cfe-ad82-94e88e425973','35e3c79f-927e-4604-9e91-43f032fa8ee1','848d4e68-59ba-4c2d-88f3-5b83876562eb','0d14a4d7-12a0-47f7-9702-1c210d5e4239');
+update public.muendlich_materials set is_unassigned_center = false where teil = 3 and level = 'TELC_B2' and is_unassigned_center and id in ('92c04daa-a1ca-4d50-a325-3aee07864de4','3237a08f-b43a-4f5a-8859-4d09baca385b','2153c6e0-1efc-45c5-83ee-a81f4fb1ce12','0f3e63a5-2c36-4801-87df-e665d15b2c96','f8905184-c16b-43f8-ae6e-f6ffe1716d0a','1ba1deea-afcd-48e2-9858-44ed85371f6a','975e0d0d-d909-4b9c-a0ec-6dd3d9555293','264d8941-eff0-4572-8919-00a555c5ca47','0a8f1386-f277-4ae5-83a5-0c8eb4d0e9c6','fed3fd7a-95af-4cfe-ad82-94e88e425973','35e3c79f-927e-4604-9e91-43f032fa8ee1','848d4e68-59ba-4c2d-88f3-5b83876562eb','0d14a4d7-12a0-47f7-9702-1c210d5e4239') returning position, title;
