@@ -22,6 +22,11 @@ function createSupabaseClient() {
       storage: typeof window !== 'undefined' ? localStorage : undefined,
       persistSession: true,
       autoRefreshToken: true,
+      // supabase-js 2.106 forwards an undefined lockAcquireTimeout to auth-js, which overrides auth-js's own 5 s default — and a navigator-lock acquire with no timeout waits FOREVER.
+      // Reproduced 2026-10-16: with a second tab of the site holding the auth lock (stuck refresh on a bad mobile network, frozen background tab) every other tab — including the
+      // Google /auth/callback page — sat on 'Signing you in…' indefinitely, and so would any page's first getSession(). With an explicit timeout auth-js gives up waiting and steals
+      // the orphaned lock.
+      lockAcquireTimeout: 5000,
     },
   });
 }
