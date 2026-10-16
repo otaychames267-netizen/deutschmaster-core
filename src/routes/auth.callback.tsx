@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { reportClientError } from "@/lib/client-error-report";
+import { sanitizeEnvValue } from "@/lib/env-guard";
 import { GoogleAuthButton } from "@/components/GoogleAuthButton";
 import { Loader2, GraduationCap } from "lucide-react";
 
@@ -38,6 +39,37 @@ export const Route = createFileRoute("/auth/callback")({
  * network gets 45 s with a "still working" hint instead of 15 s.
  */
 const SLOW_HINT_MS = 8_000;
+
+/** Why is it slow? Sent with a plain fetch (anon key) — NOT through supabase-js, whose own calls queue behind the very auth lock we may be stuck on. */
+async function reportSlowCallback(): Promise<void> {
+  try {
+    const nav = navigator as Navigator & { connection?: { effectiveType?: string; rtt?: number; downlink?: number } };
+    let locks: unknown = null;
+    try {
+      const q = await navigator.locks.query();
+      locks = { held: (q.held ?? []).map((l) => l.name), pending: (q.pending ?? []).map((l) => l.name) };
+    } catch { /* no LockManager */ }
+    const hash = window.location.hash;
+    const url = sanitizeEnvValue("VITE_SUPABASE_URL", import.meta.env.VITE_SUPABASE_URL);
+    const key = sanitizeEnvValue("VITE_SUPABASE_ANON_KEY", import.meta.env.VITE_SUPABASE_ANON_KEY);
+    await fetch(`${url}/rest/v1/rpc/log_client_error`, {
+      method: "POST",
+      headers: { apikey: key, Authorization: `Bearer ${key}`, "content-type": "application/json" },
+      body: JSON.stringify({
+        p_kind: "window",
+        p_path: "/auth/callback",
+        p_message: "auth-callback still working after 8 s",
+        p_stack: null,
+        p_context: {
+          where: "auth-callback", step: "slow", online: navigator.onLine, visible: document.visibilityState,
+          hashHasAccessToken: /access_token=/.test(hash), hashHasRefreshToken: /refresh_token=/.test(hash), hasCode: window.location.search.includes("code="),
+          connection: nav.connection ? { type: nav.connection.effectiveType, rtt: nav.connection.rtt, downlink: nav.connection.downlink } : null,
+          locks,
+        },
+      }),
+    });
+  } catch { /* diagnostics only */ }
+}
 const GIVE_UP_MS = 45_000;
 
 function AuthCallbackPage() {
@@ -88,7 +120,7 @@ function AuthCallbackPage() {
       if (data.session) toDashboard();
     }, 300);
 
-    timers.push(setTimeout(() => { if (!finished) setPhase("slow"); }, SLOW_HINT_MS));
+    timers.push(setTimeout(() => { if (finished) return; setPhase("slow"); void reportSlowCallback(); }, SLOW_HINT_MS));
     timers.push(setTimeout(() => { void sessionOrFail("Sign-in did not finish in time", "timeout"); }, GIVE_UP_MS));
 
     // Resolves with the real outcome of the code exchange (the same promise supabase-js already runs — no second exchange). Two failure shapes:
@@ -97,7 +129,11 @@ function AuthCallbackPage() {
     //    browser's storage (flow started in another tab/browser, storage cleared) — the old page just spun until its timeout in that case.
     void supabase.auth.initialize().then(({ error }) => {
       void sessionOrFail(
-        error?.message || "No sign-in in progress here: the sign-in was started in another tab or browser, or its data was cleared",
+        error
+          ? /abort|time ?out|failed to fetch|network|load failed/i.test(error.message)
+            ? "The connection to the sign-in service took too long or dropped"
+            : error.message || "Could not complete the sign-in"
+          : "No sign-in in progress here: the sign-in was started in another tab or browser, or its data was cleared",
         error ? "exchange" : "no-pkce-callback",
       );
     });

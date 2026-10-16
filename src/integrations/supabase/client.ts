@@ -28,7 +28,25 @@ function createSupabaseClient() {
       // the orphaned lock.
       lockAcquireTimeout: 5000,
     },
+    // The lock is held for the whole duration of a token refresh / session lookup, and a request over a flaky mobile network that never answers (no timeout in fetch) keeps it held until the
+    // browser gives up — minutes. Every other tab then waits behind it. Auth calls get a hard ceiling so a hung request fails (and is retried by auth-js) instead of pinning the lock.
+    global: { fetch: authSafeFetch },
   });
+}
+
+const AUTH_FETCH_TIMEOUT_MS = 30_000;
+
+function authSafeFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url;
+  if (!url.includes('/auth/v1/')) return fetch(input, init);
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), AUTH_FETCH_TIMEOUT_MS);
+  const outer = init?.signal;
+  if (outer) {
+    if (outer.aborted) ctrl.abort();
+    else outer.addEventListener('abort', () => ctrl.abort(), { once: true });
+  }
+  return fetch(input, { ...init, signal: ctrl.signal }).finally(() => clearTimeout(timer));
 }
 
 let _supabase: ReturnType<typeof createSupabaseClient> | undefined;
