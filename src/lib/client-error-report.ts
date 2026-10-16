@@ -23,13 +23,16 @@ export function reportClientError(kind: "boundary" | "chunk" | "window", error: 
     if (sent.has(key)) return;
     sent.add(key);
     const online = typeof navigator !== "undefined" ? navigator.onLine : null;
+    // a caller may pass its own `path` (e.g. the OAuth callback, whose query string carries a one-time code that must not be logged)
+    const { path: pathOverride, ...restContext } = context;
+    const path = typeof pathOverride === "string" ? pathOverride : window.location.pathname + window.location.search.slice(0, 80);
     void Promise.resolve(
       (supabase as unknown as { rpc: (fn: string, args: Record<string, unknown>) => PromiseLike<unknown> }).rpc("log_client_error", {
         p_kind: kind,
-        p_path: window.location.pathname + window.location.search.slice(0, 80),
+        p_path: path,
         p_message: message.slice(0, 600),
         p_stack: stack.slice(0, 2500),
-        p_context: { online, standalone: window.matchMedia?.("(display-mode: standalone)").matches ?? null, lang: navigator.language, ...context },
+        p_context: { online, standalone: window.matchMedia?.("(display-mode: standalone)").matches ?? null, lang: navigator.language, ...restContext },
       }),
     ).catch(() => {});
   } catch { /* logging must never become the next error */ }
