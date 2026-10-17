@@ -6,6 +6,8 @@ import { notifyCreditsChanged } from "@/lib/useStudentCredits";
 import { EssayFeedback, type EssayGradingResult } from "./EssayFeedback";
 import { UmlautToolbar, useUmlautInsertion } from "@/components/schreiben/UmlautToolbar";
 import { toast } from "sonner";
+import { useActiveLevel } from "@/lib/useActiveLevel";
+import { minWordsFor, POLICY } from "@/lib/grading/strict-free/policy";
 import {
   ChevronLeft, ChevronRight, Send, RotateCcw,
   CheckCircle2, XCircle, Loader2, Headphones, Coins,
@@ -197,6 +199,8 @@ function WritingPrompt({
   const maxWords = (content.max_words as number) ?? 150;
   const text = (answer as string) ?? "";
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+  // owner policy: a text below the word minimum can score at most 9/45 whatever its quality (see src/lib/grading/strict-free/policy.ts)
+  const policyMin = minWordsFor(useActiveLevel() === "TELC_B1" ? "B1" : "B2");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const insertChar = useUmlautInsertion(textareaRef, text, onChange);
 
@@ -222,6 +226,12 @@ function WritingPrompt({
             Target: {minWords}–{maxWords} words
           </span>
         </div>
+        {wordCount < policyMin && (
+          <p role="note" className="mt-1.5 rounded-lg border border-destructive/30 bg-destructive/5 px-3 py-2 text-xs font-medium leading-relaxed text-destructive">
+            Unter {policyMin} Wörter: höchstens {POLICY.shortTotalCap}/45 Punkte — schreibe mindestens {policyMin} Wörter.
+            <span dir="rtl" lang="ar" className="mt-0.5 block">أقل من {policyMin} كلمة: الحد الأقصى {POLICY.shortTotalCap}/45 — اكتب {policyMin} كلمة على الأقل.</span>
+          </p>
+        )}
       </div>
     </div>
   );

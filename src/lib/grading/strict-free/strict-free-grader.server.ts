@@ -13,6 +13,7 @@
 import { buildFeatures, type ObservationSheet, type VerifiedError } from "./features";
 import { scoreWithCalibration, type Calibration } from "./ridge";
 import { applyExaminerRules } from "./rules";
+import { applyGradingPolicy, policyNote, weightedErrorDensity } from "./policy";
 import calibrationJson from "./calibration.json";
 import { callFreeJson } from "./providers.server";
 import { stripSuspiciousPatterns } from "../sanitize-input";
@@ -125,6 +126,14 @@ function templateFeedback(obs: ObservationSheet, scores: { ta: number; cd: numbe
   };
 }
 
+function withPolicyNote(summary: string, reasons: Parameters<typeof policyNote>[0], words: number, level: CefrLevel): string {
+  const note = policyNote(reasons, { words, level });
+  return note ? `${summary}
+
+${note.de}
+${note.ar}` : summary;
+}
+
 export async function gradeEssayStrictFree(taskPrompt: string, essayText: string, level: CefrLevel, category?: string | null): Promise<GradingResult> {
   const task = taskPrompt.slice(0, 2500);
   const safeEssay = stripSuspiciousPatterns(essayText);
@@ -137,10 +146,11 @@ export async function gradeEssayStrictFree(taskPrompt: string, essayText: string
   const { f, errors } = buildFeatures(essayText, obs, wordCount, category);
   const scored = scoreWithCalibration(CALIBRATION, f);
   const ruled = applyExaminerRules({ ta: scored.ta, cd: scored.cd, fa: scored.fa }, obs);
-  console.info(`[strict-free] observer=${observer} words=${wordCount} on_topic=${obs.on_topic} misread=${obs.task_misread} points=${(obs.points ?? []).map((q) => String(q.status)[0]).join("")} verified_errors=${errors.length}/${(obs.errors ?? []).length} rule=${ruled.rule ?? "-"} raw=${scored.raw.ta.toFixed(1)}/${scored.raw.cd.toFixed(1)}/${scored.raw.fa.toFixed(1)}`);
+  const policy = applyGradingPolicy(ruled.scores, { words: wordCount, level, category, obs, weightedErrorsPer100: weightedErrorDensity(errors, wordCount) });
+  console.info(`[strict-free] observer=${observer} words=${wordCount} on_topic=${obs.on_topic} misread=${obs.task_misread} points=${(obs.points ?? []).map((q) => String(q.status)[0]).join("")} verified_errors=${errors.length}/${(obs.errors ?? []).length} rule=${ruled.rule ?? "-"} policy=${policy.reasons.join("+") || "-"} raw=${scored.raw.ta.toFixed(1)}/${scored.raw.cd.toFixed(1)}/${scored.raw.fa.toFixed(1)}`);
   // a (near) empty text can only earn what an examiner would give it: nothing — the regression must not "interpolate" credit out of form features
   const empty = wordCount < 15;
-  const scores = empty ? { ta: 0, cd: 0, fa: 0 } : ruled.scores;
+  const scores = empty ? { ta: 0, cd: 0, fa: 0 } : policy.scores;
 
   // 4. explain
   const ranked = [...errors].sort((a, b) => Number(b.severity === "major") - Number(a.severity === "major")).slice(0, 8);
@@ -172,7 +182,7 @@ export async function gradeEssayStrictFree(taskPrompt: string, essayText: string
     formal_accuracy_score: scores.fa,
     overall_score: overall,
     passed: overall >= 27,
-    feedback: { task_achievement: payload.task_achievement, communicative_design: payload.communicative_design, formal_accuracy: payload.formal_accuracy, summary: payload.summary, corrections },
+    feedback: { task_achievement: payload.task_achievement, communicative_design: payload.communicative_design, formal_accuracy: payload.formal_accuracy, summary: withPolicyNote(payload.summary, policy.reasons, wordCount, level), corrections },
     model: `strict-free:${observer}`,
   };
 }

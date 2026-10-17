@@ -19,6 +19,7 @@ import { callClaudeTool, ClaudeQuotaError } from "@/lib/ai/claude.server";
 import { isBudgetExceeded, recordUsage } from "@/lib/ai/usage-budget.server";
 import { wrapUntrustedText } from "./sanitize-input";
 import { gradeEssayStrictFree, strictFreeEnabled } from "./strict-free/strict-free-grader.server";
+import { applyGradingPolicy, policyNote } from "./strict-free/policy";
 
 /** Student's exam level, e.g. profiles.level ("TELC_B1"/"TELC_B2") normalized to "B1"/"B2". */
 export type CefrLevel = "B1" | "B2";
@@ -277,6 +278,29 @@ async function gradeEssayOnce(
   }
 }
 
+/** Owner policy (2026-10-17) for EVERY grading tier: nobody gets more than 35/45, a text under the word minimum gets at most 9/45 (see strict-free/policy.ts). Idempotent — the strict
+ * free grader already applied it before writing its feedback, so nothing changes (and no second note is added) for those results. */
+function enforceOwnerPolicy(result: GradingResult, essayText: string, level: CefrLevel, category: string | null | undefined): GradingResult {
+  const words = essayText.split(/\s+/).filter(Boolean).length;
+  const before = { ta: result.task_achievement_score, cd: result.communicative_design_score, fa: result.formal_accuracy_score };
+  const p = applyGradingPolicy(before, { words, level, category });
+  if (p.scores.ta === before.ta && p.scores.cd === before.cd && p.scores.fa === before.fa) return result;
+  const note = policyNote(p.reasons, { words, level });
+  const overall = p.scores.ta + p.scores.cd + p.scores.fa;
+  return {
+    ...result,
+    task_achievement_score: p.scores.ta,
+    communicative_design_score: p.scores.cd,
+    formal_accuracy_score: p.scores.fa,
+    overall_score: overall,
+    passed: overall >= 27,
+    feedback: { ...result.feedback, summary: note ? `${result.feedback.summary}
+
+${note.de}
+${note.ar}` : result.feedback.summary },
+  };
+}
+
 /** Production 2026-10-10/11: two gradings were refunded because the model's tool call matched the JSON schema but failed validate() ("feedback.formal_accuracy
  * missing or empty", "missing feedback object") — callClaudeTool only retries schema failures, not these. One more attempt almost always fixes it; a second
  * refusal is a real failure and surfaces as before (the caller refunds the credit). Quota / budget / timeout errors are NOT retried. */
@@ -289,7 +313,7 @@ export async function gradeEssay(
 ): Promise<GradingResult> {
   for (let attempt = 1; ; attempt++) {
     try {
-      return await gradeEssayOnce(taskPrompt, essayText, supabase, level, category);
+      return enforceOwnerPolicy(await gradeEssayOnce(taskPrompt, essayText, supabase, level, category), essayText, level, category);
     } catch (e) {
       const invalid = e instanceof Error && /grading response invalid/i.test(e.message);
       if (!invalid || attempt >= 2) throw e;
