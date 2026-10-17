@@ -563,6 +563,7 @@ export function ExercisePlayer({ examId, examTitle, onClose, onComplete }: Exerc
 
   if (isWritingPrompt && essayError) {
     const insufficient = essayError.code === "INSUFFICIENT_CREDITS";
+    const noPlan = essayError.code === "NO_ACTIVE_SUBSCRIPTION";
     return (
       <div className="flex flex-col items-center gap-4 py-16 text-center">
         <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${insufficient ? "bg-amber-500/10" : "bg-destructive/10"}`}>
@@ -571,7 +572,7 @@ export function ExercisePlayer({ examId, examTitle, onClose, onComplete }: Exerc
             : <XCircle className="h-7 w-7 text-destructive" />}
         </div>
         <p className="font-semibold text-foreground">
-          {insufficient ? "Not enough credits" : "Grading failed"}
+          {insufficient ? "Not enough credits" : noPlan ? "Active plan required" : "Grading failed"}
         </p>
         <p className="max-w-sm text-sm text-muted-foreground">
           {insufficient
@@ -579,7 +580,7 @@ export function ExercisePlayer({ examId, examTitle, onClose, onComplete }: Exerc
             : essayError.message}
         </p>
         <div className="mt-2 flex gap-3">
-          {!insufficient && (
+          {!insufficient && !noPlan && (
             <button
               onClick={() => setEssayError(null)}
               className="flex items-center gap-2 rounded-xl border border-border bg-card px-4 py-2.5 text-sm font-medium hover:bg-muted transition-colors"

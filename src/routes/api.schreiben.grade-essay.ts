@@ -120,6 +120,14 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           if (deductError.message?.includes("INSUFFICIENT_CREDITS")) {
             return Response.json({ error: "INSUFFICIENT_CREDITS", message: "You don't have enough credits for another grading attempt." }, { status: 402 });
           }
+          // deduct_essay_credit raises NO_ACTIVE_SUBSCRIPTION when the student has no active Schriftlich/Gold/Platinum plan (expired or never bought). It used to fall into the generic 500 below,
+          // which the UI showed as an unexplained "Grading failed" (seen 2026-10-17: the owner's own expired account looked like a broken grader).
+          if (deductError.message?.includes("NO_ACTIVE_SUBSCRIPTION")) {
+            return Response.json(
+              { error: "NO_ACTIVE_SUBSCRIPTION", message: "Für die KI-Bewertung brauchst du einen aktiven Plan (Gold oder Platinum). · تحتاج اشتراكاً فعّالاً (Gold أو Platinum) لاستعمال التصحيح الآلي." },
+              { status: 403 },
+            );
+          }
           return Response.json({ error: "Could not process credit" }, { status: 500 });
         }
 
