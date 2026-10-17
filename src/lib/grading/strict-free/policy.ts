@@ -6,13 +6,14 @@ import type { Scores } from "./rules";
  * gets less than 10/45"). Pure functions — applied to EVERY grading tier (Claude, the strict free grader, the generic backup) by essay-grader.ts, so the rules hold no matter which
  * model graded.
  *
+ *  0. Vocabulary below the exam level (B2: A2/B1 vocabulary) → total ≤ 19/45 (owner 2026-10-17: "less than 20/45 if the Wortschatz is below B2").
  *  1. Word minimum: B2 < 150 words → total ≤ 9/45 (B1 informal letters: < 80 words). Scores are scaled down proportionally.
  *  2. Ceiling: each criterion ≤ 12/15 and the total ≤ 35/45.
  *  3. Only when an observation sheet exists (strict free grader): error density caps Formale Richtigkeit (verified errors, major = 1, minor = 0.5, per 100 words), and
  *     sloppy form caps Kommunikative Gestaltung (no Anrede / no Schlussformel / wrong register / stilted text).
  *     Caps are ≈ 1.5-2 points BELOW what Claude Sonnet 5 gave on average at the same error density (271 essays), i.e. deliberately stricter than the reference.
  */
-export const POLICY = { maxTotal: 35, maxPerCriterion: 12, shortTotalCap: 9, minWordsB2: 150, minWordsB1: 80 } as const;
+export const POLICY = { maxTotal: 35, maxPerCriterion: 12, shortTotalCap: 9, weakVocabularyTotalCap: 19, minWordsB2: 150, minWordsB1: 80 } as const;
 
 export function minWordsFor(level: "B1" | "B2"): number {
   return level === "B1" ? POLICY.minWordsB1 : POLICY.minWordsB2;
@@ -62,13 +63,13 @@ export function communicativeDesignCap(obs: ObservationSheet, category?: string 
   return cap;
 }
 
-export interface PolicyResult { scores: Scores; reasons: ("short_text" | "ceiling" | "errors_cap_fa" | "form_cap_cd" | "content_cap_ta")[]; total: number }
+export interface PolicyResult { scores: Scores; reasons: ("short_text" | "weak_vocabulary" | "ceiling" | "errors_cap_fa" | "form_cap_cd" | "content_cap_ta")[]; total: number }
 
 const total = (s: Scores) => s.ta + s.cd + s.fa;
 
 export function applyGradingPolicy(
   input: Scores,
-  ctx: { words: number; level: "B1" | "B2"; category?: string | null; obs?: ObservationSheet; weightedErrorsPer100?: number },
+  ctx: { words: number; level: "B1" | "B2"; category?: string | null; obs?: ObservationSheet; weightedErrorsPer100?: number; weakVocabulary?: boolean },
 ): PolicyResult {
   const reasons: PolicyResult["reasons"] = [];
   let s: Scores = { ...input };
@@ -90,17 +91,28 @@ export function applyGradingPolicy(
     if (!reasons.includes("ceiling")) reasons.push("ceiling");
   }
 
+  // vocabulary below the exam level (B2 exam: A2 / B1 vocabulary; B1 exam: A2 or lower) → total < 20, whatever the rest of the text earns
+  if (ctx.weakVocabulary && total(s) > POLICY.weakVocabularyTotalCap) {
+    s = capTotalProportionally(s, POLICY.weakVocabularyTotalCap);
+    reasons.push("weak_vocabulary");
+  }
+
   if (ctx.words < minWordsFor(ctx.level) && total(s) > POLICY.shortTotalCap) {
-    const t = total(s);
-    let scaled: Scores = { ta: Math.floor((s.ta * POLICY.shortTotalCap) / t), cd: Math.floor((s.cd * POLICY.shortTotalCap) / t), fa: Math.floor((s.fa * POLICY.shortTotalCap) / t) };
-    // hand the points lost to flooring back (largest remainder) without ever exceeding the cap
-    let left = POLICY.shortTotalCap - total(scaled);
-    const rema = (["ta", "cd", "fa"] as const).map((k) => ({ k, r: (s[k] * POLICY.shortTotalCap) / t - scaled[k] })).sort((a, b) => b.r - a.r);
-    for (const { k } of rema) { if (left <= 0) break; scaled = { ...scaled, [k]: scaled[k] + 1 }; left--; }
-    s = scaled;
+    s = capTotalProportionally(s, POLICY.shortTotalCap);
     reasons.push("short_text");
   }
   return { scores: s, reasons, total: total(s) };
+}
+
+/** Scales the three criteria down proportionally so that the total equals `cap` (largest-remainder rounding, never above the cap). */
+function capTotalProportionally(s: Scores, cap: number): Scores {
+  const t = total(s);
+  if (t <= cap) return s;
+  let scaled: Scores = { ta: Math.floor((s.ta * cap) / t), cd: Math.floor((s.cd * cap) / t), fa: Math.floor((s.fa * cap) / t) };
+  let left = cap - total(scaled);
+  const rema = (["ta", "cd", "fa"] as const).map((k) => ({ k, r: (s[k] * cap) / t - scaled[k] })).sort((a, b) => b.r - a.r);
+  for (const { k } of rema) { if (left <= 0) break; scaled = { ...scaled, [k]: scaled[k] + 1 }; left--; }
+  return scaled;
 }
 
 /** German + Arabic sentence appended to the summary so the student understands WHY the total was limited. */
@@ -111,6 +123,12 @@ export function policyNote(reasons: PolicyResult["reasons"], ctx: { words: numbe
     parts.push({
       de: `Der Text hat nur ${ctx.words} Wörter (verlangt sind mindestens ${min}); bei zu kurzen Texten ist die Gesamtpunktzahl auf höchstens ${POLICY.shortTotalCap}/45 begrenzt.`,
       ar: `النص يحتوي على ${ctx.words} كلمة فقط (المطلوب ${min} كلمة على الأقل)؛ لذلك الحد الأقصى للنتيجة ${POLICY.shortTotalCap}/45.`,
+    });
+  }
+  if (reasons.includes("weak_vocabulary")) {
+    parts.push({
+      de: `Der Wortschatz liegt unter dem Niveau ${ctx.level}; deshalb ist die Gesamtpunktzahl auf höchstens ${POLICY.weakVocabularyTotalCap}/45 begrenzt.`,
+      ar: `مفردات النص أدنى من مستوى ${ctx.level}؛ لذلك الحد الأقصى للنتيجة ${POLICY.weakVocabularyTotalCap}/45.`,
     });
   }
   if (reasons.includes("ceiling")) {

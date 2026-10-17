@@ -20,6 +20,7 @@ import { isBudgetExceeded, recordUsage } from "@/lib/ai/usage-budget.server";
 import { wrapUntrustedText } from "./sanitize-input";
 import { gradeEssayStrictFree, strictFreeEnabled } from "./strict-free/strict-free-grader.server";
 import { applyGradingPolicy, policyNote } from "./strict-free/policy";
+import { assessVocabulary, isBelowB2 } from "./strict-free/vocabulary.server";
 
 /** Student's exam level, e.g. profiles.level ("TELC_B1"/"TELC_B2") normalized to "B1"/"B2". */
 export type CefrLevel = "B1" | "B2";
@@ -280,10 +281,12 @@ async function gradeEssayOnce(
 
 /** Owner policy (2026-10-17) for EVERY grading tier: nobody gets more than 35/45, a text under the word minimum gets at most 9/45 (see strict-free/policy.ts). Idempotent — the strict
  * free grader already applied it before writing its feedback, so nothing changes (and no second note is added) for those results. */
-function enforceOwnerPolicy(result: GradingResult, essayText: string, level: CefrLevel, category: string | null | undefined): GradingResult {
+async function enforceOwnerPolicy(result: GradingResult, essayText: string, level: CefrLevel, category: string | null | undefined): Promise<GradingResult> {
   const words = essayText.split(/\s+/).filter(Boolean).length;
   const before = { ta: result.task_achievement_score, cd: result.communicative_design_score, fa: result.formal_accuracy_score };
-  const p = applyGradingPolicy(before, { words, level, category });
+  // vocabulary rule for tiers that have no observation sheet (Claude, generic backup); the strict free grader already applied it. A free-model failure simply skips the rule.
+  const vocab = !result.model.startsWith("strict-free:") && strictFreeEnabled() ? await assessVocabulary(essayText, words) : null;
+  const p = applyGradingPolicy(before, { words, level, category, weakVocabulary: isBelowB2(vocab, level) });
   if (p.scores.ta === before.ta && p.scores.cd === before.cd && p.scores.fa === before.fa) return result;
   const note = policyNote(p.reasons, { words, level });
   const overall = p.scores.ta + p.scores.cd + p.scores.fa;
@@ -313,7 +316,7 @@ export async function gradeEssay(
 ): Promise<GradingResult> {
   for (let attempt = 1; ; attempt++) {
     try {
-      return enforceOwnerPolicy(await gradeEssayOnce(taskPrompt, essayText, supabase, level, category), essayText, level, category);
+      return await enforceOwnerPolicy(await gradeEssayOnce(taskPrompt, essayText, supabase, level, category), essayText, level, category);
     } catch (e) {
       const invalid = e instanceof Error && /grading response invalid/i.test(e.message);
       if (!invalid || attempt >= 2) throw e;

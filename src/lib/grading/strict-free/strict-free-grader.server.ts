@@ -14,6 +14,7 @@ import { buildFeatures, type ObservationSheet, type VerifiedError } from "./feat
 import { scoreWithCalibration, type Calibration } from "./ridge";
 import { applyExaminerRules } from "./rules";
 import { applyGradingPolicy, policyNote, weightedErrorDensity } from "./policy";
+import { assessVocabulary, isBelowB2 } from "./vocabulary.server";
 import calibrationJson from "./calibration.json";
 import { callFreeJson } from "./providers.server";
 import { stripSuspiciousPatterns } from "../sanitize-input";
@@ -140,14 +141,17 @@ export async function gradeEssayStrictFree(taskPrompt: string, essayText: string
   const wordCount = essayText.split(/\s+/).filter(Boolean).length;
 
   // 1. observe (free LLM, no score)
-  const { data: obs, model: observer } = await callFreeJson({ prompt: sheetPrompt(task, safeEssay, level), models: OBSERVERS, maxOutputTokens: 6000, temperature: 0.1 }, validateSheet);
+  const [{ data: obs, model: observer }, vocab] = await Promise.all([
+    callFreeJson({ prompt: sheetPrompt(task, safeEssay, level), models: OBSERVERS, maxOutputTokens: 6000, temperature: 0.1 }, validateSheet),
+    assessVocabulary(essayText, wordCount), // owner rule: vocabulary below the exam level → total ≤ 19/45; null = no free model answered → rule not applied
+  ]);
 
   // 2+3. verify + calibrated score
   const { f, errors } = buildFeatures(essayText, obs, wordCount, category);
   const scored = scoreWithCalibration(CALIBRATION, f);
   const ruled = applyExaminerRules({ ta: scored.ta, cd: scored.cd, fa: scored.fa }, obs);
-  const policy = applyGradingPolicy(ruled.scores, { words: wordCount, level, category, obs, weightedErrorsPer100: weightedErrorDensity(errors, wordCount) });
-  console.info(`[strict-free] observer=${observer} words=${wordCount} on_topic=${obs.on_topic} misread=${obs.task_misread} points=${(obs.points ?? []).map((q) => String(q.status)[0]).join("")} verified_errors=${errors.length}/${(obs.errors ?? []).length} rule=${ruled.rule ?? "-"} policy=${policy.reasons.join("+") || "-"} raw=${scored.raw.ta.toFixed(1)}/${scored.raw.cd.toFixed(1)}/${scored.raw.fa.toFixed(1)}`);
+  const policy = applyGradingPolicy(ruled.scores, { words: wordCount, level, category, obs, weightedErrorsPer100: weightedErrorDensity(errors, wordCount), weakVocabulary: isBelowB2(vocab, level) });
+  console.info(`[strict-free] observer=${observer} words=${wordCount} on_topic=${obs.on_topic} misread=${obs.task_misread} points=${(obs.points ?? []).map((q) => String(q.status)[0]).join("")} verified_errors=${errors.length}/${(obs.errors ?? []).length} rule=${ruled.rule ?? "-"} policy=${policy.reasons.join("+") || "-"} vocab=${vocab ? `${vocab.cefr}/${vocab.b2PlusVerified}` : "n/a"} raw=${scored.raw.ta.toFixed(1)}/${scored.raw.cd.toFixed(1)}/${scored.raw.fa.toFixed(1)}`);
   // a (near) empty text can only earn what an examiner would give it: nothing — the regression must not "interpolate" credit out of form features
   const empty = wordCount < 15;
   const scores = empty ? { ta: 0, cd: 0, fa: 0 } : policy.scores;
