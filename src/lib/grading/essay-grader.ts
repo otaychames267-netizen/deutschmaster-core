@@ -21,6 +21,7 @@ import { wrapUntrustedText } from "./sanitize-input";
 import { gradeEssayStrictFree, strictFreeEnabled } from "./strict-free/strict-free-grader.server";
 import { applyGradingPolicy, policyNote } from "./strict-free/policy";
 import { assessVocabulary, isBelowB2 } from "./strict-free/vocabulary.server";
+import { findSpellingErrors } from "./strict-free/spelling.server";
 
 /** Student's exam level, e.g. profiles.level ("TELC_B1"/"TELC_B2") normalized to "B1"/"B2". */
 export type CefrLevel = "B1" | "B2";
@@ -281,14 +282,16 @@ async function gradeEssayOnce(
 
 /** Owner policy (2026-10-17) for EVERY grading tier: nobody gets more than 35/45, a text under the word minimum gets at most 9/45 (see strict-free/policy.ts). Idempotent — the strict
  * free grader already applied it before writing its feedback, so nothing changes (and no second note is added) for those results. */
-async function enforceOwnerPolicy(result: GradingResult, essayText: string, level: CefrLevel, category: string | null | undefined): Promise<GradingResult> {
+async function enforceOwnerPolicy(result: GradingResult, taskPrompt: string, essayText: string, level: CefrLevel, category: string | null | undefined): Promise<GradingResult> {
   const words = essayText.split(/\s+/).filter(Boolean).length;
   const before = { ta: result.task_achievement_score, cd: result.communicative_design_score, fa: result.formal_accuracy_score };
   // vocabulary rule for tiers that have no observation sheet (Claude, generic backup); the strict free grader already applied it. A free-model failure simply skips the rule.
   const vocab = !result.model.startsWith("strict-free:") && strictFreeEnabled() ? await assessVocabulary(essayText, words) : null;
-  const p = applyGradingPolicy(before, { words, level, category, weakVocabulary: isBelowB2(vocab, level) });
+  // zero-tolerance spelling (deterministic dictionary): one point off Formale Richtigkeit per misspelled word, whichever model graded
+  const spelling = result.model.startsWith("strict-free:") ? [] : await findSpellingErrors(essayText, taskPrompt);
+  const p = applyGradingPolicy(before, { words, level, category, weakVocabulary: isBelowB2(vocab, level), faPenalty: spelling.length });
   if (p.scores.ta === before.ta && p.scores.cd === before.cd && p.scores.fa === before.fa) return result;
-  const note = policyNote(p.reasons, { words, level });
+  const note = policyNote(p.reasons, { words, level, spelling });
   const overall = p.scores.ta + p.scores.cd + p.scores.fa;
   return {
     ...result,
@@ -316,7 +319,7 @@ export async function gradeEssay(
 ): Promise<GradingResult> {
   for (let attempt = 1; ; attempt++) {
     try {
-      return await enforceOwnerPolicy(await gradeEssayOnce(taskPrompt, essayText, supabase, level, category), essayText, level, category);
+      return await enforceOwnerPolicy(await gradeEssayOnce(taskPrompt, essayText, supabase, level, category), taskPrompt, essayText, level, category);
     } catch (e) {
       const invalid = e instanceof Error && /grading response invalid/i.test(e.message);
       if (!invalid || attempt >= 2) throw e;

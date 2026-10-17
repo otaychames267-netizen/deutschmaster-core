@@ -15,6 +15,7 @@ import { scoreWithCalibration, type Calibration } from "./ridge";
 import { applyExaminerRules } from "./rules";
 import { applyGradingPolicy, policyNote, weightedErrorDensity } from "./policy";
 import { assessVocabulary, isBelowB2 } from "./vocabulary.server";
+import { findSpellingErrors } from "./spelling.server";
 import calibrationJson from "./calibration.json";
 import { callFreeJson } from "./providers.server";
 import { stripSuspiciousPatterns } from "../sanitize-input";
@@ -127,8 +128,8 @@ function templateFeedback(obs: ObservationSheet, scores: { ta: number; cd: numbe
   };
 }
 
-function withPolicyNote(summary: string, reasons: Parameters<typeof policyNote>[0], words: number, level: CefrLevel): string {
-  const note = policyNote(reasons, { words, level });
+function withPolicyNote(summary: string, reasons: Parameters<typeof policyNote>[0], words: number, level: CefrLevel, spelling?: { word: string; fix: string | null }[]): string {
+  const note = policyNote(reasons, { words, level, spelling });
   return note ? `${summary}
 
 ${note.de}
@@ -147,17 +148,26 @@ export async function gradeEssayStrictFree(taskPrompt: string, essayText: string
   ]);
 
   // 2+3. verify + calibrated score
-  const { f, errors } = buildFeatures(essayText, obs, wordCount, category);
+  const { f, errors: llmErrors } = buildFeatures(essayText, obs, wordCount, category);
   const scored = scoreWithCalibration(CALIBRATION, f);
   const ruled = applyExaminerRules({ ta: scored.ta, cd: scored.cd, fa: scored.fa }, obs);
-  const policy = applyGradingPolicy(ruled.scores, { words: wordCount, level, category, obs, weightedErrorsPer100: weightedErrorDensity(errors, wordCount), weakVocabulary: isBelowB2(vocab, level) });
-  console.info(`[strict-free] observer=${observer} words=${wordCount} on_topic=${obs.on_topic} misread=${obs.task_misread} points=${(obs.points ?? []).map((q) => String(q.status)[0]).join("")} verified_errors=${errors.length}/${(obs.errors ?? []).length} rule=${ruled.rule ?? "-"} policy=${policy.reasons.join("+") || "-"} vocab=${vocab ? `${vocab.cefr}/${vocab.b2PlusVerified}` : "n/a"} raw=${scored.raw.ta.toFixed(1)}/${scored.raw.cd.toFixed(1)}/${scored.raw.fa.toFixed(1)}`);
+
+  // zero tolerance: the dictionary finds every misspelled word (a missing umlaut, "fur" for "für", one swapped letter) that the LLM may overlook. They are merged into the error list AFTER scoring,
+  // so the calibrated features stay exactly what the calibrator was fitted on.
+  const spelling = await findSpellingErrors(essayText, task);
+  const covered = (w: string) => llmErrors.some((e) => e.q.includes(w.toLowerCase()));
+  const dictErrors: VerifiedError[] = spelling.filter((e) => !covered(e.word)).map((e) => ({ quote: e.word, fix: e.fix ?? e.word, category: "spelling_caps", severity: "minor", q: e.word.toLowerCase() }));
+  const errors = [...llmErrors, ...dictErrors];
+  const faPenalty = errors.reduce((sum, e) => sum + (e.severity === "major" || e.category === "spelling_caps" ? 1 : 0.5), 0);
+  const policy = applyGradingPolicy(ruled.scores, { words: wordCount, level, category, obs, weightedErrorsPer100: weightedErrorDensity(errors, wordCount), weakVocabulary: isBelowB2(vocab, level), faPenalty });
+  console.info(`[strict-free] observer=${observer} words=${wordCount} on_topic=${obs.on_topic} misread=${obs.task_misread} points=${(obs.points ?? []).map((q) => String(q.status)[0]).join("")} verified_errors=${errors.length}/${(obs.errors ?? []).length} rule=${ruled.rule ?? "-"} policy=${policy.reasons.join("+") || "-"} spelling=${spelling.length} vocab=${vocab ? `${vocab.cefr}/${vocab.b2PlusVerified}` : "n/a"} raw=${scored.raw.ta.toFixed(1)}/${scored.raw.cd.toFixed(1)}/${scored.raw.fa.toFixed(1)}`);
   // a (near) empty text can only earn what an examiner would give it: nothing — the regression must not "interpolate" credit out of form features
   const empty = wordCount < 15;
   const scores = empty ? { ta: 0, cd: 0, fa: 0 } : policy.scores;
 
   // 4. explain
-  const ranked = [...errors].sort((a, b) => Number(b.severity === "major") - Number(a.severity === "major")).slice(0, 8);
+  const rank = (e: VerifiedError) => (e.severity === "major" ? 2 : e.category === "spelling_caps" ? 1.5 : 1);
+  const ranked = [...errors].sort((a, b) => rank(b) - rank(a)).slice(0, 8);
   let payload: FeedbackPayload;
   try {
     payload = (await callFreeJson({ prompt: feedbackPrompt(task, safeEssay, level, scores, obs, ranked), models: WRITERS, maxOutputTokens: 5000, temperature: 0.2 }, validateFeedback)).data;
@@ -186,7 +196,7 @@ export async function gradeEssayStrictFree(taskPrompt: string, essayText: string
     formal_accuracy_score: scores.fa,
     overall_score: overall,
     passed: overall >= 27,
-    feedback: { task_achievement: payload.task_achievement, communicative_design: payload.communicative_design, formal_accuracy: payload.formal_accuracy, summary: withPolicyNote(payload.summary, policy.reasons, wordCount, level), corrections },
+    feedback: { task_achievement: payload.task_achievement, communicative_design: payload.communicative_design, formal_accuracy: payload.formal_accuracy, summary: withPolicyNote(payload.summary, policy.reasons, wordCount, level, spelling), corrections },
     model: `strict-free:${observer}`,
   };
 }

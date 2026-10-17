@@ -63,13 +63,13 @@ export function communicativeDesignCap(obs: ObservationSheet, category?: string 
   return cap;
 }
 
-export interface PolicyResult { scores: Scores; reasons: ("short_text" | "weak_vocabulary" | "ceiling" | "errors_cap_fa" | "form_cap_cd" | "content_cap_ta")[]; total: number }
+export interface PolicyResult { scores: Scores; reasons: ("short_text" | "weak_vocabulary" | "ceiling" | "errors_cap_fa" | "error_penalty_fa" | "form_cap_cd" | "content_cap_ta")[]; total: number }
 
 const total = (s: Scores) => s.ta + s.cd + s.fa;
 
 export function applyGradingPolicy(
   input: Scores,
-  ctx: { words: number; level: "B1" | "B2"; category?: string | null; obs?: ObservationSheet; weightedErrorsPer100?: number; weakVocabulary?: boolean },
+  ctx: { words: number; level: "B1" | "B2"; category?: string | null; obs?: ObservationSheet; weightedErrorsPer100?: number; weakVocabulary?: boolean; /** points to take off Formale Richtigkeit, one per error (zero tolerance) */ faPenalty?: number },
 ): PolicyResult {
   const reasons: PolicyResult["reasons"] = [];
   let s: Scores = { ...input };
@@ -81,6 +81,12 @@ export function applyGradingPolicy(
     if (s.ta > taCap) { s = { ...s, ta: taCap }; reasons.push("content_cap_ta"); }
     const cdCap = communicativeDesignCap(ctx.obs, ctx.category);
     if (s.cd > cdCap) { s = { ...s, cd: cdCap }; reasons.push("form_cap_cd"); }
+  }
+
+  // zero tolerance: every single error (a one-letter typo included) takes at least a point off Formale Richtigkeit — on every grading tier
+  if (ctx.faPenalty && ctx.faPenalty > 0) {
+    const faMax = Math.max(0, POLICY.maxPerCriterion - Math.ceil(ctx.faPenalty));
+    if (s.fa > faMax) { s = { ...s, fa: faMax }; reasons.push("error_penalty_fa"); }
   }
 
   const m = POLICY.maxPerCriterion;
@@ -116,7 +122,7 @@ function capTotalProportionally(s: Scores, cap: number): Scores {
 }
 
 /** German + Arabic sentence appended to the summary so the student understands WHY the total was limited. */
-export function policyNote(reasons: PolicyResult["reasons"], ctx: { words: number; level: "B1" | "B2" }): { de: string; ar: string } | null {
+export function policyNote(reasons: PolicyResult["reasons"], ctx: { words: number; level: "B1" | "B2"; spelling?: { word: string; fix: string | null }[] }): { de: string; ar: string } | null {
   const parts: { de: string; ar: string }[] = [];
   if (reasons.includes("short_text")) {
     const min = minWordsFor(ctx.level);
@@ -134,8 +140,12 @@ export function policyNote(reasons: PolicyResult["reasons"], ctx: { words: numbe
   if (reasons.includes("ceiling")) {
     parts.push({ de: `Die Bewertung ist streng: Die Höchstpunktzahl beträgt ${POLICY.maxTotal}/45.`, ar: `التصحيح صارم: الحد الأقصى للنتيجة ${POLICY.maxTotal}/45.` });
   }
-  if (reasons.includes("errors_cap_fa")) {
+  if (reasons.includes("errors_cap_fa") || reasons.includes("error_penalty_fa")) {
     parts.push({ de: "Rechtschreib- und Grammatikfehler wirken sich streng auf die Formale Richtigkeit aus.", ar: "الأخطاء الإملائية والنحوية تُخفِّض درجة «الصحة الشكلية» بصرامة." });
+    if (ctx.spelling?.length) {
+      const list = ctx.spelling.slice(0, 6).map((e) => (e.fix ? `${e.word} → ${e.fix}` : e.word)).join(", ");
+      parts.push({ de: `Jeder Rechtschreibfehler kostet Punkte, auch ein einziger falscher Buchstabe. Gefunden: ${ctx.spelling.length} (${list}).`, ar: `كل خطأ إملائي يكلّف نقاطاً، حتى لو كان حرفاً واحداً. عدد الأخطاء: ${ctx.spelling.length} (${list}).` });
+    }
   }
   if (!parts.length) return null;
   return { de: parts.map((p) => p.de).join(" "), ar: parts.map((p) => p.ar).join(" ") };
