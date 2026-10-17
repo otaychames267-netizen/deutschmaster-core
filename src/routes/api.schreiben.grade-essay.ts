@@ -111,11 +111,15 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
           );
         }
 
-        // 2. Atomic deduction. Race-safe: a concurrent double-submit will have
+        // Staff (owner/admin) never pay: no plan, no credit and no deduction — they test and demonstrate the grader on their own account (owner 2026-10-17: "admin does not pay").
+        const { data: staffFlag } = await (supabaseAdmin as any).rpc("is_admin_or_owner", { _user_id: userId });
+        const isStaff = staffFlag === true;
+
+        // 2. Atomic deduction (students only). Race-safe: a concurrent double-submit will have
         // exactly one call succeed, the other raises INSUFFICIENT_CREDITS.
-        const { data: newBalance, error: deductError } = await supabaseAsUser.rpc("deduct_essay_credit", {
-          p_user_id: userId,
-        });
+        const { data: newBalance, error: deductError } = isStaff
+          ? { data: null, error: null }
+          : await supabaseAsUser.rpc("deduct_essay_credit", { p_user_id: userId });
         if (deductError) {
           if (deductError.message?.includes("INSUFFICIENT_CREDITS")) {
             return Response.json({ error: "INSUFFICIENT_CREDITS", message: "You don't have enough credits for another grading attempt." }, { status: 402 });
@@ -144,7 +148,7 @@ export const Route = createFileRoute("/api/schreiben/grade-essay")({
         try {
           result = await gradeEssay(task, essayText, supabaseAsUser, level, category);
         } catch (e) {
-          await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
+          if (!isStaff) await supabaseAsUser.rpc("refund_essay_credit", { p_user_id: userId, p_reason: "essay_grading_refund" });
           console.error("[grade-essay] grading failed, credit refunded:", e);
           try {
             await (supabaseAdmin as any).rpc("log_client_error", {
