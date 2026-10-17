@@ -42,10 +42,11 @@ export function taskAchievementCap(obs: ObservationSheet): number {
   const pts = obs.points ?? [];
   const missing = pts.filter((p) => p.status === "missing").length;
   const partial = pts.filter((p) => p.status === "partial").length;
-  if (missing >= 2) return 6;
-  if (missing === 1) return 8;
-  if (partial >= 2) return 9;
-  if (partial === 1) return 10;
+  // owner 2026-10-17: "check whether the answers cover the whole content" — every missing or only superficially treated Inhaltspunkt costs a lot
+  if (missing >= 2) return 4;
+  if (missing === 1) return 6;
+  if (partial >= 2) return 7;
+  if (partial === 1) return 9;
   return 12;
 }
 
@@ -121,31 +122,35 @@ function capTotalProportionally(s: Scores, cap: number): Scores {
   return scaled;
 }
 
-/** German + Arabic sentence appended to the summary so the student understands WHY the total was limited. */
+/** German + Arabic sentences appended to the summary so the student understands WHY a criterion is low. Factual examiner remarks only — owner 2026-10-17: the feedback must never mention
+ * caps, ceilings, "strict" rules or a replacement system (those are internal mechanics), just say what is wrong with the text. The individual spelling errors are shown as correction cards. */
 export function policyNote(reasons: PolicyResult["reasons"], ctx: { words: number; level: "B1" | "B2"; spelling?: { word: string; fix: string | null }[] }): { de: string; ar: string } | null {
   const parts: { de: string; ar: string }[] = [];
   if (reasons.includes("short_text")) {
     const min = minWordsFor(ctx.level);
     parts.push({
-      de: `Der Text hat nur ${ctx.words} Wörter (verlangt sind mindestens ${min}); bei zu kurzen Texten ist die Gesamtpunktzahl auf höchstens ${POLICY.shortTotalCap}/45 begrenzt.`,
-      ar: `النص يحتوي على ${ctx.words} كلمة فقط (المطلوب ${min} كلمة على الأقل)؛ لذلك الحد الأقصى للنتيجة ${POLICY.shortTotalCap}/45.`,
+      de: `Der Text hat nur ${ctx.words} Wörter, verlangt sind mindestens ${min}. Ein zu kurzer Text kann die Aufgabe nicht vollständig erfüllen.`,
+      ar: `النص يحتوي على ${ctx.words} كلمة فقط، والمطلوب ${min} كلمة على الأقل؛ النص القصير لا يمكنه تغطية المطلوب بالكامل.`,
     });
   }
   if (reasons.includes("weak_vocabulary")) {
     parts.push({
-      de: `Der Wortschatz liegt unter dem Niveau ${ctx.level}; deshalb ist die Gesamtpunktzahl auf höchstens ${POLICY.weakVocabularyTotalCap}/45 begrenzt.`,
-      ar: `مفردات النص أدنى من مستوى ${ctx.level}؛ لذلك الحد الأقصى للنتيجة ${POLICY.weakVocabularyTotalCap}/45.`,
+      de: `Der Wortschatz liegt unter dem Niveau ${ctx.level}: zu einfach und zu wenig variiert.`,
+      ar: `مفردات النص أدنى من مستوى ${ctx.level}: بسيطة جداً وقليلة التنوّع.`,
     });
   }
-  if (reasons.includes("ceiling")) {
-    parts.push({ de: `Die Bewertung ist streng: Die Höchstpunktzahl beträgt ${POLICY.maxTotal}/45.`, ar: `التصحيح صارم: الحد الأقصى للنتيجة ${POLICY.maxTotal}/45.` });
+  if (reasons.includes("content_cap_ta")) {
+    parts.push({
+      de: "Nicht alle geforderten Inhaltspunkte sind vollständig und konkret behandelt; jeder fehlende oder nur oberflächlich erwähnte Punkt senkt die Bewältigung der Aufgabe deutlich.",
+      ar: "ليست كل النقاط المطلوبة في المهمة معالَجة بشكل كامل ومحدّد؛ كل نقطة ناقصة أو مذكورة بسطحية تُخفِّض درجة «إنجاز المهمة» بوضوح.",
+    });
   }
   if (reasons.includes("errors_cap_fa") || reasons.includes("error_penalty_fa")) {
-    parts.push({ de: "Rechtschreib- und Grammatikfehler wirken sich streng auf die Formale Richtigkeit aus.", ar: "الأخطاء الإملائية والنحوية تُخفِّض درجة «الصحة الشكلية» بصرامة." });
-    if (ctx.spelling?.length) {
-      const list = ctx.spelling.slice(0, 6).map((e) => (e.fix ? `${e.word} → ${e.fix}` : e.word)).join(", ");
-      parts.push({ de: `Jeder Rechtschreibfehler kostet Punkte, auch ein einziger falscher Buchstabe. Gefunden: ${ctx.spelling.length} (${list}).`, ar: `كل خطأ إملائي يكلّف نقاطاً، حتى لو كان حرفاً واحداً. عدد الأخطاء: ${ctx.spelling.length} (${list}).` });
-    }
+    const n = ctx.spelling?.length ?? 0;
+    parts.push({
+      de: n ? `Rechtschreib- und Grammatikfehler mindern die Formale Richtigkeit deutlich; schon ein falscher Buchstabe zählt als Fehler (Rechtschreibfehler: ${n}, siehe Korrekturen).` : "Rechtschreib- und Grammatikfehler mindern die Formale Richtigkeit deutlich (siehe Korrekturen).",
+      ar: n ? `الأخطاء الإملائية والنحوية تُخفِّض درجة «الصحة الشكلية» بوضوح؛ حتى حرف واحد خاطئ يُحسب خطأً (عدد الأخطاء الإملائية: ${n}، انظر التصحيحات).` : "الأخطاء الإملائية والنحوية تُخفِّض درجة «الصحة الشكلية» بوضوح (انظر التصحيحات).",
+    });
   }
   if (!parts.length) return null;
   return { de: parts.map((p) => p.de).join(" "), ar: parts.map((p) => p.ar).join(" ") };

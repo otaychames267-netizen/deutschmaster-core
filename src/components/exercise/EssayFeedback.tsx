@@ -1,4 +1,6 @@
-import { CheckCircle2, XCircle, RotateCcw, Coins, Info } from "lucide-react";
+import { CheckCircle2, XCircle, RotateCcw, Coins } from "lucide-react";
+import { SchreibenCorrections } from "@/components/exam-simulation/Fehleranalyse";
+import type { EssayCorrection } from "@/lib/grading/essay-grader";
 
 export interface EssayGradingResult {
   task_achievement_score: number;
@@ -11,13 +13,15 @@ export interface EssayGradingResult {
     communicative_design: string;
     formal_accuracy: string;
     summary: string;
+    /** Quoted mistakes with their correction and an Arabic explanation (shown as cards under the scores). */
+    corrections?: EssayCorrection[];
   };
   remaining_balance: number;
-  /** Who graded: "claude-…" normally; "deepinfra:<model>" while the backup AI is standing in (see lib/ai/claude.server.ts). */
+  /** Which model graded — internal only; deliberately never shown to the student (owner 2026-10-17: no mention of a replacement system). */
   model?: string;
 }
 
-const CRITERIA: { key: keyof EssayGradingResult["feedback"] & string; scoreKey: keyof EssayGradingResult; label: string }[] = [
+const CRITERIA: { key: "task_achievement" | "communicative_design" | "formal_accuracy"; scoreKey: keyof EssayGradingResult; label: string }[] = [
   { key: "task_achievement", scoreKey: "task_achievement_score", label: "Bewältigung der Aufgabe" },
   { key: "communicative_design", scoreKey: "communicative_design_score", label: "Kommunikative Gestaltung" },
   { key: "formal_accuracy", scoreKey: "formal_accuracy_score", label: "Formale Richtigkeit" },
@@ -58,16 +62,6 @@ export function EssayFeedback({
         </div>
       </div>
 
-      {typeof result.model === "string" && /^(deepinfra|groq|strict-free):/.test(result.model) && (
-        <div role="note" className="flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-3.5 py-3 text-xs leading-relaxed text-amber-800 dark:text-amber-300">
-          <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
-          <p>
-            Diese Bewertung stammt vorübergehend vom Ersatz-KI-System. Die Punktzahl kann etwas großzügiger oder strenger ausfallen als gewohnt.
-            <span dir="rtl" lang="ar" className="mt-1 block">تم هذا التصحيح مؤقتاً بنظام ذكاء اصطناعي بديل، وقد تختلف النتيجة قليلاً عن المعتاد (أسهل أو أصعب قليلاً).</span>
-          </p>
-        </div>
-      )}
-
       <div className="space-y-4 rounded-2xl border border-border bg-card p-5">
         {CRITERIA.map((c) => (
           <div key={c.key}>
@@ -83,8 +77,15 @@ export function EssayFeedback({
 
       <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-1.5">Gesamtfeedback</p>
-        <p className="text-sm leading-relaxed text-foreground">{result.feedback.summary}</p>
+        <p className="whitespace-pre-line text-sm leading-relaxed text-foreground">{result.feedback.summary}</p>
       </div>
+
+      {(result.feedback.corrections?.length ?? 0) > 0 && (
+        <div className="space-y-3">
+          <h3 dir="rtl" lang="ar" className="text-sm font-bold text-foreground">تصحيح الأخطاء مع الشرح بالعربية</h3>
+          <SchreibenCorrections corrections={result.feedback.corrections!} />
+        </div>
+      )}
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">

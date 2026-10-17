@@ -33,7 +33,7 @@ export interface ObservationSheet {
 
 export interface VerifiedError extends ObservedError { q: string }
 
-const norm = (s: string) => String(s).toLowerCase().replace(/[„“”"'’`´]/g, "").replace(/\s+/g, " ").trim();
+export const norm = (s: string) => String(s).toLowerCase().replace(/[„“”"'’`´]/g, "").replace(/\s+/g, " ").trim();
 
 /** Keeps only errors whose quote REALLY occurs in the essay and whose "fix" actually differs — a model cannot invent mistakes that then lower a student's score. */
 export function verifyErrors(essay: string, errors: ObservedError[] | undefined): VerifiedError[] {

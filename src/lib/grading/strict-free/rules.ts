@@ -13,6 +13,6 @@ export function applyExaminerRules(s: Scores, obs: ObservationSheet): { scores: 
   const offTopic = obs.task_misread === true || obs.on_topic === "no";
   if (offTopic) return { scores: { ta: Math.min(s.ta, 4), cd: s.cd, fa: s.fa }, rule: "off_topic" };
   if (obs.on_topic === "partly" || missing >= 3) return { scores: { ta: Math.min(s.ta, 4), cd: s.cd, fa: s.fa }, rule: "task_largely_missed" };
-  if (missing >= 2) return { scores: { ta: Math.min(s.ta, 6), cd: s.cd, fa: s.fa }, rule: "two_points_missing" };
+  if (missing >= 2) return { scores: { ta: Math.min(s.ta, 4), cd: s.cd, fa: s.fa }, rule: "two_points_missing" };
   return { scores: s, rule: null };
 }

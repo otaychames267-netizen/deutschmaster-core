@@ -20,6 +20,7 @@ import { isBudgetExceeded, recordUsage } from "@/lib/ai/usage-budget.server";
 import { wrapUntrustedText } from "./sanitize-input";
 import { gradeEssayStrictFree, strictFreeEnabled } from "./strict-free/strict-free-grader.server";
 import { applyGradingPolicy, policyNote } from "./strict-free/policy";
+import { spellingCard } from "./strict-free/spelling-explain";
 import { assessVocabulary, isBelowB2 } from "./strict-free/vocabulary.server";
 import { findSpellingErrors } from "./strict-free/spelling.server";
 
@@ -290,7 +291,11 @@ async function enforceOwnerPolicy(result: GradingResult, taskPrompt: string, ess
   // zero-tolerance spelling (deterministic dictionary): one point off Formale Richtigkeit per misspelled word, whichever model graded
   const spelling = result.model.startsWith("strict-free:") ? [] : await findSpellingErrors(essayText, taskPrompt);
   const p = applyGradingPolicy(before, { words, level, category, weakVocabulary: isBelowB2(vocab, level), faPenalty: spelling.length });
-  if (p.scores.ta === before.ta && p.scores.cd === before.cd && p.scores.fa === before.fa) return result;
+  // every misspelling the dictionary found is also SHOWN as a correction card with an Arabic explanation (unless the model already listed that word)
+  const listed = (result.feedback.corrections ?? []).map((c) => `${c.original} ${c.corrected}`.toLowerCase());
+  const spellingCards = spelling.filter((e) => !listed.some((l) => l.includes(e.word.toLowerCase()))).slice(0, 8).map((e) => spellingCard(e.word, e.fix));
+  const corrections = [...(result.feedback.corrections ?? []), ...spellingCards];
+  if (p.scores.ta === before.ta && p.scores.cd === before.cd && p.scores.fa === before.fa) return spellingCards.length ? { ...result, feedback: { ...result.feedback, corrections } } : result;
   const note = policyNote(p.reasons, { words, level, spelling });
   const overall = p.scores.ta + p.scores.cd + p.scores.fa;
   return {
@@ -300,7 +305,7 @@ async function enforceOwnerPolicy(result: GradingResult, taskPrompt: string, ess
     formal_accuracy_score: p.scores.fa,
     overall_score: overall,
     passed: overall >= 27,
-    feedback: { ...result.feedback, summary: note ? `${result.feedback.summary}
+    feedback: { ...result.feedback, corrections, summary: note ? `${result.feedback.summary}
 
 ${note.de}
 ${note.ar}` : result.feedback.summary },
