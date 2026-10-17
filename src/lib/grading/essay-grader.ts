@@ -18,6 +18,7 @@
 import { callClaudeTool, ClaudeQuotaError } from "@/lib/ai/claude.server";
 import { isBudgetExceeded, recordUsage } from "@/lib/ai/usage-budget.server";
 import { wrapUntrustedText } from "./sanitize-input";
+import { gradeEssayStrictFree, strictFreeEnabled } from "./strict-free/strict-free-grader.server";
 
 /** Student's exam level, e.g. profiles.level ("TELC_B1"/"TELC_B2") normalized to "B1"/"B2". */
 export type CefrLevel = "B1" | "B2";
@@ -224,8 +225,9 @@ async function gradeEssayOnce(
 
   const userMessage = `AUFGABE:\n${taskPrompt}\n\n---\n\n${wrapUntrustedText("ANTWORT DES KANDIDATEN", essayText)}`;
 
-  try {
+  const callGrader = async (skipBackup: boolean) => {
     const { data, model, inputTokens, outputTokens } = await callClaudeTool<any>({
+      skipBackup,
       system: systemPrompt(level, category),
       userMessage,
       toolName: "submit_grading",
@@ -249,9 +251,29 @@ async function gradeEssayOnce(
     await recordUsage(supabase, inputTokens + outputTokens);
 
     return { ...validated, overall_score, passed: overall_score >= 27, model };
+  };
+
+  // Order of preference: Claude (best) → the strict FREE grader (calibrated against Claude, costs nothing) → the generic open-model backup (DeepInfra / Groq scoring directly,
+  // which is markedly too generous, so it is only the last resort). Claude is skipped for 5 minutes after "credit balance is too low".
+  try {
+    return await callGrader(true);
   } catch (e) {
-    if (e instanceof ClaudeQuotaError) throw new Error("QUOTA_429");
-    throw e;
+    const claudeUnavailable = e instanceof ClaudeQuotaError;
+    if (!claudeUnavailable) throw e;
+    if (strictFreeEnabled()) {
+      try {
+        console.warn(`[essay-grader] Claude unavailable (${String((e as Error)?.message ?? e).slice(0, 80)}) — grading with the strict free grader`);
+        return await gradeEssayStrictFree(taskPrompt, essayText, level, category);
+      } catch (freeErr) {
+        console.warn("[essay-grader] strict free grader failed, trying the generic backup chain:", String((freeErr as Error)?.message ?? freeErr).slice(0, 200));
+      }
+    }
+    try {
+      return await callGrader(false);
+    } catch (backupErr) {
+      if (backupErr instanceof ClaudeQuotaError) throw new Error("QUOTA_429");
+      throw backupErr;
+    }
   }
 }
 

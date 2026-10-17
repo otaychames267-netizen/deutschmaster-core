@@ -24,6 +24,8 @@ export interface ClaudeToolCallParams {
   maxTokens?: number;
   timeoutMs?: number;
   maxAttempts?: number;
+  /** Claude only: throw ClaudeQuotaError instead of falling back to the generic open-model backup chain (the caller has a better backup of its own, e.g. the strict free grader). */
+  skipBackup?: boolean;
 }
 
 export interface ClaudeToolCallResult<T> {
@@ -216,6 +218,16 @@ async function callFallbackTool<T>(params: ClaudeToolCallParams): Promise<Claude
 
 /** Claude first; DeepInfra open models only when Claude is unavailable (see the block comment above). */
 export async function callClaudeTool<T = unknown>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
+  if (params.skipBackup) {
+    if (Date.now() < claudeDownUntil) throw new ClaudeQuotaError("Claude credit exhausted (cached for 5 minutes)");
+    try {
+      return await callClaudeToolDirect<T>(params);
+    } catch (e) {
+      if (e instanceof ClaudeQuotaError && /credit balance is too low/i.test(e.message)) claudeDownUntil = Date.now() + 5 * 60_000;
+      if (!(e instanceof ClaudeQuotaError) && !(e instanceof ClaudeValidationError) && /Claude call failed after/.test(String((e as Error)?.message ?? e))) throw new ClaudeQuotaError(String((e as Error).message));
+      throw e;
+    }
+  }
   const canFallback = fallbackEnabled();
   if (!process.env.ANTHROPIC_API_KEY || (canFallback && Date.now() < claudeDownUntil)) {
     if (canFallback) return callFallbackTool<T>(params);
