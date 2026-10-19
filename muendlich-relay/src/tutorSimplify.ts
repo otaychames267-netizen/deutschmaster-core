@@ -17,6 +17,10 @@ const STRONG: RegExp[] = [
   /\bbitte\s+(einfacher|langsamer|anders)\b/i,
   /\banders\s+(fragen|formulieren|sagen)\b/i,
   /\bwas\s+(meinen|bedeutet)\s+sie\b/i,
+  // 2026-10-19: the practice PARTNER (Teil 2/3) is addressed with "du" — a real student asked "Kannst du bitte mir mehr Erklärung?" and only Claude happened to answer it; this makes it deterministic (model-independent)
+  /\bk(?:annst|[öo]nntest)\s+du\b.*\b(wiederholen|einfacher|erklären|erklärung|anders\s+(?:sagen|erklären|formulieren)|langsamer|noch\s?mal|nochmals|noch\s+einmal)\b/i, // "Kannst du das bitte wiederholen / mehr Erklärung?"
+  /\bich\s+(?:habe|hab)\s+(?:dich|deine\s+frage)\s+(?:leider\s+)?nicht\s+(?:richtig\s+|ganz\s+)?verstanden\b/i, // "Ich habe dich nicht verstanden"
+  /\b(?:verstehe|verstand)\s+(?:ich\s+)?(?:dich|deine\s+frage)\s+(?:leider\s+)?nicht\b/i, // "Ich verstehe dich nicht"
 ];
 
 // bare "I don't understand" — only when that is practically ALL the student said (otherwise it is an opinion: "Ich verstehe nicht, warum…")

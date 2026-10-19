@@ -10,12 +10,17 @@ const yes = [
   "Ich habe die Frage nicht verstanden.", "Entschuldigung, ich habe das nicht verstanden", "Wie bitte?", "Können Sie die Frage bitte wiederholen?",
   "Können Sie das noch einmal sagen?", "Bitte einfacher.", "Ich verstehe nicht.", "Entschuldigung, ich verstehe das nicht", "Was meinen Sie damit?",
   "Können Sie das anders erklären?", "Die Frage verstehe ich nicht", "Ich habe nicht verstanden.", "Noch einmal bitte, ich habe die Frage leider nicht ganz verstanden",
+  // partner turns (du-form), incl. the real ASR text from the 2026-10-12 session
+  "Kannst du bitte mir mehr Erklärung?", "Kannst du bitte mehr Erklärung in deine Frage?", "Könntest du das noch einmal sagen?", "Kannst du das bitte wiederholen?", "Ich habe dich nicht verstanden.", "Ich verstehe dich nicht",
 ];
 const longAnswer = "Ich habe die Frage verstanden, aber ich muss kurz nachdenken, weil das Thema sehr groß ist und ich viele Gedanken dazu habe, die ich ordnen möchte, bevor ich antworte, denn ich habe die Frage nicht verstanden gehabt, als sie anfangs gestellt wurde, aber jetzt ist alles klar.";
 const no = [
   "Ich verstehe nicht, warum Kinder so früh ein Handy brauchen, und das finde ich nicht gut für ihre Entwicklung.",
   "Ich finde, dass man das nicht verbieten sollte.", "Ich habe meinen Freund nicht verstanden, als er mir von seinem Urlaub in Spanien erzählt hat.",
   "Das ist ein wichtiges Thema, weil viele Menschen heute im Internet arbeiten und lernen.", "", "   ", longAnswer,
+  // real student questions TO the partner that are opinions, not "I did not understand" (must NOT trigger a simplified repeat)
+  "Wie ist deine persönliche Meinung zu diesem Thema?", "Was denkst du darüber?", "Was meinst du dazu?", "Kannst du dir vorstellen, dass das ein Problem ist?", "Wie war es, wenn wir zwei Wochen dort bleiben?",
+  "Ich erkläre dir gerne, warum ich das so sehe.", "Ich verstehe nicht, warum du das so siehst, denn die Studien zeigen etwas anderes.",
 ];
 for (const t of yes) ok(`asks for simpler question: "${t.slice(0, 50)}"`, asksForSimplerQuestion(t) === true);
 for (const t of no) ok(`normal answer, NOT a request: "${t.slice(0, 50)}"`, asksForSimplerQuestion(t) === false);
