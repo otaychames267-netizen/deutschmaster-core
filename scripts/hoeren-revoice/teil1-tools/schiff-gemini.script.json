@@ -1,0 +1,70 @@
+{
+ "name": "schiffg",
+ "provider": "gemini",
+ "src": "../hoeren/orig/teil1/T1-Ein deutsches Schiff.mp3",
+ "voices": {
+  "r": "Charon"
+ },
+ "tempo": {
+  "r": 0.94
+ },
+ "items": [
+  {
+   "type": "clip",
+   "start": 0,
+   "end": 2.2,
+   "fadeOut": 0.4,
+   "gapAfter": 0.5
+  },
+  {
+   "type": "tts",
+   "voice": "r",
+   "gapAfter": 0.9,
+   "text": "Nachrichten. Achtzehn weitere Passagiere und Forscher der Magdalena Oldendorff sind in Sicherheit. Die Rettungsmannschaft konnte sie noch rechtzeitig vom deutschen Forschungsschiff holen. Ein Forscher und die Crew blieben an Bord. Die Magdalena Oldendorff ist seit Wochen am Südpol im Eis eingeschlossen. Die Rettungsaktion konnte gerade noch rechtzeitig beendet werden, bevor schon wieder Schnee fiel und sich das Wetter beim deutschen Forschungsschiff am Südpol verschlechterte. Zurückgeblieben sind jetzt noch achtzehn Mannschaftsmitglieder, die die Magdalena Oldendorff flottmachen können, wenn der argentinische Eisbrecher voraussichtlich am nächsten Wochenende kommt."
+  },
+  {
+   "type": "tts",
+   "voice": "r",
+   "gapAfter": 0.9,
+   "text": "Der am Neuen Markt gelistete Softwarehersteller Brain International teilte nach Börsenschluss mit, zur Zeit würden Gespräche mit potenziellen Finanzinvestoren und strategischen Investoren geführt. Das Unternehmen schließt die Zahlungsunfähigkeit nicht mehr aus. Zuvor hatte ein Unternehmenssprecher erklärt, die Firma habe im Juni kein Gehalt an ihre fünfhundert Mitarbeiter in Deutschland gezahlt. Insgesamt zählt Brain International weltweit neunhundert Mitarbeiter."
+  },
+  {
+   "type": "tts",
+   "voice": "r",
+   "gapAfter": 0.9,
+   "text": "Großrazzia gegen Glücksspieler. In Hessen und drei anderen Bundesländern waren insgesamt achthundert Polizisten im Einsatz. Sie durchsuchten Wettbüros, Kioske, Annahmestellen und auch Wohnungen der Betreiber. Mehrere Verdächtige wurden festgenommen. Nach Angaben der Polizei stießen die Beamten auf den Kopf der Bande, indem sie Telefongespräche abhörten."
+  },
+  {
+   "type": "tts",
+   "voice": "r",
+   "gapAfter": 0.9,
+   "text": "Die Europäische Union will wissen, welche Informationen im Internet wahr und welche falsch sind. Dazu finanziert sie ein neues Forschungsprojekt. Wissenschaftler verschiedener EU-Länder arbeiten an einer Software, die in Echtzeit öffentliche Quellen auf ihren Wahrheitsgehalt hin überprüfen soll. Besonders die Internetplattformen sozialer Netzwerke seien bislang dazu genutzt worden, falsche Anschuldigungen zu verbreiten, heißt es in der Projektbeschreibung. Soziale Netzwerke stellen zwar auch nützliche Informationen zur Verfügung, das Problem ist aber, dass alles so schnell geht und man nicht sofort Wahrheiten von Lügen unterscheiden kann. Deshalb soll alles, was öffentlich zugänglich ist, analysiert werden."
+  },
+  {
+   "type": "tts",
+   "voice": "r",
+   "gapAfter": 0.9,
+   "text": "In Österreich dürfen Bankkunden ab morgen anonym kein Geld mehr abheben. Wie der Verband österreichischer Banken in Wien mitteilte, ist andernfalls die Bank verpflichtet, die Kunden wegen des Verdachts auf Geldwäsche beim Innenministerium zu melden. Zwar seien rund neunzig Prozent der Sparbücher mit einem Guthaben von mehr als fünfzehntausend Euro bereits identifiziert. Der größte Teil der knapp fünfundzwanzig Millionen Sparbücher liege allerdings unter dieser Grenze, und hier seien den Banken nur etwa drei Viertel der Sparer bekannt. Der Europäische Gerichtshof hatte die Eröffnung von anonymen Sparbüchern in Österreich verboten."
+  },
+  {
+   "type": "tts",
+   "voice": "r",
+   "gapAfter": 0.6,
+   "text": "Neuer Bürgermeister in Bensheim an der Bergstraße ist der CDU-Politiker Thorsten Herrmann. Er löst den bisherigen Amtsinhaber Georg Stolle, ebenfalls CDU, ab. In den heutigen Stichwahlen entfielen zweiundfünfzig Komma acht Prozent der Stimmen auf Herrmann. Sein Herausforderer Reinhard Baus, SPD, erhielt siebenundvierzig Komma zwei Prozent. Die Wahlbeteiligung betrug fünfzig Komma acht Prozent."
+  },
+  {
+   "type": "clip",
+   "start": 214,
+   "end": 220.2,
+   "fadeIn": 0.2,
+   "fadeOut": 0.9
+  }
+ ],
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1
+}

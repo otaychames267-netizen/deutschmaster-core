@@ -10,7 +10,7 @@ const script = JSON.parse(fs.readFileSync(`${name}.script.json`, "utf8"));
 const env = {}; for (const f of ["C:/Users/asus/AuraLingovia/muendlich-relay/.env", "C:/Users/asus/AuraLingovia/.env"]) for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/)) { const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*"?([^"\r]*)"?\s*$/); if (m && !env[m[1]]) env[m[1]] = m[2]; }
 const SR = 24000; fs.mkdirSync("cache", { recursive: true });
 
-function chunksOf(text, max = 230) {
+function chunksOf(text, max = script.maxChars ?? 230) {
   const sents = text.match(/[^.!?]+[.!?]+["“”„]?|[^.!?]+$/g)?.map((s) => s.trim()).filter(Boolean) ?? [text];
   const out = []; let cur = "";
   for (const s of sents) { if (cur && (cur + " " + s).length > max) { out.push(cur); cur = s; } else cur = cur ? cur + " " + s : s; }
@@ -32,11 +32,35 @@ async function synthInworld(voiceId, text) {
   }
   throw new Error(`Inworld TTS failed for "${text.slice(0, 40)}…": ${err}`);
 }
+// Gemini TTS (generateContent, AUDIO modality → raw PCM s16le 24 kHz mono). Free tier = ~10 requests/day PER MODEL, so `script.models` lists fallbacks tried on 429 and `script.maxChars`
+// should be large (a whole news item per request). `script.style` is the spoken-style instruction put before the text ("Sage ruhig …:" form from the docs); the QA round-trip catches a read-aloud prefix.
+async function synthGemini(voiceName, text) {
+  const models = script.models ?? ["gemini-3.8-flash-lite-tts"]; let err = "";
+  for (let round = 1; round <= 3; round++) {
+    for (const model of models) {
+      try {
+        const prompt = script.style ? `${script.style}: ${text}` : text;
+        const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, { method: "POST", headers: { "x-goog-api-key": env.GEMINI_API_KEY, "content-type": "application/json" }, signal: AbortSignal.timeout(180_000),
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName } } } } }) });
+        if (r.ok) {
+          const j = await r.json(); const part = j.candidates?.[0]?.content?.parts?.find((p) => p.inlineData?.data);
+          const b = part ? Buffer.from(part.inlineData.data, "base64") : Buffer.alloc(0);
+          if (b.length > 4000) { console.log(`  [gemini] ${model} ${voiceName} ${text.length} chars -> ${(b.length / 2 / SR).toFixed(1)} s`); return b; }
+          err = `${model}: no/tiny audio (${j.candidates?.[0]?.finishReason ?? JSON.stringify(j).slice(0, 120)})`;
+        } else { err = `${model}: ${r.status} ${(await r.text()).slice(0, 140).replace(/\s+/g, " ")}`; if (r.status === 429) { console.log("  [gemini] 429 " + model); continue; } }
+      } catch (e) { err = `${model}: ${String(e.message ?? e)}`; }
+      await new Promise((x) => setTimeout(x, 1500));
+    }
+    if (/429/.test(err)) { if (round === 3) throw new Error("Gemini TTS quota: " + err); await new Promise((x) => setTimeout(x, 25_000)); }
+  }
+  throw new Error(`Gemini TTS failed for "${text.slice(0, 40)}…": ${err}`);
+}
 async function synth(voiceId, text) {
-  const key = crypto.createHash("sha1").update((script.provider ?? "deepinfra") + "|" + voiceId + "|" + text).digest("hex"); const f = `cache/${key}.pcm`;
+  const key = crypto.createHash("sha1").update((script.provider ?? "deepinfra") + (script.provider === "gemini" ? "|" + (script.style ?? "") : "") + "|" + voiceId + "|" + text).digest("hex"); const f = `cache/${key}.pcm`;
   if (!script.provider) { const old = `cache/${crypto.createHash("sha1").update(voiceId + "|" + text).digest("hex")}.pcm`; if (fs.existsSync(old)) return fs.readFileSync(old); }
   if (fs.existsSync(f)) return fs.readFileSync(f);
   if (script.provider === "inworld") { const b = await synthInworld(voiceId, text); fs.writeFileSync(f, b); return b; }
+  if (script.provider === "gemini") { const b = await synthGemini(voiceId, text); fs.writeFileSync(f, b); return b; }
   let err = "";
   for (let a = 1; a <= 5; a++) {
     try {
@@ -74,7 +98,7 @@ function clip(start, end, fadeIn = 0, fadeOut = 0) {
 // 1) synthesize all chunks (3 in parallel), keeping the script order
 const jobs = []; script.items.forEach((it, i) => { if (it.type === "tts") chunksOf(it.text).forEach((c, k) => jobs.push({ i, k, voice: script.voices[it.voice], vname: it.voice, text: c })); });
 let next = 0, done = 0; const results = new Map();
-await Promise.all(Array.from({ length: 3 }, async () => { while (next < jobs.length) { const j = jobs[next++]; const b = stretch(trim(await synth(j.voice, j.text)), script.tempo?.[j.vname]); results.set(`${j.i}:${j.k}`, b); if (++done % 10 === 0) console.log(`synthesized ${done}/${jobs.length}`); } }));
+await Promise.all(Array.from({ length: script.concurrency ?? 3 }, async () => { while (next < jobs.length) { const j = jobs[next++]; const b = stretch(trim(await synth(j.voice, j.text)), script.tempo?.[j.vname]); results.set(`${j.i}:${j.k}`, b); if (++done % 10 === 0) console.log(`synthesized ${done}/${jobs.length}`); } }));
 
 // 2) lay out the timeline
 const parts = []; const timeline = []; let t = 0; const push = (buf) => { parts.push(buf); t += buf.length / 2 / SR; };
