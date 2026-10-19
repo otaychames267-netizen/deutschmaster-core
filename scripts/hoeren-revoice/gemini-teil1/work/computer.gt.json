@@ -1,0 +1,41 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 7.35,
+   "end": 22.25,
+   "text": "Computer sind aus dem modernen Alltag kaum wegzudenken. Trotzdem gehen Menschen sehr unterschiedlich mit ihnen um. Wir haben fünf Personen gefragt, welche Rolle Computer in ihrem Leben spielen. Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "gender": "male",
+   "start": 23.35,
+   "end": 49.35,
+   "text": "Nummer eins. Viele denken ja, ohne Computer kommt man heute kaum noch zurecht. Bei mir ist das ein bisschen anders. Zu Hause brauche ich ihn eigentlich nicht oft und manchmal vergesse ich sogar, dass er da ist. Trotzdem steht bei mir ein Laptop auf dem Schreibtisch. Ich benutze ihn zwar selten, aber ganz darauf verzichten möchte ich nicht, denn ab und zu ist es doch praktisch, etwas nachzuschauen oder schnell eine E-Mail zu schreiben."
+  },
+  {
+   "gender": "male",
+   "start": 54.45,
+   "end": 117.75,
+   "text": "Nummer zwei. Wenn ich an meinen Computer denke, fällt mir zuerst die Arbeit ein. Im Büro sitze ich fast den ganzen Tag davor, deshalb könnte man meinen, dass ich ihn nur dort benutze, aber das stimmt so nicht ganz. Auch zu Hause greife ich manchmal darauf zurück, etwa für Online-Formulare oder private E-Mails. Es ist also nicht so, dass der Computer nur am Arbeitsplatz eine Rolle spielt."
+  },
+  {
+   "gender": "female",
+   "start": 123.45,
+   "end": 146.65,
+   "text": "Nummer drei. Computer können natürlich vieles erleichtern, das ist mir schon klar. Trotzdem habe ich persönlich kein gutes Gefühl dabei. Ich komme mit der Technik nicht richtig zurecht und werde schnell unsicher. Deshalb vermeide ich es, mit Computern zu arbeiten, wann immer es möglich ist. Wenn ich etwas digital erledigen müsste, suche ich lieber nach einer anderen Lösung. Für mich sind Computer einfach nichts."
+  },
+  {
+   "gender": "female",
+   "start": 151.55,
+   "end": 217.15,
+   "text": "Nummer vier. Eigentlich nutze ich Computer regelmäßig und ganz ohne geht es heute ja kaum. Trotzdem habe ich kein großes Vertrauen in die Technik. Zu oft gab es Probleme, Daten weg, Programme abgestürzt, nichts funktioniert mehr. Deshalb verlasse ich mich nie nur auf den Computer und bin immer vorsichtig. Ich glaube nicht, dass das, dass Technik wirklich zuverlässig ist."
+  },
+  {
+   "gender": "female",
+   "start": 222.35,
+   "end": 240.35,
+   "text": "Nummer fünf. Man könnte denken, dass ich ohne Computer im Alltag Schwierigkeiten hätte, aber so ist es nicht. Viele Dinge erledige ich direkt vor Ort oder mit dem Handy. Ein Computer wäre manchmal bequem, aber notwendig ist er für mich nicht. Ich komme gut ohne aus und vermisse dabei nichts im täglichen Leben."
+  }
+ ]
+}

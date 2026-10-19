@@ -1,0 +1,299 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 4.5,
+   "text": "Hörverstehen Teil 1."
+  },
+  {
+   "gender": "female",
+   "start": 6,
+   "end": 16.5,
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal."
+  },
+  {
+   "gender": "female",
+   "start": 17.5,
+   "end": 26,
+   "text": "Entscheiden Sie beim Hören, ob die Aussagen 41 bis 45 richtig oder falsch sind."
+  },
+  {
+   "gender": "female",
+   "start": 27,
+   "end": 35,
+   "text": "Markieren Sie ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 bis 45."
+  },
+  {
+   "gender": "female",
+   "start": 36,
+   "end": 43.5,
+   "text": "Markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen."
+  },
+  {
+   "gender": "female",
+   "start": 45,
+   "end": 50,
+   "text": "Lesen Sie jetzt die Aufgaben 41 bis 45."
+  },
+  {
+   "gender": "female",
+   "start": 51,
+   "end": 54,
+   "text": "Sie haben dazu 30 Sekunden Zeit."
+  },
+  {
+   "gender": "female",
+   "start": 133,
+   "end": 140.5,
+   "text": "Saarbrücken. An der Landtagswahl im Saarland haben dieses Mal deutlich mehr Bürgerinnen und Bürger teilgenommen als an den vergangenen Wahlen."
+  },
+  {
+   "gender": "female",
+   "start": 141,
+   "end": 151,
+   "text": "Nach Angaben des statistischen Bundesamtes ist die Beteiligung im Vergleich zur vorangegangenen Wahl von 61,6 auf 69,7 Prozent gestiegen."
+  },
+  {
+   "gender": "female",
+   "start": 151.5,
+   "end": 157.5,
+   "text": "Demnach gaben 540.000 der rund 775.000 Wahlberechtigten ihre Stimme ab."
+  },
+  {
+   "gender": "female",
+   "start": 158,
+   "end": 162,
+   "text": "Es handelt sich damit um die höchste Beteiligung seit mehr als 20 Jahren."
+  },
+  {
+   "gender": "female",
+   "start": 162.5,
+   "end": 169,
+   "text": "Das Saarland folgt so einem deutschlandweiten Trend, der schon bei den Landtagswahlen im vergangenen Jahr zu beobachten war."
+  },
+  {
+   "gender": "female",
+   "start": 169.5,
+   "end": 172,
+   "text": "Heute gingen wieder mehr Wähler an die Wahlurnen."
+  },
+  {
+   "gender": "female",
+   "start": 172.5,
+   "end": 176,
+   "text": "Dennoch machen die Nichtwähler immer noch einen beträchtlichen Anteil aus."
+  },
+  {
+   "gender": "female",
+   "start": 179.5,
+   "end": 184.5,
+   "text": "Wirtschaft. Das Bauunternehmen Ristech AG mit Sitz in Regensburg hat Insolvenz angemeldet."
+  },
+  {
+   "gender": "female",
+   "start": 185,
+   "end": 187.5,
+   "text": "Das berichtet die deutsche Gläubigerschutzvereinigung."
+  },
+  {
+   "gender": "female",
+   "start": 188,
+   "end": 191.5,
+   "text": "Mehr als 150 Gläubigerfirmen sind davon betroffen."
+  },
+  {
+   "gender": "female",
+   "start": 192,
+   "end": 195.5,
+   "text": "Diese haben Forderungen in Höhe von rund 3 Millionen Euro angemeldet."
+  },
+  {
+   "gender": "female",
+   "start": 196,
+   "end": 202,
+   "text": "Als Ursache für die Insolvenz nannte die Geschäftsführung den hohen Preis- und Wettbewerbsdruck in der Baubranche."
+  },
+  {
+   "gender": "female",
+   "start": 202.5,
+   "end": 207.5,
+   "text": "Die Aktiengesellschaft könne das Kapital für eine nötige Umstrukturierung nicht allein aufbringen."
+  },
+  {
+   "gender": "female",
+   "start": 208,
+   "end": 209.5,
+   "text": "Sie hoffe daher auf Investoren."
+  },
+  {
+   "gender": "female",
+   "start": 210,
+   "end": 216.5,
+   "text": "Ziel sei es, das Unternehmen weiterzuführen und die rund 250 Mitarbeiterinnen und Mitarbeiter weiter zu beschäftigen."
+  },
+  {
+   "gender": "female",
+   "start": 220.5,
+   "end": 229.5,
+   "text": "Karlsruhe. Über 120 Athletinnen und Athleten aus rund 40 Ländern begeisterten dieses Jahr das Publikum in der Karlsruher Leichtathletik-Arena."
+  },
+  {
+   "gender": "female",
+   "start": 230,
+   "end": 234.5,
+   "text": "In der restlos ausverkauften Messehalle wurde Leichtathletik der Weltklasse geboten."
+  },
+  {
+   "gender": "female",
+   "start": 235,
+   "end": 238.5,
+   "text": "Das Fazit der Veranstalter fiel ausgesprochen positiv aus."
+  },
+  {
+   "gender": "female",
+   "start": 239,
+   "end": 242.5,
+   "text": "Es sei eines der besten Leichtathletik-Meetings aller Zeiten gewesen."
+  },
+  {
+   "gender": "female",
+   "start": 243,
+   "end": 254,
+   "text": "Während das Publikum unter anderem in zwei Disziplinen neue Hallen-Europarekorde erleben durfte, zeigten sich die Sportlerinnen und Sportler begeistert von der Stimmung in der Karlsruher Arena."
+  },
+  {
+   "gender": "female",
+   "start": 254.5,
+   "end": 264,
+   "text": "Neben dem großartigen Publikum galt ein besonderer Dank den Sponsoren, ohne deren Unterstützung ein Leichtathletik-Meeting in dieser Qualität nicht hätte stattfinden können."
+  },
+  {
+   "gender": "female",
+   "start": 264.5,
+   "end": 271,
+   "text": "Unverzichtbar sei auch der unermüdliche Einsatz der zahlreichen ehrenamtlichen Helferinnen und Helfer gewesen."
+  },
+  {
+   "gender": "female",
+   "start": 274.5,
+   "end": 282.5,
+   "text": "Cyberangriff. Kriminellen Hackern ist es offenbar gelungen, Geld von privaten Bankkonten auf ihre eigenen Konten umzuleiten."
+  },
+  {
+   "gender": "female",
+   "start": 283,
+   "end": 287.5,
+   "text": "Dafür nutzten sie eine bereits seit längerem bekannte Schwachstelle im Mobilfunknetz."
+  },
+  {
+   "gender": "female",
+   "start": 288,
+   "end": 297,
+   "text": "Zunächst hatten die Hacker sogenannte Phishing-E-Mails verschickt, um alle nötigen Informationen wie Kontonummer, Kontostand, Passwort und Handynummer zu bekommen."
+  },
+  {
+   "gender": "female",
+   "start": 297.5,
+   "end": 305,
+   "text": "Die E-Mails sahen so aus, als kämen sie von der Hausbank der Kunden, deren Antworten dann auf eine gefälschte Webseite weitergeleitet wurden."
+  },
+  {
+   "gender": "female",
+   "start": 305.5,
+   "end": 311,
+   "text": "Der Angriff sei aus dem Netz eines ausländischen Providers gekommen, der mittlerweile gesperrt sei."
+  },
+  {
+   "gender": "female",
+   "start": 311.5,
+   "end": 318,
+   "text": "Auch deutsche Kunden sollen betroffen sein, die Kunden seien informiert worden und die Polizei ermittle bereits in dem Fall dieses."
+  },
+  {
+   "gender": "female",
+   "start": 321,
+   "end": 333.5,
+   "text": "Europäische Union. Die Abgeordneten des Europäischen Parlaments schlagen Maßnahmen vor, um die Lebensmittelverschwendung in den Ländern der Europäischen Union bis zum Ende des nächsten Jahrzehnts um die Hälfte zu verringern."
+  },
+  {
+   "gender": "female",
+   "start": 334,
+   "end": 340,
+   "text": "Dazu fordert das Parlament die Europäische Kommission unter anderem auf, Lebensmittelspenden zu erleichtern."
+  },
+  {
+   "gender": "female",
+   "start": 340.5,
+   "end": 347.5,
+   "text": "In den Industrieländern würden vor allem Händler und Käufer Lebensmittel wegwerfen, so die Berichterstatterin im Parlament."
+  },
+  {
+   "gender": "female",
+   "start": 348,
+   "end": 354.5,
+   "text": "Viele Verbraucher seien nicht in der Lage, die Bedeutung des Mindesthaltbarkeitsdatums und des Verbrauchsdatums zu verstehen."
+  },
+  {
+   "gender": "female",
+   "start": 355,
+   "end": 361.5,
+   "text": "Deshalb solle die Kommission gezielt Maßnahmen in den Bereichen der Etikettierung und Information ergreifen."
+  },
+  {
+   "gender": "female",
+   "start": 362,
+   "end": 369,
+   "text": "Darüber hinaus müsste man den Verbrauchern klarmachen, dass Lebensmittel auch nach dem Mindesthaltbarkeitsdatum noch genießbar seien."
+  },
+  {
+   "gender": "female",
+   "start": 372,
+   "end": 374,
+   "text": "Noch ein Hinweis aus unserer Kulturredaktion."
+  },
+  {
+   "gender": "female",
+   "start": 374.5,
+   "end": 378,
+   "text": "Die Stadtbücherei möchte den Jüngsten Lust aufs Lesen machen."
+  },
+  {
+   "gender": "female",
+   "start": 378.5,
+   "end": 387,
+   "text": "Deshalb laden die Bibliothekarinnen und Bibliothekare an diesem Wochenende Kinder ein, um ihnen die schönsten Kinderbücher der Weltliteratur vorzustellen."
+  },
+  {
+   "gender": "female",
+   "start": 387.5,
+   "end": 396,
+   "text": "Sie erzählen von den Helden beliebter Märchen und Geschichten und von den Menschen, die diese Geschichten für uns erfunden oder aufgeschrieben haben."
+  },
+  {
+   "gender": "female",
+   "start": 396.5,
+   "end": 402.5,
+   "text": "Außerdem erfahren die jungen Besucherinnen und Besucher, wie man in der Bücherei gezielt nach Büchern sucht."
+  },
+  {
+   "gender": "female",
+   "start": 403,
+   "end": 406,
+   "text": "Es wird auch Lesungen aus berühmten Kinderbüchern geben."
+  },
+  {
+   "gender": "female",
+   "start": 406.5,
+   "end": 412,
+   "text": "Zum Schluss können die Kinder in einem Quiz zeigen, wie gut sie zugehört haben und schöne Bücher gewinnen."
+  },
+  {
+   "gender": "female",
+   "start": 412.5,
+   "end": 415.5,
+   "text": "Infos und Anmeldungen in der Stadtbücherei."
+  }
+ ]
+}

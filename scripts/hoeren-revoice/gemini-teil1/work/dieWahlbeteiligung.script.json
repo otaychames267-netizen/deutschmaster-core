@@ -1,0 +1,73 @@
+{
+ "name": "dieWahlbeteiligung",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 62,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 bis 45 richtig oder falsch sind. Markieren Sie ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 bis 45. Markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41 bis 45. Sie haben dazu 30 Sekunden Zeit."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Saarbrücken. An der Landtagswahl im Saarland haben dieses Mal deutlich mehr Bürgerinnen und Bürger teilgenommen als an den vergangenen Wahlen. Nach Angaben des statistischen Bundesamtes ist die Beteiligung im Vergleich zur vorangegangenen Wahl von 61,6 auf 69,7 Prozent gestiegen. Demnach gaben 540. 000 der rund 775. 000 Wahlberechtigten ihre Stimme ab. Es handelt sich damit um die höchste Beteiligung seit mehr als 20 Jahren. Das Saarland folgt so einem deutschlandweiten Trend, der schon bei den Landtagswahlen im vergangenen Jahr zu beobachten war. Heute gingen wieder mehr Wähler an die Wahlurnen. Dennoch machen die Nichtwähler immer noch einen beträchtlichen Anteil aus."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Wirtschaft. Das Bauunternehmen Ristech AG mit Sitz in Regensburg hat Insolvenz angemeldet. Das berichtet die deutsche Gläubigerschutzvereinigung. Mehr als 150 Gläubigerfirmen sind davon betroffen. Diese haben Forderungen in Höhe von rund 3 Millionen Euro angemeldet. Als Ursache für die Insolvenz nannte die Geschäftsführung den hohen Preis- und Wettbewerbsdruck in der Baubranche. Die Aktiengesellschaft könne das Kapital für eine nötige Umstrukturierung nicht allein aufbringen. Sie hoffe daher auf Investoren. Ziel sei es, das Unternehmen weiterzuführen und die rund 250 Mitarbeiterinnen und Mitarbeiter weiter zu beschäftigen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Karlsruhe. Über 120 Athletinnen und Athleten aus rund 40 Ländern begeisterten dieses Jahr das Publikum in der Karlsruher Leichtathletik-Arena. In der restlos ausverkauften Messehalle wurde Leichtathletik der Weltklasse geboten. Das Fazit der Veranstalter fiel ausgesprochen positiv aus. Es sei eines der besten Leichtathletik-Meetings aller Zeiten gewesen. Während das Publikum unter anderem in zwei Disziplinen neue Hallen-Europarekorde erleben durfte, zeigten sich die Sportlerinnen und Sportler begeistert von der Stimmung in der Karlsruher Arena. Neben dem großartigen Publikum galt ein besonderer Dank den Sponsoren, ohne deren Unterstützung ein Leichtathletik-Meeting in dieser Qualität nicht hätte stattfinden können. Unverzichtbar sei auch der unermüdliche Einsatz der zahlreichen ehrenamtlichen Helferinnen und Helfer gewesen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Cyberangriff. Kriminellen Hackern ist es offenbar gelungen, Geld von privaten Bankkonten auf ihre eigenen Konten umzuleiten. Dafür nutzten sie eine bereits seit längerem bekannte Schwachstelle im Mobilfunknetz. Zunächst hatten die Hacker sogenannte Phishing-E-Mails verschickt, um alle nötigen Informationen wie Kontonummer, Kontostand, Passwort und Handynummer zu bekommen. Die E-Mails sahen so aus, als kämen sie von der Hausbank der Kunden, deren Antworten dann auf eine gefälschte Webseite weitergeleitet wurden. Der Angriff sei aus dem Netz eines ausländischen Providers gekommen, der mittlerweile gesperrt sei. Auch deutsche Kunden sollen betroffen sein, die Kunden seien informiert worden und die Polizei ermittle bereits in dem Fall dieses."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Europäische Union. Die Abgeordneten des Europäischen Parlaments schlagen Maßnahmen vor, um die Lebensmittelverschwendung in den Ländern der Europäischen Union bis zum Ende des nächsten Jahrzehnts um die Hälfte zu verringern. Dazu fordert das Parlament die Europäische Kommission unter anderem auf, Lebensmittelspenden zu erleichtern. In den Industrieländern würden vor allem Händler und Käufer Lebensmittel wegwerfen, so die Berichterstatterin im Parlament. Viele Verbraucher seien nicht in der Lage, die Bedeutung des Mindesthaltbarkeitsdatums und des Verbrauchsdatums zu verstehen. Deshalb solle die Kommission gezielt Maßnahmen in den Bereichen der Etikettierung und Information ergreifen. Darüber hinaus müsste man den Verbrauchern klarmachen, dass Lebensmittel auch nach dem Mindesthaltbarkeitsdatum noch genießbar seien."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Noch ein Hinweis aus unserer Kulturredaktion. Die Stadtbücherei möchte den Jüngsten Lust aufs Lesen machen. Deshalb laden die Bibliothekarinnen und Bibliothekare an diesem Wochenende Kinder ein, um ihnen die schönsten Kinderbücher der Weltliteratur vorzustellen. Sie erzählen von den Helden beliebter Märchen und Geschichten und von den Menschen, die diese Geschichten für uns erfunden oder aufgeschrieben haben. Außerdem erfahren die jungen Besucherinnen und Besucher, wie man in der Bücherei gezielt nach Büchern sucht. Es wird auch Lesungen aus berühmten Kinderbüchern geben. Zum Schluss können die Kinder in einem Quiz zeigen, wie gut sie zugehört haben und schöne Bücher gewinnen. Infos und Anmeldungen in der Stadtbücherei."
+  }
+ ]
+}

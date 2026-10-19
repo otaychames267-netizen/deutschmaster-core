@@ -1,0 +1,66 @@
+{
+ "name": "europaeischen",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Das ist 10 Uhr, die Nachrichten. Das geht aus den jüngsten Daten zur Beschäftigung hervor, die gestern veröffentlicht wurden. Auch in der Eurozone gab es einen leichten Rückgang in den absoluten Zahlen der arbeitslosen Personen. In Prozentpunkten ist die Arbeitslosenquote im Euroraum allerdings gleich geblieben. Während die Gesamtarbeitslosigkeit in Österreich am geringsten ist, hat Deutschland bei der Jugend-Arbeitslosigkeit die niedrigste Rate. EU-weit liegt die Jugend-Arbeitslosigkeit 0,2 Prozentpunkte unter jener des Vormonats. Doch nicht nur die Jugendlichen profitieren von diesem positiven Trend. Den Daten zufolge betrifft die Entspannung der Lage am Arbeitsmarkt alle Altersgruppen. Das Familienministerium plant eine Vielfalt von Aktivitäten zur Stärkung der Wahlbeteiligung von Jugendlichen. Dies teilte heute ein Sprecher des Familienministeriums in einer Pressekonferenz mit."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Junge Menschen sollen verstärkt zum Thema Wahlen informiert werden. Gleichzeitig soll hier Interesse an demokratischen Prozessen gefördert werden. Ein Schwerpunkt der Initiative ist unter anderem eine demokratische Schulkultur. Durch die Einbindung in Kommunalprojekte sollen Jugendliche die Möglichkeit bekommen, Demokratie im Alltag zu erleben. In besonderen Workshops für Demokratie können Jugendliche politische Themen diskutieren und Beteiligungsmöglichkeiten entwickeln. Zudem seien Tagungen zum Thema Jugendsbeteiligung geplant, die sich an Sozialpädagogen, Lehrkräfte, Eltern und an Politiker wenden, ließ der Sprecher wissen. Wir bleiben beim Thema Beschäftigung. Wir sind offen, unter diesem Motto wird zurzeit eine Wanderausstellung des Bundesarbeitsministeriums für Deutschland als Einwanderungsland. Offen zeigt sich die Bundesrepublik neuerdings auch für Fachkräfte außerhalb der EU."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Sie können nach Deutschland kommen, wenn ihr Beruf auf einer sogenannten Positivliste mit gefragten Berufen steht. Auf der aktuellen Liste finden sich unter anderem Mechatroniker, Klempner, Kranken- und Altenpfleger. Der Zustrom ist bisher allerdings nicht sehr groß. Das liegt vor allem daran, dass viel zu wenig Werbung gemacht wurde. Kaum jemand in China weiß, dass in Deutschland Lockführer gesucht werden. Und außerdem stellt das Erlernen der deutschen Sprache eine Hürde für ausländische Arbeitnehmer dar."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Unser Veranstaltungstipp. Von 20 Uhr bis 3 Uhr in der Frühe findet am Samstag wieder die diesjährige Lange Nacht der Musik an über 100 Veranstaltungsorten in der Münchener Innenstadt statt. Die verschiedenen Spielstätten werden von Shuttlebussen angefahren, die bis in die Morgenstunden im 10-Minuten-Takt verkehren. Das Ticket kostet 15 Euro pro Person. Dafür erhalten die Besucher Zugang zu jeder Spielstätte und können bis zur letzten Fahrt um 3 Uhr früh die Shuttlebusse benutzen. Wer noch kein Programm heft hat und sich in letzter Minute informieren möchte, dem sei der Infostand am Odeonsplatz empfohlen, wo man ab 17 Uhr alles zu den Spielstätten, den Künstlern und der angebotenen Musik erfährt. Die Veranstalter freuen sich auf eine rege Teilnahme an der diesjährigen langen Nacht der Musik. Spektakulärer Fund. Im sogenannten Tal der goldenen Mumien haben ägyptische Forscher wieder Mumien gefunden."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Wie der Leiter der Ausgrabungen betonte, handelte es sich bei einem Teil davon um die am besten erhaltenen, die je gefunden wurden. Die Mumien und die dazugehörigen Sarkophage seien außerordentlich reich verziert. Der Friedhof im Tal der goldenen Mumien erstreckt sich über eine Fläche von rund 25 Quadratkilometern und wird seit 1999 intensiv erforscht. Bisher sind in dem Gebiet etwa 15 Gräber mit 230 Leichen gefunden worden. Die Archäologen gehen davon aus, dass bis zu 10. 000 Menschen im Tal der goldenen Mumien begraben sein könnten. In der vergangenen Nacht und in den Morgenstunden haben schwere Unwetter 5 Menschenleben gefordert. 38 Personen wurden zum Teil schwer verletzt, einige von ihnen lebensgefährlich. Umgefallene Bäume beschädigten Häuser, Autos und Stromleitungen. Der öffentliche Verkehr wurde an vielen Orten lahmgelegt. Bis zum Nachmittag mussten die Einsatzkräfte fast 15. 000 Mal ausrücken."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Laut Meteorologen wird es auch in den kommenden Tagen in Süddeutschland zahlreiche Gewitter geben. Erst Ende der Woche sei mit einer deutlichen Beruhigung der Wetterlage zu rechnen, teilte der Wetterdienst mit. Die Temperaturen gehen am Wochenende langsam zurück und damit sinkt die Gefahr von Gewittern und Unwettern."
+  }
+ ]
+}

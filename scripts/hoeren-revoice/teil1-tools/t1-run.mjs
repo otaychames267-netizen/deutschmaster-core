@@ -5,15 +5,16 @@
 // Exit codes: 0 done, 2 QA flagged chunks (not applied), 3 Gemini TTS quota exhausted (re-run later; the per-chunk cache resumes), 1 other error.
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
-const [frag, flag] = process.argv.slice(2);
+const args = process.argv.slice(2), frag = args[0], flag = args.includes("--apply") ? "--apply" : "", persons = args.includes("--persons"); // --persons = "five statements" files (t1-build-persons.mjs)
 const T = new URL(".", import.meta.url).pathname.replace(/^\/(\w:)/, "$1"); // this folder (teil1-tools)
 const R = T.replace(/teil1-tools\/?$/, ""); // scripts/hoeren-revoice/
 const env = {}; for (const f of ["C:/Users/asus/AuraLingovia/muendlich-relay/.env", "C:/Users/asus/AuraLingovia/.env"]) for (const l of fs.readFileSync(f, "utf8").split(/\r?\n/)) { const m = l.match(/^\s*([A-Z0-9_]+)\s*=\s*"?([^"\r]*)"?\s*$/); if (m && !env[m[1]]) env[m[1]] = m[2]; }
 const run = (script, args) => { const r = spawnSync("node", [script, ...args], { encoding: "utf8", maxBuffer: 1 << 26 }); return { code: r.status, out: (r.stdout ?? "") + (r.stderr ?? "") }; };
 
-let r = run(T + "t1-build.mjs", [frag]); console.log(r.out.split("\n").slice(0, 1).join("\n"));
+let r = run(T + (persons ? "t1-build-persons.mjs" : "t1-build.mjs"), [frag]); console.log(r.out.split("\n").find((l) => /\| transcript by/.test(l)) ?? r.out.split("\n")[0]);
 if (r.code) { console.log(r.out.slice(-600)); process.exit(1); }
-const slug = r.out.match(/^(\S+): /)[1];
+const slug = r.out.match(/^(\S+): .*\| transcript by/m)?.[1]; // retry warnings of the transcript step can precede the summary line
+if (!slug) { console.log("could not read the slug from the build output:\n" + r.out.slice(0, 600)); process.exit(1); }
 r = run(R + "revoice.mjs", [slug]); fs.writeFileSync(`${slug}.revoice.log`, r.out);
 if (r.code) { console.log(/quota/i.test(r.out) ? "GEMINI TTS QUOTA EXHAUSTED — resume later" : r.out.slice(-600)); process.exit(/quota/i.test(r.out) ? 3 : 1); }
 console.log(r.out.split("\n").filter((l) => /^total|OUTLIER/.test(l)).join("\n"));

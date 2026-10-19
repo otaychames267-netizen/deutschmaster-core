@@ -1,0 +1,73 @@
+{
+ "name": "bierkonsum",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Bitte prüfen Sie auch, ob eine Aufgabe 41 bis 45 richtig oder falsch ist."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 62,
+   "kind": "instruction",
+   "text": "Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 bis 45. Markieren Sie nur plus gleich richtig und minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41 bis 45. Sie haben dazu 30 Sekunden Zeit."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 2,
+   "kind": "news",
+   "text": "Berlin. Der Bierkonsum steigt um 10 Prozent. Der deutsche Brauerbund rechnet damit, dass Bier um 10 Prozent teurer wird. Der Grund für den steigenden Bierpreis ist einfach. Die notwendigen Rohstoffe wie Hopfen, Malz und Gerste sowie Energie sind teurer geworden. Daraus ergeben sich auch eine notwendige Anhebung des Preises für den Kasten um 1 Euro 10, sagte der Vorsitzende des Verbandes der privaten Brauereien, der hat diesen Preis heute in Berlin."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.5,
+   "kind": "news",
+   "text": "Berlin. Die Kaufkraft der Deutschen ist in diesem Jahr nur leicht gestiegen. Der Wohlstand findet sich dagegen in der Schweiz, in Liechtenstein und Luxemburg. Im Durchschnitt stehen jedem Deutschen jährlich 18. 550 Euro zur Verfügung und damit 2,5 Prozent mehr als im Vorjahr, wie das Nürnberger Marktforschungsinstitut GfK heute mitteilte. Damit liegt die größte Volkswirtschaft des Kontinents in der europäischen Rangliste weiterhin im zehnten Platz ein und gehört damit längst nicht zu den Schlusslichtern. Frankfurt. Am Wochenende ist ein Wanderer in den Alpen verunglückt. Ein 30-jähriger Wanderer aus Frankfurt stürzte bei einem Wanderweg in der Region Leichlingen. Dabei verletzte er sich am Sprunggelenk, sodass er den Abstieg nicht fortsetzen konnte. Zum Glück war er in der Lage, selbst die Bergrettung zu alarmieren. Er wurde darauf erst versorgt und anschließend ins Tal gebracht."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 2,
+   "kind": "news",
+   "text": "Im Zusammenhang war der Bergrettungsdienst der Notfallrettung zum Wanderkuchen. Wiederum bei der Beinarbeit zu tun, das Wanderer Wetterbericht in den Medien konnte sich leicht überschätzen. Man sollte nicht einmal einen aufgeladenen Handy dabei haben. Bei jeder Tour sollte man zu jedem Wetterprognose mitnehmen. Frankfurt am Main. Erpressung, Streik, Desaster. Die Bahn empört sich über den geplanten Totalstreik der Lokführer, will aber kein bisschen nachgeben, sondern den Arbeitskampf mit Notfallplänen durchstehen. Der Chef der Lokführergewerkschaft, den schon bei Ausfälle in den kommenden Wochen. Die Bahn will hoffen, Arbeitskampf mit Personalpläne mit Notfallpläne reagieren. Die Ersatzfahrpläne stehen unter Bahn. de zur Verfügung. Außerdem wird die kostenlose Informationshotline 0800 99 77 33 bis zum Ende des angekündigten Streiks freigeschaltet."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Hamburg. Verwüstete Straßen, brennende Polizeibüros, tote Polizisten. Das ist auch auf den deutschen Fußball zu. Die Polizeigewerkschaft hält massive Gewaltanwendung von Fußballanhängern auch hierzulande für möglich. Sprecher von Faninitiativen sprechen von Übertreibung. Die Lage ist aber ernst, zumindest nach Meinung der Gewerkschaft der Polizei. Auch in Deutschland könnte es schnell zu ähnlichen Problemen kommen, wie zuletzt in Italien. Die Polizei spricht von einer radikalen Ultraszene und erschreckender Drohe Gewaltbereitschaft."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Halle, Berlin. Die Leopoldina in Halle, die älteste Wissenschaftlerakademie Europas, soll künftig die nationale Akademie der Wissenschaften für Deutschland werden. Das kündigte die Bundesbildungsministerin am Freitag in Deutschland an. Die nationale Akademie soll auf Basis der Wissenschaft die Politik beraten und Deutschland in der internationalen Forschung vertreten, so die Ministerin. Die Leopoldina gilt als die am höchsten unterbrochene Systeme der naturwissenschaftlich-medizinischen Akademie der Welt. Sie hat weltweit rund 1250 Mitglieder, darunter mehr als 30 Nobelpreisträger."
+  }
+ ]
+}

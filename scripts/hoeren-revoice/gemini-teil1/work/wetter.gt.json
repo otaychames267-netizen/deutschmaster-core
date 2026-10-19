@@ -1,0 +1,310 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 2.2,
+   "text": "Die Nachrichten."
+  },
+  {
+   "gender": "female",
+   "start": 2.2,
+   "end": 16.7,
+   "text": "In der letzten Nacht sind heftige Unwetter über einen Großteil des Landesgebietes hinweggezogen. Auf einem Campingplatz bei Passau wurden laut Polizei einige Wohnwagen umgeworfen und zahlreiche Zelte aus den Verankerungen gerissen."
+  },
+  {
+   "gender": "female",
+   "start": 16.7,
+   "end": 23.3,
+   "text": "Fünf Personen, darunter zwei Angestellte des Campingplatzes, wurden von herabstürzenden Ästen leicht verletzt."
+  },
+  {
+   "gender": "female",
+   "start": 23.3,
+   "end": 26.7,
+   "text": "Die gesamte Anlage musste vorübergehend evakuiert werden."
+  },
+  {
+   "gender": "female",
+   "start": 26.7,
+   "end": 29.1,
+   "text": "Das Rote Kreuz half vor Ort."
+  },
+  {
+   "gender": "female",
+   "start": 29.1,
+   "end": 34.1,
+   "text": "Die betroffenen Feriengäste wurden in der Turnhalle einer nahegelegenen Schule einquartiert."
+  },
+  {
+   "gender": "female",
+   "start": 34.1,
+   "end": 40,
+   "text": "Gebäude und Infrastruktur des Campingplatzes sind nach Auskunft der Polizei nicht betroffen."
+  },
+  {
+   "gender": "female",
+   "start": 40,
+   "end": 42.7,
+   "text": "Die Aufräumarbeiten sind zurzeit noch im Gange."
+  },
+  {
+   "gender": "female",
+   "start": 42.7,
+   "end": 48.7,
+   "text": "Wann die Camper zu ihren Zelten beziehungsweise Wohnmobilen zurückkehren dürfen, ist noch nicht bekannt."
+  },
+  {
+   "gender": "female",
+   "start": 52.1,
+   "end": 59.5,
+   "text": "Bei der Lebensmittelkette Fudi wird haltbare Vollmilch der Marke Mirella wegen einer Belastung mit gefährlichen Bakterien zurückgerufen."
+  },
+  {
+   "gender": "female",
+   "start": 59.5,
+   "end": 67.5,
+   "text": "Wie der Hersteller angibt, war bei hauseigenen Untersuchungen ein Erreger entdeckt worden, der schwere Magen-Darm-Erkrankungen auslösen kann."
+  },
+  {
+   "gender": "female",
+   "start": 67.5,
+   "end": 78.7,
+   "text": "Von der Rückrufaktion betroffen ist haltbare Vollmilch in Ein-Liter-Packungen mit drei Komma acht Prozent Fettgehalt mit den Mindesthaltbarkeitsdaten dreizehnter und vierzehnter November."
+  },
+  {
+   "gender": "female",
+   "start": 78.7,
+   "end": 82.7,
+   "text": "Dies teilten Fudi und der Hersteller in einer gemeinsamen Presseerklärung mit."
+  },
+  {
+   "gender": "female",
+   "start": 82.7,
+   "end": 86.5,
+   "text": "Konsumenten sollen die Milch auf keinen Fall verbrauchen."
+  },
+  {
+   "gender": "female",
+   "start": 86.5,
+   "end": 92.5,
+   "text": "Bereits gekaufte Packungen werden in allen Fudi-Filialen gegen Rückerstattung des Kaufpreises zurückgenommen."
+  },
+  {
+   "gender": "female",
+   "start": 92.5,
+   "end": 96.5,
+   "text": "Das Produkt wurde in allen Filialen aus dem Verkauf genommen."
+  },
+  {
+   "gender": "female",
+   "start": 96.5,
+   "end": 100,
+   "text": "Andere Produkte der Marke sind nicht von dem Rückruf betroffen."
+  },
+  {
+   "gender": "female",
+   "start": 103.3,
+   "end": 107,
+   "text": "In Deutschland hat die Zahl der offenen Stellen ein neues Rekordhoch erreicht."
+  },
+  {
+   "gender": 107,
+   "end": 111.5,
+   "text": "Im zweiten Quartal des Jahres waren knapp eins Komma eins Millionen Jobs unbesetzt."
+  },
+  {
+   "gender": "female",
+   "start": 111.5,
+   "end": 117.5,
+   "text": "Das teilte das Institut für Arbeitsmarkt- und Berufsforschung nach einer repräsentativen Umfrage mit."
+  },
+  {
+   "gender": "female",
+   "start": 117.5,
+   "end": 123.5,
+   "text": "Das Institut wertete Antworten von rund achttausend Betrieben aus unterschiedlichen Branchen aus."
+  },
+  {
+   "gender": "female",
+   "start": 123.5,
+   "end": 126.5,
+   "text": "In manchen Bereichen gebe es demnach zunehmend Engpässe."
+  },
+  {
+   "gender": "female",
+   "start": 126.5,
+   "end": 132.5,
+   "text": "Besonders im Bauwesen und verarbeitenden Gewerbe werde dringend Personal gesucht, hieß es."
+  },
+  {
+   "gender": "female",
+   "start": 132.5,
+   "end": 139.5,
+   "text": "So sei die Zahl der offenen Stellen im verarbeitenden Gewerbe seit dem letzten Quartal um rund fünftausend gestiegen."
+  },
+  {
+   "gender": "female",
+   "start": 139.5,
+   "end": 144.5,
+   "text": "Von einem deutschlandweiten Mangel an Fachkräften könne allerdings nicht gesprochen werden."
+  },
+  {
+   "gender": "female",
+   "start": 148.5,
+   "end": 157.5,
+   "text": "In einem Zeltlager bei Amberg haben sich rund zweihundert jugendliche Teilnehmerinnen und Teilnehmer mit einem Magen-Darm-Infekt angesteckt."
+  },
+  {
+   "gender": "female",
+   "start": 157.5,
+   "end": 166.5,
+   "text": "Ungefähr die Hälfte von ihnen konnte vor Ort medizinisch versorgt werden, rund einhundert Betroffene wurden nach Angaben der Camp-Notärztin ins Krankenhaus gebracht."
+  },
+  {
+   "gender": "female",
+   "start": 166.5,
+   "end": 169.5,
+   "text": "Niemand befinde sich in Lebensgefahr, so die Ärztin."
+  },
+  {
+   "gender": "female",
+   "start": 169.5,
+   "end": 176.5,
+   "text": "Die ersten Jugendlichen hatten am Samstag nach einer Sportveranstaltung über Übelkeit und Erbrechen geklagt."
+  },
+  {
+   "gender": "female",
+   "start": 176.5,
+   "end": 182.5,
+   "text": "In der Folge hatte sich die Infektion innerhalb weniger Stunden im ganzen Lager ausgebreitet."
+  },
+  {
+   "gender": "female",
+   "start": 182.5,
+   "end": 187.5,
+   "text": "Für die Rettungskräfte stellte die hohe Zahl an Infizierten eine große Herausforderung dar."
+  },
+  {
+   "gender": "female",
+   "start": 187.5,
+   "end": 190.5,
+   "text": "In der Zwischenzeit haben sie die Lage im Griff."
+  },
+  {
+   "gender": "female",
+   "start": 190.5,
+   "end": 195.5,
+   "text": "Als Erreger wurde zweifelsfrei das hochansteckende Norovirus identifiziert."
+  },
+  {
+   "gender": "female",
+   "start": 199.5,
+   "end": 205.5,
+   "text": "Zum Internationalen Museumstag öffnet das Athos-Stadtmuseum seine Türen."
+  },
+  {
+   "gender": "female",
+   "start": 205.5,
+   "end": 210.5,
+   "text": "Am einundzwanzigsten Mai ist der Eintritt in alle Sammlungen und Ausstellungen des Hauses frei."
+  },
+  {
+   "gender": "female",
+   "start": 210.5,
+   "end": 212.5,
+   "text": "Besonders herzlich eingeladen sind Kinder."
+  },
+  {
+   "gender": "female",
+   "start": 212.5,
+   "end": 220.5,
+   "text": "Um elf, um vierzehn und um sechzehn Uhr gibt es Gratis-Führungen durch die Sonderausstellung Geschichte des Jahrmarktes."
+  },
+  {
+   "gender": "female",
+   "start": 220.5,
+   "end": 222.5,
+   "text": "Sie dauern rund eine Stunde."
+  },
+  {
+   "gender": "female",
+   "start": 222.5,
+   "end": 225.5,
+   "text": "Die Zahl der Teilnehmerinnen und Teilnehmer ist begrenzt."
+  },
+  {
+   "gender": "female",
+   "start": 225.5,
+   "end": 232.5,
+   "text": "Im Innenhof des Museums gibt es außerdem einen lustigen Kinderparcours, Gratis-Luftballons und Zuckerwatte."
+  },
+  {
+   "gender": "female",
+   "start": 232.5,
+   "end": 236.5,
+   "text": "Das Stadtmuseum freut sich auf kleine und große Gäste."
+  },
+  {
+   "gender": "female",
+   "start": 239.5,
+   "end": 244.5,
+   "text": "Zu einem spektakulären Unfall ist es heute in den frühen Morgenstunden auf der A eins gekommen."
+  },
+  {
+   "gender": "female",
+   "start": 244.5,
+   "end": 254.5,
+   "text": "Nachdem der Fahrer eines Tiertransporters einen Pfeiler gerammt hatte und der LKW stark beschädigt worden war, gelangten rund fünftausend Hühner auf die Fahrbahn."
+  },
+  {
+   "gender": "female",
+   "start": 254.5,
+   "end": 257.5,
+   "text": "Die Autobahn musste vollständig gesperrt werden."
+  },
+  {
+   "gender": "female",
+   "start": 257.5,
+   "end": 260.5,
+   "text": "Die Folge waren kilometerlange Staus in beide Richtungen."
+  },
+  {
+   "gender": "female",
+   "start": 260.5,
+   "end": 267.5,
+   "text": "Einhundertzwanzig Einsatzkräfte waren stundenlang damit beschäftigt, die herumflatternden Tiere wieder einzufangen."
+  },
+  {
+   "gender": "female",
+   "start": 267.5,
+   "end": 271.5,
+   "text": "Hilfe bekamen sie dabei von einem herbeigerufenen Geflügeltierarzt."
+  },
+  {
+   "gender": "female",
+   "start": 271.5,
+   "end": 274.5,
+   "text": "Ein Großteil der Hühner überlebte den Unfall."
+  },
+  {
+   "gender": "female",
+   "start": 274.5,
+   "end": 277.5,
+   "text": "Sie wurden von einem zweiten LKW abtransportiert."
+  },
+  {
+   "gender": "female",
+   "start": 277.5,
+   "end": 282.5,
+   "text": "Gegen elf Uhr am Vormittag konnte die Autobahn wieder für den Verkehr freigegeben werden."
+  },
+  {
+   "gender": "female",
+   "start": 282.5,
+   "end": 284.5,
+   "text": "Das waren die Nachrichten."
+  }
+ ]
+}

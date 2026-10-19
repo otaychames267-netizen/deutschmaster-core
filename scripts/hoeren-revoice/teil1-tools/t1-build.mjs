@@ -25,7 +25,7 @@ Hilfe für Namen und Schreibweisen (NICHT vorlesen oder ergänzen): ${st.map((s)
   for (const model of ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite", "gemini-3.5-flash"]) for (let a = 1; a <= 2; a++) {
     try {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, { method: "POST", headers: { "x-goog-api-key": env.GEMINI_API_KEY, "content-type": "application/json" }, signal: AbortSignal.timeout(170000),
-        body: JSON.stringify({ contents: [{ parts: [{ inlineData: { mimeType: "audio/mp4", data } }, { text: prompt }] }], generationConfig: { temperature: 0, responseMimeType: "application/json", maxOutputTokens: 16000 } }) });
+        body: JSON.stringify({ contents: [{ parts: [{ inlineData: { mimeType: "audio/mp4", data } }, { text: prompt }] }], generationConfig: { temperature: 0, responseMimeType: "application/json", maxOutputTokens: 16000, responseSchema: { type: "ARRAY", items: { type: "OBJECT", properties: { gender: { type: "STRING", enum: ["male", "female"] }, start: { type: "NUMBER" }, end: { type: "NUMBER" }, text: { type: "STRING" } }, required: ["gender", "start", "end", "text"] } } } }) });
       if (r.ok) { const j = await r.json(); const t = j.candidates?.[0]?.content?.parts?.map((p) => p.text).join(""); const o = JSON.parse(t); const segs = Array.isArray(o) ? o : o.segments; if (Array.isArray(segs) && segs.length) return { model, segments: segs }; console.log("  transcript", model, "unexpected shape"); }
       else console.log("  transcript", model, r.status);
     } catch (e) { console.log("  transcript", model, String(e.message ?? e).slice(0, 80)); }

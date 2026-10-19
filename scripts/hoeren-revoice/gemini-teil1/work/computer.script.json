@@ -1,0 +1,72 @@
+{
+ "name": "computer",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "p1": "Charon",
+  "p2": "Orus",
+  "p3": "Erinome",
+  "p4": "Aoede",
+  "p5": "Leda"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "p1": 0.94,
+  "p2": 0.94,
+  "p3": 0.94,
+  "p4": 0.94,
+  "p5": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1.5,
+   "kind": "announcer",
+   "text": "Computer sind aus dem modernen Alltag kaum wegzudenken. Trotzdem gehen Menschen sehr unterschiedlich mit ihnen um. Wir haben fünf Personen gefragt, welche Rolle Computer in ihrem Leben spielen. Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "type": "tts",
+   "voice": "p1",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer eins. Viele denken ja, ohne Computer kommt man heute kaum noch zurecht. Bei mir ist das ein bisschen anders. Zu Hause brauche ich ihn eigentlich nicht oft und manchmal vergesse ich sogar, dass er da ist. Trotzdem steht bei mir ein Laptop auf dem Schreibtisch. Ich benutze ihn zwar selten, aber ganz darauf verzichten möchte ich nicht, denn ab und zu ist es doch praktisch, etwas nachzuschauen oder schnell eine E-Mail zu schreiben."
+  },
+  {
+   "type": "tts",
+   "voice": "p2",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer zwei. Wenn ich an meinen Computer denke, fällt mir zuerst die Arbeit ein. Im Büro sitze ich fast den ganzen Tag davor, deshalb könnte man meinen, dass ich ihn nur dort benutze, aber das stimmt so nicht ganz. Auch zu Hause greife ich manchmal darauf zurück, etwa für Online-Formulare oder private E-Mails. Es ist also nicht so, dass der Computer nur am Arbeitsplatz eine Rolle spielt."
+  },
+  {
+   "type": "tts",
+   "voice": "p3",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer drei. Computer können natürlich vieles erleichtern, das ist mir schon klar. Trotzdem habe ich persönlich kein gutes Gefühl dabei. Ich komme mit der Technik nicht richtig zurecht und werde schnell unsicher. Deshalb vermeide ich es, mit Computern zu arbeiten, wann immer es möglich ist. Wenn ich etwas digital erledigen müsste, suche ich lieber nach einer anderen Lösung. Für mich sind Computer einfach nichts."
+  },
+  {
+   "type": "tts",
+   "voice": "p4",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer vier. Eigentlich nutze ich Computer regelmäßig und ganz ohne geht es heute ja kaum. Trotzdem habe ich kein großes Vertrauen in die Technik. Zu oft gab es Probleme, Daten weg, Programme abgestürzt, nichts funktioniert mehr. Deshalb verlasse ich mich nie nur auf den Computer und bin immer vorsichtig. Ich glaube nicht, dass das, dass Technik wirklich zuverlässig ist."
+  },
+  {
+   "type": "tts",
+   "voice": "p5",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer fünf. Man könnte denken, dass ich ohne Computer im Alltag Schwierigkeiten hätte, aber so ist es nicht. Viele Dinge erledige ich direkt vor Ort oder mit dem Handy. Ein Computer wäre manchmal bequem, aber notwendig ist er für mich nicht. Ich komme gut ohne aus und vermisse dabei nichts im täglichen Leben."
+  }
+ ]
+}

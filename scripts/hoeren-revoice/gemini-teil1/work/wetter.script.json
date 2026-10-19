@@ -1,0 +1,73 @@
+{
+ "name": "wetter",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Die Nachrichten. In der letzten Nacht sind heftige Unwetter über einen Großteil des Landesgebietes hinweggezogen. Auf einem Campingplatz bei Passau wurden laut Polizei einige Wohnwagen umgeworfen und zahlreiche Zelte aus den Verankerungen gerissen. Fünf Personen, darunter zwei Angestellte des Campingplatzes, wurden von herabstürzenden Ästen leicht verletzt. Die gesamte Anlage musste vorübergehend evakuiert werden. Das Rote Kreuz half vor Ort. Die betroffenen Feriengäste wurden in der Turnhalle einer nahegelegenen Schule einquartiert. Gebäude und Infrastruktur des Campingplatzes sind nach Auskunft der Polizei nicht betroffen. Die Aufräumarbeiten sind zurzeit noch im Gange. Wann die Camper zu ihren Zelten beziehungsweise Wohnmobilen zurückkehren dürfen, ist noch nicht bekannt."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Bei der Lebensmittelkette Fudi wird haltbare Vollmilch der Marke Mirella wegen einer Belastung mit gefährlichen Bakterien zurückgerufen. Wie der Hersteller angibt, war bei hauseigenen Untersuchungen ein Erreger entdeckt worden, der schwere Magen-Darm-Erkrankungen auslösen kann. Von der Rückrufaktion betroffen ist haltbare Vollmilch in Ein-Liter-Packungen mit drei Komma acht Prozent Fettgehalt mit den Mindesthaltbarkeitsdaten dreizehnter und vierzehnter November. Dies teilten Fudi und der Hersteller in einer gemeinsamen Presseerklärung mit. Konsumenten sollen die Milch auf keinen Fall verbrauchen. Bereits gekaufte Packungen werden in allen Fudi-Filialen gegen Rückerstattung des Kaufpreises zurückgenommen. Das Produkt wurde in allen Filialen aus dem Verkauf genommen. Andere Produkte der Marke sind nicht von dem Rückruf betroffen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "In Deutschland hat die Zahl der offenen Stellen ein neues Rekordhoch erreicht."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Im zweiten Quartal des Jahres waren knapp eins Komma eins Millionen Jobs unbesetzt. Das teilte das Institut für Arbeitsmarkt- und Berufsforschung nach einer repräsentativen Umfrage mit. Das Institut wertete Antworten von rund achttausend Betrieben aus unterschiedlichen Branchen aus. In manchen Bereichen gebe es demnach zunehmend Engpässe. Besonders im Bauwesen und verarbeitenden Gewerbe werde dringend Personal gesucht, hieß es. So sei die Zahl der offenen Stellen im verarbeitenden Gewerbe seit dem letzten Quartal um rund fünftausend gestiegen. Von einem deutschlandweiten Mangel an Fachkräften könne allerdings nicht gesprochen werden."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "In einem Zeltlager bei Amberg haben sich rund zweihundert jugendliche Teilnehmerinnen und Teilnehmer mit einem Magen-Darm-Infekt angesteckt. Ungefähr die Hälfte von ihnen konnte vor Ort medizinisch versorgt werden, rund einhundert Betroffene wurden nach Angaben der Camp-Notärztin ins Krankenhaus gebracht. Niemand befinde sich in Lebensgefahr, so die Ärztin. Die ersten Jugendlichen hatten am Samstag nach einer Sportveranstaltung über Übelkeit und Erbrechen geklagt. In der Folge hatte sich die Infektion innerhalb weniger Stunden im ganzen Lager ausgebreitet. Für die Rettungskräfte stellte die hohe Zahl an Infizierten eine große Herausforderung dar. In der Zwischenzeit haben sie die Lage im Griff. Als Erreger wurde zweifelsfrei das hochansteckende Norovirus identifiziert."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Zum Internationalen Museumstag öffnet das Athos-Stadtmuseum seine Türen. Am einundzwanzigsten Mai ist der Eintritt in alle Sammlungen und Ausstellungen des Hauses frei. Besonders herzlich eingeladen sind Kinder. Um elf, um vierzehn und um sechzehn Uhr gibt es Gratis-Führungen durch die Sonderausstellung Geschichte des Jahrmarktes. Sie dauern rund eine Stunde. Die Zahl der Teilnehmerinnen und Teilnehmer ist begrenzt. Im Innenhof des Museums gibt es außerdem einen lustigen Kinderparcours, Gratis-Luftballons und Zuckerwatte. Das Stadtmuseum freut sich auf kleine und große Gäste."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Zu einem spektakulären Unfall ist es heute in den frühen Morgenstunden auf der A eins gekommen. Nachdem der Fahrer eines Tiertransporters einen Pfeiler gerammt hatte und der LKW stark beschädigt worden war, gelangten rund fünftausend Hühner auf die Fahrbahn. Die Autobahn musste vollständig gesperrt werden. Die Folge waren kilometerlange Staus in beide Richtungen. Einhundertzwanzig Einsatzkräfte waren stundenlang damit beschäftigt, die herumflatternden Tiere wieder einzufangen. Hilfe bekamen sie dabei von einem herbeigerufenen Geflügeltierarzt. Ein Großteil der Hühner überlebte den Unfall. Sie wurden von einem zweiten LKW abtransportiert. Gegen elf Uhr am Vormittag konnte die Autobahn wieder für den Verkehr freigegeben werden. Das waren die Nachrichten."
+  }
+ ]
+}

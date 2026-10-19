@@ -1,0 +1,65 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 15,
+   "text": "Bitte prüfen Sie auch, ob eine Aufgabe 41 bis 45 richtig oder falsch ist. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 bis 45. Markieren Sie nur plus gleich richtig und minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 41 bis 45."
+  },
+  {
+   "gender": "female",
+   "start": 30.5,
+   "end": 33.5,
+   "text": "Sie haben dazu 30 Sekunden Zeit."
+  },
+  {
+   "gender": "male",
+   "start": 111.5,
+   "end": 149,
+   "text": "Berlin. Der Bierkonsum steigt um 10 Prozent. Der deutsche Brauerbund rechnet damit, dass Bier um 10 Prozent teurer wird. Der Grund für den steigenden Bierpreis ist einfach. Die notwendigen Rohstoffe wie Hopfen, Malz und Gerste sowie Energie sind teurer geworden. Daraus ergeben sich auch eine notwendige Anhebung des Preises für den Kasten um 1 Euro 10, sagte der Vorsitzende des Verbandes der privaten Brauereien, der hat diesen Preis heute in Berlin."
+  },
+  {
+   "gender": "male",
+   "start": 151,
+   "end": 225.5,
+   "text": "Berlin. Die Kaufkraft der Deutschen ist in diesem Jahr nur leicht gestiegen. Der Wohlstand findet sich dagegen in der Schweiz, in Liechtenstein und Luxemburg. Im Durchschnitt stehen jedem Deutschen jährlich 18.550 Euro zur Verfügung und damit 2,5 Prozent mehr als im Vorjahr, wie das Nürnberger Marktforschungsinstitut GfK heute mitteilte. Damit liegt die größte Volkswirtschaft des Kontinents in der europäischen Rangliste weiterhin im zehnten Platz ein und gehört damit längst nicht zu den Schlusslichtern."
+  },
+  {
+   "gender": "male",
+   "start": 227.5,
+   "end": 248,
+   "text": "Frankfurt. Am Wochenende ist ein Wanderer in den Alpen verunglückt. Ein 30-jähriger Wanderer aus Frankfurt stürzte bei einem Wanderweg in der Region Leichlingen. Dabei verletzte er sich am Sprunggelenk, sodass er den Abstieg nicht fortsetzen konnte. Zum Glück war er in der Lage, selbst die Bergrettung zu alarmieren. Er wurde darauf erst versorgt und anschließend ins Tal gebracht."
+  },
+  {
+   "gender": "male",
+   "start": 249.5,
+   "end": 254,
+   "text": "Im Zusammenhang war der Bergrettungsdienst der Notfallrettung zum Wanderkuchen."
+  },
+  {
+   "gender": "male",
+   "start": 254.5,
+   "end": 307.5,
+   "text": "Wiederum bei der Beinarbeit zu tun, das Wanderer Wetterbericht in den Medien konnte sich leicht überschätzen. Man sollte nicht einmal einen aufgeladenen Handy dabei haben. Bei jeder Tour sollte man zu jedem Wetterprognose mitnehmen."
+  },
+  {
+   "gender": "male",
+   "start": 309.5,
+   "end": 351.5,
+   "text": "Frankfurt am Main. Erpressung, Streik, Desaster. Die Bahn empört sich über den geplanten Totalstreik der Lokführer, will aber kein bisschen nachgeben, sondern den Arbeitskampf mit Notfallplänen durchstehen. Der Chef der Lokführergewerkschaft, den schon bei Ausfälle in den kommenden Wochen. Die Bahn will hoffen, Arbeitskampf mit Personalpläne mit Notfallpläne reagieren. Die Ersatzfahrpläne stehen unter Bahn.de zur Verfügung. Außerdem wird die kostenlose Informationshotline 0800 99 77 33 bis zum Ende des angekündigten Streiks freigeschaltet."
+  },
+  {
+   "gender": "male",
+   "start": 353.5,
+   "end": 419,
+   "text": "Hamburg. Verwüstete Straßen, brennende Polizeibüros, tote Polizisten. Das ist auch auf den deutschen Fußball zu. Die Polizeigewerkschaft hält massive Gewaltanwendung von Fußballanhängern auch hierzulande für möglich. Sprecher von Faninitiativen sprechen von Übertreibung. Die Lage ist aber ernst, zumindest nach Meinung der Gewerkschaft der Polizei. Auch in Deutschland könnte es schnell zu ähnlichen Problemen kommen, wie zuletzt in Italien. Die Polizei spricht von einer radikalen Ultraszene und erschreckender Drohe Gewaltbereitschaft."
+  },
+  {
+   "gender": "male",
+   "start": 433,
+   "end": 514.5,
+   "text": "Halle, Berlin. Die Leopoldina in Halle, die älteste Wissenschaftlerakademie Europas, soll künftig die nationale Akademie der Wissenschaften für Deutschland werden. Das kündigte die Bundesbildungsministerin am Freitag in Deutschland an. Die nationale Akademie soll auf Basis der Wissenschaft die Politik beraten und Deutschland in der internationalen Forschung vertreten, so die Ministerin. Die Leopoldina gilt als die am höchsten unterbrochene Systeme der naturwissenschaftlich-medizinischen Akademie der Welt. Sie hat weltweit rund 1250 Mitglieder, darunter mehr als 30 Nobelpreisträger."
+  }
+ ]
+}

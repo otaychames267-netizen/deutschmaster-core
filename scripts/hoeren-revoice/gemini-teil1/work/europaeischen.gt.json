@@ -1,0 +1,287 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 4,
+   "end": 15,
+   "text": "Das ist 10 Uhr, die Nachrichten."
+  },
+  {
+   "gender": "male",
+   "start": 16,
+   "end": 21,
+   "text": "Das geht aus den jüngsten Daten zur Beschäftigung hervor, die gestern veröffentlicht wurden."
+  },
+  {
+   "gender": "male",
+   "start": 22,
+   "end": 28,
+   "text": "Auch in der Eurozone gab es einen leichten Rückgang in den absoluten Zahlen der arbeitslosen Personen."
+  },
+  {
+   "gender": "male",
+   "start": 29,
+   "end": 33,
+   "text": "In Prozentpunkten ist die Arbeitslosenquote im Euroraum allerdings gleich geblieben."
+  },
+  {
+   "gender": "male",
+   "start": 34,
+   "end": 43,
+   "text": "Während die Gesamtarbeitslosigkeit in Österreich am geringsten ist, hat Deutschland bei der Jugend-Arbeitslosigkeit die niedrigste Rate."
+  },
+  {
+   "gender": "male",
+   "start": 43,
+   "end": 49,
+   "text": "EU-weit liegt die Jugend-Arbeitslosigkeit 0,2 Prozentpunkte unter jener des Vormonats."
+  },
+  {
+   "gender": "male",
+   "start": 50,
+   "end": 54,
+   "text": "Doch nicht nur die Jugendlichen profitieren von diesem positiven Trend."
+  },
+  {
+   "gender": "male",
+   "start": 55,
+   "end": 60,
+   "text": "Den Daten zufolge betrifft die Entspannung der Lage am Arbeitsmarkt alle Altersgruppen."
+  },
+  {
+   "gender": "male",
+   "start": 62,
+   "end": 69,
+   "text": "Das Familienministerium plant eine Vielfalt von Aktivitäten zur Stärkung der Wahlbeteiligung von Jugendlichen."
+  },
+  {
+   "gender": "male",
+   "start": 70,
+   "end": 75,
+   "text": "Dies teilte heute ein Sprecher des Familienministeriums in einer Pressekonferenz mit."
+  },
+  {
+   "gender": "male",
+   "end": 80,
+   "start": 76,
+   "text": "Junge Menschen sollen verstärkt zum Thema Wahlen informiert werden."
+  },
+  {
+   "gender": "male",
+   "start": 81,
+   "end": 86,
+   "text": "Gleichzeitig soll hier Interesse an demokratischen Prozessen gefördert werden."
+  },
+  {
+   "gender": "male",
+   "start": 87,
+   "end": 92,
+   "text": "Ein Schwerpunkt der Initiative ist unter anderem eine demokratische Schulkultur."
+  },
+  {
+   "gender": "male",
+   "start": 93,
+   "end": 101,
+   "text": "Durch die Einbindung in Kommunalprojekte sollen Jugendliche die Möglichkeit bekommen, Demokratie im Alltag zu erleben."
+  },
+  {
+   "gender": "male",
+   "start": 102,
+   "end": 110,
+   "text": "In besonderen Workshops für Demokratie können Jugendliche politische Themen diskutieren und Beteiligungsmöglichkeiten entwickeln."
+  },
+  {
+   "gender": "male",
+   "start": 111,
+   "end": 122,
+   "text": "Zudem seien Tagungen zum Thema Jugendsbeteiligung geplant, die sich an Sozialpädagogen, Lehrkräfte, Eltern und an Politiker wenden, ließ der Sprecher wissen."
+  },
+  {
+   "gender": "male",
+   "start": 124,
+   "end": 126,
+   "text": "Wir bleiben beim Thema Beschäftigung."
+  },
+  {
+   "gender": "male",
+   "start": 127,
+   "end": 136,
+   "text": "Wir sind offen, unter diesem Motto wird zurzeit eine Wanderausstellung des Bundesarbeitsministeriums für Deutschland als Einwanderungsland."
+  },
+  {
+   "gender": "male",
+   "start": 137,
+   "end": 142,
+   "text": "Offen zeigt sich die Bundesrepublik neuerdings auch für Fachkräfte außerhalb der EU."
+  },
+  {
+   "gender": "male",
+   "start": 143,
+   "end": 149,
+   "text": "Sie können nach Deutschland kommen, wenn ihr Beruf auf einer sogenannten Positivliste mit gefragten Berufen steht."
+  },
+  {
+   "gender": "male",
+   "start": 150,
+   "end": 158,
+   "text": "Auf der aktuellen Liste finden sich unter anderem Mechatroniker, Klempner, Kranken- und Altenpfleger."
+  },
+  {
+   "gender": "male",
+   "start": 159,
+   "end": 162,
+   "text": "Der Zustrom ist bisher allerdings nicht sehr groß."
+  },
+  {
+   "gender": "male",
+   "start": 163,
+   "end": 166,
+   "text": "Das liegt vor allem daran, dass viel zu wenig Werbung gemacht wurde."
+  },
+  {
+   "gender": "male",
+   "start": 167,
+   "end": 172,
+   "text": "Kaum jemand in China weiß, dass in Deutschland Lockführer gesucht werden."
+  },
+  {
+   "gender": "male",
+   "start": 173,
+   "end": 178,
+   "text": "Und außerdem stellt das Erlernen der deutschen Sprache eine Hürde für ausländische Arbeitnehmer dar."
+  },
+  {
+   "gender": "male",
+   "start": 181,
+   "end": 182,
+   "text": "Unser Veranstaltungstipp."
+  },
+  {
+   "gender": "male",
+   "start": 183,
+   "end": 194,
+   "text": "Von 20 Uhr bis 3 Uhr in der Frühe findet am Samstag wieder die diesjährige Lange Nacht der Musik an über 100 Veranstaltungsorten in der Münchener Innenstadt statt."
+  },
+  {
+   "gender": "male",
+   "start": 195,
+   "end": 203,
+   "text": "Die verschiedenen Spielstätten werden von Shuttlebussen angefahren, die bis in die Morgenstunden im 10-Minuten-Takt verkehren."
+  },
+  {
+   "gender": "male",
+   "start": 204,
+   "end": 207,
+   "text": "Das Ticket kostet 15 Euro pro Person."
+  },
+  {
+   "gender": "male",
+   "start": 208,
+   "end": 216,
+   "text": "Dafür erhalten die Besucher Zugang zu jeder Spielstätte und können bis zur letzten Fahrt um 3 Uhr früh die Shuttlebusse benutzen."
+  },
+  {
+   "gender": "male",
+   "start": 217,
+   "end": 232,
+   "text": "Wer noch kein Programm heft hat und sich in letzter Minute informieren möchte, dem sei der Infostand am Odeonsplatz empfohlen, wo man ab 17 Uhr alles zu den Spielstätten, den Künstlern und der angebotenen Musik erfährt."
+  },
+  {
+   "gender": "male",
+   "start": 233,
+   "end": 239,
+   "text": "Die Veranstalter freuen sich auf eine rege Teilnahme an der diesjährigen langen Nacht der Musik."
+  },
+  {
+   "gender": "male",
+   "start": 241,
+   "end": 243,
+   "text": "Spektakulärer Fund."
+  },
+  {
+   "gender": "male",
+   "start": 244,
+   "end": 250,
+   "text": "Im sogenannten Tal der goldenen Mumien haben ägyptische Forscher wieder Mumien gefunden."
+  },
+  {
+   "gender": "male",
+   "start": 251,
+   "end": 259,
+   "text": "Wie der Leiter der Ausgrabungen betonte, handelte es sich bei einem Teil davon um die am besten erhaltenen, die je gefunden wurden."
+  },
+  {
+   "gender": "male",
+   "start": 260,
+   "end": 266,
+   "text": "Die Mumien und die dazugehörigen Sarkophage seien außerordentlich reich verziert."
+  },
+  {
+   "gender": "male",
+   "start": 267,
+   "end": 276,
+   "text": "Der Friedhof im Tal der goldenen Mumien erstreckt sich über eine Fläche von rund 25 Quadratkilometern und wird seit 1999 intensiv erforscht."
+  },
+  {
+   "gender": "male",
+   "start": 277,
+   "end": 285,
+   "text": "Bisher sind in dem Gebiet etwa 15 Gräber mit 230 Leichen gefunden worden."
+  },
+  {
+   "gender": "male",
+   "start": 286,
+   "end": 294,
+   "text": "Die Archäologen gehen davon aus, dass bis zu 10.000 Menschen im Tal der goldenen Mumien begraben sein könnten."
+  },
+  {
+   "gender": "male",
+   "start": 296,
+   "end": 303,
+   "text": "In der vergangenen Nacht und in den Morgenstunden haben schwere Unwetter 5 Menschenleben gefordert."
+  },
+  {
+   "gender": "male",
+   "start": 304,
+   "end": 309,
+   "text": "38 Personen wurden zum Teil schwer verletzt, einige von ihnen lebensgefährlich."
+  },
+  {
+   "gender": "male",
+   "start": 310,
+   "end": 315,
+   "text": "Umgefallene Bäume beschädigten Häuser, Autos und Stromleitungen."
+  },
+  {
+   "gender": "male",
+   "start": 316,
+   "end": 319,
+   "text": "Der öffentliche Verkehr wurde an vielen Orten lahmgelegt."
+  },
+  {
+   "gender": "male",
+   "start": 320,
+   "end": 325,
+   "text": "Bis zum Nachmittag mussten die Einsatzkräfte fast 15.000 Mal ausrücken."
+  },
+  {
+   "gender": "male",
+   "start": 326,
+   "end": 332,
+   "text": "Laut Meteorologen wird es auch in den kommenden Tagen in Süddeutschland zahlreiche Gewitter geben."
+  },
+  {
+   "gender": "male",
+   "start": 333,
+   "end": 339,
+   "text": "Erst Ende der Woche sei mit einer deutlichen Beruhigung der Wetterlage zu rechnen, teilte der Wetterdienst mit."
+  },
+  {
+   "gender": "male",
+   "start": 340,
+   "end": 347,
+   "text": "Die Temperaturen gehen am Wochenende langsam zurück und damit sinkt die Gefahr von Gewittern und Unwettern."
+  }
+ ]
+}

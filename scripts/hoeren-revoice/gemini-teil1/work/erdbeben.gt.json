@@ -1,0 +1,65 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 29.5,
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45. Lesen Sie jetzt die Aufgaben 41-45."
+  },
+  {
+   "gender": "female",
+   "start": 32,
+   "end": 53.5,
+   "text": "Die folgenden Meldungen beziehen sich auf aktuelle Ereignisse aus verschiedenen Lebensbereichen. Thematisiert werden unter anderem Naturkatastrophen, Gesundheit, Verkehr, Umweltschutz und Wetter. Jede Nachricht steht für konkrete Situationen, wie sie im öffentlichen Raum oder im privaten Alltag auftreten können."
+  },
+  {
+   "gender": "male",
+   "start": 56.5,
+   "end": 116,
+   "text": "Achtung Erdbeben. Nach dem gestrigen Erdbeben gingen zahlreiche Meldungen bei Polizei und Feuerwehr ein. Viele Bürger berichteten von Rissen an Gebäuden, herabgestürzten Dachziegeln und beschädigten Straßen. Die Behörden bitten weiterhin um Hinweise auf mögliche Gefahrenstellen. Verletzte wurden bisher nicht gemeldet. Die Lage bleibt unter Kontrolle."
+  },
+  {
+   "gender": "male",
+   "start": 123,
+   "end": 134.5,
+   "text": "Informationen zum Impfschutz. Eltern erhalten weiterhin allgemeine Informationen zum Impfschutz. Doch eine verpflichtende Beratungspflicht besteht derzeit nicht."
+  },
+  {
+   "gender": "male",
+   "start": 135,
+   "end": 149.5,
+   "text": "Laut Gesundheitsministerium ist eine Beratung zwar empfohlen, aber freiwillig. Nur in bestimmten Risikogebieten gelten strengere Regeln, dort sind zusätzliche Maßnahmen geplant, jedoch noch nicht umgesetzt."
+  },
+  {
+   "gender": "male",
+   "start": 151,
+   "end": 204.5,
+   "text": "Verkehrsbehinderung und Stau. In den kommenden Wochen wird mit Verkehrsbehinderungen gerechnet, jedoch vor allem werktags. Grund dafür sind Bauarbeiten an mehreren Hauptverkehrsstraßen. Besonders montags und mittwochs wird es zu langen Staus kommen. Am Wochenende sollen die Einschränkungen hingegen weitgehend aufgehoben oder umgeleitet werden."
+  },
+  {
+   "gender": "male",
+   "start": 217,
+   "end": 236,
+   "text": "Pipelines und Umweltverschmutzung. Laut aktueller Umweltstudie sind nicht die Pipelines, sondern der Straßenverkehr und die Industrie Hauptverursacher der Umweltverschmutzung in Schleswig-Holstein. Die Belastung durch Rohrleitungen sei hingegen laut Experten gering."
+  },
+  {
+   "gender": "male",
+   "start": 236.5,
+   "end": 242.5,
+   "text": "Maßnahmen zur Luftreinhaltung konzentrieren sich deshalb auf Ballungsräume mit hohem Verkehrsaufkommen."
+  },
+  {
+   "gender": "male",
+   "start": 246.5,
+   "end": 312.5,
+   "text": "Ozonbelastung zu Wochenbeginn. Für Anfang nächster Woche warnen Meteorologen vor erhöhter Ozonbelastung. Bei anhaltendem Sonnenschein und wenig Wind könnten die Werte besonders in Großstädten die Grenzwerte überschreiten. Menschen mit Atemwegserkrankungen sollten körperliche Anstrengung im Freien möglichst vermeiden und die aktuellen Prognosen verfolgen."
+  },
+  {
+   "gender": "female",
+   "start": 315,
+   "end": 459.5,
+   "text": "Ende Teil 1. Hörverstehen Teil 2. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55. Markieren Sie Plus gleich richtig und Minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46 bis 55. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

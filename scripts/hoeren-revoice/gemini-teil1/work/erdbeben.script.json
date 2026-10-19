@@ -1,0 +1,73 @@
+{
+ "name": "erdbeben",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 2.5,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45. Lesen Sie jetzt die Aufgaben 41-45."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Die folgenden Meldungen beziehen sich auf aktuelle Ereignisse aus verschiedenen Lebensbereichen. Thematisiert werden unter anderem Naturkatastrophen, Gesundheit, Verkehr, Umweltschutz und Wetter. Jede Nachricht steht für konkrete Situationen, wie sie im öffentlichen Raum oder im privaten Alltag auftreten können."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Achtung Erdbeben. Nach dem gestrigen Erdbeben gingen zahlreiche Meldungen bei Polizei und Feuerwehr ein. Viele Bürger berichteten von Rissen an Gebäuden, herabgestürzten Dachziegeln und beschädigten Straßen. Die Behörden bitten weiterhin um Hinweise auf mögliche Gefahrenstellen. Verletzte wurden bisher nicht gemeldet. Die Lage bleibt unter Kontrolle."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Informationen zum Impfschutz. Eltern erhalten weiterhin allgemeine Informationen zum Impfschutz. Doch eine verpflichtende Beratungspflicht besteht derzeit nicht. Laut Gesundheitsministerium ist eine Beratung zwar empfohlen, aber freiwillig. Nur in bestimmten Risikogebieten gelten strengere Regeln, dort sind zusätzliche Maßnahmen geplant, jedoch noch nicht umgesetzt. Verkehrsbehinderung und Stau. In den kommenden Wochen wird mit Verkehrsbehinderungen gerechnet, jedoch vor allem werktags. Grund dafür sind Bauarbeiten an mehreren Hauptverkehrsstraßen. Besonders montags und mittwochs wird es zu langen Staus kommen. Am Wochenende sollen die Einschränkungen hingegen weitgehend aufgehoben oder umgeleitet werden."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Pipelines und Umweltverschmutzung. Laut aktueller Umweltstudie sind nicht die Pipelines, sondern der Straßenverkehr und die Industrie Hauptverursacher der Umweltverschmutzung in Schleswig-Holstein. Die Belastung durch Rohrleitungen sei hingegen laut Experten gering. Maßnahmen zur Luftreinhaltung konzentrieren sich deshalb auf Ballungsräume mit hohem Verkehrsaufkommen."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 2.5,
+   "kind": "news",
+   "text": "Ozonbelastung zu Wochenbeginn. Für Anfang nächster Woche warnen Meteorologen vor erhöhter Ozonbelastung. Bei anhaltendem Sonnenschein und wenig Wind könnten die Werte besonders in Großstädten die Grenzwerte überschreiten. Menschen mit Atemwegserkrankungen sollten körperliche Anstrengung im Freien möglichst vermeiden und die aktuellen Prognosen verfolgen."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

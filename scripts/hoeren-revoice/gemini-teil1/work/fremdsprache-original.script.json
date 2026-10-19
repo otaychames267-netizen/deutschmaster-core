@@ -1,0 +1,66 @@
+{
+ "name": "fremdsprache-original",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Das waren die aktuellen Meldungen und jetzt folgt unsere Umfrage der Woche. Wir wollten von Menschen in der Innenstadt wissen, wann sollten Kinder ihrer Meinung nach mit dem Fremdsprachenlernen beginnen und warum?"
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Wir haben einige Stimmen für Sie gesammelt. Nummer eins. Also, ich habe nichts grundsätzlich gegen Fremdsprachen. Im Gegenteil, ich finde sie wichtig. Aber wenn ich sehe, wie manche Eltern ihre dreijährigen schon in Englischkurse schicken, frage ich mich wirklich, ob das sein muss. Meine Tochter wollte damals selbst nicht und ich habe sie nicht gezwungen. Manche sagen, je früher, desto besser, aber ich glaube, dass Kinder erst einmal genug damit zu tun haben, ihre Muttersprache richtig zu lernen. Ich bin nicht strikt dagegen, aber ich halte es für übertrieben, so früh damit anzufangen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Nummer zwei. Ich habe lange im Kindergarten gearbeitet und gesehen, wie unterschiedlich Kinder reagieren. Manche sind begeistert, wenn sie ein paar englische Wörter hören, andere sind völlig überfordert. Ich sage nicht, dass frühes Lernen schlecht ist, aber für viele Kinder bringt es mehr Stress als Nutzen. Vor allem, wenn die Eltern erwarten, dass das Kind nach zwei Monaten schon ganze Sätze spricht. Ich finde, man sollte vorsichtig sein und nicht glauben, dass frühes Lernen automatisch Vorteile hat."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Nummer drei. Ich erinnere mich noch gut an meine Kindergartenzeit. Damals gab es bei uns keine Fremdsprachenangebote, aber ehrlich gesagt, ich weiß nicht, ob ich das damals überhaupt gewollt hätte. Später in der Schule habe ich Englisch sehr gern gelernt und heute finde ich es schade, dass ich nicht früher damit angefangen habe. Meine kleine Nichte lernt jetzt schon spielerisch ein paar Wörter und das finde ich eigentlich ganz süß. Ob es mir selbst damals geholfen hätte, kann ich schwer sagen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Nummer vier. Ich bin der Meinung, dass Kinder zuerst eine stabile Basis in ihrer Muttersprache brauchen. Natürlich ist es schön, wenn sie früh mit anderen Sprachen in Kontakt kommen, aber richtiges Lernen sollte meiner Ansicht nach erst in der Schule beginnen. Im Kindergarten reicht es völlig, wenn sie spielerisch ein paar Wörter hören. Manche Programme versprechen viel, aber ich glaube, dass systematischer Unterricht erst ab der Grundschule sinnvoll ist. Früher habe ich das anders gesehen, aber inzwischen bin ich vorsichtiger geworden."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Nummer fünf. Ich sehe das ganz anders als viele Eltern. Sie meinen, je früher, desto besser, aber ich finde, dass man Kinder nicht überfordern sollte. Meine Eltern wollten damals, dass ich schon mit vier Jahren Englisch lerne, aber ich habe mich total dagegen gewehrt. Heute denke ich, dass es wichtig ist, den richtigen Zeitpunkt zu finden. Ich bin nicht generell gegen frühes Lernen, aber ich finde, dass man es nicht erzwingen darf. Manche Kinder sind einfach noch nicht bereit."
+  }
+ ]
+}
