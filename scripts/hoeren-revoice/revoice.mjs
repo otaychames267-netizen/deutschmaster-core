@@ -55,12 +55,46 @@ async function synthGemini(voiceName, text) {
   }
   throw new Error(`Gemini TTS failed for "${text.slice(0, 40)}…": ${err}`);
 }
+// Gemini Live API (native-audio model) used as an offline reader: its free-tier quota is a SEPARATE bucket from the TTS models' 10 requests/day (found 2026-10-19 when all four TTS models were exhausted).
+// One WebSocket session per chunk: setup (voice + "read verbatim" system instruction) -> one user turn with the text -> PCM 24 kHz chunks until turnComplete. Verified verbatim by Gemini ASR.
+async function synthGeminiLive(voiceName, text) {
+  const { createRequire } = await import("node:module"); const WebSocket = createRequire("C:/Users/asus/AuraLingovia/muendlich-relay/package.json")("ws");
+  const model = script.liveModel ?? "gemini-2.5-flash-native-audio-latest"; let err = "";
+  for (let a = 1; a <= 4; a++) {
+    try {
+      const pcm = await new Promise((resolve, reject) => {
+        const chunks = []; let finished = false;
+        const ws = new WebSocket(`wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=${env.GEMINI_API_KEY}`);
+        const end = (e, v) => { if (finished) return; finished = true; clearTimeout(timer); try { ws.close(); } catch {} e ? reject(e) : resolve(v); };
+        const timer = setTimeout(() => end(new Error("live timeout")), 240_000);
+        ws.on("open", () => ws.send(JSON.stringify({ setup: { model: `models/${model}`, generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName } } } },
+          systemInstruction: { parts: [{ text: "Du bist ein Vorleser. Lies jeden Text, den du erhältst, Wort für Wort und unverändert laut vor. Nichts hinzufügen, nichts weglassen, nicht antworten, keine Einleitung, keinen Kommentar. Absätze mit einer kurzen Pause lesen." }] } } })));
+        ws.on("message", (d) => {
+          const m = JSON.parse(d.toString());
+          if (m.setupComplete) { ws.send(JSON.stringify({ clientContent: { turns: [{ role: "user", parts: [{ text }] }], turnComplete: true } })); return; }
+          for (const p of m.serverContent?.modelTurn?.parts ?? []) if (p.inlineData?.data) chunks.push(Buffer.from(p.inlineData.data, "base64"));
+          if (m.serverContent?.turnComplete) end(null, Buffer.concat(chunks));
+          if (m.error) end(new Error("live error " + JSON.stringify(m.error).slice(0, 200)));
+        });
+        ws.on("unexpected-response", (_q, res) => { let b = ""; res.on("data", (x) => (b += x)); res.on("end", () => end(new Error(`live HTTP ${res.statusCode} ${b.slice(0, 200)}`))); });
+        ws.on("error", (e) => end(e));
+        ws.on("close", (code, reason) => end(new Error(`live closed ${code} ${reason.toString().slice(0, 200)}`)));
+      });
+      const sec = pcm.length / 2 / SR, cps = text.length / sec;
+      if (pcm.length < 4000 || cps < 9 || cps > 26) { err = `suspicious audio: ${sec.toFixed(1)} s for ${text.length} chars (${cps.toFixed(1)} cps)`; continue; } // skipped / truncated / runaway reading
+      console.log(`  [gemini-live] ${voiceName} ${text.length} chars -> ${sec.toFixed(1)} s`); return pcm;
+    } catch (e) { err = String(e.message ?? e); if (/quota|RESOURCE_EXHAUSTED|1011|1008/.test(err) && a >= 2) throw new Error("Gemini Live quota: " + err); }
+    await new Promise((x) => setTimeout(x, 3000 * a));
+  }
+  throw new Error(`Gemini Live failed for "${text.slice(0, 40)}…": ${err}`);
+}
 async function synth(voiceId, text) {
   const key = crypto.createHash("sha1").update((script.provider ?? "deepinfra") + (script.provider === "gemini" ? "|" + (script.style ?? "") : "") + "|" + voiceId + "|" + text).digest("hex"); const f = `cache/${key}.pcm`;
   if (!script.provider) { const old = `cache/${crypto.createHash("sha1").update(voiceId + "|" + text).digest("hex")}.pcm`; if (fs.existsSync(old)) return fs.readFileSync(old); }
   if (fs.existsSync(f)) return fs.readFileSync(f);
   if (script.provider === "inworld") { const b = await synthInworld(voiceId, text); fs.writeFileSync(f, b); return b; }
   if (script.provider === "gemini") { const b = await synthGemini(voiceId, text); fs.writeFileSync(f, b); return b; }
+  if (script.provider === "gemini-live") { const b = await synthGeminiLive(voiceId, text); fs.writeFileSync(f, b); return b; }
   let err = "";
   for (let a = 1; a <= 5; a++) {
     try {
