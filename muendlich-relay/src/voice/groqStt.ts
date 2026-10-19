@@ -119,23 +119,31 @@ async function hostedTranscribe(pcm: Buffer, cfg: ProviderConfig, onBilled?: (se
   throw new Error(lastErr);
 }
 
-// Hedged request (2026-10-19, owner "a3mel inti test"): in a production end-to-end run 5 of 31 DeepInfra Whisper requests hit the 7 s timeout and were retried, so several answers waited 4-8 s in
-// stt_flush (median end-of-speech -> first tutor audio 6.1 s, worst 12.7 s, against ~3.5 s when STT was healthy). A request to DeepInfra that is still unanswered after HEDGE_AFTER_MS is ALSO sent
-// to Groq (free tier, same model family, same JSON) and the first transcript wins. If DeepInfra fails outright before the hedge starts its error propagates at once (so the 402/401 failover in
-// failoverStt.ts is unchanged). The hedge's own seconds are not billed to the DeepInfra counters (Groq is on its free tier). STT_HEDGE=off disables it.
-const HEDGE_AFTER_MS = Number(process.env.STT_HEDGE_AFTER_MS ?? 2_500);
-function hostedTranscribeHedged(pcm: Buffer, cfg: ProviderConfig, onBilled?: (seconds: number) => void): Promise<string> {
-  const hedgeCfg = cfg.label === "deepinfra" ? PROVIDERS.groq : null;
-  if (!hedgeCfg || !process.env[hedgeCfg.keyEnv] || (process.env.STT_HEDGE ?? "on").toLowerCase() === "off") return hostedTranscribe(pcm, cfg, onBilled);
+// Raced request (2026-10-19, owner "a3mel inti test" then "wchouf 7al lilatency"). Measured from the relay server with the same audio: for a 9 s utterance DeepInfra Whisper answers in 0.6 s (p90 0.9 s), but for a
+// 25 s utterance (a normal answer segment) it needs a median 2.6 s with p90 7.4 s, while Groq answers in 0.21 s (p90 0.33 s) at ANY length. A production end-to-end run therefore showed stt_flush up to 8 s
+// (5 of 31 requests hit the 7 s timeout) and a median end-of-speech -> first tutor audio of 6.1 s. So the segment goes to GROQ first (free tier, same model family, same JSON); DeepInfra starts after
+// STT_HEDGE_AFTER_MS (600 ms) — or at once when Groq fails (429 / key / quota) — and the first transcript wins. When both fail the DeepInfra error is reported (its [permanent] markers keep driving failoverStt.ts).
+// Only DeepInfra's seconds are billed (Groq is on the free tier). STT_FIRST=deepinfra restores the old order, STT_HEDGE=off disables the second request altogether.
+const HEDGE_AFTER_MS = Number(process.env.STT_HEDGE_AFTER_MS ?? 600);
+function hostedTranscribeRaced(pcm: Buffer, cfg: ProviderConfig, onBilled?: (seconds: number) => void): Promise<string> {
+  const groq = PROVIDERS.groq;
+  if (cfg.label !== "deepinfra" || !process.env[groq.keyEnv] || (process.env.STT_HEDGE ?? "on").toLowerCase() === "off") return hostedTranscribe(pcm, cfg, onBilled);
+  const first = (process.env.STT_FIRST ?? "groq").toLowerCase() === "deepinfra" ? cfg : groq;
+  const second = first === cfg ? groq : cfg;
+  const bill = (c: ProviderConfig) => (c === cfg ? onBilled : undefined);
   return new Promise<string>((resolve, reject) => {
-    let settled = false, hedgePending = false, primaryFailed = false, primaryErr: unknown;
+    let settled = false, secondStarted = false, firstDone = false, secondDone = false;
+    const errs = new Map<ProviderConfig, unknown>();
     const finish = (fn: () => void) => { if (!settled) { settled = true; clearTimeout(timer); fn(); } };
-    const timer = setTimeout(() => {
-      hedgePending = true;
-      console.warn(`[hostedStt] ${cfg.label} still silent after ${HEDGE_AFTER_MS} ms — hedging the same audio to ${hedgeCfg.label}`);
-      hostedTranscribe(pcm, hedgeCfg).then((t) => finish(() => resolve(t)), () => { hedgePending = false; if (primaryFailed) finish(() => reject(primaryErr)); });
-    }, HEDGE_AFTER_MS);
-    hostedTranscribe(pcm, cfg, onBilled).then((t) => finish(() => resolve(t)), (e) => { primaryFailed = true; primaryErr = e; if (!hedgePending) finish(() => reject(e)); });
+    const failIfAllDone = () => { if (firstDone && secondDone) finish(() => reject(errs.get(cfg) ?? errs.get(groq))); };
+    const startSecond = () => {
+      if (secondStarted || settled) return;
+      secondStarted = true;
+      console.warn(`[hostedStt] ${first.label} has not answered (yet) — also asking ${second.label}`);
+      hostedTranscribe(pcm, second, bill(second)).then((t) => finish(() => resolve(t)), (e) => { errs.set(second, e); secondDone = true; failIfAllDone(); });
+    };
+    const timer = setTimeout(startSecond, HEDGE_AFTER_MS);
+    hostedTranscribe(pcm, first, bill(first)).then((t) => finish(() => resolve(t)), (e) => { errs.set(first, e); firstDone = true; startSecond(); failIfAllDone(); });
   });
 }
 
@@ -143,7 +151,7 @@ export function openHostedWhisperStt(provider: HostedWhisperProvider, callbacks:
   const cfg = PROVIDERS[provider];
   if (!process.env[cfg.keyEnv]) return Promise.reject(new Error(`${cfg.keyEnv} not set`));
   let requests = 0, billedSeconds = 0;
-  const session = openBufferedStt((pcm) => hostedTranscribeHedged(pcm, cfg, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
+  const session = openBufferedStt((pcm) => hostedTranscribeRaced(pcm, cfg, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
   return Promise.resolve(Object.assign(session, {
     billing: () => ({ requests, billedSeconds }),
     costUsd: () => (billedSeconds / 3600) * cfg.usdPerHour(),
