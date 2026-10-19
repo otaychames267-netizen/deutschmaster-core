@@ -2,7 +2,7 @@
 import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 const T = new URL(".", import.meta.url).pathname.replace(/^\/(\w:)/, "$1");
-const LIST = ["teil1/computer.m4a", "teil1/arbeitsplatz-fuer-ihren-vater.m4a", "teil1/bus-zur-arbeit.m4a", "teil1/bus-zur-arbeit-2.m4a", "teil1/einzelkind.m4a", "teil1/handys.m4a", "teil1/radwege-original.m4a", "teil1/radwege-.m4a", "teil1/urlaub.m4a"];
+const LIST = ["teil1/fremdsprache-original.m4a", "teil1/fremdsprache.m4a", "teil1/computer.m4a", "teil1/arbeitsplatz-fuer-ihren-vater.m4a", "teil1/bus-zur-arbeit.m4a", "teil1/bus-zur-arbeit-2.m4a", "teil1/einzelkind.m4a", "teil1/handys.m4a", "teil1/radwege-original.m4a", "teil1/radwege-.m4a", "teil1/urlaub.m4a"];
 const done = new Set(fs.existsSync("batch-done.txt") ? fs.readFileSync("batch-done.txt", "utf8").split("\n").filter(Boolean) : []);
 const flagged = [];
 for (const frag of LIST) {

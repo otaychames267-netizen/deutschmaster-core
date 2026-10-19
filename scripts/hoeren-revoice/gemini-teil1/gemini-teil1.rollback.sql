@@ -6,3 +6,4 @@ update hoeren_exercises set audio_path='clean/teil1/T1-Ein deutsches Schiff.m4a'
 update hoeren_exercises set audio_path='clean/teil1/dieWahlbeteiligung.m4a' where id='482c3a7c-aa8e-4597-9465-9d0099444b30'; -- Die Wahlbeteiligung
 update hoeren_exercises set audio_path='clean/teil1/fremdsprache-original.m4a' where id='09e837a9-7543-4e6f-ab75-d0a1afb3af4a'; -- Fremdsprache (original)
 update hoeren_exercises set audio_path='clean/teil1/fremdsprache.m4a' where id='45f621fa-60ee-4f5f-a01d-a52bb65cb081'; -- Fremdsprache (معدل)
+-- 2026-10-19: Fremdsprache (original) + (معدل) rolled back to clean/teil1/... — they are 5-persons files (male+female speakers) and the news builder used one voice; redo with t1-build-persons

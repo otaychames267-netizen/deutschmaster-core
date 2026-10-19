@@ -15,6 +15,12 @@ let r = run(T + (persons ? "t1-build-persons.mjs" : "t1-build.mjs"), [frag]); co
 if (r.code) { console.log(r.out.slice(-600)); process.exit(1); }
 const slug = r.out.match(/^(\S+): .*\| transcript by/m)?.[1]; // retry warnings of the transcript step can precede the summary line
 if (!slug) { console.log("could not read the slug from the build output:\n" + r.out.slice(0, 600)); process.exit(1); }
+// safeguard (2026-10-19, Fremdsprache B1 went live with ONE voice for five persons): a file with >= 3 "Nummer N" labels is a persons file — rebuild it with the persons builder (own voice per person)
+if (!persons) {
+  const gtAll = JSON.parse(fs.readFileSync(`${slug}.gt.json`, "utf8")).segments.map((s) => s.text).join(" ");
+  const labels = (gtAll.match(/\bnummer\s+(eins|zwei|drei|vier|fünf|\d)\b/gi) ?? []).length;
+  if (labels >= 3) { console.log(`${slug}: ${labels} 'Nummer N' labels -> persons file, rebuilding with t1-build-persons`); r = run(T + "t1-build-persons.mjs", [frag]); if (r.code) { console.log(r.out.slice(-600)); process.exit(1); } }
+}
 r = run(R + "revoice.mjs", [slug]); fs.writeFileSync(`${slug}.revoice.log`, r.out);
 if (r.code) { console.log(/quota/i.test(r.out) ? "GEMINI TTS QUOTA EXHAUSTED — resume later" : r.out.slice(-600)); process.exit(/quota/i.test(r.out) ? 3 : 1); }
 console.log(r.out.split("\n").filter((l) => /^total|OUTLIER/.test(l)).join("\n"));
