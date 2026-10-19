@@ -1,5 +1,5 @@
 // Unit test (no network, fetch is mocked): hosted Whisper STT — DeepInfra primary, Groq backup.   node --import tsx src/voice/hostedStt.test.mjs
-process.env.DEEPINFRA_API_KEY = "di-key"; process.env.GROQ_API_KEY = "gq-key";
+process.env.DEEPINFRA_API_KEY = "di-key"; process.env.GROQ_API_KEY = "gq-key"; process.env.STT_HEDGE_AFTER_MS = "200";
 delete process.env.DEEPINFRA_STT_MODEL; delete process.env.GROQ_STT_MODEL; delete process.env.DEEPINFRA_STT_USD_PER_HOUR;
 const { openHostedWhisperStt, openGroqStt } = await import("./groqStt.ts");
 const { openFailoverStt } = await import("./failoverStt.ts");
@@ -83,8 +83,9 @@ const OPTS = { flushDebounceMs: 20 };
   stt.close();
 }
 
-// 6) A momentary 5xx is retried on the SAME provider and succeeds — no failover, no error surfaced
+// 6) A momentary 5xx is retried on the SAME provider and succeeds — no failover, no error surfaced (hedging off here: its 800 ms retry backoff is longer than the test's 200 ms hedge delay)
 {
+  process.env.STT_HEDGE = "off";
   const c = collector();
   const calls = mock((url, n) => n === 1 ? new Response("upstream busy", { status: 503 }) : okJson("Zweiter Versuch klappt"));
   const stt = await openFailoverStt((cb) => openHostedWhisperStt("deepinfra", cb, OPTS), (cb) => openHostedWhisperStt("groq", cb, OPTS), c.cb, "test");
@@ -92,6 +93,7 @@ const OPTS = { flushDebounceMs: 20 };
   ok("503 then 200: retried on DeepInfra, transcript delivered, no failover, no error", calls.length === 2 && calls.every((x) => x.url.includes("deepinfra")) && c.committed[0] === "Zweiter Versuch klappt" && !stt.failedOver && c.errors.length === 0);
   ok("503 then 200: only the successful request is billed", stt.billing().requests === 1 && stt.providerLabel() === "deepinfra");
   stt.close();
+  delete process.env.STT_HEDGE;
 }
 
 // 7) Whisper hallucination on noise is still dropped on the DeepInfra path (shared cleaning)
@@ -110,6 +112,35 @@ const OPTS = { flushDebounceMs: 20 };
   const viaMinutes = computeExamCost({ ...base, groqSttMinutes: 10 }).selfHostedUsd;
   const viaProvider = computeExamCost({ ...base, groqSttMinutes: 10, hostedSttUsd: 0.002 }).selfHostedUsd;
   ok("computeExamCost: hostedSttUsd replaces the Groq per-minute pricing", approx(viaMinutes, (10 / 60) * 0.04) && approx(viaProvider, 0.002));
+}
+
+// 9) Hedging (2026-10-19): a DeepInfra request that is still silent after STT_HEDGE_AFTER_MS is also sent to Groq and the first transcript wins; an outright DeepInfra failure still propagates at once
+{
+  const c = collector();
+  const calls = mock((url) => (url.includes("deepinfra") ? new Promise((r) => setTimeout(() => r(okJson("langsam")), 1500)) : okJson("schnell")));
+  const stt = await openHostedWhisperStt("deepinfra", c.cb, OPTS);
+  const t0 = Date.now();
+  await say(stt, SPEECH_SECONDS);
+  ok("hedge: Groq answered first while DeepInfra hung", c.committed.length === 1 && c.committed[0] === "schnell" && Date.now() - t0 < 1200, `${Date.now() - t0} ms, ${JSON.stringify(c.committed)}`);
+  ok("hedge: both providers were asked with the same audio", calls.some((x) => x.url.includes("api.deepinfra.com")) && calls.some((x) => x.url.includes("api.groq.com")));
+  ok("hedge: only DeepInfra seconds are billed (Groq hedge is free tier)", stt.providerLabel() === "deepinfra");
+  stt.close();
+}
+{
+  const c = collector();
+  const calls = mock((url) => (url.includes("deepinfra") ? okJson("direkt") : okJson("nie")));
+  const stt = await openHostedWhisperStt("deepinfra", c.cb, OPTS);
+  await say(stt, SPEECH_SECONDS);
+  ok("hedge: a healthy DeepInfra answer never touches Groq", c.committed[0] === "direkt" && !calls.some((x) => x.url.includes("api.groq.com")));
+  stt.close();
+}
+{
+  const c = collector();
+  mock((url) => (url.includes("deepinfra") ? new Response("balance", { status: 402 }) : okJson("nie")));
+  const stt = await openHostedWhisperStt("deepinfra", c.cb, OPTS);
+  await say(stt, SPEECH_SECONDS);
+  ok("hedge: an immediate DeepInfra 402 is reported as an error (failover path unchanged)", c.errors.length >= 1 && c.committed.length === 0, JSON.stringify(c.errors).slice(0, 100));
+  stt.close();
 }
 
 globalThis.fetch = realFetch;

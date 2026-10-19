@@ -119,11 +119,31 @@ async function hostedTranscribe(pcm: Buffer, cfg: ProviderConfig, onBilled?: (se
   throw new Error(lastErr);
 }
 
+// Hedged request (2026-10-19, owner "a3mel inti test"): in a production end-to-end run 5 of 31 DeepInfra Whisper requests hit the 7 s timeout and were retried, so several answers waited 4-8 s in
+// stt_flush (median end-of-speech -> first tutor audio 6.1 s, worst 12.7 s, against ~3.5 s when STT was healthy). A request to DeepInfra that is still unanswered after HEDGE_AFTER_MS is ALSO sent
+// to Groq (free tier, same model family, same JSON) and the first transcript wins. If DeepInfra fails outright before the hedge starts its error propagates at once (so the 402/401 failover in
+// failoverStt.ts is unchanged). The hedge's own seconds are not billed to the DeepInfra counters (Groq is on its free tier). STT_HEDGE=off disables it.
+const HEDGE_AFTER_MS = Number(process.env.STT_HEDGE_AFTER_MS ?? 2_500);
+function hostedTranscribeHedged(pcm: Buffer, cfg: ProviderConfig, onBilled?: (seconds: number) => void): Promise<string> {
+  const hedgeCfg = cfg.label === "deepinfra" ? PROVIDERS.groq : null;
+  if (!hedgeCfg || !process.env[hedgeCfg.keyEnv] || (process.env.STT_HEDGE ?? "on").toLowerCase() === "off") return hostedTranscribe(pcm, cfg, onBilled);
+  return new Promise<string>((resolve, reject) => {
+    let settled = false, hedgePending = false, primaryFailed = false, primaryErr: unknown;
+    const finish = (fn: () => void) => { if (!settled) { settled = true; clearTimeout(timer); fn(); } };
+    const timer = setTimeout(() => {
+      hedgePending = true;
+      console.warn(`[hostedStt] ${cfg.label} still silent after ${HEDGE_AFTER_MS} ms — hedging the same audio to ${hedgeCfg.label}`);
+      hostedTranscribe(pcm, hedgeCfg).then((t) => finish(() => resolve(t)), () => { hedgePending = false; if (primaryFailed) finish(() => reject(primaryErr)); });
+    }, HEDGE_AFTER_MS);
+    hostedTranscribe(pcm, cfg, onBilled).then((t) => finish(() => resolve(t)), (e) => { primaryFailed = true; primaryErr = e; if (!hedgePending) finish(() => reject(e)); });
+  });
+}
+
 export function openHostedWhisperStt(provider: HostedWhisperProvider, callbacks: SttCallbacks, opts?: BufferedSttOptions): Promise<SttSession> {
   const cfg = PROVIDERS[provider];
   if (!process.env[cfg.keyEnv]) return Promise.reject(new Error(`${cfg.keyEnv} not set`));
   let requests = 0, billedSeconds = 0;
-  const session = openBufferedStt((pcm) => hostedTranscribe(pcm, cfg, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
+  const session = openBufferedStt((pcm) => hostedTranscribeHedged(pcm, cfg, (s) => { requests++; billedSeconds += s; }), callbacks, opts);
   return Promise.resolve(Object.assign(session, {
     billing: () => ({ requests, billedSeconds }),
     costUsd: () => (billedSeconds / 3600) * cfg.usdPerHour(),
