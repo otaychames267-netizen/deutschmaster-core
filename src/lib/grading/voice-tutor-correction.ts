@@ -26,6 +26,11 @@ export type CorrectionCategory = (typeof CORRECTION_CATEGORIES)[number];
 
 // Owner 2026-10-11 (cost): the report's OUTPUT tokens were ~70% of the correction's bill (13 errors + long explanations = ~2,700 output tokens). A shorter,
 // prioritised report is also easier to read; the model stays Sonnet because it finds the word-order errors (weil + verb second) that Haiku misses.
+// Owner 2026-10-19 (Anthropic credit $0, no money): which open model writes the report when Claude is unavailable. Benchmarked on the one real Claude-graded session (Amal, 2026-10-12;
+// Claude Sonnet 5 = 32/75, A2) through this very pipeline: DeepSeek-V4-Pro 38 / 33 / 38 (3 runs, B1, 16 s, 8/8 errors with verbatim quotes, ≈$0.001), Qwen3.8-Max 42 (B1, 13 s, ≈10x the cost),
+// gpt-oss-120b 36 (73 s) / 35 (126 s) — too slow for a 60 s function, Kimi-K3 37 (49 s), Gemma-4-31B 42, DeepSeek-V3.2 42 (53 s), Llama-3.3-70B 57 + only 4 errors (far too generous).
+// So: V4-Pro first (closest to Claude and fast), Qwen3.8-Max if it fails, gpt-oss-120b last. TUTOR_CORRECTION_BACKUP_MODELS overrides.
+const CORRECTION_BACKUP_MODELS = (process.env.TUTOR_CORRECTION_BACKUP_MODELS ?? "deepseek-ai/DeepSeek-V4-Pro,Qwen/Qwen3.8-Max,openai/gpt-oss-120b").split(",").map((m) => m.trim()).filter(Boolean);
 const MAX_ERRORS = 8;
 const MAX_BETTER = 3;
 const MAX_VOCAB = 3;
@@ -190,6 +195,7 @@ export async function generateVoiceTutorCorrection(transcriptText: string, level
       inputSchema: CORRECTION_TOOL_SCHEMA,
       maxTokens: 2500, // the limited report is ~1,300-1,600 output tokens; 4000 only ever paid for a runaway answer
       timeoutMs: 60000,
+      fallbackModels: CORRECTION_BACKUP_MODELS,
     });
 
     const validated = validate(data);

@@ -26,6 +26,8 @@ export interface ClaudeToolCallParams {
   maxAttempts?: number;
   /** Claude only: throw ClaudeQuotaError instead of falling back to the generic open-model backup chain (the caller has a better backup of its own, e.g. the strict free grader). */
   skipBackup?: boolean;
+  /** Backup chain only: DeepInfra model ids to try (in order) instead of the shared default — a task whose quality was benchmarked on specific open models (e.g. the tutor correction) says so here. */
+  fallbackModels?: string[];
 }
 
 export interface ClaudeToolCallResult<T> {
@@ -127,7 +129,8 @@ async function callClaudeToolDirect<T = unknown>(params: ClaudeToolCallParams): 
 // Measured against Claude Sonnet 5 on 9 real graded essays (2026-10-13): Qwen3.8-Max ranks the essays exactly like Claude (Spearman 1.00) in ~16 s but is more generous (+5.6 points of 45 on
 // average); gpt-oss-120b (reasoning_effort low, ~30 s) is noisier. Both are far cheaper (≈1 cent / <0.1 cent per essay vs ≈3.7 cents). Disable with LLM_FALLBACK=off.
 const FALLBACK_MODELS = (process.env.LLM_FALLBACK_MODELS ?? "Qwen/Qwen3.8-Max,openai/gpt-oss-120b").split(",").map((m) => m.trim()).filter(Boolean);
-const FALLBACK_BUDGET_MS = 52_000; // total wall time for all fallback attempts (the platform function limit is the real ceiling)
+const FALLBACK_BUDGET_MS = Number(process.env.LLM_FALLBACK_BUDGET_MS ?? 52_000); // total wall time for all fallback attempts (the platform function limit is the real ceiling)
+const FALLBACK_CALL_MS = Number(process.env.LLM_FALLBACK_CALL_MS ?? 45_000); // wall time of ONE fallback call (both env overrides exist for offline benchmarks of slow reasoning models)
 let claudeDownUntil = 0;
 
 // Owner 2026-10-16: Anthropic AND DeepInfra were both at $0 for 3+ days — every Schreiben grading failed with QUOTA_429. Groq's free tier serves the SAME open model the owner already accepted as backup #2
@@ -137,11 +140,11 @@ const GROQ_MODELS = (process.env.GROQ_LLM_MODELS ?? "openai/gpt-oss-120b").split
 
 interface FallbackProvider { id: "deepinfra" | "groq"; url: string; key: string; models: string[] }
 
-function fallbackProviders(): FallbackProvider[] {
+function fallbackProviders(deepinfraModels?: string[]): FallbackProvider[] {
   const off = (process.env.LLM_FALLBACK ?? "on").toLowerCase() === "off";
   const groqOff = (process.env.GROQ_LLM_FALLBACK ?? "on").toLowerCase() === "off";
   const list: FallbackProvider[] = [];
-  if (!off && process.env.DEEPINFRA_API_KEY) list.push({ id: "deepinfra", url: "https://api.deepinfra.com/v1/openai/chat/completions", key: process.env.DEEPINFRA_API_KEY, models: FALLBACK_MODELS });
+  if (!off && process.env.DEEPINFRA_API_KEY) list.push({ id: "deepinfra", url: "https://api.deepinfra.com/v1/openai/chat/completions", key: process.env.DEEPINFRA_API_KEY, models: deepinfraModels?.length ? deepinfraModels : FALLBACK_MODELS });
   if (!off && !groqOff && process.env.GROQ_API_KEY) list.push({ id: "groq", url: "https://api.groq.com/openai/v1/chat/completions", key: process.env.GROQ_API_KEY, models: GROQ_MODELS });
   return list.filter((p) => p.models.length > 0);
 }
@@ -170,14 +173,16 @@ function missingRequired(schema: any, value: any, path = ""): string | null {
 }
 
 async function callFallbackTool<T>(params: ClaudeToolCallParams): Promise<ClaudeToolCallResult<T>> {
-  const providers = fallbackProviders();
+  const providers = fallbackProviders(params.fallbackModels);
   if (providers.length === 0) throw new Error("no backup LLM provider configured");
   const started = Date.now();
   const errors: string[] = [];
   for (const provider of providers) {
    // an account-level failure (no balance / key refused) skips the rest of THAT provider's models and moves on to the next provider
    let providerDown = false;
-   for (const model of provider.models) {
+   for (const [modelIndex, model] of provider.models.entries()) {
+    // a model that is NOT the last of its chain may use at most 30 s, so a hanging first choice never leaves the next one without time
+    const callCapMs = modelIndex < provider.models.length - 1 ? Math.min(FALLBACK_CALL_MS, 30_000) : FALLBACK_CALL_MS;
     if (providerDown) break;
     const reasoning = /gpt-oss/i.test(model);
     for (let attempt = 1; attempt <= 2; attempt++) {
@@ -190,12 +195,12 @@ async function callFallbackTool<T>(params: ClaudeToolCallParams): Promise<Claude
           body: JSON.stringify({
             model, temperature: 0.2,
             max_tokens: Math.min(12_000, (params.maxTokens ?? 1500) * (reasoning ? 2 : 1)),
-            ...(reasoning ? { reasoning_effort: "low" } : {}),
+            ...(reasoning ? { reasoning_effort: process.env.LLM_FALLBACK_REASONING_EFFORT ?? "low" } : {}),
             messages: [{ role: "system", content: params.system }, { role: "user", content: params.userMessage }],
             tools: [{ type: "function", function: { name: params.toolName, description: params.toolDescription, parameters: params.inputSchema } }],
             tool_choice: { type: "function", function: { name: params.toolName } },
           }),
-        }, Math.min(left, 45_000));
+        }, Math.min(left, callCapMs));
         const json: any = await res.json().catch(() => ({}));
         const msg = String(json?.error?.message ?? "");
         if (res.status === 402 || res.status === 401 || res.status === 403 || (provider.id === "deepinfra" && /balance|insufficient|payment/i.test(msg))) { errors.push(`${provider.id}: ${msg.slice(0, 80) || res.status}`); providerDown = true; break; }
