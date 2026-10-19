@@ -1,0 +1,28 @@
+{
+  "title": "Lesen Teil 3 — Übung 42",
+  "source_pdf": "lesen teil 3.pdf",
+  "import_notes": "batch2 2026-07: pages 10-12 (p39), green answer letters left of situations, X = keine Lösung. Source explicitly prints '(Kein Text)' for letters A, C, F, G — only 8 real texts exist; stored honestly as such. All 10 verified vs texts.",
+  "key": "HIJXKBDXEL",
+  "situations": {
+    "11": "Ihre Bekannte ist Mitte dreißig und sucht einen Partner, mit dem sie regelmäßig ins Kino gehen kann.",
+    "12": "Sie wollen Ihren Garten verändern und suchen Beratung/Tipps.",
+    "13": "Der Sohn Ihrer Freunde hat gerade das Abitur gemacht und sucht im Sommer für zwei Monate einen Job.",
+    "14": "Ihr Freund möchte im Nebenjob Gartenarbeiten übernehmen.",
+    "15": "Ihr 45-jähriger Onkel sucht eine Partnerin, mit der er zusammen verreisen kann.",
+    "16": "Sie möchten gern bei einem Film mitspielen und etwas Geld verdienen.",
+    "17": "Der Sohn Ihrer Freunde interessiert sich für die Geschichte des Autos. Am Sonntag wollen Sie ihm etwas Interessantes machen.",
+    "18": "Sie suchen eine Stelle und brauchen Tipps für ihre Bewerbungen.",
+    "19": "Im Urlaub wollen Sie mit dem Auto eine Reise durch Deutschland machen und suchen ein passendes Angebot.",
+    "20": "Ihre Bekannte möchte lernen, wie sie kleinere Reparaturen an ihrem Wagen selbst machen."
+  },
+  "texts": {
+    "B": {"title": "", "content": "Für den Fernsehfilm \"Die Schönheit von Bitterfeld\" suchen wir für einige Nebenrollen Laienschauspieler und Statisten.\nDrehzeit: 18.03-25.03., Gage: 40 Euro/Tag\nCasting: Mi, 19.02. 10-20 Uhr im Hotel Lindner oder schriftliche Bewerbung mit Foto und Tel.-Nr. an:\nRheinfilm/Bam, c/a Hotel Lindner, Hans-Driesch-Str. 27, 04179 Leipzig"},
+    "D": {"title": "Verkehrsmuseum Erfurt", "content": "Wie funktioniert ein Ottomotor? Wie klingt ein Benz Motorwagen? Warum sind Autos auch Designobjekte? Von den ersten Schlittschuhen bis zum neuesten Formel-1-Fahrzeug präsentiert das Verkehrsmuseum unter dem Thema \"Mobilität und Technik\" die Lust an der Fortbewegung und ihre Grenzen.\nTäglich 9-17 Uhr, Donnerstag 9-20 Uhr\nVerkehrsmuseum Erfurt, August-Bebel-Str. 14a, 99084 Erfurt, Tel 500806-14\n(www.verkehrsmuseumerfurt.de)"},
+    "E": {"title": "ADAC Urlaub mobil", "content": "Bummeln und Genießen, Shoppen und Nightlife! 3 Tage lang liegt Ihnen Berlin zu Füßen. Anschließend starten Sie Ihre Autotour.\nSie erleben die Vielfältigkeit deutscher Landschaften von der Nordseeküste bis zu den Alpen.\n3 Nächte in Berlin plus 10 Übernachtungen in Hotels Ihrer Wahl (3 Sterne), Parken in den Hotels, individueller ADAC-Planer.\nPro Person im Doppelzimmer 589 €\nMietwagen zur Tour inkl. Tickets 152 €"},
+    "H": {"title": "", "content": "Jung gebliebener Rentner, unkompliziert und gut aussehend, mit Verbundenheit zur Natur sucht Freizeitpartnerin (bis 40) für gemeinsame Aktivitäten: Kunst, Kultur, Kino, Wanderungen, Einladungen, gesellige Abende.\nZuschriften unter LA 10/14-83/L3, Postf. 84, 04181 Leipzig."},
+    "I": {"title": "Feng Shui für den Garten", "content": "Wie sollen Wege im Garten geführt werden? In welcher Form können Teich oder Brunnen die Lebensenergie stärken? Wann bereichern uns Blumen, wann nicht? Wie kann man einen Garten auf die Bewohner des Hauses abstimmen? Mit Feng Shui können Sie Ihren Garten harmonisch gestalten.\nÖkologisches Bildungszentrum Dresden\nWochenendseminar mit Elisabeth Kislinger, Landschaftsarchitektin, Sa/So. 28./29.01, jeweils 10-17 Uhr\nInfo: 0351 254400"},
+    "J": {"title": "Studentinnen/Schülerinnen gesucht", "content": "(ab 18 J.) für Betreuertätigkeit im Kinderferienlager Juli-August für Kinder zw. 6 und 12 J.\nWir bieten Fahrtkosten, Unterkunft, Verpflegung und Taschengeld 125,-€.\nWeitere Infos: Jugendtours, Hebelstr. 32, 04177 Leipzig, 0341/4809194, www.jutou.de"},
+    "K": {"title": "Gemeinsam schöne Dinge genießen", "content": "Akademikerin, 38 J, mit Phantasie und Leidenschaft für Musik und Kunst, Italien und das Meer, sucht sportlich-eleganten Partner, mit dem sie Konzerte besuchen, ausgehen, und ferne Länder genießen kann.\nZuschriften an: Neue Presse, Chiffre CFR-107"},
+    "L": {"title": "Samstagswerkstatt", "content": "Kursinhalt: Aufbau des Autos, Störungen und Möglichkeiten zur Behebung, Wartungsarbeiten und Pflege. Tipps zum Gebrauchtwagenkauf.\nDie theoretischen Ausführungen werden in unserer Kfz-Werkstatt in die Praxis umgesetzt. Bitte Arbeitskleidung mitbringen.\nWinfried Mohr, A24 Autowerkstatt, Aidenbachstr. 36, 07743 Jena\nSa 14.10 von 9-16 Uhr, Tel: 34 10 44 14"}
+  }
+}

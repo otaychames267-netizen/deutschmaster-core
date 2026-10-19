@@ -1,0 +1,21 @@
+{
+  "title": "Vollzwinkler",
+  "level": "B1",
+  "position": 3,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 3/16 (Sophie/Language Tests, page 34 printed / PDF page 35). Letter addressed to 'Liebe Vollzwinkler,' signed by Edeltraut Augenthaler. Answer key from Lösungen page (p.40 printed / PDF p.41): 21b seit, 22c uns, 23a dauern, 24b aussuchen, 25a hat, 26a daran, 27c die, 28a nächsten, 29c würden, 30b unserer.",
+  "instructions": "Lesen sie den Text und schließen Sie Lücken 21 – 30. Welche Lösungen (a, b oder c) ist jeweils richtig?. Markieren sie Ihre Lösungen für die Aufgaben 21 – 30 auf dem Antwortbogen.",
+  "passage": "Liebe Vollzwinkler,\n\nwir wohnen jetzt schon {{21}} sechs Wochen in unserer neuen Wohnung. Zwar ist immer noch nicht alles so eingerichtet, wie wir {{22}} das wünschen. Aber wir wussten ja, dass das einige Zeit {{23}} würde, bis alles fertig ist. Natürlich haben wir uns zuerst um das Kinderzimmer gekümmert. Unsere beiden Kinder durften sich die Farben für die Wände selbst {{24}}. Sie haben sich für Blau und Gelb entschieden. Meinem Mann {{25}} das am Anfang gar nicht gefallen, aber jetzt hat er sich {{26}} gewöhnt. Jetzt fehlt eigentlich nur noch das Wohnzimmer.\n\nWir warten auf die neuen Möbel, {{27}} wir gekauft haben. In der {{28}} Woche kommen sie endlich. Dann können auch wieder Gäste zu uns kommen. Wir würden uns alle sehr freuen, wenn Sie und Ihr Mann uns sehr bald besuchen {{29}}. Wir waren schließlich fünf Jahre lang Nachbarn! Und trotz {{30}} schönen neuen Wohnung sind wir ein bisschen traurig, dass wir nicht mehr neben Ihnen wohnen.\n\nViele Liebe Grüße\nIhre\nEdeltraut Augenthaler",
+  "gaps": [
+    { "n": 21, "a": "ab", "b": "seit", "c": "vor", "correct": "b" },
+    { "n": 22, "a": "ihnen", "b": "sich", "c": "uns", "correct": "c" },
+    { "n": 23, "a": "dauern", "b": "dauert", "c": "gedauert", "correct": "a" },
+    { "n": 24, "a": "ausgesucht", "b": "aussuchen", "c": "aussuchten", "correct": "b" },
+    { "n": 25, "a": "hat", "b": "ist", "c": "wird", "correct": "a" },
+    { "n": 26, "a": "daran", "b": "darüber", "c": "davon", "correct": "a" },
+    { "n": 27, "a": "das", "b": "den", "c": "die", "correct": "c" },
+    { "n": 28, "a": "nächsten", "b": "nächster", "c": "nächstes", "correct": "a" },
+    { "n": 29, "a": "worden", "b": "wurden", "c": "würden", "correct": "c" },
+    { "n": 30, "a": "unser", "b": "unserer", "c": "unseres", "correct": "b" }
+  ]
+}

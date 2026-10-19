@@ -14,6 +14,14 @@ import "@/lib/i18n";
 import { ThemeProvider } from "@/lib/theme";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
+import { initPwa, registerServiceWorker } from "@/lib/pwa";
+import { initChunkRecovery, isChunkLoadError, reloadOnceForNewVersion } from "@/lib/chunk-recovery";
+import { reportClientError } from "@/lib/client-error-report";
+
+// Client only: must run at module load so a beforeinstallprompt that fires before hydration is not lost.
+initPwa();
+// A deploy while a student's tab is open makes the old route chunks disappear — reload once instead of showing an error page.
+initChunkRecovery((error) => reportClientError("chunk", error));
 
 function NotFoundComponent() {
   return (
@@ -37,9 +45,37 @@ function NotFoundComponent() {
   );
 }
 
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+function ErrorComponent({ error, reset }: { error: unknown; reset: () => void }) {
   const router = useRouter();
-  useEffect(() => { console.error("[AuraLingovia]", error); }, [error]);
+  const staleBuild = isChunkLoadError(error);
+  useEffect(() => {
+    console.error("[AuraLingovia]", error);
+    reportClientError(staleBuild ? "chunk" : "boundary", error);
+    // a failed route chunk means "a new version was released while this page was open": one automatic reload fixes it
+    if (staleBuild) reloadOnceForNewVersion();
+  }, [error, staleBuild]);
+
+  if (staleBuild) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <div className="max-w-md text-center">
+          <h1 className="text-xl font-semibold tracking-tight text-foreground">A new version is available</h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            We just updated AuraLingovia. Reload the page to continue — your progress is saved.
+          </p>
+          <p dir="rtl" className="mt-1 text-sm text-muted-foreground">تمّ تحديث الموقع. أعد تحميل الصفحة باش تكمّل — تقدّمك محفوظ.</p>
+          <div className="mt-6 flex justify-center">
+            <button
+              onClick={() => window.location.reload()}
+              className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            >
+              Reload
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
@@ -74,18 +110,31 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AuraLingovia — Professional German Exam Preparation" },
-      { name: "description", content: "Prepare for TELC B1 & B2 German exams with structured practice, realistic simulations, and a beautifully designed learning experience." },
+      { title: "AuraLingovia — Test your German. Master every section." },
+      { name: "description", content: "Prepare for the TELC B1 or B2 German exam with structured practice, realistic simulations, and a beautifully designed learning experience." },
       { name: "author", content: "AuraLingovia" },
-      { name: "theme-color", content: "#1a1f36" },
-      { property: "og:title", content: "AuraLingovia — Professional German Exam Preparation" },
-      { property: "og:description", content: "Prepare for TELC B1 & B2 with structured practice and realistic exam simulations." },
+      { name: "theme-color", content: "#0a0a0c" },
+      { name: "mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-title", content: "AuraLingovia" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black" },
+      { property: "og:site_name", content: "AuraLingovia" },
+      { property: "og:title", content: "AuraLingovia — Test your German. Master every section." },
+      { property: "og:description", content: "TELC B1 & B2 preparation, done properly — structured practice, realistic simulations, AI-powered feedback." },
+      { property: "og:image", content: "https://auralingoviatestdeutsch.academy/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:title", content: "AuraLingovia" },
+      { property: "og:url", content: "https://auralingoviatestdeutsch.academy/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AuraLingovia — Test your German. Master every section." },
+      { name: "twitter:description", content: "TELC B1 & B2 preparation, done properly." },
+      { name: "twitter:image", content: "https://auralingoviatestdeutsch.academy/og-image.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "manifest", href: "/manifest.json" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
@@ -114,6 +163,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => { registerServiceWorker(); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,0 +1,63 @@
+{
+  "title": "Frau Pesina",
+  "teil": 2,
+  "level": "B2",
+  "position": 29,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 30 (code 12370) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Frau Pesina ist die Chefin des Kosmos Kinos.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Von Hanau nach Frankfurt braucht man weniger als eine halbe Stunde.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Die Gründung des Kinos vor 100 Jahren war eher ein Zufall. 100",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Der Großonkel baute sofort einen separaten Kinosaal.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Nach ihrem Großonkel leitete gleich Frau Pesina das Kino.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Manchmal denkt sie, es wäre besser gewesen, die sichere Stelle bei der Bank zu behalten.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "In dem Kino gibt es heute außer der Schwägerin und den beiden Schwestern auch noch weitere Mitarbeiter.",
+      "correct": true
+    },
+    {
+      "number": 53,
+      "text": "Der Arbeitsalltag im Kino läuft immer völlig reibungslos ab.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Frau Pesina entscheidet immer allein, was im Kosmos Kino läuft.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Manchmal gibt es in dem Kino ein spezielles Programm für Frauen.",
+      "correct": true
+    }
+  ]
+}

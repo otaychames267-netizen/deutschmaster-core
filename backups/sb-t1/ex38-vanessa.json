@@ -1,0 +1,20 @@
+{
+  "title": "Vanessa",
+  "level": "B2",
+  "position": 39,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwotbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Vanessa,\n\ndanke für deinen Brief, {{21}} ich mich total gefreut habe. Du fragst dich bestimmt, warum du schon drei Wochen {{22}} von mir gehört hast, oder? Ich war mit meiner Gastfamilie in Urlaub. Vierzehn Tage im Allgäu - mit den Kindern Stefan, Anja und Karina. Du weißt {{23}} selbst, wie anstrengend es ist, wenn man ständig drei kleine Kinder um sich hat, die pausenlos unterhalten werden möchten. {{24}} ist es übrigens in deiner Au-pair-Familie mit der kleinen Dorothea? Das Allgäu liegt in Süddeutschland am Fuß {{25}} Alpen. Wir sind fast jeden Tag gewandert, immer bergauf und bergab. Den Kindern und mir haben ständig die Füße weh {{26}}, doch meine Gasteltern, Herr und Frau Zimmer, sind einfach immer weitergelaufen. Die Deutschen lieben es nämlich, in der Natur spazieren zu gehen, bis sie vor Erschöpfung {{27}}. Unterwegs haben wir manchmal an einer sogenannten \"Wassertretstelle\" Rast gemacht. Das sind kleine Wasserbecken, die oft mitten im Wald liegen. Durch das Becken fließt ein Bach mit eiskaltem Wasser, das direkt von den Bergen kommt. Stell {{28}} vor, alle Wanderer ziehen ihre Schuhe und Strümpfe aus und laufen durch dieses Becken. Als ich meinen Fuß in dieses kalte Wasser getaucht hatte, dachte ich, dass ich gleich sterben muss.\nAm Wochenende haben wir alle Minigolf gespielt. Dabei muss ein Golfball mit einem Schläger in ein etwa Zehn Meter entferntes Loch geschlagen werden. Aber vor dem Loch gibt es {{29}} Menge Hindernisse: Gräben, kleine Hügel, Tunnel. Der Spieler, dessen Ball mit den wenigsten Schlägen im Loch ankommt, hat gewonnen. Die Kinder wollten gar nicht mehr {{30}} aufhören. Jetzt muss ich aber Schluss machen, die Kinder warten auf ihr Abendessen, denn die Zimmers sind heute nicht da: Sie wandern mal wieder.\n\nViele Grüße\ndeine Mercedes",
+  "gaps": [
+    { "n": 21, "a": "an den", "b": "auf dem", "c": "über den", "correct": "c" },
+    { "n": 22, "a": "nichts mehr", "b": "noch nicht", "c": "keines", "correct": "a" },
+    { "n": 23, "a": "doch", "b": "eben", "c": "überhaupt", "correct": "a" },
+    { "n": 24, "a": "wann", "b": "was", "c": "wie", "correct": "c" },
+    { "n": 25, "a": "der", "b": "die", "c": "von", "correct": "a" },
+    { "n": 26, "a": "gelaufen", "b": "getan", "c": "geworden", "correct": "b" },
+    { "n": 27, "a": "durchfallen", "b": "umfallen", "c": "wegfallen", "correct": "b" },
+    { "n": 28, "a": "dich", "b": "dir", "c": "mal", "correct": "b" },
+    { "n": 29, "a": "alle", "b": "ganze", "c": "jede", "correct": "c" },
+    { "n": 30, "a": "dabei", "b": "damit", "c": "davon", "correct": "b" }
+  ]
+}

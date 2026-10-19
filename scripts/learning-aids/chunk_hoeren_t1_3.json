@@ -1,0 +1,514 @@
+[
+  {
+    "id": "44dcf863-94a3-46d0-b097-2006000aef27",
+    "teil": 1,
+    "title": "Ernährung und Lebensmittel",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Der Sprecher isst nicht mehr so viel Fleisch wie früher.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Sprecherin ist überzeugt, dass die Lebensmittel in den Supermärkten kontrolliert werden.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Sprecherin hat Angst vor Krankheiten, weil die Lebensmittel so schlecht sind.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Dem Sprecher gefällt die Atmosphäre auf dem Wochenmarkt.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Sprecher findet, dass die meisten Menschen zu viel Geld für unwichtige Dinge ausgeben.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "7db08b42-3867-4cc1-bd24-1845c684df7d",
+    "teil": 1,
+    "title": "Es ist unklar (Original)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Es ist unklar, ob das Problem noch einmal auftreten kann.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Hamburgs Politiker befürworteten den Bau des Einkaufszentrums nicht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zwischen Frankreich und Deutschland wurde ein neuer Hochgeschwindigkeitszug in Betrieb genommen.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Produkte von TipTop sind in Deutschland nicht mehr so gefragt.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ingrid Thieme wird sich an der kommenden WM beteiligen.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "2000a658-cd54-403c-ba8d-d34f9f1588d7",
+    "teil": 1,
+    "title": "EU-Klimapaket",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "EU-Klimapaket betrifft auch Mittelstand.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Viele Beschäftigte wollen nur im Büro arbeiten.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Strecke Berlin–Hamburg bleibt nach Sabotage länger gesperrt.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Laut Experten belasten Arzneimittel das Grundwasser.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Cannes-Festival wegen Streiks abgebrochen.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "0a2c2129-b3aa-4a82-8e59-44b3bb9a1f38",
+    "teil": 1,
+    "title": "Fahrkarten",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Fahrkarten sind in Großstädten zuletzt stark im Preis gesunken.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Ausstellung im Naturkundemuseum beschränkt sich auf die Tierwelt Europas.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Sportanteil unter Jugendlichen ist rückläufig.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Polen kam ein Schauspieler wegen Steuern ins Gefängnis.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Brand führte zu erheblichen Verkehrsbehinderungen.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "8fa31dae-5d96-4f20-8971-8bcfa9f511a1",
+    "teil": 1,
+    "title": "Frau Jürgens",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Frau Jürgens tritt wegen Streitigkeiten zurück.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Filme werden in den Kinos der Stadt gezeigt.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der öffentliche Nahverkehr funktioniert noch nicht störungsfrei.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wildes Camping ist im In- und Ausland nur bedingt zugelassen.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Temperaturen steigen in den nächsten Tagen an.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "855768b8-fe1f-46dd-8f10-34979a3febe6",
+    "teil": 1,
+    "title": "Frühzeitige",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Frühzeitige Wetterwarnungen konnten Evakuierungen im Süden nicht verhindern.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Junge Erwachsene sehen das Auto wieder häufiger als Statussymbol.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Private Kassen lehnen die Gesundheitsreform ab, gesetzliche befürworten sie.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Mikroplastik gelangt laut Forschung auch über die Luft in den Körper.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Art Basel wurde wegen Stromproblemen komplett abgesagt.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "16045f3f-aa83-4441-bfd0-6438baf9af32",
+    "teil": 1,
+    "title": "Für die Polizei in Berlin",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Innenstädte werden immer weniger interessant.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Für die Polizei in Berlin gab es einen schwierigen Fall.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Düsseldorfer Flughafen möchte bald neue Flugziele anbieten.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Musiker gaben ein Konzert für einen guten Zweck.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Deutsche Wintersportler sind bei den Olympischen Spielen erfolgreich.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "fd2fd2e8-9700-4564-a244-b8d12cad537f",
+    "teil": 1,
+    "title": "Homeoffice",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Dauerhaftes Homeoffice verringert die Produktivität in Unternehmen.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der internationale Flugverkehr verzeichnet kein beschleunigtes Wachstum.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Online-Weiterbildungen ersetzen zunehmend klassische Präsenzkurse.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Ausbau der Windenergie wird allgemein befürwortet.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Digitale Bezahlsysteme haben Bargeld in Europa verdrängt.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "ecbdd241-1844-416a-a649-4e59e0ec832d",
+    "teil": 1,
+    "title": "In den Alpen (Original)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Wetterlage in den Alpen wird sich in den nächsten Tagen verbessern.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Fans des FC Riedlingen waren von dem Sieg ihrer Mannschaft überrascht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Erzieherinnen verlangen eine bessere Bezahlung.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Berliner Zoo gibt es eine große Pandafamilie.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Zahl der Deutschlandurlauber ist rückläufig.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "6ffc1f59-47ac-487f-8e36-06eec00f42ca",
+    "teil": 1,
+    "title": "In den Alpen (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Wetterlage in den Alpen bleibt für längere Zeit so.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Fans, die das Spiel verfolgten, waren überrascht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Eine Pandafamilie kommt im Park an.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ein Urlaub in Deutschland bedeutet weniger Kosten.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Erzieherinnen verlangen eine bessere Bezahlung.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "c0a2ec95-8bea-404a-9365-bb76076990a9",
+    "teil": 1,
+    "title": "In der Europäischen",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "In der Europäischen Union verzeichnet man weniger jugendliche Arbeitslose.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Bundesarbeitsministerium bemüht sich um ausländische Arbeitnehmer bestimmter Berufsgruppen.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die „Lange Nacht der Musik“ findet am Odeonsplatz in München statt.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im \"Tal der goldenen Mumien\" wurden bisher fast 10.000 Tote gefunden.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Gefahr schwerer Unwetter ist nun vorbei.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "4a4d1a14-f7df-464d-9d7a-1124c2eb1620",
+    "teil": 1,
+    "title": "In Frankfurt haben Manager",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "München wurde wieder zur Stadt mit der höchsten Lebensqualität in Deutschland gewählt.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Frankfurt haben Manager darüber diskutiert, was Unternehmen tun müssen, um zukünftig weiterhin erfolgreich zu sein.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Nach Worten des Ministers fördert mobiles Arbeiten das Wirtschaftswachstum und die Produktivität.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Da es im Sommer in Katar zu heiß ist, sind die europäischen Fußballclubs mit der Entscheidung der Fifa, die WM 2022 im Winter austragen zu lassen, zufrieden.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Wetter bleibt in den nächsten Tagen kühl und unbeständig.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "4dc873d4-2f27-476c-86d4-6c169382ab03",
+    "teil": 1,
+    "title": "Insel Bali",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der Insel Bali wurden neue Maßnahmen zur Müllentsorgung beschlossen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Nordfrankreich wird nach einem entlaufenen Panther gesucht.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Mietervereinigung rät Mietern, die Betriebskosten nicht zu bezahlen.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Der Sekthersteller hat die Pläne für sein Bauvorhaben geändert.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Löscharbeiten sind noch nicht abgeschlossen.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "0d2fde37-7f16-40d4-9061-e614a6d44142",
+    "teil": 1,
+    "title": "Internationale Konferenz",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Auf einer internationalen Konferenz in Bonn wurde beschlossen, weltweit verstärkt umweltfreundliche Energien zu nutzen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Luftfahrtgesellschaft Adler stellt wieder Mitarbeiter ein.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In Ulm beginnt heute der Katholikentag, ein großes christliches Laientreffen in Deutschland.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Bundesregierung hat zum Schutz jugendlicher Verbraucher eine Steuer auf alkoholhaltige Mischgetränke eingeführt.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Hagen gab es ein Sprengstoffunglück.",
+        "statement_number": 45
+      }
+    ]
+  },
+  {
+    "id": "feec839b-fda6-446f-bd75-2631a8170c88",
+    "teil": 1,
+    "title": "Japan",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Plastiktüten werden seltener genutzt.",
+        "statement_number": 1
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Im Homeoffice sinkt die Produktivität der Mitarbeiter.",
+        "statement_number": 2
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Kanada soll man wieder Eisbären jagen dürfen.",
+        "statement_number": 3
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Soziale Netzwerke beeinflussen das Kaufverhalten.",
+        "statement_number": 4
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Japan will bis 2035 alle Benzinautos verbieten.",
+        "statement_number": 5
+      }
+    ]
+  },
+  {
+    "id": "c011bd58-621a-4278-afd0-06dcb6cd0dcd",
+    "teil": 1,
+    "title": "Laut Statistischem Bundesamt",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Laut Statistischem Bundesamt müssen junge Leute mit fehlenden Berufserfahrungen häufig ein zeitlich begrenztes Arbeitsverhältnis eingehen.",
+        "statement_number": 41
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der Autobahn Richtung Stuttgart kam es zum Unfall, weil das Tempolimit überschritten wurde.",
+        "statement_number": 42
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die chinesische Botschaft in München wählte die Namen für die zwei Pandabären aus.",
+        "statement_number": 43
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Sowohl Asien als auch Europa tragen zur Verschmutzung der Meere durch Plastikmüll bei.",
+        "statement_number": 44
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das neuartige Ampelsystem zur Verbesserung der Sicherheit von Fußgängern befindet sich aktuell in der Testphase.",
+        "statement_number": 45
+      }
+    ]
+  }
+]

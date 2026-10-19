@@ -1,0 +1,63 @@
+{
+  "title": "Herr Gasser",
+  "teil": 2,
+  "level": "B2",
+  "position": 17,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 18 (code 34890) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Herr Gasser und Frau Janke haben zusammen Urlaub im Gebirge gemacht.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Josef Gasser ist ein gebürtiger Tiroler.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Die Bergbauern können kaum vom Verkauf ihrer Produkte leben.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Auch heute werden die steilen Hänge noch manuell bearbeitet.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Josef Gasser findet, dass man die Berglandschaft sich selbst überlassen sollte.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Eva Janke begeistert sich immer noch für Flugreisen.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Ihren ersten Einsatz auf der Alm hat Frau Janke abgebrochen.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Für Frau Janke ist der Erholungswert trotz der Anstrengung sehr hoch.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Almhelferinnen und -helfer können vielfältige Aufgaben übernehmen.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Über die Dauer des Aufenthalts kann man frei entscheiden.",
+      "correct": true
+    }
+  ]
+}

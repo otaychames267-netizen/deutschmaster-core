@@ -1,0 +1,38 @@
+{
+  "title": "im Frankfurter Zoo",
+  "teil": 3,
+  "level": "B2",
+  "position": 39,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 39 (code 15) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "im Frankfurter Zoo kann man Großkatzen in einer naturnahen Umgebung erleben.",
+      "correct": true
+    },
+    {
+      "number": 57,
+      "text": "Bei dem deutsch-französischen Fest werden Gaumenfreuden aus Deutschland und Frankangeboten",
+      "correct": false
+    },
+    {
+      "number": 58,
+      "text": "Auf der Autobahn A7 zwischen Hamburg und Flensburg ist ein Stau wegen mehrerer Unfe",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Wer anruft, kann über die Vergabe des Preises mitentscheiden,",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Telefonische Beratungen werden an allen Werktagen auch nachmittags angeboten",
+      "correct": true
+    }
+  ]
+}

@@ -17,6 +17,7 @@ async function assertAdmin(ctx: { supabase: any; userId: string }) {
 export const listCollections = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    await assertAdmin(context);
     const { data, error } = await context.supabase
       .from("exercise_collections")
       .select("id,title,level,module,teil,notes,created_at,updated_at")

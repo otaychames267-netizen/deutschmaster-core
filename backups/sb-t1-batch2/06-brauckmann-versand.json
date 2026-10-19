@@ -1,0 +1,20 @@
+{
+  "title": "Brauckmann Versand",
+  "level": "B2",
+  "position": 45,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die Lücken 21 – 30 passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei Aufgaben 21 – 30.",
+  "passage": "Brauckmann Versand\nDorotheenplatz 8\n04109 Leipzig\n\nReklamation\n\nSehr geehrte Damen und Herren,\n\nvor zwei {{21}} habe ich bei Ihnen einen tragbaren CD-Player bestellt und erhalten. Leider muss ich {{22}} heute mitteilen, dass er kaputt ist. Die CDs wurden von Anfang an nicht richtig eingezogen. Man {{23}} die Taste mehrmals drücken, erst dann funktionierte das Gerät. Jetzt lässt es sich gar nicht mehr öffnen.\n\nAuf dem Gerät sind {{24}} vier Monate Garantie. Ich schicke Ihnen {{25}} das Gerät zurück, Garantiekarte und Rechnung sind beigefügt.\n\nIch darf Sie bitten, das Gerät entweder zu reparieren {{26}} umzutauschen. Falls das nicht möglich ist, würde ich Sie {{27}} Erstattung des Kaufpreises bitten.\n\nIn sechs Wochen kehre ich in {{28}} Heimat zurück, d.h. ich verlasse Deutschland. Ich möchte das Gerät natürlich gern {{29}}. Daher wäre ich Ihnen dankbar, wenn Sie die Angelegenheit möglichst umgehend klären und {{30}} dann benachrichtigen würden.\n\nIn der Hoffnung auf eine positive Nachricht\n\nMit freundlichen Grüßen",
+  "gaps": [
+    {"n":21,"a":"Monate","b":"Monaten","c":"Monats","correct":"b"},
+    {"n":22,"a":"ihnen","b":"Ihnen","c":"Sie","correct":"b"},
+    {"n":23,"a":"müssen","b":"muss","c":"musste","correct":"c"},
+    {"n":24,"a":"endlich","b":"noch","c":"schon","correct":"b"},
+    {"n":25,"a":"denn","b":"deshalb","c":"weshalb","correct":"b"},
+    {"n":26,"a":"oder","b":"sondern","c":"sonst","correct":"a"},
+    {"n":27,"a":"für","b":"um","c":"wegen","correct":"b"},
+    {"n":28,"a":"meine","b":"meinem","c":"meiner","correct":"a"},
+    {"n":29,"a":"mitgenommen","b":"mitnehmen","c":"mitnehme","correct":"b"},
+    {"n":30,"a":"-","b":"mich","c":"mir","correct":"b"}
+  ]
+}

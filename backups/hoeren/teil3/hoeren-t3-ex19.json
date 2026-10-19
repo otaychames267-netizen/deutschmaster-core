@@ -1,0 +1,38 @@
+{
+  "title": "In Raum C23",
+  "teil": 3,
+  "level": "B2",
+  "position": 19,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 20 (code 2) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "In Raum C23 trägt ein bekannter Schriftsteller etwas vor.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "Wenn Ihre Software nicht funktioniert, erhalten Sie über Internet Unterstützung.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "In der Stadtbibliothek präsentiert heute eine Hochschule ihr Angebot vor allem für Berufstätige.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Im Internet finden Sie auch Angebote für spezielle Zielgruppen.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Wenn man Dienstag oder Donnerstag jemanden persönlich sprechen möchte, braucht man einen Termin.",
+      "correct": false
+    }
+  ]
+}

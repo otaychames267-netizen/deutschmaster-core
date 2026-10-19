@@ -1,0 +1,19 @@
+services:
+  whisper-stt:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - WHISPER_MODEL=TheChola/whisper-large-v3-turbo-german-faster-whisper
+      - WHISPER_DEVICE=cuda
+      - WHISPER_COMPUTE_TYPE=float16
+    # Requires the NVIDIA Container Toolkit on the host for GPU passthrough
+    # (RunPod/most GPU cloud hosts have this preconfigured). Remove the
+    # `deploy` block and set WHISPER_DEVICE=cpu below to run CPU-only.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

@@ -1,0 +1,63 @@
+{
+  "title": "Markus 2",
+  "teil": 2,
+  "level": "B2",
+  "position": 14,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Markus",
+  "notes": "PDF page 15 (code 24580) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Markus ist schon während des Studiums an eine amerikanische Universität gegangen.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Markus wollte in einem besonderserfolgreichen mitarbeiten Team.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Um eine Stelle in einer amerikanischen Forschergruppe zu bekommen, muss man viel Glück haben.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Markus befindet sich zwischen Ausbildung und Beruf.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Markus profitiert im Amrika von erfahrung die während studiert sammelt.",
+      "correct": true
+    },
+    {
+      "number": 51,
+      "text": "Markus profitiert im amrika von erfahrung die während studium sammelt.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Markus ist immer noch sehr nervös in der fremden Umgebung.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Markus ist mit den Arbeitsbedingungen zufrieden.",
+      "correct": true
+    },
+    {
+      "number": 54,
+      "text": "Markus befürwortet es nicht, dass sich Studenten in der USA früh auf ihre zukünftig Beruf festlegen müssen.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "für Markus ist Vorteil, dass in Deutschland die Referat und vortrag halten müsse.",
+      "correct": true
+    }
+  ]
+}

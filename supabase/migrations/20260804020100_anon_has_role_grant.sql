@@ -1,0 +1,20 @@
+-- Freemium guest-preview overhaul, part 2: fix a real bug the guest rollout
+-- surfaced. `is_d17_staff()` (LANGUAGE sql, not SECURITY DEFINER) calls
+-- `public.has_role()` internally, so it runs with the CALLING role's own
+-- privileges — not the function owner's. `has_role` had EXECUTE granted to
+-- `authenticated`/`service_role`/`postgres` but never `anon`, which was
+-- invisible until now because every RLS policy that OR's in
+-- `is_d17_staff(auth.uid())` (hoeren_exercises, hoeren_statements, lesen_t1_
+-- texts/headlines' "auth read" policies, etc.) previously only ever ran
+-- under an authenticated session. The instant an anonymous visitor's query
+-- reaches a row where the cheaper disjuncts (free-sample, has_plan_access)
+-- are both false, Postgres has to evaluate is_d17_staff() too, which then
+-- fails with "permission denied for function has_role" and aborts the whole
+-- query — reproduced live via `hoeren_statements_student` (a plain view over
+-- hoeren_statements) returning empty for every locked exercise.
+--
+-- has_role() is a pure boolean membership check (`EXISTS (SELECT 1 FROM
+-- user_roles WHERE user_id=... AND role=...)`) — granting anon EXECUTE on it
+-- doesn't expose any row data itself; the surrounding RLS policies still
+-- gate what's actually returned.
+GRANT EXECUTE ON FUNCTION public.has_role(uuid, public.app_role) TO anon;

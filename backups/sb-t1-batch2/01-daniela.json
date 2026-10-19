@@ -1,0 +1,20 @@
+{
+  "title": "Daniela",
+  "level": "B2",
+  "position": 40,
+  "source_pdf": "sprachbausteine teil 1.pdf",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21-30.",
+  "passage": "Liebe Daniela,\n\nich habe schon ein ganz schlechtes Gewissen, denn {{21}} wollte ich dir schon vor zwei Monaten schreiben. Aber du weißt ja, wie das ist: Wenn man sich auf eine Prüfung vorbereitet, hat {{22}} überhaupt keine Zeit mehr für seine Hobbys – alles dreht sich nur noch ums Lernen.\n\nNun habe ich es aber geschafft: Gestern war die Prüfung und ich bin zuversichtlich, dass ich sie bestanden habe. Mein Freund, mit {{23}} Hilfe es mir überhaupt nur möglich war, diese ganze Zeit zu {{24}}, hat mich für heute Abend in ein tolles Restaurant eingeladen. Danach gehen wir auch noch tanzen.\n\nIn deinem letzten Brief hast du mich gefragt, {{25}} ich Lust hätte, mit dir zusammen ein Wochenende in London zu verbringen. Natürlich habe ich Lust! Nach dem ganzen Stress der letzten Wochen fände ich es super, mal ein paar Tage lang mit einer Freundin etwas Tolles zu {{26}}. London ist eine wunderbare Stadt, ich habe schon viele Berichte darüber gelesen. Ich würde mich {{27}} besonders {{28}} die Tate Gallery und das Filmmuseum interessieren.\n\nMach {{29}} einfach ein paar Vorschläge, wann du Zeit hast. Ich bin sicher, dass wir {{30}} auf dem Wochenende einigen können. In der Zwischenzeit drucke ich schon mal ein paar Angebote aus dem Internet aus: preiswerte Flüge, ein schönes und günstiges Hotel für uns usw. Ich freue mich schon auf deinen nächsten Brief.\n\nHerzliche Grüße\nAndrea",
+  "gaps": [
+    {"n":21,"a":"außerdem","b":"eigentlich","c":"überhaupt","correct":"b"},
+    {"n":22,"a":"er","b":"es","c":"man","correct":"c"},
+    {"n":23,"a":"der","b":"dessen","c":"seiner","correct":"b"},
+    {"n":24,"a":"übersetzen","b":"überstehen","c":"übertragen","correct":"b"},
+    {"n":25,"a":"dass","b":"falls","c":"ob","correct":"c"},
+    {"n":26,"a":"verbringen","b":"verplanen","c":"unternehmen","correct":"c"},
+    {"n":27,"a":"ganz","b":"recht","c":"zwar","correct":"a"},
+    {"n":28,"a":"auf","b":"für","c":"in","correct":"b"},
+    {"n":29,"a":"bestimmt","b":"doch","c":"sicher","correct":"b"},
+    {"n":30,"a":"euch","b":"uns","c":"sich","correct":"c"}
+  ]
+}

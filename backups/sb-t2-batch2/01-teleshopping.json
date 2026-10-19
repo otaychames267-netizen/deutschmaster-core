@@ -1,0 +1,22 @@
+{
+  "title": "Teleshopping – nicht immer gut und günstig",
+  "level": "B2",
+  "position": 51,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "batch2 2026-07: page 1. Source word-bank marks only 9 of 10 gaps (mark '10' absent from print after exhaustive per-word zoom check). Gap 40 answer (DABEI) determined by grammar + elimination: it is the only remaining word among the 6 unmarked candidates that fits 'Ganz ___ hilft die Verbraucherzentrale ...', and using it leaves exactly the required 5 distractors (ABER, BEI, BESCHLOSS, HÖHE, NACH). All other 9 gaps verified against explicit source marks.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort aus dem Kasten (a-o) in die Lücken 31-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 31-40.",
+  "passage": "Zu Hause bequem vor dem Fernseher sitzen und einkaufen – das hört sich doch gut an!\nGut schon – aber ist es auch günstig?\nDie Stiftung Warentest hat sich im Interesse der Kundinnen und Kunden drei große Anbieter einmal genauer angeschaut:\nQualität {{31}} enttäuschend, Preise ziemlich hoch, rechtliche Rahmenbedingungen und Service im Wesentlichen in Ordnung, Werbung grell und nervig – so etwa lautet das Fazit, das die Stiftung Warentest zum Thema Teleshopping nach dem Test von drei großen Anbietern {{32}}.\nGenau wie die Stiftung Warentest sind auch die Verbraucherzentralen auf der Seite der Kunden. Die Juristin der sächsischen Verbraucherzentrale, Bettina Dittrich, meint zu der Untersuchung von Stiftung Warentest: „Das deckt sich im Wesentlichen mit den Erfahrungen, die wir {{33}} Beschwerdefällen machen“, und ergänzt, „doch nicht immer und überall läuft es damit problemlos.“\nGegenwärtig beschäftigen sie mehrere Beschwerden von Verbrauchern, die bei einem ausländischen Teleshoppinganbieter eingekauft hatten. Da wird für fristgerecht zurückgesandte Waren der Kaufpreis nicht erstattet, {{34}} es erfolgt nur eine Gutschrift – und das nicht einmal in voller {{35}}. Dabei beruft man sich offenbar auf die geltenden Allgemeinen Geschäftsbedingungen. Zumindest werden diese teilweise der Warenlieferung mitgeschickt.\nGanz {{36}} davon gilt natürlich deutsches Recht, wenn sich ausländische Unternehmen über deutsche Fernsehkanäle in deutscher Sprache an deutsche Verbraucher {{37}}.\n„Teleshoppingkäufe sind im rechtlichen Sinne Fernabsatzverträge, bei denen dem Verbraucher ein gesetzliches Widerrufs- oder Rückgaberecht von 2 Wochen haben“, sagt die Juristin und ergänzt, „dieses Recht gilt {{38}} unbefristet, wenn keine ordnungsgemäße Widerrufsbelehrung erfolgt ist.“\nDaher rät die Verbraucherzentrale den Verbrauchern, beim Teleshopping {{39}} konsequent ihre Rechte durchzusetzen wie bei anderen Verbraucherverträgen auch. {{40}} hilft die Verbraucherzentrale Sachsen mit Tipps und Informationen.",
+  "words": ["ABER", "ABGESEHEN", "BEI", "BESCHLOSS", "DABEI", "DEUTLICH", "EHER", "GENAUSO", "HÖHE", "NACH", "RECHNUNG", "SOGAR", "SONDERN", "WENDEN", "ZOG"],
+  "answers": {
+    "31": "DEUTLICH",
+    "32": "ZOG",
+    "33": "BEI",
+    "34": "SONDERN",
+    "35": "HÖHE",
+    "36": "ABGESEHEN",
+    "37": "WENDEN",
+    "38": "SOGAR",
+    "39": "GENAUSO",
+    "40": "DABEI"
+  }
+}

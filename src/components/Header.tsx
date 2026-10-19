@@ -4,7 +4,8 @@ import { useTheme } from "@/lib/theme";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
-import { Moon, Sun, Globe, GraduationCap, User as UserIcon } from "lucide-react";
+import { Moon, Sun, Globe, User as UserIcon } from "lucide-react";
+import { BrandMark } from "@/components/BrandMark";
 import { RTL_LANGS } from "@/lib/i18n";
 import { useEffect } from "react";
 
@@ -20,7 +21,11 @@ export function Header() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("i18nextLng");
+    // See theme.tsx — localStorage can throw (not just return null) under
+    // Safari "Block All Cookies" and similar locked-down browsers; never let
+    // that take down this public page.
+    let stored: string | null = null;
+    try { stored = window.localStorage.getItem("i18nextLng"); } catch { /* storage blocked */ }
     if (stored && LANGS.some((l) => l.code === stored) && stored !== i18n.language) {
       void i18n.changeLanguage(stored);
     }
@@ -35,14 +40,14 @@ export function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2 font-bold text-lg">
-          <GraduationCap className="h-6 w-6 text-accent" />
+          <BrandMark className="h-6 w-6 text-accent" />
           <span>AuraLingovia</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6 text-sm">
           <a href="/#features" className="hover:text-accent">{t("nav.features")}</a>
           <a href="/#pricing" className="hover:text-accent">{t("nav.pricing")}</a>
           <a href="/#faq" className="hover:text-accent">{t("nav.faq")}</a>
-          <a href="/#contact" className="hover:text-accent">{t("nav.contact")}</a>
+          <Link to="/contact" className="hover:text-accent">{t("nav.contact")}</Link>
         </nav>
         <div className="flex items-center gap-2">
           <DropdownMenu>

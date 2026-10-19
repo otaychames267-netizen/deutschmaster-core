@@ -82,8 +82,23 @@ function StatistikPage() {
         .select("duration_minutes, started_at")
         .eq("user_id", user.id)
         .order("started_at"),
-    ]).then(([resR, sesR]) => {
-      setResults((resR.data as AttemptResult[]) ?? []);
+      // Lesen practice attempts — fold into the same shape so every chart counts them.
+      (supabase as any)
+        .from("lesen_attempts")
+        .select("score, total, created_at")
+        .eq("user_id", user.id)
+        .order("created_at"),
+    ]).then(([resR, sesR, lesenR]) => {
+      const exam = (resR.data as AttemptResult[]) ?? [];
+      const lesen: AttemptResult[] = ((lesenR.data as any[]) ?? []).map((r) => ({
+        section: "lesen",
+        score: r.score,
+        max_score: r.total,
+        passed: r.total > 0 && r.score / r.total >= 0.6,
+        created_at: r.created_at,
+      }));
+      const merged = [...exam, ...lesen].sort((a, b) => a.created_at.localeCompare(b.created_at));
+      setResults(merged);
       setSessions((sesR.data as StudySession[]) ?? []);
       setLoading(false);
     });

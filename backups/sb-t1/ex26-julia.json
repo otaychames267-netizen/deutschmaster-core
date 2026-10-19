@@ -1,0 +1,21 @@
+{
+  "title": "Julia",
+  "level": "B2",
+  "position": 27,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual transcription (page 32, photographed/low-quality source); orthography corrected.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Julia,\n\naus Paris sende ich dir herzliche Grüße! Ich sitze gerade in einem gemütlichen, aber ziemlich vollen Bistro in der Nähe des Louvre und genieße meinen Urlaub. Nun ist es ja schon einige Monate her, dass wir zuletzt {{21}} gehört haben. Ich hoffe, es geht dir gut.\nZurzeit mache ich eine Rundreise {{22}} Europa, die ich übrigens schon länger geplant hatte. {{23}} du weißt, habe ich in den letzten zwei Jahren sehr viel gearbeitet und konnte mir nur selten freinehmen. Nach dem ganzen Stress musste ich unbedingt mal eine längere Pause einlegen. Dank meiner gesammelten Überstunden kann ich nun acht Wochen Urlaub am Stück machen. Mein Chef {{24}} zuerst nicht gerade von dieser Idee begeistert, aber am Ende konnte ich ihn doch überzeugen. In den Sommermonaten ist {{25}} in der Firma ohnehin etwas ruhiger. Nun klappere ich nach und nach alle Städte ab, die auf der Liste meiner Traumziele stehen. Ich bin nur mit dem Zug oder Bus unterwegs, denn ich fliege ja nicht sehr gerne. Meine {{26}} Station war Amsterdam, dann ging es über Brüssel nach Paris und bald werde ich weiter Richtung Süden reisen. Der Büroalltag fehlt mir wirklich überhaupt nicht. Ich möchte gar nicht {{27}} denken, dass ich irgendwann wieder an den Schreibtisch zurück {{28}}. In den letzten Tagen kam {{29}} manchmal der Gedanke, dass ich nach meiner Rückkehr auch etwas ganz Neues anfangen {{30}}... Ich wünsche dir einen schönen Sommer!\nHerzliche Grüße und bis bald\nJudith",
+  "gaps": [
+    { "n": 21, "a": "miteinander", "b": "voneinander", "c": "zueinander", "correct": "b" },
+    { "n": 22, "a": "durch", "b": "über", "c": "von", "correct": "a" },
+    { "n": 23, "a": "Als", "b": "weil", "c": "wie", "correct": "c" },
+    { "n": 24, "a": "war", "b": "wurde", "c": "würde", "correct": "a" },
+    { "n": 25, "a": "er", "b": "es", "c": "man", "correct": "b" },
+    { "n": 26, "a": "erste", "b": "ersten", "c": "erster", "correct": "a" },
+    { "n": 27, "a": "daran", "b": "darüber", "c": "davon", "correct": "a" },
+    { "n": 28, "a": "kann", "b": "mag", "c": "muss", "correct": "c" },
+    { "n": 29, "a": "ich", "b": "mich", "c": "mir", "correct": "c" },
+    { "n": 30, "a": "bräuchte", "b": "dürfte", "c": "könnte", "correct": "c" }
+  ]
+}

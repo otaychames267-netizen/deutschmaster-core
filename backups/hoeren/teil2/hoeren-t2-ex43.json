@@ -1,0 +1,63 @@
+{
+  "title": "Thomas",
+  "teil": 2,
+  "level": "B2",
+  "position": 43,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 44 (code 139) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Nach seinem Studium hat Thomas Hirschbaum zuerst im IT-Bereich gearbeitet.",
+      "correct": true
+    },
+    {
+      "number": 47,
+      "text": "Er hat den Managementbereich in seiner Firma gegründet. 50",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Es hat ihm gefallen, Verantwortung für sein 50-köpfiges Team zu haben.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Seine Eltern haben erwartet, dass er einmal mehr Geld verdient als sie.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Seit seinem Start ins Berufsleben hatte er keine Freizeit mehr.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Er hat sich oft nicht gut gefühlt, wenn er an seine Familie dachte.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Nach seinem 40. Geburtstag hatte er den Wunsch, mal einen Monat Urlaub zu machen.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Sein Chef war sofort mit dem Vorschlag einverstanden, die Arbeit anders zu organisieren.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Wie sein Kollege arbeitet Thomas Hirschbaum jetzt halbtags.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Trotzdem steht die Arbeit für ihn an oberster Stelle.",
+      "correct": false
+    }
+  ]
+}

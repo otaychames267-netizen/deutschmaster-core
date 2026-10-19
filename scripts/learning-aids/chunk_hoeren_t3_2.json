@@ -1,0 +1,578 @@
+[
+  {
+    "id": "55705154-f008-4be6-a9e8-eea9f4fa02d8",
+    "teil": 3,
+    "title": "Die Fahrradtouren von Berlin",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Die Fahrradtouren von „Berlin auf zwei Rädern“ können nicht nur privat, sondern auch im beruflichen Kontext gebucht werden.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Straßen in Passau sind durch das starke Unwetter heute noch bis vier Uhr blockiert.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sitzplatzreservierungen im ICE sind wegen technischer Probleme in den Wagen 24-38 ungültig.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Selma schlägt vor, die Verabredung auf Samstag zu verschieben.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die lange Nacht der Architektur ist kostenlos, wenn man sich vorher online anmeldet.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "40b7b441-4f9a-4ecf-b8bd-c4e70fcc5861",
+    "teil": 3,
+    "title": "Die Gruppe Die Prinzen",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Die Gruppe „Die Prinzen“ tritt am 23. Juni in Kiel auf.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Frankfurter JPMorgan Chase Corporate Challenge Lauf beginnt in der Nähe der Alten Oper.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Prager Nacht findet im Regensburger Dom statt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Auf der A3 Frankfurt Richtung Würzburg ist zwischen Offenbach und Seligenstadt ein Stau.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Anbieter „Call & Call“ verbindet Sie kostenlos mit Ihrem Gesprächspartner.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "e343d65d-7b11-4cee-a60c-4069c2bcf78a",
+    "teil": 3,
+    "title": "Die Literaturmesse für Kleinverleger",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Die Literaturmesse für Kleinverleger findet zum ersten Mal statt.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei dem Wettkampf machte Saskia Winzer alles richtig.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Samstag ist den ganzen Tag mit Sonne zu rechnen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Theaterstück wird zum ersten Mal am Stadttheater aufgeführt.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Während des Unterhaltungsprogramms gibt es auch Kinderbetreuung.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "dac368a1-7f32-4e19-b303-8404a04db138",
+    "teil": 3,
+    "title": "Ehrenamts (Original)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Man kann am \"Tag des Ehrenamts\" probeweise mithelfen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Skateboard-Vorführung fällt dieses mal aus.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vor Passwort-Programmen wird gewarnt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Es wird empfohlen, mit dem Fahrrad zum Volkspark zu fahren.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn man das Training ausprobieren möchte, muss man vorher Bescheid sagen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "d629e2a2-ff34-4c90-8265-0deba67c9008",
+    "teil": 3,
+    "title": "Ehrenamts (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Man kann am \"Tag des Ehrenamts\" probeweise mithelfen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Skateboard-Vorführung fällt dieses Mal aus.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Vor Passwort-Programmen wird gewarnt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Es wird empfohlen, Fahrräder direkt am Volkspark zu parken.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn man das Training ausprobieren möchte, sollte man vorher Bescheid sagen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "6a1948a3-7153-4ef4-901f-23d7770ded2b",
+    "teil": 3,
+    "title": "Ein Teil der kostenlosen",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der IC 865 fährt heute nicht nach Hamburg, sondern nur bis Bonn.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ein Teil der kostenlosen Veranstaltungen beim Literaturfest findet an spannenden Orten in der Stadt statt.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Firma Sanitärbedarf Frieder & Hansen ist sechs Tage die Woche für Anfragen erreichbar.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bewohner des Musikerviertels müssen am Donnerstagnachmittag für zwei Stunden zu Hause bleiben.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zum Valentinstag gibt es heute eine spezielle Beratung für Schmuck und Kosmetikartikel.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "bc942091-db45-4c1a-9869-76846d0d0180",
+    "teil": 3,
+    "title": "Fahrschule",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Bei der Fahrschule kann man sich über das Internet anmelden.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Anruferin ist im Hinblick auf die Abfahrtszeit flexibel.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für den Halb-Marathon kann man sich noch am Sonntag registrieren lassen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei dem Flug nach Mallorca ändert sich die Abflugzeit.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "In Halle D wird aus E-Books vorgelesen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "f5eb84d0-d11d-42b1-b800-3b14033cd42a",
+    "teil": 3,
+    "title": "Fest (Original)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Heute kann man vormittags das Fest besuchen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Wiese beginnt um 8 Uhr.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Eintrittskarten für Jugendliche kosten 13,50 €.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Fahrkarte ist in bestimmten Zügen gültig.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Sonntag können Kinder ein Theaterstück anschauen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "c7188663-5d30-43b4-9620-ffee3f4048d7",
+    "teil": 3,
+    "title": "Fest (معدل)",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Heute kann man vormittags das Fest besuchen",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Der Verkauf beginnt um 9 Uhr morgens",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "€ 13,50 kosten Jugendliche Eintrittskarten für",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Fahrkarte ist in bestimmten Zügen gültig",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Sonntag können Kinder ein Theaterstück anschauen",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "6ee79c3e-f55e-42d2-9b59-5dd9278bfd55",
+    "teil": 3,
+    "title": "Fundbüro",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Sie müssen nicht persönlich beim Fundbüro nachfragen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Die Wettervorhersage können Sie nach den Mittagsnachrichten hören.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie dürfen Ihr Rad spontan im Zug mitnehmen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Donnerstag sehen Sie das deutsche Team im Halbfinale.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Während der Sperrung kann man die üblichen Bushaltestellen benutzen.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "8cfbbace-e78f-4e9f-afbc-8eec3d3c6167",
+    "teil": 3,
+    "title": "Für das Konzert mit Romano",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Der Software-Service von Macrohard steht rund um die Uhr zur Verfügung.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Für das Konzert mit Romano Castelli gibt es noch Karten ab 200 Euro.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Über den neuen Tarif von T-Upline können Sie sich im Internet informieren.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Weil das Schwerpunktthema „Japan“ lautet, treten im Park des Museums für Völkerkunde in diesem Jahr nur japanische Musiker auf.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei dem Festival gibt es nicht nur folkloristische Unterhaltung, sondern auch kulinarische Spezialitäten aus dem In- und Ausland.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "40889546-f779-42e4-a40f-ffb62255416f",
+    "teil": 3,
+    "title": "Für ein Konzert morgen",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Für ein Konzert morgen Abend kann man noch im Internet Karten kaufen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Heute ist das Busfahren in der ganzen Stadt umsonst.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Bei dem Filmfestival werden internationale Kinderfilme gezeigt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Das Busunternehmen Schneider kündigt neue Fernbusverbindungen an.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man kann eine kostenlose Probestunde vereinbaren",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "0bac7e86-4c6f-44c4-8a10-3a62aa9925b3",
+    "teil": 3,
+    "title": "Für ein Konzert morgen (معدل)",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Für ein Konzert Morgen Abend kann man noch im Internet Karten kaufen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man kann mit dem Bus gratis zum Fest fahren.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei dem Filmfestival werden internationale Kinderfilme gezeigt.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Das Busunternehmen Schneider kündigt neue Fernbusverbindungen an.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Man kann sich für eine kostenlose Probestunde anmelden.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "041fabfc-3053-4903-9fd4-98a1c1166a35",
+    "teil": 3,
+    "title": "Fußballspiels im Ostpark",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Die Übertragung des Fußballspiels im Ostpark findet bei jedem Wetter statt.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wer sich für den Newsletter registriert, kann jeden Monat etwas gewinnen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Alle Besucher des Schwimmbads dürfen heute im Restaurant kostenlos etwas trinken.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wegen einer technischen Störung ist der Onlineshop weder telefonisch noch per E-Mail erreichbar.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Am Familiensonntag dürfen Kinder kostenlos ins Museum.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "6e7048ec-4aea-4019-89ea-b11b6142876d",
+    "teil": 3,
+    "title": "Hannover",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Sie müssen spätestens in Hannover in den hinteren Zugteil umsteigen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn Sie für das Radio eine Geschichte über Ihren eigenen 18. Geburtstag schreiben, müssen Sie bei der Party keinen Eintritt bezahlen.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Ihrer Freundin geht es nicht gut.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf dem Festival wird auch Musik von Beethoven gespielt.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Sie können das Eisbärbaby jederzeit im Freien beobachten.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "f81b4bbf-29fd-4829-8790-1db89aa8a8fe",
+    "teil": 3,
+    "title": "Im August",
+    "statements": [
+      {
+        "correct_answer": false,
+        "statement_text": "Im August gibt es jeden Tag eine Aufführung.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Zur Station Grünberg kommen Sie mit der U-Bahn-Linie 68.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "In weniger dringlichen Fällen soll man eine Nachricht hinterlassen.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Am Mittwoch und Donnerstag können Sie Sachspenden vorbeibringen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Nur an den Werktagen wird eine hohe Verkehrsdichte erwartet.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "4dd0fb08-834f-4166-a47f-f9a1d9cc5b2f",
+    "teil": 3,
+    "title": "im Frankfurter Zoo",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "im Frankfurter Zoo kann man Großkatzen in einer naturnahen Umgebung erleben.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Bei dem deutsch-französischen Fest werden Gaumenfreuden aus Deutschland und Frankreich angeboten.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der Autobahn A7 zwischen Hamburg und Flensburg ist ein Stau wegen mehrerer Unfälle.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Wer anruft, kann über die Vergabe des Preises mitentscheiden,",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Telefonische Beratungen werden an allen Werktagen auch nachmittags angeboten.",
+        "statement_number": 60
+      }
+    ]
+  },
+  {
+    "id": "af9540fa-bb61-4bc8-be35-2889aa9714bf",
+    "teil": 3,
+    "title": "Im Süden Deutschlands - regnen",
+    "statements": [
+      {
+        "correct_answer": true,
+        "statement_text": "Im Süden Deutschlands wird es nachmittags regnen.",
+        "statement_number": 56
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Die Busse verkehren zu anderen Zeiten als die Regionalzüge.",
+        "statement_number": 57
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Auf der A3 von Würzburg nach Frankfurt gibt es aufgrund eines Unfalls eine Vollsperrung.",
+        "statement_number": 58
+      },
+      {
+        "correct_answer": true,
+        "statement_text": "Wenn Sie über Ihre Autoversicherung sprechen wollen, müssen Sie die 1 wählen.",
+        "statement_number": 59
+      },
+      {
+        "correct_answer": false,
+        "statement_text": "Ihr Bekannter ist jederzeit telefonisch erreichbar.",
+        "statement_number": 60
+      }
+    ]
+  }
+]

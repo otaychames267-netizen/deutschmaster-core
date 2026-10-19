@@ -1,0 +1,38 @@
+{
+  "title": "Demonstration",
+  "teil": 3,
+  "level": "B2",
+  "position": 10,
+  "source_pdf": "DOC-20260516-WA0007..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 11 (code 24) of DOC-20260516-WA0007..pdf. Extracted using poppler pdftotext -bbox + pixel-sampled color classification (verified pipeline, same as Teil 1/2). GREEN ink/highlight = Richtig, everything else = Falsch.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 56,
+      "text": "Die Demonstration findet in Frankfurt vor der Alten Oper statt.",
+      "correct": false
+    },
+    {
+      "number": 57,
+      "text": "In der kommenden Saison wird eine Symphonie von Mahler aufgeführt.",
+      "correct": true
+    },
+    {
+      "number": 58,
+      "text": "Die Weltmeisterschaften im Eiskunstlauf finden in der Dortmunder Helmut-Körnig-Halle statt.",
+      "correct": false
+    },
+    {
+      "number": 59,
+      "text": "Die Autobahn A980 ist mit Schneeketten befahren.",
+      "correct": false
+    },
+    {
+      "number": 60,
+      "text": "Für die Vermittlung einer Mitfahrgelegenheit erhebt \"Fahre mit\" keine Gebühren. 'Fahre mit'",
+      "correct": true
+    }
+  ]
+}

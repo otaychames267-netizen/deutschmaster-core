@@ -1,14 +1,49 @@
 /**
  * Lesen Teil 2 — Lesetext + Fragen
  *
- * Security: `correct` is NEVER in the component's data.
- * After submission, answers are scored server-side via supabase.rpc("score_lesen_t2").
- * The server returns per-question correctness; correct letters are revealed only
- * when the student clicks "Lösung zeigen" — and only after submission.
+ * Security: `correct` is NEVER in the component's data. Scoring runs
+ * server-side via score_lesen_t2 / score_and_save_lesen_t2.
+ *
+ * Layout: the reading passage spans the full page width above the questions,
+ * which follow in a full-width list below — on both desktop and mobile.
+ *
+ * Solution reveal: ONE "Lösung anzeigen" button for the whole exercise (not
+ * one per question) — clicking it fetches every correct answer + evidence +
+ * Warum via the non-saving score_lesen_t2 RPC and shows it for all questions
+ * at once; a second click hides it again. After the student submits
+ * (Auswertung), the same full solution shows automatically for every
+ * question — no extra click needed.
+ *
+ * Resilience (§23, §30): in-progress answers autosave to localStorage and are
+ * restored after a refresh or a closed browser; scoring failures surface a
+ * retryable error instead of silently "submitting".
+ *
+ * Security: the graded solution (correct_answer + learning_aids/Warum text)
+ * is deliberately NEVER written to localStorage — only the student's own
+ * answer choices and the numeric score are. If a previously-submitted
+ * attempt is restored, the solution is re-fetched from score_lesen_t2 (the
+ * same server RPC "Lösung anzeigen" uses), which re-checks the caller's
+ * subscription on every call. Without this, a student who solved the
+ * exercise while subscribed would keep seeing the cached answer key from
+ * localStorage after their subscription expired — refresh, logout/login,
+ * or a new device would all replay it, since nothing server-side is
+ * consulted again once it's sitting in the browser's own storage.
+ *
+ * Accessibility (§24): each question's options form an ARIA radiogroup with
+ * aria-checked state and a labelled group; the result is announced via aria-live.
  */
-import { useState } from "react";
-import { CheckCircle2, XCircle, BookOpen, Loader2 } from "lucide-react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { CheckCircle2, XCircle, Loader2, AlertCircle, RotateCcw, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
+import { attemptKey, loadAttempt, saveAttempt, clearAttempt } from "@/lib/practice/attempt-storage";
+import { useExerciseTranslation } from "@/components/learning/useExerciseTranslation";
+import { TranslateButton } from "@/components/learning/TranslateButton";
+import { EvidenceBlock } from "@/components/learning/EvidenceBlock";
+import { StrategyCard } from "@/components/learning/StrategyCard";
+import { HighlightedText, type HighlightItem } from "@/components/learning/HighlightedText";
+import { SentenceTranslations } from "@/components/learning/SentenceTranslations";
+import type { LearningAidsItem } from "@/components/learning/types";
 
 export interface T2Question {
   number: number;
@@ -30,6 +65,7 @@ interface ScoreResult {
   correct: boolean;
   your_answer: string;
   correct_answer: string;
+  learning_aids?: LearningAidsItem | null;
 }
 
 interface Props {
@@ -37,7 +73,24 @@ interface Props {
   onComplete?: (score: number, total: number) => void;
 }
 
-type AnswerState = { selected: "a" | "b" | "c" | null; revealed: boolean };
+type Choice = "a" | "b" | "c";
+
+/**
+ * Shape persisted to localStorage for resume-after-refresh. Deliberately
+ * holds ONLY the student's own answer choices + the numeric score — never
+ * `scoreResults` (which carries the real correct_answer and learning_aids
+ * text). See the Security note in the file header.
+ */
+interface PersistedAttempt {
+  exerciseId: string;
+  answers: Record<number, Choice>;
+  submitted: boolean;
+  scoreCount: number;
+  scoreTotal: number;
+  updatedAt: number;
+}
+
+const FOCUS_RING = "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-1 focus-visible:ring-offset-background";
 
 function isRichtigFalsch(q: T2Question): boolean {
   const a = q.option_a.toLowerCase().trim();
@@ -46,50 +99,163 @@ function isRichtigFalsch(q: T2Question): boolean {
 }
 
 export function Teil2Exercise({ exercise, onComplete }: Props) {
-  const [answers, setAnswers]     = useState<Record<number, AnswerState>>({});
-  const [submitted, setSubmitted] = useState(false);
-  const [scoring, setScoring]     = useState(false);
+  const { user, loading: authLoading } = useAuth();
+  const groupBaseId = useId();
+
+  const [answers, setAnswers]           = useState<Record<number, Choice>>({});
+  const [submitted, setSubmitted]       = useState(false);
+  const [scoring, setScoring]           = useState(false);
+  const [scoreError, setScoreError]     = useState<string | null>(null);
   const [scoreResults, setScoreResults] = useState<ScoreResult[] | null>(null);
   const [scoreTotal, setScoreTotal]     = useState(0);
   const [scoreCount, setScoreCount]     = useState(0);
+  const [restored, setRestored]         = useState(false);
+  const [previewResults, setPreviewResults] = useState<ScoreResult[] | null>(null);
+  const [loadingPreview, setLoadingPreview] = useState(false);
+  const { data: translation, loading: translationLoading, ensureLoaded: loadTranslation } = useExerciseTranslation("lesen", exercise.id);
 
-  const questions = [...exercise.questions].sort((a, b) => a.number - b.number);
+  const hydratedRef = useRef(false);
 
-  function select(num: number, choice: "a" | "b" | "c") {
+  const storageKey = useMemo(
+    () => attemptKey(["lesen.t2", user?.id ?? "anon", exercise.id]),
+    [user?.id, exercise.id],
+  );
+
+  const questions = useMemo(
+    () => [...exercise.questions].sort((a, b) => a.number - b.number),
+    [exercise.questions],
+  );
+
+  // ── Resume: hydrate saved attempt once auth has resolved (so the key is stable) ──
+  // Note: `scoreResults` (the real solution) is never in the saved blob — if
+  // the restored attempt was already submitted, a separate effect below
+  // re-fetches it from the server, which re-validates access on every call.
+  useEffect(() => {
+    if (hydratedRef.current || authLoading) return;
+    const saved = loadAttempt<PersistedAttempt>(storageKey);
+    if (saved && saved.exerciseId === exercise.id) {
+      setAnswers(saved.answers ?? {});
+      setSubmitted(!!saved.submitted);
+      setScoreCount(saved.scoreCount ?? 0);
+      setScoreTotal(saved.scoreTotal ?? 0);
+      if (saved.submitted || Object.keys(saved.answers ?? {}).length > 0) setRestored(true);
+    }
+    hydratedRef.current = true;
+  }, [authLoading, storageKey, exercise.id]);
+
+  // ── Re-derive the solution for a restored, already-submitted attempt.
+  // Deliberately a server round-trip (score_lesen_t2, the same non-saving
+  // RPC "Lösung anzeigen" uses) rather than trusting anything cached —
+  // this is what re-enforces the subscription check after a refresh, a
+  // logout/login, or a subscription that expired since the student last
+  // submitted. See the Security note in the file header. ──
+  useEffect(() => {
+    if (!hydratedRef.current || !submitted || scoreResults) return;
+    let cancelled = false;
+    (async () => {
+      const payload: Record<string, string> = {};
+      for (const q of questions) if (answers[q.number]) payload[String(q.number)] = answers[q.number];
+      try {
+        const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
+          p_exercise_id: exercise.id,
+          p_answers: payload,
+        });
+        if (error) throw error;
+        if (cancelled) return;
+        const res = data as unknown as { score: number; total: number; results: ScoreResult[] };
+        setScoreResults(res.results);
+        setScoreCount(res.score);
+        setScoreTotal(res.total);
+      } catch (e) {
+        // The subscription likely lapsed since this was submitted (or the
+        // exercise was unpublished) — fall back to a plain "start over"
+        // state rather than leaving a permanently-blank "submitted" screen.
+        if (!cancelled) {
+          console.error("Could not re-derive the stored solution:", e);
+          setSubmitted(false);
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [submitted, scoreResults, exercise.id, questions, answers]);
+
+  // ── Autosave: persist whenever meaningful state changes (after hydration) ──
+  useEffect(() => {
+    if (!hydratedRef.current) return;
+    const hasProgress = submitted || Object.keys(answers).length > 0;
+    if (!hasProgress) {
+      clearAttempt(storageKey);
+      return;
+    }
+    saveAttempt<PersistedAttempt>(storageKey, {
+      exerciseId: exercise.id,
+      answers,
+      submitted,
+      scoreCount,
+      scoreTotal,
+      updatedAt: Date.now(),
+    });
+  }, [answers, submitted, scoreCount, scoreTotal, storageKey, exercise.id]);
+
+  function select(num: number, choice: Choice) {
     if (submitted) return;
-    setAnswers(prev => ({ ...prev, [num]: { selected: choice, revealed: false } }));
+    setAnswers(prev => ({ ...prev, [num]: choice }));
   }
 
-  function reveal(num: number) {
-    setAnswers(prev => ({ ...prev, [num]: { ...prev[num], revealed: true } }));
+  // "Lösung anzeigen" — the ONE reveal button for the whole exercise. Fetches
+  // every correct answer + evidence + Warum via the non-saving RPC (empty
+  // answers → each result's correct_answer is the right letter) and shows it
+  // for every question at once. A second click hides it again. Mirrors what
+  // happens automatically once the student submits (Auswertung).
+  async function toggleSolutionPreview() {
+    if (previewResults) { setPreviewResults(null); return; }
+    setLoadingPreview(true);
+    try {
+      const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
+        p_exercise_id: exercise.id,
+        p_answers:     {},
+      });
+      if (error) throw error;
+      const res = data as unknown as { results: ScoreResult[] };
+      setPreviewResults(res.results);
+    } catch (e) {
+      console.error("Lösung konnte nicht geladen werden:", e);
+    } finally {
+      setLoadingPreview(false);
+    }
   }
 
   async function handleSubmit() {
     setScoring(true);
+    setScoreError(null);
     try {
-      // Build answers payload { "1": "a", "2": "b", ... }
+      // Build answers payload { "6": "a", "7": "b", ... } keyed by question number
       const payload: Record<string, string> = {};
       for (const q of questions) {
-        if (answers[q.number]?.selected) payload[String(q.number)] = answers[q.number].selected!;
+        if (answers[q.number]) payload[String(q.number)] = answers[q.number];
       }
 
-      const { data, error } = await (supabase as any).rpc("score_lesen_t2", {
+      // Scores server-side from the official key AND records the attempt
+      // (durable per-user history) in one atomic, non-forgeable call.
+      const { data, error } = await (supabase as any).rpc("score_and_save_lesen_t2", {
         p_exercise_id: exercise.id,
         p_answers:     payload,
       });
 
       if (error) throw error;
 
-      const res = data as unknown as { score: number; total: number; results: ScoreResult[] };
+      const res = data as unknown as { score: number; total: number; results: ScoreResult[]; attempt_id: string };
       setScoreResults(res.results);
       setScoreCount(res.score);
       setScoreTotal(res.total);
       setSubmitted(true);
+      setRestored(false);
+      setPreviewResults(null);
       onComplete?.(res.score, res.total);
     } catch (e) {
+      // No silent failures: keep the student's answers and let them retry.
       console.error("Scoring failed:", e);
-      // Fallback: mark as submitted without detailed results
-      setSubmitted(true);
+      setScoreError("Die Auswertung ist fehlgeschlagen. Deine Antworten sind gespeichert — bitte versuche es erneut.");
     } finally {
       setScoring(false);
     }
@@ -98,12 +264,48 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
   function reset() {
     setAnswers({});
     setSubmitted(false);
+    setScoreError(null);
     setScoreResults(null);
     setScoreCount(0);
     setScoreTotal(0);
+    setRestored(false);
+    clearAttempt(storageKey);
   }
 
-  const answeredCount = questions.filter(q => !!answers[q.number]?.selected).length;
+  const answeredCount = questions.filter(q => !!answers[q.number]).length;
+
+  // Revealed solution content = whatever's active right now: the real,
+  // scored results after submitting, or the preview fetched by "Lösung
+  // anzeigen" beforehand. Both share the same shape, so every question shows
+  // its full solution (correct answer, translation, evidence, Warum,
+  // strategy) the same way regardless of which path produced it — and, per
+  // question, regardless of whether the student got it right or wrong.
+  const activeResults = scoreResults ?? previewResults;
+
+  const solvedQuestions = questions
+    .map((q, idx) => {
+      const result = activeResults?.find(r => r.number === q.number);
+      return result ? { q, idx, result } : null;
+    })
+    .filter((x): x is { q: T2Question; idx: number; result: ScoreResult } => x !== null);
+
+  const highlightItems: HighlightItem[] = solvedQuestions
+    .filter(({ result }) => !!result.learning_aids?.evidence_text)
+    .map(({ q, result }) => ({
+      itemKey: String(q.number),
+      label: String(q.number),
+      evidenceText: result.learning_aids!.evidence_text,
+      evidenceTranslation: result.learning_aids!.evidence_translation,
+    }));
+
+  const translationItems = solvedQuestions
+    .filter(({ result }) => !!result.learning_aids?.evidence_text && !!result.learning_aids?.evidence_translation)
+    .map(({ q, result }) => ({
+      itemKey: String(q.number),
+      label: String(q.number),
+      german: result.learning_aids!.evidence_text!,
+      arabic: result.learning_aids!.evidence_translation!,
+    }));
 
   return (
     <div className="space-y-6">
@@ -112,71 +314,100 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
         <p className="text-sm text-muted-foreground">Lesen Sie den Text und beantworten Sie die Aufgaben.</p>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card overflow-hidden">
-        <div className="border-b border-border bg-muted/30 px-5 py-3">
-          <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Lesetext</p>
+      {restored && !submitted && (
+        <div className="flex items-center justify-between gap-3 rounded-2xl border border-blue-500/20 bg-blue-500/5 px-5 py-3">
+          <div className="flex items-center gap-2.5">
+            <RotateCcw className="h-4 w-4 shrink-0 text-blue-500" />
+            <p className="text-xs font-medium text-blue-700 dark:text-blue-300">
+              Dein Fortschritt wurde wiederhergestellt.
+            </p>
+          </div>
+          <button onClick={reset}
+            className={`rounded-lg px-2.5 py-1 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-muted transition-colors ${FOCUS_RING}`}>
+            Neu beginnen
+          </button>
         </div>
-        <div className="px-6 py-5">
-          <p className="text-sm text-foreground leading-[1.9] whitespace-pre-line">{exercise.passage}</p>
+      )}
+
+      {/* ── Full-width passage, questions follow below ── */}
+      <div className="space-y-6">
+
+        {/* Reading passage */}
+        <div className="rounded-2xl border border-border bg-card overflow-hidden">
+          <div className="flex items-center justify-between gap-3 border-b border-border bg-muted/30 px-5 py-3 shrink-0">
+            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Lesetext</p>
+            <div className="flex items-center gap-2">
+              <SentenceTranslations items={translationItems} />
+              <TranslateButton translation={translation?.text} loading={translationLoading} onRequest={loadTranslation} />
+            </div>
+          </div>
+          <div className="px-6 py-5">
+            <div className="text-sm text-foreground leading-[1.9] whitespace-pre-line max-w-4xl">
+              <HighlightedText text={exercise.passage} items={highlightItems} />
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="space-y-3">
-        <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Aufgaben</p>
-        {questions.map((q) => {
-          const ans       = answers[q.number];
-          const result    = scoreResults?.find(r => r.number === q.number);
-          const isCorrect = submitted && !!result?.correct;
-          const isWrong   = submitted && !!result && !result.correct;
-          const rfMode    = isRichtigFalsch(q);
+        {/* Questions */}
+        <div className="space-y-3">
+          <p className="text-xs font-black uppercase tracking-widest text-muted-foreground px-1">Aufgaben</p>
+          {questions.map((q) => {
+            const ans       = answers[q.number];
+            const result    = activeResults?.find(r => r.number === q.number);
+            const hasSolution = !!result;
+            const isSubmittedCorrect = submitted && !!result?.correct;
+            const isSubmittedWrong   = submitted && !!result && !result.correct;
+            const rfMode    = isRichtigFalsch(q);
+            const labelId   = `${groupBaseId}-q${q.number}`;
+            const keys: Choice[] = rfMode ? ["a", "b"] : ["a", "b", "c"];
+            const correctLabel = result ? (result.correct_answer === "a" ? q.option_a : result.correct_answer === "b" ? q.option_b : q.option_c) : null;
 
-          return (
-            <div key={q.number}
-              className={`rounded-2xl border overflow-hidden transition-colors ${
-                isCorrect ? "border-emerald-500/40" : isWrong ? "border-rose-500/40" : "border-border"
-              } bg-card`}>
+            return (
+              <div key={q.number}
+                className={`rounded-2xl border overflow-hidden transition-colors ${
+                  isSubmittedCorrect ? "border-emerald-500/40" : isSubmittedWrong ? "border-rose-500/40" : "border-border"
+                } bg-card`}>
 
-              <div className="flex items-start gap-3 px-5 py-4 border-b border-border bg-muted/10">
-                <span className="shrink-0 mt-0.5 flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/10 text-xs font-black text-blue-600 dark:text-blue-400">
-                  {q.number}
-                </span>
-                <p className="text-sm font-semibold text-foreground leading-snug">{q.question}</p>
-              </div>
-
-              {rfMode ? (
-                <div className="px-5 py-3 flex gap-3">
-                  {(["a", "b"] as const).map((key) => {
-                    const label       = key === "a" ? q.option_a : q.option_b;
-                    const isSelected  = ans?.selected === key;
-                    const showCorrect = submitted && result?.correct_answer === key;
-                    const showWrong   = submitted && isSelected && result?.correct_answer !== key;
-                    return (
-                      <button key={key} onClick={() => select(q.number, key)} disabled={submitted}
-                        className={`flex-1 rounded-xl border py-2.5 text-sm font-bold transition-all ${
-                          showCorrect ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
-                          : showWrong  ? "border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-300"
-                          : isSelected && !submitted ? "border-primary/40 bg-primary/10 text-primary"
-                          : "border-border hover:border-primary/30 hover:bg-muted/30 text-foreground"
-                        }`}>
-                        <div className="flex items-center justify-center gap-2">
-                          {submitted && showCorrect && <CheckCircle2 className="h-4 w-4" />}
-                          {submitted && showWrong   && <XCircle      className="h-4 w-4" />}
-                          {label}
-                        </div>
-                      </button>
-                    );
-                  })}
+                <div className="flex items-start gap-3 px-5 py-4 border-b border-border bg-muted/10">
+                  <span className="shrink-0 mt-0.5 flex h-6 w-6 items-center justify-center rounded-lg bg-blue-500/10 text-xs font-black text-blue-600 dark:text-blue-400">
+                    {q.number}
+                  </span>
+                  <p id={labelId} className="text-sm font-semibold text-foreground leading-snug flex-1">{q.question}</p>
                 </div>
-              ) : (
-                <div className="px-5 py-3 space-y-2">
-                  {(["a", "b", "c"] as const).map((key) => {
+
+                <div role="radiogroup" aria-labelledby={labelId}
+                  className={rfMode ? "px-5 py-3 flex gap-3" : "px-5 py-3 space-y-2"}>
+                  {keys.map((key) => {
                     const label       = key === "a" ? q.option_a : key === "b" ? q.option_b : q.option_c;
-                    const isSelected  = ans?.selected === key;
-                    const showCorrect = submitted && result?.correct_answer === key;
+                    const isSelected  = ans === key;
+                    const showCorrect = hasSolution && result!.correct_answer === key;
                     const showWrong   = submitted && isSelected && result?.correct_answer !== key;
+
+                    if (rfMode) {
+                      return (
+                        <button key={key} role="radio" aria-checked={isSelected}
+                          aria-label={`${label}`}
+                          onClick={() => select(q.number, key)} disabled={submitted || scoring}
+                          className={`flex-1 rounded-xl border py-2.5 text-sm font-bold transition-all ${FOCUS_RING} ${
+                            showCorrect ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                            : showWrong  ? "border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-300"
+                            : isSelected && !submitted ? "border-primary/40 bg-primary/10 text-primary"
+                            : "border-border hover:border-primary/30 hover:bg-muted/30 text-foreground"
+                          }`}>
+                          <div className="flex items-center justify-center gap-2">
+                            {showCorrect && <CheckCircle2 className="h-4 w-4" />}
+                            {showWrong   && <XCircle      className="h-4 w-4" />}
+                            {label}
+                          </div>
+                        </button>
+                      );
+                    }
+
                     return (
-                      <button key={key} onClick={() => select(q.number, key)} disabled={submitted}
-                        className={`w-full flex items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm transition-all ${
+                      <button key={key} role="radio" aria-checked={isSelected}
+                        aria-label={`${key.toUpperCase()}: ${label}`}
+                        onClick={() => select(q.number, key)} disabled={submitted || scoring}
+                        className={`w-full flex items-center gap-3 rounded-xl border px-4 py-2.5 text-left text-sm transition-all ${FOCUS_RING} ${
                           showCorrect ? "border-emerald-500/40 bg-emerald-500/8 text-emerald-700 dark:text-emerald-300"
                           : showWrong  ? "border-rose-500/40 bg-rose-500/8 text-rose-700 dark:text-rose-300"
                           : isSelected && !submitted ? "border-primary/40 bg-primary/8 text-foreground"
@@ -189,69 +420,102 @@ export function Teil2Exercise({ exercise, onComplete }: Props) {
                           : "bg-muted text-muted-foreground"
                         }`}>{key}</span>
                         <span className="flex-1 leading-snug">{label}</span>
-                        {submitted && showCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
-                        {submitted && showWrong   && <XCircle      className="h-4 w-4 shrink-0 text-rose-500"    />}
+                        {showCorrect && <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500" />}
+                        {showWrong   && <XCircle      className="h-4 w-4 shrink-0 text-rose-500"    />}
                       </button>
                     );
                   })}
                 </div>
-              )}
 
-              {submitted && ans?.selected && result && (
-                <div className={`flex items-center justify-between border-t border-border px-5 py-2 ${
-                  isCorrect ? "bg-emerald-500/5" : "bg-rose-500/5"
-                }`}>
-                  <div className="flex items-center gap-1.5">
-                    {isCorrect
+                {submitted && ans && result && (
+                  <div className={`flex items-center gap-1.5 border-t border-border px-5 py-2 ${
+                    isSubmittedCorrect ? "bg-emerald-500/5" : "bg-rose-500/5"
+                  }`}>
+                    {isSubmittedCorrect
                       ? <><CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /><span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">Richtig</span></>
                       : <><XCircle className="h-3.5 w-3.5 text-rose-500" /><span className="text-xs font-bold text-rose-600 dark:text-rose-400">Falsch</span></>
                     }
                   </div>
-                  {isWrong && !ans.revealed && (
-                    <button onClick={() => reveal(q.number)}
-                      className="flex items-center gap-1 rounded-lg border border-blue-500/20 bg-blue-500/5 px-2.5 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 transition-colors">
-                      <BookOpen className="h-3 w-3" /> Lösung zeigen
-                    </button>
-                  )}
-                  {isWrong && ans.revealed && (
-                    <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
-                      Richtig: {rfMode
-                        ? (result.correct_answer === "a" ? q.option_a : q.option_b)
-                        : result.correct_answer.toUpperCase()
-                      }
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
+                )}
 
-      {!submitted ? (
-        <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
-          <p className="text-sm text-muted-foreground">{answeredCount} / {questions.length} beantwortet</p>
-          <button onClick={handleSubmit} disabled={answeredCount < questions.length || scoring}
-            className="rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2">
-            {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
-            Auswertung
-          </button>
+                {/* Solution: correct answer + its Arabic translation — shown
+                    whenever a preview or a real submission produced a result,
+                    unless the field itself already made it obvious (submitted
+                    + correct: the highlighted option already says it all). */}
+                {hasSolution && !isSubmittedCorrect && (
+                  <div className="mx-5 mt-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5">
+                    <p className="text-[10px] font-black uppercase tracking-wide text-emerald-600 dark:text-emerald-400 mb-1">Richtige Antwort</p>
+                    <p className="flex items-start gap-2 text-sm font-bold text-emerald-800 dark:text-emerald-200">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-500 mt-0.5" />
+                      <span>{correctLabel}</span>
+                    </p>
+                    {result!.learning_aids?.answer_translation && (
+                      <p dir="rtl" className="mt-1.5 text-xs leading-relaxed text-emerald-800/80 dark:text-emerald-200/80">
+                        {result!.learning_aids.answer_translation}
+                      </p>
+                    )}
+                  </div>
+                )}
+                {hasSolution && (result!.learning_aids?.explanation_correct || result!.learning_aids?.explanation_wrong || result!.learning_aids?.evidence_text) && (
+                  <div className="flex flex-wrap items-start gap-2 px-5 pb-3 pt-2">
+                    <EvidenceBlock aids={result!.learning_aids} variant={isSubmittedWrong ? "wrong" : "correct"} skill="lesen" exerciseId={exercise.id} itemKey={String(q.number)} saveCategory="wichtiger_ausdruck" showEvidenceQuote={false} triggerLabel={`Frage ${q.number}`} />
+                    <StrategyCard aids={result!.learning_aids} triggerLabel={`Frage ${q.number}`} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          {scoreError && (
+            <div className="flex items-start gap-3 rounded-2xl border border-rose-500/20 bg-rose-500/5 px-5 py-4">
+              <AlertCircle className="h-5 w-5 shrink-0 text-rose-500 mt-0.5" />
+              <div className="flex-1 min-w-0 space-y-2">
+                <p className="text-sm text-rose-700 dark:text-rose-300">{scoreError}</p>
+                <button onClick={handleSubmit} disabled={scoring}
+                  className={`inline-flex items-center gap-2 rounded-lg border border-rose-500/30 bg-rose-500/10 px-3 py-1.5 text-xs font-bold text-rose-700 dark:text-rose-300 hover:bg-rose-500/15 transition-colors disabled:opacity-50 ${FOCUS_RING}`}>
+                  {scoring && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                  Erneut auswerten
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!submitted ? (
+            <div className="flex items-center justify-between rounded-2xl border border-border bg-card px-5 py-4">
+              <div className="flex flex-col">
+                <p className="text-sm text-muted-foreground">{answeredCount} / {questions.length} beantwortet</p>
+                <p className="text-[11px] text-muted-foreground/70">Fortschritt wird automatisch gespeichert</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button onClick={toggleSolutionPreview} disabled={loadingPreview}
+                  className={`rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-4 py-2.5 text-sm font-bold text-emerald-700 dark:text-emerald-300 transition-all hover:bg-emerald-500/10 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
+                  {loadingPreview ? <Loader2 className="h-4 w-4 animate-spin" /> : previewResults ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {previewResults ? "Lösung ausblenden" : "Lösung anzeigen"}
+                </button>
+                <button onClick={handleSubmit} disabled={answeredCount < questions.length || scoring}
+                  className={`rounded-xl bg-primary px-6 py-2.5 text-sm font-bold text-primary-foreground transition-all hover:bg-primary/90 disabled:opacity-40 flex items-center gap-2 ${FOCUS_RING}`}>
+                  {scoring && <Loader2 className="h-4 w-4 animate-spin" />}
+                  Auswertung
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div aria-live="polite" className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
+              <p className="text-3xl font-black text-foreground">{scoreCount} / {scoreTotal}</p>
+              <p className="text-sm text-muted-foreground">
+                {scoreCount === scoreTotal ? "Ausgezeichnet! Alle Antworten korrekt."
+                : scoreCount >= Math.ceil(scoreTotal * 0.8) ? "Sehr gut!"
+                : scoreCount >= Math.ceil(scoreTotal * 0.6) ? "Gut gemacht."
+                : "Weiter üben — du schaffst es!"}
+              </p>
+              <button onClick={reset}
+                className={`rounded-xl border border-border bg-muted px-5 py-2 text-sm font-medium hover:bg-muted/70 transition-colors ${FOCUS_RING}`}>
+                Nochmal versuchen
+              </button>
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="rounded-2xl border border-border bg-card p-6 text-center space-y-3">
-          <p className="text-3xl font-black text-foreground">{scoreCount} / {scoreTotal}</p>
-          <p className="text-sm text-muted-foreground">
-            {scoreCount === scoreTotal ? "Ausgezeichnet! Alle Antworten korrekt."
-            : scoreCount >= Math.ceil(scoreTotal * 0.8) ? "Sehr gut!"
-            : scoreCount >= Math.ceil(scoreTotal * 0.6) ? "Gut gemacht."
-            : "Weiter üben — du schaffst es!"}
-          </p>
-          <button onClick={reset}
-            className="rounded-xl border border-border bg-muted px-5 py-2 text-sm font-medium hover:bg-muted/70 transition-colors">
-            Nochmal versuchen
-          </button>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

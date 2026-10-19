@@ -1,0 +1,22 @@
+{
+  "title": "Wenger",
+  "teil": 2,
+  "level": "B1",
+  "position": 9,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "notes": "B1 Modelltest 9/16 (Sonja3/Language Tests, page 116 printed / PDF page 117). No transcript/audio present in source (statements + answer key only, matching this project's existing Hören extraction pattern). Statements 52 and 54 are printed with grammatically incomplete phrasing in the source ('...kann ist für Frau Wenger.' / '...möchte von ihren männlichen Kollegen anders behalten.') — transcribed verbatim, not corrected, per this project's policy. Answer key from Lösungen page (printed p.119 / PDF p.120): 46- 47+ 48- 49+ 50+ 51- 52+ 53- 54- 55-.",
+  "instructions": "Sie hören nun ein Gespräch. Dazu sollen Sie zehn Aufgaben lösen. Sie hören das Gespräch zweimal. Entscheiden Sie beim Hören, ob die Aussagen 46 – 55 richtig oder falsch sind.",
+  "image_path": null,
+  "statements": [
+    { "number": 46, "text": "Frau Wenger wollte schon immer als Feuerwehrfrau arbeiten.", "correct": false },
+    { "number": 47, "text": "Frau Wenger und ihr Freund haben nun eine gemeinsame Freizeitbeschäftigung.", "correct": true },
+    { "number": 48, "text": "Frau Wenger hat bereits einer Freundin geholfen, deren Wohnung brannte.", "correct": false },
+    { "number": 49, "text": "Probleme mit Geräten werden im Team gelöst.", "correct": true },
+    { "number": 50, "text": "Die Ausbildung zur Feuerwehrfrau war sehr anstrengend.", "correct": true },
+    { "number": 51, "text": "Die Kleidung der Feuerwehrleute passt oft nur Männern.", "correct": false },
+    { "number": 52, "text": "Dass sie jederzeit zu Notfällen gerufen werden, kann ist für Frau Wenger.", "correct": true },
+    { "number": 53, "text": "Als Feuerwehrfrau hat Frau Wenger schon viele Unfälle gesehen.", "correct": false },
+    { "number": 54, "text": "Frau Wenger möchte von ihren männlichen Kollegen anders behalten.", "correct": false },
+    { "number": 55, "text": "Interessenten sollen sich bei Frau Wenger melden.", "correct": false }
+  ]
+}

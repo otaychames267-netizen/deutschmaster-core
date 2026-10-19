@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "Praktikum",
+  "level": "TELC_B1",
+  "position": 12,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 12/16 (Vera/Language Tests, page 137 printed = PDF page 138 for situations, page 138 printed = PDF page 139 for the ad block, a TV/radio programme-guide style page). Answer key from Lösungen page (printed p.145 / PDF p.146): 11D 12G 13F 14A 15I 16K 17X 18J 19L 20H, cross-verified content-to-ad by direct reading.",
+  "key": "DGFAIKXJLH",
+  "situations": {
+    "11": "Sie haben von einer noch unbekannten Schauspielerin gehört und möchten gern einen Film sehen.",
+    "12": "Sie haben bereits in einem Hotel gearbeitet und suchen wieder eine neue interessante Stelle.",
+    "13": "Sie interessieren sich für Umweltschutz und suchen eine passende Sendung.",
+    "14": "Ihr Freund, der am Institut für Film und Bild studiert, sucht einen geeigneten Praktikumsplatz.",
+    "15": "In einer Sendereihe wird im Fernsehen über die neue politische Entwicklung in Deutschland berichtet. Sie wollen sich informieren.",
+    "16": "Sie interessieren sich für moderne Stadtentwicklung und suchen dazu eine Sendung im Rundfunk.",
+    "17": "Sie wollen bei der Deutschen Bahn eine Ausbildung machen.",
+    "18": "Sie interessieren sich für politisches Theater und möchten am Wochenende dazu etwas hören oder sehen.",
+    "19": "Sie arbeiten gern mit anderen zusammen und suchen eine Tätigkeit bei einer Werbefirma.",
+    "20": "Sie studieren Fremdsprachen und suchen einen Job, bei dem Sie mit Kindern arbeiten können."
+  },
+  "texts": {
+    "A": { "title": "", "content": "PRAKTIKANT/IN im Bereich Medien- und Veranstaltungstechnik gesucht. Praktikumsdauer: mind. 6 Monate. Kurze schriftliche Bewerbung an: TAPE Media Film GmbH, [Adresse unleserlich], 80000 München." },
+    "B": { "title": "", "content": "ARTE Themenabend. 20.45 Uhr: Was ist mit unserer Jugend los? 'Unsere Zukunft'. Wie kommen Jugendliche in Deutschland und Frankreich mit der Wirtschafts- und Bildungspolitik zurecht? Tel. 771-665" },
+    "C": { "title": "", "content": "Wir suchen Mitarbeiter für eine freiberufliche Nebentätigkeit (telefonische Absprache und Planung von Interviewer-Terminen, 15-25 Std./Woche). Spezielle Vorkenntnisse sind nicht erforderlich, wichtig ist ein sicheres Auftreten am Telefon. Nähere Informationen unter Tel. (089) 92 23-421, rb Bahnreiseforschung, Amselstr. 33, 81925 München." },
+    "D": { "title": "", "content": "20.15 Uhr: Tatort aus Münster. Nun kommen die Fans von Frank Thiel wieder auf ihre Kosten: Frank Thiel alias Axel Prahl ermittelt, ihm zur Seite steht Dr. Marciol. Die Schweizerin spielt die Freundin des rüden Ermittlers - eine Frau mit Stil, die Verständnis für Thiels Lebenswandel zeigt, sich aber auch in Szene zu setzen weiß. Mit dieser Rolle hofft sie, im deutschen Fernsehen bekannt zu werden. (bis 21.45 Uhr)" },
+    "E": { "title": "", "content": "Lukrative Halbtagstätigkeit. Expandierendes High-Tech-Unternehmen sucht für Empfang und exklusive Büroarbeiten MS-Office- und Englischkenntnisse erforderlich! Interessentinnen wenden sich an: Loewe New Media GmbH, Tel. 089/45 79 00" },
+    "F": { "title": "", "content": "3Sat. 20.15 Uhr, LIVE: Drei Länder - ein Thema. Talk-Show. 'Kommt die Öko-Diktatur - Zündstoff Benzinpreis'. Wie begegnet man in Deutschland, der Schweiz und Österreich dem Verkehrskollaps? Wie retten wir die Umwelt? bis 21.30 Uhr. Tel. 65-437-662" },
+    "G": { "title": "", "content": "Wir suchen kaufmännische Mitarbeiter/innen, Bereich München, Frankfurt und Berlin. Mitarbeiter/innen am Empfang. Wenn Sie freundlich sind, Repräsentationstalent oder auch eine gepflegte Fremdsprache (Englisch) sprechen und EDV-erfahren sind, senden Sie bitte Ihre Bewerbung an: Stark's Hotels Zentrale, Geschäftsbereich Personal, Postfach 73 11 44, 81061 München." },
+    "H": { "title": "", "content": "Wir suchen ständig: Studenten für Schüler-Nachhilfeunterricht (Englisch, Französisch, Mathematik), Messehostessen, Babysitter/Tierhüter. Std.-Lohn ca. 13,00 EUR. Vermittlungsagentur Gerdschwager, Tel. 089/74 68 91 93" },
+    "I": { "title": "", "content": "22.55 Uhr: Stern TV-Countdown (VOX). In zehn Reportagen zeigt 'Spiegel TV'-Mann Jörg Hafkemeyer, wie sich die ersten Monate der neuen Regierung gestalten. Jetzt werden Weichen für die Zukunft Deutschlands gestellt. (bis 21.45 Uhr)" },
+    "J": { "title": "", "content": "Max Frisch: Biedermann und die Brandstifter; Samstag, 19. September, 20.10-21.17 Uhr, HR2. 'Ein Lehrstück ohne Lehre' nannte Frisch sein ursprünglich als Hörspiel gedachtes und dann für das Theater bearbeitetes Stück, das 1958 in Zürich uraufgeführt wurde. Man sah darin sowohl eine Warnung vor dem Kommunismus wie vor dem Faschismus. (ohw.)" },
+    "K": { "title": "", "content": "22.15 Uhr: Radio Bremen. Bei einem internationalen Kongress diskutierten vergangenes Wochenende in Bremen Architekten ihre Projekte zum Thema 'Städtische Freiräume'. Weiterhin: Rückschau und Vorschau auf das Programm der 'Bremer Schule für Dichtung'. Und ein Bericht über die Obdachlosen-Betreuung 'Wochenklausur'." },
+    "L": { "title": "", "content": "Lieben Sie den Umgang mit Menschen? Sind Sie obendrein auch noch dynamisch und ehrgeizig, dann sind Sie bei uns richtig. Münchens bekannte Prima-Werbung bietet Ihnen neben einem tollen Team hervorragende Verdienst- und Aufstiegsmöglichkeiten. Wir brauchen Leute wie Sie! Rufen Sie an!" }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "title": "Lernen ist kein Privileg der Jugend",
+  "level": "B2",
+  "position": 39,
+  "source_pdf": "sprachbausteine teil 2.pdf",
+  "notes": "PDF page 41 of sprachbausteine teil 2.pdf (final page). Word box uses small red numbers 1-10 = gap_number-30 convention (same as pages 32+). Verified via 300dpi full-page render; all 10 gaps confirmed by grammar/collocation fit (allein in, verzichten auf, zu kurz kommen, aufgrund dessen, gespeist durch).",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie welches Wort aus dem Kasten (a-o) in den Lücken 30-40 passt. Sie können jedes Wort im Kasten nur einmal verwenden. Nicht alle Wörter passen in den Text. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei Aufgabe 31-40.",
+  "passage": "Lernen ist kein Privileg der Jugend\n\nSenioren sind heute höchst {{31}}, aktiv und nutzen vielfach die Chance, sich der so genannten dritten Lebensphase Wünsche oder Träume zu erfüllen. Dazu gehören oft Weiterbildung oder in der Jugend verpasste Bildung.\n\nDie Folge: Das Seniorenstudium, wie es {{32}} verschiedenen deutschen Universitäten angeboten wird, erfreut sich zunehmender Beliebtheit. {{33}} in Trier waren im vergangenen Sommersemester über 130 Personen der Altersgruppe 50+ als Gasthörer eingeschrieben und nahmen am regulären Lehrbetrieb teil.\n\nBesonders gefragt waren allgemeinbildende Veranstaltungen aus den Fächer Geschichte, Kunstgeschichte und Politik. {{34}} folgten die neueren Sprach- und Literaturwissenschaften sowie Themen aus Philosophie, Psychologie und Pädagogik. Angebote aus den Sozial-, Wirtschafts-, Geo- und Rechtswissenschaften wurden dagegen weniger häufig gewählt. Hier finde ich insbesondere solche Seniorenstudierende wieder, die gezielt an der Vertiefung ihres fachspezifischen Wissens arbeiten.\n\nDer größte Teil der studierenden Senioren besteht übrigens aus Frauen. Die Gründe dafür {{35}} sein, dass Frauen in ihren jüngeren Lebensjahren häufig {{36}} eine berufliche Karriere verzichteten. {{37}} setzten sie sich für die Familie und insbesondere für ihre Kinder ein. Nun sind die Kinder erwachsen und aus dem Haus, die Frauen verspüren den Wunsch, ihre geistigen Fähigkeiten, deren Einsatz in den \"Familienjahren\" häufig zu {{38}} gekommen war, wieder zu trainieren und zu erweitern.\n\nMännern hingegen konnten häufiger während ihres Arbeitslebens ihre Karriere verwirklichen, sich weiterbilden ihr Wissen in gesellschaftlich angesehener Weise an den Mann (weniger an die Frau) bringen. {{39}} dessen sehen sie keine Veranlassung ihren Lebensabend an einer Weiterbildungsinstitution oder gar an einer Universität zu verbringen.\n\nLernen ist kein Privileg der Jugend! Vielmehr besteht gerade in Bezug auf das Bildungsangebot für ältere Menschen ein riesiger Bedarf. Er wird gespeist {{40}} die Vitalität und die hohe Bildungsmotivation der heutigen \"Alten\". Mit der wachsenden Fitness der Generation 50+ wächst auch das Interesse, neues Wissen zu erwerben, neue Kompetenzen zu entwickeln und bisher eventuell vernachlässigte Ressourcen zu aktivieren. Gleichzeitig tragen Bildungsaktivitäten wesentlich dazu bei, dass immer mehr Menschen ihre kognitive Leistungsfähigkeit und psychische Gesundheit bis ins hohe Alter erhalten können.",
+  "words": ["ALLEIN", "AN", "AUF", "AUFGRUND", "DARAUF", "DÜRFTEN", "DURCH", "EINZIGE", "KNAPP", "KURZ", "MÖCHTEN", "REGE", "STATTDESSEN", "WÄHREND", "WEGEN"],
+  "answers": {
+    "31": "REGE",
+    "32": "AN",
+    "33": "ALLEIN",
+    "34": "DARAUF",
+    "35": "DÜRFTEN",
+    "36": "AUF",
+    "37": "STATTDESSEN",
+    "38": "KURZ",
+    "39": "AUFGRUND",
+    "40": "DURCH"
+  }
+}

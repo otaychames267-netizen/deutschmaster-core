@@ -1,0 +1,21 @@
+{
+  "title": "Maria und Timur",
+  "level": "B2",
+  "position": 19,
+  "source_pdf": "Sprach 1 mit antwort final 2025-2.pdf",
+  "import_notes": "manual PDF transcription (page 22). Heavily degraded source — prose orthographically reconstructed (umlauts/capitalization/broken words); gaps 21-30, options and answer key read directly from the source. Gap 24 = two-part 'sowohl --- als auch'. A few uncertain source tokens preserved.",
+  "instructions": "Lesen Sie den folgenden Text und entscheiden Sie, welches Wort (a, b oder c) in die jeweilige Lücke passt. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 21–30.",
+  "passage": "Liebe Maria, lieber Timur.\n\nherzlich Dank für die Einladung zu eurem Hochzeitsfest, nach dem wir gestern aus dem Urlaub zurückgekommen {{21}}, haben wir euren Brief und die Einladungskarte im Briefkasten entdeckt. {{22}} gibt es nicht viel zu überlegen. Natürlich kommen wir sehr gern, wir freuen uns sehr {{23}} euch, dass ihr nun endlich diesen Schritt wagt. Es ist eine geniale Idee, {{24}} in der Türkei {{24}} in Österreich zu feiern, so können alle Freunde {{25}} dabei sein. Wir hoffen, dass wir einige {{26}} alten Freunde wiedersehen werden. Ihr habt geschrieben, dass Timurs Eltern und seine Schwestern auch in Österreich sein werden. Endlich lernen wir auch Timurs Familie kennen und wie schön, dass ihr in Marias Heimatdorf im Mühlviertel feiert. Wir erinnern uns noch oft an die langen Partynächte, die wir dort {{27}} Jugendliche gemeinsam verbracht haben. Nun überlegen wir, {{28}} wir nicht gleich ein Hotelzimmer für einige Tage buchen sollten. Ihr habt ja sicher mit den Besorgungen alle Hände voll zu {{29}}. Dann können wir am Freitag wandern gehen. Am Samstag ist dann euer Fest und am Sonntag {{30}} wir die Gelegenheit, vor der Abreise noch gemütlich zusammen zu frühstücken. In welchem Hotel habt ihr eure Verwandten untergebracht? Seid ihr auch in einem Hotel, oder übernachtet ihr bei deinen Eltern, Maria? Nun, das können wir alles noch später besprechen. Vorerst freuen wir uns einfach nur auf euch und euer Fest. Noch einmal vielen Dank für die Einladung und bis bald!\n\nYasmin & Peter",
+  "gaps": [
+    { "n": 21, "a": "seine", "b": "sind", "c": "waren", "correct": "c" },
+    { "n": 22, "a": "da", "b": "das", "c": "dass", "correct": "a" },
+    { "n": 23, "a": "an", "b": "auf", "c": "für", "correct": "c" },
+    { "n": 24, "a": "je --- desto", "b": "sowohl --- als auch", "c": "weder --- noch", "correct": "b" },
+    { "n": 25, "a": "verwandte", "b": "verwandeten", "c": "verwandter", "correct": "b" },
+    { "n": 26, "a": "unsere", "b": "unseren", "c": "unserer", "correct": "c" },
+    { "n": 27, "a": "als", "b": "für", "c": "wie", "correct": "a" },
+    { "n": 28, "a": "dass", "b": "falls", "c": "ob", "correct": "c" },
+    { "n": 29, "a": "bereten", "b": "machen", "c": "tun", "correct": "c" },
+    { "n": 30, "a": "hätten", "b": "könnten", "c": "sollten", "correct": "a" }
+  ]
+}

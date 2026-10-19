@@ -1,0 +1,35 @@
+{
+  "teil": 3,
+  "title": "Möbel",
+  "level": "TELC_B1",
+  "position": 16,
+  "source_pdf": "كل نماذج B1 Telc.pdf",
+  "import_notes": "B1 Modelltest 16/16 (Tamara/Language Tests, PDF page 185 for situations, PDF pages 186-187 for the ad block — ad k's contact details and ad j's 'Fam. Bevensen' address line continue onto page 187 before Sprachbausteine Teil 1 begins). Answer key from Lösungen page: 11C 12X 13A 14L 15J 16G 17X 18D 19K 20F, cross-verified content-to-ad by direct reading.",
+  "key": "CXALJGXDKF",
+  "situations": {
+    "11": "Sie suchen für Ihre beiden Kinder neue Betten und möchten höchstens 200 Euro ausgeben.",
+    "12": "Sie haben Probleme mit dem Rücken und suchen ein Gesundheitsbett.",
+    "13": "Sie suchen ein schönes Sofa, das man auch als Gästebett benutzen kann.",
+    "14": "Vor Ihre Urlaubsreise möchten Sie Ihr Fahrrad überprüfen lassen.",
+    "15": "Ihre Freunde möchten eine organisierte Radtour machen und suchen ein geeignetes Angebot.",
+    "16": "Ihre Verwandten haben eine Woche Urlaub und suchen einen Ferienort am Meer.",
+    "17": "Sie suchen für drei Vormittage pro Woche eine Stelle als Küchenhilfe.",
+    "18": "Sie suchen eine leichte Arbeit für abends, um sich noch etwas Geld dazuzuverdienen.",
+    "19": "Ihre Bekannte möchte als Bedienung in einer Gaststätte arbeiten.",
+    "20": "Ihre Freunde wollen Familienurlaub machen und suchen ein Angebot, das auch ein Kinderprogramm enthält."
+  },
+  "texts": {
+    "A": { "title": "Und wenn mal Besuch kommt...", "content": "Doppelbett-Couch, Leder, schwarz, ausklappbar, mit Bettkasten, Fußteil und vier Kissen, neuwertig. 650 Euro. Tel: 06323/981428" },
+    "B": { "title": "ConCon Wohntextilien", "content": "bietet Ihnen einfach alles in einer großen Auswahl: schöne Bettwäsche, Kissen, edle Bettdecken, feine Tischwäsche, Teppiche, Gardinen und vieles mehr. Kommen Sie vorbei, wir beraten Sie gern! ConCon, Grünwaldstr. 127, 77340 Anderstadt, Tel.: 06750-762949, www.concon.de" },
+    "C": { "title": "Doppelstöckiges Kinderbett", "content": "(fast neuwertig) mit Rück- und Frontgitter, aus Metall, braun, Kopf- und Fußteil mit hellem Holzeinsatz, sehr stabil, auch einzeln aufzustellen, inklusive Metallroste, Ladenpreis 400 Euro, jetzt zum halben Preis abzugeben. Tel.: 06333 – 987 654" },
+    "D": { "title": "Tankstelle – 24-Stunden Service", "content": "Sucht für Waschanlage und Shop Aushilfskräfte, stundenweise, vorwiegend abends. Bitte melden bei Fr. Schneider. Tel: 0621 17 98 05 78" },
+    "E": { "title": "Sonderpreis für Kurzentschlossene", "content": "1 Woche Vollpension 199 €/Person oder Halbpension 98 €/Person. Bayr. Wald, schönes Haus, Hallenbad, Sauna, Massage, Kosmetik. Wander- und Fahrradwege in direkter Umgebung. Bachmann Ferienwohnungen, Kallingstr. 2, 94535 Eging, Tel.: 08544-916044, www.ch-bachmann.de" },
+    "F": { "title": "Urlaub auf dem Bauernhof", "content": "große Apartments, EZ, DZ, 3-4 Bett-Zimmer, ÜF (Frühstücksbuffet) 19 Euro, HP (3-Gang-Abendmenü) 25 Euro, 50% Kinderermäßigung bis einschließlich 11 Jahre, großer Abenteuerspielplatz/Kinderklub! Tägliche Aktivitäten! Prospekt anfordern! Familie Schmidt-Kreling, Bahnhofstr. 7, D-94239 Gotteszell/Zachenberg, Tel. + Fax: 09929-2323" },
+    "G": { "title": "Ferienwhg. u. Häuser an der Nordsee", "content": "Winter- u. Frühjahrsangebote, noch Whg./Häuser frei mit direktem Zugang zum Strand. Wangerland-Hooksiel, Horumersiel-Schillig, Holger Dormann, Tel.: 08532/676567, Fax: 08532/676568, www.h.dormann.de" },
+    "H": { "title": "Jugendcamp im Ostseebad GRÖMITZ", "content": "...gleich hinter den Ostseedünen. Für Kinder u. Jugendliche von 8-15 Jahre. Sommerferien... ohne Eltern, viel Spaß haben, neue Freunde kennen lernen!! Individuell buchbarer Zeitraum: 20.06.-30.08. Leistungen: Übernachtung in Doppelwandzelten mit Holzböden (Schlafsack mitbringen!), Vollpension (aktive Mithilfe beim Tisch- und Geschirrdienst erforderlich), Sport- und Freizeitprogramm, Teambetreuer. Preis p.P./Tag: 19,– €. Mehr Information unter www.ostseejugendcamp.de" },
+    "I": { "title": "Kieferhochbett", "content": "Stabil, massiv, ca. 2 J., Treppe, Rutsche, Vorhänge, nur für großes Kinderzimmer geeignet, Neuwert: 800 €, Verkaufspreis jetzt 300 €. Tel.: 06897-7675" },
+    "J": { "title": "Mit dem Rad durch die Lüneburger Heide", "content": "Wir sind ein kleiner Familienbetrieb mitten in der Heide. Rufen Sie uns an! Wir senden Ihnen gern unseren Hausprospekt mit 20 ausgearbeiteten Vorschlägen (10-40 km pro Tag) zu. Abends Rücktransport möglich. Fam. Bevensen, Moosweg 3, 21274 Undeloh, Tel./Fax: 04189-564534" },
+    "K": { "title": "Restaurant RODENHOF", "content": "mit Biergarten. Grülingsstr. 91, 66113 Saarbrücken. Sucht Kellner/in (Vollzeitbeschäftigung). Tel. 0681/4 45 48" },
+    "L": { "title": "Neue und gebrauchte Fahrräder", "content": "Fachhandel, Werkstatt, Reparaturdienst, Zubehör. WESTSPANGE, St. Johanner Straße 60, 66 117 Saarbrücken. Tel. 0681 14 93 18" }
+  }
+}

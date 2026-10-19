@@ -1,0 +1,82 @@
+[
+ {
+  "position": 5,
+  "gap_number": 21,
+  "option_a": "an",
+  "option_b": "von",
+  "option_c": "zu",
+  "correct": "c",
+  "exercise_id": "74c45095-393b-482c-8dac-8e55b739e34c",
+  "gap_id": "bc5a96a6-31f9-4d56-96cb-d2a783afe9f7"
+ },
+ {
+  "position": 6,
+  "gap_number": 21,
+  "option_a": "Seiner",
+  "option_b": "Deiner",
+  "option_c": "Ihrer",
+  "correct": "c",
+  "exercise_id": "03f1a1a2-7c40-491c-b88b-90b984ff62a4",
+  "gap_id": "3a5eae03-e8cc-4791-959a-dfd010c32518"
+ },
+ {
+  "position": 17,
+  "gap_number": 23,
+  "option_a": "Für",
+  "option_b": "Zur",
+  "option_c": "Zwecks",
+  "correct": "a",
+  "exercise_id": "4d84966a-dc16-477d-898e-803226e91756",
+  "gap_id": "3888e807-4217-46e9-becc-bffde0409d38"
+ },
+ {
+  "position": 33,
+  "gap_number": 26,
+  "option_a": "verschiedene",
+  "option_b": "verschiedenen",
+  "option_c": "verschiedener",
+  "correct": "b",
+  "exercise_id": "a97557bb-e61f-42d2-b95b-285202b2a320",
+  "gap_id": "83619fd9-d68d-4575-93ff-7025beceac76"
+ },
+ {
+  "position": 34,
+  "gap_number": 27,
+  "option_a": "lebende",
+  "option_b": "lebenden",
+  "option_c": "lebender",
+  "correct": "b",
+  "exercise_id": "26839c3c-eb9d-4cce-a655-53ba287ea16d",
+  "gap_id": "bb894d06-1f3b-4b32-a841-dfa828cdb360"
+ },
+ {
+  "position": 35,
+  "gap_number": 27,
+  "option_a": "lebende",
+  "option_b": "lebenden",
+  "option_c": "lebender",
+  "correct": "b",
+  "exercise_id": "0cbb3727-103b-43de-a79e-ee92097c2970",
+  "gap_id": "849d50c4-d47c-41b9-b2b8-273182bf1ac2"
+ },
+ {
+  "position": 46,
+  "gap_number": 29,
+  "option_a": "totalem",
+  "option_b": "totalen",
+  "option_c": "totales",
+  "correct": "a",
+  "exercise_id": "171c4f78-cb86-4f4c-9705-1c11dd07632e",
+  "gap_id": "9d2b643c-4b55-4530-954f-91f5588e0d7e"
+ },
+ {
+  "position": 49,
+  "gap_number": 30,
+  "option_a": "dabei",
+  "option_b": "damit",
+  "option_c": "dafür",
+  "correct": "a",
+  "exercise_id": "cec6ec5c-83ec-461a-b5b2-bb249a1bed74",
+  "gap_id": "ddb4e61c-d4e2-4114-9bf8-a8a41e8dfa6a"
+ }
+]

@@ -1,0 +1,63 @@
+{
+  "title": "Professor Steiner 2",
+  "teil": 2,
+  "level": "B2",
+  "position": 16,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": "معدل",
+  "variant_group": "Professor Steiner",
+  "notes": "PDF page 17 (code 290) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Professor Steiner ist heute gar nicht mehr nervös, wenn er moderieren muss.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Steiner möchte, dass die Studierenden das Gelernte auch in der Praxis anwenden können.",
+      "correct": true
+    },
+    {
+      "number": 48,
+      "text": "Steiners Hobby ist es, experimentelle Filme zu machen.",
+      "correct": false
+    },
+    {
+      "number": 49,
+      "text": "Journalisten sollten heute auf einzelne Medien spezialisiert sein.",
+      "correct": false
+    },
+    {
+      "number": 50,
+      "text": "Nach Steiners Ansicht ist der Berufswunsch Sportjournalist heutzutage unrealistisch.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Journalisten sollten Lust haben, etwas zu entdecken.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Steiner musste wegen einer Verletzung mit dem Fußballspielen aufhören.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Steiner hat während seines Journalistik-Studiums für das ZDF Fußballspiele kommentiert.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Steiner ist wichtig, als Moderator den Sportlern gegenüber neutral zu bleiben.",
+      "correct": true
+    },
+    {
+      "number": 55,
+      "text": "Steiner rät Abiturienten dazu, verschiedene Tests zu Möglichkeit berufliche",
+      "correct": true
+    }
+  ]
+}

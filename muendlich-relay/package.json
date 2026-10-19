@@ -1,0 +1,43 @@
+{
+  "name": "muendlich-relay",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Standalone WebSocket relay bridging Room 2 student audio to a shared Gemini Live session. Runs as a persistent process (Fly.io) — deliberately NOT part of the main Vercel-deployed app, which cannot host a long-lived stateful connection.",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "test:voice-manager": "tsx src/voice/voiceManager.test.mjs",
+    "fetch-voice-metadata": "tsx src/voice/fetchVoiceMetadata.ts",
+    "test:cost-accounting": "tsx src/voice/costAccounting.test.mjs",
+    "simulate-exam": "tsx src/voice/simulateFullExam.mjs",
+    "test:voice-assignment-live": "tsx src/voice/voiceAssignment.live-test.mjs",
+    "test:credit-budget-live": "tsx src/voice/creditBudget.live-test.mjs",
+    "test:failure-handling-live": "tsx src/voice/failureHandling.live-test.mjs",
+    "test:orchestrator-live": "tsx src/voice/orchestrator.live-test.mjs",
+    "generate-phrase-library": "tsx src/voice/phraseLibrary/generateLibrary.ts",
+    "test:phrase-library": "tsx src/voice/phraseLibrary/phraseLibrary.test.mjs",
+    "business-report": "tsx src/voice/businessReport.mjs",
+    "architecture-comparison": "tsx src/voice/architectureComparison.mjs",
+    "test:google-voice-live": "tsx src/voice/googleVoice.live-test.mjs",
+    "final-cost-model": "tsx src/voice/finalCostModel.mjs",
+    "test:whisper-stt-live": "tsx src/voice/whisperStt.live-test.mjs",
+    "behavior-probe": "tsx src/voice/behaviorProbe.mjs",
+    "test:credit-idempotency-live": "tsx src/voice/creditIdempotency.live-test.mjs"
+  },
+  "dependencies": {
+    "@google-cloud/speech": "^8.0.1",
+    "@google-cloud/text-to-speech": "^7.0.0",
+    "@google/genai": "^2.10.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.10",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

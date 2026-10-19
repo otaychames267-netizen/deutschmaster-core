@@ -1,0 +1,63 @@
+{
+  "title": "Herr Scherer",
+  "teil": 2,
+  "level": "B2",
+  "position": 26,
+  "source_pdf": "DOC-20260516-WA0006..pdf",
+  "version_tag": null,
+  "variant_group": null,
+  "notes": "PDF page 27 (code 340) of DOC-20260516-WA0006..pdf. Extracted using poppler's pdftotext -bbox for text plus pixel-sampled color classification (same verified pipeline as Teil 1). GREEN ink/highlight = Richtig, everything else = Falsch. A few statements had a stray trailing numeral or short fragment leaked from an embedded Latin numeral inside an Arabic annotation merged onto the same visual row (e.g. a year or count number) — cleaned up in a post-import SQL sweep, documented in project memory.",
+  "image_path": null,
+  "statements": [
+    {
+      "number": 46,
+      "text": "Herr Scherer wird an seinem Arbeitsplatz interviewt.",
+      "correct": false
+    },
+    {
+      "number": 47,
+      "text": "Herr Scherer probt jede Woche zweimal mit dem Kirchenchor.",
+      "correct": false
+    },
+    {
+      "number": 48,
+      "text": "Herr Scherer hat wechselnde Arbeitszeiten.",
+      "correct": true
+    },
+    {
+      "number": 49,
+      "text": "Verspätungen gehen häufig auf das Konto undisziplinierter Fahrgäste.",
+      "correct": true
+    },
+    {
+      "number": 50,
+      "text": "Herr Scherer und seine Kollegen verkaufen keine Fahrscheine mehr.",
+      "correct": false
+    },
+    {
+      "number": 51,
+      "text": "Alkoholisierte Fahrgäste verursachen zunehmend Probleme.",
+      "correct": false
+    },
+    {
+      "number": 52,
+      "text": "Die Verkehrsbetriebe haben ein eigenes Schwimmbad.",
+      "correct": false
+    },
+    {
+      "number": 53,
+      "text": "Die Klimatisierung der Busse ist bei hohen Temperaturen nicht ausreichend.",
+      "correct": false
+    },
+    {
+      "number": 54,
+      "text": "Herr Scherer hat bei der Bundeswehr eine Ausbildung zum Automechaniker gemacht.",
+      "correct": false
+    },
+    {
+      "number": 55,
+      "text": "Herr Scherer hat bei der Post 15 Jahre in Nachtschicht gearbeitet.",
+      "correct": true
+    }
+  ]
+}

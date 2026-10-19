@@ -1,0 +1,32 @@
+{
+  "name": "prototype-voice-pipeline",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "ISOLATED PROTOTYPE — Deepgram STT + Claude examiner brain + Cartesia TTS, evaluated as a possible replacement for muendlich-relay's Gemini Live pipeline. Not wired into production, not deployed, not part of the main app's build. See README.md.",
+  "scripts": {
+    "harness": "tsx src/harness.ts",
+    "pipelined": "tsx src/pipelinedHarness.ts",
+    "speculative": "tsx src/speculativeHarness.ts",
+    "bargein": "tsx src/bargeInHarness.ts",
+    "make-fixture": "tsx src/makeFixture.ts",
+    "discover-voices": "tsx src/discoverVoices.ts",
+    "gemini-baseline": "tsx src/geminiLiveBaseline.ts",
+    "deepgram-multiturn": "tsx src/deepgramMultiTurn.ts",
+    "prompt-caching": "tsx src/promptCaching.ts",
+    "nodelay-ab": "tsx src/nodelayAbTest.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "^2.10.0",
+    "undici": "^8.10.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.10",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
