@@ -81,7 +81,9 @@ async function synthGeminiLive(voiceName, text) {
         ws.on("close", (code, reason) => end(new Error(`live closed ${code} ${reason.toString().slice(0, 200)}`)));
       });
       const sec = pcm.length / 2 / SR, cps = text.length / sec;
-      if (pcm.length < 4000 || cps < 9 || cps > 26) { err = `suspicious audio: ${sec.toFixed(1)} s for ${text.length} chars (${cps.toFixed(1)} cps)`; continue; } // skipped / truncated / runaway reading
+      // skipped / truncated / runaway reading — the characters-per-second window only means something for real sentences (a 12-char "Ende Teil 1." always comes out at ~6 cps because of the fixed lead-in/out)
+      const bad = pcm.length < 4000 || (text.length >= 100 ? cps < 9 || cps > 26 : sec > 15);
+      if (bad) { err = `suspicious audio: ${sec.toFixed(1)} s for ${text.length} chars (${cps.toFixed(1)} cps)`; continue; }
       console.log(`  [gemini-live] ${voiceName} ${text.length} chars -> ${sec.toFixed(1)} s`); return pcm;
     } catch (e) { err = String(e.message ?? e); if (/quota|RESOURCE_EXHAUSTED|1011|1008/.test(err) && a >= 2) throw new Error("Gemini Live quota: " + err); }
     await new Promise((x) => setTimeout(x, 3000 * a));
