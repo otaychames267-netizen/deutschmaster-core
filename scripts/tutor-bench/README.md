@@ -1,0 +1,6 @@
+# Tutor backup-model benchmarks (2026-10-19, Anthropic credit $0 → DeepInfra backups)
+Reference data = the ONE real student session that has a Claude transcript + Claude report (Amal, 2026-10-12, session 814a637a). Paths inside the scripts point at the author's scratchpad — re-point `D` before reuse.
+- `brain-replay.mjs` (run from `muendlich-relay/`: `node --import tsx …`): replays the 11 Claude-written AI turns through the relay's real `generateTutorReply` with `TUTOR_FALLBACK_MODELS=<model>`.
+  Findings: all 7 open models are fluent German and obey the shape/length limits, but (1) said "Sie" to the peer partner (Teil 3 turn 1), (2) ignored a direct request ("Kannst du bitte mehr Erklärung?"), (3) repeated an earlier remark (Tartu).
+  Fix: `partnerAttuneRules()` in tutorBrain.ts (du everywhere: Sie-slips 3 → 0) + deterministic du-form detection in tutorSimplify.ts (model-independent). Repetition and weaker responsiveness remain vs Claude.
+- `correction-bench.ts` (run from the repo root with bun): the real `generateVoiceTutorCorrection` with ONE forced DeepInfra model. Claude Sonnet 5 = 32/75 (A2). DeepSeek-V4-Pro 38/33/38/41 (B1, ≈16 s, 8/8 verbatim errors, ≈$0.001) chosen first; Qwen3.8-Max 42 (13 s); gpt-oss-120b 36 (73 s) / 35 (126 s) too slow; Kimi-K3 37 (49 s); Gemma-4-31B 42; DeepSeek-V3.2 42 (53 s); Llama-3.3-70B 57 (too generous, 4 errors).
