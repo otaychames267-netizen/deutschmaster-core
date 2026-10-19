@@ -59,7 +59,8 @@ for (const s of gt.segments) {
 const merged = [];
 for (const b of blocks) {
   const last = merged[merged.length - 1];
-  if (last && last.kind === "news" && b.kind === "news" && typeof b.start === "number" && typeof last.end === "number" && b.start - last.end < 2.5 && last.text.length + b.text.length < 950) { last.text += " " + b.text; last.end = b.end; last.chars += b.text.length; }
+  // 2026-10-19: pack as many news items as fit ONE request (< 1900 chars ≈ 2 min of audio) — the free TTS tier is 10 requests/day/model; items further apart than 2.5 s are separated by a paragraph break
+  if (last && last.kind === "news" && b.kind === "news" && last.text.length + b.text.length < 1900) { const apart = typeof b.start === "number" && typeof last.end === "number" && b.start - last.end >= 2.5; last.text += (apart ? "\n\n" : " ") + b.text; last.end = b.end; last.chars += b.text.length; }
   else merged.push({ ...b, chars: b.text.length });
 }
 // ONE news voice per exercise: the gender with most characters (the model's per-segment gender labels flip between runs)
@@ -74,7 +75,7 @@ const items = merged.map((b, i) => {
   const gap = orig == null ? 1.0 : b.kind === "instruction" ? Math.min(62, Math.max(1, orig)) : Math.min(3, Math.max(1.2, orig));
   return { type: "tts", voice: b.kind === "instruction" ? "announcer" : newsVoice, gapAfter: gap, kind: b.kind, text: b.text };
 });
-const script = { name: slug, provider: "gemini", voices: VOICES, models: ["gemini-3.8-flash-lite-tts", "gemini-3.8-flash-tts", "gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"], maxChars: 1000, concurrency: 1, tempo: { announcer: 0.94, male: 0.94, female: 0.94 }, items };
+const script = { name: slug, provider: "gemini", voices: VOICES, models: ["gemini-3.8-flash-lite-tts", "gemini-3.8-flash-tts", "gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"], maxChars: 2000, concurrency: 1, tempo: { announcer: 0.94, male: 0.94, female: 0.94 }, items };
 fs.writeFileSync(`${slug}.script.json`, JSON.stringify(script, null, 1));
 fs.writeFileSync(`${slug}.meta.json`, JSON.stringify({ slug, audio_path: exs[0].audio_path, exercises: exs.map((e) => ({ id: e.id, title: e.title })) }, null, 1));
 console.log(`${slug}: ${exs.map((e) => e.title).join(" + ")} | transcript by ${gt.model ?? "?"} | ${gt.segments.length} segments -> ${items.length} items (${items.filter((i) => i.kind === "instruction").length} announcer), ${items.reduce((n, i) => n + i.text.length, 0)} chars | requests needed ~${items.reduce((n, i) => n + Math.ceil(i.text.length / 1000), 0)}`);
