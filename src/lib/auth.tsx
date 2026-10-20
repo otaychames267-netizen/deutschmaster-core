@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
+import { detachPushOnSignOut } from "@/lib/push";
 
 export type UserLevel = "TELC_B1" | "TELC_B2" | null;
 
@@ -143,6 +144,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function signOut() {
+    // Phone alerts belong to the account: detach this device while the session is still valid.
+    await detachPushOnSignOut();
     await supabase.auth.signOut();
   }
 

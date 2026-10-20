@@ -42,6 +42,7 @@ import { Route as AuthenticatedVerifyEmailRouteImport } from './routes/_authenti
 import { Route as AuthenticatedWeeklyGoalsRouteImport } from './routes/_authenticated.weekly-goals'
 import { Route as AuthenticatedWoerterRouteImport } from './routes/_authenticated.woerter'
 import { Route as ApiOpsAlertRouteImport } from './routes/api.ops-alert'
+import { Route as ApiPushDispatchRouteImport } from './routes/api.push-dispatch'
 import { Route as ApiVersionRouteImport } from './routes/api.version'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AuthenticatedLevelDashboardRouteImport } from './routes/_authenticated.$level.dashboard'
@@ -302,6 +303,11 @@ const AuthenticatedWoerterRoute = AuthenticatedWoerterRouteImport.update({
 const ApiOpsAlertRoute = ApiOpsAlertRouteImport.update({
   id: '/api/ops-alert',
   path: '/api/ops-alert',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPushDispatchRoute = ApiPushDispatchRouteImport.update({
+  id: '/api/push-dispatch',
+  path: '/api/push-dispatch',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiVersionRoute = ApiVersionRouteImport.update({
@@ -892,6 +898,7 @@ export interface FileRoutesByFullPath {
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/woerter': typeof AuthenticatedWoerterRoute
   '/api/ops-alert': typeof ApiOpsAlertRoute
+  '/api/push-dispatch': typeof ApiPushDispatchRoute
   '/api/version': typeof ApiVersionRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
@@ -1017,6 +1024,7 @@ export interface FileRoutesByTo {
   '/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/woerter': typeof AuthenticatedWoerterRoute
   '/api/ops-alert': typeof ApiOpsAlertRoute
+  '/api/push-dispatch': typeof ApiPushDispatchRoute
   '/api/version': typeof ApiVersionRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
@@ -1142,6 +1150,7 @@ export interface FileRoutesById {
   '/_authenticated/weekly-goals': typeof AuthenticatedWeeklyGoalsRoute
   '/_authenticated/woerter': typeof AuthenticatedWoerterRoute
   '/api/ops-alert': typeof ApiOpsAlertRoute
+  '/api/push-dispatch': typeof ApiPushDispatchRoute
   '/api/version': typeof ApiVersionRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/_authenticated/$level/dashboard': typeof AuthenticatedLevelDashboardRoute
@@ -1271,6 +1280,7 @@ export interface FileRouteTypes {
     | '/weekly-goals'
     | '/woerter'
     | '/api/ops-alert'
+    | '/api/push-dispatch'
     | '/api/version'
     | '/auth/callback'
     | '/$level/dashboard'
@@ -1396,6 +1406,7 @@ export interface FileRouteTypes {
     | '/weekly-goals'
     | '/woerter'
     | '/api/ops-alert'
+    | '/api/push-dispatch'
     | '/api/version'
     | '/auth/callback'
     | '/$level/dashboard'
@@ -1520,6 +1531,7 @@ export interface FileRouteTypes {
     | '/_authenticated/weekly-goals'
     | '/_authenticated/woerter'
     | '/api/ops-alert'
+    | '/api/push-dispatch'
     | '/api/version'
     | '/auth/callback'
     | '/_authenticated/$level/dashboard'
@@ -1629,6 +1641,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   UnauthorizedRoute: typeof UnauthorizedRoute
   ApiOpsAlertRoute: typeof ApiOpsAlertRoute
+  ApiPushDispatchRoute: typeof ApiPushDispatchRoute
   ApiVersionRoute: typeof ApiVersionRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   ApiAuthForgotPasswordRoute: typeof ApiAuthForgotPasswordRoute
@@ -1874,6 +1887,13 @@ declare module '@tanstack/react-router' {
       path: '/api/ops-alert'
       fullPath: '/api/ops-alert'
       preLoaderRoute: typeof ApiOpsAlertRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/push-dispatch': {
+      id: '/api/push-dispatch'
+      path: '/api/push-dispatch'
+      fullPath: '/api/push-dispatch'
+      preLoaderRoute: typeof ApiPushDispatchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/version': {
@@ -2879,6 +2899,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   UnauthorizedRoute: UnauthorizedRoute,
   ApiOpsAlertRoute: ApiOpsAlertRoute,
+  ApiPushDispatchRoute: ApiPushDispatchRoute,
   ApiVersionRoute: ApiVersionRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   ApiAuthForgotPasswordRoute: ApiAuthForgotPasswordRoute,

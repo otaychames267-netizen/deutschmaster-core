@@ -56,3 +56,44 @@ self.addEventListener("fetch", (event) => {
   }
   // anything else: not intercepted
 });
+
+/* ── Web Push ───────────────────────────────────────────────────────────────────────────────────────────────────────
+ * Payload (JSON, sent by /api/push-dispatch): { t: title, b: body, u: in-app path, g: tag }.
+ * Only a notification is shown — nothing is cached or fetched here, so the "never store exam content" rule above holds.
+ * Arabic text: dir/lang "auto" lets the OS lay it out right-to-left. */
+self.addEventListener("push", (event) => {
+  let data = {};
+  try { data = event.data ? event.data.json() : {}; } catch { /* malformed payload: show the generic text below */ }
+  const title = String(data.t || "AuraLingovia").slice(0, 120);
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body: String(data.b || "").slice(0, 400),
+      icon: "/pwa-icon-192.png",
+      badge: "/pwa-icon-192.png",
+      tag: typeof data.g === "string" ? data.g.slice(0, 100) : undefined,
+      renotify: true, // a same-day merge reuses the tag: ring again
+      dir: "auto",
+      data: { url: typeof data.u === "string" ? data.u : "/" },
+    }),
+  );
+});
+
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const raw = event.notification.data && event.notification.data.url;
+  // in-app paths only (single leading slash), same rule the bell applies
+  const path = typeof raw === "string" && raw.startsWith("/") && !raw.startsWith("//") ? raw : "/";
+  const target = new URL(path, self.location.origin).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(async (wins) => {
+      for (const w of wins) {
+        if (new URL(w.url).origin === self.location.origin) {
+          await w.focus();
+          if ("navigate" in w) { try { await w.navigate(target); } catch { /* cross-document navigate not allowed: fall through to the focused window */ } }
+          return;
+        }
+      }
+      await self.clients.openWindow(target);
+    }),
+  );
+});

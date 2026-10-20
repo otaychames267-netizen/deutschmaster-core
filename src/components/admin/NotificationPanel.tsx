@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bell, Loader2, Send, Search } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -46,7 +46,11 @@ export function NotificationPanel() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [url, setUrl] = useState("");
-  const [audience, setAudience] = useState<"ALL" | "TELC_B1" | "TELC_B2">("ALL");
+  const [audience, setAudience] = useState<"ALL" | "TELC_B1" | "TELC_B2" | "ME">("ALL");
+  const [stats, setStats] = useState<{ devices: number; students: number } | null>(null);
+  useEffect(() => {
+    (supabase as any).rpc("admin_push_stats").then(({ data }: { data: { devices: number; students: number } | null }) => setStats(data ?? null));
+  }, []);
   const [count, setCount] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -57,7 +61,7 @@ export function NotificationPanel() {
     if (!valid) return;
     if (!dry) {
       const ok = window.confirm(
-        `Diese Benachrichtigung an ${count ?? "alle"} Lernende (${audience === "ALL" ? "B1 + B2" : audience === "TELC_B1" ? "B1" : "B2"}) senden?\n\nSie kann nicht zurückgenommen werden.`,
+        `Diese Benachrichtigung an ${count ?? "alle"} Lernende (${audience === "ALL" ? "B1 + B2" : audience === "TELC_B1" ? "B1" : audience === "ME" ? "nur du" : "B2"}) senden?\n\nSie kann nicht zurückgenommen werden.`,
       );
       if (!ok) return;
     }
@@ -89,7 +93,10 @@ export function NotificationPanel() {
         </div>
         <div>
           <h2 className="text-lg font-black tracking-tight text-foreground">In-App Benachrichtigungen</h2>
-          <p className="text-xs text-muted-foreground">Die Glocke oben rechts — erscheint bei allen Lernenden des jeweiligen Levels.</p>
+          <p className="text-xs text-muted-foreground">
+            Die Glocke oben rechts — erscheint bei allen Lernenden des jeweiligen Levels.
+            {stats && <> Handy-Benachrichtigungen aktiv: <strong className="text-foreground tabular-nums">{stats.students}</strong> Lernende ({stats.devices} Geräte).</>}
+          </p>
         </div>
       </div>
 
@@ -195,6 +202,7 @@ export function NotificationPanel() {
               <option value="ALL">Alle (B1 + B2)</option>
               <option value="TELC_B2">Nur B2</option>
               <option value="TELC_B1">Nur B1</option>
+              <option value="ME">Nur ich (Test)</option>
             </select>
           </div>
         </div>

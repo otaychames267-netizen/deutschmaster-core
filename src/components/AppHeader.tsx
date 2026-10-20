@@ -24,6 +24,8 @@ import { useStudentCredits } from "@/lib/useStudentCredits";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { fetchNotifications, internalPath, timeAgo, type AppNotification } from "@/lib/notifications";
+import { syncPushSubscription } from "@/lib/push";
+import { PushToggle } from "@/components/PushToggle";
 
 /* ─── Breadcrumb map ────────────────────────────────────────────── */
 const BREADCRUMB_MAP: Record<string, string> = {
@@ -353,6 +355,7 @@ export function AppHeader() {
 
   useEffect(() => {
     if (!user) { setNotifications([]); return; }
+    void syncPushSubscription(user.id);
     loadNotifications();
     const onVisible = () => { if (document.visibilityState === "visible") loadNotifications(); };
     document.addEventListener("visibilitychange", onVisible);
@@ -523,6 +526,7 @@ export function AppHeader() {
                   })
                 )}
               </div>
+              <PushToggle variant="compact" />
               <div className="border-t border-border p-2">
                 <Link to="/notifications"
                   className="flex w-full items-center justify-center rounded-lg py-1.5 text-xs font-medium text-primary hover:bg-primary/5 transition-colors">

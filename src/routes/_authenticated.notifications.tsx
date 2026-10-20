@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
+import { PushToggle } from "@/components/PushToggle";
 import { fetchNotifications, internalPath, timeAgo, type AppNotification } from "@/lib/notifications";
 import {
   CheckCircle2, AlertCircle, Info, Zap, BellOff, Check, Sparkles, Megaphone, ChevronRight, Clock,
@@ -72,6 +73,8 @@ function NotificationsPage() {
           </button>
         )}
       </div>
+
+      <PushToggle variant="card" />
 
       {loading ? (
         <div className="flex h-32 items-center justify-center">
