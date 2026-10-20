@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { PENDING_REFERRAL_STORAGE_KEY } from "@/lib/referral-capture";
+import { clearMediaCache } from "@/lib/storage-cache";
 
 export type UserLevel = "TELC_B1" | "TELC_B2" | null;
 
@@ -144,6 +145,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signOut() {
     await supabase.auth.signOut();
+    await clearMediaCache();
   }
 
   // Stable reference — see theme.tsx for why an unmemoized object here is a

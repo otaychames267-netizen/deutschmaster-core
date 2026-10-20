@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { IMMUTABLE_CACHE_CONTROL } from "@/lib/storage-cache";
 import { Loader2, Upload, Trash2, FileText, ChevronRight, CheckCircle2, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/admin/muendlich")({
@@ -39,7 +40,7 @@ function MuendlichAdminPage() {
     setBusy(true); setMsg(null);
     try {
       const path = `teil-${teil}/${category}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, "_")}`;
-      const up = await db.storage.from("muendlich-pdfs").upload(path, file, { contentType: "application/pdf", upsert: false });
+      const up = await db.storage.from("muendlich-pdfs").upload(path, file, { contentType: "application/pdf", upsert: false, cacheControl: IMMUTABLE_CACHE_CONTROL });
       if (up.error) throw up.error;
       const max = Math.max(0, ...materials.filter((m) => m.teil === teil && m.category === category).map((m) => m.sort_order));
       const { data: u } = await db.auth.getUser();

@@ -6,7 +6,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import { X, Maximize2, Loader2, AlertCircle, ExternalLink } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { getCachedSignedUrl } from "@/lib/storage-cache";
 
 export function PdfViewer({ storagePath, title, onClose, bucket = "muendlich-pdfs" }: { storagePath: string; title: string; onClose: () => void; bucket?: string }) {
   const [url, setUrl] = useState<string | null>(null);
@@ -16,10 +16,11 @@ export function PdfViewer({ storagePath, title, onClose, bucket = "muendlich-pdf
   useEffect(() => {
     let active = true;
     (async () => {
-      const { data, error } = await (supabase as any).storage.from(bucket).createSignedUrl(storagePath, 3600);
+      // Stable signed URL → reopening the same PDF hits the browser cache.
+      const signedUrl = await getCachedSignedUrl(bucket, storagePath).catch(() => null);
       if (!active) return;
-      if (error || !data?.signedUrl) setError(error?.message ?? "Could not load PDF");
-      else setUrl(data.signedUrl);
+      if (!signedUrl) setError("Could not load PDF");
+      else setUrl(signedUrl);
     })();
     return () => { active = false; };
   }, [storagePath, bucket]);
