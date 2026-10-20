@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
+import { IMMUTABLE_CACHE_CONTROL } from "@/lib/storage-cache";
 import { createHoerenExercise, NOTICE_TEXT } from "@/lib/admin/exercise-create.functions";
 import { LearningAidsFields, assembleLearningAids, type LearningAidsFormValue } from "@/components/admin/LearningAidsFields";
 import { Save, Loader2, Music, Image as ImageIcon, X } from "lucide-react";
@@ -36,7 +37,7 @@ export function HoerenExerciseForm({ teil }: { teil: 1 | 2 | 3 }) {
     setUploadingImage(true);
     try {
       const path = `${teil}/${Date.now()}-${file.name}`;
-      const { error } = await supabase.storage.from("hoeren-images").upload(path, file);
+      const { error } = await supabase.storage.from("hoeren-images").upload(path, file, { cacheControl: IMMUTABLE_CACHE_CONTROL });
       if (error) throw error;
       setImagePath(path);
       toast.success("Image uploaded");
@@ -51,7 +52,7 @@ export function HoerenExerciseForm({ teil }: { teil: 1 | 2 | 3 }) {
     setUploadingAudio(true);
     try {
       const path = `${teil}/${Date.now()}-${file.name}`;
-      const { error } = await supabase.storage.from("hoeren-audio").upload(path, file);
+      const { error } = await supabase.storage.from("hoeren-audio").upload(path, file, { cacheControl: IMMUTABLE_CACHE_CONTROL });
       if (error) throw error;
       setAudioPath(path);
       toast.success("Audio uploaded");

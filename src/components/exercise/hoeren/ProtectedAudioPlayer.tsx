@@ -23,14 +23,9 @@
  */
 import { useEffect, useRef, useState } from "react";
 import { Play, Pause, Loader2, AlertCircle, Volume2, VolumeX } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
+import { getCachedBlob } from "@/lib/storage-cache";
 
 const AUDIO_URL_TTL_SECONDS = 90;
-
-async function fetchShortLivedAudioUrl(path: string): Promise<string | null> {
-  const { data } = await supabase.storage.from("hoeren-audio").createSignedUrl(path, AUDIO_URL_TTL_SECONDS);
-  return data?.signedUrl ?? null;
-}
 
 function formatTime(seconds: number): string {
   if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
@@ -61,11 +56,10 @@ export function ProtectedAudioPlayer({ audioPath }: { audioPath: string }) {
     if (status === "ready" || status === "loading") return status === "ready";
     setStatus("loading");
     try {
-      const signedUrl = await fetchShortLivedAudioUrl(audioPath);
-      if (!signedUrl) throw new Error("no signed url");
-      const res = await fetch(signedUrl);
-      if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
-      const blob = await res.blob();
+      // Downloaded from Storage once per device, then served from Cache
+      // Storage — replaying a track no longer costs egress.
+      const blob = await getCachedBlob("hoeren-audio", audioPath, AUDIO_URL_TTL_SECONDS);
+      if (!blob) throw new Error("no signed url");
       const objectUrl = URL.createObjectURL(blob);
       blobUrlRef.current = objectUrl;
       if (audioRef.current) audioRef.current.src = objectUrl;

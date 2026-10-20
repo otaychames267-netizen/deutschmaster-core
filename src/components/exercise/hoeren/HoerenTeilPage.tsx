@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { Loader2, Headphones, AlertCircle, ChevronRight, Sparkles } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedSignedUrl } from "@/lib/storage-cache";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel, useLevelSegment, enforceLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess, useExerciseCatalog } from "@/lib/useContentAccess";
@@ -30,8 +31,9 @@ interface StRow { exercise_id: string; statement_number: number; statement_text:
 // actually presses play. See ProtectedAudioPlayer.tsx.
 async function signedImageUrl(path: string | null): Promise<string | null> {
   if (!path) return null;
-  const { data } = await supabase.storage.from("hoeren-images").createSignedUrl(path, 3600);
-  return data?.signedUrl ?? null;
+  // Reused across visits so the browser HTTP cache serves repeat views
+  // instead of re-downloading from Storage (egress) — see storage-cache.ts.
+  return getCachedSignedUrl("hoeren-images", path);
 }
 
 interface Props {

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { getCachedSignedUrl } from "@/lib/storage-cache";
 import { useAuth } from "@/lib/auth";
 import { useActiveLevel } from "@/lib/useActiveLevel";
 import { useHasPlanAccess } from "@/lib/useContentAccess";
@@ -121,7 +122,7 @@ async function loadSectionContent(section: SectionKey, attempt: AttemptRow): Pro
       // against it produces a URL Storage rejects. Must be a short-lived
       // signed URL, same as HoerenTeilPage.tsx's vorbereitung path.
       const imageUrl = ex?.image_path
-        ? (await supabase.storage.from("hoeren-images").createSignedUrl(ex.image_path, 3600)).data?.signedUrl ?? null
+        ? await getCachedSignedUrl("hoeren-images", ex.image_path)
         : null;
       return { instructions: ex?.instructions ?? null, imageUrl, statements: statements ?? [] } as HoerenData;
     }
