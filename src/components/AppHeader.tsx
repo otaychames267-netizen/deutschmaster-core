@@ -4,7 +4,7 @@ import {
   Moon, Sun, Bell, Globe, LogOut, User,
   CreditCard, Shield, ChevronRight, Flame, Zap, Coins,
   Search, X, CheckCircle2, AlertCircle, Info, Command,
-  BookOpen, ArrowRight, MessageCircle,
+  BookOpen, ArrowRight, MessageCircle, Sparkles, Megaphone,
 } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +23,7 @@ import { useUserProgress } from "@/lib/useUserProgress";
 import { useStudentCredits } from "@/lib/useStudentCredits";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchNotifications, internalPath, timeAgo, type AppNotification } from "@/lib/notifications";
 
 /* ─── Breadcrumb map ────────────────────────────────────────────── */
 const BREADCRUMB_MAP: Record<string, string> = {
@@ -266,16 +267,12 @@ const NOTIF_ICONS: Record<string, { icon: typeof CheckCircle2; bg: string; text:
   error:   { icon: AlertCircle,  bg: "bg-red-500/10",     text: "text-red-500"     },
   info:    { icon: Info,          bg: "bg-blue-500/10",    text: "text-blue-500"    },
   system:  { icon: Zap,           bg: "bg-primary/10",     text: "text-primary"     },
+  content: { icon: Sparkles,      bg: "bg-primary/10",     text: "text-primary"     },
+  announcement: { icon: Megaphone, bg: "bg-amber-500/10",  text: "text-amber-500"   },
 };
 const DEFAULT_NOTIF_ICON = NOTIF_ICONS.info;
 
-interface Notif {
-  id: string;
-  type: string;
-  title: string;
-  body: string;
-  read: boolean;
-}
+type Notif = AppNotification;
 
 /* ─── User avatar ───────────────────────────────────────────────── */
 function UserAvatar({ name, email }: { name?: string; email?: string }) {
@@ -293,11 +290,12 @@ function UserAvatar({ name, email }: { name?: string; email?: string }) {
 export function AppHeader() {
   const { theme, toggle }     = useTheme();
   const { user, signOut }     = useAuth();
+  const navigate              = useNavigate();
   const { progress }          = useUserProgress();
   const { balance: creditBalance } = useStudentCredits();
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notif[]>([]);
-  const [notifsLoaded, setNotifsLoaded] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
   const [subDaysLeft, setSubDaysLeft] = useState<number | null>(null);
   const [whatsappNumber, setWhatsappNumber] = useState<string | null>(null);
   const displayName = user?.user_metadata?.full_name as string | undefined;
@@ -341,18 +339,26 @@ export function AppHeader() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
-  // Load real notifications from the notifications table.
+  // Real notifications. Loaded on mount (so the badge is right before the
+  // dropdown is ever opened), refreshed when the tab becomes visible again, every
+  // 5 minutes while it is, and each time the dropdown opens.
   const loadNotifications = useCallback(async () => {
-    if (notifsLoaded || !user) return;
-    const { data } = await supabase
-      .from("notifications")
-      .select("id, type, title, body, read")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
-      .limit(20);
-    setNotifications(data ?? []);
-    setNotifsLoaded(true);
-  }, [user, notifsLoaded]);
+    if (!user) return;
+    try {
+      setNotifications(await fetchNotifications(user.id, 20));
+    } catch {
+      /* keep what we have — the bell must never break the header */
+    }
+  }, [user?.id]);
+
+  useEffect(() => {
+    if (!user) { setNotifications([]); return; }
+    loadNotifications();
+    const onVisible = () => { if (document.visibilityState === "visible") loadNotifications(); };
+    document.addEventListener("visibilitychange", onVisible);
+    const timer = window.setInterval(onVisible, 5 * 60 * 1000);
+    return () => { document.removeEventListener("visibilitychange", onVisible); window.clearInterval(timer); };
+  }, [user?.id, loadNotifications]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -465,13 +471,13 @@ export function AppHeader() {
 
           {/* Notifications dropdown */}
           {user && (
-          <DropdownMenu onOpenChange={(open) => { if (open) loadNotifications(); }}>
+          <DropdownMenu open={notifOpen} onOpenChange={(open) => { setNotifOpen(open); if (open) loadNotifications(); }}>
             <DropdownMenuTrigger asChild>
               <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
                 <Bell className="h-4 w-4" />
                 {unreadCount > 0 && (
                   <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-black text-primary-foreground">
-                    {unreadCount}
+                    {unreadCount > 9 ? "9+" : unreadCount}
                   </span>
                 )}
               </button>
@@ -497,14 +503,19 @@ export function AppHeader() {
                     return (
                       <button
                         key={n.id}
-                        onClick={() => !n.read && markOneRead(n.id)}
+                        onClick={() => {
+                          if (!n.read) markOneRead(n.id);
+                          const to = internalPath(n.action_url);
+                          if (to) { setNotifOpen(false); navigate({ to: to as never }); }
+                        }}
                         className={`flex w-full items-start gap-3 border-b border-border px-4 py-3 text-left transition-colors last:border-0 hover:bg-muted/40 ${n.read ? "opacity-60" : ""}`}>
                         <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${cfg.bg}`}>
                           <cfg.icon className={`h-3.5 w-3.5 ${cfg.text}`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <p className="text-xs font-semibold text-foreground">{n.title}</p>
-                          <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{n.body}</p>
+                          <p dir="auto" className="text-xs font-semibold text-foreground">{n.title}</p>
+                          <p dir="auto" className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{n.body}</p>
+                          <p className="mt-1 text-[10px] text-muted-foreground/70">{timeAgo(n.created_at)}</p>
                         </div>
                         {!n.read && <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />}
                       </button>

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Megaphone, Eye, EyeOff, Clock, CheckCircle2, XCircle, Loader2, Send } from "lucide-react";
 import { toast } from "sonner";
+import { NotificationPanel } from "@/components/admin/NotificationPanel";
 import {
   publishDashboardAnnouncement,
   adminListDashboardAnnouncements,
@@ -189,6 +190,10 @@ function AdminAnnouncementsPage() {
             </div>
           );
         })}
+      </div>
+
+      <div className="border-t border-border pt-8">
+        <NotificationPanel />
       </div>
     </div>
   );

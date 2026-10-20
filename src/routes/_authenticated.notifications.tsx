@@ -1,59 +1,55 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
+import { supabase } from "@/integrations/supabase/client";
+import { fetchNotifications, internalPath, timeAgo, type AppNotification } from "@/lib/notifications";
 import {
-  Bell, CheckCircle2, AlertCircle, Info,
-  Zap, Calendar, BellOff, Check,
+  CheckCircle2, AlertCircle, Info, Zap, BellOff, Check, Sparkles, Megaphone, ChevronRight, Clock,
 } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/notifications")({
   component: NotificationsPage,
 });
 
-interface Notification {
-  id: string;
-  type: "info" | "success" | "warning" | "system";
-  title: string;
-  body: string;
-  created_at: string;
-  read: boolean;
-}
-
-/* Placeholder data until the notifications table is fully wired */
-function buildDefaultNotifications(): Notification[] {
-  const now = new Date().toISOString();
-  return [
-    {
-      id: "welcome",
-      type: "success",
-      title: "Welcome to AuraLingovia 🎉",
-      body: "Your account is ready. Start with a quick practice session to calibrate your level.",
-      created_at: now,
-      read: false,
-    },
-  ];
-}
-
-const TYPE_CONFIG = {
-  info:    { icon: Info,         bg: "bg-blue-500/10",    text: "text-blue-500"    },
-  success: { icon: CheckCircle2, bg: "bg-emerald-500/10", text: "text-emerald-500" },
-  warning: { icon: AlertCircle,  bg: "bg-amber-500/10",   text: "text-amber-500"   },
-  system:  { icon: Zap,          bg: "bg-primary/10",     text: "text-primary"     },
+const TYPE_CONFIG: Record<string, { icon: typeof Info; bg: string; text: string }> = {
+  info:         { icon: Info,         bg: "bg-blue-500/10",    text: "text-blue-500"    },
+  success:      { icon: CheckCircle2, bg: "bg-emerald-500/10", text: "text-emerald-500" },
+  warning:      { icon: AlertCircle,  bg: "bg-amber-500/10",   text: "text-amber-500"   },
+  error:        { icon: AlertCircle,  bg: "bg-red-500/10",     text: "text-red-500"     },
+  system:       { icon: Zap,          bg: "bg-primary/10",     text: "text-primary"     },
+  content:      { icon: Sparkles,     bg: "bg-primary/10",     text: "text-primary"     },
+  announcement: { icon: Megaphone,    bg: "bg-amber-500/10",   text: "text-amber-500"   },
 };
 
 function NotificationsPage() {
   const { user } = useAuth();
-  const [items, setItems]   = useState<Notification[]>([]);
+  const navigate = useNavigate();
+  const [items, setItems] = useState<AppNotification[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) return;
-    setItems(buildDefaultNotifications());
-    setLoading(false);
+    let alive = true;
+    fetchNotifications(user.id, 100)
+      .then((rows) => { if (alive) setItems(rows); })
+      .catch(() => { /* empty state below */ })
+      .finally(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
   }, [user?.id]);
 
-  function markAllRead() {
+  async function markAllRead() {
+    if (!user) return;
     setItems((prev) => prev.map((n) => ({ ...n, read: true })));
+    await supabase.from("notifications").update({ read: true }).eq("user_id", user.id).eq("read", false);
+  }
+
+  async function open(item: AppNotification) {
+    if (!item.read) {
+      setItems((prev) => prev.map((n) => (n.id === item.id ? { ...n, read: true } : n)));
+      await supabase.from("notifications").update({ read: true }).eq("id", item.id);
+    }
+    const to = internalPath(item.action_url);
+    if (to) navigate({ to: to as never });
   }
 
   const unread = items.filter((n) => !n.read).length;
@@ -89,70 +85,39 @@ function NotificationsPage() {
       ) : (
         <div className="space-y-3">
           {items.map((item) => {
-            const cfg = TYPE_CONFIG[item.type];
+            const cfg = TYPE_CONFIG[item.type] ?? TYPE_CONFIG.info;
             const IconComp = cfg.icon;
+            const target = internalPath(item.action_url);
             return (
-              <div
+              <button
                 key={item.id}
-                className={`flex items-start gap-4 rounded-2xl border p-5 transition-colors ${
+                type="button"
+                onClick={() => open(item)}
+                className={`flex w-full items-start gap-4 rounded-2xl border p-5 text-left transition-colors hover:bg-muted/40 ${
                   item.read ? "border-border bg-card opacity-70" : "border-border bg-card shadow-sm"
                 }`}
               >
                 <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${cfg.bg}`}>
-                  <IconComp className={`h-4.5 w-4.5 ${cfg.text}`} />
+                  <IconComp className={`h-4 w-4 ${cfg.text}`} />
                 </div>
-                <div className="flex-1 min-w-0">
+                <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
-                    <p className={`text-sm font-medium ${item.read ? "text-muted-foreground" : "text-foreground"}`}>
+                    <p dir="auto" className={`text-sm font-medium ${item.read ? "text-muted-foreground" : "text-foreground"}`}>
                       {item.title}
                     </p>
-                    {!item.read && (
-                      <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                    )}
+                    {!item.read && <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-primary" />}
                   </div>
-                  <p className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{item.body}</p>
-                  <div className="mt-2 flex items-center gap-1 text-xs text-muted-foreground">
-                    <Calendar className="h-3 w-3" />
-                    {new Date(item.created_at).toLocaleDateString("en-GB", {
-                      day: "numeric", month: "short", year: "numeric",
-                    })}
+                  <p dir="auto" className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{item.body}</p>
+                  <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{timeAgo(item.created_at)}</span>
+                    {target && <span className="flex items-center gap-0.5 font-medium text-primary">Open <ChevronRight className="h-3 w-3" /></span>}
                   </div>
                 </div>
-              </div>
+              </button>
             );
           })}
         </div>
       )}
-
-      {/* Preferences section */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <Bell className="h-4 w-4 text-muted-foreground" />
-          <p className="text-sm font-semibold text-foreground">Notification preferences</p>
-        </div>
-        <div className="space-y-3">
-          {[
-            { label: "Subscription & billing alerts", sub: "Renewal reminders, payment confirmations" },
-            { label: "Study reminders",               sub: "Daily streak reminders and practice suggestions" },
-            { label: "New content alerts",            sub: "When new practice exams are added" },
-          ].map((pref) => (
-            <div key={pref.label} className="flex items-center justify-between gap-4">
-              <div>
-                <p className="text-sm text-foreground">{pref.label}</p>
-                <p className="text-xs text-muted-foreground">{pref.sub}</p>
-              </div>
-              <button
-                disabled
-                className="relative inline-flex h-5 w-9 shrink-0 rounded-full border border-border bg-muted cursor-not-allowed"
-                title="Coming soon"
-              />
-            </div>
-          ))}
-        </div>
-        <p className="mt-4 text-xs text-muted-foreground">
-          Email notification settings coming in Phase 2.
-        </p>
-      </div>
     </div>
   );
 }
