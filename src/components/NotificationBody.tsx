@@ -3,7 +3,7 @@ import { internalPath, timeAgo, timeAgoAr, type AppNotification } from "@/lib/no
 
 /** Notification types that get the branded card (content + announcements); everything else keeps the plain row. */
 export function isBranded(type: string): boolean {
-  return type === "content" || type === "announcement";
+  return type === "content" || type === "announcement" || type === "alert";
 }
 
 type Kind = "greeting" | "theme" | "warn" | "wish" | "plain";
@@ -99,8 +99,13 @@ export function BrandedNotification({
   return (
     <button
       type="button" onClick={onOpen} dir={rtl ? "rtl" : "ltr"}
-      className={`aura-note block w-full text-start transition-transform hover:-translate-y-px ${n.read ? "aura-note--read" : ""} ${compact ? "p-3" : "p-5"}`}
+      className={`aura-note block w-full text-start transition-transform hover:-translate-y-px ${n.type === "alert" ? "aura-note--alert" : ""} ${n.read ? "aura-note--read" : ""} ${compact ? "p-3" : "p-5"}`}
     >
+      {n.type === "alert" && (
+        <div className="aura-note-alertbar" aria-hidden>
+          <span>⚠</span><span>{rtl ? "تنبيه مهم" : "Important notice"}</span>
+        </div>
+      )}
       <div className="flex items-center gap-2.5">
         <img src="/favicon.svg" alt="" width={compact ? 26 : 32} height={compact ? 26 : 32} className="aura-note-logo shrink-0" />
         <div className="min-w-0 flex-1">

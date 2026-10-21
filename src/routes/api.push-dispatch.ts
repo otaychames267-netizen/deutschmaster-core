@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { VAPID_PUBLIC_KEY, VAPID_SUBJECT } from "@/lib/push-config";
+import { pushSummary } from "@/lib/push-summary";
 
 /**
  * POST /api/push-dispatch — delivers pending notifications as Web Push messages.
@@ -19,7 +20,7 @@ const CONCURRENCY = 20;     // parallel pushes
 const SEND_TIMEOUT_MS = 8_000;
 
 interface Sub { id: string; endpoint: string; p256dh: string; auth: string }
-interface Item { id: string; title: string; body: string; url: string | null; tag: string; subs: Sub[] }
+interface Item { id: string; title: string; body: string; type: string; url: string | null; tag: string; subs: Sub[] }
 
 export const Route = createFileRoute("/api/push-dispatch")({
   server: {
@@ -55,11 +56,13 @@ export const Route = createFileRoute("/api/push-dispatch")({
             while (next < jobs.length) {
               const { n, s } = jobs[next++];
               const path = n.url && n.url.startsWith("/") && !n.url.startsWith("//") ? n.url : "/";
+              const alert = n.type === "alert";
               try {
                 await webpush.sendNotification(
                   { endpoint: s.endpoint, keys: { p256dh: s.p256dh, auth: s.auth } },
-                  JSON.stringify({ t: n.title, b: n.body, u: path, g: n.tag }),
-                  { TTL: 6 * 3600, urgency: "normal", timeout: SEND_TIMEOUT_MS },
+                  // a lock-screen sized text, not the whole message (the card in the app has that)
+                  JSON.stringify({ t: alert ? `⚠️ ${n.title}` : n.title, b: pushSummary(n.body, alert), u: path, g: n.tag, a: alert ? 1 : 0 }),
+                  { TTL: (alert ? 24 : 6) * 3600, urgency: alert ? "high" : "normal", timeout: SEND_TIMEOUT_MS },
                 );
                 ok.push(s.id);
               } catch (e) {

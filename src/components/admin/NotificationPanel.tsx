@@ -18,7 +18,7 @@ const SOURCE_LABEL: Record<string, string> = {
 };
 
 const TITLE_MAX = 120;
-const BODY_MAX = 400;
+const BODY_MAX = 1200;
 
 export function NotificationPanel() {
   /* ── automatic content notifications ── */
@@ -54,6 +54,7 @@ export function NotificationPanel() {
   useEffect(() => {
     (supabase as any).rpc("admin_push_stats").then(({ data }: { data: { devices: number; students: number } | null }) => setStats(data ?? null));
   }, []);
+  const [urgent, setUrgent] = useState(false);
   const [count, setCount] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -71,13 +72,13 @@ export function NotificationPanel() {
     setBusy(true);
     try {
       const { data, error } = await (supabase as any).rpc("admin_broadcast_notification", {
-        p_title: title.trim(), p_body: body.trim(), p_url: url.trim() || null, p_level: audience, p_dry_run: dry,
+        p_title: title.trim(), p_body: body.trim(), p_url: url.trim() || null, p_level: audience, p_dry_run: dry, p_alert: urgent,
       });
       if (error) throw error;
       if (dry) setCount(data as number);
       else {
         toast.success(`Gesendet an ${data} Lernende.`);
-        setTitle(""); setBody(""); setUrl(""); setCount(null);
+        setTitle(""); setBody(""); setUrl(""); setUrgent(false); setCount(null);
       }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Aktion fehlgeschlagen.");
@@ -231,11 +232,27 @@ export function NotificationPanel() {
           </div>
         </div>
 
+        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-rose-500/30 bg-rose-500/5 px-4 py-3">
+          <input
+            type="checkbox" checked={urgent} onChange={(e) => { setUrgent(e.target.checked); setCount(null); }}
+            className="mt-0.5 h-4 w-4 accent-rose-600"
+          />
+          <span className="text-sm">
+            <strong className="text-foreground">Dringende Warnung</strong>
+            <span className="block text-xs text-muted-foreground">
+              Auffällige rot/orange Karte mit „تنبيه مهم“-Band, roter Glocken-Badge und ein Push mit hoher Dringlichkeit, der auf dem Display bleibt, bis er weggewischt wird. Nur für wirklich Wichtiges (z. B. Prüfungs-Hinweis).
+            </span>
+          </span>
+        </label>
+
         {valid && (
-          <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3">
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Vorschau</p>
-            <p dir="auto" className="text-xs font-semibold text-foreground">{title}</p>
-            <p dir="auto" className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">{body}</p>
+          <div className="space-y-1.5">
+            <p className="text-[10px] font-semibold uppercase tracking-wide text-muted-foreground">Vorschau (so sehen es die Lernenden)</p>
+            <div className={`aura-note p-4 ${urgent ? "aura-note--alert" : ""}`} dir="auto">
+              {urgent && <div className="aura-note-alertbar" aria-hidden><span>⚠</span><span>{/\p{Script=Arabic}/u.test(title + body) ? "تنبيه مهم" : "Important notice"}</span></div>}
+              <p dir="auto" className="mb-2 text-sm font-bold">{title}</p>
+              <NotificationBody body={body} />
+            </div>
           </div>
         )}
 

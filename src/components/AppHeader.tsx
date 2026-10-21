@@ -365,6 +365,7 @@ export function AppHeader() {
   }, [user?.id, loadNotifications]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
+  const unreadAlert = notifications.some((n) => n.type === "alert" && !n.read);
 
   async function markAllRead() {
     if (!user) return;
@@ -480,7 +481,7 @@ export function AppHeader() {
               <button className="relative flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
                 <Bell className="h-4 w-4" />
                 {unreadCount > 0 && (
-                  <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-black text-primary-foreground">
+                  <span className={`absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full px-0.5 text-[9px] font-black ${unreadAlert ? "animate-pulse bg-rose-600 text-white" : "bg-primary text-primary-foreground"}`}>
                     {unreadCount > 99 ? "99+" : unreadCount}
                   </span>
                 )}

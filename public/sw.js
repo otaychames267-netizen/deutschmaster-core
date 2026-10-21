@@ -58,21 +58,26 @@ self.addEventListener("fetch", (event) => {
 });
 
 /* ── Web Push ───────────────────────────────────────────────────────────────────────────────────────────────────────
- * Payload (JSON, sent by /api/push-dispatch): { t: title, b: body, u: in-app path, g: tag }.
+ * Payload (JSON, sent by /api/push-dispatch): { t: title, b: short text, u: in-app path, g: tag, a: 1 for an urgent notice }.
  * Only a notification is shown — nothing is cached or fetched here, so the "never store exam content" rule above holds.
  * Arabic text: dir/lang "auto" lets the OS lay it out right-to-left. */
 self.addEventListener("push", (event) => {
   let data = {};
   try { data = event.data ? event.data.json() : {}; } catch { /* malformed payload: show the generic text below */ }
   const title = String(data.t || "AuraLingovia").slice(0, 120);
+  const urgent = data.a === 1 || data.a === true;
   event.waitUntil(
     self.registration.showNotification(title, {
       body: String(data.b || "").slice(0, 400),
-      icon: "/pwa-icon-192.png",
-      badge: "/pwa-icon-192.png",
+      icon: "/push-icon.png",          // the current logo badge
+      badge: "/push-badge.png",        // monochrome silhouette: Android draws only its alpha in the status bar
+      image: urgent ? "/push-alert.jpg" : "/og-card.jpg", // ruby/amber banner for urgent notices, the gold brand card otherwise
       tag: typeof data.g === "string" ? data.g.slice(0, 100) : undefined,
       renotify: true, // a same-day merge reuses the tag: ring again
+      requireInteraction: urgent, // an urgent notice stays until it is dismissed
+      vibrate: urgent ? [220, 110, 220] : undefined,
       dir: "auto",
+      lang: "ar",
       data: { url: typeof data.u === "string" ? data.u : "/" },
     }),
   );

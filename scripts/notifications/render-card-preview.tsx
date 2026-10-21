@@ -59,7 +59,7 @@ const items = [
 if (process.argv[3]) {
   items.splice(0, items.length, {
     ...mk("x", process.argv[4] ?? "تنبيه مهم", fs.readFileSync(process.argv[3], "utf8").trim(), false, 1),
-    type: "announcement",
+    type: process.argv[5] ?? "announcement", // e.g. "alert" for the urgent-notice style
   });
 }
 const card = (n: AppNotification, v: "bell" | "page") =>
