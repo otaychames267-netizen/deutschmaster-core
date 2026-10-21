@@ -517,7 +517,7 @@ export function AppHeader() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <p dir="auto" className="text-xs font-semibold text-foreground">{n.title}</p>
-                          <p dir="auto" className="mt-0.5 whitespace-pre-line text-[11px] leading-relaxed text-muted-foreground">{n.body}</p>
+                          <p dir="auto" className="mt-0.5 line-clamp-6 whitespace-pre-line text-[11px] leading-relaxed text-muted-foreground">{n.body}</p>
                           <p className="mt-1 text-[10px] text-muted-foreground/70">{timeAgo(n.created_at)}</p>
                         </div>
                         {!n.read && <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />}

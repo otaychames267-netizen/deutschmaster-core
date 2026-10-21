@@ -8,8 +8,9 @@ import { ThemeNotes } from "@/components/admin/ThemeNotes";
  * Both RPCs re-check is_admin_or_owner() in the database, so this panel only
  * ever *offers* the actions; it cannot grant them. */
 
-interface Group { source: string; teil: number; level: string; new_items: number; recipients: number; url: string; mode?: "single" | "group"; titles?: string[] | null; without_note?: string[] | null }
-interface RunResult { dry_run?: boolean; groups?: Group[]; rows_written?: number; skipped?: string }
+interface Group { source: string; teil: number; level: string; new_items: number; titles?: string[] | null; without_note?: string[] | null }
+interface Digest { level: string; themes: number; recipients: number; url: string; merges_into_todays: boolean; preview: string }
+interface RunResult { dry_run?: boolean; groups?: Group[]; digests?: Digest[]; rows_written?: number; skipped?: string }
 
 const SOURCE_LABEL: Record<string, string> = {
   hoeren: "Hören", lesen: "Lesen", sb: "Sprachbausteine", muendlich: "Mündlich",
@@ -107,9 +108,10 @@ export function NotificationPanel() {
           <p className="font-bold text-foreground">Neue Inhalte</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Alle 30 Minuten prüft das System automatisch, ob für Lernende sichtbare Übungen oder Themen dazugekommen sind
-            (Hören, Lesen, Sprachbausteine, Mündlich). Bis zu 6 neue Themen pro Teil und Level werden{" "}
-            <strong>einzeln mit ihrem Namen</strong> gemeldet; bei einem großen Import (mehr als 6) gibt es eine gemeinsame
-            Nachricht pro Teil. Versteckte Übungen und Übungen mit dem Tunesien-Hinweis lösen nichts aus.
+            (Hören, Lesen, Sprachbausteine, Mündlich) und schickt <strong>eine Mitteilung pro Level</strong> im Stil von Zertify:
+            „إضافة مواضيع جديدة“, die Themen nach Teil gruppiert und nummeriert (1️⃣ 2️⃣ 3️⃣), darunter – falls eingetragen – der
+            eigene Text zum Thema. Weitere Themen am selben Tag landen in derselben Mitteilung. Versteckte Übungen und Übungen
+            mit dem Tunesien-Hinweis lösen nichts aus.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -139,14 +141,13 @@ export function NotificationPanel() {
             <div className="overflow-x-auto rounded-xl border border-border">
               <table className="w-full text-sm">
                 <thead className="bg-muted/50 text-xs text-muted-foreground">
-                  <tr><th className="px-3 py-2 text-left">Bereich</th><th className="px-3 py-2 text-left">Level</th><th className="px-3 py-2 text-right">Neu</th><th className="px-3 py-2 text-right">Empfänger</th></tr>
+                  <tr><th className="px-3 py-2 text-left">Bereich</th><th className="px-3 py-2 text-left">Level</th><th className="px-3 py-2 text-right">Neu</th></tr>
                 </thead>
                 <tbody>
                   {groups.map((g) => (
                     <tr key={`${g.source}-${g.teil}-${g.level}`} className="border-t border-border">
                       <td className="px-3 py-2">
                         {SOURCE_LABEL[g.source] ?? g.source} · Teil {g.teil}
-                        <span className="ml-2 text-xs text-muted-foreground">{g.mode === "single" ? "einzeln" : "gemeinsam"}</span>
                         {g.titles && g.titles.length > 0 && (
                           <ul className="mt-0.5 list-disc pl-4 text-xs text-muted-foreground">
                             {g.titles.map((t) => (
@@ -157,7 +158,6 @@ export function NotificationPanel() {
                       </td>
                       <td className="px-3 py-2">{g.level.replace("TELC_", "")}</td>
                       <td className="px-3 py-2 text-right tabular-nums">{g.new_items}</td>
-                      <td className="px-3 py-2 text-right tabular-nums">{g.recipients}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -165,6 +165,15 @@ export function NotificationPanel() {
             </div>
           )
         )}
+        {preview?.digests?.map((d) => (
+          <div key={d.level} className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+            <p className="mb-2 text-xs font-semibold text-muted-foreground">
+              Vorschau der Mitteilung · {d.level.replace("TELC_", "")} · {d.recipients} Empfänger
+              {d.merges_into_todays ? " · ergänzt die heutige Mitteilung" : ""}
+            </p>
+            <p dir="auto" className="whitespace-pre-line text-sm leading-relaxed text-foreground">{d.preview}</p>
+          </div>
+        ))}
       </div>
 
       <ThemeNotes />
