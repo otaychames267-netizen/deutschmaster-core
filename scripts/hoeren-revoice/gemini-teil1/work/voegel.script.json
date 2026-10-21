@@ -1,0 +1,45 @@
+{
+ "name": "voegel",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Das ist eine Hörverstehen-Aufnahme. Guten Tag, liebe Hörerinnen und Hörer, viele Kunden wünschen sich zwar einen besseren Service vom Paketdienst, aber laut einer aktuellen Umfrage wären nur die wenigsten tatsächlich bereit, dafür auch mehr zu bezahlen. Die meisten Menschen erwarten heute kostenlose Zusatzleistungen, wie eine flexible Zustellung oder eine genauere Sendungsverfolgung, ohne dafür zusätzliche Gebühren zu entrichten. Die Paketdienste stehen somit unter zunehmenden Druck, ihre Angebote zu verbessern, ohne die Preise zu erhöhen. Experten sehen darin eine Herausforderung für die Zukunft, da die Erwartungen der Kunden stetig steigen. Ob es bald zu Veränderungen kommt, bleibt abzuwarten.\n\nIn den Nachrichten: Nach dem Schiffsunfall gestern Abend im Hafen von Hamburg konnten die beschädigten Schiffe bereits am Morgen ihre Fahrt fortsetzen. Dank des schnellen Eingreifens der Einsatzkräfte wurden die wichtigsten Reparaturen direkt vor Ort durchgeführt. Weder die Crew noch die Passagiere mussten ihre Reise unterbrechen, da die Schäden als gering eingestuft wurden. Die Hafenleitung betont, dass Sicherheitsvorkehrungen für solche Fälle regelmäßig überprüft werden. Trotz des Zwischenfalls verlief der restliche Schiffsverkehr planmäßig. Eine genaue Unfallursache wird derzeit noch ermittelt.\n\nLaut aktuellen Studien nimmt die Zahl der Vögel in Europa weiterhin ab. Experten führen diesen Rückgang vor allem auf den Verlust von Lebensräumen und den Einsatz von Pestiziden in der Landwirtschaft zurück. Besonders betroffen sind Singvögel und Wasservögel, deren Bestände in den letzten Jahren drastisch gesunken sind. Naturschutzorganisationen fordern verstärkte Maßnahmen zum Schutz der Tiere und ihrer Lebensräume. Auch Bürger werden ermutigt, Gärten naturnah zu gestalten und auf Chemikalien zu verzichten. Nur so könne man die Artenvielfalt langfristig sichern."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Die Polizei hat gestern auf der Autobahn A acht ein verbotenes Fahrzeug entdeckt und sofort aus dem Verkehr gezogen. Das Fahrzeug war zuvor wegen gravierender technischer Mängel stillgelegt worden, wurde aber dennoch illegal genutzt. Bei der Kontrolle fanden die Beamten außerdem gefälschte Kennzeichen. Gegen den Fahrer wurde ein Ermittlungsverfahren eingeleitet. Die Polizei betont, wie wichtig regelmäßige Fahrzeugkontrollen sind, um die Sicherheit auf den Straßen zu gewährleisten. Autofahrer werden aufgefordert, ihre Fahrzeuge stets in einem verkehrssicheren Zustand zu halten.\n\nDer bekannte Schauspieler Markus Weber hat gestern in Berlin seinen neuen Film vorgestellt. Der Thriller Im Schatten der Stadt kommt im nächsten Monat in die Kinos und verspricht spannende Unterhaltung. Zahlreiche Fans und Medien waren bei der Premiere anwesend. Weber betonte, dass er besonders stolz auf die Zusammenarbeit mit dem internationalen Team ist.\n\nBeim diesjährigen Musikfestival konnten die Besucher Konzerte an mehreren verschiedenen Orten erleben neben der Hauptbühne im Stadtpark gab es zahlreiche kleine Bühnen in Cafés, Museen und sogar auf öffentlichen Plätzen. Die Veranstalter wollten damit ein besonderes Kulturerlebnis schaffen und Musik in die ganze Stadt bringen. Viele Gäste lobten die Vielfalt des Programms und die entspannte Atmosphäre. Dank der guten Organisation verlief das Festival ohne größere Zwischenfälle und Besucher aus ganz Deutschland reisten an, um die Musik zu genießen."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil eins."
+  }
+ ]
+}

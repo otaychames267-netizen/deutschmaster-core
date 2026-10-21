@@ -1,0 +1,66 @@
+{
+ "name": "in-frankfurt-haben-manager",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 0.5,
+   "kind": "instruction",
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 9,
+   "kind": "instruction",
+   "text": "Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Guten Abend, meine Damen und Herren, hier sind die heutigen Nachrichten. München wurde erneut zur Stadt mit der höchsten Lebensqualität in Deutschland gewählt. Eine internationale Studie bewertete verschiedene Faktoren wie Verkehr, Sicherheit, Umweltqualität und kulturelle Angebote. München überzeugte durch ein starkes Gesundheitssystem, gut ausgebaute öffentliche Verkehrsmittel und eine Vielzahl an Freizeitmöglichkeiten. Besonders die Kombination aus Tradition und Moderne, die Nähe zu den Alpen sowie zahlreiche Arbeitsmöglichkeiten machten die bayerische Metropole zum Spitzenreiter. Einwohnerinnen und Einwohner berichten, dass sie stolz auf ihre Stadt sind. München bleibt damit Vorbild für viele deutsche Städte und internationale Regionen.\n\nIn Frankfurt fand heute eine große Wirtschaftskonferenz statt. Manager und Unternehmer diskutierten, welche Strategien Firmen entwickeln müssen, um auch in Zukunft erfolgreich zu sein. Themen waren die Digitalisierung, die Anpassung an neue Märkte und nachhaltiges Wirken. Experten betonten, dass Investitionen in Forschung und Entwicklung sowie die Förderung junger Talente entscheidend sein. Auch Kooperationen zwischen Politik, Gesellschaft und Wirtschaft wurden als notwendig hervorgehoben. Ziel der Veranstaltung war es, gemeinsame Lösungsansätze zu finden, um Deutschlands Wettbewerbsfähigkeit langfristig zu sichern. Die Teilnehmerinnen und Teilnehmer zeigten sich optimistisch, dass durch Innovationen eine stabile Grundlage für die nächsten Jahre geschaffen wird."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 2,
+   "kind": "news",
+   "text": "Der Wirtschaftsminister äußerte sich heute zu den Chancen des mobilen Arbeitens. Er erklärte, dass Homeoffice und flexible Arbeitsmodelle nicht nur die Produktivität der Beschäftigten steigern, sondern auch das Wirtschaftswachstum insgesamt fördern. Studien belegen, dass Unternehmen, die ihren Mitarbeitenden mobiles Arbeiten ermöglichen, von höherer Zufriedenheit und Effizienz profitieren. Außerdem wird die Umwelt geschont, da weniger Fahrten mit dem Auto erforderlich sind. Auch die Vereinbarkeit von Familie und Beruf verbessere sich deutlich. Der Minister betonte, dass mobiles Arbeiten ein fester Bestandteil moderner Arbeitswelten bleiben müsse und Unternehmen sich stärker auf diese Veränderungen einstellen sollten.\n\nNicht richtig ist die Behauptung, dass europäische Fußballklubs mit der Entscheidung der FIFA zufrieden seien, die Weltmeisterschaft 2022 in Katar im Winter auszutragen. Zwar soll die Verlegung wegen der großen Hitze im Sommer Vorteile bringen, doch viele Vereine kritisieren diese Entscheidung scharf. Der Grund: Spielpläne der nationalen Ligen müssen verschoben werden und die Belastung für Spieler steigt erheblich. Fans sorgen sich um den Ablauf der Saison und die Spannung der Wettbewerbe. Mehrere Verbände fordern Anpassungen, um die Nachteile abzumildern. Von Zufriedenheit kann also keine Rede sein, vielmehr herrschen Skeptizismus und deutliche Kritik.\n\nNeue Liebe in Berlin. Schauspielerin Anna Keller wurde gestern Abend in einem bekannten Restaurant der Hauptstadt Hand in Hand mit dem Musiker Leo Hartmann gesehen. Beide lachten, flüsterten vertraut und wirkten sehr verliebt. Fans spekulieren bereits, ob daraus bald eine ernsthafte Beziehung entsteht."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Ebenfalls falsch ist die Aussage, dass das Wetter kühl und unbeständig bleibt. Meteorologen prognostizieren vielmehr einen deutlichen Wetterumschwung. Ein Hochdruckgebiet baut sich über Mitteleuropa auf und bringt freundliche Bedingungen. Ab dem Wochenende steigen die Temperaturen vielerorts auf über 25 Grad. Besonders im Süden Deutschlands wird sonniges Sommerwetter erwartet, ideal für Ausflüge und Freizeitaktivitäten. Niederschläge sind kaum zu erwarten und die Sonne zeigt sich fast durchgehend. Fachleute raten jedoch ausreichend Sonnenschutz zu verwenden und genügend Flüssigkeit zu trinken. Statt grauem Himmel und wechselhaftem Wetter steht uns also eine warme und stabile Sommerlage bevor."
+  }
+ ]
+}

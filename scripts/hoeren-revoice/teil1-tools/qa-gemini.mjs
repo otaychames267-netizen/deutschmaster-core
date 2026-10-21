@@ -25,7 +25,12 @@ let totalE = 0, totalN = 0, bad = 0;
 for (const [i, c] of tl.entries()) {
   const f = `qa-${name}-${i}.mp3`;
   execFileSync("ffmpeg", ["-y", "-v", "error", "-ss", String(Math.max(0, c.start - 0.3)), "-to", String(c.end + 0.3), "-i", `${name}.final.m4a`, "-ac", "1", "-ar", "16000", "-c:a", "libmp3lame", "-b:a", "48k", f]);
-  const hyp = await gem(f); const ref = norm(c.text), h = norm(hyp); const o = ops(ref, h);
+  const hyp = await gem(f); let ref = norm(c.text), h = norm(hyp);
+  // "Aufgaben 41-45" is spoken "41 bis 45": the written hyphen has no word, the transcript has "bis" — formatting, not a TTS error
+  if (/\d\s*[-–]\s*\d/.test(c.text)) { ref = ref.filter((w) => w !== "bis"); h = h.filter((w) => w !== "bis"); }
+  let o = ops(ref, h);
+  // the transcriber often splits or joins compounds ("Hörverstehen" -> "Hör verstehen"): identical letters in the same order = identical speech
+  if (ref.length && ref.join("") === h.join("")) o = { n: 0, list: [] };
   totalE += o.n; totalN += ref.length; const pct = (100 * o.n) / Math.max(1, ref.length);
   if (!h.length || pct > 12) bad++;
   console.log(`  chunk ${i} [${c.voice}] ${ref.length} words, ${o.n} diffs (${pct.toFixed(1)}%)${!h.length || pct > 12 ? "  <== CHECK" : ""} ${o.list.slice(0, 6).join(" ")}`);

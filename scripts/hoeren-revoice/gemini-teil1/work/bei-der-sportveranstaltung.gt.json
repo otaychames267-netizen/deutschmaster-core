@@ -1,0 +1,53 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 33,
+   "text": "Hörverstehen. Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45. Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "gender": "female",
+   "start": 43.513,
+   "end": 127.843,
+   "text": "Guten Tag, liebe Hörerinnen und Hörer. Die österreichischen Bundesbahnen, kurz ÖBB, haben heute neue Pläne für den Ausbau ihres internationalen Netzes vorgestellt. Schwerpunkt ist dabei die Verbindung nach Italien, insbesondere die Strecke Wien-Mailand, die durch moderne Hochgeschwindigkeitszüge verkürzt werden soll. Im Gegensatz zu einigen Medienberichten ist derzeit jedoch keine Ausweitung der Kooperation mit den Schweizer Bundesbahnen vorgesehen. Zwar gibt es bestehenden Austausch im Fahrplanbereich, aber konkrete neue Projekte zwischen ÖBB und SBB stehen aktuell nicht auf der Agenda. Priorität haben momentan die Modernisierung bestehender Strecken und die Verbesserung des Serviceangebots im Inland."
+  },
+  {
+   "gender": "female",
+   "start": 129.479,
+   "end": 213.919,
+   "text": "Auf der A2 Südautobahn kam es heute morgen zu einem schweren Verkehrsunfall mit mehreren beteiligten Fahrzeugen. Laut Polizeiangaben ereignete sich der Unfall in den frühen Morgenstunden zwischen Graz und Klagenfurt, als ein LKW ins Schleudern geriet und mehrere PKW erfasste. Aufgrund der unklaren Lage und möglicher eingeklemmter Personen wurde ein Großaufgebot von Einsatzfahrzeugen alarmiert. Mehrere Feuerwehren, Rettungsdienste und die Autobahnpolizei waren im Einsatz. Die Autobahn musste in beiden Richtungen für mehrere Stunden gesperrt werden. Der Verkehr wurde weiträumig umgeleitet, was zu erheblichen Staus führte. Über die Unfallursache wird derzeit noch ermittelt."
+  },
+  {
+   "gender": "male",
+   "start": 219.083,
+   "end": 301.553,
+   "text": "In der Stadt Baden hat der Gemeinderat heute eine Sitzung zur Stadtentwicklung abgehalten. Dabei ging es vor allem um neue Wohnbauprojekte im Norden der Stadt und um die Erweiterung von Grünflächen. Medienberichten zufolge wurde zwar über die Förderung des Tourismus gesprochen, jedoch nicht über eine Bewerbung für den Titel Kleine historische Stadt. Ein solcher Antrag ist derzeit nicht geplant, erklärte der Bürgermeister in einer Pressekonferenz. Stattdessen wolle man die vorhandenen Kulturveranstaltungen stärken und die Stadt für Familien attraktiver machen. Das Budget für das kommende Jahr sieht zudem Investitionen in den öffentlichen Verkehr und die Modernisierung der Innenstadt vor."
+  },
+  {
+   "gender": "female",
+   "start": 305.854,
+   "end": 349.034,
+   "text": "Am Wochenende fand in der Innenstadt die beliebte Sportveranstaltung Stilecht statt, bei der Sport und Design auf einzigartige Weise kombiniert werden. Zahlreiche Aussteller präsentierten kreative Sportgeräte, außergewöhnliche Kleidung und innovative Trends. Besonders im Mittelpunkt standen Fahrräder aller Art, vom klassischen Rennrad über moderne E-Bikes bis hin zu kunstvoll restaurierten Oldtimern. Besucher konnten die Räder nicht nur bestaunen, sondern auch selbst testen. Ergänzt wurde das Programm durch Shows, Livemusik und kulinarische Stände. Laut Veranstaltern war das Event ein voller Erfolg und zog sowohl Sportbegeisterte als auch Familien aus der gesamten Region an."
+  },
+  {
+   "gender": "female",
+   "start": 357.771,
+   "end": 421.901,
+   "text": "Der österreichische Jazzpianist Lukas Berger begeistert derzeit das Publikum auf seiner Europatournee. Mit einer Mischung aus klassischem Jazz, modernen Improvisationen und eigenen Kompositionen schafft er ein einzigartiges Musikerlebnis. Sein nächstes Konzert findet am Samstag in Wien statt und verspricht einen unvergesslichen Abend voller Emotionen und Virtuosität. Luca"
+  },
+  {
+   "gender": "male",
+   "start": 422.955,
+   "end": 506.635,
+   "text": "Der österreichische Wetterdienst hat heute die Prognose für die kommenden Wochen veröffentlicht. Entgegen einiger Spekulationen sind landesweit keine anhaltenden starken Niederschläge zu erwarten. Vielmehr soll das Wetter relativ stabil bleiben, mit Temperaturen zwischen 20 und 25°. Lediglich im Westen Österreichs können kurze Schauer auftreten, während im Osten sonstige Tage überwiegen. Die Landwirte begrüßen die Aussicht auf ein überwiegend trockenes Wetter, da so die Erntearbeiten ungestört fortgesetzt werden können. Auch für den Tourismus ist die Prognose positiv. Zahlreiche Outdoor-Veranstaltungen und Wanderungen dürften wie geplant stattfinden, ohne dass Regen die Pläne durchkreuzt."
+  },
+  {
+   "gender": "female",
+   "start": 507.965,
+   "end": 508.825,
+   "text": "Ende Teil 1."
+  }
+ ]
+}

@@ -22,11 +22,17 @@ async function geminiSegments() {
 Regeln: Ein Segment = ein zusammenhängender Sprechabschnitt EINER Stimme (die Prüfungsansage am Anfang ist ein Segment; jede Nachricht / Meldung / Person ist ein eigenes Segment). "gender" = Geschlecht der sprechenden Stimme. Nichts weglassen, nichts erfinden, keine Zusammenfassung, nichts doppelt. Auch Sätze mit einem Lehrer- oder Kanalnamen (z. B. "Deutschlehrer Orhan Yigit") wörtlich mitschreiben. Musik, Jingles und Pausen NICHT transkribieren (nur über die Zeiten start/end sichtbar). Zahlen so schreiben, wie sie gesprochen werden (z. B. "achtzehn", "zweiundfünfzig Komma acht Prozent").
 Hilfe für Namen und Schreibweisen (NICHT vorlesen oder ergänzen): ${st.map((s) => s.statement_text).join(" / ").slice(0, 900)}`;
   const data = fs.readFileSync(srcFile).toString("base64");
-  for (const model of ["gemini-3.1-flash-lite", "gemini-3.5-flash-lite", "gemini-3.5-flash"]) for (let a = 1; a <= 2; a++) {
+  // GT_MODELS="gemini-3.5-flash,..." forces stronger models first: the *-lite ones garble poor recordings (2026-10-21: "Sprachknitzer", "finazierstärkste")
+  for (const model of (process.env.GT_MODELS ?? "gemini-3.1-flash-lite,gemini-3.5-flash-lite,gemini-3.5-flash").split(",")) for (let a = 1; a <= 2; a++) {
     try {
       const r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, { method: "POST", headers: { "x-goog-api-key": env.GEMINI_API_KEY, "content-type": "application/json" }, signal: AbortSignal.timeout(170000),
         body: JSON.stringify({ contents: [{ parts: [{ inlineData: { mimeType: "audio/mp4", data } }, { text: prompt }] }], generationConfig: { temperature: 0, responseMimeType: "application/json", maxOutputTokens: 16000, responseSchema: { type: "ARRAY", items: { type: "OBJECT", properties: { gender: { type: "STRING", enum: ["male", "female"] }, start: { type: "NUMBER" }, end: { type: "NUMBER" }, text: { type: "STRING" } }, required: ["gender", "start", "end", "text"] } } } }) });
-      if (r.ok) { const j = await r.json(); const t = j.candidates?.[0]?.content?.parts?.map((p) => p.text).join(""); const o = JSON.parse(t); const segs = Array.isArray(o) ? o : o.segments; if (Array.isArray(segs) && segs.length) return { model, segments: segs }; console.log("  transcript", model, "unexpected shape"); }
+      if (r.ok) { const j = await r.json(); const t = j.candidates?.[0]?.content?.parts?.map((p) => p.text).join(""); const o = JSON.parse(t); const segs = Array.isArray(o) ? o : o.segments; if (Array.isArray(segs) && segs.length) {
+          // 2026-10-21: for two files (Vögel, Die Fluggesellschaft) the model echoed OUR PROMPT as the first segment — never accept that
+          if (/Transkribiere sie vollständig|JSON-Array von Segmenten|Hilfe für Namen und Schreibweisen/i.test(segs.map((s) => s.text ?? "").join(" "))) { console.log("  transcript", model, "echoed the prompt — rejected"); continue; }
+          return { model, segments: segs };
+        }
+        console.log("  transcript", model, "unexpected shape"); }
       else console.log("  transcript", model, r.status);
     } catch (e) { console.log("  transcript", model, String(e.message ?? e).slice(0, 80)); }
     await new Promise((x) => setTimeout(x, 4000));
@@ -68,13 +74,17 @@ const gChars = { male: 0, female: 0 }; for (const b of merged) if (b.kind === "n
 const newsVoice = gChars.female > gChars.male ? "female" : "male";
 // ---- script: announcer (exam instructions) female "Kore"; news male "Charon" (owner-approved pilot) or female "Erinome"
 const VOICES = { announcer: "Kore", male: "Charon", female: "Erinome" };
-const items = merged.map((b, i) => {
+const items = merged.flatMap((b, i) => {
   const next = merged[i + 1];
   const orig = next && typeof next.start === "number" && typeof b.end === "number" ? +(next.start - b.end).toFixed(1) : null;
   // pause after the announcement keeps the original length (1-62 s, the reading time); between news items 1.2-3 s
   const gap = orig == null ? 1.0 : b.kind === "instruction" ? Math.min(62, Math.max(1, orig)) : Math.min(3, Math.max(1.2, orig));
-  return { type: "tts", voice: b.kind === "instruction" ? "announcer" : newsVoice, gapAfter: gap, kind: b.kind, text: b.text };
-});
+  const item = { type: "tts", voice: b.kind === "instruction" ? "announcer" : newsVoice, gapAfter: gap, kind: b.kind, text: b.text };
+  // Gemini Live reads the long announcer text but drops its LAST sentence ("Lesen Sie jetzt die Aufgaben 41-45.") — seen in
+  // every file of the 2026-10-21 batch. A sentence of its own is never skipped; the reading pause stays after it.
+  const m = b.kind === "instruction" ? b.text.match(/^(.*?[.!?])\s+(Lesen Sie jetzt die Aufgaben[^.!?]*[.!?]?)\s*$/s) : null;
+  return m ? [{ ...item, gapAfter: 0.5, text: m[1] }, { ...item, text: m[2] }] : [item];
+}).filter((it) => !(it.kind === "news" && it.text.trim().length < 8)); // a transcript stub such as "Mit" (cut-off speech): the voice returns 0 s of audio for it
 const script = { name: slug, provider: "gemini", voices: VOICES, models: ["gemini-3.8-flash-lite-tts", "gemini-3.8-flash-tts", "gemini-3.1-flash-tts-preview", "gemini-2.5-flash-preview-tts"], maxChars: 2000, concurrency: 1, tempo: { announcer: 0.94, male: 0.94, female: 0.94 }, items };
 fs.writeFileSync(`${slug}.script.json`, JSON.stringify(script, null, 1));
 fs.writeFileSync(`${slug}.meta.json`, JSON.stringify({ slug, audio_path: exs[0].audio_path, exercises: exs.map((e) => ({ id: e.id, title: e.title })) }, null, 1));

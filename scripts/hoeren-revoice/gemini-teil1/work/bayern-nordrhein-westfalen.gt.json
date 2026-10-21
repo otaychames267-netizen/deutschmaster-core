@@ -1,0 +1,215 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 33,
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45. Lesen Sie jetzt die Aufgaben 41-45."
+  },
+  {
+   "gender": "female",
+   "start": 40,
+   "end": 58,
+   "text": "Bayern und Nordrhein-Westfalen erhalten laut Verkehrsministerium nicht jährlich 2,3 Milliarden Euro für neue Autobahnen. Stattdessen wurde ein einmaliger Investitionsrahmen von insgesamt 2,3 Milliarden Euro für mehrere Bundesländer angekündigt, der sich über fünf Jahre erstreckt."
+  },
+  {
+   "gender": "female",
+   "start": 59,
+   "end": 109,
+   "text": "Das Geld ist zudem nicht ausschließlich für Autobahnneubauten vorgesehen, sondern vor allem für Brückensanierungen, Lärmschutz, digitale Verkehrssteuerung und die Schiene. Bayern und NRW profitieren zwar stark, müssen aber Eigenmittel beisteuern. Konkrete Projekte werden erst nach Prüfungen freigegeben. Für komplett neue Trassen gelten strengere Umweltauflagen und längere Planungsverfahren. Ein jährlicher Fixbetrag speziell für Autobahnen in nur zwei Ländern ist nicht geplant, betont Berlin in einer schriftlichen Mitteilung. Auch Kommunen erhalten Anteile für Radwege."
+  },
+  {
+   "gender": "female",
+   "start": 141,
+   "end": 157,
+   "text": "In Russland fällt der Unterricht nicht im ganzen Land aus, wie manche Meldungen behaupten. Mehrere Regionen im hohen Norden und in Sibirien haben wegen klirrender Kälte vorübergehend Schulen geschlossen oder auf Fernunterricht umgestellt."
+  },
+  {
+   "gender": "female",
+   "start": 158,
+   "end": 167,
+   "text": "In Zentralrussland finden dagegen reguläre Stunden statt. In Moskau wurden lediglich Sportaktivitäten im Freien abgesagt."
+  },
+  {
+   "gender": "female",
+   "start": 168,
+   "end": 176,
+   "text": "Im Süden, etwa in Krasnodar und am Schwarzen Meer, laufen die Schulen normal, da dort Plusgrade gemessen werden."
+  },
+  {
+   "gender": "female",
+   "start": 177,
+   "end": 184,
+   "text": "Das Bildungsministerium überlässt Entscheidungen den Behörden vor Ort, die je nach Wetterlage kurzfristig reagieren."
+  },
+  {
+   "gender": "female",
+   "start": 185,
+   "end": 196,
+   "text": "Von einem landesweiten Unterrichtsstopp kann daher keine Rede sein, betonen Meteorologen und Schulverwaltungen übereinstimmend in ihren täglichen Lageberichten."
+  },
+  {
+   "gender": "female",
+   "start": 198,
+   "end": 203,
+   "text": "Eltern wurden per SMS informiert, Hotlines wurden heute eingerichtet."
+  },
+  {
+   "gender": "female",
+   "start": 250,
+   "end": 255,
+   "text": "In Frankreich hat sich in der vergangenen Nacht bei einer Studentenparty eine Tragödie ereignet."
+  },
+  {
+   "gender": "female",
+   "start": 256,
+   "end": 304,
+   "text": "In einer überfüllten Kellerbar nahe Lyon kam es nach ersten Ermittlungen zu einer Panik, ausgelöst durch dichten Rauch aus einer defekten Nebelmaschine. Mehrere Personen stürzten auf einer steilen Treppe. Rettungskräfte berichten von mindestens zwei Toten und über einem Dutzend Verletzten, einige davon schwer."
+  },
+  {
+   "gender": "female",
+   "start": 305,
+   "end": 314,
+   "text": "Die Staatsanwaltschaft ermittelt wegen fahrlässiger Tötung. Brandschutzauflagen und Notausgänge sollen überprüft werden."
+  },
+  {
+   "gender": "female",
+   "start": 315,
+   "end": 329,
+   "text": "Angehörige werden psychologisch betreut, die Universität hat für heute den Präsenzbetrieb ausgesetzt und eine Trauerfeier angekündigt."
+  },
+  {
+   "gender": "female",
+   "start": 330,
+   "end": 339,
+   "text": "Augenzeugen schildern chaotische Szenen, Smartphones sirrten, Musik verstummte abrupt, Helfer bildeten Rettungsketten, bis die Feuerwehr eintraf."
+  },
+  {
+   "gender": "female",
+   "start": 340,
+   "end": 342,
+   "text": "Die Bar bleibt vorerst geschlossen."
+  },
+  {
+   "gender": "female",
+   "start": 347,
+   "end": 351,
+   "text": "Das Bundesfinanzministerium hat die Steuern im vergangenen Jahr nicht gesenkt."
+  },
+  {
+   "gender": "female",
+   "start": 352,
+   "end": 400,
+   "text": "Zwar wurden Freibeträge leicht angehoben und die Entfernungspauschale angepasst, doch die nominalen Steuersätze blieben unverändert. Zusätzliche Entlastungen ergaben sich vor allem durch Einmalzahlungen der Länder, sowie durch höhere Kindergeldbeträge, nicht durch eine bundesweite Tarifsenkung. Ministeriumskreise verweisen auf die angespannte Haushaltslage und die Priorität, Schuldenbremse und Investitionen auszubalancieren."
+  },
+  {
+   "gender": "female",
+   "start": 401,
+   "end": 409,
+   "text": "Für das laufende Jahr kursieren Eckpunkte zur Reform des Einkommensteuertarifs, die kalte Progression dämpfen sollen, beschlossen ist jedoch noch nichts."
+  },
+  {
+   "gender": "female",
+   "start": 410,
+   "end": 414,
+   "text": "Unternehmen fordern weitergehende Maßnahmen, etwa beschleunigte Abschreibungen."
+  },
+  {
+   "gender": "female",
+   "start": 415,
+   "end": 426,
+   "text": "Von einer allgemeinen Steuersenkung im letzten Jahr kann daher keine Rede sein, betonen Fachleute ausdrücklich. Opposition spricht von vertaner Chance für Wachstum."
+  },
+  {
+   "gender": "female",
+   "start": 452,
+   "end": 456,
+   "text": "Die Bundesregierung plant Änderungen bei der Führerschein-Probezeit."
+  },
+  {
+   "gender": "female",
+   "start": 457,
+   "end": 507,
+   "text": "Ein Entwurf aus dem Verkehrsministerium sieht vor, die Probezeit bei auffälligen Verstößen zu verlängern und verpflichtende Fahrsicherheitstrainings früher anzusetzen. Zugleich soll für Fahranfänger eine strengere 0,0 Promille-Regel geprüft werden. Ausnahmen wären nur für Medikamente mit Hinweiszettel vorgesehen."
+  },
+  {
+   "gender": "female",
+   "start": 508,
+   "end": 528,
+   "text": "Bund und Länder beraten außerdem über digitale Punktebelehrungen, sowie eine App, die junge Fahrer nach riskanten Manövern automatisch zum Coaching einlädt."
+  },
+  {
+   "gender": "female",
+   "start": 529,
+   "end": 535,
+   "text": "Ziel ist es, Unfallzahlen in der besonders gefährdeten Altersgruppe deutlich zu senken."
+  },
+  {
+   "gender": "female",
+   "start": 536,
+   "end": 542,
+   "text": "Wenn Bundestag und Bundesrat zustimmen, könnten die Neuerungen 2026 stufenweise greifen."
+  },
+  {
+   "gender": "female",
+   "start": 543,
+   "end": 555,
+   "text": "Fahrschulen begrüßen die Pläne, Verbände fordern praxistaugliche Übergangsregeln. Autoclubs warnen vor Bürokratie, unterstützen jedoch das Sicherheitsziel und Evaluationspflichten jährlich."
+  },
+  {
+   "gender": "female",
+   "start": 601,
+   "end": 602,
+   "text": "Ende Teil 1."
+  },
+  {
+   "gender": "female",
+   "start": 620,
+   "end": 622,
+   "text": "Hörverstehen Teil 2."
+  },
+  {
+   "gender": "female",
+   "start": 623,
+   "end": 626,
+   "text": "Sie hören ein Rundfunkinterview."
+  },
+  {
+   "gender": "female",
+   "start": 627,
+   "end": 630,
+   "text": "Dazu sollen Sie zehn Aufgaben lösen."
+  },
+  {
+   "gender": "female",
+   "start": 631,
+   "end": 634,
+   "text": "Sie hören dieses Interview nur einmal."
+  },
+  {
+   "gender": "female",
+   "start": 635,
+   "end": 644,
+   "text": "Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind."
+  },
+  {
+   "gender": "female",
+   "start": 645,
+   "end": 659,
+   "text": "Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55, markieren Sie Plus gleich richtig und Minus gleich falsch auf dem Antwortbogen."
+  },
+  {
+   "gender": "female",
+   "start": 700,
+   "end": 705,
+   "text": "Lesen Sie jetzt die Aufgaben 46 bis 55."
+  },
+  {
+   "gender": "female",
+   "start": 706,
+   "end": 709,
+   "text": "Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

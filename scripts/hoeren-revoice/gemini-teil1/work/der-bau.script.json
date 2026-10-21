@@ -1,0 +1,45 @@
+{
+ "name": "der-bau",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Radio Modern, dein Takt, dein Tag. Guten Tag, liebe Hörerinnen und Hörer. Es ist genau 16 Uhr und Sie hören Radio Modern, direkt aus dem Herzen der Stadt. Bleiben Sie bei uns für die wichtigsten Nachrichten des Tages, kompakt, aktuell und natürlich mit dem besten Sound. Also, Volume hochdrehen, Fenster auf, denn jetzt kommt der Nachrichtenbeat mit allem, was Sie wissen müssen. Ich bin Lisa Sommer und bringe Ihnen die Top News aus Politik, Wirtschaft und Wetter, gleich nach dem Beat.\n\nGuten Tag, meine Damen und Herren. In Dubai wurde das höchste Gebäude der Welt erfolgreich fertiggestellt. Der Bau hat insgesamt eine Milliarde Dollar gekostet. Mit einer beeindruckenden Höhe von über 800 Metern ist es ein technisches Meisterwerk. Der Wolkenkratzer beherbergt Büros, Hotels und luxuriöse Apartments. Experten loben besonders die innovative Bauweise und die nachhaltige Energieversorgung des Gebäudes. Die Eröffnung ist für kommenden Monat geplant und soll zahlreiche internationale Gäste anziehen. Die Regierung rechnet mit einem wirtschaftlichen Aufschwung durch diesen Bau.\n\nDie Bundesbank veröffentlichte heute einen Bericht zur aktuellen Konjunkturentwicklung. Darin heißt es, dass die abkühlende US-Wirtschaft bisher nur geringe Auswirkungen auf die deutsche Industrie habe. Zwar seien bestimmte Branchen betroffen, jedoch zeige sich die Gesamtlage in Deutschland weiterhin stabil. Besonders die Automobil- und Maschinenbauindustrie profitiere noch immer von einer starken Binnennachfrage. Analysten gehen davon aus, dass erst bei einer längeren Schwächephase der USA mit spürbaren Effekten zu rechnen sei. Insgesamt bleibt die Einschätzung also verhalten optimistisch.\n\nDie Grünen in Niedersachsen haben angekündigt, künftig deutlich mehr Geld in die Bereiche Klimaschutz und Bildung zu investieren. Ziel sei es, nachhaltige Projekte zu fördern und Schulen besser auszustatten."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Rund 200 Millionen Euro sollen in den kommenden zwei Jahren bereitgestellt werden. Besonders ländliche Regionen sollen profitieren. Laut Umweltministerin sei der Klimaschutz eine der drängendsten Aufgaben der Zukunft. Auch Bildung spiele eine zentrale Rolle, um junge Menschen für den Umweltschutz zu sensibilisieren und Innovationen zu fördern. Sport, im gestrigen Pokalfinale musste sich der Freiburger FC knapp geschlagen geben. In einem spannenden Spiel unterlag das Team dem Gegner mit 1 zu 2. Besonders in der zweiten Halbzeit zeigte Freiburg eine starke Leistung, konnte jedoch den Ausgleich nicht mehr erzielen. Trainer und Spieler zeigten sich enttäuscht, aber auch stolz auf ihre Leistung in diesem Turnier. Die Fans bedankten sich mit Applaus für die kämpferische Einstellung der Mannschaft. Das Finale war bis zur letzten Minute spannend und fair.\n\nWetter, für den heutigen Nachmittag meldet der Wetterdienst lebhaften Wind in vielen Teilen Deutschlands. Vor allem im Norden und Nordosten sind starke Böen möglich. Die Temperaturen liegen dort bei etwa 2 bis 7 Grad. Im Westen und Südwesten steigen die Werte auf 6 bis maximal 11 Grad. Im Laufe des Abends ziehen zudem vermehrt Wolken auf, örtlich kann es regnen. Insgesamt bleibt es unbeständig mit kurzen Auflockerungen am späten Nachmittag. Die Wetteraussichten für das Wochenende werden morgen aktualisiert."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

@@ -1,0 +1,73 @@
+{
+ "name": "bei-der-sportveranstaltung",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Teil 1."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 10.5,
+   "kind": "instruction",
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45. Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Guten Tag, liebe Hörerinnen und Hörer. Die österreichischen Bundesbahnen, kurz ÖBB, haben heute neue Pläne für den Ausbau ihres internationalen Netzes vorgestellt. Schwerpunkt ist dabei die Verbindung nach Italien, insbesondere die Strecke Wien-Mailand, die durch moderne Hochgeschwindigkeitszüge verkürzt werden soll. Im Gegensatz zu einigen Medienberichten ist derzeit jedoch keine Ausweitung der Kooperation mit den Schweizer Bundesbahnen vorgesehen. Zwar gibt es bestehenden Austausch im Fahrplanbereich, aber konkrete neue Projekte zwischen ÖBB und SBB stehen aktuell nicht auf der Agenda. Priorität haben momentan die Modernisierung bestehender Strecken und die Verbesserung des Serviceangebots im Inland. Auf der A2 Südautobahn kam es heute morgen zu einem schweren Verkehrsunfall mit mehreren beteiligten Fahrzeugen. Laut Polizeiangaben ereignete sich der Unfall in den frühen Morgenstunden zwischen Graz und Klagenfurt, als ein LKW ins Schleudern geriet und mehrere PKW erfasste. Aufgrund der unklaren Lage und möglicher eingeklemmter Personen wurde ein Großaufgebot von Einsatzfahrzeugen alarmiert. Mehrere Feuerwehren, Rettungsdienste und die Autobahnpolizei waren im Einsatz. Die Autobahn musste in beiden Richtungen für mehrere Stunden gesperrt werden. Der Verkehr wurde weiträumig umgeleitet, was zu erheblichen Staus führte. Über die Unfallursache wird derzeit noch ermittelt."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "In der Stadt Baden hat der Gemeinderat heute eine Sitzung zur Stadtentwicklung abgehalten. Dabei ging es vor allem um neue Wohnbauprojekte im Norden der Stadt und um die Erweiterung von Grünflächen. Medienberichten zufolge wurde zwar über die Förderung des Tourismus gesprochen, jedoch nicht über eine Bewerbung für den Titel Kleine historische Stadt. Ein solcher Antrag ist derzeit nicht geplant, erklärte der Bürgermeister in einer Pressekonferenz. Das Budget für das kommende Jahr sieht zudem Investitionen in den öffentlichen Verkehr und die Modernisierung der Innenstadt vor.\n\nAm Wochenende fand in der Innenstadt die beliebte Sportveranstaltung Stilecht statt, bei der Sport und Design auf einzigartige Weise kombiniert werden. Zahlreiche Aussteller präsentierten kreative Sportgeräte, außergewöhnliche Kleidung und innovative Trends. Besonders im Mittelpunkt standen Fahrräder aller Art, vom klassischen Rennrad über moderne E-Bikes bis hin zu kunstvoll restaurierten Oldtimern. Besucher konnten die Räder nicht nur bestaunen, sondern auch selbst testen. Ergänzt wurde das Programm durch Shows, Livemusik und kulinarische Stände. Laut Veranstaltern war das Event ein voller Erfolg und zog sowohl Sportbegeisterte als auch Familien aus der gesamten Region an.\n\nDer österreichische Jazzpianist Lukas Berger begeistert derzeit das Publikum auf seiner Europatournee. Mit einer Mischung aus klassischem Jazz, modernen Improvisationen und eigenen Kompositionen schafft er ein einzigartiges Musikerlebnis. Sein nächstes Konzert findet am Samstag in Wien statt und verspricht einen unvergesslichen Abend voller Emotionen und Virtuosität. Luca"
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.3,
+   "kind": "news",
+   "text": "Der österreichische Wetterdienst hat heute die Prognose für die kommenden Wochen veröffentlicht. Entgegen einiger Spekulationen sind landesweit keine anhaltenden starken Niederschläge zu erwarten. Vielmehr soll das Wetter relativ stabil bleiben, mit Temperaturen zwischen 20 und 25°. Lediglich im Westen Österreichs können kurze Schauer auftreten, während im Osten sonstige Tage überwiegen. Die Landwirte begrüßen die Aussicht auf ein überwiegend trockenes Wetter, da so die Erntearbeiten ungestört fortgesetzt werden können. Auch für den Tourismus ist die Prognose positiv. Zahlreiche Outdoor-Veranstaltungen und Wanderungen dürften wie geplant stattfinden, ohne dass Regen die Pläne durchkreuzt."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

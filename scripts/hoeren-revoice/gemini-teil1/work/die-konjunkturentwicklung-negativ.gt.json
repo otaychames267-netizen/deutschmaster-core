@@ -1,0 +1,143 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 3.497,
+   "end": 13.567,
+   "text": "Guten Abend, liebe Hörerinnen und Hörer, Wirtschaftsexperten, sowie führende Vertreter aus der Bankenwelt, äußern sich zu aktuellen Konjunkturlage in Deutschland."
+  },
+  {
+   "gender": "female",
+   "start": 13.917,
+   "end": 18.967,
+   "text": "Laut neuesten Umfragen sehen viele von ihnen die wirtschaftliche Entwicklung eher negativ."
+  },
+  {
+   "gender": "female",
+   "start": 18.967,
+   "end": 27.817,
+   "text": "Die Wachstumsprognosen wurden in den letzten Monaten mehrfach nach unten korrigiert und zahlreiche Unternehmen berichten von rückläufigen Aufträgen."
+  },
+  {
+   "gender": "female",
+   "start": 27.817,
+   "end": 34.257,
+   "text": "Besonders betroffen sind die Exportorientierten Industriezweige, die unter schwacher Nachfrage aus dem Ausland leiden."
+  },
+  {
+   "gender": "female",
+   "start": 34.257,
+   "end": 51.527,
+   "text": "Die Experten warnen davor, die Anzeichen für eine drohende Rezession zu unterschätzen und fordern gezielte Maßnahmen von der Politik, um einen stärkeren wirtschaftlichen Abschwung zu verhindern und die Konjunktur wiederzubeleben. Die Unsicherheit bleibt groß."
+  },
+  {
+   "gender": "male",
+   "start": 57.387,
+   "end": 111.457,
+   "text": "Die Bundesregierung hat heute eine neue Entscheidung bezüglich der Hochschulpolitik getroffen. Entgegen der Annahme, dass die Förderung von Eliteuniversitäten zurückgefahren werden könnte, wurde ein umfangreiches Investitionspaket angekündigt."
+  },
+  {
+   "gender": "male",
+   "start": 111.457,
+   "end": 121.757,
+   "text": "Es sollen neue Programme gestartet werden, um die Forschung und Lehre an Spitzenuniversitäten weiter zu unterstützen und internationale Kooperationen auszubauen."
+  },
+  {
+   "gender": "male",
+   "start": 121.757,
+   "end": 133.057,
+   "text": "Bildungsministerin Dr. Weber betonte in einer Pressekonferenz, dass Exzellenzinitiativen für Deutschland von großer Bedeutung seien. In den nächsten Jahren wird mit deutlich mehr Fördergeldern gerechnet."
+  },
+  {
+   "gender": "male",
+   "start": 133.057,
+   "end": 142.067,
+   "text": "Auch die Schaffung zusätzlicher Professuren ist geplant. Die Eliteförderung bleibt also ein zentrales Ziel der Regierungspolitik."
+  },
+  {
+   "gender": "male",
+   "start": 146.402,
+   "end": 195.422,
+   "text": "Nach elf Jahren hat beim berühmten Filmfestival in Kann leider kein deutscher Film den Hauptpreis erhalten. Der diesjährige Gewinner stammt aus Italien und überzeugte die Jury mit einer innovativen Erzählweise. Obwohl ein deutscher Filmregisseur mit seinem Werk großes Lob erntete, reichte es am Ende nur für eine lobende Erwähnung. Die Festivalleitung zeigte sich dennoch zufrieden mit der hohen Qualität aller Beiträge."
+  },
+  {
+   "gender": "male",
+   "start": 195.422,
+   "end": 216.322,
+   "text": "Filmkritiker hoffen, dass es im nächsten Jahr wieder einen deutschen Preisträger geben wird. Insgesamt war das Festival von viel internationalem Austausch geprägt und die Besucherzahlen lagen über dem Durchschnitt der letzten Jahre."
+  },
+  {
+   "gender": "male",
+   "start": 229.079,
+   "end": 237.499,
+   "text": "Das Internationale Olympische Komitee hat sich heute in Lausanne versammelt, um über den Austragungsort der Olympischen Spiele 2012 zu beraten."
+  },
+  {
+   "gender": "male",
+   "start": 237.499,
+   "end": 245.109,
+   "text": "Vertreter aus verschiedenen Ländern stellen ihre Bewerbungen vor und präsentieren innovative Konzepte für Infrastruktur und Nachhaltigkeit."
+  },
+  {
+   "gender": "male",
+   "start": 245.109,
+   "end": 257.659,
+   "text": "Besonders London und Paris gelten als Favoriten, doch auch Städte wie Madrid und Moskau haben gute Chancen. Während der Sitzung werden Kriterien wie Sicherheit, Erreichbarkeit und Umweltschutz intensiv diskutiert."
+  },
+  {
+   "gender": "male",
+   "start": 257.659,
+   "end": 267.899,
+   "text": "Die Entscheidung wird für die nächsten Wochen erwartet. Beobachter betonen die Bedeutung einer fairen Auswahl, da die Spiele einen großen Einfluss auf die Entwicklung der Gastgeberstadt haben können."
+  },
+  {
+   "gender": "female",
+   "start": 311.127,
+   "end": 317.807,
+   "text": "Der bekannte Jazzmusiker Lukas Brenner veröffentlicht nächste Woche sein neues Album mit nicht Session."
+  },
+  {
+   "gender": "female",
+   "start": 318.417,
+   "end": 323.517,
+   "text": "Die Fans dürfen sich auf innovative Klänge und besondere Gastauftritte freuen."
+  },
+  {
+   "gender": "female",
+   "start": 324.087,
+   "end": 327.917,
+   "text": "Die Release Party findet am Freitag in Berlin statt."
+  },
+  {
+   "gender": "male",
+   "start": 329.986,
+   "end": 339.276,
+   "text": "In Hessen ist die Situation auf dem Ausbildungsmarkt weiterhin angespannt. Laut der jüngsten Studie des Arbeitsamts gibt es in diesem Jahr sogar weniger offene Lehrstellen als im Vorjahr."
+  },
+  {
+   "gender": "male",
+   "start": 339.276,
+   "end": 346.066,
+   "text": "Viele Jugendliche suchen vergeblich nach passenden Ausbildungsplätzen, insbesondere in technischen und handwerklichen Berufen."
+  },
+  {
+   "gender": "male",
+   "start": 346.066,
+   "end": 355.516,
+   "text": "Die Wirtschaftskammer spricht von einem deutlichen Mangel an Angeboten. Gleichzeitig beklagen Betriebe, dass es immer schwieriger wird geeignete Bewerber zu finden."
+  },
+  {
+   "gender": "male",
+   "start": 355.516,
+   "end": 405.806,
+   "text": "Experten fordern daher bessere Beratung an den Schulen und gezielte Programme zur Förderung der dualen Ausbildung, um die Chancen für junge Menschen zu verbessern."
+  },
+  {
+   "gender": "female",
+   "start": 413.565,
+   "end": 418.005,
+   "text": "Ende Teil 1 mit den Beiträgen des Deutschlehrers Orhan Yigit."
+  }
+ ]
+}

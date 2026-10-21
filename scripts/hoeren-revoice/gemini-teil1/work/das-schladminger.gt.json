@@ -1,0 +1,53 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 33,
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45. Lesen Sie jetzt die Aufgaben 41-45."
+  },
+  {
+   "gender": "female",
+   "start": 40,
+   "end": 138,
+   "text": "Das traditionsreiche Skirennen in Schladming fällt erneut aus. Die Organisatoren bestätigten heute Vormittag die Absage wegen anhaltender Wärme, Regen und erhöhter Lawinengefahr. Schon im Vorjahr hatte das Nachtrennen kurzfristig nicht stattfinden können. Laut FIS prüft man zwar Ersatztermine, doch die logistischen Zeitfenster sind knapp. Gekaufte Tickets werden automatisch erstattet, Hotels bieten kostenlose Umbuchungen an. Der Tourismusverband rechnet mit spürbaren Ausfällen, betont jedoch, Sicherheit für Athletinnen, Teams und Helfer gehe klar vor. Trainingsläufer bleiben untersagt. Die Piste werde geschont, um spätere Bewerbe nicht zu gefährden. Fans sollen die Pressekanäle beobachten, weitere Informationen folgen im Laufe der Woche. Die Wiederaufnahme der Rennen gilt daher als unwahrscheinlich vorerst."
+  },
+  {
+   "gender": "female",
+   "start": 142,
+   "end": 242,
+   "text": "Eine neue Studie des Familienministeriums zeigt, in Deutschland übernehmen mehr Mädchen als Jungen regelmäßig Pflegeaufgaben innerhalb ihrer Familien. Befragungen unter Schülerinnen und Schülern ergaben, dass viele Teenager kranke Geschwister betreuen, einkaufen, kochen oder Ämtergänge erledigen. Besonders häufig tragen Mädchen zwischen 12 und 17 Jahren Verantwortung. Sie berichten von weniger Freizeit, Schlafproblemen und Leistungsdruck. Die Autorinnen fordern Anlaufstellen an Schulen, flexible Unterstützung und Entlastungsangebote für pflegende Kinder und Jugendliche. Kommunen sollen Beratungsnummern sichtbarer machen, damit Betroffene frühzeitig Hilfe bekommen. Elternverbände begrüßen die Ergebnisse und sehen darin einen wichtigen Impuls für gezieltere Förderprogramme. Vereine melden steigenden Beratungsbedarf und wünschen verlässliche Finanzierung lokaler Netzwerke für regelmäßige Auszeiten daheim."
+  },
+  {
+   "gender": "female",
+   "start": 246,
+   "end": 329,
+   "text": "In Graz hat es am Abend in einem Mehrparteienhaus gebrannt. Entgegen ersten Meldungen brannte das Gebäude jedoch nicht komplett aus. Laut Feuerwehr blieb der Schaden auf den Dachstuhl und zwei Wohnungen begrenzt. Die Einsatzkräfte waren innerhalb weniger Minuten vor Ort und konnten die Flammen rasch unter Kontrolle bringen. Alle Bewohnerinnen und Bewohner verließen das Haus rechtzeitig, Verletzte gibt es nicht. Statikerinnen prüften noch in der Nacht die Tragfähigkeit und gaben den Großteil der Wohnungen wieder frei. Ursache dürfte ein technischer Defekt gewesen sein. Die Ermittlungen laufen, Hinweise auf Brandstiftung bestehen nach aktuellem Stand nicht. Mehrere Haustiere wurden gerettet und von Tierärzten versorgt, gleich vor Ort."
+  },
+  {
+   "gender": "female",
+   "start": 344,
+   "end": 424,
+   "text": "An der Südküste Australiens sind erneut dutzende Wale gestrandet. Anders als befürchtet, verendeten jedoch nicht alle Tiere. Einsatzkräfte, freiwillige Helfer und Ranger hielten die Wale feucht, legten Schlingen an und zogen mehrere Exemplare bei steigendem Wasser zurück ins Meer. Einige Tiere kehrten in die Bucht zurück, konnten aber mit Booten abgedrängt werden. Biologinnen sprechen von einer vorsichtigen Erfolgsbilanz. Für geschwächte Tiere wurde eine Euthanasie geprüft, letztlich aber nur in Einzelfällen durchgeführt. Expertinnen untersuchen nun, ob Lärm, Orientierungslosigkeit oder Krankheiten die Ursache waren. Die Behörden warnen, sich gestrandeten Tieren niemals ohne Anleitung zu nähern. Gleichzeitig blieben Absperrungen bestehen, damit Schaulustige Abstand halten und die Teams arbeiten."
+  },
+  {
+   "gender": "female",
+   "start": 426,
+   "end": 444,
+   "text": "Die bekannte Schauspielerin Lena Hoffmann wurde gestern Abend in Berlin bei einer geheimen Filmpremiere gesichtet. In elegantem Abendkleid posierte sie für Fans, verriet aber keine Details zum Projekt. Insider spekulieren über eine internationale Produktion mit namhaften Co-Stars und spannender Handlung."
+  },
+  {
+   "gender": "female",
+   "start": 449,
+   "end": 540,
+   "text": "Der Wetterdienst meldet für die kommenden Tage überwiegend mildes, teilswindiges Herbstwetter. Nach kühlen Nächten steigen die Temperaturen verbreitet in den zweistelligen Bereich, vielerorts auf 13 bis 16 Grad. Dazu wechseln sich Sonne und kompakte Wolkenfelder ab. Örtlich fällt leichter Regen, längere trockene Phasen überwiegen jedoch. In höheren Lagen bleibt es frostfrei, Glätte ist kaum ein Thema. An den Küsten frischt der Wind zeitweise stark auf, im Binnenland weht er mäßig. Die milde Witterung setzt sich laut Vorhersage bis zum Wochenende fort. Wer unterwegs ist, sollte auf wechselhafte Bedingungen vorbereitet sein. Insgesamt bleibt es angenehm. Nur in geschützten Lagen bildet sich stellenweise Nebel am Morgen."
+  },
+  {
+   "gender": "female",
+   "start": 543,
+   "end": 643,
+   "text": "Ende Teil 1. Hörverstehen Teil 2. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55. Markieren Sie Plus gleich richtig und Minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46 bis 55. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

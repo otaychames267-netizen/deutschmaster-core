@@ -1,0 +1,52 @@
+{
+ "name": "lufthansa",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Sie hören jetzt."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Die Deutsche Lufthansa ist einer neuen Studie zufolge weiterhin die leistungsfähigste, finanziell gesündeste und konkurrenzfähigste Fluggesellschaft in Europa. Vor allem die gute Finanzlage und die feste Marktposition brachten demnach die Lufthansa an die Spitze. Allerdings habe sie in wichtigen Kriterien wie Ertragskraft, Produktqualität und Wachstum die Führung verloren, so der Bericht. Unterm Strich habe die Lufthansa ihre Führung bei den Finanzen gerettet, weil sie sich stärker als andere außerhalb der Fliegerei engagiere. Und diese Geschäfte seien profitabler als das Fluggeschäft. So habe die Wartungstochter Lufthansa Technik in diesem Jahr eine gut doppelt so hohe Marge wie der Passagierverkehr erzielt. Bonn. Ein buntes Treiben herrschte am Samstag auf dem Münsterplatz. Rund zwanzigtausend Besucher feierten mit Musik und Popcorn beim Bonn-An-Festival des Sports, nahmen an Aktionen teil oder ließen es sich einfach gut gehen. Als Verein möchten wir uns der Bevölkerung darstellen und neue Mitglieder gewinnen, sagte Peter Itschert, Vorsitzender der SSF. Ziel sei es, die Marke von achttausend Mitgliedern zu erreichen. Berlin. Trotz einiger Fortschritte werden viele Pflegebedürftige in Deutschland immer noch gefährlich schlecht versorgt. Jeder zehnte Heimbewohner ist einem neuen Bericht zufolge in einem akut unzureichenden Pflegezustand. Angesichts der Missstände in Pflegeheimen und bei den ambulanten Diensten drängt der Deutsche Pflegerat auf grundlegende Reformen. Die Rahmenbedingungen in der Pflege hätten sich verschlechtert, sagte der Präsident des Deutschen Pflegerates Rolf Höfert am Freitag im RBB. Pfleger seien an den Grenzen ihrer Möglichkeiten. Die grundlegende Frage ist: Was ist uns die Würde, die pflegerische Versorgung der alten Menschen in Deutschland wert? , fragte Höfert."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Göttingen. Der Chef der Deutschen Bahn, Hartmut Mehdorn, ist nach einer Wahl des Vereins Deutsche Sprache der Sprachpanscher des Jahres. So werden vom Verein Personen und Institutionen bezeichnet, die die deutsche Sprache mit englischen Wörtern mischen. Als Vorstandsvorsitzender der Deutschen Bahn habe Mehdorn zu verantworten, dass Schalter Counter, Auskünfte Service Points und Bahnhofstoiletten McClean heißen, teilte der Verein in Göttingen mit. Der dreißigtausend Mitglieder zählende Verein Deutsche Sprache befürchtet, dass englische Wörter deutsche Entsprechungen zunehmend verdrängen. Mehdorn meinte dazu, dass die Bahn auf ihre internationalen Fahrgäste eingehen müsse. Hamburg. Durch einen deutlichen Anstieg der Heizölpreise müssen sich Mieter auf kräftige Nachzahlungen einstellen. So seien die Nebenkosten für eine siebzig Quadratmeter Wohnung um zweihundertfünfzig Euro gestiegen, berichtete Bild unter Berufung auf Marktdaten des Deutschen Mieterbundes. Hauptgrund seien die Heizkosten, die sich vergangenes Jahr um zwölf bis achtzehn Prozent erhöht hätten und mittlerweile vierzig Prozent der Mietkosten ausmachen. Der Präsident des Mieterbundes, Franz-Georg Rips, sagte gegenüber Bild, dass fast alle Mieter mit Nachzahlungen im dreistelligen Bereich rechnen müssten. Obwohl unsere Vermieter schon die Hälfte ihrer Wohnungen energietechnisch saniert haben, ließ sich der Kostenanstieg für die Mieter lediglich dämpfen, sagte Verbandspräsident Lukas Siebenkotten zu Focus. Auch für das kommende Jahr ist laut Deutschem Mieterbund mit einer deutlichen Preissteigerung zu rechnen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Wien. Der Zehnkämpfer Tom Sanders ist von seinem Verband wegen Dopings lebenslang gesperrt worden. Der Leichtathlet war bereits mehrfach aufgefallen. Der Sportverband und auch das Nationale Olympische Komitee haben ihn wegen Dopings aus der Liste gestrichen. Wie das gemeinsame Verbandsorgan Anti-Doping mitteilte, wurde der Leichtathlet beim Training im Juli in Ludwigsburg positiv auf Testosteron getestet. Da es sich um das zweite Vergehen dieser Art gehandelt habe, habe er nur noch die Möglichkeit einer lebenslangen Sperre für den mehrmaligen Landesmeister bestätigen lassen."
+  }
+ ]
+}

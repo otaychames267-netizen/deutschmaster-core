@@ -1,0 +1,45 @@
+{
+ "name": "die-konjunkturentwicklung-negativ",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Guten Abend, liebe Hörerinnen und Hörer, Wirtschaftsexperten, sowie führende Vertreter aus der Bankenwelt, äußern sich zu aktuellen Konjunkturlage in Deutschland. Laut neuesten Umfragen sehen viele von ihnen die wirtschaftliche Entwicklung eher negativ. Die Wachstumsprognosen wurden in den letzten Monaten mehrfach nach unten korrigiert und zahlreiche Unternehmen berichten von rückläufigen Aufträgen. Besonders betroffen sind die Exportorientierten Industriezweige, die unter schwacher Nachfrage aus dem Ausland leiden. Die Experten warnen davor, die Anzeichen für eine drohende Rezession zu unterschätzen und fordern gezielte Maßnahmen von der Politik, um einen stärkeren wirtschaftlichen Abschwung zu verhindern und die Konjunktur wiederzubeleben. Die Unsicherheit bleibt groß.\n\nDie Bundesregierung hat heute eine neue Entscheidung bezüglich der Hochschulpolitik getroffen. Entgegen der Annahme, dass die Förderung von Eliteuniversitäten zurückgefahren werden könnte, wurde ein umfangreiches Investitionspaket angekündigt. Es sollen neue Programme gestartet werden, um die Forschung und Lehre an Spitzenuniversitäten weiter zu unterstützen und internationale Kooperationen auszubauen. Bildungsministerin Dr. Weber betonte in einer Pressekonferenz, dass Exzellenzinitiativen für Deutschland von großer Bedeutung seien. In den nächsten Jahren wird mit deutlich mehr Fördergeldern gerechnet. Auch die Schaffung zusätzlicher Professuren ist geplant. Die Eliteförderung bleibt also ein zentrales Ziel der Regierungspolitik."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Nach elf Jahren hat beim berühmten Filmfestival in Kann leider kein deutscher Film den Hauptpreis erhalten. Der diesjährige Gewinner stammt aus Italien und überzeugte die Jury mit einer innovativen Erzählweise. Obwohl ein deutscher Filmregisseur mit seinem Werk großes Lob erntete, reichte es am Ende nur für eine lobende Erwähnung. Die Festivalleitung zeigte sich dennoch zufrieden mit der hohen Qualität aller Beiträge. Filmkritiker hoffen, dass es im nächsten Jahr wieder einen deutschen Preisträger geben wird. Insgesamt war das Festival von viel internationalem Austausch geprägt und die Besucherzahlen lagen über dem Durchschnitt der letzten Jahre.\n\nDas Internationale Olympische Komitee hat sich heute in Lausanne versammelt, um über den Austragungsort der Olympischen Spiele 2012 zu beraten. Vertreter aus verschiedenen Ländern stellen ihre Bewerbungen vor und präsentieren innovative Konzepte für Infrastruktur und Nachhaltigkeit. Besonders London und Paris gelten als Favoriten, doch auch Städte wie Madrid und Moskau haben gute Chancen. Während der Sitzung werden Kriterien wie Sicherheit, Erreichbarkeit und Umweltschutz intensiv diskutiert. Die Entscheidung wird für die nächsten Wochen erwartet. Beobachter betonen die Bedeutung einer fairen Auswahl, da die Spiele einen großen Einfluss auf die Entwicklung der Gastgeberstadt haben können.\n\nDer bekannte Jazzmusiker Lukas Brenner veröffentlicht nächste Woche sein neues Album mit nicht Session. Die Fans dürfen sich auf innovative Klänge und besondere Gastauftritte freuen. Die Release Party findet am Freitag in Berlin statt. In Hessen ist die Situation auf dem Ausbildungsmarkt weiterhin angespannt. Laut der jüngsten Studie des Arbeitsamts gibt es in diesem Jahr sogar weniger offene Lehrstellen als im Vorjahr."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Viele Jugendliche suchen vergeblich nach passenden Ausbildungsplätzen, insbesondere in technischen und handwerklichen Berufen. Die Wirtschaftskammer spricht von einem deutlichen Mangel an Angeboten. Gleichzeitig beklagen Betriebe, dass es immer schwieriger wird geeignete Bewerber zu finden. Experten fordern daher bessere Beratung an den Schulen und gezielte Programme zur Förderung der dualen Ausbildung, um die Chancen für junge Menschen zu verbessern."
+  }
+ ]
+}

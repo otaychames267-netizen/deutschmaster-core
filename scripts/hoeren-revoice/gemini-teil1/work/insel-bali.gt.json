@@ -1,0 +1,215 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 1,
+   "end": 6,
+   "text": "Guten Abend und herzlich willkommen zu unseren aktuellen Nachrichten."
+  },
+  {
+   "gender": "male",
+   "start": 7,
+   "end": 11,
+   "text": "Auch heute berichten wir wieder über wichtige Ereignisse aus aller Welt."
+  },
+  {
+   "gender": "male",
+   "start": 12,
+   "end": 18,
+   "text": "Zunächst werfen wir einen Blick auf neue Maßnahmen zur Müllentsorgung auf der Insel Bali."
+  },
+  {
+   "gender": "male",
+   "start": 19,
+   "end": 26,
+   "text": "Außerdem gibt es spannende Neuigkeiten aus Nordfrankreich, wo ein entlaufener Panther gesucht wird."
+  },
+  {
+   "gender": "male",
+   "start": 27,
+   "end": 39,
+   "text": "Weitere Themen sind die aktuellen Diskussionen über Betriebskosten für Mieter, Veränderungen bei einem Bauvorhaben eines Sektherstellers und der Stand der Löscharbeiten bei einem Brand."
+  },
+  {
+   "gender": "male",
+   "start": 40,
+   "end": 45,
+   "text": "Bleiben Sie dran für detaillierte Informationen zu diesen und weiteren Themen."
+  },
+  {
+   "gender": "female",
+   "start": 48,
+   "end": 55,
+   "text": "Insel Bali: Auf der Insel Bali wurden in letzter Zeit keine neuen Maßnahmen zur Müllentsorgung beschlossen."
+  },
+  {
+   "gender": "female",
+   "start": 56,
+   "end": 64,
+   "text": "Die Behörden gaben bekannt, dass das bestehende System weiterhin gilt und sich keine wesentlichen Änderungen ergeben haben."
+  },
+  {
+   "gender": "female",
+   "start": 65,
+   "end": 74,
+   "text": "Zwar wird das Thema Müllentsorgung in der Bevölkerung häufig diskutiert, doch konkrete Beschlüsse wurden bisher nicht gefasst."
+  },
+  {
+   "gender": "female",
+   "start": 75,
+   "end": 82,
+   "text": "Auch Umweltgruppen hoffen auf baldige Verbesserungen, aber bislang ist keine neue Verordnung erlassen worden."
+  },
+  {
+   "gender": "female",
+   "start": 84,
+   "end": 89,
+   "text": "Somit bleibt alles beim Alten und die Müllabfuhr findet wie gewohnt statt."
+  },
+  {
+   "gender": "female",
+   "start": 90,
+   "end": 94,
+   "text": "Eine offizielle Ankündigung über Änderungen gibt es nicht."
+  },
+  {
+   "gender": "female",
+   "start": 97,
+   "end": 98,
+   "text": "Entlaufenen Panther."
+  },
+  {
+   "gender": "female",
+   "start": 99,
+   "end": 103,
+   "text": "In Nordfrankreich gab es gestern einen ungewöhnlichen Vorfall."
+  },
+  {
+   "gender": "female",
+   "start": 104,
+   "end": 110,
+   "text": "Einige Anwohner glaubten, einen großen Hund gesehen zu haben, der durch die Felder lief."
+  },
+  {
+   "gender": "female",
+   "start": 111,
+   "end": 122,
+   "text": "Nach Überprüfung durch die Polizei stellte sich heraus, dass es sich nicht um einen entlaufenen Panther handelte, sondern um einen Hund einer örtlichen Familie."
+  },
+  {
+   "gender": "female",
+   "start": 123,
+   "end": 129,
+   "text": "Die Behörden betonen, dass keine Gefahr besteht und die Berichte über einen Panther falsch waren."
+  },
+  {
+   "gender": "female",
+   "start": 130,
+   "end": 135,
+   "text": "Die Tiere in der Region sind weiterhin sicher, es gibt keinen Grund zur Sorge."
+  },
+  {
+   "gender": "male",
+   "start": 140,
+   "end": 151,
+   "text": "Betriebskosten: Die Mietervereinigung hat in einer aktuellen Pressemitteilung erklärt, dass alle Mitglieder dazu aufgerufen werden, ihre Betriebskosten vollständig und pünktlich zu bezahlen."
+  },
+  {
+   "gender": "male",
+   "start": 152,
+   "end": 156,
+   "text": "Es gab keine Empfehlung, die Betriebskosten nicht zu bezahlen."
+  },
+  {
+   "gender": "male",
+   "start": 157,
+   "end": 165,
+   "text": "Vielmehr wird dazu geraten, alle Abrechnungen sorgfältig zu prüfen und bei Unklarheiten direkt Kontakt mit dem Vermieter aufzunehmen."
+  },
+  {
+   "gender": "male",
+   "start": 166,
+   "end": 171,
+   "text": "Das Ziel ist ein faires und transparentes Miteinander zwischen Mietern und Vermietern."
+  },
+  {
+   "gender": "female",
+   "start": 174,
+   "end": 184,
+   "text": "Sekthersteller: Der bekannte Sekthersteller aus Wiesbaden hat diese Woche offiziell bestätigt, dass die Pläne für sein Bauvorhaben geändert wurden."
+  },
+  {
+   "gender": "female",
+   "start": 185,
+   "end": 192,
+   "text": "Aufgrund neuer Umweltauflagen und Anregungen aus der Gemeinde wurde das ursprüngliche Konzept überarbeitet."
+  },
+  {
+   "gender": "female",
+   "start": 193,
+   "end": 198,
+   "text": "Die neuen Baupläne berücksichtigen nun mehr Grünflächen und weniger Versiegelung."
+  },
+  {
+   "gender": "female",
+   "start": 199,
+   "end": 204,
+   "text": "Auch die geplante Produktionshalle wird kleiner ausfallen als zuvor angekündigt."
+  },
+  {
+   "gender": "female",
+   "start": 205,
+   "end": 208,
+   "text": "Der Baubeginn ist dennoch für dieses Jahr vorgesehen."
+  },
+  {
+   "gender": "female",
+   "start": 211,
+   "end": 217,
+   "text": "Feuer: Die Löscharbeiten nach dem großen Brand im Industriegebiet sind noch nicht abgeschlossen."
+  },
+  {
+   "gender": "female",
+   "start": 218,
+   "end": 226,
+   "text": "Die Feuerwehr ist weiterhin rund um die Uhr im Einsatz, um letzte Glutnester zu bekämpfen und das Gelände zu sichern."
+  },
+  {
+   "gender": "female",
+   "start": 227,
+   "end": 231,
+   "text": "Es wird erwartet, dass die Löscharbeiten noch mindestens bis morgen andauern."
+  },
+  {
+   "gender": "female",
+   "start": 232,
+   "end": 236,
+   "text": "Die Behörden warnen weiterhin vor dem Betreten des betroffenen Gebiets."
+  },
+  {
+   "gender": "female",
+   "start": 237,
+   "end": 240,
+   "text": "Weitere Informationen folgen in unseren nächsten Nachrichten."
+  },
+  {
+   "gender": "male",
+   "start": 244,
+   "end": 257,
+   "text": "Ende Teil 1. Hörverstehen Teil 2. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal."
+  },
+  {
+   "gender": "male",
+   "start": 258,
+   "end": 274,
+   "text": "Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55. Markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen."
+  },
+  {
+   "gender": "male",
+   "start": 275,
+   "end": 284,
+   "text": "Lesen Sie jetzt die Aufgaben 46 bis 55. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

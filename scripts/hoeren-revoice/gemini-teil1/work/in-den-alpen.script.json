@@ -1,0 +1,66 @@
+{
+ "name": "in-den-alpen",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 0.5,
+   "kind": "instruction",
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 4.9,
+   "kind": "instruction",
+   "text": "Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Guten Abend, hier sind die neuesten Wetterinformationen. In den Alten dürfen sich Einheimische und Touristen gleichermaßen freuen. Die Wetterlage wird sich in den kommenden Tagen deutlich verbessern. Laut dem deutschen Wetterdienst sind ab Freitag längere Sonnenscheindauer, milde Temperaturen und nur vereinzelte Wolkenfelder zu erwarten. Wanderer und Radfahrer werden ideale Bedingungen vorfinden, während Skigebiete in höheren Lagen weiterhin gute Schneeverhältnisse melden. Auch die Lawinengefahr sinkt spürbar. Hotels in der Region verzeichnen bereits erste zusätzliche Buchungen für das Wochenende. Wer also einen spontanen Ausflug in die Berge plant, sollte jetzt zuschlagen, bestes Bergwetter steht bevor.\n\nSportnachrichten aus Neustadt. Der FC Neustadt gewann am Samstag mit 2:0 gegen den Stadtrivalen. Für viele Fans war dieses Ergebnis keine große Überraschung, denn die Mannschaft gilt derzeit als klarer Favorit in der Liga. Schon Tage vor dem Spiel war die Stimmung in der Stadt optimistisch, im ausverkauften Stadion feierten die Anhänger ausgelassen. Doch echte Überraschungsgesichter blieben aus. Der Trainer lobte die Leistung seiner Spieler, betonte aber, dass man auch in den kommenden Partien konzentriert bleiben müsse. Mit diesem Sieg bleibt Neustadt Tabellenführer. Die Fans planen bereits die nächsten Choreographien, diesmal mit dem festen Glauben an weitere Siege."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "In Berlin fand heute eine große Veranstaltung für Erzieherinnen und Erzieher statt. Im Mittelpunkt standen neue pädagogische Konzepte für Kindergärten und Grundschulen. Anders als oft berichtet, gab es diesmal keine Forderungen nach einer besseren Bezahlung. Vielmehr lag der Fokus auf innovativen Projekten, die die Sprach- und Sozialentwicklung von Kindern fördern sollen. Bildungsministerin Karin Hoffmann lobte das Engagement der Teilnehmer und versprach Unterstützung bei der Umsetzung neuer Ideen. Workshops zu Naturpädagogik und digitalem Lernen fanden großen Anklang. Viele Teilnehmer nutzten die Gelegenheit, sich zu vernetzen und künftige Kooperationen zu besprechen. Insgesamt herrschte eine positive, lösungsorientierte Stimmung.\n\nGroße Freude im Berliner Zoo. Die berühmte Pandafamilie hat Nachwuchs bekommen. Gleich zwei Jungtiere erblickten vor wenigen Wochen das Licht der Welt und entwickeln sich prächtig. Tierpfleger berichten, dass Mutter Meng Meng ihre Rolle vorbildlich erfüllt und die kleinen gut versorgt. Besucher strömen in Scharen, um einen Blick auf die tapsigen Bärenbabys zu erhaschen. Der Zoo hat spezielle Besuchszeiten eingerichtet, um den Andrang zu regulieren und den Tieren ausreichend Ruhe zu gönnen. Auch international sorgt der Nachwuchs für Schlagzeilen, da Pandageburten in Gefangenschaft selten sind. Der Berliner Zoo rechnet mit einem deutlichen Besucheranstieg in den kommenden Monaten.\n\nDie bekannte Sängerin Leya kündigte heute ihr neues Album Herzklang an, das im Oktober erscheint. Begleitet wird die Veröffentlichung von einer großen Deutschland-Tour. Fans dürfen sich auf neue Songs, emotionale Balladen und mehrere exklusive Live-Auftritte in ausgewählten Städten freuen."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Tourismus in Deutschland: Laut einer aktuellen Studie ist die Zahl der Urlauber im eigenen Land leicht rückläufig. Besonders in den Küstenregionen melden Hotels und Pensionen weniger Buchungen als im Vorjahr. Gründe dafür könnten steigende Preise und die wachsende Attraktivität von Auslandsreisen sein. Einige Bundesländer reagieren mit neuen Marketingkampagnen, um Besucher zurückzugewinnen. In Bayern und im Schwarzwald hingegen bleibt die Auslastung stabil. Experten betonen, dass ein starker Sommer mit gutem Wetter den Trend noch umkehren könnte. Dennoch sehen viele Hoteliers Handlungsbedarf, um das Reiseangebot moderner und familienfreundlicher zu gestalten."
+  }
+ ]
+}

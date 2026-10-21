@@ -1,0 +1,161 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 2,
+   "end": 26,
+   "text": "Herzlich willkommen zu unserer Nachrichtensendung. Heute erwartet Sie eine energiegeladene Show mit den neuesten Infos aus Friedrichsberg. Bleiben Sie dran, tanzen Sie mit, wir bringen Ihnen spannende Geschichten direkt ins Wohnzimmer. Also, Musik an, gute Laune und jetzt starten wir gemeinsam durch. Viel Spaß beim Zuhören."
+  },
+  {
+   "gender": "female",
+   "start": 29,
+   "end": 40,
+   "text": "In Friedrichsberg herrscht diese Woche große Aufregung. Der Bürgermeister veranstaltet ein Event, bei dem die erfolgreichsten Projekte des Jahres vorgestellt werden."
+  },
+  {
+   "gender": "female",
+   "start": 41,
+   "end": 43,
+   "text": "Es wird jedoch keine Preisverleihung geben."
+  },
+  {
+   "gender": "female",
+   "start": 44,
+   "end": 50,
+   "text": "Ziel dieser Veranstaltung ist es, die Bürger zu informieren und die Projekte vorzustellen."
+  },
+  {
+   "gender": "female",
+   "start": 51,
+   "end": 55,
+   "text": "Die Teilnahme ist nach Anmeldung auf der städtischen Website möglich."
+  },
+  {
+   "gender": "female",
+   "start": 56,
+   "end": 62,
+   "text": "Viele Bewohner zeigen bereits Interesse, da solche Events die Mitbestimmung in der Stadt stärken."
+  },
+  {
+   "gender": "female",
+   "start": 63,
+   "end": 68,
+   "text": "Am Ende steht die Präsentation im Vordergrund, nicht aber die Vergabe von Auszeichnungen."
+  },
+  {
+   "gender": "female",
+   "start": 111,
+   "end": 124,
+   "text": "Alte Brücke. Die Bürger der Stadt haben lange auf diese Nachricht gewartet. Die historische Alte Brücke wird nach einer umfassenden Sanierung pünktlich zum Jahresbeginn wieder für den Verkehr freigegeben."
+  },
+  {
+   "gender": "female",
+   "start": 125,
+   "end": 129,
+   "text": "Mit der Öffnung der Brücke wird der Alltag vieler Menschen erleichtert."
+  },
+  {
+   "gender": "female",
+   "start": 130,
+   "end": 136,
+   "text": "Die Renovierung legte großen Wert auf Sicherheit und Stabilität, sodass die Brücke lange nutzbar bleibt."
+  },
+  {
+   "gender": "female",
+   "start": 137,
+   "end": 145,
+   "text": "Am Eröffnungstag wird ein fest organisiert und zahlreiche Bürger werden erwartet, gemeinsam den ersten Schritt über die neue Brücke zu machen."
+  },
+  {
+   "gender": "female",
+   "start": 149,
+   "end": 153,
+   "text": "Rettungsaktion, gestern fand eine erfolgreiche Rettungsaktion statt."
+  },
+  {
+   "gender": "female",
+   "start": 154,
+   "end": 201,
+   "text": "Ein Wanderer, der in den Bergen von Friedrichsberg unterwegs war, ist verletzt und verirrt aufgefunden worden. Die Rettungskräfte haben ihn vor Ort erst versorgt und anschließend mit dem Hubschrauber ins Krankenhaus gebracht. Die Behörden planen, die Sicherheitsmaßnahmen auf den Wanderwegen zu verbessern."
+  },
+  {
+   "gender": "female",
+   "start": 215,
+   "end": 219,
+   "text": "Zusätzlich sollen mehr Hinweisschilder und Wegweiser aufgestellt werden."
+  },
+  {
+   "gender": "female",
+   "start": 220,
+   "end": 226,
+   "text": "Die professionelle Arbeit der Einsatzkräfte wurde von vielen Bürgern sehr gelobt und gewürdigt."
+  },
+  {
+   "gender": "female",
+   "start": 230,
+   "end": 238,
+   "text": "Unternehmen, heute gab die Geschäftsleitung des Unternehmens eine wichtige Erklärung ab. Entgegen aller Gerüchte wird es keine Entlassungen geben."
+  },
+  {
+   "gender": "female",
+   "start": 239,
+   "end": 249,
+   "text": "Im Gegenteil, das Unternehmen plant, in den nächsten Monaten neue Mitarbeiter einzustellen und die Arbeitsplatzsicherheit für das bestehende Personal zu erhöhen."
+  },
+  {
+   "gender": "female",
+   "start": 250,
+   "end": 258,
+   "text": "Um die Motivation der Belegschaft weiter zu steigern, sind Verbesserungen der Arbeitsbedingungen sowie Gehaltserhöhungen vorgesehen."
+  },
+  {
+   "gender": "female",
+   "start": 259,
+   "end": 307,
+   "text": "Nach dieser Mitteilung herrschte bei den Mitarbeitenden eine positive Stimmung und die Zukunftspläne wurden mit Begeisterung aufgenommen."
+  },
+  {
+   "gender": "female",
+   "start": 311,
+   "end": 316,
+   "text": "Für den geplanten Gruppenlauf in der Stadt ist eine vorherige Anmeldung erforderlich."
+  },
+  {
+   "gender": "female",
+   "start": 317,
+   "end": 322,
+   "text": "Interessierte Läufer können sich unkompliziert über ein Onlineformular anmelden."
+  },
+  {
+   "gender": "female",
+   "start": 323,
+   "end": 331,
+   "text": "Nach erfolgreicher Registrierung erhalten die Teilnehmer alle wichtigen Informationen zur Strecke, zum Treffpunkt und zum Zeitplan."
+  },
+  {
+   "gender": "female",
+   "start": 332,
+   "end": 339,
+   "text": "Am Tag des Laufs bekommen alle Angemeldeten eine Startnummer und können am Ende kleine Preise sowie Urkunden gewinnen."
+  },
+  {
+   "gender": "female",
+   "start": 340,
+   "end": 346,
+   "text": "Ziel der Veranstaltung ist es, den Teamgeist zu stärken und einen gesunden Lebensstil zu fördern."
+  },
+  {
+   "gender": "female",
+   "start": 347,
+   "end": 350,
+   "text": "Die Nachfrage ist bereits jetzt sehr groß."
+  },
+  {
+   "gender": "female",
+   "start": 353,
+   "end": 354,
+   "text": "Ende Teil 1."
+  }
+ ]
+}

@@ -1,0 +1,38 @@
+{
+ "name": "diefluggesellschaft",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 2,
+   "kind": "news",
+   "text": "Das ist eine Hörverstehen-Aufnahme telc B2, Teil 1. Die Fluggesellschaft DL gibt bekannt, dass sie ihren Flugbetrieb vorerst einstellt und alle Flüge abgesagt. Etwa 12000 Passagiere wurden nun auf andere Flüge oder Zubringer umgebucht. Die Fluggesellschaft DL fliegt es derzeit wenige Jahre, die DL hat vor allem innerdeutsche Strecken bedient und auch kleinere Zubringer in D, in Dortmund oder Rostock. Auf der internationalen Süßwarenmesse ISN in Köln zeigen 1400 Aussteller aus 65 Ländern am kommenden Sonntag ihre neuesten Kreationen. Wegen der steigenden Rohstoffpreise werden Verbraucher dieses Jahr auch höhere Preise für Süßigkeiten bezahlen müssen. Der Verkauf von Süßwaren ging allerdings im letzten Jahr um 10 Prozent zurück. Die Sprecherin der Süßwarenmesse Ilona Schneider führt dies auf ein gestiegenes Gesundheitsbewusstsein zurück. Gesunder Ernährung werde auch die Jugendküche immer wichtiger, so Schneider. Am kommenden Wochenende erwartet die Erde der stärkste Sonnensturm seit Jahren. Sonnenstürme sind für Erde und Menschen harmlos, allerdings kann die Probleme beim Empfang von Satellitenprogrammen auf. Auch der Handyeingang war zeitweise gestört. Die Sonnenstürme lösen übrigens die sogenannten Polarlichter aus, grünliche Lichter, die am Abend und Nacht im Wesen zu sehen sind und meist im Laufe in Skandinavien jetzt auftreten. Die Polarlichter werden möglicher Weise sogar über England zu sehen.\n\nDie Präsidentschaftswahlen in Frankreich bergen ihre Schatten voraus. Gestern Abend haben die beiden Kandidaten in einem TV-Duell persönlich und entspannt Argumente ausgetauscht. In den 60-minütigen Duell wurden vor allem Bildungs- und sozialpolitische Themen angesprochen. Bei einer Umfrage im Anschluss an die Sendung konnte aber kein eindeutiger Gewinner ausgemacht werden. Die Wahlen finden in vier Wochen statt."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Und hier noch ein Hinweis für alle, die im Auto unterwegs sind. Am kommenden Wochenende ist die Autobahn A3 im Kreuz Oberhausen in Richtung Arnheim Hannover wegen Bauarbeiten gesperrt. Gesperrt ist auch die Auffahrt in Richtung Arnheim Hannover an der Anschlussstelle Oberhausen-Holten. Die Gegenrichtung ist frei befahrbar, um es mal so zu schildern. Erkennungsbild ist die Polizei alle Autofahrer und Gebäudebauer, die Baustelle möglichst weiträumig zu umfahren. Eine Warnung vor einem heftigen Sturm hat Deutsche Wetteramt für den Südwesten des Landes ausgegeben. Es zieht Helene zieht vom Atlantik vor allem über West und Mitteleuropa in die Mitte Deutschlands, aber nur schleifen. Morgen Mittag werden Sturmwellen und 110 Kilometer pro Stunde erwartet. Da das Tiefdruckgebiet auch Starkregen mit sich bringt, waren Feuerwehrn nicht nur vor der Unterteilung Gegenstände, sondern auch vor überfluteten Straßen. Autofahrer wird da daher besondere Vorsicht geboten. Und wie wird das Wetter sonst in Deutschland?"
+  }
+ ]
+}

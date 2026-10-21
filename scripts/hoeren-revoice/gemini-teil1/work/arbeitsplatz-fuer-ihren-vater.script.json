@@ -1,0 +1,72 @@
+{
+ "name": "arbeitsplatz-fuer-ihren-vater",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "p1": "Erinome",
+  "p2": "Charon",
+  "p3": "Aoede",
+  "p4": "Orus",
+  "p5": "Leda"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "p1": 0.94,
+  "p2": 0.94,
+  "p3": 0.94,
+  "p4": 0.94,
+  "p5": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1.5,
+   "kind": "announcer",
+   "text": "In Familien gibt es unterschiedliche Wünsche, Erwartungen und Meinungen zum Beispiel in Bezug auf Arbeit, Schule oder das Zusammenleben. Wir haben fünf Personen gefragt, wie sie ihre persönliche Situation sehen. Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "type": "tts",
+   "voice": "p1",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 1. Mein Vater hat es im Moment nicht leicht. Er sucht schon seit einiger Zeit nach einer neuen beruflichen Möglichkeit und natürlich mache ich mir Gedanken darüber. Manchmal sprechen wir darüber, wie schwierig der Arbeitsmarkt geworden ist. Trotzdem halte ich mich bewusst zurück. Er ist erwachsen und möchte selbst entscheiden, was er macht. Ich unterstütze ihn moralisch, aber ich würde mir nicht anmaßen, ihm einen Arbeitsplatz zu wünschen oder für ihn zu planen."
+  },
+  {
+   "type": "tts",
+   "voice": "p2",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 2. In der Schule lief bei mir nicht immer alles perfekt. Ich musste für vieles mehr lernen als andere und manchmal waren meine Noten auch eher durchschnittlich. Trotzdem habe ich nie aufgegeben. Ich arbeite konzentriert, mache meine Hausaufgaben selbstständig und komme insgesamt gut zurecht. Auch wenn ich kein Überflieger bin, würde ich sagen, dass ich ein solider Schüler bin."
+  },
+  {
+   "type": "tts",
+   "voice": "p3",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 3. Zu Hause ist eigentlich immer etwas los. Meine Familie ist nett, aber manchmal reden alle gleichzeitig oder kommen einfach so ins Zimmer. Ich habe nichts gegen Gespräche, ganz im Gegenteil. Aber es gibt Momente, in denen ich einfach meine Ruhe brauche, z. B. wenn ich lerne oder nachdenken will, dann wünsche ich mir nicht ständig unterbrochen zu werden."
+  },
+  {
+   "type": "tts",
+   "voice": "p4",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 4. Meine Mutter meint es gut, das weiß ich. Trotzdem geraten wir oft aneinander. Wir haben sehr unterschiedliche Vorstellungen und diskutieren viel, selbst über Kleinigkeiten. Manchmal verstehe ich ihre Reaktionen nicht und sie meine Entscheidungen auch nicht. Wir reden zwar miteinander, aber richtig einig sind wir selten. Das belastet unser Verhältnis schon."
+  },
+  {
+   "type": "tts",
+   "voice": "p5",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 5. Ich verstehe mich grundsätzlich gut mit meinen Eltern. Wir verbringen auch Zeit zusammen, z. B. am Wochenende oder bei Familienfeiern. Trotzdem genieße ich es sehr, mein eigenes Leben zu haben. Am wohlsten fühle ich mich, wenn ich selbst entscheiden kann, wie ich meinen Alltag gestalte. Zu viel Nähe brauche ich nicht, auch wenn mir meine Eltern wichtig sind."
+  }
+ ]
+}

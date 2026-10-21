@@ -1,0 +1,45 @@
+{
+ "name": "die-bundeslaender",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Guten Morgen, meine Damen und Herren. Die Bundesländer in Deutschland setzen sich zunehmend für den Ausbau alternativer Energien ein. Ein neues Förderprogramm sieht vor, dass die Länder ab dem kommenden Jahr zusätzliche finanzielle Unterstützung vom Bund erhalten. Damit sollen unter anderem Wind- und Solaranlagen weiter ausgebaut werden. Ziel ist es, die Abhängigkeit von fossilen Brennstoffen deutlich zu verringern und die Energiewende voranzutreiben. Fachleute begrüßen die Entscheidung, denn sie könnte langfristig auch die Strompreise stabilisieren. Die Bevölkerung zeigt großes Interesse an den geplanten Investitionen.\n\nDie Sicherheit beim Onlineshopping ist ein zentrales Thema. Nach neuen Vorschlägen der Bundesregierung soll künftig beim Kauf im Internet ein Identitätsnachweispflicht werden. Kunden müssen sich beispielsweise über ein spezielles Verfahren verifizieren, bevor sie Bestellungen abschließen können. Damit soll Betrug erschwert und der Datenschutz verbessert werden. Der Handel reagiert mit gemischten Gefühlen auf die Pläne, doch viele Bürger fühlen sich durch mehr Sicherheit geschützt. Die Umsetzung könnte bereits im nächsten Jahr beginnen, sofern das Gesetz verabschiedet wird.\n\nIm Hafen von Palma kam es gestern zu einem Überfall, bei dem ein Frachtschiff betroffen war. Nach Polizeiangaben drangen Unbekannte an Bord, konnten aber schnell überwältigt werden. Das Schiff blieb während des gesamten Vorfalls sicher im Hafen und wurde zu keinem Zeitpunkt gezwungen, Richtung Küste zu fahren. Die Crew reagierte geistesgegenwärtig und alarmierte sofort die Behörden. Glücklicherweise kam es zu keinen größeren Schäden und die Ermittlungen laufen weiterhin auf Hochtouren.\n\nDer Tourismusminister von Gran Canaria gab gestern eine Pressekonferenz zu den geplanten Naturschutzmaßnahmen."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Besonders hervorgehoben wurde das neue Programm zum Schutz von Geparden, die in der Region leben. Ein geplantes Urlaubsangebot, das speziell auf die Beobachtung dieser Tiere ausgerichtet war, bleibt weiterhin bestehen. Es gibt keine Hinweise darauf, dass Urlaub mit Geparden abgesagt werden muss, im Gegenteil, das Angebot soll sogar erweitert werden, um nachhaltigen Tourismus zu fördern.\n\nDie berühmte Sängerin Lara Weiß sorgt wieder für Schlagzeilen. Sie wurde gestern Abend bei der Premiere eines neuen Films in Berlin gesichtet, begleitet von einem geheimnisvollen Mann. Viele Fans spekulieren jetzt, ob es sich dabei um ihren neuen Partner handelt. Lara selbst schweigt noch, doch die Presse ist neugierig. Weitere Details und exklusive Fotos gibt es morgen in unserer Sendung.\n\nIm Verkehrsministerium wird derzeit noch darüber beraten, wie lange die geplante neue Zugstrecke zwischen den Städten dauern soll. Experten prüfen verschiedene Varianten, doch bisher gibt es keine endgültige Entscheidung.\n\nZiel ist es, eine möglichst schnelle Verbindung zu schaffen, ohne die Kosten aus dem Blick zu verlieren, Bürger und Pendler hoffen auf eine baldige Bekanntgabe, damit sie ihre Reisepläne anpassen können. In den nächsten Wochen wird mit weiteren Informationen gerechnet."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

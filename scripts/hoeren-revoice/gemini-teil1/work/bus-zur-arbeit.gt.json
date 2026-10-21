@@ -1,0 +1,227 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 7.42,
+   "end": 17.2,
+   "text": "Der Weg zur Arbeit kann sehr unterschiedlich aussehen. Manche Menschen nutzen öffentliche Verkehrsmittel, andere fahren mit dem Auto oder gehen einen Teil des Weges zu Fuß."
+  },
+  {
+   "gender": "female",
+   "start": 17.8,
+   "end": 21.68,
+   "text": "Wir haben fünf Personen gefragt, wie sie ihren Arbeitsweg organisieren."
+  },
+  {
+   "gender": "female",
+   "start": 22.56,
+   "end": 24.52,
+   "text": "Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "gender": "female",
+   "start": 25.44,
+   "end": 26.22,
+   "text": "Nummer eins."
+  },
+  {
+   "gender": "female",
+   "start": 27.06,
+   "end": 29.84,
+   "text": "Mein Arbeitsweg hängt stark von meinen Arbeitszeiten ab."
+  },
+  {
+   "gender": "female",
+   "start": 30.5,
+   "end": 33.7,
+   "text": "Morgens beginne ich sehr früh, abends wird es oft spät."
+  },
+  {
+   "gender": "female",
+   "start": 34.34,
+   "end": 37.52,
+   "text": "Die Haltestelle liegt zwar nicht besonders weit von meiner Wohnung entfernt,"
+  },
+  {
+   "gender": "female",
+   "start": 38.16,
+   "end": 40.48,
+   "text": "aber die Verbindungen sind nicht immer günstig."
+  },
+  {
+   "gender": "female",
+   "start": 41.52,
+   "end": 44.44,
+   "text": "Wenn alles gut passen würde, wäre der Bus natürlich eine Möglichkeit."
+  },
+  {
+   "gender": "female",
+   "start": 46.1,
+   "end": 51.34,
+   "text": "Im Moment ist es jedoch so, dass ich dafür deutlich früher losfahren und abends lange warten müsste."
+  },
+  {
+   "gender": "female",
+   "start": 52.3,
+   "end": 53.86,
+   "text": "Deshalb nutze ich andere Lösungen."
+  },
+  {
+   "gender": "female",
+   "start": 55.08,
+   "end": 61.22,
+   "text": "Vielleicht könnte ich mir vorstellen, mit dem Bus zur Arbeit zu fahren, aber nur, wenn sich meine Arbeitszeiten ändern würden."
+  },
+  {
+   "gender": "female",
+   "start": 67.04,
+   "end": 67.92,
+   "text": "Nummer zwei."
+  },
+  {
+   "gender": "female",
+   "start": 68.32,
+   "end": 72.48,
+   "text": "Ich komme nie direkt am Arbeitsplatz an, egal, welches Verkehrsmittel ich benutze."
+  },
+  {
+   "gender": "female",
+   "start": 73.54,
+   "end": 75.9,
+   "text": "Die letzten Minuten lege ich immer zu Fuß zurück."
+  },
+  {
+   "gender": "female",
+   "start": 76.9,
+   "end": 78.44,
+   "text": "Anfangs war das eher zufällig,"
+  },
+  {
+   "gender": "female",
+   "start": 78.96,
+   "end": 81.36,
+   "text": "aber inzwischen plane ich das bewusst so ein."
+  },
+  {
+   "gender": "female",
+   "start": 82.2,
+   "end": 87.6,
+   "text": "Dieser kurze Weg hilft mir den Kopf frei zu bekommen und mich auf den Arbeitstag einzustellen."
+  },
+  {
+   "gender": "female",
+   "start": 88.42,
+   "end": 92.52,
+   "text": "Selbst wenn ich näher aussteigen könnte, würde ich diesen Teil nicht weglassen."
+  },
+  {
+   "gender": "male",
+   "start": 98.42,
+   "end": 99.4,
+   "text": "Nummer drei."
+  },
+  {
+   "gender": "male",
+   "start": 99.64,
+   "end": 103.88,
+   "text": "Ein Auto habe ich und rein theoretisch könnte ich es auch täglich benutzen."
+  },
+  {
+   "gender": "male",
+   "start": 104.38,
+   "end": 106.38,
+   "text": "Trotzdem habe ich mich bewusst anders organisiert."
+  },
+  {
+   "gender": "male",
+   "start": 107.02,
+   "end": 110.18,
+   "text": "Für meinen Arbeitsweg gibt es Alternativen, die für mich besser passen."
+  },
+  {
+   "gender": "male",
+   "start": 111.02,
+   "end": 114.3,
+   "text": "Seit ich diese Stelle habe, bin ich ohne Auto zur Arbeit gekommen."
+  },
+  {
+   "gender": "male",
+   "start": 114.76,
+   "end": 118.5,
+   "text": "Dabei ist es auch geblieben, weil ich keinen Grund sehe, das zu ändern."
+  },
+  {
+   "gender": "male",
+   "start": 123.64,
+   "end": 124.62,
+   "text": "Nummer vier."
+  },
+  {
+   "gender": "male",
+   "start": 125.04,
+   "end": 128.84,
+   "text": "Wenn man von außen schaut, könnte man denken, dass ich flexibel bin."
+  },
+  {
+   "gender": "male",
+   "start": 129.5,
+   "end": 132.22,
+   "text": "Es gäbe tatsächlich mehrere Möglichkeiten zur Arbeit zu kommen."
+  },
+  {
+   "gender": "male",
+   "start": 132.96,
+   "end": 135,
+   "text": "Früher habe ich darüber auch nachgedacht."
+  },
+  {
+   "gender": "male",
+   "start": 135.54,
+   "end": 140.6,
+   "text": "Inzwischen habe ich mich jedoch festgelegt und nutze jeden Tag denselben Weg."
+  },
+  {
+   "gender": "male",
+   "start": 141.5,
+   "end": 145.42,
+   "text": "Mir ist ein gleichbleibender Ablauf wichtiger als Abwechslung."
+  },
+  {
+   "gender": "male",
+   "start": 146.22,
+   "end": 147.66,
+   "text": "Deshalb ändere ich mein Verkehrsmittel nicht."
+  },
+  {
+   "gender": "female",
+   "start": 153.4,
+   "end": 154.54,
+   "text": "Nummer fünf."
+  },
+  {
+   "gender": "female",
+   "start": 155.06,
+   "end": 162.24,
+   "text": "Der Firmenbus spielt in meinem Alltag eine wichtige Rolle, vor allem, wenn das Wetter schlecht ist oder ich früh anfangen muss."
+  },
+  {
+   "gender": "female",
+   "start": 162.8,
+   "end": 166.72,
+   "text": "Trotzdem plane ich meinen Arbeitsweg nicht ausschließlich danach."
+  },
+  {
+   "gender": "female",
+   "start": 167.36,
+   "end": 172.96,
+   "text": "Es gibt Tage, an denen ich mich bewusst anders entscheide, z.B. wenn ich nach der Arbeit noch etwas vorhabe."
+  },
+  {
+   "gender": "female",
+   "start": 173.48,
+   "end": 176.78,
+   "text": "Der Bus ist also praktisch, aber nicht die einzige Möglichkeit zur Arbeit zu kommen."
+  }
+ ]
+}

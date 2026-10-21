@@ -1,0 +1,197 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 0,
+   "end": 2,
+   "text": "Guten Morgen, meine Damen und Herren."
+  },
+  {
+   "gender": "male",
+   "start": 2,
+   "end": 8,
+   "text": "Die Bundesländer in Deutschland setzen sich zunehmend für den Ausbau alternativer Energien ein."
+  },
+  {
+   "gender": "male",
+   "start": 10,
+   "end": 17,
+   "text": "Ein neues Förderprogramm sieht vor, dass die Länder ab dem kommenden Jahr zusätzliche finanzielle Unterstützung vom Bund erhalten."
+  },
+  {
+   "gender": "male",
+   "start": 18,
+   "end": 22,
+   "text": "Damit sollen unter anderem Wind- und Solaranlagen weiter ausgebaut werden."
+  },
+  {
+   "gender": "male",
+   "start": 22,
+   "end": 30,
+   "text": "Ziel ist es, die Abhängigkeit von fossilen Brennstoffen deutlich zu verringern und die Energiewende voranzutreiben."
+  },
+  {
+   "gender": "male",
+   "start": 30,
+   "end": 36,
+   "text": "Fachleute begrüßen die Entscheidung, denn sie könnte langfristig auch die Strompreise stabilisieren."
+  },
+  {
+   "gender": "male",
+   "start": 37,
+   "end": 41,
+   "text": "Die Bevölkerung zeigt großes Interesse an den geplanten Investitionen."
+  },
+  {
+   "gender": "female",
+   "start": 44,
+   "end": 47,
+   "text": "Die Sicherheit beim Onlineshopping ist ein zentrales Thema."
+  },
+  {
+   "gender": "female",
+   "start": 48,
+   "end": 56,
+   "text": "Nach neuen Vorschlägen der Bundesregierung soll künftig beim Kauf im Internet ein Identitätsnachweispflicht werden."
+  },
+  {
+   "gender": "female",
+   "start": 56,
+   "end": 64,
+   "text": "Kunden müssen sich beispielsweise über ein spezielles Verfahren verifizieren, bevor sie Bestellungen abschließen können."
+  },
+  {
+   "gender": "female",
+   "start": 64,
+   "end": 68,
+   "text": "Damit soll Betrug erschwert und der Datenschutz verbessert werden."
+  },
+  {
+   "gender": "female",
+   "start": 69,
+   "end": 76,
+   "text": "Der Handel reagiert mit gemischten Gefühlen auf die Pläne, doch viele Bürger fühlen sich durch mehr Sicherheit geschützt."
+  },
+  {
+   "gender": "female",
+   "start": 76,
+   "end": 82,
+   "text": "Die Umsetzung könnte bereits im nächsten Jahr beginnen, sofern das Gesetz verabschiedet wird."
+  },
+  {
+   "gender": "male",
+   "start": 88,
+   "end": 93,
+   "text": "Im Hafen von Palma kam es gestern zu einem Überfall, bei dem ein Frachtschiff betroffen war."
+  },
+  {
+   "gender": "male",
+   "start": 94,
+   "end": 99,
+   "text": "Nach Polizeiangaben drangen Unbekannte an Bord, konnten aber schnell überwältigt werden."
+  },
+  {
+   "gender": "male",
+   "start": 101,
+   "end": 108,
+   "text": "Das Schiff blieb während des gesamten Vorfalls sicher im Hafen und wurde zu keinem Zeitpunkt gezwungen, Richtung Küste zu fahren."
+  },
+  {
+   "gender": "male",
+   "start": 108,
+   "end": 112,
+   "text": "Die Crew reagierte geistesgegenwärtig und alarmierte sofort die Behörden."
+  },
+  {
+   "gender": "male",
+   "start": 112,
+   "end": 118,
+   "text": "Glücklicherweise kam es zu keinen größeren Schäden und die Ermittlungen laufen weiterhin auf Hochtouren."
+  },
+  {
+   "gender": "female",
+   "start": 204,
+   "end": 210,
+   "text": "Der Tourismusminister von Gran Canaria gab gestern eine Pressekonferenz zu den geplanten Naturschutzmaßnahmen."
+  },
+  {
+   "gender": "female",
+   "start": 211,
+   "end": 217,
+   "text": "Besonders hervorgehoben wurde das neue Programm zum Schutz von Geparden, die in der Region leben."
+  },
+  {
+   "gender": "female",
+   "start": 218,
+   "end": 225,
+   "text": "Ein geplantes Urlaubsangebot, das speziell auf die Beobachtung dieser Tiere ausgerichtet war, bleibt weiterhin bestehen."
+  },
+  {
+   "gender": "female",
+   "start": 226,
+   "end": 237,
+   "text": "Es gibt keine Hinweise darauf, dass Urlaub mit Geparden abgesagt werden muss, im Gegenteil, das Angebot soll sogar erweitert werden, um nachhaltigen Tourismus zu fördern."
+  },
+  {
+   "gender": "female",
+   "start": 242,
+   "end": 246,
+   "text": "Die berühmte Sängerin Lara Weiß sorgt wieder für Schlagzeilen."
+  },
+  {
+   "gender": "female",
+   "start": 246,
+   "end": 253,
+   "text": "Sie wurde gestern Abend bei der Premiere eines neuen Films in Berlin gesichtet, begleitet von einem geheimnisvollen Mann."
+  },
+  {
+   "gender": "female",
+   "start": 253,
+   "end": 258,
+   "text": "Viele Fans spekulieren jetzt, ob es sich dabei um ihren neuen Partner handelt."
+  },
+  {
+   "gender": "female",
+   "start": 259,
+   "end": 263,
+   "text": "Lara selbst schweigt noch, doch die Presse ist neugierig."
+  },
+  {
+   "gender": "female",
+   "start": 263,
+   "end": 268,
+   "text": "Weitere Details und exklusive Fotos gibt es morgen in unserer Sendung."
+  },
+  {
+   "gender": "male",
+   "start": 310,
+   "end": 318,
+   "text": "Im Verkehrsministerium wird derzeit noch darüber beraten, wie lange die geplante neue Zugstrecke zwischen den Städten dauern soll."
+  },
+  {
+   "gender": "male",
+   "start": 318,
+   "end": 322,
+   "text": "Experten prüfen verschiedene Varianten, doch bisher gibt es keine endgültige Entscheidung."
+  },
+  {
+   "gender": "male",
+   "start": 325,
+   "end": 336,
+   "text": "Ziel ist es, eine möglichst schnelle Verbindung zu schaffen, ohne die Kosten aus dem Blick zu verlieren, Bürger und Pendler hoffen auf eine baldige Bekanntgabe, damit sie ihre Reisepläne anpassen können."
+  },
+  {
+   "gender": "male",
+   "start": 337,
+   "end": 340,
+   "text": "In den nächsten Wochen wird mit weiteren Informationen gerechnet."
+  },
+  {
+   "gender": "male",
+   "start": 344,
+   "end": 345,
+   "text": "Ende Teil 1."
+  }
+ ]
+}

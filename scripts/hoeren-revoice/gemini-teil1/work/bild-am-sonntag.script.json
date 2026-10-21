@@ -1,0 +1,73 @@
+{
+ "name": "bild-am-sonntag",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Teil 1."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 11.7,
+   "kind": "instruction",
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 bis 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 bis 45. Lesen Sie jetzt die Aufgaben 41 bis 45."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Guten Abend, meine Damen und Herren. Laut einem Bericht der Bild am Sonntag sollen in Zukunft bestimmte Mietverträge schneller gekündigt werden können, jedoch nur von Mietern, nicht von Vermietern. Ziel dieser Änderung ist es, den Mietern mehr Flexibilität zu ermöglichen, wenn sich ihre Lebensumstände kurzfristig ändern. So könnten beispielsweise Jobwechsel oder familiäre Gründe schneller berücksichtigt werden. Vermieter hingegen müssten weiterhin die gesetzlich vorgeschriebenen Kündigungsfristen einhalten. Die geplante Regelung sorgt bereits für Diskussionen zwischen Mieterverbänden und Immobilienbesitzern. Ein genauer Zeitpunkt für das Inkrafttreten des Gesetzes steht noch nicht fest.\n\nIn mehreren Bundesländern Deutschlands stehen zahlreiche Wohnhäuser seit Jahren leer. Nun haben die zuständigen Behörden beschlossen, einige dieser unbewohnten Gebäude abzureißen. Begründet wird dies mit hohen Instandhaltungskosten und dem zunehmenden Verfall der Bausubstanz. Durch den Abriss soll Platz für neue Bauprojekte geschaffen werden, darunter bezahlbarer Wohnraum und öffentliche Einrichtungen. Kritiker waren jedoch davor, historische Bausubstanz zu verlieren, die mit etwas Aufwand saniert werden könnte. Die ersten Abrissarbeiten sollen bereits im kommenden Frühjahr beginnen. Kommunen hoffen dadurch, das Stadtbild zu verbessern und neue Investoren anzuziehen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Gute Nachrichten aus Griechenland. Sowohl die verheerenden Waldbrände als auch die extreme Hitzewelle sind offiziell zu Ende. In den vergangenen Wochen hatten hohe Temperaturen und starke Winde die Löscharbeiten erschwert. Tausende Einsatzkräfte, unterstützt von internationalen Teams, waren Tag und Nacht im Einsatz. Nun hat eine Wetteränderung mit kühleren Temperaturen und vereinzelten Regenschauern die Situation deutlich entspannt. Viele Menschen können in ihre Häuser zurückkehren und die Tourismusbranche atmet auf. Experten warnen jedoch, dass die Gefahr von neuen Bränden aufgrund der anhaltenden Trockenheit weiterhin besteht. Die Regierung plant zusätzliche Präventionsmaßnahmen für den kommenden Sommer.\n\nIn Kanada sind die Bergungsarbeiten nach dem schweren Tornado der vergangenen Woche weiterhin im vollen Gange. Entgegen einigen berichten mussten die Rettungsteams ihre Arbeit nicht einstellen. Im Gegenteil, trotz wechselhafter Wetterbedingungen und vereinzelter Regenschauer konnten die Einsatzkräfte weitere Überlebende bergen und wichtige Schäden an der Infrastruktur sichern. Die Behörden betonen, dass keine erneute Unwetterwarnung vorliegt, die den Einsatz gefährden könnte. Hilfslieferungen erreichen mittlerweile auch abgelegene Regionen. Die Bevölkerung wird gebeten, Straßen in den betroffenen Gebieten für Rettungsfahrzeuge freizuhalten."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.5,
+   "kind": "news",
+   "text": "Bei einem schweren Fehruck in der Nähe von Gibraltar sind mehrere Menschen verletzt worden. Das Unglück ereignete sich, als die Fere aufgrund starker Strömung und hoher Wellen gegen ein Riff stieß. Erste Berichte, wonach es sich lediglich um Sachschaden handele, haben sich nicht bestätigt. Rettungsteams waren schnell vor Ort und brachten die Verletzten in nahegelegene Krankenhäuser. Die Küstenwache untersucht derzeit die genaue Unfallursache. Augenzeugen berichten von chaotischen Szenen an Bord, doch die Crew habe umsichtig gehandelt und schlimmeres verhindert."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

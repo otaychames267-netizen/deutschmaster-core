@@ -1,0 +1,66 @@
+{
+ "name": "die-zahl-der-arbeitslosen",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 0.5,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 12,
+   "kind": "instruction",
+   "text": "Lesen Sie jetzt die Aufgaben 41-45."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Die Bundesagentur für Arbeit meldet für Mai einen weiteren Rückgang der Arbeitslosigkeit. Im Vergleich zum April sank die Zahl der registrierten Arbeitsuchenden, getrieben von saisonalen Einstellungen in Bau, Gastronomie und Tourismus. Viele Betriebe verlängerten zudem befristete Verträge, weil Bestellungen anziehen und Lieferketten stabil laufen. Arbeitgeber berichten, dass Fachkräfte schwer zu finden sind. Zahlreiche Stellen blieben über Monate unbesetzt. Die Ministerin hob hervor, dass Weiterbildung und Umschulungsprogramme wirken und jungen Leuten bessere Einstiege ermöglichen. Ökonomen warnen jedoch vor regionalen Unterschieden und mahnen strukturelle Reformen voranzutreiben. Insgesamt bewertet die Regierung die Entwicklung positiv und rechnet, sofern keine größeren Socken eintreten, mit einer sinkenden Arbeitslosenquote im Sommer.\n\nNach einem Treffen in Mexiko Stadt kündigten Vertreter Mexikos und Russlands an, ihre wirtschaftliche Zusammenarbeit zu vertiefen. Geplant sind neue Abkommen zur Förderung gegenseitiger Investitionen, Erleichterungen im Zahlungsverkehr, sowie ein regelmäßiger Dialog zwischen den Finanzministerien. Zudem sollen Energieprojekte, Agrarhandel und Infrastrukturfinanzierungen stärker koordiniert werden. Ein bilaterales Forum will künftig jährlich Chancen für kleine und mittlere Unternehmen präsentieren und Rechtsfragen klären. Kritik kommt von Oppositionsparteien, die vor Abhängigkeiten warnen, während die Regierungen betonen, die Kooperation diene der Diversifizierung von Märkten und Lieferketten. Beide Seiten sehen trotz bestehender Sanktionen Raum für pragmatische Lösungen im Bankensektor."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Der deutsche Einzelhandel blickt mit gemischten Gefühlen auf den Sommerschlussverkauf. Nach Angaben des Handelsverbands lagen die Umsätze in vielen Innenstädten unter den Erwartungen. Wechselhaftes Wetter und vorsichtige Verbraucher bremsten die Nachfrage. Während einzelne Modeketten mit aggressiven Rabatten Punkten konnten, blieben Lagerbestände in anderen Sparten ungewöhnlich hoch. Händler berichten von sinkenden Kundenfrequenzen und höheren Kosten für Energie sowie Personal. Zwar entwickelten sich der Onlinehandel und Abholangebote solide, doch die erhoffte Belebung in den Filialen blieb aus. Experten raten, Sortimente zu straffen und Attraktivität durch Events zu erhöhen. Insgesamt zeigen die Zahlen, dass Zufriedenheit derzeit nicht angebracht ist.\n\nDer Präsident der Weltbank zeigte sich in einem Interview besorgt über die Wirksamkeit der Entwicklungshilfe für Länder der sogenannten Dritten Welt. Er erklärte, Gelder kämen oft zu langsam an, während Bürokratie, Korruption und schlecht abgestimmte Projekte wichtige Fortschritte verzögerten. Nötig seien mehr Transparenz, strengere Erfolgskontrollen und Investitionen in Bildung, Gesundheit sowie nachhaltige Infrastruktur. Zudem forderte er, private Kapitalquellen stärker einzubinden und lokale Unternehmen systematisch zu fördern. Hilfsprogramme müssten nach Krisen schneller reagieren und Klimarisiken konsequent berücksichtigen. Die Bank kündigte an, Evaluationskriterien zu überarbeiten und Pilotprojekte aufzusetzen, die messbare Ergebnisse liefern.\n\nDer bekannte Jazzpianist Lukas Meyer kündigte gestern seine neue Europatournee an. Die Konzertreihe startet im September in Berlin, führt durch zwölf Städte und endet im Dezember in Paris. Fans dürfen sich auf exklusive Auftritte und mehrere Überraschungsgäste freuen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Im Erich-Kästner-Kinderdorf hat es am Nachmittag einen Zwischenfall gegeben, jedoch keine Explosion mit Todesopfern. Nach Angaben der Polizei kam es in einer Werkstatt zu einem Kurzschluss, der einen Brand auslöste. Betreuerinnen evakuierten die Gebäude innerhalb weniger Minuten. Die Feuerwehr brachte das Feuer rasch unter Kontrolle. Vier Jugendliche erlitten leichte Rauchvergiftungen und wurden vorsorglich im Krankenhaus untersucht. Sie konnten aber am Abend wieder entlassen werden. Sachschaden entstand an Geräten und einem Fenster, die Unterkunft bleibt bewohnbar. Brandermittler prüfen, ob ein defektes Ladegerät den Kurzschluss verursacht hat. Der Betrieb soll morgen regulär fortgesetzt werden."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil 2. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55 markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46 bis 55. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

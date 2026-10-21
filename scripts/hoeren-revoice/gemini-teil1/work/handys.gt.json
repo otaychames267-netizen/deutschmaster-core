@@ -1,0 +1,41 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 7.394,
+   "end": 25.434,
+   "text": "Handys spielen im Alltag vieler Menschen eine große Rolle. Sie werden ganz unterschiedlich genutzt und auch sehr unterschiedlich bewertet. Wir haben fünf Personen dazu befragt, welche Erfahrungen sie mit dem Handy gemacht haben und wie sie persönlich damit umgehen. Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "gender": "female",
+   "start": 26.234,
+   "end": 109.074,
+   "text": "Nummer 1. Also ehrlich gesagt, habe ich manchmal das Gefühl, dass das Handy mich mehr kontrolliert, als ich es. Eigentlich wollte ich es nur für wichtige Dinge nutzen, aber inzwischen meldet es sich ständig. Nachrichten von Bekannten, Gruppen, Benachrichtigungen von Apps, die ich kaum benutze. Selbst wenn ich gar nicht reagieren muss, reicht schon das Aufleuchten des Bildschirms und ich bin gedanklich raus. Besonders abends merke ich das. Ich will lesen oder einfach ruhig dasitzen, aber das Handy lenkt mich immer wieder ab. Deshalb schalte ich es oft aus oder lege es bewusst weg, weil mich diese ständige Erreichbarkeit wirklich stört."
+  },
+  {
+   "gender": "male",
+   "start": 117.654,
+   "end": 146.904,
+   "text": "Nummer 2. Für mich ist das Handy vor allem ein praktisches Hilfsmittel. Ich benutze es, um unterwegs nachzuschauen, wann der Zug fährt, um Rechnungen zu bezahlen oder Termine zu notieren. Ab und zu schreibe ich auch Nachrichten, z.B. wenn ich mich verspäte, aber lange Gespräche führe ich darüber eigentlich nicht. Mit Freunden treffe ich mich lieber persönlich und wenn wir Kontakt haben, dann meistens über kurze Nachrichten. Telefonieren über das Handy mache ich nur selten, das brauche ich einfach nicht."
+  },
+  {
+   "gender": "male",
+   "start": 155.334,
+   "end": 229.744,
+   "text": "Nummer 3. Meine Partnerin greift sehr schnell zum Handy und ruft mich an, wenn sie etwas klären möchte. Ich selbst bin da ganz anders. Ich finde Anrufe oft unpraktisch, vor allem tagsüber, wenn ich arbeite oder unterwegs bin. Dann gehe ich meistens gar nicht erst dran oder bitte später um Rückruf. Wir haben uns darauf geeinigt, wichtige Dinge lieber abends in Ruhe zu besprechen. Kurze Infos schicken wir uns per Nachricht, das reicht völlig. Deshalb telefoniere ich mit ihr nur sehr selten und eigentlich nie gern."
+  },
+  {
+   "gender": "female",
+   "start": 234.344,
+   "end": 305.824,
+   "text": "Nummer 4. Wenn es um Kinder geht, bin ich ziemlich kritisch. Ich sehe oft, wie früh Kinder heute ein eigenes Smartphone bekommen und wie viel Zeit sie damit verbringen. In der Schule oder auf dem Spielplatz sitzen viele nebeneinander, ohne miteinander zu sprechen. Natürlich verstehe ich, dass Eltern erreichbar sein wollen und dass ein Handy im Notfall sinnvoll ist, aber ich finde, es sollte klare Regeln geben. Kinder brauchen meiner Meinung nach nicht ständig Zugang zu einem Bildschirm, sondern vor allem Zeit zum Spielen und Reden."
+  },
+  {
+   "gender": "male",
+   "start": 311.964,
+   "end": 343.344,
+   "text": "Nummer 5. Viele Leute können sich kaum vorstellen, ohne Handy zu leben, aber für mich ist das kein Problem. Ich hatte nie das Bedürfnis danach. Wenn ich zu Hause bin, reicht mir ein Festnetztelefon und unterwegs organisiere ich vieles spontan. Manchmal sagen Freunde, ich würde etwas verpassen, aber das sehe ich nicht so. Im Gegenteil, ich finde es angenehm, nicht ständig erreichbar zu sein. Ein Handy würde für mich eher zusätzlichen Stress bedeuten und deshalb möchte ich auch keines haben."
+  }
+ ]
+}

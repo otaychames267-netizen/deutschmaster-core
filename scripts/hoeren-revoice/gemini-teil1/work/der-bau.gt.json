@@ -1,0 +1,227 @@
+{
+ "model": "gemini-3.1-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 3.8,
+   "text": "Radio Modern, dein Takt, dein Tag."
+  },
+  {
+   "gender": "female",
+   "start": 4,
+   "end": 30,
+   "text": "Guten Tag, liebe Hörerinnen und Hörer. Es ist genau 16 Uhr und Sie hören Radio Modern, direkt aus dem Herzen der Stadt. Bleiben Sie bei uns für die wichtigsten Nachrichten des Tages, kompakt, aktuell und natürlich mit dem besten Sound. Also, Volume hochdrehen, Fenster auf, denn jetzt kommt der Nachrichtenbeat mit allem, was Sie wissen müssen."
+  },
+  {
+   "gender": "female",
+   "start": 30.5,
+   "end": 38,
+   "text": "Ich bin Lisa Sommer und bringe Ihnen die Top News aus Politik, Wirtschaft und Wetter, gleich nach dem Beat."
+  },
+  {
+   "gender": "female",
+   "start": 43.3,
+   "end": 45.8,
+   "text": "Guten Tag, meine Damen und Herren."
+  },
+  {
+   "gender": "female",
+   "start": 46.8,
+   "end": 50.8,
+   "text": "In Dubai wurde das höchste Gebäude der Welt erfolgreich fertiggestellt."
+  },
+  {
+   "gender": "female",
+   "start": 51.8,
+   "end": 55,
+   "text": "Der Bau hat insgesamt eine Milliarde Dollar gekostet."
+  },
+  {
+   "gender": "female",
+   "start": 56,
+   "end": 1.8,
+   "text": "Mit einer beeindruckenden Höhe von über 800 Metern ist es ein technisches Meisterwerk."
+  },
+  {
+   "gender": "female",
+   "start": 2.8,
+   "end": 7.8,
+   "text": "Der Wolkenkratzer beherbergt Büros, Hotels und luxuriöse Apartments."
+  },
+  {
+   "gender": "female",
+   "start": 8.8,
+   "end": 14.8,
+   "text": "Experten loben besonders die innovative Bauweise und die nachhaltige Energieversorgung des Gebäudes."
+  },
+  {
+   "gender": "female",
+   "start": 15.8,
+   "end": 21.8,
+   "text": "Die Eröffnung ist für kommenden Monat geplant und soll zahlreiche internationale Gäste anziehen."
+  },
+  {
+   "gender": "female",
+   "start": 22.8,
+   "end": 26.8,
+   "text": "Die Regierung rechnet mit einem wirtschaftlichen Aufschwung durch diesen Bau."
+  },
+  {
+   "gender": "female",
+   "start": 34.3,
+   "end": 38.8,
+   "text": "Die Bundesbank veröffentlichte heute einen Bericht zur aktuellen Konjunkturentwicklung."
+  },
+  {
+   "gender": "female",
+   "start": 39.8,
+   "end": 46.8,
+   "text": "Darin heißt es, dass die abkühlende US-Wirtschaft bisher nur geringe Auswirkungen auf die deutsche Industrie habe."
+  },
+  {
+   "gender": "female",
+   "start": 47.8,
+   "end": 53.8,
+   "text": "Zwar seien bestimmte Branchen betroffen, jedoch zeige sich die Gesamtlage in Deutschland weiterhin stabil."
+  },
+  {
+   "gender": "female",
+   "start": 54.8,
+   "end": 1.5,
+   "text": "Besonders die Automobil- und Maschinenbauindustrie profitiere noch immer von einer starken Binnennachfrage."
+  },
+  {
+   "gender": "female",
+   "start": 2.5,
+   "end": 9.5,
+   "text": "Analysten gehen davon aus, dass erst bei einer längeren Schwächephase der USA mit spürbaren Effekten zu rechnen sei."
+  },
+  {
+   "gender": "female",
+   "start": 10.5,
+   "end": 13.8,
+   "text": "Insgesamt bleibt die Einschätzung also verhalten optimistisch."
+  },
+  {
+   "gender": "female",
+   "start": 19.3,
+   "end": 26.8,
+   "text": "Die Grünen in Niedersachsen haben angekündigt, künftig deutlich mehr Geld in die Bereiche Klimaschutz und Bildung zu investieren."
+  },
+  {
+   "gender": "female",
+   "start": 27.8,
+   "end": 32.8,
+   "text": "Ziel sei es, nachhaltige Projekte zu fördern und Schulen besser auszustatten."
+  },
+  {
+   "gender": "female",
+   "start": 33.8,
+   "end": 38.8,
+   "text": "Rund 200 Millionen Euro sollen in den kommenden zwei Jahren bereitgestellt werden."
+  },
+  {
+   "gender": "female",
+   "start": 39.8,
+   "end": 42.8,
+   "text": "Besonders ländliche Regionen sollen profitieren."
+  },
+  {
+   "gender": "female",
+   "start": 43.8,
+   "end": 49.5,
+   "text": "Laut Umweltministerin sei der Klimaschutz eine der drängendsten Aufgaben der Zukunft."
+  },
+  {
+   "gender": "female",
+   "start": 50.5,
+   "end": 57.8,
+   "text": "Auch Bildung spiele eine zentrale Rolle, um junge Menschen für den Umweltschutz zu sensibilisieren und Innovationen zu fördern."
+  },
+  {
+   "gender": "female",
+   "start": 2.5,
+   "end": 7.8,
+   "text": "Sport, im gestrigen Pokalfinale musste sich der Freiburger FC knapp geschlagen geben."
+  },
+  {
+   "gender": "female",
+   "start": 8.8,
+   "end": 13.5,
+   "text": "In einem spannenden Spiel unterlag das Team dem Gegner mit 1 zu 2."
+  },
+  {
+   "gender": "female",
+   "start": 14.5,
+   "end": 21.5,
+   "text": "Besonders in der zweiten Halbzeit zeigte Freiburg eine starke Leistung, konnte jedoch den Ausgleich nicht mehr erzielen."
+  },
+  {
+   "gender": "female",
+   "start": 22.5,
+   "end": 28.5,
+   "text": "Trainer und Spieler zeigten sich enttäuscht, aber auch stolz auf ihre Leistung in diesem Turnier."
+  },
+  {
+   "gender": "female",
+   "start": 29.5,
+   "end": 33.5,
+   "text": "Die Fans bedankten sich mit Applaus für die kämpferische Einstellung der Mannschaft."
+  },
+  {
+   "gender": "female",
+   "start": 34.5,
+   "end": 37.8,
+   "text": "Das Finale war bis zur letzten Minute spannend und fair."
+  },
+  {
+   "gender": "female",
+   "start": 41.8,
+   "end": 48.5,
+   "text": "Wetter, für den heutigen Nachmittag meldet der Wetterdienst lebhaften Wind in vielen Teilen Deutschlands."
+  },
+  {
+   "gender": "female",
+   "start": 49.5,
+   "end": 53.5,
+   "text": "Vor allem im Norden und Nordosten sind starke Böen möglich."
+  },
+  {
+   "gender": "female",
+   "start": 54.5,
+   "end": 57.8,
+   "text": "Die Temperaturen liegen dort bei etwa 2 bis 7 Grad."
+  },
+  {
+   "gender": "female",
+   "start": 58.8,
+   "end": 3.8,
+   "text": "Im Westen und Südwesten steigen die Werte auf 6 bis maximal 11 Grad."
+  },
+  {
+   "gender": "female",
+   "start": 4.8,
+   "end": 9.8,
+   "text": "Im Laufe des Abends ziehen zudem vermehrt Wolken auf, örtlich kann es regnen."
+  },
+  {
+   "gender": "female",
+   "start": 10.8,
+   "end": 16.5,
+   "text": "Insgesamt bleibt es unbeständig mit kurzen Auflockerungen am späten Nachmittag."
+  },
+  {
+   "gender": "female",
+   "start": 17.5,
+   "end": 20.8,
+   "text": "Die Wetteraussichten für das Wochenende werden morgen aktualisiert."
+  },
+  {
+   "gender": "female",
+   "start": 23.8,
+   "end": 25,
+   "text": "Ende Teil 1."
+  }
+ ]
+}

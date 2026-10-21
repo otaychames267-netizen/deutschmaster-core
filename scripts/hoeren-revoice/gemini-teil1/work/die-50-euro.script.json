@@ -1,0 +1,59 @@
+{
+ "name": "die-50-euro",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Herzlich willkommen zu den aktuellen Nachrichten auf Radio Blitz. Bleiben Sie dran, denn wir starten mit den wichtigsten Meldungen des Tages. Während der Musik weiterläuft, präsentiere ich Ihnen unseren ersten Bericht.\n\nGuten Morgen! Hier sind die Nachrichten. Die Bundesbank hat kürzlich angekündigt, dass die neuen 50 Euro Banknoten bereits vor einem Jahr eingeführt wurden und sich seitdem keine signifikanten Änderungen bezüglich der Fälschungssicherheit ergeben haben. Die Sprecherin der Bank betonte, dass weiterhin an verbesserten Sicherheitsmerkmalen gearbeitet wird, aber derzeit keine neuen Maßnahmen für den 50 Euro Schein beschlossen wurden. Vielmehr konzentriert man sich aktuell auf andere Währungen. Experten warnen davor, dass die derzeitigen Banknoten weiterhin anfällig für Fälschungen sein könnten. Die Polizeirät Bürgerinnen und Bürgern beim Umgang mit Bargeld vorsichtig zu sein und im Zweifel eine Filiale aufzusuchen. Hier ist unser nächster Bericht. Der Ärzteverband hat sich erneut gegen ein verpflichtendes Jahr für junge Ärztinnen und Ärzte in Landarztpraxen ausgesprochen. In einer aktuellen Pressemitteilung erklärte der Verband, dass ein solches Pflichtjahr derzeit nicht auf der politischen Agenda stehe. Vielmehr setzt man auf freiwillige Programme und Anreize, um den medizinischen Nachwuchs für ländliche Regionen zu begeistern. Auch Gesundheitsministerin Müller betonte, dass Zwangsmaßnahmen wenig effektiv seien und stattdessen die Arbeitsbedingungen attraktiver gestaltet werden müssten. Die Zahl der jungen Ärzte auf dem Land ist laut Verband sogar leicht gestiegen. Und nun zu einer spannenden Entwicklung aus der Wissenschaft: Forschende der Universität Mainz nehmen ab sofort an einem internationalen Forschungsprojekt zum Mars teil. Ziel des Projekts ist es, neue Erkenntnisse über die Atmosphäre und die Oberfläche des roten Planeten zu gewinnen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Die Gruppe aus Mainz wird spezielle Messinstrumente liefern, die bei einer bevorstehenden Marsmission zum Einsatz kommen. Professorin Schmidt, die das Team leitet, ist begeistert von der Zusammenarbeit mit der europäischen Weltraumorganisation. Die Ergebnisse könnten helfen, wichtige Fragen zur Entstehung unseres Sonnensystems zu beantworten und die Suche nach Leben auf dem Mars voranzutreiben. Hier noch eine Meldung aus dem Bildungsbereich: Der Verband Bildung und Erziehung hat heute bekannt gegeben, dass er derzeit keinen Bedarf an zusätzlichen Lehrerstellen sieht. Laut einer aktuellen Studie sei die Zahl der Lehrkräfte an deutschen Schulen ausreichend, um den Unterricht zu gewährleisten.\n\nForderungen nach zehntausend neuen Lehrerstellen seien momentan weder notwendig noch realistisch. Die Reaktionen aus der Politik fallen unterschiedlich aus. Und jetzt zu einer interessanten Meldung aus der Tierwelt. In einem kleinen Dorf in Bayern sorgt eine ungewöhnlich große Storchenkolonie für Aufsehen. Die Bewohner zählen dieses Jahr mehr als dreißig Nester, so viele wie noch nie zuvor. Naturschützer freuen sich über diese Entwicklung und erklären, dass die steigende Zahl der Störche auf erfolgreiche Artenschutzmaßnahmen zurückzuführen ist. Die Vögel ziehen besonders viele Schaulustige an, die das außergewöhnliche Schauspiel mit eigenen Augen erleben wollen. Und zum Schluss ein Bericht zur Wirtschaftslage: Nach Angaben des Bundesarbeitsministeriums ist die Schwarzarbeit im vergangenen Jahr deutlich zurückgegangen. Die offiziellen Zahlen zeigen, dass die Zahl illegaler Beschäftigungsverhältnisse um rund acht Prozent gesunken ist. Die Behörden führen diesen Erfolg auf verstärkte Kontrollen und eine höhere Aufklärungsrate zurück. Auch die Corona-Pandemie habe dazu beigetragen, da viele Betriebe vorübergehend schließen mussten."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 2,
+   "kind": "news",
+   "text": "Experten erwarten, dass sich dieser Trend im kommenden Jahr fortsetzen wird."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 2,
+   "kind": "instruction",
+   "text": "Ende Teil eins."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil zwei. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen sechsundvierzig bis fünfundfünfzig richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben sechsundvierzig bis fünfundfünfzig, markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben sechsundvierzig bis fünfundfünfzig. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

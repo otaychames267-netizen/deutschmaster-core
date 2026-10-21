@@ -1,0 +1,125 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 5,
+   "end": 6,
+   "text": "Die Nachrichten."
+  },
+  {
+   "gender": "male",
+   "start": 6,
+   "end": 28,
+   "text": "Nach den jüngsten Umstrukturierungen bei Lufthansa stehen derzeit Verbesserungen im Bereich der Mitarbeiterentwicklung und Sicherheitsstandards im Vordergrund. Die Zusammenarbeit mit der Pilotengewerkschaft verläuft derzeit harmonisch, sodass es in den letzten Monaten keine größeren Unstimmigkeiten oder Tarifkonflikte gab."
+  },
+  {
+   "gender": "male",
+   "start": 29,
+   "end": 35,
+   "text": "Viel Aufmerksamkeit erhält die Modernisierung der Flotte, um umweltfreundlicher zu agieren."
+  },
+  {
+   "gender": "male",
+   "start": 35,
+   "end": 45,
+   "text": "Parallel dazu werden flexible Arbeitszeitmodelle eingeführt, die sowohl dem Unternehmen als auch den Mitarbeitenden zugute kommen sollen."
+  },
+  {
+   "gender": "male",
+   "start": 45,
+   "end": 55,
+   "text": "In den letzten Berichten wird betont, dass das Klima im Betrieb überwiegend positiv eingeschätzt wird und neue Strikes nicht zu erwarten sind."
+  },
+  {
+   "gender": "male",
+   "start": 55,
+   "end": 67,
+   "text": "Im Mittelpunkt der neuen Kampagne des Gesundheitsministeriums steht die Prävention von Grippeinfektionen, vor allem für ältere Menschen und Menschen mit chronischen Erkrankungen."
+  },
+  {
+   "gender": "male",
+   "start": 67,
+   "end": 78,
+   "text": "Für die breite Bevölkerung setzt das Ministerium jedoch weiterhin auf Eigenverantwortung, informiert über Hygienemaßnahmen und empfiehlt bei Bedarf den Arztbesuch."
+  },
+  {
+   "gender": "male",
+   "start": 78,
+   "end": 131,
+   "text": "Darüber hinaus werden Informationsveranstaltungen und Beratungsangebote in verschiedenen Regionen ausgebaut, um die Menschen über Risiken und Schutzmöglichkeiten aufzuklären. Bislang verzichtet die Regierung aber auf eine allgemeine Impfempfehlung und setzt stattdessen auf gezielte Informationen bestimmter Risikogruppen. Der diesjährige Tag des offenen Denkmals verzeichnete einen spürbaren Besucherzuwachs. Viele Interessierte nutzten die Gelegenheit, selten zugängliche historische Gebäude und Sehenswürdigkeiten zu besichtigen."
+  },
+  {
+   "gender": "male",
+   "start": 131,
+   "end": 201,
+   "text": "Neben klassischen Stadtführungen gab es spezielle Programme für Familien und Kinder. Besonders beliebt waren Führungen durch alte Industrieanlagen und frisch restaurierte Villen. Experten lobten das große Engagement der ehrenamtlichen Helfer und zeigten sich überrascht vom starken Andrang. Die Veranstalter ziehen insgesamt eine sehr positive Bilanz und planen das Angebot im kommenden Jahr weiter auszubauen."
+  },
+  {
+   "gender": "male",
+   "start": 201,
+   "end": 232,
+   "text": "Laut einer aktuellen Studie bevorzugen viele Arbeitnehmer in Deutschland weiterhin Arbeitsplätze im eigenen Land. Für viele ist die Nähe zu Familie und Freunden entscheidend und der Wunsch dauerhaft im Ausland zu arbeiten ist weniger verbreitet, insbesondere für erfahrene Fachkräfte stehen Stabilität und langfristige Perspektiven im Vordergrund."
+  },
+  {
+   "gender": "male",
+   "start": 232,
+   "end": 256,
+   "text": "Unternehmen reagieren darauf, indem sie verstärkt flexible Arbeitsmodelle wie Homeoffice anbieten. Nur ein kleiner Teil der Befragten zeigt sich offen für längere Auslandsaufenthalte, was sich in den letzten Jahren kaum verändert hat."
+  },
+  {
+   "gender": "male",
+   "start": 256,
+   "end": 305,
+   "text": "In den letzten Tagen sorgte ein ungewöhnliches Naturschauspiel für großes Aufsehen in Deutschland. In mehreren Regionen wurden nachts beindruckende Polarlichter am Himmel beobachtet. Experten führen das Phänomen auf eine erhöhte Sonnenaktivität zurück, die zu besonders starken Sonnenwinden geführt hat."
+  },
+  {
+   "gender": "male",
+   "start": 305,
+   "end": 336,
+   "text": "Viele Menschen nutzten die Gelegenheit, die seltenen Lichter mit ihren Kameras festzuhalten und in sozialen Netzwerken zu teilen. Die Wissenschaftler betonen, dass Polarlichter in Mitteleuropa sehr selten sind, aber in den kommenden Wochen erneut auftreten könnten, falls die Sonnenaktivität anhält."
+  },
+  {
+   "gender": "male",
+   "start": 336,
+   "end": 427,
+   "text": "Mehrere Spiele in der ersten Fußball-Bundesliga endeten an diesem Wochenende ohne Sieger. Sowohl in München als auch in Hamburg gab es spannende Partien, die mit einem Unentschieden abgeschlossen wurden. Die Trainer beider Mannschaften äußerten sich nach den Begegnungen zufrieden mit dem Engagement ihrer Teams, betonten jedoch, dass ein Sieg wichtig gewesen wäre, um in der Tabelle weiter nach oben zu klettern. Die Fans zeigten Verständnis und hoffen auf bessere Ergebnisse an den kommenden Spieltagen. Die Liga bleibt dadurch weiterhin sehr ausgeglichen und spannend."
+  },
+  {
+   "gender": "female",
+   "start": 427,
+   "end": 435,
+   "text": "Ende Teil 1. Hören Sie verstehen Teil 2."
+  },
+  {
+   "gender": "female",
+   "start": 435,
+   "end": 438,
+   "text": "Sie hören einen Rundfunkinterview."
+  },
+  {
+   "gender": "female",
+   "start": 438,
+   "end": 441,
+   "text": "Dazu sollen Sie zehn Aufgaben lösen."
+  },
+  {
+   "gender": "female",
+   "start": 441,
+   "end": 445,
+   "text": "Sie hören dieses Interview nur einmal."
+  },
+  {
+   "gender": "female",
+   "start": 445,
+   "end": 450,
+   "text": "Lesen Sie jetzt die Aufgaben 46-55."
+  },
+  {
+   "gender": "female",
+   "start": 450,
+   "end": 452,
+   "text": "Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

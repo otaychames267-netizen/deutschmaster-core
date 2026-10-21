@@ -1,0 +1,59 @@
+{
+ "name": "frau-juergens",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Hör verstehen Teil 1."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 0.5,
+   "kind": "instruction",
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 3.6,
+   "kind": "instruction",
+   "text": "Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Hallo, meine Damen und Herren, hier sind die aktuellen Nachrichten. In den vergangenen Wochen wurde viel über einen möglichen Rücktritt von Frau Jürgens spekuliert. Tatsächlich gab es einige Meinungsverschiedenheiten im Team. Doch Frau Jürgens stellte in einer Pressemitteilung klar, dass sie keinesfalls zurücktreten werde. Sie sieht die aktuellen Herausforderungen als Chance, die Zusammenarbeit zu verbessern und Missverständnisse aus dem Weg zu räumen. Zudem kündigte sie an, neue Ideen einzubringen und gemeinsam mit ihren Kollegen an Lösungen zu arbeiten. Die Unterstützung der Stadtverwaltung sei weiterhin gegeben, sodass keine personellen Veränderungen geplant sind.\n\nWegen umfassender Bauarbeiten sind die Kinos der Stadt zurzeit nicht in Betrieb. Das Kulturamt informierte heute, dass alle Filmvorführungen auf öffentliche Plätze und Open Air Locations verlegt wurden. Außerdem bietet das städtische Kulturzentrum ein breites Online Programm für Filmfreunde an. Erst nach Abschluss der Sanierungsarbeiten können die Kinos wieder öffnen. Die Stadt hofft, spätestens zum Herbst die Türen der Lichtspielhäuser wieder für Besucher öffnen zu können. Bis dahin bleibt das gemeinsame Filmerlebnis im klassischen Kinosaal leider aus.\n\nNach den gestrigen Einschränkungen läuft der öffentliche Nahverkehr heute wieder planmäßig. Die Verkehrsbetriebe teilten mit, dass alle technischen Probleme durch den Einsatz zusätzlicher Teams schnell behoben wurden. Sowohl Bus- als auch Bahnlinien verkehren ohne Störungen. Fahrgäste berichteten, dass sie wie gewohnt zur Arbeit und zurückfahren konnten. In den kommenden Tagen sind keine weiteren Bauarbeiten angekündigt, sodass alle Verbindungen zuverlässig nutzbar sind. Damit herrscht wieder Normalbetrieb im gesamten Netz und die Pendler können aufatmen.\n\nCamping in freier Natur erfreut sich wachsender Beliebtheit, doch es gelten klare Regeln."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "In Deutschland sowie im europäischen Ausland ist wildes Camping nur in bestimmten Gebieten mit offizieller Genehmigung gestattet. Behörden weisen darauf hin, dass das Übernachten im Wald oder auf privaten Grundstücken ohne Erlaubnis verboten ist. Wer die Natur erleben will, sollte sich vorher über die jeweiligen Vorschriften informieren, um Strafen zu vermeiden. Dennoch öffnen einige Regionen spezielle Flächen für Naturliebhaber, sofern Umwelt- und Tierschutz eingehalten werden.\n\nViele Menschen verbringen ihre Freizeit heutzutage auf ganz unterschiedliche Weise. Während einige gerne Zeit in der Natur verbringen und wandern gehen, bevorzugen andere das Lesen oder Musikhören zu Hause. Die Auswahl an Hobbys ist groß und bietet für jeden Geschmack das Passende. Auch gemeinsame Aktivitäten mit Freunden oder Familie werden immer beliebter.\n\nFür die nächsten Tage rechnen Wetterdienste mit steigenden Temperaturen im ganzen Land. Nach dem eher kühlen Frühlingsbeginn bringt ein Hochdruckgebiet nun sonniges und warmes Wetter. Besonders am Wochenende sind Werte über 28°C möglich. Die Menschen werden gebeten, sich auf die Hitze vorzubereiten und ausreichend Wasser zu trinken. Freibäder erwarten zahlreiche Gäste und auch Badeseen sind bereits gut besucht. In einigen Städten wurden zusätzliche Schattenplätze geschaffen, um die Bevölkerung vor der Sonne zu schützen."
+  }
+ ]
+}

@@ -1,0 +1,45 @@
+{
+ "name": "insel-bali",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Guten Abend und herzlich willkommen zu unseren aktuellen Nachrichten. Auch heute berichten wir wieder über wichtige Ereignisse aus aller Welt. Zunächst werfen wir einen Blick auf neue Maßnahmen zur Müllentsorgung auf der Insel Bali. Außerdem gibt es spannende Neuigkeiten aus Nordfrankreich, wo ein entlaufener Panther gesucht wird. Weitere Themen sind die aktuellen Diskussionen über Betriebskosten für Mieter, Veränderungen bei einem Bauvorhaben eines Sektherstellers und der Stand der Löscharbeiten bei einem Brand. Bleiben Sie dran für detaillierte Informationen zu diesen und weiteren Themen.\n\nInsel Bali: Auf der Insel Bali wurden in letzter Zeit keine neuen Maßnahmen zur Müllentsorgung beschlossen. Die Behörden gaben bekannt, dass das bestehende System weiterhin gilt und sich keine wesentlichen Änderungen ergeben haben. Zwar wird das Thema Müllentsorgung in der Bevölkerung häufig diskutiert, doch konkrete Beschlüsse wurden bisher nicht gefasst. Auch Umweltgruppen hoffen auf baldige Verbesserungen, aber bislang ist keine neue Verordnung erlassen worden. Somit bleibt alles beim Alten und die Müllabfuhr findet wie gewohnt statt. Eine offizielle Ankündigung über Änderungen gibt es nicht.\n\nEntlaufenen Panther. In Nordfrankreich gab es gestern einen ungewöhnlichen Vorfall. Einige Anwohner glaubten, einen großen Hund gesehen zu haben, der durch die Felder lief. Nach Überprüfung durch die Polizei stellte sich heraus, dass es sich nicht um einen entlaufenen Panther handelte, sondern um einen Hund einer örtlichen Familie. Die Behörden betonen, dass keine Gefahr besteht und die Berichte über einen Panther falsch waren. Die Tiere in der Region sind weiterhin sicher, es gibt keinen Grund zur Sorge."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Betriebskosten: Die Mietervereinigung hat in einer aktuellen Pressemitteilung erklärt, dass alle Mitglieder dazu aufgerufen werden, ihre Betriebskosten vollständig und pünktlich zu bezahlen. Es gab keine Empfehlung, die Betriebskosten nicht zu bezahlen. Vielmehr wird dazu geraten, alle Abrechnungen sorgfältig zu prüfen und bei Unklarheiten direkt Kontakt mit dem Vermieter aufzunehmen. Das Ziel ist ein faires und transparentes Miteinander zwischen Mietern und Vermietern.\n\nSekthersteller: Der bekannte Sekthersteller aus Wiesbaden hat diese Woche offiziell bestätigt, dass die Pläne für sein Bauvorhaben geändert wurden. Aufgrund neuer Umweltauflagen und Anregungen aus der Gemeinde wurde das ursprüngliche Konzept überarbeitet. Die neuen Baupläne berücksichtigen nun mehr Grünflächen und weniger Versiegelung. Auch die geplante Produktionshalle wird kleiner ausfallen als zuvor angekündigt. Der Baubeginn ist dennoch für dieses Jahr vorgesehen.\n\nFeuer: Die Löscharbeiten nach dem großen Brand im Industriegebiet sind noch nicht abgeschlossen. Die Feuerwehr ist weiterhin rund um die Uhr im Einsatz, um letzte Glutnester zu bekämpfen und das Gelände zu sichern. Es wird erwartet, dass die Löscharbeiten noch mindestens bis morgen andauern. Die Behörden warnen weiterhin vor dem Betreten des betroffenen Gebiets. Weitere Informationen folgen in unseren nächsten Nachrichten."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

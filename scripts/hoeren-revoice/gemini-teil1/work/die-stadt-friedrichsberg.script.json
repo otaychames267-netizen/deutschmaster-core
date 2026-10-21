@@ -1,0 +1,45 @@
+{
+ "name": "die-stadt-friedrichsberg",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Herzlich willkommen zu unserer Nachrichtensendung. Heute erwartet Sie eine energiegeladene Show mit den neuesten Infos aus Friedrichsberg. Bleiben Sie dran, tanzen Sie mit, wir bringen Ihnen spannende Geschichten direkt ins Wohnzimmer. Also, Musik an, gute Laune und jetzt starten wir gemeinsam durch. Viel Spaß beim Zuhören.\n\nIn Friedrichsberg herrscht diese Woche große Aufregung. Der Bürgermeister veranstaltet ein Event, bei dem die erfolgreichsten Projekte des Jahres vorgestellt werden. Es wird jedoch keine Preisverleihung geben. Ziel dieser Veranstaltung ist es, die Bürger zu informieren und die Projekte vorzustellen. Die Teilnahme ist nach Anmeldung auf der städtischen Website möglich. Viele Bewohner zeigen bereits Interesse, da solche Events die Mitbestimmung in der Stadt stärken. Am Ende steht die Präsentation im Vordergrund, nicht aber die Vergabe von Auszeichnungen.\n\nAlte Brücke. Die Bürger der Stadt haben lange auf diese Nachricht gewartet. Die historische Alte Brücke wird nach einer umfassenden Sanierung pünktlich zum Jahresbeginn wieder für den Verkehr freigegeben. Mit der Öffnung der Brücke wird der Alltag vieler Menschen erleichtert. Die Renovierung legte großen Wert auf Sicherheit und Stabilität, sodass die Brücke lange nutzbar bleibt. Am Eröffnungstag wird ein fest organisiert und zahlreiche Bürger werden erwartet, gemeinsam den ersten Schritt über die neue Brücke zu machen.\n\nRettungsaktion, gestern fand eine erfolgreiche Rettungsaktion statt. Ein Wanderer, der in den Bergen von Friedrichsberg unterwegs war, ist verletzt und verirrt aufgefunden worden. Die Rettungskräfte haben ihn vor Ort erst versorgt und anschließend mit dem Hubschrauber ins Krankenhaus gebracht. Die Behörden planen, die Sicherheitsmaßnahmen auf den Wanderwegen zu verbessern.\n\nZusätzlich sollen mehr Hinweisschilder und Wegweiser aufgestellt werden."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Die professionelle Arbeit der Einsatzkräfte wurde von vielen Bürgern sehr gelobt und gewürdigt.\n\nUnternehmen, heute gab die Geschäftsleitung des Unternehmens eine wichtige Erklärung ab. Entgegen aller Gerüchte wird es keine Entlassungen geben. Im Gegenteil, das Unternehmen plant, in den nächsten Monaten neue Mitarbeiter einzustellen und die Arbeitsplatzsicherheit für das bestehende Personal zu erhöhen. Um die Motivation der Belegschaft weiter zu steigern, sind Verbesserungen der Arbeitsbedingungen sowie Gehaltserhöhungen vorgesehen. Nach dieser Mitteilung herrschte bei den Mitarbeitenden eine positive Stimmung und die Zukunftspläne wurden mit Begeisterung aufgenommen.\n\nFür den geplanten Gruppenlauf in der Stadt ist eine vorherige Anmeldung erforderlich. Interessierte Läufer können sich unkompliziert über ein Onlineformular anmelden. Nach erfolgreicher Registrierung erhalten die Teilnehmer alle wichtigen Informationen zur Strecke, zum Treffpunkt und zum Zeitplan. Am Tag des Laufs bekommen alle Angemeldeten eine Startnummer und können am Ende kleine Preise sowie Urkunden gewinnen. Ziel der Veranstaltung ist es, den Teamgeist zu stärken und einen gesunden Lebensstil zu fördern. Die Nachfrage ist bereits jetzt sehr groß."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

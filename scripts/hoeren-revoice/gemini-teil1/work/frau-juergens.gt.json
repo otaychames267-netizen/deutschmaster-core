@@ -1,0 +1,197 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0.35,
+   "end": 31.06,
+   "text": "Hör verstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45. Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "gender": "male",
+   "start": 34.61,
+   "end": 37.89,
+   "text": "Hallo, meine Damen und Herren, hier sind die aktuellen Nachrichten."
+  },
+  {
+   "gender": "male",
+   "start": 39.12,
+   "end": 48.45,
+   "text": "In den vergangenen Wochen wurde viel über einen möglichen Rücktritt von Frau Jürgens spekuliert. Tatsächlich gab es einige Meinungsverschiedenheiten im Team."
+  },
+  {
+   "gender": "male",
+   "start": 48.79,
+   "end": 54.02,
+   "text": "Doch Frau Jürgens stellte in einer Pressemitteilung klar, dass sie keinesfalls zurücktreten werde."
+  },
+  {
+   "gender": "male",
+   "start": 54.38,
+   "end": 101.99,
+   "text": "Sie sieht die aktuellen Herausforderungen als Chance, die Zusammenarbeit zu verbessern und Missverständnisse aus dem Weg zu räumen. Zudem kündigte sie an, neue Ideen einzubringen und gemeinsam mit ihren Kollegen an Lösungen zu arbeiten. Die Unterstützung der Stadtverwaltung sei weiterhin gegeben, sodass keine personellen Veränderungen geplant sind."
+  },
+  {
+   "gender": "male",
+   "start": 118.57,
+   "end": 123.77,
+   "text": "Wegen umfassender Bauarbeiten sind die Kinos der Stadt zurzeit nicht in Betrieb."
+  },
+  {
+   "gender": "male",
+   "start": 123.77,
+   "end": 132.2,
+   "text": "Das Kulturamt informierte heute, dass alle Filmvorführungen auf öffentliche Plätze und Open Air Locations verlegt wurden."
+  },
+  {
+   "gender": "male",
+   "start": 132.55,
+   "end": 138.5,
+   "text": "Außerdem bietet das städtische Kulturzentrum ein breites Online Programm für Filmfreunde an."
+  },
+  {
+   "gender": "male",
+   "start": 138.86,
+   "end": 143.14,
+   "text": "Erst nach Abschluss der Sanierungsarbeiten können die Kinos wieder öffnen."
+  },
+  {
+   "gender": "male",
+   "start": 143.37,
+   "end": 149.33,
+   "text": "Die Stadt hofft, spätestens zum Herbst die Türen der Lichtspielhäuser wieder für Besucher öffnen zu können."
+  },
+  {
+   "gender": "male",
+   "start": 149.77,
+   "end": 156,
+   "text": "Bis dahin bleibt das gemeinsame Filmerlebnis im klassischen Kinosaal leider aus."
+  },
+  {
+   "gender": "male",
+   "start": 200,
+   "end": 205.8,
+   "text": "Nach den gestrigen Einschränkungen läuft der öffentliche Nahverkehr heute wieder planmäßig."
+  },
+  {
+   "gender": "male",
+   "start": 206.18,
+   "end": 213.39,
+   "text": "Die Verkehrsbetriebe teilten mit, dass alle technischen Probleme durch den Einsatz zusätzlicher Teams schnell behoben wurden."
+  },
+  {
+   "gender": "male",
+   "start": 213.79,
+   "end": 217.84,
+   "text": "Sowohl Bus- als auch Bahnlinien verkehren ohne Störungen."
+  },
+  {
+   "gender": "male",
+   "start": 218.15,
+   "end": 222.18,
+   "text": "Fahrgäste berichteten, dass sie wie gewohnt zur Arbeit und zurückfahren konnten."
+  },
+  {
+   "gender": "male",
+   "start": 222.5,
+   "end": 230.15,
+   "text": "In den kommenden Tagen sind keine weiteren Bauarbeiten angekündigt, sodass alle Verbindungen zuverlässig nutzbar sind."
+  },
+  {
+   "gender": "male",
+   "start": 230.41,
+   "end": 235.91,
+   "text": "Damit herrscht wieder Normalbetrieb im gesamten Netz und die Pendler können aufatmen."
+  },
+  {
+   "gender": "male",
+   "start": 240.9,
+   "end": 246.74,
+   "text": "Camping in freier Natur erfreut sich wachsender Beliebtheit, doch es gelten klare Regeln."
+  },
+  {
+   "gender": "male",
+   "start": 247.16,
+   "end": 254.76,
+   "text": "In Deutschland sowie im europäischen Ausland ist wildes Camping nur in bestimmten Gebieten mit offizieller Genehmigung gestattet."
+  },
+  {
+   "gender": "male",
+   "start": 255.36,
+   "end": 262.59,
+   "text": "Behörden weisen darauf hin, dass das Übernachten im Wald oder auf privaten Grundstücken ohne Erlaubnis verboten ist."
+  },
+  {
+   "gender": "male",
+   "start": 262.87,
+   "end": 269.87,
+   "text": "Wer die Natur erleben will, sollte sich vorher über die jeweiligen Vorschriften informieren, um Strafen zu vermeiden."
+  },
+  {
+   "gender": "male",
+   "start": 270.28,
+   "end": 277.62,
+   "text": "Dennoch öffnen einige Regionen spezielle Flächen für Naturliebhaber, sofern Umwelt- und Tierschutz eingehalten werden."
+  },
+  {
+   "gender": "male",
+   "start": 321.13,
+   "end": 326.33,
+   "text": "Viele Menschen verbringen ihre Freizeit heutzutage auf ganz unterschiedliche Weise."
+  },
+  {
+   "gender": "male",
+   "start": 326.54,
+   "end": 334.42,
+   "text": "Während einige gerne Zeit in der Natur verbringen und wandern gehen, bevorzugen andere das Lesen oder Musikhören zu Hause."
+  },
+  {
+   "gender": "male",
+   "start": 334.82,
+   "end": 339.29,
+   "text": "Die Auswahl an Hobbys ist groß und bietet für jeden Geschmack das Passende."
+  },
+  {
+   "gender": "male",
+   "start": 339.54,
+   "end": 344.29,
+   "text": "Auch gemeinsame Aktivitäten mit Freunden oder Familie werden immer beliebter."
+  },
+  {
+   "gender": "male",
+   "start": 349.03,
+   "end": 354.26,
+   "text": "Für die nächsten Tage rechnen Wetterdienste mit steigenden Temperaturen im ganzen Land."
+  },
+  {
+   "gender": "male",
+   "start": 354.51,
+   "end": 360.29,
+   "text": "Nach dem eher kühlen Frühlingsbeginn bringt ein Hochdruckgebiet nun sonniges und warmes Wetter."
+  },
+  {
+   "gender": "male",
+   "start": 360.29,
+   "end": 363.64,
+   "text": "Besonders am Wochenende sind Werte über 28°C möglich."
+  },
+  {
+   "gender": "male",
+   "start": 363.98,
+   "end": 369.2,
+   "text": "Die Menschen werden gebeten, sich auf die Hitze vorzubereiten und ausreichend Wasser zu trinken."
+  },
+  {
+   "gender": "male",
+   "start": 369.45,
+   "end": 373.19,
+   "text": "Freibäder erwarten zahlreiche Gäste und auch Badeseen sind bereits gut besucht."
+  },
+  {
+   "gender": "male",
+   "start": 373.5,
+   "end": 379.79,
+   "text": "In einigen Städten wurden zusätzliche Schattenplätze geschaffen, um die Bevölkerung vor der Sonne zu schützen."
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "name": "bayern-nordrhein-westfalen",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 0.5,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41-45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41-45."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 7,
+   "kind": "instruction",
+   "text": "Lesen Sie jetzt die Aufgaben 41-45."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Bayern und Nordrhein-Westfalen erhalten laut Verkehrsministerium nicht jährlich 2,3 Milliarden Euro für neue Autobahnen. Stattdessen wurde ein einmaliger Investitionsrahmen von insgesamt 2,3 Milliarden Euro für mehrere Bundesländer angekündigt, der sich über fünf Jahre erstreckt. Das Geld ist zudem nicht ausschließlich für Autobahnneubauten vorgesehen, sondern vor allem für Brückensanierungen, Lärmschutz, digitale Verkehrssteuerung und die Schiene. Bayern und NRW profitieren zwar stark, müssen aber Eigenmittel beisteuern. Konkrete Projekte werden erst nach Prüfungen freigegeben. Für komplett neue Trassen gelten strengere Umweltauflagen und längere Planungsverfahren. Ein jährlicher Fixbetrag speziell für Autobahnen in nur zwei Ländern ist nicht geplant, betont Berlin in einer schriftlichen Mitteilung. Auch Kommunen erhalten Anteile für Radwege.\n\nIn Russland fällt der Unterricht nicht im ganzen Land aus, wie manche Meldungen behaupten. Mehrere Regionen im hohen Norden und in Sibirien haben wegen klirrender Kälte vorübergehend Schulen geschlossen oder auf Fernunterricht umgestellt. In Zentralrussland finden dagegen reguläre Stunden statt. In Moskau wurden lediglich Sportaktivitäten im Freien abgesagt. Im Süden, etwa in Krasnodar und am Schwarzen Meer, laufen die Schulen normal, da dort Plusgrade gemessen werden. Das Bildungsministerium überlässt Entscheidungen den Behörden vor Ort, die je nach Wetterlage kurzfristig reagieren. Von einem landesweiten Unterrichtsstopp kann daher keine Rede sein, betonen Meteorologen und Schulverwaltungen übereinstimmend in ihren täglichen Lageberichten. Eltern wurden per SMS informiert, Hotlines wurden heute eingerichtet.\n\nIn Frankreich hat sich in der vergangenen Nacht bei einer Studentenparty eine Tragödie ereignet."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "In einer überfüllten Kellerbar nahe Lyon kam es nach ersten Ermittlungen zu einer Panik, ausgelöst durch dichten Rauch aus einer defekten Nebelmaschine. Mehrere Personen stürzten auf einer steilen Treppe. Rettungskräfte berichten von mindestens zwei Toten und über einem Dutzend Verletzten, einige davon schwer. Die Staatsanwaltschaft ermittelt wegen fahrlässiger Tötung. Brandschutzauflagen und Notausgänge sollen überprüft werden. Angehörige werden psychologisch betreut, die Universität hat für heute den Präsenzbetrieb ausgesetzt und eine Trauerfeier angekündigt. Augenzeugen schildern chaotische Szenen, Smartphones sirrten, Musik verstummte abrupt, Helfer bildeten Rettungsketten, bis die Feuerwehr eintraf. Die Bar bleibt vorerst geschlossen.\n\nDas Bundesfinanzministerium hat die Steuern im vergangenen Jahr nicht gesenkt. Zwar wurden Freibeträge leicht angehoben und die Entfernungspauschale angepasst, doch die nominalen Steuersätze blieben unverändert. Zusätzliche Entlastungen ergaben sich vor allem durch Einmalzahlungen der Länder, sowie durch höhere Kindergeldbeträge, nicht durch eine bundesweite Tarifsenkung. Ministeriumskreise verweisen auf die angespannte Haushaltslage und die Priorität, Schuldenbremse und Investitionen auszubalancieren. Für das laufende Jahr kursieren Eckpunkte zur Reform des Einkommensteuertarifs, die kalte Progression dämpfen sollen, beschlossen ist jedoch noch nichts. Unternehmen fordern weitergehende Maßnahmen, etwa beschleunigte Abschreibungen. Von einer allgemeinen Steuersenkung im letzten Jahr kann daher keine Rede sein, betonen Fachleute ausdrücklich. Opposition spricht von vertaner Chance für Wachstum.\n\nDie Bundesregierung plant Änderungen bei der Führerschein-Probezeit."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Ein Entwurf aus dem Verkehrsministerium sieht vor, die Probezeit bei auffälligen Verstößen zu verlängern und verpflichtende Fahrsicherheitstrainings früher anzusetzen. Zugleich soll für Fahranfänger eine strengere 0,0 Promille-Regel geprüft werden. Ausnahmen wären nur für Medikamente mit Hinweiszettel vorgesehen. Bund und Länder beraten außerdem über digitale Punktebelehrungen, sowie eine App, die junge Fahrer nach riskanten Manövern automatisch zum Coaching einlädt. Ziel ist es, Unfallzahlen in der besonders gefährdeten Altersgruppe deutlich zu senken. Wenn Bundestag und Bundesrat zustimmen, könnten die Neuerungen 2026 stufenweise greifen. Fahrschulen begrüßen die Pläne, Verbände fordern praxistaugliche Übergangsregeln. Autoclubs warnen vor Bürokratie, unterstützen jedoch das Sicherheitsziel und Evaluationspflichten jährlich."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Ende Teil 1."
+  }
+ ]
+}

@@ -1,0 +1,164 @@
+{
+ "name": "T1_Kunden_der_Fluggesellschaft_DL",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Prüfungsteil 1, Hörverstehen, Test 1, richtige oder falsche Sätze."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 62,
+   "kind": "instruction",
+   "text": "Markieren Sie die Lösungen auf den Antworten bei den Aufgaben 1 bis 15. Markieren Sie plus, gleich richtig und minus, gleich falsch auf den Antworten. Lesen Sie jetzt die Aufgaben 1 bis 15. Sie haben dazu 30 Sekunden Zeit."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Die Fluggesellschaft DL stürzt in die Krise. Wie die 8 Junggesellschafter der DL bestätigt oder schließt und hat alle Flüge abgesagt. Etwa 12. 000 Passagiere wurden nun auf andere Flüge oder Zugbewegungen umgebucht. Die Passagiere waren größtenteils an Land. Man habe ihnen am Fuberg in keine weiteren Informationen gegeben, berichtet mein Fuberg aus. Der Führungsstab einfach ist bei die war. Die Fluggesellschaft DL gibt es derzeit seit wenigen Jahren. Die DL hat vor allem innerdeutsche Strecken bedient und auch kleinere Flugwerke in den Indorf, Grund oder Rostock. Auf der internationalen Dienstbaren Messe ISM in Köln zeigen 1400 Aussteller aus 65 Ländern am kommenden Sonntag ihre Reaktionen. Wegen der steigenden Zuckerpreise werden Verbraucher dieses Jahr auch höhere Preise für Süßigkeiten bezahlen. Der Verkauf von Süßwaren ist allerdings im letzten Jahr um 10 % zurück. Die Sprecherin der Süßwarenmesse, Ilona Schneider, führt dies auf ein gestiegenes Gesundheitsbewusstsein zurück. Gesunde Ernährung wird auch für Jugendliche immer wichtiger, so Schneider. An den vergangenen Wochenende erreichte die Erde der stärkste Sonnensturm seit Jahren. Sonnenstürme sind für Erde und Menschen harmlos, allerdings gab die Probleme beim Empfang von Satellitenprogrammen auch auch der Handyempfang war zeitweise gestört. Die Sonnenstürme lösen jeweils die sogenannten Polarlichte aus. Grüne Lichter, die am Abend und Nachthimmel zu sehen sind und meist im Norden Skandinaviens auftreten. Die Polarlichte waren glücklicherweise sogar in ganz England zu sehen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Die Präsidentschaftswahl in der Mongolei scharf in ihrer Schatten voraus. Gestern haben die beiden Kandidaten in einem Duell und entschlossene Wähler zu überzeugen, indem 60 minütigen Duell wurden vor allem Bildung und sozialpolitische Themen angesprochen. Bei einer Unwahr der Einlass an die Sendung konnte aber kein eindeutiger Gewinner ausgemacht werden. Die Wahlen finden in vier Wochen statt. Und hier noch ein Hinweis für alle, die mit dem Auto unterwegs sind. Am kommenden Wochenende ist die Autobahn A3 im Kreuz Oberhausen in Richtung Arnheim, Hannover wegen Bauarbeiten gesperrt. Gesperrt ist auch die Aufahrt in Richtung Arnheim, Hannover an der Anschlussstelle Oberhausen Wolfs, die Gegenrichtung ist frei. Umleitungen sind ausgeschildert. Erkennbar ist die Polizei alle Funkfahrzeuge in der Baustelle möglichst zweiförmig zu umfahren. Eine Warnung vor einem jetzigen Sturm hat das Deutsche Wetteramt für die westlichen des Landes ausgegeben. Dass die Teenager in kommen Atlantik kommen über West- und Mitteleuropa ein Wetter, Deutschland aber nur streifig. Morgen Mittag werden Sturm und 110 km/h erwartet, das Tiefdruckgebiet auch Starkregen mit sich bringt. Paar ein Feuerwehr nicht nur vor der Unterhaltung Gegenstände, sondern auch vor zu kurzen Straßen. Auch Vorsicht gilt deshalb wegen besondere Vorsicht geben. Und wie wird das Wetter sonst in Deutschland? im nächsten Wetter.\n\nEnde des Tests zu Prüfungsteil 1. Sendung, Anruf und Interview."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 62,
+   "kind": "instruction",
+   "text": "Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie nach der Hörer, ob die Aussagen 36 bis 55 richtig oder falsch sind. Markieren Sie Ihre Lösungen auch im Antworten bei den Aufgaben 36 bis 55. Markieren Sie plus, gleich richtig und minus, gleich falsch auf den Antworten. Lesen Sie jetzt die Aufgaben 36 bis 55. Sie haben dazu 60 Sekunden Zeit."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Im Grunde und Sendung Beruf heute. Als Gast begrüße ich den Journalisten Steiner des Aktuelle Sportstudio, eine der bekanntesten Sportredaktionen im deutschen Fernsehen und seit einigen Jahren Professor an der TH Dortmund. Hallo, ich freue mich sehr hier zu sein. Beschreiben Sie, Sie sehen derzeit Aufmerksamkeit harte Arbeit in der Dortmunder Messe, glaube ich, gerne. Wieder zu Fuß spielen. Zuerst aber habe ich folgende Fragen. Erst war der verreckte Ereignis hat sie in ihrem Leben geprägt? Für den ersten Aufbesserung oder analoge Sportstunden oder weil ihre erste Vorlesung als Professor an der TH Dortmund. Ich hoffe, beiden Anwesenden waren gespannt, haben die Arbeit jeweils auch auf dem Parket. Ehrlich gesagt, es ist mir heute noch bei Fortbildung und Sportstudi oder Vorlesungen an der Uni, ein gewisses Maß an Herzklopfen. Es scheint aber dabei ist, dass man sich gut vorbereiten kann. Sie unterrichten Sportjournalismus und Medienkommunikation. Woher kommt das Interesse an dem Sendungsart? Besonders wichtig ist mir das, was die Sportjournalisten in der Redaktion zukommt. und die Arbeit Sportsform oder Modell gezeigt wird. Die Indikation von Journalist und Praxis. Wir wollten die Studierenden möglichst realitätsnah in allen Medien auf das Berufsleben vorbereiten. Gleichzeitig Wissenschaft vermitteln. Es ist also so, sie lernen Journalismus nicht nur im Seminar und der Fakultät, sondern auch ganz praktisch in der Arbeit kennen. Sie müssen beispielsweise bei Organe schreiben oder Interviews führen. Schauen wir jetzt, wie gut sie mit der Mediengeräten im ersten Semester ihre Ausbildung und in der Sendung für die auch schöne Anreize haben. Welches Projekt ist das? Können Sie uns kurz schildern, dass es wirklich zu erzählen? Fernsehen ist für mich eines der populärsten Instrumente, dass wir haben. Deshalb müssen wir uns intensiv damit auseinandersetzen, denn jeder Teilnehmer bekommt von uns eine professionelle Rückmeldung. Wir sagen also, was gut war und was noch nicht und warum. Wir sind da im 1988 an den Start gegangen als Volontär zum ZDF. Was sind aus Ihrer Sicht seitdem die größten Veränderungen im Fernseher Journalismus? Naja, früher arbeiteten die Medien völlig getrennt voneinander, hier das Fernsehen, da der Hörfunk und die Zeitung. Heute leben wir in Crossmedialen Zeitalter. Journalismus, die Medien und die Wege können sich geändert hat. Denn alles miteinander zu verknüpfen. Journalismus und Medienwirtschaft, immer mehr zu verbinden. Ein Journalist und insbesondere Sportjournalist ist trotz des Wandel seiner Stellung noch immer ein Traum von den vielen Menschen. Was reizt Sie diesen Traum auszuwarten? Dafür muss man mit Erfahrungen sollen und vor allem eine solide Ausbildung setzen. Es ist natürlich nicht einfach, aber es ist auf jeden Fall möglich, wenn man Journalismus studiert, um sich den Traum zu erfüllen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Ja, heute bin ich in Dortmund und will auch mein Praktikum machen. Wenn sie ein bisschen mehr Erfahrung haben als andere Bewerber, dann steigen ihre Chancen enorm. Sie wollten sich über den Journalismus mit allen Medien auf das Berufsleben vorbereiten. Gleichzeitig auch die wissenschaftliche Basis für die Praxis legen. Wir wollten mit dem Studium eine Sendung, also im Grunde eine journalistische Ausbildung für alle Medien ermöglichen und die Studierenden auf das Berufsleben vorbereiten. Und deshalb gibt es am Ende auch ein Zertifikat, wenn man die Ausbildung erfolgreich abgeschlossen hat. Wir wollten die Studierenden nicht nur in der Redaktion schulen, sondern auch in der Produktion, so dass sie am Ende wissen, wie eine Sendung entsteht. Weil wir wollen, dass sie nach dem Studium direkt einsatzbereit sind. Das war unser Ziel."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Dabei handelte es sich um einen landesweiten Fernsehsender, der in digitalen Kabeln ausgestrahlt wird und bei dem jeder mitmachen kann. Vom Hobbyfilmen bis zum ambitionierten Profi. Ein Ort zum Experimentieren und zum Zuhören, denn jeder der will, bekommt von uns eine professionelle Rückmeldung. Wir sagen also, was gut war und was noch nicht und was noch weg und warum. Und die anderen neun Modelle wurden bis 1988 als Volontär zum ZDF. Was sind aus Ihrer Sicht seitdem die größten Veränderungen im Fernseher Journalismus? Naja, früher arbeiteten die Medien völlig getrennt voneinander, hier das Fernsehen, da der Hörfunk und die Zeitung. Heute leben wir in Crossmedialen Zeitalter. Journalismus, die Medien und die Wege können sich geändert hat. Denn alles miteinander zu verknüpfen. Journalismus und Medienwirtschaft, immer mehr zu verbinden. Ein Journalist und insbesondere Sportjournalist ist trotz des Wandel seiner Stellung noch immer ein Traum für viele Menschen. Was reizt Sie diesen Traum auszuwarten? Dafür muss man mit Erfahrungen sollen und vor allem eine solide Ausbildung setzen. Es ist natürlich nicht einfach, aber es ist auf jeden Fall möglich, wenn man Journalismus studiert, um sich den Traum zu erfüllen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Ja, heute bin ich in Dortmund und will auch mein Praktikum machen. Wenn sie ein bisschen mehr Erfahrung haben als andere Bewerber, dann steigen ihre Chancen enorm. Sie wollten sich über den Journalismus mit allen Medien auf das Berufsleben vorbereiten. Gleichzeitig auch die wissenschaftliche Basis für die Praxis legen. Wir wollten mit dem Studium eine Sendung, also im Grunde eine journalistische Ausbildung für alle Medien ermöglichen und die Studierenden auf das Berufsleben vorbereiten. Und deshalb gibt es am Ende auch ein Zertifikat, wenn man die Ausbildung erfolgreich abgeschlossen hat. Wir wollten die Studierenden nicht nur in der Redaktion schulen, sondern auch in der Produktion, so dass sie am Ende wissen, wie eine Sendung entsteht. Weil wir wollen, dass sie nach dem Studium direkt einsatzbereit sind. Das war unser Ziel."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Dabei handelte es sich um einen landesweiten Fernsehsender, der in digitalen Kabeln ausgestrahlt wird und bei dem jeder mitmachen kann. Vom Hobbyfilmen bis zum ambitionierten Profi. Ein Ort zum Experimentieren und zum Zuhören, denn jeder der will, bekommt von uns eine professionelle Rückmeldung. Wir sagen also, was gut war und was noch nicht und was noch weg und warum. Und die anderen neun Modelle wurden bis 1988 als Volontär zum ZDF. Was sind aus Ihrer Sicht seitdem die größten Veränderungen im Fernseher Journalismus? Naja, früher arbeiteten die Medien völlig getrennt voneinander, hier das Fernsehen, da der Hörfunk und die Zeitung. Heute leben wir in Crossmedialen Zeitalter. Journalismus, die Medien und die Wege können sich geändert hat. Denn alles miteinander zu verknüpfen. Journalismus und Medienwirtschaft, immer mehr zu verbinden. Ein Journalist und insbesondere Sportjournalist ist trotz des Wandel seiner Stellung noch immer ein Traum für viele Menschen. Was reizt Sie diesen Traum auszuwarten? Dafür muss man mit Erfahrungen sollen und vor allem eine solide Ausbildung setzen. Es ist natürlich nicht einfach, aber es ist auf jeden Fall möglich, wenn man Journalismus studiert, um sich den Traum zu erfüllen."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Ja, heute bin ich in Dortmund und will auch mein Praktikum machen. Wenn sie ein bisschen mehr Erfahrung haben als andere Bewerber, dann steigen ihre Chancen enorm. Sie wollten sich über den Journalismus mit allen Medien auf das Berufsleben vorbereiten. Gleichzeitig auch die wissenschaftliche Basis für die Praxis legen. Wir wollten mit dem Studium eine Sendung, also im Grunde eine journalistische Ausbildung für alle Medien ermöglichen und die Studierenden auf das Berufsleben vorbereiten. Und deshalb gibt es am Ende auch ein Zertifikat, wenn man die Ausbildung erfolgreich abgeschlossen hat. Wir wollten die Studierenden nicht nur in der Redaktion schulen, sondern auch in der Produktion, so dass sie am Ende wissen, wie eine Sendung entsteht. Weil wir wollen, dass sie nach dem Studium direkt einsatzbereit sind. Das war unser Ziel. Sie haben nun noch 30 Sekunden Zeit, um ihre Antworten zu übernehmen. Prüfungsteil 1, Test 2."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Sie hören jetzt fünf Kurzgeschichten."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Dazu würden Sie fünf Aufgaben lösen."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Sie hören diese Anfragen nur einmal. Entscheiden Sie dann würden, ob die Aussagen 56 bis 60 richtig oder falsch sind. Markieren Sie Ihre Mülle und Antworten bei den Aufgaben 56 bis 60. Markieren Sie Plus, gleich richtig und Minus, gleich falsch auf den Antworten."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 2.4,
+   "kind": "news",
+   "text": "Nummer 56 bis 60."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Sie hören eine Telefonansage."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Sie sind der größte Inhaber des Internetkaufhauses Karstadt im Moment seiner allerletzten Möglichkeit. Und damit wir jetzt sind auf ihre Anliegen Werte, in der sie im Grunde nur frei zu sein, wenn Sie eine Bestimmung aufgeben oder den Status ihrer und ihrer aktuellen Bestellungen abrufen möchten, können Sie das auch im Internet tun. Einfach Kundencenter anklicken und in weiteren beweisen. Dann wissen Sie genau, wo sich immer gerade befinden. Für eine weitere Anliegen finden Sie Sie noch um ein Institut bis einem bekannten. Hallo, ich freue mich sehr hier zu sein.\n\nNummer 57. Sie interessieren sich für die Anna und hören in einigen folgende Meldung: Ankommenden Wochenende finden Sie das alljährlich stattfindende Neujahrsbühne der Handerssler in Dortmund statt. Viele Gäste haben sich angemeldet aus allen über West und Mitteleuropa in Deutschland aber nur streifen. Morgen Mittag werden schon blühen und 1% 1 km/h erwartet, dass das Tiefdruckgebiet auch Starkregen mit sich bringt. Fahren Feuerwehren nicht nur vor der Unterhaltung Gegenstände, sondern auch vor zu kurzen Straßen. Auch vor Gefahr.\n\nNummer 58. In Radio hören Sie die Veranstaltungstipps. Hören Sie jetzt aus und an der Stadt. In der Stadt hat es für Sie ein klassisches Konzert für junge Leute, und zwar kostenlos. Ein Schritt haben nur Kinder und Jugendliche bis zum Alter von 18 Jahren. Parallel dazu gibt es im Hoch eine Veranstaltung für alle Eltern, einen Renommaten Musiker aus den 70er und 80er Jahren. Die auch in der Stadt früher war. Ein Schritt exklusive Heizen und für die Pension für 15 Euro. Hatten Sie als Familie doch über etwas zu sammelnde Einnahmen, können Sie es aber auch in der großen da. Dort werden Kabarett und Musik für alle zwischen 8 und 80 Jahren geboten. Karten gibt es direkt am Einwand."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1.2,
+   "kind": "news",
+   "text": "Nummer 60. Im Radio hören Sie folgende Meldung. Autoverkehr in Köln, der Weg, der mich nicht umgebaut ist, aktuell etwas weniger gesund zu tun. Das ist üble Gemeinheit. In der kommenden Woche können Sie anzahlige Sportveranstaltungen in Dortmund kostenlos bei. Sportler eine öffentlich geregelt Sportplätze können in den Tag von allen benutzt werden und zahlreiche Helfer unterstützen alle Einsteiger. Wenn Sie schon immer mal eine besondere Sport ausprobieren sollten, ist das die Gelegenheit. Die gibt weitere Informationen zum Zeitpunkt oder im Internet oder bei jedem Sportbereich.\n\nNummer 60."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 12.3,
+   "kind": "instruction",
+   "text": "Sie hören eine Ansage auf dem Anrufbeantworter."
+  },
+  {
+   "type": "tts",
+   "voice": "female",
+   "gapAfter": 1,
+   "kind": "news",
+   "text": "Sie sind der Kunde in der Grundneuheit des Internetkaufhauses Kaufland ist im Moment der allerletzten Möglichkeit. Im Moment ist leider aller Leistung in Entwicklung. Um damit wir jetzt sind auf ihre Anliegen, werte Kunden, können Sie sich im Grunde nur bereit zu sein."
+  }
+ ]
+}

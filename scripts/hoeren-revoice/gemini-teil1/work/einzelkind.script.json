@@ -1,0 +1,72 @@
+{
+ "name": "einzelkind",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "p1": "Erinome",
+  "p2": "Aoede",
+  "p3": "Leda",
+  "p4": "Autonoe",
+  "p5": "Charon"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "p1": 0.94,
+  "p2": 0.94,
+  "p3": 0.94,
+  "p4": 0.94,
+  "p5": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1.5,
+   "kind": "announcer",
+   "text": "Heutzutage gibt es sehr unterschiedliche Familienformen. Manche Kinder wachsen mit Geschwistern auf, andere als Einzelkinder. Wir wollten wissen, wie junge Menschen ihre Kindheit erlebt haben und welche Erfahrungen sie mit Geschwistern oder als Einzelkind gemacht haben. Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "type": "tts",
+   "voice": "p1",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 1. Wenn ich an meine Kindheit denke, fällt mir zuerst ein, wie lebendig es bei uns zu Hause war. Ich habe zwei Geschwister und natürlich gab es oft Situationen, in denen ich mir mehr Ruhe gewünscht hätte. Gerade, wenn alle durcheinander geredet haben oder niemand nachgeben wollte, dachte ich kurz, wie angenehm es vielleicht wäre, allein zu sein. Aber das waren eher einzelne Momente. Insgesamt habe ich es immer als Vorteil gesehen, Geschwister zu haben. Man war nie wirklich allein und heute bin ich froh über diese Erfahrung."
+  },
+  {
+   "type": "tts",
+   "voice": "p2",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 2. Mein Bruder und ich hatten früher ein ziemlich schwieriges Verhältnis. Wir haben uns oft gestritten, vor allem als Jugendliche. Jeder wollte seinen eigenen Weg gehen und Verständnis füreinander gab es kaum. Erst mit den Jahren hat sich das geändert. Heute haben wir regelmäßig Kontakt, unterstützen uns gegenseitig und reden offen miteinander. Das Verhältnis ist stabil geworden, auch wenn es früher ganz anders aussah."
+  },
+  {
+   "type": "tts",
+   "voice": "p3",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 3. Ich bin mit einem Bruder aufgewachsen und als Kind habe ich mir manchmal vorgestellt, wie es wohl mit einer Schwester wäre. Das war aber eher eine theoretische Idee. Heute denke ich darüber kaum noch nach. Ich bin zufrieden mit meiner Familie, so wie sie ist und habe nicht das Gefühl, dass mir etwas fehlt. Eine Schwester zu haben, wäre vielleicht anders gewesen, aber es ist nichts, was ich mir heute wirklich wünsche."
+  },
+  {
+   "type": "tts",
+   "voice": "p4",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 4. In meiner Familie gab es mehrere Kinder und dadurch war schnell klar, dass nicht immer alles nach den eigenen Vorstellungen laufen kann. Man musste lernen zu warten, zu teilen und auf andere Rücksicht zu nehmen. Diese Erfahrung habe ich sehr früh gemacht. Auch wenn das nicht immer einfach war, habe ich dadurch verstanden, wie wichtig Kompromisse im Zusammenleben sind. Das hilft mir bis heute, sowohl privat als auch im Alltag."
+  },
+  {
+   "type": "tts",
+   "voice": "p5",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 5. Mein Bruder und ich haben im Laufe der Zeit eine sehr enge Beziehung aufgebaut. Früher hatten wir unsere Konflikte, aber inzwischen verstehen wir uns wirklich gut. Wir sprechen über persönliche Themen, unterstützen uns gegenseitig und respektieren einander. Auch wenn wir unterschiedliche Leben führen, ist das Vertrauen zwischen uns sehr stark geblieben."
+  }
+ ]
+}

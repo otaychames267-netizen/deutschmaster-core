@@ -1,0 +1,59 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 0,
+   "end": 31.95,
+   "text": "Guten Tag und herzlich willkommen zu unseren aktuellen Nachrichten. In den nächsten Minuten berichten wir über wichtige Entwicklungen aus Wirtschaft, Sport, Pflege und Immobilien. Sie erfahren mehr über die Situation bei der Lufthansa, ein besonderes Sportereignis in Bonn, aktuelle Herausforderungen in deutschen Pflegeheimen, sowie steigende Heizkosten für Mieter. Außerdem sprechen wir über einen bedeutenden Dopingfall im internationalen Sport. Bleiben Sie dran."
+  },
+  {
+   "gender": "female",
+   "start": 32.55,
+   "end": 109.11,
+   "text": "In den Nachrichten wird gesagt, dass Lufthansa weiterhin die leistungsfähigste und finanziell gesündeste Fluggesellschaft Europas ist. Zwar hat sie bei einigen Kriterien wie Produktqualität und Wachstum ihre Spitzenposition verloren, aber insgesamt bleibt sie an der Spitze, vor allem wegen ihrer starken Finanzlage. Ihre Wartungstochter Lufthansa Technik ist sogar profitabler als der Passagierflug. Somit hat Lufthansa nicht vollständig ihre Führungsposition verloren, sondern diese in wichtigen Bereichen gehalten."
+  },
+  {
+   "gender": "male",
+   "start": 109.73,
+   "end": 139.12,
+   "text": "In Bonn fand ein großes Sportfestival statt, bei dem sich ein Sportverein namens SSF Bonn der Öffentlichkeit präsentierte. Der Vereinsvorsitzende erklärte ausdrücklich, dass sie neue Mitglieder gewinnen wollen und sich aktiv der Bevölkerung zeigen möchten. Diese Aktivitäten fanden auf dem Münsterplatz statt und es nahmen etwa 2.000 Besucher daran teil. Damit wurde klar, dass der Bonner Sportverein sein Angebot öffentlich gezeigt hat."
+  },
+  {
+   "gender": "female",
+   "start": 141.52,
+   "end": 216.5,
+   "text": "Im Bericht wird hervorgehoben, dass die Zustände in deutschen Pflegeheimen sehr kritisch sind. Jeder zehnte Heimbewohner ist in einem schlechten Zustand und der deutsche Pflegeverband fordert dringende Reformen. Der Präsident des Verbandes äußerte, dass die Rahmenbedingungen sich verschlechtert haben und dringend verbessert werden müssen. Es wurde auch betont, dass die Zlegekäfte an ihren Belastungsgrenzen arbeiten. Somit bestätigt die Nachricht eindeutig, dass die Rahmenbedingungen in Zlegeheimen geändert werden müssen."
+  },
+  {
+   "gender": "male",
+   "start": 219.06,
+   "end": 249.7,
+   "text": "In den Nachrichten wird nicht berichtet, dass Heizkosten durch moderne Wärmedämmung deutlich reduziert werden könnten. Stattdessen wird erklärt, dass die Heizkosten stark gestiegen sind, trotz energetischer Sanierungen. Der Präsident des Mieterbundes sagt, dass viele Mieter hohe Nachzahlungen leisten müssen, weil die Heizölpreise deutlich gestiegen sind. Obwohl einige Vermieter energetische Sanierungen durchgeführt haben, konnten die Kostensteigerungen nur abgemildert, aber nicht verhindert werden."
+  },
+  {
+   "gender": "female",
+   "start": 251.98,
+   "end": 319.98,
+   "text": "In den Nachrichten wird berichtet, dass der Zehnkämpfer Tom Sanders wegen Dopings lebenslang gesperrt wurde. Sowohl sein Sportverband als auch das Nationale Olympische Komitee haben diese Entscheidung getroffen. Sanders wurde erneut positiv auf Testosteron getestet, was zu einer endgültigen Sperre führte. Es wurde ausdrücklich gesagt, dass es keine Aufhebung der Sperre gibt. Somit ist die Behauptung, dass die Dopingsperre aufgehoben wurde."
+  },
+  {
+   "gender": "male",
+   "start": 322.25,
+   "end": 323.77,
+   "text": "Ende Teil eins."
+  },
+  {
+   "gender": "female",
+   "start": 333.32,
+   "end": 340.59,
+   "text": "Hörverstehen Teil zwei. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen."
+  },
+  {
+   "gender": "female",
+   "start": 340.59,
+   "end": 350.29,
+   "text": "Sie hören dieses Interview nur einmal. Lesen Sie jetzt die Aufgaben 46 55. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

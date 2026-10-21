@@ -1,0 +1,66 @@
+{
+ "name": "fuer-die-polizei-in-berlin",
+ "provider": "gemini-live",
+ "voices": {
+  "announcer": "Kore",
+  "male": "Charon",
+  "female": "Erinome"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "male": 0.94,
+  "female": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 10.1,
+   "kind": "instruction",
+   "text": "Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 2.5,
+   "kind": "news",
+   "text": "Berlin. Eine neue Studie des Instituts für Stadtforschung zeigt, dass viele Innenstädte an Attraktivität verlieren. Geschlossene Läden, hohe Mieten und leerstehende Büros nach der Pandemie führen zu weniger Vielfalt. Gleichzeitig verlagern sich Einkäufe ins Internet und Pendler bleiben häufiger im Homeoffice. Gastronominnen und Händler berichten von rückläufigen Umsätzen. Kulturangebote finden seltener statt. Städte reagieren mit Pop-up-Flächen, mehr Bänken und Fahrradstraßen, doch der Wandel geht langsam voran. Die Forschenden empfehlen längere Öffnungszeiten, flexible Zwischennutzungen und mehr Wohnraum über Geschäften, um Zentren lebendiger zu machen. Bürgerinnen fordern zudem sichere, grüne Plätze, damit man wieder gerne Zeit in der Stadtmitte verbringt. Auch Bus und Bahn werden ausgebaut.\n\nBerlin. Die Polizei meldet den Abschluss eines besonders schwierigen Falls, der die Ermittlerinnen seit Monaten beschäftigte. Eine Serie raffinierter Einbrüche in Arztpraxen hatte die Stadt verunsichert. Es gab kaum Spuren, die Täter wechselten ständig Vorgehensweisen und teure Medizingeräte verschwanden spurlos. Durch geduldige Observation, verdeckte Ermittlungen und die Auswertung unzähliger Kamerabilder gelang nun der Durchbruch. Ein verdächtigen Netzwerk aus drei Personen wurde festgenommen. Sichergestellte Datenträger liefern weitere Hinweise. Lute Schätzung beträgt der Schaden über eine Million Euro. Die Staatsanwaltschaft prüft Haftbefehle, während die Polizei gestohlene Geräte Eigentümerinnen zuordnet. Der Polizeipräsident lobte die Zusammenarbeit mit den Bezirken und warnte, Sicherheitsvorkehrungen in Praxen sollten zeitnah überprüft werden und Kliniken"
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Düsseldorf. Am Flughafen steht in den kommenden Monaten keine Erweiterung des Streckennetzes an. Wegen einer umfassenden Sanierung der nördlichen Start- und Landebahn werden Flüge gebündelt, Nachtstarts strenger begrenzt und einzelne Verbindungen vorübergehend gestrichen. Die Flughafen Gesellschaft erklärt, man konzentriere sich auf Pünktlichkeit und Lärmschutz, nicht auf neue Ziele. Airlines prüfen Ersatz über Köln-Bonn oder Frankfurt, um Reisenden Umstiege zu ermöglichen. Passagiere werden gebeten, Buchungen zu prüfen und frühzeitig zum Terminal zu kommen, da längere Wege entstehen. Nach Abschluss der Arbeiten sollen bestehende Linien stabiler laufen. Über zusätzliche Destinationen werde erst danach entschieden. Derzeit steht eine Ausweitung ausdrücklich nicht auf der Agenda, betont die Geschäftsführung, derzeit nicht.\n\nMünchen. Unter dem Motto mehr Zukunft für Kinder haben bekannte Musikerinnen und Musiker gestern ein Benefizkonzert gegeben. Das Orchester der Staatsoper spielte gemeinsam mit einer Popband, Kören und Nachwuchstalenten. Über 3000 Gäste füllten die Halle. Der Erlös fließt an mobile Lernprojekte für Kinder aus geflüchteten Familien, sowie an die Betreuung in Unterkünften. Laut Veranstaltern kamen mit Spenden und Ticketverkäufen mehr als 450. 000 € zusammen. Viele Unternehmen steuerten Technik, Transport und Verpflegung kostenfrei bei. Zwischen den Stücken erzählten Lehrkräfte, wie Musikunterricht erleichtert und Gemeinschaft stärkt. Die Aktion soll im kommenden Jahr wiederholt werden. Streaming-Aufnahmen werden am Wochenende online veröffentlicht, damit noch weitere Spenden eingehen können."
+  },
+  {
+   "type": "tts",
+   "voice": "male",
+   "gapAfter": 3,
+   "kind": "news",
+   "text": "Mailand. Das deutsche Team präsentiert sich bei den Olympischen Winterspielen in starker Form. Nach einem furiosen Start gewannen Athletinnen und Athleten Medaillen im Biathlon, Rodeln und Skispringen. Besonders beeindruckte eine junge Rodlerin, die mit Bahnrekord Gold holte. Die Staffel legte später Silber nach. Im Biathlon überzeugte die Mixedstaffel mit einer fehlerfreien Schlussrunde und kämpfte sich unerwartet aufs Podest. Die Trainer sprechen von konzentrierter Vorbereitung, stabiler Technik und hoher Nervenstärke. Fans feiern die Erfolge in den sozialen Medien und vor Public Viewing Leiwänden. Für die kommenden Wettkämpfe gilt die Divise, ruhig bleiben, konzentriert angreifen, weitere Chancen nutzen, das Team setzt den positiven Trend fort, bei jedem Start."
+  },
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1,
+   "kind": "instruction",
+   "text": "Hörverstehen Teil 2. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind. Markieren Sie ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55, markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen. Lesen Sie jetzt die Aufgaben 46 bis 55. Sie haben dazu 60 Sekunden Zeit."
+  }
+ ]
+}

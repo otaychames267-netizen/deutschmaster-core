@@ -1,6 +1,6 @@
 {
  "name": "nichtsicher",
- "provider": "gemini",
+ "provider": "gemini-live",
  "voices": {
   "announcer": "Kore",
   "male": "Charon",
@@ -25,56 +25,21 @@
    "voice": "male",
    "gapAfter": 3,
    "kind": "news",
-   "text": "Es ist 18 Uhr, die neuesten Meldungen vom Tage. Berlin: Nachdem gestern in ganz Berlin zahlreiche Ampeln ausgefallen waren, können die Autofahrer und Benutzer von Bussen heute aufatmen. Seit 5 Uhr heute Morgen funktionieren alle Ampelanlagen wieder reibungslos. Ein Sprecher der Stadt Berlin entschuldigte sich für die Unannehmlichkeiten. Zahlreiche Pendler waren gestern zu spät zur Arbeit gekommen. Viele Fahrgäste von Bussen und Straßenbahnen stiegen unterwegs aus, weil sie zu Fuß schneller waren. Die Ursache für den Ausfall der Ampeln war ein größeres Problem in der Stromversorgung. Derzeit wird noch untersucht, wo genau der Fehler aufgetreten ist und ob er sich in Zukunft noch einmal wiederholen könnte. Erst im vergangenen Herbst waren sämtliche Ampeln in Berlin einer technischen Kontrolle unterzogen worden. Damals funktionierten alle Anlagen einwandfrei."
+   "text": "Es ist 18 Uhr, die neuesten Meldungen vom Tage. Berlin: Nachdem gestern in ganz Berlin zahlreiche Ampeln ausgefallen waren, können die Autofahrer und Benutzer von Bussen heute aufatmen. Seit 5 Uhr heute Morgen funktionieren alle Ampelanlagen wieder reibungslos. Ein Sprecher der Stadt Berlin entschuldigte sich für die Unannehmlichkeiten. Zahlreiche Pendler waren gestern zu spät zur Arbeit gekommen. Viele Fahrgäste von Bussen und Straßenbahnen stiegen unterwegs aus, weil sie zu Fuß schneller waren. Die Ursache für den Ausfall der Ampeln war ein größeres Problem in der Stromversorgung. Derzeit wird noch untersucht, wo genau der Fehler aufgetreten ist und ob er sich in Zukunft noch einmal wiederholen könnte. Erst im vergangenen Herbst waren sämtliche Ampeln in Berlin einer technischen Kontrolle unterzogen worden. Damals funktionierten alle Anlagen einwandfrei.\n\nHamburg: Mit einem Bürgerbegehren wurde heute der Bau eines neuen Einkaufszentrums am Hamburger Fischmarkt abgelehnt. Mehr als die Hälfte aller Hamburger Bürgerinnen und Bürger nahmen an der Abstimmung teil. Gegen das Einkaufszentrum stimmten mehr als 80 Prozent. Damit ist das Projekt gestoppt. Hamburgs Politiker zeigten sich enttäuscht von dem Ergebnis. So sagte Waltraut Hagen aus dem Wirtschaftsflügel der HAP, das Einkaufszentrum wäre eine Chance für die Innenstadt gewesen. Dagegen waren Vertreter der Bürgerinitiative zufrieden. Henning Stein, Vorsitzender der Bürger für Hamburg erklärte, es sei richtig, dass große Projekte nur mit Zustimmung der Bürger realisiert werden könnten. Diese Zustimmung habe es wegen der zu erwartenden Kosten nicht gegeben."
   },
   {
    "type": "tts",
    "voice": "male",
    "gapAfter": 3,
    "kind": "news",
-   "text": "Hamburg: Mit einem Bürgerbegehren wurde heute der Bau eines neuen Einkaufszentrums am Hamburger Fischmarkt abgelehnt. Mehr als die Hälfte aller Hamburger Bürgerinnen und Bürger nahmen an der Abstimmung teil. Gegen das Einkaufszentrum stimmten mehr als 80 Prozent. Damit ist das Projekt gestoppt. Hamburgs Politiker zeigten sich enttäuscht von dem Ergebnis. So sagte Waltraut Hagen aus dem Wirtschaftsflügel der HAP, das Einkaufszentrum wäre eine Chance für die Innenstadt gewesen. Dagegen waren Vertreter der Bürgerinitiative zufrieden. Henning Stein, Vorsitzender der Bürger für Hamburg erklärte, es sei richtig, dass große Projekte nur mit Zustimmung der Bürger realisiert werden könnten. Diese Zustimmung habe es wegen der zu erwartenden Kosten nicht gegeben."
-  },
-  {
-   "type": "tts",
-   "voice": "male",
-   "gapAfter": 3,
-   "kind": "news",
-   "text": "Paris: In der Hauptstadt Frankreichs wurde heute ein neuer Hochgeschwindigkeitszug vorgestellt, der TGV. Dieser soll aber erst in fünf Jahren zum Einsatz kommen, sagte der Sprecher der französischen Bahn. Geplant ist, dass der neue Hochgeschwindigkeitszug dann auch direkt von Paris nach Berlin sowie von Paris nach München fährt. Die Fahrzeit soll im Vergleich zu heute bis zu zwei Stunden kürzer sein. Die französische und auch die deutsche Bahn hoffen, so neue Kunden gewinnen zu können. In den letzten Jahren haben immer mehr Reisende zwischen Frankreich und Deutschland das Flugzeug benutzt, weil es laut Umfragen günstiger und auch bequemer ist."
-  },
-  {
-   "type": "tts",
-   "voice": "male",
-   "gapAfter": 3,
-   "kind": "news",
-   "text": "Oslo: Im Norden Norwegens findet derzeit der erste europäische Eisfigurenwettbewerb statt. Aus ganz Europa sind Teilnehmer angereist, um kreative Figuren aus Eis zu gestalten. Auch aus Deutschland sind zwei größere Teams nach Norwegen geflogen. Das Team um Franziska Brückner möchte ein kleines Hotel aus Eis bauen, in dem bis zu sechs Personen übernachten können. Andere Teams bauen derzeit berühmte Gebäude wie den Kölner Dom oder die ägyptischen Pyramiden aus Eis nach, natürlich auch im Miniaturformat. Der Wettbewerb geht noch bis Ende nächsten Monats. Dann können Zuschauer vor Ort oder im Internet die Kunstwerke anschauen und auch ihren Favoriten wählen."
-  },
-  {
-   "type": "tts",
-   "voice": "male",
-   "gapAfter": 2,
-   "kind": "news",
-   "text": "Neues aus der Wirtschaft: Die Nachricht einer großen Getränkefirma war heute das Gesprächsthema Nummer eins in Wirtschaftskreisen und auch an der Frankfurter Börse. Der Limonadenhersteller TipTop hat angekündigt, im kommenden Jahr ein weiteres Produktionswerk in Ostasien eröffnen zu wollen. Die Nachricht war eine Überraschung, da zuletzt immer weniger Limonade verkauft wurde. Der Geschäftsführer von TipTop, Rudolf Kowalski, hat jedoch in einer ersten Stellungnahme betont, dass nur die Verkaufszahlen in Deutschland schlechter geworden sind. Im Ausland und vor allem in Asien sind die Limonaden von TipTop dagegen so beliebt wie nie, sagte Kowalski. Unklar ist, ob auch Mitarbeiter aus Deutschland zukünftig im neuen Werk arbeiten sollen."
-  },
-  {
-   "type": "tts",
-   "voice": "male",
-   "gapAfter": 3,
-   "kind": "news",
-   "text": "Und nun zum Sport: Die Fußballerin Ingrid Thieme hat heute bekannt gegeben, dass sie an der kommenden Weltmeisterschaft in London nicht teilnehmen wird. Thieme sagte, es gäbe persönliche Gründe für ihre Entscheidung. In der letzten Saison hatte die Spitzensportlerin gemeinsam mit der Nationalmannschaft souverän die Qualifikation für die anstehende WM geschafft. Dabei erzielte Thieme 13 Tore und wurde dadurch Torschützenkönigin. Mehr Tore als Thieme schoss niemand in der gesamten Qualifikation. Sowohl die Bundestrainerin als auch die Mitspielerinnen waren sehr betroffen und bedauern die Entscheidung von Thieme sehr."
-  },
-  {
-   "type": "tts",
-   "voice": "male",
-   "gapAfter": 3,
-   "kind": "news",
-   "text": "Und jetzt noch die Wetteraussichten für die nächsten Tage."
+   "text": "Paris: In der Hauptstadt Frankreichs wurde heute ein neuer Hochgeschwindigkeitszug vorgestellt, der TGV. Dieser soll aber erst in fünf Jahren zum Einsatz kommen, sagte der Sprecher der französischen Bahn. Geplant ist, dass der neue Hochgeschwindigkeitszug dann auch direkt von Paris nach Berlin sowie von Paris nach München fährt. Die Fahrzeit soll im Vergleich zu heute bis zu zwei Stunden kürzer sein. Die französische und auch die deutsche Bahn hoffen, so neue Kunden gewinnen zu können. In den letzten Jahren haben immer mehr Reisende zwischen Frankreich und Deutschland das Flugzeug benutzt, weil es laut Umfragen günstiger und auch bequemer ist.\n\nOslo: Im Norden Norwegens findet derzeit der erste europäische Eisfigurenwettbewerb statt. Aus ganz Europa sind Teilnehmer angereist, um kreative Figuren aus Eis zu gestalten. Auch aus Deutschland sind zwei größere Teams nach Norwegen geflogen. Das Team um Franziska Brückner möchte ein kleines Hotel aus Eis bauen, in dem bis zu sechs Personen übernachten können. Andere Teams bauen derzeit berühmte Gebäude wie den Kölner Dom oder die ägyptischen Pyramiden aus Eis nach, natürlich auch im Miniaturformat. Der Wettbewerb geht noch bis Ende nächsten Monats. Dann können Zuschauer vor Ort oder im Internet die Kunstwerke anschauen und auch ihren Favoriten wählen."
   },
   {
    "type": "tts",
    "voice": "male",
    "gapAfter": 1,
    "kind": "news",
-   "text": "Ende des Tests Hörverstehen Teil 1."
+   "text": "Neues aus der Wirtschaft: Die Nachricht einer großen Getränkefirma war heute das Gesprächsthema Nummer eins in Wirtschaftskreisen und auch an der Frankfurter Börse. Der Limonadenhersteller TipTop hat angekündigt, im kommenden Jahr ein weiteres Produktionswerk in Ostasien eröffnen zu wollen. Die Nachricht war eine Überraschung, da zuletzt immer weniger Limonade verkauft wurde. Der Geschäftsführer von TipTop, Rudolf Kowalski, hat jedoch in einer ersten Stellungnahme betont, dass nur die Verkaufszahlen in Deutschland schlechter geworden sind. Im Ausland und vor allem in Asien sind die Limonaden von TipTop dagegen so beliebt wie nie, sagte Kowalski. Unklar ist, ob auch Mitarbeiter aus Deutschland zukünftig im neuen Werk arbeiten sollen. Und nun zum Sport: Die Fußballerin Ingrid Thieme hat heute bekannt gegeben, dass sie an der kommenden Weltmeisterschaft in London nicht teilnehmen wird. Thieme sagte, es gäbe persönliche Gründe für ihre Entscheidung. In der letzten Saison hatte die Spitzensportlerin gemeinsam mit der Nationalmannschaft souverän die Qualifikation für die anstehende WM geschafft. Dabei erzielte Thieme 13 Tore und wurde dadurch Torschützenkönigin. Mehr Tore als Thieme schoss niemand in der gesamten Qualifikation. Sowohl die Bundestrainerin als auch die Mitspielerinnen waren sehr betroffen und bedauern die Entscheidung von Thieme sehr.\n\nUnd jetzt noch die Wetteraussichten für die nächsten Tage.\n\nEnde des Tests Hörverstehen Teil 1."
   }
  ]
 }

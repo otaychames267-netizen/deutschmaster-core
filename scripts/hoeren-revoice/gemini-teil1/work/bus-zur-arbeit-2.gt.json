@@ -1,0 +1,41 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 7.025,
+   "end": 25.105,
+   "text": "Der Weg zur Arbeit kann sehr unterschiedlich aussehen. Manche Menschen nutzen öffentliche Verkehrsmittel, andere fahren mit dem Auto oder gehen einen Teil des Weges zu Fuß. Wir haben fünf Personen gefragt, wie sie ihren Arbeitsweg organisieren. Hren Sie nun fünf kurze Aussagen."
+  },
+  {
+   "gender": "female",
+   "start": 25.105,
+   "end": 102.725,
+   "text": "Nummer eins. Mein Arbeitsweg hängt stark von meinen Arbeitszeiten ab. Morgens beginne ich sehr früh, abends wird es oft spät. Die Haltestelle liegt zwar nicht besonders weit von meiner Wohnung entfernt, aber die Verbindungen sind nicht immer günstig. Wenn alles gut passen würde, wäre der Bus natürlich eine Möglichkeit. Im Moment ist es jedoch so, dass ich dafür deutlich früher losfahren und abends lange warten müsste. Deshalb nutze ich andere Lösungen. Vielleicht könnte ich mir vorstellen, mit dem Bus zur Arbeit zu fahren, aber nur, wenn sich meine Arbeitszeiten ändern würden."
+  },
+  {
+   "gender": "female",
+   "start": 106.845,
+   "end": 133.025,
+   "text": "Nummer zwei. Ich komme nie direkt am Arbeitsplatz an, egal, welches Verkehrsmittel ich benutze. Die letzten Minuten lege ich immer zu Fuß zurück. Anfangs war das eher zufällig, aber inzwischen plane ich das bewusst so ein. Dieser kurze Weg hilft mir den Kopf frei zu bekommen und mich auf den Arbeitstag einzustellen. Selbst wenn ich näher aussteigen könnte, würde ich diesen Teil nicht weglassen."
+  },
+  {
+   "gender": "male",
+   "start": 137.955,
+   "end": 198.815,
+   "text": "Nummer drei. Ein Auto habe ich und rein theoretisch könnte ich es auch täglich benutzen. Trotzdem habe ich mich bewusst anders organisiert. Für meinen Arbeitsweg gibt es Alternativen, die für mich besser passen. Seit ich diese Stelle habe, bin ich ohne Auto zur Arbeit gekommen. Dabei ist es auch geblieben, weil ich keinen Grund sehe, das zu ändern."
+  },
+  {
+   "gender": "male",
+   "start": 203.415,
+   "end": 228.325,
+   "text": "Nummer vier. Wenn man von außen schaut, könnte man denken, dass ich flexibel bin. Es gäbe tatsächlich mehrere Möglichkeiten, zur Arbeit zu kommen. Früher habe ich darüber auch nachgedacht. Inzwischen habe ich mich jedoch festgelegt und nutze jeden Tag denselben Weg. Mir ist ein gleichbleibender Ablauf wichtiger als Abwechslung. Deshalb ändere ich mein Verkehrsmittel nicht."
+  },
+  {
+   "gender": "female",
+   "start": 233.155,
+   "end": 257.485,
+   "text": "Nummer fünf. Der Firmenbus spielt in meinem Alltag eine wichtige Rolle, vor allem, wenn das Wetter schlecht ist oder ich früh anfangen muss. Trotzdem plane ich meinen Arbeitsweg nicht ausschließlich danach. Es gibt Tage, an denen ich mich bewusst anders entscheide, z.B. wenn ich nach der Arbeit noch etwas vorhabe. Der Bus ist also praktisch, aber nicht die einzige Möglichkeit zur Arbeit zu kommen."
+  }
+ ]
+}

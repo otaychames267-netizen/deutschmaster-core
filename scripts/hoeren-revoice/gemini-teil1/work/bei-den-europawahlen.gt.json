@@ -1,0 +1,65 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "female",
+   "start": 0,
+   "end": 31.32,
+   "text": "Hörverstehen. Teil 1. Sie hören nun eine Nachrichtensendung. Dazu sollen Sie fünf Aufgaben lösen. Sie hören die Nachrichtensendung nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 41 45 richtig oder falsch sind. Markieren Sie Ihre Lösungen auf dem Antwortbogen bei den Aufgaben 41 45. Lesen Sie jetzt die Aufgaben 41 45."
+  },
+  {
+   "gender": "female",
+   "start": 36.31,
+   "end": 131.02,
+   "text": "Bei den Europawahlen zeichnet sich kein Zugewinn für die Linksparteien ab. Nach dem vorläufigen Endergebnis gewinnen vielmehr konservative und liberale Bündnisse mehrere Sitze, während die Linke in zahlreichen Mitgliedstaaten Stimmen verliert oder stagniert. In urbanen Regionen legen die Grünen leicht zu, auf dem Land dominieren die Christdemokraten. Beobachter erklären die Verschiebung mit wirtschaftlicher Unsicherheit, Energiepreisen und Sicherheitsdebatten. Die Wahlbeteiligung liegt etwa auf dem Niveau der vergangenen Abstimmung. Parteiführungen kündigen nun Gespräche über neue Fraktionen und Ausschlussvorsitze an. Viele nationale Regierungen erwarten keine grundlegende Kursänderung der EU, wohl aber eine kritischere Diskussion über Haushalt, Industriepolitik und Migration. Ein deutlicher Linksruck bleibt damit klar aus für Europa."
+  },
+  {
+   "gender": "male",
+   "start": 148.97,
+   "end": 247.33,
+   "text": "In den laufenden Tarifverhandlungen verweisen die Arbeitgeber auf gesunkene Inflationsraten und eine schwächere Auftragslage. Von einer durch internationale Einflüsse getriebenen Erhöhung kann derzeit keine Rede sein. Im Gegenteil, in vielen Branchen stocken die Gespräche, weil Unternehmen längere Laufzeiten und Einmalzahlungen bevorzugen. Die Gewerkschaften fordern zwar Reallohn Plus und automatische Inflationsklauseln, doch sie begründen das vor allem mit Produktivität, Fachkräftemangel und hohen Mieten im Inland. Globalfaktoren wie Ölpreis, Wechselkurs oder Lieferketten spielen in den Forderungspapieren lediglich eine Nebenrolle. Warnstreiks bleiben möglich, allerdings verweisen Vermittler auf konstruktive Runden. Ein kräftiger durch internationale Einflussfaktoren ausgelöster Anstieg der Abschlüsse ist somit nicht erkennbar. Die nächste Sitzung findet am Montag statt."
+  },
+  {
+   "gender": "male",
+   "start": 250.29,
+   "end": 342.34,
+   "text": "Autofahrer müssen erneut tiefer in die Tasche greifen. Der durchschnittliche Benzinpreis ist in dieser Woche spürbar gestiegen. Als Hauptursachen nennen Marktbeobachter internationale Faktoren. Der Rohölpreis kletterte nach Förderkürzungen wichtiger Produzenten und wegen geopolitischer Spannungen auf ein Mehrmonatshoch. Zugleich wertete der US-Dollar auf, was Importe verteuerte. Viele Raffinerien fahren nach Wartungen erst langsam hoch, wodurch das Angebot zusätzlich knapp bleibt. Die Mineralölkonzerne verweisen darauf, dass Einkaufskosten und Wechselkursrisiken unmittelbar in die Kalkulation einfließen. Der ADAC empfiehlt abends zu tanken und Preise per App zu vergleichen. Experten rechnen kurzfristig nicht mit Entlastung, solange die internationalen Treiber anhalten und die Nachfrage hoch bleibt. Pendler spüren die Entwicklung deutlich."
+  },
+  {
+   "gender": "female",
+   "start": 352.01,
+   "end": 447.16,
+   "text": "Eine erneute Überarbeitung der Rechtschreibreform steht nicht an. Die Kultusministerkonferenz stellte klar, dass es keine neuen Regeln geben wird. Geplant sind lediglich Erläuterungen und Unterrichtsmaterialien, die bestehende Varianten verständlicher darstellen sollen. Einige Verlage hatten zuvor über Uneinheitlichkeiten geklagt, etwa bei getrennt und Zusammenschreibung. Sprachräte empfehlen Schulen, die gültigen Wörterbuchnormen konsequent anzuwenden. Von einer abermaligen Reform kann daher keine Rede sein. Auch der Rat für deutsche Rechtschreibung sieht lediglich Präzisierungen vor, keine strukturellen Änderungen. Lehrerverbände begrüßen die Klarstellung, weil ständige Regelwechsel Lernende verunsichern würden. Die bestehenden Rechtschreibregeln bleiben damit unverändert in Kraft. Prüfungen und Lehrpläne werden nicht umgestellt. Eine breite Debatte ist derzeit nicht geplant, jedenfalls."
+  },
+  {
+   "gender": "female",
+   "start": 498.92,
+   "end": 554.81,
+   "text": "In München hat sich am Morgen ein schwerer S-Bahnunfall ereignet. Nach Polizeiangaben prallten nahe der Station Donnersbergerbrücke zwei Züge seitlich zusammen, als einer von ihnen ein Störsignal missachtete. Rettungskräfte versorgten zahlreiche Verletzte, mehrere Personen erlitten Knochenbrüche und Schock. Ein Großaufgebot der Feuerwehr war im Einsatz. Die Strecke wurde vollständig gesperrt. Wegen beschädigter Oberleitungen und Entgleister Waggons rechnen die Betreiber mit hohen Sachschäden. Der Bahnverkehr in der Region ist stark beeinträchtigt. Ersatzbusse wurden eingerichtet. Die Staatsanwaltschaft ermittelt wegen des Verdachts der fahrlässigen Körperverletzung. Reisende sollen mehr Fahrzeit einplanen und aktuelle Informationen abrufen, bis die Strecke wieder freigegeben wird. Techniker prüfen Weichen, Signale und Bremsanlagen sorgfältig heute."
+  },
+  {
+   "gender": "female",
+   "start": 558.11,
+   "end": 560.11,
+   "text": "Ende Teil 1."
+  },
+  {
+   "gender": "female",
+   "start": 608.79,
+   "end": 643.08,
+   "text": "Hörverstehen Teil 2. Sie hören ein Rundfunkinterview. Dazu sollen Sie zehn Aufgaben lösen. Sie hören dieses Interview nur einmal. Entscheiden Sie beim Hören, ob die Aussagen 46 bis 55 richtig oder falsch sind."
+  },
+  {
+   "gender": "female",
+   "start": 644.07,
+   "end": 652.12,
+   "text": "Markieren Sie ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55. Markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen."
+  },
+  {
+   "gender": "female",
+   "start": 644.07,
+   "end": 652.12,
+   "text": "Markieren Sie ihre Lösungen auf dem Antwortbogen bei den Aufgaben 46 bis 55. Markieren Sie plus gleich richtig und minus gleich falsch auf dem Antwortbogen."
+  }
+ ]
+}

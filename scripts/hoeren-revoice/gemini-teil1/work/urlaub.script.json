@@ -1,0 +1,72 @@
+{
+ "name": "urlaub",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "p1": "Charon",
+  "p2": "Erinome",
+  "p3": "Orus",
+  "p4": "Aoede",
+  "p5": "Iapetus"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "p1": 0.94,
+  "p2": 0.94,
+  "p3": 0.94,
+  "p4": 0.94,
+  "p5": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1.5,
+   "kind": "announcer",
+   "text": "Heute erzählen junge Leute von ihren Ferien-Erlebnissen. Sie berichten davon, wie sie ihren Urlaub verbracht haben und wie sie darüber denken. Hören Sie nun fünf kurze Texte."
+  },
+  {
+   "type": "tts",
+   "voice": "p1",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 1. Als ich jünger war, habe ich meine Ferien oft anders verbracht als viele andere Kinder aus meiner Klasse. Während sie ans Meer oder ins Ausland gefahren sind, war unser Urlaub eher ruhig und bescheiden. Ehrlich gesagt, hätte ich mir damals manchmal gewünscht, auch einmal so Urlaub zu machen, wie die anderen. Heute sehe ich das gelassener, aber früher hat mir dieser Gedanke schon gefehlt."
+  },
+  {
+   "type": "tts",
+   "voice": "p2",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 2. Unser Familienurlaub bestand meistens aus langen Wanderungen in den Bergen. Anfangs war ich davon nicht begeistert, denn ich hätte lieber etwas bequemeres gemacht. Mit der Zeit habe ich mich zwar daran gewöhnt, aber wirklich gefallen hat mir diese Art von Urlaub trotzdem nicht. Ich habe oft gemerkt, dass mir am Ende des Tages eher die Lust fehlte als die Energie."
+  },
+  {
+   "type": "tts",
+   "voice": "p3",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 3. In den Sommerferien waren wir viel unterwegs. Wir haben mehrere Städte besucht und oft in kleinen Pensionen übernachtet. Manchmal haben wir unterwegs Bekannte getroffen, aber bei Verwandten haben wir eigentlich nie länger gewohnt. Unsere Ferien waren eher eine Reise als ein Aufenthalt bei Familie."
+  },
+  {
+   "type": "tts",
+   "voice": "p4",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 4. Meine Eltern waren sehr sportlich und wollten in den Ferien möglichst viel draußen unternehmen. Ab und zu haben wir auch Fahrräder benutzt, aber regelmäßige Radtouren gehörten nicht zu unserem Urlaub. Meistens sind wir zu Fuß gegangen oder haben Ausflüge mit dem Zug gemacht."
+  },
+  {
+   "type": "tts",
+   "voice": "p5",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 5. Bevor wir in den Urlaub gefahren sind, haben wir uns zu Hause zusammengesetzt und gemeinsam überlegt, wohin es gehen soll. Meine Eltern wollten zwar bestimmte Dinge, aber meine Meinung wurde immer berücksichtigt. Deshalb hatte ich das Gefühl, dass wir den Urlaub wirklich zusammen geplant haben und nicht einfach vorvollendete Tatsachen gestellt wurden."
+  }
+ ]
+}

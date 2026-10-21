@@ -1,0 +1,72 @@
+{
+ "name": "radwege-original",
+ "provider": "gemini",
+ "voices": {
+  "announcer": "Kore",
+  "p1": "Charon",
+  "p2": "Erinome",
+  "p3": "Orus",
+  "p4": "Iapetus",
+  "p5": "Alnilam"
+ },
+ "models": [
+  "gemini-3.8-flash-lite-tts",
+  "gemini-3.8-flash-tts",
+  "gemini-3.1-flash-tts-preview",
+  "gemini-2.5-flash-preview-tts"
+ ],
+ "maxChars": 1000,
+ "concurrency": 1,
+ "tempo": {
+  "announcer": 0.94,
+  "p1": 0.94,
+  "p2": 0.94,
+  "p3": 0.94,
+  "p4": 0.94,
+  "p5": 0.94
+ },
+ "items": [
+  {
+   "type": "tts",
+   "voice": "announcer",
+   "gapAfter": 1.5,
+   "kind": "announcer",
+   "text": "Heutzutage wird in vielen Städten darüber diskutiert, wie der Verkehrssicherer und umweltfreundlicher gestaltet werden kann. Dabei spielen auch Radwege eine wichtige Rolle. Wir wollten wissen, wie Menschen zu diesem Thema stehen und welche Erfahrungen sie mit Radwegen gemacht haben. Hören Sie nun fünf kurze Aussagen."
+  },
+  {
+   "type": "tts",
+   "voice": "p1",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 1. Also, ich benutze das Fahrrad fast täglich und habe dabei gemerkt, dass du das Fach, dass Radwege viele Vorteile haben. Man fühlt sich einfach sicherer und muss nicht ständig auf Autos achten. Natürlich sind nicht alle Radwege gut ausgebaut, manche enden plötzlich oder sind sehr schmal. Trotzdem überwiegend für mich ganz klar die positiven Seiten, besonders im Stadtverkehr."
+  },
+  {
+   "type": "tts",
+   "voice": "p2",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 2. Grundsätzlich habe ich nichts gegen Radwege, aber ich finde nicht, dass wir unbedingt noch mehr davon brauchen. In meiner Stadt gibt es bereits einige, die oft kaum genutzt werden. Mehr Radwege allein sind aus meiner Sicht nicht die Lösung."
+  },
+  {
+   "type": "tts",
+   "voice": "p3",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 3. Ich würde niemals sagen, dass Radwege unnötig sind. Es gibt zwar Situationen, in denen man auch problemlos auf der Straße fahren kann, z. B. in ruhigen Wohngebieten. Trotzdem sind Radwege für viele Menschen wichtig, die gerade für Kinder oder ältere Radfahrer. Deshalb haben sie meiner Meinung nach ihre Berechtigung."
+  },
+  {
+   "type": "tts",
+   "voice": "p4",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 4. Wenn Radfahrer direkt auf der Straße unterwegs sind, kommt es oft zu schwierigen Situationen. Autos müssen langsamer fahren, es entsteht Unsicherheit und der Verkehr staut sich schneller. Besonders im Berufsverkehr habe ich das schon oft erlebt. Deshalb denke ich, dass Radfahrer auf der Straße den Verkehrsfluss behindern können."
+  },
+  {
+   "type": "tts",
+   "voice": "p5",
+   "gapAfter": 1.8,
+   "kind": "person",
+   "text": "Nummer 5. Für mich steht fest, dass Radwege das Radfahren sicherer machen. Durch die Trennung vom Autoverkehr sinkt das Risiko für Unfälle deutlich. Man fährt entspannter und fühlt sich besser geschützt. Gerade in stark befahrenen Straßen sind Radwege ein großer Gewinn für die Sicherheit."
+  }
+ ]
+}
