@@ -20,7 +20,9 @@ export const POSTAL_PAYMENT = {
 };
 
 export const BANCAIRE_PAYMENT = {
-  rib: "32014788601210098149",
+  // 2026-10-21: new account, given by the owner as "08 605 0001040184429 53" (bank 08 · branch 605 · account · key 53;
+  // the check key was verified: 97 - (N*100 mod 97) = 53). Previous RIB: 32014788601210098149.
+  rib: "08605000104018442953",
   accountHolder: "SHAMS EDDINE OTTAY",
 };
 
