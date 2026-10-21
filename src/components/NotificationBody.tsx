@@ -48,8 +48,11 @@ function Paragraphs({ paras, compact }: { paras: Para[]; compact: boolean }) {
   // Compact (bell): only what matters at a glance — the theme block(s); fall back to the first lines.
   let shown = paras;
   if (compact) {
-    const themes = paras.filter((p) => p.kind === "theme");
-    shown = themes.length > 0 ? themes : paras.slice(0, 2);
+    // A warning that comes BEFORE the theme block is the message itself (e.g. an exam alert) and stays visible;
+    // the generic "don't memorise the codes" warning comes after the theme block and is left for the full view.
+    const firstTheme = paras.findIndex((p) => p.kind === "theme");
+    const keep = paras.filter((p, i) => p.kind === "theme" || (p.kind === "warn" && (firstTheme === -1 || i < firstTheme)));
+    shown = keep.length > 0 ? keep : paras.slice(0, 2);
   }
   return (
     <div className="space-y-2">

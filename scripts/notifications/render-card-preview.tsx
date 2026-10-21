@@ -55,6 +55,13 @@ const items = [
   mk("2", "إضافة مواضيع جديدة", digest, false, 95),
   mk("3", "إضافة موضوع جديد", theme, true, 60 * 30),
 ];
+// optional 3rd argument: a text file with a message body -> renders just that one message (title from argv[4])
+if (process.argv[3]) {
+  items.splice(0, items.length, {
+    ...mk("x", process.argv[4] ?? "تنبيه مهم", fs.readFileSync(process.argv[3], "utf8").trim(), false, 1),
+    type: "announcement",
+  });
+}
 const card = (n: AppNotification, v: "bell" | "page") =>
   renderToStaticMarkup(createElement(BrandedNotification, { n, variant: v, onOpen: () => {} }));
 
