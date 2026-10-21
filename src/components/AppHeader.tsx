@@ -347,7 +347,7 @@ export function AppHeader() {
   const loadNotifications = useCallback(async () => {
     if (!user) return;
     try {
-      setNotifications(await fetchNotifications(user.id, 20));
+      setNotifications(await fetchNotifications(user.id, 40));
     } catch {
       /* keep what we have — the bell must never break the header */
     }
@@ -480,7 +480,7 @@ export function AppHeader() {
                 <Bell className="h-4 w-4" />
                 {unreadCount > 0 && (
                   <span className="absolute right-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[9px] font-black text-primary-foreground">
-                    {unreadCount > 9 ? "9+" : unreadCount}
+                    {unreadCount > 99 ? "99+" : unreadCount}
                   </span>
                 )}
               </button>

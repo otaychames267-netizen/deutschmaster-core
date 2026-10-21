@@ -31,7 +31,7 @@ function NotificationsPage() {
   useEffect(() => {
     if (!user) return;
     let alive = true;
-    fetchNotifications(user.id, 100)
+    fetchNotifications(user.id, 300)
       .then((rows) => { if (alive) setItems(rows); })
       .catch(() => { /* empty state below */ })
       .finally(() => { if (alive) setLoading(false); });
