@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { Bell, Loader2, Send, Search } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { ThemeNotes } from "@/components/admin/ThemeNotes";
 
 /* Admin controls for in-app notifications (migration 20261020120000).
  * Both RPCs re-check is_admin_or_owner() in the database, so this panel only
  * ever *offers* the actions; it cannot grant them. */
 
-interface Group { source: string; teil: number; level: string; new_items: number; recipients: number; url: string; mode?: "single" | "group"; titles?: string[] | null }
+interface Group { source: string; teil: number; level: string; new_items: number; recipients: number; url: string; mode?: "single" | "group"; titles?: string[] | null; without_note?: string[] | null }
 interface RunResult { dry_run?: boolean; groups?: Group[]; rows_written?: number; skipped?: string }
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -148,7 +149,9 @@ export function NotificationPanel() {
                         <span className="ml-2 text-xs text-muted-foreground">{g.mode === "single" ? "einzeln" : "gemeinsam"}</span>
                         {g.titles && g.titles.length > 0 && (
                           <ul className="mt-0.5 list-disc pl-4 text-xs text-muted-foreground">
-                            {g.titles.map((t) => <li key={t}>{t}</li>)}
+                            {g.titles.map((t) => (
+                              <li key={t}>{t}{g.without_note?.includes(t) && <span className="ml-1 text-amber-600 dark:text-amber-400">— ohne Text</span>}</li>
+                            ))}
                           </ul>
                         )}
                       </td>
@@ -163,6 +166,8 @@ export function NotificationPanel() {
           )
         )}
       </div>
+
+      <ThemeNotes />
 
       {/* Free text */}
       <div className="rounded-2xl border border-border bg-card p-6 space-y-4">

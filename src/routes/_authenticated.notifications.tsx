@@ -110,7 +110,7 @@ function NotificationsPage() {
                     </p>
                     {!item.read && <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-primary" />}
                   </div>
-                  <p dir="auto" className="mt-0.5 text-xs leading-relaxed text-muted-foreground">{item.body}</p>
+                  <p dir="auto" className="mt-0.5 whitespace-pre-line text-xs leading-relaxed text-muted-foreground">{item.body}</p>
                   <div className="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
                     <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{timeAgo(item.created_at)}</span>
                     {target && <span className="flex items-center gap-0.5 font-medium text-primary">Open <ChevronRight className="h-3 w-3" /></span>}
