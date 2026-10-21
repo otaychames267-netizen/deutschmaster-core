@@ -12,7 +12,7 @@ import {
   Mic, PenLine, ChevronRight, ArrowUpRight, Loader2,
   Landmark, Smartphone, Building2, ShieldCheck,
 } from "lucide-react";
-import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, type PlanBenefit } from "@/components/plans/PlanBenefits";
+import { PlanBenefits, SCHRIFTLICH_BENEFITS, KOMPLETT_BENEFITS, schriftlichBenefits, type PlanBenefit } from "@/components/plans/PlanBenefits";
 import { TermToggle, PriceBlock } from "@/components/plans/PlanPrice";
 import { PlanHeader, PlanDivider } from "@/components/plans/PlanCard";
 import { usePlanPricing, termOf, availableMonths, type Months, type SellablePlan } from "@/lib/plans/pricing";
@@ -248,7 +248,7 @@ function BillingPage() {
                   <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
                     <span className={`inline-flex items-center gap-1 rounded-full px-3 py-0.5 text-xs font-black shadow-sm ${premium ? "bg-gold text-gold-foreground" : "text-white"}`}
                       style={premium ? undefined : { background: `linear-gradient(135deg, ${plan.gradientFrom}, ${plan.gradientTo})` }}>
-                      <Star className="h-2.5 w-2.5 fill-current" /> {plan.badge}
+                      <Star className="h-2.5 w-2.5 fill-current" /> {plan.code === "schriftlich" ? (profileLevel === "TELC_B1" ? "TELC B1 preparation" : "TELC B2 preparation") : plan.badge}
                     </span>
                   </div>
                 )}
@@ -265,7 +265,7 @@ function BillingPage() {
 
                 {/* Features */}
                 <div className={premium ? "space-y-3" : "mb-5 flex-1 space-y-3"}>
-                  {plan.benefits && <PlanBenefits benefits={plan.benefits} accent={c} onPrimary={premium} />}
+                  {plan.benefits && <PlanBenefits benefits={plan.code === "schriftlich" ? schriftlichBenefits(profileLevel === "TELC_B1" ? "TELC_B1" : "TELC_B2") : plan.benefits} accent={c} onPrimary={premium} />}
                   {plan.benefits ? null : (
                     <ul className="space-y-2.5">
                       {plan.features.map((f) => (

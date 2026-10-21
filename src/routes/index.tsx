@@ -30,7 +30,7 @@ const PLANS = [
     features: [] as string[],
     benefits: SCHRIFTLICH_BENEFITS as PlanBenefit[] | null,
     highlighted: true,
-    badge: "TELC B2 preparation" as string | null,
+    badge: "TELC B1 & B2 preparation" as string | null,
     save: null,
   },
   {

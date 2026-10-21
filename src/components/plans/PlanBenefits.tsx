@@ -19,17 +19,27 @@ export interface PlanBenefit {
  * Prüfungssimulation: ONE server-anchored 145-minute timer across all sections (start_simulation: Lesen T1-3, Sprachbausteine T1-2, Hören T1-3, Schreiben),
  * so the student really does have to split their own time; its Schreiben grading is free and uncapped (api.schreiben.submit-simulation.ts spends no credit,
  * start_simulation has no count limit) — that is what the "بلا حدّ" refers to, NOT the 30 practice-correction credits of the Schreiben tasks. */
-export const SCHRIFTLICH_BENEFITS: PlanBenefit[] = [
+/** Which exam the plan text talks about: a student sees THEIR level; the public landing page names both. */
+export type BenefitLevel = "TELC_B1" | "TELC_B2" | "BOTH";
+export const levelLabel = (l: BenefitLevel) => (l === "TELC_B1" ? "TELC B1" : l === "TELC_B2" ? "TELC B2" : "TELC B1 و B2");
+
+export function schriftlichBenefits(level: BenefitLevel): PlanBenefit[] {
+  const L = levelLabel(level);
+  return [
   { group: "Schriftlich", icon: BookOpen, title: "Lesen", ar: "كل المواضيع + ترجمة وتبرير الإجابات", highlight: true },
   { group: "Schriftlich", icon: Headphones, title: "Hören", ar: "الأجزاء الثلاثة + ترجمة وتلميح لكل إجابة", highlight: true },
   { group: "Schriftlich", icon: Puzzle, title: "Sprachbausteine", ar: "كل المواضيع + شرح القاعدة لكل فراغ", highlight: true },
   { group: "Schriftlich", icon: PenLine, title: "Schreiben", ar: "تمارين Beschwerde و Bitte" },
-  { group: "Schriftlich", icon: Bot, title: "Schreiben KI-Korrektur", ar: "تصحيح بمعايير TELC B2: 30 كل شهر (60 مع باقة الشهرين، 90 مع باقة 3 أشهر)", highlight: true },
+  { group: "Schriftlich", icon: Bot, title: "Schreiben KI-Korrektur", ar: `تصحيح بمعايير ${L}: 30 كل شهر (60 مع باقة الشهرين، 90 مع باقة 3 أشهر)`, highlight: true },
   { group: "Schriftlich", icon: Sparkles, title: "2 Struktur Schreiben", ar: "خاصان بك وحدك", highlight: true },
-  { group: "Prüfungssimulation", icon: Timer, title: "Prüfungssimulation", ar: "امتحان كتابي كامل بهيكل TELC B2 (145 دقيقة) مع تصحيح Schreiben بالذكاء الاصطناعي بلا حدّ", highlight: true },
+  { group: "Prüfungssimulation", icon: Timer, title: "Prüfungssimulation", ar: `امتحان كتابي كامل بهيكل ${L} (145 دقيقة) مع تصحيح Schreiben بالذكاء الاصطناعي بلا حدّ`, highlight: true },
   { group: "Mündlich & Extras", icon: Mic, title: "Mündlich", ar: "كل مواضيع الأجزاء الثلاثة + نصائح وعبارات، بدون AI", highlight: true },
   { group: "Mündlich & Extras", icon: BarChart3, title: "Extras", ar: "متابعة تقدّمك + مكتبة امتحانات تدريبية" },
-];
+  ];
+}
+
+/** Level-neutral default (landing page). The billing page asks for the student's own level via schriftlichBenefits(). */
+export const SCHRIFTLICH_BENEFITS = schriftlichBenefits("BOTH");
 
 /** What the Komplett plan (komplett_ai) really includes: everything in Schriftlich + the KI-Sprachtrainer 1:1. Same rule as above — every line is backed
  * by the database or the relay: access = has_plan_access(user, 'muendlich_ai') + a trigger on voice_tutor_sessions; the session is Teil 1 -> 2 -> 3
