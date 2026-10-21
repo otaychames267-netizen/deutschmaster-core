@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Loader2, Save, RefreshCw } from "lucide-react";
+import { Loader2, Save, RefreshCw, Megaphone } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -26,6 +26,7 @@ export function ThemeNotes() {
   const [themes, setThemes] = useState<Theme[] | null>(null);
   const [drafts, setDrafts] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState<string | null>(null);
+  const [announcing, setAnnouncing] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     const { data, error } = await (supabase as any).rpc("admin_recent_themes", { p_limit: 30 });
@@ -55,6 +56,27 @@ export function ThemeNotes() {
       toast.error(e instanceof Error ? e.message : "Speichern fehlgeschlagen.");
     } finally {
       setSaving(null);
+    }
+  }
+
+  async function announce(t: Theme) {
+    const ok = window.confirm(
+      `„${t.title}“ jetzt allen ${t.level.replace("TELC_", "")}-Lernenden als eigene Benachrichtigung melden?
+
+Eine schon gesendete Meldung dieses Themas wird ersetzt und wieder als ungelesen angezeigt.`,
+    );
+    if (!ok) return;
+    const k = keyOf(t);
+    setAnnouncing(k);
+    try {
+      const { data, error } = await (supabase as any).rpc("admin_announce_theme", { p_source: t.source, p_item_id: t.item_id });
+      if (error) throw error;
+      toast.success(`Gemeldet an ${data} Lernende.`);
+      void load();
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Melden fehlgeschlagen.");
+    } finally {
+      setAnnouncing(null);
     }
   }
 
@@ -108,6 +130,15 @@ export function ThemeNotes() {
                 />
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground">{draft.length} / {NOTE_MAX}</span>
+                  <div className="flex items-center gap-2">
+                  <button
+                    type="button" onClick={() => announce(t)} disabled={!t.visible || announcing === k}
+                    title={t.visible ? "Dieses Thema jetzt als eigene Benachrichtigung senden" : "Nur sichtbare Themen können gemeldet werden"}
+                    className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-semibold text-foreground hover:bg-muted disabled:opacity-40"
+                  >
+                    {announcing === k ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Megaphone className="h-3.5 w-3.5" />}
+                    {t.announced ? "Erneut melden" : "Melden"}
+                  </button>
                   <button
                     type="button" onClick={() => save(t)} disabled={!dirty || saving === k}
                     className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-primary-foreground hover:opacity-90 disabled:opacity-40"
@@ -115,6 +146,7 @@ export function ThemeNotes() {
                     {saving === k ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
                     Speichern
                   </button>
+                  </div>
                 </div>
               </div>
             );

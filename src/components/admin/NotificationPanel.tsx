@@ -9,7 +9,7 @@ import { ThemeNotes } from "@/components/admin/ThemeNotes";
  * ever *offers* the actions; it cannot grant them. */
 
 interface Group { source: string; teil: number; level: string; new_items: number; titles?: string[] | null; without_note?: string[] | null }
-interface Digest { level: string; themes: number; recipients: number; url: string; merges_into_todays: boolean; preview: string }
+interface Digest { label?: string; level: string; themes: number; recipients: number; url: string; merges_into_todays: boolean; preview: string }
 interface RunResult { dry_run?: boolean; groups?: Group[]; digests?: Digest[]; rows_written?: number; skipped?: string }
 
 const SOURCE_LABEL: Record<string, string> = {
@@ -108,10 +108,10 @@ export function NotificationPanel() {
           <p className="font-bold text-foreground">Neue Inhalte</p>
           <p className="mt-1 text-sm text-muted-foreground">
             Alle 30 Minuten prüft das System automatisch, ob für Lernende sichtbare Übungen oder Themen dazugekommen sind
-            (Hören, Lesen, Sprachbausteine, Mündlich) und schickt <strong>eine Mitteilung pro Level</strong> im Stil von Zertify:
-            „إضافة مواضيع جديدة“, die Themen nach Teil gruppiert und nummeriert (1️⃣ 2️⃣ 3️⃣), darunter – falls eingetragen – der
-            eigene Text zum Thema. Weitere Themen am selben Tag landen in derselben Mitteilung. Versteckte Übungen und Übungen
-            mit dem Tunesien-Hinweis lösen nichts aus.
+            (Hören, Lesen, Sprachbausteine, Mündlich) und meldet <strong>jedes neue Thema einzeln</strong> mit dem vollen Text (Gruß, Thema, Hinweis „keine Codes
+            auswendig lernen“, Gottvertrauen, Glückwünsche) – plus dem eigenen Text zum Thema, falls eingetragen. Bei einem großen
+            Import (mehr als 6 neue Themen pro Level) gibt es stattdessen eine Sammel-Mitteilung im Zertify-Stil. Versteckte Übungen
+            und Übungen mit dem Tunesien-Hinweis lösen nichts aus.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -168,7 +168,7 @@ export function NotificationPanel() {
         {preview?.digests?.map((d) => (
           <div key={d.level} className="rounded-xl border border-primary/20 bg-primary/5 p-4">
             <p className="mb-2 text-xs font-semibold text-muted-foreground">
-              Vorschau der Mitteilung · {d.level.replace("TELC_", "")} · {d.recipients} Empfänger
+              Vorschau{d.label ? ` · ${d.label}` : ""} · {d.level.replace("TELC_", "")} · {d.recipients} Empfänger
               {d.merges_into_todays ? " · ergänzt die heutige Mitteilung" : ""}
             </p>
             <p dir="auto" className="whitespace-pre-line text-sm leading-relaxed text-foreground">{d.preview}</p>
