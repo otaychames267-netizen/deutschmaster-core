@@ -363,6 +363,14 @@ export function HoerenExerciseCard({ exercise, index, onNext, hasNext, onComplet
           {parseVariant(exercise.title).isNew && <NewBadge />}
         </div>
 
+        {/* Reference code (e.g. the exam's answer code for a re-recorded audio) — shown on full exercises too, not only on the empty placeholder card */}
+        {exercise.referenceCode && (
+          <div className="inline-flex items-center gap-2.5 rounded-xl border border-violet-500/25 bg-violet-500/10 px-3.5 py-2">
+            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-violet-600 dark:text-violet-400">Referenzcode</span>
+            <span className="text-xl font-black tabular-nums text-violet-700 dark:text-violet-300">{exercise.referenceCode}</span>
+          </div>
+        )}
+
         {/* Admin note for students (e.g. "if the audio says X, the correct sentences are ...") — shown for normal exercises too, not only on the empty placeholder card */}
         {exercise.adminNote && (
           <div role="note" className="flex items-start gap-2 rounded-xl border border-amber-500/25 bg-amber-500/5 px-3.5 py-2.5">
