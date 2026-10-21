@@ -1,0 +1,41 @@
+{
+ "model": "reconciled(whisper+gemini-lite) by groq",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 0,
+   "end": 20,
+   "text": "Die Fluggesellschaft DL gibt bekannt, dass sie ihren Flugbetrieb vorerst einstellt und alle Flüge abgesagt werden. Etwa 12 000 Passagiere wurden auf andere Flüge oder Zubringer umgebucht. Die DL bediente bislang vor allem innerdeutsche Strecken und kleinere Zubringer in Dortmund und Rostock."
+  },
+  {
+   "gender": "male",
+   "start": 21,
+   "end": 41,
+   "text": "Auf der internationalen Süßwarenmesse ISN in Köln zeigen 1 400 Aussteller aus 65 Ländern am kommenden Sonntag ihre neuesten Kreationen. Wegen steigender Rohstoffpreise müssen Verbraucher in diesem Jahr höhere Preise für Süßigkeiten bezahlen. Der Verkauf von Süßwaren ging im vergangenen Jahr um 10 % zurück. Ilona Schneider, Sprecherin der Messe, führt dies auf ein gestiegenes Gesundheitsbewusstsein zurück und betont, dass gesunde Ernährung auch für Jugendliche immer wichtiger wird."
+  },
+  {
+   "gender": "male",
+   "start": 42,
+   "end": 62,
+   "text": "Am kommenden Wochenende erwartet die Erde den stärksten Sonnensturm seit Jahren. Sonnenstürme sind für Erde und Menschen harmlos, können jedoch den Empfang von Satellitenprogrammen beeinträchtigen; auch der Handyempfang war zeitweise gestört. Die Stürme lösen zudem die sogenannten Polarlichter aus – grünliche Lichter, die am Abend und in der Nacht vor allem in Skandinavien, teilweise sogar über England, zu sehen sind."
+  },
+  {
+   "gender": "male",
+   "start": 63,
+   "end": 83,
+   "text": "Gestern Abend haben die beiden Kandidaten in einem 60‑minütigen TV‑Duell persönlich und entspannt Argumente ausgetauscht. Im Fokus standen vor allem bildungs‑ und sozialpolitische Themen. Bei einer Umfrage im Anschluss an die Sendung konnte jedoch kein eindeutiger Gewinner ermittelt werden. Die entsprechenden Wahlen finden in vier Wochen statt."
+  },
+  {
+   "gender": "male",
+   "start": 84,
+   "end": 104,
+   "text": "Ein Hinweis für alle Autofahrer: Am kommenden Wochenende ist die Autobahn A3 im Kreuz Oberhausen in Richtung Arnheim‑Hannover wegen Bauarbeiten gesperrt. Auch die Auffahrt in Richtung Arnheim‑Hannover an der Anschlussstelle Oberhausen‑Holten ist gesperrt, während die Gegenrichtung frei befahrbar ist. Die Polizei rät, die Baustelle weiträumig zu umfahren."
+  },
+  {
+   "gender": "male",
+   "start": 105,
+   "end": 125,
+   "text": "Das Deutsche Wetteramt warnt vor einem heftigen Sturm für den Südwesten Deutschlands. Das Tiefdruckgebiet „Helena“ zieht vom Atlantik über West‑ und Mitteleuropa nach Deutschland, bleibt jedoch nur vorbeiziehend. Für morgen Mittag werden Böen bis zu 110 km/h erwartet. Da das Tiefdruckgebiet auch Starkregen mit sich bringt, werden Feuerwehren vor überfluteten Straßen gewarnt. Autofahrern wird daher besondere Vorsicht empfohlen."
+  }
+ ]
+}

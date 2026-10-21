@@ -1,0 +1,197 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "segments": [
+  {
+   "gender": "male",
+   "start": 0,
+   "end": 8,
+   "text": "Die Fluggesellschaft DL."
+  },
+  {
+   "gender": "male",
+   "start": 8,
+   "end": 16,
+   "text": "Wie heute bekannt gab, stellt DL die Flüge vorerst ein und hat alle Flüge abgesagt."
+  },
+  {
+   "gender": "male",
+   "start": 16,
+   "end": 22,
+   "text": "Etwa zwölftausend Passagiere wurden nun auf andere Flüge oder Zutebelegungen umgebucht."
+  },
+  {
+   "gender": "male",
+   "start": 23,
+   "end": 34,
+   "text": "Den Passagieren war am größten Teil sehr nah und man habe Ihnen am Flughafen keine weitere Information gegeben, berichteten Passagiere aus der Fluggesellschaft seit gestern gebaut."
+  },
+  {
+   "gender": "male",
+   "start": 35,
+   "end": 39,
+   "text": "Die Fluggesellschaft DL gibt es derzeit wenige Jahren."
+  },
+  {
+   "gender": "male",
+   "start": 39,
+   "end": 47,
+   "text": "Die DL hat vor allem innerdeutsche Strecken bedient und auch kleinere Zubringern, Ideen in Dortmund oder Rostock."
+  },
+  {
+   "gender": "male",
+   "start": 48,
+   "end": 61,
+   "text": "Auf der der internationalen Süßwarenmesse in Köln zeigen 1400 Aussteller aus 65 Länder ab kommende Sonntag den besuchern ihre Reaktionen."
+  },
+  {
+   "gender": "male",
+   "start": 61,
+   "end": 68,
+   "text": "Wegen der steigenden Unterpreise werden Verbraucher dieses Jahr auch höhere Preise für Süßigkeiten zahlen müssen."
+  },
+  {
+   "gender": "male",
+   "start": 69,
+   "end": 74,
+   "text": "Der Verkauf von Süßwaren ging allerdings im letzten Jahr um 10% zurück."
+  },
+  {
+   "gender": "male",
+   "start": 75,
+   "end": 82,
+   "text": "Die Sprecherin der Süßwarenmesse Ilona Schneider führt dies auf ein gestiegenes Gesundheitsbewusstsein zurück."
+  },
+  {
+   "gender": "male",
+   "start": 82,
+   "end": 87,
+   "text": "Gesunde Ernährung werde auf den Jugendberichte immer wichtiger, so Schneider."
+  },
+  {
+   "gender": "male",
+   "start": 89,
+   "end": 96,
+   "text": "Am dem fünften Wochenende erreicht die Erde der stärkste Sonnensturm seit Jahre."
+  },
+  {
+   "gender": "male",
+   "start": 96,
+   "end": 103,
+   "text": "Sonnenstürme sind für Erde und Menschen harmlos, allerdings gab die Probleme beim Empfang von Satellitenprogrammen auch."
+  },
+  {
+   "gender": "male",
+   "start": 103,
+   "end": 108,
+   "text": "Auch der Handydienst kann war zeitweise gestört."
+  },
+  {
+   "gender": "male",
+   "start": 108,
+   "end": 114,
+   "text": "Sonnenstürme lösen in die U-Bahn die sogenannten Polarlichter aus."
+  },
+  {
+   "gender": "male",
+   "start": 114,
+   "end": 122,
+   "text": "Grüne Gelichter, die am Morgen und Nacht im Süden zu sehen sind und meist im Raum bis Skandinavien jetzt auftreten."
+  },
+  {
+   "gender": "male",
+   "start": 122,
+   "end": 128,
+   "text": "Die Polarlichter dürfen in der Regel sogar über Länder sehen."
+  },
+  {
+   "gender": "male",
+   "start": 129,
+   "end": 137,
+   "text": "Die Präsidentenwahl in Frankreich werfen ihre Schatten voraus."
+  },
+  {
+   "gender": "male",
+   "start": 137,
+   "end": 147,
+   "text": "Gestern Abend haben die beiden Kandidaten in einem Duell versucht, unentschlossene Wähler zu überzeugen."
+  },
+  {
+   "gender": "male",
+   "start": 147,
+   "end": 154,
+   "text": "In den 60-minütigen Duell wurden vor allem Bildungs- und Sozialpolitische Themen angesprochen."
+  },
+  {
+   "gender": "male",
+   "start": 154,
+   "end": 164,
+   "text": "Bei einer Umfrage im Anschluss an die Sendung konnte aber kein eindeutiger Gewinner ausgemacht werden."
+  },
+  {
+   "gender": "male",
+   "start": 164,
+   "end": 166,
+   "text": "Die Wahlen finden in vier Wochen statt."
+  },
+  {
+   "gender": "male",
+   "start": 168,
+   "end": 173,
+   "text": "Und hier noch ein Hinweis für alle, die in Autos unterwegs sind."
+  },
+  {
+   "gender": "male",
+   "start": 173,
+   "end": 182,
+   "text": "Am kommenden Wochenende ist die Autobahn A3 im Kreuz Oberhausen in Richtung Arnheim in Hannover wegen Bauarbeiten gesperrt."
+  },
+  {
+   "gender": "male",
+   "start": 182,
+   "end": 189,
+   "text": "Gesperrt ist auch die Auffahrt in Richtung Arnheim in Hannover an der Anschlussstelle Oberhausen Wolfen."
+  },
+  {
+   "gender": "male",
+   "start": 190,
+   "end": 199,
+   "text": "Die Umleitung ist Schilderkarber umleiten sind Schilder und bitte die Polizei alle Autofahrer und Baufahrer die Baustelle möglichst zweiförmig zu umfahren."
+  },
+  {
+   "gender": "male",
+   "start": 200,
+   "end": 207,
+   "text": "Eine Warnung vor einem Wirbelsturm des Sturms des deutsche Wetteramt für den Betroffenen des Landes ausgegeben."
+  },
+  {
+   "gender": "male",
+   "start": 207,
+   "end": 218,
+   "text": "Das Team Elena ziehen vom Atlantik vor allem über West- und Mitteleuropa in Richtung Deutschland aber nur schleifen."
+  },
+  {
+   "gender": "male",
+   "start": 218,
+   "end": 226,
+   "text": "Morgen wird der Schonmöbel und ein und zu zehn Kilometer pro Stunde erwartet, dass die Flug auch Start regelt sich bringen."
+  },
+  {
+   "gender": "male",
+   "start": 226,
+   "end": 236,
+   "text": "Stürme und Feuerwehren nicht nur vor der Unterteil von Gegenständen, sondern auch vor überfluteten Straßen."
+  },
+  {
+   "gender": "male",
+   "start": 236,
+   "end": 239,
+   "text": "Autokamera wird daher ohne besondere Vorsicht geraten."
+  },
+  {
+   "gender": "male",
+   "start": 240,
+   "end": 243,
+   "text": "Und wie ist das Wetter sonst in Deutschland?"
+  }
+ ]
+}
