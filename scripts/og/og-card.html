@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>AuraLingovia share card</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #08080b; --gold-a: #a9782c; --gold-b: #e7bb54; --gold-c: #fbedbe; --gold-d: #b8842f; --paper: #f6f3ea; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; background: var(--ink); overflow: hidden; }
+  body { position: relative; font-family: "Manrope", "Segoe UI", system-ui, sans-serif; color: var(--paper); }
+
+  /* atmosphere: two warm glows and fine flowing lines, like a brushed-gold surface */
+  .glow-a { position: absolute; left: -120px; top: 40px; width: 760px; height: 600px; background: radial-gradient(closest-side, rgba(231,187,84,.30), rgba(231,187,84,.08) 60%, transparent 100%); filter: blur(8px); }
+  .glow-b { position: absolute; right: -160px; top: -200px; width: 700px; height: 560px; background: radial-gradient(closest-side, rgba(231,187,84,.14), transparent 100%); }
+  svg.lines { position: absolute; inset: 0; width: 1200px; height: 630px; }
+
+  /* the tile: dark glass, gold hairline, the badge inside */
+  .tile { position: absolute; left: 78px; top: 150px; width: 330px; height: 330px; border-radius: 76px;
+    background: linear-gradient(150deg, #23201a 0%, #0f0f13 55%, #0a0a0d 100%);
+    border: 2px solid rgba(231,187,84,.55);
+    box-shadow: 0 0 0 10px rgba(231,187,84,.06), 0 40px 80px -20px rgba(0,0,0,.9), 0 0 90px -10px rgba(231,187,84,.35), inset 0 1px 0 rgba(255,255,255,.12);
+    display: grid; place-items: center; }
+  .tile::after { content: ""; position: absolute; inset: 0; border-radius: 76px; background: linear-gradient(160deg, rgba(255,255,255,.10), transparent 38%); pointer-events: none; }
+  .tile img { width: 252px; height: 252px; filter: drop-shadow(0 14px 22px rgba(0,0,0,.65)); }
+
+  .pill { position: absolute; display: flex; align-items: center; gap: 10px; padding: 11px 20px; border-radius: 999px; font-weight: 600; font-size: 21px;
+    background: rgba(18,17,14,.82); border: 1.5px solid rgba(231,187,84,.45); color: var(--gold-c);
+    box-shadow: 0 14px 30px -10px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(6px); }
+  .pill b { color: var(--gold-b); font-size: 22px; }
+  .pill.one { left: 58px; top: 112px; }
+  .pill.two { left: 38px; top: 456px; }
+
+  /* text */
+  .copy { position: absolute; left: 470px; top: 138px; width: 690px; }
+  .eyebrow { display: inline-block; font-weight: 800; font-size: 20px; letter-spacing: .24em; text-transform: uppercase; padding: 9px 18px; border-radius: 999px;
+    color: var(--gold-b); border: 1.5px solid rgba(231,187,84,.4); background: rgba(231,187,84,.07); }
+  .word { margin-top: 26px; font-weight: 800; font-size: 112px; line-height: 1; letter-spacing: -.035em; white-space: nowrap; }
+  .word .a { background: linear-gradient(100deg, var(--gold-a) 0%, var(--gold-b) 38%, var(--gold-c) 58%, var(--gold-d) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .tag { margin-top: 22px; font-weight: 600; font-size: 36px; line-height: 1.25; letter-spacing: -.01em; color: var(--paper); }
+  .sub { margin-top: 14px; font-weight: 500; font-size: 25px; line-height: 1.4; color: rgba(246,243,234,.66); }
+  .chips { margin-top: 34px; display: flex; gap: 12px; }
+  .chip { font-weight: 800; font-size: 22px; padding: 11px 22px; border-radius: 14px; color: var(--ink);
+    background: linear-gradient(120deg, var(--gold-b), var(--gold-c) 55%, var(--gold-b)); box-shadow: 0 10px 24px -12px rgba(231,187,84,.7); }
+  .url { position: absolute; right: 56px; bottom: 36px; font-weight: 600; font-size: 21px; letter-spacing: .04em; color: rgba(246,243,234,.5); }
+  .rule { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: linear-gradient(90deg, transparent, var(--gold-a), var(--gold-b), var(--gold-c), var(--gold-b), var(--gold-a), transparent); }
+</style>
+</head>
+<body>
+  <div class="glow-a"></div><div class="glow-b"></div>
+  <svg class="lines" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e7bb54" stop-opacity="0"/><stop offset=".5" stop-color="#e7bb54" stop-opacity=".55"/><stop offset="1" stop-color="#fbedbe" stop-opacity="0"/></linearGradient>
+    </defs>
+    <g stroke="url(#g1)" stroke-width="1.4">
+      <path d="M-20 470 C 220 360, 380 620, 640 470 S 1040 250, 1240 330"/>
+      <path d="M-20 500 C 240 400, 400 650, 660 500 S 1060 290, 1240 370" opacity=".7"/>
+      <path d="M-20 530 C 260 440, 420 680, 680 530 S 1080 330, 1240 410" opacity=".5"/>
+      <path d="M-20 140 C 200 60, 420 200, 700 110 S 1060 -20, 1240 60" opacity=".45"/>
+      <path d="M-20 170 C 220 100, 440 230, 720 140 S 1080 20, 1240 90" opacity=".3"/>
+    </g>
+  </svg>
+
+  <div class="tile"><img src="../../public/favicon.svg" alt=""></div>
+  <div class="pill one"><b>✦</b> AI feedback on Schreiben</div>
+  <div class="pill two"><b>✓</b> Realistic exam simulation</div>
+
+  <div class="copy">
+    <span class="eyebrow">TELC B1 · B2</span>
+    <div class="word"><span class="a">Aura</span>Lingovia</div>
+    <p class="tag">Test your German. Master every section.</p>
+    <p class="sub">Structured practice, real exam simulations and AI feedback — everything for the TELC B1 &amp; B2 exam in one place.</p>
+    <div class="chips"><span class="chip">Lesen</span><span class="chip">Hören</span><span class="chip">Schreiben</span><span class="chip">Mündlich</span></div>
+  </div>
+  <div class="url">auralingoviatestdeutsch.academy</div>
+  <div class="rule"></div>
+</body>
+</html>

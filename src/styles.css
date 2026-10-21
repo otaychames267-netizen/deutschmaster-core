@@ -437,3 +437,62 @@
   .plan-row-armed { opacity: 1; transform: none; }
   .plan-row-show { animation: none; }
 }
+
+/* ============================================================
+   Aura notification card — the brand's own look: deep ink, warm gold hairline, gold wordmark.
+   Used for content / announcement notifications (bell, /notifications, admin previews).
+   Plain hex/rgba on purpose: it must look identical on every browser the students use.
+   ============================================================ */
+.aura-note {
+  position: relative;
+  border-radius: 1rem;
+  border: 1px solid rgba(185, 132, 47, 0.42);
+  background: linear-gradient(155deg, #fff7e3 0%, #ffffff 58%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.7) inset, 0 8px 24px -14px rgba(120, 82, 20, 0.45);
+  color: #1b1b22;
+}
+.dark .aura-note {
+  border-color: rgba(231, 187, 84, 0.30);
+  background: linear-gradient(155deg, #221d12 0%, #101014 58%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 10px 28px -16px rgba(0, 0, 0, 0.9);
+  color: #f4f1e8;
+}
+.aura-note--read { opacity: 0.72; }
+.aura-note-kicker {
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #a9782c 0%, #d9a63f 45%, #b8842f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.dark .aura-note-kicker { background-image: linear-gradient(90deg, #e7bb54 0%, #fbedbe 50%, #f0cd76 100%); }
+.aura-note-logo {
+  border-radius: 9999px;
+  box-shadow: 0 0 0 1.5px rgba(185, 132, 47, 0.7), 0 4px 10px -3px rgba(120, 82, 20, 0.5);
+  background: #0a0a0c;
+}
+.aura-note-theme {
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(217, 166, 63, 0.13);
+  border: 1px solid rgba(185, 132, 47, 0.28);
+}
+.dark .aura-note-theme { background: rgba(231, 187, 84, 0.09); border-color: rgba(231, 187, 84, 0.24); }
+.aura-note-theme-label { color: #8a5f17; font-weight: 700; }
+.dark .aura-note-theme-label { color: #e7bb54; }
+.aura-note-warn {
+  border-radius: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  background: rgba(220, 38, 38, 0.06);
+  border: 1px solid rgba(220, 38, 38, 0.28);
+}
+.dark .aura-note-warn { background: rgba(248, 113, 113, 0.08); border-color: rgba(248, 113, 113, 0.30); }
+.aura-note-wish { color: #8a5f17; font-weight: 600; }
+.dark .aura-note-wish { color: #e7bb54; }
+.aura-note-dot {
+  width: 0.5rem; height: 0.5rem; border-radius: 9999px;
+  background: linear-gradient(135deg, #e7bb54, #b8842f);
+  box-shadow: 0 0 0 3px rgba(231, 187, 84, 0.25);
+}

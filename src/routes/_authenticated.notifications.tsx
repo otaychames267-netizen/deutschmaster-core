@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { PushToggle } from "@/components/PushToggle";
+import { BrandedNotification, isBranded } from "@/components/NotificationBody";
 import { fetchNotifications, internalPath, timeAgo, type AppNotification } from "@/lib/notifications";
 import {
   CheckCircle2, AlertCircle, Info, Zap, BellOff, Check, Sparkles, Megaphone, ChevronRight, Clock,
@@ -91,6 +92,7 @@ function NotificationsPage() {
             const cfg = TYPE_CONFIG[item.type] ?? TYPE_CONFIG.info;
             const IconComp = cfg.icon;
             const target = internalPath(item.action_url);
+            if (isBranded(item.type)) return <BrandedNotification key={item.id} n={item} variant="page" onOpen={() => open(item)} />;
             return (
               <button
                 key={item.id}

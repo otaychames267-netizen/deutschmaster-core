@@ -26,6 +26,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { fetchNotifications, internalPath, timeAgo, type AppNotification } from "@/lib/notifications";
 import { syncPushSubscription } from "@/lib/push";
 import { PushToggle } from "@/components/PushToggle";
+import { BrandedNotification, isBranded } from "@/components/NotificationBody";
 
 /* ─── Breadcrumb map ────────────────────────────────────────────── */
 const BREADCRUMB_MAP: Record<string, string> = {
@@ -502,15 +503,19 @@ export function AppHeader() {
                   </div>
                 ) : (
                   notifications.map((n) => {
+                    const open = () => {
+                      if (!n.read) markOneRead(n.id);
+                      const to = internalPath(n.action_url);
+                      if (to) { setNotifOpen(false); navigate({ to: to as never }); }
+                    };
+                    if (isBranded(n.type)) {
+                      return <div key={n.id} className="p-2"><BrandedNotification n={n} variant="bell" onOpen={open} /></div>;
+                    }
                     const cfg = NOTIF_ICONS[n.type] ?? DEFAULT_NOTIF_ICON;
                     return (
                       <button
                         key={n.id}
-                        onClick={() => {
-                          if (!n.read) markOneRead(n.id);
-                          const to = internalPath(n.action_url);
-                          if (to) { setNotifOpen(false); navigate({ to: to as never }); }
-                        }}
+                        onClick={open}
                         className={`flex w-full items-start gap-3 border-b border-border px-4 py-3 text-left transition-colors last:border-0 hover:bg-muted/40 ${n.read ? "opacity-60" : ""}`}>
                         <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${cfg.bg}`}>
                           <cfg.icon className={`h-3.5 w-3.5 ${cfg.text}`} />

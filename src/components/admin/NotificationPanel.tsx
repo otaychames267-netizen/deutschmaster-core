@@ -3,6 +3,7 @@ import { Bell, Loader2, Send, Search } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { ThemeNotes } from "@/components/admin/ThemeNotes";
+import { NotificationBody } from "@/components/NotificationBody";
 
 /* Admin controls for in-app notifications (migration 20261020120000).
  * Both RPCs re-check is_admin_or_owner() in the database, so this panel only
@@ -166,12 +167,12 @@ export function NotificationPanel() {
           )
         )}
         {preview?.digests?.map((d) => (
-          <div key={d.level} className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+          <div key={`${d.level}-${d.label ?? ""}`} className="space-y-2">
             <p className="mb-2 text-xs font-semibold text-muted-foreground">
               Vorschau{d.label ? ` · ${d.label}` : ""} · {d.level.replace("TELC_", "")} · {d.recipients} Empfänger
               {d.merges_into_todays ? " · ergänzt die heutige Mitteilung" : ""}
             </p>
-            <p dir="auto" className="whitespace-pre-line text-sm leading-relaxed text-foreground">{d.preview}</p>
+            <div className="aura-note p-4" dir="rtl"><NotificationBody body={d.preview} /></div>
           </div>
         ))}
       </div>
