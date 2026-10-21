@@ -67,7 +67,7 @@ function postalSteps(amountTnd: number): string[] {
 
 function bancaireSteps(amountTnd: number): string[] {
   return [
-    "توجّه إلى أقرب فرع من فروع بنك البركة.",
+    "توجّه إلى أقرب فرع من فروع بنك BIAT.",
     "أعطِ موظف البنك رقم الـRIB الموجود أسفل هذه الصفحة.",
     `أخبر الموظف أنك تريد إجراء تحويل بقيمة ${amountTnd} دينارًا تونسيًا إلى هذا الحساب.`,
     "بعد إتمام التحويل، سيعطيك موظف البنك وصل التحويل.",
@@ -133,7 +133,7 @@ function ManualPaymentPage() {
   const isD17 = order.method === "d17";
   const amountTnd = Number(order.amount_tnd);
   const steps = isD17 ? d17Steps(amountTnd) : isPostal ? postalSteps(amountTnd) : bancaireSteps(amountTnd);
-  const arabicTitle = isD17 ? "الدفع عبر D17" : isPostal ? "التحويل البريدي – البريد التونسي" : "التحويل البنكي – بنك البركة";
+  const arabicTitle = isD17 ? "الدفع عبر D17" : isPostal ? "التحويل البريدي – البريد التونسي" : "التحويل البنكي – بنك BIAT";
   const titleEmoji = isD17 ? "📲" : isPostal ? "📮" : "🏦";
   const methodLabel = isD17 ? "D17" : isPostal ? "تحويل بريدي" : "تحويل بنكي";
   const planName = (PLAN_LABEL[order.plan_code] ?? order.plan_code) + (Number(order.months) === 2 ? " – شهران" : Number(order.months) === 3 ? " – 3 أشهر" : "");
